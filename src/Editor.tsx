@@ -1,42 +1,40 @@
 import { useEffect, useRef } from "react";
-import {EditorState, EditorView, basicSetup} from "./codemirror"
-import {python} from "@codemirror/lang-python"
+import { editorConfig } from "./codemirror"
 import "./Editor.css";
-import { indentUnit } from "@codemirror/language";
+import { EditorState, StateField } from "@codemirror/state";
+import { Text } from "@codemirror/text";
+import { EditorView } from "@codemirror/view";
 
 interface EditorProps {
   className?: string;
+  value: Text;
+  onDocChanged: (doc: Text) => void;
 }
 
-const initialContent = `from microbit import *
-import radio
-radio.config(group=7)
-radio.on()
-
-while True:
-    radio.send(str(accelerometer.get_y()))
-    message = radio.receive()
-    if message:
-        display.scroll(message)
-    sleep(2000)`;
-
-const Editor = ({className}: EditorProps) => {
+const Editor = ({value, className, onDocChanged}: EditorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   useEffect((() => {
     if (!viewRef.current) {
-      const state = EditorState.create({
-        doc: initialContent,
-        extensions: [basicSetup, python(), EditorView.theme({
-          $content: {  
-            fontSize: "18px"
+      // Is there a better way. This feels like an abuse.
+      const notify = StateField.define({
+        create() { return 0 },
+        update(_value, tr) { 
+          if (onDocChanged && tr.docChanged) {
+            onDocChanged(tr.newDoc)
           }
-        })], 
+         }
+      });
+
+      const state = EditorState.create({
+        doc: value,
+        extensions: [notify, editorConfig], 
       });
       const view = new EditorView({
         state,
         parent: elementRef.current!,
       });
+      
       viewRef.current = view;
     }
     else {
@@ -45,9 +43,23 @@ const Editor = ({className}: EditorProps) => {
     return () => { 
       if (viewRef.current) { 
         viewRef.current.destroy() 
+        viewRef.current = null;
       } 
     };
-  }));
+  }), []);
+
+  // Update our value if changed from the outside.
+  useEffect(() => {
+    // Ignore changes with identical documents as that'd be a loop.
+    if (viewRef.current && viewRef.current.state.doc !== value) {
+      const view = viewRef.current;
+      const state = viewRef.current.state;
+      view.dispatch(state.update({
+        changes: {from: 0, to: state.doc.length, insert: value}
+      }));
+    }
+  }, [value])
+
   return <div className={className} ref={elementRef} />
 }
 

@@ -14,13 +14,13 @@ import {rectangularSelection} from "@codemirror/rectangular-selection"
 import {defaultHighlightStyle} from "@codemirror/highlight"
 import {lintKeymap} from "@codemirror/lint"
 import { EditorView } from "@codemirror/view";
+import { python } from "@codemirror/lang-python"
 
-export const customTabBinding: KeyBinding =
-  {key: "Tab", run: indentMore, shift: indentLess}
+const customTabBinding: KeyBinding =
+  {key: "Tab", run: indentMore, shift: indentLess};
 
-export const basicSetup: Extension = [
-  EditorState.tabSize.of(4), // But hopefully not used!
-  indentUnit.of("    "),
+export const editorConfig: Extension = [
+  // As per basic-setup module.
   lineNumbers(),
   highlightSpecialChars(),
   history(),
@@ -35,8 +35,9 @@ export const basicSetup: Extension = [
   rectangularSelection(),
   highlightActiveLine(),
   highlightSelectionMatches(),
+
   keymap.of([
-    // But see https://codemirror.net/6/examples/tab/ for accessibility discussion.
+    // Added, but see https://codemirror.net/6/examples/tab/ for accessibility discussion.
     customTabBinding,
     ...closeBracketsKeymap,
     ...defaultKeymap,
@@ -46,8 +47,15 @@ export const basicSetup: Extension = [
     ...commentKeymap,
     ...completionKeymap,
     ...lintKeymap
-  ])
-]
+  ]),
 
-export {EditorView} from "@codemirror/view"
-export {EditorState} from "@codemirror/state"
+  // Custom.
+  EditorState.tabSize.of(4), // But hopefully not used!
+  indentUnit.of("    "),
+  python(), 
+  EditorView.theme({
+    $content: {  
+      fontSize: "18px"
+    }
+  }),
+];
