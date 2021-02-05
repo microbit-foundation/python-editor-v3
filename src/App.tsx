@@ -3,8 +3,7 @@ import Editor from './Editor';
 import "./App.css";
 import { Text } from '@codemirror/state';
 
-function App() {
-  const initialContent = Text.of(`from microbit import *
+const initialContent = Text.of(`from microbit import *
 import radio
 radio.config(group=7)
 radio.on()
@@ -16,6 +15,7 @@ while True:
         display.scroll(message)
     sleep(2000)`.split("\n"));
 
+const App = () => {
   const [text, setText] = useState<Text>(initialContent)
   return (
     <>
