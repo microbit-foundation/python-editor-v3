@@ -60,7 +60,11 @@ const Editor = ({value, className, onDocChanged}: EditorProps) => {
     }
   }, [value])
 
-  return <div className={className} ref={elementRef} />
+  return (
+    <div className={className} ref={elementRef}>
+      <div className="Editor-overlay" />
+    </div>
+  )
 }
 
 export default Editor;

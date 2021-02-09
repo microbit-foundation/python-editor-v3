@@ -15,11 +15,14 @@ import {defaultHighlightStyle} from "@codemirror/highlight"
 import {lintKeymap} from "@codemirror/lint"
 import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python"
+import { overlay } from "./overlay"
 
 const customTabBinding: KeyBinding =
   {key: "Tab", run: indentMore, shift: indentLess};
 
 export const editorConfig: Extension = [
+  // Experimental
+  overlay(),
   // As per basic-setup module.
   lineNumbers(),
   highlightSpecialChars(),
