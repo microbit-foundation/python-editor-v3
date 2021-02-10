@@ -1,9 +1,11 @@
 import { indentUnit, syntaxTree } from "@codemirror/language"
-import { BlockInfo, EditorView, themeClass, ViewPlugin, ViewUpdate } from "@codemirror/view"
-import { CharCategory, EditorState, Extension } from "@codemirror/state";
+import { EditorView, themeClass, ViewPlugin, ViewUpdate } from "@codemirror/view"
+import { EditorState, Extension } from "@codemirror/state";
 
 // Names from https://github.com/lezer-parser/python/blob/master/src/python.grammar
 const grammarInfo = {
+  // Unhlighlighted for now. There's also Body to consider for compound statements.
+  // Need to consider and perhaps special case single line bodies (line continuations?)
   smallStatement: new Set([
     "AssignStatement",
     "UpdateStatement",
@@ -31,39 +33,26 @@ const grammarInfo = {
   ])
 }
 
-interface FixedDimensions {
-  leftEdge: number;
-  indentPixelWidth: number;
-  contentDOMWidth: number;
-}
-
 class VisualBlock {
-  constructor(readonly typeName: string, readonly startTop: number, readonly endBottom: number, readonly depth: number) {
+  constructor(readonly left: number, readonly top: number, readonly width: number, readonly height: number) {
   }
   
-  draw(fixed: FixedDimensions) {
+  draw() {
     const elt = document.createElement("div");
-    // These need to move to the theme.
-    elt.style.display = "block";
-    elt.style.position = "absolute";
-    elt.style.backgroundColor = "#34a2eb";
-    elt.style.opacity = "8%";
-    elt.style.border = "1px solid black"
-
-    this.adjust(fixed, elt);
+    elt.className = themeClass("block");
+    this.adjust(elt);
     return elt;
   }
 
-  adjust(fixed: FixedDimensions, elt: HTMLElement) {
-    const left = fixed.leftEdge + this.depth * fixed.indentPixelWidth;
-    elt.style.left = `${left}px`;
-    elt.style.top = `${this.startTop}px`;
-    elt.style.height = `${this.endBottom - this.startTop}px`;
-    elt.style.width = `${fixed.contentDOMWidth - left}px`;
+  adjust(elt: HTMLElement) {
+    elt.style.left = this.left + "px"
+    elt.style.top = this.top + "px"
+    elt.style.width = this.width + "px"
+    elt.style.height = this.height + "px"
   }
 
   eq(other: VisualBlock) {
-    return this.typeName === other.typeName && this.startTop === other.startTop && this.endBottom == other.endBottom && this.depth === other.depth;
+    return this.left == other.left && this.top == other.top && this.width == other.width && this.height == other.height;
   }
 }
 
@@ -77,28 +66,33 @@ const overlayView = ViewPlugin.fromClass(class {
   blocks: VisualBlock[] = []
 
   constructor(readonly view: EditorView) {
-    this.measureReq = {read: this.readBlockInfo.bind(this), write: this.drawOverlay.bind(this)}
+    this.measureReq = {read: this.readBlocks.bind(this), write: this.drawBlocks.bind(this)}
     this.overlayLayer = view.scrollDOM.appendChild(document.createElement("div"))
-    this.overlayLayer.className = themeClass("overlayLayer")
+    this.overlayLayer.className = themeClass("blockLayer")
     this.overlayLayer.setAttribute("aria-hidden", "true")
     view.requestMeasure(this.measureReq)
   }
 
   update(update: ViewUpdate) {
-    if (update.geometryChanged || update.viewportChanged || update.docChanged) {
+    if (update.docChanged || update.geometryChanged || update.viewportChanged) {
       this.view.requestMeasure(this.measureReq)
     }
   }
 
-  readBlockInfo(): Measure {
+  readBlocks(): Measure {
     const view = this.view;
-    const { visibleRanges, state } = view;
-    const tree = syntaxTree(state)
+    const { state } = view;
+    const leftEdge = view.contentDOM.getBoundingClientRect().left - view.scrollDOM.getBoundingClientRect().left;
+    const contentDOMWidth = view.contentDOM.getBoundingClientRect().width;
+    const indentWidth = state.facet(indentUnit).length * view.defaultCharacterWidth;
+
     const blocks: VisualBlock[] = [];
-    for (const {from, to} of visibleRanges) {
-      let depth = 0;
+    // We could throw away blocks if we tracked returning to the top-level or started from
+    // the closest top-level node. Otherwise we need to render them because they overlap.
+    let depth = 0;
+    const tree = syntaxTree(state);
+    if (tree) {
       tree.iterate({
-        from, to,
         enter: (type, _start) => {
           if (grammarInfo.compoundStatement.has(type.name)) {
             depth++;
@@ -106,34 +100,33 @@ const overlayView = ViewPlugin.fromClass(class {
         },
         leave: (type, start, end) => {
           if (grammarInfo.compoundStatement.has(type.name)) {
-            const endVisualLine = view.visualLineAt(skipTrailingBlankLines(state, end - 1))
-            blocks.push(new VisualBlock(type.name, view.visualLineAt(start).top, endVisualLine.bottom, depth - 1));
+            const top = view.visualLineAt(start).top
+            const bottom = view.visualLineAt(end -1).bottom
+            const height = bottom - top;
+            const leftIndent = (depth - 1) * indentWidth;
+            const left = leftEdge + leftIndent;
+            const width = contentDOMWidth - leftIndent;
+            blocks.push(new VisualBlock(left, top, width, height));
             depth--;
           }
         }
       })
     }
+
     return { blocks };
   }
 
-  drawOverlay({ blocks }: Measure) {
-    const fixed: FixedDimensions = {
-      leftEdge: this.view.contentDOM.getBoundingClientRect().left - this.view.scrollDOM.getBoundingClientRect().left,
-      contentDOMWidth: this.view.contentDOM.getBoundingClientRect().width,
-      indentPixelWidth: this.view.state.facet(indentUnit).length * this.view.defaultCharacterWidth
-    }
-    const blocksChanged = blocks.length != this.blocks.length || blocks.some((b, i) => !b.eq(this.blocks[i]));
+  drawBlocks({ blocks }: Measure) {
+    const blocksChanged = blocks.length !== this.blocks.length || blocks.some((b, i) => !b.eq(this.blocks[i]));
     if (blocksChanged) {
-      let oldBlocks = this.overlayLayer.children
-      if (oldBlocks.length !== blocks.length) {
-        this.overlayLayer.textContent = ""
-        for (const b of blocks) {
-          this.overlayLayer.appendChild(b.draw(fixed))
-        }
-      } else {
-        blocks.forEach((b, idx) => b.adjust(fixed, oldBlocks[idx] as HTMLElement))
-      }
       this.blocks = blocks;
+
+      // Should be able to adjust old elements here if it's a performance win,
+      // but didn't work for me. See e.g. draw-selection.ts in codemirror for the pattern.
+      this.overlayLayer.textContent = ""
+      for (const b of blocks) {
+        this.overlayLayer.appendChild(b.draw())
+      }
     }
   }
 
@@ -144,14 +137,14 @@ const overlayView = ViewPlugin.fromClass(class {
 
 const skipTrailingBlankLines = (state: EditorState, position: number) => {
   let line = state.doc.lineAt(position);
-  while (line.length === 0 && line.number >= 1) {
+  while ((line.length === 0 || /^\s+$/.test(line.text)) && line.number >= 1) {
     line = state.doc.line(line.number - 1);
   }
   return line.to;
 }
 
 const baseTheme = EditorView.baseTheme({
-  $overlayLayer: {
+  $blockLayer: {
     position: "absolute",
     top: 0,
     height: "100%",
@@ -159,6 +152,13 @@ const baseTheme = EditorView.baseTheme({
     // What about touch? Can we just put it behind?
     // If we had interactive elements we could have another layer on top.
     "pointerEvents": "none"
+  },
+  $block: {
+    display: "block",
+    position: "absolute",
+    backgroundColor: "#34a2eb",
+    opacity: "6%",
+    border: "1px solid black"
   },
 })
 
