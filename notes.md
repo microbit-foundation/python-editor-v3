@@ -58,3 +58,6 @@ Comments below a block get included - we need to skip them when working backward
 Consider replacing docstrings with a widget?
 
 Images widget.
+
+But with some classes where the member functions can all end up as children of __init__ for no obvious reason after an edit.
+Can be seen with StreamWriter from https://raw.githubusercontent.com/python/cpython/master/Lib/codecs.py.

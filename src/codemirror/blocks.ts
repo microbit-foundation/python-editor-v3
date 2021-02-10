@@ -34,12 +34,15 @@ const grammarInfo = {
 }
 
 class VisualBlock {
-  constructor(readonly left: number, readonly top: number, readonly width: number, readonly height: number) {
+  constructor(readonly name: string, readonly left: number, readonly top: number, readonly width: number, readonly height: number) {
   }
   
   draw() {
     const elt = document.createElement("div");
     elt.className = themeClass("block");
+    const nameSpan = elt.appendChild(document.createElement("span"));
+    nameSpan.className = themeClass("blockName")
+    nameSpan.textContent = this.name.replace(/Definition$|Statement$/, "");
     this.adjust(elt);
     return elt;
   }
@@ -60,7 +63,7 @@ interface Measure {
   blocks: VisualBlock[];
 }
 
-const overlayView = ViewPlugin.fromClass(class {
+const blocksView = ViewPlugin.fromClass(class {
   measureReq: {read: () => Measure, write: (value: Measure) => void}
   overlayLayer: HTMLElement
   blocks: VisualBlock[] = []
@@ -74,9 +77,8 @@ const overlayView = ViewPlugin.fromClass(class {
   }
 
   update(update: ViewUpdate) {
-    if (update.docChanged || update.geometryChanged || update.viewportChanged) {
-      this.view.requestMeasure(this.measureReq)
-    }
+    // We can probably limit this but we need to know when the language state has changed as parsing has occurred.
+    this.view.requestMeasure(this.measureReq)
   }
 
   readBlocks(): Measure {
@@ -92,6 +94,7 @@ const overlayView = ViewPlugin.fromClass(class {
     let depth = 0;
     const tree = syntaxTree(state);
     if (tree) {
+      let prettyPrint: string[] = [];
       tree.iterate({
         enter: (type, _start) => {
           if (grammarInfo.compoundStatement.has(type.name)) {
@@ -106,13 +109,12 @@ const overlayView = ViewPlugin.fromClass(class {
             const leftIndent = (depth - 1) * indentWidth;
             const left = leftEdge + leftIndent;
             const width = contentDOMWidth - leftIndent;
-            blocks.push(new VisualBlock(left, top, width, height));
+            blocks.push(new VisualBlock(type.name, left, top, width, height));
             depth--;
           }
         }
       })
     }
-
     return { blocks };
   }
 
@@ -121,8 +123,7 @@ const overlayView = ViewPlugin.fromClass(class {
     if (blocksChanged) {
       this.blocks = blocks;
 
-      // Should be able to adjust old elements here if it's a performance win,
-      // but didn't work for me. See e.g. draw-selection.ts in codemirror for the pattern.
+      // Should be able to adjust old elements here if it's a performance win.
       this.overlayLayer.textContent = ""
       for (const b of blocks) {
         this.overlayLayer.appendChild(b.draw())
@@ -151,15 +152,20 @@ const baseTheme = EditorView.baseTheme({
     width: "100%",
     // What about touch? Can we just put it behind?
     // If we had interactive elements we could have another layer on top.
-    "pointerEvents": "none"
+    "pointerEvents": "none",
   },
   $block: {
     display: "block",
     position: "absolute",
-    backgroundColor: "#34a2eb",
-    opacity: "6%",
-    border: "1px solid black"
+    backgroundColor: "rgba(52,162,235, 0.06)",
+    border: "1px solid lightgrey",
+    // For debug text
+    color: "lightgrey",
+    textAlign: "right"
   },
+  $blockName: {
+    paddingRight: "5px"    
+  }
 })
 
-export const overlay = (): Extension => [overlayView, baseTheme];
+export const blocks = (): Extension => [blocksView, baseTheme];
