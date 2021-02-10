@@ -101,7 +101,7 @@ const overlayView = ViewPlugin.fromClass(class {
         leave: (type, start, end) => {
           if (grammarInfo.compoundStatement.has(type.name)) {
             const top = view.visualLineAt(start).top
-            const bottom = view.visualLineAt(end -1).bottom
+            const bottom = view.visualLineAt(skipTrailingBlankLines(state, end - 1)).bottom
             const height = bottom - top;
             const leftIndent = (depth - 1) * indentWidth;
             const left = leftEdge + leftIndent;
