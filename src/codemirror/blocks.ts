@@ -4,25 +4,7 @@ import { EditorState, Extension } from "@codemirror/state";
 
 // Names from https://github.com/lezer-parser/python/blob/master/src/python.grammar
 const grammarInfo = {
-  // Unhlighlighted for now. There's also Body to consider for compound statements.
-  // Need to consider and perhaps special case single line bodies (line continuations?)
-  smallStatement: new Set([
-    "AssignStatement",
-    "UpdateStatement",
-    "ExpressionStatement",
-    "DeleteStatement",
-    "PassStatement",
-    "BreakStatement",
-    "ContinueStatement",
-    "ReturnStatement",
-    "YieldStatement",
-    "PrintStatement",
-    "RaiseStatement",
-    "ImportStatement",
-    "ScopeStatement",
-    "AssertStatement"
-  ]),
-  compoundStatement: new Set([
+  compoundStatements: new Set([
     "IfStatement",
     "WhileStatement",
     "ForStatement",
@@ -97,12 +79,12 @@ const blocksView = ViewPlugin.fromClass(class {
       let prettyPrint: string[] = [];
       tree.iterate({
         enter: (type, _start) => {
-          if (grammarInfo.compoundStatement.has(type.name)) {
+          if (grammarInfo.compoundStatements.has(type.name)) {
             depth++;
           }
         },
         leave: (type, start, end) => {
-          if (grammarInfo.compoundStatement.has(type.name)) {
+          if (grammarInfo.compoundStatements.has(type.name)) {
             const top = view.visualLineAt(start).top
             const bottom = view.visualLineAt(skipTrailingBlankLines(state, end - 1)).bottom
             const height = bottom - top;
