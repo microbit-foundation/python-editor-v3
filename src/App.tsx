@@ -4,7 +4,7 @@ import "./App.css";
 import { Text } from '@codemirror/state';
 
 const App = () => {
-  const [text, setText] = useState<Text>(Text.empty)
+  const [text, setText] = useState<Text | null>(null)
   useEffect(() => {
     const string = localStorage.getItem("text") || "";
     setText(Text.of(string.split("\n")));
@@ -14,9 +14,7 @@ const App = () => {
     localStorage.setItem("text", text.sliceString(0, undefined, "\n"));
   }, [setText]);
   return (
-    <>
-      <Editor className="Editor" value={text} onDocChanged={handleChange} />
-    </>
+    text && <Editor className="Editor" value={text} onDocChanged={handleChange} />
   );
 }
 
