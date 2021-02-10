@@ -40,3 +40,21 @@ CodeMirror plugin crashed: Error: Ranges must be added sorted by `from` position
     at HTMLDivElement.<anonymous> (index.js:2809)
 
     Double space bar inserts a dot. Weird feature or bug?
+
+## Structural highlighting
+
+```
+def __setitem__(self, key, value,
+                dict_setitem=dict.__setitem__, proxy=_proxy, Link=_Link):
+    pass
+```
+
+Need to consider multi-line function signatures as we only highlight the first line correctly.
+
+Would be nice if line below was considered part of the thingy if you've just inserted it. Might be weird in practice though.
+
+Comments below a block get included - we need to skip them when working backwards to find the true end of a block (we already do this for whitespace).
+
+Consider replacing docstrings with a widget?
+
+Images widget.
