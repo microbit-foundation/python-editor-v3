@@ -20,6 +20,8 @@ import { blocks } from "./blocks"
 const customTabBinding: KeyBinding =
   {key: "Tab", run: indentMore, shift: indentLess};
 
+const fontSize = "18px";
+
 export const editorConfig: Extension = [
   // Experimental
   blocks(),
@@ -59,6 +61,9 @@ export const editorConfig: Extension = [
   EditorView.theme({
     $content: {  
       fontSize: "18px"
+    },
+    $gutter: {
+      fontSize
     }
   }),
 ];
