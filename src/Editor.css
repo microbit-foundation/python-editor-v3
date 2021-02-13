@@ -1,9 +1,0 @@
-.Editor {
-  position: relative;
-}
-.Editor > .cm-wrap {
-  height: 100%;
-}
-.Editor-overlay {
-  position: absolute;
-}

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import { editorConfig } from "./codemirror"
-import "./Editor.css";
+import { editorConfig } from "./codemirror";
 import { EditorState, StateField } from "@codemirror/state";
 import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
@@ -11,42 +10,43 @@ interface EditorProps {
   onDocChanged: (doc: Text) => void;
 }
 
-const Editor = ({value, className, onDocChanged}: EditorProps) => {
+const Editor = ({ value, className, onDocChanged }: EditorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
-  useEffect((() => {
+  useEffect(() => {
     if (!viewRef.current) {
       // Is there a better way. This feels like an abuse.
       const notify = StateField.define({
-        create() { return 0 },
-        update(_value, tr) { 
+        create() {
+          return 0;
+        },
+        update(_value, tr) {
           if (onDocChanged && tr.docChanged) {
-            onDocChanged(tr.newDoc)
+            onDocChanged(tr.newDoc);
           }
-         }
+        },
       });
 
       const state = EditorState.create({
         doc: value,
-        extensions: [notify, editorConfig], 
+        extensions: [notify, editorConfig],
       });
       const view = new EditorView({
         state,
         parent: elementRef.current!,
       });
-      
+
       viewRef.current = view;
-    }
-    else {
+    } else {
       // Once we depend on props we can diff and reconfigure here.
     }
-    return () => { 
-      if (viewRef.current) { 
-        viewRef.current.destroy() 
+    return () => {
+      if (viewRef.current) {
+        viewRef.current.destroy();
         viewRef.current = null;
-      } 
+      }
     };
-  }), []);
+  }, []);
 
   // Update our value if changed from the outside.
   useEffect(() => {
@@ -54,15 +54,15 @@ const Editor = ({value, className, onDocChanged}: EditorProps) => {
     if (viewRef.current && viewRef.current.state.doc !== value) {
       const view = viewRef.current;
       const state = viewRef.current.state;
-      view.dispatch(state.update({
-        changes: {from: 0, to: state.doc.length, insert: value}
-      }));
+      view.dispatch(
+        state.update({
+          changes: { from: 0, to: state.doc.length, insert: value },
+        })
+      );
     }
-  }, [value])
+  }, [value]);
 
-  return (
-    <div className={className} ref={elementRef} />
-  )
-}
+  return <div className={className} ref={elementRef} />;
+};
 
 export default Editor;

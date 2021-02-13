@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Editor from './Editor';
+import React, { useCallback, useEffect, useState } from "react";
+import Editor from "./editor/Editor";
 import "./App.css";
-import { Text } from '@codemirror/state';
+import { Text } from "@codemirror/state";
 
 const defaultText = `from microbit import *
 import radio
@@ -33,18 +33,19 @@ while True:
             hasDuck = False`;
 
 const App = () => {
-  const [text, setText] = useState<Text | null>(null)
+  const [text, setText] = useState<Text | null>(null);
   useEffect(() => {
     const string = localStorage.getItem("text") || defaultText;
     setText(Text.of(string.split("\n")));
   }, []);
-  const handleChange = useCallback((text: Text) => {
-    setText(text);
-    localStorage.setItem("text", text.sliceString(0, undefined, "\n"));
-  }, [setText]);
-  return (
-    text && <Editor className="Editor" value={text} onDocChanged={handleChange} />
+  const handleChange = useCallback(
+    (text: Text) => {
+      setText(text);
+      localStorage.setItem("text", text.sliceString(0, undefined, "\n"));
+    },
+    [setText]
   );
-}
+  return text && <Editor value={text} onDocChanged={handleChange} />;
+};
 
 export default App;
