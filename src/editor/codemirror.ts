@@ -73,6 +73,8 @@ export const editorConfig: Extension = [
     },
     $gutter: {
       fontSize,
+      backgroundColor: "#ffffed",
     },
+    // $wrap can't be styled here, see App.css.
   }),
 ];

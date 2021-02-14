@@ -6,11 +6,15 @@ import { EditorView } from "@codemirror/view";
 
 interface EditorProps {
   className?: string;
-  value: Text;
-  onDocChanged: (doc: Text) => void;
+  initialValue: Text;
+  onChange: (doc: Text) => void;
 }
 
-const Editor = ({ value, className, onDocChanged }: EditorProps) => {
+const Editor = ({
+  initialValue: value,
+  className,
+  onChange: onDocChanged,
+}: EditorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   useEffect(() => {
@@ -48,21 +52,9 @@ const Editor = ({ value, className, onDocChanged }: EditorProps) => {
     };
   }, []);
 
-  // Update our value if changed from the outside.
-  useEffect(() => {
-    // Ignore changes with identical documents as that'd be a loop.
-    if (viewRef.current && viewRef.current.state.doc !== value) {
-      const view = viewRef.current;
-      const state = viewRef.current.state;
-      view.dispatch(
-        state.update({
-          changes: { from: 0, to: state.doc.length, insert: value },
-        })
-      );
-    }
-  }, [value]);
-
-  return <div className={className} ref={elementRef} />;
+  return (
+    <div style={{ height: "100%" }} className={className} ref={elementRef} />
+  );
 };
 
 export default Editor;
