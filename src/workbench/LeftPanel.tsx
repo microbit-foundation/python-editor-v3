@@ -88,18 +88,29 @@ const Panels = ({ panels }: PanelsProps) => {
           ))}
         </TabPanels>
       </Tabs>
-      <VStack flex="0 0 auto" background="rgb(47, 196, 47, 0.2)" padding={5}>
-        <HStack as="label" spacing={2}>
-          <Text as="span" size="lg" fontWeight="bold">
-            Connect
-          </Text>
+      <VStack
+        flex="0 0 auto"
+        background="rgb(47, 196, 47, 0.2)"
+        padding={5}
+        spacing={2}
+        align="flex-start"
+      >
+        <HStack as="label" spacing={3}>
           <Switch
             size="lg"
             checked={connected}
             onChange={() => setConnected(!connected)}
           />
+          <Text as="span" size="lg" fontWeight="semibold">
+            {connected ? "micro:bit connected" : "micro:bit disconnected"}
+          </Text>
         </HStack>
-        <Button leftIcon={<RiFlashlightFill />} size="lg" disabled={!connected}>
+        <Button
+          leftIcon={<RiFlashlightFill />}
+          size="lg"
+          disabled={!connected}
+          width="100%"
+        >
           Flash micro:bit
         </Button>
       </VStack>

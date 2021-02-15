@@ -22,6 +22,7 @@ import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
 import { blocks } from "./blocks";
+import { completion } from "./completion";
 
 const customTabBinding: KeyBinding = {
   key: "Tab",
@@ -45,7 +46,9 @@ export const editorConfig: Extension = [
   Prec.fallback(defaultHighlightStyle),
   bracketMatching(),
   closeBrackets(),
-  autocompletion(),
+  autocompletion({
+    override: completion,
+  }),
   rectangularSelection(),
   highlightActiveLine(),
   highlightSelectionMatches(),
@@ -74,6 +77,15 @@ export const editorConfig: Extension = [
     $gutter: {
       fontSize,
       backgroundColor: "#ffffed",
+    },
+    $completionIcon: {
+      // Seems broken by default
+      width: "auto",
+      // But they're also cryptic, so hide for now.
+      display: "none",
+    },
+    $completionLabel: {
+      fontSize,
     },
     // $wrap can't be styled here, see App.css.
   }),

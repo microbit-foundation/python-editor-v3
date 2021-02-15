@@ -34,14 +34,14 @@ const ProjectNameEditable = () => {
   return (
     <Editable
       display="flex"
-      defaultValue="Name your project"
+      defaultValue={"Name your project"}
       whiteSpace="nowrap"
       onChange={handleChange}
     >
       {(props) => (
         <>
           <EditablePreview color={!edited ? "grey" : undefined} />
-          <EditableInput placeholder="Name your project!" />
+          <EditableInput placeholder="Name your project!" padding={1} />
           <EditableControls {...props} />
         </>
       )}

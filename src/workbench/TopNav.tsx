@@ -69,7 +69,7 @@ const TopNav = () => {
             />
           </HStack>
           <HStack>
-            <Button leftIcon={<RiInformationLine />} variant="ghost">
+            <Button leftIcon={<RiInformationLine />} variant="ghost" size="lg">
               Help
             </Button>
           </HStack>
