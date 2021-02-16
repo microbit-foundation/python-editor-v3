@@ -48,19 +48,23 @@ const SidePanel = () => {
       id: "files",
       title: "Files",
       icon: RiFile3Line,
-      contents: <Placeholder />,
+      contents: (
+        <Placeholder text="Do we want multiple files? This could be a way of having it accessible but not prominent." />
+      ),
     },
     {
       id: "cloud",
       title: "Cloud",
       icon: RiCloudLine,
-      contents: <Placeholder />,
+      contents: <Placeholder text="Could show Cloud storage sync options." />,
     },
     {
       id: "settings",
       title: "Settings",
       icon: RiSettings2Line,
-      contents: <Placeholder />,
+      contents: (
+        <Placeholder text="Font size, block highlighting, beta options. Keep it minimal." />
+      ),
     },
   ];
   return <Panels panels={panels} />;

@@ -1,9 +1,13 @@
 import React from "react";
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 
-const Placeholder = () => (
+interface PlaceholderProps {
+  text?: string;
+}
+
+const Placeholder = ({ text }: PlaceholderProps) => (
   <Center height="100%">
-    <Box>Placeholder</Box>
+    <Text p={8}>{text || "Placeholder"}</Text>
   </Center>
 );
 
