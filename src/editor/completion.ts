@@ -14,6 +14,8 @@ import { keywords } from "./python";
  * Stop and write tests before taking this further as it's a pain to
  * try out interactively and easy to unit test.
  *
+ * - The completion pop-up flashes if you have variable matches. We've done something wrong!
+ *   Just keywords, or e.g. the JavaScript CodeMirror demo are fine, so fixable.
  * - Snippets for keywords
  * - Imported names (but for `from microbit import *` we'll need cross-file analysis)
  *   Maybe we should encourage better imports for more constrained completion?
