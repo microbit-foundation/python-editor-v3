@@ -71,7 +71,9 @@ const Packages = () => {
             <AccordionItem key={pkg.name}>
               <h2>
                 <AccordionButton>
-                  <Box textAlign="left">{pkg.name}</Box>
+                  <Box textAlign="left" fontWeight="semibold">
+                    {pkg.name}
+                  </Box>
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
@@ -128,7 +130,7 @@ const DraggableCodeSnippet = ({
       onDragStart={handleDragStart}
     >
       <VStack align="flex-start">
-        <Text>{value}</Text>
+        <Text fontWeight="semibold">{value}</Text>
         <Text>{help}</Text>
       </VStack>
       <Icon as={MdDragHandle} transform="rotate(90deg)" />
