@@ -56,7 +56,7 @@ const SidePanel = () => {
       id: "cloud",
       title: "Cloud",
       icon: RiCloudLine,
-      contents: <Placeholder text="Could show Cloud storage sync options." />,
+      contents: <Placeholder text="Could show cloud storage sync options." />,
     },
     {
       id: "settings",
