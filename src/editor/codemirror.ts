@@ -35,7 +35,9 @@ const fontSize = "18px";
 export const editorConfig: Extension = [
   // Experimental
   blocks(),
-  // As per basic-setup module.
+  // Mostly as per the basic-setup module.
+  // Most of these features should be discussed on a case-by-case basis
+  // to see if they're more magic than helpful.
   lineNumbers(),
   highlightSpecialChars(),
   history(),
@@ -81,7 +83,7 @@ export const editorConfig: Extension = [
     $completionIcon: {
       // Seems broken by default
       width: "auto",
-      // But they're also cryptic, so hide for now.
+      // But they're also cryptic, so hide until we can improve.
       display: "none",
     },
     $completionLabel: {
