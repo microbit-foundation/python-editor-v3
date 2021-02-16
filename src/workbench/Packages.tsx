@@ -122,9 +122,12 @@ const DraggableCodeSnippet = ({
   return (
     <HStack
       backgroundColor="whitesmoke"
-      rounded={5}
+      rounded="lg"
       draggable
-      padding={1}
+      pt={1}
+      pb={1}
+      pl={2}
+      pr={2}
       align="center"
       justify="space-between"
       onDragStart={handleDragStart}
