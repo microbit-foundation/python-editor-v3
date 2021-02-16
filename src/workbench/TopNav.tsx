@@ -1,19 +1,13 @@
 import {
-  Box,
   Button,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
-  Icon,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Portal,
-  Switch,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
