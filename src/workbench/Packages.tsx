@@ -57,11 +57,18 @@ const Packages = () => {
         isOpen={addingPackage}
         onClose={() => setAddingPackage(false)}
       />
-      {/* This needs to be scrollable so we need to switch to a vh height or measure it and set a pixel height */}
       <Flex height="100%" direction="column" justify="space-between">
-        <Accordion allowMultiple allowToggle flex="1 0 auto">
-          {[...packages].map((pkg) => (
-            <AccordionItem>
+        {/* This needs to be scrollable so hacking height with 100vh for now.
+            You can measure at 100% but a pain to cope with window resize once
+            you've fixed the height. Could use another element to measure? */}
+        <Accordion
+          height="calc(100vh - 290px)"
+          allowMultiple
+          allowToggle
+          overflowY="auto"
+        >
+          {packages.map((pkg) => (
+            <AccordionItem key={pkg.name}>
               <h2>
                 <AccordionButton>
                   <Box textAlign="left">{pkg.name}</Box>
@@ -71,7 +78,7 @@ const Packages = () => {
               <AccordionPanel pb={4}>
                 <List marginLeft={4}>
                   {pkg.snippets.map((snippet) => (
-                    <ListItem mt={2}>
+                    <ListItem mb={2} key={snippet.value}>
                       <DraggableCodeSnippet pkg={pkg} value={snippet} />
                     </ListItem>
                   ))}
