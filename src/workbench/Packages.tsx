@@ -131,6 +131,7 @@ const DraggableCodeSnippet = ({
       align="center"
       justify="space-between"
       onDragStart={handleDragStart}
+      _hover={{ cursor: "grab" }}
     >
       <VStack align="flex-start">
         <Text fontWeight="semibold">{value}</Text>
