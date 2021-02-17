@@ -26,7 +26,7 @@ const Workbench = ({ value, onDocChanged }: WorkbenchProps) => (
     </Top>
     <Fill>
       <LeftResizable
-        size="20%"
+        size="25%"
         minimumSize={210}
         style={{ borderRight: "4px solid whitesmoke" }}
       >
@@ -35,9 +35,6 @@ const Workbench = ({ value, onDocChanged }: WorkbenchProps) => (
       <Fill>
         <EditorsPanel onDocChanged={onDocChanged} value={value} />
       </Fill>
-      <RightResizable size="25%" style={{ borderLeft: "4px solid whitesmoke" }}>
-        <RightPanel />
-      </RightResizable>
     </Fill>
   </ViewPort>
 );
