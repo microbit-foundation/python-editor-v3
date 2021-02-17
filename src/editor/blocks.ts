@@ -101,10 +101,10 @@ const blocksView = ViewPlugin.fromClass(
       const blocks: VisualBlock[] = [];
       // We could throw away blocks if we tracked returning to the top-level or started from
       // the closest top-level node. Otherwise we need to render them because they overlap.
+      // Should consider switching to tree cursors to avoid allocating syntax nodes.
       let depth = 0;
       const tree = syntaxTree(state);
       if (tree) {
-        let prettyPrint: string[] = [];
         tree.iterate({
           enter: (type, _start) => {
             if (grammarInfo.compoundStatements.has(type.name)) {
@@ -165,9 +165,9 @@ const baseTheme = EditorView.baseTheme({
     top: 0,
     height: "100%",
     width: "100%",
-    // What about touch? Can we just put it behind?
-    // If we had interactive elements we could have another layer on top.
-    pointerEvents: "none",
+    // Coult also try this rather than z-index but seems more scary.
+    // pointerEvents: "none",
+    zIndex: -1,
   },
   $block: {
     display: "block",

@@ -89,6 +89,9 @@ export const editorConfig: Extension = [
     $completionLabel: {
       fontSize,
     },
+    $activeLine: {
+      backgroundColor: "rgba(243, 249, 255, 0.5)",
+    },
     // $wrap can't be styled here, see App.css.
   }),
 ];
