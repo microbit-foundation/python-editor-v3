@@ -78,7 +78,7 @@ export const editorConfig: Extension = [
     },
     $gutter: {
       fontSize,
-      backgroundColor: "#ffffed",
+      backgroundColor: "var(--code-background)",
     },
     $completionIcon: {
       // Seems broken by default

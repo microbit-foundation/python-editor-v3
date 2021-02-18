@@ -1,11 +1,12 @@
 html,
 body,
 #root {
+  --code-background: #fffff8;
   height: 100vh;
 }
 .cm-wrap {
   height: 100%;
-  background-color: #ffffed;
+  background-color: var(--code-background);
 }
 .cm-focused {
   outline: none !important;
