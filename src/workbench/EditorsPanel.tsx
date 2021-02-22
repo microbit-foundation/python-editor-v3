@@ -1,3 +1,8 @@
+/**
+ * Currently unused.
+ * Useful as a UI demo of what we'd need to do if we wanted multiple
+ * editors, or perhaps just to make the name of main.py prominent.
+ */
 import React from "react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import Editor from "../editor/Editor";

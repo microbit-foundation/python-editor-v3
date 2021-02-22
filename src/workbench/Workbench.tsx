@@ -1,17 +1,10 @@
 import React from "react";
 import SidePanel from "./LeftPanel";
-import RightPanel from "./RightPanel";
 import { Text } from "@codemirror/state";
 import TopNav from "./TopNav";
 import "./Workbench.css";
-import EditorsPanel from "./EditorsPanel";
-import {
-  ViewPort,
-  Fill,
-  LeftResizable,
-  RightResizable,
-  Top,
-} from "react-spaces";
+import { ViewPort, Fill, LeftResizable, Top } from "react-spaces";
+import Editor from "../editor/Editor";
 
 interface WorkbenchProps {
   value: Text;
@@ -33,7 +26,7 @@ const Workbench = ({ value, onDocChanged }: WorkbenchProps) => (
         <SidePanel />
       </LeftResizable>
       <Fill>
-        <EditorsPanel onDocChanged={onDocChanged} value={value} />
+        <Editor onChange={onDocChanged} initialValue={value} />
       </Fill>
     </Fill>
   </ViewPort>
