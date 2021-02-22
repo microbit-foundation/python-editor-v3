@@ -173,7 +173,7 @@ class Module {
 
       const wildcard = node.getChild("*", "import");
       if (wildcard) {
-        for (const name of moduleAnalysis.wildcardNames) {
+        for (const name of Array.from(moduleAnalysis.wildcardNames)) {
           builder.reportName(wildcard, name);
         }
       } else {
