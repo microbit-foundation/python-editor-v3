@@ -1,6 +1,13 @@
 import { Tree, TreeCursor, SyntaxNode } from "lezer-tree";
 import { parser } from "lezer-python";
 
+/**
+ * References:
+ *
+ * https://github.com/lezer-parser/python/blob/master/src/python.grammar
+ * https://lezer.codemirror.net/docs/ref/#tree.SyntaxNode
+ */
+
 export type PythonPath = (path: string) => string;
 const VARIABLE_NAME = "VariableName";
 const isNewScope = (name: string): boolean => {
