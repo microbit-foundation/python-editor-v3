@@ -35,6 +35,8 @@ const fontSize = "18px";
 export const editorConfig: Extension = [
   // Experimental
   blocks(),
+  // Probably a good idea? https://discuss.codemirror.net/t/ios-turn-off-autocorrect/2912
+  EditorView.contentAttributes.of({ autocorrect: "off" }),
   // Mostly as per the basic-setup module.
   // Most of these features should be discussed on a case-by-case basis
   // to see if they're more magic than helpful.
