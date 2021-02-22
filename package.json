@@ -39,6 +39,7 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
+    "ci": "npm run test && npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
