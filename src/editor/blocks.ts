@@ -192,8 +192,6 @@ const baseTheme = EditorView.baseTheme({
     top: 0,
     height: "100%",
     width: "100%",
-    // Coult also try this rather than z-index but seems more scary.
-    // pointerEvents: "none",
     zIndex: -1,
   },
   $block: {
