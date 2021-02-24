@@ -128,25 +128,21 @@ const blocksView = ViewPlugin.fromClass(
             }
           },
           leave: (type, start, end) => {
-            if (depth > 0) {
-              const isCompound = grammarInfo.compoundStatements.has(type.name);
-              const isSimple = grammarInfo.otherStatements.has(type.name);
-              // TODO: Just draw simple statements where they are, rather than mapping to whole lines?
-              // Need to do something to address this case, at least: `def foo(): pass`
-              if (isCompound || isSimple) {
-                const top = view.visualLineAt(start).top;
-                const bottom = view.visualLineAt(
-                  // We also need to skip comments in a similar way, as they're extending our highlighting.
-                  skipTrailingBlankLines(state, end - 1)
-                ).bottom;
-                const height = bottom - top;
-                const leftIndent = depth * indentWidth;
-                const left = leftEdge + leftIndent;
-                const width = contentDOMWidth - leftIndent;
-                blocks.push(
-                  new VisualBlock(type.name, left, top, width, height)
-                );
-              }
+            const isCompound = grammarInfo.compoundStatements.has(type.name);
+            const isSimple = grammarInfo.otherStatements.has(type.name);
+            // TODO: Just draw simple statements where they are, rather than mapping to whole lines?
+            // Need to do something to address this case, at least: `def foo(): pass`
+            if (isCompound || isSimple) {
+              const top = view.visualLineAt(start).top;
+              const bottom = view.visualLineAt(
+                // We also need to skip comments in a similar way, as they're extending our highlighting.
+                skipTrailingBlankLines(state, end - 1)
+              ).bottom;
+              const height = bottom - top;
+              const leftIndent = depth * indentWidth;
+              const left = leftEdge + leftIndent;
+              const width = contentDOMWidth - leftIndent;
+              blocks.push(new VisualBlock(type.name, left, top, width, height));
             }
             if (type.name === "Body") {
               depth--;
