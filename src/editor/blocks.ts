@@ -206,6 +206,8 @@ const baseTheme = EditorView.baseTheme({
     borderRadius: "5px",
   },
   $blockName: {
+    // Comment out for debugging, remove at some point to save on DOM.
+    display: "none",
     paddingRight: "5px",
   },
 });
