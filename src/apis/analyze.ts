@@ -6,6 +6,20 @@ import { parser } from "lezer-python";
  *
  * https://github.com/lezer-parser/python/blob/master/src/python.grammar
  * https://lezer.codemirror.net/docs/ref/#tree.SyntaxNode
+ *
+ * Next steps:
+ *
+ * - Teach it some type checking so that names can be reported with types.
+ *
+ *   My priority is to be able to understand microbit API stubs, so e.g.
+ *   `display = new _Display()` works via `from microbit import *`.
+ *   The stubs will use type annotations (e.g. for the methods on display).
+ *
+ *   https://docs.python.org/3/reference/datamodel.html#types
+ *   https://mypy.readthedocs.io/en/stable/builtin_types.html
+ *   https://docs.python.org/3/library/typing.html
+ *   https://www.python.org/dev/peps/pep-0484/
+ *   https://www.python.org/dev/peps/pep-0483/
  */
 
 export type PythonPath = (path: string) => string;
