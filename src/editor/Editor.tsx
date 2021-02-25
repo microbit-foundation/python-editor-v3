@@ -43,6 +43,7 @@ const Editor = ({
       viewRef.current = view;
     } else {
       // Once we depend on props we can diff and reconfigure here.
+      // Maybe like this: https://github.com/sanity-io/sanity/blob/d2af391cbb60f2b6e7bcc195350ae6c85e7f74a8/packages/%40sanity/form-builder/src/hooks/useDidUpdate.ts
     }
     return () => {
       if (viewRef.current) {
