@@ -7,7 +7,6 @@ import {
 } from "@codemirror/view";
 import { Extension, EditorState, Prec } from "@codemirror/state";
 import { history, historyKeymap } from "@codemirror/history";
-import { foldGutter, foldKeymap } from "@codemirror/fold";
 import { indentOnInput, indentUnit } from "@codemirror/language";
 import { lineNumbers } from "@codemirror/gutter";
 import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
@@ -43,7 +42,8 @@ export const editorConfig: Extension = [
   lineNumbers(),
   highlightSpecialChars(),
   history(),
-  foldGutter(),
+  // We sort-of have this in the current version, but Giles is not a fan.
+  // foldGutter(),
   drawSelection(),
   EditorState.allowMultipleSelections.of(true),
   indentOnInput(),
@@ -64,7 +64,8 @@ export const editorConfig: Extension = [
     ...defaultKeymap,
     ...searchKeymap,
     ...historyKeymap,
-    ...foldKeymap,
+    // Disabled for now, see comment on foldGutter.
+    // ...foldKeymap,
     ...commentKeymap,
     ...completionKeymap,
     ...lintKeymap,
