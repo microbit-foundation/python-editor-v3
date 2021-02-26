@@ -2,7 +2,6 @@ import {
   Button,
   Flex,
   HStack,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -13,13 +12,9 @@ import {
 import React from "react";
 import GradientLine from "../common/GradientLine";
 import { ReactComponent as Logo } from "./logo.svg";
-import {
-  RiDownload2Line,
-  RiInformationLine,
-  RiZoomInLine,
-  RiZoomOutLine,
-} from "react-icons/ri";
+import { RiDownload2Line, RiInformationLine } from "react-icons/ri";
 import ProjectNameEditable from "./ProjectNameEditable";
+import ZoomControls from "./ZoomControls";
 
 const TopNav = () => {
   return (
@@ -48,20 +43,7 @@ const TopNav = () => {
               </Portal>
             </Menu>
           </HStack>
-          <HStack as="nav">
-            <IconButton
-              size="lg"
-              isRound
-              icon={<RiZoomOutLine />}
-              aria-label="Zoom out"
-            />
-            <IconButton
-              size="lg"
-              isRound
-              icon={<RiZoomInLine />}
-              aria-label="Zoom in"
-            />
-          </HStack>
+          <ZoomControls />
           <HStack>
             <Button leftIcon={<RiInformationLine />} variant="ghost" size="lg">
               Help

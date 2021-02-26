@@ -1,35 +1,42 @@
 import React from "react";
 import SidePanel from "./LeftPanel";
-import { Text } from "@codemirror/state";
 import TopNav from "./TopNav";
 import "./Workbench.css";
 import { ViewPort, Fill, LeftResizable, Top } from "react-spaces";
-import Editor from "../editor/Editor";
+import EditorIntegration from "../editor/EditorIntegration";
+import { useFileSystemBackedText } from "../fs/fs-hooks";
+import { MAIN_FILE } from "../fs/fs";
 
-interface WorkbenchProps {
-  value: Text;
-  onDocChanged: (text: Text) => void;
-}
-
-const Workbench = ({ value, onDocChanged }: WorkbenchProps) => (
-  // https://github.com/aeagle/react-spaces
-  <ViewPort>
-    <Top size="74px">
-      <TopNav />
-    </Top>
-    <Fill>
-      <LeftResizable
-        size="25%"
-        minimumSize={210}
-        style={{ borderRight: "4px solid whitesmoke" }}
-      >
-        <SidePanel />
-      </LeftResizable>
+const Workbench = () => {
+  // We should add state here for the selected file.
+  const filename = MAIN_FILE;
+  const [defaultValue, onFileChange] = useFileSystemBackedText(filename);
+  return (
+    // https://github.com/aeagle/react-spaces
+    <ViewPort>
+      <Top size="74px">
+        <TopNav />
+      </Top>
       <Fill>
-        <Editor onChange={onDocChanged} initialValue={value} />
+        <LeftResizable
+          size="25%"
+          minimumSize={210}
+          style={{ borderRight: "4px solid whitesmoke" }}
+        >
+          <SidePanel />
+        </LeftResizable>
+        <Fill>
+          {defaultValue && (
+            <EditorIntegration
+              key={filename}
+              defaultValue={defaultValue}
+              onChange={onFileChange}
+            />
+          )}
+        </Fill>
       </Fill>
-    </Fill>
-  </ViewPort>
-);
+    </ViewPort>
+  );
+};
 
 export default Workbench;
