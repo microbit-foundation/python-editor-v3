@@ -30,7 +30,7 @@
     "@types/node": "^12.20.4",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
-    "dapjs": "^2.3.0",
+    "dapjs": "2.2.0",
     "framer-motion": "^3.7.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
