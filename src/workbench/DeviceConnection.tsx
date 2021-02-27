@@ -10,7 +10,7 @@ import React, { useCallback, useState } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import { ConnectionMode, ConnectionStatus } from "../device";
-import { useInitializedFileSystem } from "../fs/fs-hooks";
+import { useFileSystem } from "../fs/fs-hooks";
 
 const DeviceConnection = () => {
   const connectionStatus = useConnectionStatus();
@@ -18,7 +18,7 @@ const DeviceConnection = () => {
   const [progress, setProgress] = useState<undefined | number>(undefined);
   const toast = useToast();
   const device = useDevice();
-  const fs = useInitializedFileSystem();
+  const fs = useFileSystem();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
       device.disconnect();

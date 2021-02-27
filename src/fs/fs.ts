@@ -9,6 +9,10 @@ export interface File {
   size: number;
 }
 
+/**
+ * All size-related stats will be -1 until the file system
+ * has fully initialized.
+ */
 export interface FileSystemState {
   files: File[];
   spaceUsed: number;
@@ -20,34 +24,69 @@ export const EVENT_STATE = "state";
 
 export const MAIN_FILE = "main.py";
 
+interface Storage {
+  ls(): string[];
+  read(filename: string): string;
+  write(filename: string, content: string): void;
+}
+
+/**
+ * At some point this will need to deal with multiple tabs.
+ * 
+ * At the moment both tabs will overwrite each other's main.py,
+ * but it's even more confusing if they have other files.
+ */
+class LocalStorage implements Storage {
+  private prefix = "fs/";
+  ls() {
+    return Object.keys(localStorage)
+      .filter((n) => n.startsWith(this.prefix))
+      .map((n) => n.substring(this.prefix.length));
+  }
+  read(name: string): string {
+    const item = localStorage.getItem(this.prefix + name);
+    if (!item) {
+      throw new Error(`No such file ${name}`);
+    }
+    return item;
+  }
+  write(name: string, content: string): void {
+    localStorage.setItem(this.prefix + name, content);
+  }
+}
+
 /**
  * A MicroPython file system.
- *
- * We should rejig to background the initialization and prioritise
- * an in-memory/local storage version of the data as that can be
- * synchronously (or at least, quickly) initialized.
  */
 export class FileSystem extends EventEmitter {
   private initializing: Promise<MicropythonFsHex> | undefined;
+  private storage = new LocalStorage();
   private fs: undefined | MicropythonFsHex;
   state: FileSystemState = {
     files: [],
-    space: commonFsSize,
-    spaceRemaining: commonFsSize,
-    spaceUsed: 0
+    space: -1,
+    spaceRemaining: -1,
+    spaceUsed: -1,
   };
+
+  constructor() {
+    super();
+    if (!this.storage.ls().includes(MAIN_FILE)) {
+      this.write(MAIN_FILE, chuckADuck);
+    }
+    // Run this async.
+    // TODO: consider errors and retrying the downloads
+    this.initialize();
+  }
 
   async initialize(): Promise<MicropythonFsHex> {
     if (!this.initializing) {
       this.initializing = (async () => {
         const fs = await createInternalFileSystem();
-        // We should integrate per-file local storage support into this file.
-        let text = localStorage.getItem("text");
-        if (!text || text.trim().length === 0) {
-          // Temporary, useful for demos.
-          text = chuckADuck;
+        // Copy everything from storage to the file system.
+        for (const filename of this.storage.ls()) {
+          fs.write(filename, this.storage.read(filename));
         }
-        fs.write(MAIN_FILE, text);
         return fs;
       })();
     }
@@ -56,44 +95,35 @@ export class FileSystem extends EventEmitter {
     return this.fs;
   }
 
-  private assertInitialized(): MicropythonFsHex {
-    if (!this.fs) {
-      throw new Error("Uninitialized file system");
-    }
-    return this.fs;
-  }
-
   read(filename: string): string {
-    const fs = this.assertInitialized();
-    return fs.read(filename);
+    return this.storage.read(filename);
   }
 
   write(filename: string, content: string) {
-    const fs = this.assertInitialized();
-    if (filename === MAIN_FILE) {
-      localStorage.setItem("text", content);
+    this.storage.write(filename, content);
+    if (this.fs) {
+      this.fs.write(filename, content);
     }
-    fs.write(filename, content);
     this.notify();
   }
 
   notify(): void {
-    if (this.fs) {
-      const files = this.fs.ls().map((name) => ({
-        name,
-        size: this.fs!.size(name),
-      }));
-      const spaceUsed = this.fs.getStorageUsed();
-      const spaceRemaining = this.fs.getStorageRemaining();
-      const space = this.fs.getStorageSize();
-      this.state = {
-        files,
-        spaceUsed,
-        spaceRemaining,
-        space,
-      };
-      this.emit(EVENT_STATE, this.state);
-    }
+    // The real file system has size information, so prefer it when available.
+    const source = this.storage || this.fs;
+    const files = source.ls().map((name) => ({
+      name,
+      size: this.fs ? this.fs.size(name) : -1,
+    }));
+    const spaceUsed = this.fs ? this.fs.getStorageUsed() : -1
+    const spaceRemaining = this.fs ? this.fs.getStorageRemaining() : -1;
+    const space = this.fs ? this.fs.getStorageSize() : -1;
+    this.state = {
+      files,
+      spaceUsed,
+      spaceRemaining,
+      space,
+    };
+    this.emit(EVENT_STATE, this.state);
   }
 
   async toHexForDownload() {

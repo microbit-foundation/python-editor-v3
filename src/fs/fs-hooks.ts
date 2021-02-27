@@ -12,24 +12,16 @@ export const FileSystemContext = createContext<FileSystem | undefined>(
   undefined
 );
 
-export const useInitializedFileSystem = () => {
+export const useFileSystem = () => {
   const fs = useContext(FileSystemContext);
-  const [initialized, setInitialized] = useState(false);
   if (!fs) {
     throw new Error("Missing provider");
   }
-  useEffect(() => {
-    const initialize = async () => {
-      await fs.initialize();
-      setInitialized(true);
-    };
-    initialize();
-  }, [fs]);
-  return initialized ? fs : null;
+  return fs;
 };
 
 export const useFileSystemState = (): FileSystemState | undefined => {
-  const fs = useInitializedFileSystem();
+  const fs = useFileSystem();
   const [state, setState] = useState<FileSystemState | undefined>(undefined);
   useEffect(() => {
     if (fs) {
@@ -51,7 +43,7 @@ export const useFileSystemState = (): FileSystemState | undefined => {
 export const useFileSystemBackedText = (
   filename: string
 ): [Text | undefined, (text: Text) => void] => {
-  const fs = useInitializedFileSystem();
+  const fs = useFileSystem();
   const [initialValue, setInitialValue] = useState<Text | undefined>();
 
   useEffect(() => {
@@ -64,7 +56,6 @@ export const useFileSystemBackedText = (
   const handleChange = useCallback(
     (text: Text) => {
       const content = text.sliceString(0, undefined, "\n");
-      localStorage.setItem("text", content);
       // Hmm. We could queue them / debounce here?
       // What happens if we fill up the file system?
       // The FS library barfs on empty files!
