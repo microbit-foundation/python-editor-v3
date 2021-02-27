@@ -4,38 +4,6 @@ import chuckADuck from "../samples/chuck-a-duck";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
 import microPythonV2HexUrl from "./microbit-micropython-v2.hex";
 
-const commonFsSize = 20 * 1024;
-
-const microPythonVersions = [
-  { url: microPythonV1HexUrl, boardId: microbitBoardId.V1 },
-  { url: microPythonV2HexUrl, boardId: microbitBoardId.V2 },
-];
-
-const fetchValidText = async (input: RequestInfo) => {
-  const response = await fetch(input);
-  if (response.status !== 200) {
-    throw new Error(
-      `Unexpected status: ${response.statusText} ${response.status}`
-    );
-  }
-  return response.text();
-};
-
-const fetchMicroPython = async () =>
-  Promise.all(
-    microPythonVersions.map(async ({ boardId, url }) => {
-      const hex = await fetchValidText(url);
-      return { boardId, hex };
-    })
-  );
-
-export const createInternalFileSystem = async () => {
-  const microPython = await fetchMicroPython();
-  return new MicropythonFsHex(microPython, {
-    maxFsSize: commonFsSize,
-  });
-};
-
 export interface File {
   name: string;
   size: number;
@@ -62,6 +30,12 @@ export const MAIN_FILE = "main.py";
 export class FileSystem extends EventEmitter {
   private initializing: Promise<MicropythonFsHex> | undefined;
   private fs: undefined | MicropythonFsHex;
+  state: FileSystemState = {
+    files: [],
+    space: commonFsSize,
+    spaceRemaining: commonFsSize,
+    spaceUsed: 0
+  };
 
   async initialize(): Promise<MicropythonFsHex> {
     if (!this.initializing) {
@@ -112,13 +86,13 @@ export class FileSystem extends EventEmitter {
       const spaceUsed = this.fs.getStorageUsed();
       const spaceRemaining = this.fs.getStorageRemaining();
       const space = this.fs.getStorageSize();
-      const state = {
+      this.state = {
         files,
         spaceUsed,
         spaceRemaining,
         space,
       };
-      this.emit(EVENT_STATE, state);
+      this.emit(EVENT_STATE, this.state);
     }
   }
 
@@ -132,3 +106,35 @@ export class FileSystem extends EventEmitter {
     return fs.getIntelHex(boardId);
   }
 }
+
+const microPythonVersions = [
+  { url: microPythonV1HexUrl, boardId: microbitBoardId.V1 },
+  { url: microPythonV2HexUrl, boardId: microbitBoardId.V2 },
+];
+
+const fetchValidText = async (input: RequestInfo) => {
+  const response = await fetch(input);
+  if (response.status !== 200) {
+    throw new Error(
+      `Unexpected status: ${response.statusText} ${response.status}`
+    );
+  }
+  return response.text();
+};
+
+const fetchMicroPython = async () =>
+  Promise.all(
+    microPythonVersions.map(async ({ boardId, url }) => {
+      const hex = await fetchValidText(url);
+      return { boardId, hex };
+    })
+  );
+
+const commonFsSize = 20 * 1024;
+
+export const createInternalFileSystem = async () => {
+  const microPython = await fetchMicroPython();
+  return new MicropythonFsHex(microPython, {
+    maxFsSize: commonFsSize,
+  });
+};

@@ -33,6 +33,7 @@ export const useFileSystemState = (): FileSystemState | undefined => {
   const [state, setState] = useState<FileSystemState | undefined>(undefined);
   useEffect(() => {
     if (fs) {
+      setState(fs.state);
       fs.on(EVENT_STATE, setState);
       return () => {
         fs.removeListener(EVENT_STATE, setState);
