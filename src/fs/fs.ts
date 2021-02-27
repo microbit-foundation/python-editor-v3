@@ -45,7 +45,7 @@ class LocalStorage implements Storage {
   }
   read(name: string): string {
     const item = localStorage.getItem(this.prefix + name);
-    if (!item) {
+    if (typeof item !== "string") {
       throw new Error(`No such file ${name}`);
     }
     return item;
@@ -71,11 +71,12 @@ export class FileSystem extends EventEmitter {
 
   constructor() {
     super();
-    if (!this.storage.ls().includes(MAIN_FILE)) {
+    // Temporary!
+    if (!this.storage.ls().includes(MAIN_FILE) || this.storage.read(MAIN_FILE).length === 0) {
       this.write(MAIN_FILE, chuckADuck);
     }
-    // Run this async.
-    // TODO: consider errors and retrying the downloads
+    // Run this async as it'll download > 1MB of MicroPython.
+    // TODO: Consider errors and retrying if downloads fail.
     this.initialize();
   }
 
@@ -85,7 +86,7 @@ export class FileSystem extends EventEmitter {
         const fs = await createInternalFileSystem();
         // Copy everything from storage to the file system.
         for (const filename of this.storage.ls()) {
-          fs.write(filename, this.storage.read(filename));
+          fs.write(filename, contentForFs(this.storage.read(filename)));
         }
         return fs;
       })();
@@ -102,7 +103,7 @@ export class FileSystem extends EventEmitter {
   write(filename: string, content: string) {
     this.storage.write(filename, content);
     if (this.fs) {
-      this.fs.write(filename, content);
+      this.fs.write(filename, contentForFs(content));
     }
     this.notify();
   }
@@ -135,6 +136,12 @@ export class FileSystem extends EventEmitter {
     const fs = await this.initialize();
     return fs.getIntelHex(boardId);
   }
+}
+
+const contentForFs = (content: string) => {
+  // The FS library barfs on empty files, so workaround until we can discuss.
+  const hack = content.length === 0 ? "\n" : content;
+  return hack;
 }
 
 const microPythonVersions = [

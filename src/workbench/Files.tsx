@@ -1,8 +1,9 @@
 import { Button, HStack, IconButton, List, ListItem } from "@chakra-ui/react";
-import React from "react";
+import React, { useCallback } from "react";
 import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
 import { File, MAIN_FILE } from "../fs/fs";
-import { useFileSystemState } from "../fs/fs-hooks";
+import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
+import { saveAs } from "file-saver";
 
 const Files = () => {
   const fs = useFileSystemState();
@@ -25,8 +26,18 @@ interface FileRowProps {
 }
 
 const FileRow = ({ value }: FileRowProps) => {
-  const disabled = value.name === MAIN_FILE;
   const { name } = value;
+  const disabled = name === MAIN_FILE;
+
+  const fs = useFileSystem();
+  const handleDownload = useCallback(() => {
+    const content = fs.read(name);
+    console.log(content);
+    // TODO: Should we use the project name? Maybe if main.py is the old file?
+    const blob = new Blob([content], { type: "text/x-python" })
+    saveAs(blob, name);
+  }, [fs, name]);
+
   return (
     <HStack justify="space-between" pl={2} pr={2} lineHeight={2}>
       <Button
@@ -52,6 +63,7 @@ const FileRow = ({ value }: FileRowProps) => {
           icon={<RiDownload2Line />}
           aria-label={`Download ${name}`}
           variant="ghost"
+          onClick={handleDownload}
         />
       </HStack>
     </HStack>

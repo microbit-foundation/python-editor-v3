@@ -37,8 +37,6 @@ export const useFileSystemState = (): FileSystemState | undefined => {
 
 /**
  * Reads an initial value from the file system and synchronises back to it.
- *
- * The initial value will be `undefined` until the file system is initialized.
  */
 export const useFileSystemBackedText = (
   filename: string
@@ -47,10 +45,8 @@ export const useFileSystemBackedText = (
   const [initialValue, setInitialValue] = useState<Text | undefined>();
 
   useEffect(() => {
-    if (fs) {
-      const string = fs.read(filename);
-      setInitialValue(Text.of(string.split("\n")));
-    }
+    const string = fs.read(filename);
+    setInitialValue(Text.of(string.split("\n")));
   }, [fs]);
 
   const handleChange = useCallback(
@@ -58,11 +54,7 @@ export const useFileSystemBackedText = (
       const content = text.sliceString(0, undefined, "\n");
       // Hmm. We could queue them / debounce here?
       // What happens if we fill up the file system?
-      // The FS library barfs on empty files!
-      const hack = content.length === 0 ? "\n" : content;
-      if (fs) {
-        fs.write(MAIN_FILE, hack);
-      }
+      fs.write(filename, content);
     },
     [fs]
   );

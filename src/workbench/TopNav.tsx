@@ -1,22 +1,34 @@
-import {
-  Button,
-  Flex,
-  HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Portal,
-  VStack,
-} from "@chakra-ui/react";
-import React from "react";
-import GradientLine from "../common/GradientLine";
-import { ReactComponent as Logo } from "./logo.svg";
+import { Button, Flex, HStack, useToast, VStack } from "@chakra-ui/react";
+import React, { useCallback } from "react";
 import { RiDownload2Line, RiInformationLine } from "react-icons/ri";
+import GradientLine from "../common/GradientLine";
+import { useFileSystem } from "../fs/fs-hooks";
+import { ReactComponent as Logo } from "./logo.svg";
 import ProjectNameEditable from "./ProjectNameEditable";
 import ZoomControls from "./ZoomControls";
 
 const TopNav = () => {
+  const fs = useFileSystem();
+  const toast = useToast();
+  const handleDownload = useCallback(async () => {
+    let hex: string | undefined;
+    try {
+      hex = await fs.toHexForDownload();
+    } catch (e) {
+      toast({
+        title: "Failed to build the hex file",
+        status: "error",
+        description: e.message,
+        position: "top",
+        isClosable: true,
+      });
+      return;
+    }
+    // TODO: wire up project name
+    const projectName = "my-script";
+    const blob = new Blob([hex], { type: "application/octet-stream" })
+    saveAs(blob, `${projectName}.hex`);
+  }, []);
   return (
     <VStack
       spacing={0}
@@ -31,17 +43,13 @@ const TopNav = () => {
         </HStack>
         <HStack spacing={8}>
           <HStack as="nav">
-            <Menu placement="bottom">
-              <MenuButton as={Button} size="lg" leftIcon={<RiDownload2Line />}>
-                Download
-              </MenuButton>
-              <Portal>
-                <MenuList zIndex={43}>
-                  <MenuItem>HEX file</MenuItem>
-                  <MenuItem>Python script</MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
+            <Button
+              size="lg"
+              leftIcon={<RiDownload2Line />}
+              onClick={handleDownload}
+            >
+              Download
+            </Button>
           </HStack>
           <ZoomControls />
           <HStack>
