@@ -6,7 +6,7 @@ import { DeviceContext } from "./device/device-hooks";
 import { MicrobitWebUSBConnection } from "./device";
 import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
-import { Settings, SettingsContext } from "./settings";
+import { Settings, SettingsContext, supportedLanguages } from "./settings";
 import Workbench from "./workbench/Workbench";
 
 const device = new MicrobitWebUSBConnection();
@@ -22,6 +22,7 @@ const App = () => {
 
   // Persistence?
   const settings = useState<Settings>({
+    languageId: supportedLanguages[0].id,
     fontSize: 18,
     highlightCodeStructure: true,
   });

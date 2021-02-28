@@ -1,10 +1,23 @@
 import { createContext, SetStateAction, useContext } from "react";
 import Settings from "./workbench/Settings";
 
+interface Language {
+  id: string;
+  name: string;
+}
+
+export const supportedLanguages = [
+  {
+    id: "en",
+    name: "English"
+  }
+];
+
 export const minimumFontSize = 8;
 export const maximumFontSize = 256;
 
 export interface Settings {
+  languageId: string;
   fontSize: number;
   highlightCodeStructure: boolean;
 }

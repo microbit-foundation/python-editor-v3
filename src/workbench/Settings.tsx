@@ -8,8 +8,14 @@ import {
   Switch,
   FormControl,
   FormLabel,
+  Select,
 } from "@chakra-ui/react";
-import { maximumFontSize, minimumFontSize, useSettings } from "../settings";
+import {
+  maximumFontSize,
+  minimumFontSize,
+  useSettings,
+  supportedLanguages,
+} from "../settings";
 import React, { useCallback } from "react";
 
 const Settings = () => {
@@ -38,9 +44,35 @@ const Settings = () => {
       highlightCodeStructure: !settings.highlightCodeStructure,
     });
   }, [settings, setSettings]);
+  const handleChangeLanguage = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSettings({
+        ...settings,
+        languageId: e.target.value,
+      });
+    },
+    [settings, setSettings]
+  );
 
   return (
     <VStack alignItems="flex-start" padding={3} spacing={5}>
+      <FormControl display="flex" alignItems="center">
+        <FormLabel
+          htmlFor="font-size"
+          mb="0"
+          fontWeight="normal"
+          flex="1 1 auto"
+        >
+          Language
+        </FormLabel>
+        <Select variant="outline" onChange={handleChangeLanguage} maxWidth="16ch">
+          {supportedLanguages.map((language) => (
+            <option key={language.id} value={language.id}>
+              {language.name}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
       <FormControl display="flex" alignItems="center">
         <FormLabel
           htmlFor="font-size"
