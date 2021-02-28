@@ -1,7 +1,6 @@
 import React from "react";
 import SidePanel from "./LeftPanel";
 import TopNav from "./TopNav";
-import "./Workbench.css";
 import { ViewPort, Fill, LeftResizable, Top } from "react-spaces";
 import EditorIntegration from "../editor/EditorIntegration";
 import { useFileSystemBackedText } from "../fs/fs-hooks";

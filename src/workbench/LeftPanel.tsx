@@ -16,7 +16,7 @@ import {
 } from "react-icons/ri";
 import DeviceConnection from "./DeviceConnection";
 import Files from "./Files";
-import SidePanelTabContent from "./LeftPanelTabContent";
+import LeftPanelTabContent from "./LeftPanelTabContent";
 import Packages from "./Packages";
 import Settings from "./Settings";
 
@@ -69,9 +69,9 @@ const Panels = ({ panels }: PanelsProps) => {
         <TabPanels>
           {panels.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
-              <SidePanelTabContent title={p.title}>
+              <LeftPanelTabContent title={p.title}>
                 {p.contents}
-              </SidePanelTabContent>
+              </LeftPanelTabContent>
             </TabPanel>
           ))}
         </TabPanels>

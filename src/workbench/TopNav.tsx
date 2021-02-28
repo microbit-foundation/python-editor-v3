@@ -1,34 +1,17 @@
-import { Button, Flex, HStack, useToast, VStack } from "@chakra-ui/react";
-import React, { useCallback } from "react";
-import { RiDownload2Line, RiInformationLine } from "react-icons/ri";
+import { Button, Flex, HStack, VStack } from "@chakra-ui/react";
+import React from "react";
+import { RiInformationLine } from "react-icons/ri";
 import GradientLine from "../common/GradientLine";
-import { useFileSystem } from "../fs/fs-hooks";
+import { ConnectionStatus } from "../device";
+import { useConnectionStatus, useDevice } from "../device/device-hooks";
+import DownloadButton from "./DownloadButton";
 import { ReactComponent as Logo } from "./logo.svg";
 import ProjectNameEditable from "./ProjectNameEditable";
 import ZoomControls from "./ZoomControls";
 
 const TopNav = () => {
-  const fs = useFileSystem();
-  const toast = useToast();
-  const handleDownload = useCallback(async () => {
-    let hex: string | undefined;
-    try {
-      hex = await fs.toHexForDownload();
-    } catch (e) {
-      toast({
-        title: "Failed to build the hex file",
-        status: "error",
-        description: e.message,
-        position: "top",
-        isClosable: true,
-      });
-      return;
-    }
-    // TODO: wire up project name
-    const projectName = "my-script";
-    const blob = new Blob([hex], { type: "application/octet-stream" })
-    saveAs(blob, `${projectName}.hex`);
-  }, []);
+  const status = useConnectionStatus();
+  const supported = status !== ConnectionStatus.NOT_SUPPORTED;
   return (
     <VStack
       spacing={0}
@@ -42,15 +25,12 @@ const TopNav = () => {
           <ProjectNameEditable />
         </HStack>
         <HStack spacing={8}>
-          <HStack as="nav">
-            <Button
-              size="lg"
-              leftIcon={<RiDownload2Line />}
-              onClick={handleDownload}
-            >
-              Download
-            </Button>
-          </HStack>
+          {/* otherwise we put it where flash usually goes */}
+          {supported && (
+            <HStack as="nav">
+              <DownloadButton />
+            </HStack>
+          )}
           <ZoomControls />
           <HStack>
             <Button leftIcon={<RiInformationLine />} variant="ghost" size="lg">

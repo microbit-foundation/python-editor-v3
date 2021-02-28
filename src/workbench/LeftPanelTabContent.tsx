@@ -1,12 +1,12 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 
-interface SidePanelTabContentProps {
+interface LeftPanelTabContentProps {
   title: string;
   children: ReactNode;
 }
 
-const SidePanelTabContent = ({ title, children }: SidePanelTabContentProps) => {
+const LeftPanelTabContent = ({ title, children }: LeftPanelTabContentProps) => {
   return (
     <Flex height="100%" direction="column">
       <Text flex="0 0 auto" as="h3" fontSize="lg" fontWeight="bold" p="9px">
@@ -17,4 +17,4 @@ const SidePanelTabContent = ({ title, children }: SidePanelTabContentProps) => {
   );
 };
 
-export default SidePanelTabContent;
+export default LeftPanelTabContent;

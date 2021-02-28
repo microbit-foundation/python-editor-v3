@@ -11,10 +11,12 @@ import { RiFlashlightFill } from "react-icons/ri";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import { ConnectionMode, ConnectionStatus } from "../device";
 import { useFileSystem } from "../fs/fs-hooks";
+import DownloadButton from "./DownloadButton";
 
 const DeviceConnection = () => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;
+  const supported = connectionStatus !== ConnectionStatus.NOT_SUPPORTED;
   const [progress, setProgress] = useState<undefined | number>(undefined);
   const toast = useToast();
   const device = useDevice();
@@ -75,27 +77,33 @@ const DeviceConnection = () => {
       spacing={2}
       align="flex-start"
     >
-      <HStack as="label" spacing={3}>
-        <Switch
-          size="lg"
-          isChecked={connected}
-          onChange={handleToggleConnected}
-        />
-        <Text as="span" size="lg" fontWeight="semibold">
-          {connected ? "micro:bit connected" : "micro:bit disconnected"}
-        </Text>
-      </HStack>
-      <Button
-        leftIcon={<RiFlashlightFill />}
-        size="lg"
-        width="100%"
-        disabled={!fs || !connected || typeof progress !== "undefined"}
-        onClick={handleFlash}
-      >
-        {typeof progress === "undefined"
-          ? "Flash micro:bit"
-          : `Flashing… (${(progress * 100).toFixed(0)}%)`}
-      </Button>
+      {supported ? (
+        <>
+          <HStack as="label" spacing={3}>
+            <Switch
+              size="lg"
+              isChecked={connected}
+              onChange={handleToggleConnected}
+            />
+            <Text as="span" size="lg" fontWeight="semibold">
+              {connected ? "micro:bit connected" : "micro:bit disconnected"}
+            </Text>
+          </HStack>
+          <Button
+            leftIcon={<RiFlashlightFill />}
+            size="lg"
+            width="100%"
+            disabled={!fs || !connected || typeof progress !== "undefined"}
+            onClick={handleFlash}
+          >
+            {typeof progress === "undefined"
+              ? "Flash micro:bit"
+              : `Flashing… (${(progress * 100).toFixed(0)}%)`}
+          </Button>
+        </>
+      ) : (
+        <DownloadButton width="100%" />
+      )}
     </VStack>
   );
 };
