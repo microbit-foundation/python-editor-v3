@@ -52,7 +52,7 @@ const Settings = () => {
         </FormLabel>
         <NumberInput
           size="sm"
-          defaultValue={settings.fontSize}
+          value={settings.fontSize}
           min={minimumFontSize}
           max={maximumFontSize}
           onChange={handleChangeFontSize}
