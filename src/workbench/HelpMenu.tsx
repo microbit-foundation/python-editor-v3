@@ -77,7 +77,9 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             Copy version to clipboard
             <br />
             <Text as="span" fontSize="xs">
-              <Separate separator={<br />}>{versionInfo}</Separate>
+              <Separate separator={(key) => <br key={key} />}>
+                {versionInfo}
+              </Separate>
             </Text>
           </MenuItem>
         </MenuList>

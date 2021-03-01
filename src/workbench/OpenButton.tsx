@@ -11,9 +11,11 @@ const OpenButton = (props: ButtonProps) => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const ref = useRef<HTMLInputElement>(null);
+
   const handleChooseFile = useCallback(() => {
     ref.current && ref.current.click();
   }, []);
+
   const handleOpenFile = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;

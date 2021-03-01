@@ -20,23 +20,16 @@ import LeftPanelTabContent from "./LeftPanelTabContent";
 import Packages from "./Packages";
 import Settings from "./Settings";
 
-interface Panel {
-  id: string;
-  icon: IconType;
-  title: string;
-  contents: ReactNode;
-}
-
-interface PanelsProps {
-  panels: Panel[];
-}
-
-interface SidePanelProps {
+interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;
 }
 
-const SidePanel = ({ onSelectedFileChanged }: SidePanelProps) => {
-  const panels: Panel[] = useMemo(
+/**
+ * The tabbed area on the left of the UI offering access to API documentation,
+ * files and settings.
+ */
+const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
+  const panes: Pane[] = useMemo(
     () => [
       {
         id: "packages",
@@ -59,22 +52,33 @@ const SidePanel = ({ onSelectedFileChanged }: SidePanelProps) => {
     ],
     [onSelectedFileChanged]
   );
-  return <Panels panels={panels} />;
+  return <LeftPanelContents panes={panes} />;
 };
 
-const Panels = ({ panels }: PanelsProps) => {
+interface Pane {
+  id: string;
+  icon: IconType;
+  title: string;
+  contents: ReactNode;
+}
+
+interface LeftPanelConentsProps {
+  panes: Pane[];
+}
+
+const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList height="100%" backgroundColor="whitesmoke">
-          {panels.map((p) => (
+          {panes.map((p) => (
             <Tab key={p.id}>
               <Icon as={p.icon} aria-label={p.title} />
             </Tab>
           ))}
         </TabList>
         <TabPanels>
-          {panels.map((p) => (
+          {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
               <LeftPanelTabContent title={p.title}>
                 {p.contents}
@@ -88,4 +92,4 @@ const Panels = ({ panels }: PanelsProps) => {
   );
 };
 
-export default SidePanel;
+export default LeftPanel;

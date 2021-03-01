@@ -1,10 +1,9 @@
-import { Box, Button, Flex, HStack, Text, VStack } from "@chakra-ui/react";
-import { RiInformationLine } from "react-icons/ri";
+import { Box } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
 import { useFileSystemBackedText } from "../fs/fs-hooks";
 import { useSettings } from "../settings";
 import Editor from "./Editor";
-import NonMainFileNotice from "./UnusualFileNotice";
+import NonMainFileNotice from "./NonMainFileNotice";
 
 interface EditorContainerProps {
   filename: string;

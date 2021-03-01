@@ -9,6 +9,13 @@ import {
 } from "@chakra-ui/react";
 import { RiEdit2Line } from "react-icons/ri";
 
+/**
+ * A control to enable editing of the project name.
+ *
+ * Not yet wired up to any state.
+ *
+ * Needs review on mobile/tablet.
+ */
 const ProjectNameEditable = () => {
   const EditableControls = ({
     isEditing,

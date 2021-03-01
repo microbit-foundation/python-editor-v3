@@ -10,7 +10,10 @@ import OpenButton from "./OpenButton";
 import ProjectNameEditable from "./ProjectNameEditable";
 import ZoomControls from "./ZoomControls";
 
-const TopNav = () => {
+/**
+ * The header area with associated actions.
+ */
+const Header = () => {
   const status = useConnectionStatus();
   const supported = status !== ConnectionStatus.NOT_SUPPORTED;
   const size = "md";
@@ -41,4 +44,4 @@ const TopNav = () => {
   );
 };
 
-export default TopNav;
+export default Header;

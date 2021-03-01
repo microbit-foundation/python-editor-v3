@@ -2,6 +2,9 @@ import React from "react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import Placeholder from "../common/Placeholder";
 
+/**
+ * Unused for now, but we'll integrate something similar soon.
+ */
 const RightPanel = () => {
   return (
     <Tabs paddingTop={1} height="100%" variant="enclosed">

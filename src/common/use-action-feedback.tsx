@@ -5,6 +5,10 @@ import config from "../config";
 
 export class ActionFeedback {
   constructor(private toast: ReturnType<typeof useToast>) {}
+
+  /**
+   * Handles an error.
+   */
   expectedError({
     title,
     description,
@@ -20,7 +24,12 @@ export class ActionFeedback {
       isClosable: true,
     });
   }
-  unexpectedError({ error }: { error: Error }) {
+
+  /**
+   * Handles an unexpected error for which we can provide no good context or text.
+   * @param error the error thrown.
+   */
+  unexpectedError(error: Error) {
     this.toast({
       title: "An unexpected error occurred",
       status: "error",
@@ -44,6 +53,9 @@ export class ActionFeedback {
   }
 }
 
+/**
+ * Access to global notification UI for action feedback.
+ */
 const useActionFeedback = () => {
   const toast = useToast();
   return useMemo(() => new ActionFeedback(toast), [toast]);

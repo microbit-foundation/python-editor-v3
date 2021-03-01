@@ -10,6 +10,9 @@ interface FilesProps {
   onSelectedFileChanged: (name: string) => void;
 }
 
+/**
+ * The main files area, offering access to individual files.
+ */
 const Files = ({ onSelectedFileChanged }: FilesProps) => {
   const fs = useFileSystemState();
   if (!fs) {
@@ -43,14 +46,14 @@ const FileRow = ({ value, onClick }: FileRowProps) => {
       const blob = new Blob([content], { type: "text/x-python" });
       saveAs(blob, name);
     } catch (e) {
-      actionFeedback.unexpectedError({ error: e });
+      actionFeedback.unexpectedError(e);
     }
   }, [fs, name]);
   const handleDelete = useCallback(() => {
     try {
       fs.remove(name);
     } catch (e) {
-      actionFeedback.unexpectedError({ error: e });
+      actionFeedback.unexpectedError(e);
     }
   }, [fs, name]);
 

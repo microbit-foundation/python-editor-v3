@@ -19,36 +19,11 @@ import { RiAddLine } from "react-icons/ri";
 import { MdDragHandle } from "react-icons/md";
 import PackageSelectDialog from "./PackageSelectDialog";
 
-interface CodeSnippet {
-  value: string;
-  help: string;
-}
-
-interface Package {
-  name: string;
-  snippets: CodeSnippet[];
-}
-
-const packages: Package[] = [
-  {
-    name: "accelerometer",
-    snippets: [
-      {
-        value: "get_x()",
-        help: "Get the acceleration measurement in the x axis",
-      },
-      {
-        value: "get_y()",
-        help: "Get the acceleration measurement in the y axis",
-      },
-      {
-        value: "get_z()",
-        help: "Get the acceleration measurement in the z axis",
-      },
-    ],
-  },
-];
-
+/**
+ * The packages section showing available API.
+ *
+ * This is just illustrative of what we want in this area.
+ */
 const Packages = () => {
   const [addingPackage, setAddingPackage] = useState(false);
   return (
@@ -104,6 +79,36 @@ const Packages = () => {
     </>
   );
 };
+
+interface CodeSnippet {
+  value: string;
+  help: string;
+}
+
+interface Package {
+  name: string;
+  snippets: CodeSnippet[];
+}
+
+const packages: Package[] = [
+  {
+    name: "accelerometer",
+    snippets: [
+      {
+        value: "get_x()",
+        help: "Get the acceleration measurement in the x axis",
+      },
+      {
+        value: "get_y()",
+        help: "Get the acceleration measurement in the y axis",
+      },
+      {
+        value: "get_z()",
+        help: "Get the acceleration measurement in the z axis",
+      },
+    ],
+  },
+];
 
 interface DraggableCodeSnippetProps {
   pkg: Package;

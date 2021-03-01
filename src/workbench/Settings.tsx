@@ -18,6 +18,11 @@ import {
 } from "../settings";
 import React, { useCallback } from "react";
 
+/**
+ * The settings area.
+ *
+ * Aim is to keep settings to a minimum.
+ */
 const Settings = () => {
   const [settings, setSettings] = useSettings();
 
@@ -65,7 +70,12 @@ const Settings = () => {
         >
           Language
         </FormLabel>
-        <Select id="language" variant="outline" onChange={handleChangeLanguage} maxWidth="16ch">
+        <Select
+          id="language"
+          variant="outline"
+          onChange={handleChangeLanguage}
+          maxWidth="16ch"
+        >
           {supportedLanguages.map((language) => (
             <option key={language.id} value={language.id}>
               {language.name}

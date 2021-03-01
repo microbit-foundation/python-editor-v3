@@ -2,16 +2,21 @@ import { BoxProps, Button, HStack, Text } from "@chakra-ui/react";
 import { RiInformationLine } from "react-icons/ri";
 import { MAIN_FILE } from "../fs/fs";
 
-interface UnusualFileNoticeProps extends BoxProps {
+interface NonMainFileNoticeProps extends BoxProps {
   filename: string;
   onSelectedFileChanged: (filename: string) => void;
 }
 
-const UnusualFileNotice = ({
+/**
+ * An informational line shown when the user is editing a file other than main.py.
+ *
+ * We offer an additional route back to editing the main document.
+ */
+const NonMainFileNotice = ({
   filename,
   onSelectedFileChanged,
   ...props
-}: UnusualFileNoticeProps) => {
+}: NonMainFileNoticeProps) => {
   return (
     <HStack pl={2} pr={2} backgroundColor="whitesmoke" {...props}>
       <RiInformationLine />
@@ -27,4 +32,4 @@ const UnusualFileNotice = ({
   );
 };
 
-export default UnusualFileNotice;
+export default NonMainFileNotice;

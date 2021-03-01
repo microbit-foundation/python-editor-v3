@@ -16,6 +16,9 @@ interface PackageSelectDialogProps {
   onClose: () => void;
 }
 
+/**
+ * A placeholder package selection dialog.
+ */
 const PackageSelectDialog = ({ isOpen, onClose }: PackageSelectDialogProps) => (
   <Modal isOpen={isOpen} onClose={onClose} size="4xl">
     <ModalOverlay />

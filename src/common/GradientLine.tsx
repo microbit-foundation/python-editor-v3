@@ -1,6 +1,9 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 
+/**
+ * A gradient strip used for visual separation.
+ */
 const GradientLine = () => (
   <Box
     width="100%"

@@ -7,6 +7,12 @@ import { useFileSystem } from "../fs/fs-hooks";
 import DownloadButton from "./DownloadButton";
 import useActionFeedback from "../common/use-action-feedback";
 
+/**
+ * The device connection area.
+ *
+ * It shows the current connection status and allows the user to
+ * flash (if WebUSB is supported) or otherwise just download a HEX.
+ */
 const DeviceConnection = () => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;

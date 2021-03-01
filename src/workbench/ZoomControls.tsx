@@ -14,6 +14,9 @@ interface ZoomControlsProps extends StackProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
 }
 
+/**
+ * Zoom in/out icon button pair.
+ */
 const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   const [settings, setSettings] = useSettings();
   const handleZoomIn = useCallback(() => {
@@ -29,7 +32,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
     });
   }, [setSettings, settings]);
   return (
-    <HStack as="nav" {...props}>
+    <HStack {...props}>
       <IconButton
         size={size}
         isRound
