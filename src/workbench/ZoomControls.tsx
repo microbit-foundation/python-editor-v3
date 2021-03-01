@@ -1,9 +1,9 @@
-import { HStack, IconButton } from "@chakra-ui/react";
+import { HStack, IconButton, StackProps } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import { maximumFontSize, minimumFontSize, useSettings } from "../settings";
 
-const ZoomControls = () => {
+const ZoomControls = (props: StackProps) => {
   const [settings, setSettings] = useSettings();
   const handleZoomIn = useCallback(() => {
     setSettings({
@@ -18,7 +18,7 @@ const ZoomControls = () => {
     });
   }, [setSettings, settings]);
   return (
-    <HStack as="nav">
+    <HStack as="nav" {...props}>
       <IconButton
         size="lg"
         isRound
