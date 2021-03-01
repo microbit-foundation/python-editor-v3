@@ -28,21 +28,24 @@ interface Storage {
   ls(): string[];
   read(filename: string): string;
   write(filename: string, content: string): void;
+  remove(filename: string): void;
 }
 
 /**
  * At some point this will need to deal with multiple tabs.
- * 
+ *
  * At the moment both tabs will overwrite each other's main.py,
  * but it's even more confusing if they have other files.
  */
 class LocalStorage implements Storage {
   private prefix = "fs/";
+
   ls() {
     return Object.keys(localStorage)
       .filter((n) => n.startsWith(this.prefix))
       .map((n) => n.substring(this.prefix.length));
   }
+
   read(name: string): string {
     const item = localStorage.getItem(this.prefix + name);
     if (typeof item !== "string") {
@@ -50,8 +53,14 @@ class LocalStorage implements Storage {
     }
     return item;
   }
+
   write(name: string, content: string): void {
     localStorage.setItem(this.prefix + name, content);
+  }
+
+  remove(name: string): void {
+    this.read(name);
+    localStorage.removeItem(this.prefix + name);
   }
 }
 
@@ -72,7 +81,10 @@ export class FileSystem extends EventEmitter {
   constructor() {
     super();
     // Temporary!
-    if (!this.storage.ls().includes(MAIN_FILE) || this.storage.read(MAIN_FILE).length === 0) {
+    if (
+      !this.storage.ls().includes(MAIN_FILE) ||
+      this.storage.read(MAIN_FILE).length === 0
+    ) {
       this.write(MAIN_FILE, chuckADuck);
     }
     // Run this async as it'll download > 1MB of MicroPython.
@@ -109,17 +121,24 @@ export class FileSystem extends EventEmitter {
     const fs = await this.initialize();
     const files = fs.importFilesFromHex(hex, {
       overwrite: true,
-      formatFirst: true
-     });
-    this.notify();
-
+      formatFirst: true,
+    });
     if (files.length === 0) {
       // Reinstate from storage.
       this.copyStorageToFs();
       throw new Error("The filesystem in the hex file was empty");
+    } else {
+      this.copyFsToStorage();
+      this.notify();
     }
+  }
 
-    return this.copyFsToStorage();
+  remove(filename: string): void {
+    this.storage.remove(filename);
+    if (this.fs) {
+      this.fs.remove(filename);
+    }
+    this.notify();
   }
 
   notify(): void {
@@ -129,7 +148,7 @@ export class FileSystem extends EventEmitter {
       name,
       size: this.fs ? this.fs.size(name) : -1,
     }));
-    const spaceUsed = this.fs ? this.fs.getStorageUsed() : -1
+    const spaceUsed = this.fs ? this.fs.getStorageUsed() : -1;
     const spaceRemaining = this.fs ? this.fs.getStorageRemaining() : -1;
     const space = this.fs ? this.fs.getStorageSize() : -1;
     this.state = {
@@ -171,14 +190,13 @@ export class FileSystem extends EventEmitter {
       this.storage.write(filename, fs.read(filename));
     }
   }
-
 }
 
 const contentForFs = (content: string) => {
   // The FS library barfs on empty files, so workaround until we can discuss.
   const hack = content.length === 0 ? "\n" : content;
   return hack;
-}
+};
 
 const microPythonVersions = [
   { url: microPythonV1HexUrl, boardId: microbitBoardId.V1 },

@@ -32,10 +32,12 @@ const FileRow = ({ value }: FileRowProps) => {
   const fs = useFileSystem();
   const handleDownload = useCallback(() => {
     const content = fs.read(name);
-    console.log(content);
     // TODO: Should we use the project name? Maybe if main.py is the old file?
-    const blob = new Blob([content], { type: "text/x-python" })
+    const blob = new Blob([content], { type: "text/x-python" });
     saveAs(blob, name);
+  }, [fs, name]);
+  const handleDelete = useCallback(() => {
+    fs.remove(name);
   }, [fs, name]);
 
   return (
@@ -57,6 +59,7 @@ const FileRow = ({ value }: FileRowProps) => {
           aria-label="Delete the file. The main Python file cannot be deleted."
           variant="ghost"
           disabled={disabled}
+          onClick={handleDelete}
         />
         <IconButton
           size="sm"
