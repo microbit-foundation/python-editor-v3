@@ -5,7 +5,7 @@ import GradientLine from "../common/GradientLine";
 import { ConnectionStatus } from "../device";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
-import { ReactComponent as Logo } from "./logo.svg";
+import Logo from "./Logo";
 import ProjectNameEditable from "./ProjectNameEditable";
 import ZoomControls from "./ZoomControls";
 
