@@ -1,20 +1,34 @@
 import { createContext, SetStateAction, useContext } from "react";
 import Settings from "./workbench/Settings";
 
-interface Language {
+export interface Language {
   id: string;
   name: string;
 }
 
-export const supportedLanguages = [
+export const supportedLanguages: Language[] = [
   {
     id: "en",
-    name: "English"
-  }
+    name: "English",
+  },
 ];
 
 export const minimumFontSize = 8;
 export const maximumFontSize = 256;
+
+export const defaultSettings: Settings = {
+  languageId: supportedLanguages[0].id,
+  fontSize: 18,
+  highlightCodeStructure: true,
+};
+
+export const isValidSettingsObject = (value: unknown): value is Settings => {
+  if (typeof value !== "object") {
+    return false;
+  }
+  // TODO: more!
+  return true;
+};
 
 export interface Settings {
   languageId: string;
@@ -22,10 +36,7 @@ export interface Settings {
   highlightCodeStructure: boolean;
 }
 
-type SettingsContextValue = [
-  Settings,
-  React.Dispatch<SetStateAction<Settings>>
-];
+type SettingsContextValue = [Settings, (settings: Settings) => void];
 
 export const SettingsContext = createContext<SettingsContextValue | undefined>(
   undefined

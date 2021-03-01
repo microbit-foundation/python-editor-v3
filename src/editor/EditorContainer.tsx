@@ -20,7 +20,7 @@ const EditorContainer = ({
 }: EditorContainerProps) => {
   const [{ fontSize, highlightCodeStructure }] = useSettings();
   const [defaultValue, onFileChange] = useFileSystemBackedText(filename);
-  const isMainFile = filename !== MAIN_FILE;
+  const isMainFile = filename === MAIN_FILE;
 
   // The editor scrolling breaks if we try to use flex grow here. Alternatives?
   const noticeHeight = "2.5rem";

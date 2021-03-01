@@ -7,7 +7,7 @@ import {
 import { EditorState, tagExtension } from "@codemirror/state";
 import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
-import { useDidUpdate } from "../hooks";
+import { useDidUpdate } from "../common/use-did-update";
 import { blocks } from "./blocks";
 
 interface EditorProps {
@@ -49,7 +49,7 @@ const Editor = ({
           notify,
           editorConfig,
           // Extensions we enable/disable based on props.
-          tagExtension("blocks", blocks()),
+          tagExtension("blocks", highlightCodeStructure ? blocks() : []),
           tagExtension(themeExtensionsTag, themeExtensions(fontSize)),
         ],
       });
