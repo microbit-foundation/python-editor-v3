@@ -5,10 +5,10 @@ import { useFileSystem } from "../fs/fs-hooks";
 
 /**
  * Download HEX button.
- * 
+ *
  * This is the main action for programming the micro:bit if the
  * system does not support WebUSB.
- * 
+ *
  * Otherwise it's a more minor action.
  */
 const DownloadButton = (props: ButtonProps) => {
@@ -35,7 +35,7 @@ const DownloadButton = (props: ButtonProps) => {
   }, []);
 
   return (
-    <Button size="lg" leftIcon={<RiDownload2Line />} onClick={handleDownload} {...props}>
+    <Button leftIcon={<RiDownload2Line />} onClick={handleDownload} {...props}>
       Download
     </Button>
   );

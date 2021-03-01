@@ -102,7 +102,7 @@ const DeviceConnection = () => {
           </Button>
         </>
       ) : (
-        <DownloadButton width="100%" />
+        <DownloadButton size="lg" width="100%" />
       )}
     </VStack>
   );

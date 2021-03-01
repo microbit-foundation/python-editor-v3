@@ -1,9 +1,20 @@
-import { HStack, IconButton, StackProps } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  IconButton,
+  StackProps,
+  ThemeComponents,
+  ThemeTypings,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import { maximumFontSize, minimumFontSize, useSettings } from "../settings";
 
-const ZoomControls = (props: StackProps) => {
+interface ZoomControlsProps extends StackProps {
+  size?: ThemeTypings["components"]["Button"]["sizes"];
+}
+
+const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   const [settings, setSettings] = useSettings();
   const handleZoomIn = useCallback(() => {
     setSettings({
@@ -20,14 +31,14 @@ const ZoomControls = (props: StackProps) => {
   return (
     <HStack as="nav" {...props}>
       <IconButton
-        size="lg"
+        size={size}
         isRound
         icon={<RiZoomOutLine />}
         aria-label="Zoom out"
         onClick={handleZoomOut}
       />
       <IconButton
-        size="lg"
+        size={size}
         isRound
         icon={<RiZoomInLine />}
         aria-label="Zoom in"

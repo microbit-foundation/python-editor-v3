@@ -12,6 +12,7 @@ import ZoomControls from "./ZoomControls";
 const TopNav = () => {
   const status = useConnectionStatus();
   const supported = status !== ConnectionStatus.NOT_SUPPORTED;
+  const size = "md";
   return (
     <VStack
       spacing={0}
@@ -21,19 +22,26 @@ const TopNav = () => {
     >
       <Flex width="100%" justifyContent="space-between" padding={2}>
         <HStack spacing={5} marginRight={8}>
-          <Logo height="30px" />
+          <Logo height="28px" />
           <ProjectNameEditable />
         </HStack>
         <HStack spacing={8}>
           {/* otherwise we put it where flash usually goes */}
           {supported && (
             <HStack as="nav">
-              <DownloadButton />
+              <DownloadButton size={size} />
             </HStack>
           )}
-          <ZoomControls />
+          <HStack as="nav">
+            <Button>Open</Button>
+          </HStack>
+          <ZoomControls size={size} />
           <HStack>
-            <Button leftIcon={<RiInformationLine />} variant="ghost" size="lg">
+            <Button
+              size={size}
+              leftIcon={<RiInformationLine />}
+              variant="ghost"
+            >
               Help
             </Button>
           </HStack>
