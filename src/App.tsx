@@ -11,7 +11,6 @@ import {
   isValidSettingsObject,
   Settings,
   SettingsContext,
-  supportedLanguages,
 } from "./settings";
 import Workbench from "./workbench/Workbench";
 import { useLocalStorage } from "./common/use-local-storage";

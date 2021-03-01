@@ -10,13 +10,9 @@ import {
   FormLabel,
   Select,
 } from "@chakra-ui/react";
-import {
-  maximumFontSize,
-  minimumFontSize,
-  useSettings,
-  supportedLanguages,
-} from "../settings";
+import { maximumFontSize, minimumFontSize, useSettings } from "../settings";
 import React, { useCallback } from "react";
+import config from "../config";
 
 /**
  * The settings area.
@@ -76,7 +72,7 @@ const Settings = () => {
           onChange={handleChangeLanguage}
           maxWidth="16ch"
         >
-          {supportedLanguages.map((language) => (
+          {config.supportedLanguages.map((language) => (
             <option key={language.id} value={language.id}>
               {language.name}
             </option>

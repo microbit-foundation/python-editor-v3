@@ -20,7 +20,7 @@ const NonMainFileNotice = ({
   return (
     <HStack pl={2} pr={2} backgroundColor="whitesmoke" {...props}>
       <RiInformationLine />
-      <Text fontWeight="semibold">Currently editing {filename}.</Text>
+      <Text fontWeight="semibold">Editing {filename}.</Text>
       <Button
         variant="unstyled"
         textDecoration="underline"
