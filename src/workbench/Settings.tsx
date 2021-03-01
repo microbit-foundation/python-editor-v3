@@ -58,14 +58,14 @@ const Settings = () => {
     <VStack alignItems="flex-start" padding={3} spacing={5}>
       <FormControl display="flex" alignItems="center">
         <FormLabel
-          htmlFor="font-size"
+          htmlFor="language"
           mb="0"
           fontWeight="normal"
           flex="1 1 auto"
         >
           Language
         </FormLabel>
-        <Select variant="outline" onChange={handleChangeLanguage} maxWidth="16ch">
+        <Select id="language" variant="outline" onChange={handleChangeLanguage} maxWidth="16ch">
           {supportedLanguages.map((language) => (
             <option key={language.id} value={language.id}>
               {language.name}
