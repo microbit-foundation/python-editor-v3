@@ -5,16 +5,16 @@ interface SeparateProps {
   separator: ReactNode;
 }
 
-const Separate = ({ children, separator }: SeparateProps): ReactNode[] => {
+const Separate = ({ children, separator }: SeparateProps) => {
   const result: ReactNode[] = [];
   const count = React.Children.count(children);
   React.Children.forEach(children, (n, i) => {
     result.push(n);
     if (i < count - 1) {
-      result.push(separator);
+      result.push(<br key={i} />);
     }
   });
-  return result;
+  return <>{result}</>;
 };
 
 export default Separate;

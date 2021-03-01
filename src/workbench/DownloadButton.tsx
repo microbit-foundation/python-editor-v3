@@ -1,6 +1,7 @@
-import { Button, ButtonProps, useToast } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiDownload2Line } from "react-icons/ri";
+import useActionFeedback from "../common/use-action-feedback";
 import { useFileSystem } from "../fs/fs-hooks";
 
 /**
@@ -13,18 +14,15 @@ import { useFileSystem } from "../fs/fs-hooks";
  */
 const DownloadButton = (props: ButtonProps) => {
   const fs = useFileSystem();
-  const toast = useToast();
+  const actionFeedback = useActionFeedback();
   const handleDownload = useCallback(async () => {
     let hex: string | undefined;
     try {
       hex = await fs.toHexForDownload();
     } catch (e) {
-      toast({
+      actionFeedback.expectedError({
         title: "Failed to build the hex file",
-        status: "error",
         description: e.message,
-        position: "top",
-        isClosable: true,
       });
       return;
     }

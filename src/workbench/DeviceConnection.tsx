@@ -1,24 +1,18 @@
-import {
-  Button,
-  HStack,
-  Switch,
-  Text,
-  useToast,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import { ConnectionMode, ConnectionStatus } from "../device";
 import { useFileSystem } from "../fs/fs-hooks";
 import DownloadButton from "./DownloadButton";
+import useActionFeedback from "../common/use-action-feedback";
 
 const DeviceConnection = () => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;
   const supported = connectionStatus !== ConnectionStatus.NOT_SUPPORTED;
   const [progress, setProgress] = useState<undefined | number>(undefined);
-  const toast = useToast();
+  const actionFeedback = useActionFeedback();
   const device = useDevice();
   const fs = useFileSystem();
   const handleToggleConnected = useCallback(async () => {
@@ -28,12 +22,9 @@ const DeviceConnection = () => {
       try {
         await device.connect(ConnectionMode.INTERACTIVE);
       } catch (e) {
-        toast({
+        actionFeedback.expectedError({
           title: "Failed to connect to the micro:bit",
-          status: "error",
           description: e.message,
-          position: "top",
-          isClosable: true,
         });
       }
     }
@@ -46,12 +37,9 @@ const DeviceConnection = () => {
     try {
       hex = await fs!.toHexForDownload();
     } catch (e) {
-      toast({
+      actionFeedback.expectedError({
         title: "Failed to build the hex file",
-        status: "error",
         description: e.message,
-        position: "top",
-        isClosable: true,
       });
       return;
     }
@@ -60,12 +48,9 @@ const DeviceConnection = () => {
       // TODO: partial flashing!
       device.flash(hex, setProgress);
     } catch (e) {
-      toast({
+      actionFeedback.expectedError({
         title: "Failed to flash the micro:bit",
-        status: "error",
         description: e.message,
-        position: "top",
-        isClosable: true,
       });
     }
   }, [fs, device]);

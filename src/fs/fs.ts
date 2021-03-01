@@ -198,9 +198,13 @@ const contentForFs = (content: string) => {
   return hack;
 };
 
-const microPythonVersions = [
-  { url: microPythonV1HexUrl, boardId: microbitBoardId.V1 },
-  { url: microPythonV2HexUrl, boardId: microbitBoardId.V2 },
+export const microPythonVersions = [
+  { url: microPythonV1HexUrl, boardId: microbitBoardId.V1, version: "1.0.1" },
+  {
+    url: microPythonV2HexUrl,
+    boardId: microbitBoardId.V2,
+    version: "2.0.0-beta.4",
+  },
 ];
 
 const fetchValidText = async (input: RequestInfo) => {
