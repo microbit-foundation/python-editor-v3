@@ -1,7 +1,11 @@
 html,
 body,
 #root {
+  /* Need to consider how these integrate with the chakra theme. */
   --code-background: #fffff8;
+  --sidebar: rgb(47, 196, 47, 0.2);
+  --block: rgba(52, 162, 235, 0.06);
+
   height: 100vh;
 }
 .cm-wrap {
