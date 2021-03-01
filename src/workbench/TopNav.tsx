@@ -29,8 +29,8 @@ const TopNav = () => {
         <HStack spacing={8} as="nav">
           {/* otherwise we put it where flash usually goes */}
           <HStack spacing={3}>
-            {supported && <DownloadButton size={size} />}
             <OpenButton>Open</OpenButton>
+            {supported && <DownloadButton size={size} />}
           </HStack>
           <ZoomControls size={size} />
           <HelpMenu size={size} />

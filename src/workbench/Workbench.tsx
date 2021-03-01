@@ -22,7 +22,11 @@ const Workbench = () => {
           <SidePanel onSelectedFileChanged={setFilename} />
         </LeftResizable>
         <Fill>
-          <EditorContainer key={filename} filename={filename} />
+          <EditorContainer
+            key={filename}
+            filename={filename}
+            onSelectedFileChanged={setFilename}
+          />
         </Fill>
       </Fill>
     </ViewPort>
