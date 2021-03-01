@@ -4,8 +4,13 @@ import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
 import { File, MAIN_FILE } from "../fs/fs";
 import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
 import { saveAs } from "file-saver";
+import useActionFeedback from "../common/use-action-feedback";
 
-const Files = () => {
+interface FilesProps {
+  onSelectedFileChanged: (name: string) => void;
+}
+
+const Files = ({ onSelectedFileChanged }: FilesProps) => {
   const fs = useFileSystemState();
   if (!fs) {
     return null;
@@ -14,7 +19,7 @@ const Files = () => {
     <List>
       {fs.files.map((f) => (
         <ListItem key={f.name}>
-          <FileRow value={f} />
+          <FileRow value={f} onClick={() => onSelectedFileChanged(f.name)} />
         </ListItem>
       ))}
     </List>
@@ -23,26 +28,36 @@ const Files = () => {
 
 interface FileRowProps {
   value: File;
+  onClick: () => void;
 }
 
-const FileRow = ({ value }: FileRowProps) => {
+const FileRow = ({ value, onClick }: FileRowProps) => {
   const { name } = value;
   const disabled = name === MAIN_FILE;
 
   const fs = useFileSystem();
+  const actionFeedback = useActionFeedback();
   const handleDownload = useCallback(() => {
-    const content = fs.read(name);
-    // TODO: Should we use the project name? Maybe if main.py is the old file?
-    const blob = new Blob([content], { type: "text/x-python" });
-    saveAs(blob, name);
+    try {
+      const content = fs.read(name);
+      const blob = new Blob([content], { type: "text/x-python" });
+      saveAs(blob, name);
+    } catch (e) {
+      actionFeedback.unexpectedError({ error: e });
+    }
   }, [fs, name]);
   const handleDelete = useCallback(() => {
-    fs.remove(name);
+    try {
+      fs.remove(name);
+    } catch (e) {
+      actionFeedback.unexpectedError({ error: e });
+    }
   }, [fs, name]);
 
   return (
     <HStack justify="space-between" pl={2} pr={2} lineHeight={2}>
       <Button
+        onClick={onClick}
         variant="unstyled"
         aria-label={`Edit ${name}`}
         fontSize="md"

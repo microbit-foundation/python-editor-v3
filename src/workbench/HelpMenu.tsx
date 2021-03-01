@@ -31,9 +31,8 @@ const versionInfo = [
   `MicroPython ${microPythonVersions.map((mpy) => mpy.version).join("/")}`,
 ];
 
-const openInNewTab = (href: string) => () => {
+const openInNewTab = (href: string) => () =>
   window.open(href, "_blank", "noopener");
-};
 
 const handleDocumentation = openInNewTab(config.documentationLink);
 const handleSupport = openInNewTab(config.supportLink);

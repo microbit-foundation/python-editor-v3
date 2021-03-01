@@ -7,7 +7,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
 import {
   RiFile3Line,
@@ -31,27 +31,34 @@ interface PanelsProps {
   panels: Panel[];
 }
 
-const SidePanel = () => {
-  const panels: Panel[] = [
-    {
-      id: "packages",
-      title: "Packages",
-      icon: RiLayoutMasonryFill,
-      contents: <Packages />,
-    },
-    {
-      id: "files",
-      title: "Files",
-      icon: RiFile3Line,
-      contents: <Files />,
-    },
-    {
-      id: "settings",
-      title: "Settings",
-      icon: RiSettings2Line,
-      contents: <Settings />,
-    },
-  ];
+interface SidePanelProps {
+  onSelectedFileChanged: (filename: string) => void;
+}
+
+const SidePanel = ({ onSelectedFileChanged }: SidePanelProps) => {
+  const panels: Panel[] = useMemo(
+    () => [
+      {
+        id: "packages",
+        title: "Packages",
+        icon: RiLayoutMasonryFill,
+        contents: <Packages />,
+      },
+      {
+        id: "files",
+        title: "Files",
+        icon: RiFile3Line,
+        contents: <Files onSelectedFileChanged={onSelectedFileChanged} />,
+      },
+      {
+        id: "settings",
+        title: "Settings",
+        icon: RiSettings2Line,
+        contents: <Settings />,
+      },
+    ],
+    [onSelectedFileChanged]
+  );
   return <Panels panels={panels} />;
 };
 
