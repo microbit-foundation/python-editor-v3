@@ -193,7 +193,7 @@ const baseTheme = EditorView.baseTheme({
   $block: {
     display: "block",
     position: "absolute",
-    backgroundColor: "rgba(52,162,235, 0.06)",
+    backgroundColor: "var(--block)",
     // For debug text, which we'll probably remove.
     color: "lightgrey",
     textAlign: "right",
