@@ -42,7 +42,6 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   const handleCopyVersion = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(versionInfo.join("\n"));
-      throw new Error("usdf");
     } catch (e) {
       actionFeedback.unexpectedError(e);
     }
