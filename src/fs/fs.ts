@@ -84,10 +84,7 @@ export class FileSystem extends EventEmitter {
     if (!this.initializing) {
       this.initializing = (async () => {
         const fs = await createInternalFileSystem();
-        // Copy everything from storage to the file system.
-        for (const filename of this.storage.ls()) {
-          fs.write(filename, contentForFs(this.storage.read(filename)));
-        }
+        this.copyStorageToFs(fs);
         return fs;
       })();
     }
@@ -106,6 +103,23 @@ export class FileSystem extends EventEmitter {
       this.fs.write(filename, contentForFs(content));
     }
     this.notify();
+  }
+
+  async replaceWithHexContents(hex: string): Promise<void> {
+    const fs = await this.initialize();
+    const files = fs.importFilesFromHex(hex, {
+      overwrite: true,
+      formatFirst: true
+     });
+    this.notify();
+
+    if (files.length === 0) {
+      // Reinstate from storage.
+      this.copyStorageToFs();
+      throw new Error("The filesystem in the hex file was empty");
+    }
+
+    return this.copyFsToStorage();
   }
 
   notify(): void {
@@ -136,6 +150,28 @@ export class FileSystem extends EventEmitter {
     const fs = await this.initialize();
     return fs.getIntelHex(boardId);
   }
+
+  private assertInitialized(): MicropythonFsHex {
+    if (!this.fs) {
+      throw new Error("Must be initialized");
+    }
+    return this.fs;
+  }
+
+  private copyStorageToFs(fs?: MicropythonFsHex) {
+    fs = fs || this.assertInitialized();
+    for (const filename of this.storage.ls()) {
+      fs.write(filename, contentForFs(this.storage.read(filename)));
+    }
+  }
+
+  private copyFsToStorage() {
+    const fs = this.assertInitialized();
+    for (const filename of fs.ls()) {
+      this.storage.write(filename, fs.read(filename));
+    }
+  }
+
 }
 
 const contentForFs = (content: string) => {
