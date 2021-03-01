@@ -72,7 +72,7 @@ const DeviceConnection = () => {
 
   return (
     <VStack
-      background="rgb(47, 196, 47, 0.2)"
+      backgroundColor="var(--sidebar)"
       padding={5}
       spacing={2}
       align="flex-start"
