@@ -39,8 +39,7 @@ const DeviceConnection = () => {
   }, [device, connected]);
 
   const handleFlash = useCallback(async () => {
-    let hex: string | undefined;
-    const dataSource = (boardId: BoardId) => fs!.toHexForFlash(boardId);
+    const dataSource = (boardId: BoardId) => fs.toHexForFlash(boardId);
     try {
       await device.flash(dataSource, { partial: true, progress: setProgress });
     } catch (e) {

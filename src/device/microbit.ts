@@ -150,12 +150,11 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     // When we support it:
     // this.stopSerialRead();
 
-    // FS space errors should be handled when obtaining the hex.
-    // Progress reporting code removed
-    // Timeout code removed for now.
-    // unhandledrejection code removed for now.
-    // Does it really fail in the background?
-    // The error handler disconnects and throws away dapjs.
+    // Things to reinstate:
+    //   - FS space error handling.
+    //   - Overall timeout code.
+    //   - unhandledrejection wrapper. To discuss! Does it really fail in the background?
+    //   - The error handler disconnects and throws away dapjs.
 
     await this.connection.disconnectDapAsync();
     await this.connection.connectDapAsync();
@@ -164,6 +163,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     // but full flashing needs the entire Intel Hex to include the UICR data
     const boardId = BoardId.parse(this.connection.dapwrapper.boardId);
     const data = await dataSource(boardId);
+    // TODO: push this decision down
     if (partial) {
       await this.connection.flashAsync(data.bytes, data.intelHex, progress);
     } else {
