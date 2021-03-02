@@ -1,11 +1,14 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../../codemirror/codemirror.next"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../../codemirror/codemirror.next"
+    },
+    {
+      "path": "../python/python-editor"
+    }
+  ],
+  "settings": {}
 }

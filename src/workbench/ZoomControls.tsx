@@ -8,7 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
-import { maximumFontSize, minimumFontSize, useSettings } from "../settings";
+import {
+  fontSizeStep,
+  maximumFontSize,
+  minimumFontSize,
+  useSettings,
+} from "../settings";
 
 interface ZoomControlsProps extends StackProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -22,13 +27,13 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   const handleZoomIn = useCallback(() => {
     setSettings({
       ...settings,
-      fontSize: Math.min(maximumFontSize, settings.fontSize + 1),
+      fontSize: Math.min(maximumFontSize, settings.fontSize + fontSizeStep),
     });
   }, [setSettings, settings]);
   const handleZoomOut = useCallback(() => {
     setSettings({
       ...settings,
-      fontSize: Math.max(minimumFontSize, settings.fontSize - 1),
+      fontSize: Math.max(minimumFontSize, settings.fontSize - fontSizeStep),
     });
   }, [setSettings, settings]);
   return (

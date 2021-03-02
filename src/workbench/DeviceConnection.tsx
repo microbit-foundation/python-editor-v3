@@ -6,6 +6,7 @@ import { ConnectionMode, ConnectionStatus } from "../device";
 import { useFileSystem } from "../fs/fs-hooks";
 import DownloadButton from "./DownloadButton";
 import useActionFeedback from "../common/use-action-feedback";
+import { BoardId } from "../device/board-id";
 
 /**
  * The device connection area.
@@ -23,11 +24,12 @@ const DeviceConnection = () => {
   const fs = useFileSystem();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
-      device.disconnect();
+      await device.disconnect();
     } else {
       try {
         await device.connect(ConnectionMode.INTERACTIVE);
       } catch (e) {
+        console.error(e);
         actionFeedback.expectedError({
           title: "Failed to connect to the micro:bit",
           description: e.message,
@@ -37,23 +39,12 @@ const DeviceConnection = () => {
   }, [device, connected]);
 
   const handleFlash = useCallback(async () => {
-    // TODO: need to know board id to get best hex.
-    // TODO: review error reporting vs v2.
     let hex: string | undefined;
+    const dataSource = (boardId: BoardId) => fs!.toHexForFlash(boardId);
     try {
-      hex = await fs!.toHexForDownload();
+      await device.flash(dataSource, { partial: true, progress: setProgress });
     } catch (e) {
-      actionFeedback.expectedError({
-        title: "Failed to build the hex file",
-        description: e.message,
-      });
-      return;
-    }
-
-    try {
-      // TODO: partial flashing!
-      device.flash(hex, setProgress);
-    } catch (e) {
+      console.error(e);
       actionFeedback.expectedError({
         title: "Failed to flash the micro:bit",
         description: e.message,

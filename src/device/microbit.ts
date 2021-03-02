@@ -1,5 +1,7 @@
-import { DAPLink, WebUSB } from "dapjs";
 import EventEmitter from "events";
+import { FlashDataSource } from "../fs/fs";
+import { BoardId } from "./board-id";
+import { PartialFlashing } from "./partial-flashing";
 
 /**
  * Specific identified connection error types.
@@ -79,9 +81,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   status: ConnectionStatus = navigator.usb
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
     : ConnectionStatus.NOT_SUPPORTED;
-  daplink: DAPLink | undefined;
-  private device: USBDevice | undefined;
 
+  private connection: PartialFlashing = new PartialFlashing();
   private options: MicrobitConnectionOptions;
 
   constructor(options: Partial<MicrobitConnectionOptions> = {}) {
@@ -95,8 +96,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   async initialize(): Promise<void> {
     if (navigator.usb) {
-      navigator.usb.addEventListener("disconnect", this.handleDisconnect);
-      navigator.usb.addEventListener("connect", this.handleConnect);
+      // navigator.usb.addEventListener("disconnect", this.handleDisconnect);
+      // navigator.usb.addEventListener("connect", this.handleConnect);
     }
     const device = await this.getPairedDevice();
     if (device) {
@@ -111,34 +112,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
-  startSerialRead(pollingIntervalMillis: number = 5) {
-    if (!this.daplink) {
-      throw new Error("connect() first");
-    }
-    this.daplink.on(DAPLink.EVENT_SERIAL_DATA, this.handleSerial);
-
-    // We intentionally don't await this here as it blocks until
-    // the device is disconnected or serial read stopped.
-    this.daplink
-      .startSerialRead(pollingIntervalMillis)
-      .then(() => this.stopSerialRead())
-      .catch((e) => this.emit(EVENT_SERIAL_ERROR, enrichedError(e)));
-  }
-
-  stopSerialRead(): void {
-    if (this.daplink) {
-      this.daplink.removeListener(DAPLink.EVENT_SERIAL_DATA, this.handleSerial);
-      this.daplink.stopSerialRead();
-    }
-  }
-
-  async serialWrite(data: string): Promise<void> {
-    if (!this.daplink) {
-      throw new Error("connect() first");
-    }
-    return this.daplink.serialWrite(data);
-  }
-
   /**
    * Removes all listeners.
    */
@@ -148,7 +121,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       navigator.usb.removeEventListener("connect", this.handleConnect);
       navigator.usb.removeEventListener("disconnect", this.handleDisconnect);
     }
-    this.stopSerialRead();
   }
 
   /**
@@ -165,32 +137,39 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     });
   }
 
-  /**
-   * Flash the device.
-   * @param data The hex file data.
-   */
   async flash(
-    data: string | Uint8Array,
-    progress?: (percentage: number | undefined) => void
+    dataSource: FlashDataSource,
+    options: {
+      partial: boolean;
+      progress: (percentage: number | undefined) => void;
+    }
   ): Promise<void> {
-    if (progress) {
-      this.on(EVENT_PROGRESS, progress);
+    const partial = options.partial;
+    const progress = options.progress || (() => {});
+
+    // When we support it:
+    // this.stopSerialRead();
+
+    // FS space errors should be handled when obtaining the hex.
+    // Progress reporting code removed
+    // Timeout code removed for now.
+    // unhandledrejection code removed for now.
+    // Does it really fail in the background?
+    // The error handler disconnects and throws away dapjs.
+
+    await this.connection.disconnectDapAsync();
+    await this.connection.connectDapAsync();
+
+    // Collect data to flash, partial flashing can use just the flash bytes,
+    // but full flashing needs the entire Intel Hex to include the UICR data
+    const boardId = BoardId.parse(this.connection.dapwrapper.boardId);
+    const data = await dataSource(boardId);
+    if (partial) {
+      await this.connection.flashAsync(data.bytes, data.intelHex, progress);
+    } else {
+      await this.connection.fullFlashAsync(data.intelHex, progress);
     }
-    try {
-      await withEnrichedErrors(async () => {
-        if (!this.daplink) {
-          throw new Error("connect() first");
-        }
-        await this.daplink.flash(
-          typeof data === "string" ? new TextEncoder().encode(data) : data
-        );
-      });
-    } finally {
-      if (progress) {
-        this.removeListener(EVENT_PROGRESS, progress);
-        progress(undefined);
-      }
-    }
+    progress(undefined);
   }
 
   /**
@@ -198,11 +177,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    */
   async disconnect(): Promise<void> {
     await withEnrichedErrors(async () => {
-      if (this.daplink) {
-        this.stopSerialRead();
-        await this.daplink.disconnect();
-        this.setStatus(ConnectionStatus.NOT_CONNECTED);
-      }
+      await this.connection.disconnectDapAsync();
+      this.setStatus(ConnectionStatus.NOT_CONNECTED);
     });
   }
 
@@ -230,7 +206,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   private handleConnect = (event: USBConnectionEvent) => {
     if (this.matchesDeviceFilter(event.device)) {
       if (this.status === ConnectionStatus.NO_AUTHORIZED_DEVICE) {
-        this.device = event.device;
         this.setStatus(ConnectionStatus.NOT_CONNECTED);
         if (this.options.autoConnect) {
           this.connect(ConnectionMode.NON_INTERACTIVE).catch((e) =>
@@ -242,53 +217,18 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   };
 
   private handleDisconnect = (event: USBConnectionEvent) => {
-    if (event.device === this.device) {
-      this.daplink = undefined;
+    if (event.device === this.connection.dapwrapper?.daplink?.device) {
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
     }
   };
-
-  private handleSerial = (data: string) => this.emit(EVENT_SERIAL_DATA, data);
 
   private async connectInternal(
     mode: ConnectionMode
   ): Promise<ConnectionStatus> {
     this.assertSupported();
-    if (this.daplink) {
-      await this.daplink.connect();
-      return ConnectionStatus.CONNECTED;
-    } else {
-      this.device = await this.getPairedDevice();
-      if (!this.device && mode === ConnectionMode.INTERACTIVE) {
-        try {
-          const deviceRequestOptions = {
-            filters: this.options.deviceFilters,
-          };
-          this.device = await navigator.usb.requestDevice(deviceRequestOptions);
-        } catch (e) {
-          if (
-            e instanceof DOMException &&
-            e.message === "No device selected."
-          ) {
-            // User cancelled (Chrome).
-          } else {
-            throw e;
-          }
-        }
-      }
-      if (this.device) {
-        const transport = new WebUSB(this.device);
-        this.daplink = new DAPLink(transport);
-        this.daplink.on(DAPLink.EVENT_PROGRESS, (n: number) =>
-          this.emit(EVENT_PROGRESS, n)
-        );
-        await this.daplink.connect();
-        await this.daplink.setSerialBaudrate(115200);
-        return ConnectionStatus.CONNECTED;
-      } else {
-        return ConnectionStatus.NO_AUTHORIZED_DEVICE;
-      }
-    }
+    await this.connection.connectDapAsync();
+    // What about this case: ConnectionStatus.NO_AUTHORIZED_DEVICE
+    return ConnectionStatus.CONNECTED;
   }
 
   private matchesDeviceFilter = (device: USBDevice): boolean =>
