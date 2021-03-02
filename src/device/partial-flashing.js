@@ -268,10 +268,10 @@ export class DAPWrapper {
 
   // Execute code at a certain address with specified values in the registers.
   // Waits for execution to halt.
-  async executeAsync(address, code, sp, pc, lr, ...coreRegisters) {
-    if (coreRegisters.length > 12) {
+  async executeAsync(address, code, sp, pc, lr, ...registers) {
+    if (registers.length > 12) {
       throw new Error(
-        `Only 12 general purpose registers but got ${coreRegisters.length} values`
+        `Only 12 general purpose registers but got ${registers.length} values`
       );
     }
 
@@ -289,8 +289,8 @@ export class DAPWrapper {
       PartialFlashingUtils.CoreRegister.SP,
       sp
     );
-    for (let i = 0; i < coreRegisters.length; ++i) {
-      await this.cortexM.writeCoreRegister(i, coreRegisters[i]);
+    for (let i = 0; i < registers.length; ++i) {
+      await this.cortexM.writeCoreRegister(i, registers[i]);
     }
     await this.cortexM.resume(true);
     return this.waitForHalt();
@@ -360,96 +360,29 @@ export class DAPWrapper {
 // Source code for binaries in can be found at https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/external/sha/source/main.c
 // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L243
 // Update from https://github.com/microsoft/pxt-microbit/commit/a35057717222b8e48335144f497b55e29e9b0f25
+// prettier-ignore
 const flashPageBIN = new Uint32Array([
   0xbe00be00, // bkpt - LR is set to this
-  0x2502b5f0,
-  0x4c204b1f,
-  0xf3bf511d,
-  0xf3bf8f6f,
-  0x25808f4f,
-  0x002e00ed,
-  0x2f00595f,
-  0x25a1d0fc,
-  0x515800ed,
-  0x2d00599d,
-  0x2500d0fc,
-  0xf3bf511d,
-  0xf3bf8f6f,
-  0x25808f4f,
-  0x002e00ed,
-  0x2f00595f,
-  0x2501d0fc,
-  0xf3bf511d,
-  0xf3bf8f6f,
-  0x599d8f4f,
-  0xd0fc2d00,
-  0x25002680,
-  0x00f60092,
-  0xd1094295,
-  0x511a2200,
-  0x8f6ff3bf,
-  0x8f4ff3bf,
-  0x2a00599a,
-  0xbdf0d0fc,
-  0x5147594f,
-  0x2f00599f,
-  0x3504d0fc,
-  0x46c0e7ec,
-  0x4001e000,
-  0x00000504,
+  0x2502b5f0, 0x4c204b1f, 0xf3bf511d, 0xf3bf8f6f, 0x25808f4f, 0x002e00ed,
+  0x2f00595f, 0x25a1d0fc, 0x515800ed, 0x2d00599d, 0x2500d0fc, 0xf3bf511d,
+  0xf3bf8f6f, 0x25808f4f, 0x002e00ed, 0x2f00595f, 0x2501d0fc, 0xf3bf511d,
+  0xf3bf8f6f, 0x599d8f4f, 0xd0fc2d00, 0x25002680, 0x00f60092, 0xd1094295,
+  0x511a2200, 0x8f6ff3bf, 0x8f4ff3bf, 0x2a00599a, 0xbdf0d0fc, 0x5147594f,
+  0x2f00599f, 0x3504d0fc, 0x46c0e7ec, 0x4001e000, 0x00000504,
 ]);
 
 // void computeHashes(uint32_t *dst, uint8_t *ptr, uint32_t pageSize, uint32_t numPages)
 // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L253
+// prettier-ignore
 const computeChecksums2 = new Uint32Array([
-  0x4c27b5f0,
-  0x44a52680,
-  0x22009201,
-  0x91004f25,
-  0x00769303,
-  0x24080013,
-  0x25010019,
-  0x40eb4029,
-  0xd0002900,
-  0x3c01407b,
-  0xd1f52c00,
-  0x468c0091,
-  0xa9044665,
-  0x506b3201,
-  0xd1eb42b2,
-  0x089b9b01,
-  0x23139302,
-  0x9b03469c,
-  0xd104429c,
-  0x2000be2a,
-  0x449d4b15,
-  0x9f00bdf0,
-  0x4d149e02,
-  0x49154a14,
-  0x3e01cf08,
-  0x2111434b,
-  0x491341cb,
-  0x405a434b,
-  0x4663405d,
-  0x230541da,
-  0x4b10435a,
-  0x466318d2,
-  0x230541dd,
-  0x4b0d435d,
-  0x2e0018ed,
-  0x6002d1e7,
-  0x9a009b01,
-  0x18d36045,
-  0x93003008,
-  0xe7d23401,
-  0xfffffbec,
-  0xedb88320,
-  0x00000414,
-  0x1ec3a6c8,
-  0x2f9be6cc,
-  0xcc9e2d51,
-  0x1b873593,
-  0xe6546b64,
+  0x4c27b5f0, 0x44a52680, 0x22009201, 0x91004f25, 0x00769303, 0x24080013,
+  0x25010019, 0x40eb4029, 0xd0002900, 0x3c01407b, 0xd1f52c00, 0x468c0091,
+  0xa9044665, 0x506b3201, 0xd1eb42b2, 0x089b9b01, 0x23139302, 0x9b03469c,
+  0xd104429c, 0x2000be2a, 0x449d4b15, 0x9f00bdf0, 0x4d149e02, 0x49154a14,
+  0x3e01cf08, 0x2111434b, 0x491341cb, 0x405a434b, 0x4663405d, 0x230541da,
+  0x4b10435a, 0x466318d2, 0x230541dd, 0x4b0d435d, 0x2e0018ed, 0x6002d1e7,
+  0x9a009b01, 0x18d36045, 0x93003008, 0xe7d23401, 0xfffffbec, 0xedb88320,
+  0x00000414, 0x1ec3a6c8, 0x2f9be6cc, 0xcc9e2d51, 0x1b873593, 0xe6546b64,
 ]);
 
 const membase = 0x20000000;
