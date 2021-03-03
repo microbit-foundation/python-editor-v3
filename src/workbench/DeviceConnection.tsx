@@ -32,7 +32,6 @@ const DeviceConnection = () => {
       try {
         await device.connect(ConnectionMode.INTERACTIVE);
       } catch (e) {
-        console.error(e);
         actionFeedback.expectedError({
           title: "Failed to connect to the micro:bit",
           description: e.message,
