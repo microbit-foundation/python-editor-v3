@@ -5,7 +5,9 @@ import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import { ConnectionMode, ConnectionStatus, WebUSBError } from "../device";
 import { useFileSystem } from "../fs/fs-hooks";
 import DownloadButton from "./DownloadButton";
-import useActionFeedback from "../common/use-action-feedback";
+import useActionFeedback, {
+  ActionFeedback,
+} from "../common/use-action-feedback";
 import { BoardId } from "../device/board-id";
 import Separate from "../common/Separate";
 
@@ -32,10 +34,7 @@ const DeviceConnection = () => {
       try {
         await device.connect(ConnectionMode.INTERACTIVE);
       } catch (e) {
-        actionFeedback.expectedError({
-          title: "Failed to connect to the micro:bit",
-          description: e.message,
-        });
+        handleWebUSBError(actionFeedback, e);
       }
     }
   }, [device, connected]);
@@ -57,17 +56,8 @@ const DeviceConnection = () => {
           title: "Failed to build the hex file",
           description: e.message,
         });
-      } else if (e instanceof WebUSBError) {
-        actionFeedback.expectedError({
-          title: e.title,
-          description: (
-            <Separate separator={(k) => <br key={k} />}>
-              {[e.message, e.description].filter(Boolean)}
-            </Separate>
-          ),
-        });
       } else {
-        actionFeedback.unexpectedError(e);
+        handleWebUSBError(actionFeedback, e);
       }
     }
   }, [fs, device, actionFeedback]);
@@ -108,6 +98,21 @@ const DeviceConnection = () => {
       )}
     </VStack>
   );
+};
+
+const handleWebUSBError = (actionFeedback: ActionFeedback, e: any) => {
+  if (e instanceof WebUSBError) {
+    actionFeedback.expectedError({
+      title: e.title,
+      description: (
+        <Separate separator={(k) => <br key={k} />}>
+          {[e.message, e.description].filter(Boolean)}
+        </Separate>
+      ),
+    });
+  } else {
+    actionFeedback.unexpectedError(e);
+  }
 };
 
 export default DeviceConnection;
