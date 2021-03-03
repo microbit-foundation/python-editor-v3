@@ -4,6 +4,7 @@ import Header from "./Header";
 import { ViewPort, Fill, LeftResizable, Top } from "react-spaces";
 import EditorContainer from "../editor/EditorContainer";
 import { MAIN_FILE } from "../fs/fs";
+import GradientLine from "../common/GradientLine";
 
 const Workbench = () => {
   const [filename, setFilename] = useState(MAIN_FILE);
@@ -12,6 +13,7 @@ const Workbench = () => {
     <ViewPort>
       <Top size={65}>
         <Header />
+        <GradientLine />
       </Top>
       <Fill>
         <LeftResizable

@@ -1,8 +1,5 @@
 import { Flex, HStack, VStack } from "@chakra-ui/react";
 import React from "react";
-import { ConnectionStatus } from "../device";
-import { useConnectionStatus } from "../device/device-hooks";
-import DownloadButton from "./DownloadButton";
 import HelpMenu from "./HelpMenu";
 import Logo from "./Logo";
 import OpenButton from "./OpenButton";
@@ -13,8 +10,6 @@ import ShareButton from "./ShareButton";
  * The header area with associated actions.
  */
 const Header = () => {
-  const status = useConnectionStatus();
-  const supported = status !== ConnectionStatus.NOT_SUPPORTED;
   const size = "md";
   return (
     <VStack
@@ -33,8 +28,6 @@ const Header = () => {
         </HStack>
         <HStack spacing={3} as="nav">
           <OpenButton size={size}>Open</OpenButton>
-          {/* otherwise we put it where flash usually goes */}
-          {supported && <DownloadButton size={size} />}
           <HelpMenu size={size} />
         </HStack>
       </Flex>
