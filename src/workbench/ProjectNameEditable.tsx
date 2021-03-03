@@ -44,6 +44,7 @@ const ProjectNameEditable = () => {
       defaultValue={"Name your project"}
       whiteSpace="nowrap"
       onChange={handleChange}
+      justifyContent="space-between"
     >
       {(props) => (
         <>
