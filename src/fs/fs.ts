@@ -1,5 +1,6 @@
 import { microbitBoardId, MicropythonFsHex } from "@microbit/microbit-fs";
 import EventEmitter from "events";
+import { BoardId } from "../device/board-id";
 import chuckADuck from "../samples/chuck-a-duck";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
 import microPythonV2HexUrl from "./microbit-micropython-v2.hex";
@@ -63,6 +64,13 @@ class LocalStorage implements Storage {
     localStorage.removeItem(this.prefix + name);
   }
 }
+
+export interface FlashData {
+  bytes: Uint8Array;
+  intelHex: ArrayBuffer;
+}
+
+export type FlashDataSource = (boardId: BoardId) => Promise<FlashData>;
 
 /**
  * A MicroPython file system.
@@ -165,9 +173,19 @@ export class FileSystem extends EventEmitter {
     return fs.getUniversalHex();
   }
 
-  async toHexForFlash(boardId: number) {
+  /**
+   * Partial flashing can use just the flash bytes,
+   * Full flashing needs the entire Intel Hex to include the UICR data
+   *
+   * @param boardId The board ID (from the WebUSB connection).
+   */
+  async toHexForFlash(boardId: BoardId): Promise<FlashData> {
     const fs = await this.initialize();
-    return fs.getIntelHex(boardId);
+    const normalisedId = boardId.normalize().id;
+    return {
+      bytes: fs.getIntelHexBytes(normalisedId),
+      intelHex: asciiToBytes(fs.getIntelHex(normalisedId)),
+    };
   }
 
   private assertInitialized(): MicropythonFsHex {
@@ -232,4 +250,12 @@ export const createInternalFileSystem = async () => {
   return new MicropythonFsHex(microPython, {
     maxFsSize: commonFsSize,
   });
+};
+
+const asciiToBytes = (str: string): ArrayBuffer => {
+  var bytes = new Uint8Array(str.length);
+  for (var i = 0, strLen = str.length; i < strLen; i++) {
+    bytes[i] = str.charCodeAt(i);
+  }
+  return bytes.buffer;
 };

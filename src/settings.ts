@@ -7,8 +7,9 @@ export interface Language {
   name: string;
 }
 
-export const minimumFontSize = 8;
-export const maximumFontSize = 256;
+export const minimumFontSize = 6;
+export const maximumFontSize = 198;
+export const fontSizeStep = 4;
 
 export const defaultSettings: Settings = {
   languageId: config.supportedLanguages[0].id,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Link, useToast } from "@chakra-ui/react";
 import { useMemo } from "react";
 import config from "../config";
@@ -14,7 +14,7 @@ export class ActionFeedback {
     description,
   }: {
     title: string;
-    description: string;
+    description: ReactNode;
   }) {
     this.toast({
       title,
@@ -30,6 +30,8 @@ export class ActionFeedback {
    * @param error the error thrown.
    */
   unexpectedError(error: Error) {
+    // For now at least.
+    console.error(error);
     this.toast({
       title: "An unexpected error occurred",
       status: "error",

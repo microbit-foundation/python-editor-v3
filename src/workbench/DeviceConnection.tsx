@@ -2,10 +2,14 @@ import { Button, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
-import { ConnectionMode, ConnectionStatus } from "../device";
+import { ConnectionMode, ConnectionStatus, WebUSBError } from "../device";
 import { useFileSystem } from "../fs/fs-hooks";
 import DownloadButton from "./DownloadButton";
 import useActionFeedback from "../common/use-action-feedback";
+import { BoardId } from "../device/board-id";
+import Separate from "../common/Separate";
+
+class HexGenerationError extends Error {}
 
 /**
  * The device connection area.
@@ -23,7 +27,7 @@ const DeviceConnection = () => {
   const fs = useFileSystem();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
-      device.disconnect();
+      await device.disconnect();
     } else {
       try {
         await device.connect(ConnectionMode.INTERACTIVE);
@@ -37,29 +41,36 @@ const DeviceConnection = () => {
   }, [device, connected]);
 
   const handleFlash = useCallback(async () => {
-    // TODO: need to know board id to get best hex.
-    // TODO: review error reporting vs v2.
-    let hex: string | undefined;
-    try {
-      hex = await fs!.toHexForDownload();
-    } catch (e) {
-      actionFeedback.expectedError({
-        title: "Failed to build the hex file",
-        description: e.message,
-      });
-      return;
-    }
+    const dataSource = async (boardId: BoardId) => {
+      try {
+        return await fs.toHexForFlash(boardId);
+      } catch (e) {
+        throw new HexGenerationError(e.message);
+      }
+    };
 
     try {
-      // TODO: partial flashing!
-      device.flash(hex, setProgress);
+      await device.flash(dataSource, { partial: true, progress: setProgress });
     } catch (e) {
-      actionFeedback.expectedError({
-        title: "Failed to flash the micro:bit",
-        description: e.message,
-      });
+      if (e instanceof HexGenerationError) {
+        actionFeedback.expectedError({
+          title: "Failed to build the hex file",
+          description: e.message,
+        });
+      } else if (e instanceof WebUSBError) {
+        actionFeedback.expectedError({
+          title: e.title,
+          description: (
+            <Separate separator={(k) => <br key={k} />}>
+              {[e.message, e.description].filter(Boolean)}
+            </Separate>
+          ),
+        });
+      } else {
+        actionFeedback.unexpectedError(e);
+      }
     }
-  }, [fs, device]);
+  }, [fs, device, actionFeedback]);
 
   return (
     <VStack
