@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import {
   Button,
+  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
@@ -16,6 +17,7 @@ import {
   RiExternalLinkLine,
   RiFileCopy2Line,
   RiInformationLine,
+  RiQuestionLine,
 } from "react-icons/ri";
 import { microPythonVersions } from "../fs/fs";
 import Separate from "../common/Separate";
@@ -51,14 +53,13 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   return (
     <Menu {...props}>
       <MenuButton
-        as={Button}
+        as={IconButton}
+        aria-label="Help"
         size={size}
         variant="ghost"
-        leftIcon={<RiInformationLine />}
-        rightIcon={<RiArrowDropDownLine />}
-      >
-        Help
-      </MenuButton>
+        icon={<RiQuestionLine />}
+        isRound
+      />
       <Portal>
         <MenuList>
           <MenuItem onClick={handleDocumentation} icon={<RiExternalLinkLine />}>

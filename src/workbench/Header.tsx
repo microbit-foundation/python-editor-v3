@@ -28,18 +28,15 @@ const Header = () => {
       <Flex width="100%" justifyContent="space-between" padding={2}>
         <HStack spacing={5} marginRight={8}>
           <Logo height="28px" />
-          <HStack>
+          <HStack spacing={3}>
             <ProjectNameEditable />
             <ShareButton size={size} />
           </HStack>
         </HStack>
-        <HStack spacing={8} as="nav">
+        <HStack spacing={3} as="nav">
+          <OpenButton size={size}>Open</OpenButton>
           {/* otherwise we put it where flash usually goes */}
-          <HStack spacing={3}>
-            <OpenButton size={size}>Open</OpenButton>
-            {supported && <DownloadButton size={size} />}
-          </HStack>
-          <ZoomControls size={size} />
+          {supported && <DownloadButton size={size} />}
           <HelpMenu size={size} />
         </HStack>
       </Flex>
