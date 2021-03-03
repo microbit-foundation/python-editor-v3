@@ -1,10 +1,18 @@
-import { Button, HStack, IconButton, List, ListItem } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  IconButton,
+  List,
+  ListItem,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
 import { File, MAIN_FILE } from "../fs/fs";
 import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
 import { saveAs } from "file-saver";
 import useActionFeedback from "../common/use-action-feedback";
+import ProjectNameEditable from "./ProjectNameEditable";
 
 interface FilesProps {
   onSelectedFileChanged: (name: string) => void;
@@ -19,13 +27,16 @@ const Files = ({ onSelectedFileChanged }: FilesProps) => {
     return null;
   }
   return (
-    <List>
-      {fs.files.map((f) => (
-        <ListItem key={f.name}>
-          <FileRow value={f} onClick={() => onSelectedFileChanged(f.name)} />
-        </ListItem>
-      ))}
-    </List>
+    <VStack alignItems="stretch" padding={2} spacing={5}>
+      <ProjectNameEditable />
+      <List>
+        {fs.files.map((f) => (
+          <ListItem key={f.name}>
+            <FileRow value={f} onClick={() => onSelectedFileChanged(f.name)} />
+          </ListItem>
+        ))}
+      </List>
+    </VStack>
   );
 };
 
@@ -58,7 +69,7 @@ const FileRow = ({ value, onClick }: FileRowProps) => {
   }, [fs, name]);
 
   return (
-    <HStack justify="space-between" pl={2} pr={2} lineHeight={2}>
+    <HStack justify="space-between" lineHeight={2}>
       <Button
         onClick={onClick}
         variant="unstyled"

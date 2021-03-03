@@ -1,11 +1,14 @@
 import {
+  Box,
   Flex,
+  HStack,
   Icon,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
@@ -14,9 +17,11 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
+import GradientLine from "../common/GradientLine";
 import DeviceConnection from "./DeviceConnection";
 import Files from "./Files";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import Logo from "./Logo";
 import Packages from "./Packages";
 import Settings from "./Settings";
 

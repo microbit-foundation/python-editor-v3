@@ -64,17 +64,6 @@ const Packages = () => {
             </AccordionItem>
           ))}
         </Accordion>
-
-        <HStack as="nav" flex="0 0 auto" justifyContent="flex-end" padding={2}>
-          <Button
-            variant="ghost"
-            onClick={() => setAddingPackage(true)}
-            leftIcon={<RiAddLine />}
-            size="sm"
-          >
-            Add package…
-          </Button>
-        </HStack>
       </Flex>
     </>
   );

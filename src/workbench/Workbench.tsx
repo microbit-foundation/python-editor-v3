@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import LeftPanel from "./LeftPanel";
-import Header from "./Header";
-import { ViewPort, Fill, LeftResizable, Top } from "react-spaces";
+import {
+  BottomResizable,
+  Fill,
+  LeftResizable,
+  RightResizable,
+  Top,
+  ViewPort,
+} from "react-spaces";
+import GradientLine from "../common/GradientLine";
+import Placeholder from "../common/Placeholder";
 import EditorContainer from "../editor/EditorContainer";
 import { MAIN_FILE } from "../fs/fs";
-import GradientLine from "../common/GradientLine";
+import Header from "./Header";
+import LeftPanel from "./LeftPanel";
+import Simulator from "./Simulator";
 
 const Workbench = () => {
   const [filename, setFilename] = useState(MAIN_FILE);
@@ -24,12 +33,23 @@ const Workbench = () => {
           <LeftPanel onSelectedFileChanged={setFilename} />
         </LeftResizable>
         <Fill>
-          <EditorContainer
-            key={filename}
-            filename={filename}
-            onSelectedFileChanged={setFilename}
-          />
+          <Fill>
+            <EditorContainer
+              key={filename}
+              filename={filename}
+              onSelectedFileChanged={setFilename}
+            />
+          </Fill>
+          <BottomResizable size="20%">
+            <Placeholder bgColor="blackAlpha.900" color="white" text="Serial" />
+          </BottomResizable>
         </Fill>
+        <RightResizable
+          size="20%"
+          style={{ borderLeft: "4px solid whitesmoke" }}
+        >
+          <Simulator />
+        </RightResizable>
       </Fill>
     </ViewPort>
   );
