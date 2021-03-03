@@ -70,17 +70,20 @@ const DeviceConnection = () => {
       align="flex-start"
     >
       {supported ? (
-        <>
-          <HStack as="label" spacing={3}>
-            <Switch
-              size="lg"
-              isChecked={connected}
-              onChange={handleToggleConnected}
-            />
-            <Text as="span" size="lg" fontWeight="semibold">
-              {connected ? "micro:bit connected" : "micro:bit disconnected"}
-            </Text>
-          </HStack>
+        <HStack as="label" spacing={3}>
+          <Switch
+            size="lg"
+            isChecked={connected}
+            onChange={handleToggleConnected}
+          />
+          <Text as="span" size="lg" fontWeight="semibold">
+            {connected ? "micro:bit connected" : "micro:bit disconnected"}
+          </Text>
+        </HStack>
+      ) : null}
+
+      <HStack justifyContent="space-between" width="100%">
+        {connected && (
           <Button
             leftIcon={<RiFlashlightFill />}
             size="lg"
@@ -89,13 +92,12 @@ const DeviceConnection = () => {
             onClick={handleFlash}
           >
             {typeof progress === "undefined"
-              ? "Flash micro:bit"
+              ? "Flash"
               : `Flashing… (${(progress * 100).toFixed(0)}%)`}
           </Button>
-        </>
-      ) : (
+        )}
         <DownloadButton size="lg" width="100%" />
-      )}
+      </HStack>
     </VStack>
   );
 };
