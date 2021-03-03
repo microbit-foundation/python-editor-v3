@@ -27,7 +27,7 @@ const ProjectNameEditable = () => {
     return isEditing ? null : (
       <Flex justifyContent="center" display="inline" marginLeft={2}>
         <IconButton
-          size="sm"
+          size="md"
           icon={<RiEdit2Line />}
           onClick={onEdit}
           aria-label="Edit project name"
@@ -47,7 +47,11 @@ const ProjectNameEditable = () => {
     >
       {(props) => (
         <>
-          <EditablePreview color={!edited ? "grey" : undefined} />
+          <EditablePreview
+            color={!edited ? "grey" : undefined}
+            display="flex"
+            alignItems="center"
+          />
           <EditableInput placeholder="Name your project!" padding={1} />
           <EditableControls {...props} />
         </>

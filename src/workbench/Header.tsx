@@ -8,6 +8,7 @@ import HelpMenu from "./HelpMenu";
 import Logo from "./Logo";
 import OpenButton from "./OpenButton";
 import ProjectNameEditable from "./ProjectNameEditable";
+import ShareButton from "./ShareButton";
 import ZoomControls from "./ZoomControls";
 
 /**
@@ -27,12 +28,15 @@ const Header = () => {
       <Flex width="100%" justifyContent="space-between" padding={2}>
         <HStack spacing={5} marginRight={8}>
           <Logo height="28px" />
-          <ProjectNameEditable />
+          <HStack>
+            <ProjectNameEditable />
+            <ShareButton size={size} />
+          </HStack>
         </HStack>
         <HStack spacing={8} as="nav">
           {/* otherwise we put it where flash usually goes */}
           <HStack spacing={3}>
-            <OpenButton>Open</OpenButton>
+            <OpenButton size={size}>Open</OpenButton>
             {supported && <DownloadButton size={size} />}
           </HStack>
           <ZoomControls size={size} />
