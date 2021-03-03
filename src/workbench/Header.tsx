@@ -1,6 +1,5 @@
 import { Flex, HStack, VStack } from "@chakra-ui/react";
 import React from "react";
-import GradientLine from "../common/GradientLine";
 import { ConnectionStatus } from "../device";
 import { useConnectionStatus } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
@@ -9,7 +8,6 @@ import Logo from "./Logo";
 import OpenButton from "./OpenButton";
 import ProjectNameEditable from "./ProjectNameEditable";
 import ShareButton from "./ShareButton";
-import ZoomControls from "./ZoomControls";
 
 /**
  * The header area with associated actions.
@@ -40,7 +38,6 @@ const Header = () => {
           <HelpMenu size={size} />
         </HStack>
       </Flex>
-      <GradientLine />
     </VStack>
   );
 };
