@@ -1,15 +1,59 @@
 import EventEmitter from "events";
 import { FlashDataSource } from "../fs/fs";
+import translation from "../translation";
 import { BoardId } from "./board-id";
 import { PartialFlashing } from "./partial-flashing";
 
 /**
- * Specific identified connection error types.
- * New members will be added to this enum over time.
+ * Specific identified error types.
+ *
+ * New members may be added over time.
  */
-export enum ConnectionErrorType {
-  UNABLE_TO_CLAIM_INTERFACE = "UNABLE_TO_CLAIM_INTERFACE",
-  UNKNOWN = "UNKNOWN",
+export type WebUSBErrorCode =
+  /**
+   * Device not found, perhaps because it doesn't have new enough firmware (for V1).
+   */
+  | "update-req"
+  /**
+   * Unable to claim the interface, usually because it's in use in another tab/window.
+   */
+  | "clear-connect"
+  /**
+   * The device was found to be disconnected.
+   */
+  | "device-disconnected"
+  /**
+   * A communication timeout occurred.
+   */
+  | "timeout-error"
+  /**
+   * This is the fallback error case suggesting that the user reconnects their device.
+   */
+  | "reconnect-microbit";
+
+/**
+ * Error type used for all interactions with this module.
+ */
+export class WebUSBError extends Error {
+  code: WebUSBErrorCode;
+  title: string;
+  description?: string;
+  constructor({
+    code,
+    title,
+    message,
+    description,
+  }: {
+    code: WebUSBErrorCode;
+    title: string;
+    message?: string;
+    description?: string;
+  }) {
+    super(message);
+    this.code = code;
+    this.title = title;
+    this.description = description;
+  }
 }
 
 /**
@@ -51,22 +95,7 @@ export enum ConnectionMode {
   NON_INTERACTIVE,
 }
 
-export interface MicrobitConnectionOptions {
-  /**
-   * Connect when a device becomes available.
-   * For example, a previously approved device is plugged in.
-   *
-   * Default is true.
-   */
-  autoConnect: boolean;
-
-  /**
-   * Device identification.
-   *
-   * Default matches the micro:bit device.
-   */
-  deviceFilters: USBDeviceFilter[];
-}
+export interface MicrobitConnectionOptions {}
 
 export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
@@ -87,28 +116,12 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   constructor(options: Partial<MicrobitConnectionOptions> = {}) {
     super();
-    this.options = {
-      autoConnect: true,
-      deviceFilters: [{ vendorId: 0x0d28, productId: 0x0204 }],
-      ...options,
-    };
+    this.options = options;
   }
 
   async initialize(): Promise<void> {
     if (navigator.usb) {
-      // navigator.usb.addEventListener("disconnect", this.handleDisconnect);
-      // navigator.usb.addEventListener("connect", this.handleConnect);
-    }
-    const device = await this.getPairedDevice();
-    if (device) {
-      this.setStatus(ConnectionStatus.NOT_CONNECTED);
-      if (this.options.autoConnect) {
-        // Do this in the background so all autoconnection errors are reported
-        // via the event rather than a mixture.
-        this.connect(ConnectionMode.NON_INTERACTIVE).catch((e) => {
-          this.emit(EVENT_AUTOCONNECT_ERROR, e);
-        });
-      }
+      navigator.usb.addEventListener("disconnect", this.handleDisconnect);
     }
   }
 
@@ -118,7 +131,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   dispose() {
     this.removeAllListeners();
     if (navigator.usb) {
-      navigator.usb.removeEventListener("connect", this.handleConnect);
       navigator.usb.removeEventListener("disconnect", this.handleDisconnect);
     }
   }
@@ -131,7 +143,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    * @returns the final connection status.
    */
   async connect(mode: ConnectionMode): Promise<ConnectionStatus> {
-    return withEnrichedErrors(async () => {
+    return this.withEnrichedErrors(async () => {
       this.setStatus(await this.connectInternal(mode));
       return this.status;
     });
@@ -144,6 +156,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
+    const startTime = new Date().getTime();
     const partial = options.partial;
     const progress = options.progress || (() => {});
 
@@ -151,51 +164,57 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     // this.stopSerialRead();
 
     // Things to reinstate:
-    //   - FS space error handling.
-    //   - Overall timeout code.
-    //   - unhandledrejection wrapper. To discuss! Does it really fail in the background?
-    //   - The error handler disconnects and throws away dapjs.
+    //   - Metric/error reporting -- though check intentions, as it can lie
+    //     about the type of flash performed
 
-    await this.connection.disconnectDapAsync();
-    await this.connection.connectDapAsync();
+    // Shouldn't this timeout logic apply to (re)connection in general?
+    // If so, we should push it down.
+    const reconnectPromise = (async () => {
+      await this.connection.disconnectDapAsync();
+      await this.connection.connectDapAsync();
+    })();
+    const timeout = new Promise((resolve) =>
+      setTimeout(() => resolve("timeout"), 10 * 1000)
+    );
+    const result = await Promise.race([reconnectPromise, timeout]);
+    if (result === "timeout") {
+      throw new WebUSBError({
+        code: "timeout-error",
+        title: "Connection Timed Out",
+        description: translation["webusb"]["err"]["reconnect-microbit"],
+      });
+    }
 
     // Collect data to flash, partial flashing can use just the flash bytes,
     // but full flashing needs the entire Intel Hex to include the UICR data
     const boardId = BoardId.parse(this.connection.dapwrapper.boardId);
     const data = await dataSource(boardId);
-    // TODO: push this decision down
-    if (partial) {
-      await this.connection.flashAsync(data.bytes, data.intelHex, progress);
-    } else {
-      await this.connection.fullFlashAsync(data.intelHex, progress);
+    // TODO: Push this decision down, as it has intenal fallbacks anyway.
+    try {
+      if (partial) {
+        await this.connection.flashAsync(data.bytes, data.intelHex, progress);
+      } else {
+        await this.connection.fullFlashAsync(data.intelHex, progress);
+      }
+    } finally {
+      progress(undefined);
     }
-    progress(undefined);
   }
 
   /**
    * Disconnect from the device.
    */
   async disconnect(): Promise<void> {
-    await withEnrichedErrors(async () => {
+    try {
       await this.connection.disconnectDapAsync();
-      this.setStatus(ConnectionStatus.NOT_CONNECTED);
-    });
-  }
-
-  private async getPairedDevice(): Promise<USBDevice | undefined> {
-    if (!navigator.usb) {
-      return undefined;
+    } catch (e) {
+      console.log("Error during disconnection:\r\n" + e);
+      console.trace();
+    } finally {
+      // This seems a little dubious.
+      console.log("Disconnection Complete");
     }
-    const devices = (await navigator.usb.getDevices()).filter(
-      this.matchesDeviceFilter
-    );
-    return devices.length === 1 ? devices[0] : undefined;
-  }
-
-  private assertSupported() {
-    if (!navigator.usb) {
-      throw new Error("Unsupported. Check connection status first.");
-    }
+    this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }
 
   private setStatus(newStatus: ConnectionStatus) {
@@ -203,20 +222,30 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.emit(EVENT_STATUS, this.status);
   }
 
-  private handleConnect = (event: USBConnectionEvent) => {
-    if (this.matchesDeviceFilter(event.device)) {
-      if (this.status === ConnectionStatus.NO_AUTHORIZED_DEVICE) {
-        this.setStatus(ConnectionStatus.NOT_CONNECTED);
-        if (this.options.autoConnect) {
-          this.connect(ConnectionMode.NON_INTERACTIVE).catch((e) =>
-            this.emit(EVENT_SERIAL_ERROR, e)
-          );
-        }
-      }
+  async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
+    try {
+      return await f();
+    } catch (e) {
+      // Log error to console for feedback
+      console.log("An error occurred whilst attempting to use WebUSB.");
+      console.log(
+        "Details of the error can be found below, and may be useful when trying to replicate and debug the error."
+      );
+      console.log(e);
+      console.trace();
+
+      // Disconnect from the microbit
+      // As there has been an error clear the partial flashing DAPWrapper
+      await this.disconnect();
+      this.connection.resetInternals();
+
+      throw enrichedError(e);
     }
-  };
+  }
 
   private handleDisconnect = (event: USBConnectionEvent) => {
+    // v2 uses this to show a dialog on disconnect.
+    // it removes the listener when performing an intentional disconnect
     if (event.device === this.connection.dapwrapper?.daplink?.device) {
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
     }
@@ -225,54 +254,68 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   private async connectInternal(
     mode: ConnectionMode
   ): Promise<ConnectionStatus> {
-    this.assertSupported();
+    // TODO: re-link what's going on to the connection status.
     await this.connection.connectDapAsync();
-    // What about this case: ConnectionStatus.NO_AUTHORIZED_DEVICE
     return ConnectionStatus.CONNECTED;
   }
-
-  private matchesDeviceFilter = (device: USBDevice): boolean =>
-    this.options.deviceFilters.some((filter) => {
-      return (
-        (typeof filter.productId === "undefined" ||
-          filter.productId === device.productId) &&
-        (typeof filter.vendorId === "undefined" ||
-          filter.vendorId === device.vendorId)
-      );
-    });
 }
 
-async function withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
-  try {
-    return await f();
-  } catch (e) {
-    throw enrichedError(e);
-  }
-}
+const genericErrorSuggestingReconnect = () =>
+  new WebUSBError({
+    code: "reconnect-microbit",
+    title: "WebUSB Error",
+    description: translation["webusb"]["err"]["reconnect-microbit"],
+  });
 
 // tslint:disable-next-line: no-any
-const enrichedError = (e: any): Error => {
-  if (!(e instanceof Error)) {
-    // tslint:disable-next-line: no-ex-assign
-    e = new Error(e);
+const enrichedError = (err: any): WebUSBError => {
+  if (err instanceof WebUSBError) {
+    return err;
   }
-  const specialCases: Record<
-    string,
-    { type: ConnectionErrorType; message: string }
-  > = {
-    // Occurs when another window/tab is using WebUSB.
-    "Unable to claim interface.": {
-      type: ConnectionErrorType.UNABLE_TO_CLAIM_INTERFACE,
-      message:
-        "Cannot connect. Check no other browser tabs or windows are using the micro:bit.",
-    },
-  };
-  const special = specialCases[e.message];
-  if (special) {
-    e = new Error(special.message);
-    e.type = special.type;
-  } else {
-    e.type = ConnectionErrorType.UNKNOWN;
+  switch (typeof err) {
+    case "object":
+      console.log("Caught in Promise or Error object");
+      // We might get Error objects as Promise rejection arguments
+      if (!err.message && err.promise && err.reason) {
+        err = err.reason;
+      }
+
+      if (err.message === "No valid interfaces found.") {
+        return new WebUSBError({
+          title: translation["webusb"]["err"]["update-req-title"],
+          code: "update-req",
+          description: translation["webusb"]["err"]["update-req"],
+        });
+      } else if (err.message === "Unable to claim interface.") {
+        return new WebUSBError({
+          code: "clear-connect",
+          title: err.message,
+          description: translation["webusb"]["err"]["clear-connect"],
+        });
+      } else if (err.name === "device-disconnected") {
+        return new WebUSBError({
+          code: "device-disconnected",
+          title: err.message,
+          // No additional message provided here, err.message is enough
+        });
+      } else if (err.name === "timeout-error") {
+        return new WebUSBError({
+          code: "timeout-error",
+          title: "Connection Timed Out",
+          description: translation["webusb"]["err"]["reconnect-microbit"],
+        });
+      } else {
+        // Unhandled error. User will need to reconnect their micro:bit
+        return genericErrorSuggestingReconnect();
+      }
+    case "string": {
+      // Caught a string. Example case: "Flash error" from DAPjs
+      console.log("Caught a string");
+      return genericErrorSuggestingReconnect();
+    }
+    default: {
+      console.log("Unexpected error type: " + typeof err);
+      return genericErrorSuggestingReconnect();
+    }
   }
-  return e;
 };

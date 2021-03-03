@@ -600,7 +600,9 @@ export class PartialFlashing {
   }
 
   async disconnectDapAsync() {
-    return this.dapwrapper.disconnectAsync();
+    if (this.dapwrapper) {
+      return this.dapwrapper.disconnectAsync();
+    }
   }
 
   // Flash the micro:bit's ROM with the provided image, resetting the micro:bit first.
@@ -641,5 +643,9 @@ export class PartialFlashing {
       // NB cannot return Promises above!
       await this.dapwrapper.disconnectAsync();
     }
+  }
+
+  resetInternals() {
+    this.dapwrapper = null;
   }
 }
