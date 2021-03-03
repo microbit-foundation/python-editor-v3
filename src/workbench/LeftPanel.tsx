@@ -15,6 +15,7 @@ import { IconType } from "react-icons";
 import {
   RiFile3Line,
   RiLayoutMasonryFill,
+  RiSave2Line,
   RiSettings2Line,
 } from "react-icons/ri";
 import GradientLine from "../common/GradientLine";
@@ -44,8 +45,8 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
       },
       {
         id: "files",
-        title: "Files",
-        icon: RiFile3Line,
+        title: "Load and save",
+        icon: RiSave2Line,
         contents: <Files onSelectedFileChanged={onSelectedFileChanged} />,
       },
       {
@@ -74,6 +75,9 @@ interface LeftPanelConentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
+      <Flex flexDirection="column" borderBottom="4px solid whitesmoke">
+        <Logo height={40} style={{ margin: "0.5rem" }} />
+      </Flex>
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList height="100%" backgroundColor="whitesmoke">
           {panes.map((p) => (

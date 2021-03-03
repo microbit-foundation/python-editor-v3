@@ -20,10 +20,6 @@ const Workbench = () => {
   return (
     // https://github.com/aeagle/react-spaces
     <ViewPort>
-      <Top size={65}>
-        <Header />
-        <GradientLine />
-      </Top>
       <Fill>
         <LeftResizable
           size="25%"
