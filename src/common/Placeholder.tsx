@@ -1,15 +1,15 @@
 import React from "react";
-import { Box, Center, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Center, Text } from "@chakra-ui/react";
 
-interface PlaceholderProps {
+interface PlaceholderProps extends BoxProps {
   text?: string;
 }
 
 /**
  * A placeholder component for work-in-progress UI.
  */
-const Placeholder = ({ text }: PlaceholderProps) => (
-  <Center height="100%">
+const Placeholder = ({ text, ...props }: PlaceholderProps) => (
+  <Center height="100%" {...props}>
     <Text p={8}>{text || "Placeholder"}</Text>
   </Center>
 );
