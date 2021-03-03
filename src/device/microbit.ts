@@ -156,7 +156,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
-    const startTime = new Date().getTime();
     const partial = options.partial;
     const progress = options.progress || (() => {});
 
