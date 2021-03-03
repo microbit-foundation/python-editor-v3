@@ -15,9 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { RiAddLine } from "react-icons/ri";
 import { MdDragHandle } from "react-icons/md";
-import PackageSelectDialog from "./PackageSelectDialog";
 
 /**
  * The packages section showing available API.
@@ -27,45 +25,39 @@ import PackageSelectDialog from "./PackageSelectDialog";
 const Packages = () => {
   const [addingPackage, setAddingPackage] = useState(false);
   return (
-    <>
-      <PackageSelectDialog
-        isOpen={addingPackage}
-        onClose={() => setAddingPackage(false)}
-      />
-      <Flex height="100%" direction="column" justify="space-between">
-        {/* This needs to be scrollable so hacking height with 100vh for now.
+    <Flex height="100%" direction="column" justify="space-between">
+      {/* This needs to be scrollable so hacking height with 100vh for now.
             You can measure at 100% but a pain to cope with window resize once
             you've fixed the height. Could use another element to measure? */}
-        <Accordion
-          height="calc(100vh - 290px)"
-          allowMultiple
-          allowToggle
-          overflowY="auto"
-        >
-          {packages.map((pkg) => (
-            <AccordionItem key={pkg.name}>
-              <h2>
-                <AccordionButton>
-                  <Box textAlign="left" fontWeight="semibold">
-                    {pkg.name}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <List marginLeft={4}>
-                  {pkg.snippets.map((snippet) => (
-                    <ListItem mb={2} key={snippet.value}>
-                      <DraggableCodeSnippet pkg={pkg} value={snippet} />
-                    </ListItem>
-                  ))}
-                </List>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </Flex>
-    </>
+      <Accordion
+        height="calc(100vh - 290px)"
+        allowMultiple
+        allowToggle
+        overflowY="auto"
+      >
+        {packages.map((pkg) => (
+          <AccordionItem key={pkg.name}>
+            <h2>
+              <AccordionButton>
+                <Box textAlign="left" fontWeight="semibold">
+                  {pkg.name}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              <List marginLeft={4}>
+                {pkg.snippets.map((snippet) => (
+                  <ListItem mb={2} key={snippet.value}>
+                    <DraggableCodeSnippet pkg={pkg} value={snippet} />
+                  </ListItem>
+                ))}
+              </List>
+            </AccordionPanel>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </Flex>
   );
 };
 
