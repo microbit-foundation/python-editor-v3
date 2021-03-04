@@ -1,22 +1,30 @@
-import React, { useState } from "react";
 import {
   Editable,
   EditableInput,
   EditablePreview,
   Flex,
   IconButton,
+  Tooltip,
   UseEditableReturn,
 } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { RiEdit2Line } from "react-icons/ri";
+import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
 
 /**
  * A control to enable editing of the project name.
- *
- * Not yet wired up to any state.
- *
- * Needs review on mobile/tablet.
  */
 const ProjectNameEditable = () => {
+  const fs = useFileSystem();
+  const { projectName } = useFileSystemState();
+  const [keyPart, setKeyPart] = useState(0);
+  const handleSubmit = (projectName: string) => {
+    if (projectName.trim()) {
+      fs.setProjectName(projectName);
+    }
+    setKeyPart(keyPart + 1);
+  };
+
   const EditableControls = ({
     isEditing,
     onEdit,
@@ -36,24 +44,28 @@ const ProjectNameEditable = () => {
       </Flex>
     );
   };
-  const [edited, setEdited] = useState(false);
-  const handleChange = () => setEdited(true);
+
   return (
     <Editable
+      // Uncontrolled. Change the key so we re-render if the name was reverted.
+      key={`${projectName}-${keyPart}`}
       display="flex"
-      defaultValue={"Name your project"}
       whiteSpace="nowrap"
-      onChange={handleChange}
+      defaultValue={projectName}
+      onSubmit={handleSubmit}
       justifyContent="space-between"
+      width="15ch"
     >
       {(props) => (
         <>
           <EditablePreview
-            color={!edited ? "grey" : undefined}
-            display="flex"
-            alignItems="center"
+            display="block"
+            alignSelf="center"
+            textOverflow="ellipsis"
+            overflowX="hidden"
+            whiteSpace="nowrap"
           />
-          <EditableInput placeholder="Name your project!" padding={1} />
+          <EditableInput padding={1} />
           <EditableControls {...props} />
         </>
       )}

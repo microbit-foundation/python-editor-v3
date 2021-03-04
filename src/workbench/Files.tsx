@@ -12,7 +12,6 @@ import { File, MAIN_FILE } from "../fs/fs";
 import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
 import { saveAs } from "file-saver";
 import useActionFeedback from "../common/use-action-feedback";
-import ProjectNameEditable from "./ProjectNameEditable";
 
 interface FilesProps {
   onSelectedFileChanged: (name: string) => void;
@@ -23,16 +22,16 @@ interface FilesProps {
  */
 const Files = ({ onSelectedFileChanged }: FilesProps) => {
   const fs = useFileSystemState();
-  if (!fs) {
-    return null;
-  }
   return (
     <VStack alignItems="stretch" padding={2} spacing={5}>
-      <ProjectNameEditable />
       <List>
         {fs.files.map((f) => (
           <ListItem key={f.name}>
-            <FileRow value={f} onClick={() => onSelectedFileChanged(f.name)} />
+            <FileRow
+              value={f}
+              projectName={fs.projectName}
+              onClick={() => onSelectedFileChanged(f.name)}
+            />
           </ListItem>
         ))}
       </List>
@@ -41,13 +40,16 @@ const Files = ({ onSelectedFileChanged }: FilesProps) => {
 };
 
 interface FileRowProps {
+  projectName: string;
   value: File;
   onClick: () => void;
 }
 
-const FileRow = ({ value, onClick }: FileRowProps) => {
+const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
   const { name } = value;
-  const disabled = name === MAIN_FILE;
+  const isMainFile = name === MAIN_FILE;
+  const prettyName = isMainFile ? `${projectName} (${name})` : name;
+  const downloadName = isMainFile ? `${projectName}.py` : name;
 
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
@@ -55,7 +57,7 @@ const FileRow = ({ value, onClick }: FileRowProps) => {
     try {
       const content = fs.read(name);
       const blob = new Blob([content], { type: "text/x-python" });
-      saveAs(blob, name);
+      saveAs(blob, downloadName);
     } catch (e) {
       actionFeedback.unexpectedError(e);
     }
@@ -79,7 +81,7 @@ const FileRow = ({ value, onClick }: FileRowProps) => {
         flexGrow={1}
         textAlign="left"
       >
-        {name}
+        {prettyName}
       </Button>
       <HStack spacing={1}>
         <IconButton
@@ -87,7 +89,7 @@ const FileRow = ({ value, onClick }: FileRowProps) => {
           icon={<RiDeleteBinLine />}
           aria-label="Delete the file. The main Python file cannot be deleted."
           variant="ghost"
-          disabled={disabled}
+          disabled={isMainFile}
           onClick={handleDelete}
         />
         <IconButton

@@ -2,6 +2,7 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiDownload2Line } from "react-icons/ri";
 import useActionFeedback from "../common/use-action-feedback";
+import { DownloadData } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 
 /**
@@ -16,7 +17,7 @@ const DownloadButton = (props: ButtonProps) => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const handleDownload = useCallback(async () => {
-    let hex: string | undefined;
+    let hex: DownloadData | undefined;
     try {
       hex = await fs.toHexForDownload();
     } catch (e) {
@@ -28,8 +29,8 @@ const DownloadButton = (props: ButtonProps) => {
     }
     // TODO: wire up project name
     const projectName = "my-script";
-    const blob = new Blob([hex], { type: "application/octet-stream" });
-    saveAs(blob, `${projectName}.hex`);
+    const blob = new Blob([hex.intelHex], { type: "application/octet-stream" });
+    saveAs(blob, hex.filename);
   }, []);
 
   return (

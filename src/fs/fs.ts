@@ -1,5 +1,6 @@
 import { microbitBoardId, MicropythonFsHex } from "@microbit/microbit-fs";
 import EventEmitter from "events";
+import config from "../config";
 import { BoardId } from "../device/board-id";
 import chuckADuck from "../samples/chuck-a-duck";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
@@ -19,6 +20,7 @@ export interface FileSystemState {
   spaceUsed: number;
   spaceRemaining: number;
   space: number;
+  projectName: string;
 }
 
 export const EVENT_STATE = "state";
@@ -72,6 +74,11 @@ export interface FlashData {
 
 export type FlashDataSource = (boardId: BoardId) => Promise<FlashData>;
 
+export interface DownloadData {
+  intelHex: string;
+  filename: string;
+}
+
 /**
  * A MicroPython file system.
  */
@@ -84,6 +91,7 @@ export class FileSystem extends EventEmitter {
     space: -1,
     spaceRemaining: -1,
     spaceUsed: -1,
+    projectName: config.defaultProjectName,
   };
 
   constructor() {
@@ -113,6 +121,14 @@ export class FileSystem extends EventEmitter {
     return this.fs;
   }
 
+  setProjectName(projectName: string) {
+    this.state = {
+      ...this.state,
+      projectName,
+    };
+    this.notify();
+  }
+
   read(filename: string): string {
     return this.storage.read(filename);
   }
@@ -137,7 +153,6 @@ export class FileSystem extends EventEmitter {
       throw new Error("The filesystem in the hex file was empty");
     } else {
       this.copyFsToStorage();
-      this.notify();
     }
   }
 
@@ -149,7 +164,7 @@ export class FileSystem extends EventEmitter {
     this.notify();
   }
 
-  notify(): void {
+  private notify(): void {
     // The real file system has size information, so prefer it when available.
     const source = this.storage || this.fs;
     const files = source.ls().map((name) => ({
@@ -160,6 +175,7 @@ export class FileSystem extends EventEmitter {
     const spaceRemaining = this.fs ? this.fs.getStorageRemaining() : -1;
     const space = this.fs ? this.fs.getStorageSize() : -1;
     this.state = {
+      ...this.state,
       files,
       spaceUsed,
       spaceRemaining,
@@ -168,9 +184,12 @@ export class FileSystem extends EventEmitter {
     this.emit(EVENT_STATE, this.state);
   }
 
-  async toHexForDownload() {
+  async toHexForDownload(): Promise<DownloadData> {
     const fs = await this.initialize();
-    return fs.getUniversalHex();
+    return {
+      filename: `${this.state.projectName}.hex`,
+      intelHex: fs.getUniversalHex(),
+    };
   }
 
   /**

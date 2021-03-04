@@ -20,17 +20,15 @@ export const useFileSystem = () => {
   return fs;
 };
 
-export const useFileSystemState = (): FileSystemState | undefined => {
+export const useFileSystemState = (): FileSystemState => {
   const fs = useFileSystem();
-  const [state, setState] = useState<FileSystemState | undefined>(undefined);
+  const [state, setState] = useState<FileSystemState>(fs.state);
   useEffect(() => {
-    if (fs) {
-      setState(fs.state);
-      fs.on(EVENT_STATE, setState);
-      return () => {
-        fs.removeListener(EVENT_STATE, setState);
-      };
-    }
+    setState(fs.state);
+    fs.on(EVENT_STATE, setState);
+    return () => {
+      fs.removeListener(EVENT_STATE, setState);
+    };
   }, [fs]);
   return state;
 };
