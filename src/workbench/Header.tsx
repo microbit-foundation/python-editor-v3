@@ -1,5 +1,6 @@
 import { Flex, HStack, VStack } from "@chakra-ui/react";
 import React from "react";
+import DeviceConnection from "./DeviceConnection";
 import HelpMenu from "./HelpMenu";
 import Logo from "./Logo";
 import OpenButton from "./OpenButton";
@@ -27,7 +28,7 @@ const Header = () => {
           </HStack>
         </HStack>
         <HStack spacing={3} as="nav">
-          <OpenButton size={size}>Open</OpenButton>
+          <DeviceConnection />
           <HelpMenu size={size} />
         </HStack>
       </Flex>

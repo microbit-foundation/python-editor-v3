@@ -92,7 +92,6 @@ const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
           ))}
         </TabPanels>
       </Tabs>
-      <DeviceConnection />
     </Flex>
   );
 };

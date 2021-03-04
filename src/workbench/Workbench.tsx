@@ -34,22 +34,24 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            <EditorContainer
-              key={filename}
-              filename={filename}
-              onSelectedFileChanged={setFilename}
-            />
+            <Fill>
+              <EditorContainer
+                key={filename}
+                filename={filename}
+                onSelectedFileChanged={setFilename}
+              />
+            </Fill>
+            <RightResizable
+              size="30%"
+              style={{ borderLeft: "4px solid whitesmoke" }}
+            >
+              <Simulator />
+            </RightResizable>
           </Fill>
-          <BottomResizable size="20%">
+          <BottomResizable size="25%">
             <Placeholder bgColor="blackAlpha.900" color="white" text="Serial" />
           </BottomResizable>
         </Fill>
-        <RightResizable
-          size="20%"
-          style={{ borderLeft: "4px solid whitesmoke" }}
-        >
-          <Simulator />
-        </RightResizable>
       </Fill>
     </ViewPort>
   );

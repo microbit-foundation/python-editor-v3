@@ -13,6 +13,7 @@ import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
 import { saveAs } from "file-saver";
 import useActionFeedback from "../common/use-action-feedback";
 import ProjectNameEditable from "./ProjectNameEditable";
+import OpenButton from "./OpenButton";
 
 interface FilesProps {
   onSelectedFileChanged: (name: string) => void;
@@ -28,7 +29,6 @@ const Files = ({ onSelectedFileChanged }: FilesProps) => {
   }
   return (
     <VStack alignItems="stretch" padding={2} spacing={5}>
-      <ProjectNameEditable />
       <List>
         {fs.files.map((f) => (
           <ListItem key={f.name}>
@@ -36,6 +36,7 @@ const Files = ({ onSelectedFileChanged }: FilesProps) => {
           </ListItem>
         ))}
       </List>
+      <OpenButton variant="outline" text="Open a project" />
     </VStack>
   );
 };
