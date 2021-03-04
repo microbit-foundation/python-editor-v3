@@ -17,6 +17,7 @@ import {
   RiSettings2Line,
 } from "react-icons/ri";
 import DeviceConnection from "./DeviceConnection";
+import Face from "./Face";
 import Files from "./Files";
 import Help from "./Help";
 import LeftPanelTabContent from "./LeftPanelTabContent";
@@ -38,7 +39,7 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
       {
         id: "packages",
         title: "Packages",
-        icon: RiLayoutMasonryFill,
+        icon: Face,
         contents: <Packages />,
       },
       {
@@ -81,9 +82,9 @@ const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
     <Flex height="100%" direction="column">
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList height="100%" backgroundColor="whitesmoke">
-          {panes.map((p) => (
-            <Tab key={p.id}>
-              <Icon as={p.icon} aria-label={p.title} />
+          {panes.map((p, index) => (
+            <Tab key={p.id} p={index ? undefined : 0}>
+              {index ? <Icon as={p.icon} aria-label={p.title} /> : <Face />}
             </Tab>
           ))}
         </TabList>
