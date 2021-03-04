@@ -1,8 +1,6 @@
 import {
-  Center,
   Flex,
   Icon,
-  Image,
   Tab,
   TabList,
   TabPanel,
@@ -11,21 +9,13 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
-import {
-  RiLayoutMasonryFill,
-  RiQuestionLine,
-  RiSave2Line,
-  RiSettings2Line,
-} from "react-icons/ri";
-import DeviceConnection from "./DeviceConnection";
+import { RiQuestionLine, RiSave2Line, RiSettings2Line } from "react-icons/ri";
 import Face from "./Face";
 import Files from "./Files";
 import Help from "./Help";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import Logo from "./Logo";
 import Packages from "./Packages";
 import Settings from "./Settings";
-import pythonLogo from "./python-icon.png";
 
 interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;
@@ -82,16 +72,6 @@ interface LeftPanelConentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
-      <Flex
-        fill="white"
-        backgroundColor="blackAlpha.900"
-        alignItems="center"
-        justifyContent="space-between"
-        padding={3}
-      >
-        <Logo height="30px" />
-        <Image src={pythonLogo} alt="Python logo" width={8} height={8} />
-      </Flex>
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList height="100%" backgroundColor="whitesmoke">
           {panes.map((p, index) => (
