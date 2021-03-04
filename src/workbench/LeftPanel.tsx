@@ -12,11 +12,13 @@ import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
 import {
   RiLayoutMasonryFill,
+  RiQuestionLine,
   RiSave2Line,
   RiSettings2Line,
 } from "react-icons/ri";
 import DeviceConnection from "./DeviceConnection";
 import Files from "./Files";
+import Help from "./Help";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import Logo from "./Logo";
 import Packages from "./Packages";
@@ -50,6 +52,12 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
         title: "Settings",
         icon: RiSettings2Line,
         contents: <Settings />,
+      },
+      {
+        id: "help",
+        title: "Help",
+        icon: RiQuestionLine,
+        contents: <Help />,
       },
     ],
     [onSelectedFileChanged]

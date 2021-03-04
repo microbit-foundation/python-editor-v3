@@ -1,6 +1,4 @@
-import React, { useCallback } from "react";
 import {
-  Button,
   IconButton,
   Menu,
   MenuButton,
@@ -12,23 +10,24 @@ import {
   ThemeTypings,
   ThemingProps,
 } from "@chakra-ui/react";
+import React, { useCallback } from "react";
 import {
-  RiArrowDropDownLine,
   RiExternalLinkLine,
   RiFileCopy2Line,
-  RiInformationLine,
   RiQuestionLine,
 } from "react-icons/ri";
-import { microPythonVersions } from "../fs/fs";
 import Separate from "../common/Separate";
+import useActionFeedback, {
+  ActionFeedback,
+} from "../common/use-action-feedback";
 import config from "../config";
-import useActionFeedback from "../common/use-action-feedback";
+import { microPythonVersions } from "../fs/fs";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
 }
 
-const versionInfo = [
+export const versionInfo = [
   `Editor ${process.env.REACT_APP_VERSION}`,
   `MicroPython ${microPythonVersions.map((mpy) => mpy.version).join("/")}`,
 ];
@@ -36,18 +35,22 @@ const versionInfo = [
 const openInNewTab = (href: string) => () =>
   window.open(href, "_blank", "noopener");
 
-const handleDocumentation = openInNewTab(config.documentationLink);
-const handleSupport = openInNewTab(config.supportLink);
+// Exported for now so we can share them in alt-layouts.
+export const handleDocumentation = openInNewTab(config.documentationLink);
+export const handleSupport = openInNewTab(config.supportLink);
+export const copyVersion = async (actionFeedback: ActionFeedback) => {
+  try {
+    await navigator.clipboard.writeText(versionInfo.join("\n"));
+  } catch (e) {
+    actionFeedback.unexpectedError(e);
+  }
+};
 
 const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   const actionFeedback = useActionFeedback();
   const handleCopyVersion = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(versionInfo.join("\n"));
-    } catch (e) {
-      actionFeedback.unexpectedError(e);
-    }
-  }, [actionFeedback, versionInfo]);
+    copyVersion(actionFeedback);
+  }, [actionFeedback]);
 
   // TODO: Can we make these actual links and still use the menu components?
   return (
