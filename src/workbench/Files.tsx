@@ -31,13 +31,7 @@ const Files = ({ onSelectedFileChanged }: FilesProps) => {
   }
   return (
     <VStack alignItems="stretch" pl={2} pr={2} spacing={6}>
-      <VStack alignItems="stretch" spacing={1}>
-        <ProjectNameEditable />
-      </VStack>
       <VStack alignItems="stretch">
-        <Text fontSize="md" fontWeight="semibold">
-          File list
-        </Text>
         <List>
           {fs.files.map((f) => (
             <ListItem key={f.name}>
