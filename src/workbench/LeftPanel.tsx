@@ -79,9 +79,6 @@ interface LeftPanelConentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
-      <Center p={2} pt={3} pb={3}>
-        <Logo height={35} />
-      </Center>
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList height="100%" backgroundColor="whitesmoke">
           {panes.map((p) => (
@@ -100,7 +97,6 @@ const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
           ))}
         </TabPanels>
       </Tabs>
-      <DeviceConnection />
     </Flex>
   );
 };

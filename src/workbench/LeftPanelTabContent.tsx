@@ -8,7 +8,7 @@ interface LeftPanelTabContentProps {
 
 const LeftPanelTabContent = ({ title, children }: LeftPanelTabContentProps) => {
   return (
-    <Flex height="100%" direction="column">
+    <Flex height="100%" direction="column" justifyContent="space-between">
       <Text flex="0 0 auto" as="h3" fontSize="lg" fontWeight="bold" p="9px">
         {title}
       </Text>

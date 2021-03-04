@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Bottom,
   BottomResizable,
   Fill,
   LeftResizable,
@@ -13,6 +14,7 @@ import EditorContainer from "../editor/EditorContainer";
 import { MAIN_FILE } from "../fs/fs";
 import Header from "./Header";
 import LeftPanel from "./LeftPanel";
+import Serial from "./Serial";
 import Simulator from "./Simulator";
 
 const Workbench = () => {
@@ -30,22 +32,27 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            <EditorContainer
-              key={filename}
-              filename={filename}
-              onSelectedFileChanged={setFilename}
-            />
+            <Fill>
+              <EditorContainer
+                key={filename}
+                filename={filename}
+                onSelectedFileChanged={setFilename}
+              />
+            </Fill>
+            <RightResizable
+              size="30%"
+              style={{ borderLeft: "4px solid whitesmoke" }}
+            >
+              <Simulator />
+            </RightResizable>
           </Fill>
-          <BottomResizable size="20%">
-            <Placeholder bgColor="blackAlpha.900" color="white" text="Serial" />
+          <BottomResizable
+            size="30%"
+            style={{ borderTop: "4px solid whitesmoke" }}
+          >
+            <Serial />
           </BottomResizable>
         </Fill>
-        <RightResizable
-          size="20%"
-          style={{ borderLeft: "4px solid whitesmoke" }}
-        >
-          <Simulator />
-        </RightResizable>
       </Fill>
     </ViewPort>
   );

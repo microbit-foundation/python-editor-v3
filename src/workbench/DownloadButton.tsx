@@ -1,8 +1,18 @@
-import { Button, ButtonProps } from "@chakra-ui/react";
+import {
+  BoxProps,
+  Button,
+  ButtonProps,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiDownload2Line } from "react-icons/ri";
 import useActionFeedback from "../common/use-action-feedback";
 import { useFileSystem } from "../fs/fs-hooks";
+import CollapsableButton, { CollapsableButtonProps } from "./CollapsableButton";
+
+interface DownloadButtonProps
+  extends Omit<CollapsableButtonProps, "onClick" | "text" | "icon"> {}
 
 /**
  * Download HEX button.
@@ -12,7 +22,7 @@ import { useFileSystem } from "../fs/fs-hooks";
  *
  * Otherwise it's a more minor action.
  */
-const DownloadButton = (props: ButtonProps) => {
+const DownloadButton = (props: DownloadButtonProps) => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const handleDownload = useCallback(async () => {
@@ -33,9 +43,12 @@ const DownloadButton = (props: ButtonProps) => {
   }, []);
 
   return (
-    <Button leftIcon={<RiDownload2Line />} onClick={handleDownload} {...props}>
-      Download
-    </Button>
+    <CollapsableButton
+      {...props}
+      icon={<RiDownload2Line />}
+      onClick={handleDownload}
+      text="Download"
+    />
   );
 };
 

@@ -5,6 +5,7 @@ import { useSettings } from "../settings";
 import ZoomControls from "../workbench/ZoomControls";
 import Editor from "./Editor";
 import NonMainFileNotice from "./NonMainFileNotice";
+import EditorToolbar from "./EditorToolbar";
 
 interface EditorContainerProps {
   filename: string;
