@@ -7,7 +7,7 @@ import ProjectNameEditable from "./ProjectNameEditable";
 const Serial = () => {
   return (
     <Flex flexDirection="column" alignItems="stretch" height="100%">
-      <HStack justifyContent="space-between" padding={1}>
+      <HStack justifyContent="space-between" pt={1} pb={1} pl={2} pr={2}>
         <ProjectNameEditable />
         <DeviceConnection />
       </HStack>
