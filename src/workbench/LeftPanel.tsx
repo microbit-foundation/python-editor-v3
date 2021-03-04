@@ -75,7 +75,7 @@ const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
-        <TabList height="100%" backgroundColor="whitesmoke">
+        <TabList backgroundColor="whitesmoke">
           {panes.map((p) => (
             <Tab key={p.id}>
               <Icon as={p.icon} aria-label={p.title} />
