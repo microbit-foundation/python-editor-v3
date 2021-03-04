@@ -41,7 +41,11 @@ const Workbench = () => {
             />
           </Fill>
           <BottomResizable size="20%">
-            <Placeholder bgColor="blackAlpha.900" color="white" text="Serial" />
+            <Placeholder
+              bgColor="blackAlpha.900"
+              color="white"
+              text="Serial here, showing errors from your micro:bit when you run the code"
+            />
           </BottomResizable>
         </Fill>
         <RightResizable
