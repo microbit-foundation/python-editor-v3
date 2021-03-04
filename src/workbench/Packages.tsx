@@ -26,11 +26,9 @@ const Packages = () => {
   const [addingPackage, setAddingPackage] = useState(false);
   return (
     <Flex height="100%" direction="column" justify="space-between">
-      {/* This needs to be scrollable so hacking height with 100vh for now.
-            You can measure at 100% but a pain to cope with window resize once
-            you've fixed the height. Could use another element to measure? */}
       <Accordion
-        height="calc(100vh - 290px)"
+        height={0}
+        flex="1 1 auto"
         allowMultiple
         allowToggle
         overflowY="auto"
