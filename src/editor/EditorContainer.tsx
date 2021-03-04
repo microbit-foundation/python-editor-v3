@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
 import { useFileSystemBackedText } from "../fs/fs-hooks";
 import { useSettings } from "../settings";
@@ -23,21 +23,15 @@ const EditorContainer = ({
   const [defaultValue, onFileChange] = useFileSystemBackedText(filename);
   const isMainFile = filename === MAIN_FILE;
 
-  // The editor scrolling breaks if we try to use flex grow here. Alternatives?
-  const noticeHeight = "2.5rem";
   return typeof defaultValue === "undefined" ? null : (
-    <Box height="100%">
+    <Flex height="100%" flexDirection="column">
       {!isMainFile && (
         <NonMainFileNotice
-          height={noticeHeight}
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
       )}
-      <Box
-        height={isMainFile ? "100%" : `calc(100% - ${noticeHeight})`}
-        position="relative"
-      >
+      <Box flex="1 1 auto" height={0} position="relative">
         <ZoomControls
           size="lg"
           position="absolute"
@@ -55,7 +49,7 @@ const EditorContainer = ({
           highlightCodeStructure={highlightCodeStructure}
         />
       </Box>
-    </Box>
+    </Flex>
   );
 };
 
