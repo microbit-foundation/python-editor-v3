@@ -27,7 +27,6 @@ const EditorContainer = ({
     <Flex height="100%" flexDirection="column">
       {!isMainFile && (
         <NonMainFileNotice
-          height={"2.5rem"}
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
