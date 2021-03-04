@@ -5,6 +5,7 @@ import {
   IconButton,
   List,
   ListItem,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import React, { useCallback } from "react";
@@ -29,16 +30,26 @@ const Files = ({ onSelectedFileChanged }: FilesProps) => {
     return null;
   }
   return (
-    <VStack alignItems="stretch" pl={2} pr={2} spacing={2}>
-      <OpenButton text="Open a project" mb={2} />
-      <ProjectNameEditable />
-      <List>
-        {fs.files.map((f) => (
-          <ListItem key={f.name}>
-            <FileRow value={f} onClick={() => onSelectedFileChanged(f.name)} />
-          </ListItem>
-        ))}
-      </List>
+    <VStack alignItems="stretch" pl={2} pr={2} spacing={6}>
+      <VStack alignItems="stretch" spacing={1}>
+        <ProjectNameEditable />
+      </VStack>
+      <VStack alignItems="stretch">
+        <Text fontSize="md" fontWeight="semibold">
+          File list
+        </Text>
+        <List>
+          {fs.files.map((f) => (
+            <ListItem key={f.name}>
+              <FileRow
+                value={f}
+                onClick={() => onSelectedFileChanged(f.name)}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </VStack>
+      <OpenButton text="Open a project" mt={2} variant="outline" />
     </VStack>
   );
 };

@@ -1,24 +1,20 @@
 import {
-  Box,
+  Center,
   Flex,
-  HStack,
   Icon,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
 import {
-  RiFile3Line,
   RiLayoutMasonryFill,
   RiSave2Line,
   RiSettings2Line,
 } from "react-icons/ri";
-import GradientLine from "../common/GradientLine";
 import DeviceConnection from "./DeviceConnection";
 import Files from "./Files";
 import LeftPanelTabContent from "./LeftPanelTabContent";
@@ -75,9 +71,9 @@ interface LeftPanelConentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
-      <Flex flexDirection="column" borderBottom="4px solid whitesmoke">
-        <Logo height={40} style={{ margin: "0.5rem" }} />
-      </Flex>
+      <Center p={2} pt={3} pb={3}>
+        <Logo height={35} />
+      </Center>
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList height="100%" backgroundColor="whitesmoke">
           {panes.map((p) => (

@@ -53,7 +53,11 @@ const ProjectNameEditable = () => {
             display="flex"
             alignItems="center"
           />
-          <EditableInput placeholder="Name your project!" padding={1} />
+          <EditableInput
+            placeholder="Name your project!"
+            padding={1}
+            margin={1}
+          />
           <EditableControls {...props} />
         </>
       )}
