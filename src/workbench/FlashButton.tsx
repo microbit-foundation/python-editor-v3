@@ -4,7 +4,7 @@ import Separate from "../common/Separate";
 import useActionFeedback, {
   ActionFeedback,
 } from "../common/use-action-feedback";
-import { WebUSBError } from "../device";
+import { ConnectionStatus, WebUSBError } from "../device";
 import { BoardId } from "../device/board-id";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import { useFileSystem } from "../fs/fs-hooks";
@@ -21,7 +21,8 @@ const FlashButton = (
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const device = useDevice();
-  const connected = useConnectionStatus();
+  const status = useConnectionStatus();
+  const connected = status === ConnectionStatus.CONNECTED;
   const [progress, setProgress] = useState<number | undefined>();
 
   const handleFlash = useCallback(async () => {

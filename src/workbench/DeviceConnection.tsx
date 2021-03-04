@@ -50,10 +50,12 @@ const DeviceConnection = () => {
         </HStack>
       ) : null}
       <HStack>
-        <FlashButton
-          mode={connected ? "button" : "icon"}
-          buttonWidth={buttonWidth}
-        />
+        {supported && (
+          <FlashButton
+            mode={connected ? "button" : "icon"}
+            buttonWidth={buttonWidth}
+          />
+        )}
         <DownloadButton
           mode={connected ? "icon" : "button"}
           buttonWidth={buttonWidth}
