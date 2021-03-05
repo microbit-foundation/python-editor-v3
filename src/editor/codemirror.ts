@@ -30,8 +30,8 @@ const customTabBinding: KeyBinding = {
 
 export const themeExtensionsTag = "themeExtensions";
 
-export const themeExtensions = (fontSizePx: number) => {
-  const fontSize = `${fontSizePx}px`;
+export const themeExtensions = (fontSizePt: number) => {
+  const fontSize = `${fontSizePt}pt`;
   return EditorView.theme({
     $content: {
       fontSize,

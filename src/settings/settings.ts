@@ -6,13 +6,13 @@ export interface Language {
   name: string;
 }
 
-export const minimumFontSize = 6;
-export const maximumFontSize = 198;
-export const fontSizeStep = 4;
+export const minimumFontSize = 4;
+export const maximumFontSize = 154;
+export const fontSizeStep = 3;
 
 export const defaultSettings: Settings = {
   languageId: config.supportedLanguages[0].id,
-  fontSize: 18,
+  fontSize: 16,
   highlightCodeStructure: true,
 };
 
