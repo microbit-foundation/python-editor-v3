@@ -210,7 +210,6 @@ export class FileSystem extends EventEmitter {
       spaceRemaining,
       space,
     };
-    console.log("Event", this.listenerCount(EVENT_STATE), this.state);
     this.emit(EVENT_STATE, this.state);
   }
 
@@ -258,12 +257,6 @@ export class FileSystem extends EventEmitter {
     for (const filename of fs.ls()) {
       this.storage.write(filename, fs.read(filename));
     }
-  }
-
-  removeListener(event: string | symbol, listener: (...args: any[]) => void) {
-    const result = super.removeListener(event, listener);
-    console.log("after remove", this.listenerCount(event));
-    return result;
   }
 }
 

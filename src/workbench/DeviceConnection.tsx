@@ -37,7 +37,7 @@ const DeviceConnection = () => {
         handleWebUSBError(actionFeedback, e);
       }
     }
-  }, [device, connected]);
+  }, [device, connected, actionFeedback]);
 
   const handleFlash = useCallback(async () => {
     const dataSource = async (boardId: BoardId) => {
@@ -111,6 +111,7 @@ const handleWebUSBError = (actionFeedback: ActionFeedback, e: any) => {
           {[e.message, e.description].filter(Boolean)}
         </Separate>
       ),
+      error: e,
     });
   } else {
     actionFeedback.unexpectedError(e);
