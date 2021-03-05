@@ -1,6 +1,4 @@
-import React, { useCallback } from "react";
 import {
-  Button,
   IconButton,
   Menu,
   MenuButton,
@@ -12,17 +10,16 @@ import {
   ThemeTypings,
   ThemingProps,
 } from "@chakra-ui/react";
+import React, { useCallback } from "react";
 import {
-  RiArrowDropDownLine,
   RiExternalLinkLine,
   RiFileCopy2Line,
-  RiInformationLine,
   RiQuestionLine,
 } from "react-icons/ri";
-import { microPythonVersions } from "../fs/fs";
 import Separate from "../common/Separate";
-import config from "../config";
 import useActionFeedback from "../common/use-action-feedback";
+import config from "../config";
+import { microPythonVersions } from "../fs/fs";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
