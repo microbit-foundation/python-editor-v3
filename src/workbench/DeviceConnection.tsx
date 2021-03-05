@@ -2,7 +2,11 @@ import { Button, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
-import { ConnectionMode, ConnectionStatus, WebUSBError } from "../device";
+import {
+  ConnectionMode,
+  ConnectionStatus,
+  WebUSBError,
+} from "../device/device";
 import { useFileSystem } from "../fs/fs-hooks";
 import DownloadButton from "./DownloadButton";
 import useActionFeedback, {

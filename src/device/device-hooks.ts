@@ -3,7 +3,7 @@ import {
   MicrobitWebUSBConnection,
   EVENT_STATUS,
   ConnectionStatus,
-} from "./microbit";
+} from "./device";
 
 export const DeviceContext = React.createContext<
   undefined | MicrobitWebUSBConnection

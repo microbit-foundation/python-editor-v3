@@ -1,4 +1,4 @@
-import { ConnectionStatus, MicrobitWebUSBConnection } from "./microbit";
+import { ConnectionStatus, MicrobitWebUSBConnection } from "./device";
 
 describe(`MicrobitWebUSBConnection`, () => {
   it(`should have correct initial state`, () => {
