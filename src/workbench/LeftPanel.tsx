@@ -1,14 +1,11 @@
 import {
-  Box,
   Flex,
-  HStack,
   Icon,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
@@ -17,13 +14,11 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
-import GradientLine from "../common/GradientLine";
 import DeviceConnection from "./DeviceConnection";
-import Files from "./Files";
+import FilesArea from "./FilesArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import Logo from "./Logo";
-import Packages from "./Packages";
-import Settings from "../settings/Settings";
+import PackagesArea from "../packages/PackagesArea";
+import SettingsArea from "../settings/SettingsArea";
 
 interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;
@@ -40,19 +35,19 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
         id: "packages",
         title: "Packages",
         icon: RiLayoutMasonryFill,
-        contents: <Packages />,
+        contents: <PackagesArea />,
       },
       {
         id: "files",
         title: "Files",
         icon: RiFile3Line,
-        contents: <Files onSelectedFileChanged={onSelectedFileChanged} />,
+        contents: <FilesArea onSelectedFileChanged={onSelectedFileChanged} />,
       },
       {
         id: "settings",
         title: "Settings",
         icon: RiSettings2Line,
-        contents: <Settings />,
+        contents: <SettingsArea />,
       },
     ],
     [onSelectedFileChanged]

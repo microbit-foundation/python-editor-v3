@@ -4,7 +4,7 @@ import React from "react";
 /**
  * Not a simulator!
  */
-const Simulator = () => {
+const SimulatorArea = () => {
   return (
     <>
       <img
@@ -20,4 +20,4 @@ const Simulator = () => {
   );
 };
 
-export default Simulator;
+export default SimulatorArea;

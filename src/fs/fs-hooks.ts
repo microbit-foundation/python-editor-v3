@@ -1,4 +1,3 @@
-import { useUnmountEffect } from "@chakra-ui/react";
 import { Text } from "@codemirror/state";
 import {
   createContext,
@@ -8,7 +7,7 @@ import {
   useState,
 } from "react";
 import useIsUnmounted from "../common/use-is-unmounted";
-import { EVENT_STATE, Project, FileSystem } from "./fs";
+import { EVENT_STATE, FileSystem, Project } from "./fs";
 
 export const FileSystemContext = createContext<FileSystem | undefined>(
   undefined

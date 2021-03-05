@@ -13,8 +13,11 @@ import EditorContainer from "../editor/EditorContainer";
 import { MAIN_FILE } from "../fs/fs";
 import Header from "./Header";
 import LeftPanel from "./LeftPanel";
-import Simulator from "./Simulator";
+import SimulatorArea from "../simulator/SimulatorArea";
 
+/**
+ * The main app layout with resizable panels.
+ */
 const Workbench = () => {
   const [filename, setFilename] = useState(MAIN_FILE);
   return (
@@ -52,7 +55,7 @@ const Workbench = () => {
           size="20%"
           style={{ borderLeft: "4px solid whitesmoke" }}
         >
-          <Simulator />
+          <SimulatorArea />
         </RightResizable>
       </Fill>
     </ViewPort>

@@ -19,7 +19,7 @@ import config from "../config";
  *
  * Aim is to keep settings to a minimum.
  */
-const Settings = () => {
+const SettingsArea = () => {
   const [settings, setSettings] = useSettings();
 
   const handleChangeFontSize = useCallback(
@@ -122,4 +122,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsArea;

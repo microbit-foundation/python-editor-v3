@@ -20,7 +20,7 @@ interface FilesProps {
 /**
  * The main files area, offering access to individual files.
  */
-const Files = ({ onSelectedFileChanged }: FilesProps) => {
+const FilesArea = ({ onSelectedFileChanged }: FilesProps) => {
   const { files, projectName } = useProject();
   return (
     <VStack alignItems="stretch" padding={2} spacing={5}>
@@ -104,4 +104,4 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
   );
 };
 
-export default Files;
+export default FilesArea;
