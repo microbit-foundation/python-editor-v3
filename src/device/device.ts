@@ -188,7 +188,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     // but full flashing needs the entire Intel Hex to include the UICR data
     const boardId = BoardId.parse(this.connection.dapwrapper.boardId);
     const data = await dataSource(boardId);
-    // TODO: Push this decision down, as it has intenal fallbacks anyway.
     try {
       if (partial) {
         await this.connection.flashAsync(data.bytes, data.intelHex, progress);

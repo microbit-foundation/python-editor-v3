@@ -27,8 +27,6 @@ const DownloadButton = (props: ButtonProps) => {
       });
       return;
     }
-    // TODO: wire up project name
-    const projectName = "my-script";
     const blob = new Blob([hex.intelHex], { type: "application/octet-stream" });
     saveAs(blob, hex.filename);
   }, []);
