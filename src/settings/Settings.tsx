@@ -10,7 +10,7 @@ import {
   FormLabel,
   Select,
 } from "@chakra-ui/react";
-import { maximumFontSize, minimumFontSize, useSettings } from "../settings";
+import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
 import React, { useCallback } from "react";
 import config from "../config";
 

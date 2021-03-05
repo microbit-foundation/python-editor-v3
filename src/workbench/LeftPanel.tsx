@@ -23,7 +23,7 @@ import Files from "./Files";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import Logo from "./Logo";
 import Packages from "./Packages";
-import Settings from "./Settings";
+import Settings from "../settings/Settings";
 
 interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;

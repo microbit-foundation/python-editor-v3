@@ -13,7 +13,7 @@ import {
   maximumFontSize,
   minimumFontSize,
   useSettings,
-} from "../settings";
+} from "../settings/settings";
 
 interface ZoomControlsProps extends StackProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];

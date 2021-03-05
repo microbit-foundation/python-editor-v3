@@ -1,6 +1,6 @@
 import { createContext, SetStateAction, useContext } from "react";
-import config from "./config";
-import Settings from "./workbench/Settings";
+import config from "../config";
+import Settings from "./Settings";
 
 export interface Language {
   id: string;

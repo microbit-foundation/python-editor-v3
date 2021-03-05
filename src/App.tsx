@@ -11,7 +11,7 @@ import {
   isValidSettingsObject,
   Settings,
   SettingsContext,
-} from "./settings";
+} from "./settings/settings";
 import { useLocalStorage } from "./common/use-local-storage";
 import Project from "./Project";
 

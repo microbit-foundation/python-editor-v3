@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
 import { useFileSystemBackedText } from "../fs/fs-hooks";
-import { useSettings } from "../settings";
+import { useSettings } from "../settings/settings";
 import ZoomControls from "../workbench/ZoomControls";
 import Editor from "./Editor";
 import NonMainFileNotice from "./NonMainFileNotice";
