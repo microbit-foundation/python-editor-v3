@@ -1,16 +1,12 @@
 import { useEffect, useRef } from "react";
-import {
-  editorConfig,
-  themeExtensions,
-  themeExtensionsTag,
-} from "./codemirror";
+import { editorConfig, themeExtensions, themeExtensionsTag } from "./config";
 import { EditorState, tagExtension } from "@codemirror/state";
 import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
-import { useDidUpdate } from "../common/use-did-update";
+import { useDidUpdate } from "../../common/use-did-update";
 import { blocks } from "./blocks";
 
-interface EditorProps {
+interface CodeMirrorProps {
   className?: string;
   defaultValue: Text;
   onChange: (doc: Text) => void;
@@ -27,13 +23,13 @@ interface EditorProps {
  * The document itself is uncontrolled. Consider using a key for the editor
  * (e.g. based on the file being edited).
  */
-const Editor = ({
+const CodeMirror = ({
   defaultValue,
   className,
   onChange,
   fontSize,
   highlightCodeStructure,
-}: EditorProps) => {
+}: CodeMirrorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   useEffect(() => {
@@ -92,4 +88,4 @@ const Editor = ({
   );
 };
 
-export default Editor;
+export default CodeMirror;

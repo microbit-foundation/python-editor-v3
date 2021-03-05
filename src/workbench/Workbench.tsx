@@ -9,11 +9,11 @@ import {
 } from "react-spaces";
 import GradientLine from "../common/GradientLine";
 import Placeholder from "../common/Placeholder";
-import EditorContainer from "../editor/EditorContainer";
 import { MAIN_FILE } from "../fs/fs";
 import Header from "./Header";
 import LeftPanel from "./LeftPanel";
 import SimulatorArea from "../simulator/SimulatorArea";
+import EditorArea from "../editor/EditorArea";
 
 /**
  * The main app layout with resizable panels.
@@ -37,7 +37,7 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            <EditorContainer
+            <EditorArea
               key={filename}
               filename={filename}
               onSelectedFileChanged={setFilename}
