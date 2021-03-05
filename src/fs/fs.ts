@@ -15,12 +15,20 @@ export interface File {
  * All size-related stats will be -1 until the file system
  * has fully initialized.
  */
-export interface FileSystemState {
+export interface Project {
+  /**
+   * An ID for the project.
+   */
+  projectId: string;
+  /**
+   * A user-defined name for the project.
+   */
+  projectName: string;
+
   files: File[];
   spaceUsed: number;
   spaceRemaining: number;
   space: number;
-  projectName: string;
 }
 
 export const EVENT_STATE = "state";
@@ -47,6 +55,14 @@ class LocalStorage implements Storage {
     return Object.keys(localStorage)
       .filter((n) => n.startsWith(this.prefix))
       .map((n) => n.substring(this.prefix.length));
+  }
+
+  setProjectName(projectName: string) {
+    localStorage.setItem("projectName", projectName);
+  }
+
+  projectName(): string {
+    return localStorage.getItem("projectName") || config.defaultProjectName;
   }
 
   read(name: string): string {
@@ -83,15 +99,16 @@ export interface DownloadData {
  * A MicroPython file system.
  */
 export class FileSystem extends EventEmitter {
-  private initializing: Promise<MicropythonFsHex> | undefined;
+  private initializing: Promise<void> | undefined;
   private storage = new LocalStorage();
   private fs: undefined | MicropythonFsHex;
-  state: FileSystemState = {
+  state: Project = {
     files: [],
     space: -1,
     spaceRemaining: -1,
     spaceUsed: -1,
-    projectName: config.defaultProjectName,
+    projectId: generateId(),
+    projectName: this.storage.projectName(),
   };
 
   constructor() {
@@ -109,23 +126,25 @@ export class FileSystem extends EventEmitter {
   }
 
   async initialize(): Promise<MicropythonFsHex> {
+    if (this.fs) {
+      return this.fs;
+    }
     if (!this.initializing) {
       this.initializing = (async () => {
         const fs = await createInternalFileSystem();
-        this.copyStorageToFs(fs);
-        return fs;
+        this.replaceFsWithStorage(fs);
+        this.fs = fs;
+        this.initializing = undefined;
+        this.notify();
       })();
     }
-    this.fs = await this.initializing;
-    this.notify();
-    return this.fs;
+    await this.initializing;
+    return this.fs!;
   }
 
   setProjectName(projectName: string) {
-    this.state = {
-      ...this.state,
-      projectName,
-    };
+    // Or we could put it in a special project file?
+    this.storage.setProjectName(projectName);
     this.notify();
   }
 
@@ -136,6 +155,9 @@ export class FileSystem extends EventEmitter {
   write(filename: string, content: string) {
     this.storage.write(filename, content);
     if (this.fs) {
+      // We could queue them / debounce here? Though we'd need
+      // to make sure to sync with it when we needed the FS to
+      // be accurate.
       this.fs.write(filename, contentForFs(content));
     }
     this.notify();
@@ -143,17 +165,23 @@ export class FileSystem extends EventEmitter {
 
   async replaceWithHexContents(hex: string): Promise<void> {
     const fs = await this.initialize();
+    // TODO: consider error recovery. Is it cheap to create a new fs?
     const files = fs.importFilesFromHex(hex, {
       overwrite: true,
       formatFirst: true,
     });
     if (files.length === 0) {
-      // Reinstate from storage.
-      this.copyStorageToFs();
       throw new Error("The filesystem in the hex file was empty");
-    } else {
-      this.copyFsToStorage();
     }
+
+    this.state = {
+      ...this.state,
+      projectId: generateId(),
+    };
+    // For now this isn't stored, so clear it.
+    this.storage.setProjectName(config.defaultProjectName);
+    this.replaceStorageWithFs();
+    this.notify();
   }
 
   remove(filename: string): void {
@@ -166,7 +194,7 @@ export class FileSystem extends EventEmitter {
 
   private notify(): void {
     // The real file system has size information, so prefer it when available.
-    const source = this.storage || this.fs;
+    const source = this.fs || this.storage;
     const files = source.ls().map((name) => ({
       name,
       size: this.fs ? this.fs.size(name) : -1,
@@ -176,11 +204,13 @@ export class FileSystem extends EventEmitter {
     const space = this.fs ? this.fs.getStorageSize() : -1;
     this.state = {
       ...this.state,
+      projectName: this.storage.projectName(),
       files,
       spaceUsed,
       spaceRemaining,
       space,
     };
+    console.log("Event", this.listenerCount(EVENT_STATE), this.state);
     this.emit(EVENT_STATE, this.state);
   }
 
@@ -214,18 +244,26 @@ export class FileSystem extends EventEmitter {
     return this.fs;
   }
 
-  private copyStorageToFs(fs?: MicropythonFsHex) {
+  private replaceFsWithStorage(fs?: MicropythonFsHex) {
     fs = fs || this.assertInitialized();
+    fs.ls().forEach(fs.remove.bind(fs));
     for (const filename of this.storage.ls()) {
       fs.write(filename, contentForFs(this.storage.read(filename)));
     }
   }
 
-  private copyFsToStorage() {
+  private replaceStorageWithFs() {
     const fs = this.assertInitialized();
+    this.storage.ls().forEach(this.storage.remove.bind(this.storage));
     for (const filename of fs.ls()) {
       this.storage.write(filename, fs.read(filename));
     }
+  }
+
+  removeListener(event: string | symbol, listener: (...args: any[]) => void) {
+    const result = super.removeListener(event, listener);
+    console.log("after remove", this.listenerCount(event));
+    return result;
   }
 }
 
@@ -278,3 +316,7 @@ const asciiToBytes = (str: string): ArrayBuffer => {
   }
   return bytes.buffer;
 };
+
+const generateId = () =>
+  Math.random().toString(36).substring(2) +
+  Math.random().toString(36).substring(2);

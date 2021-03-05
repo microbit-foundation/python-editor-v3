@@ -25,7 +25,6 @@ export const useConnectionStatus = () => {
       setStatus(status);
     };
     device.on(EVENT_STATUS, statusListener);
-    setStatus(device.status);
     return () => {
       device.removeListener(EVENT_STATUS, statusListener);
     };

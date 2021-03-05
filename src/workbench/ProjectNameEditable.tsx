@@ -9,14 +9,14 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { RiEdit2Line } from "react-icons/ri";
-import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
+import { useFileSystem, useProject } from "../fs/fs-hooks";
 
 /**
  * A control to enable editing of the project name.
  */
 const ProjectNameEditable = () => {
   const fs = useFileSystem();
-  const { projectName } = useFileSystemState();
+  const { projectName } = useProject();
   const [keyPart, setKeyPart] = useState(0);
   const handleSubmit = (projectName: string) => {
     if (projectName.trim()) {

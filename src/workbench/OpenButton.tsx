@@ -29,6 +29,7 @@ const OpenButton = (props: ButtonProps) => {
             actionFeedback.expectedError({
               title: "Failed to open the hex file",
               description: e.message,
+              error: e,
             });
           }
         }

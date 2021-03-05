@@ -1,3 +1,4 @@
+import { useUnmountEffect } from "@chakra-ui/react";
 import { Text } from "@codemirror/state";
 import {
   createContext,
@@ -6,7 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { EVENT_STATE, FileSystemState, FileSystem, MAIN_FILE } from "./fs";
+import useIsUnmounted from "../common/use-is-unmounted";
+import { EVENT_STATE, Project, FileSystem } from "./fs";
 
 export const FileSystemContext = createContext<FileSystem | undefined>(
   undefined
@@ -20,14 +22,19 @@ export const useFileSystem = () => {
   return fs;
 };
 
-export const useFileSystemState = (): FileSystemState => {
+export const useProject = (): Project => {
   const fs = useFileSystem();
-  const [state, setState] = useState<FileSystemState>(fs.state);
+  const isUnmounted = useIsUnmounted();
+  const [state, setState] = useState<Project>(fs.state);
   useEffect(() => {
-    setState(fs.state);
-    fs.on(EVENT_STATE, setState);
+    const listener = (x: any) => {
+      if (!isUnmounted()) {
+        setState(x);
+      }
+    };
+    fs.on(EVENT_STATE, listener);
     return () => {
-      fs.removeListener(EVENT_STATE, setState);
+      fs.removeListener(EVENT_STATE, listener);
     };
   }, [fs]);
   return state;
@@ -50,8 +57,8 @@ export const useFileSystemBackedText = (
   const handleChange = useCallback(
     (text: Text) => {
       const content = text.sliceString(0, undefined, "\n");
-      // Hmm. We could queue them / debounce here?
-      // What happens if we fill up the file system?
+      // If we fill up the FS it seems to cope and error when we
+      // ask for a hex.
       fs.write(filename, content);
     },
     [fs]

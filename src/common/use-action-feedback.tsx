@@ -12,10 +12,14 @@ export class ActionFeedback {
   expectedError({
     title,
     description,
+    error,
   }: {
     title: string;
     description: ReactNode;
+    error?: any;
   }) {
+    // For now at least.
+    console.error(error);
     this.toast({
       title,
       status: "error",

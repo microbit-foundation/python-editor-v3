@@ -12,8 +12,8 @@ import {
   Settings,
   SettingsContext,
 } from "./settings";
-import Workbench from "./workbench/Workbench";
 import { useLocalStorage } from "./common/use-local-storage";
+import Project from "./workbench/Project";
 
 const device = new MicrobitWebUSBConnection();
 const fs = new FileSystem();
@@ -31,12 +31,13 @@ const App = () => {
     isValidSettingsObject,
     defaultSettings
   );
+
   return (
     <ChakraProvider theme={theme}>
       <DeviceContext.Provider value={device}>
         <FileSystemContext.Provider value={fs}>
           <SettingsContext.Provider value={settings}>
-            <Workbench />
+            <Project />
           </SettingsContext.Provider>
         </FileSystemContext.Provider>
       </DeviceContext.Provider>

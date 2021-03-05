@@ -9,7 +9,7 @@ import {
 import React, { useCallback } from "react";
 import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
 import { File, MAIN_FILE } from "../fs/fs";
-import { useFileSystem, useFileSystemState } from "../fs/fs-hooks";
+import { useFileSystem, useProject } from "../fs/fs-hooks";
 import { saveAs } from "file-saver";
 import useActionFeedback from "../common/use-action-feedback";
 
@@ -21,15 +21,15 @@ interface FilesProps {
  * The main files area, offering access to individual files.
  */
 const Files = ({ onSelectedFileChanged }: FilesProps) => {
-  const fs = useFileSystemState();
+  const { files, projectName } = useProject();
   return (
     <VStack alignItems="stretch" padding={2} spacing={5}>
       <List>
-        {fs.files.map((f) => (
+        {files.map((f) => (
           <ListItem key={f.name}>
             <FileRow
               value={f}
-              projectName={fs.projectName}
+              projectName={projectName}
               onClick={() => onSelectedFileChanged(f.name)}
             />
           </ListItem>
