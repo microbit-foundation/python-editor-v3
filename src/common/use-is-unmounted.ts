@@ -1,6 +1,11 @@
-import { useUnmountEffect } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+/**
+ * A hook that returns a function that can check for unmounts.
+ *
+ * This can be used where it's not sufficient or possible to
+ * cancel an async action or subscription.
+ */
 const useIsUnmounted = () => {
   const ref = useRef(false);
   useEffect(() => {
