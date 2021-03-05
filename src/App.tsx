@@ -13,7 +13,7 @@ import {
   SettingsContext,
 } from "./settings";
 import { useLocalStorage } from "./common/use-local-storage";
-import Project from "./workbench/Project";
+import Project from "./Project";
 
 const device = new MicrobitWebUSBConnection();
 const fs = new FileSystem();

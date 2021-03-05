@@ -1,6 +1,6 @@
 import React from "react";
-import { useProject } from "../fs/fs-hooks";
-import Workbench from "./Workbench";
+import { useProject } from "./fs/fs-hooks";
+import Workbench from "./workbench/Workbench";
 
 const Project = () => {
   const { projectId } = useProject();
