@@ -12,7 +12,9 @@ const LeftPanelTabContent = ({ title, children }: LeftPanelTabContentProps) => {
       <Text flex="0 0 auto" as="h3" fontSize="lg" fontWeight="bold" p="9px">
         {title}
       </Text>
-      <Box flex="1 0 auto">{children}</Box>
+      <Box flex="1 0 auto" overflowY="auto" height={0}>
+        {children}
+      </Box>
     </Flex>
   );
 };
