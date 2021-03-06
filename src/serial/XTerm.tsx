@@ -7,6 +7,8 @@ const XTerm = () => {
   useEffect(() => {
     if (ref.current) {
       const terminal = new Terminal();
+      terminal.write("Data from serial written here");
+      terminal.onData((data) => console.log("Send this via serial", data));
       terminal.open(ref.current);
     }
   }, []);
