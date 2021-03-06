@@ -4,7 +4,6 @@ import {
   EditablePreview,
   Flex,
   IconButton,
-  Tooltip,
   UseEditableReturn,
 } from "@chakra-ui/react";
 import React, { useState } from "react";

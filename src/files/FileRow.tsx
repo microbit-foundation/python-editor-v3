@@ -1,43 +1,9 @@
-import {
-  Button,
-  HStack,
-  IconButton,
-  List,
-  ListItem,
-  VStack,
-} from "@chakra-ui/react";
-import React, { useCallback } from "react";
+import { Button, HStack, IconButton } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
-import { File, MAIN_FILE } from "../fs/fs";
-import { useFileSystem, useProject } from "../fs/fs-hooks";
-import { saveAs } from "file-saver";
 import useActionFeedback from "../common/use-action-feedback";
-
-interface FilesProps {
-  onSelectedFileChanged: (name: string) => void;
-}
-
-/**
- * The main files area, offering access to individual files.
- */
-const FilesArea = ({ onSelectedFileChanged }: FilesProps) => {
-  const { files, projectName } = useProject();
-  return (
-    <VStack alignItems="stretch" padding={2} spacing={5}>
-      <List>
-        {files.map((f) => (
-          <ListItem key={f.name}>
-            <FileRow
-              value={f}
-              projectName={projectName}
-              onClick={() => onSelectedFileChanged(f.name)}
-            />
-          </ListItem>
-        ))}
-      </List>
-    </VStack>
-  );
-};
+import { File, MAIN_FILE } from "../fs/fs";
+import { useFileSystem } from "../fs/fs-hooks";
 
 interface FileRowProps {
   projectName: string;
@@ -62,6 +28,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
       actionFeedback.unexpectedError(e);
     }
   }, [fs, name]);
+
   const handleDelete = useCallback(() => {
     try {
       fs.remove(name);
@@ -104,4 +71,4 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
   );
 };
 
-export default FilesArea;
+export default FileRow;

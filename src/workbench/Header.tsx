@@ -2,9 +2,9 @@ import { Flex, HStack, VStack } from "@chakra-ui/react";
 import React from "react";
 import HelpMenu from "./HelpMenu";
 import Logo from "../common/Logo";
-import OpenButton from "./OpenButton";
-import ProjectNameEditable from "./ProjectNameEditable";
-import ShareButton from "./ShareButton";
+import OpenButton from "../project/OpenButton";
+import ProjectNameEditable from "../project/ProjectNameEditable";
+import ShareButton from "../project/ShareButton";
 
 /**
  * The header area with associated actions.

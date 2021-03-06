@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiShareLine } from "react-icons/ri";
+import CollapsibleButton from "../common/CollapsibleButton";
 import useActionFeedback from "../common/use-action-feedback";
 
 /**
@@ -16,14 +17,14 @@ const ShareButton = (props: ButtonProps) => {
   }, [actionFeedback]);
 
   return (
-    <Button
-      leftIcon={<RiShareLine />}
+    <CollapsibleButton
+      icon={<RiShareLine />}
+      mode="icon"
       onClick={handleShare}
       {...props}
       variant="outline"
-    >
-      Share
-    </Button>
+      text="Share"
+    />
   );
 };
 

@@ -4,10 +4,14 @@ import { RiFolderOpenLine } from "react-icons/ri";
 import useActionFeedback from "../common/use-action-feedback";
 import { useFileSystem } from "../fs/fs-hooks";
 
+interface OpenButtonProps extends ButtonProps {
+  text?: string;
+}
+
 /**
  * Open HEX button, with an associated input field.
  */
-const OpenButton = (props: ButtonProps) => {
+const OpenButton = ({ text = "Open", ...props }: OpenButtonProps) => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const ref = useRef<HTMLInputElement>(null);
@@ -52,7 +56,7 @@ const OpenButton = (props: ButtonProps) => {
         onClick={handleChooseFile}
         {...props}
       >
-        Open
+        {text}
       </Button>
     </>
   );

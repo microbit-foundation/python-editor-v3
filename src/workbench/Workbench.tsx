@@ -4,16 +4,14 @@ import {
   Fill,
   LeftResizable,
   RightResizable,
-  Top,
   ViewPort,
 } from "react-spaces";
-import GradientLine from "../common/GradientLine";
 import Placeholder from "../common/Placeholder";
-import { MAIN_FILE } from "../fs/fs";
-import Header from "./Header";
-import LeftPanel from "./LeftPanel";
-import SimulatorArea from "../simulator/SimulatorArea";
 import EditorArea from "../editor/EditorArea";
+import { MAIN_FILE } from "../fs/fs";
+import SerialArea from "../serial/SerialArea";
+import SimulatorArea from "../simulator/SimulatorArea";
+import LeftPanel from "./LeftPanel";
 
 /**
  * The main app layout with resizable panels.
@@ -23,10 +21,6 @@ const Workbench = () => {
   return (
     // https://github.com/aeagle/react-spaces
     <ViewPort>
-      <Top size={65}>
-        <Header />
-        <GradientLine />
-      </Top>
       <Fill>
         <LeftResizable
           size="25%"
@@ -37,26 +31,21 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            <EditorArea
-              key={filename}
-              filename={filename}
-              onSelectedFileChanged={setFilename}
-            />
+            <Fill>
+              <EditorArea
+                key={filename}
+                filename={filename}
+                onSelectedFileChanged={setFilename}
+              />
+            </Fill>
           </Fill>
-          <BottomResizable size="20%">
-            <Placeholder
-              bgColor="blackAlpha.900"
-              color="white"
-              text="Serial here, showing errors from your micro:bit when you run the code"
-            />
+          <BottomResizable
+            size="20%"
+            style={{ borderTop: "4px solid whitesmoke" }}
+          >
+            <SerialArea />
           </BottomResizable>
         </Fill>
-        <RightResizable
-          size="20%"
-          style={{ borderLeft: "4px solid whitesmoke" }}
-        >
-          <SimulatorArea />
-        </RightResizable>
       </Fill>
     </ViewPort>
   );

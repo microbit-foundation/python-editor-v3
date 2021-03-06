@@ -14,11 +14,11 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
-import DeviceConnection from "./DeviceConnection";
-import FilesArea from "./FilesArea";
-import LeftPanelTabContent from "./LeftPanelTabContent";
+import LogoBar from "../common/LogoBar";
 import PackagesArea from "../packages/PackagesArea";
 import SettingsArea from "../settings/SettingsArea";
+import FilesArea from "../files/FilesArea";
+import LeftPanelTabContent from "./LeftPanelTabContent";
 
 interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;
@@ -69,6 +69,7 @@ interface LeftPanelConentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
   return (
     <Flex height="100%" direction="column">
+      <LogoBar />
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList backgroundColor="whitesmoke">
           {panes.map((p) => (
@@ -87,7 +88,6 @@ const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
           ))}
         </TabPanels>
       </Tabs>
-      <DeviceConnection />
     </Flex>
   );
 };
