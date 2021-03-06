@@ -55,7 +55,11 @@ const FlashButton = (
       ? "Flash"
       : `Flashing… (${(progress * 100).toFixed(0)}%)`;
   return (
-    <Tooltip hasArrow label="Flash the project directly to the micro:bit">
+    <Tooltip
+      hasArrow
+      placement="top-start"
+      label="Flash the project directly to the micro:bit"
+    >
       <CollapsableButton
         {...props}
         disabled={typeof progress !== "undefined"}

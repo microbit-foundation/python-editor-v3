@@ -4,6 +4,7 @@ import {
   EditablePreview,
   Flex,
   IconButton,
+  Tooltip,
   UseEditableReturn,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -33,13 +34,19 @@ const ProjectNameEditable = () => {
   >) => {
     return isEditing ? null : (
       <Flex justifyContent="center" display="inline" marginLeft={2}>
-        <IconButton
-          size="md"
-          icon={<RiEdit2Line />}
-          onClick={onEdit}
-          aria-label="Edit project name"
-          variant="outline"
-        />
+        <Tooltip
+          hasArrow
+          label="Edit the name of your project"
+          placement="top-start"
+        >
+          <IconButton
+            size="md"
+            icon={<RiEdit2Line />}
+            onClick={onEdit}
+            aria-label="Edit project name"
+            variant="outline"
+          />
+        </Tooltip>
       </Flex>
     );
   };

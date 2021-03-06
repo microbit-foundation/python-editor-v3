@@ -41,7 +41,7 @@ const DownloadButton = (props: DownloadButtonProps) => {
   }, [fs, actionFeedback]);
 
   return (
-    <Tooltip hasArrow label="Download a hex file">
+    <Tooltip hasArrow placement="top-start" label="Download a hex file">
       <CollapsableButton
         {...props}
         icon={<RiDownload2Line />}
