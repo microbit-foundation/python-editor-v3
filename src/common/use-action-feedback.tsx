@@ -24,7 +24,7 @@ export class ActionFeedback {
       title,
       status: "error",
       description,
-      position: "top",
+      position: "bottom",
       isClosable: true,
     });
   }
