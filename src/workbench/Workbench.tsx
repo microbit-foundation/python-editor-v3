@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-import {
-  BottomResizable,
-  Fill,
-  LeftResizable,
-  RightResizable,
-  ViewPort,
-} from "react-spaces";
-import Placeholder from "../common/Placeholder";
+import { BottomResizable, Fill, LeftResizable, ViewPort } from "react-spaces";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
 import SerialArea from "../serial/SerialArea";
-import SimulatorArea from "../simulator/SimulatorArea";
 import LeftPanel from "./LeftPanel";
 
 /**
@@ -23,7 +15,7 @@ const Workbench = () => {
     <ViewPort>
       <Fill>
         <LeftResizable
-          size="25%"
+          size="30%"
           minimumSize={210}
           style={{ borderRight: "4px solid whitesmoke" }}
         >
@@ -31,13 +23,11 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            <Fill>
-              <EditorArea
-                key={filename}
-                filename={filename}
-                onSelectedFileChanged={setFilename}
-              />
-            </Fill>
+            <EditorArea
+              key={filename}
+              filename={filename}
+              onSelectedFileChanged={setFilename}
+            />
           </Fill>
           <BottomResizable
             size="20%"
