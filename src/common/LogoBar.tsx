@@ -1,4 +1,4 @@
-import { Image, Flex } from "@chakra-ui/react";
+import { Image, Flex, HStack } from "@chakra-ui/react";
 import Logo from "./Logo";
 import pythonLogo from "./pythonLogo.png";
 
@@ -7,16 +7,17 @@ import pythonLogo from "./pythonLogo.png";
  */
 const LogoBar = () => {
   return (
-    <Flex
+    <HStack
       fill="white"
       backgroundColor="blackAlpha.900"
       alignItems="center"
       justifyContent="space-between"
       padding={3}
+      spacing={3}
     >
       <Logo height="30px" />
       <Image src={pythonLogo} alt="Python" width={8} height={8} />
-    </Flex>
+    </HStack>
   );
 };
 
