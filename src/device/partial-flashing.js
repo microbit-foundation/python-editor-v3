@@ -2,8 +2,11 @@
  * Implementation of partial flashing for the micro:bit.
  *
  * This could do with some love to make it easier to follow.
+ *
+ * Latest Microsoft implementation is here:
+ * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
-import * as DAPjs from "dapjs";
+import { CortexM, WebUSB, DAPLink } from "dapjs";
 import * as PartialFlashingUtils from "./partial-flashing-utils";
 
 // NOTICE
@@ -62,9 +65,9 @@ export class DAPWrapper {
   }
 
   allocDAP() {
-    this.transport = new DAPjs.WebUSB(this.device);
-    this.daplink = new DAPjs.DAPLink(this.transport);
-    this.cortexM = new DAPjs.CortexM(this.transport);
+    this.transport = new WebUSB(this.device);
+    this.daplink = new DAPLink(this.transport);
+    this.cortexM = new CortexM(this.transport);
   }
 
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L119
@@ -571,7 +574,7 @@ export class PartialFlashing {
     PartialFlashingUtils.log("Full flash");
     // Event to monitor flashing progress
     // TODO: surely we need to remove this?
-    this.dapwrapper.daplink.on(DAPjs.DAPLink.EVENT_PROGRESS, (progress) => {
+    this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, (progress) => {
       updateProgress(progress, true);
     });
     await this.dapwrapper.transport.open();
