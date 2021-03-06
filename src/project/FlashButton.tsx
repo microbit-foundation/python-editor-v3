@@ -25,10 +25,17 @@ const FlashButton = (
   const actionFeedback = useActionFeedback();
   const device = useDevice();
   const status = useConnectionStatus();
-  const connected = status === ConnectionStatus.CONNECTED;
   const [progress, setProgress] = useState<number | undefined>();
 
   const handleFlash = useCallback(async () => {
+    if (status === ConnectionStatus.NOT_SUPPORTED) {
+      actionFeedback.expectedError({
+        title: "WebUSB not supported",
+        description: "Download the hex file or try Chrome or Microsoft Edge",
+      });
+      return;
+    }
+
     const dataSource = async (boardId: BoardId) => {
       try {
         return await fs.toHexForFlash(boardId);

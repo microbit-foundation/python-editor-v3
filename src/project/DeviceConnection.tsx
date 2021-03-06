@@ -1,4 +1,4 @@
-import { HStack, Switch, Text } from "@chakra-ui/react";
+import { HStack, Switch, Text, Tooltip } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import Separate from "../common/Separate";
 import useActionFeedback, {
@@ -32,7 +32,7 @@ const DeviceConnection = () => {
       if (!supported) {
         actionFeedback.expectedError({
           title: "WebUSB not supported",
-          description: "<<appropriate messaging from the existing editor>>",
+          description: "Download the hex file or try Chrome or Microsoft Edge",
         });
       } else {
         try {
@@ -59,7 +59,9 @@ const DeviceConnection = () => {
         />
       </HStack>
       <HStack as="label" spacing={3} width="14rem">
-        <Switch isChecked={connected} onChange={handleToggleConnected} />
+        <Tooltip text="Connect to your micro:bit over WebUSB">
+          <Switch isChecked={connected} onChange={handleToggleConnected} />
+        </Tooltip>
         <Text as="span" size="lg" fontWeight="semibold">
           {connected ? "micro:bit connected" : "micro:bit disconnected"}
         </Text>
