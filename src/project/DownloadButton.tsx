@@ -3,6 +3,7 @@ import { RiDownload2Line } from "react-icons/ri";
 import useActionFeedback from "../common/use-action-feedback";
 import { DownloadData } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { saveAs } from "file-saver";
 import CollapsableButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
