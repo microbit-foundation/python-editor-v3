@@ -156,6 +156,18 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
+    return this.withEnrichedErrors(() =>
+      this.flashInternal(dataSource, options)
+    );
+  }
+
+  private async flashInternal(
+    dataSource: FlashDataSource,
+    options: {
+      partial: boolean;
+      progress: (percentage: number | undefined) => void;
+    }
+  ): Promise<void> {
     const partial = options.partial;
     const progress = options.progress || (() => {});
 
@@ -258,11 +270,12 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   }
 }
 
-const genericErrorSuggestingReconnect = () =>
+const genericErrorSuggestingReconnect = (e: any) =>
   new WebUSBError({
     code: "reconnect-microbit",
     title: "WebUSB Error",
     description: translation["webusb"]["err"]["reconnect-microbit"],
+    message: e.message,
   });
 
 // tslint:disable-next-line: no-any
@@ -304,16 +317,16 @@ const enrichedError = (err: any): WebUSBError => {
         });
       } else {
         // Unhandled error. User will need to reconnect their micro:bit
-        return genericErrorSuggestingReconnect();
+        return genericErrorSuggestingReconnect(err);
       }
     case "string": {
       // Caught a string. Example case: "Flash error" from DAPjs
       console.log("Caught a string");
-      return genericErrorSuggestingReconnect();
+      return genericErrorSuggestingReconnect(err);
     }
     default: {
       console.log("Unexpected error type: " + typeof err);
-      return genericErrorSuggestingReconnect();
+      return genericErrorSuggestingReconnect(err);
     }
   }
 };
