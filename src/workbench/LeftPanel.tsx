@@ -6,6 +6,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
@@ -19,6 +20,7 @@ import PackagesArea from "../packages/PackagesArea";
 import SettingsArea from "../settings/SettingsArea";
 import FilesArea from "../files/FilesArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import HelpMenu from "./HelpMenu";
 
 interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;
@@ -62,11 +64,11 @@ interface Pane {
   contents: ReactNode;
 }
 
-interface LeftPanelConentsProps {
+interface LeftPanelContentsProps {
   panes: Pane[];
 }
 
-const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
+const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
   return (
     <Flex height="100%" direction="column">
       <LogoBar />
@@ -77,6 +79,9 @@ const LeftPanelContents = ({ panes }: LeftPanelConentsProps) => {
               <Icon as={p.icon} aria-label={p.title} />
             </Tab>
           ))}
+          <VStack mt="auto" mb={1}>
+            <HelpMenu />
+          </VStack>
         </TabList>
         <TabPanels>
           {panes.map((p) => (

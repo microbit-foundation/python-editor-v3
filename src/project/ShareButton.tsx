@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@chakra-ui/react";
+import { Button, ButtonProps, Tooltip } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiShareLine } from "react-icons/ri";
 import CollapsibleButton from "../common/CollapsibleButton";
@@ -17,14 +17,20 @@ const ShareButton = (props: ButtonProps) => {
   }, [actionFeedback]);
 
   return (
-    <CollapsibleButton
-      icon={<RiShareLine />}
-      mode="icon"
-      onClick={handleShare}
-      {...props}
-      variant="outline"
-      text="Share"
-    />
+    <Tooltip hasArrow label="Share your project">
+      <CollapsibleButton
+        icon={
+          <span>
+            <RiShareLine />
+          </span>
+        }
+        mode="icon"
+        onClick={handleShare}
+        {...props}
+        variant="outline"
+        text="Share"
+      />
+    </Tooltip>
   );
 };
 

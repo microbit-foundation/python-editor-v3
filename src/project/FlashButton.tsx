@@ -11,6 +11,7 @@ import { useFileSystem } from "../fs/fs-hooks";
 import CollapsableButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
+import { Tooltip } from "@chakra-ui/react";
 
 class HexGenerationError extends Error {}
 
@@ -54,13 +55,15 @@ const FlashButton = (
       ? "Flash"
       : `Flashing… (${(progress * 100).toFixed(0)}%)`;
   return (
-    <CollapsableButton
-      {...props}
-      disabled={!fs || !connected || typeof progress !== "undefined"}
-      icon={<RiFlashlightFill />}
-      onClick={handleFlash}
-      text={text}
-    />
+    <Tooltip hasArrow label="Flash the project directly to the micro:bit">
+      <CollapsableButton
+        {...props}
+        disabled={typeof progress !== "undefined"}
+        icon={<RiFlashlightFill />}
+        onClick={handleFlash}
+        text={text}
+      />
+    </Tooltip>
   );
 };
 

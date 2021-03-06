@@ -7,6 +7,7 @@ import { saveAs } from "file-saver";
 import CollapsableButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
+import { Tooltip } from "@chakra-ui/react";
 
 interface DownloadButtonProps
   extends Omit<CollapsibleButtonProps, "onClick" | "text" | "icon"> {}
@@ -40,12 +41,14 @@ const DownloadButton = (props: DownloadButtonProps) => {
   }, [fs, actionFeedback]);
 
   return (
-    <CollapsableButton
-      {...props}
-      icon={<RiDownload2Line />}
-      onClick={handleDownload}
-      text="Download"
-    />
+    <Tooltip hasArrow label="Download a hex file">
+      <CollapsableButton
+        {...props}
+        icon={<RiDownload2Line />}
+        onClick={handleDownload}
+        text="Download"
+      />
+    </Tooltip>
   );
 };
 

@@ -4,7 +4,7 @@ import {
   IconButton,
   ThemingProps,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { ForwardedRef } from "react";
 
 export interface CollapsibleButtonProps
   extends HTMLChakraProps<"button">,
@@ -23,20 +23,19 @@ export interface CollapsibleButtonProps
  *
  * We'd like to do this at a lower-level so we can animate a transition.
  */
-const CollapsableButton = ({
-  mode,
-  text,
-  icon,
-  buttonWidth,
-  ...props
-}: CollapsibleButtonProps) => {
-  return mode === "icon" ? (
-    <IconButton icon={icon} aria-label={text} {...props} />
-  ) : (
-    <Button leftIcon={icon} minWidth={buttonWidth} {...props}>
-      {text}
-    </Button>
-  );
-};
+const CollapsableButton = React.forwardRef(
+  (
+    { mode, text, icon, buttonWidth, ...props }: CollapsibleButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
+    return mode === "icon" ? (
+      <IconButton ref={ref} icon={icon} aria-label={text} {...props} />
+    ) : (
+      <Button ref={ref} leftIcon={icon} minWidth={buttonWidth} {...props}>
+        {text}
+      </Button>
+    );
+  }
+);
 
 export default CollapsableButton;
