@@ -19,11 +19,7 @@ const ShareButton = (props: ButtonProps) => {
   return (
     <Tooltip hasArrow placement="top-start" label="Share your project">
       <CollapsibleButton
-        icon={
-          <span>
-            <RiShareLine />
-          </span>
-        }
+        icon={<RiShareLine />}
         mode="icon"
         onClick={handleShare}
         {...props}
