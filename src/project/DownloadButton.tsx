@@ -37,7 +37,7 @@ const DownloadButton = (props: DownloadButtonProps) => {
     const blob = new Blob([download.intelHex], {
       type: "application/octet-stream",
     });
-    saveAs(blob, `${download.filename}.hex`);
+    saveAs(blob, download.filename);
   }, [fs, actionFeedback]);
 
   return (
