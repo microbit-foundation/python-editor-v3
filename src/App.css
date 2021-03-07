@@ -7,6 +7,8 @@ body,
   --block: rgba(52, 162, 235, 0.06);
 
   height: 100vh;
+  /* https://css-tricks.com/css-fix-for-100vh-in-mobile-webkit/ */
+  height: -webkit-fill-available;
 }
 .cm-wrap {
   height: 100%;
