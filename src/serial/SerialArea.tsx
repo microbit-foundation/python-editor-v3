@@ -7,7 +7,7 @@ const SerialArea = () => {
   return (
     <Flex flexDirection="column" alignItems="stretch" height="100%">
       <ProjectActionBar mt={1} mb={1} ml={2} mr={2} />
-      <XTerm />
+      <XTerm flex="1 1 auto" height={0} />
     </Flex>
   );
 };
