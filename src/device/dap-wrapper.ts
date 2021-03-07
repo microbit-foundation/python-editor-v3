@@ -30,12 +30,6 @@ export class DAPWrapper {
     this.cortexM = new CortexM(this.transport);
   }
 
-  private recreateDAP(): void {
-    this.transport = new WebUSB(this.device);
-    this.daplink = new DAPLink(this.transport);
-    this.cortexM = new CortexM(this.transport);
-  }
-
   /**
    * The page size. Throws if we've not connected.
    */
@@ -70,7 +64,9 @@ export class DAPWrapper {
     // Only fully reconnect after the first time this object has reconnected.
     if (!this.reconnected) {
       this.reconnected = true;
-      this.recreateDAP();
+      this.transport = new WebUSB(this.device);
+      this.daplink = new DAPLink(this.transport);
+      this.cortexM = new CortexM(this.transport);
       // TODO: does this make sense to reallocate then disconnect?
       await this.disconnectAsync();
     }
@@ -79,6 +75,17 @@ export class DAPWrapper {
 
     this._pageSize = await this.cortexM.readMem32(FICR.CODEPAGESIZE);
     this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);
+  }
+
+  startSerial(listener: (data: string) => void): void {
+    this.daplink.setSerialBaudrate(115200);
+    this.daplink.on(DAPLink.EVENT_SERIAL_DATA, listener);
+    this.daplink.startSerialRead(1);
+  }
+
+  stopSerial(listener: (data: string) => void): void {
+    this.daplink.stopSerialRead();
+    this.daplink.removeListener(DAPLink.EVENT_SERIAL_DATA, listener);
   }
 
   async disconnectAsync(): Promise<void> {

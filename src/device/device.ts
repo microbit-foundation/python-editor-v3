@@ -1,3 +1,4 @@
+import { DAPLink } from "dapjs";
 import EventEmitter from "events";
 import { FlashDataSource } from "../fs/fs";
 import translation from "../translation";
@@ -119,6 +120,10 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    */
   private connection: DAPWrapper | undefined;
 
+  private serialListener = (data: string) => {
+    this.emit(EVENT_SERIAL_DATA, data);
+  };
+
   async initialize(): Promise<void> {
     if (navigator.usb) {
       navigator.usb.addEventListener("disconnect", this.handleDisconnect);
@@ -177,6 +182,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     if (!this.connection) {
       throw new Error("Must be connected now");
     }
+    this.connection.stopSerial(this.serialListener);
 
     const partial = options.partial;
     const progress = options.progress || (() => {});
@@ -191,6 +197,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       } else {
         await flashing.fullFlashAsync(data.intelHex, progress);
       }
+      this.connection.startSerial(this.serialListener);
     } finally {
       progress(undefined);
     }
@@ -239,6 +246,12 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
+  serialWrite(data: string): void {
+    if (this.connection) {
+      this.connection.daplink.serialWrite(data);
+    }
+  }
+
   private handleDisconnect = (event: USBConnectionEvent) => {
     if (event.device === this.device) {
       log("Disconnect event");
@@ -256,6 +269,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       this.connection = new DAPWrapper(device);
     }
     await this.connection.reconnectAsync();
+    this.connection.startSerial(this.serialListener);
+
     return ConnectionStatus.CONNECTED;
   }
 
