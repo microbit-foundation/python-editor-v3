@@ -1,8 +1,4 @@
-// The Control/Status Word register is used to configure and control transfers through the APB interface.
-// This is drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/dap/constants.ts#L28
-// Csw.CSW_VALUE = (CSW_RESERVED | CSW_MSTRDBG | CSW_HPROT | CSW_DBGSTAT | CSW_SADDRINC)
-export const CSW_VALUE =
-  0x01000000 | 0x20000000 | 0x02000000 | 0x00000040 | 0x00000010;
+import { DapVal } from "./constants";
 
 export const log = console.log;
 
@@ -71,8 +67,8 @@ export const murmur3_core = (data: Uint8Array): [number, number] => {
 
 // Returns a representation of an Access Port Register.
 // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/util.ts#L63
-export const apReg = (r: number, mode: number): number => {
-  const v = r | mode | (1 << 0); // DapVal.AP_ACC;
+export const apReg = (r: number, mode: number): number /* Reg */ => {
+  const v = r | mode | DapVal.AP_ACC;
   return 4 + ((v & 0x0c) >> 2);
 };
 
@@ -92,7 +88,7 @@ export const regRequest = (regId: number, isWrite: boolean = false): number => {
   return request;
 };
 
-class Page {
+export class Page {
   constructor(readonly targetAddr: number, readonly data: Uint8Array) {}
 }
 
