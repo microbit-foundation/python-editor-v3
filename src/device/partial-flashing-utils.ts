@@ -23,7 +23,7 @@ export const FICR = {
   CODESIZE: 0x10000000 | 0x14,
 };
 
-export const read32FromUInt8Array = (data, i) => {
+export const read32FromUInt8Array = (data: Uint8Array, i: number): number => {
   return (
     (data[i] |
       (data[i + 1] << 8) |
@@ -33,7 +33,7 @@ export const read32FromUInt8Array = (data, i) => {
   );
 };
 
-export const bufferConcat = (bufs) => {
+export const bufferConcat = (bufs: Uint8Array[]): Uint8Array => {
   let len = 0;
   for (const b of bufs) {
     len += b.length;
@@ -49,7 +49,7 @@ export const bufferConcat = (bufs) => {
 
 // Returns the MurmurHash of the data passed to it, used for checksum calculation.
 // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L14
-export const murmur3_core = (data) => {
+export const murmur3_core = (data: Uint8Array): [number, number] => {
   let h0 = 0x2f9be6cc;
   let h1 = 0x1ec3a6c8;
 
@@ -71,14 +71,14 @@ export const murmur3_core = (data) => {
 
 // Returns a representation of an Access Port Register.
 // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/util.ts#L63
-export const apReg = (r, mode) => {
+export const apReg = (r: number, mode: number): number => {
   const v = r | mode | (1 << 0); // DapVal.AP_ACC;
   return 4 + ((v & 0x0c) >> 2);
 };
 
 // Returns a code representing a request to read/write a certain register.
 // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/util.ts#L92
-export const regRequest = (regId, isWrite = false) => {
+export const regRequest = (regId: number, isWrite: boolean = false): number => {
   let request = !isWrite ? 1 << 1 /* READ */ : 0 << 1; /* WRITE */
 
   if (regId < 4) {
@@ -92,16 +92,17 @@ export const regRequest = (regId, isWrite = false) => {
   return request;
 };
 
+class Page {
+  constructor(readonly targetAddr: number, readonly data: Uint8Array) {}
+}
+
 // Split buffer into pages, each of pageSize size.
 // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L209
-export const pageAlignBlocks = (buffer, targetAddr, pageSize) => {
-  class Page {
-    constructor(targetAddr, data) {
-      this.targetAddr = targetAddr;
-      this.data = data;
-    }
-  }
-
+export const pageAlignBlocks = (
+  buffer: Uint8Array,
+  targetAddr: number,
+  pageSize: number
+): Page[] => {
   let unaligned = new Uint8Array(buffer);
   let pages = [];
   for (let i = 0; i < unaligned.byteLength; ) {
@@ -120,7 +121,11 @@ export const pageAlignBlocks = (buffer, targetAddr, pageSize) => {
 
 // Filter out all pages whose calculated checksum matches the corresponding checksum passed as an argument.
 // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L523
-export const onlyChanged = (pages, checksums, pageSize) => {
+export const onlyChanged = (
+  pages: Page[],
+  checksums: Uint8Array,
+  pageSize: number
+): Page[] => {
   return pages.filter((page) => {
     let idx = page.targetAddr / pageSize;
     if (idx * 8 + 8 > checksums.length) return true; // out of range?
