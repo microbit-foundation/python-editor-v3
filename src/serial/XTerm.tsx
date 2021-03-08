@@ -44,7 +44,7 @@ const XTerm = (props: BoxProps) => {
         term.dispose();
       };
     }
-  }, [device]);
+  }, [device, isUnmounted]);
   return <Box {...props} ref={ref} />;
 };
 

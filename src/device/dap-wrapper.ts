@@ -77,10 +77,10 @@ export class DAPWrapper {
     this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);
   }
 
-  startSerial(listener: (data: string) => void): void {
-    this.daplink.setSerialBaudrate(115200);
+  async startSerial(listener: (data: string) => void): Promise<void> {
+    await this.daplink.setSerialBaudrate(115200);
     this.daplink.on(DAPLink.EVENT_SERIAL_DATA, listener);
-    this.daplink.startSerialRead(1);
+    await this.daplink.startSerialRead(1);
   }
 
   stopSerial(listener: (data: string) => void): void {

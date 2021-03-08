@@ -1,4 +1,3 @@
-import { DAPLink } from "dapjs";
 import EventEmitter from "events";
 import { FlashDataSource } from "../fs/fs";
 import translation from "../translation";
@@ -84,20 +83,6 @@ export enum ConnectionStatus {
   CONNECTED = "CONNECTED",
 }
 
-/**
- * Controls whether a request to connect can prompt the user.
- */
-export enum ConnectionMode {
-  /**
-   * Prompt the user to connect if required.
-   */
-  INTERACTIVE,
-  /**
-   * Connect only to a pre-approved device without prompting the user.
-   */
-  NON_INTERACTIVE,
-}
-
 export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_ERROR = "serial_error";
@@ -147,9 +132,9 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    * @param interactive whether we can prompt the user to choose a device.
    * @returns the final connection status.
    */
-  async connect(mode: ConnectionMode): Promise<ConnectionStatus> {
+  async connect(): Promise<ConnectionStatus> {
     return this.withEnrichedErrors(async () => {
-      this.setStatus(await this.connectInternal(mode));
+      await this.connectInternal(true);
       return this.status;
     });
   }
@@ -174,15 +159,16 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   ): Promise<void> {
     if (!this.connection) {
-      await this.connect(ConnectionMode.INTERACTIVE);
+      await this.connectInternal(false);
     } else {
       // TODO: Maybe reinstate v2's timeout here.
+      // Do we need to stop serial?
+      this.connection.stopSerial(this.serialListener);
       await this.connection.reconnectAsync();
     }
     if (!this.connection) {
       throw new Error("Must be connected now");
     }
-    this.connection.stopSerial(this.serialListener);
 
     const partial = options.partial;
     const progress = options.progress || (() => {});
@@ -197,6 +183,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       } else {
         await flashing.fullFlashAsync(data.intelHex, progress);
       }
+
+      // Reinstate serial. Is this quick enough to capture output?
       this.connection.startSerial(this.serialListener);
     } finally {
       progress(undefined);
@@ -261,17 +249,16 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   };
 
-  private async connectInternal(
-    mode: ConnectionMode
-  ): Promise<ConnectionStatus> {
+  private async connectInternal(serial: boolean): Promise<void> {
     if (!this.connection) {
       const device = await this.chooseDevice();
       this.connection = new DAPWrapper(device);
     }
     await this.connection.reconnectAsync();
-    this.connection.startSerial(this.serialListener);
-
-    return ConnectionStatus.CONNECTED;
+    if (serial) {
+      this.connection.startSerial(this.serialListener);
+    }
+    this.setStatus(ConnectionStatus.CONNECTED);
   }
 
   private async chooseDevice(): Promise<USBDevice> {
