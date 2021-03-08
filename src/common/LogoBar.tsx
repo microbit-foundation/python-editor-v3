@@ -1,4 +1,4 @@
-import { Image, Flex, HStack } from "@chakra-ui/react";
+import { Image, HStack } from "@chakra-ui/react";
 import Logo from "./Logo";
 import pythonLogo from "./pythonLogo.png";
 

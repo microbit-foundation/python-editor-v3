@@ -35,7 +35,7 @@ export const useProject = (): Project => {
     return () => {
       fs.removeListener(EVENT_STATE, listener);
     };
-  }, [fs]);
+  }, [fs, isUnmounted]);
   return state;
 };
 
@@ -51,7 +51,7 @@ export const useFileSystemBackedText = (
   useEffect(() => {
     const string = fs.read(filename);
     setInitialValue(Text.of(string.split("\n")));
-  }, [fs]);
+  }, [fs, filename]);
 
   const handleChange = useCallback(
     (text: Text) => {
@@ -60,7 +60,7 @@ export const useFileSystemBackedText = (
       // ask for a hex.
       fs.write(filename, content);
     },
-    [fs]
+    [fs, filename]
   );
 
   return [initialValue, handleChange];

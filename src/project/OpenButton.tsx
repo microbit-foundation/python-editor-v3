@@ -39,7 +39,7 @@ const OpenButton = ({ text = "Open", ...props }: OpenButtonProps) => {
         }
       }
     },
-    [fs]
+    [fs, actionFeedback]
   );
 
   return (

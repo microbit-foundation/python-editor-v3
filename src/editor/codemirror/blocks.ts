@@ -3,13 +3,8 @@
  * CodeMirror's syntax tree.
  */
 import { indentUnit, syntaxTree } from "@codemirror/language";
-import {
-  EditorView,
-  themeClass,
-  ViewPlugin,
-  ViewUpdate,
-} from "@codemirror/view";
-import { EditorState, Extension } from "@codemirror/state";
+import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
+import { Compartment, EditorState, Extension } from "@codemirror/state";
 
 // Names from https://github.com/lezer-parser/python/blob/master/src/python.grammar
 const grammarInfo = {
@@ -51,9 +46,9 @@ class VisualBlock {
 
   draw() {
     const elt = document.createElement("div");
-    elt.className = themeClass("block");
+    elt.className = "cm-block";
     const nameSpan = elt.appendChild(document.createElement("span"));
-    nameSpan.className = themeClass("blockName");
+    nameSpan.className = "cm-blockName";
     nameSpan.textContent = this.name.replace(/Definition$|Statement$/, "");
     this.adjust(elt);
     return elt;
@@ -68,10 +63,10 @@ class VisualBlock {
 
   eq(other: VisualBlock) {
     return (
-      this.left == other.left &&
-      this.top == other.top &&
-      this.width == other.width &&
-      this.height == other.height
+      this.left === other.left &&
+      this.top === other.top &&
+      this.width === other.width &&
+      this.height === other.height
     );
   }
 }
@@ -94,7 +89,7 @@ const blocksView = ViewPlugin.fromClass(
       this.overlayLayer = view.scrollDOM.appendChild(
         document.createElement("div")
       );
-      this.overlayLayer.className = themeClass("blockLayer");
+      this.overlayLayer.className = "cm-blockLayer";
       this.overlayLayer.setAttribute("aria-hidden", "true");
       view.requestMeasure(this.measureReq);
     }
@@ -183,14 +178,14 @@ const skipTrailingBlankLines = (state: EditorState, position: number) => {
 };
 
 const baseTheme = EditorView.baseTheme({
-  $blockLayer: {
+  ".cm-blockLayer": {
     position: "absolute",
     top: 0,
     height: "100%",
     width: "100%",
     zIndex: -1,
   },
-  $block: {
+  ".cm-block": {
     display: "block",
     position: "absolute",
     backgroundColor: "var(--block)",
@@ -199,11 +194,12 @@ const baseTheme = EditorView.baseTheme({
     textAlign: "right",
     borderRadius: "5px",
   },
-  $blockName: {
+  ".cm-blockName": {
     // Comment out for debugging, remove at some point to save on DOM.
     display: "none",
     paddingRight: "5px",
   },
 });
 
+export const blocksCompartment = new Compartment();
 export const blocks = (): Extension => [blocksView, baseTheme];

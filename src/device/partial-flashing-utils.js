@@ -127,7 +127,7 @@ export const onlyChanged = (pages, checksums, pageSize) => {
     let c0 = read32FromUInt8Array(checksums, idx * 8);
     let c1 = read32FromUInt8Array(checksums, idx * 8 + 4);
     let ch = murmur3_core(page.data);
-    if (c0 == ch[0] && c1 == ch[1]) return false;
+    if (c0 === ch[0] && c1 === ch[1]) return false;
     return true;
   });
 };

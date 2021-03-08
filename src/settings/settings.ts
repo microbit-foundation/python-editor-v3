@@ -1,4 +1,4 @@
-import { createContext, SetStateAction, useContext } from "react";
+import { createContext, useContext } from "react";
 import config from "../config";
 
 export interface Language {
