@@ -198,7 +198,11 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
     // Collect data to flash, partial flashing can use just the flash bytes,
     // but full flashing needs the entire Intel Hex to include the UICR data
-    const boardId = BoardId.parse(this.connection.dapwrapper.boardId);
+    const boardIdString = this.connection.dapwrapper!.boardId;
+    if (!boardIdString) {
+      throw new Error("Should have boardId from connect");
+    }
+    const boardId = BoardId.parse(boardIdString);
     const data = await dataSource(boardId);
     try {
       if (partial) {
@@ -256,7 +260,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   private handleDisconnect = (event: USBConnectionEvent) => {
     // v2 uses this to show a dialog on disconnect.
     // it removes the listener when performing an intentional disconnect
-    if (event.device === this.connection.dapwrapper?.daplink?.device) {
+    if (event.device === this.connection.dapwrapper?.device) {
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
     }
   };

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * Implementation of partial flashing for the micro:bit.
  *
@@ -46,10 +48,17 @@ import * as PartialFlashingUtils from "./partial-flashing-utils";
 // SOFTWARE.
 
 export class DAPWrapper {
-  constructor(device) {
+  boardId: string | undefined;
+  transport: WebUSB;
+  daplink: DAPLink;
+  cortexM: CortexM;
+  pageSize: number | null;
+  numPages: number | null;
+  reconnected: boolean;
+
+  constructor(public device: USBDevice) {
     this.reconnected = false;
     this.flashing = true;
-    this.device = device;
     this.pageSize = null;
     this.numPages = null;
     this.allocDAP();
@@ -402,6 +411,8 @@ const stackAddr = 0x20001000;
 export class PartialFlashing {
   // Returns a new DAPWrapper or reconnects a previously used one.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L161
+  public dapwrapper: DAPWrapper | undefined;
+
   async dapAsync() {
     if (this.dapwrapper) {
       if (this.dapwrapper.device.opened) {
