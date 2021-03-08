@@ -1,22 +1,11 @@
 import { DapVal } from "./constants";
 
-export const log = console.log;
-
-// How was this defined before? Bug?
-export const timeoutMessage = "timeout";
-
 // Represents the micro:bit's core registers
 // Drawn from https://armmbed.github.io/dapjs/docs/enums/coreregister.html
 export const CoreRegister = {
   SP: 13,
   LR: 14,
   PC: 15,
-};
-
-// FICR Registers
-export const FICR = {
-  CODEPAGESIZE: 0x10000000 | 0x10,
-  CODESIZE: 0x10000000 | 0x14,
 };
 
 export const read32FromUInt8Array = (data: Uint8Array, i: number): number => {

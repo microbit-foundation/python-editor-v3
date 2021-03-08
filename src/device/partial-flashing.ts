@@ -11,7 +11,6 @@ import { DAPWrapper } from "./dap-wrapper";
 import { log } from "./logging";
 import {
   CoreRegister,
-  FICR,
   onlyChanged,
   Page,
   pageAlignBlocks,
@@ -131,12 +130,12 @@ export class PartialFlashing {
       0xffffffff,
       dataAddr,
       0,
-      this.dapwrapper.pageSize!,
-      this.dapwrapper.numPages!
+      this.dapwrapper.pageSize,
+      this.dapwrapper.numPages
     );
     return this.dapwrapper.readBlockAsync(
       dataAddr,
-      this.dapwrapper.numPages! * 2
+      this.dapwrapper.numPages * 2
     );
   }
 
@@ -160,7 +159,7 @@ export class PartialFlashing {
       this.dapwrapper.cortexM.writeCoreRegister(1, addr),
       this.dapwrapper.cortexM.writeCoreRegister(
         2,
-        this.dapwrapper.pageSize! >> 2
+        this.dapwrapper.pageSize >> 2
       ),
     ]);
     return this.dapwrapper.cortexM.resume(false);
@@ -185,8 +184,8 @@ export class PartialFlashing {
     // Use two slots in RAM to allow parallelisation of the following two tasks.
     // 1. DAPjs writes a page to one slot.
     // 2. flashPageBIN copies a page to flash from the other slot.
-    let thisAddr = i & 1 ? dataAddr : dataAddr + this.dapwrapper.pageSize!;
-    let nextAddr = i & 1 ? dataAddr + this.dapwrapper.pageSize! : dataAddr;
+    let thisAddr = i & 1 ? dataAddr : dataAddr + this.dapwrapper.pageSize;
+    let nextAddr = i & 1 ? dataAddr + this.dapwrapper.pageSize : dataAddr;
 
     // Write first page to slot in RAM.
     // All subsequent pages will have already been written to RAM.
@@ -231,10 +230,10 @@ export class PartialFlashing {
 
     const checksums = await this.getFlashChecksumsAsync();
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
-    let aligned = pageAlignBlocks(flashBytes, 0, this.dapwrapper.pageSize!);
+    let aligned = pageAlignBlocks(flashBytes, 0, this.dapwrapper.pageSize);
     const totalPages = aligned.length;
     log("Total pages: " + totalPages);
-    aligned = onlyChanged(aligned, checksums, this.dapwrapper.pageSize!);
+    aligned = onlyChanged(aligned, checksums, this.dapwrapper.pageSize);
     log("Changed pages: " + aligned.length);
     if (aligned.length > totalPages / 2) {
       try {
@@ -284,12 +283,6 @@ export class PartialFlashing {
   async connectDapAsync() {
     await this.dapAsync();
     log("Connection Complete");
-    this.dapwrapper!.pageSize = await this.dapwrapper!.cortexM.readMem32(
-      FICR.CODEPAGESIZE
-    );
-    this.dapwrapper!.numPages = await this.dapwrapper!.cortexM.readMem32(
-      FICR.CODESIZE
-    );
     // This isn't what I expected. What about serial?
     return this.dapwrapper!.disconnectAsync();
   }

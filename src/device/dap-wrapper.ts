@@ -1,21 +1,27 @@
 import { CortexM, DAPLink, WebUSB } from "dapjs";
-import { ApReg, CortexSpecialReg, Csw, DapCmd, DapVal } from "./constants";
+import {
+  ApReg,
+  CortexSpecialReg,
+  Csw,
+  DapCmd,
+  DapVal,
+  FICR,
+} from "./constants";
 import { log } from "./logging";
 import {
   apReg,
   bufferConcat,
   CoreRegister,
   regRequest,
-  timeoutMessage,
 } from "./partial-flashing-utils";
 
 export class DAPWrapper {
-  boardId: string | undefined;
   transport: WebUSB;
   daplink: DAPLink;
   cortexM: CortexM;
-  pageSize: number | null = null;
-  numPages: number | null = null;
+
+  _pageSize: number | undefined;
+  _numPages: number | undefined;
   private reconnected: boolean = false;
 
   constructor(public device: USBDevice) {
@@ -24,19 +30,39 @@ export class DAPWrapper {
     this.cortexM = new CortexM(this.transport);
   }
 
-  private allocBoardID(): void {
-    // The micro:bit board ID is the serial number first 4 hex digits
-    if (!(this.device && this.device.serialNumber)) {
-      throw new Error("Could not detected ID from connected board.");
-    }
-    this.boardId = this.device.serialNumber.substring(0, 4);
-    log("Detected board ID " + this.boardId);
-  }
-
-  private allocDAP(): void {
+  private recreateDAP(): void {
     this.transport = new WebUSB(this.device);
     this.daplink = new DAPLink(this.transport);
     this.cortexM = new CortexM(this.transport);
+  }
+
+  /**
+   * The page size. Throws if we've not connected.
+   */
+  get pageSize(): number {
+    if (this._pageSize === undefined) {
+      throw new Error("pageSize not defined until connected");
+    }
+    return this._pageSize;
+  }
+
+  /**
+   * The number of pages. Throws if we've not connected.
+   */
+  get numPages() {
+    if (this._numPages === undefined) {
+      throw new Error("numPages not defined until connected");
+    }
+    return this._numPages;
+  }
+
+  get boardId() {
+    // The micro:bit board ID is the serial number first 4 hex digits
+    const serial = this.device.serialNumber;
+    if (!serial) {
+      throw new Error("Could not detected ID from connected board.");
+    }
+    return serial.substring(0, 4);
   }
 
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L119
@@ -44,12 +70,15 @@ export class DAPWrapper {
     // Only fully reconnect after the first time this object has reconnected.
     if (!this.reconnected) {
       this.reconnected = true;
-      this.allocDAP();
+      this.recreateDAP();
+      // TODO: does this make sense to reallocate then disconnect?
       await this.disconnectAsync();
     }
     await this.daplink.connect();
     await this.cortexM.connect();
-    this.allocBoardID();
+
+    this._pageSize = await this.cortexM.readMem32(FICR.CODEPAGESIZE);
+    this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);
   }
 
   async disconnectAsync(): Promise<void> {
@@ -158,7 +187,8 @@ export class DAPWrapper {
     addr: number,
     words: number
   ): Promise<Uint8Array> {
-    // Set up CMSIS-DAP to read/write from/to the RAM address addr using the register ApReg.DRW to write to or read from.
+    // Set up CMSIS-DAP to read/write from/to the RAM address addr using the register
+    // ApReg.DRW to write to or read from.
     await this.cortexM.writeAP(ApReg.CSW, Csw.CSW_VALUE | Csw.CSW_SIZE32);
     await this.cortexM.writeAP(ApReg.TAR, addr);
 
@@ -213,9 +243,9 @@ export class DAPWrapper {
 
     // Read a single page at a time.
     while (ptr < end) {
-      let nextptr = ptr + this.pageSize!;
+      let nextptr = ptr + this.pageSize;
       if (ptr === addr) {
-        nextptr &= ~(this.pageSize! - 1);
+        nextptr &= ~(this.pageSize - 1);
       }
       const len = Math.min(nextptr - ptr, end - ptr);
       bufs.push(await this.readBlockCore(ptr, len >> 2));
@@ -280,7 +310,7 @@ export class DAPWrapper {
     deadline: number
   ): Promise<void> {
     if (new Date().getTime() > deadline) {
-      throw new Error(timeoutMessage);
+      throw new Error("timeout");
     }
     if (!halted) {
       const isHalted = await this.cortexM.isHalted();

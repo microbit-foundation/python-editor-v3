@@ -199,9 +199,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     // Collect data to flash, partial flashing can use just the flash bytes,
     // but full flashing needs the entire Intel Hex to include the UICR data
     const boardIdString = this.connection.dapwrapper!.boardId;
-    if (!boardIdString) {
-      throw new Error("Should have boardId from connect");
-    }
     const boardId = BoardId.parse(boardIdString);
     const data = await dataSource(boardId);
     try {

@@ -5,6 +5,12 @@
 // If we move this to a separate library then we can replace them.
 // In the meantime we should prune the list below to what we actually use.
 
+// FICR Registers
+export const FICR = {
+  CODEPAGESIZE: 0x10000000 | 0x10,
+  CODESIZE: 0x10000000 | 0x14,
+};
+
 export const DapCmd = {
   DAP_INFO: 0x00,
   DAP_CONNECT: 0x02,
