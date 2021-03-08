@@ -30,7 +30,7 @@ const Workbench = () => {
             />
           </Fill>
           <BottomResizable
-            size="20%"
+            size="40%"
             style={{ borderTop: "4px solid whitesmoke" }}
           >
             <SerialArea />
