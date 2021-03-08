@@ -19,7 +19,9 @@ export class ActionFeedback {
     error?: any;
   }) {
     // For now at least.
-    console.error(error);
+    if (error) {
+      console.error(error);
+    }
     this.toast({
       title,
       status: "error",
