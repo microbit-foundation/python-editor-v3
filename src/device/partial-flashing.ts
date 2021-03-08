@@ -1,8 +1,6 @@
 /**
  * Implementation of partial flashing for the micro:bit.
  *
- * This could do with some love to make it easier to follow.
- *
  * Latest Microsoft implementation is here:
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
@@ -88,40 +86,17 @@ const loadAddr = membase;
 const dataAddr = 0x20002000;
 const stackAddr = 0x20001000;
 
+/**
+ * Uses a DAPWrapper to flash the micro:bit.
+ *
+ * Intented to be used for a single flash with a pre-connected DAPWrapper.
+ */
 export class PartialFlashing {
-  // Returns a new DAPWrapper or reconnects a previously used one.
-  // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L161
-  public dapwrapper: DAPWrapper | null = null;
-
-  async dapAsync() {
-    if (this.dapwrapper) {
-      if (this.dapwrapper.device.opened) {
-        // Always fully reconnect to handle device unplugged mid-session
-        await this.dapwrapper.reconnectAsync();
-        return this.dapwrapper;
-      }
-    }
-    if (this.dapwrapper) {
-      this.dapwrapper.disconnectAsync();
-    }
-    const device = await (async () => {
-      if (this.dapwrapper && this.dapwrapper.device) {
-        return this.dapwrapper.device;
-      }
-      return navigator.usb.requestDevice({
-        filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
-      });
-    })();
-    this.dapwrapper = new DAPWrapper(device);
-    await this.dapwrapper.reconnectAsync();
-  }
+  constructor(private dapwrapper: DAPWrapper) {}
 
   // Runs the checksum algorithm on the micro:bit's whole flash memory, and returns the results.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L365
   private async getFlashChecksumsAsync() {
-    if (!this.dapwrapper) {
-      throw new Error();
-    }
     await this.dapwrapper.executeAsync(
       loadAddr,
       computeChecksums2,
@@ -143,10 +118,6 @@ export class PartialFlashing {
   // Does not wait for execution to halt.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L340
   private async runFlash(page: Page, addr: number): Promise<void> {
-    if (!this.dapwrapper) {
-      throw new Error();
-    }
-
     await this.dapwrapper.cortexM.halt(true);
     await Promise.all([
       this.dapwrapper.cortexM.writeCoreRegister(
@@ -172,10 +143,6 @@ export class PartialFlashing {
     nextPage: Page,
     i: number
   ): Promise<void> {
-    if (!this.dapwrapper) {
-      throw new Error();
-    }
-
     // TODO: This short-circuits UICR, do we need to update this?
     if (page.targetAddr >= 0x10000000) {
       return;
@@ -227,10 +194,6 @@ export class PartialFlashing {
     hexBuffer: ArrayBuffer,
     updateProgress: ProgressCallback
   ) {
-    if (!this.dapwrapper) {
-      throw new Error();
-    }
-
     const checksums = await this.getFlashChecksumsAsync();
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
     let aligned = pageAlignBlocks(flashBytes, 0, this.dapwrapper.pageSize);
@@ -261,39 +224,27 @@ export class PartialFlashing {
     } catch (e) {
       // Allow errors on resetting, user can always manually reset if necessary.
     }
-    log("Flashing Complete");
+    log("Flashing complete");
   }
 
   // Perform full flash of micro:bit's ROM using daplink.
   async fullFlashAsync(image: ArrayBuffer, updateProgress: ProgressCallback) {
     log("Full flash");
-    if (!this.dapwrapper) {
-      throw new Error();
-    }
 
-    // Event to monitor flashing progress
-    // TODO: surely we need to remove this?
-    this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, (progress) => {
+    const flashProgressListener = (progress: number) => {
       updateProgress(progress, true);
-    });
-    await this.dapwrapper.transport.open();
-    await this.dapwrapper.daplink.flash(image);
-    // TODO: reinstate eventing
-  }
-
-  // Connect to the micro:bit using WebUSB and setup DAPWrapper.
-  // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L439
-  async connectDapAsync() {
-    await this.dapAsync();
-    log("Connection Complete");
-    // This isn't what I expected. What about serial?
-    return this.dapwrapper!.disconnectAsync();
-  }
-
-  async disconnectDapAsync() {
-    if (this.dapwrapper) {
-      return this.dapwrapper.disconnectAsync();
+    };
+    this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, flashProgressListener);
+    try {
+      await this.dapwrapper.transport.open();
+      await this.dapwrapper.daplink.flash(image);
+    } finally {
+      this.dapwrapper.daplink.removeListener(
+        DAPLink.EVENT_PROGRESS,
+        flashProgressListener
+      );
     }
+    // TODO: reinstate eventing
   }
 
   // Flash the micro:bit's ROM with the provided image, resetting the micro:bit first.
@@ -307,11 +258,11 @@ export class PartialFlashing {
       // Reset micro:bit to ensure interface responds correctly.
       log("Begin reset");
       try {
-        await this.dapwrapper!.reset(true);
+        await this.dapwrapper.reset(true);
       } catch (e) {
         log("Retrying reset");
-        await this.dapwrapper!.reconnectAsync();
-        await this.dapwrapper!.reset(true);
+        await this.dapwrapper.reconnectAsync();
+        await this.dapwrapper.reset(true);
       }
     })();
 
@@ -326,19 +277,15 @@ export class PartialFlashing {
       const result = await Promise.race([resetPromise, timeout]);
       if (result === "timeout") {
         log("Resetting micro:bit timed out");
-        log("Partial flashing failed. Attempting Full Flash");
+        log("Partial flashing failed. Attempting full flash");
         await this.fullFlashAsync(hexBuffer, updateProgress);
       } else {
-        log("Begin Flashing");
+        log("Begin flashing");
         await this.partialFlashAsync(flashBytes, hexBuffer, updateProgress);
       }
     } finally {
       // NB cannot return Promises above!
-      await this.dapwrapper!.disconnectAsync();
+      await this.dapwrapper.disconnectAsync();
     }
-  }
-
-  resetInternals() {
-    this.dapwrapper = null;
   }
 }

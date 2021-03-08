@@ -225,7 +225,7 @@ export class DAPWrapper {
     } catch (e) {
       if (e.dapWait) {
         // Retry after a delay if required.
-        log(`transfer wait, write block`);
+        log(`Transfer wait, write block`);
         await new Promise((resolve) => setTimeout(resolve, 100));
         return await this.writeBlockCore(addr, words);
       } else {
