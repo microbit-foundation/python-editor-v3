@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /**
  * Implementation of partial flashing for the micro:bit.
  *
@@ -9,7 +7,9 @@
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
 import { CortexM, WebUSB, DAPLink } from "dapjs";
+import { DapCmd, ApReg, Csw, DapVal, CortexSpecialReg } from "./constants";
 import * as PartialFlashingUtils from "./partial-flashing-utils";
+import { Page } from "./partial-flashing-utils";
 
 // NOTICE
 //
@@ -47,24 +47,25 @@ import * as PartialFlashingUtils from "./partial-flashing-utils";
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+type ProgressCallback = (n: number, fullFlash?: boolean) => void;
+
 export class DAPWrapper {
   boardId: string | undefined;
   transport: WebUSB;
   daplink: DAPLink;
   cortexM: CortexM;
-  pageSize: number | null;
-  numPages: number | null;
-  reconnected: boolean;
+  pageSize: number | null = null;
+  numPages: number | null = null;
+  reconnected: boolean = false;
+  flashing: boolean = true;
 
   constructor(public device: USBDevice) {
-    this.reconnected = false;
-    this.flashing = true;
-    this.pageSize = null;
-    this.numPages = null;
-    this.allocDAP();
+    this.transport = new WebUSB(this.device);
+    this.daplink = new DAPLink(this.transport);
+    this.cortexM = new CortexM(this.transport);
   }
 
-  allocBoardID() {
+  allocBoardID(): void {
     // The micro:bit board ID is the serial number first 4 hex digits
     if (!(this.device && this.device.serialNumber)) {
       throw new Error("Could not detected ID from connected board.");
@@ -73,14 +74,14 @@ export class DAPWrapper {
     PartialFlashingUtils.log("Detected board ID " + this.boardId);
   }
 
-  allocDAP() {
+  allocDAP(): void {
     this.transport = new WebUSB(this.device);
     this.daplink = new DAPLink(this.transport);
     this.cortexM = new CortexM(this.transport);
   }
 
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L119
-  async reconnectAsync() {
+  async reconnectAsync(): Promise<void> {
     // Only fully reconnect after the first time this object has reconnected.
     if (!this.reconnected) {
       this.reconnected = true;
@@ -92,15 +93,18 @@ export class DAPWrapper {
     this.allocBoardID();
   }
 
-  async disconnectAsync() {
-    if (this.device.opened && this.transport.interfaceNumber !== undefined) {
+  async disconnectAsync(): Promise<void> {
+    if (
+      this.device.opened &&
+      (this.transport as any).interfaceNumber !== undefined
+    ) {
       return this.daplink.disconnect();
     }
   }
 
   // Send a packet to the micro:bit directly via WebUSB and return the response.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/transport/cmsis_dap.ts#L161
-  async send(packet) {
+  async send(packet: number[]): Promise<Uint8Array> {
     const array = Uint8Array.from(packet);
     await this.transport.write(array.buffer);
 
@@ -110,7 +114,10 @@ export class DAPWrapper {
 
   // Send a command along with relevant data to the micro:bit directly via WebUSB and handle the response.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/transport/cmsis_dap.ts#L74
-  async cmdNums(op, data) {
+  private async cmdNums(
+    op: number /* DapCmd */,
+    data: number[]
+  ): Promise<Uint8Array> {
     data.unshift(op);
 
     const buf = await this.send(data);
@@ -120,10 +127,10 @@ export class DAPWrapper {
     }
 
     switch (op) {
-      case 0x02: // DapCmd.DAP_CONNECT:
-      case 0x00: // DapCmd.DAP_INFO:
-      case 0x05: // DapCmd.DAP_TRANSFER:
-      case 0x06: // DapCmd.DAP_TRANSFER_BLOCK:
+      case DapCmd.DAP_CONNECT:
+      case DapCmd.DAP_INFO:
+      case DapCmd.DAP_TRANSFER:
+      case DapCmd.DAP_TRANSFER_BLOCK:
         break;
       default:
         if (buf[1] !== 0) {
@@ -136,7 +143,10 @@ export class DAPWrapper {
 
   // Read a certain register a specified amount of times.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/dap/dap.ts#L117
-  async readRegRepeat(regId, cnt) {
+  async readRegRepeat(
+    regId: number /* Reg */,
+    cnt: number
+  ): Promise<Uint8Array> {
     const request = PartialFlashingUtils.regRequest(regId);
     const sendargs = [0, cnt];
 
@@ -145,7 +155,7 @@ export class DAPWrapper {
     }
 
     // Transfer the read requests to the micro:bit and retrieve the data read.
-    const buf = await this.cmdNums(0x05 /* DapCmd.DAP_TRANSFER */, sendargs);
+    const buf = await this.cmdNums(DapCmd.DAP_TRANSFER, sendargs);
 
     if (buf[1] !== cnt) {
       throw new Error("(many) Bad #trans " + buf[1]);
@@ -158,7 +168,10 @@ export class DAPWrapper {
 
   // Write to a certain register a specified amount of data.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/dap/dap.ts#L138
-  async writeRegRepeat(regId, data) {
+  async writeRegRepeat(
+    regId: number /* Reg */,
+    data: Uint32Array
+  ): Promise<void> {
     const request = PartialFlashingUtils.regRequest(regId, true);
     const sendargs = [0, data.length, 0, request];
 
@@ -173,7 +186,7 @@ export class DAPWrapper {
     });
 
     // Transfer the write requests to the micro:bit and retrieve the response status.
-    const buf = await this.cmdNums(0x06 /* DapCmd.DAP_TRANSFER */, sendargs);
+    const buf = await this.cmdNums(DapCmd.DAP_TRANSFER_BLOCK, sendargs);
 
     if (buf[3] !== 1) {
       throw new Error("(many-wr) Bad transfer status " + buf[2]);
@@ -182,14 +195,10 @@ export class DAPWrapper {
 
   // Core functionality reading a block of data from micro:bit RAM at a specified address.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/memory/memory.ts#L181
-  async readBlockCore(addr, words) {
+  async readBlockCore(addr: number, words: number): Promise<Uint8Array> {
     // Set up CMSIS-DAP to read/write from/to the RAM address addr using the register ApReg.DRW to write to or read from.
-    await this.cortexM.writeAP(
-      0x00 /* ApReg.CSW */,
-      PartialFlashingUtils.CSW_VALUE /* Csw.CSW_VALUE */ |
-        0x00000002 /* Csw.CSW_SIZE32 */
-    );
-    await this.cortexM.writeAP(0x04 /* ApReg.TAR */, addr);
+    await this.cortexM.writeAP(ApReg.CSW, Csw.CSW_VALUE | Csw.CSW_SIZE32);
+    await this.cortexM.writeAP(ApReg.TAR, addr);
 
     let lastSize = words % 15;
     if (lastSize === 0) {
@@ -199,11 +208,8 @@ export class DAPWrapper {
     const blocks = [];
 
     for (let i = 0; i < Math.ceil(words / 15); i++) {
-      const b = await this.readRegRepeat(
-        PartialFlashingUtils.apReg(
-          0x0c /* ApReg.DRW */,
-          1 << 1 /* DapVal.READ */
-        ),
+      const b: Uint8Array = await this.readRegRepeat(
+        PartialFlashingUtils.apReg(ApReg.DRW, DapVal.READ),
         i === blocks.length - 1 ? lastSize : 15
       );
       blocks.push(b);
@@ -214,21 +220,14 @@ export class DAPWrapper {
 
   // Core functionality writing a block of data to micro:bit RAM at a specified address.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/memory/memory.ts#L205
-  async writeBlockCore(addr, words) {
+  async writeBlockCore(addr: number, words: Uint32Array): Promise<void> {
     try {
       // Set up CMSIS-DAP to read/write from/to the RAM address addr using the register ApReg.DRW to write to or read from.
-      await this.cortexM.writeAP(
-        0x00 /* ApReg.CSW */,
-        PartialFlashingUtils.CSW_VALUE /* Csw.CSW_VALUE */ |
-          0x00000002 /* Csw.CSW_SIZE32 */
-      );
-      await this.cortexM.writeAP(0x04 /* ApReg.TAR */, addr);
+      await this.cortexM.writeAP(ApReg.CSW, Csw.CSW_VALUE | Csw.CSW_SIZE32);
+      await this.cortexM.writeAP(ApReg.TAR, addr);
 
       await this.writeRegRepeat(
-        PartialFlashingUtils.apReg(
-          0x0c /* ApReg.DRW */,
-          0 << 1 /* DapVal.WRITE */
-        ),
+        PartialFlashingUtils.apReg(ApReg.DRW, DapVal.WRITE),
         words
       );
     } catch (e) {
@@ -245,16 +244,16 @@ export class DAPWrapper {
 
   // Reads a block of data from micro:bit RAM at a specified address.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/memory/memory.ts#L143
-  async readBlockAsync(addr, words) {
+  async readBlockAsync(addr: number, words: number): Promise<Uint8Array> {
     const bufs = [];
     const end = addr + words * 4;
     let ptr = addr;
 
     // Read a single page at a time.
     while (ptr < end) {
-      let nextptr = ptr + this.pageSize;
+      let nextptr = ptr + this.pageSize!;
       if (ptr === addr) {
-        nextptr &= ~(this.pageSize - 1);
+        nextptr &= ~(this.pageSize! - 1);
       }
       const len = Math.min(nextptr - ptr, end - ptr);
       bufs.push(await this.readBlockCore(ptr, len >> 2));
@@ -265,7 +264,7 @@ export class DAPWrapper {
   }
 
   // Writes a block of data to micro:bit RAM at a specified address.
-  async writeBlockAsync(address, data) {
+  async writeBlockAsync(address: number, data: Uint32Array): Promise<void> {
     let payloadSize = this.transport.packetSize - 8;
     if (data.buffer.byteLength > payloadSize) {
       let start = 0;
@@ -286,7 +285,14 @@ export class DAPWrapper {
 
   // Execute code at a certain address with specified values in the registers.
   // Waits for execution to halt.
-  async executeAsync(address, code, sp, pc, lr, ...registers) {
+  async executeAsync(
+    address: number,
+    code: Uint32Array,
+    sp: number,
+    pc: number,
+    lr: number,
+    ...registers: number[]
+  ) {
     if (registers.length > 12) {
       throw new Error(
         `Only 12 general purpose registers but got ${registers.length} values`
@@ -316,7 +322,7 @@ export class DAPWrapper {
 
   // Checks whether the micro:bit has halted or timeout has been reached.
   // Recurses otherwise.
-  async waitForHaltCore(halted, deadline) {
+  async waitForHaltCore(halted: boolean, deadline: number): Promise<void> {
     if (new Date().getTime() > deadline) {
       throw new Error(PartialFlashingUtils.timeoutMessage);
     }
@@ -328,7 +334,7 @@ export class DAPWrapper {
   }
 
   // Initial function to call to wait for the micro:bit halt.
-  async waitForHalt(timeToWait = 10000) {
+  async waitForHalt(timeToWait = 10000): Promise<void> {
     const deadline = new Date().getTime() + timeToWait;
     return this.waitForHaltCore(false, deadline);
   }
@@ -337,15 +343,16 @@ export class DAPWrapper {
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/cortex/cortex.ts#L347
   async softwareReset() {
     await this.cortexM.writeMem32(
-      3758157068 /* NVIC_AIRCR */,
-      100270080 /* NVIC_AIRCR_VECTKEY */ | 4 /* NVIC_AIRCR_SYSRESETREQ */
+      CortexSpecialReg.NVIC_AIRCR,
+      CortexSpecialReg.NVIC_AIRCR_VECTKEY |
+        CortexSpecialReg.NVIC_AIRCR_SYSRESETREQ
     );
 
     // wait for the system to come out of reset
-    let dhcsr = await this.cortexM.readMem32(3758157296 /* DHCSR */);
+    let dhcsr = await this.cortexM.readMem32(CortexSpecialReg.DHCSR);
 
-    while ((dhcsr & 33554432) /* S_RESET_ST */ !== 0) {
-      dhcsr = await this.cortexM.readMem32(3758157296 /* DHCSR */);
+    while ((dhcsr & CortexSpecialReg.S_RESET_ST) !== 0) {
+      dhcsr = await this.cortexM.readMem32(CortexSpecialReg.DHCSR);
     }
   }
 
@@ -355,20 +362,18 @@ export class DAPWrapper {
     if (halt) {
       await this.cortexM.halt(true);
 
-      let demcrAddr = 3758157308;
-
       // VC_CORERESET causes the core to halt on reset.
-      const demcr = await this.cortexM.readMem32(demcrAddr);
+      const demcr = await this.cortexM.readMem32(CortexSpecialReg.DEMCR);
       await this.cortexM.writeMem32(
-        demcrAddr,
-        demcr | 1 /* DEMCR_VC_CORERESET */
+        CortexSpecialReg.DEMCR,
+        CortexSpecialReg.DEMCR | CortexSpecialReg.DEMCR_VC_CORERESET
       );
 
       await this.softwareReset();
       await this.waitForHalt();
 
       // Unset the VC_CORERESET bit
-      await this.cortexM.writeMem32(demcrAddr, demcr);
+      await this.cortexM.writeMem32(CortexSpecialReg.DEMCR, demcr);
     } else {
       await this.softwareReset();
     }
@@ -411,13 +416,13 @@ const stackAddr = 0x20001000;
 export class PartialFlashing {
   // Returns a new DAPWrapper or reconnects a previously used one.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L161
-  public dapwrapper: DAPWrapper | undefined;
+  public dapwrapper: DAPWrapper | null = null;
 
   async dapAsync() {
     if (this.dapwrapper) {
       if (this.dapwrapper.device.opened) {
         // Always fully reconnect to handle device unplugged mid-session
-        await this.dapwrapper.reconnectAsync(false);
+        await this.dapwrapper.reconnectAsync();
         return this.dapwrapper;
       }
     }
@@ -433,12 +438,15 @@ export class PartialFlashing {
       });
     })();
     this.dapwrapper = new DAPWrapper(device);
-    await this.dapwrapper.reconnectAsync(true);
+    await this.dapwrapper.reconnectAsync();
   }
 
   // Runs the checksum algorithm on the micro:bit's whole flash memory, and returns the results.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L365
   async getFlashChecksumsAsync() {
+    if (!this.dapwrapper) {
+      throw new Error();
+    }
     await this.dapwrapper.executeAsync(
       loadAddr,
       computeChecksums2,
@@ -447,19 +455,23 @@ export class PartialFlashing {
       0xffffffff,
       dataAddr,
       0,
-      this.dapwrapper.pageSize,
-      this.dapwrapper.numPages
+      this.dapwrapper.pageSize!,
+      this.dapwrapper.numPages!
     );
     return this.dapwrapper.readBlockAsync(
       dataAddr,
-      this.dapwrapper.numPages * 2
+      this.dapwrapper.numPages! * 2
     );
   }
 
   // Runs the code on the micro:bit to copy a single page of data from RAM address addr to the ROM address specified by the page.
   // Does not wait for execution to halt.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L340
-  async runFlash(page, addr) {
+  async runFlash(page: Page, addr: number): Promise<void> {
+    if (!this.dapwrapper) {
+      throw new Error();
+    }
+
     await this.dapwrapper.cortexM.halt(true);
     await Promise.all([
       this.dapwrapper.cortexM.writeCoreRegister(
@@ -478,7 +490,7 @@ export class PartialFlashing {
       this.dapwrapper.cortexM.writeCoreRegister(1, addr),
       this.dapwrapper.cortexM.writeCoreRegister(
         2,
-        this.dapwrapper.pageSize >> 2
+        this.dapwrapper.pageSize! >> 2
       ),
     ]);
     return this.dapwrapper.cortexM.resume(false);
@@ -486,7 +498,15 @@ export class PartialFlashing {
 
   // Write a single page of data to micro:bit ROM by writing it to micro:bit RAM and copying to ROM.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L385
-  async partialFlashPageAsync(page, nextPage, i) {
+  async partialFlashPageAsync(
+    page: Page,
+    nextPage: Page,
+    i: number
+  ): Promise<void> {
+    if (!this.dapwrapper) {
+      throw new Error();
+    }
+
     // TODO: This short-circuits UICR, do we need to update this?
     if (page.targetAddr >= 0x10000000) {
       return;
@@ -495,8 +515,8 @@ export class PartialFlashing {
     // Use two slots in RAM to allow parallelisation of the following two tasks.
     // 1. DAPjs writes a page to one slot.
     // 2. flashPageBIN copies a page to flash from the other slot.
-    let thisAddr = i & 1 ? dataAddr : dataAddr + this.dapwrapper.pageSize;
-    let nextAddr = i & 1 ? dataAddr + this.dapwrapper.pageSize : dataAddr;
+    let thisAddr = i & 1 ? dataAddr : dataAddr + this.dapwrapper.pageSize!;
+    let nextAddr = i & 1 ? dataAddr + this.dapwrapper.pageSize! : dataAddr;
 
     // Write first page to slot in RAM.
     // All subsequent pages will have already been written to RAM.
@@ -521,7 +541,7 @@ export class PartialFlashing {
   }
 
   // Write pages of data to micro:bit ROM.
-  async partialFlashCoreAsync(pages, updateProgress) {
+  async partialFlashCoreAsync(pages: Page[], updateProgress: ProgressCallback) {
     PartialFlashingUtils.log("Partial flash");
     for (let i = 0; i < pages.length; ++i) {
       updateProgress(i / pages.length);
@@ -533,20 +553,28 @@ export class PartialFlashing {
   // Flash the micro:bit's ROM with the provided image by only copying over the pages that differ.
   // Falls back to a full flash if partial flashing fails.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L335
-  async partialFlashAsync(flashBytes, hexBuffer, updateProgress) {
+  async partialFlashAsync(
+    flashBytes: Uint8Array,
+    hexBuffer: ArrayBuffer,
+    updateProgress: ProgressCallback
+  ) {
+    if (!this.dapwrapper) {
+      throw new Error();
+    }
+
     const checksums = await this.getFlashChecksumsAsync();
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
     let aligned = PartialFlashingUtils.pageAlignBlocks(
       flashBytes,
       0,
-      this.dapwrapper.pageSize
+      this.dapwrapper.pageSize!
     );
     const totalPages = aligned.length;
     PartialFlashingUtils.log("Total pages: " + totalPages);
     aligned = PartialFlashingUtils.onlyChanged(
       aligned,
       checksums,
-      this.dapwrapper.pageSize
+      this.dapwrapper.pageSize!
     );
     PartialFlashingUtils.log("Changed pages: " + aligned.length);
     if (aligned.length > totalPages / 2) {
@@ -581,8 +609,12 @@ export class PartialFlashing {
   }
 
   // Perform full flash of micro:bit's ROM using daplink.
-  async fullFlashAsync(image, updateProgress) {
+  async fullFlashAsync(image: ArrayBuffer, updateProgress: ProgressCallback) {
     PartialFlashingUtils.log("Full flash");
+    if (!this.dapwrapper) {
+      throw new Error();
+    }
+
     // Event to monitor flashing progress
     // TODO: surely we need to remove this?
     this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, (progress) => {
@@ -603,14 +635,14 @@ export class PartialFlashing {
     }
     await this.dapAsync();
     PartialFlashingUtils.log("Connection Complete");
-    this.dapwrapper.pageSize = await this.dapwrapper.cortexM.readMem32(
+    this.dapwrapper!.pageSize = await this.dapwrapper!.cortexM.readMem32(
       PartialFlashingUtils.FICR.CODEPAGESIZE
     );
-    this.dapwrapper.numPages = await this.dapwrapper.cortexM.readMem32(
+    this.dapwrapper!.numPages = await this.dapwrapper!.cortexM.readMem32(
       PartialFlashingUtils.FICR.CODESIZE
     );
     // This isn't what I expected. What about serial?
-    return this.dapwrapper.disconnectAsync();
+    return this.dapwrapper!.disconnectAsync();
   }
 
   async disconnectDapAsync() {
@@ -621,16 +653,20 @@ export class PartialFlashing {
 
   // Flash the micro:bit's ROM with the provided image, resetting the micro:bit first.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L439
-  async flashAsync(flashBytes, hexBuffer, updateProgress) {
+  async flashAsync(
+    flashBytes: Uint8Array,
+    hexBuffer: ArrayBuffer,
+    updateProgress: ProgressCallback
+  ) {
     let resetPromise = (async () => {
       // Reset micro:bit to ensure interface responds correctly.
       PartialFlashingUtils.log("Begin reset");
       try {
-        await this.dapwrapper.reset(true);
+        await this.dapwrapper!.reset(true);
       } catch (e) {
         PartialFlashingUtils.log("Retrying reset");
-        await this.dapwrapper.reconnectAsync(false);
-        await this.dapwrapper.reset(true);
+        await this.dapwrapper!.reconnectAsync();
+        await this.dapwrapper!.reset(true);
       }
     })();
 
@@ -655,7 +691,7 @@ export class PartialFlashing {
       }
     } finally {
       // NB cannot return Promises above!
-      await this.dapwrapper.disconnectAsync();
+      await this.dapwrapper!.disconnectAsync();
     }
   }
 
