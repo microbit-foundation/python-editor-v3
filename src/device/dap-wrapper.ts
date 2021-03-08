@@ -24,7 +24,7 @@ export class DAPWrapper {
     this.cortexM = new CortexM(this.transport);
   }
 
-  allocBoardID(): void {
+  private allocBoardID(): void {
     // The micro:bit board ID is the serial number first 4 hex digits
     if (!(this.device && this.device.serialNumber)) {
       throw new Error("Could not detected ID from connected board.");
@@ -33,7 +33,7 @@ export class DAPWrapper {
     log("Detected board ID " + this.boardId);
   }
 
-  allocDAP(): void {
+  private allocDAP(): void {
     this.transport = new WebUSB(this.device);
     this.daplink = new DAPLink(this.transport);
     this.cortexM = new CortexM(this.transport);
@@ -63,7 +63,7 @@ export class DAPWrapper {
 
   // Send a packet to the micro:bit directly via WebUSB and return the response.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/transport/cmsis_dap.ts#L161
-  async send(packet: number[]): Promise<Uint8Array> {
+  private async send(packet: number[]): Promise<Uint8Array> {
     const array = Uint8Array.from(packet);
     await this.transport.write(array.buffer);
 
@@ -102,7 +102,7 @@ export class DAPWrapper {
 
   // Read a certain register a specified amount of times.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/dap/dap.ts#L117
-  async readRegRepeat(
+  private async readRegRepeat(
     regId: number /* Reg */,
     cnt: number
   ): Promise<Uint8Array> {
@@ -127,7 +127,7 @@ export class DAPWrapper {
 
   // Write to a certain register a specified amount of data.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/dap/dap.ts#L138
-  async writeRegRepeat(
+  private async writeRegRepeat(
     regId: number /* Reg */,
     data: Uint32Array
   ): Promise<void> {
@@ -154,7 +154,10 @@ export class DAPWrapper {
 
   // Core functionality reading a block of data from micro:bit RAM at a specified address.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/memory/memory.ts#L181
-  async readBlockCore(addr: number, words: number): Promise<Uint8Array> {
+  private async readBlockCore(
+    addr: number,
+    words: number
+  ): Promise<Uint8Array> {
     // Set up CMSIS-DAP to read/write from/to the RAM address addr using the register ApReg.DRW to write to or read from.
     await this.cortexM.writeAP(ApReg.CSW, Csw.CSW_VALUE | Csw.CSW_SIZE32);
     await this.cortexM.writeAP(ApReg.TAR, addr);
@@ -179,7 +182,10 @@ export class DAPWrapper {
 
   // Core functionality writing a block of data to micro:bit RAM at a specified address.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/memory/memory.ts#L205
-  async writeBlockCore(addr: number, words: Uint32Array): Promise<void> {
+  private async writeBlockCore(
+    addr: number,
+    words: Uint32Array
+  ): Promise<void> {
     try {
       // Set up CMSIS-DAP to read/write from/to the RAM address addr using the register ApReg.DRW to write to or read from.
       await this.cortexM.writeAP(ApReg.CSW, Csw.CSW_VALUE | Csw.CSW_SIZE32);
@@ -269,7 +275,10 @@ export class DAPWrapper {
 
   // Checks whether the micro:bit has halted or timeout has been reached.
   // Recurses otherwise.
-  async waitForHaltCore(halted: boolean, deadline: number): Promise<void> {
+  private async waitForHaltCore(
+    halted: boolean,
+    deadline: number
+  ): Promise<void> {
     if (new Date().getTime() > deadline) {
       throw new Error(timeoutMessage);
     }
@@ -288,7 +297,7 @@ export class DAPWrapper {
 
   // Resets the micro:bit in software by writing to NVIC_AIRCR.
   // Drawn from https://github.com/mmoskal/dapjs/blob/a32f11f54e9e76a9c61896ddd425c1cb1a29c143/src/cortex/cortex.ts#L347
-  async softwareReset() {
+  private async softwareReset() {
     await this.cortexM.writeMem32(
       CortexSpecialReg.NVIC_AIRCR,
       CortexSpecialReg.NVIC_AIRCR_VECTKEY |
