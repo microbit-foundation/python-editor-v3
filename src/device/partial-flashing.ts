@@ -118,7 +118,7 @@ export class PartialFlashing {
 
   // Runs the checksum algorithm on the micro:bit's whole flash memory, and returns the results.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L365
-  async getFlashChecksumsAsync() {
+  private async getFlashChecksumsAsync() {
     if (!this.dapwrapper) {
       throw new Error();
     }
@@ -142,7 +142,7 @@ export class PartialFlashing {
   // Runs the code on the micro:bit to copy a single page of data from RAM address addr to the ROM address specified by the page.
   // Does not wait for execution to halt.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L340
-  async runFlash(page: Page, addr: number): Promise<void> {
+  private async runFlash(page: Page, addr: number): Promise<void> {
     if (!this.dapwrapper) {
       throw new Error();
     }
@@ -167,7 +167,7 @@ export class PartialFlashing {
 
   // Write a single page of data to micro:bit ROM by writing it to micro:bit RAM and copying to ROM.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L385
-  async partialFlashPageAsync(
+  private async partialFlashPageAsync(
     page: Page,
     nextPage: Page,
     i: number
@@ -207,7 +207,10 @@ export class PartialFlashing {
   }
 
   // Write pages of data to micro:bit ROM.
-  async partialFlashCoreAsync(pages: Page[], updateProgress: ProgressCallback) {
+  private async partialFlashCoreAsync(
+    pages: Page[],
+    updateProgress: ProgressCallback
+  ) {
     log("Partial flash");
     for (let i = 0; i < pages.length; ++i) {
       updateProgress(i / pages.length);
@@ -219,7 +222,7 @@ export class PartialFlashing {
   // Flash the micro:bit's ROM with the provided image by only copying over the pages that differ.
   // Falls back to a full flash if partial flashing fails.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L335
-  async partialFlashAsync(
+  private async partialFlashAsync(
     flashBytes: Uint8Array,
     hexBuffer: ArrayBuffer,
     updateProgress: ProgressCallback
