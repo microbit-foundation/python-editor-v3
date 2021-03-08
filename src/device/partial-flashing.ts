@@ -56,8 +56,7 @@ export class DAPWrapper {
   cortexM: CortexM;
   pageSize: number | null = null;
   numPages: number | null = null;
-  reconnected: boolean = false;
-  flashing: boolean = true;
+  private reconnected: boolean = false;
 
   constructor(public device: USBDevice) {
     this.transport = new WebUSB(this.device);
@@ -605,7 +604,6 @@ export class PartialFlashing {
       // Allow errors on resetting, user can always manually reset if necessary.
     }
     PartialFlashingUtils.log("Flashing Complete");
-    this.dapwrapper.flashing = false;
   }
 
   // Perform full flash of micro:bit's ROM using daplink.
@@ -628,11 +626,6 @@ export class PartialFlashing {
   // Connect to the micro:bit using WebUSB and setup DAPWrapper.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L439
   async connectDapAsync() {
-    if (this.dapwrapper) {
-      this.dapwrapper.flashing = true;
-      // TODO: Why?
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
     await this.dapAsync();
     PartialFlashingUtils.log("Connection Complete");
     this.dapwrapper!.pageSize = await this.dapwrapper!.cortexM.readMem32(
