@@ -56,7 +56,7 @@ const FlashButton = (
         handleWebUSBError(actionFeedback, e);
       }
     }
-  }, [fs, device, actionFeedback]);
+  }, [fs, device, actionFeedback, status]);
   const text =
     typeof progress === "undefined"
       ? "Flash"

@@ -263,7 +263,7 @@ export class DAPWrapper {
       let end = payloadSize;
 
       // Split write up into smaller writes whose data can each be held in a single packet.
-      while (start != end) {
+      while (start !== end) {
         let temp = new Uint32Array(data.buffer.slice(start, end));
         await this.writeBlockCore(address + start, temp);
 
@@ -489,7 +489,7 @@ export class PartialFlashing {
 
     // Write first page to slot in RAM.
     // All subsequent pages will have already been written to RAM.
-    if (i == 0) {
+    if (i === 0) {
       let u32data = new Uint32Array(page.data.length / 4);
       for (let j = 0; j < page.data.length; j += 4) {
         u32data[j >> 2] = PartialFlashingUtils.read32FromUInt8Array(

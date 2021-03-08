@@ -1,11 +1,4 @@
-import {
-  Button,
-  HStack,
-  IconButton,
-  StackProps,
-  ThemeComponents,
-  ThemeTypings,
-} from "@chakra-ui/react";
+import { HStack, IconButton, StackProps, ThemeTypings } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import {

@@ -5,7 +5,7 @@ import {
   highlightActiveLine,
   KeyBinding,
 } from "@codemirror/view";
-import { Extension, EditorState, Prec } from "@codemirror/state";
+import { Extension, EditorState, Prec, Compartment } from "@codemirror/state";
 import { history, historyKeymap } from "@codemirror/history";
 import { indentOnInput, indentUnit } from "@codemirror/language";
 import { lineNumbers } from "@codemirror/gutter";
@@ -28,28 +28,28 @@ const customTabBinding: KeyBinding = {
   shift: indentLess,
 };
 
-export const themeExtensionsTag = "themeExtensions";
+export const themeExtensionsCompartment = new Compartment();
 
 export const themeExtensions = (fontSizePt: number) => {
   const fontSize = `${fontSizePt}pt`;
   return EditorView.theme({
-    $content: {
+    ".cm-content": {
       fontSize,
     },
-    $gutter: {
+    ".cm-gutter": {
       fontSize,
       backgroundColor: "var(--code-background)",
     },
-    $completionIcon: {
+    ".cm-completionIcon": {
       // Seems broken by default
       width: "auto",
       // But they're also cryptic, so hide until we can improve.
       display: "none",
     },
-    $completionLabel: {
+    ".cm-completionLabel": {
       fontSize,
     },
-    $activeLine: {
+    ".cm-activeLine": {
       backgroundColor: "rgba(243, 249, 255, 0.5)",
     },
     // $wrap can't be styled here, see App.css.

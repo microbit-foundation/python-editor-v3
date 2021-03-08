@@ -1,10 +1,14 @@
 import { useEffect, useRef } from "react";
-import { editorConfig, themeExtensions, themeExtensionsTag } from "./config";
-import { EditorState, tagExtension } from "@codemirror/state";
+import {
+  editorConfig,
+  themeExtensions,
+  themeExtensionsCompartment,
+} from "./config";
+import { EditorState } from "@codemirror/state";
 import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
 import { useDidUpdate } from "../../common/use-did-update";
-import { blocks } from "./blocks";
+import { blocks, blocksCompartment } from "./blocks";
 
 interface CodeMirrorProps {
   className?: string;
@@ -45,8 +49,8 @@ const CodeMirror = ({
           notify,
           editorConfig,
           // Extensions we enable/disable based on props.
-          tagExtension("blocks", highlightCodeStructure ? blocks() : []),
-          tagExtension(themeExtensionsTag, themeExtensions(fontSize)),
+          blocksCompartment.of(highlightCodeStructure ? blocks() : []),
+          themeExtensionsCompartment.of(themeExtensions(fontSize)),
         ],
       });
       const view = new EditorView({
@@ -62,23 +66,21 @@ const CodeMirror = ({
         viewRef.current = null;
       }
     };
-  }, []);
+  }, [defaultValue, fontSize, highlightCodeStructure, onChange]);
 
   useDidUpdate(fontSize, (previous, current) => {
     if (previous !== undefined && viewRef.current) {
-      viewRef.current.dispatch({
-        reconfigure: {
-          [themeExtensionsTag]: themeExtensions(current),
-        },
+      viewRef.current.state.update({
+        effects: themeExtensionsCompartment.reconfigure(
+          themeExtensions(fontSize)
+        ),
       });
     }
   });
   useDidUpdate(highlightCodeStructure, (previous, current) => {
     if (previous !== undefined && viewRef.current) {
-      viewRef.current.dispatch({
-        reconfigure: {
-          blocks: current ? blocks() : [],
-        },
+      viewRef.current.state.update({
+        effects: blocksCompartment.reconfigure(current ? blocks() : []),
       });
     }
   });

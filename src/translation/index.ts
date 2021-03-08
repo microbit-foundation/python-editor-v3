@@ -1,7 +1,7 @@
 // We don't use most of this, and might never do so.
 // Almost certainly our translation will work differently.
 // For the moment though, it lets us pull across important error handling.
-export default {
+const en = {
   code_snippets: {
     title: "Code Snippets",
     description:
@@ -228,3 +228,5 @@ export default {
     },
   },
 };
+
+export default en;

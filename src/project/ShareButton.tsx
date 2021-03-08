@@ -1,4 +1,4 @@
-import { Button, ButtonProps, Tooltip } from "@chakra-ui/react";
+import { ButtonProps, Tooltip } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import { RiShareLine } from "react-icons/ri";
 import CollapsibleButton from "../common/CollapsibleButton";

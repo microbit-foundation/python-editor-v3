@@ -1,4 +1,4 @@
-export default `from microbit import *
+const sample = `from microbit import *
 import radio
 import random
 
@@ -26,3 +26,5 @@ while True:
             display.show(Image.DUCK)
         else:
             hasDuck = False`;
+
+export default sample;

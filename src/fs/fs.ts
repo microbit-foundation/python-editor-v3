@@ -6,6 +6,10 @@ import chuckADuck from "../samples/chuck-a-duck";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
 import microPythonV2HexUrl from "./microbit-micropython-v2.hex";
 
+const generateId = () =>
+  Math.random().toString(36).substring(2) +
+  Math.random().toString(36).substring(2);
+
 export interface File {
   name: string;
   size: number;
@@ -309,7 +313,3 @@ const asciiToBytes = (str: string): ArrayBuffer => {
   }
   return bytes.buffer;
 };
-
-const generateId = () =>
-  Math.random().toString(36).substring(2) +
-  Math.random().toString(36).substring(2);

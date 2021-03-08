@@ -44,7 +44,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
     } catch (e) {
       actionFeedback.unexpectedError(e);
     }
-  }, [actionFeedback, versionInfo]);
+  }, [actionFeedback]);
 
   // TODO: Can we make these actual links and still use the menu components?
   return (

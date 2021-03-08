@@ -5,16 +5,10 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Flex,
-  HStack,
-  Icon,
   List,
   ListItem,
-  Text,
-  VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { MdDragHandle } from "react-icons/md";
 import DraggableCodeSnippet from "./DraggableCodeSnippet";
 import { packages } from "./packages";
 

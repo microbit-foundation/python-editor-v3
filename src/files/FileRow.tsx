@@ -27,7 +27,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
     } catch (e) {
       actionFeedback.unexpectedError(e);
     }
-  }, [fs, name]);
+  }, [fs, name, actionFeedback, downloadName]);
 
   const handleDelete = useCallback(() => {
     try {
@@ -35,7 +35,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
     } catch (e) {
       actionFeedback.unexpectedError(e);
     }
-  }, [fs, name]);
+  }, [fs, name, actionFeedback]);
 
   return (
     <HStack justify="space-between" lineHeight={2}>

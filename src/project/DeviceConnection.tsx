@@ -42,7 +42,7 @@ const DeviceConnection = () => {
         }
       }
     }
-  }, [device, connected]);
+  }, [device, connected, actionFeedback, supported]);
   const buttonWidth = "10rem";
   return (
     <HStack>

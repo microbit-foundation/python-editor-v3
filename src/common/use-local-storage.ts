@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import { usePrevious } from "./use-previous";
+import { useCallback, useState } from "react";
 
 /**
  * Local storage-backed state (via JSON serialization).
@@ -30,7 +29,7 @@ export function useLocalStorage<T>(
       localStorage.setItem(key, JSON.stringify(value));
       setState(value);
     },
-    [setState]
+    [setState, key]
   );
   return [state, setAndSaveState];
 }
