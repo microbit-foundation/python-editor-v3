@@ -3,7 +3,6 @@
 command = "npm run ci"
 [build.environment]
   CI = "true"
-  NODE_ENV = "production"
 [[redirects]]
   from = "/*"
   to = "/index.html"

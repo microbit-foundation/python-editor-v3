@@ -22,15 +22,9 @@ export class DAPWrapper {
 
   _pageSize: number | undefined;
   _numPages: number | undefined;
-  private reconnected: boolean = false;
+  private initialConnectionComplete: boolean = false;
 
   constructor(public device: USBDevice) {
-    this.transport = new WebUSB(this.device);
-    this.daplink = new DAPLink(this.transport);
-    this.cortexM = new CortexM(this.transport);
-  }
-
-  private recreateDAP(): void {
     this.transport = new WebUSB(this.device);
     this.daplink = new DAPLink(this.transport);
     this.cortexM = new CortexM(this.transport);
@@ -67,18 +61,31 @@ export class DAPWrapper {
 
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L119
   async reconnectAsync(): Promise<void> {
-    // Only fully reconnect after the first time this object has reconnected.
-    if (!this.reconnected) {
-      this.reconnected = true;
-      this.recreateDAP();
-      // TODO: does this make sense to reallocate then disconnect?
+    if (this.initialConnectionComplete) {
       await this.disconnectAsync();
+
+      this.transport = new WebUSB(this.device);
+      this.daplink = new DAPLink(this.transport);
+      this.cortexM = new CortexM(this.transport);
+    } else {
+      this.initialConnectionComplete = true;
     }
+
     await this.daplink.connect();
     await this.cortexM.connect();
-
     this._pageSize = await this.cortexM.readMem32(FICR.CODEPAGESIZE);
     this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);
+  }
+
+  async startSerial(listener: (data: string) => void): Promise<void> {
+    await this.daplink.setSerialBaudrate(115200);
+    this.daplink.on(DAPLink.EVENT_SERIAL_DATA, listener);
+    await this.daplink.startSerialRead(1);
+  }
+
+  stopSerial(listener: (data: string) => void): void {
+    this.daplink.stopSerialRead();
+    this.daplink.removeListener(DAPLink.EVENT_SERIAL_DATA, listener);
   }
 
   async disconnectAsync(): Promise<void> {

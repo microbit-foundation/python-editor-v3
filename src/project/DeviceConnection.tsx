@@ -4,11 +4,7 @@ import Separate from "../common/Separate";
 import useActionFeedback, {
   ActionFeedback,
 } from "../common/use-action-feedback";
-import {
-  ConnectionMode,
-  ConnectionStatus,
-  WebUSBError,
-} from "../device/device";
+import { ConnectionStatus, WebUSBError } from "../device/device";
 import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
 import FlashButton from "./FlashButton";
@@ -27,7 +23,11 @@ const DeviceConnection = () => {
   const device = useDevice();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
-      await device.disconnect();
+      try {
+        await device.disconnect();
+      } catch (e) {
+        handleWebUSBError(actionFeedback, e);
+      }
     } else {
       if (!supported) {
         actionFeedback.expectedError({
@@ -36,7 +36,7 @@ const DeviceConnection = () => {
         });
       } else {
         try {
-          await device.connect(ConnectionMode.INTERACTIVE);
+          await device.connect();
         } catch (e) {
           handleWebUSBError(actionFeedback, e);
         }

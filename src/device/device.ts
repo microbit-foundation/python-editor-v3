@@ -83,22 +83,9 @@ export enum ConnectionStatus {
   CONNECTED = "CONNECTED",
 }
 
-/**
- * Controls whether a request to connect can prompt the user.
- */
-export enum ConnectionMode {
-  /**
-   * Prompt the user to connect if required.
-   */
-  INTERACTIVE,
-  /**
-   * Connect only to a pre-approved device without prompting the user.
-   */
-  NON_INTERACTIVE,
-}
-
 export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
+export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
 
 /**
@@ -118,6 +105,10 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    * The connection to the device.
    */
   private connection: DAPWrapper | undefined;
+
+  private serialListener = (data: string) => {
+    this.emit(EVENT_SERIAL_DATA, data);
+  };
 
   async initialize(): Promise<void> {
     if (navigator.usb) {
@@ -142,9 +133,9 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    * @param interactive whether we can prompt the user to choose a device.
    * @returns the final connection status.
    */
-  async connect(mode: ConnectionMode): Promise<ConnectionStatus> {
+  async connect(): Promise<ConnectionStatus> {
     return this.withEnrichedErrors(async () => {
-      this.setStatus(await this.connectInternal(mode));
+      await this.connectInternal(true);
       return this.status;
     });
   }
@@ -161,6 +152,13 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     );
   }
 
+  private async stopSerial() {
+    if (this.connection) {
+      this.connection.stopSerial(this.serialListener);
+    }
+    this.emit(EVENT_SERIAL_RESET, {});
+  }
+
   private async flashInternal(
     dataSource: FlashDataSource,
     options: {
@@ -169,9 +167,11 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   ): Promise<void> {
     if (!this.connection) {
-      await this.connect(ConnectionMode.INTERACTIVE);
+      await this.connectInternal(false);
     } else {
-      // TODO: Maybe reinstate v2's timeout here.
+      log("Stopping serial before flash");
+      this.stopSerial();
+      log("Reconnecting before flash");
       await this.connection.reconnectAsync();
     }
     if (!this.connection) {
@@ -191,6 +191,16 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       } else {
         await flashing.fullFlashAsync(data.intelHex, progress);
       }
+
+      // Can we avoid doing this? Is there a chance we miss program output?
+      log("Reinstating serial after flash");
+      await this.connection.reconnectAsync();
+
+      // This is async but won't return until we've finished serial.
+      // TODO: consider error handling here, via an event?
+      this.connection
+        .startSerial(this.serialListener)
+        .then(() => log("Finished listening for serial data"));
     } finally {
       progress(undefined);
     }
@@ -202,15 +212,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   async disconnect(): Promise<void> {
     try {
       if (this.connection) {
-        const old = this.connection;
-        this.connection = undefined;
-        await old.disconnectAsync();
-        log("Disconnection complete");
+        this.stopSerial();
+        this.connection.disconnectAsync();
       }
     } catch (e) {
       log("Error during disconnection:\r\n" + e);
+    } finally {
+      this.connection = undefined;
+      this.setStatus(ConnectionStatus.NOT_CONNECTED);
     }
-    this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }
 
   private setStatus(newStatus: ConnectionStatus) {
@@ -239,24 +249,32 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
+  serialWrite(data: string): Promise<void> {
+    return this.withEnrichedErrors(async () => {
+      if (this.connection) {
+        this.connection.daplink.serialWrite(data);
+      }
+    });
+  }
+
   private handleDisconnect = (event: USBConnectionEvent) => {
     if (event.device === this.device) {
-      log("Disconnect event");
       this.connection = undefined;
       this.device = undefined;
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
     }
   };
 
-  private async connectInternal(
-    mode: ConnectionMode
-  ): Promise<ConnectionStatus> {
+  private async connectInternal(serial: boolean): Promise<void> {
     if (!this.connection) {
       const device = await this.chooseDevice();
       this.connection = new DAPWrapper(device);
     }
     await this.connection.reconnectAsync();
-    return ConnectionStatus.CONNECTED;
+    if (serial) {
+      this.connection.startSerial(this.serialListener);
+    }
+    this.setStatus(ConnectionStatus.CONNECTED);
   }
 
   private async chooseDevice(): Promise<USBDevice> {
