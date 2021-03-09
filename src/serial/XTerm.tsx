@@ -54,7 +54,7 @@ const XTerm = (props: BoxProps) => {
 
   // The terminal itself is sized based on the number of rows,
   // so we need a background that matches the theme.
-  return <Box {...props} ref={ref} />;
+  return <Box {...props} ref={ref} backgroundColor="black" />;
 };
 
 export default XTerm;
