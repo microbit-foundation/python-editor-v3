@@ -197,7 +197,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       await this.connection.reconnectAsync();
 
       // This is async but won't return until we've finished serial.
-      // TODO: consider error handling here.
+      // TODO: consider error handling here, via an event?
       this.connection
         .startSerial(this.serialListener)
         .then(() => log("Finished listening for serial data"));
@@ -249,15 +249,12 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
-  serialWrite(data: string): void {
-    if (this.connection) {
-      try {
+  serialWrite(data: string): Promise<void> {
+    return this.withEnrichedErrors(async () => {
+      if (this.connection) {
         this.connection.daplink.serialWrite(data);
-      } catch (e) {
-        console.log("Serial write error");
-        console.error(e);
       }
-    }
+    });
   }
 
   private handleDisconnect = (event: USBConnectionEvent) => {

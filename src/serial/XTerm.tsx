@@ -35,12 +35,7 @@ const XTerm = (props: BoxProps) => {
 
       // Input/output data.
       const serialListener = (data: string) => {
-        try {
-          term.write(data);
-        } catch (e) {
-          console.log("Serial error");
-          console.error(e);
-        }
+        term.write(data);
       };
       device.on(EVENT_SERIAL_DATA, serialListener);
       const resetListener = () => {
