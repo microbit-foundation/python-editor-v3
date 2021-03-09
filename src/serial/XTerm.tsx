@@ -35,14 +35,23 @@ const XTerm = (props: BoxProps) => {
 
       // Input/output data.
       const serialListener = (data: string) => {
-        term.write(data);
+        if (!isUnmounted()) {
+          term.write(data);
+        }
       };
       device.on(EVENT_SERIAL_DATA, serialListener);
       const resetListener = () => {
-        term.reset();
+        if (!isUnmounted()) {
+          term.reset();
+        }
       };
       device.on(EVENT_SERIAL_RESET, resetListener);
-      term.onData(device.serialWrite.bind(device));
+      term.onData((data: string) => {
+        if (!isUnmounted()) {
+          // Async for internal error handling, we don't need to wait.
+          device.serialWrite(data);
+        }
+      });
       return () => {
         device.removeListener(EVENT_SERIAL_RESET, resetListener);
         device.removeListener(EVENT_SERIAL_DATA, serialListener);
