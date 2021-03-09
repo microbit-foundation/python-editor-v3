@@ -23,7 +23,11 @@ const DeviceConnection = () => {
   const device = useDevice();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
-      await device.disconnect();
+      try {
+        await device.disconnect();
+      } catch (e) {
+        handleWebUSBError(actionFeedback, e);
+      }
     } else {
       if (!supported) {
         actionFeedback.expectedError({

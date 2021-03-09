@@ -85,6 +85,7 @@ export enum ConnectionStatus {
 
 export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
+export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
 
 /**
@@ -151,6 +152,13 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     );
   }
 
+  private async stopSerial() {
+    if (this.connection) {
+      this.connection.stopSerial(this.serialListener);
+    }
+    this.emit(EVENT_SERIAL_RESET, {});
+  }
+
   private async flashInternal(
     dataSource: FlashDataSource,
     options: {
@@ -161,9 +169,9 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     if (!this.connection) {
       await this.connectInternal(false);
     } else {
-      // TODO: Maybe reinstate v2's timeout here.
-      // Do we need to stop serial?
-      this.connection.stopSerial(this.serialListener);
+      log("Stopping serial before flash");
+      this.stopSerial();
+      log("Reconnecting before flash");
       await this.connection.reconnectAsync();
     }
     if (!this.connection) {
@@ -184,8 +192,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
         await flashing.fullFlashAsync(data.intelHex, progress);
       }
 
-      // Reinstate serial. Is this quick enough to capture output?
-      this.connection.startSerial(this.serialListener);
+      // Can we avoid doing this? Is there a chance we miss program output?
+      log("Reinstating serial after flash");
+      await this.connection.reconnectAsync();
+
+      // This is async but won't return until we've finished serial.
+      // TODO: consider error handling here.
+      this.connection
+        .startSerial(this.serialListener)
+        .then(() => log("Finished listening for serial data"));
     } finally {
       progress(undefined);
     }
@@ -197,15 +212,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   async disconnect(): Promise<void> {
     try {
       if (this.connection) {
-        const old = this.connection;
-        this.connection = undefined;
-        await old.disconnectAsync();
-        log("Disconnection complete");
+        this.stopSerial();
+        this.connection.disconnectAsync();
       }
     } catch (e) {
       log("Error during disconnection:\r\n" + e);
+    } finally {
+      this.connection = undefined;
+      this.setStatus(ConnectionStatus.NOT_CONNECTED);
     }
-    this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }
 
   private setStatus(newStatus: ConnectionStatus) {
@@ -236,13 +251,17 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   serialWrite(data: string): void {
     if (this.connection) {
-      this.connection.daplink.serialWrite(data);
+      try {
+        this.connection.daplink.serialWrite(data);
+      } catch (e) {
+        console.log("Serial write error");
+        console.error(e);
+      }
     }
   }
 
   private handleDisconnect = (event: USBConnectionEvent) => {
     if (event.device === this.device) {
-      log("Disconnect event");
       this.connection = undefined;
       this.device = undefined;
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
