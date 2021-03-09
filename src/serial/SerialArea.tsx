@@ -17,7 +17,7 @@ const SerialArea = () => {
           flex="1 1 auto"
           backgroundColor="black"
           color="white"
-          text="Connect via WebUSB to see serial output from your micro:bit here"
+          text="Connect to your micro:bit to see serial output here"
         />
       )}
     </Flex>
