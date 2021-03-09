@@ -1,4 +1,3 @@
-import React from "react";
 import { BoxProps, Center, Text } from "@chakra-ui/react";
 
 interface PlaceholderProps extends BoxProps {

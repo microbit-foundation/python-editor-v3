@@ -1,5 +1,4 @@
 import { Center, Text } from "@chakra-ui/react";
-import React from "react";
 
 /**
  * Not a simulator!

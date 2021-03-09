@@ -1,5 +1,4 @@
 import { Flex } from "@chakra-ui/react";
-import React from "react";
 import ProjectActionBar from "../project/ProjectActionBar";
 import XTerm from "./XTerm";
 

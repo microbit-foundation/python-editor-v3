@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import React from "react";
 import DraggableCodeSnippet from "./DraggableCodeSnippet";
 import { packages } from "./packages";
 

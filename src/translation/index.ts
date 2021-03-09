@@ -2,25 +2,6 @@
 // Almost certainly our translation will work differently.
 // For the moment though, it lets us pull across important error handling.
 const en = {
-  code_snippets: {
-    title: "Code Snippets",
-    description:
-      "Code snippets are short blocks of code to re-use in your own programs. There are snippets for most common things you'll want to do using MicroPython.",
-    instructions: "Select one of the snippets below to inject the code block.",
-    trigger_heading: "trigger",
-    description_heading: "description",
-    docs: "create a comment to describe your code",
-    wh: "while some condition is True, keep looping over some code",
-    with: "do some stuff with something assigned to a name",
-    cl: "create a new class that defines the behaviour of a new type of object",
-    def:
-      "define a named function that takes some arguments and optionally add a description",
-    if: "if some condition is True, do something",
-    ei: "else if some other condition is True, do something",
-    el: "else do some other thing",
-    for: "for each item in a collection of items do something with each item",
-    try: "try doing something and handle exceptions (errors)",
-  },
   alerts: {
     download:
       "Safari has a bug that means your work will be downloaded as an un-named file. Please rename it to something ending in .hex. Alternatively, use a browser such as Firefox or Chrome. They do not suffer from this bug.",

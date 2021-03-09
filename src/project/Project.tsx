@@ -1,4 +1,3 @@
-import React from "react";
 import { useProject } from "../fs/fs-hooks";
 import Workbench from "../workbench/Workbench";
 
