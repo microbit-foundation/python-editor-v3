@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "canvas": "^2.7.0",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "webusb": "^2.2.0"
   }
 }
