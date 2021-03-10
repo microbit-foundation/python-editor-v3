@@ -1,5 +1,9 @@
 /**
  * @jest-environment node
+ *
+ * Without node environment USB code fails with a buffer type check.
+ * It might be we could create a custom environment that was web but
+ * with a tweak to Buffer.
  */
 import { ConnectionStatus, MicrobitWebUSBConnection } from "./device";
 import { USB } from "webusb";
