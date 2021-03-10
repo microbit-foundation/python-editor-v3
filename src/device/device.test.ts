@@ -12,6 +12,14 @@ const describeDeviceOnly = process.env.TEST_MODE_DEVICE
   ? describe
   : describe.skip;
 
+describe("MicrobitWebUSBConnection (no WebUSB)", () => {
+  it(`notices if WebUSB isn't supported`, () => {
+    (global as any).navigator = {};
+    const microbit = new MicrobitWebUSBConnection();
+    expect(microbit.status).toBe(ConnectionStatus.NOT_SUPPORTED);
+  });
+});
+
 describeDeviceOnly("MicrobitWebUSBConnection", () => {
   beforeAll(() => {
     // Maybe we can move this to a custom jest environment?
