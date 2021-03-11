@@ -30,12 +30,6 @@ const versionInfo = [
   `MicroPython ${microPythonVersions.map((mpy) => mpy.version).join("/")}`,
 ];
 
-const openInNewTab = (href: string) => () =>
-  window.open(href, "_blank", "noopener");
-
-const handleDocumentation = openInNewTab(config.documentationLink);
-const handleSupport = openInNewTab(config.supportLink);
-
 /**
  * A help button that triggers a drop-down menu with actions.
  */
@@ -49,7 +43,6 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
     }
   }, [actionFeedback]);
 
-  // TODO: Can we make these actual links and still use the menu components?
   return (
     <Menu {...props}>
       <MenuButton
@@ -62,10 +55,22 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
       />
       <Portal>
         <MenuList>
-          <MenuItem onClick={handleDocumentation} icon={<RiExternalLinkLine />}>
+          <MenuItem
+            as="a"
+            href={config.documentationLink}
+            target="_blank"
+            rel="noopener"
+            icon={<RiExternalLinkLine />}
+          >
             Documentation
           </MenuItem>
-          <MenuItem onClick={handleSupport} icon={<RiExternalLinkLine />}>
+          <MenuItem
+            as="a"
+            href={config.supportLink}
+            target="_blank"
+            rel="noopener"
+            icon={<RiExternalLinkLine />}
+          >
             Support
           </MenuItem>
           <MenuDivider />

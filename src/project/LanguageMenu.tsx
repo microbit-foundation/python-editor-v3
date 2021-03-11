@@ -1,5 +1,6 @@
 import {
   IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuDivider,
@@ -38,7 +39,15 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
             <MenuItem key={language.id}>{language.name}</MenuItem>
           ))}
           <MenuDivider />
-          <MenuItem icon={<RiExternalLinkLine />}>Help translate</MenuItem>
+          <MenuItem
+            as="a"
+            href={config.translationLink}
+            target="_blank"
+            rel="noopener"
+            icon={<RiExternalLinkLine />}
+          >
+            Help translate
+          </MenuItem>
         </MenuList>
       </Portal>
     </Menu>
