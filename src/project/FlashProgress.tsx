@@ -18,7 +18,7 @@ const FlashProgress = ({ progress }: FlashProgressProps) => {
     <Modal isOpen={progress !== undefined} onClose={doNothing} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Flashing…</ModalHeader>
+        <ModalHeader>Flashing code</ModalHeader>
         <ModalBody>
           <Progress value={progress! * 100} mb={3} />
         </ModalBody>
