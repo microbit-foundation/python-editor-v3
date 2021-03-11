@@ -1,5 +1,5 @@
 import { Flex, HStack, VStack } from "@chakra-ui/react";
-import HelpMenu from "./HelpMenu";
+import HelpMenu from "../project/HelpMenu";
 import Logo from "../common/Logo";
 import OpenButton from "../project/OpenButton";
 import ProjectNameEditable from "../project/ProjectNameEditable";

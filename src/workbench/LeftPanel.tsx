@@ -20,7 +20,8 @@ import PackagesArea from "../packages/PackagesArea";
 import SettingsArea from "../settings/SettingsArea";
 import FilesArea from "../files/FilesArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import HelpMenu from "./HelpMenu";
+import HelpMenu from "../project/HelpMenu";
+import LanguageMenu from "../project/LanguageMenu";
 
 interface LeftPanelProps {
   onSelectedFileChanged: (filename: string) => void;
@@ -79,7 +80,8 @@ const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
               <Icon as={p.icon} aria-label={p.title} />
             </Tab>
           ))}
-          <VStack mt="auto" mb={1}>
+          <VStack mt="auto" mb={1} spacing={0.5}>
+            <LanguageMenu />
             <HelpMenu />
           </VStack>
         </TabList>
