@@ -192,15 +192,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
         await flashing.fullFlashAsync(data.intelHex, progress);
       }
 
-      // Can we avoid doing this? Is there a chance we miss program output?
       log("Reinstating serial after flash");
-      await this.connection.reconnectAsync();
+      await this.connection.daplink.connect();
 
       // This is async but won't return until we've finished serial.
       // TODO: consider error handling here, via an event?
       this.connection
         .startSerial(this.serialListener)
-        .then(() => log("Finished listening for serial data"));
+        .then(() => log("Finished listening for serial data"))
+        .catch((e) => this.emit(EVENT_SERIAL_ERROR, e));
     } finally {
       progress(undefined);
     }
