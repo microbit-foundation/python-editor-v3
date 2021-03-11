@@ -6,6 +6,9 @@ interface LeftPanelTabContentProps {
   children: ReactNode;
 }
 
+/**
+ * A wrapper for each area shown inside the left panel.
+ */
 const LeftPanelTabContent = ({ title, children }: LeftPanelTabContentProps) => {
   return (
     <Flex height="100%" direction="column">

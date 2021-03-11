@@ -7,6 +7,8 @@ import ShareButton from "../project/ShareButton";
 
 /**
  * The header area with associated actions.
+ *
+ * This is currently unused but kept around while we're exploring different designs.
  */
 const Header = () => {
   const size = "md";

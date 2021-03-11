@@ -1,7 +1,7 @@
 import { Center, Text } from "@chakra-ui/react";
 
 /**
- * Not a simulator!
+ * Not a simulator! This is a placeholder useful in design discussions.
  */
 const SimulatorArea = () => {
   return (

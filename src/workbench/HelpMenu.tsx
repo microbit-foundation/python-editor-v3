@@ -36,6 +36,9 @@ const openInNewTab = (href: string) => () =>
 const handleDocumentation = openInNewTab(config.documentationLink);
 const handleSupport = openInNewTab(config.supportLink);
 
+/**
+ * A help button that triggers a drop-down menu with actions.
+ */
 const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   const actionFeedback = useActionFeedback();
   const handleCopyVersion = useCallback(async () => {

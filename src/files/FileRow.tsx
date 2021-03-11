@@ -11,6 +11,9 @@ interface FileRowProps {
   onClick: () => void;
 }
 
+/**
+ * A row in the files area.
+ */
 const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
