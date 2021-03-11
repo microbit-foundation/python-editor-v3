@@ -7,7 +7,7 @@
       "path": "../../codemirror/codemirror.next"
     },
     {
-      "path": "../python/python-editor"
+      "path": "../python-editor"
     }
   ],
   "settings": {}
