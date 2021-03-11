@@ -125,8 +125,10 @@ export class FileSystem extends EventEmitter {
       this.write(MAIN_FILE, chuckADuck);
     }
     // Run this async as it'll download > 1MB of MicroPython.
-    // TODO: Consider errors and retrying if downloads fail.
-    this.initialize();
+    this.initialize().catch((e) => {
+      // Clear the promise so we'll initialize on demand later.
+      this.initializing = undefined;
+    });
   }
 
   async initialize(): Promise<MicropythonFsHex> {
