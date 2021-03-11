@@ -12,6 +12,7 @@ import CollapsableButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
 import { Tooltip } from "@chakra-ui/react";
+import FlashProgress from "./FlashProgress";
 
 class HexGenerationError extends Error {}
 
@@ -57,24 +58,23 @@ const FlashButton = (
       }
     }
   }, [fs, device, actionFeedback, status]);
-  const text =
-    typeof progress === "undefined"
-      ? "Flash"
-      : `Flashing… (${(progress * 100).toFixed(0)}%)`;
   return (
-    <Tooltip
-      hasArrow
-      placement="top-start"
-      label="Flash the project directly to the micro:bit"
-    >
-      <CollapsableButton
-        {...props}
-        disabled={typeof progress !== "undefined"}
-        icon={<RiFlashlightFill />}
-        onClick={handleFlash}
-        text={text}
-      />
-    </Tooltip>
+    <>
+      <FlashProgress progress={progress} />
+      <Tooltip
+        hasArrow
+        placement="top-start"
+        label="Flash the project directly to the micro:bit"
+      >
+        <CollapsableButton
+          {...props}
+          disabled={typeof progress !== "undefined"}
+          icon={<RiFlashlightFill />}
+          onClick={handleFlash}
+          text="Flash"
+        />
+      </Tooltip>
+    </>
   );
 };
 
