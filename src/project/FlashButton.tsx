@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
-import Separate from "../common/Separate";
+import Separate, { br } from "../common/Separate";
 import useActionFeedback, {
   ActionFeedback,
 } from "../common/use-action-feedback";
@@ -83,7 +83,7 @@ const handleWebUSBError = (actionFeedback: ActionFeedback, e: any) => {
     actionFeedback.expectedError({
       title: e.title,
       description: (
-        <Separate separator={(k) => <br key={k} />}>
+        <Separate separator={br}>
           {[e.message, e.description].filter(Boolean)}
         </Separate>
       ),

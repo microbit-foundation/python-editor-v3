@@ -1,8 +1,10 @@
 import React, { ReactNode } from "react";
 
+export const br = (key: React.Key) => <br key={key} />;
+
 interface SeparateProps {
   children: ReactNode;
-  separator: (key: string | number | null | undefined) => ReactNode;
+  separator: (key: React.Key) => ReactNode;
 }
 
 /**
@@ -14,7 +16,7 @@ const Separate = ({ children, separator }: SeparateProps) => {
   React.Children.forEach(children, (n, i) => {
     result.push(n);
     if (i < count - 1) {
-      result.push(<br key={i} />);
+      result.push(separator(i));
     }
   });
   return <>{result}</>;

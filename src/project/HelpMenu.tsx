@@ -16,7 +16,7 @@ import {
   RiFileCopy2Line,
   RiQuestionLine,
 } from "react-icons/ri";
-import Separate from "../common/Separate";
+import Separate, { br } from "../common/Separate";
 import useActionFeedback from "../common/use-action-feedback";
 import config from "../config";
 import { microPythonVersions } from "../fs/fs";
@@ -83,9 +83,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             Copy version to clipboard
             <br />
             <Text as="span" fontSize="xs">
-              <Separate separator={(key) => <br key={key} />}>
-                {versionInfo}
-              </Separate>
+              <Separate separator={br}>{versionInfo}</Separate>
             </Text>
           </MenuItem>
         </MenuList>

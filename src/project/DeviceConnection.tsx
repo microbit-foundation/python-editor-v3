@@ -1,6 +1,6 @@
 import { HStack, Switch, Text, Tooltip } from "@chakra-ui/react";
-import React, { useCallback } from "react";
-import Separate from "../common/Separate";
+import { useCallback } from "react";
+import Separate, { br } from "../common/Separate";
 import useActionFeedback, {
   ActionFeedback,
 } from "../common/use-action-feedback";
@@ -75,7 +75,7 @@ const handleWebUSBError = (actionFeedback: ActionFeedback, e: any) => {
     actionFeedback.expectedError({
       title: e.title,
       description: (
-        <Separate separator={(k) => <br key={k} />}>
+        <Separate separator={br}>
           {[e.message, e.description].filter(Boolean)}
         </Separate>
       ),
