@@ -3,6 +3,7 @@ import { MAIN_FILE } from "../fs/fs";
 import ZoomControls from "./ZoomControls";
 import NonMainFileNotice from "./NonMainFileNotice";
 import EditorContainer from "./EditorContainer";
+import ProjectActionBar from "../project/ProjectActionBar";
 
 interface EditorAreaProps {
   filename: string;
@@ -36,6 +37,13 @@ const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
         />
         <EditorContainer filename={filename} />
       </Box>
+      <ProjectActionBar
+        pt={1}
+        pb={1}
+        pl={2}
+        pr={2}
+        borderTop="1px solid #d3d3d3"
+      />
     </Flex>
   );
 };

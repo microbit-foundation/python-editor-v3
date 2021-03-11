@@ -1,15 +1,13 @@
-import { Flex } from "@chakra-ui/react";
+import { BoxProps, Flex } from "@chakra-ui/react";
 import Placeholder from "../common/Placeholder";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
-import ProjectActionBar from "../project/ProjectActionBar";
 import XTerm from "./XTerm";
 
-const SerialArea = () => {
+const SerialArea = (props: BoxProps) => {
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
-    <Flex flexDirection="column" alignItems="stretch" height="100%">
-      <ProjectActionBar mt={1} mb={1} ml={2} mr={2} />
+    <Flex {...props} flexDirection="column" alignItems="stretch" height="100%">
       {connected ? (
         <XTerm flex="1 1 auto" height={0} />
       ) : (
