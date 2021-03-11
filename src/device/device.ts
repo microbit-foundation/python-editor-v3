@@ -335,7 +335,6 @@ const enrichedError = (err: any): WebUSBError => {
         });
       } else {
         // Unhandled error. User will need to reconnect their micro:bit
-        console.error(err);
         return genericErrorSuggestingReconnect(err);
       }
     case "string": {
