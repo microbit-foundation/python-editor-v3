@@ -1,8 +1,7 @@
 import { Button, ButtonProps, Input } from "@chakra-ui/react";
 import React, { useCallback, useRef } from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
-import useActionFeedback from "../common/use-action-feedback";
-import { useFileSystem } from "../fs/fs-hooks";
+import { useProjectActions } from "./use-project-actions";
 
 interface OpenButtonProps extends ButtonProps {
   text?: string;
@@ -12,8 +11,7 @@ interface OpenButtonProps extends ButtonProps {
  * Open HEX button, with an associated input field.
  */
 const OpenButton = ({ text = "Open", ...props }: OpenButtonProps) => {
-  const fs = useFileSystem();
-  const actionFeedback = useActionFeedback();
+  const actions = useProjectActions();
   const ref = useRef<HTMLInputElement>(null);
 
   const handleChooseFile = useCallback(() => {
@@ -26,27 +24,19 @@ const OpenButton = ({ text = "Open", ...props }: OpenButtonProps) => {
       if (files) {
         const file = files.item(0);
         if (file) {
-          try {
-            const text = await file.text();
-            await fs.replaceWithHexContents(text);
-          } catch (e) {
-            actionFeedback.expectedError({
-              title: "Failed to open the hex file",
-              description: e.message,
-              error: e,
-            });
-          }
+          await actions.open(file);
         }
       }
     },
-    [fs, actionFeedback]
+    [actions]
   );
 
   return (
     <>
       <Input
         type="file"
-        accept=".hex"
+        // .mpy isn't supported but better to explain ourselves
+        accept=".hex, .py, .mpy"
         display="none"
         onChange={handleOpenFile}
         ref={ref}

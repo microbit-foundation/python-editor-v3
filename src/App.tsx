@@ -14,6 +14,7 @@ import {
 } from "./settings/settings";
 import { useLocalStorage } from "./common/use-local-storage";
 import Project from "./project/Project";
+import ProjectDropTarget from "./project/ProjectDropTarget";
 
 const device = new MicrobitWebUSBConnection();
 const fs = new FileSystem();
@@ -37,7 +38,9 @@ const App = () => {
       <DeviceContext.Provider value={device}>
         <FileSystemContext.Provider value={fs}>
           <SettingsContext.Provider value={settings}>
-            <Project />
+            <ProjectDropTarget>
+              <Project />
+            </ProjectDropTarget>
           </SettingsContext.Provider>
         </FileSystemContext.Provider>
       </DeviceContext.Provider>
