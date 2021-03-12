@@ -2,7 +2,7 @@ import { microbitBoardId, MicropythonFsHex } from "@microbit/microbit-fs";
 import EventEmitter from "events";
 import config from "../config";
 import { BoardId } from "../device/board-id";
-import chuckADuck from "../samples/chuck-a-duck";
+import initialCode from "./initial-code";
 import { generateId } from "./fs-util";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
 import microPythonV2HexUrl from "./microbit-micropython-v2.hex";
@@ -66,13 +66,11 @@ export class FileSystem extends EventEmitter {
 
   constructor() {
     super();
-    // Temporary!
-    if (
-      !this.storage.ls().includes(MAIN_FILE) ||
-      this.storage.read(MAIN_FILE).length === 0
-    ) {
-      this.write(MAIN_FILE, chuckADuck);
+    // Demo code.
+    if (!this.storage.ls().includes(MAIN_FILE)) {
+      this.write(MAIN_FILE, initialCode);
     }
+
     // Run this async as it'll download > 1MB of MicroPython.
     this.initialize().catch((e) => {
       // Clear the promise so we'll initialize on demand later.
