@@ -9,6 +9,7 @@ import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
 import { useDidUpdate } from "../../common/use-did-update";
 import { blocks, blocksCompartment } from "./blocks";
+import "./CodeMirror.css";
 
 interface CodeMirrorProps {
   className?: string;

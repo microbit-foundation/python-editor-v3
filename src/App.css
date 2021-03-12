@@ -13,10 +13,3 @@ body {
 #root {
   height: 100%;
 }
-.cm-wrap {
-  height: 100%;
-  background-color: var(--code-background);
-}
-.cm-focused {
-  outline: none !important;
-}
