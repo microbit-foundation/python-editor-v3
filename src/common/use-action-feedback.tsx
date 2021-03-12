@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Link, useToast } from "@chakra-ui/react";
 import { useMemo } from "react";
 import config from "../config";
@@ -28,6 +28,45 @@ export class ActionFeedback {
       description,
       position: "top",
       isClosable: true,
+    });
+  }
+
+  /**
+   * Handles an warning.
+   */
+  warning({
+    title,
+    description,
+    error,
+  }: {
+    title: string;
+    description: ReactNode;
+    error?: any;
+  }) {
+    // For now at least.
+    if (error) {
+      console.error(error);
+    }
+    this.toast({
+      title,
+      status: "warning",
+      description,
+      position: "top",
+      isClosable: true,
+    });
+  }
+
+  /**
+   * Handles an warning.
+   */
+  success({ title, description }: { title: string; description?: ReactNode }) {
+    this.toast({
+      title,
+      status: "success",
+      description,
+      position: "top",
+      isClosable: false,
+      duration: 2000, // Quicker than for errors
     });
   }
 
