@@ -33,3 +33,7 @@ export const isPythonMicrobitModule = (code: string) => {
     firstThreeLines.find((line) => line.indexOf("# microbit-module:") === 0)
   );
 };
+
+export const generateId = () =>
+  Math.random().toString(36).substring(2) +
+  Math.random().toString(36).substring(2);

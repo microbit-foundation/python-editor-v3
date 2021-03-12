@@ -1,4 +1,8 @@
-import { getFileExtension, isPythonMicrobitModule } from "./fs-util";
+import {
+  generateId,
+  getFileExtension,
+  isPythonMicrobitModule,
+} from "./fs-util";
 
 describe("getFileExtension", () => {
   it("gets extension", () => {
@@ -45,5 +49,12 @@ describe("isPythonMicrobitModule", () => {
     expect(isPythonMicrobitModule("\n# microbit-module:")).toEqual(true);
     expect(isPythonMicrobitModule("\n\n# microbit-module:")).toEqual(true);
     expect(isPythonMicrobitModule("\n\n\n# microbit-module:")).toEqual(false);
+  });
+});
+
+describe("generateId", () => {
+  it("returns different ids", () => {
+    // We don't really care much about these ids. They're just react keys at the moment.
+    expect(generateId() === generateId()).toEqual(false);
   });
 });

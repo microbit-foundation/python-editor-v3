@@ -1,12 +1,16 @@
-import { Box } from "@chakra-ui/layout";
+import { Box, BoxProps } from "@chakra-ui/layout";
 import { ReactNode, useCallback } from "react";
 
-interface FileDropTargetProps {
+interface FileDropTargetProps extends BoxProps {
   children: ReactNode;
   onFileDrop: (file: File) => void;
 }
 
-const FileDropTarget = ({ children, onFileDrop }: FileDropTargetProps) => {
+const FileDropTarget = ({
+  children,
+  onFileDrop,
+  ...props
+}: FileDropTargetProps) => {
   const handleDrop = useCallback(
     (event: React.DragEvent<HTMLElement>) => {
       const file = event.dataTransfer.files[0];
@@ -23,7 +27,7 @@ const FileDropTarget = ({ children, onFileDrop }: FileDropTargetProps) => {
     event.dataTransfer.dropEffect = "copy";
   }, []);
   return (
-    <Box height="100%" onDrop={handleDrop} onDragOver={handleDragOver}>
+    <Box {...props} onDrop={handleDrop} onDragOver={handleDragOver}>
       {children}
     </Box>
   );
