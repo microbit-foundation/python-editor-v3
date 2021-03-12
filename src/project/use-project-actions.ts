@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import useActionFeedback from "../common/use-action-feedback";
-import { MAIN_FILE } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import {
   getFileExtension,
@@ -30,14 +29,16 @@ export const useProjectActions = (): ProjectActions => {
               description: "The file was empty.",
             });
           } else if (isPythonMicrobitModule(code)) {
-            fs.write(file.name, code);
+            const exists = fs.exists(file.name);
+            const change = exists ? "Updated" : "Added";
+            fs.addOrUpdateModule(file.name, code);
             actionFeedback.success({
-              title: "Added module " + file.name,
+              title: `${change} module ${file.name}`,
             });
           } else {
-            fs.write(MAIN_FILE, code);
+            fs.replaceWithMainContents(code);
             actionFeedback.success({
-              title: "Your program has been updated.",
+              title: "Loaded " + file.name,
             });
           }
         } else if (extension === "hex") {

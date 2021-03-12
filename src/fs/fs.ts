@@ -3,12 +3,10 @@ import EventEmitter from "events";
 import config from "../config";
 import { BoardId } from "../device/board-id";
 import chuckADuck from "../samples/chuck-a-duck";
+import { generateId } from "./fs-util";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
 import microPythonV2HexUrl from "./microbit-micropython-v2.hex";
-
-const generateId = () =>
-  Math.random().toString(36).substring(2) +
-  Math.random().toString(36).substring(2);
+import { FSLocalStorage, FSStorage } from "./storage";
 
 export interface File {
   name: string;
@@ -36,56 +34,7 @@ export interface Project {
 }
 
 export const EVENT_STATE = "state";
-
 export const MAIN_FILE = "main.py";
-
-interface Storage {
-  ls(): string[];
-  read(filename: string): string;
-  write(filename: string, content: string): void;
-  remove(filename: string): void;
-}
-
-/**
- * At some point this will need to deal with multiple tabs.
- *
- * At the moment both tabs will overwrite each other's main.py,
- * but it's even more confusing if they have other files.
- */
-class LocalStorage implements Storage {
-  private prefix = "fs/";
-
-  ls() {
-    return Object.keys(localStorage)
-      .filter((n) => n.startsWith(this.prefix))
-      .map((n) => n.substring(this.prefix.length));
-  }
-
-  setProjectName(projectName: string) {
-    localStorage.setItem("projectName", projectName);
-  }
-
-  projectName(): string {
-    return localStorage.getItem("projectName") || config.defaultProjectName;
-  }
-
-  read(name: string): string {
-    const item = localStorage.getItem(this.prefix + name);
-    if (typeof item !== "string") {
-      throw new Error(`No such file ${name}`);
-    }
-    return item;
-  }
-
-  write(name: string, content: string): void {
-    localStorage.setItem(this.prefix + name, content);
-  }
-
-  remove(name: string): void {
-    this.read(name);
-    localStorage.removeItem(this.prefix + name);
-  }
-}
 
 export interface FlashData {
   bytes: Uint8Array;
@@ -104,7 +53,7 @@ export interface DownloadData {
  */
 export class FileSystem extends EventEmitter {
   private initializing: Promise<void> | undefined;
-  private storage = new LocalStorage();
+  private storage: FSStorage = new FSLocalStorage();
   private fs: undefined | MicropythonFsHex;
   state: Project = {
     files: [],
@@ -149,7 +98,6 @@ export class FileSystem extends EventEmitter {
   }
 
   setProjectName(projectName: string) {
-    // Or we could put it in a special project file?
     this.storage.setProjectName(projectName);
     this.notify();
   }
@@ -158,6 +106,15 @@ export class FileSystem extends EventEmitter {
     return this.storage.read(filename);
   }
 
+  exists(filename: string): boolean {
+    return this.storage.exists(filename);
+  }
+
+  /**
+   * Writes the file to storage.
+   *
+   * No events are fired for writes.
+   */
   write(filename: string, content: string) {
     this.storage.write(filename, content);
     if (this.fs) {
@@ -171,15 +128,13 @@ export class FileSystem extends EventEmitter {
 
   async replaceWithHexContents(hex: string): Promise<void> {
     const fs = await this.initialize();
-    // TODO: consider error recovery. Is it cheap to create a new fs?
     const files = fs.importFilesFromHex(hex, {
       overwrite: true,
       formatFirst: true,
     });
     if (files.length === 0) {
-      throw new Error("The filesystem in the hex file was empty");
+      fs.create(MAIN_FILE, contentForFs(""));
     }
-
     this.state = {
       ...this.state,
       projectId: generateId(),
@@ -187,6 +142,32 @@ export class FileSystem extends EventEmitter {
     // For now this isn't stored, so clear it.
     this.storage.setProjectName(config.defaultProjectName);
     this.replaceStorageWithFs();
+    this.notify();
+  }
+
+  async replaceWithMainContents(text: string): Promise<void> {
+    await this.initialize();
+    this.storage.ls().forEach((f) => this.storage.remove(f));
+    this.storage.write(MAIN_FILE, text);
+    // For now this isn't stored, so clear it.
+    this.storage.setProjectName(config.defaultProjectName);
+    this.replaceFsWithStorage();
+    this.state = {
+      ...this.state,
+      // New project, just as if we'd loaded a hex file.
+      projectId: generateId(),
+    };
+    this.notify();
+  }
+
+  async addOrUpdateModule(filename: string, text: string): Promise<void> {
+    this.storage.write(filename, text);
+    this.replaceFsWithStorage();
+    this.state = {
+      ...this.state,
+      // This is too much. We could introduce a per-file id.
+      projectId: generateId(),
+    };
     this.notify();
   }
 
