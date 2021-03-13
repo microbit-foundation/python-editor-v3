@@ -1,19 +1,17 @@
 import { saveAs } from "file-saver";
 import Separate, { br } from "../common/Separate";
-import {
-  ActionFeedback
-} from "../common/use-action-feedback";
+import { ActionFeedback } from "../common/use-action-feedback";
 import { BoardId } from "../device/board-id";
 import {
   ConnectionStatus,
   MicrobitWebUSBConnection,
-  WebUSBError
+  WebUSBError,
 } from "../device/device";
 import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
 import {
   getFileExtension,
   isPythonMicrobitModule,
-  readFileAsText
+  readFileAsText,
 } from "../fs/fs-util";
 import translation from "../translation";
 
@@ -21,7 +19,7 @@ class HexGenerationError extends Error {}
 
 /**
  * Key actions.
- * 
+ *
  * These actions all perform their own error handling and
  * give appropriate feedback to the user if they fail.
  */
@@ -172,12 +170,13 @@ export class ProjectActions {
 
   /**
    * Download an individual file.
-   * 
+   *
    * @param filename the file to download.
    */
   downloadFile = async (filename: string) => {
     const projectName = this.fs.state.projectName;
-    const downloadName = filename === MAIN_FILE ? `${projectName}.py` : filename;
+    const downloadName =
+      filename === MAIN_FILE ? `${projectName}.py` : filename;
     try {
       const content = this.fs.read(filename);
       // For now we assume the file is Python.
@@ -186,11 +185,11 @@ export class ProjectActions {
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
-  }
+  };
 
   /**
    * Delete a file.
-   * 
+   *
    * @param filename the file to delete.
    */
   deleteFile = async (filename: string) => {
@@ -199,16 +198,16 @@ export class ProjectActions {
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
-  }
+  };
 
   /**
    * Set the project name.
-   * 
+   *
    * @param name The new name.
    */
-  setProjectName = async(name: string) => {
+  setProjectName = async (name: string) => {
     this.fs.setProjectName(name);
-  }
+  };
 
   private handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {

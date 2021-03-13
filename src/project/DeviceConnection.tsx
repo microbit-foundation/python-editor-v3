@@ -18,7 +18,7 @@ const DeviceConnection = () => {
   const actions = useProjectActions();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
-      await actions.disconnect()
+      await actions.disconnect();
     } else {
       await actions.connect();
     }

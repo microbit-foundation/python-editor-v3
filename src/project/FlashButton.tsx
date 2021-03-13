@@ -2,7 +2,7 @@ import { Tooltip } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { RiFlashlightFill } from "react-icons/ri";
 import CollapsableButton, {
-  CollapsibleButtonProps
+  CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
 import FlashProgress from "./FlashProgress";
 import { useProjectActions } from "./project-hooks";

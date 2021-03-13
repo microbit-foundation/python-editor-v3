@@ -1,8 +1,7 @@
 import { Tooltip } from "@chakra-ui/react";
-import React from "react";
 import { RiDownload2Line } from "react-icons/ri";
 import CollapsableButton, {
-  CollapsibleButtonProps
+  CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
 import { useProjectActions } from "./project-hooks";
 

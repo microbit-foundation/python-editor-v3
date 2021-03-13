@@ -23,7 +23,7 @@ export const useProjectActions = (): ProjectActions => {
 
 /**
  * Hook exposing the project state.
- * 
+ *
  * This is quite coarse-grained and might need to be split in future.
  */
 export const useProject = (): Project => {
@@ -43,7 +43,6 @@ export const useProject = (): Project => {
   }, [fs, isUnmounted]);
   return state;
 };
-
 
 /**
  * Reads an initial value from the project file system and synchronises back to it.

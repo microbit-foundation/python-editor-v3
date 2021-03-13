@@ -7,9 +7,9 @@ export const FileSystemContext = createContext<FileSystem | undefined>(
 
 /**
  * Hook exposing the file system.
- * 
+ *
  * Most code should use the project instead of using the file system directly.
- * 
+ *
  * @returns The file system.
  */
 export const useFileSystem = () => {
