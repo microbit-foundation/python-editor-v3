@@ -1,13 +1,10 @@
-import React, { useCallback } from "react";
-import { RiDownload2Line } from "react-icons/ri";
-import useActionFeedback from "../common/use-action-feedback";
-import { DownloadData } from "../fs/fs";
-import { useFileSystem } from "../fs/fs-hooks";
-import { saveAs } from "file-saver";
-import CollapsableButton, {
-  CollapsibleButtonProps,
-} from "../common/CollapsibleButton";
 import { Tooltip } from "@chakra-ui/react";
+import React from "react";
+import { RiDownload2Line } from "react-icons/ri";
+import CollapsableButton, {
+  CollapsibleButtonProps
+} from "../common/CollapsibleButton";
+import { useProjectActions } from "./use-project-actions";
 
 interface DownloadButtonProps
   extends Omit<CollapsibleButtonProps, "onClick" | "text" | "icon"> {}
@@ -21,31 +18,13 @@ interface DownloadButtonProps
  * Otherwise it's a more minor action.
  */
 const DownloadButton = (props: DownloadButtonProps) => {
-  const fs = useFileSystem();
-  const actionFeedback = useActionFeedback();
-  const handleDownload = useCallback(async () => {
-    let download: DownloadData | undefined;
-    try {
-      download = await fs.toHexForDownload();
-    } catch (e) {
-      actionFeedback.expectedError({
-        title: "Failed to build the hex file",
-        description: e.message,
-      });
-      return;
-    }
-    const blob = new Blob([download.intelHex], {
-      type: "application/octet-stream",
-    });
-    saveAs(blob, download.filename);
-  }, [fs, actionFeedback]);
-
+  const actions = useProjectActions();
   return (
     <Tooltip hasArrow placement="top-start" label="Download a hex file">
       <CollapsableButton
         {...props}
         icon={<RiDownload2Line />}
-        onClick={handleDownload}
+        onClick={actions.download}
         text="Download"
       />
     </Tooltip>
