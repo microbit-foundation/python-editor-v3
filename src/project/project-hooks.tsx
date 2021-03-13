@@ -21,6 +21,11 @@ export const useProjectActions = (): ProjectActions => {
   return actions;
 };
 
+/**
+ * Hook exposing the project state.
+ * 
+ * This is quite coarse-grained and might need to be split in future.
+ */
 export const useProject = (): Project => {
   const fs = useFileSystem();
   const isUnmounted = useIsUnmounted();
