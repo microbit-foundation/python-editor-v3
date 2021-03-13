@@ -1,9 +1,7 @@
 import { Button, HStack, IconButton } from "@chakra-ui/react";
-import { useCallback } from "react";
 import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
-import useActionFeedback from "../common/use-action-feedback";
 import { File, MAIN_FILE } from "../fs/fs";
-import { useFileSystem } from "../fs/fs-hooks";
+import { useProjectActions } from "../project/project-hooks";
 
 interface FileRowProps {
   projectName: string;
@@ -18,27 +16,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
   const prettyName = isMainFile ? `${projectName} (${name})` : name;
-  const downloadName = isMainFile ? `${projectName}.py` : name;
-
-  const fs = useFileSystem();
-  const actionFeedback = useActionFeedback();
-  const handleDownload = useCallback(() => {
-    try {
-      const content = fs.read(name);
-      const blob = new Blob([content], { type: "text/x-python" });
-      saveAs(blob, downloadName);
-    } catch (e) {
-      actionFeedback.unexpectedError(e);
-    }
-  }, [fs, name, actionFeedback, downloadName]);
-
-  const handleDelete = useCallback(() => {
-    try {
-      fs.remove(name);
-    } catch (e) {
-      actionFeedback.unexpectedError(e);
-    }
-  }, [fs, name, actionFeedback]);
+  const actions = useProjectActions();
 
   return (
     <HStack justify="space-between" lineHeight={2}>
@@ -60,14 +38,14 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
           aria-label="Delete the file. The main Python file cannot be deleted."
           variant="ghost"
           disabled={isMainFile}
-          onClick={handleDelete}
+          onClick={() => actions.deleteFile(name)}
         />
         <IconButton
           size="sm"
           icon={<RiDownload2Line />}
           aria-label={`Download ${name}`}
           variant="ghost"
-          onClick={handleDownload}
+          onClick={() => actions.downloadFile(name)}
         />
       </HStack>
     </HStack>

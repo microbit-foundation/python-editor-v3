@@ -1,5 +1,5 @@
-import { useProject } from "../fs/fs-hooks";
 import Workbench from "../workbench/Workbench";
+import { useProject } from "./project-hooks";
 
 const Project = () => {
   const { projectId } = useProject();
