@@ -4,7 +4,7 @@ import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
 import FlashButton from "./FlashButton";
-import { useProjectActions } from "./use-project-actions";
+import { useProjectActions } from "./project-hooks";
 
 /**
  * The device connection area.

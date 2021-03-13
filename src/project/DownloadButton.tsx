@@ -4,7 +4,7 @@ import { RiDownload2Line } from "react-icons/ri";
 import CollapsableButton, {
   CollapsibleButtonProps
 } from "../common/CollapsibleButton";
-import { useProjectActions } from "./use-project-actions";
+import { useProjectActions } from "./project-hooks";
 
 interface DownloadButtonProps
   extends Omit<CollapsibleButtonProps, "onClick" | "text" | "icon"> {}

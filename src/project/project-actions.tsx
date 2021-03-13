@@ -9,7 +9,7 @@ import {
   MicrobitWebUSBConnection,
   WebUSBError
 } from "../device/device";
-import { DownloadData, FileSystem } from "../fs/fs";
+import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
 import {
   getFileExtension,
   isPythonMicrobitModule,
@@ -169,6 +169,46 @@ export class ProjectActions {
     });
     saveAs(blob, download.filename);
   };
+
+  /**
+   * Download an individual file.
+   * 
+   * @param filename the file to download.
+   */
+  downloadFile = async (filename: string) => {
+    const projectName = this.fs.state.projectName;
+    const downloadName = filename === MAIN_FILE ? `${projectName}.py` : filename;
+    try {
+      const content = this.fs.read(filename);
+      // For now we assume the file is Python.
+      const blob = new Blob([content], { type: "text/x-python" });
+      saveAs(blob, downloadName);
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
+    }
+  }
+
+  /**
+   * Delete a file.
+   * 
+   * @param filename the file to delete.
+   */
+  deleteFile = async (filename: string) => {
+    try {
+      this.fs.remove(filename);
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
+    }
+  }
+
+  /**
+   * Set the project name.
+   * 
+   * @param name The new name.
+   */
+  setProjectName = async(name: string) => {
+    this.fs.setProjectName(name);
+  }
 
   private handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {

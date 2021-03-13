@@ -5,7 +5,7 @@ import CollapsableButton, {
   CollapsibleButtonProps
 } from "../common/CollapsibleButton";
 import FlashProgress from "./FlashProgress";
-import { useProjectActions } from "./use-project-actions";
+import { useProjectActions } from "./project-hooks";
 
 /**
  * Flash button.

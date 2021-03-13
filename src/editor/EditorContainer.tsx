@@ -1,4 +1,4 @@
-import { useFileSystemBackedText } from "../fs/fs-hooks";
+import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
 import Editor from "./codemirror/CodeMirror";
 
@@ -12,7 +12,7 @@ interface EditorContainerProps {
  */
 const EditorContainer = ({ filename }: EditorContainerProps) => {
   const [{ fontSize, highlightCodeStructure }] = useSettings();
-  const [defaultValue, onFileChange] = useFileSystemBackedText(filename);
+  const [defaultValue, onFileChange] = useProjectFileText(filename);
   return typeof defaultValue === "undefined" ? null : (
     <Editor
       defaultValue={defaultValue}
