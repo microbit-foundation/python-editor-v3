@@ -43,7 +43,6 @@ describe("isPythonMicrobitModule", () => {
     ).toEqual(true);
   });
 
-  it("works with linux line endings", () => {});
   it("checks only first three lines", () => {
     expect(isPythonMicrobitModule("# microbit-module:")).toEqual(true);
     expect(isPythonMicrobitModule("\n# microbit-module:")).toEqual(true);
