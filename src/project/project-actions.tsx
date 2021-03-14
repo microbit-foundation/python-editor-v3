@@ -13,6 +13,7 @@ import {
   isPythonMicrobitModule,
   readFileAsText,
 } from "../fs/fs-util";
+import { Logging } from "../logging/logging";
 import translation from "../translation";
 
 class HexGenerationError extends Error {}
@@ -27,13 +28,18 @@ export class ProjectActions {
   constructor(
     private fs: FileSystem,
     private device: MicrobitWebUSBConnection,
-    private actionFeedback: ActionFeedback
+    private actionFeedback: ActionFeedback,
+    private logging: Logging
   ) {}
 
   /**
    * Connect to the device if possible, otherwise show feedback.
    */
   connect = async () => {
+    this.logging.event({
+      action: "connect",
+    });
+
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
         title: "WebUSB not supported",
@@ -52,6 +58,10 @@ export class ProjectActions {
    * Disconnect from the device.
    */
   disconnect = async () => {
+    this.logging.event({
+      action: "disconnect",
+    });
+
     try {
       await this.device.disconnect();
     } catch (e) {
@@ -68,6 +78,10 @@ export class ProjectActions {
    * @param file the file from drag and drop or an input element.
    */
   open = async (file: File): Promise<void> => {
+    this.logging.event({
+      action: "load-file",
+    });
+
     const errorTitle = "Cannot load file";
     const extension = getFileExtension(file.name)?.toLowerCase();
     const loadedFeedback = () =>
@@ -118,6 +132,10 @@ export class ProjectActions {
   flash = async (
     progress: (value: number | undefined) => void
   ): Promise<void> => {
+    this.logging.event({
+      action: "flash",
+    });
+
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
         title: "WebUSB not supported",
@@ -152,6 +170,10 @@ export class ProjectActions {
    * Trigger a browser download with a universal hex file.
    */
   download = async () => {
+    this.logging.event({
+      action: "download",
+    });
+
     let download: DownloadData | undefined;
     try {
       download = await this.fs.toHexForDownload();
@@ -174,6 +196,10 @@ export class ProjectActions {
    * @param filename the file to download.
    */
   downloadFile = async (filename: string) => {
+    this.logging.event({
+      action: "download-file",
+    });
+
     const projectName = this.fs.state.projectName;
     const downloadName =
       filename === MAIN_FILE ? `${projectName}.py` : filename;
@@ -193,6 +219,10 @@ export class ProjectActions {
    * @param filename the file to delete.
    */
   deleteFile = async (filename: string) => {
+    this.logging.event({
+      action: "delete-file",
+    });
+
     try {
       this.fs.remove(filename);
     } catch (e) {
@@ -206,6 +236,10 @@ export class ProjectActions {
    * @param name The new name.
    */
   setProjectName = async (name: string) => {
+    this.logging.event({
+      action: "set-project-name",
+    });
+
     this.fs.setProjectName(name);
   };
 

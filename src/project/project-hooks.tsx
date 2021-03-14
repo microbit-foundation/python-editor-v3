@@ -5,6 +5,7 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_STATE, Project } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { useLogging } from "../logging/logging-hooks";
 import { ProjectActions } from "./project-actions";
 
 /**
@@ -14,9 +15,10 @@ export const useProjectActions = (): ProjectActions => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const device = useDevice();
+  const logging = useLogging();
   const actions = useMemo<ProjectActions>(
-    () => new ProjectActions(fs, device, actionFeedback),
-    [fs, device, actionFeedback]
+    () => new ProjectActions(fs, device, actionFeedback, logging),
+    [fs, device, actionFeedback, logging]
   );
   return actions;
 };

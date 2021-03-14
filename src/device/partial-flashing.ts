@@ -5,8 +5,8 @@
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
 import { DAPLink } from "dapjs";
+import { Logging } from "../logging/logging";
 import { DAPWrapper } from "./dap-wrapper";
-import { log } from "./logging";
 import {
   CoreRegister,
   onlyChanged,
@@ -92,7 +92,11 @@ const stackAddr = 0x20001000;
  * Intented to be used for a single flash with a pre-connected DAPWrapper.
  */
 export class PartialFlashing {
-  constructor(private dapwrapper: DAPWrapper) {}
+  constructor(private dapwrapper: DAPWrapper, private logging: Logging) {}
+
+  private log(v: any): void {
+    this.logging.log(v);
+  }
 
   // Runs the checksum algorithm on the micro:bit's whole flash memory, and returns the results.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L365
@@ -178,7 +182,7 @@ export class PartialFlashing {
     pages: Page[],
     updateProgress: ProgressCallback
   ) {
-    log("Partial flash");
+    this.log("Partial flash");
     for (let i = 0; i < pages.length; ++i) {
       updateProgress(i / pages.length);
       await this.partialFlashPageAsync(pages[i], pages[i + 1], i);
@@ -198,23 +202,23 @@ export class PartialFlashing {
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
     let aligned = pageAlignBlocks(flashBytes, 0, this.dapwrapper.pageSize);
     const totalPages = aligned.length;
-    log("Total pages: " + totalPages);
+    this.log("Total pages: " + totalPages);
     aligned = onlyChanged(aligned, checksums, this.dapwrapper.pageSize);
-    log("Changed pages: " + aligned.length);
+    this.log("Changed pages: " + aligned.length);
     if (aligned.length > totalPages / 2) {
       try {
         await this.fullFlashAsync(hexBuffer, updateProgress);
       } catch (e) {
-        log(e);
-        log("Full flash failed, attempting partial flash.");
+        this.log(e);
+        this.log("Full flash failed, attempting partial flash.");
         await this.partialFlashCoreAsync(aligned, updateProgress);
       }
     } else {
       try {
         await this.partialFlashCoreAsync(aligned, updateProgress);
       } catch (e) {
-        log(e);
-        log("Partial flash failed, attempting full flash.");
+        this.log(e);
+        this.log("Partial flash failed, attempting full flash.");
         await this.fullFlashAsync(hexBuffer, updateProgress);
       }
     }
@@ -224,12 +228,12 @@ export class PartialFlashing {
     } catch (e) {
       // Allow errors on resetting, user can always manually reset if necessary.
     }
-    log("Flashing complete");
+    this.log("Flashing complete");
   }
 
   // Perform full flash of micro:bit's ROM using daplink.
   async fullFlashAsync(image: ArrayBuffer, updateProgress: ProgressCallback) {
-    log("Full flash");
+    this.log("Full flash");
 
     const flashProgressListener = (progress: number) => {
       updateProgress(progress, true);
@@ -244,7 +248,6 @@ export class PartialFlashing {
         flashProgressListener
       );
     }
-    // TODO: reinstate eventing
   }
 
   // Flash the micro:bit's ROM with the provided image, resetting the micro:bit first.
@@ -256,11 +259,11 @@ export class PartialFlashing {
   ) {
     let resetPromise = (async () => {
       // Reset micro:bit to ensure interface responds correctly.
-      log("Begin reset");
+      this.log("Begin reset");
       try {
         await this.dapwrapper.reset(true);
       } catch (e) {
-        log("Retrying reset");
+        this.log("Retrying reset");
         await this.dapwrapper.reconnectAsync();
         await this.dapwrapper.reset(true);
       }
@@ -276,11 +279,11 @@ export class PartialFlashing {
     try {
       const result = await Promise.race([resetPromise, timeout]);
       if (result === "timeout") {
-        log("Resetting micro:bit timed out");
-        log("Partial flashing failed. Attempting full flash");
+        this.log("Resetting micro:bit timed out");
+        this.log("Partial flashing failed. Attempting full flash");
         await this.fullFlashAsync(hexBuffer, updateProgress);
       } else {
-        log("Begin flashing");
+        this.log("Begin flashing");
         await this.partialFlashAsync(flashBytes, hexBuffer, updateProgress);
       }
     } finally {

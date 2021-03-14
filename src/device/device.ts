@@ -1,9 +1,9 @@
 import EventEmitter from "events";
 import { FlashDataSource } from "../fs/fs";
+import { Logging } from "../logging/logging";
 import translation from "../translation";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
-import { log } from "./logging";
 import { PartialFlashing } from "./partial-flashing";
 
 /**
@@ -58,6 +58,13 @@ export class WebUSBError extends Error {
   }
 }
 
+interface MicrobitWebUSBConnectionOptions {
+  // We should copy this type when extracting a library, and make it optional.
+  // Coupling for now to make it easy to evolve.
+
+  logging: Logging;
+}
+
 /**
  * Tracks WebUSB connection status.
  */
@@ -109,6 +116,17 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   private serialListener = (data: string) => {
     this.emit(EVENT_SERIAL_DATA, data);
   };
+
+  private logging: Logging;
+
+  constructor(options: MicrobitWebUSBConnectionOptions) {
+    super();
+    this.logging = options.logging;
+  }
+
+  private log(v: any) {
+    this.logging.log(v);
+  }
 
   async initialize(): Promise<void> {
     if (navigator.usb) {
@@ -169,9 +187,9 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     if (!this.connection) {
       await this.connectInternal(false);
     } else {
-      log("Stopping serial before flash");
+      this.log("Stopping serial before flash");
       this.stopSerial();
-      log("Reconnecting before flash");
+      this.log("Reconnecting before flash");
       await this.connection.reconnectAsync();
     }
     if (!this.connection) {
@@ -184,7 +202,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     const boardIdString = this.connection.boardId;
     const boardId = BoardId.parse(boardIdString);
     const data = await dataSource(boardId);
-    const flashing = new PartialFlashing(this.connection);
+    const flashing = new PartialFlashing(this.connection, this.logging);
     try {
       if (partial) {
         await flashing.flashAsync(data.bytes, data.intelHex, progress);
@@ -192,14 +210,14 @@ export class MicrobitWebUSBConnection extends EventEmitter {
         await flashing.fullFlashAsync(data.intelHex, progress);
       }
 
-      log("Reinstating serial after flash");
+      this.log("Reinstating serial after flash");
       await this.connection.daplink.connect();
 
       // This is async but won't return until we've finished serial.
       // TODO: consider error handling here, via an event?
       this.connection
         .startSerial(this.serialListener)
-        .then(() => log("Finished listening for serial data"))
+        .then(() => this.log("Finished listening for serial data"))
         .catch((e) => this.emit(EVENT_SERIAL_ERROR, e));
     } finally {
       progress(undefined);
@@ -216,7 +234,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
         this.connection.disconnectAsync();
       }
     } catch (e) {
-      log("Error during disconnection:\r\n" + e);
+      this.log("Error during disconnection:\r\n" + e);
     } finally {
       this.connection = undefined;
       this.setStatus(ConnectionStatus.NOT_CONNECTED);
@@ -225,7 +243,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
-    log("Device status " + newStatus);
+    this.log("Device status " + newStatus);
     this.emit(EVENT_STATUS, this.status);
   }
 
@@ -234,11 +252,11 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       return await f();
     } catch (e) {
       // Log error to console for feedback
-      log("An error occurred whilst attempting to use WebUSB.");
-      log(
+      this.log("An error occurred whilst attempting to use WebUSB.");
+      this.log(
         "Details of the error can be found below, and may be useful when trying to replicate and debug the error."
       );
-      log(e);
+      this.log(e);
 
       // Disconnect from the microbit.
       // Any new connection reallocates all the internals.
@@ -268,7 +286,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   private async connectInternal(serial: boolean): Promise<void> {
     if (!this.connection) {
       const device = await this.chooseDevice();
-      this.connection = new DAPWrapper(device);
+      this.connection = new DAPWrapper(device, this.logging);
     }
     await this.connection.reconnectAsync();
     if (serial) {
@@ -303,7 +321,6 @@ const enrichedError = (err: any): WebUSBError => {
   }
   switch (typeof err) {
     case "object":
-      log("Caught in Promise or Error object");
       // We might get Error objects as Promise rejection arguments
       if (!err.message && err.promise && err.reason) {
         err = err.reason;
@@ -339,11 +356,9 @@ const enrichedError = (err: any): WebUSBError => {
       }
     case "string": {
       // Caught a string. Example case: "Flash error" from DAPjs
-      log("Caught a string");
       return genericErrorSuggestingReconnect(err);
     }
     default: {
-      log("Unexpected error type: " + typeof err);
       return genericErrorSuggestingReconnect(err);
     }
   }

@@ -1,4 +1,5 @@
 import { CortexM, DAPLink, WebUSB } from "dapjs";
+import { Logging } from "../logging/logging";
 import {
   ApReg,
   CortexSpecialReg,
@@ -7,7 +8,6 @@ import {
   DapVal,
   FICR,
 } from "./constants";
-import { log } from "./logging";
 import {
   apReg,
   bufferConcat,
@@ -24,7 +24,7 @@ export class DAPWrapper {
   _numPages: number | undefined;
   private initialConnectionComplete: boolean = false;
 
-  constructor(public device: USBDevice) {
+  constructor(public device: USBDevice, private logging: Logging) {
     this.transport = new WebUSB(this.device);
     this.daplink = new DAPLink(this.transport);
     this.cortexM = new CortexM(this.transport);
@@ -232,7 +232,7 @@ export class DAPWrapper {
     } catch (e) {
       if (e.dapWait) {
         // Retry after a delay if required.
-        log(`Transfer wait, write block`);
+        this.logging.log(`Transfer wait, write block`);
         await new Promise((resolve) => setTimeout(resolve, 100));
         return await this.writeBlockCore(addr, words);
       } else {

@@ -11,6 +11,7 @@ import {
   MicrobitWebUSBConnection,
 } from "./device";
 import { USB } from "webusb";
+import { NullLogging } from "../logging/null";
 
 const describeDeviceOnly = process.env.TEST_MODE_DEVICE
   ? describe
@@ -19,7 +20,9 @@ const describeDeviceOnly = process.env.TEST_MODE_DEVICE
 describe("MicrobitWebUSBConnection (WebUSB unsupported)", () => {
   it("notices if WebUSB isn't supported", () => {
     (global as any).navigator = {};
-    const microbit = new MicrobitWebUSBConnection();
+    const microbit = new MicrobitWebUSBConnection({
+      logging: new NullLogging(),
+    });
     expect(microbit.status).toBe(ConnectionStatus.NOT_SUPPORTED);
   });
 });
