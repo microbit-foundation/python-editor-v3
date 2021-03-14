@@ -70,6 +70,10 @@ export class ProjectActions {
   open = async (file: File): Promise<void> => {
     const errorTitle = "Cannot load file";
     const extension = getFileExtension(file.name)?.toLowerCase();
+    const loadedFeedback = () =>
+      this.actionFeedback.success({
+        title: "Loaded " + file.name,
+      });
 
     if (extension === "py") {
       const code = await readFileAsText(file);
@@ -81,22 +85,18 @@ export class ProjectActions {
       } else if (isPythonMicrobitModule(code)) {
         const exists = this.fs.exists(file.name);
         const change = exists ? "Updated" : "Added";
-        this.fs.addOrUpdateModule(file.name, code);
+        this.fs.addOrUpdateFile(file.name, code);
         this.actionFeedback.success({
           title: `${change} module ${file.name}`,
         });
       } else {
         this.fs.replaceWithMainContents(code);
-        this.actionFeedback.success({
-          title: "Loaded " + file.name,
-        });
+        loadedFeedback();
       }
     } else if (extension === "hex") {
       const hex = await readFileAsText(file);
       await this.fs.replaceWithHexContents(hex);
-      this.actionFeedback.success({
-        title: "Loaded " + file.name,
-      });
+      loadedFeedback();
     } else if (extension === "mpy") {
       this.actionFeedback.warning({
         title: errorTitle,

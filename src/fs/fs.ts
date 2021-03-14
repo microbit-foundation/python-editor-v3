@@ -158,7 +158,7 @@ export class FileSystem extends EventEmitter {
     this.notify();
   }
 
-  async addOrUpdateModule(filename: string, text: string): Promise<void> {
+  async addOrUpdateFile(filename: string, text: string): Promise<void> {
     this.storage.write(filename, text);
     this.replaceFsWithStorage();
     this.state = {
