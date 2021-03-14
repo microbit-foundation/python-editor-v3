@@ -1,7 +1,7 @@
 import { Button, ButtonProps, Input } from "@chakra-ui/react";
 import React, { useCallback, useRef } from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
-import { useProjectActions } from "./use-project-actions";
+import { useProjectActions } from "./project-hooks";
 
 interface OpenButtonProps extends ButtonProps {
   text?: string;

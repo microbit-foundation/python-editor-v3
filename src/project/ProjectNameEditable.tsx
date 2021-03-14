@@ -5,22 +5,22 @@ import {
   Flex,
   IconButton,
   Tooltip,
-  UseEditableReturn,
+  UseEditableReturn
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { RiEdit2Line } from "react-icons/ri";
-import { useFileSystem, useProject } from "../fs/fs-hooks";
+import { useProject, useProjectActions } from "./project-hooks";
 
 /**
  * A control to enable editing of the project name.
  */
 const ProjectNameEditable = () => {
-  const fs = useFileSystem();
   const { projectName } = useProject();
+  const actions = useProjectActions();
   const [keyPart, setKeyPart] = useState(0);
   const handleSubmit = (projectName: string) => {
     if (projectName.trim()) {
-      fs.setProjectName(projectName);
+      actions.setProjectName(projectName);
     }
     setKeyPart(keyPart + 1);
   };

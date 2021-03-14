@@ -1,6 +1,6 @@
 import { List, ListItem, VStack } from "@chakra-ui/react";
-import { useProject } from "../fs/fs-hooks";
 import OpenButton from "../project/OpenButton";
+import { useProject } from "../project/project-hooks";
 import FileRow from "./FileRow";
 
 interface FilesProps {

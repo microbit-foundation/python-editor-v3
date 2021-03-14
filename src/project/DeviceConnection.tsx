@@ -1,13 +1,10 @@
 import { HStack, Switch, Text, Tooltip } from "@chakra-ui/react";
 import { useCallback } from "react";
-import Separate, { br } from "../common/Separate";
-import useActionFeedback, {
-  ActionFeedback,
-} from "../common/use-action-feedback";
-import { ConnectionStatus, WebUSBError } from "../device/device";
-import { useConnectionStatus, useDevice } from "../device/device-hooks";
+import { ConnectionStatus } from "../device/device";
+import { useConnectionStatus } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
 import FlashButton from "./FlashButton";
+import { useProjectActions } from "./project-hooks";
 
 /**
  * The device connection area.
@@ -18,31 +15,14 @@ import FlashButton from "./FlashButton";
 const DeviceConnection = () => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;
-  const supported = connectionStatus !== ConnectionStatus.NOT_SUPPORTED;
-  const actionFeedback = useActionFeedback();
-  const device = useDevice();
+  const actions = useProjectActions();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
-      try {
-        await device.disconnect();
-      } catch (e) {
-        handleWebUSBError(actionFeedback, e);
-      }
+      await actions.disconnect();
     } else {
-      if (!supported) {
-        actionFeedback.expectedError({
-          title: "WebUSB not supported",
-          description: "Download the hex file or try Chrome or Microsoft Edge",
-        });
-      } else {
-        try {
-          await device.connect();
-        } catch (e) {
-          handleWebUSBError(actionFeedback, e);
-        }
-      }
+      await actions.connect();
     }
-  }, [device, connected, actionFeedback, supported]);
+  }, [connected, actions]);
   const buttonWidth = "10rem";
   return (
     <HStack>
@@ -68,21 +48,6 @@ const DeviceConnection = () => {
       </HStack>
     </HStack>
   );
-};
-
-const handleWebUSBError = (actionFeedback: ActionFeedback, e: any) => {
-  if (e instanceof WebUSBError) {
-    actionFeedback.expectedError({
-      title: e.title,
-      description: (
-        <Separate separator={br}>
-          {[e.message, e.description].filter(Boolean)}
-        </Separate>
-      ),
-    });
-  } else {
-    actionFeedback.unexpectedError(e);
-  }
 };
 
 export default DeviceConnection;

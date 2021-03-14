@@ -1,6 +1,6 @@
 import { BoxProps } from "@chakra-ui/layout";
 import FileDropTarget from "../common/FileDropTarget";
-import { useProjectActions } from "./use-project-actions";
+import { useProjectActions } from "./project-hooks";
 
 interface ProjectDropTargetProps extends BoxProps {
   children: React.ReactElement;
