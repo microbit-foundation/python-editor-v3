@@ -1,0 +1,12 @@
+name: "pr-url"
+on:
+  pull_request:
+    types: [opened]
+jobs:
+  pr-url:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: microbit-foundation/action-pr-url-template@v0.1.2
+        with:
+          uri-template: "http://{branch}.review.python-editor-next.microbit.org.s3-website-eu-west-1.amazonaws.com"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
