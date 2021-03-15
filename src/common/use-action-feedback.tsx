@@ -2,9 +2,14 @@ import { ReactNode } from "react";
 import { Link, useToast } from "@chakra-ui/react";
 import { useMemo } from "react";
 import config from "../config";
+import { useLogging } from "../logging/logging-hooks";
+import { Logging } from "../logging/logging";
 
 export class ActionFeedback {
-  constructor(private toast: ReturnType<typeof useToast>) {}
+  constructor(
+    private toast: ReturnType<typeof useToast>,
+    private logging: Logging
+  ) {}
 
   /**
    * Handles an error.
@@ -18,10 +23,6 @@ export class ActionFeedback {
     description: ReactNode;
     error?: any;
   }) {
-    // For now at least.
-    if (error) {
-      console.error(error);
-    }
     this.toast({
       title,
       status: "error",
@@ -43,10 +44,6 @@ export class ActionFeedback {
     description: ReactNode;
     error?: any;
   }) {
-    // For now at least.
-    if (error) {
-      console.error(error);
-    }
     this.toast({
       title,
       status: "warning",
@@ -75,8 +72,7 @@ export class ActionFeedback {
    * @param error the error thrown.
    */
   unexpectedError(error: Error) {
-    // For now at least.
-    console.error(error);
+    this.logging.error(error);
     this.toast({
       title: "An unexpected error occurred",
       status: "error",
@@ -105,7 +101,8 @@ export class ActionFeedback {
  */
 const useActionFeedback = () => {
   const toast = useToast();
-  return useMemo(() => new ActionFeedback(toast), [toast]);
+  const logging = useLogging();
+  return useMemo(() => new ActionFeedback(toast, logging), [toast, logging]);
 };
 
 export default useActionFeedback;

@@ -15,8 +15,11 @@ import {
 import { useLocalStorage } from "./common/use-local-storage";
 import Project from "./project/Project";
 import ProjectDropTarget from "./project/ProjectDropTarget";
+import { LoggingContext } from "./logging/logging-hooks";
+import { DefaultLogging } from "./logging/default";
 
-const device = new MicrobitWebUSBConnection();
+const logging = new DefaultLogging();
+const device = new MicrobitWebUSBConnection({ logging });
 const fs = new FileSystem();
 
 const App = () => {
@@ -35,15 +38,17 @@ const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <DeviceContext.Provider value={device}>
-        <FileSystemContext.Provider value={fs}>
-          <SettingsContext.Provider value={settings}>
-            <ProjectDropTarget>
-              <Project />
-            </ProjectDropTarget>
-          </SettingsContext.Provider>
-        </FileSystemContext.Provider>
-      </DeviceContext.Provider>
+      <LoggingContext.Provider value={logging}>
+        <DeviceContext.Provider value={device}>
+          <FileSystemContext.Provider value={fs}>
+            <SettingsContext.Provider value={settings}>
+              <ProjectDropTarget>
+                <Project />
+              </ProjectDropTarget>
+            </SettingsContext.Provider>
+          </FileSystemContext.Provider>
+        </DeviceContext.Provider>
+      </LoggingContext.Provider>
     </ChakraProvider>
   );
 };
