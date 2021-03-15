@@ -80,6 +80,8 @@ _steps:
   tidy_review_buckets: &tidy_review_buckets
     run:
       name: Tidy review buckets
+      environment:
+        NODE_PATH: /usr/local/lib/node_modules
       command: "[ $STAGE = 'REVIEW' ] && echo Skipping || npm run tidy-review-buckets"
   configure_registry_auth: &configure_registry_auth
     run:
