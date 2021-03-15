@@ -83,7 +83,7 @@ _steps:
     run:
       name: Configure registry auth
       # This is only needed for the deployment tools that we install globally.
-      command: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/repo/.npmrc
+      command: sudo echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" | sudo tee -a ~/.npmrc > /dev/null
 
 jobs:
   review:
@@ -167,13 +167,13 @@ workflows:
       - review:
           filters:
             branches:
-              ignore: master
+              ignore: main
   staging:
     jobs:
       - staging:
           filters:
             branches:
-              only: master
+              only: main
   production:
     jobs:
       - production:
