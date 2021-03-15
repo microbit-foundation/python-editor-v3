@@ -54,7 +54,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --testPathIgnorePatterns=e2e",
     "eject": "react-scripts eject",
-    "serve": "npx serve -- build/ -l 3000",
+    "serve": "npx serve -l 3000 -- build/",
     "test:e2e": "react-scripts test e2e -w 1 --no-watch",
     "test:e2e:headless": "CI=true npm run test:e2e",
     "ci:update-version": "update-ci-version",
