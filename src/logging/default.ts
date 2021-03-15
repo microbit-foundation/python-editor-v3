@@ -13,7 +13,7 @@ export class DefaultLogging implements Logging {
   constructor() {
     if (sentryDsn) {
       sentryInit({
-        dsn: process.env.SENTRY_,
+        dsn: sentryDsn,
         release: `python-editor-v${version}`,
         environment: stage,
       });
