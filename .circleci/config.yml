@@ -58,7 +58,7 @@ _steps:
   serve-wait: &serve-wait
     run:
       name: Wait for e2e server
-      command: "curl --insecure -4 --retry 7 --retry-connrefused https://localhost:3000 1>/dev/null"
+      command: "curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null"
   e2e: &e2e
     run:
       name: e2e tests
