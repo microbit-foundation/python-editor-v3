@@ -6,7 +6,7 @@ describe("Toolbar actions", () => {
     const browser = await puppeteer.launch();
 
     const page = await browser.newPage();
-    await page.goto("http://localhost:5000");
+    await page.goto("http://localhost:3000");
     const client = await page.target().createCDPSession();
     await client.send("Page.setDownloadBehavior", {
       behavior: "allow",
