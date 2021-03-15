@@ -52,8 +52,15 @@
     "ci": "npm run test && npm run build && npm run bundle-size-report",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --testPathIgnorePatterns=e2e",
+    "eject": "react-scripts eject",
+    "serve": "npx serve --no-clipboard -l 3000 -- build/",
+    "test:e2e": "react-scripts test e2e -w 1 --no-watch",
+    "test:e2e:headless": "CI=true npm run test:e2e",
+    "ci:update-version": "update-ci-version",
+    "deploy": "website-deploy-aws",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
+    "tidy-review-buckets": "tidy-review-buckets"
   },
   "eslintConfig": {
     "extends": [
@@ -75,7 +82,9 @@
   },
   "devDependencies": {
     "canvas": "^2.7.0",
+    "pptr-testing-library": "^0.6.4",
     "prettier": "^2.2.1",
+    "puppeteer": "^8.0.0",
     "webusb": "^2.2.0"
   }
 }
