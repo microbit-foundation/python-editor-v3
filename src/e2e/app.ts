@@ -94,12 +94,12 @@ export class App {
     return page.browser().close();
   }
 
-  private async selectSideBar(text: string) {
+  private async selectSideBar(tabName: string) {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
-      name: "Files",
+      name: tabName,
     });
-    await tab.click();
+    return tab.click();
   }
 
   private async document(): Promise<puppeteer.ElementHandle<Element>> {
