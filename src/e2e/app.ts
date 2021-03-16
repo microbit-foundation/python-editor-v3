@@ -1,9 +1,9 @@
-import puppeteer, { ElementHandle, Page } from "puppeteer";
-import "pptr-testing-library/extend";
-import * as fsp from "fs/promises";
+import { waitFor } from "@testing-library/dom";
 import * as fs from "fs";
+import * as fsp from "fs/promises";
 import * as path from "path";
-import { Matcher, queryHelpers, waitFor } from "@testing-library/dom";
+import "pptr-testing-library/extend";
+import puppeteer, { Page } from "puppeteer";
 
 export interface BrowserDownload {
   filename: string;
@@ -39,6 +39,37 @@ export class App {
     const document = await this.document();
     const openInput = await document.getByTestId("open-input");
     await openInput.uploadFile(filePath);
+  }
+
+  async dropFile(filePath: string): Promise<void> {
+    const page = await this.page;
+    // Puppeteer doesn't have file drio support but we can use an input
+    // to grab a file and trigger an event that's good enough.
+    // https://github.com/puppeteer/puppeteer/issues/1376
+    const inputId = "simulated-drop-input";
+    await page.evaluate((inputId) => {
+      const input = document.createElement("input");
+      input.style.display = "none";
+      input.type = "file";
+      input.id = inputId;
+      input.onchange = (e: any) => {
+        const dropZone = document.querySelector(
+          "[data-testid=project-drop-target]"
+        );
+        if (!dropZone) {
+          throw new Error();
+        }
+        const dropEvent = new Event("drop", {
+          bubbles: true,
+        });
+        (dropEvent as any).dataTransfer = { files: e.target.files };
+        dropZone.dispatchEvent(dropEvent);
+        input.remove();
+      };
+      document.body.appendChild(input);
+    }, inputId);
+    const fileInput = await page.$(`#${inputId}`);
+    return fileInput!.uploadFile(filePath);
   }
 
   async alertText(title: string, description: string): Promise<void> {

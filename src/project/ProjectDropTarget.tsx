@@ -9,7 +9,7 @@ interface ProjectDropTargetProps extends BoxProps {
 const ProjectDropTarget = ({ children, ...props }: ProjectDropTargetProps) => {
   const actions = useProjectActions();
   return (
-    <FileDropTarget {...props} onFileDrop={actions.open}>
+    <FileDropTarget {...props} data-testid="project-drop-target" onFileDrop={actions.open}>
       {children}
     </FileDropTarget>
   );
