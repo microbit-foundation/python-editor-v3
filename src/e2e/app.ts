@@ -4,7 +4,7 @@ import * as fsp from "fs/promises";
 import * as fs from "fs";
 import * as path from "path";
 
-export interface DownloadInfo {
+export interface BrowserDownload {
   filename: string;
   data: Buffer;
 }
@@ -26,7 +26,7 @@ export class App {
     })();
   }
 
-  async download(): Promise<DownloadInfo> {
+  async download(): Promise<BrowserDownload> {
     const page = await this.page;
     const document = await page.getDocument();
     const downloadButton = await document.getByText("Download");
@@ -47,7 +47,7 @@ export class App {
   private async waitForDownload(
     triggerDownload: () => Promise<void>,
     timeout: number = 5000
-  ): Promise<DownloadInfo> {
+  ): Promise<BrowserDownload> {
     const listDir = async () => {
       const listing = await fsp.readdir(this.downloadPath);
       return new Set(listing.filter((x) => !x.endsWith(".crdownload")));
