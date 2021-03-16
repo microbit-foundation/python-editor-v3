@@ -34,6 +34,7 @@ const OpenButton = ({ text = "Open", ...props }: OpenButtonProps) => {
   return (
     <>
       <Input
+        data-testid="open-input"
         type="file"
         // .mpy isn't supported but better to explain ourselves
         accept=".hex, .py, .mpy"

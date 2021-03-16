@@ -81,6 +81,9 @@ export class ProjectActions {
     this.logging.event({
       action: "load-file",
     });
+    // Avoid lingering messages related to the previous project.
+    // Also makes e2e testing easier.
+    this.actionFeedback.closeAll();
 
     const errorTitle = "Cannot load file";
     const extension = getFileExtension(file.name)?.toLowerCase();
@@ -90,27 +93,44 @@ export class ProjectActions {
       });
 
     if (extension === "py") {
-      const code = await readFileAsText(file);
-      if (!code) {
+      try {
+        const code = await readFileAsText(file);
+        if (!code) {
+          this.actionFeedback.expectedError({
+            title: errorTitle,
+            description: "The file was empty.",
+          });
+        } else if (isPythonMicrobitModule(code)) {
+          const exists = this.fs.exists(file.name);
+          const change = exists ? "Updated" : "Added";
+          this.fs.addOrUpdateFile(file.name, code);
+          this.actionFeedback.success({
+            title: `${change} module ${file.name}`,
+          });
+        } else {
+          this.fs.replaceWithMainContents(file.name, code);
+          loadedFeedback();
+        }
+      } catch (e) {
         this.actionFeedback.expectedError({
           title: errorTitle,
-          description: "The file was empty.",
+          description: e.message,
+          error: e,
         });
-      } else if (isPythonMicrobitModule(code)) {
-        const exists = this.fs.exists(file.name);
-        const change = exists ? "Updated" : "Added";
-        this.fs.addOrUpdateFile(file.name, code);
-        this.actionFeedback.success({
-          title: `${change} module ${file.name}`,
-        });
-      } else {
-        this.fs.replaceWithMainContents(code);
-        loadedFeedback();
       }
     } else if (extension === "hex") {
-      const hex = await readFileAsText(file);
-      await this.fs.replaceWithHexContents(hex);
-      loadedFeedback();
+      try {
+        const hex = await readFileAsText(file);
+        await this.fs.replaceWithHexContents(file.name, hex);
+        loadedFeedback();
+      } catch (e) {
+        console.error(e);
+        this.actionFeedback.expectedError({
+          title: errorTitle,
+          description: e.message,
+          error: e,
+        });
+      }
     } else if (extension === "mpy") {
       this.actionFeedback.warning({
         title: errorTitle,
