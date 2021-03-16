@@ -7,6 +7,8 @@ describe("Toolbar actions", () => {
   afterAll(app.dispose.bind(app));
 
   it("Download - download the default HEX file", async () => {
-    await app.download();
+    const download = await app.download();
+
+    expect(download.filename).toEqual("my program.hex");
   });
 });
