@@ -1,15 +1,14 @@
-import { useEffect, useRef } from "react";
+import { EditorState } from "@codemirror/state";
+import { Text } from "@codemirror/text";
+import { EditorView } from "@codemirror/view";
+import { useEffect, useMemo, useRef } from "react";
+import { blocks, blocksCompartment } from "./blocks";
+import "./CodeMirror.css";
 import {
   editorConfig,
   themeExtensions,
   themeExtensionsCompartment,
 } from "./config";
-import { EditorState } from "@codemirror/state";
-import { Text } from "@codemirror/text";
-import { EditorView } from "@codemirror/view";
-import { useDidUpdate } from "../../common/use-did-update";
-import { blocks, blocksCompartment } from "./blocks";
-import "./CodeMirror.css";
 
 interface CodeMirrorProps {
   className?: string;
@@ -37,8 +36,19 @@ const CodeMirror = ({
 }: CodeMirrorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
+
+  // Group the option props together to keep configuration updates simple.
+  const options = useMemo(
+    () => ({
+      fontSize,
+      highlightCodeStructure,
+    }),
+    [fontSize, highlightCodeStructure]
+  );
+
   useEffect(() => {
-    if (!viewRef.current) {
+    const initializing = !viewRef.current;
+    if (initializing) {
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           onChange(update.state.doc);
@@ -50,8 +60,8 @@ const CodeMirror = ({
           notify,
           editorConfig,
           // Extensions we enable/disable based on props.
-          blocksCompartment.of(highlightCodeStructure ? blocks() : []),
-          themeExtensionsCompartment.of(themeExtensions(fontSize)),
+          blocksCompartment.of(options.highlightCodeStructure ? blocks() : []),
+          themeExtensionsCompartment.of(themeExtensions(options.fontSize)),
         ],
       });
       const view = new EditorView({
@@ -61,30 +71,29 @@ const CodeMirror = ({
 
       viewRef.current = view;
     }
+  }, [options, defaultValue, onChange]);
+  useEffect(() => {
+    // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {
       if (viewRef.current) {
         viewRef.current.destroy();
         viewRef.current = null;
       }
     };
-  }, [defaultValue, fontSize, highlightCodeStructure, onChange]);
+  }, []);
 
-  useDidUpdate(fontSize, (previous, current) => {
-    if (previous !== undefined && viewRef.current) {
-      viewRef.current.state.update({
-        effects: themeExtensionsCompartment.reconfigure(
-          themeExtensions(fontSize)
+  useEffect(() => {
+    viewRef.current!.dispatch({
+      effects: [
+        themeExtensionsCompartment.reconfigure(
+          themeExtensions(options.fontSize)
         ),
-      });
-    }
-  });
-  useDidUpdate(highlightCodeStructure, (previous, current) => {
-    if (previous !== undefined && viewRef.current) {
-      viewRef.current.state.update({
-        effects: blocksCompartment.reconfigure(current ? blocks() : []),
-      });
-    }
-  });
+        blocksCompartment.reconfigure(
+          options.highlightCodeStructure ? blocks() : []
+        ),
+      ],
+    });
+  }, [options]);
 
   return (
     <div style={{ height: "100%" }} className={className} ref={elementRef} />
