@@ -1,14 +1,25 @@
-import puppeteer, { Page } from "puppeteer";
-import "pptr-testing-library/extend";
-import * as fsp from "fs/promises";
+import { waitFor } from "@testing-library/dom";
 import * as fs from "fs";
+import * as fsp from "fs/promises";
 import * as path from "path";
+import "pptr-testing-library/extend";
+import puppeteer, { Page } from "puppeteer";
 
 export interface BrowserDownload {
   filename: string;
   data: Buffer;
 }
 
+/**
+ * Model of the app to drive it for e2e testing.
+ *
+ * We could split this into screen areas accessible from this class.
+ *
+ * All methods should ensure they wait for a condition rather than relying on timing.
+ *
+ * Generally this means it's better to pass in expected values, so you can wait for
+ * them to be true, than to read and return data from the DOM.
+ */
 export class App {
   private page: Promise<Page>;
   private downloadPath = fs.mkdtempSync("puppeteer-downloads");
@@ -26,15 +37,93 @@ export class App {
     })();
   }
 
-  async download(): Promise<BrowserDownload> {
+  async open(filePath: string): Promise<void> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const openInput = await document.getByTestId("open-input");
+    await openInput.uploadFile(filePath);
+  }
+
+  async dropFile(filePath: string): Promise<void> {
     const page = await this.page;
-    const document = await page.getDocument();
+    // Puppeteer doesn't have file drio support but we can use an input
+    // to grab a file and trigger an event that's good enough.
+    // https://github.com/puppeteer/puppeteer/issues/1376
+    const inputId = "simulated-drop-input";
+    await page.evaluate((inputId) => {
+      const input = document.createElement("input");
+      input.style.display = "none";
+      input.type = "file";
+      input.id = inputId;
+      input.onchange = (e: any) => {
+        const dropZone = document.querySelector(
+          "[data-testid=project-drop-target]"
+        );
+        if (!dropZone) {
+          throw new Error();
+        }
+        const dropEvent = new Event("drop", {
+          bubbles: true,
+        });
+        (dropEvent as any).dataTransfer = { files: e.target.files };
+        dropZone.dispatchEvent(dropEvent);
+        input.remove();
+      };
+      document.body.appendChild(input);
+    }, inputId);
+    const fileInput = await page.$(`#${inputId}`);
+    return fileInput!.uploadFile(filePath);
+  }
+
+  async alertText(title: string, description: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(title);
+    await document.findByText(description);
+    await document.findAllByRole("alert");
+  }
+
+  async findVisibleEditorContents(match: RegExp): Promise<void> {
+    const document = await this.document();
+    const text = () =>
+      document.evaluate(() => {
+        const lines = Array.from(window.document.querySelectorAll(".cm-line"));
+        return lines.map((l) => (l as HTMLElement).innerText).join("\n");
+      });
+    return waitFor(async () => {
+      const value = await text();
+      expect(value).toMatch(match);
+    });
+  }
+
+  async findProjectName(match: string): Promise<void> {
+    const text = async () => {
+      const document = await this.document();
+      const projectName = await document.getByTestId("project-name");
+      return projectName.getNodeText();
+    };
+    return waitFor(async () => {
+      const value = await text();
+      expect(value).toEqual(match);
+    });
+  }
+
+  async download(): Promise<void> {
+    const document = await this.document();
     const downloadButton = await document.getByText("Download");
-    return this.waitForDownload(() => downloadButton.click());
+    return downloadButton.click();
+  }
+
+  async waitForDownload(): Promise<BrowserDownload> {
+    return this.waitForDownloadOnDisk(() => this.download());
   }
 
   async reload() {
     const page = await this.page;
+    await page.evaluate(() => {
+      if (document.domain === "localhost") {
+        window.localStorage.clear();
+      }
+    });
     await page.goto("http://localhost:3000");
   }
 
@@ -44,7 +133,20 @@ export class App {
     return page.browser().close();
   }
 
-  private async waitForDownload(
+  private async selectSideBar(tabName: string) {
+    const document = await this.document();
+    const tab = await document.getByRole("tab", {
+      name: tabName,
+    });
+    return tab.click();
+  }
+
+  private async document(): Promise<puppeteer.ElementHandle<Element>> {
+    const page = await this.page;
+    return page.getDocument();
+  }
+
+  private async waitForDownloadOnDisk(
     triggerDownload: () => Promise<void>,
     timeout: number = 5000
   ): Promise<BrowserDownload> {

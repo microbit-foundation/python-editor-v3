@@ -11,6 +11,10 @@ export class ActionFeedback {
     private logging: Logging
   ) {}
 
+  closeAll() {
+    this.toast.closeAll();
+  }
+
   /**
    * Handles an error.
    */

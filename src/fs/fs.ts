@@ -1,6 +1,9 @@
-import { microbitBoardId, MicropythonFsHex } from "@microbit/microbit-fs";
+import {
+  getIntelHexAppendedScript,
+  microbitBoardId,
+  MicropythonFsHex,
+} from "@microbit/microbit-fs";
 import EventEmitter from "events";
-import config from "../config";
 import { BoardId } from "../device/board-id";
 import initialCode from "./initial-code";
 import { generateId } from "./fs-util";
@@ -124,31 +127,39 @@ export class FileSystem extends EventEmitter {
     this.notify();
   }
 
-  async replaceWithHexContents(hex: string): Promise<void> {
+  async replaceWithHexContents(filename: string, hex: string): Promise<void> {
     const fs = await this.initialize();
-    const files = fs.importFilesFromHex(hex, {
-      overwrite: true,
-      formatFirst: true,
-    });
-    if (files.length === 0) {
-      fs.create(MAIN_FILE, contentForFs(""));
+    try {
+      fs.importFilesFromHex(hex, {
+        overwrite: true,
+        formatFirst: true,
+      });
+      if (fs.ls().length === 0) {
+        fs.create(MAIN_FILE, contentForFs(""));
+      }
+    } catch (e) {
+      const code = getIntelHexAppendedScript(hex);
+      if (!code) {
+        throw new Error("No appended code found in the hex file");
+      }
+      fs.ls().forEach((f) => fs.remove(f));
+      fs.write(MAIN_FILE, code);
     }
+
     this.state = {
       ...this.state,
       projectId: generateId(),
     };
-    // For now this isn't stored, so clear it.
-    this.storage.setProjectName(config.defaultProjectName);
+    this.storage.setProjectName(filename.replace(/\.hex$/i, ""));
     this.replaceStorageWithFs();
     this.notify();
   }
 
-  async replaceWithMainContents(text: string): Promise<void> {
+  async replaceWithMainContents(filename: string, text: string): Promise<void> {
     await this.initialize();
     this.storage.ls().forEach((f) => this.storage.remove(f));
     this.storage.write(MAIN_FILE, text);
-    // For now this isn't stored, so clear it.
-    this.storage.setProjectName(config.defaultProjectName);
+    this.storage.setProjectName(filename.replace(/\.py$/i, ""));
     this.replaceFsWithStorage();
     this.state = {
       ...this.state,

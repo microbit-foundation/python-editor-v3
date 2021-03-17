@@ -5,7 +5,7 @@ import {
   Flex,
   IconButton,
   Tooltip,
-  UseEditableReturn
+  UseEditableReturn,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { RiEdit2Line } from "react-icons/ri";
@@ -65,6 +65,7 @@ const ProjectNameEditable = () => {
       {(props) => (
         <>
           <EditablePreview
+            data-testid="project-name"
             display="block"
             alignSelf="center"
             textOverflow="ellipsis"
