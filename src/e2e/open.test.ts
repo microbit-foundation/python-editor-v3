@@ -2,7 +2,7 @@ import { App } from "./app";
 
 describe("Browser - open", () => {
   const app = new App();
-  beforeAll(app.reload.bind(app));
+  beforeEach(app.reload.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("Shows an alert when loading a MakeCode hex", async () => {

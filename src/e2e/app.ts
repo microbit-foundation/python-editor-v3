@@ -116,6 +116,11 @@ export class App {
 
   async reload() {
     const page = await this.page;
+    await page.evaluate(() => {
+      if (document.domain === "localhost") {
+        window.localStorage.clear();
+      }
+    });
     await page.goto("http://localhost:3000");
   }
 
