@@ -16,6 +16,9 @@ export interface BrowserDownload {
  * We could split this into screen areas accessible from this class.
  *
  * All methods should ensure they wait for a condition rather than relying on timing.
+ *
+ * Generally this means it's better to pass in expected values, so you can wait for
+ * them to be true, than to read and return data from the DOM.
  */
 export class App {
   private page: Promise<Page>;
