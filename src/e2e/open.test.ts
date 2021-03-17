@@ -16,6 +16,13 @@ describe("Browser - open", () => {
     );
   });
 
+  it("Loads a Python file", async () => {
+    await app.open("testData/samplefile.py");
+
+    await app.alertText("Loaded samplefile.py");
+    await app.findProjectName("samplefile");
+  });
+
   it("Loads a v1.0.1 hex file", async () => {
     await app.open("testData/1.0.1.hex");
 
@@ -55,16 +62,23 @@ describe("Browser - open", () => {
     );
   });
 
-  // File system test cases from v2 for future consideration.
+  it("Correctly imports modules with the 'magic comment' in the filesystem.", async () => {
+    await app.open("testData/module.py");
 
-  it.todo("Can store the correct number of small files in the filesystem");
-  it.todo("Can store one large file in the filesystem");
+    await app.alertText("Added module module.py");
+
+    await app.open("testData/module.py");
+    await app.alertText("Updated module module.py");
+  });
+
+  // File system test cases to cover at a lower-level.
+  // I'm not so sure we should prevent the user adding large files.
   it.todo(
     "Shows an error when loading a file to the filesystem that is too large"
   );
+  it.todo("Can store the correct number of small files in the filesystem");
+  it.todo("Can store one large file in the filesystem");
+
+  // File system test cases to cover via the Files UI when we focus on it
   it.todo("Correctly loads files via the load modal");
-  it.todo(
-    "Correctly imports modules with the 'magic comment' in the filesystem."
-  );
-  it.todo("Correctly loads a python script with the correct name");
 });

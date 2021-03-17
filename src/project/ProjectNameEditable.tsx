@@ -72,7 +72,7 @@ const ProjectNameEditable = () => {
             overflowX="hidden"
             whiteSpace="nowrap"
           />
-          <EditableInput padding={1} />
+          <EditableInput data-testid="project-name-input" padding={1} />
           <EditableControls {...props} />
         </>
       )}

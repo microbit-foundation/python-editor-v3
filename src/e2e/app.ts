@@ -1,4 +1,4 @@
-import { waitFor } from "@testing-library/dom";
+import { getByRole, waitFor } from "@testing-library/dom";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as path from "path";
@@ -78,10 +78,12 @@ export class App {
     return fileInput!.uploadFile(filePath);
   }
 
-  async alertText(title: string, description: string): Promise<void> {
+  async alertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
     await document.findByText(title);
-    await document.findByText(description);
+    if (description) {
+      await document.findByText(description);
+    }
     await document.findAllByRole("alert");
   }
 
@@ -96,6 +98,17 @@ export class App {
       const value = await text();
       expect(value).toMatch(match);
     });
+  }
+
+  async setProjectName(projectName: string): Promise<void> {
+    const document = await this.document();
+    const editButton = await document.getByRole("button", {
+      name: "Edit project name",
+    });
+    await editButton.click();
+    const input = await document.findByTestId("project-name-input");
+    await input.type(projectName);
+    await input.press("Enter");
   }
 
   async findProjectName(match: string): Promise<void> {
