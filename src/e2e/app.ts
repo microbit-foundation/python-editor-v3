@@ -2,6 +2,7 @@ import { waitFor } from "@testing-library/dom";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as path from "path";
+import * as os from "os";
 import "pptr-testing-library/extend";
 import puppeteer, { Page } from "puppeteer";
 
@@ -22,7 +23,9 @@ export interface BrowserDownload {
  */
 export class App {
   private page: Promise<Page>;
-  private downloadPath = fs.mkdtempSync("puppeteer-downloads");
+  private downloadPath = fs.mkdtempSync(
+    path.join(os.tmpdir(), "puppeteer-downloads-")
+  );
 
   constructor() {
     this.page = (async () => {
