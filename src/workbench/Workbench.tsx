@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { BottomResizable, Fill, LeftResizable, ViewPort } from "react-spaces";
+import {
+  Bottom,
+  BottomResizable,
+  Fill,
+  LeftResizable,
+  ViewPort,
+} from "react-spaces";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
+import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
 
@@ -31,15 +38,24 @@ const Workbench = () => {
               filename={filename}
               onSelectedFileChanged={setFilename}
             />
-          </Fill>
-          <BottomResizable
-            size={serialVisible ? "40%" : "0%"}
-            style={{ borderTop: "4px solid whitesmoke" }}
-          >
-            {/* For accessibility. 
+            <BottomResizable
+              size={serialVisible ? "40%" : "0%"}
+              style={{ borderTop: "4px solid whitesmoke" }}
+            >
+              {/* For accessibility. 
                 Using `display` breaks the terminal height adjustment */}
-            <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
-          </BottomResizable>
+              <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
+            </BottomResizable>
+          </Fill>
+          <Bottom size={58}>
+            <ProjectActionBar
+              pt={1}
+              pb={1}
+              pl={2}
+              pr={2}
+              borderTop="1px solid #d3d3d3"
+            />
+          </Bottom>
         </Fill>
       </Fill>
     </ViewPort>
