@@ -37,7 +37,7 @@ const CodeMirror = ({
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
 
-  // Group the option props together to keep updates simple.
+  // Group the option props together to keep configuration updates simple.
   const options = useMemo(
     () => ({
       fontSize,
@@ -73,6 +73,7 @@ const CodeMirror = ({
     }
   }, [options, defaultValue, onChange]);
   useEffect(() => {
+    // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {
       if (viewRef.current) {
         viewRef.current.destroy();
@@ -82,7 +83,7 @@ const CodeMirror = ({
   }, []);
 
   useEffect(() => {
-    viewRef.current!.state.update({
+    viewRef.current!.dispatch({
       effects: [
         themeExtensionsCompartment.reconfigure(
           themeExtensions(options.fontSize)
