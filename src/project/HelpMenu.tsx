@@ -19,7 +19,7 @@ import {
 import Separate, { br } from "../common/Separate";
 import useActionFeedback from "../common/use-action-feedback";
 import config from "../config";
-import { microPythonVersions } from "../fs/fs";
+import { microPythonVersions } from "../fs/micropython";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];

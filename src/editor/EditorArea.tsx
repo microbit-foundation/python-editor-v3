@@ -1,11 +1,12 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
+import { FileVersion } from "../fs/storage";
 import EditorContainer from "./EditorContainer";
 import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";
 
 interface EditorAreaProps {
-  filename: string;
+  file: FileVersion;
   onSelectedFileChanged: (filename: string) => void;
 }
 
@@ -13,13 +14,13 @@ interface EditorAreaProps {
  * Wrapper for the editor that integrates it with the app settings
  * and wires it to the currently open file.
  */
-const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
-  const isMainFile = filename === MAIN_FILE;
+const EditorArea = ({ file, onSelectedFileChanged }: EditorAreaProps) => {
+  const isMainFile = file.name === MAIN_FILE;
   return (
     <Flex height="100%" flexDirection="column">
       {!isMainFile && (
         <NonMainFileNotice
-          filename={filename}
+          file={file}
           onSelectedFileChanged={onSelectedFileChanged}
         />
       )}
@@ -34,7 +35,7 @@ const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
           pr={5}
           zIndex={1}
         />
-        <EditorContainer filename={filename} />
+        <EditorContainer file={file} />
       </Box>
     </Flex>
   );

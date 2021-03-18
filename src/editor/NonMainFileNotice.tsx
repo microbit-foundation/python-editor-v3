@@ -1,9 +1,10 @@
 import { BoxProps, Button, HStack, Text } from "@chakra-ui/react";
 import { RiInformationLine } from "react-icons/ri";
 import { MAIN_FILE } from "../fs/fs";
+import { FileVersion } from "../fs/storage";
 
 interface NonMainFileNoticeProps extends BoxProps {
-  filename: string;
+  file: FileVersion;
   onSelectedFileChanged: (filename: string) => void;
 }
 
@@ -13,14 +14,14 @@ interface NonMainFileNoticeProps extends BoxProps {
  * We offer an additional route back to editing the main document.
  */
 const NonMainFileNotice = ({
-  filename,
+  file,
   onSelectedFileChanged,
   ...props
 }: NonMainFileNoticeProps) => {
   return (
     <HStack pl={2} pr={2} backgroundColor="whitesmoke" {...props}>
       <RiInformationLine />
-      <Text fontWeight="semibold">Editing {filename}.</Text>
+      <Text fontWeight="semibold">Editing {file.name}.</Text>
       <Button
         variant="unstyled"
         textDecoration="underline"

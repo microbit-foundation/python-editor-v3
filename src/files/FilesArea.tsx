@@ -11,7 +11,7 @@ interface FilesProps {
  * The main files area, offering access to individual files.
  */
 const FilesArea = ({ onSelectedFileChanged }: FilesProps) => {
-  const { files, projectName } = useProject();
+  const { files, name: projectName } = useProject();
   return (
     <VStack alignItems="stretch" padding={2} spacing={5}>
       <List>
