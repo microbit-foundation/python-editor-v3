@@ -28,8 +28,11 @@ const FileDropTarget = ({
   );
   const handleDragOver = useCallback((event: React.DragEvent<HTMLElement>) => {
     event.preventDefault();
-    setDragOver(true);
-    event.dataTransfer.dropEffect = "copy";
+    const hasFile = Array.from(event.dataTransfer.types).indexOf("Files") >= 0;
+    if (hasFile) {
+      setDragOver(true);
+      event.dataTransfer.dropEffect = "copy";
+    }
   }, []);
   const handleDragLeave = useCallback((event: React.DragEvent<HTMLElement>) => {
     setDragOver(false);
