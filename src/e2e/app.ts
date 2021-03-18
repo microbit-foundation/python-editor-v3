@@ -73,7 +73,7 @@ export class App {
         const dropEvent = new Event("drop", {
           bubbles: true,
         });
-        (dragOverEvent as any).dataTransfer = { files: e.target.files };
+        (dragOverEvent as any).dataTransfer = { types: ["Files"] };
         (dropEvent as any).dataTransfer = { files: e.target.files };
         dragOverZone.dispatchEvent(dragOverEvent);
 
