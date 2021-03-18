@@ -43,6 +43,11 @@ const FileDropTarget = ({
     >
       {dragOver && (
         <Center
+          data-testid={
+            (props as any)["data-testid"]
+              ? (props as any)["data-testid"] + "-overlay"
+              : undefined
+          }
           onDrop={handleDrop}
           onDragLeave={handleDragLeave}
           position="absolute"

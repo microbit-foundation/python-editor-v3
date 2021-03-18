@@ -51,6 +51,8 @@ export class App {
     const page = await this.page;
     // Puppeteer doesn't have file drio support but we can use an input
     // to grab a file and trigger an event that's good enough.
+    // It's a bit of a pain as the drop happens on an element created by
+    // the drag-over.
     // https://github.com/puppeteer/puppeteer/issues/1376
     const inputId = "simulated-drop-input";
     await page.evaluate((inputId) => {
@@ -59,17 +61,27 @@ export class App {
       input.type = "file";
       input.id = inputId;
       input.onchange = (e: any) => {
-        const dropZone = document.querySelector(
+        const dragOverZone = document.querySelector(
           "[data-testid=project-drop-target]"
         );
-        if (!dropZone) {
+        if (!dragOverZone) {
           throw new Error();
         }
+        const dragOverEvent = new Event("dragover", {
+          bubbles: true,
+        });
         const dropEvent = new Event("drop", {
           bubbles: true,
         });
+        (dragOverEvent as any).dataTransfer = { files: e.target.files };
         (dropEvent as any).dataTransfer = { files: e.target.files };
-        dropZone.dispatchEvent(dropEvent);
+        dragOverZone.dispatchEvent(dragOverEvent);
+
+        const dropZone = document.querySelector(
+          "[data-testid=project-drop-target-overlay]"
+        );
+        dropZone!.dispatchEvent(dropEvent);
+
         input.remove();
       };
       document.body.appendChild(input);
