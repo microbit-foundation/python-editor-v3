@@ -1,8 +1,8 @@
-import { getByRole, waitFor } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
-import * as path from "path";
 import * as os from "os";
+import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { Page } from "puppeteer";
 
