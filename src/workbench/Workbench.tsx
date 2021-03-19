@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bottom,
   BottomResizable,
@@ -10,7 +10,6 @@ import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
-import { FileVersion } from "../fs/storage";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";

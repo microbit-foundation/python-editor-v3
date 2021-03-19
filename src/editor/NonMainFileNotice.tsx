@@ -1,7 +1,6 @@
 import { BoxProps, Button, HStack, Text } from "@chakra-ui/react";
 import { RiInformationLine } from "react-icons/ri";
 import { MAIN_FILE } from "../fs/fs";
-import { FileVersion } from "../fs/storage";
 
 interface NonMainFileNoticeProps extends BoxProps {
   filename: string;

@@ -1,6 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
-import { FileVersion } from "../fs/storage";
 import EditorContainer from "./EditorContainer";
 import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";

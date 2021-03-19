@@ -55,7 +55,16 @@ export interface DownloadData {
 }
 
 /**
- * A MicroPython file system.
+ * The MicroPython file system adapted for convienient use from the UI.
+ *
+ * For now we store contents in-memory only, but we may back this
+ * with localStorage or IndexDB later.
+ *
+ * We version files in a way that's designed to make UI updates simple.
+ * If a UI action updates a file (e.g. load from disk) then we bump its version.
+ * If the file is simply edited in the tool then we do not change its version
+ * or fire any events. This plays well with uncontrolled embeddings of
+ * third-party text editors.
  */
 export class FileSystem extends EventEmitter {
   private initializing: Promise<void> | undefined;
@@ -74,15 +83,20 @@ export class FileSystem extends EventEmitter {
     super();
   }
 
+  /**
+   * Run an initialization asyncrounously.
+   *
+   * If it fails, we'll handle the error and attempt reinitialization on demand.
+   */
   async initializeInBackground() {
-    // Run this async as it'll download > 1MB of MicroPython.
+    // It's been observed that this can be slow after the fetch on low-end devices,
+    // so it might be good to move the FS work to a worker if we can't make it fast.
     this.initialize().catch((e) => {
-      // Clear the promise so we'll initialize on demand later.
       this.initializing = undefined;
     });
   }
 
-  async initialize(): Promise<MicropythonFsHex> {
+  private async initialize(): Promise<MicropythonFsHex> {
     if (this.fs) {
       return this.fs;
     }
@@ -103,15 +117,33 @@ export class FileSystem extends EventEmitter {
     return this.fs!;
   }
 
+  /**
+   * Update the project name.
+   *
+   * @param projectName New project name.
+   */
   async setProjectName(projectName: string) {
     await this.storage.setProjectName(projectName);
     return this.notify();
   }
 
+  /**
+   * Read data from a file.
+   *
+   * @param filename The filename.
+   * @returns The data. See class comment for detail on the versioning.
+   * @throws If the file does not exist.
+   */
   async read(filename: string): Promise<VersionedData> {
     return this.storage.read(filename);
   }
 
+  /**
+   * Check if a file exists.
+   *
+   * @param filename The filename.
+   * @returns The promise of existence.
+   */
   async exists(filename: string): Promise<boolean> {
     return this.storage.exists(filename);
   }
