@@ -70,15 +70,4 @@ describe("Browser - open", () => {
     await app.open("testData/module.py");
     await app.alertText("Updated module module.py");
   });
-
-  // File system test cases to cover at a lower-level.
-  // I'm not so sure we should prevent the user adding large files.
-  it.todo(
-    "Shows an error when loading a file to the filesystem that is too large"
-  );
-  it.todo("Can store the correct number of small files in the filesystem");
-  it.todo("Can store one large file in the filesystem");
-
-  // File system test cases to cover via the Files UI when we focus on it
-  it.todo("Correctly loads files via the load modal");
 });

@@ -39,7 +39,7 @@ export interface Project {
   files: FileVersion[];
 }
 
-export const EVENT_PROJECT_UPDATED = "state";
+export const EVENT_PROJECT_UPDATED = "project_updated";
 export const MAIN_FILE = "main.py";
 
 export interface FlashData {
@@ -205,6 +205,7 @@ export class FileSystem extends EventEmitter {
       name: await this.storage.projectName(),
       files,
     };
+    this.logging.log(this.project);
     this.emit(EVENT_PROJECT_UPDATED, this.project);
   }
 

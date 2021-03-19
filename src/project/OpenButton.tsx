@@ -21,8 +21,11 @@ const OpenButton = ({ text = "Open", ...props }: OpenButtonProps) => {
   const handleOpenFile = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
+      console.log(files);
       if (files) {
         const file = files.item(0);
+        // Clear the input so we're triggered if the user opens the same file again.
+        ref.current!.value = "";
         if (file) {
           await actions.open(file);
         }
