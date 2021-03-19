@@ -14,6 +14,7 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
+import { VersionAction } from "../fs/storage";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
 
@@ -104,7 +105,7 @@ export class ProjectActions {
         } else if (isPythonMicrobitModule(code)) {
           const exists = await this.fs.exists(file.name);
           const change = exists ? "Updated" : "Added";
-          await this.fs.write(file.name, code, "increment");
+          await this.fs.write(file.name, code, VersionAction.INCREMENT);
           this.actionFeedback.success({
             title: `${change} module ${file.name}`,
           });
@@ -155,7 +156,7 @@ export class ProjectActions {
       const exists = await this.fs.exists(file.name);
       const change = exists ? "Updated" : "Added";
       const data = await readFileAsUint8Array(file);
-      await this.fs.write(file.name, data, "increment");
+      await this.fs.write(file.name, data, VersionAction.INCREMENT);
       this.actionFeedback.success({
         title: `${change} ${file.name}`,
       });

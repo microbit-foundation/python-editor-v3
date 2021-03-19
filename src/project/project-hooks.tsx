@@ -5,6 +5,7 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { VersionAction } from "../fs/storage";
 import { useLogging } from "../logging/logging-hooks";
 import { ProjectActions } from "./project-actions";
 
@@ -71,7 +72,7 @@ export const useProjectFileText = (
   const handleChange = useCallback(
     (text: Text) => {
       const content = text.sliceString(0, undefined, "\n");
-      fs.write(filename, content, "maintain");
+      fs.write(filename, content, VersionAction.MAINTAIN);
     },
     [fs, filename]
   );

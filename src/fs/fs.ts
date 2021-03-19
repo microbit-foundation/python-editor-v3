@@ -13,6 +13,7 @@ import {
   FileVersion,
   FSStorage,
   InMemoryFSStorage,
+  VersionAction,
   VersionedData,
 } from "./storage";
 
@@ -103,7 +104,7 @@ export class FileSystem extends EventEmitter {
     if (!this.initializing) {
       this.initializing = (async () => {
         // For now we always start with this.
-        await this.write(MAIN_FILE, initialCode, "increment");
+        await this.write(MAIN_FILE, initialCode, VersionAction.INCREMENT);
 
         const fs = await this.createInternalFileSystem();
         await this.initializeFsFromStorage(fs);
@@ -161,7 +162,7 @@ export class FileSystem extends EventEmitter {
   async write(
     filename: string,
     content: Uint8Array | string,
-    versionAction: "maintain" | "increment"
+    versionAction: VersionAction
   ) {
     if (typeof content === "string") {
       content = new TextEncoder().encode(content);
@@ -170,7 +171,7 @@ export class FileSystem extends EventEmitter {
     if (this.fs) {
       this.fs.write(filename, content);
     }
-    if (versionAction === "increment") {
+    if (versionAction === VersionAction.INCREMENT) {
       this.notify();
     } else {
       // Nothing can have changed, don't needlessly change the identity of our file objects.
@@ -288,7 +289,11 @@ export class FileSystem extends EventEmitter {
         .map((f) => this.storage.remove(f.name))
     );
     for (const filename of Array.from(keep)) {
-      await this.storage.write(filename, fs.readBytes(filename), "increment");
+      await this.storage.write(
+        filename,
+        fs.readBytes(filename),
+        VersionAction.INCREMENT
+      );
     }
   }
 

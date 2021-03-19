@@ -1,6 +1,15 @@
 import config from "../config";
 
-export type VersionAction = "maintain" | "increment";
+export enum VersionAction {
+  /**
+   * Don't bump the version number.
+   */
+  MAINTAIN,
+  /**
+   * Increment the version number.
+   */
+  INCREMENT,
+}
 
 /**
  * Backing storage for the file system.
@@ -16,7 +25,7 @@ export interface FSStorage {
   write(
     filename: string,
     content: Uint8Array,
-    versionAction: "maintain" | "increment"
+    versionAction: VersionAction
   ): Promise<void>;
   remove(filename: string): Promise<void>;
   setProjectName(projectName: string): Promise<void>;
@@ -73,10 +82,10 @@ export class InMemoryFSStorage implements FSStorage {
   ): Promise<void> {
     const existing = this._data.get(name);
     let version = existing ? existing.version : 0;
-    if (existing === undefined && versionAction === "maintain") {
+    if (existing === undefined && versionAction === VersionAction.MAINTAIN) {
       throw new Error(`No existing file ${name}`);
     }
-    if (versionAction === "increment") {
+    if (versionAction === VersionAction.INCREMENT) {
       version++;
     }
     this._data.set(name, { data: content, version });
