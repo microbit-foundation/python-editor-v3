@@ -97,7 +97,7 @@ export class FileSystem extends EventEmitter {
     });
   }
 
-  private async initialize(): Promise<MicropythonFsHex> {
+  async initialize(): Promise<MicropythonFsHex> {
     if (this.fs) {
       return this.fs;
     }
