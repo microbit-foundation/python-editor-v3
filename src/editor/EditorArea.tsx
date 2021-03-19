@@ -6,7 +6,7 @@ import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";
 
 interface EditorAreaProps {
-  file: FileVersion;
+  filename: string;
   onSelectedFileChanged: (filename: string) => void;
 }
 
@@ -14,13 +14,13 @@ interface EditorAreaProps {
  * Wrapper for the editor that integrates it with the app settings
  * and wires it to the currently open file.
  */
-const EditorArea = ({ file, onSelectedFileChanged }: EditorAreaProps) => {
-  const isMainFile = file.name === MAIN_FILE;
+const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
+  const isMainFile = filename === MAIN_FILE;
   return (
     <Flex height="100%" flexDirection="column">
       {!isMainFile && (
         <NonMainFileNotice
-          file={file}
+          filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
       )}
@@ -35,7 +35,7 @@ const EditorArea = ({ file, onSelectedFileChanged }: EditorAreaProps) => {
           pr={5}
           zIndex={1}
         />
-        <EditorContainer file={file} />
+        <EditorContainer filename={filename} />
       </Box>
     </Flex>
   );

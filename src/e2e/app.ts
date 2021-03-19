@@ -40,6 +40,11 @@ export class App {
     })();
   }
 
+  /**
+   * Open a file using the file chooser.
+   *
+   * @param filePath The file on disk.
+   */
   async open(filePath: string): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
@@ -47,6 +52,14 @@ export class App {
     await openInput.uploadFile(filePath);
   }
 
+  /**
+   * Open a file using drag and drop.
+   *
+   * This is a bit fragile and likely to break if we change the DnD DOM as
+   * we resort to simulating DnD events.
+   *
+   * @param filePath The file on disk.
+   */
   async dropFile(filePath: string): Promise<void> {
     const page = await this.page;
     // Puppeteer doesn't have file drio support but we can use an input
@@ -90,6 +103,26 @@ export class App {
     return fileInput!.uploadFile(filePath);
   }
 
+  /**
+   * Use the Files sidebar to change the current file we're editing.
+   *
+   * @param filename The name of the file in the file list.
+   */
+  async switchToEditing(filename: string): Promise<void> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const editButton = await document.findByRole("button", {
+      name: "Edit " + filename,
+    });
+    await editButton.click();
+  }
+
+  /**
+   * Wait for an alert, throwing if it doesn't happen.
+   *
+   * @param title The expected alert title.
+   * @param description The expected alert description (if any).
+   */
   async alertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
     await document.findByText(title);
@@ -99,6 +132,13 @@ export class App {
     await document.findAllByRole("alert");
   }
 
+  /**
+   * Wait for the editor contents to match the given regexp, throwing if it doesn't happen.
+   *
+   * Only the first few lines will be visible.
+   *
+   * @param match The regex.
+   */
   async findVisibleEditorContents(match: RegExp): Promise<void> {
     const document = await this.document();
     const text = () =>
@@ -112,6 +152,11 @@ export class App {
     });
   }
 
+  /**
+   * Edit the project name.
+   *
+   * @param projectName The new name.
+   */
   async setProjectName(projectName: string): Promise<void> {
     const document = await this.document();
     const editButton = await document.getByRole("button", {
@@ -123,6 +168,12 @@ export class App {
     await input.press("Enter");
   }
 
+  /**
+   * Wait for the project name
+   *
+   * @param match
+   * @returns
+   */
   async findProjectName(match: string): Promise<void> {
     const text = async () => {
       const document = await this.document();
@@ -135,16 +186,30 @@ export class App {
     });
   }
 
+  /**
+   * Trigger a download but don't wait for it to complete.
+   *
+   * Useful when the action is expected to fail.
+   * Otherwise see waitForDownload.
+   */
   async download(): Promise<void> {
     const document = await this.document();
     const downloadButton = await document.getByText("Download");
     return downloadButton.click();
   }
 
+  /**
+   * Trigger a download and wait for it to complete.
+   *
+   * @returns Download details.
+   */
   async waitForDownload(): Promise<BrowserDownload> {
     return this.waitForDownloadOnDisk(() => this.download());
   }
 
+  /**
+   * Reload the page after clearing local storage.
+   */
   async reload() {
     const page = await this.page;
     await page.evaluate(() => {
@@ -155,6 +220,9 @@ export class App {
     await page.goto("http://localhost:3000");
   }
 
+  /**
+   * Clean up, including the browser and downloads temporary folder.
+   */
   async dispose() {
     await fsp.rmdir(this.downloadPath, { recursive: true });
     const page = await this.page;

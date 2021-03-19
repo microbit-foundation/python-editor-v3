@@ -4,16 +4,16 @@ import { useSettings } from "../settings/settings";
 import Editor from "./codemirror/CodeMirror";
 
 interface EditorContainerProps {
-  file: FileVersion;
+  filename: string;
 }
 
 /**
  * Container for the editor that integrates it with the app settings
  * and wires it to the currently open file.
  */
-const EditorContainer = ({ file }: EditorContainerProps) => {
+const EditorContainer = ({ filename }: EditorContainerProps) => {
   const [{ fontSize, highlightCodeStructure }] = useSettings();
-  const [defaultValue, onFileChange] = useProjectFileText(file.name);
+  const [defaultValue, onFileChange] = useProjectFileText(filename);
   return typeof defaultValue === "undefined" ? null : (
     <Editor
       defaultValue={defaultValue}

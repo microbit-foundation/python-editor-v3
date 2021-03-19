@@ -9,7 +9,16 @@ describe("Browser - multiple and missing file cases", () => {
 
   it("Prevents deleting main.py", async () => {});
 
-  it("Copes with currently open file being updated", async () => {});
+  it("Copes with currently open file being updated (module)", async () => {
+    await app.open("testData/module.py");
+    await app.switchToEditing("module.py");
+    await app.findVisibleEditorContents(/1.0.0/);
+
+    await app.open("testData/updated/module.py");
+
+    await app.findVisibleEditorContents(/1.1.0/);
+    await app.findVisibleEditorContents(/Now with documentation/);
+  });
 
   it("Copes with currently open file being deleted", async () => {});
 

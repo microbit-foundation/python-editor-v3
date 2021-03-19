@@ -20,20 +20,15 @@ import LeftPanel from "./LeftPanel";
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [file, setFile] = useState<FileVersion | undefined>(undefined);
+  const [filename, setFilename] = useState<string | undefined>(undefined);
   const { files } = useProject();
   useEffect(() => {
-    if (!file && files.length > 0) {
+    if (!filename && files.length > 0) {
       const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
-      setFile(defaultFile);
+      setFilename(defaultFile.name);
     }
-  }, [file, files]);
-  const selectFileByName = useCallback(
-    (name: string) => {
-      setFile(files.find((x) => x.name === name));
-    },
-    [files, setFile]
-  );
+  }, [filename, files]);
+  const fileVersion = files.find((f) => f.name === filename)?.version;
 
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
@@ -45,15 +40,15 @@ const Workbench = () => {
           minimumSize={210}
           style={{ borderRight: "4px solid whitesmoke" }}
         >
-          <LeftPanel onSelectedFileChanged={selectFileByName} />
+          <LeftPanel onSelectedFileChanged={setFilename} />
         </LeftResizable>
         <Fill>
           <Fill>
-            {file && (
+            {filename && (
               <EditorArea
-                key={file.name + "/" + file.version}
-                file={file}
-                onSelectedFileChanged={selectFileByName}
+                key={filename + "/" + fileVersion}
+                filename={filename}
+                onSelectedFileChanged={setFilename}
               />
             )}
             <BottomResizable
