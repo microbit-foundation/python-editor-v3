@@ -5,7 +5,7 @@ import * as fs from "fs";
 import * as fsp from "fs/promises";
 import config from "../config";
 import { NullLogging } from "../logging/null";
-import { VersionedData } from "./storage";
+import { VersionAction, VersionedData } from "./storage";
 import { EVENT_PROJECT_UPDATED, FileSystem, MAIN_FILE, Project } from "./fs";
 import { MicroPythonSource } from "./micropython";
 import { BoardId } from "../device/board-id";
@@ -83,17 +83,17 @@ describe("Filesystem", () => {
   });
 
   it("can read/write files", async () => {
-    await ufs.write(MAIN_FILE, "content1", "increment");
+    await ufs.write(MAIN_FILE, "content1", VersionAction.INCREMENT);
 
     expect(await asString(ufs.read(MAIN_FILE))).toEqual("content1");
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 1 }]);
 
-    await ufs.write(MAIN_FILE, "content2", "maintain");
+    await ufs.write(MAIN_FILE, "content2", VersionAction.MAINTAIN);
 
     expect(await asString(ufs.read(MAIN_FILE))).toEqual("content2");
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 1 }]);
 
-    await ufs.write(MAIN_FILE, "content3", "increment");
+    await ufs.write(MAIN_FILE, "content3", VersionAction.INCREMENT);
 
     expect(await asString(ufs.read(MAIN_FILE))).toEqual("content3");
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 2 }]);
@@ -109,7 +109,7 @@ describe("Filesystem", () => {
     await ufs.initialize();
 
     expect(await ufs.exists(MAIN_FILE));
-    expect(await ufs.write("other.txt", "content", "increment"));
+    expect(await ufs.write("other.txt", "content", VersionAction.INCREMENT));
     const originalId = ufs.project.id;
 
     await ufs.replaceWithMainContents(
@@ -128,7 +128,7 @@ describe("Filesystem", () => {
     await ufs.initialize();
 
     expect(await ufs.exists(MAIN_FILE));
-    expect(await ufs.write("other.txt", "content", "increment"));
+    expect(await ufs.write("other.txt", "content", VersionAction.INCREMENT));
     const originalId = ufs.project.id;
 
     await ufs.replaceWithHexContents(
@@ -147,7 +147,7 @@ describe("Filesystem", () => {
     await ufs.initialize();
     const data = new Uint8Array(100_000);
     data.fill(128);
-    await ufs.write("big.dat", data, "increment");
+    await ufs.write("big.dat", data, VersionAction.INCREMENT);
 
     // But not if you ask for the hex.
     await expect(() => ufs.toHexForDownload()).rejects.toThrow(
@@ -159,7 +159,7 @@ describe("Filesystem", () => {
     await ufs.initialize();
     const data = new Uint8Array(100_000);
     data.fill(128);
-    await ufs.write(MAIN_FILE, data, "maintain");
+    await ufs.write(MAIN_FILE, data, VersionAction.MAINTAIN);
 
     // But not if you ask for the hex.
     await expect(() => ufs.toHexForDownload()).rejects.toThrow(
