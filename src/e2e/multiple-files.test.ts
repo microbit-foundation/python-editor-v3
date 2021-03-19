@@ -24,5 +24,5 @@ describe("Browser - multiple and missing file cases", () => {
 
   it("Doesn't offer editor for non-Python file", async () => {});
 
-  it("Shows some kind of error for UTF-8 main.py", async () => {});
+  it("Shows some kind of error for non-UTF-8 main.py", async () => {});
 });
