@@ -1,6 +1,7 @@
 import { List, ListItem, VStack } from "@chakra-ui/react";
 import OpenButton from "../project/OpenButton";
 import { useProject } from "../project/project-hooks";
+import UploadButton from "../project/UploadButton";
 import FileRow from "./FileRow";
 
 interface FilesProps {
@@ -25,7 +26,8 @@ const FilesArea = ({ onSelectedFileChanged }: FilesProps) => {
           </ListItem>
         ))}
       </List>
-      <OpenButton text="Open a project" variant="outline" />
+      <OpenButton variant="outline">Open a project</OpenButton>
+      <UploadButton variant="outline">Upload a file</UploadButton>
     </VStack>
   );
 };

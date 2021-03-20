@@ -25,6 +25,9 @@ class HexGenerationError extends Error {}
  *
  * These actions all perform their own error handling and
  * give appropriate feedback to the user if they fail.
+ *
+ * Functions all use arrow functions so they can be directly
+ * used as callbacks.
  */
 export class ProjectActions {
   constructor(
@@ -148,7 +151,7 @@ export class ProjectActions {
     }
   };
 
-  async addOrUpdateFile(file: File): Promise<void> {
+  addOrUpdateFile = async (file: File): Promise<void> => {
     // TODO: Consider special-casing Python, modules or hex files?
     //       At least modules make sense here. Perhaps this should
     //       be the only way to add a module.
@@ -163,7 +166,7 @@ export class ProjectActions {
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
-  }
+  };
 
   /**
    * Flash the device.
@@ -246,7 +249,9 @@ export class ProjectActions {
       filename === MAIN_FILE ? `${projectName}.py` : filename;
     try {
       const content = await this.fs.read(filename);
-      const blob = new Blob([content.data], { type: "application/octet-stream" });
+      const blob = new Blob([content.data], {
+        type: "application/octet-stream",
+      });
       saveAs(blob, downloadName);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
