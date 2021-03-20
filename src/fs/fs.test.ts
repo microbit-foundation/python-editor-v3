@@ -105,6 +105,16 @@ describe("Filesystem", () => {
     );
   });
 
+  it("can remove files", async () => {
+    await ufs.write(MAIN_FILE, "hey", VersionAction.INCREMENT);
+    expect(events[0].files).toEqual([{ name: MAIN_FILE, version: 1 }]);
+
+    await ufs.remove(MAIN_FILE);
+
+    expect(events[1].files).toEqual([]);
+    expect(await ufs.exists(MAIN_FILE)).toEqual(false);
+  });
+
   it("can replace project with a Python file", async () => {
     await ufs.initialize();
 

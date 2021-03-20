@@ -15,7 +15,7 @@ const UploadButton = ({ children, ...props }: OpenButtonProps) => {
   const actions = useProjectActions();
   return (
     <FileInputButton
-      // .mpy isn't supported but better to explain ourselves
+      data-testid="upload"
       onOpen={actions.addOrUpdateFile}
       leftIcon={<RiFileUploadLine />}
       {...props}

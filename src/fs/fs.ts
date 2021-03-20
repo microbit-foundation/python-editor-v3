@@ -172,7 +172,7 @@ export class FileSystem extends EventEmitter {
       this.fs.write(filename, content);
     }
     if (versionAction === VersionAction.INCREMENT) {
-      this.notify();
+      return this.notify();
     } else {
       // Nothing can have changed, don't needlessly change the identity of our file objects.
     }
