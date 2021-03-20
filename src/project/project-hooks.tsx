@@ -54,20 +54,25 @@ export const useProjectFileText = (
   filename: string
 ): [Text | undefined, (text: Text) => void] => {
   const fs = useFileSystem();
+  const actionFeedback = useActionFeedback();
   const [initialValue, setInitialValue] = useState<Text | undefined>();
 
   useEffect(() => {
     const loadData = async () => {
-      if (await fs.exists(filename)) {
-        const { data } = await fs.read(filename);
-        // If this fails we should return an error.
-        const text = new TextDecoder().decode(data);
-        setInitialValue(Text.of(text.split("\n")));
+      try {
+        if (await fs.exists(filename)) {
+          const { data } = await fs.read(filename);
+          // If this fails we should return an error.
+          const text = new TextDecoder().decode(data);
+          setInitialValue(Text.of(text.split("\n")));
+        }
+      } catch (e) {
+        actionFeedback.unexpectedError(e);
       }
     };
 
     loadData();
-  }, [fs, filename]);
+  }, [fs, filename, actionFeedback]);
 
   const handleChange = useCallback(
     (text: Text) => {
