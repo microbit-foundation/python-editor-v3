@@ -76,10 +76,14 @@ export const useProjectFileText = (
 
   const handleChange = useCallback(
     (text: Text) => {
-      const content = text.sliceString(0, undefined, "\n");
-      fs.write(filename, content, VersionAction.MAINTAIN);
+      try {
+        const content = text.sliceString(0, undefined, "\n");
+        fs.write(filename, content, VersionAction.MAINTAIN);
+      } catch (e) {
+        actionFeedback.unexpectedError(e);
+      }
     },
-    [fs, filename]
+    [fs, filename, actionFeedback]
   );
 
   return [initialValue, handleChange];
