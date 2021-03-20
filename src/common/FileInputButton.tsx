@@ -55,11 +55,7 @@ const FileInputButton = ({
         onChange={handleOpenFile}
         ref={ref}
       />
-      <Button
-        leftIcon={<RiFolderOpenLine />}
-        onClick={handleChooseFile}
-        {...props}
-      >
+      <Button leftIcon={leftIcon} onClick={handleChooseFile} {...props}>
         {children}
       </Button>
     </>
