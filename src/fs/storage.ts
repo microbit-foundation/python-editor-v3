@@ -1,61 +1,100 @@
 import config from "../config";
 
+export enum VersionAction {
+  /**
+   * Don't bump the version number.
+   */
+  MAINTAIN,
+  /**
+   * Increment the version number.
+   */
+  INCREMENT,
+}
+
 /**
  * Backing storage for the file system.
  *
  * We use this to store and restore the users program.
+ *
+ * For now we just have an in-memory implementation.
  */
 export interface FSStorage {
-  ls(): string[];
-  exists(filename: string): boolean;
-  read(filename: string): string;
-  write(filename: string, content: string): void;
-  remove(filename: string): void;
-  setProjectName(projectName: string): void;
-  projectName(): string;
+  ls(): Promise<FileVersion[]>;
+  exists(filename: string): Promise<boolean>;
+  read(filename: string): Promise<VersionedData>;
+  write(
+    filename: string,
+    content: Uint8Array,
+    versionAction: VersionAction
+  ): Promise<void>;
+  remove(filename: string): Promise<void>;
+  setProjectName(projectName: string): Promise<void>;
+  projectName(): Promise<string>;
+}
+
+export interface FileVersion {
+  name: string;
+  version: number;
+}
+
+export interface VersionedData {
+  version: number;
+  data: Uint8Array;
 }
 
 /**
- * Basic local storage implementation.
- *
- * Needs revisiting to consider multiple tab effects.
+ * Basic in-memory implementation.
  */
-export class FSLocalStorage implements FSStorage {
-  private prefix = "fs/";
+export class InMemoryFSStorage implements FSStorage {
+  private _projectName: string = config.defaultProjectName;
+  private _data: Map<string, VersionedData> = new Map();
 
-  ls() {
-    return Object.keys(localStorage)
-      .filter((n) => n.startsWith(this.prefix))
-      .map((n) => n.substring(this.prefix.length));
+  async ls() {
+    return Array.from(this._data.entries()).map(([name, value]) => ({
+      version: value.version,
+      name,
+    }));
   }
 
-  exists(filename: string) {
-    return localStorage.getItem(this.prefix + filename) !== null;
+  async exists(filename: string) {
+    return this._data.has(filename);
   }
 
-  setProjectName(projectName: string) {
-    // If we moved this to a file we could also roundtrip it via the hex.
-    localStorage.setItem("projectName", projectName);
+  async setProjectName(projectName: string) {
+    this._projectName = projectName;
   }
 
-  projectName(): string {
-    return localStorage.getItem("projectName") || config.defaultProjectName;
+  async projectName(): Promise<string> {
+    return this._projectName;
   }
 
-  read(name: string): string {
-    const item = localStorage.getItem(this.prefix + name);
-    if (typeof item !== "string") {
+  async read(filename: string): Promise<VersionedData> {
+    if (!(await this.exists(filename))) {
+      throw new Error(`No such file ${filename}`);
+    }
+    return this._data.get(filename)!;
+  }
+
+  async write(
+    name: string,
+    content: Uint8Array,
+    versionAction: VersionAction
+  ): Promise<void> {
+    const existing = this._data.get(name);
+    let version = existing ? existing.version : 0;
+    if (existing === undefined && versionAction === VersionAction.MAINTAIN) {
+      throw new Error(`No existing file ${name}`);
+    }
+    if (versionAction === VersionAction.INCREMENT) {
+      version++;
+    }
+    this._data.set(name, { data: content, version });
+  }
+
+  async remove(name: string): Promise<void> {
+    if (!this.exists(name)) {
       throw new Error(`No such file ${name}`);
     }
-    return item;
-  }
-
-  write(name: string, content: string): void {
-    localStorage.setItem(this.prefix + name, content);
-  }
-
-  remove(name: string): void {
-    this.read(name);
-    localStorage.removeItem(this.prefix + name);
+    this._data.delete(name);
   }
 }

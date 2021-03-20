@@ -3,8 +3,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
-import { EVENT_STATE, Project } from "../fs/fs";
+import { EVENT_PROJECT_UPDATED, Project } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { VersionAction } from "../fs/storage";
 import { useLogging } from "../logging/logging-hooks";
 import { ProjectActions } from "./project-actions";
 
@@ -31,16 +32,16 @@ export const useProjectActions = (): ProjectActions => {
 export const useProject = (): Project => {
   const fs = useFileSystem();
   const isUnmounted = useIsUnmounted();
-  const [state, setState] = useState<Project>(fs.state);
+  const [state, setState] = useState<Project>(fs.project);
   useEffect(() => {
     const listener = (x: any) => {
       if (!isUnmounted()) {
         setState(x);
       }
     };
-    fs.on(EVENT_STATE, listener);
+    fs.on(EVENT_PROJECT_UPDATED, listener);
     return () => {
-      fs.removeListener(EVENT_STATE, listener);
+      fs.removeListener(EVENT_PROJECT_UPDATED, listener);
     };
   }, [fs, isUnmounted]);
   return state;
@@ -53,21 +54,36 @@ export const useProjectFileText = (
   filename: string
 ): [Text | undefined, (text: Text) => void] => {
   const fs = useFileSystem();
+  const actionFeedback = useActionFeedback();
   const [initialValue, setInitialValue] = useState<Text | undefined>();
 
   useEffect(() => {
-    const string = fs.read(filename);
-    setInitialValue(Text.of(string.split("\n")));
-  }, [fs, filename]);
+    const loadData = async () => {
+      try {
+        if (await fs.exists(filename)) {
+          const { data } = await fs.read(filename);
+          // If this fails we should return an error.
+          const text = new TextDecoder().decode(data);
+          setInitialValue(Text.of(text.split("\n")));
+        }
+      } catch (e) {
+        actionFeedback.unexpectedError(e);
+      }
+    };
+
+    loadData();
+  }, [fs, filename, actionFeedback]);
 
   const handleChange = useCallback(
     (text: Text) => {
-      const content = text.sliceString(0, undefined, "\n");
-      // If we fill up the FS it seems to cope and error when we
-      // ask for a hex.
-      fs.write(filename, content);
+      try {
+        const content = text.sliceString(0, undefined, "\n");
+        fs.write(filename, content, VersionAction.MAINTAIN);
+      } catch (e) {
+        actionFeedback.unexpectedError(e);
+      }
     },
-    [fs, filename]
+    [fs, filename, actionFeedback]
   );
 
   return [initialValue, handleChange];

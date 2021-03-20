@@ -24,6 +24,38 @@ export const readFileAsText = async (file: File): Promise<string> => {
 };
 
 /**
+ * Reads file as text via a FileReader.
+ *
+ * @param file A file (e.g. from a file input or drop operation).
+ * @returns The a promise of text from that file.
+ */
+export const readFileAsUint8Array = async (file: File): Promise<Uint8Array> => {
+  const reader = new FileReader();
+  return new Promise((resolve, reject) => {
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      resolve(new Uint8Array(e.target!.result as ArrayBuffer));
+    };
+    reader.onerror = (e: ProgressEvent<FileReader>) => {
+      const error = e.target?.error || new Error("Error reading file");
+      reject(error);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+};
+
+/**
+ * @param str A string assumed to be ASCII.
+ * @returns Corresponding bytes.
+ */
+export const asciiToBytes = (str: string): ArrayBuffer => {
+  var bytes = new Uint8Array(str.length);
+  for (var i = 0, strLen = str.length; i < strLen; i++) {
+    bytes[i] = str.charCodeAt(i);
+  }
+  return bytes.buffer;
+};
+
+/**
  * Detect a module using the magic comment.
  */
 export const isPythonMicrobitModule = (code: string) => {

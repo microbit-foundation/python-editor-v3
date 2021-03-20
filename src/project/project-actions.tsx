@@ -12,7 +12,9 @@ import {
   getFileExtension,
   isPythonMicrobitModule,
   readFileAsText,
+  readFileAsUint8Array,
 } from "../fs/fs-util";
+import { VersionAction } from "../fs/storage";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
 
@@ -23,6 +25,9 @@ class HexGenerationError extends Error {}
  *
  * These actions all perform their own error handling and
  * give appropriate feedback to the user if they fail.
+ *
+ * Functions all use arrow functions so they can be directly
+ * used as callbacks.
  */
 export class ProjectActions {
   constructor(
@@ -101,14 +106,15 @@ export class ProjectActions {
             description: "The file was empty.",
           });
         } else if (isPythonMicrobitModule(code)) {
-          const exists = this.fs.exists(file.name);
+          const exists = await this.fs.exists(file.name);
           const change = exists ? "Updated" : "Added";
-          this.fs.addOrUpdateFile(file.name, code);
+          await this.fs.write(file.name, code, VersionAction.INCREMENT);
           this.actionFeedback.success({
             title: `${change} module ${file.name}`,
           });
         } else {
-          this.fs.replaceWithMainContents(file.name, code);
+          const projectName = file.name.replace(/\.py$/i, "");
+          await this.fs.replaceWithMainContents(projectName, code);
           loadedFeedback();
         }
       } catch (e) {
@@ -120,8 +126,9 @@ export class ProjectActions {
       }
     } else if (extension === "hex") {
       try {
+        const projectName = file.name.replace(/\.hex$/i, "");
         const hex = await readFileAsText(file);
-        await this.fs.replaceWithHexContents(file.name, hex);
+        await this.fs.replaceWithHexContents(projectName, hex);
         loadedFeedback();
       } catch (e) {
         console.error(e);
@@ -141,6 +148,23 @@ export class ProjectActions {
         title: errorTitle,
         description: translation.load["extension-warning"],
       });
+    }
+  };
+
+  addOrUpdateFile = async (file: File): Promise<void> => {
+    // TODO: Consider special-casing Python, modules or hex files?
+    //       At least modules make sense here. Perhaps this should
+    //       be the only way to add a module.
+    try {
+      const exists = await this.fs.exists(file.name);
+      const change = exists ? "Updated" : "Added";
+      const data = await readFileAsUint8Array(file);
+      await this.fs.write(file.name, data, VersionAction.INCREMENT);
+      this.actionFeedback.success({
+        title: `${change} ${file.name}`,
+      });
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
     }
   };
 
@@ -220,13 +244,14 @@ export class ProjectActions {
       action: "download-file",
     });
 
-    const projectName = this.fs.state.projectName;
+    const projectName = this.fs.project.name;
     const downloadName =
       filename === MAIN_FILE ? `${projectName}.py` : filename;
     try {
-      const content = this.fs.read(filename);
-      // For now we assume the file is Python.
-      const blob = new Blob([content], { type: "text/x-python" });
+      const content = await this.fs.read(filename);
+      const blob = new Blob([content.data], {
+        type: "application/octet-stream",
+      });
       saveAs(blob, downloadName);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
@@ -244,7 +269,7 @@ export class ProjectActions {
     });
 
     try {
-      this.fs.remove(filename);
+      await this.fs.remove(filename);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
@@ -260,7 +285,7 @@ export class ProjectActions {
       action: "set-project-name",
     });
 
-    this.fs.setProjectName(name);
+    return this.fs.setProjectName(name);
   };
 
   private handleWebUSBError(e: any) {

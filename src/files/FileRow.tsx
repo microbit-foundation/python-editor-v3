@@ -1,11 +1,12 @@
 import { Button, HStack, IconButton } from "@chakra-ui/react";
 import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
-import { File, MAIN_FILE } from "../fs/fs";
+import { MAIN_FILE } from "../fs/fs";
+import { FileVersion } from "../fs/storage";
 import { useProjectActions } from "../project/project-hooks";
 
 interface FileRowProps {
   projectName: string;
-  value: File;
+  value: FileVersion;
   onClick: () => void;
 }
 

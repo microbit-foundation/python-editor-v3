@@ -17,10 +17,13 @@ import Project from "./project/Project";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import { LoggingContext } from "./logging/logging-hooks";
 import { DefaultLogging } from "./logging/default";
+import { fetchMicroPython } from "./fs/micropython";
 
 const logging = new DefaultLogging();
 const device = new MicrobitWebUSBConnection({ logging });
-const fs = new FileSystem();
+const fs = new FileSystem(logging, fetchMicroPython);
+// If this fails then we retry on access.
+fs.initializeInBackground();
 
 const App = () => {
   useEffect(() => {

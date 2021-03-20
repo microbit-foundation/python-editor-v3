@@ -15,7 +15,7 @@ import { useProject, useProjectActions } from "./project-hooks";
  * A control to enable editing of the project name.
  */
 const ProjectNameEditable = () => {
-  const { projectName } = useProject();
+  const { name: projectName } = useProject();
   const actions = useProjectActions();
   const [keyPart, setKeyPart] = useState(0);
   const handleSubmit = (projectName: string) => {

@@ -11,20 +11,20 @@ import {
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
 import {
-  RiFile3Line,
+  RiFileListLine,
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
 import LogoBar from "../common/LogoBar";
-import PackagesArea from "../packages/PackagesArea";
-import SettingsArea from "../settings/SettingsArea";
 import FilesArea from "../files/FilesArea";
-import LeftPanelTabContent from "./LeftPanelTabContent";
+import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
+import SettingsArea from "../settings/SettingsArea";
+import LeftPanelTabContent from "./LeftPanelTabContent";
 
 interface LeftPanelProps {
-  onSelectedFileChanged: (filename: string) => void;
+  onSelectedFileChanged: (file: string) => void;
 }
 
 /**
@@ -43,7 +43,7 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
       {
         id: "files",
         title: "Files",
-        icon: RiFile3Line,
+        icon: RiFileListLine,
         contents: <FilesArea onSelectedFileChanged={onSelectedFileChanged} />,
       },
       {

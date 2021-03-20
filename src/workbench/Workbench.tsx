@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bottom,
   BottomResizable,
@@ -10,6 +10,7 @@ import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
+import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
@@ -18,7 +19,16 @@ import LeftPanel from "./LeftPanel";
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [filename, setFilename] = useState(MAIN_FILE);
+  const [filename, setFilename] = useState<string | undefined>(undefined);
+  const { files } = useProject();
+  useEffect(() => {
+    if (!filename && files.length > 0) {
+      const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
+      setFilename(defaultFile.name);
+    }
+  }, [filename, files]);
+  const fileVersion = files.find((f) => f.name === filename)?.version;
+
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
     // https://github.com/aeagle/react-spaces
@@ -33,11 +43,13 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            <EditorArea
-              key={filename}
-              filename={filename}
-              onSelectedFileChanged={setFilename}
-            />
+            {filename && (
+              <EditorArea
+                key={filename + "/" + fileVersion}
+                filename={filename}
+                onSelectedFileChanged={setFilename}
+              />
+            )}
             <BottomResizable
               size={serialVisible ? "40%" : "0%"}
               style={{ borderTop: "4px solid whitesmoke" }}

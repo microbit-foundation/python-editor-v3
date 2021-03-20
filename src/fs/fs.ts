@@ -1,20 +1,23 @@
 import {
   getIntelHexAppendedScript,
-  microbitBoardId,
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
 import EventEmitter from "events";
+import config from "../config";
 import { BoardId } from "../device/board-id";
+import { Logging } from "../logging/logging";
+import { asciiToBytes, generateId } from "./fs-util";
 import initialCode from "./initial-code";
-import { generateId } from "./fs-util";
-import microPythonV1HexUrl from "./microbit-micropython-v1.hex";
-import microPythonV2HexUrl from "./microbit-micropython-v2.hex";
-import { FSLocalStorage, FSStorage } from "./storage";
+import { MicroPythonSource } from "./micropython";
+import {
+  FileVersion,
+  FSStorage,
+  InMemoryFSStorage,
+  VersionAction,
+  VersionedData,
+} from "./storage";
 
-export interface File {
-  name: string;
-  size: number;
-}
+const commonFsSize = 20 * 1024;
 
 /**
  * All size-related stats will be -1 until the file system
@@ -24,19 +27,20 @@ export interface Project {
   /**
    * An ID for the project.
    */
-  projectId: string;
+  id: string;
+
   /**
    * A user-defined name for the project.
    */
-  projectName: string;
+  name: string;
 
-  files: File[];
-  spaceUsed: number;
-  spaceRemaining: number;
-  space: number;
+  /**
+   * The files in the project.
+   */
+  files: FileVersion[];
 }
 
-export const EVENT_STATE = "state";
+export const EVENT_PROJECT_UPDATED = "project_updated";
 export const MAIN_FILE = "main.py";
 
 export interface FlashData {
@@ -52,31 +56,43 @@ export interface DownloadData {
 }
 
 /**
- * A MicroPython file system.
+ * The MicroPython file system adapted for convienient use from the UI.
+ *
+ * For now we store contents in-memory only, but we may back this
+ * with localStorage or IndexDB later.
+ *
+ * We version files in a way that's designed to make UI updates simple.
+ * If a UI action updates a file (e.g. load from disk) then we bump its version.
+ * If the file is simply edited in the tool then we do not change its version
+ * or fire any events. This plays well with uncontrolled embeddings of
+ * third-party text editors.
  */
 export class FileSystem extends EventEmitter {
   private initializing: Promise<void> | undefined;
-  private storage: FSStorage = new FSLocalStorage();
+  private storage: FSStorage = new InMemoryFSStorage();
   private fs: undefined | MicropythonFsHex;
-  state: Project = {
+  project: Project = {
     files: [],
-    space: -1,
-    spaceRemaining: -1,
-    spaceUsed: -1,
-    projectId: generateId(),
-    projectName: this.storage.projectName(),
+    id: generateId(),
+    name: config.defaultProjectName,
   };
 
-  constructor() {
+  constructor(
+    private logging: Logging,
+    private microPythonSource: MicroPythonSource
+  ) {
     super();
-    // Demo code.
-    if (!this.storage.ls().includes(MAIN_FILE)) {
-      this.write(MAIN_FILE, initialCode);
-    }
+  }
 
-    // Run this async as it'll download > 1MB of MicroPython.
+  /**
+   * Run an initialization asyncrounously.
+   *
+   * If it fails, we'll handle the error and attempt reinitialization on demand.
+   */
+  async initializeInBackground() {
+    // It's been observed that this can be slow after the fetch on low-end devices,
+    // so it might be good to move the FS work to a worker if we can't make it fast.
     this.initialize().catch((e) => {
-      // Clear the promise so we'll initialize on demand later.
       this.initializing = undefined;
     });
   }
@@ -87,56 +103,91 @@ export class FileSystem extends EventEmitter {
     }
     if (!this.initializing) {
       this.initializing = (async () => {
-        const fs = await createInternalFileSystem();
-        this.replaceFsWithStorage(fs);
+        // For now we always start with this.
+        await this.write(MAIN_FILE, initialCode, VersionAction.INCREMENT);
+
+        const fs = await this.createInternalFileSystem();
+        await this.initializeFsFromStorage(fs);
         this.fs = fs;
         this.initializing = undefined;
-        this.notify();
+        this.logging.log("Initialized file system");
+        await this.notify();
       })();
     }
     await this.initializing;
     return this.fs!;
   }
 
-  setProjectName(projectName: string) {
-    this.storage.setProjectName(projectName);
-    this.notify();
+  /**
+   * Update the project name.
+   *
+   * @param projectName New project name.
+   */
+  async setProjectName(projectName: string) {
+    await this.storage.setProjectName(projectName);
+    return this.notify();
   }
 
-  read(filename: string): string {
+  /**
+   * Read data from a file.
+   *
+   * @param filename The filename.
+   * @returns The data. See class comment for detail on the versioning.
+   * @throws If the file does not exist.
+   */
+  async read(filename: string): Promise<VersionedData> {
     return this.storage.read(filename);
   }
 
-  exists(filename: string): boolean {
+  /**
+   * Check if a file exists.
+   *
+   * @param filename The filename.
+   * @returns The promise of existence.
+   */
+  async exists(filename: string): Promise<boolean> {
     return this.storage.exists(filename);
   }
 
   /**
    * Writes the file to storage.
    *
-   * No events are fired for writes.
+   * Editors perform in-place writes that maintain the file version.
+   * Other UI actions increment the file version so that editors can be updated as required.
+   *
+   * @param filename The file to write to.
+   * @param content The file content. Text will be serialized as UTF-8.
+   * @param versionAction The file version update required.
    */
-  write(filename: string, content: string) {
-    this.storage.write(filename, content);
-    if (this.fs) {
-      // We could queue them / debounce here? Though we'd need
-      // to make sure to sync with it when we needed the FS to
-      // be accurate.
-      this.fs.write(filename, contentForFs(content));
+  async write(
+    filename: string,
+    content: Uint8Array | string,
+    versionAction: VersionAction
+  ) {
+    if (typeof content === "string") {
+      content = new TextEncoder().encode(content);
     }
-    this.notify();
+    await this.storage.write(filename, content, versionAction);
+    if (this.fs) {
+      this.fs.write(filename, content);
+    }
+    if (versionAction === VersionAction.INCREMENT) {
+      return this.notify();
+    } else {
+      // Nothing can have changed, don't needlessly change the identity of our file objects.
+    }
   }
 
-  async replaceWithHexContents(filename: string, hex: string): Promise<void> {
+  async replaceWithHexContents(
+    projectName: string,
+    hex: string
+  ): Promise<void> {
     const fs = await this.initialize();
     try {
       fs.importFilesFromHex(hex, {
         overwrite: true,
         formatFirst: true,
       });
-      if (fs.ls().length === 0) {
-        fs.create(MAIN_FILE, contentForFs(""));
-      }
     } catch (e) {
       const code = getIntelHexAppendedScript(hex);
       if (!code) {
@@ -146,73 +197,55 @@ export class FileSystem extends EventEmitter {
       fs.write(MAIN_FILE, code);
     }
 
-    this.state = {
-      ...this.state,
-      projectId: generateId(),
+    this.project = {
+      ...this.project,
+      id: generateId(),
     };
-    this.storage.setProjectName(filename.replace(/\.hex$/i, ""));
-    this.replaceStorageWithFs();
-    this.notify();
+    await this.storage.setProjectName(projectName);
+    await this.overwriteStorageWithFs();
+    return this.notify();
   }
 
-  async replaceWithMainContents(filename: string, text: string): Promise<void> {
-    await this.initialize();
-    this.storage.ls().forEach((f) => this.storage.remove(f));
-    this.storage.write(MAIN_FILE, text);
-    this.storage.setProjectName(filename.replace(/\.py$/i, ""));
-    this.replaceFsWithStorage();
-    this.state = {
-      ...this.state,
+  async replaceWithMainContents(
+    projectName: string,
+    text: string
+  ): Promise<void> {
+    const fs = await this.initialize();
+    fs.ls().forEach((f) => fs.remove(f));
+    fs.write(MAIN_FILE, text);
+    await this.storage.setProjectName(projectName);
+    await this.overwriteStorageWithFs();
+    this.project = {
+      ...this.project,
       // New project, just as if we'd loaded a hex file.
-      projectId: generateId(),
+      id: generateId(),
     };
-    this.notify();
+    return this.notify();
   }
 
-  async addOrUpdateFile(filename: string, text: string): Promise<void> {
-    this.storage.write(filename, text);
-    this.replaceFsWithStorage();
-    this.state = {
-      ...this.state,
-      // This is too much. We could introduce a per-file id.
-      projectId: generateId(),
-    };
-    this.notify();
-  }
-
-  remove(filename: string): void {
-    this.storage.remove(filename);
+  async remove(filename: string): Promise<void> {
+    await this.storage.remove(filename);
     if (this.fs) {
       this.fs.remove(filename);
     }
-    this.notify();
+    return this.notify();
   }
 
-  private notify(): void {
-    // The real file system has size information, so prefer it when available.
-    const source = this.fs || this.storage;
-    const files = source.ls().map((name) => ({
-      name,
-      size: this.fs ? this.fs.size(name) : -1,
-    }));
-    const spaceUsed = this.fs ? this.fs.getStorageUsed() : -1;
-    const spaceRemaining = this.fs ? this.fs.getStorageRemaining() : -1;
-    const space = this.fs ? this.fs.getStorageSize() : -1;
-    this.state = {
-      ...this.state,
-      projectName: this.storage.projectName(),
+  private async notify() {
+    const files = await this.storage.ls();
+    this.project = {
+      ...this.project,
+      name: await this.storage.projectName(),
       files,
-      spaceUsed,
-      spaceRemaining,
-      space,
     };
-    this.emit(EVENT_STATE, this.state);
+    this.logging.log(this.project);
+    this.emit(EVENT_PROJECT_UPDATED, this.project);
   }
 
   async toHexForDownload(): Promise<DownloadData> {
     const fs = await this.initialize();
     return {
-      filename: `${this.state.projectName}.hex`,
+      filename: `${this.project.name}.hex`,
       intelHex: fs.getUniversalHex(),
     };
   }
@@ -239,69 +272,35 @@ export class FileSystem extends EventEmitter {
     return this.fs;
   }
 
-  private replaceFsWithStorage(fs?: MicropythonFsHex) {
-    fs = fs || this.assertInitialized();
+  private async initializeFsFromStorage(fs: MicropythonFsHex) {
     fs.ls().forEach(fs.remove.bind(fs));
-    for (const filename of this.storage.ls()) {
-      fs.write(filename, contentForFs(this.storage.read(filename)));
+    for (const file of await this.storage.ls()) {
+      const { data } = await this.storage.read(file.name);
+      fs.write(file.name, data);
     }
   }
 
-  private replaceStorageWithFs() {
+  private async overwriteStorageWithFs() {
     const fs = this.assertInitialized();
-    this.storage.ls().forEach(this.storage.remove.bind(this.storage));
-    for (const filename of fs.ls()) {
-      this.storage.write(filename, fs.read(filename));
+    const keep = new Set(fs.ls());
+    await Promise.all(
+      (await this.storage.ls())
+        .filter((f) => !keep.has(f.name))
+        .map((f) => this.storage.remove(f.name))
+    );
+    for (const filename of Array.from(keep)) {
+      await this.storage.write(
+        filename,
+        fs.readBytes(filename),
+        VersionAction.INCREMENT
+      );
     }
   }
+
+  private createInternalFileSystem = async () => {
+    const microPython = await this.microPythonSource();
+    return new MicropythonFsHex(microPython, {
+      maxFsSize: commonFsSize,
+    });
+  };
 }
-
-const contentForFs = (content: string) => {
-  // The FS library barfs on empty files, so workaround until we can discuss.
-  const hack = content.length === 0 ? "\n" : content;
-  return hack;
-};
-
-export const microPythonVersions = [
-  { url: microPythonV1HexUrl, boardId: microbitBoardId.V1, version: "1.0.1" },
-  {
-    url: microPythonV2HexUrl,
-    boardId: microbitBoardId.V2,
-    version: "2.0.0-beta.4",
-  },
-];
-
-const fetchValidText = async (input: RequestInfo) => {
-  const response = await fetch(input);
-  if (response.status !== 200) {
-    throw new Error(
-      `Unexpected status: ${response.statusText} ${response.status}`
-    );
-  }
-  return response.text();
-};
-
-const fetchMicroPython = async () =>
-  Promise.all(
-    microPythonVersions.map(async ({ boardId, url }) => {
-      const hex = await fetchValidText(url);
-      return { boardId, hex };
-    })
-  );
-
-const commonFsSize = 20 * 1024;
-
-export const createInternalFileSystem = async () => {
-  const microPython = await fetchMicroPython();
-  return new MicropythonFsHex(microPython, {
-    maxFsSize: commonFsSize,
-  });
-};
-
-const asciiToBytes = (str: string): ArrayBuffer => {
-  var bytes = new Uint8Array(str.length);
-  for (var i = 0, strLen = str.length; i < strLen; i++) {
-    bytes[i] = str.charCodeAt(i);
-  }
-  return bytes.buffer;
-};
