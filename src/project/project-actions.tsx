@@ -246,8 +246,7 @@ export class ProjectActions {
       filename === MAIN_FILE ? `${projectName}.py` : filename;
     try {
       const content = await this.fs.read(filename);
-      // For now we assume the file is Python.
-      const blob = new Blob([content.data], { type: "text/x-python" });
+      const blob = new Blob([content.data], { type: "application/octet-stream" });
       saveAs(blob, downloadName);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
