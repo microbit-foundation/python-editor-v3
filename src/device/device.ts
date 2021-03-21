@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 import { FlashDataSource } from "../fs/fs";
 import { Logging } from "../logging/logging";
+import { NullLogging } from "../logging/null";
 import translation from "../translation";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
@@ -119,7 +120,9 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   private logging: Logging;
 
-  constructor(options: MicrobitWebUSBConnectionOptions) {
+  constructor(
+    options: MicrobitWebUSBConnectionOptions = { logging: new NullLogging() }
+  ) {
     super();
     this.logging = options.logging;
   }
