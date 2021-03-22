@@ -10,5 +10,7 @@
       "path": "../python-editor"
     }
   ],
-  "settings": {}
+  "settings": {
+    "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly"
+  }
 }

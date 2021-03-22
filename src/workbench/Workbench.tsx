@@ -22,7 +22,11 @@ const Workbench = () => {
   const [filename, setFilename] = useState<string | undefined>(undefined);
   const { files } = useProject();
   useEffect(() => {
-    if (!filename && files.length > 0) {
+    // No file yet or selected file deleted? Default it.
+    if (
+      (!filename || !files.find((x) => x.name === filename)) &&
+      files.length > 0
+    ) {
       const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
       setFilename(defaultFile.name);
     }

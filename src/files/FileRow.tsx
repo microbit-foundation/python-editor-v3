@@ -25,6 +25,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
         onClick={onClick}
         variant="unstyled"
         aria-label={`Edit ${name}`}
+        disabled={!isEditableFile(name)}
         fontSize="md"
         fontWeight="normal"
         flexGrow={1}
@@ -36,7 +37,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
         <IconButton
           size="sm"
           icon={<RiDeleteBinLine />}
-          aria-label="Delete the file. The main Python file cannot be deleted."
+          aria-label={`Delete ${name}`}
           variant="ghost"
           disabled={isMainFile}
           onClick={() => actions.deleteFile(name)}
@@ -52,5 +53,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
     </HStack>
   );
 };
+
+const isEditableFile = (filename: string) => filename.match(/\.[Pp][Yy]$/);
 
 export default FileRow;
