@@ -47,13 +47,15 @@ const Workbench = () => {
         </LeftResizable>
         <Fill>
           <Fill>
-            {filename && (
-              <EditorArea
-                key={filename + "/" + fileVersion}
-                filename={filename}
-                onSelectedFileChanged={setFilename}
-              />
-            )}
+            <Fill>
+              {filename && (
+                <EditorArea
+                  key={filename + "/" + fileVersion}
+                  filename={filename}
+                  onSelectedFileChanged={setFilename}
+                />
+              )}
+            </Fill>
             <BottomResizable
               size={serialVisible ? "40%" : "0%"}
               style={{ borderTop: "4px solid whitesmoke" }}
