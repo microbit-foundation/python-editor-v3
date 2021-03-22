@@ -4,7 +4,7 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { Page, ElementHandle } from "puppeteer";
+import puppeteer, { ElementHandle, Page } from "puppeteer";
 
 export interface BrowserDownload {
   filename: string;
@@ -171,9 +171,9 @@ export class App {
   async canDeleteFile(filename: string): Promise<boolean> {
     await this.selectSideBar("Files");
     const document = await this.document();
-    const button = (await document.getByRole("button", {
+    const button = await document.getByRole("button", {
       name: "Delete " + filename,
-    })) as ElementHandle<HTMLButtonElement>;
+    });
 
     return !(await button.getProperty("disabled"));
   }
