@@ -10,7 +10,7 @@ describe("Browser - open", () => {
 
     // We should improve this and reference MakeCode.
     // v2 adds some special case translatable text.
-    await app.alertText(
+    await app.findAlertText(
       "Cannot load file",
       "There is data after an EOF record at record 14004"
     );
@@ -19,7 +19,7 @@ describe("Browser - open", () => {
   it("Loads a Python file", async () => {
     await app.open("testData/samplefile.py");
 
-    await app.alertText("Loaded samplefile.py");
+    await app.findAlertText("Loaded samplefile.py");
     await app.findProjectName("samplefile");
   });
 
@@ -47,7 +47,7 @@ describe("Browser - open", () => {
   it("Correctly handles an mpy file", async () => {
     await app.open("testData/samplempyfile.mpy");
 
-    await app.alertText(
+    await app.findAlertText(
       "Cannot load file",
       "This version of the Python Editor doesn't currently support adding .mpy files."
     );
@@ -56,7 +56,7 @@ describe("Browser - open", () => {
   it("Correctly handles a file with an invalid extension", async () => {
     await app.open("testData/sampletxtfile.txt");
 
-    await app.alertText(
+    await app.findAlertText(
       "Cannot load file",
       "The Python Editor can only load files with the .hex or .py extensions."
     );
@@ -65,9 +65,9 @@ describe("Browser - open", () => {
   it("Correctly imports modules with the 'magic comment' in the filesystem.", async () => {
     await app.open("testData/module.py");
 
-    await app.alertText("Added module module.py");
+    await app.findAlertText("Added module module.py");
 
     await app.open("testData/module.py");
-    await app.alertText("Updated module module.py");
+    await app.findAlertText("Updated module module.py");
   });
 });

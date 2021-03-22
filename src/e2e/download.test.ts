@@ -20,7 +20,7 @@ describe("Browser - download", () => {
     await app.findProjectName("too-large");
     await app.download();
 
-    await app.alertText(
+    await app.findAlertText(
       "Failed to build the hex file",
       "There is no storage space left."
     );

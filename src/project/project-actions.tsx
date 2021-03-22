@@ -17,6 +17,7 @@ import {
 import { VersionAction } from "../fs/storage";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
+import { Dialogs } from "../common/use-dialogs";
 
 class HexGenerationError extends Error {}
 
@@ -34,6 +35,7 @@ export class ProjectActions {
     private fs: FileSystem,
     private device: MicrobitWebUSBConnection,
     private actionFeedback: ActionFeedback,
+    private dialogs: Dialogs,
     private logging: Logging
   ) {}
 
@@ -269,7 +271,18 @@ export class ProjectActions {
     });
 
     try {
-      await this.fs.remove(filename);
+      if (
+        await this.dialogs.confirm({
+          header: `Delete ${filename}`,
+          body: `Are you sure you want to delete ${filename}?`,
+          actionLabel: "Delete",
+        })
+      ) {
+        await this.fs.remove(filename);
+        this.actionFeedback.success({
+          title: `Deleted ${filename}`,
+        });
+      }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }

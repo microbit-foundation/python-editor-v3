@@ -18,6 +18,7 @@ import ProjectDropTarget from "./project/ProjectDropTarget";
 import { LoggingContext } from "./logging/logging-hooks";
 import { DefaultLogging } from "./logging/default";
 import { fetchMicroPython } from "./fs/micropython";
+import { DialogProvider } from "./common/use-dialogs";
 
 const logging = new DefaultLogging();
 const device = new MicrobitWebUSBConnection({ logging });
@@ -42,15 +43,17 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <LoggingContext.Provider value={logging}>
-        <DeviceContext.Provider value={device}>
-          <FileSystemContext.Provider value={fs}>
-            <SettingsContext.Provider value={settings}>
-              <ProjectDropTarget>
-                <Project />
-              </ProjectDropTarget>
-            </SettingsContext.Provider>
-          </FileSystemContext.Provider>
-        </DeviceContext.Provider>
+        <SettingsContext.Provider value={settings}>
+          <DialogProvider>
+            <DeviceContext.Provider value={device}>
+              <FileSystemContext.Provider value={fs}>
+                <ProjectDropTarget>
+                  <Project />
+                </ProjectDropTarget>
+              </FileSystemContext.Provider>
+            </DeviceContext.Provider>
+          </DialogProvider>
+        </SettingsContext.Provider>
       </LoggingContext.Provider>
     </ChakraProvider>
   );

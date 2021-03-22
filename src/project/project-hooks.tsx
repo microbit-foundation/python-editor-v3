@@ -7,6 +7,7 @@ import { EVENT_PROJECT_UPDATED, Project } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { VersionAction } from "../fs/storage";
 import { useLogging } from "../logging/logging-hooks";
+import { useDialogs } from "../common/use-dialogs";
 import { ProjectActions } from "./project-actions";
 
 /**
@@ -16,10 +17,11 @@ export const useProjectActions = (): ProjectActions => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const device = useDevice();
+  const dialogs = useDialogs();
   const logging = useLogging();
   const actions = useMemo<ProjectActions>(
-    () => new ProjectActions(fs, device, actionFeedback, logging),
-    [fs, device, actionFeedback, logging]
+    () => new ProjectActions(fs, device, actionFeedback, dialogs, logging),
+    [fs, device, actionFeedback, dialogs, logging]
   );
   return actions;
 };
@@ -62,7 +64,6 @@ export const useProjectFileText = (
       try {
         if (await fs.exists(filename)) {
           const { data } = await fs.read(filename);
-          // If this fails we should return an error.
           const text = new TextDecoder().decode(data);
           setInitialValue(Text.of(text.split("\n")));
         }
