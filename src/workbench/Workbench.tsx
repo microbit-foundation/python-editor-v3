@@ -19,19 +19,21 @@ import LeftPanel from "./LeftPanel";
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [filename, setFilename] = useState<string | undefined>(undefined);
+  const [selectedFile, setSelectedFile] = useState<string | undefined>(
+    undefined
+  );
   const { files } = useProject();
   useEffect(() => {
     // No file yet or selected file deleted? Default it.
     if (
-      (!filename || !files.find((x) => x.name === filename)) &&
+      (!selectedFile || !files.find((x) => x.name === selectedFile)) &&
       files.length > 0
     ) {
       const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
-      setFilename(defaultFile.name);
+      setSelectedFile(defaultFile.name);
     }
-  }, [filename, files]);
-  const fileVersion = files.find((f) => f.name === filename)?.version;
+  }, [selectedFile, files]);
+  const fileVersion = files.find((f) => f.name === selectedFile)?.version;
 
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
@@ -43,16 +45,19 @@ const Workbench = () => {
           minimumSize={210}
           style={{ borderRight: "4px solid whitesmoke" }}
         >
-          <LeftPanel onSelectedFileChanged={setFilename} />
+          <LeftPanel
+            selectedFile={selectedFile}
+            onSelectedFileChanged={setSelectedFile}
+          />
         </LeftResizable>
         <Fill>
           <Fill>
             <Fill>
-              {filename && (
+              {selectedFile && (
                 <EditorArea
-                  key={filename + "/" + fileVersion}
-                  filename={filename}
-                  onSelectedFileChanged={setFilename}
+                  key={selectedFile + "/" + fileVersion}
+                  filename={selectedFile}
+                  onSelectedFileChanged={setSelectedFile}
                 />
               )}
             </Fill>
@@ -65,14 +70,8 @@ const Workbench = () => {
               <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
             </BottomResizable>
           </Fill>
-          <Bottom size={58}>
-            <ProjectActionBar
-              pt={1}
-              pb={1}
-              pl={2}
-              pr={2}
-              borderTop="1px solid #d3d3d3"
-            />
+          <Bottom size={64}>
+            <ProjectActionBar p={2} borderTop="1px solid #d3d3d3" />
           </Bottom>
         </Fill>
       </Fill>

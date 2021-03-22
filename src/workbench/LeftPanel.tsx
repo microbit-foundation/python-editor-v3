@@ -11,10 +11,11 @@ import {
 import React, { ReactNode, useMemo } from "react";
 import { IconType } from "react-icons";
 import {
-  RiFileListLine,
+  RiFolderLine,
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
+import FilesAreaNav from "../common/FilesAreaNav";
 import LogoBar from "../common/LogoBar";
 import FilesArea from "../files/FilesArea";
 import PackagesArea from "../packages/PackagesArea";
@@ -24,14 +25,15 @@ import SettingsArea from "../settings/SettingsArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 
 interface LeftPanelProps {
-  onSelectedFileChanged: (file: string) => void;
+  selectedFile: string | undefined;
+  onSelectedFileChanged: (filename: string) => void;
 }
 
 /**
  * The tabbed area on the left of the UI offering access to API documentation,
  * files and settings.
  */
-const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
+const LeftPanel = ({ selectedFile, onSelectedFileChanged }: LeftPanelProps) => {
   const panes: Pane[] = useMemo(
     () => [
       {
@@ -43,8 +45,14 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
       {
         id: "files",
         title: "Files",
-        icon: RiFileListLine,
-        contents: <FilesArea onSelectedFileChanged={onSelectedFileChanged} />,
+        icon: RiFolderLine,
+        nav: <FilesAreaNav />,
+        contents: (
+          <FilesArea
+            selectedFile={selectedFile}
+            onSelectedFileChanged={onSelectedFileChanged}
+          />
+        ),
       },
       {
         id: "settings",
@@ -53,7 +61,7 @@ const LeftPanel = ({ onSelectedFileChanged }: LeftPanelProps) => {
         contents: <SettingsArea />,
       },
     ],
-    [onSelectedFileChanged]
+    [onSelectedFileChanged, selectedFile]
   );
   return <LeftPanelContents panes={panes} />;
 };
@@ -62,6 +70,7 @@ interface Pane {
   id: string;
   icon: IconType;
   title: string;
+  nav?: ReactNode;
   contents: ReactNode;
 }
 
@@ -76,7 +85,7 @@ const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList backgroundColor="whitesmoke">
           {panes.map((p) => (
-            <Tab key={p.id}>
+            <Tab key={p.id} p={3.5}>
               <Icon as={p.icon} aria-label={p.title} />
             </Tab>
           ))}
@@ -88,7 +97,7 @@ const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
         <TabPanels>
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
-              <LeftPanelTabContent title={p.title}>
+              <LeftPanelTabContent title={p.title} nav={p.nav}>
                 {p.contents}
               </LeftPanelTabContent>
             </TabPanel>

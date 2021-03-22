@@ -28,7 +28,7 @@ const Header = () => {
           </HStack>
         </HStack>
         <HStack spacing={3} as="nav">
-          <OpenButton size={size}>Open</OpenButton>
+          <OpenButton mode="button" size={size} />
           <HelpMenu size={size} />
         </HStack>
       </Flex>

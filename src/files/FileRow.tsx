@@ -1,59 +1,91 @@
-import { Button, HStack, IconButton } from "@chakra-ui/react";
-import { RiDeleteBinLine, RiDownload2Line } from "react-icons/ri";
+import {
+  BoxProps,
+  HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+  Text,
+} from "@chakra-ui/react";
+import { MdMoreVert } from "react-icons/md";
+import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
 import { MAIN_FILE } from "../fs/fs";
 import { FileVersion } from "../fs/storage";
 import { useProjectActions } from "../project/project-hooks";
+import { isEditableFile } from "../project/project-utils";
 
-interface FileRowProps {
+interface FileRowProps extends BoxProps {
   projectName: string;
   value: FileVersion;
-  onClick: () => void;
+  onEdit: () => void;
 }
 
 /**
  * A row in the files area.
  */
-const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
+const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
   const prettyName = isMainFile ? `${projectName} (${name})` : name;
   const actions = useProjectActions();
 
   return (
-    <HStack justify="space-between" lineHeight={2}>
-      <Button
-        onClick={onClick}
+    <HStack {...props} justify="space-between" lineHeight={2}>
+      {/* Accessibility for edit is via the row actions */}
+      <Text
+        component="span"
+        cursor="pointer"
+        onClick={onEdit}
         variant="unstyled"
-        aria-label={`Edit ${name}`}
-        disabled={!isEditableFile(name)}
         fontSize="md"
         fontWeight="normal"
         flexGrow={1}
         textAlign="left"
+        overflowX="hidden"
+        textOverflow="ellipsis"
       >
         {prettyName}
-      </Button>
-      <HStack spacing={1}>
-        <IconButton
-          size="sm"
-          icon={<RiDeleteBinLine />}
-          aria-label={`Delete ${name}`}
+      </Text>
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label={`${name} file actions`}
+          size="md"
           variant="ghost"
-          disabled={isMainFile}
-          onClick={() => actions.deleteFile(name)}
+          icon={<MdMoreVert />}
         />
-        <IconButton
-          size="sm"
-          icon={<RiDownload2Line />}
-          aria-label={`Download ${name}`}
-          variant="ghost"
-          onClick={() => actions.downloadFile(name)}
-        />
-      </HStack>
+        <Portal>
+          <MenuList>
+            <MenuItem
+              icon={<RiEdit2Line />}
+              isDisabled={!isEditableFile(name)}
+              onClick={onEdit}
+              aria-label={`Edit ${name}`}
+            >
+              Edit {name}
+            </MenuItem>
+            <MenuItem
+              icon={<RiDownload2Line />}
+              onClick={() => actions.downloadFile(name)}
+              aria-label={`Download ${name}`}
+            >
+              Download {name}
+            </MenuItem>
+            <MenuItem
+              icon={<RiDeleteBin2Line />}
+              onClick={() => actions.deleteFile(name)}
+              isDisabled={isMainFile}
+              aria-label={`Delete ${name}`}
+            >
+              Delete {name}
+            </MenuItem>
+          </MenuList>
+        </Portal>
+      </Menu>
     </HStack>
   );
 };
-
-const isEditableFile = (filename: string) => filename.match(/\.[Pp][Yy]$/);
 
 export default FileRow;

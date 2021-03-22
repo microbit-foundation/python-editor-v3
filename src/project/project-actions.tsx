@@ -261,6 +261,28 @@ export class ProjectActions {
   };
 
   /**
+   * Create a file, prompting the user for the name.
+   */
+  createFile = async () => {
+    this.logging.event({
+      action: "create-file",
+    });
+
+    const filename = "new file.py";
+    try {
+      await this.fs.write(
+        filename,
+        "# Your new file!",
+        VersionAction.INCREMENT
+      );
+      this.actionFeedback.success({
+        title: `Created ${filename}`,
+      });
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
+    }
+  };
+  /**
    * Delete a file.
    *
    * @param filename the file to delete.

@@ -1,8 +1,8 @@
-import { Button, ButtonProps, Input } from "@chakra-ui/react";
-import React, { useCallback, useRef } from "react";
-import { RiFolderOpenLine } from "react-icons/ri";
+import { Input } from "@chakra-ui/react";
+import React, { ForwardedRef, useCallback, useRef } from "react";
+import CollapsableButton, { CollapsibleButtonProps } from "./CollapsibleButton";
 
-interface OpenButtonProps extends ButtonProps {
+interface FileInputButtonProps extends CollapsibleButtonProps {
   onOpen: (file: File) => void;
   /**
    * File input tag accept attribute.
@@ -13,53 +13,57 @@ interface OpenButtonProps extends ButtonProps {
 /**
  * File open button, with an associated input field.
  */
-const FileInputButton = ({
-  accept,
-  onOpen,
-  leftIcon = <RiFolderOpenLine />,
-  children,
-  ...props
-}: OpenButtonProps) => {
-  const ref = useRef<HTMLInputElement>(null);
+const FileInputButton = React.forwardRef(
+  (
+    { accept, onOpen, icon, children, ...props }: FileInputButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChooseFile = useCallback(() => {
-    ref.current && ref.current.click();
-  }, []);
+    const handleChooseFile = useCallback(() => {
+      inputRef.current && inputRef.current.click();
+    }, []);
 
-  const handleOpenFile = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files;
-      if (files) {
-        const file = files.item(0);
-        // Clear the input so we're triggered if the user opens the same file again.
-        ref.current!.value = "";
-        if (file) {
-          onOpen(file);
+    const handleOpenFile = useCallback(
+      async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files) {
+          const file = files.item(0);
+          // Clear the input so we're triggered if the user opens the same file again.
+          inputRef.current!.value = "";
+          if (file) {
+            onOpen(file);
+          }
         }
-      }
-    },
-    [onOpen]
-  );
+      },
+      [onOpen]
+    );
 
-  return (
-    <>
-      <Input
-        data-testid={
-          (props as any)["data-testid"]
-            ? (props as any)["data-testid"] + "-input"
-            : undefined
-        }
-        type="file"
-        accept={accept}
-        display="none"
-        onChange={handleOpenFile}
-        ref={ref}
-      />
-      <Button leftIcon={leftIcon} onClick={handleChooseFile} {...props}>
-        {children}
-      </Button>
-    </>
-  );
-};
+    return (
+      <>
+        <Input
+          data-testid={
+            (props as any)["data-testid"]
+              ? (props as any)["data-testid"] + "-input"
+              : undefined
+          }
+          type="file"
+          accept={accept}
+          display="none"
+          onChange={handleOpenFile}
+          ref={inputRef}
+        />
+        <CollapsableButton
+          ref={ref}
+          icon={icon}
+          onClick={handleChooseFile}
+          {...props}
+        >
+          {children}
+        </CollapsableButton>
+      </>
+    );
+  }
+);
 
 export default FileInputButton;
