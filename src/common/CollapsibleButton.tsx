@@ -18,6 +18,11 @@ export interface CollapsibleButtonProps
   buttonWidth?: number | string;
 }
 
+export type CollapsableButtonComposibleProps = Omit<
+  CollapsibleButtonProps,
+  "onClick" | "text" | "icon"
+>;
+
 /**
  * Button that can be a regular or icon button.
  *

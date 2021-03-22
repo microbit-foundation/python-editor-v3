@@ -121,9 +121,9 @@ export class App {
    * @param filename The name of the file in the file list.
    */
   async switchToEditing(filename: string): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.openFileActionsMenu(filename);
     const document = await this.document();
-    const editButton = await document.findByRole("button", {
+    const editButton = await document.findByRole("menuitem", {
       name: "Edit " + filename,
     });
     await editButton.click();
@@ -137,13 +137,12 @@ export class App {
    * @param filename The name of the file in the file list.
    */
   async canSwitchToEditing(filename: string): Promise<boolean> {
-    await this.selectSideBar("Files");
+    await this.openFileActionsMenu(filename);
     const document = await this.document();
-    await document.findByText(filename);
-    const editButton = await document.getByRole("button", {
+    const editButton = await document.findByRole("menuitem", {
       name: "Edit " + filename,
     });
-    return editButton && !(await isDisabled(editButton));
+    return !(await isDisabled(editButton));
   }
 
   /**
@@ -155,13 +154,12 @@ export class App {
     filename: string,
     dialogChoice: string = "Delete"
   ): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.openFileActionsMenu(filename);
     const document = await this.document();
-    const button = await document.findByRole("button", {
+    const button = await document.findByRole("menuitem", {
       name: "Delete " + filename,
     });
     await button.click();
-    await document.findByRole("alert");
     const dialogButton = await document.findByRole("button", {
       name: dialogChoice,
     });
@@ -169,10 +167,10 @@ export class App {
   }
 
   async canDeleteFile(filename: string): Promise<boolean> {
-    await this.selectSideBar("Files");
+    await this.openFileActionsMenu(filename);
     const document = await this.document();
-    const button = await document.getByRole("button", {
-      name: "Delete " + filename,
+    const button = await document.findByRole("menuitem", {
+      name: `Delete ${filename}`,
     });
 
     return !(await isDisabled(button));
@@ -332,6 +330,15 @@ export class App {
       }
       await new Promise((resolve) => setTimeout(resolve, 20));
     }
+  }
+
+  private async openFileActionsMenu(filename: string): Promise<void> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const actions = await document.findByRole("button", {
+      name: `${filename} file actions`,
+    });
+    await actions.click();
   }
 }
 
