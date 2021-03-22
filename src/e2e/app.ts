@@ -4,7 +4,7 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { Page } from "puppeteer";
+import puppeteer, { Page, ElementHandle } from "puppeteer";
 
 export interface BrowserDownload {
   filename: string;
@@ -50,6 +50,18 @@ export class App {
     const document = await this.document();
     const openInput = await document.getByTestId("open-input");
     await openInput.uploadFile(filePath);
+  }
+
+  /**
+   * Upload a file to the file system using the file chooser.
+   *
+   * @param filePath The file on disk.
+   */
+  async uploadFile(filePath: string): Promise<void> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const uploadInput = await document.getByTestId("upload-input");
+    await uploadInput.uploadFile(filePath);
   }
 
   /**
@@ -118,12 +130,61 @@ export class App {
   }
 
   /**
+   * Can switch to editing a file.
+   *
+   * For now we only support editing Python files.
+   *
+   * @param filename The name of the file in the file list.
+   */
+  async canSwitchToEditing(filename: string): Promise<boolean> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    await document.findByText(filename);
+    const editButton = await document.getByRole("button", {
+      name: "Edit " + filename,
+    });
+    return editButton && !(await editButton.getProperty("disabled"));
+  }
+
+  /**
+   * Uses the Files tab to delete a file.
+   *
+   * @param filename The filename.
+   */
+  async deleteFile(
+    filename: string,
+    dialogChoice: string = "Delete"
+  ): Promise<void> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: "Delete " + filename,
+    });
+    await button.click();
+    await document.findByRole("alert");
+    const dialogButton = await document.findByRole("button", {
+      name: dialogChoice,
+    });
+    await dialogButton.click();
+  }
+
+  async canDeleteFile(filename: string): Promise<boolean> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const button = (await document.getByRole("button", {
+      name: "Delete " + filename,
+    })) as ElementHandle<HTMLButtonElement>;
+
+    return !(await button.getProperty("disabled"));
+  }
+
+  /**
    * Wait for an alert, throwing if it doesn't happen.
    *
    * @param title The expected alert title.
    * @param description The expected alert description (if any).
    */
-  async alertText(title: string, description?: string): Promise<void> {
+  async findAlertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
     await document.findByText(title);
     if (description) {

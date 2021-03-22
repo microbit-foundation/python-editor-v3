@@ -36,7 +36,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
         <IconButton
           size="sm"
           icon={<RiDeleteBinLine />}
-          aria-label="Delete the file. The main Python file cannot be deleted."
+          aria-label={`Delete ${name}`}
           variant="ghost"
           disabled={isMainFile}
           onClick={() => actions.deleteFile(name)}
