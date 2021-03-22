@@ -46,7 +46,13 @@ describe("Browser - multiple and missing file cases", () => {
     expect(await app.canSwitchToEditing("null.dat")).toEqual(false);
   });
 
-  it("Shows some kind of error for non-UTF-8 main.py", async () => {
-    // TODO. Will TextDecoder throw?
+  it("Muddles through if given non-UTF-8 main.py", async () => {
+    // We could start detect this on open but not sure it's worth it introducting the error cases.
+    // If we need to recreate the hex then just fill the file with 0xff.
+    await app.open("testData/invalid-utf-8.hex");
+
+    await app.findVisibleEditorContents(
+      /^����������������������������������������������������������������������������������������������������$/
+    );
   });
 });

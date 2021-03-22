@@ -64,7 +64,6 @@ export const useProjectFileText = (
       try {
         if (await fs.exists(filename)) {
           const { data } = await fs.read(filename);
-          // If this fails we should return an error.
           const text = new TextDecoder().decode(data);
           setInitialValue(Text.of(text.split("\n")));
         }
