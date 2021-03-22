@@ -143,7 +143,7 @@ export class App {
     const editButton = await document.getByRole("button", {
       name: "Edit " + filename,
     });
-    return editButton && !(await editButton.getProperty("disabled"));
+    return editButton && !(await isDisabled(editButton));
   }
 
   /**
@@ -175,7 +175,7 @@ export class App {
       name: "Delete " + filename,
     });
 
-    return !(await button.getProperty("disabled"));
+    return !(await isDisabled(button));
   }
 
   /**
@@ -334,3 +334,17 @@ export class App {
     }
   }
 }
+
+/**
+ * Checks whether an element is disabled.
+ *
+ * @param element an element handle.
+ * @returns true if the element exists and is marked disabled.
+ */
+const isDisabled = async (element: ElementHandle<Element>) => {
+  if (!element) {
+    return false;
+  }
+  const disabled = await element.getProperty("disabled");
+  return disabled && (await disabled.jsonValue());
+};

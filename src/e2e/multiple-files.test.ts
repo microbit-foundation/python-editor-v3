@@ -40,7 +40,7 @@ describe("Browser - multiple and missing file cases", () => {
     await app.findVisibleEditorContents(/Hello, World/);
   });
 
-  it("Doesn't offer editor for non-Python file", async () => {
+  it.only("Doesn't offer editor for non-Python file", async () => {
     await app.uploadFile("testData/null.dat");
 
     expect(await app.canSwitchToEditing("null.dat")).toEqual(false);

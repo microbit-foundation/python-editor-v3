@@ -25,6 +25,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
         onClick={onClick}
         variant="unstyled"
         aria-label={`Edit ${name}`}
+        disabled={!isEditableFile(name)}
         fontSize="md"
         fontWeight="normal"
         flexGrow={1}
@@ -52,5 +53,7 @@ const FileRow = ({ projectName, value, onClick }: FileRowProps) => {
     </HStack>
   );
 };
+
+const isEditableFile = (filename: string) => filename.match(/\.[Pp][Yy]$/);
 
 export default FileRow;
