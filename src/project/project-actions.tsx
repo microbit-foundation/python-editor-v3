@@ -11,7 +11,7 @@ import {
 } from "../device/device";
 import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
 import {
-  getFileExtension,
+  getLowercaseFileExtension,
   isPythonMicrobitModule,
   readFileAsText,
   readFileAsUint8Array,
@@ -29,8 +29,12 @@ enum FileOperation {
   ADD,
 }
 
-interface FileChange {
-  file: File;
+interface FileInput {
+  name: string;
+  data: () => Promise<Uint8Array> | Promise<string>;
+}
+
+interface FileChange extends FileInput {
   operation: FileOperation;
 }
 
@@ -90,89 +94,148 @@ export class ProjectActions {
   };
 
   /**
-   * Open a file.
+   * Loads files
    *
-   * Replaces the open project for hex or regular Python files.
-   * Adds to or updates modules in the current project for micro:bit Python modules.
+   * Replaces the open project if a hex file is opened.
+   * No other files may be opened in the same call as a hex file.
+   *
+   * Uses module marker comments to determine if a Python file
+   * is a script or a module. At most one script and any number
+   * of modules may be opened together. The existing project is
+   * updated.
    *
    * @param file the file from drag and drop or an input element.
    */
-  open = async (files: File[]): Promise<void> => {
-    // TODO: multiple files
-    const file = files[0];
-
+  load = async (files: File[]): Promise<void> => {
     this.logging.event({
       action: "load-file",
     });
+
+    if (files.length === 0) {
+      throw new Error("Expected to be called with at least one file");
+    }
+
     // Avoid lingering messages related to the previous project.
     // Also makes e2e testing easier.
     this.actionFeedback.closeAll();
 
-    const errorTitle = "Cannot load file";
-    const extension = getFileExtension(file.name)?.toLowerCase();
-    const loadedFeedback = () =>
-      this.actionFeedback.success({
-        title: "Loaded " + file.name,
-      });
+    const errorTitle =
+      files.length === 1 ? "Cannot load file" : "Cannot load files";
 
-    if (extension === "py") {
-      try {
-        const code = await readFileAsText(file);
-        if (!code) {
-          this.actionFeedback.expectedError({
-            title: errorTitle,
-            description: "The file was empty.",
-          });
-        } else if (isPythonMicrobitModule(code)) {
-          const exists = await this.fs.exists(file.name);
-          const change = exists ? "Updated" : "Added";
-          await this.fs.write(file.name, code, VersionAction.INCREMENT);
-          this.actionFeedback.success({
-            title: `${change} module ${file.name}`,
-          });
-        } else {
-          const projectName = file.name.replace(/\.py$/i, "");
-          await this.fs.replaceWithMainContents(projectName, code);
-          loadedFeedback();
-        }
-      } catch (e) {
-        this.actionFeedback.expectedError({
-          title: errorTitle,
-          description: e.message,
-          error: e,
-        });
-      }
-    } else if (extension === "hex") {
-      try {
-        const projectName = file.name.replace(/\.hex$/i, "");
-        const hex = await readFileAsText(file);
-        await this.fs.replaceWithHexContents(projectName, hex);
-        loadedFeedback();
-      } catch (e) {
-        console.error(e);
-        this.actionFeedback.expectedError({
-          title: errorTitle,
-          description: e.message,
-          error: e,
-        });
-      }
-    } else if (extension === "mpy") {
-      this.actionFeedback.warning({
+    const extensions = new Set(
+      files.map((f) => getLowercaseFileExtension(f.name))
+    );
+    if (extensions.has("mpy")) {
+      this.actionFeedback.expectedError({
         title: errorTitle,
         description: translation.load["mpy-warning"],
       });
-    } else {
-      this.actionFeedback.warning({
+    } else if (hasExtensionsNotSupportedForLoad(extensions)) {
+      this.actionFeedback.expectedError({
         title: errorTitle,
         description: translation.load["extension-warning"],
       });
+    } else if (extensions.has("hex")) {
+      if (files.length > 1) {
+        this.actionFeedback.expectedError({
+          title: errorTitle,
+          description: "Can only load one hex file at a time.",
+        });
+      } else {
+        // It'd be nice to suppress this (and similar) if it's just the default script.
+        if (
+          await this.dialogs.confirm({
+            header: "Confirm replace project",
+            body: "Replace all files with those in the hex?",
+            actionLabel: "Replace",
+          })
+        ) {
+          const file = files[0];
+          const projectName = file.name.replace(/\.hex$/i, "");
+          const hex = await readFileAsText(file);
+          try {
+            await this.fs.replaceWithHexContents(projectName, hex);
+            this.actionFeedback.success({
+              title: "Loaded " + file.name,
+            });
+          } catch (e) {
+            this.actionFeedback.expectedError({
+              title: errorTitle,
+              description: e.message,
+              error: e,
+            });
+          }
+        }
+      }
+    } else {
+      const scripts: FileInput[] = [];
+      const modules: FileInput[] = [];
+      for (const f of files) {
+        const content = await readFileAsText(f);
+        const isModule = isPythonMicrobitModule(content);
+        (isModule ? modules : scripts).push({
+          name: f.name,
+          data: () => Promise.resolve(content),
+        });
+      }
+
+      // We map scripts to main.py, so there can only be one.
+      // It's fine if there are none -- we'll just load the modules.
+      if (scripts.length > 1) {
+        this.actionFeedback.expectedError({
+          title: errorTitle,
+          description: "Cannot load multiple main Python scripts",
+        });
+      } else {
+        const inputs: FileInput[] = [];
+        if (scripts.length > 0) {
+          inputs.push({
+            name: "main.py",
+            data: scripts[0].data,
+          });
+        }
+        inputs.push(...modules);
+        return this.uploadInternal(inputs);
+      }
     }
   };
 
-  private findChanges(files: File[]): FileChange[] {
+  /**
+   * A straightforward way to upload files into the file system/
+   *
+   * @param files One or more files.
+   */
+  upload = async (files: File[]): Promise<void> => {
+    if (files.length === 0) {
+      throw new Error("Expected to be called with at least one file");
+    }
+    return this.uploadInternal(
+      files.map((f) => ({
+        name: f.name,
+        data: () => readFileAsUint8Array(f),
+      }))
+    );
+  };
+
+  private async uploadInternal(inputs: FileInput[]) {
+    const changes = this.findChanges(inputs);
+    if (await this.confirmReplacements(changes)) {
+      try {
+        for (const change of changes) {
+          const data = await change.data();
+          await this.fs.write(change.name, data, VersionAction.INCREMENT);
+        }
+        this.actionFeedback.success(summarizeChanges(changes));
+      } catch (e) {
+        this.actionFeedback.unexpectedError(e);
+      }
+    }
+  }
+
+  private findChanges(files: FileInput[]): FileChange[] {
     const current = new Set(this.fs.project.files.map((f) => f.name));
     return files.map((f) => ({
-      file: f,
+      ...f,
       operation: current.has(f.name)
         ? FileOperation.REPLACE
         : FileOperation.ADD,
@@ -186,29 +249,12 @@ export class ProjectActions {
     if (replacements.length > 0) {
       return this.dialogs.confirm({
         header: "Confirm replacing files",
-        body: (
-          <ReplaceFilesQuestion files={replacements.map((c) => c.file.name)} />
-        ),
+        body: <ReplaceFilesQuestion files={replacements.map((c) => c.name)} />,
         actionLabel: "Replace",
       });
     }
     return true;
   }
-
-  addOrUpdateFile = async (files: File[]): Promise<void> => {
-    const changes = this.findChanges(files);
-    if (await this.confirmReplacements(changes)) {
-      try {
-        for (const change of changes) {
-          const data = await readFileAsUint8Array(change.file);
-          await this.fs.write(change.file.name, data, VersionAction.INCREMENT);
-        }
-        this.actionFeedback.success(summarizeChanges(changes));
-      } catch (e) {
-        this.actionFeedback.unexpectedError(e);
-      }
-    }
-  };
 
   /**
    * Flash the device.
@@ -391,6 +437,26 @@ export class ProjectActions {
   }
 }
 
+/**
+ * Check for unsupported extensions.
+ *
+ * Note that we allow all files via the upload action, but the main
+ * load action expects hex files or Python files.
+ *
+ * `undefined` in the set represents a file or files with an
+ * unidentifiable extension.
+ *
+ * @param extensions The extensions/
+ */
+const hasExtensionsNotSupportedForLoad = (
+  extensions: Set<string | undefined>
+): boolean => {
+  const copy = new Set(extensions);
+  copy.delete("py");
+  copy.delete("hex");
+  return copy.size > 0;
+};
+
 const summarizeChanges = (changes: FileChange[]) => {
   if (changes.length === 1) {
     return { title: summarizeChange(changes[0]) };
@@ -400,7 +466,7 @@ const summarizeChanges = (changes: FileChange[]) => {
     description: (
       <List>
         {changes.map((c) => (
-          <ListItem key={c.file.name}>{summarizeChange(c)}</ListItem>
+          <ListItem key={c.name}>{summarizeChange(c)}</ListItem>
         ))}
       </List>
     ),
@@ -410,5 +476,5 @@ const summarizeChanges = (changes: FileChange[]) => {
 const summarizeChange = (change: FileChange): string => {
   const changeText =
     change.operation === FileOperation.REPLACE ? "Updated" : "Added";
-  return `${changeText} file ${change.file.name}`;
+  return `${changeText} file ${change.name}`;
 };

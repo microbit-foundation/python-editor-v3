@@ -3,6 +3,12 @@ export const getFileExtension = (filename: string): string | undefined => {
   return parts.length > 1 ? parts.pop() || undefined : undefined;
 };
 
+export const getLowercaseFileExtension = (
+  filename: string
+): string | undefined => {
+  return getFileExtension(filename)?.toLowerCase();
+};
+
 /**
  * Reads file as text via a FileReader.
  *
