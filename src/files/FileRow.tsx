@@ -36,7 +36,6 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
       {/* Accessibility for edit is via the row actions */}
       <Text
         component="span"
-        cursor="pointer"
         onClick={onEdit}
         variant="unstyled"
         fontSize="md"
