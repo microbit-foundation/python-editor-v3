@@ -28,7 +28,12 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
               key={f.name}
               backgroundColor={selectedFile === f.name ? "blue.50" : undefined}
               pl={2}
-              onClick={select}
+              onClick={(e) => {
+                // Clicks on buttons in the row shouldn't select the row.
+                if (e.target === e.currentTarget) {
+                  select();
+                }
+              }}
               pr={1}
               cursor="pointer"
             >
