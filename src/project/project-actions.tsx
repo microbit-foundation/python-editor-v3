@@ -85,7 +85,10 @@ export class ProjectActions {
    *
    * @param file the file from drag and drop or an input element.
    */
-  open = async (file: File): Promise<void> => {
+  open = async (files: File[]): Promise<void> => {
+    // TODO: multiple files
+    const file = files[0];
+
     this.logging.event({
       action: "load-file",
     });
@@ -154,7 +157,9 @@ export class ProjectActions {
     }
   };
 
-  addOrUpdateFile = async (file: File): Promise<void> => {
+  addOrUpdateFile = async (files: File[]): Promise<void> => {
+    const file = files[0];
+
     // TODO: Consider special-casing Python, modules or hex files?
     //       At least modules make sense here. Perhaps this should
     //       be the only way to add a module.

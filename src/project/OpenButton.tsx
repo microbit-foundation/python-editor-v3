@@ -14,11 +14,12 @@ const OpenButton = ({ children, ...props }: OpenButtonProps) => {
   return (
     <FileInputButton
       {...props}
-      text="Open a project"
+      text="Load a file"
       // .mpy isn't supported but better to explain ourselves
       accept=".hex, .py, .mpy"
       onOpen={actions.open}
       data-testid="open"
+      multiple
       icon={<RiFolderOpenLine />}
     />
   );
