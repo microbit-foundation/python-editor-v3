@@ -1,6 +1,5 @@
 import { Tooltip } from "@chakra-ui/tooltip";
-import React from "react";
-import { RiFile3Line } from "react-icons/ri";
+import { RiFileAddLine } from "react-icons/ri";
 import CollapsableButton, {
   CollapsableButtonComposibleProps,
 } from "../common/CollapsibleButton";
@@ -21,7 +20,7 @@ const NewButton = (props: NewButtonProps) => {
         {...props}
         text="Create new file"
         onClick={actions.createFile}
-        icon={<RiFile3Line />}
+        icon={<RiFileAddLine />}
       />
     </Tooltip>
   );
