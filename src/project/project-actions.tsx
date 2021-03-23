@@ -1,3 +1,4 @@
+import { List, ListItem } from "@chakra-ui/layout";
 import { saveAs } from "file-saver";
 import Separate, { br } from "../common/Separate";
 import { ActionFeedback } from "../common/use-action-feedback";
@@ -19,8 +20,19 @@ import { VersionAction } from "../fs/storage";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
 import { ensurePythonExtension, validateNewFilename } from "./project-utils";
+import ReplaceFilesQuestion from "./ReplaceFilesQuestion";
 
 class HexGenerationError extends Error {}
+
+enum FileOperation {
+  REPLACE,
+  ADD,
+}
+
+interface FileChange {
+  file: File;
+  operation: FileOperation;
+}
 
 /**
  * Key actions.
@@ -157,22 +169,44 @@ export class ProjectActions {
     }
   };
 
-  addOrUpdateFile = async (files: File[]): Promise<void> => {
-    const file = files[0];
+  private findChanges(files: File[]): FileChange[] {
+    const current = new Set(this.fs.project.files.map((f) => f.name));
+    return files.map((f) => ({
+      file: f,
+      operation: current.has(f.name)
+        ? FileOperation.REPLACE
+        : FileOperation.ADD,
+    }));
+  }
 
-    // TODO: Consider special-casing Python, modules or hex files?
-    //       At least modules make sense here. Perhaps this should
-    //       be the only way to add a module.
-    try {
-      const exists = await this.fs.exists(file.name);
-      const change = exists ? "Updated" : "Added";
-      const data = await readFileAsUint8Array(file);
-      await this.fs.write(file.name, data, VersionAction.INCREMENT);
-      this.actionFeedback.success({
-        title: `${change} ${file.name}`,
+  private async confirmReplacements(changes: FileChange[]): Promise<boolean> {
+    const replacements = changes.filter(
+      (c) => c.operation === FileOperation.REPLACE
+    );
+    if (replacements.length > 0) {
+      return this.dialogs.confirm({
+        header: "Confirm replacing files",
+        body: (
+          <ReplaceFilesQuestion files={replacements.map((c) => c.file.name)} />
+        ),
+        actionLabel: "Replace",
       });
-    } catch (e) {
-      this.actionFeedback.unexpectedError(e);
+    }
+    return true;
+  }
+
+  addOrUpdateFile = async (files: File[]): Promise<void> => {
+    const changes = this.findChanges(files);
+    if (await this.confirmReplacements(changes)) {
+      try {
+        for (const change of changes) {
+          const data = await readFileAsUint8Array(change.file);
+          await this.fs.write(change.file.name, data, VersionAction.INCREMENT);
+        }
+        this.actionFeedback.success(summarizeChanges(changes));
+      } catch (e) {
+        this.actionFeedback.unexpectedError(e);
+      }
     }
   };
 
@@ -313,8 +347,8 @@ export class ProjectActions {
     try {
       if (
         await this.dialogs.confirm({
-          header: `Delete ${filename}`,
-          body: `Are you sure you want to delete ${filename}?`,
+          header: "Confirm delete",
+          body: `Permanently delete ${filename}?`,
           actionLabel: "Delete",
         })
       ) {
@@ -356,3 +390,25 @@ export class ProjectActions {
     }
   }
 }
+
+const summarizeChanges = (changes: FileChange[]) => {
+  if (changes.length === 1) {
+    return { title: summarizeChange(changes[0]) };
+  }
+  return {
+    title: `${changes.length} changes`,
+    description: (
+      <List>
+        {changes.map((c) => (
+          <ListItem key={c.file.name}>{summarizeChange(c)}</ListItem>
+        ))}
+      </List>
+    ),
+  };
+};
+
+const summarizeChange = (change: FileChange): string => {
+  const changeText =
+    change.operation === FileOperation.REPLACE ? "Updated" : "Added";
+  return `${changeText} file ${change.file.name}`;
+};

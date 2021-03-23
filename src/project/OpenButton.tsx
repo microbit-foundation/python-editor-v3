@@ -14,7 +14,7 @@ const OpenButton = ({ children, ...props }: OpenButtonProps) => {
   return (
     <FileInputButton
       {...props}
-      text="Load a file"
+      text="Load files…"
       // .mpy isn't supported but better to explain ourselves
       accept=".hex, .py, .mpy"
       onOpen={actions.open}
