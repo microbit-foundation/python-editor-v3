@@ -37,7 +37,6 @@ const FileInputButton = React.forwardRef(
         const files = e.target.files;
         if (files) {
           const filesArray = Array.from(files);
-          console.log(filesArray);
           // Clear the input so we're triggered if the user opens the same file again.
           inputRef.current!.value = "";
           if (filesArray.length > 0) {
