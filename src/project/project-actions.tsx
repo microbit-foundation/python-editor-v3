@@ -1,6 +1,7 @@
 import { saveAs } from "file-saver";
 import Separate, { br } from "../common/Separate";
 import { ActionFeedback } from "../common/use-action-feedback";
+import { Dialogs } from "../common/use-dialogs";
 import { BoardId } from "../device/board-id";
 import {
   ConnectionStatus,
@@ -17,7 +18,7 @@ import {
 import { VersionAction } from "../fs/storage";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
-import { Dialogs } from "../common/use-dialogs";
+import { ensurePythonExtension, validateNewFilename } from "./project-utils";
 
 class HexGenerationError extends Error {}
 
@@ -268,18 +269,30 @@ export class ProjectActions {
       action: "create-file",
     });
 
-    const filename = "new file.py";
-    try {
-      await this.fs.write(
-        filename,
-        "# Your new file!",
-        VersionAction.INCREMENT
-      );
-      this.actionFeedback.success({
-        title: `Created ${filename}`,
-      });
-    } catch (e) {
-      this.actionFeedback.unexpectedError(e);
+    const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
+    const validate = (filename: string) =>
+      validateNewFilename(filename, (f) => preexistingFiles.has(f));
+    const filenameWithoutExtension = await this.dialogs.input({
+      header: "Create a new Python file",
+      body: null,
+      actionLabel: "Create",
+      validate,
+    });
+
+    if (filenameWithoutExtension) {
+      try {
+        const filename = ensurePythonExtension(filenameWithoutExtension);
+        await this.fs.write(
+          filename,
+          "# Your new file!",
+          VersionAction.INCREMENT
+        );
+        this.actionFeedback.success({
+          title: `Created ${filename}`,
+        });
+      } catch (e) {
+        this.actionFeedback.unexpectedError(e);
+      }
     }
   };
   /**

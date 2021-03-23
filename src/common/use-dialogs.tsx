@@ -4,6 +4,11 @@ import {
   ConfirmDialogParametersWithActions,
   ConfirmDialog,
 } from "./ConfirmDialog";
+import {
+  InputDialog,
+  InputDialogParameters,
+  InputDialogParametersWithActions,
+} from "./InputDialog";
 
 const DialogContext = React.createContext<Dialogs | undefined>(undefined);
 
@@ -12,14 +17,22 @@ interface DialogProviderProps {
 }
 
 export const DialogProvider = ({ children }: DialogProviderProps) => {
-  const [state, setState] = useState<
+  const [confirmDialogState, setConfirmDialogState] = useState<
     ConfirmDialogParametersWithActions | undefined
   >(undefined);
-  const dialogs = useMemo(() => new Dialogs(setState), [setState]);
+  const [inputDialogState, setInputDialogState] = useState<
+    InputDialogParametersWithActions | undefined
+  >(undefined);
+
+  const dialogs = useMemo(
+    () => new Dialogs(setConfirmDialogState, setInputDialogState),
+    [setConfirmDialogState]
+  );
   return (
     <DialogContext.Provider value={dialogs}>
       <>
-        {state && <ConfirmDialog isOpen {...state} />}
+        {confirmDialogState && <ConfirmDialog isOpen {...confirmDialogState} />}
+        {inputDialogState && <InputDialog isOpen {...inputDialogState} />}
         {children}
       </>
     </DialogContext.Provider>
@@ -30,6 +43,9 @@ export class Dialogs {
   constructor(
     private confirmDialogSetState: (
       options: ConfirmDialogParametersWithActions | undefined
+    ) => void,
+    private inputDialogSetState: (
+      options: InputDialogParametersWithActions | undefined
     ) => void
   ) {}
 
@@ -43,6 +59,20 @@ export class Dialogs {
         ...options,
         onCancel: () => resolve(false),
         onConfirm: () => resolve(true),
+      });
+    });
+  }
+
+  async input(options: InputDialogParameters): Promise<string | undefined> {
+    return new Promise((_resolve) => {
+      const resolve = (result: string | undefined) => {
+        this.inputDialogSetState(undefined);
+        _resolve(result);
+      };
+      this.inputDialogSetState({
+        ...options,
+        onCancel: () => resolve(undefined),
+        onConfirm: (validValue: string) => resolve(validValue),
       });
     });
   }

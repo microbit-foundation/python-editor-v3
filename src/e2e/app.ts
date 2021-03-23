@@ -5,6 +5,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { ElementHandle, Page } from "puppeteer";
+import { createBinary } from "typescript";
 
 export interface BrowserDownload {
   filename: string;
@@ -50,6 +51,28 @@ export class App {
     const document = await this.document();
     const openInput = await document.getByTestId("open-input");
     await openInput.uploadFile(filePath);
+  }
+
+  /**
+   * Create a new file using the files tab.
+   *
+   * @param name The name to enter in the dialog.
+   */
+  async createNewFile(name: string): Promise<void> {
+    await this.selectSideBar("Files");
+    const document = await this.document();
+    const newButton = await document.findByRole("button", {
+      name: "Create new file",
+    });
+    await newButton.click();
+    const nameField = await document.findByRole("textbox", {
+      name: "Name",
+    });
+    await nameField.type(name);
+    const createButton = await document.findByRole("button", {
+      name: "Create",
+    });
+    await createButton.click();
   }
 
   /**
