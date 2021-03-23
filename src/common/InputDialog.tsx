@@ -6,7 +6,7 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { VStack } from "@chakra-ui/layout";
+import { Box, VStack } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -54,6 +54,12 @@ export const InputDialog = ({
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
   const leastDestructiveRef = useRef<HTMLButtonElement>(null);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!error) {
+      onConfirm(value);
+    }
+  };
   return (
     <Modal isOpen={isOpen} onClose={onCancel}>
       <ModalOverlay>
@@ -64,22 +70,28 @@ export const InputDialog = ({
           <ModalBody>
             <VStack>
               {body}
-              <FormControl id="fileName" isRequired isInvalid={Boolean(error)}>
-                <FormLabel>Name</FormLabel>
-                <Input
-                  type="text"
-                  value={value}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setValue(value);
-                    setError(validate(value));
-                  }}
-                ></Input>
-                <FormHelperText>
-                  We'll add the ".py" extension for you.
-                </FormHelperText>
-                <FormErrorMessage>{error}</FormErrorMessage>
-              </FormControl>
+              <Box as="form" onSubmit={handleSubmit} width="100%">
+                <FormControl
+                  id="fileName"
+                  isRequired
+                  isInvalid={Boolean(error)}
+                >
+                  <FormLabel>Name</FormLabel>
+                  <Input
+                    type="text"
+                    value={value}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setValue(value);
+                      setError(validate(value));
+                    }}
+                  ></Input>
+                  <FormHelperText>
+                    We'll add the ".py" extension for you.
+                  </FormHelperText>
+                  <FormErrorMessage>{error}</FormErrorMessage>
+                </FormControl>
+              </Box>
             </VStack>
           </ModalBody>
           <ModalFooter>
