@@ -12,10 +12,8 @@ import { lineNumbers } from "@codemirror/gutter";
 import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
 import { bracketMatching } from "@codemirror/matchbrackets";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
-import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import { commentKeymap } from "@codemirror/comment";
-import { rectangularSelection } from "@codemirror/rectangular-selection";
 import { defaultHighlightStyle } from "@codemirror/highlight";
 import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
@@ -60,16 +58,10 @@ const indentSize = 4;
 export const editorConfig: Extension = [
   // Probably a good idea? https://discuss.codemirror.net/t/ios-turn-off-autocorrect/2912
   EditorView.contentAttributes.of({ autocorrect: "off" }),
-  // Mostly as per the basic-setup module.
-  // Most of these features should be discussed on a case-by-case basis
-  // to see if they're more magic than helpful.
   lineNumbers(),
   highlightSpecialChars(),
   history(),
-  // We sort-of have this in the current version, but Giles is not a fan.
-  // foldGutter(),
   drawSelection(),
-  EditorState.allowMultipleSelections.of(true),
   indentOnInput(),
   Prec.fallback(defaultHighlightStyle),
   bracketMatching(),
@@ -77,19 +69,14 @@ export const editorConfig: Extension = [
   autocompletion({
     override: completion,
   }),
-  rectangularSelection(),
   highlightActiveLine(),
-  highlightSelectionMatches(),
 
   keymap.of([
     // Added, but see https://codemirror.net/6/examples/tab/ for accessibility discussion.
     customTabBinding,
     ...closeBracketsKeymap,
     ...defaultKeymap,
-    ...searchKeymap,
     ...historyKeymap,
-    // Disabled for now, see comment on foldGutter.
-    // ...foldKeymap,
     ...commentKeymap,
     ...completionKeymap,
     ...lintKeymap,
