@@ -18,7 +18,8 @@ const UploadButton = (props: UploadButtonProps) => {
       {...props}
       text="Upload"
       data-testid="upload"
-      onOpen={actions.addOrUpdateFile}
+      multiple
+      onOpen={actions.upload}
       icon={<RiUpload2Fill />}
     />
   );

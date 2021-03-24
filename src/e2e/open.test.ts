@@ -6,7 +6,7 @@ describe("Browser - open", () => {
   afterAll(app.dispose.bind(app));
 
   it("Shows an alert when loading a MakeCode hex", async () => {
-    await app.open("testData/makecode.hex");
+    await app.loadFiles("testData/makecode.hex");
 
     // We should improve this and reference MakeCode.
     // v2 adds some special case translatable text.
@@ -17,21 +17,21 @@ describe("Browser - open", () => {
   });
 
   it("Loads a Python file", async () => {
-    await app.open("testData/samplefile.py");
+    await app.loadFiles("testData/samplefile.py");
 
-    await app.findAlertText("Loaded samplefile.py");
-    await app.findProjectName("samplefile");
+    await app.findAlertText("Updated file main.py");
+    await app.findProjectName("my program");
   });
 
   it("Loads a v1.0.1 hex file", async () => {
-    await app.open("testData/1.0.1.hex");
+    await app.loadFiles("testData/1.0.1.hex");
 
     await app.findVisibleEditorContents(/PASS1/);
     await app.findProjectName("1.0.1");
   });
 
   it("Loads a v0.9 hex file", async () => {
-    await app.open("testData/0.9.hex");
+    await app.loadFiles("testData/0.9.hex");
 
     await app.findVisibleEditorContents(/PASS2/);
     await app.findProjectName("0.9");
@@ -45,7 +45,7 @@ describe("Browser - open", () => {
   });
 
   it("Correctly handles an mpy file", async () => {
-    await app.open("testData/samplempyfile.mpy");
+    await app.loadFiles("testData/samplempyfile.mpy", { acceptReplace: false });
 
     await app.findAlertText(
       "Cannot load file",
@@ -54,7 +54,7 @@ describe("Browser - open", () => {
   });
 
   it("Correctly handles a file with an invalid extension", async () => {
-    await app.open("testData/sampletxtfile.txt");
+    await app.loadFiles("testData/sampletxtfile.txt", { acceptReplace: false });
 
     await app.findAlertText(
       "Cannot load file",
@@ -63,11 +63,11 @@ describe("Browser - open", () => {
   });
 
   it("Correctly imports modules with the 'magic comment' in the filesystem.", async () => {
-    await app.open("testData/module.py");
+    await app.loadFiles("testData/module.py", { acceptReplace: false });
 
-    await app.findAlertText("Added module module.py");
+    await app.findAlertText("Added file module.py");
 
-    await app.open("testData/module.py");
-    await app.findAlertText("Updated module module.py");
+    await app.loadFiles("testData/module.py", { acceptReplace: true });
+    await app.findAlertText("Updated file module.py");
   });
 });

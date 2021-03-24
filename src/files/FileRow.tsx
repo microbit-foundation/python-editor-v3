@@ -28,7 +28,6 @@ interface FileRowProps extends BoxProps {
 const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
-  const prettyName = isMainFile ? `${projectName} (${name})` : name;
   const actions = useProjectActions();
 
   return (
@@ -45,7 +44,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         overflowX="hidden"
         textOverflow="ellipsis"
       >
-        {prettyName}
+        {name}
       </Text>
       <Menu>
         <MenuButton

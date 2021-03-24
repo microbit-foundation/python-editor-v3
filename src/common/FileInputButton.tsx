@@ -3,11 +3,12 @@ import React, { ForwardedRef, useCallback, useRef } from "react";
 import CollapsableButton, { CollapsibleButtonProps } from "./CollapsibleButton";
 
 interface FileInputButtonProps extends CollapsibleButtonProps {
-  onOpen: (file: File) => void;
+  onOpen: (file: File[]) => void;
   /**
    * File input tag accept attribute.
    */
   accept?: string;
+  multiple?: boolean;
 }
 
 /**
@@ -15,7 +16,14 @@ interface FileInputButtonProps extends CollapsibleButtonProps {
  */
 const FileInputButton = React.forwardRef(
   (
-    { accept, onOpen, icon, children, ...props }: FileInputButtonProps,
+    {
+      accept,
+      multiple,
+      onOpen,
+      icon,
+      children,
+      ...props
+    }: FileInputButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -28,11 +36,11 @@ const FileInputButton = React.forwardRef(
       async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files) {
-          const file = files.item(0);
+          const filesArray = Array.from(files);
           // Clear the input so we're triggered if the user opens the same file again.
           inputRef.current!.value = "";
-          if (file) {
-            onOpen(file);
+          if (filesArray.length > 0) {
+            onOpen(filesArray);
           }
         }
       },
@@ -50,6 +58,7 @@ const FileInputButton = React.forwardRef(
           type="file"
           accept={accept}
           display="none"
+          multiple={multiple}
           onChange={handleOpenFile}
           ref={inputRef}
         />

@@ -14,10 +14,9 @@ describe("Browser - download", () => {
   });
 
   it("Shows an error when trying to download a hex file if the Python code is too large", async () => {
-    await app.open("testData/too-large.py");
+    await app.loadFiles("testData/too-large.py");
 
     await app.findVisibleEditorContents(/# Filler/);
-    await app.findProjectName("too-large");
     await app.download();
 
     await app.findAlertText(

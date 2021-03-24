@@ -1,8 +1,12 @@
-export const isPythonFile = (filename: string) => filename.match(/\.[Pp][Yy]$/);
+import { getLowercaseFileExtension } from "../fs/fs-util";
+
+export const isPythonFile = (filename: string) =>
+  getLowercaseFileExtension(filename) === "py";
 
 export const ensurePythonExtension = (filename: string) =>
   isPythonFile(filename) ? filename : `${filename}.py`;
 
+// For now at least.
 export const isEditableFile = isPythonFile;
 
 /**

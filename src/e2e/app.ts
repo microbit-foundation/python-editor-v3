@@ -45,12 +45,19 @@ export class App {
    * Open a file using the file chooser.
    *
    * @param filePath The file on disk.
+   * @param options Options to control expectations after upload.
    */
-  async open(filePath: string): Promise<void> {
+  async loadFiles(
+    filePath: string,
+    options: { acceptReplace: boolean } = { acceptReplace: true }
+  ): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
     const openInput = await document.getByTestId("open-input");
     await openInput.uploadFile(filePath);
+    if (options.acceptReplace) {
+      await this.findAndAcceptReplaceConfirmation();
+    }
   }
 
   /**
@@ -79,12 +86,19 @@ export class App {
    * Upload a file to the file system using the file chooser.
    *
    * @param filePath The file on disk.
+   * @param options Options to control expectations after upload.
    */
-  async uploadFile(filePath: string): Promise<void> {
+  async uploadFile(
+    filePath: string,
+    options: { acceptReplace: boolean }
+  ): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
     const uploadInput = await document.getByTestId("upload-input");
     await uploadInput.uploadFile(filePath);
+    if (options.acceptReplace) {
+      this.findAndAcceptReplaceConfirmation();
+    }
   }
 
   /**
@@ -95,7 +109,10 @@ export class App {
    *
    * @param filePath The file on disk.
    */
-  async dropFile(filePath: string): Promise<void> {
+  async dropFile(
+    filePath: string,
+    options: { acceptReplace: boolean } = { acceptReplace: true }
+  ): Promise<void> {
     const page = await this.page;
     // Puppeteer doesn't have file drio support but we can use an input
     // to grab a file and trigger an event that's good enough.
@@ -135,7 +152,18 @@ export class App {
       document.body.appendChild(input);
     }, inputId);
     const fileInput = await page.$(`#${inputId}`);
-    return fileInput!.uploadFile(filePath);
+    await fileInput!.uploadFile(filePath);
+    if (options.acceptReplace) {
+      await this.findAndAcceptReplaceConfirmation();
+    }
+  }
+
+  private async findAndAcceptReplaceConfirmation() {
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: "Replace",
+    });
+    await button.click();
   }
 
   /**

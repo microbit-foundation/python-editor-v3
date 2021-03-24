@@ -4,7 +4,7 @@ import { RiFolderOpenLine } from "react-icons/ri";
 
 interface FileDropTargetProps extends BoxProps {
   children: ReactNode;
-  onFileDrop: (file: File) => void;
+  onFileDrop: (files: File[]) => void;
 }
 
 const FileDropTarget = ({
@@ -17,11 +17,11 @@ const FileDropTarget = ({
   const handleDrop = useCallback(
     (event: React.DragEvent<HTMLElement>) => {
       setDragOver(false);
-      const file = event.dataTransfer.files[0];
-      if (file) {
+      const files = Array.from(event.dataTransfer.files);
+      if (files.length > 0) {
         event.preventDefault();
         event.stopPropagation();
-        onFileDrop(file);
+        onFileDrop(files);
       }
     },
     [onFileDrop]

@@ -87,7 +87,7 @@ export const InputDialog = ({
                     }}
                   ></Input>
                   <FormHelperText>
-                    We'll add the ".py" extension for you.
+                    We'll add the <code>.py</code> extension for you.
                   </FormHelperText>
                   <FormErrorMessage>{error}</FormErrorMessage>
                 </FormControl>
