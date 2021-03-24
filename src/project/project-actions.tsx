@@ -201,7 +201,9 @@ export class ProjectActions {
   };
 
   /**
-   * A straightforward way to upload files into the file system/
+   * A straightforward way to upload files into the file system.
+   *
+   * Files use their own names.
    *
    * @param files One or more files.
    */
