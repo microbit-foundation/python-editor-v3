@@ -115,25 +115,6 @@ describe("Filesystem", () => {
     expect(await ufs.exists(MAIN_FILE)).toEqual(false);
   });
 
-  it("can replace project with a Python file", async () => {
-    await ufs.initialize();
-
-    expect(await ufs.exists(MAIN_FILE));
-    expect(await ufs.write("other.txt", "content", VersionAction.INCREMENT));
-    const originalId = ufs.project.id;
-
-    await ufs.replaceWithMainContents(
-      "new project name",
-      "new project content"
-    );
-
-    expect(await asString(ufs.read(MAIN_FILE))).toEqual("new project content");
-    // "other.txt" has gone
-    expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 2 }]);
-    expect(ufs.project.name).toEqual("new project name");
-    expect(ufs.project.id === originalId).toEqual(false);
-  });
-
   it("can replace project with a hex", async () => {
     await ufs.initialize();
 

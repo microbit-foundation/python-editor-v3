@@ -206,23 +206,6 @@ export class FileSystem extends EventEmitter {
     return this.notify();
   }
 
-  async replaceWithMainContents(
-    projectName: string,
-    text: string
-  ): Promise<void> {
-    const fs = await this.initialize();
-    fs.ls().forEach((f) => fs.remove(f));
-    fs.write(MAIN_FILE, text);
-    await this.storage.setProjectName(projectName);
-    await this.overwriteStorageWithFs();
-    this.project = {
-      ...this.project,
-      // New project, just as if we'd loaded a hex file.
-      id: generateId(),
-    };
-    return this.notify();
-  }
-
   async remove(filename: string): Promise<void> {
     await this.storage.remove(filename);
     if (this.fs) {
