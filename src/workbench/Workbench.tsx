@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Bottom,
   BottomResizable,
@@ -14,14 +14,13 @@ import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
+import { useSelection } from "./use-selection";
 
 /**
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [selectedFile, setSelectedFile] = useState<string | undefined>(
-    undefined
-  );
+  const [selectedFile, setSelectedFile] = useSelection();
   const { files } = useProject();
   useEffect(() => {
     // No file yet or selected file deleted? Default it.
@@ -32,7 +31,8 @@ const Workbench = () => {
       const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
       setSelectedFile(defaultFile.name);
     }
-  }, [selectedFile, files]);
+  }, [selectedFile, setSelectedFile, files]);
+
   const fileVersion = files.find((f) => f.name === selectedFile)?.version;
 
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;

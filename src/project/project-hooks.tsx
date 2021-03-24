@@ -9,6 +9,7 @@ import { VersionAction } from "../fs/storage";
 import { useLogging } from "../logging/logging-hooks";
 import { useDialogs } from "../common/use-dialogs";
 import { ProjectActions } from "./project-actions";
+import { useSelection } from "../workbench/use-selection";
 
 /**
  * Hook exposing the main UI actions.
@@ -18,10 +19,19 @@ export const useProjectActions = (): ProjectActions => {
   const actionFeedback = useActionFeedback();
   const device = useDevice();
   const dialogs = useDialogs();
+  const [, setSelection] = useSelection();
   const logging = useLogging();
   const actions = useMemo<ProjectActions>(
-    () => new ProjectActions(fs, device, actionFeedback, dialogs, logging),
-    [fs, device, actionFeedback, dialogs, logging]
+    () =>
+      new ProjectActions(
+        fs,
+        device,
+        actionFeedback,
+        dialogs,
+        setSelection,
+        logging
+      ),
+    [fs, device, actionFeedback, dialogs, setSelection, logging]
   );
   return actions;
 };

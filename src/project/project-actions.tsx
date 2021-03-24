@@ -53,6 +53,7 @@ export class ProjectActions {
     private device: MicrobitWebUSBConnection,
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
+    private setSelection: (filename: string) => void,
     private logging: Logging
   ) {}
 
@@ -375,6 +376,7 @@ export class ProjectActions {
           "# Your new file!",
           VersionAction.INCREMENT
         );
+        this.setSelection(filename);
         this.actionFeedback.success({
           title: `Created ${filename}`,
         });

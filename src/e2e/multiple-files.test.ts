@@ -19,9 +19,6 @@ describe("Browser - multiple and missing file cases", () => {
   it("Create a new file", async () => {
     await app.createNewFile("test");
 
-    // This should happen automatically but is not yet implemented.
-    await app.switchToEditing("test.py");
-
     await app.findVisibleEditorContents(/Your new file/);
   });
 

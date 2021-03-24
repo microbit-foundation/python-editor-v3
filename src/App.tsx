@@ -1,23 +1,24 @@
-import React, { useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import theme from "./theme";
+import React, { useEffect } from "react";
 import "./App.css";
-import { DeviceContext } from "./device/device-hooks";
+import { DialogProvider } from "./common/use-dialogs";
+import { useLocalStorage } from "./common/use-local-storage";
 import { MicrobitWebUSBConnection } from "./device/device";
+import { DeviceContext } from "./device/device-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
+import { fetchMicroPython } from "./fs/micropython";
+import { DefaultLogging } from "./logging/default";
+import { LoggingContext } from "./logging/logging-hooks";
+import ProjectDropTarget from "./project/ProjectDropTarget";
 import {
   defaultSettings,
   isValidSettingsObject,
   Settings,
   SettingsContext,
 } from "./settings/settings";
-import { useLocalStorage } from "./common/use-local-storage";
-import ProjectDropTarget from "./project/ProjectDropTarget";
-import { LoggingContext } from "./logging/logging-hooks";
-import { DefaultLogging } from "./logging/default";
-import { fetchMicroPython } from "./fs/micropython";
-import { DialogProvider } from "./common/use-dialogs";
+import theme from "./theme";
+import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
 const logging = new DefaultLogging();
@@ -47,9 +48,11 @@ const App = () => {
           <DialogProvider>
             <DeviceContext.Provider value={device}>
               <FileSystemContext.Provider value={fs}>
-                <ProjectDropTarget>
-                  <Workbench />
-                </ProjectDropTarget>
+                <SelectionContext>
+                  <ProjectDropTarget>
+                    <Workbench />
+                  </ProjectDropTarget>
+                </SelectionContext>
               </FileSystemContext.Provider>
             </DeviceContext.Provider>
           </DialogProvider>
