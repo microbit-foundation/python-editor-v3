@@ -208,6 +208,10 @@ export class ProjectActions {
    * @param files One or more files.
    */
   upload = async (files: File[]): Promise<void> => {
+    this.logging.event({
+      action: "upload-file",
+    });
+
     if (files.length === 0) {
       throw new Error("Expected to be called with at least one file");
     }
