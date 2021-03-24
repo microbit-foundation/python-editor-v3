@@ -6,6 +6,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
@@ -85,8 +86,11 @@ const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
       <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
         <TabList backgroundColor="whitesmoke">
           {panes.map((p) => (
-            <Tab key={p.id} p={3.5}>
-              <Icon as={p.icon} aria-label={p.title} />
+            <Tab key={p.id}>
+              <VStack>
+                <Icon boxSize={5} as={p.icon} aria-label={p.title} />
+                <Text fontSize="xs">{p.title}</Text>
+              </VStack>
             </Tab>
           ))}
           <VStack mt="auto" mb={1} spacing={0.5}>
