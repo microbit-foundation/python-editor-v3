@@ -8,7 +8,7 @@ describe("Browser - multiple and missing file cases", () => {
   it("Copes with hex with no Python files", async () => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.
-    await app.open("src/fs/microbit-micropython-v2.hex");
+    await app.loadFiles("src/fs/microbit-micropython-v2.hex");
 
     await app.findAlertText(
       "Cannot load file",
@@ -30,18 +30,18 @@ describe("Browser - multiple and missing file cases", () => {
   });
 
   it("Copes with currently open file being updated (module)", async () => {
-    await app.open("testData/module.py");
+    await app.loadFiles("testData/module.py", { acceptReplace: false });
     await app.switchToEditing("module.py");
     await app.findVisibleEditorContents(/1.0.0/);
 
-    await app.open("testData/updated/module.py");
+    await app.loadFiles("testData/updated/module.py", { acceptReplace: true });
 
     await app.findVisibleEditorContents(/1.1.0/);
     await app.findVisibleEditorContents(/Now with documentation/);
   });
 
   it("Copes with currently open file being deleted", async () => {
-    await app.open("testData/module.py");
+    await app.loadFiles("testData/module.py", { acceptReplace: false });
     await app.switchToEditing("module.py");
 
     await app.deleteFile("module.py");
@@ -50,7 +50,7 @@ describe("Browser - multiple and missing file cases", () => {
   });
 
   it("Doesn't offer editor for non-Python file", async () => {
-    await app.uploadFile("testData/null.dat");
+    await app.uploadFile("testData/null.dat", { acceptReplace: false });
 
     expect(await app.canSwitchToEditing("null.dat")).toEqual(false);
   });
@@ -58,7 +58,7 @@ describe("Browser - multiple and missing file cases", () => {
   it("Muddles through if given non-UTF-8 main.py", async () => {
     // We could start detect this on open but not sure it's worth it introducting the error cases.
     // If we need to recreate the hex then just fill the file with 0xff.
-    await app.open("testData/invalid-utf-8.hex");
+    await app.loadFiles("testData/invalid-utf-8.hex");
 
     await app.findVisibleEditorContents(
       /^����������������������������������������������������������������������������������������������������$/

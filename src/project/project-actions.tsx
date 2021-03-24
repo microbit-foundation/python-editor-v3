@@ -9,7 +9,7 @@ import {
   MicrobitWebUSBConnection,
   WebUSBError,
 } from "../device/device";
-import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
+import { DownloadData, FileSystem } from "../fs/fs";
 import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
@@ -332,15 +332,12 @@ export class ProjectActions {
       action: "download-file",
     });
 
-    const projectName = this.fs.project.name;
-    const downloadName =
-      filename === MAIN_FILE ? `${projectName}.py` : filename;
     try {
       const content = await this.fs.read(filename);
       const blob = new Blob([content.data], {
         type: "application/octet-stream",
       });
-      saveAs(blob, downloadName);
+      saveAs(blob, filename);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
