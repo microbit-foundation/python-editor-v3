@@ -13,12 +13,12 @@ import {
   SettingsContext,
 } from "./settings/settings";
 import { useLocalStorage } from "./common/use-local-storage";
-import Project from "./project/Project";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import { LoggingContext } from "./logging/logging-hooks";
 import { DefaultLogging } from "./logging/default";
 import { fetchMicroPython } from "./fs/micropython";
 import { DialogProvider } from "./common/use-dialogs";
+import Workbench from "./workbench/Workbench";
 
 const logging = new DefaultLogging();
 const device = new MicrobitWebUSBConnection({ logging });
@@ -48,7 +48,7 @@ const App = () => {
             <DeviceContext.Provider value={device}>
               <FileSystemContext.Provider value={fs}>
                 <ProjectDropTarget>
-                  <Project />
+                  <Workbench />
                 </ProjectDropTarget>
               </FileSystemContext.Provider>
             </DeviceContext.Provider>
