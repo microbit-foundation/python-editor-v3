@@ -15,7 +15,7 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
-import FilesAreaNav from "../common/FilesAreaNav";
+import FilesAreaNav from "../files/FilesAreaNav";
 import LogoBar from "../common/LogoBar";
 import FilesArea from "../files/FilesArea";
 import PackagesArea from "../packages/PackagesArea";
