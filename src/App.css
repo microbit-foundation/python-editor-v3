@@ -6,10 +6,8 @@ html {
 }
 html,
 body {
-  height: 100vh;
-  /* https://css-tricks.com/css-fix-for-100vh-in-mobile-webkit/ */
-  height: -webkit-fill-available;
+  height: var(--vvh100, 100vh);
 }
 #root {
-  height: 100vh;
+  height: var(--vvh100, 100vh);
 }
