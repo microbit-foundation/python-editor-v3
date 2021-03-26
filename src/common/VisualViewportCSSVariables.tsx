@@ -2,6 +2,10 @@ import { useEffect } from "react";
 
 const styleId = "vvp-style";
 
+const isIOS = (): boolean =>
+  /iPad|iPhone|iPod/.test(navigator.platform) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
 /**
  * Maintains CSS variables for the visual viewport width and height.
  * Use with fallbacks, e.g. var(--vvh100, 100vh)
@@ -9,9 +13,15 @@ const styleId = "vvp-style";
  *
  * This is important for iOS where we want to avoid the keyboard being
  * drawn over the toolbar at the bottom.
+ *
+ * We skip it on other platforms and rely on the fallback.
  */
 const VisualViewPortCSSVariables = () => {
   useEffect(() => {
+    if (!isIOS()) {
+      // If we remove this then we should carefully look at resize performance.
+      return;
+    }
     const resizeHandler = () => {
       const { width, height } = window.visualViewport;
       let style = document.getElementById(styleId);
@@ -19,7 +29,7 @@ const VisualViewPortCSSVariables = () => {
         style = document.head.appendChild(document.createElement("style"));
         style.id = styleId;
       }
-      style.innerText = `:root { --vvw: ${width}px; --vvh: ${height}px; }`;
+      style.innerText = `:root { --ios-vvw: ${width}px; --ios-vvh: ${height}px; }`;
     };
     if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", resizeHandler);
