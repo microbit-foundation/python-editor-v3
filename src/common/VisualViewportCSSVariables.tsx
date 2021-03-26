@@ -19,10 +19,11 @@ const VisualViewPortCSSVariables = () => {
         style = document.head.appendChild(document.createElement("style"));
         style.id = styleId;
       }
-      style.innerText = `:root { --vvw100: ${width}px; --vvh100: ${height}px; }`;
+      style.innerText = `:root { --vvw: ${width}px; --vvh: ${height}px; }`;
     };
     if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", resizeHandler);
+      resizeHandler();
     }
     return () => {
       window.visualViewport.removeEventListener("resize", resizeHandler);
