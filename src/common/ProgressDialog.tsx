@@ -6,19 +6,25 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Progress } from "@chakra-ui/progress";
+import { ReactNode } from "react";
 
 const doNothing = () => {};
 
-interface FlashProgressProps {
+export interface ProgressDialogParameters {
+  header: ReactNode;
   progress: number | undefined;
 }
 
-const FlashProgress = ({ progress }: FlashProgressProps) => {
+interface ProgressDialogProps extends ProgressDialogParameters {
+  isOpen: boolean;
+}
+
+const ProgressDialog = ({ header, progress }: ProgressDialogProps) => {
   return (
     <Modal isOpen={progress !== undefined} onClose={doNothing} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Flashing code</ModalHeader>
+        <ModalHeader>{header}</ModalHeader>
         <ModalBody>
           <Progress value={progress! * 100} mb={3} />
         </ModalBody>
@@ -27,4 +33,4 @@ const FlashProgress = ({ progress }: FlashProgressProps) => {
   );
 };
 
-export default FlashProgress;
+export default ProgressDialog;
