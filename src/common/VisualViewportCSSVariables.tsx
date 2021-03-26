@@ -8,7 +8,7 @@ const isIOS = (): boolean =>
 
 /**
  * Maintains CSS variables for the visual viewport width and height.
- * Use with fallbacks, e.g. var(--vvh100, 100vh)
+ * Use with fallbacks, e.g. var(--ios-vvh, 100vh)
  * https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API
  *
  * This is important for iOS where we want to avoid the keyboard being
@@ -19,7 +19,7 @@ const isIOS = (): boolean =>
 const VisualViewPortCSSVariables = () => {
   useEffect(() => {
     if (!isIOS()) {
-      // If we remove this then we should carefully look at resize performance.
+      // If we remove this then we should look carefully at resize performance.
       return;
     }
     const resizeHandler = () => {
