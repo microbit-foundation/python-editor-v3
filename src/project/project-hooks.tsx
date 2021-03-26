@@ -68,14 +68,16 @@ export const useProjectFileText = (
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const [initialValue, setInitialValue] = useState<Text | undefined>();
-
+  const isUnmounted = useIsUnmounted();
   useEffect(() => {
     const loadData = async () => {
       try {
         if (await fs.exists(filename)) {
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
-          setInitialValue(Text.of(text.split("\n")));
+          if (!isUnmounted()) {
+            setInitialValue(Text.of(text.split("\n")));
+          }
         }
       } catch (e) {
         actionFeedback.unexpectedError(e);
@@ -83,7 +85,7 @@ export const useProjectFileText = (
     };
 
     loadData();
-  }, [fs, filename, actionFeedback]);
+  }, [fs, filename, actionFeedback, isUnmounted]);
 
   const handleChange = useCallback(
     (text: Text) => {
