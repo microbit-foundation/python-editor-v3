@@ -26,7 +26,7 @@ const VisualViewPortCSSVariables = () => {
     }
     return () => {
       window.visualViewport.removeEventListener("resize", resizeHandler);
-      let style = document.getElementById(styleId);
+      const style = document.getElementById(styleId);
       if (style) {
         style.remove();
       }
