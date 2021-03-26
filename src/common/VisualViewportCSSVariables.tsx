@@ -18,8 +18,8 @@ const isIOS = (): boolean =>
  */
 const VisualViewPortCSSVariables = () => {
   useEffect(() => {
-    if (!isIOS()) {
-      // If we remove this then we should look carefully at resize performance.
+    if (!window.visualViewport || !isIOS()) {
+      // If we remove the iOS check then we should look carefully at resize performance.
       return;
     }
     const resizeHandler = () => {
@@ -31,10 +31,8 @@ const VisualViewPortCSSVariables = () => {
       }
       style.innerText = `:root { --ios-vvw: ${width}px; --ios-vvh: ${height}px; }`;
     };
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", resizeHandler);
-      resizeHandler();
-    }
+    window.visualViewport.addEventListener("resize", resizeHandler);
+    resizeHandler();
     return () => {
       window.visualViewport.removeEventListener("resize", resizeHandler);
       const style = document.getElementById(styleId);
