@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
 import { useLocalStorage } from "./common/use-local-storage";
+import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { MicrobitWebUSBConnection } from "./device/device";
 import { DeviceContext } from "./device/device-hooks";
 import { FileSystem } from "./fs/fs";
@@ -42,23 +43,26 @@ const App = () => {
   );
 
   return (
-    <ChakraProvider theme={theme}>
-      <LoggingContext.Provider value={logging}>
-        <SettingsContext.Provider value={settings}>
-          <DialogProvider>
-            <DeviceContext.Provider value={device}>
-              <FileSystemContext.Provider value={fs}>
-                <SelectionContext>
-                  <ProjectDropTarget>
-                    <Workbench />
-                  </ProjectDropTarget>
-                </SelectionContext>
-              </FileSystemContext.Provider>
-            </DeviceContext.Provider>
-          </DialogProvider>
-        </SettingsContext.Provider>
-      </LoggingContext.Provider>
-    </ChakraProvider>
+    <>
+      <VisualViewPortCSSVariables />
+      <ChakraProvider theme={theme}>
+        <LoggingContext.Provider value={logging}>
+          <SettingsContext.Provider value={settings}>
+            <DialogProvider>
+              <DeviceContext.Provider value={device}>
+                <FileSystemContext.Provider value={fs}>
+                  <SelectionContext>
+                    <ProjectDropTarget>
+                      <Workbench />
+                    </ProjectDropTarget>
+                  </SelectionContext>
+                </FileSystemContext.Provider>
+              </DeviceContext.Provider>
+            </DialogProvider>
+          </SettingsContext.Provider>
+        </LoggingContext.Provider>
+      </ChakraProvider>
+    </>
   );
 };
 

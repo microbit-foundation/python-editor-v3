@@ -4,12 +4,11 @@ html {
   --sidebar: rgb(47, 196, 47, 0.2);
   --block: rgba(52, 162, 235, 0.06);
 }
+
 html,
-body {
-  height: 100vh;
-  /* https://css-tricks.com/css-fix-for-100vh-in-mobile-webkit/ */
-  height: -webkit-fill-available;
-}
-#root {
-  height: 100vh;
+body,
+#root,
+#root > div > .spaces-space {
+  height: var(--ios-vvh, 100vh);
+  max-height: var(--ios-vvh, 100vh);
 }
