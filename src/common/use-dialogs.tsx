@@ -9,6 +9,7 @@ import {
   InputDialogParameters,
   InputDialogParametersWithActions,
 } from "./InputDialog";
+import ProgressDialog, { ProgressDialogParameters } from "./ProgressDialog";
 
 const DialogContext = React.createContext<Dialogs | undefined>(undefined);
 
@@ -23,16 +24,27 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
   const [inputDialogState, setInputDialogState] = useState<
     InputDialogParametersWithActions | undefined
   >(undefined);
+  const [progressDialogState, setProgressDialogState] = useState<
+    ProgressDialogParameters | undefined
+  >(undefined);
 
   const dialogs = useMemo(
-    () => new Dialogs(setConfirmDialogState, setInputDialogState),
-    [setConfirmDialogState]
+    () =>
+      new Dialogs(
+        setConfirmDialogState,
+        setInputDialogState,
+        setProgressDialogState
+      ),
+    [setConfirmDialogState, setInputDialogState, setProgressDialogState]
   );
   return (
     <DialogContext.Provider value={dialogs}>
       <>
         {confirmDialogState && <ConfirmDialog isOpen {...confirmDialogState} />}
         {inputDialogState && <InputDialog isOpen {...inputDialogState} />}
+        {progressDialogState && (
+          <ProgressDialog isOpen {...progressDialogState} />
+        )}
         {children}
       </>
     </DialogContext.Provider>
@@ -46,6 +58,9 @@ export class Dialogs {
     ) => void,
     private inputDialogSetState: (
       options: InputDialogParametersWithActions | undefined
+    ) => void,
+    private progressDialogSetState: (
+      options: ProgressDialogParameters | undefined
     ) => void
   ) {}
 
@@ -75,6 +90,14 @@ export class Dialogs {
         onConfirm: (validValue: string) => resolve(validValue),
       });
     });
+  }
+
+  progress(options: ProgressDialogParameters): void {
+    if (options.progress === undefined) {
+      this.progressDialogSetState(undefined);
+    } else {
+      this.progressDialogSetState(options);
+    }
   }
 }
 

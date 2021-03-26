@@ -9,7 +9,7 @@ import {
   MicrobitWebUSBConnection,
   WebUSBError,
 } from "../device/device";
-import { DownloadData, FileSystem } from "../fs/fs";
+import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
 import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
@@ -264,13 +264,9 @@ export class ProjectActions {
   }
 
   /**
-   * Flash the device.
-   *
-   * @param progress Progress handler called with 0..1 then undefined.
+   * Flash the device, reporting progress via a dialog.
    */
-  flash = async (
-    progress: (value: number | undefined) => void
-  ): Promise<void> => {
+  flash = async (): Promise<void> => {
     this.logging.event({
       action: "flash",
     });
@@ -292,6 +288,12 @@ export class ProjectActions {
     };
 
     try {
+      const progress = (value: number | undefined) => {
+        this.dialogs.progress({
+          header: "Flashing code",
+          progress: value,
+        });
+      };
       await this.device.flash(dataSource, { partial: true, progress });
     } catch (e) {
       if (e instanceof HexGenerationError) {
@@ -344,6 +346,29 @@ export class ProjectActions {
       const blob = new Blob([content.data], {
         type: "application/octet-stream",
       });
+      saveAs(blob, filename);
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
+    }
+  };
+
+  /**
+   * Download the main file renamed to match the project.
+   *
+   * There's some debate as to whether this action is more confusing than helpful
+   * but leaving it around for a bit so we can try out different UI arrangements.
+   */
+  downloadMainFile = async () => {
+    this.logging.event({
+      action: "download-main-file",
+    });
+
+    try {
+      const content = await this.fs.read(MAIN_FILE);
+      const blob = new Blob([content.data], {
+        type: "application/octet-stream",
+      });
+      const filename = `${this.fs.project.name}.py`;
       saveAs(blob, filename);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
