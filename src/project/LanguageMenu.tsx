@@ -28,8 +28,8 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
         as={IconButton}
         aria-label="Change language"
         size={size}
-        variant="ghost"
         icon={<RiEarthLine />}
+        variant="ghost"
         isRound
       />
       <Portal>

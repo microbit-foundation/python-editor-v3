@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   Icon,
   Tab,
@@ -24,6 +25,7 @@ import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import SettingsArea from "../settings/SettingsArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import Face from "../common/Face";
 
 interface LeftPanelProps {
   selectedFile: string | undefined;
@@ -82,20 +84,22 @@ interface LeftPanelContentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
   return (
     <Flex height="100%" direction="column">
-      <LogoBar />
-      <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
-        <TabList backgroundColor="whitesmoke">
+      <Tabs orientation="vertical" size="lg" variant="sidebar" flex="1 0 auto">
+        <TabList backgroundColor="blackAlpha.800">
+          <Flex p={4} height="80px" alignItems="center" justifyContent="center">
+            <Face fill="white" />
+          </Flex>
           {panes.map((p) => (
-            <Tab key={p.id}>
+            <Tab key={p.id} color="white">
               <VStack>
                 <Icon boxSize={5} as={p.icon} aria-label={p.title} />
                 <Text fontSize="xs">{p.title}</Text>
               </VStack>
             </Tab>
           ))}
-          <VStack mt="auto" mb={1} spacing={0.5}>
-            <LanguageMenu />
-            <HelpMenu />
+          <VStack mt="auto" mb={1} spacing={0.5} color="white">
+            <LanguageMenu size="lg" />
+            <HelpMenu size="lg" />
           </VStack>
         </TabList>
         <TabPanels>
