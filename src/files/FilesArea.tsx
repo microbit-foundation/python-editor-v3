@@ -1,5 +1,4 @@
-import { Center, List, ListItem, VStack } from "@chakra-ui/react";
-import OpenButton from "../project/OpenButton";
+import { List, ListItem, VStack } from "@chakra-ui/react";
 import { useProject } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
 import FileRow from "./FileRow";

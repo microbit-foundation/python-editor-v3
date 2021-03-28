@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 
 interface LeftPanelTabContentProps {

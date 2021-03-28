@@ -1,5 +1,4 @@
 import {
-  Box,
   Flex,
   Icon,
   Tab,
@@ -17,15 +16,14 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
-import FilesAreaNav from "../files/FilesAreaNav";
-import LogoBar from "../common/LogoBar";
+import Face from "../common/Face";
 import FilesArea from "../files/FilesArea";
+import FilesAreaNav from "../files/FilesAreaNav";
 import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import SettingsArea from "../settings/SettingsArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import Face from "../common/Face";
 
 interface LeftPanelProps {
   selectedFile: string | undefined;
@@ -92,7 +90,7 @@ const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
           {panes.map((p) => (
             <Tab key={p.id} color="white">
               <VStack>
-                <Icon boxSize={5} as={p.icon} aria-label={p.title} />
+                <Icon boxSize={5} as={p.icon} />
                 <Text fontSize="xs">{p.title}</Text>
               </VStack>
             </Tab>

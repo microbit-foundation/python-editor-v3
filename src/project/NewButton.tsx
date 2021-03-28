@@ -18,7 +18,7 @@ const NewButton = (props: NewButtonProps) => {
     <Tooltip hasArrow label="Create a new Python file">
       <CollapsableButton
         {...props}
-        text="Add new"
+        text="Create new file"
         onClick={actions.createFile}
         icon={<RiFileAddLine />}
       />

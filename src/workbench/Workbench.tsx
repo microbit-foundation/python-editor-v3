@@ -42,7 +42,7 @@ const Workbench = () => {
       <Fill>
         <LeftResizable
           size="40%"
-          minimumSize={210}
+          minimumSize={295}
           style={{ borderRight: "4px solid whitesmoke" }}
         >
           <LeftPanel
