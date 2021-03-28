@@ -25,6 +25,7 @@ const ShareButton = (props: ButtonProps) => {
         {...props}
         variant="outline"
         text="Share"
+        colorScheme="blue"
       />
     </Tooltip>
   );

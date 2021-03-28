@@ -31,7 +31,7 @@ const PackagesArea = () => {
           </h2>
           <AccordionPanel pb={4}>
             <List marginLeft={4}>
-              {pkg.snippets.map((snippet) => (
+              {pkg.snippets.map((snippet, index) => (
                 <ListItem mb={2} key={snippet.value}>
                   <DraggableCodeSnippet pkg={pkg} value={snippet} />
                 </ListItem>

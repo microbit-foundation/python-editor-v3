@@ -41,7 +41,7 @@ const Workbench = () => {
     <ViewPort>
       <Fill>
         <LeftResizable
-          size="30%"
+          size="40%"
           minimumSize={210}
           style={{ borderRight: "4px solid whitesmoke" }}
         >

@@ -31,16 +31,22 @@ const DeviceConnection = () => {
           mode={connected ? "icon" : "button"}
           buttonWidth={buttonWidth}
           size="lg"
+          colorScheme="blue"
         />
         <FlashButton
           mode={connected ? "button" : "icon"}
           buttonWidth={buttonWidth}
           size="lg"
+          colorScheme="blue"
         />
       </HStack>
       <HStack as="label" spacing={3} width="14rem">
         <Tooltip text="Connect to your micro:bit over WebUSB">
-          <Switch isChecked={connected} onChange={handleToggleConnected} />
+          <Switch
+            isChecked={connected}
+            onChange={handleToggleConnected}
+            colorScheme="blue"
+          />
         </Tooltip>
         <Text as="span" size="lg" fontWeight="semibold">
           {connected ? "micro:bit connected" : "micro:bit disconnected"}

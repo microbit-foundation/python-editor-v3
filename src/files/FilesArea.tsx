@@ -47,10 +47,6 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
           );
         })}
       </List>
-      {/* Align with the project action bar, which has a top border. */}
-      <Center p={2} mt="1px">
-        <OpenButton mode="button" size="lg" />
-      </Center>
     </VStack>
   );
 };

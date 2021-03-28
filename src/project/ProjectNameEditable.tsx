@@ -45,6 +45,7 @@ const ProjectNameEditable = () => {
             onClick={onEdit}
             aria-label="Edit project name"
             variant="outline"
+            colorScheme="blue"
           />
         </Tooltip>
       </Flex>
