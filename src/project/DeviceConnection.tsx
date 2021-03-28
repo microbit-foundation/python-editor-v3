@@ -1,5 +1,19 @@
-import { HStack, Switch, Text, Tooltip } from "@chakra-ui/react";
+import {
+  ButtonGroup,
+  HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+  Switch,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
+import { MdMoreVert } from "react-icons/md";
+import { RiDownload2Line, RiFlashlightFill } from "react-icons/ri";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
@@ -27,18 +41,65 @@ const DeviceConnection = () => {
   return (
     <HStack>
       <HStack>
-        <DownloadButton
-          mode={connected ? "icon" : "button"}
-          buttonWidth={buttonWidth}
-          size="lg"
-          colorScheme="blue"
-        />
-        <FlashButton
-          mode={connected ? "button" : "icon"}
-          buttonWidth={buttonWidth}
-          size="lg"
-          colorScheme="blue"
-        />
+        <Menu>
+          <ButtonGroup isAttached>
+            {connected ? (
+              <FlashButton
+                width={buttonWidth}
+                mode={"button"}
+                size="lg"
+                colorScheme="blue"
+              />
+            ) : (
+              <DownloadButton
+                width={buttonWidth}
+                mode={"button"}
+                size="lg"
+                colorScheme="blue"
+              />
+            )}
+            <MenuButton
+              borderLeft="1px"
+              borderColor="gray.200"
+              as={IconButton}
+              icon={<MdMoreVert />}
+              size="lg"
+              colorScheme="blue"
+            />
+            <Portal>
+              <MenuList>
+                {!connected && (
+                  <MenuItem
+                    target="_blank"
+                    rel="noopener"
+                    icon={<RiFlashlightFill />}
+                    onClick={actions.flash}
+                  >
+                    Flash
+                  </MenuItem>
+                )}
+                {connected && (
+                  <MenuItem
+                    target="_blank"
+                    rel="noopener"
+                    icon={<RiDownload2Line />}
+                    onClick={actions.download}
+                  >
+                    Download project hex
+                  </MenuItem>
+                )}
+                <MenuItem
+                  target="_blank"
+                  rel="noopener"
+                  icon={<RiDownload2Line />}
+                  onClick={actions.downloadMainFile}
+                >
+                  Download Python script
+                </MenuItem>
+              </MenuList>
+            </Portal>
+          </ButtonGroup>
+        </Menu>
       </HStack>
       <HStack as="label" spacing={3} width="14rem">
         <Tooltip text="Connect to your micro:bit over WebUSB">
