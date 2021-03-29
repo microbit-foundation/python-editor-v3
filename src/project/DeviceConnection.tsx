@@ -37,7 +37,7 @@ const DeviceConnection = () => {
       await actions.connect();
     }
   }, [connected, actions]);
-  const buttonWidth = "8.1rem";
+  const buttonWidth = "10rem"; // 8.1 with md buttons
   return (
     <HStack>
       <HStack>
