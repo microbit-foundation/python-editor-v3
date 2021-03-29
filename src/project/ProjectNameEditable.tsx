@@ -33,7 +33,7 @@ const ProjectNameEditable = () => {
     "isEditing" | "onSubmit" | "onCancel" | "onEdit"
   >) => {
     return isEditing ? null : (
-      <Flex justifyContent="center" display="inline">
+      <Flex justifyContent="center" display="inline" marginLeft={2}>
         <Tooltip
           hasArrow
           label="Edit the name of your project"
@@ -72,7 +72,7 @@ const ProjectNameEditable = () => {
             overflowX="hidden"
             whiteSpace="nowrap"
           />
-          <EditableInput data-testid="project-name-input" padding={1} />
+          <EditableInput data-testid="project-name-input" pl={1} pr={1} />
           <EditableControls {...props} />
         </>
       )}

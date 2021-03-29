@@ -43,6 +43,8 @@ const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
         justifyContent="flex-end"
         alignItems="center"
         h={10}
+        pb={1}
+        pt={0}
         pr={2}
       >
         <ProjectNameEditable />
