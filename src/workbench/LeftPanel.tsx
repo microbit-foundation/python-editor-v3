@@ -6,6 +6,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo } from "react";
@@ -15,9 +16,8 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
-import FilesAreaNav from "../files/FilesAreaNav";
-import LogoBar from "../common/LogoBar";
 import FilesArea from "../files/FilesArea";
+import FilesAreaNav from "../files/FilesAreaNav";
 import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
@@ -81,17 +81,21 @@ interface LeftPanelContentsProps {
 const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
   return (
     <Flex height="100%" direction="column">
-      <LogoBar />
-      <Tabs orientation="vertical" size="lg" variant="line" flex="1 0 auto">
-        <TabList backgroundColor="whitesmoke">
+      <Tabs orientation="vertical" size="lg" variant="sidebar" flex="1 0 auto">
+        <TabList backgroundColor="blackAlpha.800">
           {panes.map((p) => (
-            <Tab key={p.id} p={3.5}>
-              <Icon as={p.icon} aria-label={p.title} />
+            <Tab key={p.id} color="white" height="4rem" width="5rem" p={0}>
+              <VStack>
+                <Icon boxSize={5} as={p.icon} />
+                <Text m={0} fontSize="xs">
+                  {p.title}
+                </Text>
+              </VStack>
             </Tab>
           ))}
-          <VStack mt="auto" mb={1} spacing={0.5}>
-            <LanguageMenu />
-            <HelpMenu />
+          <VStack mt="auto" mb={1} spacing={0.5} color="white">
+            <LanguageMenu size="lg" />
+            <HelpMenu size="lg" />
           </VStack>
         </TabList>
         <TabPanels>

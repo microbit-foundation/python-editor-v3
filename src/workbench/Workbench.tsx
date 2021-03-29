@@ -42,7 +42,7 @@ const Workbench = () => {
       <Fill>
         <LeftResizable
           size="30%"
-          minimumSize={210}
+          minimumSize={320}
           style={{ borderRight: "4px solid whitesmoke" }}
         >
           <LeftPanel
@@ -70,7 +70,7 @@ const Workbench = () => {
               <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
             </BottomResizable>
           </Fill>
-          <Bottom size={64}>
+          <Bottom size={58}>
             <ProjectActionBar p={2} borderTop="1px solid #d3d3d3" />
           </Bottom>
         </Fill>

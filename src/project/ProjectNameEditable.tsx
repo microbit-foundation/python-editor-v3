@@ -33,7 +33,7 @@ const ProjectNameEditable = () => {
     "isEditing" | "onSubmit" | "onCancel" | "onEdit"
   >) => {
     return isEditing ? null : (
-      <Flex justifyContent="center" display="inline" marginLeft={2}>
+      <Flex justifyContent="center" display="inline">
         <Tooltip
           hasArrow
           label="Edit the name of your project"
@@ -42,9 +42,10 @@ const ProjectNameEditable = () => {
           <IconButton
             size="md"
             icon={<RiEdit2Line />}
+            colorScheme="gray"
+            variant="ghost"
             onClick={onEdit}
             aria-label="Edit project name"
-            variant="outline"
           />
         </Tooltip>
       </Flex>
@@ -60,7 +61,6 @@ const ProjectNameEditable = () => {
       defaultValue={projectName}
       onSubmit={handleSubmit}
       justifyContent="space-between"
-      width="15ch"
     >
       {(props) => (
         <>

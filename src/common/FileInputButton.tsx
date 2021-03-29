@@ -49,6 +49,14 @@ const FileInputButton = React.forwardRef(
 
     return (
       <>
+        <CollapsableButton
+          ref={ref}
+          icon={icon}
+          onClick={handleChooseFile}
+          {...props}
+        >
+          {children}
+        </CollapsableButton>
         <Input
           data-testid={
             (props as any)["data-testid"]
@@ -62,14 +70,6 @@ const FileInputButton = React.forwardRef(
           onChange={handleOpenFile}
           ref={inputRef}
         />
-        <CollapsableButton
-          ref={ref}
-          icon={icon}
-          onClick={handleChooseFile}
-          {...props}
-        >
-          {children}
-        </CollapsableButton>
       </>
     );
   }
