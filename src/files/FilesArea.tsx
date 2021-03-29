@@ -1,5 +1,4 @@
-import { Center, List, ListItem, VStack } from "@chakra-ui/react";
-import OpenButton from "../project/OpenButton";
+import { List, ListItem, VStack } from "@chakra-ui/react";
 import { useProject } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
 import FileRow from "./FileRow";
@@ -47,10 +46,6 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
           );
         })}
       </List>
-      {/* Align with the project action bar, which has a top border. */}
-      <Center p={2} mt="1px">
-        <OpenButton mode="button" size="lg" />
-      </Center>
     </VStack>
   );
 };

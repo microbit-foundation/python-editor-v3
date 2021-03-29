@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
+import ProjectNameEditable from "../project/ProjectNameEditable";
 import EditorContainer from "./EditorContainer";
 import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";
@@ -36,6 +37,16 @@ const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
         />
         <EditorContainer filename={filename} />
       </Box>
+      <Flex
+        width="100%"
+        backgroundColor="var(--code-background)"
+        justifyContent="flex-end"
+        alignItems="center"
+        h={10}
+        pr={2}
+      >
+        <ProjectNameEditable />
+      </Flex>
     </Flex>
   );
 };

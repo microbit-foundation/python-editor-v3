@@ -1,22 +1,19 @@
-import { Image, HStack } from "@chakra-ui/react";
+import { BoxProps, HStack } from "@chakra-ui/react";
 import Logo from "./Logo";
-import pythonLogo from "./pythonLogo.png";
 
 /**
  * Logo bar for branding.
  */
-const LogoBar = () => {
+const LogoBar = (props: BoxProps) => {
   return (
     <HStack
-      fill="white"
-      backgroundColor="blackAlpha.900"
+      height="4rem"
       alignItems="center"
-      justifyContent="space-between"
-      padding={3}
-      spacing={3}
+      justifyContent="center"
+      p={2}
+      {...props}
     >
-      <Logo height="30px" />
-      <Image src={pythonLogo} alt="Python" width={8} height={8} />
+      <Logo width="80%" style={{ maxWidth: "150px" }} />
     </HStack>
   );
 };

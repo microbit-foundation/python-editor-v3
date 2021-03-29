@@ -49,7 +49,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
         as={IconButton}
         aria-label="Help"
         size={size}
-        variant="ghost"
+        variant="sidebar"
         icon={<RiQuestionLine />}
         isRound
       />

@@ -28,7 +28,7 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
         as={IconButton}
         aria-label="Change language"
         size={size}
-        variant="ghost"
+        variant="sidebar"
         icon={<RiEarthLine />}
         isRound
       />
