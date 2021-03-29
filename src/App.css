@@ -1,7 +1,7 @@
 html {
   /* Need to consider how these integrate with the chakra theme. */
   --code-background: #fffff8;
-  --sidebar: rgb(47, 196, 47, 0.2);
+  /* Used in blocks.ts */
   --block: rgba(52, 162, 235, 0.06);
 }
 
