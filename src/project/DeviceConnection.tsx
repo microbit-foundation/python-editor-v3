@@ -44,16 +44,16 @@ const DeviceConnection = () => {
         <Menu>
           <ButtonGroup isAttached>
             {connected ? (
-              <FlashButton width={buttonWidth} mode={"button"} size="md" />
+              <FlashButton width={buttonWidth} mode={"button"} size="lg" />
             ) : (
-              <DownloadButton width={buttonWidth} mode={"button"} size="md" />
+              <DownloadButton width={buttonWidth} mode={"button"} size="lg" />
             )}
             <MenuButton
               borderLeft="1px"
               borderColor="gray.200"
               as={IconButton}
               icon={<MdMoreVert />}
-              size="md"
+              size="lg"
               colorScheme="gray"
             />
             <Portal>

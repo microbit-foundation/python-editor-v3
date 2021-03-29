@@ -10,8 +10,8 @@ const ProjectActionBar = (props: BoxProps) => {
         <DeviceConnection />
       </HStack>
       <HStack>
-        <OpenButton mode="button" size="md" />
-        <ShareButton size="md" />
+        <OpenButton mode="button" size="lg" />
+        <ShareButton size="lg" />
       </HStack>
     </HStack>
   );

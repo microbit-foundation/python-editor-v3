@@ -70,7 +70,7 @@ const Workbench = () => {
               <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
             </BottomResizable>
           </Fill>
-          <Bottom size={58}>
+          <Bottom size="4rem">
             <ProjectActionBar p={2} borderTop="1px solid #d3d3d3" />
           </Bottom>
         </Fill>
