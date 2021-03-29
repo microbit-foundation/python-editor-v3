@@ -7,13 +7,13 @@ import Logo from "./Logo";
 const LogoBar = (props: BoxProps) => {
   return (
     <HStack
-      height="4rem"
+      height={20}
       alignItems="center"
       justifyContent="center"
       p={2}
       {...props}
     >
-      <Logo width="80%" style={{ maxWidth: "150px" }} />
+      <Logo width="80%" style={{ maxWidth: "200px" }} />
     </HStack>
   );
 };

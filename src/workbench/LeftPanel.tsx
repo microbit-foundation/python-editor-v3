@@ -84,10 +84,10 @@ const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
       <Tabs orientation="vertical" size="lg" variant="sidebar" flex="1 0 auto">
         <TabList backgroundColor="blackAlpha.800">
           {panes.map((p) => (
-            <Tab key={p.id} color="white" height="4rem" width="5rem" p={0}>
+            <Tab key={p.id} color="white" height={20} width={24} p={0}>
               <VStack>
                 <Icon boxSize={5} as={p.icon} />
-                <Text m={0} fontSize="xs">
+                <Text m={0} fontSize="sm">
                   {p.title}
                 </Text>
               </VStack>
