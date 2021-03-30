@@ -4,14 +4,15 @@ import OpenButton from "./OpenButton";
 import ShareButton from "./ShareButton";
 
 const ProjectActionBar = (props: BoxProps) => {
+  const size = "lg";
   return (
     <HStack {...props} justifyContent="space-between">
       <HStack>
-        <DeviceConnection />
+        <DeviceConnection size={size} />
       </HStack>
       <HStack>
-        <OpenButton mode="button" size="lg" />
-        <ShareButton size="lg" />
+        <OpenButton mode="button" size={size} />
+        <ShareButton size={size} />
       </HStack>
     </HStack>
   );
