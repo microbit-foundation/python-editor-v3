@@ -1,7 +1,7 @@
 import { EditorState } from "@codemirror/state";
-import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
+import { EditorComponentProps } from "../editor";
 import { blocks, blocksCompartment } from "./blocks";
 import "./CodeMirror.css";
 import {
@@ -9,15 +9,6 @@ import {
   themeExtensions,
   themeExtensionsCompartment,
 } from "./config";
-
-interface CodeMirrorProps {
-  className?: string;
-  defaultValue: Text;
-  onChange: (doc: Text) => void;
-
-  fontSize: number;
-  highlightCodeStructure: boolean;
-}
 
 /**
  * A React component for CodeMirror 6.
@@ -33,7 +24,7 @@ const CodeMirror = ({
   onChange,
   fontSize,
   highlightCodeStructure,
-}: CodeMirrorProps) => {
+}: EditorComponentProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
 
