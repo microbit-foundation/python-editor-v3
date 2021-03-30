@@ -1,6 +1,6 @@
 import AceEditor from "react-ace";
 
-import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import { EditorComponentProps } from "../editor";
@@ -15,6 +15,7 @@ const Ace = ({ defaultValue, onChange, fontSize }: EditorComponentProps) => {
       tabSize={4}
       height="100%"
       width="100%"
+      enableBasicAutocompletion
       fontSize={fontSize * ptToPixelRatio}
       defaultValue={defaultValue}
       onChange={onChange}
