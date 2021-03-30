@@ -1,6 +1,6 @@
 import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
-import Editor from "./monaco/Monaco";
+import Editor from "./codemirror/CodeMirror";
 
 interface EditorContainerProps {
   filename: string;
