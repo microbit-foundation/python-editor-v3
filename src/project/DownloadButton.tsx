@@ -19,7 +19,7 @@ interface DownloadButtonProps
 const DownloadButton = (props: DownloadButtonProps) => {
   const actions = useProjectActions();
   return (
-    <Tooltip hasArrow placement="top-start" label="Download a hex file">
+    <Tooltip hasArrow placement="top-start" label="Download a project hex file">
       <CollapsableButton
         {...props}
         colorScheme="gray"
