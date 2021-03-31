@@ -56,8 +56,12 @@ export const themeExtensions = (fontSizePt: number) => {
 
 const indentSize = 4;
 export const editorConfig: Extension = [
-  // Probably a good idea? https://discuss.codemirror.net/t/ios-turn-off-autocorrect/2912
-  EditorView.contentAttributes.of({ autocorrect: "off" }),
+  EditorView.contentAttributes.of({
+    // Probably a good idea? https://discuss.codemirror.net/t/ios-turn-off-autocorrect/2912
+    autocorrect: "off",
+    // This matches Ace/Monaco behaviour.
+    autocapitalize: "none",
+  }),
   lineNumbers(),
   highlightSpecialChars(),
   history(),
