@@ -27,6 +27,7 @@ const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
       <Box flex="1 1 auto" height={0} position="relative">
         <ZoomControls
           size="lg"
+          display={["none", "none", "flex"]}
           position="absolute"
           top={0}
           right={0}
