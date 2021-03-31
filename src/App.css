@@ -9,6 +9,6 @@ html,
 body,
 #root,
 #root > div > .spaces-space {
-  height: var(--ios-vvh, 100vh);
-  max-height: var(--ios-vvh, 100vh);
+  height: var(--ios-vvh, -webkit-fill-available, 100vh);
+  max-height: var(--ios-vvh, -webkit-fill-available, 100vh);
 }
