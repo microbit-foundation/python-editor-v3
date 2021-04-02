@@ -89,6 +89,7 @@ const SettingsArea = () => {
           Font size
         </FormLabel>
         <NumberInput
+          id="font-size"
           size="sm"
           value={settings.fontSize}
           min={minimumFontSize}
@@ -96,7 +97,7 @@ const SettingsArea = () => {
           onChange={handleChangeFontSize}
           width="8ch"
         >
-          <NumberInputField id="font-size" />
+          <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
             <NumberDecrementStepper />
