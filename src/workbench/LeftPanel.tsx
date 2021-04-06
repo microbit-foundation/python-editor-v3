@@ -1,4 +1,5 @@
 import {
+  BoxProps,
   Flex,
   Icon,
   Tab,
@@ -9,7 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import {
   RiFolderLine,
@@ -24,7 +25,7 @@ import LanguageMenu from "../project/LanguageMenu";
 import SettingsArea from "../settings/SettingsArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 
-interface LeftPanelProps {
+interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (filename: string) => void;
 }
@@ -33,7 +34,11 @@ interface LeftPanelProps {
  * The tabbed area on the left of the UI offering access to API documentation,
  * files and settings.
  */
-const LeftPanel = ({ selectedFile, onSelectedFileChanged }: LeftPanelProps) => {
+const LeftPanel = ({
+  selectedFile,
+  onSelectedFileChanged,
+  ...props
+}: LeftPanelProps) => {
   const panes: Pane[] = useMemo(
     () => [
       {
@@ -78,10 +83,18 @@ interface LeftPanelContentsProps {
   panes: Pane[];
 }
 
-const LeftPanelContents = ({ panes }: LeftPanelContentsProps) => {
+const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
+  const [index, setIndex] = useState<number>(0);
   return (
-    <Flex height="100%" direction="column">
-      <Tabs orientation="vertical" size="lg" variant="sidebar" flex="1 0 auto">
+    <Flex height="100%" direction="column" {...props}>
+      <Tabs
+        orientation="vertical"
+        size="lg"
+        variant="sidebar"
+        flex="1 0 auto"
+        onChange={setIndex}
+        index={index}
+      >
         <TabList backgroundColor="blackAlpha.800">
           {panes.map((p) => (
             <Tab
