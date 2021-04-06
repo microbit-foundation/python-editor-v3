@@ -98,7 +98,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         index={index}
       >
         <TabList backgroundColor="blackAlpha.800">
-          <Box height={20} width={24} p={1}>
+          <Box height={20} width={24} p={3}>
             <LogoStacked />
           </Box>
           {panes.map((p) => (
