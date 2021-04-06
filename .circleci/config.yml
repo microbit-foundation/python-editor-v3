@@ -31,7 +31,7 @@ _steps:
   install_aws_cli: &install_aws_cli
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
-    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.1.0 @microbit-foundation/website-deploy-aws-config@0.3.2 @microbit-foundation/circleci-npm-package-versioner@1
+    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0-merge.upstream.30 @microbit-foundation/website-deploy-aws-config@0.4.0-dev.61 @microbit-foundation/circleci-npm-package-versioner@1
 
   update_version: &update_version
     run: npm run ci:update-version
@@ -76,13 +76,7 @@ _steps:
   invalidate: &invalidate
     run:
       name: Invalidate CloudFront distribution
-      command: "[ $STAGE = 'REVIEW' ] && echo Skipping || npm run invalidate"
-  tidy_review_buckets: &tidy_review_buckets
-    run:
-      name: Tidy review buckets
-      environment:
-        NODE_PATH: /usr/local/lib/node_modules
-      command: "[ $STAGE = 'REVIEW' ] && echo Skipping || npm run tidy-review-buckets"
+      command: "npm run invalidate"
   configure_registry_auth: &configure_registry_auth
     run:
       name: Configure registry auth
@@ -139,7 +133,6 @@ jobs:
       - *store_reports
       - *deploy
       - *invalidate
-      - *tidy_review_buckets
 
   production:
     <<: *defaults
@@ -162,7 +155,6 @@ jobs:
       # - *queue_until_front_of_line
       - *deploy
       - *invalidate
-      - *tidy_review_buckets
 
 workflows:
   version: 2
