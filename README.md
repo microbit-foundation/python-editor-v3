@@ -1,12 +1,11 @@
-# Early development version of the next micro:bit Python editor
+# Development version of the next micro:bit Python editor
+
+*This project is a development version of the next major version of the editor. It is not ready for use.*
 
 This project is a web-based editor that targets the [MicroPython](https://micropython.org) version of the [Python programming language](http://python.org/). Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
 
-**The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor.**
+The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor.
 
-**This project is an early development version of the next version of the editor.**
-
-**It is not yet ready for use.**
 
 ## Developing the editor
 
@@ -19,6 +18,16 @@ To learn TypeScript, check out the [TypeScript documentation](https://www.typesc
 This early prototype uses the [Chakra UI](https://chakra-ui.com/) component library.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+## Deployments
+
+The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-next).
+
+There is not yet a production deployment.
+
+The `main` branch is deployed to https://stage-python-editor-next.microbit.org/ on each commit.
+
+Other branches (e.g. for PRs) are deployed to https://review-python-editor-next.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
 
 ## Building and running the editor
 
