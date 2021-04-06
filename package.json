@@ -2,6 +2,7 @@
   "name": "python-editor",
   "version": "3.0.0-local",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@chakra-ui/react": "^1.4.1",
     "@codemirror/autocomplete": "^0.18.3",
@@ -57,8 +58,7 @@
     "test:e2e:headless": "CI=true npm run test:e2e",
     "ci:update-version": "update-ci-version",
     "deploy": "website-deploy-aws",
-    "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
-    "tidy-review-buckets": "tidy-review-buckets"
+    "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\""
   },
   "eslintConfig": {
     "extends": [
