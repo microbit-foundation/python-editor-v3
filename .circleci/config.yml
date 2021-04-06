@@ -31,7 +31,7 @@ _steps:
   install_aws_cli: &install_aws_cli
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
-    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.0 @microbit-foundation/circleci-npm-package-versioner@1
+    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
 
   update_version: &update_version
     run: npm run ci:update-version
@@ -108,6 +108,8 @@ jobs:
       - *store_reports
       - *queue_until_front_of_line
       - *deploy
+      - *invalidate
+
   staging:
     <<: *defaults
     docker:
