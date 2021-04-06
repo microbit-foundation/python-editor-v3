@@ -1,8 +1,8 @@
 const {
-  createDeploymentDetailsWithPrefixes,
+  createDeploymentDetailsWithReviewPrefixes,
 } = require("@microbit-foundation/website-deploy-aws-config");
 
-const { s3Config } = createDeploymentDetailsWithPrefixes();
+const { s3Config } = createDeploymentDetailsWithReviewPrefixes();
 module.exports = {
   ...s3Config,
   region: "eu-west-1",
