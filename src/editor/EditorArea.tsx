@@ -1,11 +1,11 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import { MAIN_FILE } from "../fs/fs";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import EditorContainer from "./EditorContainer";
 import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";
 
-interface EditorAreaProps {
+interface EditorAreaProps extends BoxProps {
   filename: string;
   onSelectedFileChanged: (filename: string) => void;
 }
@@ -14,10 +14,14 @@ interface EditorAreaProps {
  * Wrapper for the editor that integrates it with the app settings
  * and wires it to the currently open file.
  */
-const EditorArea = ({ filename, onSelectedFileChanged }: EditorAreaProps) => {
+const EditorArea = ({
+  filename,
+  onSelectedFileChanged,
+  ...props
+}: EditorAreaProps) => {
   const isMainFile = filename === MAIN_FILE;
   return (
-    <Flex height="100%" flexDirection="column">
+    <Flex height="100%" flexDirection="column" {...props}>
       {!isMainFile && (
         <NonMainFileNotice
           filename={filename}

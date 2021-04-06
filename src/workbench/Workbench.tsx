@@ -1,11 +1,5 @@
+import { Box, Flex } from "@chakra-ui/layout";
 import { useEffect } from "react";
-import {
-  Bottom,
-  BottomResizable,
-  Fill,
-  LeftResizable,
-  ViewPort,
-} from "react-spaces";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
@@ -14,6 +8,7 @@ import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
+import SplitView from "./SplitView";
 import { useSelection } from "./use-selection";
 
 /**
@@ -37,45 +32,32 @@ const Workbench = () => {
 
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
-    // https://github.com/aeagle/react-spaces
-    <ViewPort>
-      <Fill>
-        <LeftResizable
-          size="40%"
-          minimumSize={320}
-          style={{ borderRight: "4px solid whitesmoke" }}
-        >
-          <LeftPanel
-            selectedFile={selectedFile}
-            onSelectedFileChanged={setSelectedFile}
-          />
-        </LeftResizable>
-        <Fill>
-          <Fill>
-            <Fill>
-              {selectedFile && (
-                <EditorArea
-                  key={selectedFile + "/" + fileVersion}
-                  filename={selectedFile}
-                  onSelectedFileChanged={setSelectedFile}
-                />
-              )}
-            </Fill>
-            <BottomResizable
-              size={serialVisible ? "40%" : "0%"}
-              style={{ borderTop: "4px solid whitesmoke" }}
-            >
-              {/* For accessibility. 
-                Using `display` breaks the terminal height adjustment */}
-              <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
-            </BottomResizable>
-          </Fill>
-          <Bottom size="4rem">
-            <ProjectActionBar p={2} borderTop="1px solid #d3d3d3" />
-          </Bottom>
-        </Fill>
-      </Fill>
-    </ViewPort>
+    <Flex className="Workbench">
+      <SplitView width="100%">
+        <LeftPanel
+          selectedFile={selectedFile}
+          onSelectedFileChanged={setSelectedFile}
+          flex="1 1 100%"
+        />
+        <Flex flex="1 1 100%" flexDirection="column" height="100%">
+          <Box flex="1 1 auto" height="0">
+            {selectedFile && (
+              <EditorArea
+                key={selectedFile + "/" + fileVersion}
+                filename={selectedFile}
+                onSelectedFileChanged={setSelectedFile}
+              />
+            )}
+          </Box>
+          <Box height={serialVisible ? "40%" : "0%"}>
+            {/* For accessibility. 
+              Using `display` breaks the terminal height adjustment */}
+            <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
+          </Box>
+          <ProjectActionBar p={2} borderTop="1px solid #d3d3d3" />
+        </Flex>
+      </SplitView>
+    </Flex>
   );
 };
 
