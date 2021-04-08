@@ -1,4 +1,5 @@
 import {
+  Box,
   BoxProps,
   Flex,
   Icon,
@@ -17,6 +18,7 @@ import {
   RiLayoutMasonryFill,
   RiSettings2Line,
 } from "react-icons/ri";
+import LogoStacked from "../common/LogoStacked";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import PackagesArea from "../packages/PackagesArea";
@@ -96,14 +98,12 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         index={index}
       >
         <TabList backgroundColor="blackAlpha.800">
+          {/* Brand: logo should have padding ~ the width of the 'o' */}
+          <Box height={20} width={24} p="10px">
+            <LogoStacked />
+          </Box>
           {panes.map((p) => (
-            <Tab
-              key={p.id}
-              color="white"
-              height="4.5rem"
-              width="5.625rem"
-              p={0}
-            >
+            <Tab key={p.id} color="white" height={20} width={24} p={0}>
               <VStack>
                 <Icon boxSize={5} as={p.icon} />
                 <Text m={0} fontSize="sm">
