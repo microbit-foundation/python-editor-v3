@@ -47,9 +47,11 @@ describe("Filesystem", () => {
   it("has an initial blank project", async () => {
     expect(ufs.project.files).toEqual([]);
     expect(ufs.project.id).toBeDefined();
+    expect(ufs.dirty).toEqual(false);
 
     await ufs.initialize();
 
+    expect(ufs.dirty).toEqual(false);
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 1 }]);
   });
 
@@ -71,8 +73,10 @@ describe("Filesystem", () => {
   });
 
   it("can manage the project name", async () => {
+    expect(ufs.dirty).toEqual(false);
     expect(ufs.project.name).toEqual(config.defaultProjectName);
     await ufs.setProjectName("test 1");
+    expect(ufs.dirty).toEqual(true);
     expect(ufs.project.name).toEqual("test 1");
 
     await ufs.initialize();
@@ -97,6 +101,13 @@ describe("Filesystem", () => {
 
     expect(await asString(ufs.read(MAIN_FILE))).toEqual("content3");
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 2 }]);
+  });
+
+  it("writes that don't increment the version mark the project as dirty", async () => {
+    await ufs.write(MAIN_FILE, "content1", VersionAction.INCREMENT);
+    expect(ufs.dirty).toEqual(false);
+    await ufs.write(MAIN_FILE, "content1", VersionAction.MAINTAIN);
+    expect(ufs.dirty).toEqual(true);
   });
 
   it("throws error attempting to read non-existent file", async () => {
@@ -132,6 +143,18 @@ describe("Filesystem", () => {
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 2 }]);
     expect(ufs.project.name).toEqual("new project name");
     expect(ufs.project.id === originalId).toEqual(false);
+  });
+
+  it("no longer dirty if new hex loaded", async () => {
+    await ufs.setProjectName("new name");
+    expect(ufs.dirty).toEqual(true);
+
+    await ufs.replaceWithHexContents(
+      "different name",
+      await fsp.readFile("testData/1.0.1.hex", { encoding: "ascii" })
+    );
+
+    expect(ufs.dirty).toEqual(false);
   });
 
   it("copes if you add new large files", async () => {

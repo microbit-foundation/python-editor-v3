@@ -71,6 +71,7 @@ export class FileSystem extends EventEmitter {
   private initializing: Promise<void> | undefined;
   private storage: FSStorage = new InMemoryFSStorage();
   private fs: undefined | MicropythonFsHex;
+  private _dirty: boolean = false;
   project: Project = {
     files: [],
     id: generateId(),
@@ -85,7 +86,17 @@ export class FileSystem extends EventEmitter {
   }
 
   /**
-   * Run an initialization asyncrounously.
+   * Determines if the file system has changed since the last hex load.
+   *
+   * Changes are edits to existing files (not version updates) and
+   * changes to the project name.
+   */
+  get dirty() {
+    return this._dirty;
+  }
+
+  /**
+   * Run an initialization asynchronously.
    *
    * If it fails, we'll handle the error and attempt reinitialization on demand.
    */
@@ -125,6 +136,7 @@ export class FileSystem extends EventEmitter {
    */
   async setProjectName(projectName: string) {
     await this.storage.setProjectName(projectName);
+    this._dirty = true;
     return this.notify();
   }
 
@@ -175,6 +187,7 @@ export class FileSystem extends EventEmitter {
       return this.notify();
     } else {
       // Nothing can have changed, don't needlessly change the identity of our file objects.
+      this._dirty = true;
     }
   }
 
@@ -196,7 +209,7 @@ export class FileSystem extends EventEmitter {
       fs.ls().forEach((f) => fs.remove(f));
       fs.write(MAIN_FILE, code);
     }
-
+    this._dirty = false;
     this.project = {
       ...this.project,
       id: generateId(),
