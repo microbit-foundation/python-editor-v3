@@ -98,6 +98,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         index={index}
       >
         <TabList backgroundColor="blackAlpha.800">
+          {/* Brand: logo should have padding ~ the width of the 'o' */}
           <Box height={20} width={24} p="10px">
             <LogoStacked />
           </Box>
