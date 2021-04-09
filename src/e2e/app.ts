@@ -4,7 +4,7 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { ElementHandle, Page, Dialog } from "puppeteer";
+import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
 import { createBinary } from "typescript";
 
 export interface BrowserDownload {
@@ -23,35 +23,53 @@ export interface BrowserDownload {
  * them to be true, than to read and return data from the DOM.
  */
 export class App {
+  /**
+   * Tracks dialogs observed by Pupeteer's dialog event.
+   */
+  private dialogs: string[] = [];
+  private browser: Promise<Browser>;
   private page: Promise<Page>;
   private downloadPath = fs.mkdtempSync(
     path.join(os.tmpdir(), "puppeteer-downloads-")
   );
 
   constructor() {
-    this.page = (async () => {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      const client = await page.target().createCDPSession();
-      await client.send("Page.setDownloadBehavior", {
-        behavior: "allow",
-        downloadPath: this.downloadPath,
-      });
-      return page;
-    })();
+    this.browser = puppeteer.launch();
+    this.page = this.createPage();
+  }
+
+  async createPage() {
+    const browser = await this.browser;
+    this.dialogs.length = 0;
+
+    const page = await browser.newPage();
+    const client = await page.target().createCDPSession();
+    await client.send("Page.setDownloadBehavior", {
+      behavior: "allow",
+      downloadPath: this.downloadPath,
+    });
+
+    page.on("dialog", (dialog) => {
+      this.dialogs.push(dialog.type());
+      dialog.dismiss();
+    });
+
+    await page.evaluate(() => {
+      if (document.domain === "localhost") {
+        window.localStorage.clear();
+      }
+    });
+
+    return page;
   }
 
   async closePageCheckDialog(): Promise<boolean> {
     const page = await this.page;
-    const types: string[] = [];
-    page.on("dialog", async (dialog: Dialog) => {
-      types.push(dialog.type());
-      await dialog.dismiss();
-    });
     await page.close({
       runBeforeUnload: true,
     });
-    return types.length === 1 && types[0] === "beforeunload";
+
+    return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
   }
 
   /**
@@ -347,15 +365,11 @@ export class App {
   }
 
   /**
-   * Reload the page after clearing local storage.
+   * Resets the page after clearing local storage.
    */
   async reload() {
+    this.page = this.createPage();
     const page = await this.page;
-    await page.evaluate(() => {
-      if (document.domain === "localhost") {
-        window.localStorage.clear();
-      }
-    });
     await page.goto("http://localhost:3000");
   }
 
@@ -365,7 +379,7 @@ export class App {
   async dispose() {
     await fsp.rmdir(this.downloadPath, { recursive: true });
     const page = await this.page;
-    return page.browser().close();
+    await page.browser().close();
   }
 
   private async selectSideBar(tabName: string) {
