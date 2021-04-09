@@ -11,6 +11,8 @@ import LeftPanel from "./LeftPanel";
 import SplitView from "./SplitView";
 import { useSelection } from "./use-selection";
 
+const minimums: [number, number] = [380, 580];
+
 /**
  * The main app layout with resizable panels.
  */
@@ -33,7 +35,7 @@ const Workbench = () => {
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
     <Flex className="Workbench">
-      <SplitView width="100%" minimums={[380, 580]}>
+      <SplitView width="100%" minimums={minimums}>
         <LeftPanel
           selectedFile={selectedFile}
           onSelectedFileChanged={setSelectedFile}
