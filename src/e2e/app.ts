@@ -296,9 +296,10 @@ export class App {
   }
 
   /**
-   * Wait for the editor contents to match the given regexp, throwing if it doesn't happen.
+   * Type in the editor area.
    *
-   * Only the first few lines will be visible.
+   * This will focus the editor area and type with the caret in its default position
+   * (the beginning unless we've otherwise interacted with it).
    *
    * @param match The regex.
    */
