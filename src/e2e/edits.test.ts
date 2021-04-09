@@ -6,19 +6,19 @@ describe("Browser - edits", () => {
   afterAll(app.dispose.bind(app));
 
   it("doesn't prompt on close if no edits made", async () => {
-    await app.closePageExpectingDialog(false);
+    expect(await app.closePageCheckDialog()).toEqual(false);
   });
 
   it("prompts on close if project name edited", async () => {
     await app.setProjectName("idiosyncratic ruminant");
 
-    await app.closePageExpectingDialog(true);
+    expect(await app.closePageCheckDialog()).toEqual(true);
   });
 
   it("prompts on close if file edited", async () => {
     await app.typeInEditor("A change!");
 
     await app.findVisibleEditorContents(/A change/);
-    await app.closePageExpectingDialog(true);
+    expect(await app.closePageCheckDialog()).toEqual(true);
   });
 });

@@ -4,7 +4,7 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { ElementHandle, Page } from "puppeteer";
+import puppeteer, { ElementHandle, Page, Dialog } from "puppeteer";
 import { createBinary } from "typescript";
 
 export interface BrowserDownload {
@@ -41,12 +41,17 @@ export class App {
     })();
   }
 
-  async closePageExpectingDialog(dialog: boolean) {
+  async closePageCheckDialog(): Promise<boolean> {
     const page = await this.page;
-    // Find out how to notice a "beforeunload" dialog in Puppeteer
+    const types: string[] = [];
+    page.on("dialog", async (dialog: Dialog) => {
+      types.push(dialog.type());
+      await dialog.dismiss();
+    });
     await page.close({
       runBeforeUnload: true,
     });
+    return types.length === 1 && types[0] === "beforeunload";
   }
 
   /**
