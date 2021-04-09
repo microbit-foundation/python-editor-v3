@@ -41,6 +41,14 @@ export class App {
     })();
   }
 
+  async closePageExpectingDialog(dialog: boolean) {
+    const page = await this.page;
+    // Find out how to notice a "beforeunload" dialog in Pupeteer
+    await page.close({
+      runBeforeUnload: true,
+    });
+  }
+
   /**
    * Open a file using the file chooser.
    *
@@ -260,6 +268,22 @@ export class App {
       const value = await text();
       expect(value).toMatch(match);
     });
+  }
+
+  /**
+   * Wait for the editor contents to match the given regexp, throwing if it doesn't happen.
+   *
+   * Only the first few lines will be visible.
+   *
+   * @param match The regex.
+   */
+  async typeInEditor(text: string): Promise<void> {
+    const document = await this.document();
+    const content = await document.$(".cm-content");
+    if (!content) {
+      throw new Error("Missing editor area");
+    }
+    await content.type(text);
   }
 
   /**
