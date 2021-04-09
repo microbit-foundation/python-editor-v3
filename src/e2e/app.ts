@@ -5,7 +5,6 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
-import { createBinary } from "typescript";
 
 export interface BrowserDownload {
   filename: string;
@@ -40,7 +39,6 @@ export class App {
 
   async createPage() {
     const browser = await this.browser;
-    this.dialogs.length = 0;
 
     const page = await browser.newPage();
     const client = await page.target().createCDPSession();
@@ -49,9 +47,10 @@ export class App {
       downloadPath: this.downloadPath,
     });
 
-    page.on("dialog", (dialog) => {
+    this.dialogs.length = 0;
+    page.on("dialog", async (dialog: Dialog) => {
       this.dialogs.push(dialog.type());
-      dialog.dismiss();
+      await dialog.dismiss();
     });
 
     await page.evaluate(() => {
@@ -68,7 +67,10 @@ export class App {
     await page.close({
       runBeforeUnload: true,
     });
-
+    // A delay is required to give us a chance to handle the dialog event.
+    // If this proves fragile we could wait for the success condition below
+    // and give up on testing the absence of a dialog.
+    await page.waitForTimeout(50);
     return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
   }
 
@@ -365,11 +367,16 @@ export class App {
   }
 
   /**
-   * Resets the page after clearing local storage.
+   * Resets the page for a new test.
    */
   async reload() {
+    let page = await this.page;
+    if (!page.isClosed()) {
+      page.removeAllListeners();
+      await page.close();
+    }
     this.page = this.createPage();
-    const page = await this.page;
+    page = await this.page;
     await page.goto("http://localhost:3000");
   }
 
