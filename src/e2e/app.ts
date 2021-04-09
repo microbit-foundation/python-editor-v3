@@ -43,7 +43,7 @@ export class App {
 
   async closePageExpectingDialog(dialog: boolean) {
     const page = await this.page;
-    // Find out how to notice a "beforeunload" dialog in Pupeteer
+    // Find out how to notice a "beforeunload" dialog in Puppeteer
     await page.close({
       runBeforeUnload: true,
     });
