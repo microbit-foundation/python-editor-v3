@@ -19,6 +19,7 @@ import {
   SettingsContext,
 } from "./settings/settings";
 import theme from "./theme";
+import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
@@ -51,6 +52,7 @@ const App = () => {
             <DialogProvider>
               <DeviceContext.Provider value={device}>
                 <FileSystemContext.Provider value={fs}>
+                  <BeforeUnloadDirtyCheck />
                   <SelectionContext>
                     <ProjectDropTarget>
                       <Workbench />

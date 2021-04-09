@@ -4,8 +4,7 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { ElementHandle, Page } from "puppeteer";
-import { createBinary } from "typescript";
+import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
 
 export interface BrowserDownload {
   filename: string;
@@ -23,22 +22,56 @@ export interface BrowserDownload {
  * them to be true, than to read and return data from the DOM.
  */
 export class App {
+  /**
+   * Tracks dialogs observed by Pupeteer's dialog event.
+   */
+  private dialogs: string[] = [];
+  private browser: Promise<Browser>;
   private page: Promise<Page>;
   private downloadPath = fs.mkdtempSync(
     path.join(os.tmpdir(), "puppeteer-downloads-")
   );
 
   constructor() {
-    this.page = (async () => {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      const client = await page.target().createCDPSession();
-      await client.send("Page.setDownloadBehavior", {
-        behavior: "allow",
-        downloadPath: this.downloadPath,
-      });
-      return page;
-    })();
+    this.browser = puppeteer.launch();
+    this.page = this.createPage();
+  }
+
+  async createPage() {
+    const browser = await this.browser;
+
+    const page = await browser.newPage();
+    const client = await page.target().createCDPSession();
+    await client.send("Page.setDownloadBehavior", {
+      behavior: "allow",
+      downloadPath: this.downloadPath,
+    });
+
+    this.dialogs.length = 0;
+    page.on("dialog", async (dialog: Dialog) => {
+      this.dialogs.push(dialog.type());
+      await dialog.dismiss();
+    });
+
+    await page.evaluate(() => {
+      if (document.domain === "localhost") {
+        window.localStorage.clear();
+      }
+    });
+
+    return page;
+  }
+
+  async closePageCheckDialog(): Promise<boolean> {
+    const page = await this.page;
+    await page.close({
+      runBeforeUnload: true,
+    });
+    // A delay is required to give us a chance to handle the dialog event.
+    // If this proves fragile we could wait for the success condition below
+    // and give up on testing the absence of a dialog.
+    await page.waitForTimeout(50);
+    return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
   }
 
   /**
@@ -263,6 +296,23 @@ export class App {
   }
 
   /**
+   * Type in the editor area.
+   *
+   * This will focus the editor area and type with the caret in its default position
+   * (the beginning unless we've otherwise interacted with it).
+   *
+   * @param match The regex.
+   */
+  async typeInEditor(text: string): Promise<void> {
+    const document = await this.document();
+    const content = await document.$(".cm-content");
+    if (!content) {
+      throw new Error("Missing editor area");
+    }
+    await content.type(text);
+  }
+
+  /**
    * Edit the project name.
    *
    * @param projectName The new name.
@@ -318,15 +368,16 @@ export class App {
   }
 
   /**
-   * Reload the page after clearing local storage.
+   * Resets the page for a new test.
    */
   async reload() {
-    const page = await this.page;
-    await page.evaluate(() => {
-      if (document.domain === "localhost") {
-        window.localStorage.clear();
-      }
-    });
+    let page = await this.page;
+    if (!page.isClosed()) {
+      page.removeAllListeners();
+      await page.close();
+    }
+    this.page = this.createPage();
+    page = await this.page;
     await page.goto("http://localhost:3000");
   }
 
@@ -336,7 +387,7 @@ export class App {
   async dispose() {
     await fsp.rmdir(this.downloadPath, { recursive: true });
     const page = await this.page;
-    return page.browser().close();
+    await page.browser().close();
   }
 
   private async selectSideBar(tabName: string) {
