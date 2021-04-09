@@ -33,7 +33,7 @@ const Workbench = () => {
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
     <Flex className="Workbench">
-      <SplitView width="100%">
+      <SplitView width="100%" minimums={[380, 580]}>
         <LeftPanel
           selectedFile={selectedFile}
           onSelectedFileChanged={setSelectedFile}

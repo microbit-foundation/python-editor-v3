@@ -7,10 +7,11 @@ import React, {
   useState,
 } from "react";
 
-const MIN_WIDTH = 380;
+const separatorPixels = 5;
 
 interface SplitViewProps extends Omit<FlexProps, "children"> {
   children: [JSX.Element, JSX.Element];
+  minimums: [number, number];
 }
 
 interface FirstPaneProps {
@@ -29,53 +30,45 @@ const FirstPane = ({ children, firstWidth, setFirstWidth }: FirstPaneProps) => {
   return <Box ref={firstRef}>{children}</Box>;
 };
 
-export const SplitView = ({ children, ...props }: SplitViewProps) => {
+export const SplitView = ({ children, minimums, ...props }: SplitViewProps) => {
   const [firstChild, secondChild] = children;
-  const [firstWidth, setFirstWidth] = useState<undefined | number>(MIN_WIDTH);
-  const [separatorPosition, setSeparatorPosition] = useState<
-    undefined | number
-  >(undefined);
+  const [firstWidth, setFirstWidth] = useState<undefined | number>(minimums[0]);
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      setSeparatorPosition(e.clientX);
       setDragging(true);
       // Avoids cursor flicker.
       splitViewRef.current!.style.cursor = "col-resize";
     },
-    [setSeparatorPosition, setDragging]
+    [setDragging]
   );
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
-      setSeparatorPosition(e.touches[0].clientX);
       setDragging(true);
     },
-    [setSeparatorPosition, setDragging]
+    [setDragging]
   );
 
   const handleMove = useCallback(
     (e: Event, clientX: number) => {
-      if (dragging && firstWidth && separatorPosition) {
-        const newFirstWidth = firstWidth + clientX - separatorPosition;
-        setSeparatorPosition(clientX);
-        if (newFirstWidth < MIN_WIDTH) {
-          setFirstWidth(MIN_WIDTH);
-          return;
+      if (dragging) {
+        const rect = splitViewRef.current!.getBoundingClientRect();
+        let width = clientX - rect.left;
+        if (width < minimums[0]) {
+          width = minimums[0];
         }
-        if (splitViewRef.current) {
-          const splitPaneWidth = splitViewRef.current.clientWidth;
-          if (newFirstWidth > splitPaneWidth - MIN_WIDTH) {
-            setFirstWidth(splitPaneWidth - MIN_WIDTH);
-            return;
-          }
+        // Check remaining space for other component vs its minimum
+        const maximum = rect.width - separatorPixels - minimums[1];
+        if (width > maximum) {
+          width = maximum;
         }
-        setFirstWidth(newFirstWidth);
+        setFirstWidth(width);
       }
     },
-    [dragging, firstWidth, setFirstWidth, separatorPosition, splitViewRef]
+    [dragging, setFirstWidth, splitViewRef, minimums]
   );
 
   const handleMouseMove = useCallback(
@@ -114,7 +107,7 @@ export const SplitView = ({ children, ...props }: SplitViewProps) => {
   }, [handleMouseMove, handleTouchMove, handleTouchEndOrMouseUp]);
 
   return (
-    <Flex ref={splitViewRef} {...props}>
+    <Flex ref={splitViewRef} {...props} width="100%">
       <FirstPane firstWidth={firstWidth} setFirstWidth={setFirstWidth}>
         {firstChild}
       </FirstPane>
@@ -126,9 +119,15 @@ export const SplitView = ({ children, ...props }: SplitViewProps) => {
         alignSelf="stretch"
         alignItems="center"
       >
-        <Box height="100%" width="5px" backgroundColor="whitesmoke" />
+        <Box
+          height="100%"
+          width={`${separatorPixels}px`}
+          backgroundColor="whitesmoke"
+        />
       </Flex>
-      <Box flex="1">{secondChild}</Box>
+      <Box width={`calc(100% - ${firstWidth}px - ${separatorPixels}px)`}>
+        {secondChild}
+      </Box>
     </Flex>
   );
 };
