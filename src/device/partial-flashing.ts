@@ -5,7 +5,9 @@
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
 import { DAPLink } from "dapjs";
+import { FlashDataSource } from "../fs/fs";
 import { Logging } from "../logging/logging";
+import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import {
   CoreRegister,
@@ -194,10 +196,11 @@ export class PartialFlashing {
   // Falls back to a full flash if partial flashing fails.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L335
   private async partialFlashAsync(
-    flashBytes: Uint8Array,
-    hexBuffer: ArrayBuffer,
+    boardId: BoardId,
+    dataSource: FlashDataSource,
     updateProgress: ProgressCallback
   ) {
+    const flashBytes = await dataSource.partial(boardId);
     const checksums = await this.getFlashChecksumsAsync();
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
     let aligned = pageAlignBlocks(flashBytes, 0, this.dapwrapper.pageSize);
@@ -207,7 +210,7 @@ export class PartialFlashing {
     this.log("Changed pages: " + aligned.length);
     if (aligned.length > totalPages / 2) {
       try {
-        await this.fullFlashAsync(hexBuffer, updateProgress);
+        await this.fullFlashAsync(boardId, dataSource, updateProgress);
       } catch (e) {
         this.log(e);
         this.log("Full flash failed, attempting partial flash.");
@@ -219,7 +222,7 @@ export class PartialFlashing {
       } catch (e) {
         this.log(e);
         this.log("Partial flash failed, attempting full flash.");
-        await this.fullFlashAsync(hexBuffer, updateProgress);
+        await this.fullFlashAsync(boardId, dataSource, updateProgress);
       }
     }
 
@@ -232,7 +235,11 @@ export class PartialFlashing {
   }
 
   // Perform full flash of micro:bit's ROM using daplink.
-  async fullFlashAsync(image: ArrayBuffer, updateProgress: ProgressCallback) {
+  async fullFlashAsync(
+    boardId: BoardId,
+    dataSource: FlashDataSource,
+    updateProgress: ProgressCallback
+  ) {
     this.log("Full flash");
 
     const flashProgressListener = (progress: number) => {
@@ -240,8 +247,9 @@ export class PartialFlashing {
     };
     this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, flashProgressListener);
     try {
+      const data = await dataSource.full(boardId);
       await this.dapwrapper.transport.open();
-      await this.dapwrapper.daplink.flash(image);
+      await this.dapwrapper.daplink.flash(data);
     } finally {
       this.dapwrapper.daplink.removeListener(
         DAPLink.EVENT_PROGRESS,
@@ -253,8 +261,8 @@ export class PartialFlashing {
   // Flash the micro:bit's ROM with the provided image, resetting the micro:bit first.
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L439
   async flashAsync(
-    flashBytes: Uint8Array,
-    hexBuffer: ArrayBuffer,
+    boardId: BoardId,
+    dataSource: FlashDataSource,
     updateProgress: ProgressCallback
   ) {
     let resetPromise = (async () => {
@@ -281,10 +289,10 @@ export class PartialFlashing {
       if (result === "timeout") {
         this.log("Resetting micro:bit timed out");
         this.log("Partial flashing failed. Attempting full flash");
-        await this.fullFlashAsync(hexBuffer, updateProgress);
+        await this.fullFlashAsync(boardId, dataSource, updateProgress);
       } else {
         this.log("Begin flashing");
-        await this.partialFlashAsync(flashBytes, hexBuffer, updateProgress);
+        await this.partialFlashAsync(boardId, dataSource, updateProgress);
       }
     } finally {
       // NB cannot return Promises above!

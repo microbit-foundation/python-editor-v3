@@ -190,7 +190,7 @@ describe("Filesystem", () => {
   });
 
   it("creates board-specific data for flashing", async () => {
-    const data = await ufs.toHexForFlash(BoardId.parse("9900"));
+    const data = await ufs.asFlashDataSource(BoardId.parse("9900"));
 
     // This is weird!
     expect(data.bytes).toBeInstanceOf(Uint8Array);

@@ -204,13 +204,12 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
     const boardIdString = this.connection.boardId;
     const boardId = BoardId.parse(boardIdString);
-    const data = await dataSource(boardId);
     const flashing = new PartialFlashing(this.connection, this.logging);
     try {
       if (partial) {
-        await flashing.flashAsync(data.bytes, data.intelHex, progress);
+        await flashing.flashAsync(boardId, dataSource, progress);
       } else {
-        await flashing.fullFlashAsync(data.intelHex, progress);
+        await flashing.fullFlashAsync(boardId, dataSource, progress);
       }
 
       this.log("Reinstating serial after flash");

@@ -43,12 +43,25 @@ export interface Project {
 export const EVENT_PROJECT_UPDATED = "project_updated";
 export const MAIN_FILE = "main.py";
 
-export interface FlashData {
-  bytes: Uint8Array;
-  intelHex: ArrayBuffer;
-}
+export class HexGenerationError extends Error {}
 
-export type FlashDataSource = (boardId: BoardId) => Promise<FlashData>;
+export interface FlashDataSource {
+  /**
+   * The data required for a partial flash.
+   *
+   * @param boardId the id of the board.
+   * @throws HexGenerationError if we cannot generate hex data.
+   */
+  partial(boardId: BoardId): Promise<Uint8Array>;
+
+  /**
+   * A full hex.
+   *
+   * @param boardId
+   * @throws HexGenerationError if we cannot generate hex.
+   */
+  full(boardId: BoardId): Promise<Uint8Array>;
+}
 
 export interface DownloadData {
   intelHex: string;
@@ -248,16 +261,29 @@ export class FileSystem extends EventEmitter {
 
   /**
    * Partial flashing can use just the flash bytes,
+   *
    * Full flashing needs the entire Intel Hex to include the UICR data
    *
-   * @param boardId The board ID (from the WebUSB connection).
+   * We supply either on demand.
    */
-  async toHexForFlash(boardId: BoardId): Promise<FlashData> {
-    const fs = await this.initialize();
-    const normalisedId = boardId.normalize().id;
+  asFlashDataSource(): FlashDataSource {
     return {
-      bytes: fs.getIntelHexBytes(normalisedId),
-      intelHex: asciiToBytes(fs.getIntelHex(normalisedId)),
+      full: async (boardId: BoardId) => {
+        try {
+          const fs = await this.initialize();
+          return asciiToBytes(fs.getIntelHex(boardId.normalize().id));
+        } catch (e) {
+          throw new HexGenerationError(e.message);
+        }
+      },
+      partial: async (boardId: BoardId) => {
+        try {
+          const fs = await this.initialize();
+          return fs.getIntelHexBytes(boardId.normalize().id);
+        } catch (e) {
+          throw new HexGenerationError(e.message);
+        }
+      },
     };
   }
 
