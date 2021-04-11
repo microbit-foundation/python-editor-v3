@@ -3,9 +3,9 @@ import { saveAs } from "file-saver";
 import Separate, { br } from "../common/Separate";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
-import { BoardId } from "../device/board-id";
 import {
   ConnectionStatus,
+  HexGenerationError,
   MicrobitWebUSBConnection,
   WebUSBError,
 } from "../device/device";
@@ -21,8 +21,6 @@ import { Logging } from "../logging/logging";
 import translation from "../translation";
 import { ensurePythonExtension, validateNewFilename } from "./project-utils";
 import ReplaceFilesQuestion from "./ReplaceFilesQuestion";
-
-class HexGenerationError extends Error {}
 
 enum FileOperation {
   REPLACE,
@@ -279,14 +277,6 @@ export class ProjectActions {
       return;
     }
 
-    const dataSource = async (boardId: BoardId) => {
-      try {
-        return await this.fs.toHexForFlash(boardId);
-      } catch (e) {
-        throw new HexGenerationError(e.message);
-      }
-    };
-
     try {
       const progress = (value: number | undefined) => {
         this.dialogs.progress({
@@ -294,7 +284,7 @@ export class ProjectActions {
           progress: value,
         });
       };
-      await this.device.flash(dataSource, { partial: true, progress });
+      await this.device.flash(this.fs, { partial: true, progress });
     } catch (e) {
       if (e instanceof HexGenerationError) {
         this.actionFeedback.expectedError({

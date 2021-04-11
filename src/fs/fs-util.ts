@@ -53,12 +53,12 @@ export const readFileAsUint8Array = async (file: File): Promise<Uint8Array> => {
  * @param str A string assumed to be ASCII.
  * @returns Corresponding bytes.
  */
-export const asciiToBytes = (str: string): ArrayBuffer => {
-  var bytes = new Uint8Array(str.length);
-  for (var i = 0, strLen = str.length; i < strLen; i++) {
+export const asciiToBytes = (str: string): Uint8Array => {
+  const bytes = new Uint8Array(str.length);
+  for (let i = 0, strLen = str.length; i < strLen; i++) {
     bytes[i] = str.charCodeAt(i);
   }
-  return bytes.buffer;
+  return bytes;
 };
 
 /**

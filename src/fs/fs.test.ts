@@ -190,11 +190,10 @@ describe("Filesystem", () => {
   });
 
   it("creates board-specific data for flashing", async () => {
-    const data = await ufs.toHexForFlash(BoardId.parse("9900"));
-
-    // This is weird!
-    expect(data.bytes).toBeInstanceOf(Uint8Array);
-    expect(data.intelHex).toBeInstanceOf(ArrayBuffer);
+    const boardId = BoardId.parse("9900");
+    const partial = await ufs.partialFlashData(boardId);
+    const full = await ufs.fullFlashData(boardId);
+    expect(partial.length).toBeLessThan(full.length);
   });
 });
 

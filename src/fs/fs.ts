@@ -5,6 +5,7 @@ import {
 import EventEmitter from "events";
 import config from "../config";
 import { BoardId } from "../device/board-id";
+import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
 import { asciiToBytes, generateId } from "./fs-util";
 import initialCode from "./initial-code";
@@ -43,13 +44,6 @@ export interface Project {
 export const EVENT_PROJECT_UPDATED = "project_updated";
 export const MAIN_FILE = "main.py";
 
-export interface FlashData {
-  bytes: Uint8Array;
-  intelHex: ArrayBuffer;
-}
-
-export type FlashDataSource = (boardId: BoardId) => Promise<FlashData>;
-
 export interface DownloadData {
   intelHex: string;
   filename: string;
@@ -67,7 +61,7 @@ export interface DownloadData {
  * or fire any events. This plays well with uncontrolled embeddings of
  * third-party text editors.
  */
-export class FileSystem extends EventEmitter {
+export class FileSystem extends EventEmitter implements FlashDataSource {
   private initializing: Promise<void> | undefined;
   private storage: FSStorage = new InMemoryFSStorage();
   private fs: undefined | MicropythonFsHex;
@@ -246,19 +240,22 @@ export class FileSystem extends EventEmitter {
     };
   }
 
-  /**
-   * Partial flashing can use just the flash bytes,
-   * Full flashing needs the entire Intel Hex to include the UICR data
-   *
-   * @param boardId The board ID (from the WebUSB connection).
-   */
-  async toHexForFlash(boardId: BoardId): Promise<FlashData> {
-    const fs = await this.initialize();
-    const normalisedId = boardId.normalize().id;
-    return {
-      bytes: fs.getIntelHexBytes(normalisedId),
-      intelHex: asciiToBytes(fs.getIntelHex(normalisedId)),
-    };
+  async fullFlashData(boardId: BoardId): Promise<Uint8Array> {
+    try {
+      const fs = await this.initialize();
+      return asciiToBytes(fs.getIntelHex(boardId.normalize().id));
+    } catch (e) {
+      throw new HexGenerationError(e.message);
+    }
+  }
+
+  async partialFlashData(boardId: BoardId): Promise<Uint8Array> {
+    try {
+      const fs = await this.initialize();
+      return fs.getIntelHexBytes(boardId.normalize().id);
+    } catch (e) {
+      throw new HexGenerationError(e.message);
+    }
   }
 
   private assertInitialized(): MicropythonFsHex {
