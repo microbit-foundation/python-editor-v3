@@ -8,10 +8,15 @@
 import {
   ConnectionStatus,
   EVENT_STATUS,
+  FlashDataSource,
   MicrobitWebUSBConnection,
 } from "./device";
 import { USB } from "webusb";
 import { NullLogging } from "../logging/null";
+import * as fsp from "fs/promises";
+
+const twoMinutes = 60 * 2 * 1000;
+jest.setTimeout(twoMinutes);
 
 const describeDeviceOnly = process.env.TEST_MODE_DEVICE
   ? describe
@@ -69,6 +74,21 @@ describeDeviceOnly("MicrobitWebUSBConnection (WebUSB supported)", () => {
     // Flash MicroPython hex that outputs serial.
     // Flash another MicroPython hex, assert that we got a small number of progress events.
     // I think we need to rejig the interface to get flash data before writing this.
+
+    const makecodeFullDataSource: FlashDataSource = {
+      fullFlashData: async () => {
+        return fsp.readFile("testData/makecode-serial-writer.hex");
+      },
+      partialFlashData: () => {
+        throw new Error("Unexpected");
+      },
+    };
+
+    const connection = new MicrobitWebUSBConnection();
+    await connection.flash(makecodeFullDataSource, {
+      partial: false,
+      progress: () => {},
+    });
   });
 
   it("connects to flash and stays connected afterwards", () => {
