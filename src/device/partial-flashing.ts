@@ -5,10 +5,10 @@
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
 import { DAPLink } from "dapjs";
-import { FlashDataSource } from "../fs/fs";
 import { Logging } from "../logging/logging";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
+import { FlashDataSource } from "./device";
 import {
   CoreRegister,
   onlyChanged,
@@ -200,7 +200,7 @@ export class PartialFlashing {
     dataSource: FlashDataSource,
     updateProgress: ProgressCallback
   ) {
-    const flashBytes = await dataSource.partial(boardId);
+    const flashBytes = await dataSource.partialFlashData(boardId);
     const checksums = await this.getFlashChecksumsAsync();
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
     let aligned = pageAlignBlocks(flashBytes, 0, this.dapwrapper.pageSize);
@@ -247,7 +247,7 @@ export class PartialFlashing {
     };
     this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, flashProgressListener);
     try {
-      const data = await dataSource.full(boardId);
+      const data = await dataSource.fullFlashData(boardId);
       await this.dapwrapper.transport.open();
       await this.dapwrapper.daplink.flash(data);
     } finally {

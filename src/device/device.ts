@@ -1,5 +1,4 @@
 import EventEmitter from "events";
-import { FlashDataSource } from "../fs/fs";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../logging/null";
 import translation from "../translation";
@@ -95,6 +94,26 @@ export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
+
+export class HexGenerationError extends Error {}
+
+export interface FlashDataSource {
+  /**
+   * The data required for a partial flash.
+   *
+   * @param boardId the id of the board.
+   * @throws HexGenerationError if we cannot generate hex data.
+   */
+  partialFlashData(boardId: BoardId): Promise<Uint8Array>;
+
+  /**
+   * A full hex.
+   *
+   * @param boardId
+   * @throws HexGenerationError if we cannot generate hex.
+   */
+  fullFlashData(boardId: BoardId): Promise<Uint8Array>;
+}
 
 /**
  * A WebUSB connection to a micro:bit device.

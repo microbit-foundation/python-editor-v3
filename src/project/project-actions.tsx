@@ -5,15 +5,11 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
+  HexGenerationError,
   MicrobitWebUSBConnection,
   WebUSBError,
 } from "../device/device";
-import {
-  DownloadData,
-  FileSystem,
-  HexGenerationError,
-  MAIN_FILE,
-} from "../fs/fs";
+import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
 import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
@@ -288,8 +284,7 @@ export class ProjectActions {
           progress: value,
         });
       };
-      const dataSource = this.fs.asFlashDataSource();
-      await this.device.flash(dataSource, { partial: true, progress });
+      await this.device.flash(this.fs, { partial: true, progress });
     } catch (e) {
       if (e instanceof HexGenerationError) {
         this.actionFeedback.expectedError({
