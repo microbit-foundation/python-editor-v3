@@ -17,6 +17,6 @@ body,
 #root,
 .Workbench {
   width: 100%;
-  /* (--ios-vvh set by VisualViewPortCSSVariables on iOS only. */
+  /* --ios-vvh set by VisualViewPortCSSVariables on iOS only. */
   height: var(--ios-vvh, var(--webkit-vvh, 100vh));
 }
