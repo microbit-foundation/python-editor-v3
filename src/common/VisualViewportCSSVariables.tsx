@@ -18,8 +18,8 @@ const isIOS = (): boolean =>
  */
 const VisualViewPortCSSVariables = () => {
   useEffect(() => {
+    // If we remove the iOS check then we should look carefully at resize performance.
     if (!window.visualViewport || !isIOS()) {
-      // If we remove the iOS check then we should look carefully at resize performance.
       return;
     }
     const resizeHandler = () => {

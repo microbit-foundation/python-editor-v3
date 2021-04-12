@@ -5,11 +5,18 @@ html {
   --block: rgba(52, 162, 235, 0.06);
 }
 
+/* Needed for the fallbacks below */
+@supports (height: -webkit-fill-available) {
+  :root {
+    --webkit-vhh: -webkit-fill-available;
+  }
+}
+
 html,
 body,
 #root,
 .Workbench {
   width: 100%;
-  height: 100vh;
-  height: var(--ios-vvh, -webkit-fill-available);
+  /* (--ios-vvh set by VisualViewPortCSSVariables on iOS only. */
+  height: var(--ios-vvh, var(--webkit-vvh, 100vh));
 }
