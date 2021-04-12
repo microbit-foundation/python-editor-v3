@@ -7,6 +7,7 @@
  */
 import {
   ConnectionStatus,
+  EVENT_SERIAL_DATA,
   EVENT_STATUS,
   FlashDataSource,
   MicrobitWebUSBConnection,
@@ -76,11 +77,26 @@ describeDeviceOnly("MicrobitWebUSBConnection (WebUSB supported)", () => {
     // Flash another MicroPython hex, assert that we got a small number of progress events.
     // I think we need to rejig the interface to get flash data before writing this.
 
+    // Avoid our code to flash the MakeCode hex.
     await fsp.copyFile(
       "testData/makecode-serial-writer.hex",
       "/Volumes/MICROBIT/makecode-serial-writer.hex"
     );
     child_process.execFileSync("sync", ["/Volumes/MICROBIT"]);
+
+    // Hmm. Fails without this even if pre-flashed.
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const connection = new MicrobitWebUSBConnection();
+    let data: string = "";
+    connection.on(EVENT_SERIAL_DATA, (content: string) => {
+      data += content;
+    });
+    await connection.connect();
+
+    await waitForCondition(() => data.includes("MakeCode"));
+
+    await connection.disconnect();
   });
 
   it("connects to flash and stays connected afterwards", () => {
@@ -105,3 +121,17 @@ describeDeviceOnly("MicrobitWebUSBConnection (WebUSB supported)", () => {
   // Is it feasible to test many of the error cases?
   // I think we'd need to pass a mock DAPWrapper.
 });
+
+const waitForCondition = async (
+  condition: () => boolean,
+  timeout: number = 2000
+) => {
+  const interval = Math.floor(timeout / 20);
+  const start = new Date().getTime();
+  while (!condition()) {
+    if (new Date().getTime() - start > timeout) {
+      throw new Error("Timeout waiting on condition");
+    }
+    await new Promise((resolve) => setTimeout(resolve, interval));
+  }
+};
