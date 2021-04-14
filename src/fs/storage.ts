@@ -71,7 +71,7 @@ const fsPrefix = "fs/";
  * Session storage version.
  */
 export class SessionStorageFSStorage implements FSStorage {
-  private storage = sessionStorage;
+  constructor(private storage: Storage) {}
 
   async ls() {
     return Object.keys(this.storage)

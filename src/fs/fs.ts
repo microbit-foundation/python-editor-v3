@@ -85,7 +85,9 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   private initializing: Promise<void> | undefined;
   private storage: FSStorage = new SplitStrategyStorage(
     new InMemoryFSStorage(),
-    new SessionStorageFSStorage()
+    typeof window !== "undefined" && window.sessionStorage
+      ? new SessionStorageFSStorage(window.sessionStorage)
+      : undefined
   );
   private fileVersions: Map<string, number> = new Map();
   private fs: undefined | MicropythonFsHex;
