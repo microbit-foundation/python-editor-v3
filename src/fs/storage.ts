@@ -1,7 +1,5 @@
+import { fromByteArray, toByteArray } from "base64-js";
 import config from "../config";
-import { toByteArray, fromByteArray } from "base64-js";
-import { MAIN_FILE } from "./fs";
-import initialCode from "./initial-code";
 
 /**
  * Backing storage for the file system.
@@ -18,6 +16,7 @@ export interface FSStorage {
   remove(filename: string): Promise<void>;
   setProjectName(projectName: string): Promise<void>;
   projectName(): Promise<string>;
+  clear(): Promise<void>;
 }
 
 /**
@@ -60,6 +59,10 @@ export class InMemoryFSStorage implements FSStorage {
     }
     this._data.delete(name);
   }
+  async clear() {
+    this._data.clear();
+    this._projectName = config.defaultProjectName;
+  }
 }
 
 const fsPrefix = "fs/";
@@ -69,11 +72,6 @@ const fsPrefix = "fs/";
  */
 export class SessionStorageFSStorage implements FSStorage {
   private storage = sessionStorage;
-  constructor() {
-    if (!this.existsInternal(MAIN_FILE)) {
-      this.writeInternal(MAIN_FILE, new TextEncoder().encode(initialCode));
-    }
-  }
 
   async ls() {
     return Object.keys(this.storage)
@@ -122,4 +120,114 @@ export class SessionStorageFSStorage implements FSStorage {
     }
     this.storage.removeItem(fsPrefix + name);
   }
+
+  async clear(): Promise<void> {
+    this.storage.clear();
+  }
 }
+
+/**
+ * Reads from primary.
+ *
+ * Writes to both.
+ *
+ * If write errors occur it clears primary and discontinues use.
+ */
+export class SplitStrategyStorage implements FSStorage {
+  private initialized: Promise<unknown>;
+
+  constructor(
+    private primary: FSStorage,
+    private secondary: FSStorage | undefined
+  ) {
+    // Error handling? Move init here?
+    this.initialized = secondary ? copy(secondary, primary) : Promise.resolve();
+  }
+
+  async ls() {
+    await this.initialized;
+    return this.primary.ls();
+  }
+
+  async exists(filename: string) {
+    await this.initialized;
+    return this.primary.exists(filename);
+  }
+
+  async setProjectName(projectName: string) {
+    await this.initialized;
+    await Promise.all([
+      this.primary.setProjectName(projectName),
+      this.secondaryErrorHandle((secondary) =>
+        secondary.setProjectName(projectName)
+      ),
+    ]);
+  }
+
+  async projectName(): Promise<string> {
+    await this.initialized;
+    return this.primary.projectName();
+  }
+
+  async read(filename: string): Promise<Uint8Array> {
+    await this.initialized;
+    return this.primary.read(filename);
+  }
+
+  async write(name: string, content: Uint8Array): Promise<void> {
+    await this.initialized;
+    await Promise.all([
+      this.primary.write(name, content),
+      this.secondaryErrorHandle((secondary) => secondary.write(name, content)),
+    ]);
+  }
+
+  async remove(name: string): Promise<void> {
+    await this.initialized;
+    await Promise.all([
+      this.primary.remove(name),
+      this.secondaryErrorHandle((secondary) => secondary.remove(name)),
+    ]);
+  }
+
+  async clear(): Promise<void> {
+    await this.initialized;
+    await Promise.all([
+      this.primary.clear(),
+      this.secondaryErrorHandle((secondary) => secondary.clear()),
+    ]);
+  }
+
+  private async secondaryErrorHandle(
+    action: (secondary: FSStorage) => Promise<void>
+  ): Promise<void> {
+    if (!this.secondary) {
+      return;
+    }
+    try {
+      await action(this.secondary);
+    } catch (e1) {
+      try {
+        await this.secondary.clear();
+      } catch (e2) {
+        // Not much we can do.
+        console.error("Failed to clear secondary storage in error scenario");
+        console.error(e2);
+      }
+      // Avoid all future errors this session.
+      console.error("Abandoning secondary storage due to error");
+      console.error(e1);
+      this.secondary = undefined;
+    }
+  }
+}
+
+const copy = async (from: FSStorage, to: FSStorage) => {
+  const files = await from.ls();
+  return Promise.all(
+    files.map(async (f) => {
+      const v = await from.read(f);
+      return to.write(f, v);
+    })
+  );
+};

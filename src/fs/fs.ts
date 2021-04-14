@@ -8,8 +8,14 @@ import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
 import { asciiToBytes, generateId } from "./fs-util";
+import initialCode from "./initial-code";
 import { MicroPythonSource } from "./micropython";
-import { FSStorage, SessionStorageFSStorage } from "./storage";
+import {
+  FSStorage,
+  InMemoryFSStorage,
+  SessionStorageFSStorage,
+  SplitStrategyStorage,
+} from "./storage";
 
 const commonFsSize = 20 * 1024;
 
@@ -77,7 +83,10 @@ export interface DownloadData {
  */
 export class FileSystem extends EventEmitter implements FlashDataSource {
   private initializing: Promise<void> | undefined;
-  private storage: FSStorage = new SessionStorageFSStorage();
+  private storage: FSStorage = new SplitStrategyStorage(
+    new InMemoryFSStorage(),
+    new SessionStorageFSStorage()
+  );
   private fileVersions: Map<string, number> = new Map();
   private fs: undefined | MicropythonFsHex;
   private _dirty: boolean = false;
@@ -123,6 +132,17 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     }
     if (!this.initializing) {
       this.initializing = (async () => {
+        if (!(await this.exists(MAIN_FILE))) {
+          // Do this ASAP to unblock the editor.
+          await this.write(
+            MAIN_FILE,
+            new TextEncoder().encode(initialCode),
+            VersionAction.INCREMENT
+          );
+        } else {
+          await this.notify();
+        }
+
         const fs = await this.createInternalFileSystem();
         await this.initializeFsFromStorage(fs);
         this.fs = fs;

@@ -43,7 +43,7 @@ const Workbench = () => {
         />
         <Flex flex="1 1 100%" flexDirection="column" height="100%">
           <Box flex="1 1 auto" height="0">
-            {selectedFile && (
+            {selectedFile && fileVersion !== undefined && (
               <EditorArea
                 key={selectedFile + "/" + fileVersion}
                 filename={selectedFile}
