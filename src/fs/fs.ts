@@ -8,17 +8,31 @@ import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
 import { asciiToBytes, generateId } from "./fs-util";
-import initialCode from "./initial-code";
 import { MicroPythonSource } from "./micropython";
-import {
-  FileVersion,
-  FSStorage,
-  InMemoryFSStorage,
-  VersionAction,
-  VersionedData,
-} from "./storage";
+import { FSStorage, SessionStorageFSStorage } from "./storage";
 
 const commonFsSize = 20 * 1024;
+
+export interface FileVersion {
+  name: string;
+  version: number;
+}
+
+export interface VersionedData {
+  version: number;
+  data: Uint8Array;
+}
+
+export enum VersionAction {
+  /**
+   * Don't bump the version number.
+   */
+  MAINTAIN,
+  /**
+   * Increment the version number.
+   */
+  INCREMENT,
+}
 
 /**
  * All size-related stats will be -1 until the file system
@@ -63,7 +77,8 @@ export interface DownloadData {
  */
 export class FileSystem extends EventEmitter implements FlashDataSource {
   private initializing: Promise<void> | undefined;
-  private storage: FSStorage = new InMemoryFSStorage();
+  private storage: FSStorage = new SessionStorageFSStorage();
+  private fileVersions: Map<string, number> = new Map();
   private fs: undefined | MicropythonFsHex;
   private _dirty: boolean = false;
   project: Project = {
@@ -108,9 +123,6 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     }
     if (!this.initializing) {
       this.initializing = (async () => {
-        // For now we always start with this.
-        await this.write(MAIN_FILE, initialCode, VersionAction.INCREMENT);
-
         const fs = await this.createInternalFileSystem();
         await this.initializeFsFromStorage(fs);
         this.fs = fs;
@@ -142,7 +154,10 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
    * @throws If the file does not exist.
    */
   async read(filename: string): Promise<VersionedData> {
-    return this.storage.read(filename);
+    return {
+      data: await this.storage.read(filename),
+      version: this.fileVersion(filename),
+    };
   }
 
   /**
@@ -173,16 +188,31 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     if (typeof content === "string") {
       content = new TextEncoder().encode(content);
     }
-    await this.storage.write(filename, content, versionAction);
+    await this.storage.write(filename, content);
     if (this.fs) {
       this.fs.write(filename, content);
     }
     if (versionAction === VersionAction.INCREMENT) {
+      this.incrementFileVersion(filename);
       return this.notify();
     } else {
       // Nothing can have changed, don't needlessly change the identity of our file objects.
       this._dirty = true;
     }
+  }
+
+  private fileVersion(filename: string): number {
+    const version = this.fileVersions.get(filename);
+    if (version === undefined) {
+      this.incrementFileVersion(filename);
+      return this.fileVersion(filename);
+    }
+    return version;
+  }
+
+  private incrementFileVersion(filename: string): void {
+    const current = this.fileVersions.get(filename);
+    this.fileVersions.set(filename, current === undefined ? 1 : current + 1);
   }
 
   async replaceWithHexContents(
@@ -226,7 +256,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.project = {
       ...this.project,
       name: await this.storage.projectName(),
-      files,
+      files: files.map((name) => ({ name, version: this.fileVersion(name) })),
     };
     this.logging.log(this.project);
     this.emit(EVENT_PROJECT_UPDATED, this.project);
@@ -268,8 +298,8 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   private async initializeFsFromStorage(fs: MicropythonFsHex) {
     fs.ls().forEach(fs.remove.bind(fs));
     for (const file of await this.storage.ls()) {
-      const { data } = await this.storage.read(file.name);
-      fs.write(file.name, data);
+      const data = await this.storage.read(file);
+      fs.write(file, data);
     }
   }
 
@@ -278,15 +308,12 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     const keep = new Set(fs.ls());
     await Promise.all(
       (await this.storage.ls())
-        .filter((f) => !keep.has(f.name))
-        .map((f) => this.storage.remove(f.name))
+        .filter((f) => !keep.has(f))
+        .map((f) => this.storage.remove(f))
     );
     for (const filename of Array.from(keep)) {
-      await this.storage.write(
-        filename,
-        fs.readBytes(filename),
-        VersionAction.INCREMENT
-      );
+      await this.storage.write(filename, fs.readBytes(filename));
+      this.incrementFileVersion(filename);
     }
   }
 

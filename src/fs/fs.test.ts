@@ -5,8 +5,14 @@ import * as fs from "fs";
 import * as fsp from "fs/promises";
 import config from "../config";
 import { NullLogging } from "../logging/null";
-import { VersionAction, VersionedData } from "./storage";
-import { EVENT_PROJECT_UPDATED, FileSystem, MAIN_FILE, Project } from "./fs";
+import {
+  EVENT_PROJECT_UPDATED,
+  FileSystem,
+  MAIN_FILE,
+  Project,
+  VersionAction,
+  VersionedData,
+} from "./fs";
 import { MicroPythonSource } from "./micropython";
 import { BoardId } from "../device/board-id";
 

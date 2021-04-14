@@ -11,8 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
-import { MAIN_FILE } from "../fs/fs";
-import { FileVersion } from "../fs/storage";
+import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProjectActions } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
 

@@ -9,14 +9,13 @@ import {
   MicrobitWebUSBConnection,
   WebUSBError,
 } from "../device/device";
-import { DownloadData, FileSystem, MAIN_FILE } from "../fs/fs";
+import { DownloadData, FileSystem, MAIN_FILE, VersionAction } from "../fs/fs";
 import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
-import { VersionAction } from "../fs/storage";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
 import { ensurePythonExtension, validateNewFilename } from "./project-utils";
