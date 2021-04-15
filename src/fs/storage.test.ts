@@ -1,3 +1,4 @@
+import { MockLogging } from "../logging/mock";
 import { NullLogging } from "../logging/null";
 import {
   FSStorage,
@@ -95,11 +96,13 @@ describe("SplitStrategyStorage", () => {
     const memory = new InMemoryFSStorage();
     const session = new SessionStorageFSStorage(sessionStorage);
 
-    const split = new SplitStrategyStorage(memory, session, new NullLogging());
+    const log = new MockLogging();
+    const split = new SplitStrategyStorage(memory, session, log);
 
     await split.write("test1.py", new Uint8Array([1]));
     await split.write("test2.py", new Uint8Array(20_000_000));
 
+    expect(log.errors[0]).toEqual("Abandoning secondary storage due to error");
     expect(await session.ls()).toEqual([]);
     expect(await memory.ls()).toEqual(["test1.py", "test2.py"]);
 
