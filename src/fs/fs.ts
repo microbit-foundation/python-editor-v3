@@ -83,12 +83,7 @@ export interface DownloadData {
  */
 export class FileSystem extends EventEmitter implements FlashDataSource {
   private initializing: Promise<void> | undefined;
-  private storage: FSStorage = new SplitStrategyStorage(
-    new InMemoryFSStorage(),
-    typeof window !== "undefined" && window.sessionStorage
-      ? new SessionStorageFSStorage(window.sessionStorage)
-      : undefined
-  );
+  private storage: FSStorage;
   private fileVersions: Map<string, number> = new Map();
   private fs: undefined | MicropythonFsHex;
   private _dirty: boolean = false;
@@ -103,6 +98,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     private microPythonSource: MicroPythonSource
   ) {
     super();
+    this.storage = new SplitStrategyStorage(
+      new InMemoryFSStorage(),
+      typeof window !== "undefined" && window.sessionStorage
+        ? new SessionStorageFSStorage(window.sessionStorage)
+        : undefined,
+      logging
+    );
   }
 
   /**

@@ -1,5 +1,6 @@
 import { fromByteArray, toByteArray } from "base64-js";
 import config from "../config";
+import { Logging } from "../logging/logging";
 
 /**
  * Backing storage for the file system.
@@ -80,10 +81,6 @@ export class SessionStorageFSStorage implements FSStorage {
   }
 
   async exists(filename: string) {
-    return this.existsInternal(filename);
-  }
-
-  existsInternal(filename: string) {
     return this.storage.getItem(fsPrefix + filename) !== null;
   }
 
@@ -98,18 +95,12 @@ export class SessionStorageFSStorage implements FSStorage {
   async read(filename: string): Promise<Uint8Array> {
     const value = this.storage.getItem(fsPrefix + filename);
     if (value === null) {
-      throw new Error(
-        `No such file ${filename}. Keys: ${Object.keys(this.storage)}`
-      );
+      throw new Error(`No such file ${filename}`);
     }
     return toByteArray(value);
   }
 
   async write(name: string, content: Uint8Array): Promise<void> {
-    this.writeInternal(name, content);
-  }
-
-  writeInternal(name: string, content: Uint8Array): void {
     const base64 = fromByteArray(content);
     this.storage.setItem(fsPrefix + name, base64);
   }
@@ -138,10 +129,14 @@ export class SplitStrategyStorage implements FSStorage {
 
   constructor(
     private primary: FSStorage,
-    private secondary: FSStorage | undefined
+    private secondary: FSStorage | undefined,
+    private log: Logging
   ) {
-    // Error handling? Move init here?
-    this.initialized = secondary ? copy(secondary, primary) : Promise.resolve();
+    this.initialized = secondary
+      ? this.secondaryErrorHandle(async () => {
+          await copy(secondary, primary);
+        })
+      : Promise.resolve();
   }
 
   async ls() {
@@ -211,12 +206,12 @@ export class SplitStrategyStorage implements FSStorage {
         await this.secondary.clear();
       } catch (e2) {
         // Not much we can do.
-        console.error("Failed to clear secondary storage in error scenario");
-        console.error(e2);
+        this.log.error("Failed to clear secondary storage in error scenario");
+        this.log.error(e2);
       }
       // Avoid all future errors this session.
-      console.error("Abandoning secondary storage due to error");
-      console.error(e1);
+      this.log.error("Abandoning secondary storage due to error");
+      this.log.error(e1);
       this.secondary = undefined;
     }
   }
