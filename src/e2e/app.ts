@@ -50,7 +50,8 @@ export class App {
     this.dialogs.length = 0;
     page.on("dialog", async (dialog: Dialog) => {
       this.dialogs.push(dialog.type());
-      await dialog.dismiss();
+      // Need to accept() so that reload() will complete.
+      await dialog.accept();
     });
 
     await page.evaluate(() => {
@@ -62,6 +63,11 @@ export class App {
     return page;
   }
 
+  /**
+   * Close the page, accepting any native dialogs (e.g. beforeunload).
+   *
+   * @returns a boolean representing whether a "beforeunload" dialog is raised.
+   */
   async closePageCheckDialog(): Promise<boolean> {
     const page = await this.page;
     await page.close({
@@ -72,6 +78,14 @@ export class App {
     // and give up on testing the absence of a dialog.
     await page.waitForTimeout(50);
     return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
+  }
+
+  /**
+   * Reload the page, accepting any native dialogs (e.g. beforeunload).
+   */
+  async reloadPage(): Promise<void> {
+    const page = await this.page;
+    await page.reload();
   }
 
   /**
@@ -370,7 +384,7 @@ export class App {
   /**
    * Resets the page for a new test.
    */
-  async reload() {
+  async reset() {
     let page = await this.page;
     if (!page.isClosed()) {
       page.removeAllListeners();

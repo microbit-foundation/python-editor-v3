@@ -2,7 +2,7 @@ import { App } from "./app";
 
 describe("Browser - download", () => {
   const app = new App();
-  beforeEach(app.reload.bind(app));
+  beforeEach(app.reset.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("Download - download the default HEX file", async () => {
