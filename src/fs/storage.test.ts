@@ -100,7 +100,8 @@ describe("SplitStrategyStorage", () => {
     const split = new SplitStrategyStorage(memory, session, log);
 
     await split.write("test1.py", new Uint8Array([1]));
-    await split.write("test2.py", new Uint8Array(20_000_000));
+    // After encoding this is big enough to hit the 5MB limit. Note that Safari is half this.
+    await split.write("test2.py", new Uint8Array(3_800_000));
 
     expect(log.errors[0]).toEqual("Abandoning secondary storage due to error");
     expect(await session.ls()).toEqual([]);
