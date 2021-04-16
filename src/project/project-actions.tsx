@@ -198,29 +198,6 @@ export class ProjectActions {
     }
   };
 
-  /**
-   * A straightforward way to upload files into the file system.
-   *
-   * Files use their own names.
-   *
-   * @param files One or more files.
-   */
-  upload = async (files: File[]): Promise<void> => {
-    this.logging.event({
-      action: "upload-file",
-    });
-
-    if (files.length === 0) {
-      throw new Error("Expected to be called with at least one file");
-    }
-    return this.uploadInternal(
-      files.map((f) => ({
-        name: f.name,
-        data: () => readFileAsUint8Array(f),
-      }))
-    );
-  };
-
   private async uploadInternal(inputs: FileInput[]) {
     const changes = this.findChanges(inputs);
     if (await this.confirmReplacements(changes)) {
