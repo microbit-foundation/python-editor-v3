@@ -46,12 +46,6 @@ describe("Browser - multiple and missing file cases", () => {
     await app.findVisibleEditorContents(/Hello, World/);
   });
 
-  it("Doesn't offer editor for non-Python file", async () => {
-    await app.uploadFile("testData/null.dat", { acceptReplace: false });
-
-    expect(await app.canSwitchToEditing("null.dat")).toEqual(false);
-  });
-
   it("Muddles through if given non-UTF-8 main.py", async () => {
     // We could start detect this on open but not sure it's worth it introducting the error cases.
     // If we need to recreate the hex then just fill the file with 0xff.

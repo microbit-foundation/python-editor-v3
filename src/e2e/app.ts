@@ -100,8 +100,8 @@ export class App {
   ): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
-    const openInput = await document.getByTestId("open-input");
-    await openInput.uploadFile(filePath);
+    const openInput = await document.getAllByTestId("open-input");
+    await openInput[0].uploadFile(filePath);
     if (options.acceptReplace) {
       await this.findAndAcceptReplaceConfirmation();
     }
@@ -127,25 +127,6 @@ export class App {
       name: "Create",
     });
     await createButton.click();
-  }
-
-  /**
-   * Upload a file to the file system using the file chooser.
-   *
-   * @param filePath The file on disk.
-   * @param options Options to control expectations after upload.
-   */
-  async uploadFile(
-    filePath: string,
-    options: { acceptReplace: boolean }
-  ): Promise<void> {
-    await this.selectSideBar("Files");
-    const document = await this.document();
-    const uploadInput = await document.getByTestId("upload-input");
-    await uploadInput.uploadFile(filePath);
-    if (options.acceptReplace) {
-      this.findAndAcceptReplaceConfirmation();
-    }
   }
 
   /**

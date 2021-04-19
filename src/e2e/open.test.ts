@@ -56,10 +56,7 @@ describe("Browser - open", () => {
   it("Correctly handles a file with an invalid extension", async () => {
     await app.loadFiles("testData/sampletxtfile.txt", { acceptReplace: false });
 
-    await app.findAlertText(
-      "Cannot load file",
-      "The Python Editor can only load files with the .hex or .py extensions."
-    );
+    expect(await app.canSwitchToEditing("testData/sampletxtfile.txt")).toEqual(false);
   });
 
   it("Correctly imports modules with the 'magic comment' in the filesystem.", async () => {

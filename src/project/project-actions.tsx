@@ -1,5 +1,6 @@
 import { List, ListItem } from "@chakra-ui/layout";
 import { saveAs } from "file-saver";
+import { isModuleBlock } from "typescript";
 import Separate, { br } from "../common/Separate";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
@@ -18,7 +19,7 @@ import {
 } from "../fs/fs-util";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
-import { ensurePythonExtension, validateNewFilename } from "./project-utils";
+import { ensurePythonExtension, isPythonFile, validateNewFilename } from "./project-utils";
 import ReplaceFilesQuestion from "./ReplaceFilesQuestion";
 
 enum FileOperation {
@@ -128,11 +129,6 @@ export class ProjectActions {
         title: errorTitle,
         description: translation.load["mpy-warning"],
       });
-    } else if (hasExtensionsNotSupportedForLoad(extensions)) {
-      this.actionFeedback.expectedError({
-        title: errorTitle,
-        description: translation.load["extension-warning"],
-      });
     } else if (extensions.has("hex")) {
       if (files.length > 1) {
         this.actionFeedback.expectedError({
@@ -167,11 +163,12 @@ export class ProjectActions {
       }
     } else {
       const scripts: FileInput[] = [];
-      const modules: FileInput[] = [];
+      const other: FileInput[] = [];
       for (const f of files) {
         const content = await readFileAsText(f);
-        const isModule = isPythonMicrobitModule(content);
-        (isModule ? modules : scripts).push({
+        const isOther = !isPythonFile(f.name) || isPythonMicrobitModule(content);
+        // if not module check {if it is a script we want to replace main.py with, else add it to modules}?
+        (isOther ? other : scripts).push({
           name: f.name,
           data: () => Promise.resolve(content),
         });
@@ -192,7 +189,7 @@ export class ProjectActions {
             data: scripts[0].data,
           });
         }
-        inputs.push(...modules);
+        inputs.push(...other);
         return this.uploadInternal(inputs);
       }
     }
