@@ -24,6 +24,8 @@ import {
 } from "./project-utils";
 import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import { FileChange, FileInput, FileOperation, findChanges } from "./changes";
+import NewFileNameQuestion from "./NewFileNameQuestion";
+import { InputDialogBody } from "../common/InputDialog";
 
 /**
  * Key actions.
@@ -194,24 +196,32 @@ export class ProjectActions {
     candidateScripts: FileInput[],
     otherFiles: FileInput[]
   ): Promise<FileInput[]> {
-    await this.dialogs.confirm({
-      header: "Choose the file you would like to replace main.py with",
-      body: (
+    const chosenScript = await this.dialogs.input<string | undefined>({
+      header: "Confirm file changes",
+      initialValue:
+        candidateScripts.length > 0 ? candidateScripts[0].name : undefined,
+      Body: (props: InputDialogBody<string | undefined>) => (
         <ChooseMainScriptQuestion
+          {...props}
           currentFiles={this.fs.project.files.map((f) => f.name)}
           candidateScripts={candidateScripts}
           otherFiles={otherFiles}
-          chosenScript={
-            candidateScripts.length > 0 ? candidateScripts[0].name : undefined
-          }
-          onChosenScriptChange={() => {
-            // Nothing yet!
-          }}
         />
       ),
-      actionLabel: "Replace",
+      actionLabel: "Confirm",
+      validate: () => undefined,
     });
-    return [...candidateScripts, ...otherFiles];
+
+    const appliedChoice = candidateScripts.map((script) => {
+      if (chosenScript && chosenScript === script.name) {
+        return {
+          ...script,
+          name: "main.py",
+        };
+      }
+      return script;
+    });
+    return [...appliedChoice, ...otherFiles];
   }
 
   /**
@@ -329,9 +339,10 @@ export class ProjectActions {
     const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f));
-    const filenameWithoutExtension = await this.dialogs.input({
+    const filenameWithoutExtension = await this.dialogs.input<string>({
       header: "Create a new Python file",
-      body: null,
+      Body: NewFileNameQuestion,
+      initialValue: "",
       actionLabel: "Create",
       validate,
     });

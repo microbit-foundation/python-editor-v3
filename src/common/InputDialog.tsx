@@ -1,11 +1,4 @@
 import { Button } from "@chakra-ui/button";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-} from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
 import { Box, VStack } from "@chakra-ui/layout";
 import {
   Modal,
@@ -17,23 +10,30 @@ import {
 } from "@chakra-ui/modal";
 import { ReactNode, useRef, useState } from "react";
 
-export interface InputDialogParameters {
-  header: ReactNode;
-  body: ReactNode;
-  actionLabel: string;
-  validate: (input: string) => string | undefined;
+export interface InputDialogBody<T> {
+  value: T;
+  setValue: (value: T) => void;
+  error: string | undefined;
+  setError: (error: string | undefined) => void;
+  validate: (value: T) => string | undefined;
 }
 
-export interface InputDialogParametersWithActions
-  extends InputDialogParameters {
+export interface InputDialogParameters<T> {
   header: ReactNode;
-  body: ReactNode;
+  Body: React.FC<InputDialogBody<T>>;
+  initialValue: T;
   actionLabel: string;
-  onConfirm: (validValue: string) => void;
+  validate: (input: T) => string | undefined;
+}
+
+export interface InputDialogParametersWithActions<T>
+  extends InputDialogParameters<T> {
+  onConfirm: (validValue: T) => void;
   onCancel: () => void;
 }
 
-export interface InputDialogProps extends InputDialogParametersWithActions {
+export interface InputDialogProps<T>
+  extends InputDialogParametersWithActions<T> {
   isOpen: boolean;
 }
 
@@ -42,16 +42,17 @@ export interface InputDialogProps extends InputDialogParametersWithActions {
  *
  * Generally not used directly. Prefer the useDialogs hook.
  */
-export const InputDialog = ({
+export const InputDialog = <T extends unknown>({
   header,
-  body,
+  Body,
   actionLabel,
   isOpen,
+  initialValue,
   validate,
   onConfirm,
   onCancel,
-}: InputDialogProps) => {
-  const [value, setValue] = useState("");
+}: InputDialogProps<T>) => {
+  const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | undefined>(undefined);
   const leastDestructiveRef = useRef<HTMLButtonElement>(null);
   const handleSubmit = (e: React.FormEvent) => {
@@ -69,28 +70,14 @@ export const InputDialog = ({
           </ModalHeader>
           <ModalBody>
             <VStack>
-              {body}
               <Box as="form" onSubmit={handleSubmit} width="100%">
-                <FormControl
-                  id="fileName"
-                  isRequired
-                  isInvalid={Boolean(error)}
-                >
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    type="text"
-                    value={value}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setValue(value);
-                      setError(validate(value));
-                    }}
-                  ></Input>
-                  <FormHelperText>
-                    We'll add the <code>.py</code> extension for you.
-                  </FormHelperText>
-                  <FormErrorMessage>{error}</FormErrorMessage>
-                </FormControl>
+                <Body
+                  value={value}
+                  setValue={setValue}
+                  error={error}
+                  setError={setError}
+                  validate={validate}
+                />
               </Box>
             </VStack>
           </ModalBody>

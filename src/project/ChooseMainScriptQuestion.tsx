@@ -1,35 +1,35 @@
 import { List, ListItem, VStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/react";
 import { FileChange, FileOperation, FileInput, findChanges } from "./changes";
+import { InputDialogBody } from "../common/InputDialog";
 
-interface ChooseMainScriptQuestionProps {
+interface ChooseMainScriptQuestionProps
+  extends InputDialogBody<string | undefined> {
   currentFiles: string[];
   candidateScripts: FileInput[];
   otherFiles: FileInput[];
-  chosenScript: string | undefined;
-  onChosenScriptChange: (script: string) => void;
 }
 
 const ChooseMainScriptQuestion = ({
   currentFiles,
   candidateScripts,
   otherFiles,
-  chosenScript,
-  onChosenScriptChange,
+  value,
+  setValue,
 }: ChooseMainScriptQuestionProps) => {
   const changes = findChanges(currentFiles, [
-    ...candidateScripts.filter((x) => x.name !== chosenScript),
+    ...candidateScripts.filter((x) => x.name !== value),
     ...otherFiles,
   ]);
   return (
     <VStack width="100%" display="block">
       <Select
         placeholder="Select main script"
-        onChange={(e) => onChosenScriptChange(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
       >
         {candidateScripts.map((script) => (
           <option
-            selected={Boolean(chosenScript) && script.name === chosenScript}
+            selected={Boolean(value) && script.name === value}
             value={script.name}
           >
             {script.name}
