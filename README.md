@@ -51,6 +51,18 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 If you have a connected micro:bit device, then setting the environment variable `TEST_MODE_DEVICE=1` will enable additional tests that will connect to your micro:bit. The tests will overwrite programs and data on the micro:bit.
 
+### `npm run test:e2e`
+
+Launches the test runner in the interactive watch mode running the end to end tests.
+
+These are excluded from the normal test run.
+
+The tests expect the app to already be running on http://localhost:3000, for example via `npm start`.
+
+We use [Puppeteer](https://pptr.dev/) and the helpers provided by [Testing Library](https://testing-library.com/docs/pptr-testing-library/intro/).
+
+The CI tests run these end-to-end tests against a production build.
+
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
