@@ -1,6 +1,5 @@
 import { List, ListItem } from "@chakra-ui/layout";
 import { saveAs } from "file-saver";
-import { isModuleBlock } from "typescript";
 import Separate, { br } from "../common/Separate";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
@@ -15,26 +14,16 @@ import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
   readFileAsText,
-  readFileAsUint8Array,
 } from "../fs/fs-util";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
-import { ensurePythonExtension, isPythonFile, validateNewFilename } from "./project-utils";
-import ReplaceFilesQuestion from "./ReplaceFilesQuestion";
-
-enum FileOperation {
-  REPLACE,
-  ADD,
-}
-
-interface FileInput {
-  name: string;
-  data: () => Promise<Uint8Array> | Promise<string>;
-}
-
-interface FileChange extends FileInput {
-  operation: FileOperation;
-}
+import {
+  ensurePythonExtension,
+  isPythonFile,
+  validateNewFilename,
+} from "./project-utils";
+import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
+import { FileChange, FileInput, FileOperation, findChanges } from "./changes";
 
 /**
  * Key actions.
@@ -162,76 +151,67 @@ export class ProjectActions {
         }
       }
     } else {
-      const scripts: FileInput[] = [];
-      const other: FileInput[] = [];
+      const candidateScripts: FileInput[] = [];
+      const otherFiles: FileInput[] = [];
       for (const f of files) {
         const content = await readFileAsText(f);
-        const isOther = !isPythonFile(f.name) || isPythonMicrobitModule(content);
+        const isOther =
+          !isPythonFile(f.name) || isPythonMicrobitModule(content);
         // if not module check {if it is a script we want to replace main.py with, else add it to modules}?
-        (isOther ? other : scripts).push({
+        (isOther ? otherFiles : candidateScripts).push({
           name: f.name,
           data: () => Promise.resolve(content),
         });
       }
 
-      // We map scripts to main.py, so there can only be one.
-      // It's fine if there are none -- we'll just load the modules.
-      if (scripts.length > 1) {
-        this.actionFeedback.expectedError({
-          title: errorTitle,
-          description: "Cannot load multiple main Python scripts",
-        });
-      } else {
-        const inputs: FileInput[] = [];
-        if (scripts.length > 0) {
-          inputs.push({
-            name: "main.py",
-            data: scripts[0].data,
-          });
-        }
-        inputs.push(...other);
-        return this.uploadInternal(inputs);
-      }
+      const inputs = await this.chooseScriptForMain(
+        candidateScripts,
+        otherFiles
+      );
+      return this.uploadInternal(inputs);
     }
   };
 
   private async uploadInternal(inputs: FileInput[]) {
     const changes = this.findChanges(inputs);
-    if (await this.confirmReplacements(changes)) {
-      try {
-        for (const change of changes) {
-          const data = await change.data();
-          await this.fs.write(change.name, data, VersionAction.INCREMENT);
-        }
-        this.actionFeedback.success(summarizeChanges(changes));
-      } catch (e) {
-        this.actionFeedback.unexpectedError(e);
+    try {
+      for (const change of changes) {
+        const data = await change.data();
+        await this.fs.write(change.name, data, VersionAction.INCREMENT);
       }
+      this.actionFeedback.success(summarizeChanges(changes));
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
     }
   }
 
   private findChanges(files: FileInput[]): FileChange[] {
-    const current = new Set(this.fs.project.files.map((f) => f.name));
-    return files.map((f) => ({
-      ...f,
-      operation: current.has(f.name)
-        ? FileOperation.REPLACE
-        : FileOperation.ADD,
-    }));
+    const currentFiles = this.fs.project.files.map((f) => f.name);
+    return findChanges(currentFiles, files);
   }
 
-  private async confirmReplacements(changes: FileChange[]): Promise<boolean> {
-    const replacements = changes.filter(
-      (c) => c.operation === FileOperation.REPLACE
-    );
-    if (replacements.length > 0) {
-      return this.dialogs.confirm({
-        header: "Confirm replacing files",
-        body: <ReplaceFilesQuestion files={replacements.map((c) => c.name)} />,
-        actionLabel: "Replace",
-      });
-    }
-    return true;
+  private async chooseScriptForMain(
+    candidateScripts: FileInput[],
+    otherFiles: FileInput[]
+  ): Promise<FileInput[]> {
+    await this.dialogs.confirm({
+      header: "Choose the file you would like to replace main.py with",
+      body: (
+        <ChooseMainScriptQuestion
+          currentFiles={this.fs.project.files.map((f) => f.name)}
+          candidateScripts={candidateScripts}
+          otherFiles={otherFiles}
+          chosenScript={
+            candidateScripts.length > 0 ? candidateScripts[0].name : undefined
+          }
+          onChosenScriptChange={() => {
+            // Nothing yet!
+          }}
+        />
+      ),
+      actionLabel: "Replace",
+    });
+    return [...candidateScripts, ...otherFiles];
   }
 
   /**
@@ -429,26 +409,6 @@ export class ProjectActions {
     }
   }
 }
-
-/**
- * Check for unsupported extensions.
- *
- * Note that we allow all files via the upload action, but the main
- * load action expects hex files or Python files.
- *
- * `undefined` in the set represents a file or files with an
- * unidentifiable extension.
- *
- * @param extensions The extensions/
- */
-const hasExtensionsNotSupportedForLoad = (
-  extensions: Set<string | undefined>
-): boolean => {
-  const copy = new Set(extensions);
-  copy.delete("py");
-  copy.delete("hex");
-  return copy.size > 0;
-};
 
 const summarizeChanges = (changes: FileChange[]) => {
   if (changes.length === 1) {
