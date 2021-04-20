@@ -61,6 +61,7 @@ export const InputDialog = <T extends unknown>({
       onConfirm(value);
     }
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onCancel}>
       <ModalOverlay>

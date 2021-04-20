@@ -45,7 +45,7 @@ describe("Browser - open", () => {
   });
 
   it("Correctly handles an mpy file", async () => {
-    await app.loadFiles("testData/samplempyfile.mpy", { acceptReplace: false });
+    await app.loadFiles("testData/samplempyfile.mpy", { confirm: false });
 
     await app.findAlertText(
       "Cannot load file",
@@ -54,17 +54,19 @@ describe("Browser - open", () => {
   });
 
   it("Correctly handles a file with an invalid extension", async () => {
-    await app.loadFiles("testData/sampletxtfile.txt", { acceptReplace: false });
+    await app.loadFiles("testData/sampletxtfile.txt", { confirm: true });
 
-    expect(await app.canSwitchToEditing("testData/sampletxtfile.txt")).toEqual(false);
+    expect(await app.canSwitchToEditing("testData/sampletxtfile.txt")).toEqual(
+      false
+    );
   });
 
   it("Correctly imports modules with the 'magic comment' in the filesystem.", async () => {
-    await app.loadFiles("testData/module.py", { acceptReplace: false });
+    await app.loadFiles("testData/module.py", { confirm: true });
 
     await app.findAlertText("Added file module.py");
 
-    await app.loadFiles("testData/module.py", { acceptReplace: true });
+    await app.loadFiles("testData/module.py", { confirm: true });
     await app.findAlertText("Updated file module.py");
   });
 });

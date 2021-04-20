@@ -27,18 +27,18 @@ describe("Browser - multiple and missing file cases", () => {
   });
 
   it("Copes with currently open file being updated (module)", async () => {
-    await app.loadFiles("testData/module.py", { acceptReplace: false });
+    await app.loadFiles("testData/module.py", { confirm: false });
     await app.switchToEditing("module.py");
     await app.findVisibleEditorContents(/1.0.0/);
 
-    await app.loadFiles("testData/updated/module.py", { acceptReplace: true });
+    await app.loadFiles("testData/updated/module.py", { confirm: true });
 
     await app.findVisibleEditorContents(/1.1.0/);
     await app.findVisibleEditorContents(/Now with documentation/);
   });
 
   it("Copes with currently open file being deleted", async () => {
-    await app.loadFiles("testData/module.py", { acceptReplace: false });
+    await app.loadFiles("testData/module.py", { confirm: false });
     await app.switchToEditing("module.py");
 
     await app.deleteFile("module.py");

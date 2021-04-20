@@ -96,14 +96,14 @@ export class App {
    */
   async loadFiles(
     filePath: string,
-    options: { acceptReplace: boolean } = { acceptReplace: true }
+    options: { confirm: boolean } = { confirm: true }
   ): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
-    if (options.acceptReplace) {
-      await this.findAndAcceptReplaceConfirmation();
+    if (options.confirm) {
+      await this.findAndAcceptConfirmation();
     }
   }
 
@@ -139,7 +139,7 @@ export class App {
    */
   async dropFile(
     filePath: string,
-    options: { acceptReplace: boolean } = { acceptReplace: true }
+    options: { confirm: boolean } = { confirm: true }
   ): Promise<void> {
     const page = await this.page;
     // Puppeteer doesn't have file drio support but we can use an input
@@ -181,15 +181,15 @@ export class App {
     }, inputId);
     const fileInput = await page.$(`#${inputId}`);
     await fileInput!.uploadFile(filePath);
-    if (options.acceptReplace) {
-      await this.findAndAcceptReplaceConfirmation();
+    if (options.confirm) {
+      await this.findAndAcceptConfirmation();
     }
   }
 
-  private async findAndAcceptReplaceConfirmation() {
+  private async findAndAcceptConfirmation() {
     const document = await this.document();
     const button = await document.findByRole("button", {
-      name: "Replace",
+      name: "Confirm",
     });
     await button.click();
   }
