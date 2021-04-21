@@ -1,7 +1,7 @@
-import { List, ListItem, VStack, Text, UnorderedList } from "@chakra-ui/layout";
+import { ListItem, Text, UnorderedList, VStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/react";
-import { FileChange, FileOperation, FileInput, findChanges } from "./changes";
 import { InputDialogBody } from "../common/InputDialog";
+import { FileChange, FileInput, FileOperation, findChanges } from "./changes";
 
 interface ChooseMainScriptQuestionProps
   extends InputDialogBody<string | undefined> {
