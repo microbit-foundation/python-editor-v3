@@ -22,9 +22,10 @@ const ChooseMainScriptQuestion = ({
     ...candidateScripts.filter((x) => x.name !== value.main),
     ...otherFiles,
   ]);
+  const hasScriptChoices = candidateScripts.length > 0;
   return (
     <VStack alignItems="stretch" spacing="5">
-      {candidateScripts.length > 0 && (
+      {hasScriptChoices && (
         <VStack alignItems="stretch">
           <Text fontSize="md">Select script to replace main.py</Text>
           <Select
@@ -44,7 +45,9 @@ const ChooseMainScriptQuestion = ({
       )}
       {changes.length > 0 && (
         <VStack alignItems="stretch">
-          <Text fontSize="md">Other files to be added or updated</Text>
+          {hasScriptChoices && (
+            <Text fontSize="md">Other files to be added or updated</Text>
+          )}
           <UnorderedList stylePosition="inside">
             {changes.map((c) => (
               <ListItem key={c.name}>{summarizeChange(c)}</ListItem>
