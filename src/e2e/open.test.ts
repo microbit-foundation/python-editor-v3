@@ -70,9 +70,7 @@ describe("Browser - open", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
 
-    expect(await app.canSwitchToEditing("testData/sampletxtfile.txt")).toEqual(
-      false
-    );
+    expect(await app.canSwitchToEditing("sampletxtfile.txt")).toEqual(false);
   });
 
   it("Correctly imports modules with the 'magic comment' in the filesystem.", async () => {
