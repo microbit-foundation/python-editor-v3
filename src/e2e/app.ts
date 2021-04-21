@@ -6,6 +6,12 @@ import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
 
+export enum LoadDialogType {
+  CONFIRM,
+  REPLACE,
+  NONE,
+}
+
 export interface BrowserDownload {
   filename: string;
   data: Buffer;
@@ -96,15 +102,13 @@ export class App {
    */
   async loadFiles(
     filePath: string,
-    options: { confirm: boolean } = { confirm: true }
+    options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
-    if (options.confirm) {
-      await this.findAndAcceptConfirmation();
-    }
+    await this.findAndAcceptLoadDialog(options.acceptDialog);
   }
 
   /**
@@ -139,7 +143,7 @@ export class App {
    */
   async dropFile(
     filePath: string,
-    options: { confirm: boolean } = { confirm: true }
+    options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
     const page = await this.page;
     // Puppeteer doesn't have file drio support but we can use an input
@@ -181,15 +185,21 @@ export class App {
     }, inputId);
     const fileInput = await page.$(`#${inputId}`);
     await fileInput!.uploadFile(filePath);
-    if (options.confirm) {
-      await this.findAndAcceptConfirmation();
+    await this.findAndAcceptLoadDialog(options.acceptDialog);
+  }
+
+  private async findAndAcceptLoadDialog(dialogType: LoadDialogType) {
+    if (dialogType === LoadDialogType.CONFIRM) {
+      await this.findAndClickButton("Confirm");
+    } else if (dialogType === LoadDialogType.REPLACE) {
+      await this.findAndClickButton("Replace");
     }
   }
 
-  private async findAndAcceptConfirmation() {
+  private async findAndClickButton(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
-      name: "Confirm",
+      name: name,
     });
     await button.click();
   }

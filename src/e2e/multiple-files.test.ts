@@ -1,4 +1,4 @@
-import { App } from "./app";
+import { App, LoadDialogType } from "./app";
 
 describe("Browser - multiple and missing file cases", () => {
   const app = new App();
@@ -8,7 +8,9 @@ describe("Browser - multiple and missing file cases", () => {
   it("Copes with hex with no Python files", async () => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.
-    await app.loadFiles("src/fs/microbit-micropython-v2.hex");
+    await app.loadFiles("src/fs/microbit-micropython-v2.hex", {
+      acceptDialog: LoadDialogType.REPLACE,
+    });
 
     await app.findAlertText(
       "Cannot load file",
@@ -27,18 +29,24 @@ describe("Browser - multiple and missing file cases", () => {
   });
 
   it("Copes with currently open file being updated (module)", async () => {
-    await app.loadFiles("testData/module.py", { confirm: false });
+    await app.loadFiles("testData/module.py", {
+      acceptDialog: LoadDialogType.CONFIRM,
+    });
     await app.switchToEditing("module.py");
     await app.findVisibleEditorContents(/1.0.0/);
 
-    await app.loadFiles("testData/updated/module.py", { confirm: true });
+    await app.loadFiles("testData/updated/module.py", {
+      acceptDialog: LoadDialogType.CONFIRM,
+    });
 
     await app.findVisibleEditorContents(/1.1.0/);
     await app.findVisibleEditorContents(/Now with documentation/);
   });
 
   it("Copes with currently open file being deleted", async () => {
-    await app.loadFiles("testData/module.py", { confirm: false });
+    await app.loadFiles("testData/module.py", {
+      acceptDialog: LoadDialogType.CONFIRM,
+    });
     await app.switchToEditing("module.py");
 
     await app.deleteFile("module.py");
@@ -49,7 +57,9 @@ describe("Browser - multiple and missing file cases", () => {
   it("Muddles through if given non-UTF-8 main.py", async () => {
     // We could start detect this on open but not sure it's worth it introducting the error cases.
     // If we need to recreate the hex then just fill the file with 0xff.
-    await app.loadFiles("testData/invalid-utf-8.hex");
+    await app.loadFiles("testData/invalid-utf-8.hex", {
+      acceptDialog: LoadDialogType.REPLACE,
+    });
 
     await app.findVisibleEditorContents(
       /^����������������������������������������������������������������������������������������������������$/

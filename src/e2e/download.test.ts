@@ -1,4 +1,4 @@
-import { App } from "./app";
+import { App, LoadDialogType } from "./app";
 
 describe("Browser - download", () => {
   const app = new App();
@@ -14,7 +14,9 @@ describe("Browser - download", () => {
   });
 
   it("Shows an error when trying to download a hex file if the Python code is too large", async () => {
-    await app.loadFiles("testData/too-large.py");
+    await app.loadFiles("testData/too-large.py", {
+      acceptDialog: LoadDialogType.CONFIRM,
+    });
 
     await app.findVisibleEditorContents(/# Filler/);
     await app.download();
