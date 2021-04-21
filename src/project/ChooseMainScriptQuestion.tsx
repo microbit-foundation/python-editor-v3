@@ -1,4 +1,4 @@
-import { List, ListItem, VStack, Text } from "@chakra-ui/layout";
+import { List, ListItem, VStack, Text, UnorderedList } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/react";
 import { FileChange, FileOperation, FileInput, findChanges } from "./changes";
 import { InputDialogBody } from "../common/InputDialog";
@@ -22,31 +22,35 @@ const ChooseMainScriptQuestion = ({
     ...otherFiles,
   ]);
   return (
-    <VStack width="100%" display="block">
-      <Text fontSize="lg" color="var(--chakra-colors-blue-500)">
-        Select script to replace main.py
-      </Text>
-      <Select
-        placeholder="None (keep current main.py)"
-        onChange={(e) => setValue(e.target.value)}
-      >
-        {candidateScripts.map((script) => (
-          <option
-            selected={Boolean(value) && script.name === value}
-            value={script.name}
+    <VStack alignItems="stretch" spacing="5">
+      {candidateScripts.length > 0 && (
+        <VStack alignItems="stretch">
+          <Text fontSize="md">Select script to replace main.py</Text>
+          <Select
+            placeholder="None (keep current main.py)"
+            onChange={(e) => setValue(e.target.value)}
           >
-            {script.name}
-          </option>
-        ))}
-      </Select>
-      <Text fontSize="lg" color="var(--chakra-colors-blue-500)">
-        Other files to be added or updated
-      </Text>
-      <List>
-        {changes.map((c) => (
-          <ListItem key={c.name}> - {summarizeChange(c)}</ListItem>
-        ))}
-      </List>
+            {candidateScripts.map((script) => (
+              <option
+                selected={Boolean(value) && script.name === value}
+                value={script.name}
+              >
+                {script.name}
+              </option>
+            ))}
+          </Select>
+        </VStack>
+      )}
+      {changes.length > 0 && (
+        <VStack alignItems="stretch">
+          <Text fontSize="md">Other files to be added or updated</Text>
+          <UnorderedList stylePosition="inside">
+            {changes.map((c) => (
+              <ListItem key={c.name}>{summarizeChange(c)}</ListItem>
+            ))}
+          </UnorderedList>
+        </VStack>
+      )}
     </VStack>
   );
 };
