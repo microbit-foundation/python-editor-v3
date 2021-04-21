@@ -193,6 +193,8 @@ export class App {
       await this.findAndClickButton("Confirm");
     } else if (dialogType === LoadDialogType.REPLACE) {
       await this.findAndClickButton("Replace");
+    } else {
+      return;
     }
   }
 

@@ -56,7 +56,7 @@ describe("Browser - open", () => {
 
   it("Correctly handles an mpy file", async () => {
     await app.loadFiles("testData/samplempyfile.mpy", {
-      acceptDialog: LoadDialogType.CONFIRM,
+      acceptDialog: LoadDialogType.NONE,
     });
 
     await app.findAlertText(

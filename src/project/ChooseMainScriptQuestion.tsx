@@ -1,4 +1,4 @@
-import { List, ListItem, VStack } from "@chakra-ui/layout";
+import { List, ListItem, VStack, Text } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/react";
 import { FileChange, FileOperation, FileInput, findChanges } from "./changes";
 import { InputDialogBody } from "../common/InputDialog";
@@ -23,8 +23,11 @@ const ChooseMainScriptQuestion = ({
   ]);
   return (
     <VStack width="100%" display="block">
+      <Text fontSize="lg" color="var(--chakra-colors-blue-500)">
+        Select script to replace main.py
+      </Text>
       <Select
-        placeholder="Select main script"
+        placeholder="None (keep current main.py)"
         onChange={(e) => setValue(e.target.value)}
       >
         {candidateScripts.map((script) => (
@@ -36,9 +39,12 @@ const ChooseMainScriptQuestion = ({
           </option>
         ))}
       </Select>
+      <Text fontSize="lg" color="var(--chakra-colors-blue-500)">
+        Other files to be added or updated
+      </Text>
       <List>
         {changes.map((c) => (
-          <ListItem key={c.name}>{summarizeChange(c)}</ListItem>
+          <ListItem key={c.name}> - {summarizeChange(c)}</ListItem>
         ))}
       </List>
     </VStack>
