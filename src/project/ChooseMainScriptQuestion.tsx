@@ -2,9 +2,10 @@ import { ListItem, Text, UnorderedList, VStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/react";
 import { InputDialogBody } from "../common/InputDialog";
 import { FileChange, FileInput, FileOperation, findChanges } from "./changes";
+import { MainScriptChoice } from "./project-actions";
 
 interface ChooseMainScriptQuestionProps
-  extends InputDialogBody<string | undefined> {
+  extends InputDialogBody<MainScriptChoice> {
   currentFiles: string[];
   candidateScripts: FileInput[];
   otherFiles: FileInput[];
@@ -18,7 +19,7 @@ const ChooseMainScriptQuestion = ({
   setValue,
 }: ChooseMainScriptQuestionProps) => {
   const changes = findChanges(currentFiles, [
-    ...candidateScripts.filter((x) => x.name !== value),
+    ...candidateScripts.filter((x) => x.name !== value.main),
     ...otherFiles,
   ]);
   return (
@@ -28,11 +29,11 @@ const ChooseMainScriptQuestion = ({
           <Text fontSize="md">Select script to replace main.py</Text>
           <Select
             placeholder="None (keep current main.py)"
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue({ main: e.target.value })}
           >
             {candidateScripts.map((script) => (
               <option
-                selected={Boolean(value) && script.name === value}
+                selected={Boolean(value) && script.name === value.main}
                 value={script.name}
               >
                 {script.name}

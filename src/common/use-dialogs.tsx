@@ -78,18 +78,16 @@ export class Dialogs {
     });
   }
 
-  async input<T>(
-    options: InputDialogParameters<T>
-  ): Promise<string | undefined> {
+  async input<T>(options: InputDialogParameters<T>): Promise<T | undefined> {
     return new Promise((_resolve) => {
-      const resolve = (result: string | undefined) => {
+      const resolve = (result: T | undefined) => {
         this.inputDialogSetState(undefined);
         _resolve(result);
       };
       this.inputDialogSetState({
         ...options,
         onCancel: () => resolve(undefined),
-        onConfirm: (validValue: string) => resolve(validValue),
+        onConfirm: (validValue: T) => resolve(validValue),
       });
     });
   }

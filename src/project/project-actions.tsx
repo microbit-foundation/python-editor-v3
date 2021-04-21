@@ -27,6 +27,10 @@ import { FileChange, FileInput, FileOperation, findChanges } from "./changes";
 import NewFileNameQuestion from "./NewFileNameQuestion";
 import { InputDialogBody } from "../common/InputDialog";
 
+export interface MainScriptChoice {
+  main: string | undefined;
+}
+
 /**
  * Key actions.
  *
@@ -170,7 +174,9 @@ export class ProjectActions {
         candidateScripts,
         otherFiles
       );
-      return this.uploadInternal(inputs);
+      if (inputs) {
+        return this.uploadInternal(inputs);
+      }
     }
   };
 
@@ -195,12 +201,14 @@ export class ProjectActions {
   private async chooseScriptForMain(
     candidateScripts: FileInput[],
     otherFiles: FileInput[]
-  ): Promise<FileInput[]> {
-    const chosenScript = await this.dialogs.input<string | undefined>({
+  ): Promise<FileInput[] | undefined> {
+    const chosenScript = await this.dialogs.input<MainScriptChoice>({
       header: "Confirm file changes",
-      initialValue:
-        candidateScripts.length > 0 ? candidateScripts[0].name : undefined,
-      Body: (props: InputDialogBody<string | undefined>) => (
+      initialValue: {
+        main:
+          candidateScripts.length > 0 ? candidateScripts[0].name : undefined,
+      },
+      Body: (props: InputDialogBody<MainScriptChoice>) => (
         <ChooseMainScriptQuestion
           {...props}
           currentFiles={this.fs.project.files.map((f) => f.name)}
@@ -211,9 +219,13 @@ export class ProjectActions {
       actionLabel: "Confirm",
       validate: () => undefined,
     });
+    if (!chosenScript) {
+      // User cancelled.
+      return undefined;
+    }
 
     const appliedChoice = candidateScripts.map((script) => {
-      if (chosenScript && chosenScript === script.name) {
+      if (chosenScript && chosenScript.main === script.name) {
         return {
           ...script,
           name: "main.py",
