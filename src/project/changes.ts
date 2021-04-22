@@ -8,6 +8,10 @@ export interface FileInput {
   data: () => Promise<Uint8Array> | Promise<string>;
 }
 
+export interface ClassifiedFileInput extends FileInput {
+  script: boolean;
+}
+
 export interface FileChange extends FileInput {
   operation: FileOperation;
 }

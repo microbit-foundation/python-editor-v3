@@ -23,7 +23,13 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
-import { FileChange, FileInput, FileOperation, findChanges } from "./changes";
+import {
+  ClassifiedFileInput,
+  FileChange,
+  FileInput,
+  FileOperation,
+  findChanges,
+} from "./changes";
 import NewFileNameQuestion from "./NewFileNameQuestion";
 import { InputDialogBody } from "../common/InputDialog";
 
@@ -157,23 +163,19 @@ export class ProjectActions {
         }
       }
     } else {
-      const candidateScripts: FileInput[] = [];
-      const otherFiles: FileInput[] = [];
+      const classifiedInputs: ClassifiedFileInput[] = [];
       for (const f of files) {
         const content = await readFileAsText(f);
         const isOther =
           !isPythonFile(f.name) || isPythonMicrobitModule(content);
-        // if not module check {if it is a script we want to replace main.py with, else add it to modules}?
-        (isOther ? otherFiles : candidateScripts).push({
+        classifiedInputs.push({
           name: f.name,
+          script: !isOther,
           data: () => Promise.resolve(content),
         });
       }
 
-      const inputs = await this.chooseScriptForMain(
-        candidateScripts,
-        otherFiles
-      );
+      const inputs = await this.chooseScriptForMain(classifiedInputs);
       if (inputs) {
         return this.uploadInternal(inputs);
       }
@@ -199,21 +201,19 @@ export class ProjectActions {
   }
 
   private async chooseScriptForMain(
-    candidateScripts: FileInput[],
-    otherFiles: FileInput[]
+    inputs: ClassifiedFileInput[]
   ): Promise<FileInput[] | undefined> {
+    const defaultScript = inputs.find((x) => x.script);
     const chosenScript = await this.dialogs.input<MainScriptChoice>({
       header: "Confirm file changes",
       initialValue: {
-        main:
-          candidateScripts.length > 0 ? candidateScripts[0].name : undefined,
+        main: defaultScript ? defaultScript.name : undefined,
       },
       Body: (props: InputDialogBody<MainScriptChoice>) => (
         <ChooseMainScriptQuestion
           {...props}
           currentFiles={this.fs.project.files.map((f) => f.name)}
-          candidateScripts={candidateScripts}
-          otherFiles={otherFiles}
+          inputs={inputs}
         />
       ),
       actionLabel: "Confirm",
@@ -224,16 +224,15 @@ export class ProjectActions {
       return undefined;
     }
 
-    const appliedChoice = candidateScripts.map((script) => {
-      if (chosenScript && chosenScript.main === script.name) {
+    return inputs.map((input) => {
+      if (chosenScript && chosenScript.main === input.name) {
         return {
-          ...script,
+          ...input,
           name: "main.py",
         };
       }
-      return script;
+      return input;
     });
-    return [...appliedChoice, ...otherFiles];
   }
 
   /**
