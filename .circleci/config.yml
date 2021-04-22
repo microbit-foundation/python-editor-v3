@@ -101,14 +101,15 @@ jobs:
       - *update_version
       - *save_npm_cache
       - *build
+      # Unlike other stages deploy, first so we still get deployments when e2e fails.
+      - *queue_until_front_of_line
+      - *deploy
+      - *invalidate
       - *chrome-deps
       - *serve
       - *serve-wait
       - *e2e
       - *store_reports
-      - *queue_until_front_of_line
-      - *deploy
-      - *invalidate
 
   staging:
     <<: *defaults
