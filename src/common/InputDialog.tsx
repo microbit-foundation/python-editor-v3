@@ -66,7 +66,12 @@ export const InputDialog = <T extends unknown>({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onCancel} size={size}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onCancel}
+      size={size}
+      initialFocusRef={leastDestructiveRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">

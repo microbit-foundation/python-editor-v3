@@ -7,6 +7,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/menu";
+import { sortBy } from "lodash";
 import { MdMoreHoriz } from "react-icons/md";
 import { InputDialogBody } from "../common/InputDialog";
 import { MAIN_FILE } from "../fs/fs";
@@ -25,13 +26,25 @@ const ChooseMainScriptQuestion = ({
   value,
   setValue,
 }: ChooseMainScriptQuestionProps) => {
-  const changes = findChanges(currentFiles, inputs, value.main);
-  return (
+  const changes = sortBy(
+    findChanges(currentFiles, inputs, value.main),
+    (c) => c.target !== MAIN_FILE,
+    (c) => c.source
+  );
+  return changes.length > 1 ? (
     <UnorderedList stylePosition="inside">
       {changes.map((c) => (
-        <FileChangeListItem key={c.source} change={c} setValue={setValue} />
+        <ListItem key={c.source}>
+          <FileChangeRow key={c.source} change={c} setValue={setValue} />
+        </ListItem>
       ))}
     </UnorderedList>
+  ) : (
+    <FileChangeRow
+      key={changes[0].source}
+      change={changes[0]}
+      setValue={setValue}
+    />
   );
 };
 
@@ -79,12 +92,14 @@ interface FileChangeRowProps {
   setValue: (value: MainScriptChoice) => void;
 }
 
-const FileChangeListItem = ({ change, setValue }: FileChangeRowProps) => {
+const FileChangeRow = ({ change, setValue }: FileChangeRowProps) => {
   const clearMainScript = () => setValue({ main: undefined });
   const switchMainScript = () => setValue({ main: change.source });
   return (
-    <ListItem>
-      <Text as="span">{summarizeChange(change)}</Text>
+    <>
+      <Text as="span" lineHeight="3rem">
+        {summarizeChange(change)}
+      </Text>
       {change.target === MAIN_FILE && change.source !== MAIN_FILE && (
         <OptionsMenu ml={2}>
           <MenuItem onClick={clearMainScript}>
@@ -97,7 +112,7 @@ const FileChangeListItem = ({ change, setValue }: FileChangeRowProps) => {
           <MenuItem onClick={switchMainScript}>Use as main.py</MenuItem>
         </OptionsMenu>
       )}
-    </ListItem>
+    </>
   );
 };
 
