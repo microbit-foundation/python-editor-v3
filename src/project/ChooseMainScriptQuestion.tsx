@@ -1,5 +1,13 @@
-import { Button } from "@chakra-ui/button";
-import { ListItem, UnorderedList, HStack, Text } from "@chakra-ui/layout";
+import { IconButton } from "@chakra-ui/button";
+import { ListItem, Text, UnorderedList } from "@chakra-ui/layout";
+import {
+  Menu,
+  MenuButton,
+  MenuButtonProps,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/menu";
+import { MdMoreHoriz } from "react-icons/md";
 import { InputDialogBody } from "../common/InputDialog";
 import { MAIN_FILE } from "../fs/fs";
 import { ClassifiedFileInput, FileOperation } from "./changes";
@@ -18,19 +26,10 @@ const ChooseMainScriptQuestion = ({
   setValue,
 }: ChooseMainScriptQuestionProps) => {
   const changes = findChanges(currentFiles, inputs, value.main);
-
-  // Aiming for:
-  // - Replace main.py with samplefile.py [Upload as samplefile.py]
-  // - Add file otherfile.py [Use as main.py]
-  // - Replace file module.py
-  // - Add file whatever.txt
-
   return (
     <UnorderedList stylePosition="inside">
       {changes.map((c) => (
-        <ListItem key={c.source} display="flex">
-          <FileChangeRow change={c} setValue={setValue} />
-        </ListItem>
+        <FileChangeListItem key={c.source} change={c} setValue={setValue} />
       ))}
     </UnorderedList>
   );
@@ -78,26 +77,43 @@ const summarizeChange = (change: FileChange): string => {
 interface FileChangeRowProps {
   change: FileChange;
   setValue: (value: MainScriptChoice) => void;
-  // switchMain: (newMain: String) => void;
 }
 
-const FileChangeRow = ({ change, setValue }: FileChangeRowProps) => {
+const FileChangeListItem = ({ change, setValue }: FileChangeRowProps) => {
   const clearMainScript = () => setValue({ main: undefined });
   const switchMainScript = () => setValue({ main: change.source });
   return (
-    <HStack>
-      <Text>{summarizeChange(change)}</Text>
+    <ListItem>
+      <Text as="span">{summarizeChange(change)}</Text>
       {change.target === MAIN_FILE && change.source !== MAIN_FILE && (
-        <Button size="sm" variant="outline" onClick={clearMainScript}>
-          Upload as {change.source}
-        </Button>
+        <OptionsMenu ml={2}>
+          <MenuItem onClick={clearMainScript}>
+            Upload as {change.source}
+          </MenuItem>
+        </OptionsMenu>
       )}
       {change.script && change.target !== MAIN_FILE && (
-        <Button size="sm" variant="outline" onClick={switchMainScript}>
-          Use as main.py
-        </Button>
+        <OptionsMenu ml={2}>
+          <MenuItem onClick={switchMainScript}>Use as main.py</MenuItem>
+        </OptionsMenu>
       )}
-    </HStack>
+    </ListItem>
+  );
+};
+
+const OptionsMenu = ({ children, ...props }: MenuButtonProps) => {
+  return (
+    <Menu placement="right">
+      <MenuButton
+        {...props}
+        as={IconButton}
+        aria-label="Options"
+        size="md"
+        variant="outline"
+        icon={<MdMoreHoriz />}
+      />
+      <MenuList>{children}</MenuList>
+    </Menu>
   );
 };
 

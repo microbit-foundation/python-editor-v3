@@ -219,7 +219,7 @@ export class ProjectActions {
         />
       ),
       actionLabel: "Confirm",
-      size: "xl",
+      size: "lg",
       validate: () => undefined,
     });
     if (!chosenScript) {
