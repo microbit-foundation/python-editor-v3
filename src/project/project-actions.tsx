@@ -164,13 +164,15 @@ export class ProjectActions {
       }
     } else {
       const classifiedInputs: ClassifiedFileInput[] = [];
+      const hasMainPyFile = files.some((x) => x.name === MAIN_FILE);
       for (const f of files) {
         const content = await readFileAsText(f);
-        const isOther =
-          !isPythonFile(f.name) || isPythonMicrobitModule(content);
+        const script = hasMainPyFile
+          ? f.name === MAIN_FILE
+          : isPythonFile(f.name) && !isPythonMicrobitModule(content);
         classifiedInputs.push({
           name: f.name,
-          script: !isOther,
+          script,
           data: () => Promise.resolve(content),
         });
       }
@@ -217,6 +219,7 @@ export class ProjectActions {
         />
       ),
       actionLabel: "Confirm",
+      size: "xl",
       validate: () => undefined,
     });
     if (!chosenScript) {

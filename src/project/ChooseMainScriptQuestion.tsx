@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { ListItem, UnorderedList, HStack, Text } from "@chakra-ui/layout";
 import { InputDialogBody } from "../common/InputDialog";
+import { MAIN_FILE } from "../fs/fs";
 import { ClassifiedFileInput, FileOperation } from "./changes";
 import { MainScriptChoice } from "./project-actions";
 
@@ -27,7 +28,7 @@ const ChooseMainScriptQuestion = ({
   return (
     <UnorderedList stylePosition="inside">
       {changes.map((c) => (
-        <ListItem key={c.source}>
+        <ListItem key={c.source} display="flex">
           <FileChangeRow change={c} setValue={setValue} />
         </ListItem>
       ))}
@@ -65,13 +66,13 @@ const findChanges = (
 
 const summarizeChange = (change: FileChange): string => {
   const changeText =
-    change.operation === FileOperation.REPLACE ? "Update" : "Add";
+    change.operation === FileOperation.REPLACE ? "Replace" : "Add";
   if (change.source === change.target) {
     return `${changeText} file ${change.source}`;
   }
   const preposition =
     change.operation === FileOperation.REPLACE ? "with" : "from";
-  return `${changeText} file  ${preposition} ${change.source}`;
+  return `${changeText} file ${change.target} ${preposition} ${change.source}`;
 };
 
 interface FileChangeRowProps {
@@ -86,12 +87,12 @@ const FileChangeRow = ({ change, setValue }: FileChangeRowProps) => {
   return (
     <HStack>
       <Text>{summarizeChange(change)}</Text>
-      {change.target === "main.py" && (
+      {change.target === MAIN_FILE && change.source !== MAIN_FILE && (
         <Button size="sm" variant="outline" onClick={clearMainScript}>
           Upload as {change.source}
         </Button>
       )}
-      {change.script && change.target !== "main.py" && (
+      {change.script && change.target !== MAIN_FILE && (
         <Button size="sm" variant="outline" onClick={switchMainScript}>
           Use as main.py
         </Button>

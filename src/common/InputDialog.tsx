@@ -8,6 +8,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode, useRef, useState } from "react";
 
 export interface InputDialogBody<T> {
@@ -23,6 +24,7 @@ export interface InputDialogParameters<T> {
   Body: React.FC<InputDialogBody<T>>;
   initialValue: T;
   actionLabel: string;
+  size?: ThemeTypings["components"]["Modal"]["sizes"];
   validate: (input: T) => string | undefined;
 }
 
@@ -48,6 +50,7 @@ export const InputDialog = <T extends unknown>({
   actionLabel,
   isOpen,
   initialValue,
+  size,
   validate,
   onConfirm,
   onCancel,
@@ -63,7 +66,7 @@ export const InputDialog = <T extends unknown>({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onCancel}>
+    <Modal isOpen={isOpen} onClose={onCancel} size={size}>
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
