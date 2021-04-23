@@ -6,6 +6,10 @@ import "xterm/css/xterm.css";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { useDevice } from "../device/device-hooks";
+import { backgroundColorTerm, codeFontFamily } from "../theme";
+import { defaultCodeFontSizePt } from "../theme";
+
+const ptToPixelRatio = 96 / 72;
 
 const XTerm = (props: BoxProps) => {
   const device = useDevice();
@@ -15,8 +19,12 @@ const XTerm = (props: BoxProps) => {
   useEffect(() => {
     if (ref.current && !isUnmounted()) {
       const term = new Terminal({
-        fontFamily: "monospace",
-        fontSize: 18,
+        fontFamily: codeFontFamily,
+        fontSize: defaultCodeFontSizePt * ptToPixelRatio,
+        letterSpacing: 1.1,
+        theme: {
+          background: backgroundColorTerm,
+        },
       });
       const fitAddon = new FitAddon();
       term.loadAddon(fitAddon);
@@ -63,7 +71,7 @@ const XTerm = (props: BoxProps) => {
 
   // The terminal itself is sized based on the number of rows,
   // so we need a background that matches the theme.
-  return <Box {...props} ref={ref} backgroundColor="black" />;
+  return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
 };
 
 export default XTerm;

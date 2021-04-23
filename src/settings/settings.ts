@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import config from "../config";
+import { defaultCodeFontSizePt } from "../theme";
 
 export interface Language {
   id: string;
@@ -12,7 +13,7 @@ export const fontSizeStep = 3;
 
 export const defaultSettings: Settings = {
   languageId: config.supportedLanguages[0].id,
-  fontSize: 16,
+  fontSize: defaultCodeFontSizePt,
   highlightCodeStructure: true,
 };
 

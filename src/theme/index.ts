@@ -1,5 +1,9 @@
 import { extendTheme, theme } from "@chakra-ui/react";
 
+export const codeFontFamily = "monospace";
+export const backgroundColorTerm = "#333333"; // Equivalent of "var(--chakra-colors-blackAlpha-800)" on white.
+export const defaultCodeFontSizePt = 16;
+
 const overrides = {
   // See https://chakra-ui.com/docs/theming/customize-theme
 
