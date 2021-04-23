@@ -19,6 +19,7 @@ import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
 import { completion } from "./completion";
+import { codeFontFamily } from "../../theme";
 
 const customTabBinding: KeyBinding = {
   key: "Tab",
@@ -30,12 +31,15 @@ export const themeExtensionsCompartment = new Compartment();
 
 export const themeExtensions = (fontSizePt: number) => {
   const fontSize = `${fontSizePt}pt`;
+  const fontFamily = codeFontFamily;
   return EditorView.theme({
     ".cm-content": {
       fontSize,
+      fontFamily,
     },
     ".cm-gutter": {
       fontSize,
+      fontFamily,
       backgroundColor: "var(--code-background)",
     },
     ".cm-completionIcon": {
@@ -46,6 +50,7 @@ export const themeExtensions = (fontSizePt: number) => {
     },
     ".cm-completionLabel": {
       fontSize,
+      fontFamily,
     },
     ".cm-activeLine": {
       backgroundColor: "rgba(243, 249, 255, 0.5)",
