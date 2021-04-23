@@ -79,12 +79,13 @@ const findChanges = (
 const summarizeChange = (change: FileChange): string => {
   const changeText =
     change.operation === FileOperation.REPLACE ? "Replace" : "Add";
-  if (change.source === change.target) {
-    return `${changeText} file ${change.source}`;
+  if (change.source === change.target && change.target !== MAIN_FILE) {
+    return `${changeText} ${change.target}`;
   }
+  const targetLabel = change.target === MAIN_FILE ? "main code" : change.target;
   const preposition =
     change.operation === FileOperation.REPLACE ? "with" : "from";
-  return `${changeText} file ${change.target} ${preposition} ${change.source}`;
+  return `${changeText} ${targetLabel} ${preposition} ${change.source}`;
 };
 
 interface FileChangeRowProps {
@@ -109,7 +110,7 @@ const FileChangeRow = ({ change, setValue }: FileChangeRowProps) => {
       )}
       {change.script && change.target !== MAIN_FILE && (
         <OptionsMenu ml={2}>
-          <MenuItem onClick={switchMainScript}>Use as main.py</MenuItem>
+          <MenuItem onClick={switchMainScript}>Use as main code</MenuItem>
         </OptionsMenu>
       )}
     </>
