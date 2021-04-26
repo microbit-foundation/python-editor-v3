@@ -1,11 +1,16 @@
 # Development version of the next micro:bit Python editor
 
-*This project is a development version of the next major version of the editor. It is not ready for use.*
+_This project is a development version of the next major version of the editor. It is not ready for use._
 
 This project is a web-based editor that targets the [MicroPython](https://micropython.org) version of the [Python programming language](http://python.org/). Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
 
 The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor.
 
+## Licensing
+
+The Python editor is [MIT licensed](./LICENSE).
+
+The Adobe Source Code Pro font used for code is copyright Adobe and licensed under the [SIL Open Font License](src/fonts/SOURCE_CODE_PRO_LICENSE.md).
 
 ## Developing the editor
 
