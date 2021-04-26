@@ -1,9 +1,87 @@
-import { FileOperation } from "./changes";
-import { summarizeChange } from "./ChooseMainScriptQuestion";
+import { render } from "@testing-library/react";
+import { ClassifiedFileInput, FileOperation } from "./changes";
+import ChooseMainScriptQuestion, {
+  summarizeChange,
+} from "./ChooseMainScriptQuestion";
+import { MainScriptChoice } from "./project-actions";
 
 describe("ChooseMainScriptQuestion", () => {
+  const data = () => Promise.resolve(new Uint8Array([0]));
+
+  describe("component", () => {
+    const setValue = jest.fn() as jest.MockedFunction<
+      (x: MainScriptChoice | undefined) => void
+    >;
+    const setError = jest.fn() as jest.MockedFunction<
+      (x: string | undefined) => void
+    >;
+    const currentFiles = ["main.py", "magic.py"];
+
+    afterEach(() => {
+      setError.mockClear();
+      setValue.mockClear();
+    });
+
+    const renderComponent = (
+      inputs: ClassifiedFileInput[],
+      choice: string | undefined
+    ) => {
+      return render(
+        <ChooseMainScriptQuestion
+          error={undefined}
+          setError={setError}
+          setValue={setValue}
+          currentFiles={currentFiles}
+          value={{ main: choice }}
+          inputs={inputs}
+          validate={() => undefined}
+        />
+      );
+    };
+
+    it("main.py replacement", () => {
+      const inputs: ClassifiedFileInput[] = [
+        {
+          data,
+          module: false,
+          script: true,
+          name: "main.py",
+        },
+      ];
+      const result = renderComponent(inputs, "samplefile.py");
+      const items = result.getAllByTestId("change").map((x) => x.textContent);
+
+      expect(items).toEqual(["Replace main code with main.py"]);
+      // We don't use a list for simple cases.
+      expect(result.queryAllByRole("listitem")).toEqual([]);
+    });
+
+    it("two options for main.py case", () => {
+      const inputs: ClassifiedFileInput[] = [
+        {
+          data,
+          module: false,
+          script: true,
+          name: "a.py",
+        },
+        {
+          data,
+          module: false,
+          script: true,
+          name: "b.py",
+        },
+      ];
+      const result = renderComponent(inputs, "a.py");
+      const getAllListItems = () =>
+        result.getAllByRole("listitem").map((x) => x.firstChild!.textContent);
+      expect(getAllListItems()).toEqual([
+        "Replace main code with a.py",
+        "Add file b.py",
+      ]);
+    });
+  });
+
   describe("summarizeChange", () => {
-    const data = () => Promise.resolve(new Uint8Array([0]));
     it("most common scenario is special cased to refer to main code", () => {
       expect(
         summarizeChange({

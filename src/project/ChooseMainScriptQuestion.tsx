@@ -103,7 +103,7 @@ const FileChangeRow = ({ change, setValue }: FileChangeRowProps) => {
   const switchMainScript = () => setValue({ main: change.source });
   return (
     <>
-      <Text as="span" lineHeight="3rem">
+      <Text data-testid="change" as="span" lineHeight="3rem">
         {summarizeChange(change)}
       </Text>
       {change.target === MAIN_FILE && change.source !== MAIN_FILE && (
