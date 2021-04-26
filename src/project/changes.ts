@@ -9,20 +9,18 @@ export interface FileInput {
 }
 
 export interface ClassifiedFileInput extends FileInput {
+  /**
+   * Whether this file is a candidate to be the "main.py" script.
+   */
   script: boolean;
+  /**
+   * Whether this candidate is marked as a micro:bit module file with a special comment.
+   * Other Python module files are possible, but this marker clearly identifies the file
+   * as a module and we discount it as a potential script.
+   */
+  module: boolean;
 }
 
 export interface FileChange extends FileInput {
   operation: FileOperation;
 }
-
-export const findChanges = (
-  currentFiles: string[],
-  proposedFiles: FileInput[]
-): FileChange[] => {
-  const current = new Set(currentFiles);
-  return proposedFiles.map((f) => ({
-    ...f,
-    operation: current.has(f.name) ? FileOperation.REPLACE : FileOperation.ADD,
-  }));
-};

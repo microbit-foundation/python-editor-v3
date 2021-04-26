@@ -27,7 +27,7 @@ const ChooseMainScriptQuestion = ({
   setValue,
 }: ChooseMainScriptQuestionProps) => {
   const changes = sortBy(
-    findChanges(currentFiles, inputs, value.main),
+    findProposedChanges(currentFiles, inputs, value.main),
     (c) => c.target !== MAIN_FILE,
     (c) => c.source
   );
@@ -48,19 +48,20 @@ const ChooseMainScriptQuestion = ({
   );
 };
 
-interface FileChange {
+interface ProposedChange {
   source: string;
   target: string;
   script: boolean;
+  module: boolean;
   operation: FileOperation;
   data: () => Promise<Uint8Array> | Promise<string>;
 }
 
-const findChanges = (
+const findProposedChanges = (
   currentFiles: string[],
   inputs: ClassifiedFileInput[],
   main: string | undefined
-): FileChange[] => {
+): ProposedChange[] => {
   const current = new Set(currentFiles);
   return inputs.map((f) => {
     const target = f.name === main ? "main.py" : f.name;
@@ -68,6 +69,7 @@ const findChanges = (
       source: f.name,
       data: f.data,
       target,
+      module: f.module,
       script: f.script,
       operation: current.has(target)
         ? FileOperation.REPLACE
@@ -76,20 +78,23 @@ const findChanges = (
   });
 };
 
-const summarizeChange = (change: FileChange): string => {
+// Exposed for testing.
+export const summarizeChange = (change: ProposedChange): string => {
   const changeText =
     change.operation === FileOperation.REPLACE ? "Replace" : "Add";
+  const what = change.module ? "module" : "file";
   if (change.source === change.target && change.target !== MAIN_FILE) {
-    return `${changeText} ${change.target}`;
+    return `${changeText} ${what} ${change.target}`;
   }
-  const targetLabel = change.target === MAIN_FILE ? "main code" : change.target;
+  const targetLabel =
+    change.target === MAIN_FILE ? "main code" : `file ${change.target}`;
   const preposition =
     change.operation === FileOperation.REPLACE ? "with" : "from";
   return `${changeText} ${targetLabel} ${preposition} ${change.source}`;
 };
 
 interface FileChangeRowProps {
-  change: FileChange;
+  change: ProposedChange;
   setValue: (value: MainScriptChoice) => void;
 }
 

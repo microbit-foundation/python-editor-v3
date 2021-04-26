@@ -25,7 +25,7 @@ export interface InputDialogParameters<T> {
   initialValue: T;
   actionLabel: string;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
-  validate: (input: T) => string | undefined;
+  validate?: (input: T) => string | undefined;
 }
 
 export interface InputDialogParametersWithActions<T>
@@ -39,6 +39,8 @@ export interface InputDialogProps<T>
   isOpen: boolean;
 }
 
+const noValidation = () => undefined;
+
 /**
  * File name input dialog.
  *
@@ -51,7 +53,7 @@ export const InputDialog = <T extends unknown>({
   isOpen,
   initialValue,
   size,
-  validate,
+  validate = noValidation,
   onConfirm,
   onCancel,
 }: InputDialogProps<T>) => {

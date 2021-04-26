@@ -29,7 +29,6 @@ import {
   FileChange,
   FileInput,
   FileOperation,
-  findChanges,
 } from "./changes";
 import NewFileNameQuestion from "./NewFileNameQuestion";
 import { InputDialogBody } from "../common/InputDialog";
@@ -168,12 +167,12 @@ export class ProjectActions {
       const hasMainPyFile = files.some((x) => x.name === MAIN_FILE);
       for (const f of files) {
         const content = await readFileAsUint8Array(f);
-        const script = hasMainPyFile
-          ? f.name === MAIN_FILE
-          : isPythonFile(f.name) && !isPythonMicrobitModule(content);
+        const module = isPythonFile(f.name) && !isPythonMicrobitModule(content);
+        const script = hasMainPyFile ? f.name === MAIN_FILE : module;
         classifiedInputs.push({
           name: f.name,
           script,
+          module,
           data: () => Promise.resolve(content),
         });
       }
@@ -185,7 +184,7 @@ export class ProjectActions {
     }
   };
 
-  private async uploadInternal(inputs: FileInput[]) {
+  private async uploadInternal(inputs: ClassifiedFileInput[]) {
     const changes = this.findChanges(inputs);
     try {
       for (const change of changes) {
@@ -205,7 +204,7 @@ export class ProjectActions {
 
   private async chooseScriptForMain(
     inputs: ClassifiedFileInput[]
-  ): Promise<FileInput[] | undefined> {
+  ): Promise<ClassifiedFileInput[] | undefined> {
     const defaultScript = inputs.find((x) => x.script);
     const chosenScript = await this.dialogs.input<MainScriptChoice>({
       header: "Confirm file changes",
@@ -221,7 +220,6 @@ export class ProjectActions {
       ),
       actionLabel: "Confirm",
       size: "lg",
-      validate: () => undefined,
     });
     if (!chosenScript) {
       // User cancelled.
@@ -435,6 +433,21 @@ export class ProjectActions {
     }
   }
 }
+
+/**
+ * Simple analysis of the changes to the current files.
+ * The text is simpler than that uses in the load confirmation dialog.
+ */
+export const findChanges = (
+  currentFiles: string[],
+  proposedFiles: FileInput[]
+): FileChange[] => {
+  const current = new Set(currentFiles);
+  return proposedFiles.map((f) => ({
+    ...f,
+    operation: current.has(f.name) ? FileOperation.REPLACE : FileOperation.ADD,
+  }));
+};
 
 const summarizeChanges = (changes: FileChange[]) => {
   if (changes.length === 1) {
