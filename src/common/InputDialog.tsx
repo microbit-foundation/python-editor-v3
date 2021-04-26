@@ -42,7 +42,7 @@ export interface InputDialogProps<T>
 const noValidation = () => undefined;
 
 /**
- * File name input dialog.
+ * General purpose input dialog.
  *
  * Generally not used directly. Prefer the useDialogs hook.
  */
