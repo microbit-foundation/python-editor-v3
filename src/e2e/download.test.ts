@@ -5,7 +5,7 @@ describe("Browser - download", () => {
   beforeEach(app.reset.bind(app));
   afterAll(app.dispose.bind(app));
 
-  it("Download - download the default HEX file", async () => {
+  it("Download - download the default HEX asd", async () => {
     await app.setProjectName("idiosyncratic ruminant");
     const download = await app.waitForDownload();
 

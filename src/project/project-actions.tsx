@@ -14,6 +14,7 @@ import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
   readFileAsText,
+  readFileAsUint8Array,
 } from "../fs/fs-util";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
@@ -166,7 +167,7 @@ export class ProjectActions {
       const classifiedInputs: ClassifiedFileInput[] = [];
       const hasMainPyFile = files.some((x) => x.name === MAIN_FILE);
       for (const f of files) {
-        const content = await readFileAsText(f);
+        const content = await readFileAsUint8Array(f);
         const script = hasMainPyFile
           ? f.name === MAIN_FILE
           : isPythonFile(f.name) && !isPythonMicrobitModule(content);
