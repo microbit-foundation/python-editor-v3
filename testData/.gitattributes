@@ -1,0 +1,3 @@
+# Later lines override
+*.py eol=lf
+*-windows.py eol=crlf

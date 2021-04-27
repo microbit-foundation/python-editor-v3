@@ -1,14 +1,13 @@
-import { Text } from "@codemirror/state";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useActionFeedback from "../common/use-action-feedback";
+import { useDialogs } from "../common/use-dialogs";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
-import { useDialogs } from "../common/use-dialogs";
-import { ProjectActions } from "./project-actions";
 import { useSelection } from "../workbench/use-selection";
+import { ProjectActions } from "./project-actions";
 
 /**
  * Hook exposing the main UI actions.
@@ -63,10 +62,10 @@ export const useProject = (): Project => {
  */
 export const useProjectFileText = (
   filename: string
-): [Text | undefined, (text: Text) => void] => {
+): [string | undefined, (text: string) => void] => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
-  const [initialValue, setInitialValue] = useState<Text | undefined>();
+  const [initialValue, setInitialValue] = useState<string | undefined>();
   const isUnmounted = useIsUnmounted();
   useEffect(() => {
     const loadData = async () => {
@@ -75,7 +74,7 @@ export const useProjectFileText = (
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
           if (!isUnmounted()) {
-            setInitialValue(Text.of(text.split("\n")));
+            setInitialValue(text);
           }
         }
       } catch (e) {
@@ -87,9 +86,8 @@ export const useProjectFileText = (
   }, [fs, filename, actionFeedback, isUnmounted]);
 
   const handleChange = useCallback(
-    (text: Text) => {
+    (content: string) => {
       try {
-        const content = text.sliceString(0, undefined, "\n");
         fs.write(filename, content, VersionAction.MAINTAIN);
       } catch (e) {
         actionFeedback.unexpectedError(e);

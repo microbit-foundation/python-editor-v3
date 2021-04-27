@@ -1,5 +1,4 @@
 import { EditorState } from "@codemirror/state";
-import { Text } from "@codemirror/text";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { blocks, blocksCompartment } from "./blocks";
@@ -12,8 +11,8 @@ import {
 
 interface CodeMirrorProps {
   className?: string;
-  defaultValue: Text;
-  onChange: (doc: Text) => void;
+  defaultValue: string;
+  onChange: (doc: string) => void;
 
   fontSize: number;
   highlightCodeStructure: boolean;
@@ -51,7 +50,7 @@ const CodeMirror = ({
     if (initializing) {
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
-          onChange(update.state.doc);
+          onChange(update.state.sliceDoc(0));
         }
       });
       const state = EditorState.create({
