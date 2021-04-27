@@ -18,21 +18,23 @@ import {
 } from "../fs/fs-util";
 import { Logging } from "../logging/logging";
 import translation from "../translation";
-import { ensurePythonExtension, validateNewFilename } from "./project-utils";
-import ReplaceFilesQuestion from "./ReplaceFilesQuestion";
+import {
+  ensurePythonExtension,
+  isPythonFile,
+  validateNewFilename,
+} from "./project-utils";
+import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
+import {
+  ClassifiedFileInput,
+  FileChange,
+  FileInput,
+  FileOperation,
+} from "./changes";
+import NewFileNameQuestion from "./NewFileNameQuestion";
+import { InputDialogBody } from "../common/InputDialog";
 
-enum FileOperation {
-  REPLACE,
-  ADD,
-}
-
-interface FileInput {
-  name: string;
-  data: () => Promise<Uint8Array> | Promise<string>;
-}
-
-interface FileChange extends FileInput {
-  operation: FileOperation;
+export interface MainScriptChoice {
+  main: string | undefined;
 }
 
 /**
@@ -128,11 +130,6 @@ export class ProjectActions {
         title: errorTitle,
         description: translation.load["mpy-warning"],
       });
-    } else if (hasExtensionsNotSupportedForLoad(extensions)) {
-      this.actionFeedback.expectedError({
-        title: errorTitle,
-        description: translation.load["extension-warning"],
-      });
     } else if (extensions.has("hex")) {
       if (files.length > 1) {
         this.actionFeedback.expectedError({
@@ -166,98 +163,78 @@ export class ProjectActions {
         }
       }
     } else {
-      const scripts: FileInput[] = [];
-      const modules: FileInput[] = [];
+      const classifiedInputs: ClassifiedFileInput[] = [];
+      const hasMainPyFile = files.some((x) => x.name === MAIN_FILE);
       for (const f of files) {
-        const content = await readFileAsText(f);
-        const isModule = isPythonMicrobitModule(content);
-        (isModule ? modules : scripts).push({
+        const content = await readFileAsUint8Array(f);
+        const module = isPythonFile(f.name) && !isPythonMicrobitModule(content);
+        const script = hasMainPyFile ? f.name === MAIN_FILE : module;
+        classifiedInputs.push({
           name: f.name,
+          script,
+          module,
           data: () => Promise.resolve(content),
         });
       }
 
-      // We map scripts to main.py, so there can only be one.
-      // It's fine if there are none -- we'll just load the modules.
-      if (scripts.length > 1) {
-        this.actionFeedback.expectedError({
-          title: errorTitle,
-          description: "Cannot load multiple main Python scripts",
-        });
-      } else {
-        const inputs: FileInput[] = [];
-        if (scripts.length > 0) {
-          inputs.push({
-            name: "main.py",
-            data: scripts[0].data,
-          });
-        }
-        inputs.push(...modules);
+      const inputs = await this.chooseScriptForMain(classifiedInputs);
+      if (inputs) {
         return this.uploadInternal(inputs);
       }
     }
   };
 
-  /**
-   * A straightforward way to upload files into the file system.
-   *
-   * Files use their own names.
-   *
-   * @param files One or more files.
-   */
-  upload = async (files: File[]): Promise<void> => {
-    this.logging.event({
-      action: "upload-file",
-    });
-
-    if (files.length === 0) {
-      throw new Error("Expected to be called with at least one file");
-    }
-    return this.uploadInternal(
-      files.map((f) => ({
-        name: f.name,
-        data: () => readFileAsUint8Array(f),
-      }))
-    );
-  };
-
-  private async uploadInternal(inputs: FileInput[]) {
+  private async uploadInternal(inputs: ClassifiedFileInput[]) {
     const changes = this.findChanges(inputs);
-    if (await this.confirmReplacements(changes)) {
-      try {
-        for (const change of changes) {
-          const data = await change.data();
-          await this.fs.write(change.name, data, VersionAction.INCREMENT);
-        }
-        this.actionFeedback.success(summarizeChanges(changes));
-      } catch (e) {
-        this.actionFeedback.unexpectedError(e);
+    try {
+      for (const change of changes) {
+        const data = await change.data();
+        await this.fs.write(change.name, data, VersionAction.INCREMENT);
       }
+      this.actionFeedback.success(summarizeChanges(changes));
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
     }
   }
 
   private findChanges(files: FileInput[]): FileChange[] {
-    const current = new Set(this.fs.project.files.map((f) => f.name));
-    return files.map((f) => ({
-      ...f,
-      operation: current.has(f.name)
-        ? FileOperation.REPLACE
-        : FileOperation.ADD,
-    }));
+    const currentFiles = this.fs.project.files.map((f) => f.name);
+    return findChanges(currentFiles, files);
   }
 
-  private async confirmReplacements(changes: FileChange[]): Promise<boolean> {
-    const replacements = changes.filter(
-      (c) => c.operation === FileOperation.REPLACE
-    );
-    if (replacements.length > 0) {
-      return this.dialogs.confirm({
-        header: "Confirm replacing files",
-        body: <ReplaceFilesQuestion files={replacements.map((c) => c.name)} />,
-        actionLabel: "Replace",
-      });
+  private async chooseScriptForMain(
+    inputs: ClassifiedFileInput[]
+  ): Promise<ClassifiedFileInput[] | undefined> {
+    const defaultScript = inputs.find((x) => x.script);
+    const chosenScript = await this.dialogs.input<MainScriptChoice>({
+      header: "Confirm file changes",
+      initialValue: {
+        main: defaultScript ? defaultScript.name : undefined,
+      },
+      Body: (props: InputDialogBody<MainScriptChoice>) => (
+        <ChooseMainScriptQuestion
+          {...props}
+          currentFiles={this.fs.project.files.map((f) => f.name)}
+          inputs={inputs}
+        />
+      ),
+      actionLabel: "Confirm",
+      size: "lg",
+    });
+    if (!chosenScript) {
+      // User cancelled.
+      return undefined;
     }
-    return true;
+
+    return inputs.map((input) => {
+      if (chosenScript && chosenScript.main === input.name) {
+        return {
+          ...input,
+          name: "main.py",
+        };
+      }
+      return input;
+    });
   }
 
   /**
@@ -375,9 +352,10 @@ export class ProjectActions {
     const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f));
-    const filenameWithoutExtension = await this.dialogs.input({
+    const filenameWithoutExtension = await this.dialogs.input<string>({
       header: "Create a new Python file",
-      body: null,
+      Body: NewFileNameQuestion,
+      initialValue: "",
       actionLabel: "Create",
       validate,
     });
@@ -457,23 +435,18 @@ export class ProjectActions {
 }
 
 /**
- * Check for unsupported extensions.
- *
- * Note that we allow all files via the upload action, but the main
- * load action expects hex files or Python files.
- *
- * `undefined` in the set represents a file or files with an
- * unidentifiable extension.
- *
- * @param extensions The extensions/
+ * Simple analysis of the changes to the current files.
+ * The text is simpler than that uses in the load confirmation dialog.
  */
-const hasExtensionsNotSupportedForLoad = (
-  extensions: Set<string | undefined>
-): boolean => {
-  const copy = new Set(extensions);
-  copy.delete("py");
-  copy.delete("hex");
-  return copy.size > 0;
+export const findChanges = (
+  currentFiles: string[],
+  proposedFiles: FileInput[]
+): FileChange[] => {
+  const current = new Set(currentFiles);
+  return proposedFiles.map((f) => ({
+    ...f,
+    operation: current.has(f.name) ? FileOperation.REPLACE : FileOperation.ADD,
+  }));
 };
 
 const summarizeChanges = (changes: FileChange[]) => {

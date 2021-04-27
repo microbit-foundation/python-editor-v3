@@ -64,7 +64,10 @@ export const asciiToBytes = (str: string): Uint8Array => {
 /**
  * Detect a module using the magic comment.
  */
-export const isPythonMicrobitModule = (code: string) => {
+export const isPythonMicrobitModule = (code: string | Uint8Array) => {
+  if (code instanceof Uint8Array) {
+    code = new TextDecoder().decode(code);
+  }
   const codeLines = code.split(/\r?\n/);
   const firstThreeLines = codeLines.slice(0, 3);
   return Boolean(

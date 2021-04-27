@@ -22,7 +22,7 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
     ConfirmDialogParametersWithActions | undefined
   >(undefined);
   const [inputDialogState, setInputDialogState] = useState<
-    InputDialogParametersWithActions | undefined
+    InputDialogParametersWithActions<any> | undefined
   >(undefined);
   const [progressDialogState, setProgressDialogState] = useState<
     ProgressDialogParameters | undefined
@@ -57,7 +57,7 @@ export class Dialogs {
       options: ConfirmDialogParametersWithActions | undefined
     ) => void,
     private inputDialogSetState: (
-      options: InputDialogParametersWithActions | undefined
+      options: InputDialogParametersWithActions<any> | undefined
     ) => void,
     private progressDialogSetState: (
       options: ProgressDialogParameters | undefined
@@ -78,16 +78,16 @@ export class Dialogs {
     });
   }
 
-  async input(options: InputDialogParameters): Promise<string | undefined> {
+  async input<T>(options: InputDialogParameters<T>): Promise<T | undefined> {
     return new Promise((_resolve) => {
-      const resolve = (result: string | undefined) => {
+      const resolve = (result: T | undefined) => {
         this.inputDialogSetState(undefined);
         _resolve(result);
       };
       this.inputDialogSetState({
         ...options,
         onCancel: () => resolve(undefined),
-        onConfirm: (validValue: string) => resolve(validValue),
+        onConfirm: (validValue: T) => resolve(validValue),
       });
     });
   }

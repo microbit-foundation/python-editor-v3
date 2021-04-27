@@ -6,6 +6,12 @@ import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
 
+export enum LoadDialogType {
+  CONFIRM,
+  REPLACE,
+  NONE,
+}
+
 export interface BrowserDownload {
   filename: string;
   data: Buffer;
@@ -96,15 +102,13 @@ export class App {
    */
   async loadFiles(
     filePath: string,
-    options: { acceptReplace: boolean } = { acceptReplace: true }
+    options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
-    const openInput = await document.getByTestId("open-input");
-    await openInput.uploadFile(filePath);
-    if (options.acceptReplace) {
-      await this.findAndAcceptReplaceConfirmation();
-    }
+    const openInput = await document.getAllByTestId("open-input");
+    await openInput[0].uploadFile(filePath);
+    await this.findAndAcceptLoadDialog(options.acceptDialog);
   }
 
   /**
@@ -130,25 +134,6 @@ export class App {
   }
 
   /**
-   * Upload a file to the file system using the file chooser.
-   *
-   * @param filePath The file on disk.
-   * @param options Options to control expectations after upload.
-   */
-  async uploadFile(
-    filePath: string,
-    options: { acceptReplace: boolean }
-  ): Promise<void> {
-    await this.selectSideBar("Files");
-    const document = await this.document();
-    const uploadInput = await document.getByTestId("upload-input");
-    await uploadInput.uploadFile(filePath);
-    if (options.acceptReplace) {
-      this.findAndAcceptReplaceConfirmation();
-    }
-  }
-
-  /**
    * Open a file using drag and drop.
    *
    * This is a bit fragile and likely to break if we change the DnD DOM as
@@ -158,7 +143,7 @@ export class App {
    */
   async dropFile(
     filePath: string,
-    options: { acceptReplace: boolean } = { acceptReplace: true }
+    options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
     const page = await this.page;
     // Puppeteer doesn't have file drio support but we can use an input
@@ -200,15 +185,22 @@ export class App {
     }, inputId);
     const fileInput = await page.$(`#${inputId}`);
     await fileInput!.uploadFile(filePath);
-    if (options.acceptReplace) {
-      await this.findAndAcceptReplaceConfirmation();
+    await this.findAndAcceptLoadDialog(options.acceptDialog);
+  }
+
+  private async findAndAcceptLoadDialog(dialogType: LoadDialogType) {
+    if (dialogType === LoadDialogType.CONFIRM) {
+      return this.findAndClickButton("Confirm");
+    }
+    if (dialogType === LoadDialogType.REPLACE) {
+      return this.findAndClickButton("Replace");
     }
   }
 
-  private async findAndAcceptReplaceConfirmation() {
+  private async findAndClickButton(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
-      name: "Replace",
+      name: name,
     });
     await button.click();
   }

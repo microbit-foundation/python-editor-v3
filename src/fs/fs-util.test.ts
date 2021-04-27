@@ -1,3 +1,7 @@
+/**
+ * Environment can be removed if https://github.com/jsdom/jsdom/issues/2524 is fixed.
+ * @jest-environment node
+ */
 import {
   generateId,
   getFileExtension,
@@ -48,6 +52,12 @@ describe("isPythonMicrobitModule", () => {
     expect(isPythonMicrobitModule("\n# microbit-module:")).toEqual(true);
     expect(isPythonMicrobitModule("\n\n# microbit-module:")).toEqual(true);
     expect(isPythonMicrobitModule("\n\n\n# microbit-module:")).toEqual(false);
+  });
+
+  it("decodes UTF-8", () => {
+    expect(
+      isPythonMicrobitModule(new TextEncoder().encode("# microbit-module:"))
+    ).toEqual(true);
   });
 });
 

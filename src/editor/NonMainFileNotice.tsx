@@ -26,7 +26,7 @@ const NonMainFileNotice = ({
         textDecoration="underline"
         onClick={() => onSelectedFileChanged(MAIN_FILE)}
       >
-        Back to the main script.
+        Back to the main code.
       </Button>
     </HStack>
   );

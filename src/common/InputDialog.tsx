@@ -1,11 +1,4 @@
 import { Button } from "@chakra-ui/button";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-} from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
 import { Box, VStack } from "@chakra-ui/layout";
 import {
   Modal,
@@ -15,43 +8,56 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode, useRef, useState } from "react";
 
-export interface InputDialogParameters {
-  header: ReactNode;
-  body: ReactNode;
-  actionLabel: string;
-  validate: (input: string) => string | undefined;
+export interface InputDialogBody<T> {
+  value: T;
+  setValue: (value: T) => void;
+  error: string | undefined;
+  setError: (error: string | undefined) => void;
+  validate: (value: T) => string | undefined;
 }
 
-export interface InputDialogParametersWithActions
-  extends InputDialogParameters {
+export interface InputDialogParameters<T> {
   header: ReactNode;
-  body: ReactNode;
+  Body: React.FC<InputDialogBody<T>>;
+  initialValue: T;
   actionLabel: string;
-  onConfirm: (validValue: string) => void;
+  size?: ThemeTypings["components"]["Modal"]["sizes"];
+  validate?: (input: T) => string | undefined;
+}
+
+export interface InputDialogParametersWithActions<T>
+  extends InputDialogParameters<T> {
+  onConfirm: (validValue: T) => void;
   onCancel: () => void;
 }
 
-export interface InputDialogProps extends InputDialogParametersWithActions {
+export interface InputDialogProps<T>
+  extends InputDialogParametersWithActions<T> {
   isOpen: boolean;
 }
 
+const noValidation = () => undefined;
+
 /**
- * File name input dialog.
+ * General purpose input dialog.
  *
  * Generally not used directly. Prefer the useDialogs hook.
  */
-export const InputDialog = ({
+export const InputDialog = <T extends unknown>({
   header,
-  body,
+  Body,
   actionLabel,
   isOpen,
-  validate,
+  initialValue,
+  size,
+  validate = noValidation,
   onConfirm,
   onCancel,
-}: InputDialogProps) => {
-  const [value, setValue] = useState("");
+}: InputDialogProps<T>) => {
+  const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | undefined>(undefined);
   const leastDestructiveRef = useRef<HTMLButtonElement>(null);
   const handleSubmit = (e: React.FormEvent) => {
@@ -60,8 +66,14 @@ export const InputDialog = ({
       onConfirm(value);
     }
   };
+
   return (
-    <Modal isOpen={isOpen} onClose={onCancel}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onCancel}
+      size={size}
+      initialFocusRef={leastDestructiveRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
@@ -69,28 +81,14 @@ export const InputDialog = ({
           </ModalHeader>
           <ModalBody>
             <VStack>
-              {body}
               <Box as="form" onSubmit={handleSubmit} width="100%">
-                <FormControl
-                  id="fileName"
-                  isRequired
-                  isInvalid={Boolean(error)}
-                >
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    type="text"
-                    value={value}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setValue(value);
-                      setError(validate(value));
-                    }}
-                  ></Input>
-                  <FormHelperText>
-                    We'll add the <code>.py</code> extension for you.
-                  </FormHelperText>
-                  <FormErrorMessage>{error}</FormErrorMessage>
-                </FormControl>
+                <Body
+                  value={value}
+                  setValue={setValue}
+                  error={error}
+                  setError={setError}
+                  validate={validate}
+                />
               </Box>
             </VStack>
           </ModalBody>
