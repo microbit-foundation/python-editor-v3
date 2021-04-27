@@ -190,11 +190,10 @@ export class App {
 
   private async findAndAcceptLoadDialog(dialogType: LoadDialogType) {
     if (dialogType === LoadDialogType.CONFIRM) {
-      await this.findAndClickButton("Confirm");
-    } else if (dialogType === LoadDialogType.REPLACE) {
-      await this.findAndClickButton("Replace");
-    } else {
-      return;
+      return this.findAndClickButton("Confirm");
+    }
+    if (dialogType === LoadDialogType.REPLACE) {
+      return this.findAndClickButton("Replace");
     }
   }
 
