@@ -134,7 +134,8 @@ export class ProjectActions {
       if (files.length > 1) {
         this.actionFeedback.expectedError({
           title: errorTitle,
-          description: "Can only load one hex file at a time.",
+          description:
+            "A hex file can only be loaded on its own. It replaces all files in the project.",
         });
       } else {
         // It'd be nice to suppress this (and similar) if it's just the default script.
