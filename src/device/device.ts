@@ -133,8 +133,48 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    */
   private connection: DAPWrapper | undefined;
 
+  /**
+   * DAPLink gives us a promise that lasts as long as we're serial reading.
+   * When stopping serial we await it to be sure we're done.
+   */
+  private serialReadInProgress: Promise<void> | undefined;
+
   private serialListener = (data: string) => {
     this.emit(EVENT_SERIAL_DATA, data);
+  };
+
+  private visibilityChangeListener = () => {
+    console.log("Visibility change " + document.visibilityState);
+    if (document.visibilityState === "visible") {
+      // We could reconnect here if we'd previously disconnected.
+    } else {
+      if (!this.unloading) {
+        this.disconnect();
+      }
+    }
+  };
+
+  private unloading = false;
+
+  private beforeUnloadListener = () => {
+    // Workaround https://github.com/microbit-foundation/python-editor-next/issues/89
+    this.unloading = true;
+    this.stopSerialInternal();
+    // The user might stay on the page if they have unsaved changes and there's
+    // another beforeunload listener. It's hard to tell that's what's happened!
+    window.addEventListener(
+      "focus",
+      () => {
+        const assumePageIsStayingOpenDelay = 1000;
+        setTimeout(() => {
+          if (this.status === ConnectionStatus.CONNECTED) {
+            this.unloading = false;
+            this.startSerialInternal();
+          }
+        }, assumePageIsStayingOpenDelay);
+      },
+      { once: true }
+    );
   };
 
   private logging: Logging;
@@ -154,6 +194,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     if (navigator.usb) {
       navigator.usb.addEventListener("disconnect", this.handleDisconnect);
     }
+    if (window) {
+      window.addEventListener("beforeunload", this.beforeUnloadListener);
+    }
+    if (window && window.document) {
+      window.document.addEventListener(
+        "visibilitychange",
+        this.visibilityChangeListener
+      );
+    }
   }
 
   /**
@@ -163,6 +212,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.removeAllListeners();
     if (navigator.usb) {
       navigator.usb.removeEventListener("disconnect", this.handleDisconnect);
+    }
+    if (window) {
+      window.removeEventListener("beforeunload", this.beforeUnloadListener);
+    }
+    if (window && window.document) {
+      window.document.removeEventListener(
+        "visibilitychange",
+        this.visibilityChangeListener
+      );
     }
   }
 
@@ -192,13 +250,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     );
   }
 
-  private async stopSerial() {
-    if (this.connection) {
-      this.connection.stopSerial(this.serialListener);
-    }
-    this.emit(EVENT_SERIAL_RESET, {});
-  }
-
   private async flashInternal(
     dataSource: FlashDataSource,
     options: {
@@ -210,7 +261,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       await this.connectInternal(false);
     } else {
       this.log("Stopping serial before flash");
-      this.stopSerial();
+      await this.stopSerialInternal();
       this.log("Reconnecting before flash");
       await this.connection.reconnectAsync();
     }
@@ -233,16 +284,36 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
       this.log("Reinstating serial after flash");
       await this.connection.daplink.connect();
-
-      // This is async but won't return until we've finished serial.
-      // TODO: consider error handling here, via an event?
-      this.connection
-        .startSerial(this.serialListener)
-        .then(() => this.log("Finished listening for serial data"))
-        .catch((e) => this.emit(EVENT_SERIAL_ERROR, e));
+      this.startSerialInternal();
+      await this.connection.disconnectAsync();
     } finally {
       progress(undefined);
     }
+  }
+
+  private async startSerialInternal() {
+    // This is async but won't return until we stop serial so we error handle with an event.
+    if (!this.connection) {
+      throw new Error("Must be connected now");
+    }
+    if (this.serialReadInProgress) {
+      await this.stopSerialInternal();
+    }
+    this.serialReadInProgress = this.connection
+      .startSerial(this.serialListener)
+      .then(() => this.log("Finished listening for serial data"))
+      .catch((e) => {
+        this.emit(EVENT_SERIAL_ERROR, e);
+      });
+  }
+
+  private async stopSerialInternal() {
+    if (this.connection && this.serialReadInProgress) {
+      this.connection.stopSerial(this.serialListener);
+      await this.serialReadInProgress;
+      this.serialReadInProgress = undefined;
+    }
+    this.emit(EVENT_SERIAL_RESET, {});
   }
 
   /**
@@ -251,8 +322,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   async disconnect(): Promise<void> {
     try {
       if (this.connection) {
-        this.stopSerial();
-        this.connection.disconnectAsync();
+        await this.stopSerialInternal();
+        await this.connection.disconnectAsync();
       }
     } catch (e) {
       this.log("Error during disconnection:\r\n" + e);
@@ -291,7 +362,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   serialWrite(data: string): Promise<void> {
     return this.withEnrichedErrors(async () => {
       if (this.connection) {
-        this.connection.daplink.serialWrite(data);
+        return this.connection.daplink.serialWrite(data);
       }
     });
   }
@@ -311,7 +382,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
     await this.connection.reconnectAsync();
     if (serial) {
-      this.connection.startSerial(this.serialListener);
+      this.startSerialInternal();
     }
     this.setStatus(ConnectionStatus.CONNECTED);
   }
