@@ -41,6 +41,8 @@ export const themeExtensions = (fontSizePt: number) => {
       fontSize,
       fontFamily,
       backgroundColor: "var(--code-background)",
+      // Make it easier to copy code dragging from the left without line numbers.
+      userSelect: "none",
     },
     ".cm-completionIcon": {
       // Seems broken by default
