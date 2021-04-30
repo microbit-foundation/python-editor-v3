@@ -97,6 +97,22 @@ describeDeviceOnly("MicrobitWebUSBConnection (WebUSB supported)", () => {
     await waitForCondition(() => data.includes("MakeCode"));
 
     await connection.disconnect();
+
+    let progress: number | undefined = -1;
+    const setProgress = (v: number | undefined) => (progress = v);
+
+    await connection.flash(
+      {
+        fullFlashData: () => fsp.readFile("testData/python-serial-writer.hex"),
+        partialFlashData: () => {
+          throw new Error("Full flash expected");
+        },
+      },
+      { partial: true, progress: setProgress }
+    );
+
+    expect(progress).toBeUndefined();
+    await waitForCondition(() => data.includes("Python"));
   });
 
   it("connects to flash and stays connected afterwards", () => {
