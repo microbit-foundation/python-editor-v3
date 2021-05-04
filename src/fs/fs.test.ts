@@ -135,8 +135,8 @@ describe("Filesystem", () => {
   it("can replace project with a hex", async () => {
     await ufs.initialize();
 
-    expect(await ufs.exists(MAIN_FILE));
-    expect(await ufs.write("other.txt", "content", VersionAction.INCREMENT));
+    await ufs.exists(MAIN_FILE);
+    await ufs.write("other.txt", "content", VersionAction.INCREMENT);
     const originalId = ufs.project.id;
 
     await ufs.replaceWithHexContents(
@@ -149,6 +149,21 @@ describe("Filesystem", () => {
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 2 }]);
     expect(ufs.project.name).toEqual("new project name");
     expect(ufs.project.id === originalId).toEqual(false);
+  });
+
+  it("can order files ascendingly according to their file names", async () => {
+    await ufs.initialize();
+
+    await ufs.write("afile.py", "content", VersionAction.INCREMENT);
+    await ufs.write("zfile.py", "content", VersionAction.INCREMENT);
+    await ufs.write("bfile.py", "content", VersionAction.INCREMENT);
+
+    expect(ufs.project.files.map((f) => f.name)).toEqual([
+      MAIN_FILE,
+      "afile.py",
+      "bfile.py",
+      "zfile.py",
+    ]);
   });
 
   it("no longer dirty if new hex loaded", async () => {

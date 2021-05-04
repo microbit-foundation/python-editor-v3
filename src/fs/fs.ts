@@ -10,6 +10,7 @@ import { Logging } from "../logging/logging";
 import { asciiToBytes, generateId } from "./fs-util";
 import initialCode from "./initial-code";
 import { MicroPythonSource } from "./micropython";
+import { sortBy } from "lodash";
 import {
   FSStorage,
   InMemoryFSStorage,
@@ -276,12 +277,22 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   }
 
   private async notify() {
-    const files = await this.storage.ls();
+    const fileNames = await this.storage.ls();
+    const projectFiles = fileNames.map((name) => ({
+      name,
+      version: this.fileVersion(name),
+    }));
+    const filesSorted = sortBy(
+      projectFiles,
+      (f) => f.name !== MAIN_FILE,
+      (f) => f.name
+    );
     this.project = {
       ...this.project,
       name: await this.storage.projectName(),
-      files: files.map((name) => ({ name, version: this.fileVersion(name) })),
+      files: filesSorted,
     };
+
     this.logging.log(this.project);
     this.emit(EVENT_PROJECT_UPDATED, this.project);
   }
