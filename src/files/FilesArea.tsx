@@ -2,6 +2,8 @@ import { List, ListItem, VStack } from "@chakra-ui/react";
 import { useProject } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
 import FileRow from "./FileRow";
+import { sortBy } from "lodash";
+import { MAIN_FILE } from "../fs/fs";
 
 interface FilesProps {
   selectedFile: string | undefined;
@@ -13,10 +15,15 @@ interface FilesProps {
  */
 const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
   const { files, name: projectName } = useProject();
+  const filesSorted = sortBy(
+    files,
+    (f) => f.name !== MAIN_FILE,
+    (f) => f.name
+  );
   return (
     <VStack alignItems="stretch" spacing={5} height="100%">
       <List flexGrow={1}>
-        {files.map((f) => {
+        {filesSorted.map((f) => {
           const select = () => {
             if (isEditableFile(f.name)) {
               onSelectedFileChanged(f.name);
