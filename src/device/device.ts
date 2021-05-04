@@ -282,12 +282,13 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       } else {
         await flashing.fullFlashAsync(boardId, dataSource, progress);
       }
-
+    } finally {
+      // This might not strictly be "reinstating". We should make this
+      // behaviour configurable when pulling out a library.
       this.log("Reinstating serial after flash");
       await this.connection.daplink.connect();
-      this.startSerialInternal();
-      await this.connection.disconnectAsync();
-    } finally {
+      await this.startSerialInternal();
+
       progress(undefined);
     }
   }
@@ -344,6 +345,10 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     try {
       return await f();
     } catch (e) {
+      if (e instanceof HexGenerationError) {
+        throw e;
+      }
+
       // Log error to console for feedback
       this.log("An error occurred whilst attempting to use WebUSB.");
       this.log(
