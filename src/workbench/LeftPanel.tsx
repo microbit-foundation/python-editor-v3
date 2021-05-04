@@ -13,19 +13,15 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import {
-  RiFolderLine,
-  RiLayoutMasonryFill,
-  RiSettings2Line,
-} from "react-icons/ri";
+import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import LogoStacked from "../common/LogoStacked";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
-import SettingsArea from "../settings/SettingsArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import SettingsButton from "../settings/SettingsButton";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -60,12 +56,6 @@ const LeftPanel = ({
             onSelectedFileChanged={onSelectedFileChanged}
           />
         ),
-      },
-      {
-        id: "settings",
-        title: "Settings",
-        icon: RiSettings2Line,
-        contents: <SettingsArea />,
       },
     ],
     [onSelectedFileChanged, selectedFile]
@@ -113,6 +103,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
             </Tab>
           ))}
           <VStack mt="auto" mb={1} spacing={0.5} color="white">
+            <SettingsButton />
             <LanguageMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>
