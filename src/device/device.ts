@@ -151,7 +151,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
         this.connect();
       }
     } else {
-      if (!this.unloading) {
+      if (!this.unloading && this.status === ConnectionStatus.CONNECTED) {
         this.disconnect().then(() => {
           this.visibilityReconnect = true;
         });
