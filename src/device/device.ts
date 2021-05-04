@@ -13,6 +13,10 @@ import { PartialFlashing } from "./partial-flashing";
  */
 export type WebUSBErrorCode =
   /**
+   * Device not selected, e.g. because the user cancelled the dialog.
+   */
+  | "no-device-selected"
+  /**
    * Device not found, perhaps because it doesn't have new enough firmware (for V1).
    */
   | "update-req"
@@ -143,12 +147,21 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.emit(EVENT_SERIAL_DATA, data);
   };
 
+  private visibilityReconnect: boolean = false;
   private visibilityChangeListener = () => {
     if (document.visibilityState === "visible") {
-      // We could reconnect here if we'd previously disconnected.
+      if (
+        this.visibilityReconnect &&
+        this.status !== ConnectionStatus.CONNECTED
+      ) {
+        this.visibilityReconnect = false;
+        this.connect();
+      }
     } else {
-      if (!this.unloading) {
-        this.disconnect();
+      if (!this.unloading && this.status === ConnectionStatus.CONNECTED) {
+        this.disconnect().then(() => {
+          this.visibilityReconnect = true;
+        });
       }
     }
   };
@@ -229,7 +242,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    * Connects to a currently paired device or requests pairing.
    * Throws on error.
    *
-   * @param interactive whether we can prompt the user to choose a device.
    * @returns the final connection status.
    */
   async connect(): Promise<ConnectionStatus> {
@@ -294,13 +306,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   }
 
   private async startSerialInternal() {
-    // This is async but won't return until we stop serial so we error handle with an event.
     if (!this.connection) {
-      throw new Error("Must be connected now");
+      // As connecting then starting serial are async we could disconnect between them,
+      // so handle this gracefully.
+      return;
     }
     if (this.serialReadInProgress) {
       await this.stopSerialInternal();
     }
+    // This is async but won't return until we stop serial so we error handle with an event.
     this.serialReadInProgress = this.connection
       .startSerial(this.serialListener)
       .then(() => this.log("Finished listening for serial data"))
@@ -337,6 +351,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
+    this.visibilityReconnect = false;
     this.log("Device status " + newStatus);
     this.emit(EVENT_STATUS, this.status);
   }
@@ -429,6 +444,12 @@ const enrichedError = (err: any): WebUSBError => {
           title: translation["webusb"]["err"]["update-req-title"],
           code: "update-req",
           description: translation["webusb"]["err"]["update-req"],
+        });
+      } else if (err.message === "No device selected.") {
+        return new WebUSBError({
+          code: "no-device-selected",
+          title: err.message,
+          description: translation["webusb"]["err"]["clear-connect"],
         });
       } else if (err.message === "Unable to claim interface.") {
         return new WebUSBError({
