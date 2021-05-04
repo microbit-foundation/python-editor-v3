@@ -62,7 +62,8 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
               colorScheme="gray"
             />
             <Portal>
-              <MenuList>
+              {/* z-index above the xterm.js's layers */}
+              <MenuList zIndex={4}>
                 {!connected && (
                   <MenuItem
                     target="_blank"
