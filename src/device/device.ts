@@ -143,12 +143,18 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.emit(EVENT_SERIAL_DATA, data);
   };
 
+  private visibilityReconnect: boolean = false;
   private visibilityChangeListener = () => {
     if (document.visibilityState === "visible") {
-      // We could reconnect here if we'd previously disconnected.
+      if (this.visibilityReconnect) {
+        this.visibilityReconnect = false;
+        this.connect();
+      }
     } else {
       if (!this.unloading) {
-        this.disconnect();
+        this.disconnect().then(() => {
+          this.visibilityReconnect = true;
+        });
       }
     }
   };
@@ -337,6 +343,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
+    this.visibilityReconnect = false;
     this.log("Device status " + newStatus);
     this.emit(EVENT_STATUS, this.status);
   }
