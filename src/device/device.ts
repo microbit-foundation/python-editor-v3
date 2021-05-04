@@ -13,6 +13,10 @@ import { PartialFlashing } from "./partial-flashing";
  */
 export type WebUSBErrorCode =
   /**
+   * Device not selected, e.g. because the user cancelled the dialog.
+   */
+  | "no-device-selected"
+  /**
    * Device not found, perhaps because it doesn't have new enough firmware (for V1).
    */
   | "update-req"
@@ -440,6 +444,12 @@ const enrichedError = (err: any): WebUSBError => {
           title: translation["webusb"]["err"]["update-req-title"],
           code: "update-req",
           description: translation["webusb"]["err"]["update-req"],
+        });
+      } else if (err.message === "No device selected.") {
+        return new WebUSBError({
+          code: "no-device-selected",
+          title: err.message,
+          description: translation["webusb"]["err"]["clear-connect"],
         });
       } else if (err.message === "Unable to claim interface.") {
         return new WebUSBError({

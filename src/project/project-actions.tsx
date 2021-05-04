@@ -421,14 +421,18 @@ export class ProjectActions {
 
   private handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {
-      this.actionFeedback.expectedError({
-        title: e.title,
-        description: (
-          <Separate separator={br}>
-            {[e.message, e.description].filter(Boolean)}
-          </Separate>
-        ),
-      });
+      if (e.code === "no-device-selected") {
+        // User just cancelled the browser dialog so no further response needed.
+      } else {
+        this.actionFeedback.expectedError({
+          title: e.title,
+          description: (
+            <Separate separator={br}>
+              {[e.message, e.description].filter(Boolean)}
+            </Separate>
+          ),
+        });
+      }
     } else {
       this.actionFeedback.unexpectedError(e);
     }
