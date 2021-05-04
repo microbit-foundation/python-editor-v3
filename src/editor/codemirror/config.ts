@@ -68,6 +68,8 @@ export const editorConfig: Extension = [
     autocorrect: "off",
     // This matches Ace/Monaco behaviour.
     autocapitalize: "none",
+    // Disable Grammarly.
+    "data-gramm": "false",
   }),
   lineNumbers(),
   highlightSpecialChars(),
