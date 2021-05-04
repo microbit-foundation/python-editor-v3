@@ -146,7 +146,10 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   private visibilityReconnect: boolean = false;
   private visibilityChangeListener = () => {
     if (document.visibilityState === "visible") {
-      if (this.visibilityReconnect) {
+      if (
+        this.visibilityReconnect &&
+        this.status !== ConnectionStatus.CONNECTED
+      ) {
         this.visibilityReconnect = false;
         this.connect();
       }
@@ -235,7 +238,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
    * Connects to a currently paired device or requests pairing.
    * Throws on error.
    *
-   * @param interactive whether we can prompt the user to choose a device.
    * @returns the final connection status.
    */
   async connect(): Promise<ConnectionStatus> {
@@ -300,13 +302,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   }
 
   private async startSerialInternal() {
-    // This is async but won't return until we stop serial so we error handle with an event.
     if (!this.connection) {
-      throw new Error("Must be connected now");
+      // As connecting then starting serial are async we could disconnect between them,
+      // so handle this gracefully.
+      return;
     }
     if (this.serialReadInProgress) {
       await this.stopSerialInternal();
     }
+    // This is async but won't return until we stop serial so we error handle with an event.
     this.serialReadInProgress = this.connection
       .startSerial(this.serialListener)
       .then(() => this.log("Finished listening for serial data"))
