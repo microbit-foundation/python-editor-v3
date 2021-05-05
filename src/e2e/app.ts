@@ -206,11 +206,11 @@ export class App {
   }
 
   async openSettingsDialog(): Promise<void> {
-    this.findAndClickButton("Settings");
+    return this.findAndClickButton("Settings");
   }
 
   async closeSettingsDialog(): Promise<void> {
-    this.findAndClickButton("Close");
+    return this.findAndClickButton("Close");
   }
 
   /**
