@@ -205,6 +205,14 @@ export class App {
     await button.click();
   }
 
+  async openSettingsDialog(): Promise<void> {
+    return this.findAndClickButton("Settings");
+  }
+
+  async closeSettingsDialog(): Promise<void> {
+    return this.findAndClickButton("Close");
+  }
+
   /**
    * Use the Files sidebar to change the current file we're editing.
    *
