@@ -1,3 +1,5 @@
+import { VStack } from "@chakra-ui/layout";
+
 const defaultTitle = "WebUSB error";
 
 export const webusbErrorMessages = {
@@ -6,7 +8,11 @@ export const webusbErrorMessages = {
     description: (
       <span>
         You need to{" "}
-        <a target="_blank" rel="noopener" href="https://microbit.org/firmware/">
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://microbit.org/firmware/"
+        >
           update your micro:bit firmware
         </a>{" "}
         to make use of this feature.
@@ -16,12 +22,13 @@ export const webusbErrorMessages = {
   "clear-connect": {
     title: "Unable to claim interface",
     description: (
-      <span>
-        Another process is connected to this device.
-        <br />
-        Close any other tabs that may be using WebUSB (e.g. MakeCode, Python
-        Editor), or unplug and replug the micro:bit before trying again.
-      </span>
+      <VStack alignItems="stretch" mt={1}>
+        <p>Another process is connected to this device.</p>
+        <p>
+          Close any other tabs that may be using WebUSB (e.g. MakeCode, Python
+          Editor), or unplug and replug the micro:bit before trying again.
+        </p>
+      </VStack>
     ),
   },
   "reconnect-microbit": {
@@ -35,13 +42,16 @@ export const webusbErrorMessages = {
   unavailable: {
     title: defaultTitle,
     description: (
-      <span>
-        With WebUSB you can program your micro:bit and connect to the serial
-        console directly from the online editor.
-        <br />
-        Unfortunately, WebUSB is not supported in this browser. We recommend
-        Chrome, or a Chrome-based browser to use WebUSB.
-      </span>
+      <VStack alignItems="stretch" mt={1}>
+        <p>
+          With WebUSB you can program your micro:bit and connect to the serial
+          console directly from the online editor.
+        </p>
+        <p>
+          Unfortunately, WebUSB is not supported in this browser. We recommend
+          Chrome, or a Chrome-based browser to use WebUSB.
+        </p>
+      </VStack>
     ),
   },
 };
