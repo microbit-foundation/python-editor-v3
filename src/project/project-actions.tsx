@@ -1,6 +1,6 @@
 import { List, ListItem } from "@chakra-ui/layout";
 import { saveAs } from "file-saver";
-import Separate, { br } from "../common/Separate";
+import { InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
@@ -17,21 +17,20 @@ import {
   readFileAsUint8Array,
 } from "../fs/fs-util";
 import { Logging } from "../logging/logging";
-import translation from "../translation";
-import {
-  ensurePythonExtension,
-  isPythonFile,
-  validateNewFilename,
-} from "./project-utils";
-import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import {
   ClassifiedFileInput,
   FileChange,
   FileInput,
   FileOperation,
 } from "./changes";
+import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import NewFileNameQuestion from "./NewFileNameQuestion";
-import { InputDialogBody } from "../common/InputDialog";
+import {
+  ensurePythonExtension,
+  isPythonFile,
+  validateNewFilename,
+} from "./project-utils";
+import { webusbErrorMessages } from "./WebUSBErrorMessages";
 
 export interface MainScriptChoice {
   main: string | undefined;
@@ -128,7 +127,8 @@ export class ProjectActions {
     if (extensions.has("mpy")) {
       this.actionFeedback.expectedError({
         title: errorTitle,
-        description: translation.load["mpy-warning"],
+        description:
+          "This version of the Python Editor doesn't currently support adding .mpy files.",
       });
     } else if (extensions.has("hex")) {
       if (files.length > 1) {
@@ -249,7 +249,7 @@ export class ProjectActions {
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
         title: "WebUSB not supported",
-        description: "Download the hex file or try Chrome or Microsoft Edge",
+        description: webusbErrorMessages.unavailable,
       });
       return;
     }
@@ -421,17 +421,24 @@ export class ProjectActions {
 
   private handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {
-      if (e.code === "no-device-selected") {
-        // User just cancelled the browser dialog so no further response needed.
-      } else {
-        this.actionFeedback.expectedError({
-          title: e.title,
-          description: (
-            <Separate separator={br}>
-              {[e.message, e.description].filter(Boolean)}
-            </Separate>
-          ),
-        });
+      switch (e.code) {
+        case "no-device-selected": {
+          // User just cancelled the browser dialog so no further response needed.
+          return;
+        }
+        case "device-disconnected": {
+          // The UI will already reflect the disconnection.
+          return;
+        }
+        case "update-req":
+        case "clear-connect":
+        case "timeout-error":
+        case "reconnect-microbit": {
+          return this.actionFeedback.expectedError(webusbErrorMessages[e.code]);
+        }
+        default: {
+          return this.actionFeedback.unexpectedError(e);
+        }
       }
     } else {
       this.actionFeedback.unexpectedError(e);
