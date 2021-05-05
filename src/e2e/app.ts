@@ -206,19 +206,11 @@ export class App {
   }
 
   async openSettingsDialog(): Promise<void> {
-    const document = await this.document();
-    const settingsButton = await document.findByRole("button", {
-      name: "Settings",
-    });
-    await settingsButton.click();
+    this.findAndClickButton("Settings");
   }
 
   async closeSettingsDialog(): Promise<void> {
-    const document = await this.document();
-    const settingsButton = await document.findByRole("button", {
-      name: "Close",
-    });
-    await settingsButton.click();
+    this.findAndClickButton("Close");
   }
 
   /**
