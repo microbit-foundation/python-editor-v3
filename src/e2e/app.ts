@@ -205,6 +205,22 @@ export class App {
     await button.click();
   }
 
+  async openSettingsDialog(): Promise<void> {
+    const document = await this.document();
+    const settingsButton = await document.findByRole("button", {
+      name: "Settings",
+    });
+    await settingsButton.click();
+  }
+
+  async closeSettingsDialog(): Promise<void> {
+    const document = await this.document();
+    const settingsButton = await document.findByRole("button", {
+      name: "Close",
+    });
+    await settingsButton.click();
+  }
+
   /**
    * Use the Files sidebar to change the current file we're editing.
    *
