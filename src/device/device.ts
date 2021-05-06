@@ -1,8 +1,7 @@
 import EventEmitter from "events";
-import { TimeoutError } from "puppeteer";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../logging/null";
-import { withTimeout } from "./async-util";
+import { withTimeout, TimeoutError } from "./async-util";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import { PartialFlashing } from "./partial-flashing";

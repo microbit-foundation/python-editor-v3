@@ -1,4 +1,4 @@
-class TimeoutError extends Error {}
+export class TimeoutError extends Error {}
 
 /**
  * Utility to time out an action after a delay.

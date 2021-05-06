@@ -1,5 +1,4 @@
-import { TimeoutError } from "puppeteer";
-import { withTimeout } from "./async-util";
+import { TimeoutError, withTimeout } from "./async-util";
 
 describe("withTimeout", () => {
   it("times out", async () => {

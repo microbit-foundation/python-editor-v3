@@ -5,9 +5,8 @@
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
 import { DAPLink } from "dapjs";
-import { TimeoutError } from "puppeteer";
 import { Logging } from "../logging/logging";
-import { withTimeout } from "./async-util";
+import { withTimeout, TimeoutError } from "./async-util";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import { FlashDataSource } from "./device";
