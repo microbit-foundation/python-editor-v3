@@ -40,7 +40,6 @@ class VisualBlock {
     readonly name: string,
     readonly left: number,
     readonly top: number,
-    readonly width: number,
     readonly height: number
   ) {}
 
@@ -57,7 +56,7 @@ class VisualBlock {
   adjust(elt: HTMLElement) {
     elt.style.left = this.left + "px";
     elt.style.top = this.top + "px";
-    elt.style.width = this.width + "px";
+    elt.style.width = "100%";
     elt.style.height = this.height + "px";
   }
 
@@ -65,7 +64,6 @@ class VisualBlock {
     return (
       this.left === other.left &&
       this.top === other.top &&
-      this.width === other.width &&
       this.height === other.height
     );
   }
@@ -105,7 +103,6 @@ const blocksView = ViewPlugin.fromClass(
       const leftEdge =
         view.contentDOM.getBoundingClientRect().left -
         view.scrollDOM.getBoundingClientRect().left;
-      const contentDOMWidth = view.contentDOM.getBoundingClientRect().width;
       const indentWidth =
         state.facet(indentUnit).length * view.defaultCharacterWidth;
 
@@ -136,8 +133,7 @@ const blocksView = ViewPlugin.fromClass(
               const height = bottom - top;
               const leftIndent = depth * indentWidth;
               const left = leftEdge + leftIndent;
-              const width = contentDOMWidth - leftIndent;
-              blocks.push(new VisualBlock(type.name, left, top, width, height));
+              blocks.push(new VisualBlock(type.name, left, top, height));
             }
             if (type.name === "Body") {
               depth--;
