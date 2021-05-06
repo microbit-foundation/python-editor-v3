@@ -26,7 +26,7 @@ const ProgressDialog = ({ header, progress }: ProgressDialogProps) => {
       <ModalContent>
         <ModalHeader>{header}</ModalHeader>
         <ModalBody>
-          <Progress value={progress! * 100} mb={3} />
+          <Progress min={0} max={1} value={progress} mb={3} />
         </ModalBody>
       </ModalContent>
     </Modal>

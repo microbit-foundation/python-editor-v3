@@ -255,11 +255,19 @@ export class ProjectActions {
     }
 
     try {
+      let lastDialogUpdate: number | undefined;
       const progress = (value: number | undefined) => {
-        this.dialogs.progress({
-          header: "Flashing code",
-          progress: value,
-        });
+        if (
+          value === undefined ||
+          lastDialogUpdate === undefined ||
+          value - lastDialogUpdate > 0.01
+        ) {
+          this.dialogs.progress({
+            header: "Flashing code",
+            progress: value,
+          });
+          lastDialogUpdate = value;
+        }
       };
       await this.device.flash(this.fs, { partial: true, progress });
     } catch (e) {
