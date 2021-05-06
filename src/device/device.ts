@@ -1,7 +1,6 @@
 import EventEmitter from "events";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../logging/null";
-import translation from "../translation";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import { PartialFlashing } from "./partial-flashing";
@@ -39,26 +38,18 @@ export type WebUSBErrorCode =
 
 /**
  * Error type used for all interactions with this module.
+ *
+ * The code indicates the error type and may be suitable for providing
+ * translated error messages.
+ *
+ * The message is the underlying message text and will usually be in
+ * English.
  */
 export class WebUSBError extends Error {
   code: WebUSBErrorCode;
-  title: string;
-  description?: string;
-  constructor({
-    code,
-    title,
-    message,
-    description,
-  }: {
-    code: WebUSBErrorCode;
-    title: string;
-    message?: string;
-    description?: string;
-  }) {
+  constructor({ code, message }: { code: WebUSBErrorCode; message?: string }) {
     super(message);
     this.code = code;
-    this.title = title;
-    this.description = description;
   }
 }
 
@@ -422,8 +413,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
 const genericErrorSuggestingReconnect = (e: any) =>
   new WebUSBError({
     code: "reconnect-microbit",
-    title: "WebUSB Error",
-    description: translation["webusb"]["err"]["reconnect-microbit"],
     message: e.message,
   });
 
@@ -438,36 +427,31 @@ const enrichedError = (err: any): WebUSBError => {
       if (!err.message && err.promise && err.reason) {
         err = err.reason;
       }
-
+      // This comes from DAPjs's WebUSB open.
       if (err.message === "No valid interfaces found.") {
         return new WebUSBError({
-          title: translation["webusb"]["err"]["update-req-title"],
           code: "update-req",
-          description: translation["webusb"]["err"]["update-req"],
+          message: err.message,
         });
       } else if (err.message === "No device selected.") {
         return new WebUSBError({
           code: "no-device-selected",
-          title: err.message,
-          description: translation["webusb"]["err"]["clear-connect"],
+          message: err.message,
         });
       } else if (err.message === "Unable to claim interface.") {
         return new WebUSBError({
           code: "clear-connect",
-          title: err.message,
-          description: translation["webusb"]["err"]["clear-connect"],
+          message: err.message,
         });
       } else if (err.name === "device-disconnected") {
         return new WebUSBError({
           code: "device-disconnected",
-          title: err.message,
-          // No additional message provided here, err.message is enough
+          message: err.message,
         });
       } else if (err.name === "timeout-error") {
         return new WebUSBError({
           code: "timeout-error",
-          title: "Connection Timed Out",
-          description: translation["webusb"]["err"]["reconnect-microbit"],
+          message: err.message,
         });
       } else {
         // Unhandled error. User will need to reconnect their micro:bit

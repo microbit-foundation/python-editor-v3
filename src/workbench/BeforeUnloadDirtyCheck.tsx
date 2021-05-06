@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useFileSystem } from "../fs/fs-hooks";
-import translation from "../translation";
 
 /**
  * Warns the user before closing a tab if they've made changes.
@@ -11,7 +10,9 @@ const BeforeUnloadDirtyCheck = () => {
     const listener = (e: BeforeUnloadEvent) => {
       if (fs.dirty) {
         e.preventDefault();
-        e.returnValue = translation.confirms.quit;
+        // Modern browsers don't show this text to users due to abuse.
+        e.returnValue =
+          "Some of your changes have not been saved. Quit anyway?";
       }
     };
     window.addEventListener("beforeunload", listener);
