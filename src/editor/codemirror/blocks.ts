@@ -57,7 +57,7 @@ class VisualBlock {
   adjust(elt: HTMLElement) {
     elt.style.left = this.left + "px";
     elt.style.top = this.top + "px";
-    elt.style.width = this.width + "px";
+    elt.style.width = 100 + "%";
     elt.style.height = this.height + "px";
   }
 
@@ -97,6 +97,7 @@ const blocksView = ViewPlugin.fromClass(
     update(update: ViewUpdate) {
       // We can probably limit this but we need to know when the language state has changed as parsing has occurred.
       this.view.requestMeasure(this.measureReq);
+      console.log("updated");
     }
 
     readBlocks(): Measure {
