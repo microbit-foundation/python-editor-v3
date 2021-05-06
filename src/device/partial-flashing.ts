@@ -5,7 +5,9 @@
  * https://github.com/microsoft/pxt-microbit/blob/master/editor/flash.ts
  */
 import { DAPLink } from "dapjs";
+import { TimeoutError } from "puppeteer";
 import { Logging } from "../logging/logging";
+import { withTimeout } from "./async-util";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import { FlashDataSource } from "./device";
@@ -277,22 +279,20 @@ export class PartialFlashing {
       }
     })();
 
-    let timeout = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve("timeout");
-      }, 1000);
-    });
-
-    // Use race to timeout the reset.
     try {
-      const result = await Promise.race([resetPromise, timeout]);
-      if (result === "timeout") {
-        this.log("Resetting micro:bit timed out");
-        this.log("Partial flashing failed. Attempting full flash");
-        await this.fullFlashAsync(boardId, dataSource, updateProgress);
-      } else {
+      try {
+        await withTimeout(resetPromise, 1000);
+
         this.log("Begin flashing");
         await this.partialFlashAsync(boardId, dataSource, updateProgress);
+      } catch (e) {
+        if (e instanceof TimeoutError) {
+          this.log("Resetting micro:bit timed out");
+          this.log("Partial flashing failed. Attempting full flash");
+          await this.fullFlashAsync(boardId, dataSource, updateProgress);
+        } else {
+          throw e;
+        }
       }
     } finally {
       // NB cannot return Promises above!

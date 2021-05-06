@@ -1,6 +1,8 @@
 import EventEmitter from "events";
+import { TimeoutError } from "puppeteer";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../logging/null";
+import { withTimeout } from "./async-util";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import { PartialFlashing } from "./partial-flashing";
@@ -261,14 +263,10 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
-    if (!this.connection) {
-      await this.connectInternal(false);
-    } else {
-      this.log("Stopping serial before flash");
-      await this.stopSerialInternal();
-      this.log("Reconnecting before flash");
-      await this.connection.reconnectAsync();
-    }
+    this.log("Stopping serial before flash");
+    await this.stopSerialInternal();
+    this.log("Reconnecting before flash");
+    await this.connectInternal(false);
     if (!this.connection) {
       throw new Error("Must be connected now");
     }
@@ -319,8 +317,8 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       this.connection.stopSerial(this.serialListener);
       await this.serialReadInProgress;
       this.serialReadInProgress = undefined;
+      this.emit(EVENT_SERIAL_RESET, {});
     }
-    this.emit(EVENT_SERIAL_RESET, {});
   }
 
   /**
@@ -392,7 +390,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       const device = await this.chooseDevice();
       this.connection = new DAPWrapper(device, this.logging);
     }
-    await this.connection.reconnectAsync();
+    await withTimeout(this.connection.reconnectAsync(), 10_000);
     if (serial) {
       this.startSerialInternal();
     }
@@ -421,6 +419,13 @@ const enrichedError = (err: any): WebUSBError => {
   if (err instanceof WebUSBError) {
     return err;
   }
+  if (err instanceof TimeoutError) {
+    return new WebUSBError({
+      code: "timeout-error",
+      message: err.message,
+    });
+  }
+
   switch (typeof err) {
     case "object":
       // We might get Error objects as Promise rejection arguments
@@ -446,11 +451,6 @@ const enrichedError = (err: any): WebUSBError => {
       } else if (err.name === "device-disconnected") {
         return new WebUSBError({
           code: "device-disconnected",
-          message: err.message,
-        });
-      } else if (err.name === "timeout-error") {
-        return new WebUSBError({
-          code: "timeout-error",
           message: err.message,
         });
       } else {
