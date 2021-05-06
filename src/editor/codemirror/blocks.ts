@@ -97,7 +97,6 @@ const blocksView = ViewPlugin.fromClass(
     update(update: ViewUpdate) {
       // We can probably limit this but we need to know when the language state has changed as parsing has occurred.
       this.view.requestMeasure(this.measureReq);
-      console.log("updated");
     }
 
     readBlocks(): Measure {
