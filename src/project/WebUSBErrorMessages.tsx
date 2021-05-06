@@ -1,4 +1,4 @@
-import { VStack } from "@chakra-ui/layout";
+import { Link, VStack } from "@chakra-ui/layout";
 
 const defaultTitle = "WebUSB error";
 
@@ -8,13 +8,14 @@ export const webusbErrorMessages = {
     description: (
       <span>
         You need to{" "}
-        <a
+        <Link
           target="_blank"
           rel="noreferrer"
           href="https://microbit.org/firmware/"
+          textDecoration="underline"
         >
           update your micro:bit firmware
-        </a>{" "}
+        </Link>{" "}
         to make use of this feature.
       </span>
     ),
