@@ -91,7 +91,6 @@ export class App {
 
     this.dialogs.length = 0;
     page.on("dialog", async (dialog: Dialog) => {
-      console.log(dialog);
       this.dialogs.push(dialog.type());
       // Need to accept() so that reload() will complete.
       await dialog.accept();
