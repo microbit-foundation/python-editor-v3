@@ -1,0 +1,25 @@
+{
+  "profile": {
+    "content_settings": {
+      "exceptions": {
+        "usb_chooser_data": {
+          "http://localhost:3000,http://localhost:3000": {
+            "expiration": "0",
+            "last_modified": "13264858472583220",
+            "model": 0,
+            "setting": {
+              "chosen-objects": [
+                {
+                  "name": "BBC micro:bit CMSIS-DAP",
+                  "product-id": 516,
+                  "serial-number": "9904360251974e450039900a00000041000000009796990b",
+                  "vendor-id": 3368
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,6 +6,15 @@ import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
 
+export enum BrowserMode {
+  HEADLESS_NO_WEBUSB,
+  /**
+   * For this to work you need to configure your device serial number.
+   * See the README in the puppeteer/ folder.
+   */
+  NORMAL_WITH_WEBUSB,
+}
+
 export enum LoadDialogType {
   CONFIRM,
   REPLACE,
@@ -38,8 +47,20 @@ export class App {
     path.join(os.tmpdir(), "puppeteer-downloads-")
   );
 
-  constructor() {
-    this.browser = puppeteer.launch();
+  constructor(mode: BrowserMode = BrowserMode.HEADLESS_NO_WEBUSB) {
+    this.browser = puppeteer.launch(
+      mode === BrowserMode.HEADLESS_NO_WEBUSB
+        ? {}
+        : {
+            // The WebUSB preferences are only respected in non-headless mode.
+            headless: false,
+            args: [`--user-data-dir=${process.cwd()}/puppeteer`],
+            defaultViewport: {
+              height: 800,
+              width: 1200,
+            },
+          }
+    );
     this.page = this.createPage();
   }
 
@@ -55,6 +76,7 @@ export class App {
 
     this.dialogs.length = 0;
     page.on("dialog", async (dialog: Dialog) => {
+      console.log(dialog);
       this.dialogs.push(dialog.type());
       // Need to accept() so that reload() will complete.
       await dialog.accept();
@@ -379,6 +401,52 @@ export class App {
    */
   async waitForDownload(): Promise<BrowserDownload> {
     return this.waitForDownloadOnDisk(() => this.download());
+  }
+
+  /**
+   * Non-headless with device ONLY.
+   *
+   * Connect to the micro:bit.
+   */
+  async connect(): Promise<void> {
+    const document = await this.document();
+    const toggle = await document.getByTestId("connect-switch");
+    await toggle.click();
+    waitFor(() => document.findByRole("button", { name: "Flash" }));
+  }
+
+  /**
+   * Non-headless with device ONLY.
+   *
+   * Disconnects from the micro:bit.
+   */
+  async disconnect(): Promise<void> {
+    const document = await this.document();
+    const toggle = await document.getByTestId("connect-switch");
+    await toggle.click();
+    waitFor(() => document.findByRole("button", { name: "Download" }));
+  }
+
+  /**
+   * Non-headless with device ONLY.
+   *
+   * Flash via the main Flash button.
+   *
+   * You need to connect first. Takes ~30 to do a full flash.
+   */
+  async flash(): Promise<void> {
+    const document = await this.document();
+    const flash = await document.findByRole("button", { name: "Flash" });
+    await flash.click();
+    // Expect the dialog to show.
+    await document.findByText("Flashing code");
+    await waitFor(
+      async () => {
+        const found = await document.queryAllByText("Flashing code");
+        expect(found).toEqual([]);
+      },
+      { timeout: 35_000 }
+    );
   }
 
   /**

@@ -400,8 +400,15 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     if (this.device) {
       return this.device;
     }
+    const vendorId = 0x0d28;
+    const productId = 0x0204;
+    const devices = await navigator.usb.getDevices();
+    const matchingPrePaired = devices.filter((d) => d.vendorId === vendorId);
+    if (matchingPrePaired.length === 1) {
+      return devices[0];
+    }
     this.device = await navigator.usb.requestDevice({
-      filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
+      filters: [{ vendorId, productId }],
     });
     return this.device;
   }

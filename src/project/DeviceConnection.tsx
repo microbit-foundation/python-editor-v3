@@ -99,7 +99,11 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
       </HStack>
       <HStack as="label" spacing={3}>
         <Tooltip text="Connect to your micro:bit over WebUSB">
-          <Switch isChecked={connected} onChange={handleToggleConnected} />
+          <Switch
+            data-testid="connect-switch"
+            isChecked={connected}
+            onChange={handleToggleConnected}
+          />
         </Tooltip>
         <Text as="span" size="md" fontWeight="semibold">
           {connected ? "Connected" : "Disconnected"}
