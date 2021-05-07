@@ -273,8 +273,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     const partial = options.partial;
     const progress = options.progress || (() => {});
 
-    const boardIdString = this.connection.boardId;
-    const boardId = BoardId.parse(boardIdString);
+    const boardId = this.connection.boardSerialInfo.id;
     const flashing = new PartialFlashing(this.connection, this.logging);
     try {
       if (partial) {
