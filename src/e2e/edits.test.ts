@@ -27,6 +27,9 @@ describe("Browser - edits", () => {
   it("retains text across a reload via session storage", async () => {
     await app.typeInEditor("A change!");
     await app.findVisibleEditorContents(/A change/);
+    // Speculative: Allow time for change to be persisted
+    // See https://github.com/microbit-foundation/python-editor-next/issues/107
+    await new Promise((resolve) => setTimeout(resolve, 1_000));
 
     await app.reloadPage();
 
