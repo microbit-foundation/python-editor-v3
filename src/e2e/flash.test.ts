@@ -19,5 +19,7 @@ if (process.env.TEST_MODE_DEVICE) {
     });
   });
 } else {
-  describe.skip("Browser - flash", () => {});
+  describe.skip("Browser - flash", () => {
+    it("doesn't do anything", () => {});
+  });
 }
