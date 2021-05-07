@@ -10,6 +10,7 @@ import {
   InputDialogParametersWithActions,
 } from "./InputDialog";
 import ProgressDialog, { ProgressDialogParameters } from "./ProgressDialog";
+import useRafState from "./use-raf-state";
 
 const DialogContext = React.createContext<Dialogs | undefined>(undefined);
 
@@ -24,7 +25,7 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
   const [inputDialogState, setInputDialogState] = useState<
     InputDialogParametersWithActions<any> | undefined
   >(undefined);
-  const [progressDialogState, setProgressDialogState] = useState<
+  const [progressDialogState, setProgressDialogState] = useRafState<
     ProgressDialogParameters | undefined
   >(undefined);
 
