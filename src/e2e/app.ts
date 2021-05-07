@@ -1,4 +1,4 @@
-import { waitFor } from "@testing-library/dom";
+import { waitFor, waitForOptions } from "@testing-library/dom";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as os from "os";
@@ -296,17 +296,29 @@ export class App {
    *
    * @param match The regex.
    */
-  async findVisibleEditorContents(match: RegExp): Promise<void> {
+  async findVisibleEditorContents(
+    match: RegExp,
+    options?: waitForOptions
+  ): Promise<void> {
     const document = await this.document();
+    let lastText: string | undefined;
     const text = () =>
       document.evaluate(() => {
         const lines = Array.from(window.document.querySelectorAll(".cm-line"));
         return lines.map((l) => (l as HTMLElement).innerText).join("\n");
       });
-    return waitFor(async () => {
-      const value = await text();
-      expect(value).toMatch(match);
-    });
+    return waitFor(
+      async () => {
+        const value = await text();
+        lastText = value;
+        expect(value).toMatch(match);
+      },
+      {
+        onTimeout: (e) =>
+          new Error(`Timeout waiting for ${match} but content was ${lastText}`),
+        ...options,
+      }
+    );
   }
 
   /**
