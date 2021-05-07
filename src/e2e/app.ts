@@ -8,10 +8,6 @@ import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
 
 export enum BrowserMode {
   HEADLESS_NO_WEBUSB,
-  /**
-   * For this to work you need to configure your device serial number.
-   * See the README in the puppeteer/ folder.
-   */
   NORMAL_WITH_WEBUSB,
 }
 
@@ -48,6 +44,25 @@ export class App {
   );
 
   constructor(mode: BrowserMode = BrowserMode.HEADLESS_NO_WEBUSB) {
+    if (mode === BrowserMode.NORMAL_WITH_WEBUSB) {
+      const template = fs.readFileSync("puppeteer/Preferences-template.json", {
+        encoding: "utf-8",
+      });
+      if (
+        !process.env.TEST_MODE_DEVICE ||
+        process.env.TEST_MODE_DEVICE.length !== 48
+      ) {
+        throw new Error(
+          "HEADLESS_NO_WEBUSB mode requires DEVICE_MODE_TEST to be set to the micro:bit serial number."
+        );
+      }
+      const withSerial = template.replace(
+        "@SERIAL@",
+        process.env.TEST_MODE_DEVICE!
+      );
+      fs.writeFileSync("puppeteer/Default/Preferences", withSerial);
+    }
+
     this.browser = puppeteer.launch(
       mode === BrowserMode.HEADLESS_NO_WEBUSB
         ? {}

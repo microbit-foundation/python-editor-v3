@@ -12,7 +12,7 @@
                 {
                   "name": "BBC micro:bit CMSIS-DAP",
                   "product-id": 516,
-                  "serial-number": "9904360251974e450039900a00000041000000009796990b",
+                  "serial-number": "@SERIAL@",
                   "vendor-id": 3368
                 }
               ]
