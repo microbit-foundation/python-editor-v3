@@ -50,13 +50,22 @@ export class DAPWrapper {
     return this._numPages;
   }
 
-  get boardId() {
-    // The micro:bit board ID is the serial number first 4 hex digits
+  get serialNumberInfo() {
     const serial = this.device.serialNumber;
     if (!serial) {
       throw new Error("Could not detected ID from connected board.");
     }
-    return serial.substring(0, 4);
+    if (serial.length !== 48) {
+      this.logging.log(`USB serial number unexpected length: ${serial.length}`);
+    }
+    const boardId = serial.substring(0, 4);
+    const boardFamilyId = serial.substring(4, 8);
+    const boardHic = serial.slice(-8);
+    const boardFamilyHic = boardFamilyId + boardHic;
+    return {
+      boardId,
+      boardFamilyHic,
+    };
   }
 
   // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L119
@@ -73,6 +82,11 @@ export class DAPWrapper {
 
     await this.daplink.connect();
     await this.cortexM.connect();
+    const { boardId, boardFamilyHic } = this.serialNumberInfo;
+    this.logging.log(
+      `Detected board ID ${boardId} with family/hic ${boardFamilyHic}`
+    );
+    // TODO: eventing, see https://github.com/microbit-foundation/python-editor/commit/75b5fb31a171609da90e512a1d427572bfb36981
     this._pageSize = await this.cortexM.readMem32(FICR.CODEPAGESIZE);
     this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);
   }
