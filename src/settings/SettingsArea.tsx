@@ -1,18 +1,22 @@
 import {
-  VStack,
+  FormControl,
+  FormLabel,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Switch,
-  FormControl,
-  FormLabel,
   Select,
+  VStack,
 } from "@chakra-ui/react";
-import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
 import React, { useCallback } from "react";
 import config from "../config";
+import {
+  CodeStructureHighlight,
+  maximumFontSize,
+  minimumFontSize,
+  useSettings,
+} from "./settings";
 
 /**
  * The settings area.
@@ -39,12 +43,15 @@ const SettingsArea = () => {
     },
     [settings, setSettings]
   );
-  const handleChangeHighlightCodeStructure = useCallback(() => {
-    setSettings({
-      ...settings,
-      highlightCodeStructure: !settings.highlightCodeStructure,
-    });
-  }, [settings, setSettings]);
+  const handleChangeCodeStructureHighlight = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSettings({
+        ...settings,
+        codeStructureHighlight: e.currentTarget.value as CodeStructureHighlight,
+      });
+    },
+    [settings, setSettings]
+  );
   const handleChangeLanguage = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setSettings({
@@ -106,18 +113,30 @@ const SettingsArea = () => {
       </FormControl>
       <FormControl display="flex" alignItems="center">
         <FormLabel
-          htmlFor="highlight-code-structure"
+          htmlFor="language"
           mb="0"
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Highlight code structure
+          Code structure highlighting
         </FormLabel>
-        <Switch
-          id="highlight-code-structure"
-          isChecked={settings.highlightCodeStructure}
-          onChange={handleChangeHighlightCodeStructure}
-        />
+        <Select
+          id="language"
+          variant="outline"
+          onChange={handleChangeCodeStructureHighlight}
+          maxWidth="16ch"
+          value={settings.codeStructureHighlight}
+        >
+          <option key="boxes" value="boxes">
+            Boxes
+          </option>
+          <option key="l-shapes" value="l-shapes">
+            L-shapes
+          </option>
+          <option key="brackets" value="brackets">
+            Brackets
+          </option>
+        </Select>
       </FormControl>
     </VStack>
   );

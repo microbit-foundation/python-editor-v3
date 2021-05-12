@@ -3,8 +3,8 @@
  * CodeMirror's syntax tree.
  */
 import { indentUnit, syntaxTree } from "@codemirror/language";
+import { EditorState, Extension } from "@codemirror/state";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
-import { Compartment, EditorState, Extension } from "@codemirror/state";
 
 // Names from https://github.com/lezer-parser/python/blob/master/src/python.grammar
 const grammarInfo = {
@@ -29,16 +29,16 @@ class VisualBlock {
 
   draw() {
     const elt = document.createElement("div");
-    elt.className = "cm-block";
+    elt.className = "cm-bracket";
     this.adjust(elt);
     return elt;
   }
 
   adjust(elt: HTMLElement) {
-    elt.style.left = this.left + "px";
+    elt.style.left = this.left - 1 + "px";
     elt.style.top = this.top + "px";
-    elt.style.width = `calc(100% - ${elt.style.left})`;
-    elt.style.height = this.height + "px";
+    elt.style.width = "10px";
+    elt.style.height = this.height + 1 + "px";
   }
 
   eq(other: VisualBlock) {
@@ -68,7 +68,7 @@ const blocksView = ViewPlugin.fromClass(
       this.overlayLayer = view.scrollDOM.appendChild(
         document.createElement("div")
       );
-      this.overlayLayer.className = "cm-blockLayer";
+      this.overlayLayer.className = "cm-bracketsLayer";
       this.overlayLayer.setAttribute("aria-hidden", "true");
       view.requestMeasure(this.measureReq);
     }
@@ -103,7 +103,7 @@ const blocksView = ViewPlugin.fromClass(
           leave: (type, start, end) => {
             const isCompound = grammarInfo.compoundStatements.has(type.name);
             const isBody = type.name === "Body";
-            if (isCompound || isBody) {
+            if (isCompound) {
               if (isBody) {
                 // Skip past the colon starting the Body / block.
                 // This needs to get smarter to deal with the single line version, e.g. `while True: pass`
@@ -158,20 +158,20 @@ const skipTrailingBlankLines = (state: EditorState, position: number) => {
 };
 
 const baseTheme = EditorView.baseTheme({
-  ".cm-blockLayer": {
+  ".cm-bracketsLayer": {
     position: "absolute",
     top: 0,
     height: "100%",
     width: "100%",
     zIndex: -1,
   },
-  ".cm-block": {
+  ".cm-bracket": {
     display: "block",
     position: "absolute",
-    backgroundColor: "var(--block)",
-    borderRadius: "var(--chakra-radii-lg)",
+    borderLeft: "2px solid var(--chakra-colors-blimpTeal-100)",
+    borderTop: "2px solid var(--chakra-colors-blimpTeal-100)",
+    borderBottom: "2px solid var(--chakra-colors-blimpTeal-100)",
   },
 });
 
-export const blocksCompartment = new Compartment();
-export const blocks = (): Extension => [blocksView, baseTheme];
+export const brackets = (): Extension => [blocksView, baseTheme];
