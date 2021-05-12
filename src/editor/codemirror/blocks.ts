@@ -169,9 +169,6 @@ const baseTheme = EditorView.baseTheme({
     display: "block",
     position: "absolute",
     backgroundColor: "var(--block)",
-    // For debug text, which we'll probably remove.
-    color: "lightgrey",
-    textAlign: "right",
   },
 });
 
