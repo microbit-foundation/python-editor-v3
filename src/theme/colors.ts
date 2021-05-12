@@ -29,9 +29,9 @@ const colors = {
     300: "#cbcccb", // Unused was drag handles in the design.
     400: "#c9c9c9",
     500: "#b0b0b0", // Edit project name (but 80% alpha), active buttons
-    600: "#a9aaa9", // todo: Line numbers
+    600: "#a9aaa9", // Line numbers
     700: "#4c4c4c", // Muted text color, project name icon
-    800: "#262626", // Main text color
+    800: "#262626", // Main text color, active line
   },
 };
 

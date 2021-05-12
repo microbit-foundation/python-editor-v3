@@ -11,14 +11,14 @@ interface EditorContainerProps {
  * and wires it to the currently open file.
  */
 const EditorContainer = ({ filename }: EditorContainerProps) => {
-  const [{ fontSize, highlightCodeStructure }] = useSettings();
+  const [{ fontSize, codeStructureHighlight }] = useSettings();
   const [defaultValue, onFileChange] = useProjectFileText(filename);
   return typeof defaultValue === "undefined" ? null : (
     <Editor
       defaultValue={defaultValue}
       onChange={onFileChange}
       fontSize={fontSize}
-      highlightCodeStructure={highlightCodeStructure}
+      codeStructureHighlight={codeStructureHighlight}
     />
   );
 };
