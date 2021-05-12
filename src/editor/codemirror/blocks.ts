@@ -17,22 +17,6 @@ const grammarInfo = {
     "FunctionDefinition",
     "ClassDefinition",
   ]),
-  otherStatements: new Set([
-    "AssignStatement",
-    "UpdateStatement",
-    "ExpressionStatement",
-    "DeleteStatement",
-    "PassStatement",
-    "BreakStatement",
-    "ContinueStatement",
-    "ReturnStatement",
-    "YieldStatement",
-    "PrintStatement",
-    "RaiseStatement",
-    "ImportStatement",
-    "ScopeStatement",
-    "AssertStatement",
-  ]),
 };
 
 class VisualBlock {
@@ -121,10 +105,13 @@ const blocksView = ViewPlugin.fromClass(
           },
           leave: (type, start, end) => {
             const isCompound = grammarInfo.compoundStatements.has(type.name);
-            const isSimple = grammarInfo.otherStatements.has(type.name);
-            // TODO: Just draw simple statements where they are, rather than mapping to whole lines?
-            // Need to do something to address this case, at least: `def foo(): pass`
-            if (isCompound || isSimple) {
+            const isBody = type.name === "Body";
+            if (isCompound || isBody) {
+              if (isBody) {
+                // Skip past the colon starting the Body / block.
+                // This needs to get smarter to deal with the single line version, e.g. `while True: pass`
+                start = state.doc.lineAt(start).to + 1;
+              }
               const top = view.visualLineAt(start).top;
               const bottom = view.visualLineAt(
                 // We also need to skip comments in a similar way, as they're extending our highlighting.
@@ -135,7 +122,7 @@ const blocksView = ViewPlugin.fromClass(
               const left = leftEdge + leftIndent;
               blocks.push(new VisualBlock(type.name, left, top, height));
             }
-            if (type.name === "Body") {
+            if (isBody) {
               depth--;
             }
           },
@@ -188,7 +175,6 @@ const baseTheme = EditorView.baseTheme({
     // For debug text, which we'll probably remove.
     color: "lightgrey",
     textAlign: "right",
-    borderRadius: "5px",
   },
   ".cm-blockName": {
     // Comment out for debugging, remove at some point to save on DOM.
