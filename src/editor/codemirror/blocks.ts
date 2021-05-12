@@ -35,10 +35,9 @@ class VisualBlock {
   }
 
   adjust(elt: HTMLElement) {
-    elt.style.left = this.left - 5 + 10 + "px";
+    elt.style.left = this.left + "px";
     elt.style.top = this.top + "px";
-    elt.style.width = "10px";
-    elt.style.height = this.height + 5 + "px";
+    elt.style.height = this.height + "px";
   }
 
   eq(other: VisualBlock) {
@@ -101,6 +100,9 @@ const blocksView = ViewPlugin.fromClass(
             }
           },
           leave: (type, start, end) => {
+            if (depth === 0) {
+              return;
+            }
             const isCompound = grammarInfo.compoundStatements.has(type.name);
             const isBody = type.name === "Body";
             if (isCompound || isBody) {
@@ -168,13 +170,7 @@ const baseTheme = EditorView.baseTheme({
   ".cm-block": {
     display: "block",
     position: "absolute",
-    borderLeft: "2px solid orange",
-    borderTop: "2px solid orange",
-    borderBottom: "2px solid orange",
-  },
-  ".cm-content": {
-    // Room for the brackets
-    paddingLeft: "10px",
+    borderLeft: "2px dotted lightgrey",
   },
 });
 
