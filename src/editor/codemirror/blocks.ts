@@ -30,9 +30,6 @@ class VisualBlock {
   draw() {
     const elt = document.createElement("div");
     elt.className = "cm-block";
-    const nameSpan = elt.appendChild(document.createElement("span"));
-    nameSpan.className = "cm-blockName";
-    nameSpan.textContent = this.name.replace(/Definition$|Statement$/, "");
     this.adjust(elt);
     return elt;
   }
@@ -175,11 +172,6 @@ const baseTheme = EditorView.baseTheme({
     // For debug text, which we'll probably remove.
     color: "lightgrey",
     textAlign: "right",
-  },
-  ".cm-blockName": {
-    // Comment out for debugging, remove at some point to save on DOM.
-    display: "none",
-    paddingRight: "5px",
   },
 });
 
