@@ -105,7 +105,6 @@ const blocksView = ViewPlugin.fromClass(
           },
           leave: (type, start, end) => {
             const isCompound = grammarInfo.compoundStatements.has(type.name);
-            // TODO: Just draw simple statements where they are, rather than mapping to whole lines?
             const isBody = type.name === "Body";
             if (isCompound || isBody) {
               if (isBody) {
@@ -176,7 +175,6 @@ const baseTheme = EditorView.baseTheme({
     // For debug text, which we'll probably remove.
     color: "lightgrey",
     textAlign: "right",
-    // borderRadius: "5px",
   },
   ".cm-blockName": {
     // Comment out for debugging, remove at some point to save on DOM.
