@@ -56,7 +56,7 @@ class VisualBlock {
   adjust(elt: HTMLElement) {
     elt.style.left = this.left + "px";
     elt.style.top = this.top + "px";
-    elt.style.width = "100%";
+    elt.style.width = `calc(100% - ${elt.style.left})`;
     elt.style.height = this.height + "px";
   }
 
