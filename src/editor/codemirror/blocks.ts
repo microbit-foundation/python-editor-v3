@@ -38,6 +38,7 @@ class VisualBlock {
     elt.style.left = this.left + "px";
     elt.style.top = this.top + "px";
     elt.style.height = this.height + "px";
+    elt.style.width = `calc(100% - ${elt.style.left}`;
   }
 
   eq(other: VisualBlock) {
@@ -100,9 +101,6 @@ const blocksView = ViewPlugin.fromClass(
             }
           },
           leave: (type, start, end) => {
-            if (depth === 0) {
-              return;
-            }
             const isCompound = grammarInfo.compoundStatements.has(type.name);
             const isBody = type.name === "Body";
             if (isCompound || isBody) {
@@ -170,7 +168,7 @@ const baseTheme = EditorView.baseTheme({
   ".cm-block": {
     display: "block",
     position: "absolute",
-    borderLeft: "2px dotted lightgrey",
+    border: "2px solid orange",
   },
 });
 
