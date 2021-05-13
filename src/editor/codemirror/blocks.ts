@@ -169,6 +169,7 @@ const baseTheme = EditorView.baseTheme({
     display: "block",
     position: "absolute",
     border: "2px solid orange",
+    borderRadius: "10px",
   },
 });
 
