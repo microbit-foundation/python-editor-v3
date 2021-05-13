@@ -168,7 +168,7 @@ const baseTheme = EditorView.baseTheme({
   ".cm-block": {
     display: "block",
     position: "absolute",
-    border: "2px solid orange",
+    borderLeft: "2px dotted orange",
   },
 });
 
