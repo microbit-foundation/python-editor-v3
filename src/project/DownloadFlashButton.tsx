@@ -17,7 +17,7 @@ import DownloadButton from "./DownloadButton";
 import FlashButton from "./FlashButton";
 import { useProjectActions } from "./project-hooks";
 
-interface DeviceConnectionProps {
+interface DownloadFlashButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
 }
 
@@ -27,7 +27,7 @@ interface DeviceConnectionProps {
  * It shows the current connection status and allows the user to
  * flash (if WebUSB is supported) or otherwise just download a HEX.
  */
-const DeviceConnection = ({ size }: DeviceConnectionProps) => {
+const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;
   const actions = useProjectActions();
@@ -90,4 +90,4 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
   );
 };
 
-export default DeviceConnection;
+export default DownloadFlashButton;
