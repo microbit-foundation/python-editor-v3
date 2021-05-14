@@ -78,7 +78,12 @@ interface LeftPanelContentsProps {
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   return (
-    <Flex height="100%" direction="column" {...props}>
+    <Flex
+      height="100%"
+      direction="column"
+      {...props}
+      backgroundColor="var(--content-background)"
+    >
       <Tabs
         orientation="vertical"
         size="lg"

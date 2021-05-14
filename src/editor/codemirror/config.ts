@@ -36,13 +36,19 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-content": {
       fontSize,
       fontFamily,
+      padding: 0,
     },
-    ".cm-gutter": {
-      fontSize,
-      fontFamily,
-      backgroundColor: "var(--code-background)",
+    ".cm-gutters": {
       // Make it easier to copy code dragging from the left without line numbers.
       userSelect: "none",
+      backgroundColor: "var(--code-background)",
+      fontSize,
+      fontFamily,
+      borderRight: "unset",
+      paddingRight: "1rem",
+    },
+    ".cm-gutter": {
+      width: "4rem",
     },
     ".cm-completionIcon": {
       // Seems broken by default

@@ -10,7 +10,8 @@
 
 html {
   /* Need to consider how these integrate with the chakra theme. */
-  --code-background: #fffff8;
+  --code-background: rgb(252, 252, 253);
+  --content-background: rgb(242, 242, 245);
   /* Used in blocks.ts */
   --block: rgba(52, 162, 235, 0.06);
 }

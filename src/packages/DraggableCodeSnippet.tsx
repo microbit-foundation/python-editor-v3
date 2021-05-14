@@ -18,7 +18,7 @@ const DraggableCodeSnippet = ({
   };
   return (
     <HStack
-      backgroundColor="whitesmoke"
+      backgroundColor="var(--code-background)"
       rounded="lg"
       draggable
       pt={1}
