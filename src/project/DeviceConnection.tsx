@@ -7,12 +7,8 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  Switch,
-  Text,
   ThemeTypings,
-  Tooltip,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDownload2Line, RiFlashlightFill } from "react-icons/ri";
 import { ConnectionStatus } from "../device/device";
@@ -35,13 +31,6 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;
   const actions = useProjectActions();
-  const handleToggleConnected = useCallback(async () => {
-    if (connected) {
-      await actions.disconnect();
-    } else {
-      await actions.connect();
-    }
-  }, [connected, actions]);
   const buttonWidth = "10rem"; // 8.1 with md buttons
   return (
     <HStack>
@@ -96,14 +85,6 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
             </Portal>
           </ButtonGroup>
         </Menu>
-      </HStack>
-      <HStack as="label" spacing={3}>
-        <Tooltip text="Connect to your micro:bit over WebUSB">
-          <Switch isChecked={connected} onChange={handleToggleConnected} />
-        </Tooltip>
-        <Text as="span" size="md" fontWeight="semibold">
-          {connected ? "Connected" : "Disconnected"}
-        </Text>
       </HStack>
     </HStack>
   );
