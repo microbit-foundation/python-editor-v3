@@ -36,7 +36,6 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-content": {
       fontSize,
       fontFamily,
-      borderRadius: "1px",
     },
     ".cm-gutter": {
       fontSize,
