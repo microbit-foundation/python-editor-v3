@@ -17,7 +17,6 @@ import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import LogoStacked from "../common/LogoStacked";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
