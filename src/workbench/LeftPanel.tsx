@@ -17,11 +17,11 @@ import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import LogoStacked from "../common/LogoStacked";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
+import Placeholder from "../common/Placeholder";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -40,10 +40,12 @@ const LeftPanel = ({
   const panes: Pane[] = useMemo(
     () => [
       {
-        id: "packages",
-        title: "Packages",
+        id: "placeholder",
+        title: "Placeholder",
         icon: RiLayoutMasonryFill,
-        contents: <PackagesArea />,
+        contents: (
+          <Placeholder text="Hi. This is our release of the micro:bit Python editor. Help us improve by providing your feedback!" />
+        ),
       },
       {
         id: "files",
