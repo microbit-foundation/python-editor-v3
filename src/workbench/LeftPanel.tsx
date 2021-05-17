@@ -44,7 +44,9 @@ const LeftPanel = ({
         id: "placeholder",
         title: "Placeholder",
         icon: RiLayoutMasonryFill,
-        contents: <Placeholder text="hi" />,
+        contents: (
+          <Placeholder text="Hi. This is our release of the micro:bit Python editor. Help us improve by providing your feedback!" />
+        ),
       },
       {
         id: "files",
