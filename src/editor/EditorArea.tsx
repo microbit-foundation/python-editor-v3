@@ -22,38 +22,29 @@ const EditorArea = ({
   const isMainFile = filename === MAIN_FILE;
   return (
     <Flex height="100%" flexDirection="column" {...props}>
+      <Flex
+        width="100%"
+        backgroundColor="var(--code-background)"
+        alignItems="center"
+        justifyContent="space-between"
+        pl={3}
+        pr={3}
+        pt={2}
+        pb={2}
+        borderBottom="1px solid #d3d3d3"
+      >
+        <ProjectNameEditable />
+        <ZoomControls size="md" />
+      </Flex>
       {!isMainFile && (
         <NonMainFileNotice
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
       )}
-      <Box flex="1 1 auto" height={0} position="relative">
-        <ZoomControls
-          size="lg"
-          display={["none", "none", "flex"]}
-          position="absolute"
-          top={0}
-          right={0}
-          pt={3}
-          // Need to keep them away from the scrollbar
-          pr={5}
-          zIndex={1}
-        />
+      <Box flex="1 1 auto" height={0}>
         <EditorContainer filename={filename} />
       </Box>
-      <Flex
-        width="100%"
-        backgroundColor="var(--code-background)"
-        justifyContent="flex-end"
-        alignItems="center"
-        h={10}
-        pb={1}
-        pt={0}
-        pr={2}
-      >
-        <ProjectNameEditable />
-      </Flex>
     </Flex>
   );
 };

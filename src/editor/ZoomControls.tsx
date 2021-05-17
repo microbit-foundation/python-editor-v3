@@ -34,17 +34,17 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
       <IconButton
         size={size}
         isRound
-        icon={<RiZoomOutLine />}
-        aria-label="Zoom out"
-        onClick={handleZoomOut}
+        icon={<RiZoomInLine />}
+        aria-label="Zoom in"
+        onClick={handleZoomIn}
         colorScheme="gray"
       />
       <IconButton
         size={size}
         isRound
-        icon={<RiZoomInLine />}
-        aria-label="Zoom in"
-        onClick={handleZoomIn}
+        icon={<RiZoomOutLine />}
+        aria-label="Zoom out"
+        onClick={handleZoomOut}
         colorScheme="gray"
       />
     </HStack>

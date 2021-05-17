@@ -64,6 +64,7 @@ const ProjectNameEditable = () => {
     >
       {(props) => (
         <>
+          <EditableControls {...props} />
           <EditablePreview
             data-testid="project-name"
             display="block"
@@ -73,7 +74,6 @@ const ProjectNameEditable = () => {
             whiteSpace="nowrap"
           />
           <EditableInput data-testid="project-name-input" pl={1} pr={1} />
-          <EditableControls {...props} />
         </>
       )}
     </Editable>
