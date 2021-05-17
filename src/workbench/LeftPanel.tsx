@@ -22,6 +22,7 @@ import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
+import Placeholder from "../common/Placeholder";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -40,10 +41,10 @@ const LeftPanel = ({
   const panes: Pane[] = useMemo(
     () => [
       {
-        id: "packages",
-        title: "Packages",
+        id: "placeholder",
+        title: "Placeholder",
         icon: RiLayoutMasonryFill,
-        contents: <PackagesArea />,
+        contents: <Placeholder text="hi" />,
       },
       {
         id: "files",
