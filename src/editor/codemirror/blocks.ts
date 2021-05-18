@@ -169,7 +169,7 @@ const baseTheme = EditorView.baseTheme({
     display: "block",
     position: "absolute",
     backgroundColor: "var(--block)",
-    borderRadius: "10px",
+    borderRadius: "var(--chakra-radii-lg)",
   },
 });
 
