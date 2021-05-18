@@ -29,7 +29,9 @@ export const SettingsDialog = ({ isOpen, onClose }: SettingsDialogProps) => {
             <SettingsArea />
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
+            <Button colorScheme="designPurple" onClick={onClose}>
+              Close
+            </Button>
           </ModalFooter>
         </ModalContent>
       </ModalOverlay>

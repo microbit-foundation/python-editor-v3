@@ -56,7 +56,12 @@ export const ConfirmDialog = ({
           </AlertDialogHeader>
           <AlertDialogBody>{body}</AlertDialogBody>
           <AlertDialogFooter>
-            <Button ref={leastDestructiveRef} onClick={onCancel}>
+            <Button
+              ref={leastDestructiveRef}
+              colorScheme="designPurple"
+              variant="outine"
+              onClick={onCancel}
+            >
               Cancel
             </Button>
             <Button colorScheme="designPurple" onClick={onConfirm} ml={3}>
