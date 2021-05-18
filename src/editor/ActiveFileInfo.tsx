@@ -19,11 +19,11 @@ const ActiveFileInfo = ({
 }: ActiveFileInfoProps) => {
   return (
     <HStack>
-      <Text as="span" fontWeight="semibold">
-        {filename}
-      </Text>
       {filename !== MAIN_FILE && (
         <>
+          <Text as="span" fontWeight="semibold">
+            {filename}
+          </Text>
           <Text as="span">—</Text>
           <Button
             fontWeight="normal"
