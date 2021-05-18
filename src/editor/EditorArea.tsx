@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex, HStack, VStack } from "@chakra-ui/react";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
