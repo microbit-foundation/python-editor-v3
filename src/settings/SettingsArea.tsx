@@ -114,6 +114,7 @@ const SettingsArea = () => {
           Highlight code structure
         </FormLabel>
         <Switch
+          colorScheme="designPurple"
           id="highlight-code-structure"
           isChecked={settings.highlightCodeStructure}
           onChange={handleChangeHighlightCodeStructure}
