@@ -349,9 +349,12 @@ export class App {
       name: "Edit project name",
     });
     await editButton.click();
-    const input = await document.findByTestId("project-name-input");
+    const input = await document.findByRole("textbox", {
+      name: /Name/,
+    });
     await input.type(projectName);
-    await input.press("Enter");
+    const confirm = await document.findByRole("button", { name: "Confirm" });
+    await confirm.click();
   }
 
   /**

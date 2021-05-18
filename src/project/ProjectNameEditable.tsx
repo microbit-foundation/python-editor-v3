@@ -18,6 +18,7 @@ const ProjectNameEditable = () => {
       Body: ProjectNameQuestion,
       initialValue: project.name,
       actionLabel: "Confirm",
+      customFocus: true,
       validate: (name: string) =>
         name.trim().length === 0
           ? "The project name cannot be blank"
@@ -43,7 +44,7 @@ const ProjectNameEditable = () => {
           aria-label="Edit project name"
         />
       </Tooltip>
-      <Text cursor="pointer" onClick={handleEdit}>
+      <Text cursor="pointer" onClick={handleEdit} data-testid="project-name">
         {project.name}
       </Text>
     </HStack>
