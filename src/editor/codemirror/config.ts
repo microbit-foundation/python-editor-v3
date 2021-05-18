@@ -48,7 +48,7 @@ export const themeExtensions = (fontSizePt: number) => {
       paddingRight: "1rem",
     },
     ".cm-gutter": {
-      width: "4rem",
+      width: "5rem",
     },
     ".cm-completionIcon": {
       // Seems broken by default
