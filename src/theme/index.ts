@@ -6,9 +6,15 @@ export const defaultCodeFontSizePt = 16;
 
 const overrides = {
   // See https://chakra-ui.com/docs/theming/customize-theme
-
+  radii: {
+    // Design radius for buttons and other larger items
+    "4xl": "2rem",
+  },
   components: {
     Button: {
+      baseStyle: {
+        borderRadius: "4xl",
+      },
       variants: {
         sidebar: (props: any) => {
           const base = {

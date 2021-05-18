@@ -45,8 +45,10 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
             <MenuButton
               borderLeft="1px"
               borderColor="gray.200"
+              borderRadius="4xl"
               as={IconButton}
-              icon={<MdMoreVert />}
+              // Shift to compensate for border radius on the right
+              icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
               size={size}
               colorScheme="gray"
             />
