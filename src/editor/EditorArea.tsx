@@ -1,8 +1,7 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
-import { MAIN_FILE } from "../fs/fs";
 import ProjectNameEditable from "../project/ProjectNameEditable";
+import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
-import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";
 
 interface EditorAreaProps extends BoxProps {
@@ -19,29 +18,35 @@ const EditorArea = ({
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
-  const isMainFile = filename === MAIN_FILE;
   return (
-    <Flex height="100%" flexDirection="column" {...props}>
+    <Flex
+      height="100%"
+      flexDirection="column"
+      {...props}
+      backgroundColor="var(--code-background)"
+    >
       <Flex
         width="100%"
-        backgroundColor="var(--code-background)"
         alignItems="center"
         justifyContent="space-between"
-        pl={3}
+        pl="3rem"
         pr={3}
         pt={2}
         pb={2}
-        borderBottom="1px solid #d3d3d3"
       >
         <ProjectNameEditable />
-        <ZoomControls size="md" />
-      </Flex>
-      {!isMainFile && (
-        <NonMainFileNotice
+        <ActiveFileInfo
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-      )}
+        <ZoomControls size="md" />
+      </Flex>
+      {/* Just for the line */}
+      <Box
+        ml="6rem"
+        width="calc(100% - 6rem)"
+        borderBottom="1px solid #d3d3d3"
+      />
       <Box flex="1 1 auto" height={0}>
         <EditorContainer filename={filename} />
       </Box>

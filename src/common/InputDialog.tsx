@@ -26,6 +26,7 @@ export interface InputDialogParameters<T> {
   actionLabel: string;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   validate?: (input: T) => string | undefined;
+  customFocus?: boolean;
 }
 
 export interface InputDialogParametersWithActions<T>
@@ -53,6 +54,7 @@ export const InputDialog = <T extends unknown>({
   isOpen,
   initialValue,
   size,
+  customFocus,
   validate = noValidation,
   onConfirm,
   onCancel,
@@ -72,7 +74,7 @@ export const InputDialog = <T extends unknown>({
       isOpen={isOpen}
       onClose={onCancel}
       size={size}
-      initialFocusRef={leastDestructiveRef}
+      initialFocusRef={customFocus ? undefined : leastDestructiveRef}
     >
       <ModalOverlay>
         <ModalContent>
