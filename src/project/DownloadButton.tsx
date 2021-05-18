@@ -22,7 +22,7 @@ const DownloadButton = (props: DownloadButtonProps) => {
     <Tooltip hasArrow placement="top-start" label="Download a project hex file">
       <CollapsableButton
         {...props}
-        colorScheme="gray"
+        colorScheme="designPurple"
         icon={<RiDownload2Line />}
         onClick={actions.download}
         text="Download"

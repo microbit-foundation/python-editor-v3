@@ -14,12 +14,22 @@ const overrides = {
     // Design radius for buttons and other larger items
     "4xl": "2rem",
   },
+  colors: {
+    designPurple: {
+      // This is enough for buttons but loses the hover effect.
+      500: "#6C4BC1",
+      600: "#6C4BC1",
+    },
+  },
   components: {
     Button: {
       baseStyle: {
         borderRadius: "4xl",
       },
       variants: {
+        outline: {
+          borderWidth: "2px",
+        },
         sidebar: (props: any) => {
           const base = {
             ...theme.components.Button.variants.ghost(props),

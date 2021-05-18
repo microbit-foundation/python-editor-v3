@@ -21,7 +21,7 @@ const FlashButton = (
       >
         <CollapsableButton
           {...props}
-          colorScheme="gray"
+          colorScheme="designPurple"
           icon={<RiFlashlightFill />}
           onClick={actions.flash}
           text="Flash"

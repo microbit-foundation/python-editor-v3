@@ -19,7 +19,8 @@ const ShareButton = (props: ButtonProps) => {
     <Tooltip hasArrow placement="top-start" label="Share your project">
       <IconButton
         icon={<RiShareLine />}
-        colorScheme="gray"
+        variant="outline"
+        colorScheme="designPurple"
         mode="icon"
         onClick={handleShare}
         {...props}

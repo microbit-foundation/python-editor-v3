@@ -22,6 +22,8 @@ const ConnectDisconnectButton = () => {
   return (
     <Tooltip hasArrow placement="top-start" label={tooltip}>
       <Button
+        variant="outline"
+        colorScheme="designPurple"
         size="lg"
         leftIcon={<RiUsbLine />}
         onClick={handleToggleConnected}

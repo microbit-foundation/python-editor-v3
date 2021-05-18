@@ -50,7 +50,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
               // Shift to compensate for border radius on the right
               icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
               size={size}
-              colorScheme="gray"
+              colorScheme="designPurple"
             />
             <Portal>
               {/* z-index above the xterm.js's layers */}
