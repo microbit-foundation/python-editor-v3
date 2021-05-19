@@ -16,12 +16,12 @@ import { IconType } from "react-icons";
 import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import PackagesArea from "../packages/PackagesArea";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
 import LogoFace from "../common/LogoFace";
+import Placeholder from "../common/Placeholder";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -40,10 +40,12 @@ const LeftPanel = ({
   const panes: Pane[] = useMemo(
     () => [
       {
-        id: "packages",
-        title: "Packages",
+        id: "placeholder",
+        title: "Placeholder",
         icon: RiLayoutMasonryFill,
-        contents: <PackagesArea />,
+        contents: (
+          <Placeholder text="Hi! This is the alpha release of the micro:bit Python editor V3. Help us improve by providing your feedback!" />
+        ),
       },
       {
         id: "files",
@@ -79,7 +81,12 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   const width = "5.375rem";
   return (
-    <Flex height="100%" direction="column" {...props}>
+    <Flex
+      height="100%"
+      direction="column"
+      {...props}
+      backgroundColor="var(--content-background)"
+    >
       <Tabs
         orientation="vertical"
         size="lg"

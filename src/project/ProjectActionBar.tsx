@@ -1,5 +1,6 @@
 import { BoxProps, HStack } from "@chakra-ui/react";
-import DeviceConnection from "./DeviceConnection";
+import ConnectDisconnectButton from "./ConnectDisconnectButton";
+import DownloadFlashButton from "./DownloadFlashButton";
 import LoadButton from "./LoadButton";
 import ShareButton from "./ShareButton";
 
@@ -8,9 +9,10 @@ const ProjectActionBar = (props: BoxProps) => {
   return (
     <HStack {...props} justifyContent="space-between">
       <HStack>
-        <DeviceConnection size={size} />
+        <DownloadFlashButton size={size} />
       </HStack>
       <HStack>
+        <ConnectDisconnectButton />
         <LoadButton mode="button" size={size} />
         <ShareButton size={size} />
       </HStack>

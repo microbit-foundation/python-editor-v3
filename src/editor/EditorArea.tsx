@@ -1,8 +1,7 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
-import { MAIN_FILE } from "../fs/fs";
 import ProjectNameEditable from "../project/ProjectNameEditable";
+import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
-import NonMainFileNotice from "./NonMainFileNotice";
 import ZoomControls from "./ZoomControls";
 
 interface EditorAreaProps extends BoxProps {
@@ -19,41 +18,38 @@ const EditorArea = ({
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
-  const isMainFile = filename === MAIN_FILE;
   return (
-    <Flex height="100%" flexDirection="column" {...props}>
-      {!isMainFile && (
-        <NonMainFileNotice
+    <Flex
+      height="100%"
+      flexDirection="column"
+      {...props}
+      backgroundColor="var(--code-background)"
+    >
+      <Flex
+        width="100%"
+        alignItems="center"
+        justifyContent="space-between"
+        pl="3rem"
+        pr={3}
+        pt={2}
+        pb={2}
+      >
+        <ProjectNameEditable />
+        <ActiveFileInfo
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-      )}
-      <Box flex="1 1 auto" height={0} position="relative">
-        <ZoomControls
-          size="lg"
-          display={["none", "none", "flex"]}
-          position="absolute"
-          top={0}
-          right={0}
-          pt={3}
-          // Need to keep them away from the scrollbar
-          pr={5}
-          zIndex={1}
-        />
+        <ZoomControls size="md" />
+      </Flex>
+      {/* Just for the line */}
+      <Box
+        ml="6rem"
+        width="calc(100% - 6rem)"
+        borderBottom="1px solid #d3d3d3"
+      />
+      <Box flex="1 1 auto" height={0}>
         <EditorContainer filename={filename} />
       </Box>
-      <Flex
-        width="100%"
-        backgroundColor="var(--code-background)"
-        justifyContent="flex-end"
-        alignItems="center"
-        h={10}
-        pb={1}
-        pt={0}
-        pr={2}
-      >
-        <ProjectNameEditable />
-      </Flex>
     </Flex>
   );
 };

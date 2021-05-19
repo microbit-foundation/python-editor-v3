@@ -1,82 +1,53 @@
-import {
-  Editable,
-  EditableInput,
-  EditablePreview,
-  Flex,
-  IconButton,
-  Tooltip,
-  UseEditableReturn,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";
+import { useDialogs } from "../common/use-dialogs";
 import { useProject, useProjectActions } from "./project-hooks";
+import ProjectNameQuestion from "./ProjectNameQuestion";
 
 /**
  * A control to enable editing of the project name.
  */
 const ProjectNameEditable = () => {
-  const { name: projectName } = useProject();
+  const project = useProject();
   const actions = useProjectActions();
-  const [keyPart, setKeyPart] = useState(0);
-  const handleSubmit = (projectName: string) => {
-    if (projectName.trim()) {
-      actions.setProjectName(projectName);
+  const dialogs = useDialogs();
+  const handleEdit = useCallback(async () => {
+    const name = await dialogs.input<string>({
+      header: "Name your project",
+      Body: ProjectNameQuestion,
+      initialValue: project.name,
+      actionLabel: "Confirm",
+      customFocus: true,
+      validate: (name: string) =>
+        name.trim().length === 0
+          ? "The project name cannot be blank"
+          : undefined,
+    });
+    if (name) {
+      actions.setProjectName(name);
     }
-    setKeyPart(keyPart + 1);
-  };
-
-  const EditableControls = ({
-    isEditing,
-    onEdit,
-  }: Pick<
-    UseEditableReturn,
-    "isEditing" | "onSubmit" | "onCancel" | "onEdit"
-  >) => {
-    return isEditing ? null : (
-      <Flex justifyContent="center" display="inline" marginLeft={2}>
-        <Tooltip
-          hasArrow
-          label="Edit the name of your project"
-          placement="top-start"
-        >
-          <IconButton
-            size="md"
-            icon={<RiEdit2Line />}
-            colorScheme="gray"
-            variant="ghost"
-            onClick={onEdit}
-            aria-label="Edit project name"
-          />
-        </Tooltip>
-      </Flex>
-    );
-  };
-
+  }, [dialogs, actions, project]);
   return (
-    <Editable
-      // Uncontrolled. Change the key so we re-render if the name was reverted.
-      key={`${projectName}-${keyPart}`}
-      display="flex"
-      whiteSpace="nowrap"
-      defaultValue={projectName}
-      onSubmit={handleSubmit}
-      justifyContent="space-between"
-    >
-      {(props) => (
-        <>
-          <EditablePreview
-            data-testid="project-name"
-            display="block"
-            alignSelf="center"
-            textOverflow="ellipsis"
-            overflowX="hidden"
-            whiteSpace="nowrap"
-          />
-          <EditableInput data-testid="project-name-input" pl={1} pr={1} />
-          <EditableControls {...props} />
-        </>
-      )}
-    </Editable>
+    <HStack>
+      <Tooltip
+        hasArrow
+        label="Edit the name of your project"
+        placement="top-start"
+      >
+        <IconButton
+          size="md"
+          icon={<RiEdit2Line />}
+          colorScheme="gray"
+          variant="ghost"
+          onClick={handleEdit}
+          aria-label="Edit project name"
+        />
+      </Tooltip>
+      <Text cursor="pointer" onClick={handleEdit} data-testid="project-name">
+        {project.name}
+      </Text>
+    </HStack>
   );
 };
 

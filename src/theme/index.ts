@@ -4,11 +4,21 @@ export const codeFontFamily = "Source Code Pro, monospace";
 export const backgroundColorTerm = "#333333"; // Equivalent of "var(--chakra-colors-blackAlpha-800)" on white.
 export const defaultCodeFontSizePt = 16;
 
+// See https://chakra-ui.com/docs/theming/customize-theme
 const overrides = {
-  // See https://chakra-ui.com/docs/theming/customize-theme
-
+  fonts: {
+    heading: "Helvetica, Arial, sans-serif",
+    body: "Helvetica, Arial, sans-serif",
+  },
+  radii: {
+    // Design radius for buttons and other larger items
+    "4xl": "2rem",
+  },
   components: {
     Button: {
+      baseStyle: {
+        borderRadius: "4xl",
+      },
       variants: {
         sidebar: (props: any) => {
           const base = {

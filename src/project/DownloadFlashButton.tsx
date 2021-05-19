@@ -7,12 +7,8 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  Switch,
-  Text,
   ThemeTypings,
-  Tooltip,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDownload2Line, RiFlashlightFill } from "react-icons/ri";
 import { ConnectionStatus } from "../device/device";
@@ -21,7 +17,7 @@ import DownloadButton from "./DownloadButton";
 import FlashButton from "./FlashButton";
 import { useProjectActions } from "./project-hooks";
 
-interface DeviceConnectionProps {
+interface DownloadFlashButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
 }
 
@@ -31,17 +27,10 @@ interface DeviceConnectionProps {
  * It shows the current connection status and allows the user to
  * flash (if WebUSB is supported) or otherwise just download a HEX.
  */
-const DeviceConnection = ({ size }: DeviceConnectionProps) => {
+const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
   const connectionStatus = useConnectionStatus();
   const connected = connectionStatus === ConnectionStatus.CONNECTED;
   const actions = useProjectActions();
-  const handleToggleConnected = useCallback(async () => {
-    if (connected) {
-      await actions.disconnect();
-    } else {
-      await actions.connect();
-    }
-  }, [connected, actions]);
   const buttonWidth = "10rem"; // 8.1 with md buttons
   return (
     <HStack>
@@ -56,8 +45,10 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
             <MenuButton
               borderLeft="1px"
               borderColor="gray.200"
+              borderRadius="4xl"
               as={IconButton}
-              icon={<MdMoreVert />}
+              // Shift to compensate for border radius on the right
+              icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
               size={size}
               colorScheme="gray"
             />
@@ -97,16 +88,8 @@ const DeviceConnection = ({ size }: DeviceConnectionProps) => {
           </ButtonGroup>
         </Menu>
       </HStack>
-      <HStack as="label" spacing={3}>
-        <Tooltip text="Connect to your micro:bit over WebUSB">
-          <Switch isChecked={connected} onChange={handleToggleConnected} />
-        </Tooltip>
-        <Text as="span" size="md" fontWeight="semibold">
-          {connected ? "Connected" : "Disconnected"}
-        </Text>
-      </HStack>
     </HStack>
   );
 };
 
-export default DeviceConnection;
+export default DownloadFlashButton;
