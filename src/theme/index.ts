@@ -51,7 +51,7 @@ const overrides = {
               borderRadius: "unset",
               _selected: {
                 // Should be the forground from the design
-                color: "blue",
+                color: "#6F6AC1",
                 // Should be the background color we already use
                 // for the left area
                 bg: "var(--content-background)",
