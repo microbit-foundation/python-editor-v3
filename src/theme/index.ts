@@ -54,7 +54,7 @@ const overrides = {
                 color: "blue",
                 // Should be the background color we already use
                 // for the left area
-                bg: "whitesmoke",
+                bg: "var(--content-background)",
                 outline: "none",
               },
             },
