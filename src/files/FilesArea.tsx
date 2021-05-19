@@ -39,6 +39,7 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
               }}
               pr={1}
               cursor={isEditableFile(f.name) ? "pointer" : undefined}
+              borderRadius="md"
             >
               <FileRow
                 height={12}
