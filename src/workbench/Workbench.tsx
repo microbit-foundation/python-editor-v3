@@ -41,7 +41,12 @@ const Workbench = () => {
           onSelectedFileChanged={setSelectedFile}
           flex="1 1 100%"
         />
-        <Flex flex="1 1 100%" flexDirection="column" height="100%">
+        <Flex
+          flex="1 1 100%"
+          flexDirection="column"
+          height="100%"
+          boxShadow="4px 0px 24px #00000033"
+        >
           <Box flex="1 1 auto" height="0">
             {selectedFile && fileVersion !== undefined && (
               <EditorArea

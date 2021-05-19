@@ -50,8 +50,8 @@ const overrides = {
               ...base.tab,
               borderRadius: "unset",
               _selected: {
-                color: "white",
-                bg: "blue.800",
+                color: "#6F6AC1",
+                bg: "var(--content-background)",
                 outline: "none",
               },
             },
