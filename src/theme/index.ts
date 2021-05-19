@@ -40,8 +40,11 @@ const overrides = {
               ...base.tab,
               borderRadius: "unset",
               _selected: {
-                color: "white",
-                bg: "blue.800",
+                // Should be the forground from the design
+                color: "blue",
+                // Should be the background color we already use
+                // for the left area
+                bg: "whitesmoke",
                 outline: "none",
               },
             },

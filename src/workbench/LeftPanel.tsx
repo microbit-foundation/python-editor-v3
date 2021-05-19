@@ -14,7 +14,6 @@ import {
 import React, { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
-import LogoStacked from "../common/LogoStacked";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import PackagesArea from "../packages/PackagesArea";
@@ -22,6 +21,7 @@ import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
+import LogoFace from "../common/LogoFace";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -77,6 +77,7 @@ interface LeftPanelContentsProps {
 
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
+  const width = "5.375rem";
   return (
     <Flex height="100%" direction="column" {...props}>
       <Tabs
@@ -87,13 +88,12 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         onChange={setIndex}
         index={index}
       >
-        <TabList backgroundColor="blackAlpha.800">
-          {/* Brand: logo should have padding ~ the width of the 'o' */}
-          <Box height={20} width={24} p="10px">
-            <LogoStacked />
+        <TabList background="transparent linear-gradient(to bottom, #6C4BC1 0%, #7BCDC2 100%) 0% 0% no-repeat padding-box;">
+          <Box width="3.75rem" mt="1.375rem" ml="auto" mr="auto" mb="11.5vh">
+            <LogoFace fill="white" />
           </Box>
           {panes.map((p) => (
-            <Tab key={p.id} color="white" height={20} width={24} p={0}>
+            <Tab key={p.id} color="white" height={width} width={width} p={0}>
               <VStack>
                 <Icon boxSize={5} as={p.icon} />
                 <Text m={0} fontSize="sm">
