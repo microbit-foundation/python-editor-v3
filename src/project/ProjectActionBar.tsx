@@ -13,8 +13,13 @@ const ProjectActionBar = (props: BoxProps) => {
       </HStack>
       <HStack>
         <ConnectDisconnectButton />
-        <LoadButton mode="button" size={size} />
-        <ShareButton size={size} />
+        <LoadButton
+          variant="outline"
+          mode="button"
+          size={size}
+          colorScheme="blimpPurple"
+        />
+        <ShareButton variant="outline" size={size} />
       </HStack>
     </HStack>
   );

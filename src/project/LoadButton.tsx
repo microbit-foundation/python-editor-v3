@@ -14,7 +14,6 @@ const LoadButton = ({ children, ...props }: LoadButtonProps) => {
   return (
     <FileInputButton
       {...props}
-      colorScheme="gray"
       text="Load…"
       onOpen={actions.load}
       data-testid="open"

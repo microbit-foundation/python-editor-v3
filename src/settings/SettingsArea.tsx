@@ -117,6 +117,7 @@ const SettingsArea = () => {
           id="highlight-code-structure"
           isChecked={settings.highlightCodeStructure}
           onChange={handleChangeHighlightCodeStructure}
+          colorScheme="blimpPurple"
         />
       </FormControl>
     </VStack>

@@ -99,7 +99,7 @@ export const InputDialog = <T extends unknown>({
               Cancel
             </Button>
             <Button
-              colorScheme="blue"
+              colorScheme="blimpPurple"
               onClick={() => onConfirm(value)}
               ml={3}
               isDisabled={Boolean(error)}
