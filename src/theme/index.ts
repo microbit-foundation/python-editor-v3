@@ -67,7 +67,7 @@ const overrides = {
               ...base.tab,
               borderRadius: "unset",
               _selected: {
-                color: "#6F6AC1",
+                color: "blimpPurple.300",
                 bg: "var(--content-background)",
                 outline: "none",
               },
