@@ -14,12 +14,29 @@ const overrides = {
     // Design radius for buttons and other larger items
     "4xl": "2rem",
   },
+  colors: {
+    blimpPurple: {
+      300: "#6f6ac1",
+      400: "#6e5fc1",
+      500: "#6c4bc1",
+      650: "#6c4ac1",
+      600: "#50388f",
+      700: "#422e75",
+    },
+  },
   components: {
     Button: {
       baseStyle: {
         borderRadius: "4xl",
       },
       variants: {
+        outline: {
+          borderWidth: "2px",
+          color: "blimpPurple.500",
+          _hover: {
+            color: "blimpPurple.600",
+          },
+        },
         sidebar: (props: any) => {
           const base = {
             ...theme.components.Button.variants.ghost(props),
@@ -50,7 +67,7 @@ const overrides = {
               ...base.tab,
               borderRadius: "unset",
               _selected: {
-                color: "#6F6AC1",
+                color: "blimpPurple.300",
                 bg: "var(--content-background)",
                 outline: "none",
               },
@@ -61,4 +78,5 @@ const overrides = {
     },
   },
 };
+
 export default extendTheme(overrides);

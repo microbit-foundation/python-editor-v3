@@ -16,6 +16,37 @@ html {
   --block: rgba(52, 162, 235, 0.06);
 }
 
+:root {
+  --gray-50: #fcfcfc;
+  --gray-100: #fcfcfd;
+  --gray-200: #f2f2f5;
+  --gray-300: #ebebeb;
+  --gray-400: #e9eaee;
+  --gray-500: #e3e3e3;
+  --gray-600: #d7d8d6;
+  --gray-700: #d0d0d0;
+  --gray-800: #cbcccb;
+  --gray-900: #cccccc;
+  --gray-800: #c9c9c9;
+  --gray-550: #bfc0bf;
+  --gray-600: #b0b0b0;
+  --gray-650: #a9aaa9;
+  --gray-700: #4d4d4d;
+  --gray-750: #262626;
+
+  --teal-50: #7bcdc2;
+  --teal-100: #7bcec3;
+  --teal-200: #7accc1;
+  --teal-300: #77c7bc;
+  --teal-400: #226077;
+
+  --blue-50: #3b2ea4; /* unused? */
+  --pink-50: #9d4ea9;
+  --pink-100: #ca0364;
+  --pink-200: #cd0365;
+  --red: #ae1f1f;
+}
+
 /* Needed for the fallbacks below */
 @supports (height: -webkit-fill-available) {
   :root {
