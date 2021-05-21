@@ -95,7 +95,12 @@ export const InputDialog = <T extends unknown>({
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button ref={leastDestructiveRef} onClick={onCancel}>
+            <Button
+              colorScheme="blimpPurple"
+              variant="outline"
+              ref={leastDestructiveRef}
+              onClick={onCancel}
+            >
               Cancel
             </Button>
             <Button
