@@ -26,6 +26,7 @@ const EditorArea = ({
       backgroundColor="var(--code-background)"
     >
       <Flex
+        borderBottom="solid 2px #CCCCCC"
         width="100%"
         alignItems="center"
         justifyContent="space-between"

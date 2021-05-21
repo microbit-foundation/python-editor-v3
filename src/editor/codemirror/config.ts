@@ -44,7 +44,7 @@ export const themeExtensions = (fontSizePt: number) => {
       backgroundColor: "var(--code-background)",
       fontSize,
       fontFamily,
-      borderRight: "unset",
+      borderRight: "solid 2px #D7D8D6",
       paddingRight: "1rem",
     },
     ".cm-gutter": {

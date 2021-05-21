@@ -29,6 +29,13 @@ const overrides = {
       600: "#50388f",
       700: "#422e75",
     },
+    blimpTeal: {
+      50: "#7bcdc2",
+      100: "#7bcec3",
+      200: "#7accc1",
+      300: "#77c7bc",
+      400: "#226077",
+    },
   },
   components: {
     Button: {

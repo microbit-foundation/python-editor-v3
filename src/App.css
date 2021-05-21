@@ -10,8 +10,8 @@
 
 html {
   /* Need to consider how these integrate with the chakra theme. */
-  --code-background: rgb(252, 252, 253);
-  --content-background: rgb(242, 242, 245);
+  --code-background: #fcfcfc;
+  --content-background: #ebebeb;
   /* Used in blocks.ts */
   --block: rgba(52, 162, 235, 0.06);
 }
@@ -33,12 +33,6 @@ html {
   --gray-650: #a9aaa9;
   --gray-700: #4d4d4d;
   --gray-750: #262626;
-
-  --teal-50: #7bcdc2;
-  --teal-100: #7bcec3;
-  --teal-200: #7accc1;
-  --teal-300: #77c7bc;
-  --teal-400: #226077;
 
   --blue-50: #3b2ea4; /* unused? */
   --pink-50: #9d4ea9;
