@@ -1,4 +1,9 @@
-import { extendTheme, theme } from "@chakra-ui/react";
+import {
+  extendTheme,
+  theme,
+  withDefaultColorScheme,
+  withDefaultVariant,
+} from "@chakra-ui/react";
 
 export const codeFontFamily = "Source Code Pro, monospace";
 export const backgroundColorTerm = "#333333"; // Equivalent of "var(--chakra-colors-blackAlpha-800)" on white.
@@ -15,7 +20,8 @@ const overrides = {
     "4xl": "2rem",
   },
   colors: {
-    blimpPurple: {
+    brand: {
+      // As provided by Blimp.
       300: "#6f6ac1",
       400: "#6e5fc1",
       500: "#6c4bc1",
@@ -32,9 +38,9 @@ const overrides = {
       variants: {
         outline: {
           borderWidth: "2px",
-          color: "blimpPurple.500",
+          color: "brand.500",
           _hover: {
-            color: "blimpPurple.600",
+            color: "brand.600",
           },
         },
         sidebar: (props: any) => {
@@ -67,7 +73,7 @@ const overrides = {
               ...base.tab,
               borderRadius: "unset",
               _selected: {
-                color: "blimpPurple.300",
+                color: "brand.300",
                 bg: "var(--content-background)",
                 outline: "none",
               },
@@ -79,4 +85,11 @@ const overrides = {
   },
 };
 
-export default extendTheme(overrides);
+export default extendTheme(
+  overrides,
+  withDefaultColorScheme({ colorScheme: "brand" }),
+  withDefaultVariant({
+    variant: "outline",
+    components: ["Button", "IconButton"],
+  })
+);

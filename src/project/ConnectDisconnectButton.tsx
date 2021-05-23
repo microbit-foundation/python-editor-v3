@@ -25,8 +25,6 @@ const ConnectDisconnectButton = () => {
         size="lg"
         leftIcon={<RiUsbLine />}
         onClick={handleToggleConnected}
-        variant="outline"
-        colorScheme="blimpPurple"
       >
         {connected ? "Disconnect" : "Connect"}
       </Button>
