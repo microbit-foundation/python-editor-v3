@@ -36,6 +36,27 @@ const overrides = {
       300: "#77c7bc",
       400: "#226077",
     },
+    gray: {
+      // There are way more grays in the design than the Chakra scale.
+      // This would be great to revisit.
+      // Do we really use them all?
+      50: "#fcfcfc",
+      75: "#fcfcfd",
+      100: "#f2f2f5",
+      125: "#ebebeb",
+      150: "#e9eaee",
+      200: "#e3e3e3",
+      300: "#d7d8d6",
+      350: "#d0d0d0",
+      400: "#cbcccb",
+      450: "#cccccc",
+      500: "#c9c9c9",
+      550: "#bfc0bf",
+      600: "#b0b0b0",
+      650: "#a9aaa9",
+      700: "#4d4d4d",
+      800: "#262626",
+    },
   },
   components: {
     Button: {
@@ -81,7 +102,7 @@ const overrides = {
               borderRadius: "unset",
               _selected: {
                 color: "brand.300",
-                bg: "var(--content-background)",
+                bg: "gray.125",
                 outline: "none",
               },
             },

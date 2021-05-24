@@ -14,7 +14,11 @@ import { bracketMatching } from "@codemirror/matchbrackets";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import { commentKeymap } from "@codemirror/comment";
-import { defaultHighlightStyle } from "@codemirror/highlight";
+import {
+  defaultHighlightStyle,
+  HighlightStyle,
+  tags,
+} from "@codemirror/highlight";
 import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
@@ -41,11 +45,11 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-gutters": {
       // Make it easier to copy code dragging from the left without line numbers.
       userSelect: "none",
-      backgroundColor: "var(--code-background)",
+      backgroundColor: "var(--chakra-colors-gry-50)",
       fontSize,
       fontFamily,
-      borderRight: "solid 2px #D7D8D6",
       paddingRight: "1rem",
+      border: "unset",
     },
     ".cm-gutter": {
       width: "5rem",
@@ -69,6 +73,28 @@ export const themeExtensions = (fontSizePt: number) => {
   });
 };
 
+export const myHighlightStyle = () => {
+  const dark = "var(--chakra-colors-gray-800)";
+  return HighlightStyle.define([
+    {
+      tag: tags.comment,
+      color: "var(--chakra-colors-blimpPurple-650)",
+    },
+    { tag: tags.literal, color: "var(--chakra-colors-blimpTeal-400)" },
+    { tag: tags.string, color: "var(--red)" },
+    { tag: tags.keyword, color: "var(--highlight-style-keyword)" },
+    { tag: tags.name, color: dark },
+    { tag: tags.meta, color: dark },
+    { tag: tags.operator, color: dark },
+    { tag: tags.punctuation, color: dark },
+
+    // We can colour these in future to indicate function and method calls
+    // but try after https://github.com/codemirror/lang-python/pull/1 is available
+    // { tag: tags.function(tags.propertyName), color: "orange" },
+    // { tag: tags.function(tags.variableName), color: "orange" },
+  ]);
+};
+
 const indentSize = 4;
 export const editorConfig: Extension = [
   EditorView.contentAttributes.of({
@@ -87,6 +113,7 @@ export const editorConfig: Extension = [
   Prec.fallback(defaultHighlightStyle),
   bracketMatching(),
   closeBrackets(),
+  myHighlightStyle(),
   autocompletion({
     override: completion,
   }),

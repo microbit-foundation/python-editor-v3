@@ -85,7 +85,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
       height="100%"
       direction="column"
       {...props}
-      backgroundColor="var(--content-background)"
+      backgroundColor="gray.125"
     >
       <Tabs
         orientation="vertical"
