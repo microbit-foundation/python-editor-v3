@@ -11,7 +11,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import FilesArea from "../files/FilesArea";
@@ -21,7 +21,6 @@ import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
 import LogoFace from "../common/LogoFace";
-import Placeholder from "../common/Placeholder";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -41,10 +40,15 @@ const LeftPanel = ({
     () => [
       {
         id: "placeholder",
-        title: "Placeholder",
+        title: "Python",
         icon: RiLayoutMasonryFill,
         contents: (
-          <Placeholder text="Hi! This is the alpha release of the micro:bit Python editor V3. Help us improve by providing your feedback!" />
+          <VStack mt="calc(2.6rem + 11.5vh)" pl={8} pr={8} spacing={5}>
+            <Text>
+              Hi! This is the alpha release of the micro:bit Python editor V3.
+            </Text>
+            <Text>Help us improve by providing your feedback!</Text>
+          </VStack>
         ),
       },
       {
@@ -77,6 +81,8 @@ interface LeftPanelContentsProps {
   panes: Pane[];
 }
 
+const cornerSize = 32;
+
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   const width = "5.375rem";
@@ -94,13 +100,37 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
           <Box width="3.75rem" mt="1.375rem" ml="auto" mr="auto" mb="11.5vh">
             <LogoFace fill="white" />
           </Box>
-          {panes.map((p) => (
-            <Tab key={p.id} color="white" height={width} width={width} p={0}>
-              <VStack>
-                <Icon boxSize={5} as={p.icon} />
-                <Text m={0} fontSize="sm">
-                  {p.title}
-                </Text>
+          {panes.map((p, i) => (
+            <Tab
+              key={p.id}
+              color="white"
+              height={width}
+              width={width}
+              p={0}
+              position="relative"
+            >
+              <VStack spacing={0}>
+                {i === index && (
+                  <Corner
+                    position="absolute"
+                    bottom={-cornerSize + "px"}
+                    right={0}
+                  />
+                )}
+                {i === index && (
+                  <Corner
+                    position="absolute"
+                    top={-cornerSize + "px"}
+                    right={0}
+                    transform="rotate(90deg)"
+                  />
+                )}
+                <VStack>
+                  <Icon boxSize={6} as={p.icon} />
+                  <Text m={0} fontSize="sm">
+                    {p.title}
+                  </Text>
+                </VStack>
               </VStack>
             </Tab>
           ))}
@@ -123,5 +153,23 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
     </Flex>
   );
 };
+
+const Corner = (props: BoxProps) => (
+  <Box {...props}>
+    <svg
+      width={cornerSize}
+      height={cornerSize}
+      viewBox="0 0 263 263"
+      fill="none"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M263 244C263 250.394 262.754 256.73 262.271 263H263V244ZM19 0C153.758 0 263 109.243 263 244V0H19ZM0 0.728821C6.26993 0.245926 12.6063 0 19 0H0V0.728821Z"
+        fill="var(--chakra-colors-gray-50)"
+      />
+    </svg>
+  </Box>
+);
 
 export default LeftPanel;
