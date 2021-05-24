@@ -122,7 +122,7 @@ export const SplitView = ({ children, minimums, ...props }: SplitViewProps) => {
         <Box
           height="100%"
           width={`${separatorPixels}px`}
-          backgroundColor="var(--content-background)"
+          backgroundColor="gray.125"
         />
       </Flex>
       <Box width={`calc(100% - ${firstWidth}px - ${separatorPixels}px)`}>

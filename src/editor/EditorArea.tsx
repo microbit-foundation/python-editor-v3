@@ -23,7 +23,7 @@ const EditorArea = ({
       height="100%"
       flexDirection="column"
       {...props}
-      backgroundColor="var(--code-background)"
+      backgroundColor="gray.50"
     >
       <Flex
         width="100%"
@@ -44,7 +44,8 @@ const EditorArea = ({
       {/* Just for the line */}
       <Box
         ml="6rem"
-        width="calc(100% - 6rem)"
+        mr="1.5rem"
+        width="calc(100% - 7.5rem)"
         borderBottom="1px solid #d3d3d3"
       />
       <Box flex="1 1 auto" height={0}>
