@@ -30,6 +30,7 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
         size={size}
         variant="sidebar"
         icon={<RiEarthLine />}
+        colorScheme="gray"
         isRound
       />
       <Portal>

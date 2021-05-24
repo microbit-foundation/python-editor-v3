@@ -43,13 +43,13 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
               <DownloadButton width={buttonWidth} mode={"button"} size={size} />
             )}
             <MenuButton
+              variant="solid"
               borderLeft="1px"
               borderRadius="4xl"
               as={IconButton}
               // Shift to compensate for border radius on the right
               icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
               size={size}
-              colorScheme="blimpPurple"
             />
             <Portal>
               {/* z-index above the xterm.js's layers */}

@@ -51,6 +51,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
         size={size}
         variant="sidebar"
         icon={<RiQuestionLine />}
+        colorScheme="gray"
         isRound
       />
       <Portal>

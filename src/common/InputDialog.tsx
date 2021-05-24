@@ -95,16 +95,11 @@ export const InputDialog = <T extends unknown>({
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button
-              colorScheme="blimpPurple"
-              variant="outline"
-              ref={leastDestructiveRef}
-              onClick={onCancel}
-            >
+            <Button ref={leastDestructiveRef} onClick={onCancel}>
               Cancel
             </Button>
             <Button
-              colorScheme="blimpPurple"
+              variant="solid"
               onClick={() => onConfirm(value)}
               ml={3}
               isDisabled={Boolean(error)}

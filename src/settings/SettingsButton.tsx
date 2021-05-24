@@ -13,6 +13,7 @@ const SettingsButton = () => {
         variant="sidebar"
         icon={<RiSettings2Line />}
         isRound
+        colorScheme="gray"
         onClick={() => setOpen(true)}
       />
       <SettingsDialog isOpen={open} onClose={() => setOpen(false)} />
