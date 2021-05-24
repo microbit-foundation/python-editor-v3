@@ -89,7 +89,7 @@ export const myHighlightStyle = () => {
       color: "var(--chakra-colors-blimpPurple-650)",
     },
     { tag: tags.literal, color: "var(--chakra-colors-blimpTeal-400)" },
-    { tag: tags.string, color: "var(--red)" },
+    { tag: tags.string, color: "var(--highlight-style-string)" },
     { tag: tags.keyword, color: "var(--highlight-style-keyword)" },
     { tag: tags.name, color: dark },
     { tag: tags.meta, color: dark },

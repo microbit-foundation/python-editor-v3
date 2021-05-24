@@ -15,7 +15,7 @@ html {
 
 :root {
   --highlight-style-keyword: #9d4ea9;
-  --highlight-syle-string: #ae1f1f;
+  --highlight-style-string: #ae1f1f;
 
   /* Unused so far */
   --pink-100: #ca0364;
