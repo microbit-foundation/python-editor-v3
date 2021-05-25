@@ -86,7 +86,7 @@ export const myHighlightStyle = () => {
   return HighlightStyle.define([
     {
       tag: tags.comment,
-      color: "var(--chakra-colors-blimpPurple-650)",
+      color: "var(--chakra-colors-brand-650)",
     },
     { tag: tags.literal, color: "var(--chakra-colors-blimpTeal-400)" },
     { tag: tags.string, color: "var(--highlight-style-string)" },
