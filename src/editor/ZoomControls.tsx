@@ -30,7 +30,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
     });
   }, [setSettings, settings]);
   return (
-    <HStack {...props}>
+    <HStack paddingRight="20px" spacing="16px" {...props}>
       <IconButton
         size={size}
         isRound

@@ -29,7 +29,7 @@ const ProjectNameEditable = () => {
     }
   }, [dialogs, actions, project]);
   return (
-    <HStack>
+    <HStack spacing="20px">
       <Tooltip
         hasArrow
         label="Edit the name of your project"
