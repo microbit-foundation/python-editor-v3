@@ -67,7 +67,7 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-activeLine": {
       // The default CM theme sets a background color.
       backgroundColor: "unset",
-      outline: "1px solid var(--chakra-colors-gray-200)",
+      outline: "1px solid var(--chakra-colors-gray-100)",
     },
     // $wrap can't be styled here, see App.css.
   });

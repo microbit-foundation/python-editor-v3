@@ -23,7 +23,7 @@ const EditorArea = ({
       height="100%"
       flexDirection="column"
       {...props}
-      backgroundColor="gray.50"
+      backgroundColor="gray.10"
     >
       <Flex
         width="100%"
@@ -47,7 +47,7 @@ const EditorArea = ({
         mr="1.5rem"
         width="calc(100% - 7.5rem)"
         borderBottomWidth={1}
-        borderColor="gray.300"
+        borderColor="gray.200"
       />
       <Box flex="1 1 auto" height={0}>
         <EditorContainer filename={filename} />

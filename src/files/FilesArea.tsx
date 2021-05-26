@@ -27,7 +27,7 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
           return (
             <ListItem
               key={f.name}
-              backgroundColor={selectedFile === f.name ? "gray.50" : undefined}
+              backgroundColor={selectedFile === f.name ? "gray.10" : undefined}
               pl={2}
               onClick={(e) => {
                 // Clicks on buttons in the row shouldn't select the row.

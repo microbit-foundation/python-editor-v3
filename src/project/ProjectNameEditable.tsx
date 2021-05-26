@@ -45,7 +45,7 @@ const ProjectNameEditable = () => {
         />
       </Tooltip>
       <Text
-        color="gray.700"
+        color="gray.800"
         opacity="80%"
         fontSize="xl"
         cursor="pointer"

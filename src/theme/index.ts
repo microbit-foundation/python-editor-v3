@@ -43,23 +43,22 @@ const overrides = {
       // There are way more grays in the design than the Chakra scale.
       // This would be great to revisit.
       // Do we really use them all?
-      50: "#fcfcfc", // Editor background, other light backgrounds
-      75: "#fcfcfd", // Unused
-      100: "#f2f2f5", // Unused
-      125: "#ebebeb", // Left area background color
-      150: "#e9eaee", // Unused
-      200: "#e3e3e3", // Active line highlight (too light?), todo: default button color
-      300: "#d7d8d6", // Borders
-      350: "#d0d0d0", // Unused
-      400: "#cbcccb", // Unused but maybe drag handles in future?
-      450: "#cccccc", // Top line in designs but we use same as bottom so unused?
-      500: "#c9c9c9", // todo: button hover color
-      550: "#bfc0bf", // Unused
+      10: "#fcfcfc", // Editor background, other light backgrounds
+      50: "#ebebeb", // Left area background color
+      100: "#e3e3e3",
+      200: "#d7d8d6",
+      300: "#cbcccb", // Unused was drag handles in the design.
+      400: "#cccccc", // Unused.
+      500: "#c9c9c9",
       600: "#b0b0b0", // Edit project name (but 80% alpha), active buttons
-      650: "#a9aaa9", // Line numbers
-      700: "#4c4c4c", // Muted text color, project name icon
-      750: "#4d4d4d", // Unused
-      800: "#262626", // Main text color
+      700: "#a9aaa9", // todo: Line numbers
+      800: "#4c4c4c", // Muted text color, project name icon
+      900: "#262626", // Main text color
+
+      // In Chakra defaults, 700 is the default text color
+      // Button icons are 800
+      // Button backgrounds are 100
+      // The scale is generally much darker
     },
   },
   components: {
@@ -68,6 +67,23 @@ const overrides = {
         borderRadius: "4xl",
       },
       variants: {
+        zoom: (props: any) => {
+          const base = {
+            ...theme.components.Button.variants.solid(props),
+          };
+          return {
+            ...base,
+            backgroundColor: "gray.100",
+            _hover: {
+              ...base._hover,
+              backgroundColor: "gray.500",
+            },
+            _active: {
+              ...base._hover,
+              backgroundColor: "gray.600",
+            },
+          };
+        },
         outline: {
           borderWidth: "2px",
           color: "brand.500",
@@ -106,7 +122,7 @@ const overrides = {
               borderRadius: "unset",
               _selected: {
                 color: "brand.300",
-                bg: "gray.125",
+                bg: "gray.50",
                 outline: "none",
               },
             },
