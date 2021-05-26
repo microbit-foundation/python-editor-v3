@@ -10,8 +10,8 @@ const ProjectActionBar = (props: BoxProps) => {
     <HStack
       {...props}
       justifyContent="space-between"
-      pt={2.5}
-      pb={2.5}
+      pt={5}
+      pb={5}
       pl={10}
       pr={10}
     >
