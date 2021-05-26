@@ -38,14 +38,14 @@ const ProjectNameEditable = () => {
         <IconButton
           size="md"
           icon={<RiEdit2Line />}
-          color="var(--chakra-colors-gray-600)"
+          color="gray.600"
           variant="ghost"
           onClick={handleEdit}
           aria-label="Edit project name"
         />
       </Tooltip>
       <Text
-        color="var(--chakra-colors-gray-700)"
+        color="gray.700"
         opacity="80%"
         fontSize="20px"
         paddingRight="0.7rem"
