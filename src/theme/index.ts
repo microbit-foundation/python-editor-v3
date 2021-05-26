@@ -48,17 +48,11 @@ const overrides = {
       100: "#e3e3e3",
       200: "#d7d8d6",
       300: "#cbcccb", // Unused was drag handles in the design.
-      400: "#cccccc", // Unused.
-      500: "#c9c9c9",
-      600: "#b0b0b0", // Edit project name (but 80% alpha), active buttons
-      700: "#a9aaa9", // todo: Line numbers
-      800: "#4c4c4c", // Muted text color, project name icon
-      900: "#262626", // Main text color
-
-      // In Chakra defaults, 700 is the default text color
-      // Button icons are 800
-      // Button backgrounds are 100
-      // The scale is generally much darker
+      400: "#c9c9c9",
+      500: "#b0b0b0", // Edit project name (but 80% alpha), active buttons
+      600: "#a9aaa9", // todo: Line numbers
+      700: "#4c4c4c", // Muted text color, project name icon
+      800: "#262626", // Main text color
     },
   },
   components: {
@@ -73,14 +67,13 @@ const overrides = {
           };
           return {
             ...base,
-            backgroundColor: "gray.100",
             _hover: {
               ...base._hover,
-              backgroundColor: "gray.500",
+              backgroundColor: "gray.400",
             },
             _active: {
-              ...base._hover,
-              backgroundColor: "gray.600",
+              ...base._active,
+              backgroundColor: "gray.500",
             },
           };
         },
