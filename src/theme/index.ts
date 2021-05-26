@@ -29,8 +29,11 @@ const overrides = {
       600: "#50388f",
       700: "#422e75",
     },
+    blimpPink: {
+      500: "#cd0365", // Failure color
+    },
     blimpTeal: {
-      50: "#7bcdc2",
+      50: "#7bcdc2", // Success color
       100: "#7bcec3",
       200: "#7accc1",
       300: "#77c7bc",
@@ -40,23 +43,23 @@ const overrides = {
       // There are way more grays in the design than the Chakra scale.
       // This would be great to revisit.
       // Do we really use them all?
-      50: "#fcfcfc",
-      75: "#fcfcfd",
-      100: "#f2f2f5",
-      125: "#ebebeb",
-      150: "#e9eaee",
-      200: "#e3e3e3",
-      300: "#d7d8d6",
-      350: "#d0d0d0",
-      400: "#cbcccb",
-      450: "#cccccc",
-      500: "#c9c9c9",
-      550: "#bfc0bf",
-      600: "#b0b0b0",
-      650: "#a9aaa9",
-      700: "#4C4C4C",
-      750: "#4d4d4d",
-      800: "#262626",
+      50: "#fcfcfc", // Editor background, other light backgrounds
+      75: "#fcfcfd", // Unused
+      100: "#f2f2f5", // Unused
+      125: "#ebebeb", // Left area background color
+      150: "#e9eaee", // Unused
+      200: "#e3e3e3", // Active line highlight (too light?), todo: default button color
+      300: "#d7d8d6", // Borders
+      350: "#d0d0d0", // Unused
+      400: "#cbcccb", // Unused but maybe drag handles in future?
+      450: "#cccccc", // Top line in designs but we use same as bottom so unused?
+      500: "#c9c9c9", // todo: button hover color
+      550: "#bfc0bf", // Unused
+      600: "#b0b0b0", // Edit project name (but 80% alpha), active buttons
+      650: "#a9aaa9", // Line numbers
+      700: "#4c4c4c", // Muted text color, project name icon
+      750: "#4d4d4d", // Unused
+      800: "#262626", // Main text color
     },
   },
   components: {

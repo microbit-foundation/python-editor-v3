@@ -46,7 +46,8 @@ const EditorArea = ({
         ml="6rem"
         mr="1.5rem"
         width="calc(100% - 7.5rem)"
-        borderBottom="1px solid #d3d3d3"
+        borderBottomWidth={1}
+        borderColor="gray.300"
       />
       <Box flex="1 1 auto" height={0}>
         <EditorContainer filename={filename} />
