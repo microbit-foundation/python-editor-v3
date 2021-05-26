@@ -29,7 +29,7 @@ const ProjectNameEditable = () => {
     }
   }, [dialogs, actions, project]);
   return (
-    <HStack>
+    <HStack spacing={2.5}>
       <Tooltip
         hasArrow
         label="Edit the name of your project"
@@ -38,13 +38,20 @@ const ProjectNameEditable = () => {
         <IconButton
           size="md"
           icon={<RiEdit2Line />}
-          colorScheme="gray"
+          color="gray.600"
           variant="ghost"
           onClick={handleEdit}
           aria-label="Edit project name"
         />
       </Tooltip>
-      <Text cursor="pointer" onClick={handleEdit} data-testid="project-name">
+      <Text
+        color="gray.700"
+        opacity="80%"
+        fontSize="xl"
+        cursor="pointer"
+        onClick={handleEdit}
+        data-testid="project-name"
+      >
         {project.name}
       </Text>
     </HStack>

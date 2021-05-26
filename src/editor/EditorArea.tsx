@@ -30,7 +30,7 @@ const EditorArea = ({
         alignItems="center"
         justifyContent="space-between"
         pl="3rem"
-        pr={3}
+        pr={10}
         pt={2}
         pb={2}
       >
