@@ -33,7 +33,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
   const actions = useProjectActions();
   const buttonWidth = "10rem"; // 8.1 with md buttons
   return (
-    <HStack paddingLeft="34px">
+    <HStack paddingLeft="24px">
       <HStack>
         <Menu>
           <ButtonGroup isAttached>

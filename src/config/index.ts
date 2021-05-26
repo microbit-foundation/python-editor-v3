@@ -4,7 +4,7 @@
  * This could vary by build environment in future.
  */
 const config = {
-  defaultProjectName: "my program",
+  defaultProjectName: "Name your program",
   documentationLink: "https://microbit-micropython.readthedocs.io/en/v2-docs/",
   supportLink: "https://support.microbit.org/support/home",
   // Example only, needs updating to docs specific to this editor.
