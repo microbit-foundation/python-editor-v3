@@ -45,6 +45,7 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-gutters": {
       // Make it easier to copy code dragging from the left without line numbers.
       userSelect: "none",
+      backgroundColor: "unset",
       fontSize,
       fontFamily,
       paddingRight: "1rem",
