@@ -33,60 +33,58 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
   const actions = useProjectActions();
   const buttonWidth = "10rem"; // 8.1 with md buttons
   return (
-    <HStack paddingLeft="24px">
-      <HStack>
-        <Menu>
-          <ButtonGroup isAttached>
-            {connected ? (
-              <FlashButton width={buttonWidth} mode={"button"} size={size} />
-            ) : (
-              <DownloadButton width={buttonWidth} mode={"button"} size={size} />
-            )}
-            <MenuButton
-              variant="solid"
-              borderLeft="1px"
-              borderRadius="4xl"
-              as={IconButton}
-              // Shift to compensate for border radius on the right
-              icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
-              size={size}
-            />
-            <Portal>
-              {/* z-index above the xterm.js's layers */}
-              <MenuList zIndex={4}>
-                {!connected && (
-                  <MenuItem
-                    target="_blank"
-                    rel="noopener"
-                    icon={<RiFlashlightFill />}
-                    onClick={actions.flash}
-                  >
-                    Flash
-                  </MenuItem>
-                )}
-                {connected && (
-                  <MenuItem
-                    target="_blank"
-                    rel="noopener"
-                    icon={<RiDownload2Line />}
-                    onClick={actions.download}
-                  >
-                    Download project hex
-                  </MenuItem>
-                )}
+    <HStack>
+      <Menu>
+        <ButtonGroup isAttached>
+          {connected ? (
+            <FlashButton width={buttonWidth} mode={"button"} size={size} />
+          ) : (
+            <DownloadButton width={buttonWidth} mode={"button"} size={size} />
+          )}
+          <MenuButton
+            variant="solid"
+            borderLeft="1px"
+            borderRadius="4xl"
+            as={IconButton}
+            // Shift to compensate for border radius on the right
+            icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
+            size={size}
+          />
+          <Portal>
+            {/* z-index above the xterm.js's layers */}
+            <MenuList zIndex={4}>
+              {!connected && (
+                <MenuItem
+                  target="_blank"
+                  rel="noopener"
+                  icon={<RiFlashlightFill />}
+                  onClick={actions.flash}
+                >
+                  Flash
+                </MenuItem>
+              )}
+              {connected && (
                 <MenuItem
                   target="_blank"
                   rel="noopener"
                   icon={<RiDownload2Line />}
-                  onClick={actions.downloadMainFile}
+                  onClick={actions.download}
                 >
-                  Download Python script
+                  Download project hex
                 </MenuItem>
-              </MenuList>
-            </Portal>
-          </ButtonGroup>
-        </Menu>
-      </HStack>
+              )}
+              <MenuItem
+                target="_blank"
+                rel="noopener"
+                icon={<RiDownload2Line />}
+                onClick={actions.downloadMainFile}
+              >
+                Download Python script
+              </MenuItem>
+            </MenuList>
+          </Portal>
+        </ButtonGroup>
+      </Menu>
     </HStack>
   );
 };

@@ -7,11 +7,16 @@ import ShareButton from "./ShareButton";
 const ProjectActionBar = (props: BoxProps) => {
   const size = "lg";
   return (
-    <HStack paddingLeft="24px" {...props} justifyContent="space-between">
-      <HStack paddingTop="10px" paddingBottom="10px">
-        <DownloadFlashButton size={size} />
-      </HStack>
-      <HStack paddingRight="24px" spacing="20px">
+    <HStack
+      {...props}
+      justifyContent="space-between"
+      pt={2.5}
+      pb={2.5}
+      pl={10}
+      pr={10}
+    >
+      <DownloadFlashButton size={size} />
+      <HStack spacing={2.5}>
         <ConnectDisconnectButton />
         <LoadButton mode="button" size={size} />
         <ShareButton variant="outline" size={size} />
