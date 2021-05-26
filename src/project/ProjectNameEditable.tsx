@@ -46,7 +46,7 @@ const ProjectNameEditable = () => {
       </Tooltip>
       <Text
         color="var(--chakra-colors-gray-700)"
-        opacity="40%"
+        opacity="80%"
         fontSize="20px"
         paddingRight="0.7rem"
         cursor="pointer"
