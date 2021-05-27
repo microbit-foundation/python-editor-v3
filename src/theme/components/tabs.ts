@@ -10,12 +10,18 @@ const Tabs = {
         ...base,
         tab: {
           ...base.tab,
-          borderRadius: "unset",
+          transition: "none",
+          ml: "6px",
+          borderRadius: "32px 0 0 32px",
           _selected: {
             color: "brand.300",
             bg: "gray.50",
             outline: "none",
           },
+          _focus: {
+            boxShadow: "initial",
+          },
+          _active: {},
         },
       };
     },

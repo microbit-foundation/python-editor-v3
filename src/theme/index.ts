@@ -22,9 +22,9 @@ const overrides = {
   radii,
   colors,
   components: {
+    Alert,
     Button,
     Tabs,
-    Alert,
   },
 };
 

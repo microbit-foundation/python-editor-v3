@@ -11,7 +11,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import FilesArea from "../files/FilesArea";
@@ -21,7 +21,6 @@ import LanguageMenu from "../project/LanguageMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
 import LogoFace from "../common/LogoFace";
-import Placeholder from "../common/Placeholder";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -41,10 +40,15 @@ const LeftPanel = ({
     () => [
       {
         id: "placeholder",
-        title: "Placeholder",
+        title: "Python",
         icon: RiLayoutMasonryFill,
         contents: (
-          <Placeholder text="Hi! This is the alpha release of the micro:bit Python editor V3. Help us improve by providing your feedback!" />
+          <VStack mt="calc(2.6rem + 11.5vh)" pl={8} pr={8} spacing={5}>
+            <Text>
+              Hi! This is the alpha release of the micro:bit Python editor V3.
+            </Text>
+            <Text>Help us improve by providing your feedback!</Text>
+          </VStack>
         ),
       },
       {
@@ -77,9 +81,11 @@ interface LeftPanelContentsProps {
   panes: Pane[];
 }
 
+const cornerSize = 32;
+
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
-  const width = "5.375rem";
+  const width = "5rem";
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
       <Tabs
@@ -94,13 +100,50 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
           <Box width="3.75rem" mt="1.375rem" ml="auto" mr="auto" mb="11.5vh">
             <LogoFace fill="white" />
           </Box>
-          {panes.map((p) => (
-            <Tab key={p.id} color="white" height={width} width={width} p={0}>
-              <VStack>
-                <Icon boxSize={5} as={p.icon} />
-                <Text m={0} fontSize="sm">
-                  {p.title}
-                </Text>
+          {panes.map((p, i) => (
+            <Tab
+              key={p.id}
+              color="white"
+              height={width}
+              width={width}
+              p={0}
+              position="relative"
+              className="sidebar-tab" // Used for custom outline below
+            >
+              <VStack spacing={0}>
+                {i === index && (
+                  <Corner
+                    id="bottom"
+                    position="absolute"
+                    bottom={-cornerSize + "px"}
+                    right={0}
+                  />
+                )}
+                {i === index && (
+                  <Corner
+                    id="top"
+                    position="absolute"
+                    top={-cornerSize + "px"}
+                    right={0}
+                    transform="rotate(90deg)"
+                  />
+                )}
+                <VStack spacing={1}>
+                  <Icon boxSize={6} as={p.icon} mt="3px" />
+                  <Text
+                    m={0}
+                    fontSize="sm"
+                    borderBottom="3px solid transparent"
+                    sx={{
+                      ".sidebar-tab:focus &": {
+                        // To match the focus outline
+                        borderBottom: "3px solid rgba(66, 153, 225, 0.6)",
+                      },
+                    }}
+                  >
+                    {p.title}
+                  </Text>
+                </VStack>
               </VStack>
             </Tab>
           ))}
@@ -123,5 +166,32 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
     </Flex>
   );
 };
+
+const Corner = ({ id, ...props }: BoxProps) => (
+  <Box {...props} pointerEvents="none" width="32px" height="32px">
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 32 32"
+      overflow="visible"
+      fill="var(--chakra-colors-gray-50)"
+    >
+      <defs>
+        <mask id={id}>
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <circle r="32" cx="0" cy="32" fill="#000" />
+        </mask>
+      </defs>
+      <rect
+        x="0"
+        y="0"
+        width="32"
+        height="32"
+        fill="var(--chakra-colors-gray-50)"
+        mask={`url(#${id})`}
+      />
+    </svg>
+  </Box>
+);
 
 export default LeftPanel;
