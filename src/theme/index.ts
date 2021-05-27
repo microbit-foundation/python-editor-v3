@@ -7,7 +7,10 @@ import {
 import fonts from "./fonts";
 import radii from "./radii";
 import colors from "./colors";
-import components from "./components";
+// import components from "./components";
+import Button from "./components/button";
+import Tabs from "./components/tabs";
+import Alert from "./components/alert";
 
 export const codeFontFamily = "Source Code Pro, monospace";
 export const backgroundColorTerm = "#333333"; // Equivalent of "var(--chakra-colors-blackAlpha-800)" on white.
@@ -18,7 +21,11 @@ const overrides = {
   fonts,
   radii,
   colors,
-  components,
+  components: {
+    Button,
+    Tabs,
+    Alert,
+  },
 };
 
 export default extendTheme(

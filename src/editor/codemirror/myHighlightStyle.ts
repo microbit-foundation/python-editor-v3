@@ -1,3 +1,11 @@
+// CodeMirror maps grammar nodes to a set of predefined tags so that themes
+// can be written in a language independent way. Tags can extend others so it
+// is sufficient to address just the base tags in a theme but you can be more
+// specific if you need to.
+// This file defines all the tags and has useful documentation:
+// https://github.com/codemirror/highlight/blob/main/src/highlight.ts#L480
+// This file shows the mapping of grammar nodes to tags for Python
+// https://github.com/codemirror/lang-python/blob/main/src/python.ts#L17
 import { HighlightStyle, tags } from "@codemirror/highlight";
 
 export const myHighlightStyle = () => {
