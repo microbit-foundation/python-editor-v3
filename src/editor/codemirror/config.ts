@@ -50,6 +50,7 @@ export const themeExtensions = (fontSizePt: number) => {
       fontFamily,
       paddingRight: "1rem",
       border: "unset",
+      color: "gray.600",
     },
     ".cm-gutter": {
       width: "5rem",
