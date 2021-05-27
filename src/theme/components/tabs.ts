@@ -1,5 +1,6 @@
 import { theme } from "@chakra-ui/react";
-export const Tabs = {
+
+const Tabs = {
   variants: {
     sidebar: (props: any) => {
       const base = {

@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   brand: {
     // As provided by Blimp.
     300: "#6f6ac1",

@@ -1,5 +1,6 @@
 import { theme } from "@chakra-ui/react";
-export const Alert = {
+
+const Alert = {
   variants: {
     toast: (props: any) => {
       const base = {

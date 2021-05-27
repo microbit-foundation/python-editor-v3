@@ -1,4 +1,4 @@
-export const fonts = {
+const fonts = {
   heading: "Helvetica, Arial, sans-serif",
   body: "Helvetica, Arial, sans-serif",
 };

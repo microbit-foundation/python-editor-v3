@@ -19,7 +19,7 @@ import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
 import { completion } from "./completion";
-import highlightStyle from "./myHighlightStyle";
+import highlightStyle from "./highlightStyle";
 
 const customTabBinding: KeyBinding = {
   key: "Tab",

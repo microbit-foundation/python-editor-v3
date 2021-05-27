@@ -1,5 +1,6 @@
 import { theme } from "@chakra-ui/react";
-export const Button = {
+
+const Button = {
   baseStyle: {
     borderRadius: "4xl",
   },
