@@ -113,6 +113,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
               <VStack spacing={0}>
                 {i === index && (
                   <Corner
+                    id="bottom"
                     position="absolute"
                     bottom={-cornerSize + "px"}
                     right={0}
@@ -120,6 +121,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
                 )}
                 {i === index && (
                   <Corner
+                    id="top"
                     position="absolute"
                     top={-cornerSize + "px"}
                     right={0}
@@ -165,19 +167,28 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   );
 };
 
-const Corner = (props: BoxProps) => (
+const Corner = ({ id, ...props }: BoxProps) => (
   <Box {...props} pointerEvents="none">
     <svg
       width={cornerSize}
       height={cornerSize}
-      viewBox="0 0 263 263"
-      fill="none"
+      viewBox="0 0 32 32"
+      overflow="visible"
+      fill="var(--chakra-colors-gray-50)"
     >
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M263 244C263 250.394 262.754 256.73 262.271 263H263V244ZM19 0C153.758 0 263 109.243 263 244V0H19ZM0 0.728821C6.26993 0.245926 12.6063 0 19 0H0V0.728821Z"
+      <defs>
+        <mask id={id}>
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <circle r="32" cx="0" cy="32" fill="#000" />
+        </mask>
+      </defs>
+      <rect
+        x="0"
+        y="0"
+        width="32"
+        height="32"
         fill="var(--chakra-colors-gray-50)"
+        mask={`url(#${id})`}
       />
     </svg>
   </Box>
