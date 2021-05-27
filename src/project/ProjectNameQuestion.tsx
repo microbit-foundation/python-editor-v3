@@ -37,7 +37,7 @@ const ProjectNameQuestion = ({
           setError(validate(value));
         }}
       ></Input>
-      <FormHelperText>
+      <FormHelperText color="gray.700">
         The name is used when you download a hex file.
       </FormHelperText>
       <FormErrorMessage>{error}</FormErrorMessage>

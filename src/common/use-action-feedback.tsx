@@ -33,6 +33,7 @@ export class ActionFeedback {
       description,
       position: "top",
       isClosable: true,
+      variant: "toast"
     });
   }
 
@@ -54,6 +55,7 @@ export class ActionFeedback {
       description,
       position: "top",
       isClosable: true,
+      variant: "toast"
     });
   }
 
@@ -67,7 +69,8 @@ export class ActionFeedback {
       description,
       position: "top",
       isClosable: false,
-      duration: 2000, // Quicker than for errors
+      duration: 2000, // Quicker than for errors,
+      variant: "toast"
     });
   }
 

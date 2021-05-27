@@ -27,7 +27,7 @@ const NewFileNameQuestion = ({
         setError(validate(value));
       }}
     ></Input>
-    <FormHelperText>
+    <FormHelperText color="gray.700">
       We'll add the <code>.py</code> extension for you.
     </FormHelperText>
     <FormErrorMessage>{error}</FormErrorMessage>

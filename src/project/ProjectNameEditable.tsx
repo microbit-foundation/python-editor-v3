@@ -38,7 +38,7 @@ const ProjectNameEditable = () => {
         <IconButton
           size="md"
           icon={<RiEdit2Line />}
-          color="gray.600"
+          color="gray.500"
           variant="ghost"
           onClick={handleEdit}
           aria-label="Edit project name"

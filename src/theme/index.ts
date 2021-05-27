@@ -29,8 +29,11 @@ const overrides = {
       600: "#50388f",
       700: "#422e75",
     },
+    blimpPink: {
+      500: "#cd0365", // Failure color
+    },
     blimpTeal: {
-      50: "#7bcdc2",
+      50: "#7bcdc2", // Success color
       100: "#7bcec3",
       200: "#7accc1",
       300: "#77c7bc",
@@ -40,23 +43,16 @@ const overrides = {
       // There are way more grays in the design than the Chakra scale.
       // This would be great to revisit.
       // Do we really use them all?
-      50: "#fcfcfc",
-      75: "#fcfcfd",
-      100: "#f2f2f5",
-      125: "#ebebeb",
-      150: "#e9eaee",
-      200: "#e3e3e3",
-      300: "#d7d8d6",
-      350: "#d0d0d0",
-      400: "#cbcccb",
-      450: "#cccccc",
-      500: "#c9c9c9",
-      550: "#bfc0bf",
-      600: "#b0b0b0",
-      650: "#a9aaa9",
-      700: "#4C4C4C",
-      750: "#4d4d4d",
-      800: "#262626",
+      10: "#fcfcfc", // Editor background, other light backgrounds
+      50: "#ebebeb", // Left area background color
+      100: "#e3e3e3",
+      200: "#d7d8d6",
+      300: "#cbcccb", // Unused was drag handles in the design.
+      400: "#c9c9c9",
+      500: "#b0b0b0", // Edit project name (but 80% alpha), active buttons
+      600: "#a9aaa9", // todo: Line numbers
+      700: "#4c4c4c", // Muted text color, project name icon
+      800: "#262626", // Main text color
     },
   },
   components: {
@@ -65,6 +61,22 @@ const overrides = {
         borderRadius: "4xl",
       },
       variants: {
+        zoom: (props: any) => {
+          const base = {
+            ...theme.components.Button.variants.solid(props),
+          };
+          return {
+            ...base,
+            _hover: {
+              ...base._hover,
+              backgroundColor: "gray.400",
+            },
+            _active: {
+              ...base._active,
+              backgroundColor: "gray.500",
+            },
+          };
+        },
         outline: {
           borderWidth: "2px",
           color: "brand.500",
@@ -103,10 +115,27 @@ const overrides = {
               borderRadius: "unset",
               _selected: {
                 color: "brand.300",
-                bg: "gray.125",
+                bg: "gray.50",
                 outline: "none",
               },
             },
+          };
+        },
+      },
+    },
+    Alert: {
+      variants: {
+        toast: (props: any) => {
+          const base = {
+            ...theme.components.Alert.variants["solid"](props),
+          };
+          return {
+            ...base,
+            container: {
+              ...base.container,
+              // Designs say blimpTeal.50 but way too light for white text.
+              bg: props.status === "success" ? "blimpTeal.400" : "blimpPink.500"
+            }
           };
         },
       },

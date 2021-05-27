@@ -81,12 +81,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   const width = "5.375rem";
   return (
-    <Flex
-      height="100%"
-      direction="column"
-      {...props}
-      backgroundColor="gray.125"
-    >
+    <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
       <Tabs
         orientation="vertical"
         size="lg"

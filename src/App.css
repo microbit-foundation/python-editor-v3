@@ -16,10 +16,6 @@ html {
 :root {
   --highlight-style-keyword: #9d4ea9;
   --highlight-style-string: #ae1f1f;
-
-  /* Unused so far */
-  --pink-100: #ca0364;
-  --pink-200: #cd0365;
 }
 
 /* Needed for the fallbacks below */

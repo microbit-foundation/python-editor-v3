@@ -61,7 +61,7 @@ const Workbench = () => {
               Using `display` breaks the terminal height adjustment */}
             <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
           </Box>
-          <ProjectActionBar borderTop="1px solid #d3d3d3" />
+          <ProjectActionBar borderTopWidth={1} borderColor="gray.200" />
         </Flex>
       </SplitView>
     </Flex>
