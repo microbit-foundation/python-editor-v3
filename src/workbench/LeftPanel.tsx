@@ -166,7 +166,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
 };
 
 const Corner = (props: BoxProps) => (
-  <Box {...props}>
+  <Box {...props} pointerEvents="none">
     <svg
       width={cornerSize}
       height={cornerSize}
