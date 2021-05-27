@@ -13,11 +13,12 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-gutters": {
       // Make it easier to copy code dragging from the left without line numbers.
       userSelect: "none",
-      backgroundColor: "var(--chakra-colors-gry-50)",
+      backgroundColor: "unset",
       fontSize,
       fontFamily,
       paddingRight: "1rem",
       border: "unset",
+      color: "gray.600",
     },
     ".cm-gutter": {
       width: "5rem",
@@ -35,7 +36,7 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-activeLine": {
       // The default CM theme sets a background color.
       backgroundColor: "unset",
-      outline: "1px solid var(--chakra-colors-gray-200)",
+      outline: "1px solid var(--chakra-colors-gray-100)",
     },
     // $wrap can't be styled here, see App.css.
   });
