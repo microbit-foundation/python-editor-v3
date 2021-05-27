@@ -108,6 +108,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
               width={width}
               p={0}
               position="relative"
+              className="sidebar-tab" // Used for custom outline below
             >
               <VStack spacing={0}>
                 {i === index && (
@@ -125,9 +126,19 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
                     transform="rotate(90deg)"
                   />
                 )}
-                <VStack>
-                  <Icon boxSize={6} as={p.icon} />
-                  <Text m={0} fontSize="sm">
+                <VStack spacing={1}>
+                  <Icon boxSize={6} as={p.icon} mt="3px" />
+                  <Text
+                    m={0}
+                    fontSize="sm"
+                    borderBottom="3px solid transparent"
+                    sx={{
+                      ".sidebar-tab:focus &": {
+                        // To match the focus outline
+                        borderBottom: "3px solid rgba(66, 153, 225, 0.6)",
+                      },
+                    }}
+                  >
                     {p.title}
                   </Text>
                 </VStack>
