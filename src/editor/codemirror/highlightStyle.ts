@@ -8,7 +8,7 @@
 // https://github.com/codemirror/lang-python/blob/main/src/python.ts#L17
 import { HighlightStyle, tags } from "@codemirror/highlight";
 
-export const myHighlightStyle = () => {
+export const highlightStyle = () => {
   const dark = "var(--chakra-colors-gray-800)";
   return HighlightStyle.define([
     {
@@ -30,4 +30,4 @@ export const myHighlightStyle = () => {
   ]);
 };
 
-export default myHighlightStyle;
+export default highlightStyle;

@@ -19,7 +19,7 @@ import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
 import { completion } from "./completion";
-import myHighlightStyle from "./myHighlightStyle";
+import highlightStyle from "./myHighlightStyle";
 
 const customTabBinding: KeyBinding = {
   key: "Tab",
@@ -47,7 +47,7 @@ export const editorConfig: Extension = [
   Prec.fallback(defaultHighlightStyle),
   bracketMatching(),
   closeBrackets(),
-  myHighlightStyle(),
+  highlightStyle(),
   autocompletion({
     override: completion,
   }),
