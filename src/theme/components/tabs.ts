@@ -11,7 +11,7 @@ const Tabs = {
         tab: {
           ...base.tab,
           transition: "none",
-          ml: "5px",
+          ml: "6px",
           borderRadius: "32px 0 0 32px",
           _selected: {
             color: "brand.300",

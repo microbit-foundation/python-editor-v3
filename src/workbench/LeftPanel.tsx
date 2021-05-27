@@ -85,7 +85,7 @@ const cornerSize = 32;
 
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
-  const width = "5.375rem";
+  const width = "5rem";
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
       <Tabs
@@ -168,10 +168,10 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
 };
 
 const Corner = ({ id, ...props }: BoxProps) => (
-  <Box {...props} pointerEvents="none">
+  <Box {...props} pointerEvents="none" width="32px" height="32px">
     <svg
-      width={cornerSize}
-      height={cornerSize}
+      width="100%"
+      height="100%"
       viewBox="0 0 32 32"
       overflow="visible"
       fill="var(--chakra-colors-gray-50)"
