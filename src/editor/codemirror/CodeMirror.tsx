@@ -3,11 +3,8 @@ import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { blocks, blocksCompartment } from "./blocks";
 import "./CodeMirror.css";
-import {
-  editorConfig,
-  themeExtensions,
-  themeExtensionsCompartment,
-} from "./config";
+import { editorConfig, themeExtensionsCompartment } from "./config";
+import themeExtensions from "./themeExtensions";
 
 interface CodeMirrorProps {
   className?: string;
