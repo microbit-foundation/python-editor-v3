@@ -21,7 +21,14 @@ const ActiveFileInfo = ({
     <HStack>
       {filename !== MAIN_FILE && (
         <>
-          <Text as="span" fontWeight="semibold">
+          <Text
+            as="span"
+            fontWeight="semibold"
+            maxWidth="15ch"
+            textOverflow="ellipsis"
+            overflowX="hidden"
+            whiteSpace="nowrap"
+          >
             {filename}
           </Text>
           <Text as="span">—</Text>
