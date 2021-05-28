@@ -11,6 +11,7 @@ import colors from "./colors";
 import Button from "./components/button";
 import Tabs from "./components/tabs";
 import Alert from "./components/alert";
+import Tooltip from "./components/tooltip";
 
 export const codeFontFamily = "Source Code Pro, monospace";
 export const backgroundColorTerm = "#333333"; // Equivalent of "var(--chakra-colors-blackAlpha-800)" on white.
@@ -25,6 +26,7 @@ const overrides = {
     Alert,
     Button,
     Tabs,
+    Tooltip,
   },
 };
 
