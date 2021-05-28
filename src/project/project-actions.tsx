@@ -360,6 +360,7 @@ export class ProjectActions {
       initialValue: "",
       actionLabel: "Create",
       validate,
+      customFocus: true,
     });
 
     if (filenameWithoutExtension) {
