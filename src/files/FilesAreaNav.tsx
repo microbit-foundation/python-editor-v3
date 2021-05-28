@@ -3,7 +3,6 @@ import NewButton from "../project/NewButton";
 import LoadButton from "../project/LoadButton";
 
 const FilesAreaNav = () => {
-  const size = "lg";
   return (
     <ButtonGroup
       pl={1}
