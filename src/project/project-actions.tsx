@@ -168,8 +168,9 @@ export class ProjectActions {
       const hasMainPyFile = files.some((x) => x.name === MAIN_FILE);
       for (const f of files) {
         const content = await readFileAsUint8Array(f);
-        const module = isPythonFile(f.name) && !isPythonMicrobitModule(content);
-        const script = hasMainPyFile ? f.name === MAIN_FILE : module;
+        const python = isPythonFile(f.name);
+        const module = python && isPythonMicrobitModule(content);
+        const script = hasMainPyFile ? f.name === MAIN_FILE : python && !module;
         classifiedInputs.push({
           name: f.name,
           script,
@@ -208,14 +209,14 @@ export class ProjectActions {
   ): Promise<ClassifiedFileInput[] | undefined> {
     const defaultScript = inputs.find((x) => x.script);
     const chosenScript = await this.dialogs.input<MainScriptChoice>({
-      header: "Confirm file changes",
+      header: "Change files?",
       initialValue: {
         main: defaultScript ? defaultScript.name : undefined,
       },
       Body: (props: InputDialogBody<MainScriptChoice>) => (
         <ChooseMainScriptQuestion
           {...props}
-          currentFiles={this.fs.project.files.map((f) => f.name)}
+          currentFiles={new Set(this.fs.project.files.map((f) => f.name))}
           inputs={inputs}
         />
       ),

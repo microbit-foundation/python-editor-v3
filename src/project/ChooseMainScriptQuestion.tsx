@@ -1,14 +1,15 @@
 import { IconButton } from "@chakra-ui/button";
-import { ListItem, Text, UnorderedList } from "@chakra-ui/layout";
+import { HStack, ListItem, Text, UnorderedList } from "@chakra-ui/layout";
 import {
   Menu,
   MenuButton,
   MenuButtonProps,
-  MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
 } from "@chakra-ui/menu";
 import { sortBy } from "lodash";
-import { MdMoreHoriz } from "react-icons/md";
+import { RiFileSettingsLine } from "react-icons/ri";
 import { InputDialogBody } from "../common/InputDialog";
 import { MAIN_FILE } from "../fs/fs";
 import { ClassifiedFileInput, FileOperation } from "./changes";
@@ -16,7 +17,7 @@ import { MainScriptChoice } from "./project-actions";
 
 interface ChooseMainScriptQuestionProps
   extends InputDialogBody<MainScriptChoice> {
-  currentFiles: string[];
+  currentFiles: Set<string>;
   inputs: ClassifiedFileInput[];
 }
 
@@ -32,10 +33,15 @@ const ChooseMainScriptQuestion = ({
     (c) => c.source
   );
   return changes.length > 1 ? (
-    <UnorderedList stylePosition="inside">
+    <UnorderedList listStyleType="none" listStylePos="inside" m={0}>
       {changes.map((c) => (
         <ListItem key={c.source}>
-          <FileChangeRow key={c.source} change={c} setValue={setValue} />
+          <FileChangeRow
+            key={c.source}
+            change={c}
+            setValue={setValue}
+            currentFiles={currentFiles}
+          />
         </ListItem>
       ))}
     </UnorderedList>
@@ -44,6 +50,7 @@ const ChooseMainScriptQuestion = ({
       key={changes[0].source}
       change={changes[0]}
       setValue={setValue}
+      currentFiles={currentFiles}
     />
   );
 };
@@ -58,11 +65,10 @@ interface ProposedChange {
 }
 
 const findProposedChanges = (
-  currentFiles: string[],
+  currentFiles: Set<string>,
   inputs: ClassifiedFileInput[],
   main: string | undefined
 ): ProposedChange[] => {
-  const current = new Set(currentFiles);
   return inputs.map((f) => {
     const target = f.name === main ? "main.py" : f.name;
     return {
@@ -71,7 +77,7 @@ const findProposedChanges = (
       target,
       module: f.module,
       script: f.script,
-      operation: current.has(target)
+      operation: currentFiles.has(target)
         ? FileOperation.REPLACE
         : FileOperation.ADD,
     };
@@ -96,29 +102,51 @@ export const summarizeChange = (change: ProposedChange): string => {
 interface FileChangeRowProps {
   change: ProposedChange;
   setValue: (value: MainScriptChoice) => void;
+  currentFiles: Set<string>;
 }
 
-const FileChangeRow = ({ change, setValue }: FileChangeRowProps) => {
+const FileChangeRow = ({
+  change,
+  setValue,
+  currentFiles,
+}: FileChangeRowProps) => {
   const clearMainScript = () => setValue({ main: undefined });
   const switchMainScript = () => setValue({ main: change.source });
+  const isMainScript = change.target === MAIN_FILE;
   return (
-    <>
+    <HStack justifyContent="space-between">
       <Text data-testid="change" as="span" lineHeight="3rem">
         {summarizeChange(change)}
       </Text>
-      {change.target === MAIN_FILE && change.source !== MAIN_FILE && (
-        <OptionsMenu ml={2}>
-          <MenuItem onClick={clearMainScript}>
-            Upload as {change.source}
-          </MenuItem>
+      {change.script && change.source !== MAIN_FILE && (
+        <OptionsMenu ml="auto">
+          <MenuOptionGroup
+            value={isMainScript ? "main" : "source"}
+            title={change.source}
+            type="radio"
+          >
+            <MenuItemOption value="main" onClick={switchMainScript}>
+              {summarizeChange({
+                ...change,
+                target: MAIN_FILE,
+                operation: currentFiles.has(MAIN_FILE)
+                  ? FileOperation.REPLACE
+                  : FileOperation.ADD,
+              })}
+            </MenuItemOption>
+            <MenuItemOption value="source" onClick={clearMainScript}>
+              {summarizeChange({
+                ...change,
+                target: change.source,
+                operation: currentFiles.has(change.source)
+                  ? FileOperation.REPLACE
+                  : FileOperation.ADD,
+              })}
+            </MenuItemOption>
+          </MenuOptionGroup>
         </OptionsMenu>
       )}
-      {change.script && change.target !== MAIN_FILE && (
-        <OptionsMenu ml={2}>
-          <MenuItem onClick={switchMainScript}>Use as main code</MenuItem>
-        </OptionsMenu>
-      )}
-    </>
+    </HStack>
   );
 };
 
@@ -131,8 +159,8 @@ const OptionsMenu = ({ children, ...props }: MenuButtonProps) => {
         colorScheme="gray"
         aria-label="Options"
         size="md"
-        variant="outline"
-        icon={<MdMoreHoriz />}
+        variant="ghost"
+        icon={<RiFileSettingsLine />}
       />
       <MenuList>{children}</MenuList>
     </Menu>

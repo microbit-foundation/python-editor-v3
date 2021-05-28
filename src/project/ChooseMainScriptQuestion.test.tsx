@@ -15,7 +15,7 @@ describe("ChooseMainScriptQuestion", () => {
     const setError = jest.fn() as jest.MockedFunction<
       (x: string | undefined) => void
     >;
-    const currentFiles = ["main.py", "magic.py"];
+    const currentFiles = new Set(["main.py", "magic.py"]);
 
     afterEach(() => {
       setError.mockClear();
@@ -73,7 +73,9 @@ describe("ChooseMainScriptQuestion", () => {
       ];
       const result = renderComponent(inputs, "a.py");
       const getAllListItems = () =>
-        result.getAllByRole("listitem").map((x) => x.firstChild!.textContent);
+        Array.from(result.getAllByRole("list")[0].childNodes).map(
+          (x) => x.firstChild!.firstChild!.firstChild?.textContent
+        );
       expect(getAllListItems()).toEqual([
         "Replace main code with a.py",
         "Add file b.py",
