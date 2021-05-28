@@ -29,17 +29,17 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
               key={f.name}
               backgroundColor={selectedFile === f.name ? "gray.10" : undefined}
               pl={2}
-              onClick={(e) => {
-                // Clicks on buttons in the row shouldn't select the row.
-                if (e.target === e.currentTarget) {
-                  select();
-                }
-              }}
               pr={1}
               cursor={isEditableFile(f.name) ? "pointer" : undefined}
               borderRadius="md"
             >
               <FileRow
+                onClick={(e) => {
+                  // Clicks on buttons in the row shouldn't select the row.
+                  if (e.target === e.currentTarget) {
+                    select();
+                  }
+                }}
                 height={12}
                 value={f}
                 projectName={projectName}
