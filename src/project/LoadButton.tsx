@@ -19,6 +19,7 @@ const LoadButton = ({ children, ...props }: LoadButtonProps) => {
       data-testid="open"
       multiple
       icon={<RiFolderOpenLine />}
+      tooltip="Load a hex or Python file or add other files"
     />
   );
 };
