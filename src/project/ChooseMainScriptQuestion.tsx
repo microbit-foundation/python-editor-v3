@@ -128,6 +128,7 @@ const OptionsMenu = ({ children, ...props }: MenuButtonProps) => {
       <MenuButton
         {...props}
         as={IconButton}
+        colorScheme="gray"
         aria-label="Options"
         size="md"
         variant="outline"

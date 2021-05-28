@@ -5,6 +5,9 @@ const Button = {
     borderRadius: "4xl",
   },
   variants: {
+    unstyled: {
+      borderRadius: "unset",
+    },
     zoom: (props: any) => {
       const base = {
         ...theme.components.Button.variants.solid(props),
