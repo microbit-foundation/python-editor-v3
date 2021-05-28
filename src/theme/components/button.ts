@@ -39,11 +39,13 @@ const Button = {
         ...base,
         _hover: {
           ...base._hover,
-          color: "blackAlpha.800",
+          bg: "white",
+          color: "gray.700",
         },
         _active: {
           ...base._hover,
-          color: "blackAlpha.800",
+          bg: "white",
+          color: "gray.800",
         },
       };
     },
