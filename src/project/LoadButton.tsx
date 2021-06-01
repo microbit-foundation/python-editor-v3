@@ -1,5 +1,5 @@
 import React from "react";
-import { RiFolderOpenLine } from "react-icons/ri";
+import { RiUpload2Line } from "react-icons/ri";
 import { CollapsableButtonComposibleProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
@@ -14,12 +14,12 @@ const LoadButton = ({ children, ...props }: LoadButtonProps) => {
   return (
     <FileInputButton
       {...props}
-      text="Load…"
+      text="Upload…"
       onOpen={actions.load}
       data-testid="open"
       multiple
-      icon={<RiFolderOpenLine />}
-      tooltip="Load a hex or Python file or add other files"
+      icon={<RiUpload2Line />}
+      tooltip="Upload a hex or Python file or add other files"
     />
   );
 };
