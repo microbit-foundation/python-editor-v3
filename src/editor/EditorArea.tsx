@@ -1,6 +1,5 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import Logo from "../common/Logo";
-import LogoStacked from "../common/LogoStacked";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";

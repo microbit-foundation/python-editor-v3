@@ -1,7 +1,6 @@
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
-import ZoomControls from "../ZoomControls";
 import { blocks, blocksCompartment } from "./blocks";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
