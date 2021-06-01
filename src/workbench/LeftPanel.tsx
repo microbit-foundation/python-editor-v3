@@ -13,14 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
+import { RiFolderLine } from "react-icons/ri";
+import LogoFace from "../common/LogoFace";
+import PythonLogo from "../common/PythonLogo";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import HelpMenu from "../project/HelpMenu";
 import LanguageMenu from "../project/LanguageMenu";
-import LeftPanelTabContent from "./LeftPanelTabContent";
 import SettingsButton from "../settings/SettingsButton";
-import LogoFace from "../common/LogoFace";
+import LeftPanelTabContent from "./LeftPanelTabContent";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -39,9 +40,9 @@ const LeftPanel = ({
   const panes: Pane[] = useMemo(
     () => [
       {
-        id: "placeholder",
+        id: "python",
         title: "Python",
-        icon: RiLayoutMasonryFill,
+        icon: PythonLogo as IconType,
         contents: (
           <VStack mt="calc(2.6rem + 11.5vh)" pl={8} pr={8} spacing={5}>
             <Text>
