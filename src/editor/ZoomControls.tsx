@@ -1,4 +1,4 @@
-import { HStack, IconButton, StackProps, ThemeTypings } from "@chakra-ui/react";
+import { ButtonGroup, HStack, IconButton, StackProps, ThemeTypings } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import {
@@ -31,6 +31,14 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   }, [setSettings, settings]);
   return (
     <HStack spacing={5} {...props}>
+      <ButtonGroup
+      isAttached
+      pl={1}
+      pr={1}
+      spacing={0}
+      colorScheme="black"
+      variant="ghost"
+    >
       <IconButton
         size={size}
         isRound
@@ -49,6 +57,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
         colorScheme="gray"
         variant="zoom"
       />
+      </ButtonGroup>
     </HStack>
   );
 };

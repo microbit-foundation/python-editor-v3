@@ -14,6 +14,7 @@ const EditorContainer = ({ filename }: EditorContainerProps) => {
   const [{ fontSize, highlightCodeStructure }] = useSettings();
   const [defaultValue, onFileChange] = useProjectFileText(filename);
   return typeof defaultValue === "undefined" ? null : (
+    
     <Editor
       defaultValue={defaultValue}
       onChange={onFileChange}

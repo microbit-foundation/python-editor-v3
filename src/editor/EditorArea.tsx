@@ -1,4 +1,6 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import Logo from "../common/Logo";
+import LogoStacked from "../common/LogoStacked";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
@@ -39,7 +41,9 @@ const EditorArea = ({
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <ZoomControls size="md" />
+        <Box width="140px" fill="var(--chakra-colors-brand-500)">
+          <Logo/>
+        </Box>
       </Flex>
       {/* Just for the line */}
       <Box
@@ -49,7 +53,8 @@ const EditorArea = ({
         borderBottomWidth={1}
         borderColor="gray.200"
       />
-      <Box flex="1 1 auto" height={0}>
+      <Box position="relative" flex="1 1 auto" height={0}>
+        <ZoomControls zIndex="1" top="15px" right="20px" position="absolute"/>
         <EditorContainer filename={filename} />
       </Box>
     </Flex>
