@@ -19,6 +19,7 @@ const EditorArea = ({
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
+  const spacingFromRight = "1.5rem";
   return (
     <Flex
       height="100%"
@@ -47,13 +48,18 @@ const EditorArea = ({
       {/* Just for the line */}
       <Box
         ml="6rem"
-        mr="1.5rem"
+        mr={spacingFromRight}
         width="calc(100% - 7.5rem)"
         borderBottomWidth={1}
         borderColor="gray.200"
       />
       <Box position="relative" flex="1 1 auto" height={0}>
-        <ZoomControls zIndex="1" top={6} right="1.5rem" position="absolute" />
+        <ZoomControls
+          zIndex="1"
+          top={6}
+          right={spacingFromRight}
+          position="absolute"
+        />
         <EditorContainer filename={filename} />
       </Box>
     </Flex>
