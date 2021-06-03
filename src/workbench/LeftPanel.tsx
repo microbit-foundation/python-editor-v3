@@ -97,7 +97,8 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         index={index}
       >
         <TabList background="transparent linear-gradient(to bottom, var(--chakra-colors-brand-500) 0%, var(--chakra-colors-blimpTeal-50) 100%) 0% 0% no-repeat padding-box;">
-          <Box width="3.75rem" mt="1.375rem" ml="auto" mr="auto" mb="11.5vh">
+          {/* Top margin aims to align with other logo. */}
+          <Box width="3.75rem" mt="1.2rem" ml="auto" mr="auto" mb="11.5vh">
             <LogoFace fill="white" />
           </Box>
           {panes.map((p, i) => (
