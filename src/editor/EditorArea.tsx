@@ -41,15 +41,15 @@ const EditorArea = ({
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <Box width="140px" fill="brand.500">
-          <Link
-            href="https://microbit.org/code/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        <Link
+          href="https://microbit.org/code/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Box width="140px" fill="brand.500">
             <Logo />
-          </Link>
-        </Box>
+          </Box>
+        </Link>
       </Flex>
       {/* Just for the line */}
       <Box
