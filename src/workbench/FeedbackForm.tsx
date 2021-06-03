@@ -1,0 +1,58 @@
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+} from "@chakra-ui/modal";
+import { useEffect, useRef } from "react";
+
+interface FeedbackFormProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const FeedbackForm = ({ isOpen, onClose }: FeedbackFormProps) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    const listener = (message: MessageEvent) => {
+      if (
+        message.origin === "https://form.jotform.com" &&
+        typeof message.data === "string"
+      ) {
+        const args = message.data.split(":");
+        // There are many other cases in their big blob of script
+        // but I think this is all we need to care about.
+        if (args[0] === "setHeight" && iframeRef.current) {
+          iframeRef.current.style.height = args[1] + "px";
+        }
+      }
+    };
+    window.addEventListener("message", listener);
+    return () => {
+      window.removeEventListener("message", listener);
+    };
+  });
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+      <ModalOverlay>
+        <ModalContent>
+          <ModalBody>
+            <ModalCloseButton />
+            <iframe
+              ref={iframeRef}
+              title="Python editor feedback"
+              src="https://form.jotform.com/211534485207352"
+              frameBorder="0"
+              height="620px"
+              width="100%"
+              scrolling="no"
+            />
+          </ModalBody>
+        </ModalContent>
+      </ModalOverlay>
+    </Modal>
+  );
+};
+
+export default FeedbackForm;
