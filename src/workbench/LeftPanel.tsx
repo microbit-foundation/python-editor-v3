@@ -1,6 +1,8 @@
 import {
+  Button,
   Box,
   BoxProps,
+  Center,
   Flex,
   Icon,
   Tab,
@@ -46,9 +48,16 @@ const LeftPanel = ({
         contents: (
           <VStack mt="calc(2.6rem + 11.5vh)" pl={8} pr={8} spacing={5}>
             <Text>
-              Hi! This is the alpha release of the micro:bit Python editor V3.
+              Hi! This is an alpha release of the new micro:bit Python editor.
             </Text>
-            <Text>Help us improve by providing your feedback!</Text>
+            <Text>
+              We've started by matching the feature set of the current editor.
+              We'll switch focus soon to adding features.
+            </Text>
+            <Text>Help us improve by providing your feedback.</Text>
+            <Center>
+              <Button size="lg">Feedback</Button>
+            </Center>
           </VStack>
         ),
       },
