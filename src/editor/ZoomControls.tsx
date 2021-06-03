@@ -1,4 +1,9 @@
-import { ButtonGroup, HStack, IconButton, StackProps, ThemeTypings } from "@chakra-ui/react";
+import {
+  ButtonGroup,
+  IconButton,
+  StackProps,
+  ThemeTypings,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import {
@@ -30,35 +35,31 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
     });
   }, [setSettings, settings]);
   return (
-    <HStack spacing={5} {...props}>
-      <ButtonGroup
+    <ButtonGroup
+      {...props}
       isAttached
-      pl={1}
-      pr={1}
-      spacing={0}
-      colorScheme="black"
-      variant="ghost"
+      colorScheme="gray"
+      variant="zoom"
+      transform="rotate(90deg)"
+      transformOrigin="bottom"
     >
       <IconButton
         size={size}
         isRound
-        icon={<RiZoomInLine />}
+        icon={<RiZoomInLine transform="rotate(-90)" />}
         aria-label="Zoom in"
         onClick={handleZoomIn}
-        colorScheme="gray"
-        variant="zoom"
       />
       <IconButton
         size={size}
         isRound
-        icon={<RiZoomOutLine />}
+        borderLeft="1px"
+        borderLeftColor="gray.10"
+        icon={<RiZoomOutLine transform="rotate(-90)" />}
         aria-label="Zoom out"
         onClick={handleZoomOut}
-        colorScheme="gray"
-        variant="zoom"
       />
-      </ButtonGroup>
-    </HStack>
+    </ButtonGroup>
   );
 };
 

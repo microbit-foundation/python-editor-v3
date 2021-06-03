@@ -92,7 +92,7 @@ const CodeMirror = ({
   }, [options]);
 
   return (
-    <div style={{ height: "100%" }} className={className} ref={elementRef}/>
+    <div style={{ height: "100%" }} className={className} ref={elementRef} />
   );
 };
 

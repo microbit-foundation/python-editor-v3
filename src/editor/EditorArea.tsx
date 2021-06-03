@@ -40,8 +40,8 @@ const EditorArea = ({
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <Box width="140px" fill="var(--chakra-colors-brand-500)">
-          <Logo/>
+        <Box width="140px" fill="brand.500">
+          <Logo />
         </Box>
       </Flex>
       {/* Just for the line */}
@@ -53,7 +53,7 @@ const EditorArea = ({
         borderColor="gray.200"
       />
       <Box position="relative" flex="1 1 auto" height={0}>
-        <ZoomControls zIndex="1" top="15px" right="20px" position="absolute"/>
+        <ZoomControls zIndex="1" top={6} right="1.5rem" position="absolute" />
         <EditorContainer filename={filename} />
       </Box>
     </Flex>
