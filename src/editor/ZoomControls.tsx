@@ -46,7 +46,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
       <IconButton
         size={size}
         isRound
-        icon={<RiZoomInLine transform="rotate(-90)" />}
+        icon={<RiZoomInLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label="Zoom in"
         onClick={handleZoomIn}
       />
@@ -55,7 +55,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
         isRound
         borderLeft="1px"
         borderLeftColor="gray.10"
-        icon={<RiZoomOutLine transform="rotate(-90)" />}
+        icon={<RiZoomOutLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label="Zoom out"
         onClick={handleZoomOut}
       />
