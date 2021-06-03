@@ -1,4 +1,5 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import Logo from "../common/Logo";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
@@ -18,6 +19,7 @@ const EditorArea = ({
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
+  const spacingFromRight = "1.5rem";
   return (
     <Flex
       height="100%"
@@ -39,17 +41,25 @@ const EditorArea = ({
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <ZoomControls size="md" />
+        <Box width="140px" fill="brand.500">
+          <Logo />
+        </Box>
       </Flex>
       {/* Just for the line */}
       <Box
         ml="6rem"
-        mr="1.5rem"
+        mr={spacingFromRight}
         width="calc(100% - 7.5rem)"
         borderBottomWidth={1}
         borderColor="gray.200"
       />
-      <Box flex="1 1 auto" height={0}>
+      <Box position="relative" flex="1 1 auto" height={0}>
+        <ZoomControls
+          zIndex="1"
+          top={6}
+          right={spacingFromRight}
+          position="absolute"
+        />
         <EditorContainer filename={filename} />
       </Box>
     </Flex>
