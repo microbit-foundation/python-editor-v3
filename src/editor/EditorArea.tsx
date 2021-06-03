@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, Link } from "@chakra-ui/react";
 import Logo from "../common/Logo";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
@@ -42,7 +42,13 @@ const EditorArea = ({
           onSelectedFileChanged={onSelectedFileChanged}
         />
         <Box width="140px" fill="brand.500">
-          <Logo />
+          <Link
+            href="https://microbit.org/code/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Logo />
+          </Link>
         </Box>
       </Flex>
       {/* Just for the line */}
