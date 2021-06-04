@@ -127,14 +127,17 @@ const SettingsArea = () => {
           maxWidth="16ch"
           value={settings.codeStructureHighlight}
         >
+          <option key="brackets" value="brackets">
+            Brackets
+          </option>
           <option key="boxes" value="boxes">
             Boxes
           </option>
           <option key="l-shapes" value="l-shapes">
             L-shapes
           </option>
-          <option key="brackets" value="brackets">
-            Brackets
+          <option key="l-shape-boxes" value="l-shape-boxes">
+            L-shape boxes
           </option>
         </Select>
       </FormControl>

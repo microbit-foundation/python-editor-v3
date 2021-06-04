@@ -25,7 +25,12 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   return true;
 };
 
-export type CodeStructureHighlight = "none" | "l-shapes" | "boxes" | "brackets";
+export type CodeStructureHighlight =
+  | "none"
+  | "l-shapes"
+  | "boxes"
+  | "l-shape-boxes"
+  | "brackets";
 
 export interface Settings {
   languageId: string;
