@@ -74,6 +74,15 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
           >
             Support
           </MenuItem>
+          <MenuItem
+            as="a"
+            href={config.termsOfUseLink}
+            target="_blank"
+            rel="noopener"
+            icon={<RiExternalLinkLine />}
+          >
+            Terms of use
+          </MenuItem>
           <MenuDivider />
           {/* shift the icon to align with the first line of content */}
           <MenuItem
