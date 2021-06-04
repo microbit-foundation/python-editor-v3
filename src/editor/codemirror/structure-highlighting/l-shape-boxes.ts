@@ -21,17 +21,26 @@ class VisualBlock {
   ) {}
 
   draw() {
-    const elt = document.createElement("div");
-    elt.className = "cm-lshapebox";
-    this.adjust(elt);
-    return elt;
+    const parent = document.createElement("div");
+    parent.className = "cm-lshapebox";
+    const body = document.createElement("div");
+    body.className = "cm-lshapebox";
+    this.adjust(parent, body);
+    return [parent, body];
   }
 
-  adjust(elt: HTMLElement) {
-    elt.style.left = this.parent.left + "px";
-    elt.style.top = this.body.top + "px";
-    elt.style.width = this.body.left - this.parent.left + "px";
-    elt.style.height = this.body.height + "px";
+  adjust(parent: HTMLElement, body: HTMLElement) {
+    // Parent covers the parent that isn't body
+    parent.style.left = this.parent.left + "px";
+    parent.style.top = this.parent.top + "px";
+    parent.style.height = this.parent.height - this.body.height + "px";
+    parent.style.width = `calc(100% - ${this.parent.left}px)`;
+
+    body.style.left = this.body.left + "px";
+    body.style.top = this.body.top + "px";
+    body.style.height = this.body.height + "px";
+    body.style.width = `calc(100% - ${this.parent.left}px)`;
+    body.style.borderTopLeftRadius = "unset";
   }
 
   eq(other: VisualBlock) {
@@ -149,7 +158,9 @@ const blocksView = ViewPlugin.fromClass(
         // Should be able to adjust old elements here if it's a performance win.
         this.overlayLayer.textContent = "";
         for (const b of blocks) {
-          this.overlayLayer.appendChild(b.draw());
+          for (const e of b.draw()) {
+            this.overlayLayer.appendChild(e);
+          }
         }
       }
     }
@@ -179,9 +190,21 @@ const baseTheme = EditorView.baseTheme({
   ".cm-lshapebox": {
     display: "block",
     position: "absolute",
-    borderRight: "2px solid var(--chakra-colors-blimpTeal-100)",
-    borderTop: "2px solid var(--chakra-colors-blimpTeal-100)",
+    backgroundColor: "var(--block)",
+    borderRadius: "var(--chakra-radii-lg)",
   },
 });
 
-export const lshapeBoxes = (): Extension => [blocksView, baseTheme];
+const themeTweaks = EditorView.theme({
+  ".cm-activeLine": {
+    // Can't use background colour for conflicting purposes.
+    backgroundColor: "unset",
+    outline: "1px solid var(--chakra-colors-gray-100)",
+  },
+});
+
+export const lshapeBoxes = (): Extension => [
+  blocksView,
+  baseTheme,
+  themeTweaks,
+];
