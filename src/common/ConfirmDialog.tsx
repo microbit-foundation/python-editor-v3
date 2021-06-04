@@ -8,6 +8,7 @@ import {
   AlertDialogOverlay,
 } from "@chakra-ui/modal";
 import { ReactNode, useRef } from "react";
+import { FormattedMessage } from "react-intl";
 
 export interface ConfirmDialogParameters {
   header: ReactNode;
@@ -57,7 +58,7 @@ export const ConfirmDialog = ({
           <AlertDialogBody>{body}</AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={leastDestructiveRef} onClick={onCancel}>
-              Cancel
+              <FormattedMessage id="cancel" />
             </Button>
             <Button
               variant="solid"

@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
+import { FormattedMessage, useIntl } from "react-intl";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProjectActions } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
@@ -28,6 +29,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
   const actions = useProjectActions();
+  const intl = useIntl();
 
   return (
     <HStack {...props} justify="space-between" lineHeight={2}>
@@ -48,7 +50,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
       <Menu>
         <MenuButton
           as={IconButton}
-          aria-label={`${name} file actions`}
+          aria-label={intl.formatMessage({ id: "file-actions" }, { name })}
           size="md"
           variant="ghost"
           icon={<MdMoreVert />}
@@ -59,24 +61,21 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
               icon={<RiEdit2Line />}
               isDisabled={!isEditableFile(name)}
               onClick={onEdit}
-              aria-label={`Edit ${name}`}
             >
-              Edit {name}
+              <FormattedMessage id="edit-file" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDownload2Line />}
               onClick={() => actions.downloadFile(name)}
-              aria-label={`Download ${name}`}
             >
-              Download {name}
+              <FormattedMessage id="download-file" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDeleteBin2Line />}
               onClick={() => actions.deleteFile(name)}
               isDisabled={isMainFile}
-              aria-label={`Delete ${name}`}
             >
-              Delete {name}
+              <FormattedMessage id="delete-file" values={{ name }} />
             </MenuItem>
           </MenuList>
         </Portal>

@@ -1,5 +1,6 @@
 import React from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import { CollapsableButtonComposibleProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
@@ -11,15 +12,20 @@ interface LoadButtonProps extends CollapsableButtonComposibleProps {}
  */
 const LoadButton = ({ children, ...props }: LoadButtonProps) => {
   const actions = useProjectActions();
+  const intl = useIntl();
   return (
     <FileInputButton
       {...props}
-      text="Load…"
+      text={intl.formatMessage({
+        id: "load-button",
+      })}
       onOpen={actions.load}
       data-testid="open"
       multiple
       icon={<RiFolderOpenLine />}
-      tooltip="Load a hex or Python file or add other files"
+      tooltip={intl.formatMessage({
+        id: "load-hover",
+      })}
     />
   );
 };

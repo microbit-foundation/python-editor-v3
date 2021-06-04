@@ -1,0 +1,632 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "About"
+    }
+  ],
+  "about-text": [
+    {
+      "type": 0,
+      "value": "Made with love by the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Micro:bit Educational Foundation and contributors"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "Added file "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "already-exists": [
+    {
+      "type": 0,
+      "value": "This file already exists"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "back to the main code"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "Change files?"
+    }
+  ],
+  "close-button": [
+    {
+      "type": 0,
+      "value": "Close"
+    }
+  ],
+  "confirm": [
+    {
+      "type": 0,
+      "value": "Confirm"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "Confirm delete"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "Replace all files with those in the hex?"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "Confirm replace project"
+    }
+  ],
+  "connect-button": [
+    {
+      "type": 0,
+      "value": "Connect"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "Connect to your micro:bit over WebUSB"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "Connect to your micro:bit to see serial output here"
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "Copied"
+    }
+  ],
+  "copy": [
+    {
+      "type": 0,
+      "value": "Copy"
+    }
+  ],
+  "create": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "create-file": [
+    {
+      "type": 0,
+      "value": "Create new file"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Create a new Python file"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Created "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "delete-button": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "delete-file": [
+    {
+      "type": 0,
+      "value": "Delete "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "Deleted "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "disconnect-button": [
+    {
+      "type": 0,
+      "value": "Disconnect"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "Disconnect from the micro:bit"
+    }
+  ],
+  "documentation": [
+    {
+      "type": 0,
+      "value": "Documentation"
+    }
+  ],
+  "download-button": [
+    {
+      "type": 0,
+      "value": "Download"
+    }
+  ],
+  "download-file": [
+    {
+      "type": 0,
+      "value": "Download "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "download-hex": [
+    {
+      "type": 0,
+      "value": "Download project hex"
+    }
+  ],
+  "download-hover": [
+    {
+      "type": 0,
+      "value": "Download a project hex file"
+    }
+  ],
+  "download-python": [
+    {
+      "type": 0,
+      "value": "Download Python script"
+    }
+  ],
+  "edit-file": [
+    {
+      "type": 0,
+      "value": "Edit "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "edit-name-project": [
+    {
+      "type": 0,
+      "value": "Edit the name of your project"
+    }
+  ],
+  "edit-project-name": [
+    {
+      "type": 0,
+      "value": "Edit project name"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "Failed to build the hex file"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " file actions"
+    }
+  ],
+  "files-tab": [
+    {
+      "type": 0,
+      "value": "Files"
+    }
+  ],
+  "flash-button": [
+    {
+      "type": 0,
+      "value": "Flash"
+    }
+  ],
+  "flash-project": [
+    {
+      "type": 0,
+      "value": "Flash the project directly to the micro:bit"
+    }
+  ],
+  "flash-text": [
+    {
+      "type": 0,
+      "value": "Flash"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "Flashing code"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Font size"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Help Translate"
+    }
+  ],
+  "highlight-structure": [
+    {
+      "type": 0,
+      "value": "Highlight code structure"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Language"
+    }
+  ],
+  "load-button": [
+    {
+      "type": 0,
+      "value": "Load…"
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "A hex file can only be loaded on its own. It replaces all files in the project."
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "This version of the Python Editor doesn't currently support adding .mpy files."
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "Cannot load "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "file"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    }
+  ],
+  "load-hover": [
+    {
+      "type": 0,
+      "value": "Load a hex or Python file or add other files"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "Loaded "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "lowercase-no-space": [
+    {
+      "type": 0,
+      "value": "Python files should have lowercase names with no spaces"
+    }
+  ],
+  "name-not-blank": [
+    {
+      "type": 0,
+      "value": "The project name cannot be blank"
+    }
+  ],
+  "name-not-empty": [
+    {
+      "type": 0,
+      "value": "The name cannot be empty"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Name your project"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "The name is used when you download a hex file."
+    }
+  ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "We'll add the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": ".py"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " extension for you."
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "Open file when dropped"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "Permanently delete "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "Python"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "Some of your changes have not been saved. Quit anyway?"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "Replace"
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Settings"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Support"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Terms of use"
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "Unable to connect to the micro:bit"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "Connection timed out"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "Please try again or "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "raise a support request"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "Please try again or "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "raise a support request"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "Updated file "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "webusb-download-instead": [
+    {
+      "type": 0,
+      "value": "Download the hex file or try Chrome or Microsoft Edge."
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "Another process is connected to this device."
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "Unable to claim interface"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "WebUSB error"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "Please reconnect your micro:bit and try again."
+    }
+  ],
+  "webusb-error-update-req-description": [
+    {
+      "type": 0,
+      "value": "You need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your micro:bit firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to make use of this feature."
+    }
+  ],
+  "webusb-error-update-req-title": [
+    {
+      "type": 0,
+      "value": "Please update the micro:bit firmware"
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB."
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."
+    }
+  ],
+  "zoom-in": [
+    {
+      "type": 0,
+      "value": "Zoom in"
+    }
+  ],
+  "zoom-out": [
+    {
+      "type": 0,
+      "value": "Zoom out"
+    }
+  ]
+}

@@ -17,6 +17,7 @@ import {
   supportedLanguages,
   useSettings,
 } from "./settings";
+import { FormattedMessage } from "react-intl";
 
 /**
  * The settings area.
@@ -71,7 +72,7 @@ const SettingsArea = () => {
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Language
+          <FormattedMessage id="language" />
         </FormLabel>
         <Select
           id="language"
@@ -93,7 +94,7 @@ const SettingsArea = () => {
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Font size
+          <FormattedMessage id="font-size" />
         </FormLabel>
         <NumberInput
           id="font-size"
@@ -118,7 +119,7 @@ const SettingsArea = () => {
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Code structure highlighting
+          <FormattedMessage id="highlight-structure" />
         </FormLabel>
         <Select
           id="language"
@@ -127,6 +128,7 @@ const SettingsArea = () => {
           maxWidth="16ch"
           value={settings.codeStructureHighlight}
         >
+          {/* TODO: translate? */}
           <option key="none" value="none">
             None
           </option>

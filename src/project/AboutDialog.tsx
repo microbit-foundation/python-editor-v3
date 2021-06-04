@@ -32,11 +32,13 @@ import {
 } from "@chakra-ui/react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { useDeployment } from "../deployment";
+import { FormattedMessage } from "react-intl";
 import { microPythonVersions } from "../fs/micropython";
 import comicImage from "./comic.png";
 import microbitHeartImage from "./microbit-heart.png";
 import micropythonLogo from "./micropython.jpeg";
 import pythonPoweredLogo from "./python-powered.png";
+import { ReactNode } from "react";
 
 const versionInfo = [
   { name: "Editor", value: process.env.REACT_APP_VERSION },
@@ -62,8 +64,8 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay>
         <ModalContent>
-          <ModalCloseButton />
           <ModalBody>
+            <ModalCloseButton />
             <VStack spacing={8} pl={5} pr={5} pt={5}>
               <HStack spacing={4}>
                 {deployment.horizontalLogo && (
@@ -89,13 +91,21 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
               </HStack>
 
               <Text fontSize="lg" textAlign="center">
-                Made with love by the{" "}
-                <Link
-                  color="brand.500"
-                  href="https://github.com/microbit-foundation/python-editor-next/graphs/contributors"
-                >
-                  Micro:bit Educational Foundation and contributors{" "}
-                </Link>
+                <FormattedMessage
+                  id="about-text"
+                  values={{
+                    link: (chunks: ReactNode) => (
+                      <Link
+                        rel="noopener noreferrer"
+                        target="blank"
+                        color="brand.500"
+                        href="https://github.com/microbit-foundation/python-editor-next/graphs/contributors"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  }}
+                />
               </Text>
               <SimpleGrid columns={[1, 1, 2, 2]} spacing={8} width="100%">
                 <Box>
@@ -135,7 +145,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                     onClick={onCopy}
                     size="md"
                   >
-                    {hasCopied ? "Copied" : "Copy"}
+                    <FormattedMessage id={hasCopied ? "copied" : "copy"} />
                   </Button>
                 </VStack>
               </SimpleGrid>
@@ -182,7 +192,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose} variant="solid" size="lg">
-              Close
+              <FormattedMessage id="close-button" />
             </Button>
           </ModalFooter>
         </ModalContent>

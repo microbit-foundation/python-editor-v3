@@ -1,0 +1,338 @@
+{
+  "unexpected-error-title": {
+    "defaultMessage": "Please try again or <link>raise a support request</link>",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "unexpected-error-description": {
+    "defaultMessage": "Please try again or <link>raise a support request</link>",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "flashing-code": {
+    "defaultMessage": "Flashing code",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "edit-project-name": {
+    "defaultMessage": "Edit project name",
+    "description": "Text for user to edit the name of the project"
+  },
+  "edit-name-project": {
+    "defaultMessage": "Edit the name of your project",
+    "description": "Text for user to edit the name of the project"
+  },
+  "download-hex": {
+    "defaultMessage": "Download project hex",
+    "description": "Text for menu item for downloading project hex file"
+  },
+  "flash-button": {
+    "defaultMessage": "Flash",
+    "description": "Text for flash button"
+  },
+  "zoom-out": {
+    "defaultMessage": "Zoom out",
+    "description": "Text label for zoom out button"
+  },
+  "zoom-in": {
+    "defaultMessage": "Zoom in",
+    "description": "Text label for zoom in button"
+  },
+  "open-file-dropped": {
+    "defaultMessage": "Open file when dropped",
+    "description": "Aria label for file drop target"
+  },
+  "timeout-error-description": {
+    "defaultMessage": "Unable to connect to the micro:bit",
+    "description": "Description for error messages relating to WebUSB timeout"
+  },
+  "timeout-error-title": {
+    "defaultMessage": "Connection timed out",
+    "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "Please reconnect your micro:bit and try again.",
+    "description": "Part of WebUSB error message"
+  },
+  "change-files": {
+    "defaultMessage": "Change files?",
+    "description": "Header for dialog of confirmation of files changed"
+  },
+  "loaded-file-feedback": {
+    "defaultMessage": "Loaded {filename}",
+    "description": "Success feedback for loading file"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Replace",
+    "description": "Action label for replacing project dialog"
+  },
+  "confirm-replace-body": {
+    "defaultMessage": "Replace all files with those in the hex?",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Confirm replace project",
+    "description": "Confirmation message title for replacing project dialog"
+  },
+  "name-not-blank": {
+    "defaultMessage": "The project name cannot be blank",
+    "description": "Validation message for project name"
+  },
+  "confirm": {
+    "defaultMessage": "Confirm",
+    "description": "Confirm action label"
+  },
+  "files-tab": {
+    "defaultMessage": "Files",
+    "description": "Python tab text"
+  },
+  "python-tab": {
+    "defaultMessage": "Python",
+    "description": "Python tab text"
+  },
+  "quit-anyway": {
+    "defaultMessage": "Some of your changes have not been saved. Quit anyway?",
+    "description": "Quit anyway text"
+  },
+  "updated-change": {
+    "defaultMessage": "Updated file {changeName}",
+    "description": "Change made to file"
+  },
+  "added-change": {
+    "defaultMessage": "Added file {changeName}",
+    "description": "Change made to file"
+  },
+  "deleted-file": {
+    "defaultMessage": "Deleted {filename}",
+    "description": "Confirmation message that file got deleted"
+  },
+  "delete-button": {
+    "defaultMessage": "Delete",
+    "description": "Button text for delete action"
+  },
+  "permanently-delete": {
+    "defaultMessage": "Permanently delete {filename}?",
+    "description": "Confirmation question to permanently delete file"
+  },
+  "confirm-delete": {
+    "defaultMessage": "Confirm delete",
+    "description": "Confirmation header of deletion of a file"
+  },
+  "create": {
+    "defaultMessage": "Create",
+    "description": "Create action label"
+  },
+  "created-file": {
+    "defaultMessage": "Created {filename}",
+    "description": "Action feedback for creating a file"
+  },
+  "file-actions": {
+    "defaultMessage": "{name} file actions",
+    "description": "Header of file actions for file"
+  },
+  "delete-file": {
+    "defaultMessage": "Delete {name}",
+    "description": "Menu option to delete file"
+  },
+  "download-file": {
+    "defaultMessage": "Download {name}",
+    "description": "Menu option to download file"
+  },
+  "edit-file": {
+    "defaultMessage": "Edit {name}",
+    "description": "Menu option to edit file"
+  },
+  "connect-microbit": {
+    "defaultMessage": "Connect to your micro:bit to see serial output here",
+    "description": "Text in serial area"
+  },
+  "webusb-not-supported": {
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB.",
+    "description": "Shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-why-use": {
+    "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
+    "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "webusb-download-instead": {
+    "defaultMessage": "Download the hex file or try Chrome or Microsoft Edge.",
+    "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
+  },
+  "webusb-error-clear-connect-description-2": {
+    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-description-1": {
+    "defaultMessage": "Another process is connected to this device.",
+    "description": "Part of WebUSB error message"
+  },
+  "name-used-when": {
+    "defaultMessage": "The name is used when you download a hex file.",
+    "description": "Text under project name field"
+  },
+  "name-text": {
+    "defaultMessage": "Name",
+    "description": "Header for name field"
+  },
+  "lowercase-no-space": {
+    "defaultMessage": "Python files should have lowercase names with no spaces",
+    "description": "Warning text for uppercase Pyton file name or space"
+  },
+  "name-not-empty": {
+    "defaultMessage": "The name cannot be empty",
+    "description": "Warning text for new Pyton file with empty name"
+  },
+  "create-file": {
+    "defaultMessage": "Create new file",
+    "description": "Create new file button text"
+  },
+  "flash-text": {
+    "defaultMessage": "Flash",
+    "description": "Text of Flash button"
+  },
+  "flash-project": {
+    "defaultMessage": "Flash the project directly to the micro:bit",
+    "description": "Hover text over flash button"
+  },
+  "name-project": {
+    "defaultMessage": "Name your project",
+    "description": "Name your project header"
+  },
+  "back-to-main": {
+    "defaultMessage": "back to the main code",
+    "description": "Text button, takes back to main code"
+  },
+  "already-exists": {
+    "defaultMessage": "This file already exists",
+    "description": "File already exists notification text"
+  },
+  "cancel": {
+    "defaultMessage": "Cancel",
+    "description": "Cancel button text"
+  },
+  "copy": {
+    "defaultMessage": "Copy",
+    "description": "Copy to clipboard action text"
+  },
+  "copied": {
+    "defaultMessage": "Copied",
+    "description": "Text shown after copy to clipboard"
+  },
+  "about": {
+    "defaultMessage": "About",
+    "description": "About action"
+  },
+  "about-text": {
+    "defaultMessage": "Made with love by the <link>Micro:bit Educational Foundation and contributors</link>",
+    "description": "Text in about dialog"
+  },
+  "terms-of-use": {
+    "defaultMessage": "Terms of use",
+    "description": "Terms of use menu option text"
+  },
+  "support": {
+    "defaultMessage": "Support",
+    "description": "Support menu option text"
+  },
+  "documentation": {
+    "defaultMessage": "Documentation",
+    "description": "Documentation menu option text"
+  },
+  "help-translate": {
+    "defaultMessage": "Help Translate",
+    "description": "Help translate  menu option text"
+  },
+  "close-button": {
+    "defaultMessage": "Close",
+    "description": "Close button text"
+  },
+  "highlight-structure": {
+    "defaultMessage": "Highlight code structure",
+    "description": "Highlight code option text"
+  },
+  "font-size": {
+    "defaultMessage": "Font size",
+    "description": "Font size option text"
+  },
+  "language": {
+    "defaultMessage": "Language",
+    "description": "Language option text"
+  },
+  "settings": {
+    "defaultMessage": "Settings",
+    "description": "Settings text"
+  },
+  "create-python": {
+    "defaultMessage": "Create a new Python file",
+    "description": "Hover text over create Python file button"
+  },
+  "download-python": {
+    "defaultMessage": "Download Python script",
+    "description": "Download button menu option for downloading Python script"
+  },
+  "download-hover": {
+    "defaultMessage": "Download a project hex file",
+    "description": "Hover text over download button"
+  },
+  "load-hover": {
+    "defaultMessage": "Load a hex or Python file or add other files",
+    "description": "Hover text over load button"
+  },
+  "load-button": {
+    "defaultMessage": "Load…",
+    "description": "Load button text"
+  },
+  "download-button": {
+    "defaultMessage": "Download",
+    "description": "Download button text"
+  },
+  "connect-button": {
+    "defaultMessage": "Connect",
+    "description": "Connect button text"
+  },
+  "disconnect-button": {
+    "defaultMessage": "Disconnect",
+    "description": "Disconnect button text"
+  },
+  "connect-hover": {
+    "defaultMessage": "Connect to your micro:bit over WebUSB",
+    "description": "Connect button hover text"
+  },
+  "disconnect-hover": {
+    "defaultMessage": "Disconnect from the micro:bit",
+    "description": "Disconnect button hover text"
+  },
+  "new-file-hint": {
+    "defaultMessage": "We'll add the <code>.py</code> extension for you.",
+    "description": "Hint shown in the new Python file dialog"
+  },
+  "webusb-error-update-req-description": {
+    "defaultMessage": "You need to <link>update your micro:bit firmware</link> to make use of this feature.",
+    "description": "WebUSB error telling user to update firmware"
+  },
+  "webusb-error-default-title": {
+    "defaultMessage": "WebUSB error",
+    "description": "Default title for error messages relating to WebUSB"
+  },
+  "webusb-error-clear-connect-title": {
+    "defaultMessage": "Unable to claim interface",
+    "description": "Title of error for WebUsb connection"
+  },
+  "webusb-error-update-req-title": {
+    "defaultMessage": "Please update the micro:bit firmware",
+    "description": "Error text telling user to update firmware"
+  },
+  "failed-to-build-hex": {
+    "defaultMessage": "Failed to build the hex file",
+    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+  },
+  "load-error-title": {
+    "defaultMessage": "Cannot load {fileCount, plural, one {file} other {files}}",
+    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "load-error-mpy": {
+    "defaultMessage": "This version of the Python Editor doesn't currently support adding .mpy files.",
+    "description": "Load error message"
+  },
+  "load-error-mixed": {
+    "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
+    "description": "Load error message"
+  }
+}
