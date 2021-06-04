@@ -39,7 +39,7 @@ class VisualBlock {
     body.style.left = this.body.left + "px";
     body.style.top = this.body.top + "px";
     body.style.height = this.body.height + "px";
-    body.style.width = `calc(100% - ${this.parent.left}px)`;
+    body.style.width = `calc(100% - ${this.body.left}px)`;
     body.style.borderTopLeftRadius = "unset";
   }
 
