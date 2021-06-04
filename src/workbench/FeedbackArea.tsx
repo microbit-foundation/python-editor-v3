@@ -2,6 +2,8 @@ import { Center, Link, Text, VStack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import FeedbackForm from "./FeedbackForm";
+import { FormattedMessage, useIntl, injectIntl } from "react-intl";
+import { IntlProvider } from "react-intl";
 
 const FeedbackArea = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -11,6 +13,7 @@ const FeedbackArea = () => {
   const closeDialog = useCallback(() => {
     setDialogOpen(false);
   }, [setDialogOpen]);
+  const intl = useIntl();
   return (
     <VStack
       mt="calc(2.6rem + 11.5vh)"
@@ -20,7 +23,15 @@ const FeedbackArea = () => {
       alignItems="stretch"
     >
       <Text>
-        Hi! This is an alpha release of the new micro:bit Python editor.
+        {/* <FormattedMessage
+          description="A message"
+          defaultMessage="Hi! This is an alpha release of the new micro:bit Python editor. \n We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.\n This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the main editor.\n Help us improve by providing your feedback."
+        /> */}
+        {intl.formatMessage({
+          defaultMessage:
+            "Hi! This is an alpha release of the new micro:bit Python editor. \n We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.\n This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the main editor.\n Help us improve by providing your feedback.",
+          description: "placeholder text",
+        })}
       </Text>
       <Text>
         We’ve started by making sure it has all the features from the current
