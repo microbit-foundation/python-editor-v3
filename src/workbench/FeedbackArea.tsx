@@ -12,7 +12,7 @@ const FeedbackArea = () => {
   const closeDialog = useCallback(() => {
     setDialogOpen(false);
   }, [setDialogOpen]);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <VStack
       mt="calc(2.6rem + 11.5vh)"
