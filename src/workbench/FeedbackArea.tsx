@@ -30,6 +30,7 @@ const FeedbackArea = () => {
         {intl.formatMessage({
           defaultMessage:
             "Hi! This is an alpha release of the new micro:bit Python editor. \n We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.\n This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the main editor.\n Help us improve by providing your feedback.",
+          id: "p+bYfA",
           description: "placeholder text",
         })}
       </Text>

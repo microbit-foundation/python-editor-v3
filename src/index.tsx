@@ -4,12 +4,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { IntlProvider } from "react-intl";
 
-function loadLocaleData(locale: string) {
+async function loadLocaleData(locale: string) {
   switch (locale) {
     case "fr":
-      return import("lang/en.json");
+      return (await import("./compiled-lang/fr.json")).default;
     default:
-      return import("lang/en.json");
+      return (await import("./compiled-lang/en.json")).default;
   }
 }
 
@@ -25,7 +25,7 @@ const bootstrapApplication = async (locale: string, root: HTMLElement) => {
   );
 };
 
-bootstrapApplication("en", document.getElementById("root")!);
+bootstrapApplication("fr", document.getElementById("root")!);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
