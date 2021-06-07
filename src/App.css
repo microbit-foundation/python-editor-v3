@@ -10,7 +10,7 @@
 
 html {
   /* Used in blocks.ts */
-  --block: rgba(52, 162, 235, 0.06);
+  --block: rgba(123, 205, 194, 0.1); /* blimpTeal.50 with opacity */
 }
 
 :root {
