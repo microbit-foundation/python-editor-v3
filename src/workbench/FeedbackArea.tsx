@@ -2,8 +2,7 @@ import { Center, Link, Text, VStack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import FeedbackForm from "./FeedbackForm";
-import { FormattedMessage, useIntl, injectIntl } from "react-intl";
-import { IntlProvider } from "react-intl";
+import { useIntl } from "react-intl";
 
 const FeedbackArea = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
