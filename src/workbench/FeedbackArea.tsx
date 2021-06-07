@@ -2,6 +2,7 @@ import { Center, Link, Text, VStack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import FeedbackForm from "./FeedbackForm";
+import { useTranslation } from "react-i18next";
 
 const FeedbackArea = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -11,6 +12,7 @@ const FeedbackArea = () => {
   const closeDialog = useCallback(() => {
     setDialogOpen(false);
   }, [setDialogOpen]);
+  const { t, i18n } = useTranslation();
   return (
     <VStack
       mt="calc(2.6rem + 11.5vh)"
@@ -20,7 +22,8 @@ const FeedbackArea = () => {
       alignItems="stretch"
     >
       <Text>
-        Hi! This is an alpha release of the new micro:bit Python editor.
+        {t("Feedback Text")}
+        {/* Hi! This is an alpha release of the new micro:bit Python editor. */}
       </Text>
       <Text>
         We’ve started by making sure it has all the features from the current
