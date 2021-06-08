@@ -4,19 +4,15 @@ import { initReactI18next } from "react-i18next";
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
-const resources = {
-  en: {
-    translation: {
-      "Feedback Text":
-        "Hi! This is an alpha release of the new micro:bit Python editor.",
+const resources = async () => {
+  return {
+    en: {
+      translation: await import("./lang/en.json").default,
     },
-  },
-  fr: {
-    translation: {
-      "Feedback Text":
-        "Salut! C'est une version alpha du nouvel éditeur Python micro:bit.",
+    fr: {
+      translation: import("./lang/fr.json").default,
     },
-  },
+  };
 };
 
 i18n
