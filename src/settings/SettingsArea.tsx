@@ -73,7 +73,11 @@ const SettingsArea = () => {
           maxWidth="16ch"
         >
           {config.supportedLanguages.map((language) => (
-            <option key={language.id} value={language.id}>
+            <option
+              key={language.id}
+              value={language.id}
+              selected={language.id === settings.languageId}
+            >
               {language.name}
             </option>
           ))}

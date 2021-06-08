@@ -16,6 +16,10 @@ const config = {
       id: "en",
       name: "English",
     },
+    {
+      id: "fr",
+      name: "French",
+    },
   ],
 };
 

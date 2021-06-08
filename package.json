@@ -62,7 +62,6 @@
     "ci:update-version": "update-ci-version",
     "deploy": "website-deploy-aws",
     "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
-    "extract": "formatjs extract 'src/**/*.ts*' --ignore 'src/**/*.d.ts' --out-file lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
     "compile": "formatjs compile"
   },
   "eslintConfig": {
@@ -85,8 +84,6 @@
   },
   "devDependencies": {
     "@formatjs/cli": "^4.2.18",
-    "@formatjs/ts-transformer": "^3.4.0",
-    "babel-plugin-formatjs": "^10.2.17",
     "canvas": "^2.7.0",
     "pptr-testing-library": "^0.6.4",
     "prettier": "^2.2.1",
