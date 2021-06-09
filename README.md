@@ -1,10 +1,10 @@
 # Development version of the next micro:bit Python editor
 
-_This project is a development version of the next major version of the editor. It is not ready for use._
+_This project is an alpha version of the next major version of the editor. The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor._
 
-This project is a web-based editor that targets the [MicroPython](https://micropython.org) version of the [Python programming language](http://python.org/). Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
+This project is a web-based code editor that targets the [MicroPython](https://micropython.org) version of the [Python programming language](http://python.org/).
 
-The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor.
+Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
 
 ## Licensing
 
@@ -14,15 +14,17 @@ The Adobe Source Code Pro font used for code is copyright Adobe and licensed und
 
 ## Developing the editor
 
-The editor is written in TypeScript using React.
+The editor is written in TypeScript using React. We use the Chakra UI component library and [CodeMirror 6](https://codemirror.net/6/) editor component.
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 To learn TypeScript, check out the [TypeScript documentation](https://www.typescriptlang.org/).
 
-This early prototype uses the [Chakra UI](https://chakra-ui.com/) component library.
+To learn more about Chakra UI check out the [component library documentation](https://chakra-ui.com/docs/getting-started).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+If you use Visual Studio Code you might find the devcontainer included in this repository a useful option to get an automatically configured development environment. [Find out more about containers and Visual Studio Code](https://code.visualstudio.com/docs/remote/containers).
 
 ## Deployments
 
@@ -40,6 +42,8 @@ Other branches (e.g. for PRs) are deployed to https://review-python-editor-next.
 2. Checkout this repository.
 3. Install the dependencies via `npm install`.
 4. Choose from the NPM scripts documented below.
+
+If you're using the devcontainer with Visual Studio Code then the "Clone a repository from GitHub in a Container Volume" action will address steps 1 through 3.
 
 ### `npm start`
 
