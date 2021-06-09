@@ -39,17 +39,19 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
           {supportedLanguages.map((language) => (
             <MenuItem key={language.id}>{language.name}</MenuItem>
           ))}
-          <MenuDivider />
           {deployment.translationLink && (
-            <MenuItem
-              as="a"
-              href={deployment.translationLink}
-              target="_blank"
-              rel="noopener"
-              icon={<RiExternalLinkLine />}
-            >
-              Help translate
-            </MenuItem>
+            <>
+              <MenuDivider />
+              <MenuItem
+                as="a"
+                href={deployment.translationLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                Help translate
+              </MenuItem>
+            </>
           )}
         </MenuList>
       </Portal>
