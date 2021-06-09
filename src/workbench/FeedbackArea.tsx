@@ -24,18 +24,19 @@ const FeedbackArea = () => {
         <FormattedMessage id="welcome-message" />
       </Text>
       <Text>
-        We’ve started by making sure it has all the features from the current
-        editor. Soon we will start adding new features.
+        <FormattedMessage id="new-features" />
       </Text>
       <Text>
-        This means the editor could change rapidly, and sometimes things might
-        break. If you want to use a stable editor please use the{" "}
+        {/* order?? */}
+        <FormattedMessage id="link-editor" />{" "}
         <Link color="brand.500" href="https://python.microbit.org">
           main editor
         </Link>
         .
       </Text>
-      <Text>Help us improve by providing your feedback.</Text>
+      <Text>
+        <FormattedMessage id="provide-feedback" />
+      </Text>
       <Center>
         <Button size="lg" onClick={openDialog}>
           Feedback

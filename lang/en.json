@@ -1,6 +1,22 @@
 {
+  "download-button": {
+    "defaultMessage": "Download",
+    "description": "Download button text"
+  },
+  "provide-feedback": {
+    "defaultMessage": "Help us improve by providing your feedback.",
+    "description": "placeholder text"
+  },
+  "link-editor": {
+    "defaultMessage": "This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the",
+    "description": "placeholder text"
+  },
+  "new-features": {
+    "defaultMessage": "We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.",
+    "description": "placeholder text"
+  },
   "welcome-message": {
-    "defaultMessage": "Hi! This is an alpha release of the new micro:bit Python editor. We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features. This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the main editor. Help us improve by providing your feedback.",
+    "defaultMessage": "Hi! This is an alpha release of the new micro:bit Python editor.",
     "description": "placeholder text"
   }
 }

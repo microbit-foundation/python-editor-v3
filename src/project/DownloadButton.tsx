@@ -1,5 +1,6 @@
 import { Tooltip } from "@chakra-ui/react";
 import { RiDownload2Line } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import CollapsableButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
@@ -18,6 +19,7 @@ interface DownloadButtonProps
  */
 const DownloadButton = (props: DownloadButtonProps) => {
   const actions = useProjectActions();
+  const intl = useIntl();
   return (
     <Tooltip hasArrow placement="top-start" label="Download a project hex file">
       <CollapsableButton
@@ -25,7 +27,9 @@ const DownloadButton = (props: DownloadButtonProps) => {
         variant="solid"
         icon={<RiDownload2Line />}
         onClick={actions.download}
-        text="Download"
+        text={intl.formatMessage({
+          id: "download-button",
+        })}
       />
     </Tooltip>
   );

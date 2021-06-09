@@ -7,7 +7,7 @@ async function loadLocaleData(locale: string) {
     case "fr":
       return (await import("./fr.json")).default;
     default:
-      return (await import("./en.json")).default;
+      return (await import("./fr.json")).default;
   }
 }
 
@@ -28,7 +28,7 @@ const TranslationProvider = ({ children }: TranslationProviderProps) => {
     load();
   }, [languageId]);
   return messages ? (
-    <IntlProvider locale={languageId} defaultLocale="en" messages={messages}>
+    <IntlProvider locale={languageId} defaultLocale="fr" messages={messages}>
       {children}
     </IntlProvider>
   ) : null;
