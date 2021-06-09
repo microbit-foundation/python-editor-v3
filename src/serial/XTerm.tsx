@@ -3,11 +3,14 @@ import { useEffect, useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
+import {
+  backgroundColorTerm,
+  codeFontFamily,
+  defaultCodeFontSizePt,
+} from "../brand/misc";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { useDevice } from "../device/device-hooks";
-import { backgroundColorTerm, codeFontFamily } from "../theme";
-import { defaultCodeFontSizePt } from "../theme";
 
 const ptToPixelRatio = 96 / 72;
 

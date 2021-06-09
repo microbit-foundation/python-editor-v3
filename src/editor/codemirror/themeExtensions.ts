@@ -1,5 +1,5 @@
 import { EditorView } from "@codemirror/view";
-import { codeFontFamily } from "../../theme";
+import { codeFontFamily } from "../../brand/misc";
 
 export const themeExtensions = (fontSizePt: number) => {
   const fontSize = `${fontSizePt}pt`;

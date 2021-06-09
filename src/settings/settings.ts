@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
+import { defaultCodeFontSizePt } from "../brand/misc";
 import config from "../config";
-import { defaultCodeFontSizePt } from "../theme";
 
 export interface Language {
   id: string;
