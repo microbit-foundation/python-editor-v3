@@ -15,6 +15,7 @@ import {
 } from "./fs";
 import { MicroPythonSource } from "./micropython";
 import { BoardId } from "../device/board-id";
+import { defaultProjectName } from "./storage";
 
 const hexes = Promise.all([
   fs.readFileSync("src/fs/microbit-micropython-v1.hex", {
@@ -80,7 +81,7 @@ describe("Filesystem", () => {
 
   it("can manage the project name", async () => {
     expect(ufs.dirty).toEqual(false);
-    expect(ufs.project.name).toEqual(config.defaultProjectName);
+    expect(ufs.project.name).toEqual(defaultProjectName);
     await ufs.setProjectName("test 1");
     expect(ufs.dirty).toEqual(true);
     expect(ufs.project.name).toEqual("test 1");

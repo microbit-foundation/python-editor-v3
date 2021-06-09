@@ -1,7 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
-import { useBrand } from "./brand";
+import { useDeployment } from "./deployment";
 import { DialogProvider } from "./common/use-dialogs";
 import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
@@ -43,11 +43,11 @@ const App = () => {
     defaultSettings
   );
 
-  const brand = useBrand();
+  const deployment = useDeployment();
   return (
     <>
       <VisualViewPortCSSVariables />
-      <ChakraProvider theme={brand.chakraTheme}>
+      <ChakraProvider theme={deployment.chakraTheme}>
         <LoggingContext.Provider value={logging}>
           <SettingsContext.Provider value={settings}>
             <DialogProvider>

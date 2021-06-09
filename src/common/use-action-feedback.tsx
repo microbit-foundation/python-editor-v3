@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
-import { Link, useToast } from "@chakra-ui/react";
-import { useMemo } from "react";
-import config from "../config";
-import { useLogging } from "../logging/logging-hooks";
+import { useToast } from "@chakra-ui/react";
+import { ReactNode, useMemo } from "react";
+import { deployment } from "../deployment";
 import { Logging } from "../logging/logging";
+import { useLogging } from "../logging/logging-hooks";
+import MaybeLink from "./MaybeLink";
 
 export class ActionFeedback {
   constructor(
@@ -33,7 +33,7 @@ export class ActionFeedback {
       description,
       position: "top",
       isClosable: true,
-      variant: "toast"
+      variant: "toast",
     });
   }
 
@@ -55,7 +55,7 @@ export class ActionFeedback {
       description,
       position: "top",
       isClosable: true,
-      variant: "toast"
+      variant: "toast",
     });
   }
 
@@ -70,7 +70,7 @@ export class ActionFeedback {
       position: "top",
       isClosable: false,
       duration: 2000, // Quicker than for errors,
-      variant: "toast"
+      variant: "toast",
     });
   }
 
@@ -86,14 +86,14 @@ export class ActionFeedback {
       description: (
         <>
           Please try again or{" "}
-          <Link
-            href={config.supportLink}
+          <MaybeLink
+            href={deployment.supportLink}
             target="_blank"
             rel="noopener"
             textDecoration="underline"
           >
             raise a support request
-          </Link>
+          </MaybeLink>
           .
         </>
       ),

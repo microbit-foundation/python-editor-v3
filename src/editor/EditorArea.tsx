@@ -1,5 +1,5 @@
 import { Box, BoxProps, Flex, Link } from "@chakra-ui/react";
-import { useBrand } from "../brand";
+import { useDeployment } from "../deployment";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
@@ -19,7 +19,7 @@ const EditorArea = ({
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
-  const brand = useBrand();
+  const brand = useDeployment();
   const spacingFromRight = "1.5rem";
   return (
     <Flex

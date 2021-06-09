@@ -14,7 +14,7 @@ import {
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiFolderLine } from "react-icons/ri";
-import { useBrand } from "../brand";
+import { useDeployment } from "../deployment";
 import PythonLogo from "../common/PythonLogo";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
@@ -81,7 +81,7 @@ const cornerSize = 32;
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   const width = "5rem";
-  const brand = useBrand();
+  const brand = useDeployment();
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
       <Tabs

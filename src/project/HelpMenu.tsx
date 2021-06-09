@@ -18,7 +18,7 @@ import {
 } from "react-icons/ri";
 import Separate, { br } from "../common/Separate";
 import useActionFeedback from "../common/use-action-feedback";
-import config from "../config";
+import { deployment } from "../deployment";
 import { microPythonVersions } from "../fs/micropython";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
@@ -58,31 +58,35 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
         <MenuList>
           <MenuItem
             as="a"
-            href={config.documentationLink}
+            href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
             target="_blank"
             rel="noopener"
             icon={<RiExternalLinkLine />}
           >
             Documentation
           </MenuItem>
-          <MenuItem
-            as="a"
-            href={config.supportLink}
-            target="_blank"
-            rel="noopener"
-            icon={<RiExternalLinkLine />}
-          >
-            Support
-          </MenuItem>
-          <MenuItem
-            as="a"
-            href={config.termsOfUseLink}
-            target="_blank"
-            rel="noopener"
-            icon={<RiExternalLinkLine />}
-          >
-            Terms of use
-          </MenuItem>
+          {deployment.supportLink && (
+            <MenuItem
+              as="a"
+              href={deployment.supportLink}
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
+            >
+              Support
+            </MenuItem>
+          )}
+          {deployment.termsOfUseLink && (
+            <MenuItem
+              as="a"
+              href={deployment.termsOfUseLink}
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
+            >
+              Terms of use
+            </MenuItem>
+          )}
           <MenuDivider />
           {/* shift the icon to align with the first line of content */}
           <MenuItem

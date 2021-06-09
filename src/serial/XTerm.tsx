@@ -7,7 +7,7 @@ import {
   backgroundColorTerm,
   codeFontFamily,
   defaultCodeFontSizePt,
-} from "../brand/misc";
+} from "../deployment/misc";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { useDevice } from "../device/device-hooks";
