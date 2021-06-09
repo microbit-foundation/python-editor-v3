@@ -7,7 +7,7 @@ async function loadLocaleData(locale: string) {
     case "fr":
       return (await import("./fr.json")).default;
     default:
-      return (await import("./fr.json")).default;
+      return (await import("./en.json")).default;
   }
 }
 

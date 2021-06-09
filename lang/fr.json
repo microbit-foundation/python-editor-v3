@@ -1,22 +1,22 @@
 {
   "download-button": {
-    "defaultMessage": "Télécharger",
+    "message": "Télécharger",
     "description": "Download button text"
   },
   "provide-feedback": {
-    "defaultMessage": "Aidez-nous à nous améliorer en nous faisant part de vos commentaires.",
+    "message": "Aidez-nous à nous améliorer en nous faisant part de vos commentaires.",
     "description": "placeholder text"
   },
   "link-editor": {
-    "defaultMessage": "Cela signifie que l'éditeur peut changer rapidement, et parfois les choses peuvent casser. Si vous souhaitez utiliser un éditeur stable, veuillez utiliser le",
+    "message": "Cela signifie que l'éditeur peut changer rapidement, et parfois les choses peuvent casser. Si vous souhaitez utiliser un éditeur stable, veuillez utiliser le",
     "description": "placeholder text"
   },
   "new-features": {
-    "defaultMessage": "Nous avons commencé par nous assurer qu'il possède toutes les fonctionnalités de l'éditeur actuel. Bientôt, nous commencerons à ajouter de nouvelles fonctionnalités.",
+    "message": "Nous avons commencé par nous assurer qu'il possède toutes les fonctionnalités de l'éditeur actuel. Bientôt, nous commencerons à ajouter de nouvelles fonctionnalités.",
     "description": "placeholder text"
   },
   "welcome-message": {
-    "defaultMessage": "Salut! C'est une version alpha du nouvel éditeur Python micro:bit.",
+    "message": "Salut! C'est une version alpha du nouvel éditeur Python micro:bit.",
     "description": "placeholder text"
   }
 }

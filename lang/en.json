@@ -1,22 +1,22 @@
 {
   "download-button": {
-    "defaultMessage": "Download",
+    "message": "Download",
     "description": "Download button text"
   },
   "provide-feedback": {
-    "defaultMessage": "Help us improve by providing your feedback.",
+    "message": "Help us improve by providing your feedback.",
     "description": "placeholder text"
   },
   "link-editor": {
-    "defaultMessage": "This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the",
+    "message": "This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the",
     "description": "placeholder text"
   },
   "new-features": {
-    "defaultMessage": "We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.",
+    "message": "We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.",
     "description": "placeholder text"
   },
   "welcome-message": {
-    "defaultMessage": "Hi! This is an alpha release of the new micro:bit Python editor.",
+    "message": "Hi! This is an alpha release of the new micro:bit Python editor.",
     "description": "placeholder text"
   }
 }
