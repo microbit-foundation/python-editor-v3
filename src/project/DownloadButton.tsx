@@ -21,7 +21,13 @@ const DownloadButton = (props: DownloadButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   return (
-    <Tooltip hasArrow placement="top-start" label="Download a project hex file">
+    <Tooltip
+      hasArrow
+      placement="top-start"
+      label={intl.formatMessage({
+        id: "download-hover",
+      })}
+    >
       <CollapsableButton
         {...props}
         variant="solid"

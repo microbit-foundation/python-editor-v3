@@ -1,4 +1,5 @@
 import { BoxProps, Button, HStack, Text } from "@chakra-ui/react";
+import { FormattedMessage } from "react-intl";
 import { MAIN_FILE } from "../fs/fs";
 
 interface ActiveFileInfoProps extends BoxProps {
@@ -38,7 +39,7 @@ const ActiveFileInfo = ({
             textDecoration="underline"
             onClick={() => onSelectedFileChanged(MAIN_FILE)}
           >
-            back to the main code
+            <FormattedMessage id="back-to-main" />
           </Button>
         </>
       )}

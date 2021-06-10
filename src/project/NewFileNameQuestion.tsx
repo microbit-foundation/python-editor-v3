@@ -37,6 +37,7 @@ const NewFileNameQuestion = ({
         }}
       ></Input>
       <FormHelperText color="gray.700">
+        {/* come back later */}
         We'll add the <code>.py</code> extension for you.
       </FormHelperText>
       <FormErrorMessage>{error}</FormErrorMessage>

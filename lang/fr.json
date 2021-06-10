@@ -1,22 +1,102 @@
 {
+  "name-project": {
+    "defaultMessage": "Nommez votre projet",
+    "description": "Name your project header"
+  },
+  "back-to-main": {
+    "defaultMessage": "Retour au code principal",
+    "description": "Text button, takes back to main code"
+  },
+  "already-exists": {
+    "defaultMessage": "Ce fichier existe déjà",
+    "description": "File already exists notification text"
+  },
+  "cancel": {
+    "defaultMessage": "Supprimer",
+    "description": "Cancel button text"
+  },
+  "copy-clipboard": {
+    "defaultMessage": "Copier la version dans le presse-papiers",
+    "description": "Copy version to clipboard menu option text"
+  },
+  "terms-of-use": {
+    "defaultMessage": "Conditions d'utilisation",
+    "description": "Terms of use menu option text"
+  },
+  "support": {
+    "defaultMessage": "Support",
+    "description": "Support menu option text"
+  },
+  "documentation": {
+    "defaultMessage": "Documentation",
+    "description": "Documentation menu option text"
+  },
+  "help-translate": {
+    "defaultMessage": "Aider à traduire",
+    "description": "Help translate text"
+  },
+  "close-button": {
+    "defaultMessage": "Fermer",
+    "description": "Close button text"
+  },
+  "highlight-structure": {
+    "defaultMessage": "Surligner la structure du code",
+    "description": "Highlight code text"
+  },
+  "font-size": {
+    "defaultMessage": "Taille de police",
+    "description": "Language text"
+  },
+  "language": {
+    "defaultMessage": "Langue",
+    "description": "Language text"
+  },
+  "settings": {
+    "defaultMessage": "Paramètres ",
+    "description": "Settings text"
+  },
+  "create-python": {
+    "defaultMessage": "Créer un nouveau fichier Python",
+    "description": "Hover "
+  },
+  "download-python": {
+    "defaultMessage": "Télécharger le script Python",
+    "description": "Download button menu option for downloading Python script"
+  },
+  "download-hover": {
+    "defaultMessage": "Télécharger un fichier Hex de projet",
+    "description": "Hover over download button"
+  },
+  "load-hover": {
+    "defaultMessage": "Chargez un fichier Hex ou Python ou ajoutez d'autres fichiers",
+    "description": "Hover over share button"
+  },
+  "share-hover": {
+    "defaultMessage": "Partagez votre projet",
+    "description": "Hover over share button"
+  },
+  "load-button": {
+    "defaultMessage": "Charge...",
+    "description": "Load button text"
+  },
   "download-button": {
-    "message": "Télécharger",
+    "defaultMessage": "Télécharger",
     "description": "Download button text"
   },
   "provide-feedback": {
-    "message": "Aidez-nous à nous améliorer en nous faisant part de vos commentaires.",
+    "defaultMessage": "Aidez-nous à nous améliorer en nous faisant part de vos commentaires.",
     "description": "placeholder text"
   },
   "link-editor": {
-    "message": "Cela signifie que l'éditeur peut changer rapidement, et parfois les choses peuvent casser. Si vous souhaitez utiliser un éditeur stable, veuillez utiliser le",
+    "defaultMessage": "Cela signifie que l'éditeur peut changer rapidement, et parfois les choses peuvent casser. Si vous souhaitez utiliser un éditeur stable, veuillez utiliser le",
     "description": "placeholder text"
   },
   "new-features": {
-    "message": "Nous avons commencé par nous assurer qu'il possède toutes les fonctionnalités de l'éditeur actuel. Bientôt, nous commencerons à ajouter de nouvelles fonctionnalités.",
+    "defaultMessage": "Nous avons commencé par nous assurer qu'il possède toutes les fonctionnalités de l'éditeur actuel. Bientôt, nous commencerons à ajouter de nouvelles fonctionnalités.",
     "description": "placeholder text"
   },
   "welcome-message": {
-    "message": "Salut! C'est une version alpha du nouvel éditeur Python micro:bit.",
+    "defaultMessage": "Salut! C'est une version alpha du nouvel éditeur Python micro:bit.",
     "description": "placeholder text"
   }
 }

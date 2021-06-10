@@ -355,6 +355,7 @@ export class ProjectActions {
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f));
     const filenameWithoutExtension = await this.dialogs.input<string>({
+      // come back later
       header: "Create a new Python file",
       Body: NewFileNameQuestion,
       initialValue: "",
@@ -372,6 +373,7 @@ export class ProjectActions {
           VersionAction.INCREMENT
         );
         this.setSelection(filename);
+        // come back later: parameter
         this.actionFeedback.success({
           title: `Created ${filename}`,
         });
@@ -394,6 +396,7 @@ export class ProjectActions {
       if (
         await this.dialogs.confirm({
           header: "Confirm delete",
+          // come back later: parameter
           body: `Permanently delete ${filename}?`,
           actionLabel: "Delete",
         })
@@ -482,5 +485,6 @@ const summarizeChanges = (changes: FileChange[]) => {
 const summarizeChange = (change: FileChange): string => {
   const changeText =
     change.operation === FileOperation.REPLACE ? "Updated" : "Added";
+  // come back later: parameter
   return `${changeText} file ${change.name}`;
 };

@@ -29,6 +29,7 @@ export const validateNewFilename = (
     return "Python files should have lowercase names with no spaces";
   }
   if (exists(ensurePythonExtension(filename))) {
+    // come back later: where to define intl (useIntl is a Hook)
     return "This file already exists";
   }
   return undefined;

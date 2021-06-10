@@ -48,6 +48,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
       <Menu>
         <MenuButton
           as={IconButton}
+          // come back later: parameter
           aria-label={`${name} file actions`}
           size="md"
           variant="ghost"
@@ -59,6 +60,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
               icon={<RiEdit2Line />}
               isDisabled={!isEditableFile(name)}
               onClick={onEdit}
+              // come back later: parameter
               aria-label={`Edit ${name}`}
             >
               Edit {name}
@@ -66,6 +68,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
             <MenuItem
               icon={<RiDownload2Line />}
               onClick={() => actions.downloadFile(name)}
+              // come back later: parameter
               aria-label={`Download ${name}`}
             >
               Download {name}
@@ -76,6 +79,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
               isDisabled={isMainFile}
               aria-label={`Delete ${name}`}
             >
+              {/* come back later: parameter */}
               Delete {name}
             </MenuItem>
           </MenuList>

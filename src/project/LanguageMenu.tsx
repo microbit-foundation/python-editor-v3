@@ -10,6 +10,7 @@ import {
   ThemingProps,
 } from "@chakra-ui/react";
 import { RiEarthLine, RiExternalLinkLine } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 import config from "../config";
 
 interface LanguageMenuProps extends ThemingProps<"Menu"> {
@@ -46,7 +47,7 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
             rel="noopener"
             icon={<RiExternalLinkLine />}
           >
-            Help translate
+            <FormattedMessage id="help-translate" />
           </MenuItem>
         </MenuList>
       </Portal>

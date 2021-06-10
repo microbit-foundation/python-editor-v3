@@ -7,6 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { FormattedMessage } from "react-intl";
 import SettingsArea from "./SettingsArea";
 
 interface SettingsDialogProps {
@@ -23,14 +24,14 @@ export const SettingsDialog = ({ isOpen, onClose }: SettingsDialogProps) => {
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
-            Settings
+            <FormattedMessage id="settings" />
           </ModalHeader>
           <ModalBody>
             <SettingsArea />
           </ModalBody>
           <ModalFooter>
             <Button variant="solid" onClick={onClose}>
-              Close
+              <FormattedMessage id="close-button" />
             </Button>
           </ModalFooter>
         </ModalContent>

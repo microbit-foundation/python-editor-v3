@@ -14,6 +14,7 @@ const ProjectNameEditable = () => {
   const dialogs = useDialogs();
   const handleEdit = useCallback(async () => {
     const name = await dialogs.input<string>({
+      // come back later: property , expected (name-project id)
       header: "Name your project",
       Body: ProjectNameQuestion,
       initialValue: project.name,

@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDownload2Line, RiFlashlightFill } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
@@ -79,7 +80,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
                 icon={<RiDownload2Line />}
                 onClick={actions.downloadMainFile}
               >
-                Download Python script
+                <FormattedMessage id="download-python" />
               </MenuItem>
             </MenuList>
           </Portal>

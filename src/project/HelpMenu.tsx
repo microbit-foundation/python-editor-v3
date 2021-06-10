@@ -16,6 +16,7 @@ import {
   RiFileCopy2Line,
   RiQuestionLine,
 } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 import Separate, { br } from "../common/Separate";
 import useActionFeedback from "../common/use-action-feedback";
 import config from "../config";
@@ -63,7 +64,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             rel="noopener"
             icon={<RiExternalLinkLine />}
           >
-            Documentation
+            <FormattedMessage id="documentation" />
           </MenuItem>
           <MenuItem
             as="a"
@@ -72,7 +73,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             rel="noopener"
             icon={<RiExternalLinkLine />}
           >
-            Support
+            <FormattedMessage id="support" />
           </MenuItem>
           <MenuItem
             as="a"
@@ -81,7 +82,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             rel="noopener"
             icon={<RiExternalLinkLine />}
           >
-            Terms of use
+            <FormattedMessage id="terms-of-use" />
           </MenuItem>
           <MenuDivider />
           {/* shift the icon to align with the first line of content */}
@@ -90,7 +91,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             alignItems="top"
             onClick={handleCopyVersion}
           >
-            Copy version to clipboard
+            <FormattedMessage id="copy-clipboard" />
             <br />
             <Text as="span" fontSize="xs">
               <Separate separator={br}>{versionInfo}</Separate>

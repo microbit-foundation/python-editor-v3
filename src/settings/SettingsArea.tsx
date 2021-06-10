@@ -13,6 +13,7 @@ import {
 import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
 import React, { useCallback } from "react";
 import config from "../config";
+import { FormattedMessage } from "react-intl";
 
 /**
  * The settings area.
@@ -64,7 +65,7 @@ const SettingsArea = () => {
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Language
+          <FormattedMessage id="language" />
         </FormLabel>
         <Select
           id="language"
@@ -90,7 +91,7 @@ const SettingsArea = () => {
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Font size
+          <FormattedMessage id="font-size" />
         </FormLabel>
         <NumberInput
           id="font-size"
@@ -115,7 +116,7 @@ const SettingsArea = () => {
           fontWeight="normal"
           flex="1 1 auto"
         >
-          Highlight code structure
+          <FormattedMessage id="highlight-structure" />
         </FormLabel>
         <Switch
           id="highlight-code-structure"

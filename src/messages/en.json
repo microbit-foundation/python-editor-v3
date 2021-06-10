@@ -1,14 +1,110 @@
 {
+  "already-exists": [
+    {
+      "type": 0,
+      "value": "This file already exists"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "back to the main code"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "close-button": [
+    {
+      "type": 0,
+      "value": "Close"
+    }
+  ],
+  "copy-clipboard": [
+    {
+      "type": 0,
+      "value": "Copy version to clipboard"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Create a new Python file"
+    }
+  ],
+  "documentation": [
+    {
+      "type": 0,
+      "value": "Documentation"
+    }
+  ],
   "download-button": [
     {
       "type": 0,
       "value": "Download"
     }
   ],
+  "download-hover": [
+    {
+      "type": 0,
+      "value": "Download a project hex file"
+    }
+  ],
+  "download-python": [
+    {
+      "type": 0,
+      "value": "Download Python script"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Font size"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Help Translate"
+    }
+  ],
+  "highlight-structure": [
+    {
+      "type": 0,
+      "value": "Highlight code structure"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Language"
+    }
+  ],
   "link-editor": [
     {
       "type": 0,
       "value": "This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the"
+    }
+  ],
+  "load-button": [
+    {
+      "type": 0,
+      "value": "Load..."
+    }
+  ],
+  "load-hover": [
+    {
+      "type": 0,
+      "value": "Load a hex or Python file or add other files"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Name your project"
     }
   ],
   "new-features": [
@@ -21,6 +117,30 @@
     {
       "type": 0,
       "value": "Help us improve by providing your feedback."
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Settings"
+    }
+  ],
+  "share-hover": [
+    {
+      "type": 0,
+      "value": "Share your project"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Support"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Terms of use"
     }
   ],
   "welcome-message": [

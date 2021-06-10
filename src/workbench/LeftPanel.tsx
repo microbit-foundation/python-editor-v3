@@ -48,6 +48,7 @@ const LeftPanel = ({
       },
       {
         id: "files",
+        // come back later
         title: "Files",
         icon: RiFolderLine,
         nav: <FilesAreaNav />,

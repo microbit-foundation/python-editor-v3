@@ -7,7 +7,7 @@ async function loadLocaleData(locale: string) {
     case "fr":
       return (await import("./fr.json")).default;
     default:
-      return (await import("./en.json")).default;
+      return (await import("./fr.json")).default;
   }
 }
 
@@ -19,7 +19,7 @@ interface TranslationProviderProps {
 
 const TranslationProvider = ({ children }: TranslationProviderProps) => {
   const [{ languageId }] = useSettings();
-  // If the messages are for a different langauge (or missing) then reload them
+  // If the messages are for a different language (or missing) then reload them
   const [messages, setMessages] = useState<Messages | undefined>();
   useEffect(() => {
     const load = async () => {
