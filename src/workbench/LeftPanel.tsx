@@ -14,7 +14,7 @@ import {
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiFolderLine } from "react-icons/ri";
-import LogoFace from "../common/LogoFace";
+import { useDeployment } from "../deployment";
 import PythonLogo from "../common/PythonLogo";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
@@ -82,6 +82,7 @@ const cornerSize = 32;
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   const width = "5rem";
+  const brand = useDeployment();
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
       <Tabs
@@ -92,10 +93,10 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         onChange={setIndex}
         index={index}
       >
-        <TabList background="transparent linear-gradient(to bottom, var(--chakra-colors-brand-500) 0%, var(--chakra-colors-blimpTeal-50) 100%) 0% 0% no-repeat padding-box;">
+        <TabList>
           {/* Top margin aims to align with other logo. */}
           <Box width="3.75rem" mt="1.2rem" ml="auto" mr="auto" mb="11.5vh">
-            <LogoFace fill="white" />
+            {brand.squareLogo}
           </Box>
           {panes.map((p, i) => (
             <Tab

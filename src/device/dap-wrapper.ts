@@ -73,9 +73,7 @@ export class DAPWrapper {
     await this.daplink.connect();
     await this.cortexM.connect();
     const serialInfo = this.boardSerialInfo;
-    this.logging.log(
-      `Detected board ID ${serialInfo.id} (family ${serialInfo.familyId}; hic ${serialInfo.hic})`
-    );
+    this.logging.log(`Detected board ID ${serialInfo.id}`);
     // TODO: eventing, see https://github.com/microbit-foundation/python-editor/commit/75b5fb31a171609da90e512a1d427572bfb36981
     this._pageSize = await this.cortexM.readMem32(FICR.CODEPAGESIZE);
     this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);

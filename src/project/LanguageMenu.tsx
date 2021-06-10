@@ -14,8 +14,9 @@ import {
 import { useCallback } from "react";
 import { RiEarthLine, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import config from "../config";
 import { useSettings } from "../settings/settings";
+import { supportedLanguages } from "../settings/settings";
+import { deployment } from "../deployment";
 
 interface LanguageMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -58,22 +59,26 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
             type="radio"
             onChange={handleChangeLanguage}
           >
-            {config.supportedLanguages.map((language) => (
+            {supportedLanguages.map((language) => (
               <MenuItemOption key={language.id} value={language.id}>
                 {language.name}
               </MenuItemOption>
             ))}
           </MenuOptionGroup>
-          <MenuDivider />
-          <MenuItem
-            as="a"
-            href={config.translationLink}
-            target="_blank"
-            rel="noopener"
-            icon={<RiExternalLinkLine />}
-          >
-            <FormattedMessage id="help-translate" />
-          </MenuItem>
+          {deployment.translationLink && (
+            <>
+              <MenuDivider />
+              <MenuItem
+                as="a"
+                href={deployment.translationLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                <FormattedMessage id="help-translate" />
+              </MenuItem>
+            </>
+          )}
         </MenuList>
       </Portal>
     </Menu>

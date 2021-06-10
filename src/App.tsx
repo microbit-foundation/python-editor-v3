@@ -1,6 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
+import { useDeployment } from "./deployment";
 import { DialogProvider } from "./common/use-dialogs";
 import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
@@ -19,7 +20,6 @@ import {
   Settings,
   SettingsContext,
 } from "./settings/settings";
-import theme from "./theme";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
@@ -44,13 +44,14 @@ const App = () => {
     defaultSettings
   );
 
+  const deployment = useDeployment();
   return (
     <>
       <VisualViewPortCSSVariables />
-      <ChakraProvider theme={theme}>
-        <SettingsContext.Provider value={settings}>
-          <TranslationProvider>
-            <LoggingContext.Provider value={logging}>
+      <ChakraProvider theme={deployment.chakraTheme}>
+        <LoggingContext.Provider value={logging}>
+          <SettingsContext.Provider value={settings}>
+            <TranslationProvider>
               <DialogProvider>
                 <DeviceContext.Provider value={device}>
                   <FileSystemContext.Provider value={fs}>
@@ -63,9 +64,9 @@ const App = () => {
                   </FileSystemContext.Provider>
                 </DeviceContext.Provider>
               </DialogProvider>
-            </LoggingContext.Provider>
-          </TranslationProvider>
-        </SettingsContext.Provider>
+            </TranslationProvider>
+          </SettingsContext.Provider>
+        </LoggingContext.Provider>
       </ChakraProvider>
     </>
   );

@@ -1,9 +1,13 @@
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
-import { blocks, blocksCompartment } from "./blocks";
+import { CodeStructureHighlight } from "../../settings/settings";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
+import {
+  structureHighlighting,
+  structureHighlightingCompartment,
+} from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 
 interface CodeMirrorProps {
@@ -12,7 +16,7 @@ interface CodeMirrorProps {
   onChange: (doc: string) => void;
 
   fontSize: number;
-  highlightCodeStructure: boolean;
+  codeStructureHighlight: CodeStructureHighlight;
 }
 
 /**
@@ -28,7 +32,7 @@ const CodeMirror = ({
   className,
   onChange,
   fontSize,
-  highlightCodeStructure,
+  codeStructureHighlight,
 }: CodeMirrorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
@@ -37,9 +41,9 @@ const CodeMirror = ({
   const options = useMemo(
     () => ({
       fontSize,
-      highlightCodeStructure,
+      codeStructureHighlight,
     }),
-    [fontSize, highlightCodeStructure]
+    [fontSize, codeStructureHighlight]
   );
 
   useEffect(() => {
@@ -56,7 +60,9 @@ const CodeMirror = ({
           notify,
           editorConfig,
           // Extensions we enable/disable based on props.
-          blocksCompartment.of(options.highlightCodeStructure ? blocks() : []),
+          structureHighlightingCompartment.of(
+            structureHighlighting(options.codeStructureHighlight)
+          ),
           themeExtensionsCompartment.of(themeExtensions(options.fontSize)),
         ],
       });
@@ -84,8 +90,8 @@ const CodeMirror = ({
         themeExtensionsCompartment.reconfigure(
           themeExtensions(options.fontSize)
         ),
-        blocksCompartment.reconfigure(
-          options.highlightCodeStructure ? blocks() : []
+        structureHighlightingCompartment.reconfigure(
+          structureHighlighting(options.codeStructureHighlight)
         ),
       ],
     });

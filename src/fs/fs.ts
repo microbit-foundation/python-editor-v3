@@ -3,7 +3,6 @@ import {
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
 import EventEmitter from "events";
-import config from "../config";
 import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
@@ -12,6 +11,7 @@ import initialCode from "./initial-code";
 import { MicroPythonSource } from "./micropython";
 import { sortBy } from "lodash";
 import {
+  defaultProjectName,
   FSStorage,
   InMemoryFSStorage,
   SessionStorageFSStorage,
@@ -91,7 +91,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   project: Project = {
     files: [],
     id: generateId(),
-    name: config.defaultProjectName,
+    name: defaultProjectName,
   };
 
   constructor(

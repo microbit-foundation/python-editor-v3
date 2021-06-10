@@ -8,16 +8,6 @@
       url("./fonts/source-code-pro-v14-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-html {
-  /* Used in blocks.ts */
-  --block: rgba(52, 162, 235, 0.06);
-}
-
-:root {
-  --highlight-style-keyword: #9d4ea9;
-  --highlight-style-string: #ae1f1f;
-}
-
 /* Needed for the fallbacks below */
 @supports (height: -webkit-fill-available) {
   :root {

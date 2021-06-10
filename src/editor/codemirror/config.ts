@@ -8,7 +8,7 @@ import {
 import { Extension, EditorState, Prec, Compartment } from "@codemirror/state";
 import { history, historyKeymap } from "@codemirror/history";
 import { indentOnInput, indentUnit } from "@codemirror/language";
-import { lineNumbers } from "@codemirror/gutter";
+import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
 import { bracketMatching } from "@codemirror/matchbrackets";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
@@ -52,6 +52,7 @@ export const editorConfig: Extension = [
     override: completion,
   }),
   highlightActiveLine(),
+  highlightActiveLineGutter(),
 
   keymap.of([
     // Added, but see https://codemirror.net/6/examples/tab/ for accessibility discussion.

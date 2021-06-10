@@ -1,5 +1,5 @@
 import { EditorView } from "@codemirror/view";
-import { codeFontFamily } from "../../theme";
+import { codeFontFamily } from "../../deployment/misc";
 
 export const themeExtensions = (fontSizePt: number) => {
   const fontSize = `${fontSizePt}pt`;
@@ -18,7 +18,7 @@ export const themeExtensions = (fontSizePt: number) => {
       fontFamily,
       paddingRight: "1rem",
       border: "unset",
-      color: "gray.600",
+      color: "var(--chakra-colors-gray-600)",
     },
     ".cm-gutter": {
       width: "5rem",
@@ -34,9 +34,11 @@ export const themeExtensions = (fontSizePt: number) => {
       fontFamily,
     },
     ".cm-activeLine": {
-      // The default CM theme sets a background color.
+      backgroundColor: "var(--chakra-colors-code-activeLine)",
+    },
+    ".cm-activeLineGutter": {
       backgroundColor: "unset",
-      outline: "1px solid var(--chakra-colors-gray-100)",
+      color: "var(--chakra-colors-gray-800)",
     },
     // $wrap can't be styled here, see App.css.
   });

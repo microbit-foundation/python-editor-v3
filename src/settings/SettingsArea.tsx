@@ -1,19 +1,23 @@
 import {
-  VStack,
+  FormControl,
+  FormLabel,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Switch,
-  FormControl,
-  FormLabel,
   Select,
+  VStack,
 } from "@chakra-ui/react";
-import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
 import React, { useCallback } from "react";
-import config from "../config";
 import { FormattedMessage } from "react-intl";
+import {
+  CodeStructureHighlight,
+  maximumFontSize,
+  minimumFontSize,
+  supportedLanguages,
+  useSettings,
+} from "./settings";
 
 /**
  * The settings area.
@@ -40,12 +44,15 @@ const SettingsArea = () => {
     },
     [settings, setSettings]
   );
-  const handleChangeHighlightCodeStructure = useCallback(() => {
-    setSettings({
-      ...settings,
-      highlightCodeStructure: !settings.highlightCodeStructure,
-    });
-  }, [settings, setSettings]);
+  const handleChangeCodeStructureHighlight = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSettings({
+        ...settings,
+        codeStructureHighlight: e.currentTarget.value as CodeStructureHighlight,
+      });
+    },
+    [settings, setSettings]
+  );
   const handleChangeLanguage = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setSettings({
@@ -73,7 +80,7 @@ const SettingsArea = () => {
           onChange={handleChangeLanguage}
           maxWidth="16ch"
         >
-          {config.supportedLanguages.map((language) => (
+          {supportedLanguages.map((language) => (
             <option
               key={language.id}
               value={language.id}
@@ -111,18 +118,33 @@ const SettingsArea = () => {
       </FormControl>
       <FormControl display="flex" alignItems="center">
         <FormLabel
-          htmlFor="highlight-code-structure"
+          htmlFor="language"
           mb="0"
           fontWeight="normal"
           flex="1 1 auto"
         >
           <FormattedMessage id="highlight-structure" />
         </FormLabel>
-        <Switch
-          id="highlight-code-structure"
-          isChecked={settings.highlightCodeStructure}
-          onChange={handleChangeHighlightCodeStructure}
-        />
+        <Select
+          id="language"
+          variant="outline"
+          onChange={handleChangeCodeStructureHighlight}
+          maxWidth="16ch"
+          value={settings.codeStructureHighlight}
+        >
+          <option key="brackets" value="brackets">
+            Brackets
+          </option>
+          <option key="boxes" value="boxes">
+            Boxes
+          </option>
+          <option key="l-shapes" value="l-shapes">
+            L-shapes
+          </option>
+          <option key="l-shape-boxes" value="l-shape-boxes">
+            L-shape boxes
+          </option>
+        </Select>
       </FormControl>
     </VStack>
   );
