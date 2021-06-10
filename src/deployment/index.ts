@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { default as d } from "./microbit";
+import { default as d } from "@microbit-foundation/python-editor-next-microbit";
 export const deployment = d;
 
 export interface DeploymentConfig {

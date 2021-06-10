@@ -21,6 +21,7 @@
     "@codemirror/view": "^0.18.16",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
+    "@microbit-foundation/python-editor-next-microbit": "^0.1.0-dev.8",
     "@microbit/microbit-fs": "^0.9.1",
     "@sentry/browser": "^6.2.5",
     "@testing-library/jest-dom": "^5.11.10",
