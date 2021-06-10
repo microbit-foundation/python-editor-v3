@@ -19,15 +19,12 @@ interface DialogProviderProps {
 }
 
 export const DialogProvider = ({ children }: DialogProviderProps) => {
-  const [confirmDialogState, setConfirmDialogState] = useState<
-    ConfirmDialogParametersWithActions | undefined
-  >(undefined);
-  const [inputDialogState, setInputDialogState] = useState<
-    InputDialogParametersWithActions<any> | undefined
-  >(undefined);
-  const [progressDialogState, setProgressDialogState] = useRafState<
-    ProgressDialogParameters | undefined
-  >(undefined);
+  const [confirmDialogState, setConfirmDialogState] =
+    useState<ConfirmDialogParametersWithActions | undefined>(undefined);
+  const [inputDialogState, setInputDialogState] =
+    useState<InputDialogParametersWithActions<any> | undefined>(undefined);
+  const [progressDialogState, setProgressDialogState] =
+    useRafState<ProgressDialogParameters | undefined>(undefined);
 
   const dialogs = useMemo(
     () =>
@@ -105,6 +102,7 @@ export class Dialogs {
 export const useDialogs = () => {
   const dialogs = useContext(DialogContext);
   if (!dialogs) {
+    // come back later: to translate?
     throw new Error("Missing provider!");
   }
   return dialogs;
