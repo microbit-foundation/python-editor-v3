@@ -4,7 +4,6 @@ const colors = {
     300: "#6f6ac1",
     400: "#6e5fc1",
     500: "#6c4bc1",
-    650: "#6c4ac1",
     600: "#50388f",
     700: "#422e75",
   },
@@ -32,6 +31,15 @@ const colors = {
     600: "#a9aaa9", // Line numbers
     700: "#4c4c4c", // Muted text color, project name icon
     800: "#262626", // Main text color, active line
+  },
+  code: {
+    // Used in the CM theme which is common across deployments.
+    block: "rgba(123, 205, 194, 0.1)",
+    comment: "#6c4bc1",
+    default: "#262626",
+    keyword: "#9d4ea9",
+    literal: "#226077",
+    string: "#ae1f1f",
   },
 };
 
