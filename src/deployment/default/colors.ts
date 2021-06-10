@@ -15,6 +15,7 @@ const colors = {
     keyword: "darkblue",
     literal: "darkgreen",
     string: "green",
+    activeLine: theme.colors.gray[100],
   },
 };
 

@@ -40,6 +40,7 @@ const colors = {
     keyword: "#9d4ea9",
     literal: "#226077",
     string: "#ae1f1f",
+    activeLine: "#7bcec333",
   },
 };
 

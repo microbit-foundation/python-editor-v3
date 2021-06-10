@@ -18,7 +18,7 @@ export const themeExtensions = (fontSizePt: number) => {
       fontFamily,
       paddingRight: "1rem",
       border: "unset",
-      color: "gray.600",
+      color: "var(--chakra-colors-gray-600)",
     },
     ".cm-gutter": {
       width: "5rem",
@@ -34,7 +34,7 @@ export const themeExtensions = (fontSizePt: number) => {
       fontFamily,
     },
     ".cm-activeLine": {
-      backgroundColor: "#7bcec333",
+      backgroundColor: "var(--chakra-colors-code-activeLine)",
     },
     ".cm-activeLineGutter": {
       backgroundColor: "unset",
