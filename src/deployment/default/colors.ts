@@ -8,6 +8,14 @@ const gray = {
 const colors = {
   brand: gray,
   gray,
+  code: {
+    block: "rgba(52, 162, 235, 0.06)",
+    comment: "gray",
+    default: "black",
+    keyword: "darkblue",
+    literal: "darkgreen",
+    string: "green",
+  },
 };
 
 export default colors;
