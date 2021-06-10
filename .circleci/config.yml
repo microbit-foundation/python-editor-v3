@@ -31,7 +31,9 @@ _steps:
   install_aws_cli: &install_aws_cli
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
-    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1 @microbit-foundation/python-editor-next-microbit@0.1.0-dev.8
+    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
+  install_theme: &install_theme
+    run: npm install --no-save --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/python-editor-next-microbit@0.1.0-dev.8
   update_version: &update_version
     run: npm run ci:update-version
   build: &build
@@ -97,6 +99,7 @@ jobs:
       - *install_pip
       - *install_aws_cli
       - *install_dependencies
+      - *install_theme
       - *update_version
       - *save_npm_cache
       - *build
@@ -124,6 +127,7 @@ jobs:
       - *install_pip
       - *install_aws_cli
       - *install_dependencies
+      - *install_theme
       - *update_version
       - *save_npm_cache
       - *build
@@ -150,6 +154,7 @@ jobs:
       - *install_pip
       - *install_aws_cli
       - *install_dependencies
+      - *install_theme
       - *update_version
       - *save_npm_cache
       - *build
