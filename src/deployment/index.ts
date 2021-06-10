@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { default as d } from "@microbit-foundation/python-editor-next-microbit";
+// This is configured via a webpack alias, defaulting to ./default
+import { default as d } from "@deployment";
 export const deployment = d;
 
 export interface DeploymentConfig {
