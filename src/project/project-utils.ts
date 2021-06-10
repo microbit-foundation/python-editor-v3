@@ -1,4 +1,5 @@
 import { getLowercaseFileExtension } from "../fs/fs-util";
+import { IntlShape } from "react-intl";
 
 export const isPythonFile = (filename: string) =>
   getLowercaseFileExtension(filename) === "py";
@@ -20,10 +21,12 @@ export const isEditableFile = isPythonFile;
  */
 export const validateNewFilename = (
   filename: string,
-  exists: (f: string) => boolean
+  exists: (f: string) => boolean,
+  intl: IntlShape
 ): string | undefined => {
   if (filename.length === 0) {
-    return "The name cannot be empty";
+    // Message should be: "The name cannot be empty"
+    return intl.formatMessage({ id: "name-cannot-be-empty" });
   }
   if (!filename.match(/^[\p{Ll}_]+$/u)) {
     return "Python files should have lowercase names with no spaces";

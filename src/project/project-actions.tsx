@@ -31,6 +31,7 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import { webusbErrorMessages } from "./WebUSBErrorMessages";
+import { IntlShape } from "react-intl";
 
 export interface MainScriptChoice {
   main: string | undefined;
@@ -52,6 +53,7 @@ export class ProjectActions {
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
     private setSelection: (filename: string) => void,
+    private intl: IntlShape,
     private logging: Logging
   ) {}
 
@@ -353,7 +355,7 @@ export class ProjectActions {
 
     const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
     const validate = (filename: string) =>
-      validateNewFilename(filename, (f) => preexistingFiles.has(f));
+      validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
     const filenameWithoutExtension = await this.dialogs.input<string>({
       // come back later
       header: "Create a new Python file",
