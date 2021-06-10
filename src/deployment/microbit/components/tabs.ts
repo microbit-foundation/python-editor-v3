@@ -8,6 +8,10 @@ const Tabs = {
       };
       return {
         ...base,
+        tablist: {
+          background:
+            "transparent linear-gradient(to bottom, var(--chakra-colors-brand-500) 0%, var(--chakra-colors-blimpTeal-50) 100%) 0% 0% no-repeat padding-box;",
+        },
         tab: {
           ...base.tab,
           transition: "none",

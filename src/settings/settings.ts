@@ -1,18 +1,24 @@
 import { createContext, useContext } from "react";
-import config from "../config";
-import { defaultCodeFontSizePt } from "../theme";
+import { defaultCodeFontSizePt } from "../deployment/misc";
 
 export interface Language {
   id: string;
   name: string;
 }
 
+export const supportedLanguages = [
+  {
+    id: "en",
+    name: "English",
+  },
+];
+
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;
 export const fontSizeStep = 3;
 
 export const defaultSettings: Settings = {
-  languageId: config.supportedLanguages[0].id,
+  languageId: supportedLanguages[0].id,
   fontSize: defaultCodeFontSizePt,
   codeStructureHighlight: "brackets",
 };

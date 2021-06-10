@@ -9,15 +9,16 @@
 import { HighlightStyle, tags } from "@codemirror/highlight";
 
 export const highlightStyle = () => {
-  const dark = "var(--chakra-colors-gray-800)";
+  const dark = "var(--chakra-colors-code-default)";
   return HighlightStyle.define([
     {
       tag: tags.comment,
-      color: "var(--chakra-colors-brand-650)",
+      color: "var(--chakra-colors-code-comment)",
     },
-    { tag: tags.literal, color: "var(--chakra-colors-blimpTeal-400)" },
-    { tag: tags.string, color: "var(--highlight-style-string)" },
-    { tag: tags.keyword, color: "var(--highlight-style-keyword)" },
+
+    { tag: tags.literal, color: "var(--chakra-colors-code-literal)" },
+    { tag: tags.string, color: "var(--chakra-colors-code-string)" },
+    { tag: tags.keyword, color: "var(--chakra-colors-code-keyword)" },
     { tag: tags.name, color: dark },
     { tag: tags.meta, color: dark },
     { tag: tags.operator, color: dark },

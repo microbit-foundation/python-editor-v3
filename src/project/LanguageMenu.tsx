@@ -10,7 +10,8 @@ import {
   ThemingProps,
 } from "@chakra-ui/react";
 import { RiEarthLine, RiExternalLinkLine } from "react-icons/ri";
-import config from "../config";
+import { supportedLanguages } from "../settings/settings";
+import { deployment } from "../deployment";
 
 interface LanguageMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -35,19 +36,23 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
       />
       <Portal>
         <MenuList>
-          {config.supportedLanguages.map((language) => (
+          {supportedLanguages.map((language) => (
             <MenuItem key={language.id}>{language.name}</MenuItem>
           ))}
-          <MenuDivider />
-          <MenuItem
-            as="a"
-            href={config.translationLink}
-            target="_blank"
-            rel="noopener"
-            icon={<RiExternalLinkLine />}
-          >
-            Help translate
-          </MenuItem>
+          {deployment.translationLink && (
+            <>
+              <MenuDivider />
+              <MenuItem
+                as="a"
+                href={deployment.translationLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                Help translate
+              </MenuItem>
+            </>
+          )}
         </MenuList>
       </Portal>
     </Menu>

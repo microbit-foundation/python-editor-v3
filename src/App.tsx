@@ -1,6 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
+import { useDeployment } from "./deployment";
 import { DialogProvider } from "./common/use-dialogs";
 import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
@@ -18,7 +19,6 @@ import {
   Settings,
   SettingsContext,
 } from "./settings/settings";
-import theme from "./theme";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
@@ -43,10 +43,11 @@ const App = () => {
     defaultSettings
   );
 
+  const deployment = useDeployment();
   return (
     <>
       <VisualViewPortCSSVariables />
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={deployment.chakraTheme}>
         <LoggingContext.Provider value={logging}>
           <SettingsContext.Provider value={settings}>
             <DialogProvider>

@@ -10,11 +10,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useCallback } from "react";
-import config from "../config";
 import {
   CodeStructureHighlight,
   maximumFontSize,
   minimumFontSize,
+  supportedLanguages,
   useSettings,
 } from "./settings";
 
@@ -79,7 +79,7 @@ const SettingsArea = () => {
           onChange={handleChangeLanguage}
           maxWidth="16ch"
         >
-          {config.supportedLanguages.map((language) => (
+          {supportedLanguages.map((language) => (
             <option key={language.id} value={language.id}>
               {language.name}
             </option>
