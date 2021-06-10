@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { default as d } from "./default";
+import { default as d } from "./microbit";
 export const deployment = d;
 
 export interface DeploymentConfig {
