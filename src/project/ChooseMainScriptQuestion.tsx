@@ -87,6 +87,7 @@ const findProposedChanges = (
 // Exposed for testing.
 export const summarizeChange = (change: ProposedChange): string => {
   const changeText =
+    // come back later, property , expected
     change.operation === FileOperation.REPLACE ? "Replace" : "Add";
   const what = change.module ? "module" : "file";
   if (change.source === change.target && change.target !== MAIN_FILE) {

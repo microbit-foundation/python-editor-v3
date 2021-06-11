@@ -5,28 +5,10 @@
       "value": "This file already exists"
     }
   ],
-  "another-process": [
-    {
-      "type": 0,
-      "value": "Another process is connected to this device."
-    }
-  ],
   "back-to-main": [
     {
       "type": 0,
       "value": "back to the main code"
-    }
-  ],
-  "before-trying-again": [
-    {
-      "type": 0,
-      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
-    }
-  ],
-  "browser-not-supported": [
-    {
-      "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB."
     }
   ],
   "cancel": [
@@ -39,12 +21,6 @@
     {
       "type": 0,
       "value": "Close"
-    }
-  ],
-  "connect-microbit": [
-    {
-      "type": 0,
-      "value": "Connect to your micro:bit to see serial output here"
     }
   ],
   "copy-clipboard": [
@@ -161,18 +137,6 @@
       "value": "Name your project"
     }
   ],
-  "name-text": [
-    {
-      "type": 0,
-      "value": "Name"
-    }
-  ],
-  "name-used-when": [
-    {
-      "type": 0,
-      "value": "The name is used when you download a hex file."
-    }
-  ],
   "new-features": [
     {
       "type": 0,
@@ -209,28 +173,10 @@
       "value": "Terms of use"
     }
   ],
-  "update firmware": [
-    {
-      "type": 0,
-      "value": "update your micro:bit firmware"
-    }
-  ],
-  "use-feature": [
-    {
-      "type": 0,
-      "value": "to make use of this feature."
-    }
-  ],
   "welcome-message": [
     {
       "type": 0,
       "value": "Hi! This is an alpha release of the new micro:bit Python editor."
-    }
-  ],
-  "with-webUSB": [
-    {
-      "type": 0,
-      "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."
     }
   ]
 }

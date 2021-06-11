@@ -16,6 +16,7 @@ const ConnectDisconnectButton = () => {
     }
   }, [connected, actions]);
 
+  // come back later: property, expected
   const tooltip = connected
     ? "Disconnect from the micro:bit"
     : "Connect to your micro:bit over WebUSB";

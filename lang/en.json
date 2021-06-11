@@ -1,4 +1,60 @@
 {
+  "connect-microbit": {
+    "defaultMessage": "Connect to your micro:bit to see serial output here",
+    "description": "Text in serial area"
+  },
+  "browser-not-supported": {
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB.",
+    "description": "Part of WebUSB error message"
+  },
+  "with-webUSB": {
+    "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
+    "description": "Part of WebUSB error message"
+  },
+  "before-trying-again": {
+    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
+    "description": "Part of WebUSB error message"
+  },
+  "another-process": {
+    "defaultMessage": "Another process is connected to this device.",
+    "description": "Part of WebUSB error message"
+  },
+  "use-feature": {
+    "defaultMessage": "to make use of this feature.",
+    "description": "Part of WebUSB error message"
+  },
+  "update firmware": {
+    "defaultMessage": "update your micro:bit firmware",
+    "description": "Part of WebUSB error message"
+  },
+  "name-used-when": {
+    "defaultMessage": "The name is used when you download a hex file.",
+    "description": "Text under project name field"
+  },
+  "name-text": {
+    "defaultMessage": "Name",
+    "description": "Header for name field"
+  },
+  "lowercase-no-space": {
+    "defaultMessage": "Python files should have lowercase names with no spaces",
+    "description": "Warning text for uppercase Pyton file name or space"
+  },
+  "name-not-empty": {
+    "defaultMessage": "The name cannot be empty",
+    "description": "Warning text for new Pyton file with empty name"
+  },
+  "create-file": {
+    "defaultMessage": "Create new file",
+    "description": "Create new file button text"
+  },
+  "flash-text": {
+    "defaultMessage": "Flash",
+    "description": "Text of Flash button"
+  },
+  "flash-project": {
+    "defaultMessage": "Flash the project directly to the micro:bit",
+    "description": "Hover text over flash button"
+  },
   "name-project": {
     "defaultMessage": "Name your project",
     "description": "Name your project header"

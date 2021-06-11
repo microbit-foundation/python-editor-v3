@@ -3,7 +3,6 @@
  */
 import * as fs from "fs";
 import * as fsp from "fs/promises";
-import config from "../config";
 import { NullLogging } from "../logging/null";
 import {
   EVENT_PROJECT_UPDATED,

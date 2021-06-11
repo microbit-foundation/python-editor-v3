@@ -25,15 +25,13 @@ export const validateNewFilename = (
   intl: IntlShape
 ): string | undefined => {
   if (filename.length === 0) {
-    // Message should be: "The name cannot be empty"
-    return intl.formatMessage({ id: "name-cannot-be-empty" });
+    return intl.formatMessage({ id: "name-not-empty" });
   }
   if (!filename.match(/^[\p{Ll}_]+$/u)) {
-    return "Python files should have lowercase names with no spaces";
+    return intl.formatMessage({ id: "lowercase-no-space" });
   }
   if (exists(ensurePythonExtension(filename))) {
-    // come back later: where to define intl (useIntl is a Hook)
-    return "This file already exists";
+    return intl.formatMessage({ id: "already-exists" });
   }
   return undefined;
 };

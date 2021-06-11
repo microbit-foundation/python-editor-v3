@@ -1,3 +1,4 @@
+import { useTimeout } from "@chakra-ui/hooks";
 import { waitFor, waitForOptions } from "@testing-library/dom";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
@@ -5,6 +6,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
+import { useIntl } from "react-intl";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -221,7 +223,9 @@ export class App {
   async switchToEditing(filename: string): Promise<void> {
     await this.openFileActionsMenu(filename);
     const document = await this.document();
+    const intl = useIntl();
     const editButton = await document.findByRole("menuitem", {
+      // come back later, property , expected
       name: "Edit " + filename,
     });
     await editButton.click();
@@ -238,6 +242,7 @@ export class App {
     await this.openFileActionsMenu(filename);
     const document = await this.document();
     const editButton = await document.findByRole("menuitem", {
+      // come back later, property , expected
       name: "Edit " + filename,
     });
     return !(await isDisabled(editButton));
@@ -255,6 +260,7 @@ export class App {
     await this.openFileActionsMenu(filename);
     const document = await this.document();
     const button = await document.findByRole("menuitem", {
+      // come back later, property , expected
       name: "Delete " + filename,
     });
     await button.click();
@@ -268,6 +274,7 @@ export class App {
     await this.openFileActionsMenu(filename);
     const document = await this.document();
     const button = await document.findByRole("menuitem", {
+      // come back later, property , expected + parameter
       name: `Delete ${filename}`,
     });
 
@@ -467,6 +474,7 @@ export class App {
     await this.selectSideBar("Files");
     const document = await this.document();
     const actions = await document.findByRole("button", {
+      // come back later, property , expected + parameter
       name: `${filename} file actions`,
     });
     await actions.click();

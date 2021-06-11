@@ -6,6 +6,7 @@ import {
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { useEffect, useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 
 interface ProjectNameQuestionProps extends InputDialogBody<string> {}
@@ -26,7 +27,9 @@ const ProjectNameQuestion = ({
   }, []);
   return (
     <FormControl id="fileName" isRequired isInvalid={Boolean(error)}>
-      <FormLabel>Name</FormLabel>
+      <FormLabel>
+        <FormattedMessage id="name-text" />
+      </FormLabel>
       <Input
         ref={ref}
         type="text"
@@ -38,8 +41,9 @@ const ProjectNameQuestion = ({
         }}
       ></Input>
       <FormHelperText color="gray.700">
-        The name is used when you download a hex file.
+        <FormattedMessage id="name-used-when" />
       </FormHelperText>
+      {/* come back later: parameter */}
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   );

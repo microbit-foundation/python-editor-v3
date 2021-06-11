@@ -357,7 +357,7 @@ export class ProjectActions {
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
     const filenameWithoutExtension = await this.dialogs.input<string>({
-      // come back later
+      // come back later, parameter , expected
       header: "Create a new Python file",
       Body: NewFileNameQuestion,
       initialValue: "",
@@ -405,6 +405,7 @@ export class ProjectActions {
       ) {
         await this.fs.remove(filename);
         this.actionFeedback.success({
+          // come back later: parameter
           title: `Deleted ${filename}`,
         });
       }

@@ -1,0 +1,152 @@
+{
+  "already-exists": [
+    {
+      "type": 0,
+      "value": "Ce fichier existe déjà"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "Retour au code principal"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Supprimer"
+    }
+  ],
+  "close-button": [
+    {
+      "type": 0,
+      "value": "Fermer"
+    }
+  ],
+  "copy-clipboard": [
+    {
+      "type": 0,
+      "value": "Copier la version dans le presse-papiers"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Créer un nouveau fichier Python"
+    }
+  ],
+  "documentation": [
+    {
+      "type": 0,
+      "value": "Documentation"
+    }
+  ],
+  "download-button": [
+    {
+      "type": 0,
+      "value": "Télécharger"
+    }
+  ],
+  "download-hover": [
+    {
+      "type": 0,
+      "value": "Télécharger un fichier Hex de projet"
+    }
+  ],
+  "download-python": [
+    {
+      "type": 0,
+      "value": "Télécharger le script Python"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Taille de police"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Aider à traduire"
+    }
+  ],
+  "highlight-structure": [
+    {
+      "type": 0,
+      "value": "Surligner la structure du code"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Langue"
+    }
+  ],
+  "link-editor": [
+    {
+      "type": 0,
+      "value": "Cela signifie que l'éditeur peut changer rapidement, et parfois les choses peuvent casser. Si vous souhaitez utiliser un éditeur stable, veuillez utiliser le"
+    }
+  ],
+  "load-button": [
+    {
+      "type": 0,
+      "value": "Charge..."
+    }
+  ],
+  "load-hover": [
+    {
+      "type": 0,
+      "value": "Chargez un fichier Hex ou Python ou ajoutez d'autres fichiers"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Nommez votre projet"
+    }
+  ],
+  "new-features": [
+    {
+      "type": 0,
+      "value": "Nous avons commencé par nous assurer qu'il possède toutes les fonctionnalités de l'éditeur actuel. Bientôt, nous commencerons à ajouter de nouvelles fonctionnalités."
+    }
+  ],
+  "provide-feedback": [
+    {
+      "type": 0,
+      "value": "Aidez-nous à nous améliorer en nous faisant part de vos commentaires."
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Paramètres "
+    }
+  ],
+  "share-hover": [
+    {
+      "type": 0,
+      "value": "Partagez votre projet"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Support"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Conditions d'utilisation"
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "Salut! C'est une version alpha du nouvel éditeur Python micro:bit."
+    }
+  ]
+}

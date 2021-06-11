@@ -1,4 +1,5 @@
 import { Link, VStack } from "@chakra-ui/layout";
+import { FormattedMessage } from "react-intl";
 
 const defaultTitle = "WebUSB error";
 
@@ -7,6 +8,7 @@ export const webusbErrorMessages = {
     title: "Please update the micro:bit firmware",
     description: (
       <span>
+        {/* come back later: parameter */}
         You need to{" "}
         <Link
           target="_blank"
@@ -14,9 +16,9 @@ export const webusbErrorMessages = {
           href="https://microbit.org/firmware/"
           textDecoration="underline"
         >
-          update your micro:bit firmware
+          <FormattedMessage id="update-firmware" />
         </Link>{" "}
-        to make use of this feature.
+        <FormattedMessage id="use-feature" />
       </span>
     ),
   },
@@ -24,16 +26,18 @@ export const webusbErrorMessages = {
     title: "Unable to claim interface",
     description: (
       <VStack alignItems="stretch" mt={1}>
-        <p>Another process is connected to this device.</p>
         <p>
-          Close any other tabs that may be using WebUSB (e.g. MakeCode, Python
-          Editor), or unplug and replug the micro:bit before trying again.
+          <FormattedMessage id="another-process" />
+        </p>
+        <p>
+          <FormattedMessage id="before-trying-again" />
         </p>
       </VStack>
     ),
   },
   "reconnect-microbit": {
     title: defaultTitle,
+    // come back later, parameter , expected
     description: "Please reconnect your micro:bit and try again.",
   },
   "timeout-error": {
@@ -45,12 +49,10 @@ export const webusbErrorMessages = {
     description: (
       <VStack alignItems="stretch" mt={1}>
         <p>
-          With WebUSB you can program your micro:bit and connect to the serial
-          console directly from the online editor.
+          <FormattedMessage id="with-WebUSB" />
         </p>
         <p>
-          Unfortunately, WebUSB is not supported in this browser. We recommend
-          Chrome, or a Chrome-based browser to use WebUSB.
+          <FormattedMessage id="browser-not-supported" />
         </p>
       </VStack>
     ),
