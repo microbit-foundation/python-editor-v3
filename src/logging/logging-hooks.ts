@@ -1,10 +1,7 @@
 import { createContext, useContext } from "react";
-import { DefaultLogging } from "./default";
 import { Logging } from "./logging";
 
-export const LoggingContext = createContext<Logging | undefined>(
-  new DefaultLogging()
-);
+export const LoggingContext = createContext<Logging | undefined>(undefined);
 
 /**
  * Hook exposing logging.

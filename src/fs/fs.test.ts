@@ -4,7 +4,7 @@
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import config from "../config";
-import { NullLogging } from "../logging/null";
+import { NullLogging } from "../deployment/default/logging";
 import {
   EVENT_PROJECT_UPDATED,
   FileSystem,

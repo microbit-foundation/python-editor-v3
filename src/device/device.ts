@@ -1,6 +1,6 @@
 import EventEmitter from "events";
 import { Logging } from "../logging/logging";
-import { NullLogging } from "../logging/null";
+import { NullLogging } from "../deployment/default/logging";
 import { withTimeout, TimeoutError } from "./async-util";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
