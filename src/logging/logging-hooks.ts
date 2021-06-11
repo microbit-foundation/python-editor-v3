@@ -10,9 +10,9 @@ export const LoggingContext = createContext<Logging | undefined>(
  * Hook exposing logging.
  */
 export const useLogging = (): Logging => {
-  const fs = useContext(LoggingContext);
-  if (!fs) {
+  const logging = useContext(LoggingContext);
+  if (!logging) {
     throw new Error("Missing provider");
   }
-  return fs;
+  return logging;
 };
