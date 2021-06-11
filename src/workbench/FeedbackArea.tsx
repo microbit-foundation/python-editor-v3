@@ -39,7 +39,7 @@ const FeedbackArea = () => {
       </Text>
       <Center>
         <Button size="lg" onClick={openDialog}>
-          Feedback
+          <FormattedMessage id="feedback-text" />
         </Button>
       </Center>
       {dialogOpen && <FeedbackForm isOpen={dialogOpen} onClose={closeDialog} />}

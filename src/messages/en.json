@@ -89,6 +89,12 @@
       "value": "Download Python script"
     }
   ],
+  "feedback-text": [
+    {
+      "type": 0,
+      "value": "Feedback"
+    }
+  ],
   "flash-project": [
     {
       "type": 0,

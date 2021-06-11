@@ -1,4 +1,8 @@
 {
+  "feedback-text": {
+    "defaultMessage": "Feedback",
+    "description": "Feedback text"
+  },
   "connect-microbit": {
     "defaultMessage": "Connect to your micro:bit to see serial output here",
     "description": "Text in serial area"
