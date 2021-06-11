@@ -32,7 +32,8 @@ _steps:
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
     run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
-
+  install_theme: &install_theme
+    run: npm install --no-save --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/python-editor-next-microbit@0.1.0-dev.10
   update_version: &update_version
     run: npm run ci:update-version
   build: &build
@@ -80,8 +81,8 @@ _steps:
   configure_registry_auth: &configure_registry_auth
     run:
       name: Configure registry auth
-      # This is only needed for the deployment tools that we install globally.
-      command: sudo echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" | sudo tee -a /root/.npmrc > /dev/null
+      # One for each user as we do global and local installs.
+      command: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/repo/.npmrc && sudo echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" | sudo tee -a /root/.npmrc > /dev/null
 
 jobs:
   review:
@@ -98,6 +99,7 @@ jobs:
       - *install_pip
       - *install_aws_cli
       - *install_dependencies
+      - *install_theme
       - *update_version
       - *save_npm_cache
       - *build
@@ -125,6 +127,7 @@ jobs:
       - *install_pip
       - *install_aws_cli
       - *install_dependencies
+      - *install_theme
       - *update_version
       - *save_npm_cache
       - *build
@@ -151,6 +154,7 @@ jobs:
       - *install_pip
       - *install_aws_cli
       - *install_dependencies
+      - *install_theme
       - *update_version
       - *save_npm_cache
       - *build
