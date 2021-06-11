@@ -1,4 +1,4 @@
-import { Event, Logging } from "./logging";
+import { Event, Logging } from "../../logging/logging";
 
 export class NullLogging implements Logging {
   event(event: Event): void {}

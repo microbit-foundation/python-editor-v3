@@ -1,16 +1,15 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { useEffect } from "react";
 import "./App.css";
-import { useDeployment } from "./deployment";
 import { DialogProvider } from "./common/use-dialogs";
 import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
+import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
 import { DeviceContext } from "./device/device-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
 import { fetchMicroPython } from "./fs/micropython";
-import { DefaultLogging } from "./logging/default";
 import { LoggingContext } from "./logging/logging-hooks";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import {
@@ -23,7 +22,7 @@ import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
-const logging = new DefaultLogging();
+const logging = deployment.logging;
 const device = new MicrobitWebUSBConnection({ logging });
 const fs = new FileSystem(logging, fetchMicroPython);
 // If this fails then we retry on access.
