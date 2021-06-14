@@ -250,9 +250,24 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
-    return this.withEnrichedErrors(() =>
+    const startTime = new Date().getTime();
+    const usePartialFlashing =
+      this.status === ConnectionStatus.CONNECTED ||
+      ConnectionStatus.NOT_CONNECTED;
+
+    await this.withEnrichedErrors(() =>
       this.flashInternal(dataSource, options)
     );
+
+    const flashTime = new Date().getTime() - startTime;
+    this.logging.event({
+      type: "WebUSB-time",
+      detail: {
+        flashTime,
+        "flash-type": usePartialFlashing ? "partial-flash" : "full-flash",
+      },
+    });
+    this.logging.log("Flash complete");
   }
 
   private async flashInternal(
@@ -330,9 +345,25 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       }
     } catch (e) {
       this.log("Error during disconnection:\r\n" + e);
+      this.logging.event({
+        type: "WebUSB-error",
+        message: "error-disconnecting",
+        detail: {
+          "flash-type": "webusb",
+        },
+      });
     } finally {
       this.connection = undefined;
       this.setStatus(ConnectionStatus.NOT_CONNECTED);
+
+      this.logging.log("Disconnection complete");
+      this.logging.event({
+        type: "WebUSB-info",
+        message: "disconnected",
+        detail: {
+          "flash-type": "webusb",
+        },
+      });
     }
   }
 
@@ -363,7 +394,24 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       // Use the top-level API so any listeners reflect that we're disconnected.
       await this.disconnect();
 
-      throw enrichedError(e);
+      const enriched = enrichedError(e);
+      // Sanitise error message, replace all special chars with '-', if last char is '-' remove it
+      const errorMessage = e.message
+        ? e.message.replace(/\W+/g, "-").replace(/\W$/, "").toLowerCase()
+        : "";
+
+      this.logging.event({
+        type: "WebUSB-error",
+        message: e.code + "/" + errorMessage,
+        detail: {
+          "flash-type":
+            this.status === ConnectionStatus.CONNECTED ||
+            ConnectionStatus.NOT_CONNECTED
+              ? "partial-flash"
+              : "full-flash",
+        },
+      });
+      throw enriched;
     }
   }
 

@@ -1,4 +1,5 @@
 import { BoxProps } from "@chakra-ui/layout";
+import { useCallback } from "react";
 import FileDropTarget from "../common/FileDropTarget";
 import { useProjectActions } from "./project-hooks";
 
@@ -8,11 +9,17 @@ interface ProjectDropTargetProps extends BoxProps {
 
 const ProjectDropTarget = ({ children, ...props }: ProjectDropTargetProps) => {
   const actions = useProjectActions();
+  const handleDrop = useCallback(
+    (files: File[]) => {
+      actions.load(files, "drop-load");
+    },
+    [actions]
+  );
   return (
     <FileDropTarget
       {...props}
       data-testid="project-drop-target"
-      onFileDrop={actions.load}
+      onFileDrop={handleDrop}
     >
       {children}
     </FileDropTarget>
