@@ -11,7 +11,7 @@ const BeforeUnloadDirtyCheck = () => {
       if (fs.dirty) {
         e.preventDefault();
         // Modern browsers don't show this text to users due to abuse.
-        // come back later: parameter , expected
+        // come back later: property , expected
         e.returnValue =
           "Some of your changes have not been saved. Quit anyway?";
       }

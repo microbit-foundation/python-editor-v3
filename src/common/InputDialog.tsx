@@ -105,8 +105,10 @@ export const InputDialog = <T extends unknown>({
               ml={3}
               isDisabled={Boolean(error)}
             >
-              {/* come back later */}
-              {actionLabel}
+              <FormattedMessage
+                id="action-label"
+                values={{ actionLabel: actionLabel }}
+              />
             </Button>
           </ModalFooter>
         </ModalContent>

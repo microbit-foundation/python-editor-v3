@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProjectActions } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
@@ -28,6 +29,13 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
   const actions = useProjectActions();
+  const intl = useIntl();
+  const editFile = intl.formatMessage({ id: "edit-file" }, { name: name });
+  const deleteFile = intl.formatMessage({ id: "delete-file" }, { name: name });
+  const downloadFile = intl.formatMessage(
+    { id: "download-file" },
+    { name: name }
+  );
 
   return (
     <HStack {...props} justify="space-between" lineHeight={2}>
@@ -49,7 +57,10 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         <MenuButton
           as={IconButton}
           // come back later: parameter
-          aria-label={`${name} file actions`}
+          aria-label={intl.formatMessage(
+            { id: "file-actions" },
+            { name: name }
+          )}
           size="md"
           variant="ghost"
           icon={<MdMoreVert />}
@@ -60,27 +71,24 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
               icon={<RiEdit2Line />}
               isDisabled={!isEditableFile(name)}
               onClick={onEdit}
-              // come back later: parameter
-              aria-label={`Edit ${name}`}
+              aria-label={editFile}
             >
-              Edit {name}
+              {editFile}
             </MenuItem>
             <MenuItem
               icon={<RiDownload2Line />}
               onClick={() => actions.downloadFile(name)}
-              // come back later: parameter
-              aria-label={`Download ${name}`}
+              aria-label={downloadFile}
             >
-              Download {name}
+              {downloadFile}
             </MenuItem>
             <MenuItem
               icon={<RiDeleteBin2Line />}
               onClick={() => actions.deleteFile(name)}
               isDisabled={isMainFile}
-              aria-label={`Delete ${name}`}
+              aria-label={deleteFile}
             >
-              {/* come back later: parameter */}
-              Delete {name}
+              {deleteFile}
             </MenuItem>
           </MenuList>
         </Portal>

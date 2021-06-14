@@ -357,8 +357,7 @@ export class ProjectActions {
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
     const filenameWithoutExtension = await this.dialogs.input<string>({
-      // come back later, parameter , expected
-      header: "Create a new Python file",
+      header: this.intl.formatMessage({ id: "create-python" }),
       Body: NewFileNameQuestion,
       initialValue: "",
       actionLabel: "Create",
@@ -377,7 +376,10 @@ export class ProjectActions {
         this.setSelection(filename);
         // come back later: parameter
         this.actionFeedback.success({
-          title: `Created ${filename}`,
+          title: this.intl.formatMessage(
+            { id: "created-file" },
+            { filename: filename }
+          ),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);

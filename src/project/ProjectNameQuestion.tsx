@@ -43,8 +43,9 @@ const ProjectNameQuestion = ({
       <FormHelperText color="gray.700">
         <FormattedMessage id="name-used-when" />
       </FormHelperText>
-      {/* come back later: parameter */}
-      <FormErrorMessage>{error}</FormErrorMessage>
+      <FormErrorMessage>
+        <FormattedMessage id="error" values={{ error: error }} />
+      </FormErrorMessage>
     </FormControl>
   );
 };

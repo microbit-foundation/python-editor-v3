@@ -1,4 +1,32 @@
 {
+  "created-file": {
+    "defaultMessage": "Created {filename}",
+    "description": "Action feedback for creating a file"
+  },
+  "file-actions": {
+    "defaultMessage": "{name} file actions",
+    "description": "Header of file actions for file"
+  },
+  "error": {
+    "defaultMessage": "{error}",
+    "description": "Error of new file name"
+  },
+  "action-label": {
+    "defaultMessage": "{actionLabel}",
+    "description": "Action label for Input Dialog"
+  },
+  "delete-file": {
+    "defaultMessage": "Delete {name}",
+    "description": "Menu option to delete file"
+  },
+  "download-file": {
+    "defaultMessage": "Download {name}",
+    "description": "Menu option to download file"
+  },
+  "edit-file": {
+    "defaultMessage": "Edit {name}",
+    "description": "Menu option to edit file"
+  },
   "feedback-text": {
     "defaultMessage": "Feedback",
     "description": "Feedback text"

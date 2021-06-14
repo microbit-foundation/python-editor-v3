@@ -8,7 +8,7 @@ export const webusbErrorMessages = {
     title: "Please update the micro:bit firmware",
     description: (
       <span>
-        {/* come back later: parameter */}
+        {/* come back later: parameter weird*/}
         You need to{" "}
         <Link
           target="_blank"
@@ -37,7 +37,7 @@ export const webusbErrorMessages = {
   },
   "reconnect-microbit": {
     title: defaultTitle,
-    // come back later, parameter , expected
+    // come back later, property , expected
     description: "Please reconnect your micro:bit and try again.",
   },
   "timeout-error": {
