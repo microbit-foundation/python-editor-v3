@@ -56,7 +56,6 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
       <Menu>
         <MenuButton
           as={IconButton}
-          // come back later: parameter
           aria-label={intl.formatMessage(
             { id: "file-actions" },
             { name: name }

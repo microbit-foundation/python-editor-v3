@@ -1,4 +1,36 @@
 {
+  "quit-anyway": {
+    "defaultMessage": "Some of your changes have not been saved. Quit anyway?",
+    "description": "Quit anyway text"
+  },
+  "added": {
+    "defaultMessage": "Added",
+    "description": "Added file text"
+  },
+  "updated": {
+    "defaultMessage": "Updated",
+    "description": "Updated file text"
+  },
+  "change-file": {
+    "defaultMessage": "{changeText} file {changeName}",
+    "description": "Change made to file"
+  },
+  "deleted-file": {
+    "defaultMessage": "Deleted {filename}",
+    "description": "Confirmation message that file got deleted"
+  },
+  "permanently-delete": {
+    "defaultMessage": "Permanently delete {filename}?",
+    "description": "Confirmation question to permanently delete file"
+  },
+  "confirm-delete": {
+    "defaultMessage": "Confirm delete",
+    "description": "Confirmation header of deletion of a file"
+  },
+  "create": {
+    "defaultMessage": "Create",
+    "description": "Create action label"
+  },
   "created-file": {
     "defaultMessage": "Created {filename}",
     "description": "Action feedback for creating a file"

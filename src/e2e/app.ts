@@ -273,9 +273,9 @@ export class App {
   async canDeleteFile(filename: string): Promise<boolean> {
     await this.openFileActionsMenu(filename);
     const document = await this.document();
+    const intl = useIntl();
     const button = await document.findByRole("menuitem", {
-      // come back later, property , expected + parameter
-      name: `Delete ${filename}`,
+      name: intl.formatMessage({ id: "delete-file" }, { name: filename }),
     });
 
     return !(await isDisabled(button));
@@ -350,6 +350,7 @@ export class App {
    *
    * @param projectName The new name.
    */
+  // come back later: to translate?
   async setProjectName(projectName: string): Promise<void> {
     const document = await this.document();
     const editButton = await document.getByRole("button", {
@@ -473,9 +474,9 @@ export class App {
   private async openFileActionsMenu(filename: string): Promise<void> {
     await this.selectSideBar("Files");
     const document = await this.document();
+    const intl = useIntl();
     const actions = await document.findByRole("button", {
-      // come back later, property , expected + parameter
-      name: `${filename} file actions`,
+      name: intl.formatMessage({ id: "file-actions" }, { name: filename }),
     });
     await actions.click();
   }

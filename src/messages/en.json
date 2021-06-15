@@ -5,6 +5,12 @@
       "value": "actionLabel"
     }
   ],
+  "added": [
+    {
+      "type": 0,
+      "value": "Added"
+    }
+  ],
   "already-exists": [
     {
       "type": 0,
@@ -41,10 +47,30 @@
       "value": "Cancel"
     }
   ],
+  "change-file": [
+    {
+      "type": 1,
+      "value": "changeText"
+    },
+    {
+      "type": 0,
+      "value": " file "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
   "close-button": [
     {
       "type": 0,
       "value": "Close"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "Confirm delete"
     }
   ],
   "connect-microbit": [
@@ -57,6 +83,12 @@
     {
       "type": 0,
       "value": "Copy version to clipboard"
+    }
+  ],
+  "create": [
+    {
+      "type": 0,
+      "value": "Create"
     }
   ],
   "create-file": [
@@ -89,6 +121,16 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "Deleted "
+    },
+    {
+      "type": 1,
+      "value": "filename"
     }
   ],
   "documentation": [
@@ -247,10 +289,30 @@
       "value": "We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features."
     }
   ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "Permanently delete "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
   "provide-feedback": [
     {
       "type": 0,
       "value": "Help us improve by providing your feedback."
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "Some of your changes have not been saved. Quit anyway?"
     }
   ],
   "settings": [
@@ -281,6 +343,12 @@
     {
       "type": 0,
       "value": "update your micro:bit firmware"
+    }
+  ],
+  "updated": [
+    {
+      "type": 0,
+      "value": "Updated"
     }
   ],
   "use-feature": [

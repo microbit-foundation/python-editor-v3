@@ -195,7 +195,7 @@ export class ProjectActions {
         const data = await change.data();
         await this.fs.write(change.name, data, VersionAction.INCREMENT);
       }
-      this.actionFeedback.success(summarizeChanges(changes));
+      this.actionFeedback.success(this.summarizeChanges(changes));
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
@@ -203,7 +203,13 @@ export class ProjectActions {
 
   private findChanges(files: FileInput[]): FileChange[] {
     const currentFiles = this.fs.project.files.map((f) => f.name);
-    return findChanges(currentFiles, files);
+    const current = new Set(currentFiles);
+    return files.map((f) => ({
+      ...f,
+      operation: current.has(f.name)
+        ? FileOperation.REPLACE
+        : FileOperation.ADD,
+    }));
   }
 
   private async chooseScriptForMain(
@@ -360,7 +366,7 @@ export class ProjectActions {
       header: this.intl.formatMessage({ id: "create-python" }),
       Body: NewFileNameQuestion,
       initialValue: "",
-      actionLabel: "Create",
+      actionLabel: this.intl.formatMessage({ id: "create" }),
       validate,
       customFocus: true,
     });
@@ -374,7 +380,6 @@ export class ProjectActions {
           VersionAction.INCREMENT
         );
         this.setSelection(filename);
-        // come back later: parameter
         this.actionFeedback.success({
           title: this.intl.formatMessage(
             { id: "created-file" },
@@ -399,16 +404,20 @@ export class ProjectActions {
     try {
       if (
         await this.dialogs.confirm({
-          header: "Confirm delete",
-          // come back later: parameter
-          body: `Permanently delete ${filename}?`,
+          header: this.intl.formatMessage({ id: "confirm-delete" }),
+          body: this.intl.formatMessage(
+            { id: "permanently-delete" },
+            { filename: filename }
+          ),
           actionLabel: "Delete",
         })
       ) {
         await this.fs.remove(filename);
         this.actionFeedback.success({
-          // come back later: parameter
-          title: `Deleted ${filename}`,
+          title: this.intl.formatMessage(
+            { id: "deleted-file" },
+            { filename: filename }
+          ),
         });
       }
     } catch (e) {
@@ -454,42 +463,31 @@ export class ProjectActions {
       this.actionFeedback.unexpectedError(e);
     }
   }
-}
 
-/**
- * Simple analysis of the changes to the current files.
- * The text is simpler than that uses in the load confirmation dialog.
- */
-export const findChanges = (
-  currentFiles: string[],
-  proposedFiles: FileInput[]
-): FileChange[] => {
-  const current = new Set(currentFiles);
-  return proposedFiles.map((f) => ({
-    ...f,
-    operation: current.has(f.name) ? FileOperation.REPLACE : FileOperation.ADD,
-  }));
-};
-
-const summarizeChanges = (changes: FileChange[]) => {
-  if (changes.length === 1) {
-    return { title: summarizeChange(changes[0]) };
-  }
-  return {
-    title: `${changes.length} changes`,
-    description: (
-      <List>
-        {changes.map((c) => (
-          <ListItem key={c.name}>{summarizeChange(c)}</ListItem>
-        ))}
-      </List>
-    ),
+  summarizeChanges = (changes: FileChange[]) => {
+    if (changes.length === 1) {
+      return { title: this.summarizeChange(changes[0]) };
+    }
+    return {
+      title: `${changes.length} changes`,
+      description: (
+        <List>
+          {changes.map((c) => (
+            <ListItem key={c.name}>{this.summarizeChange(c)}</ListItem>
+          ))}
+        </List>
+      ),
+    };
   };
-};
 
-const summarizeChange = (change: FileChange): string => {
-  const changeText =
-    change.operation === FileOperation.REPLACE ? "Updated" : "Added";
-  // come back later: parameter
-  return `${changeText} file ${change.name}`;
-};
+  summarizeChange = (change: FileChange): string => {
+    const changeText =
+      change.operation === FileOperation.REPLACE
+        ? this.intl.formatMessage({ id: "updated" })
+        : this.intl.formatMessage({ id: "added" });
+    return this.intl.formatMessage(
+      { id: "change-file" },
+      { changeText: changeText, changeName: change.name }
+    );
+  };
+}

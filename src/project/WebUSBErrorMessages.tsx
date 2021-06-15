@@ -1,5 +1,5 @@
 import { Link, VStack } from "@chakra-ui/layout";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const defaultTitle = "WebUSB error";
 
@@ -37,6 +37,7 @@ export const webusbErrorMessages = {
   },
   "reconnect-microbit": {
     title: defaultTitle,
+    // hook problem again
     // come back later, property , expected
     description: "Please reconnect your micro:bit and try again.",
   },

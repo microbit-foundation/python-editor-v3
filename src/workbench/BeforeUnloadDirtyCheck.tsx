@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useIntl } from "react-intl";
 import { useFileSystem } from "../fs/fs-hooks";
 
 /**
@@ -6,14 +7,13 @@ import { useFileSystem } from "../fs/fs-hooks";
  */
 const BeforeUnloadDirtyCheck = () => {
   const fs = useFileSystem();
+  const intl = useIntl();
   useEffect(() => {
     const listener = (e: BeforeUnloadEvent) => {
       if (fs.dirty) {
         e.preventDefault();
         // Modern browsers don't show this text to users due to abuse.
-        // come back later: property , expected
-        e.returnValue =
-          "Some of your changes have not been saved. Quit anyway?";
+        e.returnValue = intl.formatMessage({ id: "quit-anyway" });
       }
     };
     window.addEventListener("beforeunload", listener);

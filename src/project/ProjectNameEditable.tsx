@@ -1,6 +1,7 @@
 import { HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
 import { useProject, useProjectActions } from "./project-hooks";
 import ProjectNameQuestion from "./ProjectNameQuestion";
@@ -12,6 +13,7 @@ const ProjectNameEditable = () => {
   const project = useProject();
   const actions = useProjectActions();
   const dialogs = useDialogs();
+  const intl = useIntl();
   const handleEdit = useCallback(async () => {
     const name = await dialogs.input<string>({
       // come back later: property , expected (name-project id)
