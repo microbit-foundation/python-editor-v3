@@ -251,9 +251,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   ): Promise<void> {
     const startTime = new Date().getTime();
-    const usePartialFlashing =
-      this.status === ConnectionStatus.CONNECTED ||
-      ConnectionStatus.NOT_CONNECTED;
 
     await this.withEnrichedErrors(() =>
       this.flashInternal(dataSource, options)
