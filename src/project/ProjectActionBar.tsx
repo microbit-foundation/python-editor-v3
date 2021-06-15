@@ -2,7 +2,6 @@ import { BoxProps, HStack } from "@chakra-ui/react";
 import ConnectDisconnectButton from "./ConnectDisconnectButton";
 import DownloadFlashButton from "./DownloadFlashButton";
 import LoadButton from "./LoadButton";
-import ShareButton from "./ShareButton";
 
 const ProjectActionBar = (props: BoxProps) => {
   const size = "lg";
@@ -19,7 +18,9 @@ const ProjectActionBar = (props: BoxProps) => {
       <HStack spacing={2.5}>
         <ConnectDisconnectButton />
         <LoadButton mode="button" size={size} />
+        {/*Disabled for now but kept around as useful for UI discussions. 
         <ShareButton variant="outline" size={size} />
+        */}
       </HStack>
     </HStack>
   );
