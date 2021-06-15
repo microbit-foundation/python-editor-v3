@@ -41,6 +41,23 @@ export enum VersionAction {
   INCREMENT,
 }
 
+export interface Statistics {
+  /**
+   * The number of lines in main.py.
+   *
+   * Undefined when it is unchanged from the default program.
+   */
+  lines: number | undefined;
+  /**
+   * File count.
+   */
+  files: number;
+  /**
+   * HEX storage used.
+   */
+  storageUsed: number;
+}
+
 /**
  * All size-related stats will be -1 until the file system
  * has fully initialized.
@@ -276,6 +293,19 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     return this.notify();
   }
 
+  async statistics(): Promise<Statistics> {
+    const fs = await this.initialize();
+    const currentMainFile = fs.read(MAIN_FILE);
+    return {
+      files: fs.ls().length,
+      storageUsed: fs.getStorageUsed(),
+      lines:
+        currentMainFile === initialCode
+          ? undefined
+          : currentMainFile.split(/\r\n|\r|\n/).length,
+    };
+  }
+
   private async notify() {
     const fileNames = await this.storage.ls();
     const projectFiles = fileNames.map((name) => ({
@@ -292,8 +322,6 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       name: await this.storage.projectName(),
       files: filesSorted,
     };
-
-    this.logging.log(this.project);
     this.emit(EVENT_PROJECT_UPDATED, this.project);
   }
 

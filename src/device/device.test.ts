@@ -11,7 +11,7 @@ import {
   MicrobitWebUSBConnection,
 } from "./device";
 import { USB } from "webusb";
-import { NullLogging } from "../logging/null";
+import { NullLogging } from "../deployment/default/logging";
 
 const describeDeviceOnly = process.env.TEST_MODE_DEVICE
   ? describe
