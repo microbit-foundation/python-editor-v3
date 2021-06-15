@@ -254,9 +254,6 @@ export class PartialFlashing {
       this.logging.event({
         type: "WebUSB-info",
         message: "full-flash-successful",
-        detail: {
-          "flash-type": "full-flash",
-        },
       });
     } finally {
       this.dapwrapper.daplink.removeListener(
@@ -298,9 +295,6 @@ export class PartialFlashing {
           this.logging.event({
             type: "WebUSB-info",
             message: "flash-failed/attempting-full-flash",
-            detail: {
-              "flash-type": "partial-flash",
-            },
           });
           await this.fullFlashAsync(boardId, dataSource, updateProgress);
         } else {

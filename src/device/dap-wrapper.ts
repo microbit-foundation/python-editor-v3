@@ -79,9 +79,6 @@ export class DAPWrapper {
     this.logging.event({
       type: "WebUSB-info",
       message: "connected",
-      detail: {
-        "flash-type": "webusb",
-      },
     });
 
     const serialInfo = this.boardSerialInfo;
@@ -94,10 +91,7 @@ export class DAPWrapper {
       this.loggedBoardSerialInfo = this.boardSerialInfo;
       this.logging.event({
         type: "WebUSB-info",
-        detail: {
-          "flash-type": "webusb",
-          label: "board-id/" + this.boardSerialInfo.id,
-        },
+        message: "board-id/" + this.boardSerialInfo.id,
       });
       this.logging.event({
         type: "WebUSB-info",
@@ -105,9 +99,6 @@ export class DAPWrapper {
           "board-family-hic/" +
           this.boardSerialInfo.familyId +
           this.boardSerialInfo.hic,
-        detail: {
-          "flash-type": "webusb",
-        },
       });
     }
 

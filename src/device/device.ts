@@ -264,7 +264,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       type: "WebUSB-time",
       detail: {
         flashTime,
-        "flash-type": usePartialFlashing ? "partial-flash" : "full-flash",
       },
     });
     this.logging.log("Flash complete");
@@ -348,9 +347,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       this.logging.event({
         type: "WebUSB-error",
         message: "error-disconnecting",
-        detail: {
-          "flash-type": "webusb",
-        },
       });
     } finally {
       this.connection = undefined;
@@ -360,9 +356,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       this.logging.event({
         type: "WebUSB-info",
         message: "disconnected",
-        detail: {
-          "flash-type": "webusb",
-        },
       });
     }
   }
@@ -403,13 +396,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
       this.logging.event({
         type: "WebUSB-error",
         message: e.code + "/" + errorMessage,
-        detail: {
-          "flash-type":
-            this.status === ConnectionStatus.CONNECTED ||
-            ConnectionStatus.NOT_CONNECTED
-              ? "partial-flash"
-              : "full-flash",
-        },
       });
       throw enriched;
     }
