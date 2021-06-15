@@ -251,6 +251,10 @@ export class PartialFlashing {
       const data = await dataSource.fullFlashData(boardId);
       await this.dapwrapper.transport.open();
       await this.dapwrapper.daplink.flash(data);
+      this.logging.event({
+        type: "WebUSB-info",
+        message: "full-flash-successful",
+      });
     } finally {
       this.dapwrapper.daplink.removeListener(
         DAPLink.EVENT_PROGRESS,
@@ -288,6 +292,10 @@ export class PartialFlashing {
         if (e instanceof TimeoutError) {
           this.log("Resetting micro:bit timed out");
           this.log("Partial flashing failed. Attempting full flash");
+          this.logging.event({
+            type: "WebUSB-info",
+            message: "flash-failed/attempting-full-flash",
+          });
           await this.fullFlashAsync(boardId, dataSource, updateProgress);
         } else {
           throw e;

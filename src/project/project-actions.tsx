@@ -32,6 +32,11 @@ import {
 } from "./project-utils";
 import { webusbErrorMessages } from "./WebUSBErrorMessages";
 
+/**
+ * Distinguishes the different ways to trigger the load action.
+ */
+export type LoadType = "drop-load" | "file-upload";
+
 export interface MainScriptChoice {
   main: string | undefined;
 }
@@ -60,7 +65,7 @@ export class ProjectActions {
    */
   connect = async () => {
     this.logging.event({
-      action: "connect",
+      type: "connect",
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
@@ -82,7 +87,7 @@ export class ProjectActions {
    */
   disconnect = async () => {
     this.logging.event({
-      action: "disconnect",
+      type: "disconnect",
     });
 
     try {
@@ -105,9 +110,13 @@ export class ProjectActions {
    *
    * @param file the file from drag and drop or an input element.
    */
-  load = async (files: File[]): Promise<void> => {
+  load = async (
+    files: File[],
+    type: LoadType = "file-upload"
+  ): Promise<void> => {
     this.logging.event({
-      action: "load-file",
+      type,
+      detail: files,
     });
 
     if (files.length === 0) {
@@ -244,7 +253,8 @@ export class ProjectActions {
    */
   flash = async (): Promise<void> => {
     this.logging.event({
-      action: "flash",
+      type: "flash",
+      detail: await this.fs.statistics(),
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
@@ -280,7 +290,8 @@ export class ProjectActions {
    */
   download = async () => {
     this.logging.event({
-      action: "download",
+      type: "download",
+      detail: await this.fs.statistics(),
     });
 
     let download: DownloadData | undefined;
@@ -306,7 +317,7 @@ export class ProjectActions {
    */
   downloadFile = async (filename: string) => {
     this.logging.event({
-      action: "download-file",
+      type: "download-file",
     });
 
     try {
@@ -328,7 +339,7 @@ export class ProjectActions {
    */
   downloadMainFile = async () => {
     this.logging.event({
-      action: "download-main-file",
+      type: "download-main-file",
     });
 
     try {
@@ -348,7 +359,7 @@ export class ProjectActions {
    */
   createFile = async () => {
     this.logging.event({
-      action: "create-file",
+      type: "create-file",
     });
 
     const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
@@ -387,7 +398,7 @@ export class ProjectActions {
    */
   deleteFile = async (filename: string) => {
     this.logging.event({
-      action: "delete-file",
+      type: "delete-file",
     });
 
     try {
@@ -415,7 +426,7 @@ export class ProjectActions {
    */
   setProjectName = async (name: string) => {
     this.logging.event({
-      action: "set-project-name",
+      type: "set-project-name",
     });
 
     return this.fs.setProjectName(name);

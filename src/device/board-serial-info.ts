@@ -19,4 +19,12 @@ export class BoardSerialInfo {
     const hic = serial.slice(-8);
     return new BoardSerialInfo(BoardId.parse(id), familyId, hic);
   }
+
+  eq(other: BoardSerialInfo) {
+    return (
+      other.id === this.id &&
+      other.familyId === this.familyId &&
+      other.hic === this.hic
+    );
+  }
 }
