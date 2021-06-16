@@ -6,103 +6,79 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  Text,
   ThemeTypings,
   ThemingProps,
+  useDisclosure,
 } from "@chakra-ui/react";
-import React, { useCallback } from "react";
-import {
-  RiExternalLinkLine,
-  RiFileCopy2Line,
-  RiQuestionLine,
-} from "react-icons/ri";
-import Separate, { br } from "../common/Separate";
-import useActionFeedback from "../common/use-action-feedback";
+import { RiExternalLinkLine, RiQuestionLine } from "react-icons/ri";
 import { deployment } from "../deployment";
-import { microPythonVersions } from "../fs/micropython";
+import AboutDialog from "./AboutDialog";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
 }
 
-const versionInfo = [
-  `Editor ${process.env.REACT_APP_VERSION}`,
-  `MicroPython ${microPythonVersions.map((mpy) => mpy.version).join("/")}`,
-];
-
 /**
  * A help button that triggers a drop-down menu with actions.
  */
 const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
-  const actionFeedback = useActionFeedback();
-  const handleCopyVersion = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(versionInfo.join("\n"));
-    } catch (e) {
-      actionFeedback.unexpectedError(e);
-    }
-  }, [actionFeedback]);
-
+  const aboutDialogDisclosure = useDisclosure();
   return (
-    <Menu {...props}>
-      <MenuButton
-        as={IconButton}
-        aria-label="Help"
-        size={size}
-        variant="sidebar"
-        icon={<RiQuestionLine />}
-        colorScheme="gray"
-        isRound
+    <>
+      <AboutDialog
+        isOpen={aboutDialogDisclosure.isOpen}
+        onClose={aboutDialogDisclosure.onClose}
       />
-      <Portal>
-        <MenuList>
-          <MenuItem
-            as="a"
-            href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
-            target="_blank"
-            rel="noopener"
-            icon={<RiExternalLinkLine />}
-          >
-            Documentation
-          </MenuItem>
-          {deployment.supportLink && (
+      <Menu {...props}>
+        <MenuButton
+          as={IconButton}
+          aria-label="Help"
+          size={size}
+          variant="sidebar"
+          icon={<RiQuestionLine />}
+          colorScheme="gray"
+          isRound
+        />
+        <Portal>
+          <MenuList>
             <MenuItem
               as="a"
-              href={deployment.supportLink}
+              href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
               target="_blank"
               rel="noopener"
               icon={<RiExternalLinkLine />}
             >
-              Support
+              Documentation
             </MenuItem>
-          )}
-          {deployment.termsOfUseLink && (
-            <MenuItem
-              as="a"
-              href={deployment.termsOfUseLink}
-              target="_blank"
-              rel="noopener"
-              icon={<RiExternalLinkLine />}
-            >
-              Terms of use
-            </MenuItem>
-          )}
-          <MenuDivider />
-          {/* shift the icon to align with the first line of content */}
-          <MenuItem
-            icon={<RiFileCopy2Line style={{ marginTop: "0.5rem" }} />}
-            alignItems="top"
-            onClick={handleCopyVersion}
-          >
-            Copy version to clipboard
-            <br />
-            <Text as="span" fontSize="xs">
-              <Separate separator={br}>{versionInfo}</Separate>
-            </Text>
-          </MenuItem>
-        </MenuList>
-      </Portal>
-    </Menu>
+            {deployment.supportLink && (
+              <MenuItem
+                as="a"
+                href={deployment.supportLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                Support
+              </MenuItem>
+            )}
+            {deployment.termsOfUseLink && (
+              <MenuItem
+                as="a"
+                href={deployment.termsOfUseLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                Terms of use
+              </MenuItem>
+            )}
+            <MenuDivider />
+            {/* shift the icon to align with the first line of content */}
+            <MenuItem onClick={aboutDialogDisclosure.onOpen}>About</MenuItem>
+          </MenuList>
+        </Portal>
+      </Menu>
+    </>
   );
 };
 
