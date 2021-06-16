@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/layout";
+import { Link, Text, VStack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import FeedbackForm from "./FeedbackForm";
@@ -29,11 +29,20 @@ const FeedbackArea = () => {
       <Text>
         This editor will change rapidly and sometimes things will break.
       </Text>
-      <VStack spacing={3} alignSelf="center" alignItems="stretch">
+      <VStack spacing={4} alignSelf="center" alignItems="stretch">
         <Button size="lg" onClick={openDialog}>
           Feedback
         </Button>
-        <Button size="lg" onClick={openDialog}>
+        <Button
+          as={Link}
+          size="lg"
+          href="https://python.microbit.org"
+          sx={{
+            "&:hover": {
+              textDecoration: "none",
+            },
+          }}
+        >
           Stable editor
         </Button>
       </VStack>
