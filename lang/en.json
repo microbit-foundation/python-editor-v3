@@ -1,18 +1,30 @@
 {
+  "name-not-blank": {
+    "defaultMessage": "The project name cannot be blank",
+    "description": "Validation message for project name"
+  },
+  "confirm": {
+    "defaultMessage": "Confirm",
+    "description": "Confirm action label"
+  },
+  "files-tab": {
+    "defaultMessage": "Files",
+    "description": "Python tab text"
+  },
+  "python-tab": {
+    "defaultMessage": "Python",
+    "description": "Python tab text"
+  },
   "quit-anyway": {
     "defaultMessage": "Some of your changes have not been saved. Quit anyway?",
     "description": "Quit anyway text"
   },
-  "added": {
-    "defaultMessage": "Added",
-    "description": "Added file text"
+  "updated-change": {
+    "defaultMessage": "Updated file {changeName}",
+    "description": "Change made to file"
   },
-  "updated": {
-    "defaultMessage": "Updated",
-    "description": "Updated file text"
-  },
-  "change-file": {
-    "defaultMessage": "{changeText} file {changeName}",
+  "added-change": {
+    "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
   },
   "deleted-file": {
@@ -43,10 +55,6 @@
     "defaultMessage": "{error}",
     "description": "Error of new file name"
   },
-  "action-label": {
-    "defaultMessage": "{actionLabel}",
-    "description": "Action label for Input Dialog"
-  },
   "delete-file": {
     "defaultMessage": "Delete {name}",
     "description": "Menu option to delete file"
@@ -58,10 +66,6 @@
   "edit-file": {
     "defaultMessage": "Edit {name}",
     "description": "Menu option to edit file"
-  },
-  "feedback-text": {
-    "defaultMessage": "Feedback",
-    "description": "Feedback text"
   },
   "connect-microbit": {
     "defaultMessage": "Connect to your micro:bit to see serial output here",
@@ -196,27 +200,11 @@
     "description": "Hover text over share button"
   },
   "load-button": {
-    "defaultMessage": "Load...",
+    "defaultMessage": "Load…",
     "description": "Load button text"
   },
   "download-button": {
     "defaultMessage": "Download",
     "description": "Download button text"
-  },
-  "provide-feedback": {
-    "defaultMessage": "Help us improve by providing your feedback.",
-    "description": "placeholder text"
-  },
-  "link-editor": {
-    "defaultMessage": "This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the",
-    "description": "placeholder text"
-  },
-  "new-features": {
-    "defaultMessage": "We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features.",
-    "description": "placeholder text"
-  },
-  "welcome-message": {
-    "defaultMessage": "Hi! This is an alpha release of the new micro:bit Python editor.",
-    "description": "placeholder text"
   }
 }

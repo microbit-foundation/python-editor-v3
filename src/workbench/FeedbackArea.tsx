@@ -21,25 +21,25 @@ const FeedbackArea = () => {
       alignItems="stretch"
     >
       <Text>
-        <FormattedMessage id="welcome-message" />
+        Hi! This is an alpha release of the new micro:bit Python editor.
       </Text>
       <Text>
-        <FormattedMessage id="new-features" />
+        We’ve started by making sure it has all the features from the current
+        editor. Soon we will start adding new features.
       </Text>
       <Text>
         {/* order?? */}
-        <FormattedMessage id="link-editor" />{" "}
+        This means the editor could change rapidly, and sometimes things might
+        break. If you want to use a stable editor please use the"{" "}
         <Link color="brand.500" href="https://python.microbit.org">
           main editor
         </Link>
         .
       </Text>
-      <Text>
-        <FormattedMessage id="provide-feedback" />
-      </Text>
+      <Text>Help us improve by providing your feedback.</Text>
       <Center>
         <Button size="lg" onClick={openDialog}>
-          <FormattedMessage id="feedback-text" />
+          Feedback
         </Button>
       </Center>
       {dialogOpen && <FeedbackForm isOpen={dialogOpen} onClose={closeDialog} />}

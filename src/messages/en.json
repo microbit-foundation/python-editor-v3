@@ -1,14 +1,12 @@
 {
-  "action-label": [
-    {
-      "type": 1,
-      "value": "actionLabel"
-    }
-  ],
-  "added": [
+  "added-change": [
     {
       "type": 0,
-      "value": "Added"
+      "value": "Added file "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
     }
   ],
   "already-exists": [
@@ -47,24 +45,16 @@
       "value": "Cancel"
     }
   ],
-  "change-file": [
-    {
-      "type": 1,
-      "value": "changeText"
-    },
-    {
-      "type": 0,
-      "value": " file "
-    },
-    {
-      "type": 1,
-      "value": "changeName"
-    }
-  ],
   "close-button": [
     {
       "type": 0,
       "value": "Close"
+    }
+  ],
+  "confirm": [
+    {
+      "type": 0,
+      "value": "Confirm"
     }
   ],
   "confirm-delete": [
@@ -183,12 +173,6 @@
       "value": "error"
     }
   ],
-  "feedback-text": [
-    {
-      "type": 0,
-      "value": "Feedback"
-    }
-  ],
   "file-actions": [
     {
       "type": 1,
@@ -197,6 +181,12 @@
     {
       "type": 0,
       "value": " file actions"
+    }
+  ],
+  "files-tab": [
+    {
+      "type": 0,
+      "value": "Files"
     }
   ],
   "flash-project": [
@@ -235,16 +225,10 @@
       "value": "Language"
     }
   ],
-  "link-editor": [
-    {
-      "type": 0,
-      "value": "This means the editor could change rapidly, and sometimes things might break. If you want to use a stable editor please use the"
-    }
-  ],
   "load-button": [
     {
       "type": 0,
-      "value": "Load..."
+      "value": "Load…"
     }
   ],
   "load-hover": [
@@ -257,6 +241,12 @@
     {
       "type": 0,
       "value": "Python files should have lowercase names with no spaces"
+    }
+  ],
+  "name-not-blank": [
+    {
+      "type": 0,
+      "value": "The project name cannot be blank"
     }
   ],
   "name-not-empty": [
@@ -283,12 +273,6 @@
       "value": "The name is used when you download a hex file."
     }
   ],
-  "new-features": [
-    {
-      "type": 0,
-      "value": "We’ve started by making sure it has all the features from the current editor. Soon we will start adding new features."
-    }
-  ],
   "permanently-delete": [
     {
       "type": 0,
@@ -303,10 +287,10 @@
       "value": "?"
     }
   ],
-  "provide-feedback": [
+  "python-tab": [
     {
       "type": 0,
-      "value": "Help us improve by providing your feedback."
+      "value": "Python"
     }
   ],
   "quit-anyway": [
@@ -345,22 +329,20 @@
       "value": "update your micro:bit firmware"
     }
   ],
-  "updated": [
+  "updated-change": [
     {
       "type": 0,
-      "value": "Updated"
+      "value": "Updated file "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
     }
   ],
   "use-feature": [
     {
       "type": 0,
       "value": "to make use of this feature."
-    }
-  ],
-  "welcome-message": [
-    {
-      "type": 0,
-      "value": "Hi! This is an alpha release of the new micro:bit Python editor."
     }
   ],
   "with-webUSB": [

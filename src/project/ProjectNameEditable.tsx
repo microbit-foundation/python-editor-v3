@@ -20,11 +20,11 @@ const ProjectNameEditable = () => {
       header: "Name your project",
       Body: ProjectNameQuestion,
       initialValue: project.name,
-      actionLabel: "Confirm",
+      actionLabel: intl.formatMessage({ id: "confirm" }),
       customFocus: true,
       validate: (name: string) =>
         name.trim().length === 0
-          ? "The project name cannot be blank"
+          ? intl.formatMessage({ id: "name-not-blank" })
           : undefined,
     });
     if (name) {

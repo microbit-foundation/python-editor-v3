@@ -13,7 +13,8 @@ const BeforeUnloadDirtyCheck = () => {
       if (fs.dirty) {
         e.preventDefault();
         // Modern browsers don't show this text to users due to abuse.
-        e.returnValue = intl.formatMessage({ id: "quit-anyway" });
+        e.returnValue =
+          "Some of your changes have not been saved. Quit anyway?";
       }
     };
     window.addEventListener("beforeunload", listener);

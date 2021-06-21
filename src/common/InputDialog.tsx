@@ -105,10 +105,7 @@ export const InputDialog = <T extends unknown>({
               ml={3}
               isDisabled={Boolean(error)}
             >
-              <FormattedMessage
-                id="action-label"
-                values={{ actionLabel: actionLabel }}
-              />
+              {actionLabel}
             </Button>
           </ModalFooter>
         </ModalContent>

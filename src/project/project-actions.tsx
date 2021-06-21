@@ -31,7 +31,7 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import { webusbErrorMessages } from "./WebUSBErrorMessages";
-import { IntlShape } from "react-intl";
+import { IntlShape, useIntl } from "react-intl";
 
 export interface MainScriptChoice {
   main: string | undefined;
@@ -381,10 +381,7 @@ export class ProjectActions {
         );
         this.setSelection(filename);
         this.actionFeedback.success({
-          title: this.intl.formatMessage(
-            { id: "created-file" },
-            { filename: filename }
-          ),
+          title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);
@@ -407,17 +404,14 @@ export class ProjectActions {
           header: this.intl.formatMessage({ id: "confirm-delete" }),
           body: this.intl.formatMessage(
             { id: "permanently-delete" },
-            { filename: filename }
+            { filename }
           ),
           actionLabel: "Delete",
         })
       ) {
         await this.fs.remove(filename);
         this.actionFeedback.success({
-          title: this.intl.formatMessage(
-            { id: "deleted-file" },
-            { filename: filename }
-          ),
+          title: this.intl.formatMessage({ id: "deleted-file" }, { filename }),
         });
       }
     } catch (e) {
@@ -480,14 +474,17 @@ export class ProjectActions {
     };
   };
 
+  idForChangeType = (changeType: FileOperation): string => {
+    return changeType == FileOperation.REPLACE
+      ? "updated-change"
+      : "added-change";
+  };
+
   summarizeChange = (change: FileChange): string => {
-    const changeText =
-      change.operation === FileOperation.REPLACE
-        ? this.intl.formatMessage({ id: "updated" })
-        : this.intl.formatMessage({ id: "added" });
+    const translationID = this.idForChangeType(change.operation);
     return this.intl.formatMessage(
-      { id: "change-file" },
-      { changeText: changeText, changeName: change.name }
+      { id: translationID },
+      { changeName: change.name }
     );
   };
 }

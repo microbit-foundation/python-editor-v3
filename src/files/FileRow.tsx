@@ -30,12 +30,9 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const isMainFile = name === MAIN_FILE;
   const actions = useProjectActions();
   const intl = useIntl();
-  const editFile = intl.formatMessage({ id: "edit-file" }, { name: name });
-  const deleteFile = intl.formatMessage({ id: "delete-file" }, { name: name });
-  const downloadFile = intl.formatMessage(
-    { id: "download-file" },
-    { name: name }
-  );
+  const editFile = intl.formatMessage({ id: "edit-file" }, { name });
+  const deleteFile = intl.formatMessage({ id: "delete-file" }, { name });
+  const downloadFile = intl.formatMessage({ id: "download-file" }, { name });
 
   return (
     <HStack {...props} justify="space-between" lineHeight={2}>
@@ -56,10 +53,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
       <Menu>
         <MenuButton
           as={IconButton}
-          aria-label={intl.formatMessage(
-            { id: "file-actions" },
-            { name: name }
-          )}
+          aria-label={intl.formatMessage({ id: "file-actions" }, { name })}
           size="md"
           variant="ghost"
           icon={<MdMoreVert />}

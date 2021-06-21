@@ -8,29 +8,25 @@ describe("validateNewFilename", () => {
   } as IntlShape;
 
   it("required non-empty name", () => {
-    expect(validateNewFilename("", exists, intl)).toEqual(
-      "name-cannot-be-empty"
-    );
+    expect(validateNewFilename("", exists, intl)).toEqual("name-not-empty");
   });
   it("errors for Python extensions", () => {
     expect(validateNewFilename("foo.py", exists, intl)).toEqual(
-      "Python files should have lowercase names with no spaces"
+      "lowercase-no-space"
     );
   });
   it("errors for spaces", () => {
     expect(validateNewFilename("spaces are not allowed", exists, intl)).toEqual(
-      "Python files should have lowercase names with no spaces"
+      "lowercase-no-space"
     );
   });
   it("errors for uppercase", () => {
     expect(validateNewFilename("OHNO", exists, intl)).toEqual(
-      "Python files should have lowercase names with no spaces"
+      "lowercase-no-space"
     );
   });
   it("errors for file clashes", () => {
-    expect(validateNewFilename("main", exists, intl)).toEqual(
-      "This file already exists"
-    );
+    expect(validateNewFilename("main", exists, intl)).toEqual("already-exists");
   });
   it("accepts valid names", () => {
     expect(
