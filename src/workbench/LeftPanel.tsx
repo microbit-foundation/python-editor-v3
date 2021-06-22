@@ -50,7 +50,6 @@ const LeftPanel = ({
       },
       {
         id: "files",
-        // come back later
         title: intl.formatMessage({ id: "files-tab" }),
         icon: RiFolderLine,
         nav: <FilesAreaNav />,

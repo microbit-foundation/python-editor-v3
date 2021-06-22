@@ -202,5 +202,21 @@
   "download-button": {
     "defaultMessage": "Download",
     "description": "Download button text"
+  },
+  "connect-button": {
+    "defaultMessage": "Connect",
+    "description": "Connect button text"
+  },
+  "disconnect-button": {
+    "defaultMessage": "Disconnect",
+    "description": "Disconnect button text"
+  },
+  "connect-hover": {
+    "defaultMessage": "Connect to your micro:bit over WebUSB",
+    "description": "Connect button hover text"
+  },
+  "disconnect-hover": {
+    "defaultMessage": "Disconnect from the micro:bit",
+    "description": "Disconnect button hover text"
   }
 }

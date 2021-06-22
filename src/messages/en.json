@@ -63,6 +63,18 @@
       "value": "Confirm delete"
     }
   ],
+  "connect-button": [
+    {
+      "type": 0,
+      "value": "Connect"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "Connect to your micro:bit over WebUSB"
+    }
+  ],
   "connect-microbit": [
     {
       "type": 0,
@@ -121,6 +133,18 @@
     {
       "type": 1,
       "value": "filename"
+    }
+  ],
+  "disconnect-button": [
+    {
+      "type": 0,
+      "value": "Disconnect"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "Disconnect from the micro:bit"
     }
   ],
   "documentation": [
