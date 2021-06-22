@@ -1,5 +1,5 @@
 import { Link, VStack } from "@chakra-ui/layout";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 const defaultTitle = "WebUSB error";
 
