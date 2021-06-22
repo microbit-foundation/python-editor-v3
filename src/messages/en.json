@@ -291,6 +291,26 @@
       "value": "The name is used when you download a hex file."
     }
   ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "We'll add the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": ".py"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " extension for you."
+    }
+  ],
   "permanently-delete": [
     {
       "type": 0,

@@ -5,7 +5,7 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 
@@ -40,8 +40,12 @@ const NewFileNameQuestion = ({
         }}
       ></Input>
       <FormHelperText color="gray.700">
-        {/* come back later: parameter weird*/}
-        We'll add the <code>.py</code> extension for you.
+        <FormattedMessage
+          id="new-file-hint"
+          values={{
+            code: (chunks: ReactNode) => <code>{chunks}</code>,
+          }}
+        />
       </FormHelperText>
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
