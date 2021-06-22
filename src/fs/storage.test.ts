@@ -1,5 +1,5 @@
 import { MockLogging } from "../logging/mock";
-import { NullLogging } from "../logging/null";
+import { NullLogging } from "../deployment/default/logging";
 import {
   FSStorage,
   InMemoryFSStorage,

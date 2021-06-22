@@ -3,7 +3,7 @@
  */
 import * as fs from "fs";
 import * as fsp from "fs/promises";
-import { NullLogging } from "../logging/null";
+import { NullLogging } from "../deployment/default/logging";
 import {
   EVENT_PROJECT_UPDATED,
   FileSystem,
@@ -15,6 +15,7 @@ import {
 import { MicroPythonSource } from "./micropython";
 import { BoardId } from "../device/board-id";
 import { defaultProjectName } from "./storage";
+import initialCode from "./initial-code";
 
 const hexes = Promise.all([
   fs.readFileSync("src/fs/microbit-micropython-v1.hex", {
@@ -215,6 +216,28 @@ describe("Filesystem", () => {
     const partial = await ufs.partialFlashData(boardId);
     const full = await ufs.fullFlashData(boardId);
     expect(partial.length).toBeLessThan(full.length);
+  });
+
+  it("gives useful stats", async () => {
+    expect(await ufs.statistics()).toEqual({
+      files: 1,
+      lines: undefined, // signifies initial program
+      storageUsed: 256,
+    });
+
+    await ufs.write(
+      MAIN_FILE,
+      "from __future__ import hope\n" + initialCode,
+      VersionAction.MAINTAIN
+    );
+    const data = new Uint8Array(512);
+    data.fill(128);
+    await ufs.write("other.dat", data, VersionAction.INCREMENT);
+    expect(await ufs.statistics()).toEqual({
+      files: 2,
+      lines: 10,
+      storageUsed: 896,
+    });
   });
 });
 

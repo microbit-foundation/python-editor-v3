@@ -1,8 +1,8 @@
 export interface Event {
-  action: string;
-  label?: string;
+  type: string;
+  message?: string;
   value?: number;
-  context?: any;
+  detail?: any;
 }
 
 export interface Logging {

@@ -23,6 +23,9 @@ export class DAPWrapper {
 
   _pageSize: number | undefined;
   _numPages: number | undefined;
+
+  private loggedBoardSerialInfo: BoardSerialInfo | undefined;
+
   private initialConnectionComplete: boolean = false;
 
   constructor(public device: USBDevice, private logging: Logging) {
@@ -72,9 +75,33 @@ export class DAPWrapper {
 
     await this.daplink.connect();
     await this.cortexM.connect();
+
+    this.logging.event({
+      type: "WebUSB-info",
+      message: "connected",
+    });
+
     const serialInfo = this.boardSerialInfo;
     this.logging.log(`Detected board ID ${serialInfo.id}`);
-    // TODO: eventing, see https://github.com/microbit-foundation/python-editor/commit/75b5fb31a171609da90e512a1d427572bfb36981
+
+    if (
+      !this.loggedBoardSerialInfo ||
+      !this.loggedBoardSerialInfo.eq(this.boardSerialInfo)
+    ) {
+      this.loggedBoardSerialInfo = this.boardSerialInfo;
+      this.logging.event({
+        type: "WebUSB-info",
+        message: "board-id/" + this.boardSerialInfo.id,
+      });
+      this.logging.event({
+        type: "WebUSB-info",
+        message:
+          "board-family-hic/" +
+          this.boardSerialInfo.familyId +
+          this.boardSerialInfo.hic,
+      });
+    }
+
     this._pageSize = await this.cortexM.readMem32(FICR.CODEPAGESIZE);
     this._numPages = await this.cortexM.readMem32(FICR.CODESIZE);
   }
