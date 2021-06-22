@@ -154,9 +154,12 @@ export class ProjectActions {
         // It'd be nice to suppress this (and similar) if it's just the default script.
         if (
           await this.dialogs.confirm({
-            header: "Confirm replace project",
-            body: "Replace all files with those in the hex?",
-            actionLabel: "Replace",
+            header: this.intl.formatMessage({ id: "confirm-replace-title" }),
+
+            body: this.intl.formatMessage({ id: "confirm-replace-body" }),
+            actionLabel: this.intl.formatMessage({
+              id: "replace-action-label",
+            }),
           })
         ) {
           const file = files[0];
@@ -165,7 +168,10 @@ export class ProjectActions {
           try {
             await this.fs.replaceWithHexContents(projectName, hex);
             this.actionFeedback.success({
-              title: "Loaded " + file.name,
+              title: this.intl.formatMessage(
+                { id: "loaded-file" },
+                { filename: file.name }
+              ),
             });
           } catch (e) {
             this.actionFeedback.expectedError({
@@ -228,7 +234,7 @@ export class ProjectActions {
   ): Promise<ClassifiedFileInput[] | undefined> {
     const defaultScript = inputs.find((x) => x.script);
     const chosenScript = await this.dialogs.input<MainScriptChoice>({
-      header: "Change files?",
+      header: this.intl.formatMessage({ id: "change-files" }),
       initialValue: {
         main: defaultScript ? defaultScript.name : undefined,
       },
@@ -239,7 +245,7 @@ export class ProjectActions {
           inputs={inputs}
         />
       ),
-      actionLabel: "Confirm",
+      actionLabel: this.intl.formatMessage({ id: "confirm" }),
       size: "lg",
     });
     if (!chosenScript) {
@@ -482,8 +488,9 @@ export class ProjectActions {
     switch (code) {
       case "update-req":
         return {
-          // Translate this as "webusb-error-update-req-title"
-          title: "Please update the micro:bit firmware",
+          title: this.intl.formatMessage({
+            id: "webusb-error-update-req-title",
+          }),
           description: (
             <span>
               {this.intl.formatMessage(
@@ -508,27 +515,37 @@ export class ProjectActions {
         };
       case "clear-connect":
         return {
-          // "webusb-error-clear-connect-title"
-          // and below just change the ids
-          // webusb-error-clear-connect-description-1
-          // webusb-error-clear-connect-description-2
-          title: "Unable to claim interface",
+          title: this.intl.formatMessage({
+            id: "webusb-error-clear-connect-title",
+          }),
           description: (
             <VStack alignItems="stretch" mt={1}>
-              <p>{this.intl.formatMessage({ id: "another-process" })}</p>
-              <p>{this.intl.formatMessage({ id: "before-trying-again" })}</p>
+              <p>
+                {this.intl.formatMessage({
+                  id: "webusb-error-clear-connect-description-1",
+                })}
+              </p>
+              <p>
+                {this.intl.formatMessage({
+                  id: "webusb-error-clear-connect-description-2",
+                })}
+              </p>
             </VStack>
           ),
         };
       case "reconnect-microbit":
         return {
           title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-          description: "Please reconnect your micro:bit and try again.",
+          description: this.intl.formatMessage({
+            id: "webusb-error-reconnect-microbit-description",
+          }),
         };
       case "timeout-error":
         return {
-          title: "Connection timed out",
-          description: "Unable to connect to the micro:bit",
+          title: this.intl.formatMessage({ id: "timeout-error-title" }),
+          description: this.intl.formatMessage({
+            id: "timeout-error-description",
+          }),
         };
       default:
         throw new Error("Unknown code");

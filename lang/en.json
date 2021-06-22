@@ -1,4 +1,36 @@
 {
+  "timeout-error-description": {
+    "defaultMessage": "Unable to connect to the micro:bit",
+    "description": "Description for error messages relating to WebUSB timeout"
+  },
+  "timeout-error-title": {
+    "defaultMessage": "Connection timed out",
+    "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "Please reconnect your micro:bit and try again.",
+    "description": "Part of WebUSB error message"
+  },
+  "change-files": {
+    "defaultMessage": "Change files?",
+    "description": "Header for dialog of confirmation of files changed"
+  },
+  "loaded-file-feedback": {
+    "defaultMessage": "Loaded {filename}",
+    "description": "Success feedback for loading file"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Replace",
+    "description": "Action label for replacing project dialog"
+  },
+  "confirm-replace-body": {
+    "defaultMessage": "Replace all files with those in the hex?",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Confirm replace project",
+    "description": "Confirmation message title for replacing project dialog"
+  },
   "name-not-blank": {
     "defaultMessage": "The project name cannot be blank",
     "description": "Validation message for project name"
@@ -75,11 +107,11 @@
     "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
-  "before-trying-again": {
+  "webusb-error-clear-connect-description-2": {
     "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
     "description": "Part of WebUSB error message"
   },
-  "another-process": {
+  "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Another process is connected to this device.",
     "description": "Part of WebUSB error message"
   },
@@ -222,5 +254,13 @@
   "webusb-error-default-title": {
     "defaultMessage": "WebUSB error",
     "description": "Default title for error messages relating to WebUSB"
+  },
+  "webusb-error-clear-connect-title": {
+    "defaultMessage": "Unable to claim interface",
+    "description": "Title of error for WebUsb connection"
+  },
+  "webusb-error-update-req-title": {
+    "defaultMessage": "Please update the micro:bit firmware",
+    "description": "Error text telling user to update firmware"
   }
 }

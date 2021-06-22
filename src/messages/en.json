@@ -15,28 +15,22 @@
       "value": "This file already exists"
     }
   ],
-  "another-process": [
-    {
-      "type": 0,
-      "value": "Another process is connected to this device."
-    }
-  ],
   "back-to-main": [
     {
       "type": 0,
       "value": "back to the main code"
     }
   ],
-  "before-trying-again": [
-    {
-      "type": 0,
-      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
-    }
-  ],
   "cancel": [
     {
       "type": 0,
       "value": "Cancel"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "Change files?"
     }
   ],
   "close-button": [
@@ -55,6 +49,18 @@
     {
       "type": 0,
       "value": "Confirm delete"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "Replace all files with those in the hex?"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "Confirm replace project"
     }
   ],
   "connect-button": [
@@ -249,6 +255,16 @@
       "value": "Load a hex or Python file or add other files"
     }
   ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "Loaded "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
   "lowercase-no-space": [
     {
       "type": 0,
@@ -331,6 +347,12 @@
       "value": "Some of your changes have not been saved. Quit anyway?"
     }
   ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "Replace"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -365,10 +387,34 @@
       "value": "changeName"
     }
   ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "Another process is connected to this device."
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "Unable to claim interface"
+    }
+  ],
   "webusb-error-default-title": [
     {
       "type": 0,
       "value": "WebUSB error"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "Please reconnect your micro:bit and try again."
     }
   ],
   "webusb-error-update-req-description": [
@@ -389,6 +435,12 @@
     {
       "type": 0,
       "value": " to make use of this feature."
+    }
+  ],
+  "webusb-error-update-req-title": [
+    {
+      "type": 0,
+      "value": "Please update the micro:bit firmware"
     }
   ],
   "webusb-not-supported": [
