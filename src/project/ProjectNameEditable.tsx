@@ -30,7 +30,7 @@ const ProjectNameEditable = () => {
     if (name) {
       actions.setProjectName(name);
     }
-  }, [dialogs, actions, project]);
+  }, [dialogs, actions, project, intl]);
   return (
     <HStack spacing={2.5}>
       <Tooltip

@@ -62,7 +62,7 @@ const LeftPanel = ({
         ),
       },
     ],
-    [onSelectedFileChanged, selectedFile]
+    [onSelectedFileChanged, selectedFile, intl]
   );
   return <LeftPanelContents panes={panes} />;
 };

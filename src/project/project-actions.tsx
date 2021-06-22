@@ -1,5 +1,6 @@
 import { List, ListItem } from "@chakra-ui/layout";
 import { saveAs } from "file-saver";
+import { IntlShape } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
@@ -31,7 +32,6 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import { webusbErrorMessages } from "./WebUSBErrorMessages";
-import { IntlShape, useIntl } from "react-intl";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -486,7 +486,7 @@ export class ProjectActions {
   };
 
   idForChangeType = (changeType: FileOperation): string => {
-    return changeType == FileOperation.REPLACE
+    return changeType === FileOperation.REPLACE
       ? "updated-change"
       : "added-change";
   };

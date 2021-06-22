@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useIntl } from "react-intl";
 import { useFileSystem } from "../fs/fs-hooks";
 
 /**
@@ -7,7 +6,6 @@ import { useFileSystem } from "../fs/fs-hooks";
  */
 const BeforeUnloadDirtyCheck = () => {
   const fs = useFileSystem();
-  const intl = useIntl();
   useEffect(() => {
     const listener = (e: BeforeUnloadEvent) => {
       if (fs.dirty) {
