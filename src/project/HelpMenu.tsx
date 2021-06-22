@@ -95,7 +95,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             alignItems="top"
             onClick={handleCopyVersion}
           >
-            <FormattedMessage id="copy-clipboard" />
+            <FormattedMessage id="copy-version" />
             <br />
             <Text as="span" fontSize="xs">
               <Separate separator={br}>{versionInfo}</Separate>

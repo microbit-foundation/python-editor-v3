@@ -43,9 +43,7 @@ const NewFileNameQuestion = ({
         {/* come back later: parameter weird*/}
         We'll add the <code>.py</code> extension for you.
       </FormHelperText>
-      <FormErrorMessage>
-        <FormattedMessage id="error" values={{ error: error }} />
-      </FormErrorMessage>
+      <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   );
 };

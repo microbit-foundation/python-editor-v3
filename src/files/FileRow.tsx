@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProjectActions } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
@@ -30,9 +30,6 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const isMainFile = name === MAIN_FILE;
   const actions = useProjectActions();
   const intl = useIntl();
-  const editFile = intl.formatMessage({ id: "edit-file" }, { name });
-  const deleteFile = intl.formatMessage({ id: "delete-file" }, { name });
-  const downloadFile = intl.formatMessage({ id: "download-file" }, { name });
 
   return (
     <HStack {...props} justify="space-between" lineHeight={2}>
@@ -64,24 +61,21 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
               icon={<RiEdit2Line />}
               isDisabled={!isEditableFile(name)}
               onClick={onEdit}
-              aria-label={editFile}
             >
-              {editFile}
+              <FormattedMessage id="edit-file" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDownload2Line />}
               onClick={() => actions.downloadFile(name)}
-              aria-label={downloadFile}
             >
-              {downloadFile}
+              <FormattedMessage id="download-file" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDeleteBin2Line />}
               onClick={() => actions.deleteFile(name)}
               isDisabled={isMainFile}
-              aria-label={deleteFile}
             >
-              {deleteFile}
+              <FormattedMessage id="delete-file" values={{ name }} />
             </MenuItem>
           </MenuList>
         </Portal>

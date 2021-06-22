@@ -51,10 +51,6 @@
     "defaultMessage": "{name} file actions",
     "description": "Header of file actions for file"
   },
-  "error": {
-    "defaultMessage": "{error}",
-    "description": "Error of new file name"
-  },
   "delete-file": {
     "defaultMessage": "Delete {name}",
     "description": "Menu option to delete file"
@@ -139,7 +135,7 @@
     "defaultMessage": "Cancel",
     "description": "Cancel button text"
   },
-  "copy-clipboard": {
+  "copy-version": {
     "defaultMessage": "Copy version to clipboard",
     "description": "Copy version to clipboard menu option text"
   },
