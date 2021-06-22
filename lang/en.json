@@ -67,13 +67,13 @@
     "defaultMessage": "Connect to your micro:bit to see serial output here",
     "description": "Text in serial area"
   },
-  "browser-not-supported": {
+  "webusb-not-supported": {
     "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB.",
-    "description": "Part of WebUSB error message"
+    "description": "Shown when user's browser doesn't support WebUSB"
   },
-  "with-webUSB": {
+  "webusb-why-use": {
     "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
-    "description": "Part of WebUSB error message"
+    "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "before-trying-again": {
     "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
@@ -81,14 +81,6 @@
   },
   "another-process": {
     "defaultMessage": "Another process is connected to this device.",
-    "description": "Part of WebUSB error message"
-  },
-  "use-feature": {
-    "defaultMessage": "to make use of this feature.",
-    "description": "Part of WebUSB error message"
-  },
-  "update firmware": {
-    "defaultMessage": "update your micro:bit firmware",
     "description": "Part of WebUSB error message"
   },
   "name-used-when": {
@@ -222,5 +214,13 @@
   "new-file-hint": {
     "defaultMessage": "We'll add the <code>.py</code> extension for you.",
     "description": "Hint shown in the new Python file dialog"
+  },
+  "webusb-error-update-req-description": {
+    "defaultMessage": "You need to <link>update your micro:bit firmware</link> to make use of this feature.",
+    "description": "WebUSB error telling user to update firmware"
+  },
+  "webusb-error-default-title": {
+    "defaultMessage": "WebUSB error",
+    "description": "Default title for error messages relating to WebUSB"
   }
 }

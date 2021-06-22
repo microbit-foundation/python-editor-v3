@@ -33,12 +33,6 @@
       "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
     }
   ],
-  "browser-not-supported": [
-    {
-      "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB."
-    }
-  ],
   "cancel": [
     {
       "type": 0,
@@ -361,12 +355,6 @@
       "value": "Terms of use"
     }
   ],
-  "update firmware": [
-    {
-      "type": 0,
-      "value": "update your micro:bit firmware"
-    }
-  ],
   "updated-change": [
     {
       "type": 0,
@@ -377,13 +365,39 @@
       "value": "changeName"
     }
   ],
-  "use-feature": [
+  "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "to make use of this feature."
+      "value": "WebUSB error"
     }
   ],
-  "with-webUSB": [
+  "webusb-error-update-req-description": [
+    {
+      "type": 0,
+      "value": "You need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your micro:bit firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to make use of this feature."
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB."
+    }
+  ],
+  "webusb-why-use": [
     {
       "type": 0,
       "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."

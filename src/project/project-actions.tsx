@@ -1,5 +1,7 @@
-import { List, ListItem } from "@chakra-ui/layout";
+import { Link, List, ListItem } from "@chakra-ui/layout";
+import { VStack } from "@chakra-ui/react";
 import { saveAs } from "file-saver";
+import { ReactNode } from "react";
 import { IntlShape } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
@@ -9,6 +11,7 @@ import {
   HexGenerationError,
   MicrobitWebUSBConnection,
   WebUSBError,
+  WebUSBErrorCode,
 } from "../device/device";
 import { DownloadData, FileSystem, MAIN_FILE, VersionAction } from "../fs/fs";
 import {
@@ -31,7 +34,6 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
-import { webusbErrorMessages } from "./WebUSBErrorMessages";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -267,8 +269,13 @@ export class ProjectActions {
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
-        title: "WebUSB not supported",
-        description: webusbErrorMessages.unavailable,
+        title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
+        description: (
+          <VStack alignItems="stretch" mt={1}>
+            <p>{this.intl.formatMessage({ id: "webusb-why-use" })}</p>
+            <p>{this.intl.formatMessage({ id: "webusb-not-supported" })}</p>
+          </VStack>
+        ),
       });
       return;
     }
@@ -458,7 +465,9 @@ export class ProjectActions {
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {
-          return this.actionFeedback.expectedError(webusbErrorMessages[e.code]);
+          return this.actionFeedback.expectedError(
+            this.webusbErrorMessage(e.code)
+          );
         }
         default: {
           return this.actionFeedback.unexpectedError(e);
@@ -466,6 +475,63 @@ export class ProjectActions {
       }
     } else {
       this.actionFeedback.unexpectedError(e);
+    }
+  }
+
+  private webusbErrorMessage(code: WebUSBErrorCode) {
+    switch (code) {
+      case "update-req":
+        return {
+          // Translate this as "webusb-error-update-req-title"
+          title: "Please update the micro:bit firmware",
+          description: (
+            <span>
+              {this.intl.formatMessage(
+                {
+                  id: "webusb-error-update-req-description",
+                },
+                {
+                  link: (chunks: ReactNode) => (
+                    <Link
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://microbit.org/firmware/"
+                      textDecoration="underline"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                }
+              )}
+            </span>
+          ),
+        };
+      case "clear-connect":
+        return {
+          // "webusb-error-clear-connect-title"
+          // and below just change the ids
+          // webusb-error-clear-connect-description-1
+          // webusb-error-clear-connect-description-2
+          title: "Unable to claim interface",
+          description: (
+            <VStack alignItems="stretch" mt={1}>
+              <p>{this.intl.formatMessage({ id: "another-process" })}</p>
+              <p>{this.intl.formatMessage({ id: "before-trying-again" })}</p>
+            </VStack>
+          ),
+        };
+      case "reconnect-microbit":
+        return {
+          title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
+          description: "Please reconnect your micro:bit and try again.",
+        };
+      case "timeout-error":
+        return {
+          title: "Connection timed out",
+          description: "Unable to connect to the micro:bit",
+        };
+      default:
+        throw new Error("Unknown code");
     }
   }
 
