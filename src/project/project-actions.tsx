@@ -289,7 +289,7 @@ export class ProjectActions {
     try {
       const progress = (value: number | undefined) => {
         this.dialogs.progress({
-          header: "Flashing code",
+          header: this.intl.formatMessage({ id: "flashing-code" }),
           progress: value,
         });
       };

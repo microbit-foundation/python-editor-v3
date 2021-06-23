@@ -169,6 +169,12 @@
       "value": "name"
     }
   ],
+  "download-hex": [
+    {
+      "type": 0,
+      "value": "Download project hex"
+    }
+  ],
   "download-hover": [
     {
       "type": 0,
@@ -191,6 +197,18 @@
       "value": "name"
     }
   ],
+  "edit-name-project": [
+    {
+      "type": 0,
+      "value": "Edit the name of your project"
+    }
+  ],
+  "edit-project-name": [
+    {
+      "type": 0,
+      "value": "Edit project name"
+    }
+  ],
   "file-actions": [
     {
       "type": 1,
@@ -207,6 +225,12 @@
       "value": "Files"
     }
   ],
+  "flash-button": [
+    {
+      "type": 0,
+      "value": "Flash"
+    }
+  ],
   "flash-project": [
     {
       "type": 0,
@@ -217,6 +241,12 @@
     {
       "type": 0,
       "value": "Flash"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "Flashing code"
     }
   ],
   "font-size": [
@@ -321,6 +351,12 @@
       "value": " extension for you."
     }
   ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "Open file when dropped"
+    }
+  ],
   "permanently-delete": [
     {
       "type": 0,
@@ -359,12 +395,6 @@
       "value": "Settings"
     }
   ],
-  "share-hover": [
-    {
-      "type": 0,
-      "value": "Share your project"
-    }
-  ],
   "support": [
     {
       "type": 0,
@@ -375,6 +405,18 @@
     {
       "type": 0,
       "value": "Terms of use"
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "Unable to connect to the micro:bit"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "Connection timed out"
     }
   ],
   "updated-change": [
@@ -453,6 +495,18 @@
     {
       "type": 0,
       "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."
+    }
+  ],
+  "zoom-in": [
+    {
+      "type": 0,
+      "value": "Zoom in"
+    }
+  ],
+  "zoom-out": [
+    {
+      "type": 0,
+      "value": "Zoom out"
     }
   ]
 }

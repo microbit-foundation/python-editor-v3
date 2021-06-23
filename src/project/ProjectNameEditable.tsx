@@ -34,7 +34,7 @@ const ProjectNameEditable = () => {
     <HStack spacing={2.5}>
       <Tooltip
         hasArrow
-        label="Edit the name of your project"
+        label={intl.formatMessage({ id: "edit-name-project" })}
         placement="top-start"
       >
         <IconButton
@@ -43,7 +43,7 @@ const ProjectNameEditable = () => {
           color="gray.500"
           variant="ghost"
           onClick={handleEdit}
-          aria-label="Edit project name"
+          aria-label={intl.formatMessage({ id: "edit-project-name" })}
         />
       </Tooltip>
       <Text

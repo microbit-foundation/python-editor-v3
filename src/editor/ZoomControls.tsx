@@ -6,6 +6,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import {
   fontSizeStep,
   maximumFontSize,
@@ -34,6 +35,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
       fontSize: Math.max(minimumFontSize, settings.fontSize - fontSizeStep),
     });
   }, [setSettings, settings]);
+  const intl = useIntl();
   return (
     <ButtonGroup
       {...props}
@@ -47,7 +49,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
         size={size}
         isRound
         icon={<RiZoomInLine style={{ transform: "rotate(-90deg)" }} />}
-        aria-label="Zoom in"
+        aria-label={intl.formatMessage({ id: "zoom-in" })}
         onClick={handleZoomIn}
       />
       <IconButton
@@ -56,7 +58,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
         borderLeft="1px"
         borderLeftColor="gray.10"
         icon={<RiZoomOutLine style={{ transform: "rotate(-90deg)" }} />}
-        aria-label="Zoom out"
+        aria-label={intl.formatMessage({ id: "zoom-out" })}
         onClick={handleZoomOut}
       />
     </ButtonGroup>

@@ -39,7 +39,7 @@ const App = () => {
   }, []);
 
   const settings = useLocalStorage<Settings>(
-    "settings2",
+    "settings",
     isValidSettingsObject,
     defaultSettings
   );

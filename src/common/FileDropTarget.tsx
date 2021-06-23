@@ -1,6 +1,7 @@
 import { Box, BoxProps, Center } from "@chakra-ui/layout";
 import { ReactNode, useCallback, useState } from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
+import { useIntl } from "react-intl";
 
 interface FileDropTargetProps extends BoxProps {
   children: ReactNode;
@@ -37,6 +38,7 @@ const FileDropTarget = ({
   const handleDragLeave = useCallback((event: React.DragEvent<HTMLElement>) => {
     setDragOver(false);
   }, []);
+  const intl = useIntl();
   return (
     <Box
       {...props}
@@ -65,7 +67,7 @@ const FileDropTarget = ({
           <RiFolderOpenLine
             size="25%"
             pointerEvents="none"
-            aria-label="Open file when dropped"
+            aria-label={intl.formatMessage({ id: "open-file-dropped" })}
             aria-live="assertive"
           />
         </Center>

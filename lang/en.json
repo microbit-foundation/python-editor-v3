@@ -1,4 +1,40 @@
 {
+  "unexpected-error": {
+    "defaultMessage": "Please try again or <maybeLink>raise a support request</maybeLink>",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "flashing-code": {
+    "defaultMessage": "Flashing code",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "edit-project-name": {
+    "defaultMessage": "Edit project name",
+    "description": "Text for user to edit the name of the project"
+  },
+  "edit-name-project": {
+    "defaultMessage": "Edit the name of your project",
+    "description": "Text for user to edit the name of the project"
+  },
+  "download-hex": {
+    "defaultMessage": "Download project hex",
+    "description": "Text for menu item for downloading project hex file"
+  },
+  "flash-button": {
+    "defaultMessage": "Flash",
+    "description": "Text for flash button"
+  },
+  "zoom-out": {
+    "defaultMessage": "Zoom out",
+    "description": "Text label for zoom out button"
+  },
+  "zoom-in": {
+    "defaultMessage": "Zoom in",
+    "description": "Text label for zoom in button"
+  },
+  "open-file-dropped": {
+    "defaultMessage": "Open file when dropped",
+    "description": "Aria label for file drop target"
+  },
   "timeout-error-description": {
     "defaultMessage": "Unable to connect to the micro:bit",
     "description": "Description for error messages relating to WebUSB timeout"
@@ -214,10 +250,6 @@
   "load-hover": {
     "defaultMessage": "Load a hex or Python file or add other files",
     "description": "Hover text over load button"
-  },
-  "share-hover": {
-    "defaultMessage": "Share your project",
-    "description": "Hover text over share button"
   },
   "load-button": {
     "defaultMessage": "Load…",
