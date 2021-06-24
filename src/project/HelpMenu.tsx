@@ -75,7 +75,9 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             )}
             <MenuDivider />
             {/* shift the icon to align with the first line of content */}
-            <MenuItem onClick={aboutDialogDisclosure.onOpen}>About</MenuItem>
+            <MenuItem onClick={aboutDialogDisclosure.onOpen}>
+              <FormattedMessage id="about" />
+            </MenuItem>
           </MenuList>
         </Portal>
       </Menu>
