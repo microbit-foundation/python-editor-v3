@@ -80,24 +80,6 @@ export class ActionFeedback {
    * Handles an unexpected error for which we can provide no good context or text.
    * @param error the error thrown.
    */
-  //  {this.intl.formatMessage(
-  //   {
-  //     id: "webusb-error-update-req-description",
-  //   },
-  //   {
-  //     link: (chunks: ReactNode) => (
-  //       <Link
-  //         target="_blank"
-  //         rel="noreferrer"
-  //         href="https://microbit.org/firmware/"
-  //         textDecoration="underline"
-  //       >
-  //         {chunks}
-  //       </Link>
-  //     ),
-  //   }
-  // )}
-
   unexpectedError(error: Error) {
     this.logging.error(error);
     this.toast({
