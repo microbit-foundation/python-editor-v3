@@ -1,6 +1,10 @@
 {
-  "unexpected-error": {
-    "defaultMessage": "Please try again or <maybeLink>raise a support request</maybeLink>",
+  "unexpected-error-title": {
+    "defaultMessage": "Please try again or <link>raise a support request</link>",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "unexpected-error-description": {
+    "defaultMessage": "Please try again or <link>raise a support request</link>",
     "description": "Progress dialog text telling user that code is being flashed"
   },
   "flashing-code": {
@@ -99,6 +103,10 @@
     "defaultMessage": "Deleted {filename}",
     "description": "Confirmation message that file got deleted"
   },
+  "delete-button": {
+    "defaultMessage": "Delete",
+    "description": "Button text for delete action"
+  },
   "permanently-delete": {
     "defaultMessage": "Permanently delete {filename}?",
     "description": "Confirmation question to permanently delete file"
@@ -142,6 +150,10 @@
   "webusb-why-use": {
     "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
     "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "webusb-download-instead": {
+    "defaultMessage": "Download the hex file or try Chrome or Microsoft Edge.",
+    "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
   },
   "webusb-error-clear-connect-description-2": {
     "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
@@ -294,5 +306,21 @@
   "webusb-error-update-req-title": {
     "defaultMessage": "Please update the micro:bit firmware",
     "description": "Error text telling user to update firmware"
+  },
+  "failed-to-build-hex": {
+    "defaultMessage": "Failed to build the hex file",
+    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+  },
+  "load-error-title": {
+    "defaultMessage": "Cannot load {fileCount, plural, one {file} other {files}}",
+    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "load-error-mpy": {
+    "defaultMessage": "This version of the Python Editor doesn't currently support adding .mpy files.",
+    "description": "Load error message"
+  },
+  "load-error-mixed": {
+    "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
+    "description": "Load error message"
   }
 }

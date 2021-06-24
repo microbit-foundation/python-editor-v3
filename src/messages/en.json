@@ -115,6 +115,12 @@
       "value": "filename"
     }
   ],
+  "delete-button": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
   "delete-file": [
     {
       "type": 0,
@@ -209,6 +215,12 @@
       "value": "Edit project name"
     }
   ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "Failed to build the hex file"
+    }
+  ],
   "file-actions": [
     {
       "type": 1,
@@ -277,6 +289,48 @@
     {
       "type": 0,
       "value": "Load…"
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "A hex file can only be loaded on its own. It replaces all files in the project."
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "This version of the Python Editor doesn't currently support adding .mpy files."
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "Cannot load "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "file"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
     }
   ],
   "load-hover": [
@@ -419,6 +473,38 @@
       "value": "Connection timed out"
     }
   ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "Please try again or "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "raise a support request"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "Please try again or "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "raise a support request"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
   "updated-change": [
     {
       "type": 0,
@@ -427,6 +513,12 @@
     {
       "type": 1,
       "value": "changeName"
+    }
+  ],
+  "webusb-download-instead": [
+    {
+      "type": 0,
+      "value": "Download the hex file or try Chrome or Microsoft Edge."
     }
   ],
   "webusb-error-clear-connect-description-1": [

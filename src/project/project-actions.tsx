@@ -74,8 +74,8 @@ export class ProjectActions {
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
-        title: "WebUSB not supported",
-        description: "Download the hex file or try Chrome or Microsoft Edge",
+        title: this.intl.formatMessage({ id: "webusb-not-supported" }),
+        description: this.intl.formatMessage({ id: "webusb-download-instead" }),
       });
     } else {
       try {
@@ -131,31 +131,31 @@ export class ProjectActions {
     // Also makes e2e testing easier.
     this.actionFeedback.closeAll();
 
-    const errorTitle =
-      files.length === 1 ? "Cannot load file" : "Cannot load files";
-
+    const errorTitle = this.intl.formatMessage(
+      { id: "load-error-title" },
+      {
+        fileCount: files.length,
+      }
+    );
     const extensions = new Set(
       files.map((f) => getLowercaseFileExtension(f.name))
     );
     if (extensions.has("mpy")) {
       this.actionFeedback.expectedError({
         title: errorTitle,
-        description:
-          "This version of the Python Editor doesn't currently support adding .mpy files.",
+        description: this.intl.formatMessage({ id: "load-error-mpy" }),
       });
     } else if (extensions.has("hex")) {
       if (files.length > 1) {
         this.actionFeedback.expectedError({
           title: errorTitle,
-          description:
-            "A hex file can only be loaded on its own. It replaces all files in the project.",
+          description: this.intl.formatMessage({ id: "load-error-mixed" }),
         });
       } else {
         // It'd be nice to suppress this (and similar) if it's just the default script.
         if (
           await this.dialogs.confirm({
             header: this.intl.formatMessage({ id: "confirm-replace-title" }),
-
             body: this.intl.formatMessage({ id: "confirm-replace-body" }),
             actionLabel: this.intl.formatMessage({
               id: "replace-action-label",
@@ -274,15 +274,7 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.actionFeedback.expectedError({
-        title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-        description: (
-          <VStack alignItems="stretch" mt={1}>
-            <p>{this.intl.formatMessage({ id: "webusb-why-use" })}</p>
-            <p>{this.intl.formatMessage({ id: "webusb-not-supported" })}</p>
-          </VStack>
-        ),
-      });
+      this.webusbNotSupportedError();
       return;
     }
 
@@ -297,7 +289,8 @@ export class ProjectActions {
     } catch (e) {
       if (e instanceof HexGenerationError) {
         this.actionFeedback.expectedError({
-          title: "Failed to build the hex file",
+          title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
+          // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
           description: e.message,
         });
       } else {
@@ -320,7 +313,8 @@ export class ProjectActions {
       download = await this.fs.toHexForDownload();
     } catch (e) {
       this.actionFeedback.expectedError({
-        title: "Failed to build the hex file",
+        title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
+        // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
         description: e.message,
       });
       return;
@@ -430,7 +424,7 @@ export class ProjectActions {
             { id: "permanently-delete" },
             { filename }
           ),
-          actionLabel: "Delete",
+          actionLabel: this.intl.formatMessage({ id: "delete-button" }),
         })
       ) {
         await this.fs.remove(filename);
@@ -482,6 +476,18 @@ export class ProjectActions {
     } else {
       this.actionFeedback.unexpectedError(e);
     }
+  }
+
+  private webusbNotSupportedError(): void {
+    this.actionFeedback.expectedError({
+      title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
+      description: (
+        <VStack alignItems="stretch" mt={1}>
+          <p>{this.intl.formatMessage({ id: "webusb-why-use" })}</p>
+          <p>{this.intl.formatMessage({ id: "webusb-not-supported" })}</p>
+        </VStack>
+      ),
+    });
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {

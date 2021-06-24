@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { ReactNode, useMemo } from "react";
-import { useIntl } from "react-intl";
+import { IntlShape, useIntl } from "react-intl";
 import { deployment } from "../deployment";
 import { Logging } from "../logging/logging";
 import { useLogging } from "../logging/logging-hooks";
@@ -9,7 +9,8 @@ import MaybeLink from "./MaybeLink";
 export class ActionFeedback {
   constructor(
     private toast: ReturnType<typeof useToast>,
-    private logging: Logging
+    private logging: Logging,
+    private intl: IntlShape
   ) {}
 
   closeAll() {
@@ -99,17 +100,15 @@ export class ActionFeedback {
 
   unexpectedError(error: Error) {
     this.logging.error(error);
-    const intl = useIntl();
     this.toast({
-      title: "An unexpected error occurred",
+      title: this.intl.formatMessage({ id: "unexpected-error-description" }),
       status: "error",
       description: (
         <>
-          {/* Please try again or <>raise a supportrequest<> */}
-          {intl.formatMessage(
-            { id: "unexpected-error" },
+          {this.intl.formatMessage(
+            { id: "unexpected-error-description" },
             {
-              maybeLink: (chunks: ReactNode) => (
+              link: (chunks: ReactNode) => (
                 <MaybeLink
                   href={deployment.supportLink}
                   target="_blank"
@@ -135,7 +134,11 @@ export class ActionFeedback {
 const useActionFeedback = () => {
   const toast = useToast();
   const logging = useLogging();
-  return useMemo(() => new ActionFeedback(toast, logging), [toast, logging]);
+  const intl = useIntl();
+  return useMemo(
+    () => new ActionFeedback(toast, logging, intl),
+    [toast, logging, intl]
+  );
 };
 
 export default useActionFeedback;
