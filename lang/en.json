@@ -207,9 +207,21 @@
     "defaultMessage": "Cancel",
     "description": "Cancel button text"
   },
-  "copy-version": {
-    "defaultMessage": "Copy version to clipboard",
-    "description": "Copy version to clipboard menu option text"
+  "copy": {
+    "defaultMessage": "Copy",
+    "description": "Clipboard copy action label"
+  },
+  "copied": {
+    "defaultMessage": "Copied",
+    "description": "Clipboard copy action after a copy has been performed"
+  },
+  "about": {
+    "defaultMessage": "About",
+    "description": "About dialog action text"
+  },
+  "about-dialog-text": {
+    "defaultMessage": "Made with love by the Micro:bit Educational Foundation and contributors",
+    "description": "About dialog action text"
   },
   "terms-of-use": {
     "defaultMessage": "Terms of use",

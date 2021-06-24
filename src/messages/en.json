@@ -1,4 +1,16 @@
 {
+  "about": [
+    {
+      "type": 0,
+      "value": "About"
+    }
+  ],
+  "about-dialog-text": [
+    {
+      "type": 0,
+      "value": "Made with love by the Micro:bit Educational Foundation and contributors"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -81,10 +93,16 @@
       "value": "Connect to your micro:bit to see serial output here"
     }
   ],
-  "copy-version": [
+  "copied": [
     {
       "type": 0,
-      "value": "Copy version to clipboard"
+      "value": "Copied"
+    }
+  ],
+  "copy": [
+    {
+      "type": 0,
+      "value": "Copy"
     }
   ],
   "create": [
