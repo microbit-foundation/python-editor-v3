@@ -10,7 +10,11 @@ import {
   ThemingProps,
   useDisclosure,
 } from "@chakra-ui/react";
-import { RiExternalLinkLine, RiQuestionLine } from "react-icons/ri";
+import {
+  RiExternalLinkLine,
+  RiInformationLine,
+  RiQuestionLine,
+} from "react-icons/ri";
 import { deployment } from "../deployment";
 import AboutDialog from "./AboutDialog";
 
@@ -74,7 +78,12 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             )}
             <MenuDivider />
             {/* shift the icon to align with the first line of content */}
-            <MenuItem onClick={aboutDialogDisclosure.onOpen}>About</MenuItem>
+            <MenuItem
+              icon={<RiInformationLine />}
+              onClick={aboutDialogDisclosure.onOpen}
+            >
+              About
+            </MenuItem>
           </MenuList>
         </Portal>
       </Menu>
