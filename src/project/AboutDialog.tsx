@@ -3,13 +3,13 @@ import { useClipboard } from "@chakra-ui/hooks";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
 import {
+  BoxProps,
   Flex,
+  HStack,
   Link,
   SimpleGrid,
   Text,
   VStack,
-  HStack,
-  BoxProps,
 } from "@chakra-ui/layout";
 import {
   Modal,
@@ -25,7 +25,9 @@ import {
   TableCaption,
   Td,
   Tr,
+  Tbody,
   useDisclosure,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { useDeployment } from "../deployment";
@@ -94,12 +96,13 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   Micro:bit Educational Foundation and contributors{" "}
                 </Link>
               </Text>
-              <SimpleGrid columns={[1, 2, 2, 2]} spacing={8}>
-                <Image
-                  src={microbitHeartImage}
-                  sx={{ aspectRatio: 690 / 562 }}
-                  alt="micro:bit board with the 5 by 5 LED grid showing a heart"
-                />
+              <SimpleGrid columns={[1, 2, 2, 2]} spacing={8} width="100%">
+                <AspectRatio ratio={690 / 562}>
+                  <Image
+                    src={microbitHeartImage}
+                    alt="micro:bit board with the 5 by 5 LED grid showing a heart"
+                  />
+                </AspectRatio>
                 <VStack
                   alignItems="center"
                   justifyContent="center"
@@ -107,12 +110,14 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   spacing={4}
                 >
                   <Table size="sm">
-                    {versionInfo.map((v) => (
-                      <Tr key={v.name}>
-                        <Td>{v.name}</Td>
-                        <Td>{v.value}</Td>
-                      </Tr>
-                    ))}
+                    <Tbody>
+                      {versionInfo.map((v) => (
+                        <Tr key={v.name}>
+                          <Td>{v.name}</Td>
+                          <Td>{v.value}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
                     <TableCaption color="gray.800" placement="top">
                       Software versions
                     </TableCaption>
@@ -180,11 +185,12 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
 
 const MicroPythonSection = (props: BoxProps) => (
   <VStack spacing={4} {...props}>
-    <Image
-      src={comicImage}
-      sx={{ aspectRatio: 1035 / 423 }}
-      alt={`Three panel comic titled "MicroPython Rocks" by Mike Rowbit. A cartoon snake introduces Damien, saying "Meet Damien... He created MicroPython.". Two snakes discuss MicroPython. The yellow snake says "MicroPython is designed to work on very small computers." "Like the BBC micro:bit" the purple snake replies." The yellows snake continues "But Python can run anywhere.". The purple snake agrees, saying "Like on this rack of severs that run huge websites". The background behind the snakes shows a server rack.`}
-    />
+    <AspectRatio ratio={1035 / 423} width="100%">
+      <Image
+        src={comicImage}
+        alt={`Three panel comic titled "MicroPython Rocks" by Mike Rowbit. A cartoon snake introduces Damien, saying "Meet Damien... He created MicroPython.". Two snakes discuss MicroPython. The yellow snake says "MicroPython is designed to work on very small computers." "Like the BBC micro:bit" the purple snake replies." The yellows snake continues "But Python can run anywhere.". The purple snake agrees, saying "Like on this rack of severs that run huge websites". The background behind the snakes shows a server rack.`}
+      />
+    </AspectRatio>
     <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} textAlign="center">
       <Text fontSize="md">
         MicroPython{" "}
