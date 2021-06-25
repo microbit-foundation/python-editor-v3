@@ -168,7 +168,7 @@ const baseTheme = EditorView.baseTheme({
   ".cm-box": {
     display: "block",
     position: "absolute",
-    backgroundColor: "var(--block)",
+    backgroundColor: "var(--chakra-colors-code-block)",
     borderRadius: "var(--chakra-radii-lg)",
   },
 });
