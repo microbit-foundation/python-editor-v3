@@ -3,6 +3,7 @@ import { useClipboard } from "@chakra-ui/hooks";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
 import {
+  Box,
   BoxProps,
   Flex,
   HStack,
@@ -20,14 +21,14 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import {
+  AspectRatio,
   Collapse,
   Table,
   TableCaption,
+  Tbody,
   Td,
   Tr,
-  Tbody,
   useDisclosure,
-  AspectRatio,
 } from "@chakra-ui/react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { useDeployment } from "../deployment";
@@ -96,13 +97,20 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   Micro:bit Educational Foundation and contributors{" "}
                 </Link>
               </Text>
-              <SimpleGrid columns={[1, 2, 2, 2]} spacing={8} width="100%">
-                <AspectRatio ratio={690 / 562}>
-                  <Image
-                    src={microbitHeartImage}
-                    alt="micro:bit board with the 5 by 5 LED grid showing a heart"
-                  />
-                </AspectRatio>
+              <SimpleGrid columns={[1, 1, 2, 2]} spacing={8} width="100%">
+                <Box>
+                  <AspectRatio
+                    ml="auto"
+                    mr="auto"
+                    ratio={690 / 562}
+                    maxWidth={[388, 388, null, null]}
+                  >
+                    <Image
+                      src={microbitHeartImage}
+                      alt="micro:bit board with the 5 by 5 LED grid showing a heart"
+                    />
+                  </AspectRatio>
+                </Box>
                 <VStack
                   alignItems="center"
                   justifyContent="center"
