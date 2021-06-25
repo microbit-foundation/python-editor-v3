@@ -127,6 +127,9 @@ const SettingsArea = () => {
           maxWidth="16ch"
           value={settings.codeStructureHighlight}
         >
+          <option key="none" value="none">
+            None
+          </option>
           <option key="brackets" value="brackets">
             Brackets
           </option>

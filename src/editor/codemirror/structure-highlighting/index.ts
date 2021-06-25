@@ -18,6 +18,8 @@ export const structureHighlighting = (
       return boxes();
     case "l-shape-boxes":
       return lshapeBoxes();
+    case "none":
+      return [];
     default:
       return [];
   }
