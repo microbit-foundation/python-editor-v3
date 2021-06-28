@@ -39,6 +39,7 @@ import microbitHeartImage from "./microbit-heart.png";
 import micropythonLogo from "./micropython.jpeg";
 import pythonPoweredLogo from "./python-powered.png";
 import { ReactNode } from "react";
+import { useIntl } from "react-intl";
 
 const versionInfo = [
   { name: "Editor", value: process.env.REACT_APP_VERSION },
@@ -60,6 +61,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
   const { hasCopied, onCopy } = useClipboard(clipboardVersion);
   const deployment = useDeployment();
   const micropythonSection = useDisclosure();
+  const intl = useIntl();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay>
@@ -92,7 +94,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
 
               <Text fontSize="lg" textAlign="center">
                 <FormattedMessage
-                  id="about-text"
+                  id="about-microbit"
                   values={{
                     link: (chunks: ReactNode) => (
                       <Link
@@ -117,7 +119,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   >
                     <Image
                       src={microbitHeartImage}
-                      alt="micro:bit board with the 5 by 5 LED grid showing a heart"
+                      alt={intl.formatMessage({ id: "microbit-hearts-alt" })}
                     />
                   </AspectRatio>
                 </Box>
@@ -137,7 +139,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                       ))}
                     </Tbody>
                     <TableCaption color="gray.800" placement="top">
-                      Software versions
+                      <FormattedMessage id="software-versions" />
                     </TableCaption>
                   </Table>
                   <Button
@@ -150,23 +152,27 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                 </VStack>
               </SimpleGrid>
               <Text fontSize="lg">
-                The editor depends on{" "}
-                <Link
-                  color="brand.500"
-                  href="https://micropython.org"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  MicroPython
-                </Link>{" "}
-                which is made by Damien George and a community of developers
-                around the world.{" "}
+                <FormattedMessage
+                  id="about-micropython"
+                  values={{
+                    link: (chunks: ReactNode) => (
+                      <Link
+                        color="brand.500"
+                        href="https://micropython.org"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  }}
+                />{" "}
                 <Button
-                  aria-label={
-                    micropythonSection.isOpen
-                      ? "Read less about MicroPython"
-                      : "Read more about MicroPython"
-                  }
+                  aria-label={intl.formatMessage({
+                    id: micropythonSection.isOpen
+                      ? "about-read-less-micropython"
+                      : "about-read-more-micropython",
+                  })}
                   variant="unstyled"
                   height="unset"
                   verticalAlign="unset"
@@ -181,7 +187,9 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   }
                   onClick={micropythonSection.onToggle}
                 >
-                  {micropythonSection.isOpen ? "Read less" : "Read more"}
+                  {intl.formatMessage({
+                    id: micropythonSection.isOpen ? "read-less" : "read-more",
+                  })}
                 </Button>
               </Text>
             </VStack>

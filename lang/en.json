@@ -219,9 +219,37 @@
     "defaultMessage": "About",
     "description": "About action"
   },
-  "about-text": {
+  "about-microbit": {
     "defaultMessage": "Made with love by the <link>Micro:bit Educational Foundation and contributors</link>",
     "description": "Text in about dialog"
+  },
+  "about-micropython": {
+    "defaultMessage": "The editor depends on <link>MicroPython</link> which is made by Damien George and a community of developers around the world.",
+    "description": "Text in about dialog"
+  },
+  "read-more": {
+    "defaultMessage": "Read more",
+    "description": "Action text to expand a collapsed section"
+  },
+  "read-less": {
+    "defaultMessage": "Read less",
+    "description": "Action text to collapse an expanded section"
+  },
+  "about-read-more-micropython": {
+    "defaultMessage": "Read more about MicroPython",
+    "description": "Arial label to expand a collapsed section about MicroPython"
+  },
+  "about-read-less-micropython": {
+    "defaultMessage": "Read less about MicroPython",
+    "description": "Aria label to collapse an expanded section about MicroPython"
+  },
+  "microbit-hearts-alt": {
+    "defaultMessage": "micro:bit board with the 5 by 5 LED grid showing a heart",
+    "description": "Alt text for micro:bit image in About dialog"
+  },
+  "software-versions": {
+    "defaultMessage": "Software versions",
+    "description": "Heading for a table of software versions in the about dialog"
   },
   "terms-of-use": {
     "defaultMessage": "Terms of use",

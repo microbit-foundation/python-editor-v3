@@ -5,7 +5,7 @@
       "value": "About"
     }
   ],
-  "about-text": [
+  "about-microbit": [
     {
       "type": 0,
       "value": "Made with love by the "
@@ -19,6 +19,38 @@
       ],
       "type": 8,
       "value": "link"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "The editor depends on "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MicroPython"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " which is made by Damien George and a community of developers around the world."
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "Read less about MicroPython"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "Read more about MicroPython"
     }
   ],
   "added-change": [
@@ -383,6 +415,12 @@
       "value": "Python files should have lowercase names with no spaces"
     }
   ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "micro:bit board with the 5 by 5 LED grid showing a heart"
+    }
+  ],
   "name-not-blank": [
     {
       "type": 0,
@@ -465,6 +503,18 @@
       "value": "Some of your changes have not been saved. Quit anyway?"
     }
   ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "Read less"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "Read more"
+    }
+  ],
   "replace-action-label": [
     {
       "type": 0,
@@ -475,6 +525,12 @@
     {
       "type": 0,
       "value": "Settings"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "Software versions"
     }
   ],
   "support": [
