@@ -14,7 +14,7 @@ import { Logging } from "../logging/logging";
 import { asciiToBytes, generateId } from "./fs-util";
 import initialCode from "./initial-code";
 import { MicroPythonSource } from "./micropython";
-import { sortBy } from "lodash";
+import sortBy from "lodash.sortby";
 import {
   defaultProjectName,
   FSStorage,
