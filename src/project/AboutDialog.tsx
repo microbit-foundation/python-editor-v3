@@ -109,7 +109,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   }}
                 />
               </Text>
-              <SimpleGrid columns={[1, 1, 2, 2]} spacing={8} width="100%">
+              <SimpleGrid columns={[1, 1, 2, 2]} spacing={8}>
                 <Box>
                   <AspectRatio
                     ml="auto"
