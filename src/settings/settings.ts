@@ -5,6 +5,7 @@
  */
 import { createContext, useContext } from "react";
 import { defaultCodeFontSizePt } from "../deployment/misc";
+import { stage } from "../environment";
 
 export interface Language {
   id: string;
@@ -17,6 +18,12 @@ export const supportedLanguages = [
     name: "English",
   },
 ];
+if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
+  supportedLanguages.push({
+    id: "lol",
+    name: "Translation test",
+  });
+}
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;
