@@ -78,6 +78,7 @@ const SettingsArea = () => {
           id="language"
           variant="outline"
           onChange={handleChangeLanguage}
+          value={settings.languageId}
           maxWidth="16ch"
         >
           {supportedLanguages.map((language) => (
