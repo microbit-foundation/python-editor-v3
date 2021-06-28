@@ -12,6 +12,12 @@ export const supportedLanguages = [
     name: "English",
   },
 ];
+if (process.env.NODE_ENV !== "production") {
+  supportedLanguages.push({
+    id: "lol",
+    name: "Translation test",
+  });
+}
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;
@@ -46,8 +52,9 @@ export interface Settings {
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];
 
-export const SettingsContext =
-  createContext<SettingsContextValue | undefined>(undefined);
+export const SettingsContext = createContext<SettingsContextValue | undefined>(
+  undefined
+);
 
 export const useSettings = (): SettingsContextValue => {
   const settings = useContext(SettingsContext);

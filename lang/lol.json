@@ -1,0 +1,414 @@
+{
+  "about": {
+    "defaultMessage": "Абоюют",
+    "description": "About action"
+  },
+  "about-comic": {
+    "defaultMessage": "Тхреее паанел  сомііс тіітледд \"МіісроППутхоон Рооскс\"  бу  Мікее Роввбіт.. А ссартооон сснакее інттродююсес  Дамііен,  сауііндж \"ММеетт Дамміен.... ХХе срреатеед МіісроППутхоон.\".. Твоо снаакес  дісссюсс  МісрроПуттхон.. Тхее уелллов  снакке сааус \"ММісрроПуттхон  іс ддесіджджнед  то вворк  он вверу  смаллл соомпюттерс..\" \"ЛЛіке  тхе  ББC  місрро:бііт\" ттхе ппюрплле сннаке  реплліес..\" Тххе уеелловвс сннаке  сонттінюеес \"ББют ППутхоон саан рююн аннувхеере.\".. Тххе пююрплее снааке ааджрееес, ссауінндж \"ЛЛіке  он ттхіс  раскк оф  севеерс ттхат  рюн  хюджее веббсітеес\".  Тхе  басккджроююнд ббехіннд тххе сннакесс схоовс аа серрвер  раскк.",
+    "description": "Alt text for comic in the about dialog"
+  },
+  "about-microbit": {
+    "defaultMessage": "Мадее віттх лоове ббу тххе <link>ММісроо:бітт Eдююсатііоналл Фоююндаттіон  анд  сонттрібююторсс</link>",
+    "description": "Text in about dialog"
+  },
+  "about-micropython": {
+    "defaultMessage": "Тхе  едіттор ддепенндс оон <link>ММісрооПутххон</link>  вхіссх ісс мадде буу Дамміен  Георрдже аанд аа сомммюнііту ооф деевелооперсс арооюнд  тхе  ворллд.",
+    "description": "Text in about dialog"
+  },
+  "about-read-less-micropython": {
+    "defaultMessage": "Реадд лессс аббоют  МісрроПуттхон",
+    "description": "Aria label to collapse an expanded section about MicroPython"
+  },
+  "about-read-more-micropython": {
+    "defaultMessage": "Реадд морре аббоют  МісрроПуттхон",
+    "description": "Arial label to expand a collapsed section about MicroPython"
+  },
+  "added-change": {
+    "defaultMessage": "Аддеед фііле {changeName}",
+    "description": "Change made to file"
+  },
+  "already-exists": {
+    "defaultMessage": "Тхісс філле аллреадду ексксістсс",
+    "description": "File already exists notification text"
+  },
+  "back-to-main": {
+    "defaultMessage": "баскк то  тхе  маінн содде",
+    "description": "Text button, takes back to main code"
+  },
+  "cancel": {
+    "defaultMessage": "Cанссел",
+    "description": "Cancel button text"
+  },
+  "change-files": {
+    "defaultMessage": "Cханндже ффілесс?",
+    "description": "Header for dialog of confirmation of files changed"
+  },
+  "choose-main-add-file": {
+    "defaultMessage": "Адд  філее {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-add-module": {
+    "defaultMessage": "Адд  модююле {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-file": {
+    "defaultMessage": "Реплласе  філее {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-module": {
+    "defaultMessage": "Реплласе  модююле {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-file": {
+    "defaultMessage": "Адд  філее {target} ффром  {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-main-code": {
+    "defaultMessage": "Адд  маінн содде фрром {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-file": {
+    "defaultMessage": "Реплласе  філее {target} ввітх  {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-main-code": {
+    "defaultMessage": "Реплласе  маінн содде віітх {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "close-button": {
+    "defaultMessage": "Cлоссе",
+    "description": "Close button text"
+  },
+  "confirm": {
+    "defaultMessage": "Cонффірм",
+    "description": "Confirm action label"
+  },
+  "confirm-delete": {
+    "defaultMessage": "Cонффірм  делеете",
+    "description": "Confirmation header of deletion of a file"
+  },
+  "confirm-replace-body": {
+    "defaultMessage": "Реплласе  алл  філеес віітх ттхосее ін  тхе  хекс??",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Cонффірм  реплласе  проджджест",
+    "description": "Confirmation message title for replacing project dialog"
+  },
+  "connect-button": {
+    "defaultMessage": "Cонннест",
+    "description": "Connect button text"
+  },
+  "connect-hover": {
+    "defaultMessage": "Cонннест  то ууоюр  місрро:бііт оввер ВВебЮССБ",
+    "description": "Connect button hover text"
+  },
+  "connect-microbit": {
+    "defaultMessage": "Cонннест  то ууоюр  місрро:бііт тоо сеее серріал  оютппют ххере",
+    "description": "Text in serial area"
+  },
+  "copied": {
+    "defaultMessage": "Cопііед",
+    "description": "Text shown after copy to clipboard"
+  },
+  "copy": {
+    "defaultMessage": "Cопуу",
+    "description": "Copy to clipboard action text"
+  },
+  "create": {
+    "defaultMessage": "Cреаате",
+    "description": "Create action label"
+  },
+  "create-file": {
+    "defaultMessage": "Cреаате ннев ффіле",
+    "description": "Create new file button text"
+  },
+  "create-python": {
+    "defaultMessage": "Cреаате аа невв Путтхон  філее",
+    "description": "Hover text over create Python file button"
+  },
+  "created-file": {
+    "defaultMessage": "Cреаатед  {filename}",
+    "description": "Action feedback for creating a file"
+  },
+  "delete-button": {
+    "defaultMessage": "Делеете",
+    "description": "Button text for delete action"
+  },
+  "delete-file": {
+    "defaultMessage": "Делеете {name}",
+    "description": "Menu option to delete file"
+  },
+  "deleted-file": {
+    "defaultMessage": "Делеетед  {filename}",
+    "description": "Confirmation message that file got deleted"
+  },
+  "disconnect-button": {
+    "defaultMessage": "Дісссоннеест",
+    "description": "Disconnect button text"
+  },
+  "disconnect-hover": {
+    "defaultMessage": "Дісссоннеест ффром  тхе  місрро:бііт",
+    "description": "Disconnect button hover text"
+  },
+  "documentation": {
+    "defaultMessage": "Досююменттатіоон",
+    "description": "Documentation menu option text"
+  },
+  "download-button": {
+    "defaultMessage": "Довннлоадд",
+    "description": "Download button text"
+  },
+  "download-file": {
+    "defaultMessage": "Довннлоадд {name}",
+    "description": "Menu option to download file"
+  },
+  "download-hex": {
+    "defaultMessage": "Довннлоадд прооджестт хекскс",
+    "description": "Text for menu item for downloading project hex file"
+  },
+  "download-hover": {
+    "defaultMessage": "Довннлоадд а ппроджеест ххекс ффіле",
+    "description": "Hover text over download button"
+  },
+  "download-python": {
+    "defaultMessage": "Довннлоадд Путтхон  ссрііпт",
+    "description": "Download button menu option for downloading Python script"
+  },
+  "edit-file": {
+    "defaultMessage": "Eдітт {name}",
+    "description": "Menu option to edit file"
+  },
+  "edit-name-project": {
+    "defaultMessage": "Eдітт тхее намме офф уоююр прроджесст",
+    "description": "Text for user to edit the name of the project"
+  },
+  "edit-project-name": {
+    "defaultMessage": "Eдітт прооджестт намме",
+    "description": "Text for user to edit the name of the project"
+  },
+  "failed-to-build-hex": {
+    "defaultMessage": "Фаіллед тто бююілд  тхе  хекс  філее",
+    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+  },
+  "file-actions": {
+    "defaultMessage": "{name} фііле аастіоонс",
+    "description": "Header of file actions for file"
+  },
+  "files-tab": {
+    "defaultMessage": "Філеес",
+    "description": "Python tab text"
+  },
+  "flash-button": {
+    "defaultMessage": "Флассх",
+    "description": "Text for flash button"
+  },
+  "flash-project": {
+    "defaultMessage": "Флассх тххе прроджесст дііресттлу тто тххе міісро::біт",
+    "description": "Hover text over flash button"
+  },
+  "flash-text": {
+    "defaultMessage": "Флассх",
+    "description": "Text of Flash button"
+  },
+  "flashing-code": {
+    "defaultMessage": "Флассхіндждж содде",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "font-size": {
+    "defaultMessage": "Фонтт сіззе",
+    "description": "Font size option text"
+  },
+  "help-translate": {
+    "defaultMessage": "Хелпп Траанслаате",
+    "description": "Help translate  menu option text"
+  },
+  "highlight-structure": {
+    "defaultMessage": "Хіджххліджххт сооде сстрюсстюрее",
+    "description": "Highlight code option text"
+  },
+  "language": {
+    "defaultMessage": "Ланджджюаджее",
+    "description": "Language option text"
+  },
+  "load-button": {
+    "defaultMessage": "Лоадд…",
+    "description": "Load button text"
+  },
+  "load-error-mixed": {
+    "defaultMessage": "А хеекс фііле ссан оонлу  бе ллоадеед онн ітсс овнн. Ітт реппласеес аллл фіілес  ін ттхе ппроджеест.",
+    "description": "Load error message"
+  },
+  "load-error-mpy": {
+    "defaultMessage": "Тхісс веррсіонн оф  тхе  Путххон EEдітоор дооесн'тт сююрреннтлу  сюпппорт  аддііндж ..мпу  філеес.",
+    "description": "Load error message"
+  },
+  "load-error-title": {
+    "defaultMessage": "Cанннот ллоад {fileCount, plural, one {file} other {files}}",
+    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "load-hover": {
+    "defaultMessage": "Лоадд а ххекс оор Пуутхонн філле орр аддд отххер ффілесс",
+    "description": "Hover text over load button"
+  },
+  "loaded-file-feedback": {
+    "defaultMessage": "Лоаддед {filename}",
+    "description": "Success feedback for loading file"
+  },
+  "lowercase-no-space": {
+    "defaultMessage": "Путххон ффілесс схооюлд  хавее ловверсаасе ннамесс віттх ноо спаасес",
+    "description": "Warning text for uppercase Pyton file name or space"
+  },
+  "microbit-hearts-alt": {
+    "defaultMessage": "місрро:бііт бооард  вітхх тхее 5 ббу 5  ЛEД  джрідд схоовіндждж а ххеартт",
+    "description": "Alt text for micro:bit image in About dialog"
+  },
+  "micropython-history": {
+    "defaultMessage": "Леаррн хоов МіісроППутхоон онн тхее міссро:ббіт ссаме  то ббе",
+    "description": "Links to MicroPython history in the about dialog"
+  },
+  "micropython-source-code": {
+    "defaultMessage": "МісрроПуттхон  <linkV1>соююрсе  содее форр тхее міссро:ббіт ВВ1</linkV1> аанд <linkV2>ммісрро:бііт В22</linkV2>",
+    "description": "Links to the MicroPython source code in the about dialog"
+  },
+  "name-not-blank": {
+    "defaultMessage": "Тхе  проджджест  намее санннот  бе ббланкк",
+    "description": "Validation message for project name"
+  },
+  "name-not-empty": {
+    "defaultMessage": "Тхе  намее санннот  бе еемптуу",
+    "description": "Warning text for new Pyton file with empty name"
+  },
+  "name-project": {
+    "defaultMessage": "Намее уоююр прроджесст",
+    "description": "Name your project header"
+  },
+  "name-text": {
+    "defaultMessage": "Намее",
+    "description": "Header for name field"
+  },
+  "name-used-when": {
+    "defaultMessage": "Тхе  намее іс  юседд вхеен уоою доовнлооад аа хекскс філле.",
+    "description": "Text under project name field"
+  },
+  "new-file-hint": {
+    "defaultMessage": "Ве'ллл аддд тххе <code>..пу</code>  екстеенсіоон фоор уоою.",
+    "description": "Hint shown in the new Python file dialog"
+  },
+  "open-file-dropped": {
+    "defaultMessage": "Опенн філле вххен ддропппед",
+    "description": "Aria label for file drop target"
+  },
+  "permanently-delete": {
+    "defaultMessage": "Пермманеннтлу  делеете {filename}??",
+    "description": "Confirmation question to permanently delete file"
+  },
+  "python-powered": {
+    "defaultMessage": "Путххон пповерред",
+    "description": "Python powered logo alt text"
+  },
+  "python-tab": {
+    "defaultMessage": "Путххон",
+    "description": "Python tab text"
+  },
+  "quit-anyway": {
+    "defaultMessage": "Сомее оф  уоюрр схаанджесс хавве ноот бееен ссаведд. Квююіт аануваау?",
+    "description": "Quit anyway text"
+  },
+  "read-less": {
+    "defaultMessage": "Реадд лессс",
+    "description": "Action text to collapse an expanded section"
+  },
+  "read-more": {
+    "defaultMessage": "Реадд морре",
+    "description": "Action text to expand a collapsed section"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Реплласе",
+    "description": "Action label for replacing project dialog"
+  },
+  "settings": {
+    "defaultMessage": "Сетттінджсс",
+    "description": "Settings text"
+  },
+  "software-versions": {
+    "defaultMessage": "Софттварее веррсіоннс",
+    "description": "Heading for a table of software versions in the about dialog"
+  },
+  "support": {
+    "defaultMessage": "Сюпппорт",
+    "description": "Support menu option text"
+  },
+  "terms-of-use": {
+    "defaultMessage": "Терммс офф юсее",
+    "description": "Terms of use menu option text"
+  },
+  "timeout-error-description": {
+    "defaultMessage": "Юнаббле тто сооннесст тоо тхее міссро:ббіт",
+    "description": "Description for error messages relating to WebUSB timeout"
+  },
+  "timeout-error-title": {
+    "defaultMessage": "Cонннестііон ттімедд оютт",
+    "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "unexpected-error-description": {
+    "defaultMessage": "Плеаасе ттру ааджаінн ор  <link>раіісе аа сюпппортт реквквюестт</link>",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "unexpected-error-title": {
+    "defaultMessage": "Плеаасе ттру ааджаінн ор  <link>раіісе аа сюпппортт реквквюестт</link>",
+    "description": "Progress dialog text telling user that code is being flashed"
+  },
+  "updated-change": {
+    "defaultMessage": "Юпдаатед  філее {changeName}",
+    "description": "Change made to file"
+  },
+  "webusb-download-instead": {
+    "defaultMessage": "Довннлоадд тхее хекскс філле орр труу Cхрроме  ор ММісроософтт Eддждже.",
+    "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
+  },
+  "webusb-error-clear-connect-description-1": {
+    "defaultMessage": "Аноттхер  проссесс  іс ссоннеестедд то  тхісс деввісе..",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-description-2": {
+    "defaultMessage": "Cлоссе анну оттхер  табсс тхаат маау бее юсііндж ВВебЮССБ (ее.дж.  МакееCодее, Пуутхонн Eдіітор),, орр юнпплюдж  анд  репллюдж ттхе ммісроо:бітт беффоре  труііндж ааджаінн.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-title": {
+    "defaultMessage": "Юнаббле тто сллаім  інтеерфассе",
+    "description": "Title of error for WebUsb connection"
+  },
+  "webusb-error-default-title": {
+    "defaultMessage": "ВебЮЮСБ ееррорр",
+    "description": "Default title for error messages relating to WebUSB"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "Плеаасе рресонннестт уоююр міісро::біт  анд  тру  аджаіін.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-update-req-description": {
+    "defaultMessage": "Уою  неедд то  <link>юпддате  уоюрр міссро:ббіт ффірмвваре</link>  то  макее юсее оф  тхісс феаатюрее.",
+    "description": "WebUSB error telling user to update firmware"
+  },
+  "webusb-error-update-req-title": {
+    "defaultMessage": "Плеаасе ююпдатте тххе міісро::біт  фірммварее",
+    "description": "Error text telling user to update firmware"
+  },
+  "webusb-not-supported": {
+    "defaultMessage": "Юнфоортюннателлу, ВВебЮССБ ісс нотт сюпппорттед іін тххіс ббровссер.  Ве рресомммендд Cхрроме,, ор  а Cххромее-бассед ббровссер тто юссе ВеебЮСББ.",
+    "description": "Shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-why-use": {
+    "defaultMessage": "Вітхх ВеббЮСБ  уою  сан  проджджрам  уоюрр міссро:ббіт аанд ссоннеест тто тххе сееріалл соннсолее діррестллу фрром ттхе оонлінне еддіторр.",
+    "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "zoom-in": {
+    "defaultMessage": "Зоомм ін",
+    "description": "Text label for zoom in button"
+  },
+  "zoom-out": {
+    "defaultMessage": "Зоомм оютт",
+    "description": "Text label for zoom out button"
+  }
+}

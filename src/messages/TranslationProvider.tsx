@@ -4,6 +4,8 @@ import { ReactNode, useEffect, useState } from "react";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
+    case "lol":
+      return (await import("./test.json")).default;
     default:
       return (await import("./en.json")).default;
   }
@@ -17,6 +19,7 @@ interface TranslationProviderProps {
 
 const TranslationProvider = ({ children }: TranslationProviderProps) => {
   const [{ languageId }] = useSettings();
+  console.log(languageId);
   // If the messages are for a different language (or missing) then reload them
   const [messages, setMessages] = useState<Messages | undefined>();
   useEffect(() => {

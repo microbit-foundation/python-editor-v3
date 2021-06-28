@@ -1,0 +1,832 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "Абоюют"
+    }
+  ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "Тхреее паанел  сомііс тіітледд \"МіісроППутхоон Рооскс\"  бу  Мікее Роввбіт.. А ссартооон сснакее інттродююсес  Дамііен,  сауііндж \"ММеетт Дамміен.... ХХе срреатеед МіісроППутхоон.\".. Твоо снаакес  дісссюсс  МісрроПуттхон.. Тхее уелллов  снакке сааус \"ММісрроПуттхон  іс ддесіджджнед  то вворк  он вверу  смаллл соомпюттерс..\" \"ЛЛіке  тхе  ББC  місрро:бііт\" ттхе ппюрплле сннаке  реплліес..\" Тххе уеелловвс сннаке  сонттінюеес \"ББют ППутхоон саан рююн аннувхеере.\".. Тххе пююрплее снааке ааджрееес, ссауінндж \"ЛЛіке  он ттхіс  раскк оф  севеерс ттхат  рюн  хюджее веббсітеес\".  Тхе  басккджроююнд ббехіннд тххе сннакесс схоовс аа серрвер  раскк."
+    }
+  ],
+  "about-microbit": [
+    {
+      "type": 0,
+      "value": "Мадее віттх лоове ббу тххе "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ММісроо:бітт Eдююсатііоналл Фоююндаттіон  анд  сонттрібююторсс"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "Тхе  едіттор ддепенндс оон "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ММісрооПутххон"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "  вхіссх ісс мадде буу Дамміен  Георрдже аанд аа сомммюнііту ооф деевелооперсс арооюнд  тхе  ворллд."
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "Реадд лессс аббоют  МісрроПуттхон"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "Реадд морре аббоют  МісрроПуттхон"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "Аддеед фііле "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "already-exists": [
+    {
+      "type": 0,
+      "value": "Тхісс філле аллреадду ексксістсс"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "баскк то  тхе  маінн содде"
+    }
+  ],
+  "cancel": [
+    {
+      "type": 0,
+      "value": "Cанссел"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "Cханндже ффілесс?"
+    }
+  ],
+  "choose-main-add-file": [
+    {
+      "type": 0,
+      "value": "Адд  філее "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-add-module": [
+    {
+      "type": 0,
+      "value": "Адд  модююле "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-replace-file": [
+    {
+      "type": 0,
+      "value": "Реплласе  філее "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-replace-module": [
+    {
+      "type": 0,
+      "value": "Реплласе  модююле "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-source-add-file": [
+    {
+      "type": 0,
+      "value": "Адд  філее "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " ффром  "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-add-main-code": [
+    {
+      "type": 0,
+      "value": "Адд  маінн содде фрром "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-replace-file": [
+    {
+      "type": 0,
+      "value": "Реплласе  філее "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " ввітх  "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-replace-main-code": [
+    {
+      "type": 0,
+      "value": "Реплласе  маінн содде віітх "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "close-button": [
+    {
+      "type": 0,
+      "value": "Cлоссе"
+    }
+  ],
+  "confirm": [
+    {
+      "type": 0,
+      "value": "Cонффірм"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "Cонффірм  делеете"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "Реплласе  алл  філеес віітх ттхосее ін  тхе  хекс??"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "Cонффірм  реплласе  проджджест"
+    }
+  ],
+  "connect-button": [
+    {
+      "type": 0,
+      "value": "Cонннест"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "Cонннест  то ууоюр  місрро:бііт оввер ВВебЮССБ"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "Cонннест  то ууоюр  місрро:бііт тоо сеее серріал  оютппют ххере"
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "Cопііед"
+    }
+  ],
+  "copy": [
+    {
+      "type": 0,
+      "value": "Cопуу"
+    }
+  ],
+  "create": [
+    {
+      "type": 0,
+      "value": "Cреаате"
+    }
+  ],
+  "create-file": [
+    {
+      "type": 0,
+      "value": "Cреаате ннев ффіле"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Cреаате аа невв Путтхон  філее"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Cреаатед  "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "delete-button": [
+    {
+      "type": 0,
+      "value": "Делеете"
+    }
+  ],
+  "delete-file": [
+    {
+      "type": 0,
+      "value": "Делеете "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "Делеетед  "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "disconnect-button": [
+    {
+      "type": 0,
+      "value": "Дісссоннеест"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "Дісссоннеест ффром  тхе  місрро:бііт"
+    }
+  ],
+  "documentation": [
+    {
+      "type": 0,
+      "value": "Досююменттатіоон"
+    }
+  ],
+  "download-button": [
+    {
+      "type": 0,
+      "value": "Довннлоадд"
+    }
+  ],
+  "download-file": [
+    {
+      "type": 0,
+      "value": "Довннлоадд "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "download-hex": [
+    {
+      "type": 0,
+      "value": "Довннлоадд прооджестт хекскс"
+    }
+  ],
+  "download-hover": [
+    {
+      "type": 0,
+      "value": "Довннлоадд а ппроджеест ххекс ффіле"
+    }
+  ],
+  "download-python": [
+    {
+      "type": 0,
+      "value": "Довннлоадд Путтхон  ссрііпт"
+    }
+  ],
+  "edit-file": [
+    {
+      "type": 0,
+      "value": "Eдітт "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "edit-name-project": [
+    {
+      "type": 0,
+      "value": "Eдітт тхее намме офф уоююр прроджесст"
+    }
+  ],
+  "edit-project-name": [
+    {
+      "type": 0,
+      "value": "Eдітт прооджестт намме"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "Фаіллед тто бююілд  тхе  хекс  філее"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " фііле аастіоонс"
+    }
+  ],
+  "files-tab": [
+    {
+      "type": 0,
+      "value": "Філеес"
+    }
+  ],
+  "flash-button": [
+    {
+      "type": 0,
+      "value": "Флассх"
+    }
+  ],
+  "flash-project": [
+    {
+      "type": 0,
+      "value": "Флассх тххе прроджесст дііресттлу тто тххе міісро::біт"
+    }
+  ],
+  "flash-text": [
+    {
+      "type": 0,
+      "value": "Флассх"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "Флассхіндждж содде"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Фонтт сіззе"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Хелпп Траанслаате"
+    }
+  ],
+  "highlight-structure": [
+    {
+      "type": 0,
+      "value": "Хіджххліджххт сооде сстрюсстюрее"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Ланджджюаджее"
+    }
+  ],
+  "load-button": [
+    {
+      "type": 0,
+      "value": "Лоадд…"
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "А хеекс фііле ссан оонлу  бе ллоадеед онн ітсс овнн. Ітт реппласеес аллл фіілес  ін ттхе ппроджеест."
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "Тхісс веррсіонн оф  тхе  Путххон EEдітоор дооесн'тт сююрреннтлу  сюпппорт  аддііндж ..мпу  філеес."
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "Cанннот ллоад "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "file"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    }
+  ],
+  "load-hover": [
+    {
+      "type": 0,
+      "value": "Лоадд а ххекс оор Пуутхонн філле орр аддд отххер ффілесс"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "Лоаддед "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "lowercase-no-space": [
+    {
+      "type": 0,
+      "value": "Путххон ффілесс схооюлд  хавее ловверсаасе ннамесс віттх ноо спаасес"
+    }
+  ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "місрро:бііт бооард  вітхх тхее 5 ббу 5  ЛEД  джрідд схоовіндждж а ххеартт"
+    }
+  ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "Леаррн хоов МіісроППутхоон онн тхее міссро:ббіт ссаме  то ббе"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "МісрроПуттхон  "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "соююрсе  содее форр тхее міссро:ббіт ВВ1"
+        }
+      ],
+      "type": 8,
+      "value": "linkV1"
+    },
+    {
+      "type": 0,
+      "value": " аанд "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ммісрро:бііт В22"
+        }
+      ],
+      "type": 8,
+      "value": "linkV2"
+    }
+  ],
+  "name-not-blank": [
+    {
+      "type": 0,
+      "value": "Тхе  проджджест  намее санннот  бе ббланкк"
+    }
+  ],
+  "name-not-empty": [
+    {
+      "type": 0,
+      "value": "Тхе  намее санннот  бе еемптуу"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Намее уоююр прроджесст"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "Намее"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "Тхе  намее іс  юседд вхеен уоою доовнлооад аа хекскс філле."
+    }
+  ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "Ве'ллл аддд тххе "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "..пу"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": "  екстеенсіоон фоор уоою."
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "Опенн філле вххен ддропппед"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "Пермманеннтлу  делеете "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "??"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "Путххон пповерред"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "Путххон"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "Сомее оф  уоюрр схаанджесс хавве ноот бееен ссаведд. Квююіт аануваау?"
+    }
+  ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "Реадд лессс"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "Реадд морре"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "Реплласе"
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Сетттінджсс"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "Софттварее веррсіоннс"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Сюпппорт"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Терммс офф юсее"
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "Юнаббле тто сооннесст тоо тхее міссро:ббіт"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "Cонннестііон ттімедд оютт"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "Плеаасе ттру ааджаінн ор  "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "раіісе аа сюпппортт реквквюестт"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "Плеаасе ттру ааджаінн ор  "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "раіісе аа сюпппортт реквквюестт"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "Юпдаатед  філее "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "webusb-download-instead": [
+    {
+      "type": 0,
+      "value": "Довннлоадд тхее хекскс філле орр труу Cхрроме  ор ММісроософтт Eддждже."
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "Аноттхер  проссесс  іс ссоннеестедд то  тхісс деввісе.."
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "Cлоссе анну оттхер  табсс тхаат маау бее юсііндж ВВебЮССБ (ее.дж.  МакееCодее, Пуутхонн Eдіітор),, орр юнпплюдж  анд  репллюдж ттхе ммісроо:бітт беффоре  труііндж ааджаінн."
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "Юнаббле тто сллаім  інтеерфассе"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "ВебЮЮСБ ееррорр"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "Плеаасе рресонннестт уоююр міісро::біт  анд  тру  аджаіін."
+    }
+  ],
+  "webusb-error-update-req-description": [
+    {
+      "type": 0,
+      "value": "Уою  неедд то  "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "юпддате  уоюрр міссро:ббіт ффірмвваре"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "  то  макее юсее оф  тхісс феаатюрее."
+    }
+  ],
+  "webusb-error-update-req-title": [
+    {
+      "type": 0,
+      "value": "Плеаасе ююпдатте тххе міісро::біт  фірммварее"
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "Юнфоортюннателлу, ВВебЮССБ ісс нотт сюпппорттед іін тххіс ббровссер.  Ве рресомммендд Cхрроме,, ор  а Cххромее-бассед ббровссер тто юссе ВеебЮСББ."
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "Вітхх ВеббЮСБ  уою  сан  проджджрам  уоюрр міссро:ббіт аанд ссоннеест тто тххе сееріалл соннсолее діррестллу фрром ттхе оонлінне еддіторр."
+    }
+  ],
+  "zoom-in": [
+    {
+      "type": 0,
+      "value": "Зоомм ін"
+    }
+  ],
+  "zoom-out": [
+    {
+      "type": 0,
+      "value": "Зоомм оютт"
+    }
+  ]
+}
