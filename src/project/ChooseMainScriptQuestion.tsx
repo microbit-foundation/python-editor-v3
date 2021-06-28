@@ -13,7 +13,7 @@ import {
   MenuList,
   MenuOptionGroup,
 } from "@chakra-ui/menu";
-import { sortBy } from "lodash";
+import sortBy from "lodash.sortby";
 import { RiFileSettingsLine } from "react-icons/ri";
 import { IntlShape, useIntl } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
