@@ -219,6 +219,22 @@
     "defaultMessage": "About",
     "description": "About action"
   },
+  "python-powered": {
+    "defaultMessage": "Python powered",
+    "description": "Python powered logo alt text"
+  },
+  "about-comic": {
+    "defaultMessage": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like the BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of severs that run huge websites\". The background behind the snakes shows a server rack.",
+    "description": "Alt text for comic in the about dialog"
+  },
+  "micropython-source-code": {
+    "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1> and <linkV2>micro:bit V2</linkV2>",
+    "description": "Links to the MicroPython source code in the about dialog"
+  },
+  "micropython-history": {
+    "defaultMessage": "Learn how MicroPython on the micro:bit came to be",
+    "description": "Links to MicroPython history in the about dialog"
+  },
   "about-microbit": {
     "defaultMessage": "Made with love by the <link>Micro:bit Educational Foundation and contributors</link>",
     "description": "Text in about dialog"

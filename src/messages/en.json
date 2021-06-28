@@ -5,6 +5,12 @@
       "value": "About"
     }
   ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like the BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of severs that run huge websites\". The background behind the snakes shows a server rack."
+    }
+  ],
   "about-microbit": [
     {
       "type": 0,
@@ -421,6 +427,42 @@
       "value": "micro:bit board with the 5 by 5 LED grid showing a heart"
     }
   ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "Learn how MicroPython on the micro:bit came to be"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "MicroPython "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "source code for the micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "linkV1"
+    },
+    {
+      "type": 0,
+      "value": " and "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V2"
+        }
+      ],
+      "type": 8,
+      "value": "linkV2"
+    }
+  ],
   "name-not-blank": [
     {
       "type": 0,
@@ -489,6 +531,12 @@
     {
       "type": 0,
       "value": "?"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "Python powered"
     }
   ],
   "python-tab": [

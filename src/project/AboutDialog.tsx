@@ -81,14 +81,14 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   </Flex>
                 )}
                 <Flex alignItems="center" justifyContent="flex-end">
+                  {/* No need to translate */}
                   <Image src={micropythonLogo} alt="MicroPython" />
                 </Flex>
-                <Flex
-                  alignItems="center"
-                  justifyContent="flex-end"
-                  alt="Python powered"
-                >
-                  <Image src={pythonPoweredLogo} />
+                <Flex alignItems="center" justifyContent="flex-end">
+                  <Image
+                    src={pythonPoweredLogo}
+                    alt={intl.formatMessage({ id: "python-powered" })}
+                  />
                 </Flex>
               </HStack>
 
@@ -209,47 +209,57 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
   );
 };
 
-const MicroPythonSection = (props: BoxProps) => (
-  <VStack spacing={4} {...props}>
-    <AspectRatio ratio={1035 / 423} width="100%">
-      <Image
-        src={comicImage}
-        alt={`Three panel comic titled "MicroPython Rocks" by Mike Rowbit. A cartoon snake introduces Damien, saying "Meet Damien... He created MicroPython.". Two snakes discuss MicroPython. The yellow snake says "MicroPython is designed to work on very small computers." "Like the BBC micro:bit" the purple snake replies." The yellows snake continues "But Python can run anywhere.". The purple snake agrees, saying "Like on this rack of severs that run huge websites". The background behind the snakes shows a server rack.`}
-      />
-    </AspectRatio>
-    <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} textAlign="center">
-      <Text fontSize="md">
-        MicroPython{" "}
-        <Link
-          color="brand.500"
-          href="https://github.com/bbcmicrobit/micropython"
-          target="_blank"
-          rel="noopener"
-        >
-          source code for the micro:bit V1
-        </Link>{" "}
-        and{" "}
-        <Link
-          color="brand.500"
-          href="https://github.com/microbit-foundation/micropython-microbit-v2"
-          target="_blank"
-          rel="noopener"
-        >
-          micro:bit V2
-        </Link>{" "}
-      </Text>
-      <Text fontSize="md">
-        <Link
-          color="brand.500"
-          href="https://ntoll.org/article/story-micropython-on-microbit/"
-          target="_blank"
-          rel="noopener"
-        >
-          Learn how MicroPython on the micro:bit came to be{" "}
-        </Link>
-      </Text>
-    </SimpleGrid>
-  </VStack>
-);
+const MicroPythonSection = (props: BoxProps) => {
+  const intl = useIntl();
+  return (
+    <VStack spacing={4} {...props}>
+      <AspectRatio ratio={1035 / 423} width="100%">
+        <Image
+          src={comicImage}
+          alt={intl.formatMessage({ id: "about-comic" })}
+        />
+      </AspectRatio>
+      <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} textAlign="center">
+        <Text fontSize="md">
+          <FormattedMessage
+            id="micropython-source-code"
+            values={{
+              linkV1: (chunks: ReactNode) => (
+                <Link
+                  color="brand.500"
+                  href="https://github.com/bbcmicrobit/micropython"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {chunks}
+                </Link>
+              ),
+              linkV2: (chunks: ReactNode) => (
+                <Link
+                  color="brand.500"
+                  href="https://github.com/microbit-foundation/micropython-microbit-v2"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  micro:bit V2
+                </Link>
+              ),
+            }}
+          />
+        </Text>
+        <Text fontSize="md">
+          <Link
+            color="brand.500"
+            href="https://ntoll.org/article/story-micropython-on-microbit/"
+            target="_blank"
+            rel="noopener"
+          >
+            <FormattedMessage id="micropython-history" />
+          </Link>
+        </Text>
+      </SimpleGrid>
+    </VStack>
+  );
+};
 
 export default AboutDialog;
