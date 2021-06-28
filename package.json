@@ -63,7 +63,7 @@
     "ci:update-version": "update-ci-version",
     "deploy": "website-deploy-aws",
     "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
-    "i18n:compile": "formatjs compile-folder --ast lang src/messages"
+    "i18n:compile": "node lang/sort.js && formatjs compile-folder --ast lang src/messages"
   },
   "eslintConfig": {
     "extends": [
