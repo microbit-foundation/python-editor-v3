@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/menu";
 import { sortBy } from "lodash";
 import { RiFileSettingsLine } from "react-icons/ri";
+import { IntlShape, useIntl } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 import { MAIN_FILE } from "../fs/fs";
 import { ClassifiedFileInput, FileOperation } from "./changes";
@@ -85,19 +86,28 @@ const findProposedChanges = (
 };
 
 // Exposed for testing.
-export const summarizeChange = (change: ProposedChange): string => {
-  const changeText =
-    // come back later, property , expected
-    change.operation === FileOperation.REPLACE ? "Replace" : "Add";
-  const what = change.module ? "module" : "file";
+export const summarizeChange = (
+  intl: IntlShape,
+  change: ProposedChange
+): string => {
+  const changeType =
+    change.operation === FileOperation.REPLACE ? "replace" : "add";
+  const moduleNature = change.module ? "module" : "file";
   if (change.source === change.target && change.target !== MAIN_FILE) {
-    return `${changeText} ${what} ${change.target}`;
+    return intl.formatMessage(
+      { id: `choose-main-${changeType}-${moduleNature}` },
+      { name: change.target }
+    );
   }
-  const targetLabel =
-    change.target === MAIN_FILE ? "main code" : `file ${change.target}`;
-  const preposition =
-    change.operation === FileOperation.REPLACE ? "with" : "from";
-  return `${changeText} ${targetLabel} ${preposition} ${change.source}`;
+  const targetType = change.target === MAIN_FILE ? "main-code" : `file`;
+  const id = `choose-main-source-${changeType}-${targetType}`;
+  return intl.formatMessage(
+    { id },
+    {
+      source: change.source,
+      target: change.target,
+    }
+  );
 };
 
 interface FileChangeRowProps {
@@ -114,10 +124,11 @@ const FileChangeRow = ({
   const clearMainScript = () => setValue({ main: undefined });
   const switchMainScript = () => setValue({ main: change.source });
   const isMainScript = change.target === MAIN_FILE;
+  const intl = useIntl();
   return (
     <HStack justifyContent="space-between">
       <Text data-testid="change" as="span" lineHeight="3rem">
-        {summarizeChange(change)}
+        {summarizeChange(intl, change)}
       </Text>
       {change.script && change.source !== MAIN_FILE && (
         <OptionsMenu ml="auto">
@@ -127,7 +138,7 @@ const FileChangeRow = ({
             type="radio"
           >
             <MenuItemOption value="main" onClick={switchMainScript}>
-              {summarizeChange({
+              {summarizeChange(intl, {
                 ...change,
                 target: MAIN_FILE,
                 operation: currentFiles.has(MAIN_FILE)
@@ -136,7 +147,7 @@ const FileChangeRow = ({
               })}
             </MenuItemOption>
             <MenuItemOption value="source" onClick={clearMainScript}>
-              {summarizeChange({
+              {summarizeChange(intl, {
                 ...change,
                 target: change.source,
                 operation: currentFiles.has(change.source)

@@ -4,6 +4,9 @@ import ChooseMainScriptQuestion, {
   summarizeChange,
 } from "./ChooseMainScriptQuestion";
 import { MainScriptChoice } from "./project-actions";
+import { stubIntl as intl } from "../messages/testing";
+import TranslationProvider from "../messages/TranslationProvider";
+import { defaultSettings, SettingsContext } from "../settings/settings";
 
 describe("ChooseMainScriptQuestion", () => {
   const data = () => Promise.resolve(new Uint8Array([0]));
@@ -27,19 +30,23 @@ describe("ChooseMainScriptQuestion", () => {
       choice: string | undefined
     ) => {
       return render(
-        <ChooseMainScriptQuestion
-          error={undefined}
-          setError={setError}
-          setValue={setValue}
-          currentFiles={currentFiles}
-          value={{ main: choice }}
-          inputs={inputs}
-          validate={() => undefined}
-        />
+        <SettingsContext.Provider value={[defaultSettings, () => {}]}>
+          <TranslationProvider>
+            <ChooseMainScriptQuestion
+              error={undefined}
+              setError={setError}
+              setValue={setValue}
+              currentFiles={currentFiles}
+              value={{ main: choice }}
+              inputs={inputs}
+              validate={() => undefined}
+            />
+          </TranslationProvider>
+        </SettingsContext.Provider>
       );
     };
 
-    it("main.py replacement", () => {
+    it("main.py replacement", async () => {
       const inputs: ClassifiedFileInput[] = [
         {
           data,
@@ -49,14 +56,16 @@ describe("ChooseMainScriptQuestion", () => {
         },
       ];
       const result = renderComponent(inputs, "samplefile.py");
-      const items = result.getAllByTestId("change").map((x) => x.textContent);
+      const items = (await result.findAllByTestId("change")).map(
+        (x) => x.textContent
+      );
 
       expect(items).toEqual(["Replace main code with main.py"]);
       // We don't use a list for simple cases.
       expect(result.queryAllByRole("listitem")).toEqual([]);
     });
 
-    it("two options for main.py case", () => {
+    it("two options for main.py case", async () => {
       const inputs: ClassifiedFileInput[] = [
         {
           data,
@@ -72,11 +81,11 @@ describe("ChooseMainScriptQuestion", () => {
         },
       ];
       const result = renderComponent(inputs, "a.py");
-      const getAllListItems = () =>
-        Array.from(result.getAllByRole("list")[0].childNodes).map(
+      const findAllListItems = async () =>
+        Array.from((await result.findAllByRole("list"))[0].childNodes).map(
           (x) => x.firstChild!.firstChild!.firstChild?.textContent
         );
-      expect(getAllListItems()).toEqual([
+      expect(await findAllListItems()).toEqual([
         "Replace main code with a.py",
         "Add file b.py",
       ]);
@@ -86,7 +95,7 @@ describe("ChooseMainScriptQuestion", () => {
   describe("summarizeChange", () => {
     it("most common scenario is special cased to refer to main code", () => {
       expect(
-        summarizeChange({
+        summarizeChange(intl, {
           operation: FileOperation.REPLACE,
           module: false,
           script: true,
@@ -94,12 +103,12 @@ describe("ChooseMainScriptQuestion", () => {
           source: "somefile.py",
           target: "main.py",
         })
-      ).toEqual("Replace main code with somefile.py");
+      ).toEqual("choose-main-source-replace-main-code");
     });
 
     it("names modules as such", () => {
       expect(
-        summarizeChange({
+        summarizeChange(intl, {
           operation: FileOperation.ADD,
           module: true,
           script: false,
@@ -107,12 +116,12 @@ describe("ChooseMainScriptQuestion", () => {
           source: "module.py",
           target: "module.py",
         })
-      ).toEqual("Add module module.py");
+      ).toEqual("choose-main-add-module");
     });
 
     it("non-main non-module replace", () => {
       expect(
-        summarizeChange({
+        summarizeChange(intl, {
           operation: FileOperation.REPLACE,
           module: false,
           script: false,
@@ -120,12 +129,12 @@ describe("ChooseMainScriptQuestion", () => {
           source: "dave.py",
           target: "dave.py",
         })
-      ).toEqual("Replace file dave.py");
+      ).toEqual("choose-main-replace-file");
     });
 
     it("non-python add", () => {
       expect(
-        summarizeChange({
+        summarizeChange(intl, {
           operation: FileOperation.ADD,
           module: false,
           script: false,
@@ -133,7 +142,7 @@ describe("ChooseMainScriptQuestion", () => {
           source: "data.dat",
           target: "data.dat",
         })
-      ).toEqual("Add file data.dat");
+      ).toEqual("choose-main-add-file");
     });
   });
 });

@@ -378,5 +378,37 @@
   "load-error-mixed": {
     "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
     "description": "Load error message"
+  },
+  "choose-main-add-module": {
+    "defaultMessage": "Add module {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-add-file": {
+    "defaultMessage": "Add file {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-module": {
+    "defaultMessage": "Replace module {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-file": {
+    "defaultMessage": "Replace file {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-main-code": {
+    "defaultMessage": "Add main code from {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-file": {
+    "defaultMessage": "Add file {target} from {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-main-code": {
+    "defaultMessage": "Replace main code with {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-file": {
+    "defaultMessage": "Replace file {target} with {source}",
+    "description": "Shown in load dialog to confirm actions"
   }
 }

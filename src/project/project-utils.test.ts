@@ -1,11 +1,8 @@
 import { validateNewFilename } from "./project-utils";
-import { IntlShape, MessageDescriptor } from "react-intl";
+import { stubIntl as intl } from "../messages/testing";
 
 describe("validateNewFilename", () => {
   const exists = (filename: string) => filename === "main.py";
-  const intl = {
-    formatMessage: (md: MessageDescriptor) => md.id,
-  } as IntlShape;
 
   it("required non-empty name", () => {
     expect(validateNewFilename("", exists, intl)).toEqual("name-not-empty");
