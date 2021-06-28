@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { List, ListItem, VStack } from "@chakra-ui/react";
 import { useProject } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";

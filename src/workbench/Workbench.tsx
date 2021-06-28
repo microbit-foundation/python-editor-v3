@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box, Flex } from "@chakra-ui/layout";
 import { useEffect } from "react";
 import { ConnectionStatus } from "../device/device";

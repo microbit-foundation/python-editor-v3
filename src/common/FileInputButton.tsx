@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Input, Tooltip } from "@chakra-ui/react";
 import React, { ForwardedRef, useCallback, useRef } from "react";
 import CollapsableButton, { CollapsibleButtonProps } from "./CollapsibleButton";

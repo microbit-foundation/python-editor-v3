@@ -1,3 +1,12 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
+ * Initial code for a blank editor.
+ */
 const initialCode = `# Add your Python code here. E.g.
 from microbit import *
 

@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { ButtonProps, IconButton, Tooltip } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiShareLine } from "react-icons/ri";

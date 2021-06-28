@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { useState } from "react";
 import { IconButton } from "@chakra-ui/button";
 import { RiSettings2Line } from "react-icons/ri";

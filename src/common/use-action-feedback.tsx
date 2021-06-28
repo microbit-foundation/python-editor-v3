@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { useToast } from "@chakra-ui/react";
 import { ReactNode, useMemo } from "react";
 import { IntlShape, useIntl } from "react-intl";

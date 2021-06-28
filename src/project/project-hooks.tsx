@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useActionFeedback from "../common/use-action-feedback";
 import { useDialogs } from "../common/use-dialogs";

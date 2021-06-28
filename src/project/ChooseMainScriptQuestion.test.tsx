@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { render } from "@testing-library/react";
 import { ClassifiedFileInput, FileOperation } from "./changes";
 import ChooseMainScriptQuestion, {

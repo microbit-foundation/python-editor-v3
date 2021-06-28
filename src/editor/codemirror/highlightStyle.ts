@@ -1,3 +1,12 @@
+/**
+ * A CoreMirror view extension that dumps the syntax tree to the
+ * console. For debug use only.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 // CodeMirror maps grammar nodes to a set of predefined tags so that themes
 // can be written in a language independent way. Tags can extend others so it
 // is sufficient to address just the base tags in a theme but you can be more

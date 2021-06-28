@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { BoxProps, Button, HStack, Text } from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
 import { MAIN_FILE } from "../fs/fs";

@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import React, { ReactNode } from "react";
 
 export const br = (key: React.Key) => <br key={key} />;

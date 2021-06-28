@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { IntelHexWithId } from "@microbit/microbit-fs";
 import { microbitBoardId } from "@microbit/microbit-universal-hex";
 import microPythonV1HexUrl from "./microbit-micropython-v1.hex";

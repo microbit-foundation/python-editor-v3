@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";

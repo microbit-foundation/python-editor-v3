@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { ButtonGroup } from "@chakra-ui/button";
 import NewButton from "../project/NewButton";
 import LoadButton from "../project/LoadButton";

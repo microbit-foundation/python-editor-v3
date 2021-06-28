@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { extendTheme, withDefaultVariant } from "@chakra-ui/react";
 
 import fonts from "./fonts";
