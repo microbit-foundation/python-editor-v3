@@ -1,6 +1,11 @@
 /**
  * Environment can be removed if https://github.com/jsdom/jsdom/issues/2524 is fixed.
+ *
  * @jest-environment node
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
  */
 import {
   generateId,

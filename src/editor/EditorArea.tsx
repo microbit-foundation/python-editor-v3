@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box, BoxProps, Flex, Link } from "@chakra-ui/react";
 import { useDeployment } from "../deployment";
 import ProjectNameEditable from "../project/ProjectNameEditable";

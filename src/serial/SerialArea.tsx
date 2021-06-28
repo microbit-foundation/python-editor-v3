@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { BoxProps, Flex } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import Placeholder from "../common/Placeholder";

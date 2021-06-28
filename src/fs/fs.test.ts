@@ -1,6 +1,11 @@
 /**
  * @jest-environment node
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
  */
+
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import { NullLogging } from "../deployment/default/logging";

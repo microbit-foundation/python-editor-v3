@@ -1,6 +1,10 @@
 /**
  * A CoreMirror view extension that dumps the syntax tree to the
  * console. For debug use only.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
  */
 import { syntaxTree } from "@codemirror/language";
 import { NodeType } from "lezer-tree";

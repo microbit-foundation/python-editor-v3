@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { waitFor, waitForOptions } from "@testing-library/dom";
 import * as fs from "fs";
 import * as fsp from "fs/promises";

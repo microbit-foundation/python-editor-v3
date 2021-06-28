@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { BoxProps, HStack } from "@chakra-ui/react";
 import ConnectDisconnectButton from "./ConnectDisconnectButton";
 import DownloadFlashButton from "./DownloadFlashButton";

@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { MdDragHandle } from "react-icons/md";
 import { CodeSnippet, Package } from "./packages";

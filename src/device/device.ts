@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import EventEmitter from "events";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../deployment/default/logging";

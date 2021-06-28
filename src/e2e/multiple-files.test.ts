@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { App, LoadDialogType } from "./app";
 
 describe("Browser - multiple and missing file cases", () => {

@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box, BoxProps } from "@chakra-ui/layout";
 import { useEffect, useRef } from "react";
 import { Terminal } from "xterm";

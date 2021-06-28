@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { DeploymentConfig } from "..";
 import { NullLogging } from "./logging";
 import theme from "./theme";

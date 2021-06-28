@@ -1,4 +1,10 @@
 /**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * Validates micro:bit board IDs.
  */
 export class BoardId {

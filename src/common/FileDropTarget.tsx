@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box, BoxProps, Center } from "@chakra-ui/layout";
 import { ReactNode, useCallback, useState } from "react";
 import { RiFolderOpenLine } from "react-icons/ri";

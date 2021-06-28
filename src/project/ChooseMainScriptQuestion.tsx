@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { IconButton } from "@chakra-ui/button";
 import { HStack, ListItem, Text, UnorderedList } from "@chakra-ui/layout";
 import {

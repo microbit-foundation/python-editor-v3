@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
 import Editor from "./codemirror/CodeMirror";

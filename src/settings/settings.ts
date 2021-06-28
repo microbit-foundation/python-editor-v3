@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { createContext, useContext } from "react";
 import { defaultCodeFontSizePt } from "../deployment/misc";
 
@@ -46,8 +51,9 @@ export interface Settings {
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];
 
-export const SettingsContext =
-  createContext<SettingsContextValue | undefined>(undefined);
+export const SettingsContext = createContext<SettingsContextValue | undefined>(
+  undefined
+);
 
 export const useSettings = (): SettingsContextValue => {
   const settings = useContext(SettingsContext);

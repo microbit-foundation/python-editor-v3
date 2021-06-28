@@ -1,3 +1,9 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 export const getFileExtension = (filename: string): string | undefined => {
   const parts = filename.split(".");
   return parts.length > 1 ? parts.pop() || undefined : undefined;

@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Tooltip } from "@chakra-ui/react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
