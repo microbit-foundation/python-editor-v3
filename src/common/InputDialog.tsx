@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/modal";
 import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode, useRef, useState } from "react";
+import { FormattedMessage } from "react-intl";
 
 export interface InputDialogBody<T> {
   value: T;
@@ -96,7 +97,7 @@ export const InputDialog = <T extends unknown>({
           </ModalBody>
           <ModalFooter>
             <Button ref={leastDestructiveRef} onClick={onCancel}>
-              Cancel
+              <FormattedMessage id="cancel" />
             </Button>
             <Button
               variant="solid"

@@ -17,6 +17,7 @@ import {
 } from "react-icons/ri";
 import { deployment } from "../deployment";
 import AboutDialog from "./AboutDialog";
+import { FormattedMessage } from "react-intl";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -52,7 +53,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
               rel="noopener"
               icon={<RiExternalLinkLine />}
             >
-              Documentation
+              <FormattedMessage id="documentation" />
             </MenuItem>
             {deployment.supportLink && (
               <MenuItem
@@ -62,7 +63,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 rel="noopener"
                 icon={<RiExternalLinkLine />}
               >
-                Support
+                <FormattedMessage id="support" />
               </MenuItem>
             )}
             {deployment.termsOfUseLink && (
@@ -73,16 +74,15 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 rel="noopener"
                 icon={<RiExternalLinkLine />}
               >
-                Terms of use
+                <FormattedMessage id="terms-of-use" />
               </MenuItem>
             )}
             <MenuDivider />
-            {/* shift the icon to align with the first line of content */}
             <MenuItem
               icon={<RiInformationLine />}
               onClick={aboutDialogDisclosure.onOpen}
             >
-              About
+              <FormattedMessage id="about" />
             </MenuItem>
           </MenuList>
         </Portal>

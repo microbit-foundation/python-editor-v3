@@ -32,11 +32,14 @@ import {
 } from "@chakra-ui/react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { useDeployment } from "../deployment";
+import { FormattedMessage } from "react-intl";
 import { microPythonVersions } from "../fs/micropython";
 import comicImage from "./comic.png";
 import microbitHeartImage from "./microbit-heart.png";
 import micropythonLogo from "./micropython.jpeg";
 import pythonPoweredLogo from "./python-powered.png";
+import { ReactNode } from "react";
+import { useIntl } from "react-intl";
 
 const versionInfo = [
   { name: "Editor", value: process.env.REACT_APP_VERSION },
@@ -58,12 +61,13 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
   const { hasCopied, onCopy } = useClipboard(clipboardVersion);
   const deployment = useDeployment();
   const micropythonSection = useDisclosure();
+  const intl = useIntl();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay>
         <ModalContent>
-          <ModalCloseButton />
           <ModalBody>
+            <ModalCloseButton />
             <VStack spacing={8} pl={5} pr={5} pt={5}>
               <HStack spacing={4}>
                 {deployment.horizontalLogo && (
@@ -77,25 +81,33 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   </Flex>
                 )}
                 <Flex alignItems="center" justifyContent="flex-end">
+                  {/* No need to translate */}
                   <Image src={micropythonLogo} alt="MicroPython" />
                 </Flex>
-                <Flex
-                  alignItems="center"
-                  justifyContent="flex-end"
-                  alt="Python powered"
-                >
-                  <Image src={pythonPoweredLogo} />
+                <Flex alignItems="center" justifyContent="flex-end">
+                  <Image
+                    src={pythonPoweredLogo}
+                    alt={intl.formatMessage({ id: "python-powered" })}
+                  />
                 </Flex>
               </HStack>
 
               <Text fontSize="lg" textAlign="center">
-                Made with love by the{" "}
-                <Link
-                  color="brand.500"
-                  href="https://github.com/microbit-foundation/python-editor-next/graphs/contributors"
-                >
-                  Micro:bit Educational Foundation and contributors{" "}
-                </Link>
+                <FormattedMessage
+                  id="about-microbit"
+                  values={{
+                    link: (chunks: ReactNode) => (
+                      <Link
+                        rel="noopener noreferrer"
+                        target="blank"
+                        color="brand.500"
+                        href="https://github.com/microbit-foundation/python-editor-next/graphs/contributors"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  }}
+                />
               </Text>
               <SimpleGrid columns={[1, 1, 2, 2]} spacing={8} width="100%">
                 <Box>
@@ -107,7 +119,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   >
                     <Image
                       src={microbitHeartImage}
-                      alt="micro:bit board with the 5 by 5 LED grid showing a heart"
+                      alt={intl.formatMessage({ id: "microbit-hearts-alt" })}
                     />
                   </AspectRatio>
                 </Box>
@@ -127,7 +139,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                       ))}
                     </Tbody>
                     <TableCaption color="gray.800" placement="top">
-                      Software versions
+                      <FormattedMessage id="software-versions" />
                     </TableCaption>
                   </Table>
                   <Button
@@ -135,28 +147,32 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                     onClick={onCopy}
                     size="md"
                   >
-                    {hasCopied ? "Copied" : "Copy"}
+                    <FormattedMessage id={hasCopied ? "copied" : "copy"} />
                   </Button>
                 </VStack>
               </SimpleGrid>
               <Text fontSize="lg">
-                The editor depends on{" "}
-                <Link
-                  color="brand.500"
-                  href="https://micropython.org"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  MicroPython
-                </Link>{" "}
-                which is made by Damien George and a community of developers
-                around the world.{" "}
+                <FormattedMessage
+                  id="about-micropython"
+                  values={{
+                    link: (chunks: ReactNode) => (
+                      <Link
+                        color="brand.500"
+                        href="https://micropython.org"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  }}
+                />{" "}
                 <Button
-                  aria-label={
-                    micropythonSection.isOpen
-                      ? "Read less about MicroPython"
-                      : "Read more about MicroPython"
-                  }
+                  aria-label={intl.formatMessage({
+                    id: micropythonSection.isOpen
+                      ? "about-read-less-micropython"
+                      : "about-read-more-micropython",
+                  })}
                   variant="unstyled"
                   height="unset"
                   verticalAlign="unset"
@@ -171,7 +187,9 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   }
                   onClick={micropythonSection.onToggle}
                 >
-                  {micropythonSection.isOpen ? "Read less" : "Read more"}
+                  {intl.formatMessage({
+                    id: micropythonSection.isOpen ? "read-less" : "read-more",
+                  })}
                 </Button>
               </Text>
             </VStack>
@@ -182,7 +200,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose} variant="solid" size="lg">
-              Close
+              <FormattedMessage id="close-button" />
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -191,47 +209,57 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
   );
 };
 
-const MicroPythonSection = (props: BoxProps) => (
-  <VStack spacing={4} {...props}>
-    <AspectRatio ratio={1035 / 423} width="100%">
-      <Image
-        src={comicImage}
-        alt={`Three panel comic titled "MicroPython Rocks" by Mike Rowbit. A cartoon snake introduces Damien, saying "Meet Damien... He created MicroPython.". Two snakes discuss MicroPython. The yellow snake says "MicroPython is designed to work on very small computers." "Like the BBC micro:bit" the purple snake replies." The yellows snake continues "But Python can run anywhere.". The purple snake agrees, saying "Like on this rack of severs that run huge websites". The background behind the snakes shows a server rack.`}
-      />
-    </AspectRatio>
-    <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} textAlign="center">
-      <Text fontSize="md">
-        MicroPython{" "}
-        <Link
-          color="brand.500"
-          href="https://github.com/bbcmicrobit/micropython"
-          target="_blank"
-          rel="noopener"
-        >
-          source code for the micro:bit V1
-        </Link>{" "}
-        and{" "}
-        <Link
-          color="brand.500"
-          href="https://github.com/microbit-foundation/micropython-microbit-v2"
-          target="_blank"
-          rel="noopener"
-        >
-          micro:bit V2
-        </Link>{" "}
-      </Text>
-      <Text fontSize="md">
-        <Link
-          color="brand.500"
-          href="https://ntoll.org/article/story-micropython-on-microbit/"
-          target="_blank"
-          rel="noopener"
-        >
-          Learn how MicroPython on the micro:bit came to be{" "}
-        </Link>
-      </Text>
-    </SimpleGrid>
-  </VStack>
-);
+const MicroPythonSection = (props: BoxProps) => {
+  const intl = useIntl();
+  return (
+    <VStack spacing={4} {...props}>
+      <AspectRatio ratio={1035 / 423} width="100%">
+        <Image
+          src={comicImage}
+          alt={intl.formatMessage({ id: "about-comic" })}
+        />
+      </AspectRatio>
+      <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} textAlign="center">
+        <Text fontSize="md">
+          <FormattedMessage
+            id="micropython-source-code"
+            values={{
+              linkV1: (chunks: ReactNode) => (
+                <Link
+                  color="brand.500"
+                  href="https://github.com/bbcmicrobit/micropython"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {chunks}
+                </Link>
+              ),
+              linkV2: (chunks: ReactNode) => (
+                <Link
+                  color="brand.500"
+                  href="https://github.com/microbit-foundation/micropython-microbit-v2"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  micro:bit V2
+                </Link>
+              ),
+            }}
+          />
+        </Text>
+        <Text fontSize="md">
+          <Link
+            color="brand.500"
+            href="https://ntoll.org/article/story-micropython-on-microbit/"
+            target="_blank"
+            rel="noopener"
+          >
+            <FormattedMessage id="micropython-history" />
+          </Link>
+        </Text>
+      </SimpleGrid>
+    </VStack>
+  );
+};
 
 export default AboutDialog;

@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { ReactNode, useMemo } from "react";
+import { IntlShape, useIntl } from "react-intl";
 import { deployment } from "../deployment";
 import { Logging } from "../logging/logging";
 import { useLogging } from "../logging/logging-hooks";
@@ -8,7 +9,8 @@ import MaybeLink from "./MaybeLink";
 export class ActionFeedback {
   constructor(
     private toast: ReturnType<typeof useToast>,
-    private logging: Logging
+    private logging: Logging,
+    private intl: IntlShape
   ) {}
 
   closeAll() {
@@ -81,20 +83,25 @@ export class ActionFeedback {
   unexpectedError(error: Error) {
     this.logging.error(error);
     this.toast({
-      title: "An unexpected error occurred",
+      title: this.intl.formatMessage({ id: "unexpected-error-description" }),
       status: "error",
       description: (
         <>
-          Please try again or{" "}
-          <MaybeLink
-            href={deployment.supportLink}
-            target="_blank"
-            rel="noopener"
-            textDecoration="underline"
-          >
-            raise a support request
-          </MaybeLink>
-          .
+          {this.intl.formatMessage(
+            { id: "unexpected-error-description" },
+            {
+              link: (chunks: ReactNode) => (
+                <MaybeLink
+                  href={deployment.supportLink}
+                  target="_blank"
+                  rel="noopener"
+                  textDecoration="underline"
+                >
+                  {chunks}
+                </MaybeLink>
+              ),
+            }
+          )}
         </>
       ),
       position: "top",
@@ -109,7 +116,11 @@ export class ActionFeedback {
 const useActionFeedback = () => {
   const toast = useToast();
   const logging = useLogging();
-  return useMemo(() => new ActionFeedback(toast, logging), [toast, logging]);
+  const intl = useIntl();
+  return useMemo(
+    () => new ActionFeedback(toast, logging, intl),
+    [toast, logging, intl]
+  );
 };
 
 export default useActionFeedback;

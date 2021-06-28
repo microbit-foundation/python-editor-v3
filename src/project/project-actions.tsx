@@ -1,5 +1,8 @@
-import { List, ListItem } from "@chakra-ui/layout";
+import { Link, List, ListItem } from "@chakra-ui/layout";
+import { VStack } from "@chakra-ui/react";
 import { saveAs } from "file-saver";
+import { ReactNode } from "react";
+import { IntlShape } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
@@ -8,6 +11,7 @@ import {
   HexGenerationError,
   MicrobitWebUSBConnection,
   WebUSBError,
+  WebUSBErrorCode,
 } from "../device/device";
 import { DownloadData, FileSystem, MAIN_FILE, VersionAction } from "../fs/fs";
 import {
@@ -30,7 +34,6 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
-import { webusbErrorMessages } from "./WebUSBErrorMessages";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -57,6 +60,7 @@ export class ProjectActions {
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
     private setSelection: (filename: string) => void,
+    private intl: IntlShape,
     private logging: Logging
   ) {}
 
@@ -70,8 +74,8 @@ export class ProjectActions {
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
-        title: "WebUSB not supported",
-        description: "Download the hex file or try Chrome or Microsoft Edge",
+        title: this.intl.formatMessage({ id: "webusb-not-supported" }),
+        description: this.intl.formatMessage({ id: "webusb-download-instead" }),
       });
     } else {
       try {
@@ -127,32 +131,35 @@ export class ProjectActions {
     // Also makes e2e testing easier.
     this.actionFeedback.closeAll();
 
-    const errorTitle =
-      files.length === 1 ? "Cannot load file" : "Cannot load files";
-
+    const errorTitle = this.intl.formatMessage(
+      { id: "load-error-title" },
+      {
+        fileCount: files.length,
+      }
+    );
     const extensions = new Set(
       files.map((f) => getLowercaseFileExtension(f.name))
     );
     if (extensions.has("mpy")) {
       this.actionFeedback.expectedError({
         title: errorTitle,
-        description:
-          "This version of the Python Editor doesn't currently support adding .mpy files.",
+        description: this.intl.formatMessage({ id: "load-error-mpy" }),
       });
     } else if (extensions.has("hex")) {
       if (files.length > 1) {
         this.actionFeedback.expectedError({
           title: errorTitle,
-          description:
-            "A hex file can only be loaded on its own. It replaces all files in the project.",
+          description: this.intl.formatMessage({ id: "load-error-mixed" }),
         });
       } else {
         // It'd be nice to suppress this (and similar) if it's just the default script.
         if (
           await this.dialogs.confirm({
-            header: "Confirm replace project",
-            body: "Replace all files with those in the hex?",
-            actionLabel: "Replace",
+            header: this.intl.formatMessage({ id: "confirm-replace-title" }),
+            body: this.intl.formatMessage({ id: "confirm-replace-body" }),
+            actionLabel: this.intl.formatMessage({
+              id: "replace-action-label",
+            }),
           })
         ) {
           const file = files[0];
@@ -161,7 +168,10 @@ export class ProjectActions {
           try {
             await this.fs.replaceWithHexContents(projectName, hex);
             this.actionFeedback.success({
-              title: "Loaded " + file.name,
+              title: this.intl.formatMessage(
+                { id: "loaded-file" },
+                { filename: file.name }
+              ),
             });
           } catch (e) {
             this.actionFeedback.expectedError({
@@ -202,7 +212,7 @@ export class ProjectActions {
         const data = await change.data();
         await this.fs.write(change.name, data, VersionAction.INCREMENT);
       }
-      this.actionFeedback.success(summarizeChanges(changes));
+      this.actionFeedback.success(this.summarizeChanges(changes));
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
@@ -210,7 +220,13 @@ export class ProjectActions {
 
   private findChanges(files: FileInput[]): FileChange[] {
     const currentFiles = this.fs.project.files.map((f) => f.name);
-    return findChanges(currentFiles, files);
+    const current = new Set(currentFiles);
+    return files.map((f) => ({
+      ...f,
+      operation: current.has(f.name)
+        ? FileOperation.REPLACE
+        : FileOperation.ADD,
+    }));
   }
 
   private async chooseScriptForMain(
@@ -218,7 +234,7 @@ export class ProjectActions {
   ): Promise<ClassifiedFileInput[] | undefined> {
     const defaultScript = inputs.find((x) => x.script);
     const chosenScript = await this.dialogs.input<MainScriptChoice>({
-      header: "Change files?",
+      header: this.intl.formatMessage({ id: "change-files" }),
       initialValue: {
         main: defaultScript ? defaultScript.name : undefined,
       },
@@ -229,7 +245,7 @@ export class ProjectActions {
           inputs={inputs}
         />
       ),
-      actionLabel: "Confirm",
+      actionLabel: this.intl.formatMessage({ id: "confirm" }),
       size: "lg",
     });
     if (!chosenScript) {
@@ -258,17 +274,14 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.actionFeedback.expectedError({
-        title: "WebUSB not supported",
-        description: webusbErrorMessages.unavailable,
-      });
+      this.webusbNotSupportedError();
       return;
     }
 
     try {
       const progress = (value: number | undefined) => {
         this.dialogs.progress({
-          header: "Flashing code",
+          header: this.intl.formatMessage({ id: "flashing-code" }),
           progress: value,
         });
       };
@@ -276,7 +289,8 @@ export class ProjectActions {
     } catch (e) {
       if (e instanceof HexGenerationError) {
         this.actionFeedback.expectedError({
-          title: "Failed to build the hex file",
+          title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
+          // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
           description: e.message,
         });
       } else {
@@ -299,7 +313,8 @@ export class ProjectActions {
       download = await this.fs.toHexForDownload();
     } catch (e) {
       this.actionFeedback.expectedError({
-        title: "Failed to build the hex file",
+        title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
+        // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
         description: e.message,
       });
       return;
@@ -364,12 +379,12 @@ export class ProjectActions {
 
     const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
     const validate = (filename: string) =>
-      validateNewFilename(filename, (f) => preexistingFiles.has(f));
+      validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
     const filenameWithoutExtension = await this.dialogs.input<string>({
-      header: "Create a new Python file",
+      header: this.intl.formatMessage({ id: "create-python" }),
       Body: NewFileNameQuestion,
       initialValue: "",
-      actionLabel: "Create",
+      actionLabel: this.intl.formatMessage({ id: "create" }),
       validate,
       customFocus: true,
     });
@@ -384,7 +399,7 @@ export class ProjectActions {
         );
         this.setSelection(filename);
         this.actionFeedback.success({
-          title: `Created ${filename}`,
+          title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);
@@ -404,14 +419,17 @@ export class ProjectActions {
     try {
       if (
         await this.dialogs.confirm({
-          header: "Confirm delete",
-          body: `Permanently delete ${filename}?`,
-          actionLabel: "Delete",
+          header: this.intl.formatMessage({ id: "confirm-delete" }),
+          body: this.intl.formatMessage(
+            { id: "permanently-delete" },
+            { filename }
+          ),
+          actionLabel: this.intl.formatMessage({ id: "delete-button" }),
         })
       ) {
         await this.fs.remove(filename);
         this.actionFeedback.success({
-          title: `Deleted ${filename}`,
+          title: this.intl.formatMessage({ id: "deleted-file" }, { filename }),
         });
       }
     } catch (e) {
@@ -447,7 +465,9 @@ export class ProjectActions {
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {
-          return this.actionFeedback.expectedError(webusbErrorMessages[e.code]);
+          return this.actionFeedback.expectedError(
+            this.webusbErrorMessage(e.code)
+          );
         }
         default: {
           return this.actionFeedback.unexpectedError(e);
@@ -457,41 +477,114 @@ export class ProjectActions {
       this.actionFeedback.unexpectedError(e);
     }
   }
-}
 
-/**
- * Simple analysis of the changes to the current files.
- * The text is simpler than that uses in the load confirmation dialog.
- */
-export const findChanges = (
-  currentFiles: string[],
-  proposedFiles: FileInput[]
-): FileChange[] => {
-  const current = new Set(currentFiles);
-  return proposedFiles.map((f) => ({
-    ...f,
-    operation: current.has(f.name) ? FileOperation.REPLACE : FileOperation.ADD,
-  }));
-};
-
-const summarizeChanges = (changes: FileChange[]) => {
-  if (changes.length === 1) {
-    return { title: summarizeChange(changes[0]) };
+  private webusbNotSupportedError(): void {
+    this.actionFeedback.expectedError({
+      title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
+      description: (
+        <VStack alignItems="stretch" mt={1}>
+          <p>{this.intl.formatMessage({ id: "webusb-why-use" })}</p>
+          <p>{this.intl.formatMessage({ id: "webusb-not-supported" })}</p>
+        </VStack>
+      ),
+    });
   }
-  return {
-    title: `${changes.length} changes`,
-    description: (
-      <List>
-        {changes.map((c) => (
-          <ListItem key={c.name}>{summarizeChange(c)}</ListItem>
-        ))}
-      </List>
-    ),
-  };
-};
 
-const summarizeChange = (change: FileChange): string => {
-  const changeText =
-    change.operation === FileOperation.REPLACE ? "Updated" : "Added";
-  return `${changeText} file ${change.name}`;
-};
+  private webusbErrorMessage(code: WebUSBErrorCode) {
+    switch (code) {
+      case "update-req":
+        return {
+          title: this.intl.formatMessage({
+            id: "webusb-error-update-req-title",
+          }),
+          description: (
+            <span>
+              {this.intl.formatMessage(
+                {
+                  id: "webusb-error-update-req-description",
+                },
+                {
+                  link: (chunks: ReactNode) => (
+                    <Link
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://microbit.org/firmware/"
+                      textDecoration="underline"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                }
+              )}
+            </span>
+          ),
+        };
+      case "clear-connect":
+        return {
+          title: this.intl.formatMessage({
+            id: "webusb-error-clear-connect-title",
+          }),
+          description: (
+            <VStack alignItems="stretch" mt={1}>
+              <p>
+                {this.intl.formatMessage({
+                  id: "webusb-error-clear-connect-description-1",
+                })}
+              </p>
+              <p>
+                {this.intl.formatMessage({
+                  id: "webusb-error-clear-connect-description-2",
+                })}
+              </p>
+            </VStack>
+          ),
+        };
+      case "reconnect-microbit":
+        return {
+          title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
+          description: this.intl.formatMessage({
+            id: "webusb-error-reconnect-microbit-description",
+          }),
+        };
+      case "timeout-error":
+        return {
+          title: this.intl.formatMessage({ id: "timeout-error-title" }),
+          description: this.intl.formatMessage({
+            id: "timeout-error-description",
+          }),
+        };
+      default:
+        throw new Error("Unknown code");
+    }
+  }
+
+  summarizeChanges = (changes: FileChange[]) => {
+    if (changes.length === 1) {
+      return { title: this.summarizeChange(changes[0]) };
+    }
+    return {
+      title: `${changes.length} changes`,
+      description: (
+        <List>
+          {changes.map((c) => (
+            <ListItem key={c.name}>{this.summarizeChange(c)}</ListItem>
+          ))}
+        </List>
+      ),
+    };
+  };
+
+  idForChangeType = (changeType: FileOperation): string => {
+    return changeType === FileOperation.REPLACE
+      ? "updated-change"
+      : "added-change";
+  };
+
+  summarizeChange = (change: FileChange): string => {
+    const translationID = this.idForChangeType(change.operation);
+    return this.intl.formatMessage(
+      { id: translationID },
+      { changeName: change.name }
+    );
+  };
+}

@@ -23,6 +23,7 @@ import LanguageMenu from "../project/LanguageMenu";
 import SettingsButton from "../settings/SettingsButton";
 import FeedbackArea from "./FeedbackArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import { useIntl } from "react-intl";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -38,17 +39,18 @@ const LeftPanel = ({
   onSelectedFileChanged,
   ...props
 }: LeftPanelProps) => {
+  const intl = useIntl();
   const panes: Pane[] = useMemo(
     () => [
       {
         id: "python",
-        title: "Python",
+        title: intl.formatMessage({ id: "python-tab" }),
         icon: PythonLogo as IconType,
         contents: <FeedbackArea />,
       },
       {
         id: "files",
-        title: "Files",
+        title: intl.formatMessage({ id: "files-tab" }),
         icon: RiFolderLine,
         nav: <FilesAreaNav />,
         contents: (
@@ -59,7 +61,7 @@ const LeftPanel = ({
         ),
       },
     ],
-    [onSelectedFileChanged, selectedFile]
+    [onSelectedFileChanged, selectedFile, intl]
   );
   return <LeftPanelContents panes={panes} />;
 };

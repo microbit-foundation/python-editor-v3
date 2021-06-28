@@ -11,6 +11,7 @@ import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
 import { fetchMicroPython } from "./fs/micropython";
 import { LoggingContext } from "./logging/logging-hooks";
+import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import {
   defaultSettings,
@@ -50,18 +51,20 @@ const App = () => {
       <ChakraProvider theme={deployment.chakraTheme}>
         <LoggingContext.Provider value={logging}>
           <SettingsContext.Provider value={settings}>
-            <DialogProvider>
-              <DeviceContext.Provider value={device}>
-                <FileSystemContext.Provider value={fs}>
-                  <BeforeUnloadDirtyCheck />
-                  <SelectionContext>
-                    <ProjectDropTarget>
-                      <Workbench />
-                    </ProjectDropTarget>
-                  </SelectionContext>
-                </FileSystemContext.Provider>
-              </DeviceContext.Provider>
-            </DialogProvider>
+            <TranslationProvider>
+              <DialogProvider>
+                <DeviceContext.Provider value={device}>
+                  <FileSystemContext.Provider value={fs}>
+                    <BeforeUnloadDirtyCheck />
+                    <SelectionContext>
+                      <ProjectDropTarget>
+                        <Workbench />
+                      </ProjectDropTarget>
+                    </SelectionContext>
+                  </FileSystemContext.Provider>
+                </DeviceContext.Provider>
+              </DialogProvider>
+            </TranslationProvider>
           </SettingsContext.Provider>
         </LoggingContext.Provider>
       </ChakraProvider>

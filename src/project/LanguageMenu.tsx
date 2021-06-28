@@ -4,14 +4,19 @@ import {
   MenuButton,
   MenuDivider,
   MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   Portal,
   ThemeTypings,
   ThemingProps,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { RiEarthLine, RiExternalLinkLine } from "react-icons/ri";
 import { supportedLanguages } from "../settings/settings";
 import { deployment } from "../deployment";
+import { FormattedMessage } from "react-intl";
+import { useSettings } from "../settings/settings";
 
 interface LanguageMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -23,6 +28,19 @@ interface LanguageMenuProps extends ThemingProps<"Menu"> {
  * This is just a placeholder for now.
  */
 const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
+  const [settings, setSettings] = useSettings();
+  const handleChangeLanguage = useCallback(
+    (languageId: string | string[]) => {
+      if (typeof languageId !== "string") {
+        throw new Error("Unexpected change type for radio group.");
+      }
+      setSettings({
+        ...settings,
+        languageId,
+      });
+    },
+    [settings, setSettings]
+  );
   return (
     <Menu {...props}>
       <MenuButton
@@ -36,23 +54,27 @@ const LanguageMenu = ({ size, ...props }: LanguageMenuProps) => {
       />
       <Portal>
         <MenuList>
-          {supportedLanguages.map((language) => (
-            <MenuItem key={language.id}>{language.name}</MenuItem>
-          ))}
-          {deployment.translationLink && (
-            <>
-              <MenuDivider />
-              <MenuItem
-                as="a"
-                href={deployment.translationLink}
-                target="_blank"
-                rel="noopener"
-                icon={<RiExternalLinkLine />}
-              >
-                Help translate
-              </MenuItem>
-            </>
-          )}
+          <MenuOptionGroup
+            value={settings.languageId}
+            type="radio"
+            onChange={handleChangeLanguage}
+          >
+            {supportedLanguages.map((language) => (
+              <MenuItemOption key={language.id} value={language.id}>
+                {language.name}
+              </MenuItemOption>
+            ))}
+          </MenuOptionGroup>
+          <MenuDivider />
+          <MenuItem
+            as="a"
+            href={deployment.translationLink}
+            target="_blank"
+            rel="noopener"
+            icon={<RiExternalLinkLine />}
+          >
+            <FormattedMessage id="help-translate" />
+          </MenuItem>
         </MenuList>
       </Portal>
     </Menu>

@@ -4,6 +4,7 @@ import { RiUsbLine } from "react-icons/ri";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import { useProjectActions } from "./project-hooks";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const ConnectDisconnectButton = () => {
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
@@ -16,9 +17,10 @@ const ConnectDisconnectButton = () => {
     }
   }, [connected, actions]);
 
-  const tooltip = connected
-    ? "Disconnect from the micro:bit"
-    : "Connect to your micro:bit over WebUSB";
+  const intl = useIntl();
+  const tooltip = intl.formatMessage({
+    id: connected ? "disconnect-hover" : "connect-hover",
+  });
   return (
     <Tooltip hasArrow placement="top-start" label={tooltip}>
       <Button
@@ -26,7 +28,9 @@ const ConnectDisconnectButton = () => {
         leftIcon={<RiUsbLine />}
         onClick={handleToggleConnected}
       >
-        {connected ? "Disconnect" : "Connect"}
+        <FormattedMessage
+          id={connected ? "disconnect-button" : "connect-button"}
+        />
       </Button>
     </Tooltip>
   );

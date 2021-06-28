@@ -8,6 +8,7 @@ import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSelection } from "../workbench/use-selection";
 import { ProjectActions } from "./project-actions";
+import { useIntl } from "react-intl";
 
 /**
  * Hook exposing the main UI actions.
@@ -19,6 +20,7 @@ export const useProjectActions = (): ProjectActions => {
   const dialogs = useDialogs();
   const [, setSelection] = useSelection();
   const logging = useLogging();
+  const intl = useIntl();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -27,9 +29,10 @@ export const useProjectActions = (): ProjectActions => {
         actionFeedback,
         dialogs,
         setSelection,
+        intl,
         logging
       ),
-    [fs, device, actionFeedback, dialogs, setSelection, logging]
+    [fs, device, actionFeedback, dialogs, setSelection, intl, logging]
   );
   return actions;
 };

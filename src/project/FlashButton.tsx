@@ -1,5 +1,6 @@
 import { Tooltip } from "@chakra-ui/react";
 import { RiFlashlightFill } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import CollapsableButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
@@ -12,19 +13,24 @@ const FlashButton = (
   props: Omit<CollapsibleButtonProps, "onClick" | "text" | "icon">
 ) => {
   const actions = useProjectActions();
+  const intl = useIntl();
   return (
     <>
       <Tooltip
         hasArrow
         placement="top-start"
-        label="Flash the project directly to the micro:bit"
+        label={intl.formatMessage({
+          id: "flash-project",
+        })}
       >
         <CollapsableButton
           {...props}
           variant="solid"
           icon={<RiFlashlightFill />}
           onClick={actions.flash}
-          text="Flash"
+          text={intl.formatMessage({
+            id: "flash-text",
+          })}
         />
       </Tooltip>
     </>
