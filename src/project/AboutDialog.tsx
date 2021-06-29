@@ -48,11 +48,9 @@ import { useIntl } from "react-intl";
 
 const versionInfo = [
   { name: "Editor", value: process.env.REACT_APP_VERSION },
-  {
-    name: "MicroPython",
-    value: microPythonVersions.map((mpy) => mpy.version).join("/"),
-  },
+  ...microPythonVersions.map((mpy) => ({ name: mpy.name, value: mpy.version })),
 ];
+
 const clipboardVersion = versionInfo
   .map((x) => `${x.name} ${x.value}`)
   .join("\n");
