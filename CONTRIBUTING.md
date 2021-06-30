@@ -6,8 +6,8 @@ and fix/file issues.
 
 https://github.com/microbit-foundation/python-editor-next
 
-If you're interested in working on any of these items, please file an issue
-and mention @microbit-matt-hillsdon
-
 Significant features are best discussed first to make sure everyone is agreed
 on the best direction.
+
+The project uses [Prettier](https://prettier.io/) to format code so please
+check out their documentation and set it up with your code editor.
