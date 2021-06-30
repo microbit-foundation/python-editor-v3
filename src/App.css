@@ -9,9 +9,11 @@
   font-style: normal;
   font-weight: 500;
   src: local(""),
-    url("./fonts/source-code-pro-v14-latin-500.woff2") format("woff2"),
+    url("http://fonts.microbit.org/source-code-pro/v14/source-code-pro-v14-latin-500.woff2")
+      format("woff2"),
     /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("./fonts/source-code-pro-v14-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+      url("http://fonts.microbit.org/source-code-pro/v14/source-code-pro-v14-latin-500.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* Needed for the fallbacks below */
