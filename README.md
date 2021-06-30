@@ -79,8 +79,6 @@ This software is under the MIT open source license.
 
 [SPDX-License-Identifier: MIT](LICENSE)
 
-This repository includes the Source Code Pro font which is copyright 2010-2019 Adobe and licensed under the [SIL Open Font License, Version 1.1](./src/fonts/SOURCE_CODE_PRO_LICENSE.md).
-
 Binaries for MicroPython are included for micro:bit V1 ([license](https://github.com/bbcmicrobit/micropython/blob/master/LICENSE)) and micro:bit V2 ([license](https://github.com/microbit-foundation/micropython-microbit-v2/blob/master/LICENSE)). Both are MIT licensed.
 
 We use dependencies via the NPM registry as specified by the package.json file under common Open Source licenses.
