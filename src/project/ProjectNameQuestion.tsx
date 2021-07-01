@@ -49,7 +49,7 @@ const ProjectNameQuestion = ({
         <FormattedMessage id="name-used-when" />
       </FormHelperText>
       <FormErrorMessage>
-        <FormattedMessage id="error" values={{ error: error }} />
+        <FormattedMessage id={error} />
       </FormErrorMessage>
     </FormControl>
   );
