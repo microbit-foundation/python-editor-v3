@@ -50,10 +50,16 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
           <MenuButton
             variant="solid"
             borderLeft="1px"
-            borderRadius="4xl"
+            borderRadius="button"
             as={IconButton}
             // Shift to compensate for border radius on the right
-            icon={<MdMoreVert style={{ marginLeft: "-0.3rem" }} />}
+            icon={
+              <MdMoreVert
+                style={{
+                  marginLeft: "calc(-0.15 * var(--chakra-radii-button))",
+                }}
+              />
+            }
             size={size}
           />
           <Portal>
