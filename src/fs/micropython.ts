@@ -14,12 +14,14 @@ export const microPythonVersions = [
     url: microPythonV1HexUrl,
     boardId: microbitBoardId.V1,
     version: "1.0.1",
+    web: "https://github.com/bbcmicrobit/micropython/releases/tag/v1.0.1",
   },
   {
     name: "MicroPython (micro:bit V2)",
     url: microPythonV2HexUrl,
     boardId: microbitBoardId.V2,
-    version: "2.0.0-beta.5",
+    version: "2.0.0",
+    web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.0.0",
   },
 ];
 

@@ -28,14 +28,16 @@ import {
 import {
   AspectRatio,
   Collapse,
+  Icon,
   Table,
   TableCaption,
   Tbody,
   Td,
   Tr,
   useDisclosure,
+  VisuallyHidden,
 } from "@chakra-ui/react";
-import { RiFileCopy2Line } from "react-icons/ri";
+import { RiFileCopy2Line, RiGithubFill } from "react-icons/ri";
 import { useDeployment } from "../deployment";
 import { FormattedMessage } from "react-intl";
 import { microPythonVersions } from "../fs/micropython";
@@ -47,8 +49,16 @@ import { ReactNode } from "react";
 import { useIntl } from "react-intl";
 
 const versionInfo = [
-  { name: "Editor", value: process.env.REACT_APP_VERSION },
-  ...microPythonVersions.map((mpy) => ({ name: mpy.name, value: mpy.version })),
+  {
+    name: "Editor",
+    value: process.env.REACT_APP_VERSION,
+    href: "https://github.com/microbit-foundation/python-editor-next",
+  },
+  ...microPythonVersions.map((mpy) => ({
+    name: mpy.name,
+    value: mpy.version,
+    href: mpy.web,
+  })),
 ];
 
 const clipboardVersion = versionInfo
@@ -138,6 +148,22 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                         <Tr key={v.name}>
                           <Td>{v.name}</Td>
                           <Td>{v.value}</Td>
+                          <Td padding={0}>
+                            {/* Move padding so we get a reasonable click target. */}
+                            <Link
+                              display="block"
+                              pl={4}
+                              pr={4}
+                              pt={2}
+                              pb={2}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={v.href}
+                            >
+                              <Icon as={RiGithubFill} />
+                              <VisuallyHidden>GitHub</VisuallyHidden>
+                            </Link>
+                          </Td>
                         </Tr>
                       ))}
                     </Tbody>
