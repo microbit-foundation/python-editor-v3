@@ -63,7 +63,7 @@ const Workbench = () => {
           >
             <SplitView
               direction="column"
-              minimums={[400, 300]}
+              minimums={[200, 200]}
               height="100%"
               collapsed={!serialVisible}
             >
