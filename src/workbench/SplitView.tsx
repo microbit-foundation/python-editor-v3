@@ -34,19 +34,24 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   minimums: [number, number];
 }
 
-interface FirstPaneProps {
-  firstSize: number | undefined;
-  setFirstSize: (value: number) => void;
+interface SizedPaneProps {
+  size: number | undefined;
+  setSize: (value: number) => void;
   children: JSX.Element;
   direction: Direction;
 }
 
-const FirstPane = ({
+/**
+ * The pane we give an explicit size to.
+ *
+ * The other pane takes the remaining space.
+ */
+const SizedPane = ({
   children,
-  firstSize,
-  setFirstSize,
+  size: firstSize,
+  setSize: setFirstSize,
   direction,
-}: FirstPaneProps) => {
+}: SizedPaneProps) => {
   const firstRef = createRef<HTMLDivElement>();
   useEffect(() => {
     if (firstRef.current) {
@@ -63,7 +68,9 @@ export const SplitView = ({
   ...props
 }: SplitViewProps) => {
   const [firstChild, secondChild] = children;
-  const [firstSize, setFirstSize] = useState<undefined | number>(minimums[0]);
+  const [sizedPaneSize, setSizedPaneSize] = useState<undefined | number>(
+    minimums[0]
+  );
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);
   const cursor = direction === "row" ? "col-resize" : "row-resize";
@@ -100,10 +107,10 @@ export const SplitView = ({
         if (size > maximum) {
           size = maximum;
         }
-        setFirstSize(size);
+        setSizedPaneSize(size);
       }
     },
-    [dragging, setFirstSize, splitViewRef, minimums, direction]
+    [dragging, setSizedPaneSize, splitViewRef, minimums, direction]
   );
 
   const handleMouseMove = useCallback(
@@ -143,13 +150,13 @@ export const SplitView = ({
 
   return (
     <Flex ref={splitViewRef} direction={direction} {...props} width="100%">
-      <FirstPane
-        firstSize={firstSize}
-        setFirstSize={setFirstSize}
+      <SizedPane
+        size={sizedPaneSize}
+        setSize={setSizedPaneSize}
         direction={direction}
       >
         {firstChild}
-      </FirstPane>
+      </SizedPane>
       <Flex
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -167,7 +174,7 @@ export const SplitView = ({
       <Box
         {...dimensionProps(
           direction,
-          `calc(100% - ${firstSize}px - ${separatorPixels}px)`
+          `calc(100% - ${sizedPaneSize}px - ${separatorPixels}px)`
         )}
       >
         {secondChild}
