@@ -13,8 +13,13 @@ import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
-import SplitView from "./SplitView";
 import { useSelection } from "./use-selection";
+import {
+  SplitView,
+  SplitViewSized,
+  SplitViewRemainder,
+  SplitViewDivider,
+} from "../common/SplitView";
 
 const minimums: [number, number] = [380, 580];
 
@@ -41,31 +46,41 @@ const Workbench = () => {
   return (
     <Flex className="Workbench">
       <SplitView direction="row" width="100%" minimums={minimums}>
-        <LeftPanel
-          selectedFile={selectedFile}
-          onSelectedFileChanged={setSelectedFile}
-          flex="1 1 100%"
-        />
-        <Flex
-          flex="1 1 100%"
-          flexDirection="column"
-          height="100%"
-          boxShadow="4px 0px 24px #00000033"
-        >
-          <SplitView direction="column" minimums={[400, 300]} height="100%">
-            <Box height="100%">
-              {selectedFile && fileVersion !== undefined && (
-                <EditorArea
-                  key={selectedFile + "/" + fileVersion}
-                  filename={selectedFile}
-                  onSelectedFileChanged={setSelectedFile}
-                />
-              )}
-            </Box>
-            <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
-          </SplitView>
-          <ProjectActionBar borderTopWidth={1} borderColor="gray.200" />
-        </Flex>
+        <SplitViewSized>
+          <LeftPanel
+            selectedFile={selectedFile}
+            onSelectedFileChanged={setSelectedFile}
+            flex="1 1 100%"
+          />
+        </SplitViewSized>
+        <SplitViewDivider />
+        <SplitViewRemainder>
+          <Flex
+            flex="1 1 100%"
+            flexDirection="column"
+            height="100%"
+            boxShadow="4px 0px 24px #00000033"
+          >
+            <SplitView direction="column" minimums={[400, 300]} height="100%">
+              <SplitViewRemainder>
+                <Box height="100%">
+                  {selectedFile && fileVersion !== undefined && (
+                    <EditorArea
+                      key={selectedFile + "/" + fileVersion}
+                      filename={selectedFile}
+                      onSelectedFileChanged={setSelectedFile}
+                    />
+                  )}
+                </Box>
+              </SplitViewRemainder>
+              <SplitViewDivider />
+              <SplitViewSized>
+                <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
+              </SplitViewSized>
+            </SplitView>
+            <ProjectActionBar borderTopWidth={1} borderColor="gray.200" />
+          </Flex>
+        </SplitViewRemainder>
       </SplitView>
     </Flex>
   );

@@ -3,63 +3,21 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex, FlexProps } from "@chakra-ui/layout";
+import { Flex, FlexProps } from "@chakra-ui/layout";
 import React, {
-  createRef,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
-
-const separatorPixels = 5;
-
-/**
- * The simple subset of flex direction.
- */
-type Direction = "row" | "column";
-
-const dimensionPropName = (direction: Direction) =>
-  direction === "column" ? "height" : "width";
-
-const dimensionProps = (direction: Direction, value: number | string) => {
-  return {
-    [dimensionPropName(direction)]: value,
-  };
-};
+import { Direction, separatorPixels, splitViewContext } from "./context";
 
 interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
-  children: [JSX.Element, JSX.Element];
+  children: [JSX.Element, JSX.Element, JSX.Element];
   direction: Direction;
   minimums: [number, number];
 }
-
-interface SizedPaneProps {
-  size: number | undefined;
-  setSize: (value: number) => void;
-  children: JSX.Element;
-  direction: Direction;
-}
-
-/**
- * The pane we give an explicit size to.
- *
- * The other pane takes the remaining space.
- */
-const SizedPane = ({
-  children,
-  size: firstSize,
-  setSize: setFirstSize,
-  direction,
-}: SizedPaneProps) => {
-  const firstRef = createRef<HTMLDivElement>();
-  useEffect(() => {
-    if (firstRef.current) {
-      firstRef.current.style[dimensionPropName(direction)] = `${firstSize}px`;
-    }
-  }, [firstRef, firstSize, setFirstSize, direction]);
-  return <Box ref={firstRef}>{children}</Box>;
-};
 
 export const SplitView = ({
   children,
@@ -67,21 +25,20 @@ export const SplitView = ({
   minimums,
   ...props
 }: SplitViewProps) => {
-  const [firstChild, secondChild] = children;
   const [sizedPaneSize, setSizedPaneSize] = useState<undefined | number>(
     minimums[0]
   );
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);
-  const cursor = direction === "row" ? "col-resize" : "row-resize";
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       setDragging(true);
+      const cursor = direction === "row" ? "col-resize" : "row-resize";
       // Avoids cursor flicker.
       splitViewRef.current!.style.cursor = cursor;
     },
-    [setDragging, cursor]
+    [setDragging, direction]
   );
 
   const handleTouchStart = useCallback(
@@ -95,7 +52,12 @@ export const SplitView = ({
     (e: Event, clientPos: number) => {
       if (dragging) {
         const rect = splitViewRef.current!.getBoundingClientRect();
-        let size = clientPos - (direction === "column" ? rect.top : rect.left);
+
+        // This needs to know whether the thing it's sizing
+        // is before or after the one that takes the remainder.
+        let size = rect.bottom - clientPos;
+        // clientPos - (direction === "column" ? rect.bottom : rect.left);
+
         if (size < minimums[0]) {
           size = minimums[0];
         }
@@ -148,38 +110,32 @@ export const SplitView = ({
     };
   }, [handleMouseMove, handleTouchMove, handleTouchEndOrMouseUp]);
 
+  const context = useMemo(() => {
+    return {
+      sizedPaneSize,
+      setSizedPaneSize,
+      direction,
+      handleTouchStart,
+      handleMouseDown,
+      handleMouseMove,
+      handleTouchEndOrMouseUp,
+    };
+  }, [
+    sizedPaneSize,
+    setSizedPaneSize,
+    direction,
+    handleTouchStart,
+    handleMouseDown,
+    handleMouseMove,
+    handleTouchEndOrMouseUp,
+  ]);
+
   return (
-    <Flex ref={splitViewRef} direction={direction} {...props} width="100%">
-      <SizedPane
-        size={sizedPaneSize}
-        setSize={setSizedPaneSize}
-        direction={direction}
-      >
-        {firstChild}
-      </SizedPane>
-      <Flex
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEndOrMouseUp}
-        cursor={cursor}
-        alignSelf="stretch"
-        alignItems="center"
-      >
-        <Box
-          height="100%"
-          {...dimensionProps(direction, `${separatorPixels}px`)}
-          backgroundColor="gray.50"
-        />
+    <splitViewContext.Provider value={context}>
+      <Flex ref={splitViewRef} direction={direction} {...props} width="100%">
+        {children}
       </Flex>
-      <Box
-        {...dimensionProps(
-          direction,
-          `calc(100% - ${sizedPaneSize}px - ${separatorPixels}px)`
-        )}
-      >
-        {secondChild}
-      </Box>
-    </Flex>
+    </splitViewContext.Provider>
   );
 };
 
