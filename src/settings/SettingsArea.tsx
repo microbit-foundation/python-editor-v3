@@ -23,6 +23,20 @@ import {
   useSettings,
 } from "./settings";
 import { FormattedMessage } from "react-intl";
+import { stage } from "../environment";
+
+const codeStructureHighlightOptions = (() => {
+  const none = { value: "none", label: "None" };
+  const brackets = { value: "brackets", label: "Brackets" };
+  const boxes = { value: "boxes", label: "Boxes" };
+  const lShapes = { value: "l-shapes", label: "L shapes" };
+  const lShapeBoxes = { value: "l-shape-boxes", label: "L-shape boxes" };
+  // Hold some of these back for now while we discuss options.
+  // Once finalised we also need to translate the option labels.
+  return stage === "REVIEW"
+    ? [none, brackets, boxes, lShapes, lShapeBoxes]
+    : [none, boxes];
+})();
 
 /**
  * The settings area.
@@ -134,22 +148,11 @@ const SettingsArea = () => {
           maxWidth="16ch"
           value={settings.codeStructureHighlight}
         >
-          {/* TODO: translate? */}
-          <option key="none" value="none">
-            None
-          </option>
-          <option key="brackets" value="brackets">
-            Brackets
-          </option>
-          <option key="boxes" value="boxes">
-            Boxes
-          </option>
-          <option key="l-shapes" value="l-shapes">
-            L-shapes
-          </option>
-          <option key="l-shape-boxes" value="l-shape-boxes">
-            L-shape boxes
-          </option>
+          {codeStructureHighlightOptions.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
         </Select>
       </FormControl>
     </VStack>
