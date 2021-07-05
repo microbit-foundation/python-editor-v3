@@ -14,40 +14,67 @@ import React, {
 
 const separatorPixels = 5;
 
-interface SplitViewProps extends Omit<FlexProps, "children"> {
+/**
+ * The simple subset of flex direction.
+ */
+type Direction = "row" | "column";
+
+const dimensionPropName = (direction: Direction) =>
+  direction === "column" ? "height" : "width";
+
+const dimensionProps = (direction: Direction, value: number | string) => {
+  return {
+    [dimensionPropName(direction)]: value,
+  };
+};
+
+interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   children: [JSX.Element, JSX.Element];
+  direction: Direction;
   minimums: [number, number];
 }
 
 interface FirstPaneProps {
-  firstWidth: number | undefined;
-  setFirstWidth: (value: number) => void;
+  firstSize: number | undefined;
+  setFirstSize: (value: number) => void;
   children: JSX.Element;
+  direction: Direction;
 }
 
-const FirstPane = ({ children, firstWidth, setFirstWidth }: FirstPaneProps) => {
+const FirstPane = ({
+  children,
+  firstSize,
+  setFirstSize,
+  direction,
+}: FirstPaneProps) => {
   const firstRef = createRef<HTMLDivElement>();
   useEffect(() => {
     if (firstRef.current) {
-      firstRef.current.style.width = `${firstWidth}px`;
+      firstRef.current.style[dimensionPropName(direction)] = `${firstSize}px`;
     }
-  }, [firstRef, firstWidth, setFirstWidth]);
+  }, [firstRef, firstSize, setFirstSize, direction]);
   return <Box ref={firstRef}>{children}</Box>;
 };
 
-export const SplitView = ({ children, minimums, ...props }: SplitViewProps) => {
+export const SplitView = ({
+  children,
+  direction,
+  minimums,
+  ...props
+}: SplitViewProps) => {
   const [firstChild, secondChild] = children;
-  const [firstWidth, setFirstWidth] = useState<undefined | number>(minimums[0]);
+  const [firstSize, setFirstSize] = useState<undefined | number>(minimums[0]);
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);
+  const cursor = direction === "row" ? "col-resize" : "row-resize";
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       setDragging(true);
       // Avoids cursor flicker.
-      splitViewRef.current!.style.cursor = "col-resize";
+      splitViewRef.current!.style.cursor = cursor;
     },
-    [setDragging]
+    [setDragging, cursor]
   );
 
   const handleTouchStart = useCallback(
@@ -58,32 +85,35 @@ export const SplitView = ({ children, minimums, ...props }: SplitViewProps) => {
   );
 
   const handleMove = useCallback(
-    (e: Event, clientX: number) => {
+    (e: Event, clientPos: number) => {
       if (dragging) {
         const rect = splitViewRef.current!.getBoundingClientRect();
-        let width = clientX - rect.left;
-        if (width < minimums[0]) {
-          width = minimums[0];
+        let size = clientPos - (direction === "column" ? rect.top : rect.left);
+        if (size < minimums[0]) {
+          size = minimums[0];
         }
         // Check remaining space for other component vs its minimum
-        const maximum = rect.width - separatorPixels - minimums[1];
-        if (width > maximum) {
-          width = maximum;
+        const maximum =
+          (direction === "column" ? rect.height : rect.width) -
+          separatorPixels -
+          minimums[1];
+        if (size > maximum) {
+          size = maximum;
         }
-        setFirstWidth(width);
+        setFirstSize(size);
       }
     },
-    [dragging, setFirstWidth, splitViewRef, minimums]
+    [dragging, setFirstSize, splitViewRef, minimums, direction]
   );
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (dragging) {
         e.preventDefault();
-        handleMove(e, e.clientX);
+        handleMove(e, direction === "column" ? e.clientY : e.clientX);
       }
     },
-    [dragging, handleMove]
+    [dragging, handleMove, direction]
   );
 
   const handleTouchMove = useCallback(
@@ -112,25 +142,34 @@ export const SplitView = ({ children, minimums, ...props }: SplitViewProps) => {
   }, [handleMouseMove, handleTouchMove, handleTouchEndOrMouseUp]);
 
   return (
-    <Flex ref={splitViewRef} {...props} width="100%">
-      <FirstPane firstWidth={firstWidth} setFirstWidth={setFirstWidth}>
+    <Flex ref={splitViewRef} direction={direction} {...props} width="100%">
+      <FirstPane
+        firstSize={firstSize}
+        setFirstSize={setFirstSize}
+        direction={direction}
+      >
         {firstChild}
       </FirstPane>
       <Flex
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEndOrMouseUp}
-        cursor="col-resize"
+        cursor={cursor}
         alignSelf="stretch"
         alignItems="center"
       >
         <Box
           height="100%"
-          width={`${separatorPixels}px`}
+          {...dimensionProps(direction, `${separatorPixels}px`)}
           backgroundColor="gray.50"
         />
       </Flex>
-      <Box width={`calc(100% - ${firstWidth}px - ${separatorPixels}px)`}>
+      <Box
+        {...dimensionProps(
+          direction,
+          `calc(100% - ${firstSize}px - ${separatorPixels}px)`
+        )}
+      >
         {secondChild}
       </Box>
     </Flex>

@@ -40,7 +40,7 @@ const Workbench = () => {
   const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
     <Flex className="Workbench">
-      <SplitView width="100%" minimums={minimums}>
+      <SplitView direction="row" width="100%" minimums={minimums}>
         <LeftPanel
           selectedFile={selectedFile}
           onSelectedFileChanged={setSelectedFile}
@@ -52,20 +52,18 @@ const Workbench = () => {
           height="100%"
           boxShadow="4px 0px 24px #00000033"
         >
-          <Box flex="1 1 auto" height="0">
-            {selectedFile && fileVersion !== undefined && (
-              <EditorArea
-                key={selectedFile + "/" + fileVersion}
-                filename={selectedFile}
-                onSelectedFileChanged={setSelectedFile}
-              />
-            )}
-          </Box>
-          <Box height={serialVisible ? "40%" : "0%"}>
-            {/* For accessibility. 
-              Using `display` breaks the terminal height adjustment */}
+          <SplitView direction="column" minimums={[400, 300]} height="100%">
+            <Box height="100%">
+              {selectedFile && fileVersion !== undefined && (
+                <EditorArea
+                  key={selectedFile + "/" + fileVersion}
+                  filename={selectedFile}
+                  onSelectedFileChanged={setSelectedFile}
+                />
+              )}
+            </Box>
             <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
-          </Box>
+          </SplitView>
           <ProjectActionBar borderTopWidth={1} borderColor="gray.200" />
         </Flex>
       </SplitView>
