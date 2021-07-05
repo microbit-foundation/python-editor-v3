@@ -20,6 +20,7 @@ export const dimensionProps = (
 };
 
 export interface SplitViewContext {
+  collapsed: boolean;
   sizedPaneSize: number | undefined;
   setSizedPaneSize: (v: number) => void;
   direction: Direction;

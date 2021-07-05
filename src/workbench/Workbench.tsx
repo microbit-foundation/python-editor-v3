@@ -61,7 +61,12 @@ const Workbench = () => {
             height="100%"
             boxShadow="4px 0px 24px #00000033"
           >
-            <SplitView direction="column" minimums={[400, 300]} height="100%">
+            <SplitView
+              direction="column"
+              minimums={[400, 300]}
+              height="100%"
+              collapsed={!serialVisible}
+            >
               <SplitViewRemainder>
                 <Box height="100%">
                   {selectedFile && fileVersion !== undefined && (
@@ -75,7 +80,7 @@ const Workbench = () => {
               </SplitViewRemainder>
               <SplitViewDivider />
               <SplitViewSized>
-                <SerialArea visibility={serialVisible ? "unset" : "hidden"} />
+                <SerialArea />
               </SplitViewSized>
             </SplitView>
             <ProjectActionBar borderTopWidth={1} borderColor="gray.200" />

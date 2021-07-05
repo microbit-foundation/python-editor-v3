@@ -12,14 +12,20 @@ interface SizedPaneProps {
  * The other pane takes the remaining space.
  */
 const SplitViewSized = ({ children }: SizedPaneProps) => {
-  const { direction, sizedPaneSize } = useSplitViewContext();
+  const { direction, sizedPaneSize, collapsed } = useSplitViewContext();
   const ref = createRef<HTMLDivElement>();
   useEffect(() => {
     if (ref.current) {
-      ref.current.style[dimensionPropName(direction)] = `${sizedPaneSize}px`;
+      ref.current.style[dimensionPropName(direction)] = collapsed
+        ? "0px"
+        : `${sizedPaneSize}px`;
     }
-  }, [ref, direction, sizedPaneSize]);
-  return <Box ref={ref}>{children}</Box>;
+  }, [ref, collapsed, direction, sizedPaneSize]);
+  return (
+    <Box visibility={collapsed ? "hidden" : undefined} ref={ref}>
+      {children}
+    </Box>
+  );
 };
 
 export default SplitViewSized;

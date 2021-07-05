@@ -11,9 +11,16 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Direction, separatorPixels, splitViewContext } from "./context";
+import {
+  Direction,
+  separatorPixels,
+  SplitViewContext,
+  splitViewContext,
+} from "./context";
+import SplitViewSized from "./SplitViewSized";
 
 interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
+  collapsed?: boolean;
   children: [JSX.Element, JSX.Element, JSX.Element];
   direction: Direction;
   minimums: [number, number];
@@ -23,8 +30,10 @@ export const SplitView = ({
   children,
   direction,
   minimums,
+  collapsed = false,
   ...props
 }: SplitViewProps) => {
+  const sizedFirst = children[0].type === SplitViewSized;
   const [sizedPaneSize, setSizedPaneSize] = useState<undefined | number>(
     minimums[0]
   );
@@ -52,12 +61,15 @@ export const SplitView = ({
     (e: Event, clientPos: number) => {
       if (dragging) {
         const rect = splitViewRef.current!.getBoundingClientRect();
-
-        // This needs to know whether the thing it's sizing
-        // is before or after the one that takes the remainder.
-        let size = rect.bottom - clientPos;
-        // clientPos - (direction === "column" ? rect.bottom : rect.left);
-
+        const relativeTo =
+          direction === "column"
+            ? sizedFirst
+              ? rect.top
+              : rect.bottom
+            : sizedFirst
+            ? rect.left
+            : rect.right;
+        let size = Math.abs(relativeTo - clientPos);
         if (size < minimums[0]) {
           size = minimums[0];
         }
@@ -72,7 +84,7 @@ export const SplitView = ({
         setSizedPaneSize(size);
       }
     },
-    [dragging, setSizedPaneSize, splitViewRef, minimums, direction]
+    [dragging, setSizedPaneSize, splitViewRef, minimums, direction, sizedFirst]
   );
 
   const handleMouseMove = useCallback(
@@ -110,8 +122,9 @@ export const SplitView = ({
     };
   }, [handleMouseMove, handleTouchMove, handleTouchEndOrMouseUp]);
 
-  const context = useMemo(() => {
+  const context: SplitViewContext = useMemo(() => {
     return {
+      collapsed,
       sizedPaneSize,
       setSizedPaneSize,
       direction,
@@ -121,6 +134,7 @@ export const SplitView = ({
       handleTouchEndOrMouseUp,
     };
   }, [
+    collapsed,
     sizedPaneSize,
     setSizedPaneSize,
     direction,
