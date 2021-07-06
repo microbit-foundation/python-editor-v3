@@ -25,6 +25,10 @@ class Pair:
     def __init__(self, a, b):
         self.a = a
         self.b = b
+        if True:
+            if True:
+                if True:
+                    pass
 
     def swap(self):
         return Pair(self.b, self.a)
