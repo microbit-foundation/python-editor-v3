@@ -46,13 +46,15 @@ class VisualBlock {
   }
 
   adjust(parent: HTMLElement, body: HTMLElement) {
-    // Parent covers the parent that isn't body
+    // Parent is just the bit before the colon.
     parent.style.left = this.parent.left + "px";
     parent.style.top = this.parent.top + "px";
-    parent.style.height = this.parent.height - this.body.height + "px";
+    parent.style.height = this.parent.height + "px";
     parent.style.width = `calc(100% - ${this.parent.left}px)`;
 
-    body.style.left = this.body.left + "px";
+    // Allows nested compound statements some breathing space
+    const bodyPullBack = 3;
+    body.style.left = this.body.left - bodyPullBack + "px";
     body.style.top = this.body.top + "px";
     body.style.height = this.body.height + "px";
     body.style.width = `calc(100% - ${this.body.left}px)`;
@@ -102,12 +104,6 @@ const blocksView = ViewPlugin.fromClass(
     readBlocks(): Measure {
       const view = this.view;
       const { state } = view;
-      const leftEdge =
-        view.contentDOM.getBoundingClientRect().left -
-        view.scrollDOM.getBoundingClientRect().left;
-      const indentWidth =
-        state.facet(indentUnit).length * view.defaultCharacterWidth;
-
       const blocks: VisualBlock[] = [];
       // We could throw away blocks if we tracked returning to the top-level or started from
       // the closest top-level node. Otherwise we need to render them because they overlap.
@@ -127,9 +123,40 @@ const blocksView = ViewPlugin.fromClass(
             }
           },
           leave: (type, start, end) => {
+            if (type.name === "Body") {
+              depth--;
+            }
+
             const leaving = parents.pop()!;
-            if (leaving.children) {
-              console.log("Should draw", leaving);
+            const children = leaving.children;
+            if (children) {
+              // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
+              let start = 0;
+              for (let i = 0; i < children.length; ++i) {
+                if (children[i].name === "Body") {
+                  let startNode = children[start];
+                  let bodyNode = children[i];
+                  console.log({ startNode, bodyNode });
+                  let parentBox = nodeBox(
+                    view,
+                    startNode.start,
+                    bodyNode.start,
+                    depth
+                  );
+                  let bodyBox = nodeBox(
+                    view,
+                    // Hack: we need to move the body to the next line and skip it
+                    // or draw it differently if it's actually on the same line.
+                    bodyNode.start + 2,
+                    bodyNode.end,
+                    depth + 1
+                  );
+                  blocks.push(
+                    new VisualBlock(leaving.name, parentBox, bodyBox)
+                  );
+                  start = i + 1;
+                }
+              }
             }
 
             // Poke our information into our parent if we need to track it.
@@ -168,6 +195,30 @@ const blocksView = ViewPlugin.fromClass(
     }
   }
 );
+
+const nodeBox = (
+  view: EditorView,
+  start: number,
+  end: number,
+  depth: number
+) => {
+  const state = view.state;
+  const leftEdge =
+    view.contentDOM.getBoundingClientRect().left -
+    view.scrollDOM.getBoundingClientRect().left;
+  const indentWidth =
+    state.facet(indentUnit).length * view.defaultCharacterWidth;
+
+  const top = view.visualLineAt(start).top;
+  const bottom = view.visualLineAt(
+    // We also need to skip comments in a similar way, as they're extending our highlighting.
+    skipTrailingBlankLines(state, end - 1)
+  ).bottom;
+  const height = bottom - top;
+  const leftIndent = depth * indentWidth;
+  const left = leftEdge + leftIndent;
+  return { left, height, top };
+};
 
 const skipTrailingBlankLines = (state: EditorState, position: number) => {
   let line = state.doc.lineAt(position);
