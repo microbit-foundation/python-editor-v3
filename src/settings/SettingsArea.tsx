@@ -98,7 +98,7 @@ const SettingsArea = () => {
           variant="outline"
           onChange={handleChangeLanguage}
           value={settings.languageId}
-          maxWidth="16ch"
+          width="20ch"
         >
           {supportedLanguages.map((language) => (
             <option key={language.id} value={language.id}>
@@ -123,7 +123,7 @@ const SettingsArea = () => {
           min={minimumFontSize}
           max={maximumFontSize}
           onChange={handleChangeFontSize}
-          width="8ch"
+          width="12ch"
         >
           <NumberInputField />
           <NumberInputStepper>
@@ -145,7 +145,7 @@ const SettingsArea = () => {
           id="language"
           variant="outline"
           onChange={handleChangeCodeStructureHighlight}
-          maxWidth="16ch"
+          width="20ch"
           value={settings.codeStructureHighlight}
         >
           {codeStructureHighlightOptions.map(({ value, label }) => (
