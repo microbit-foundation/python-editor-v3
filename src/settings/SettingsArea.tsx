@@ -25,6 +25,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import { stage } from "../environment";
 
+console.log(stage);
 const codeStructureHighlightOptions = (() => {
   const none = { value: "none", label: "None" };
   const brackets = { value: "brackets", label: "Brackets" };
@@ -33,7 +34,7 @@ const codeStructureHighlightOptions = (() => {
   const lShapeBoxes = { value: "l-shape-boxes", label: "L-shape boxes" };
   // Hold some of these back for now while we discuss options.
   // Once finalised we also need to translate the option labels.
-  return stage === "REVIEW"
+  return stage === "local" || stage === "REVIEW"
     ? [none, brackets, boxes, lShapes, lShapeBoxes]
     : [none, boxes];
 })();

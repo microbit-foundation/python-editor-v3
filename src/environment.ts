@@ -3,5 +3,5 @@
  *
  * SPDX-License-Identifier: MIT
  */
-export const version = process.env.REACT_APP_VERSION || "unknown";
-export const stage = process.env.REACT_APP_STAGE || "unknown";
+export const version = process.env.REACT_APP_VERSION || "local";
+export const stage = process.env.REACT_APP_STAGE || "local";

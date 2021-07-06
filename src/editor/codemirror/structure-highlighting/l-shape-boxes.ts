@@ -114,83 +114,31 @@ const blocksView = ViewPlugin.fromClass(
       // Should consider switching to tree cursors to avoid allocating syntax nodes.
       let depth = 0;
       const tree = syntaxTree(state);
-      let bodies: { top: number; height: number; left: number }[] = [];
+      const parents: {
+        name: string;
+        children?: { name: string; start: number; end: number }[];
+      }[] = [];
       if (tree) {
         tree.iterate({
           enter: (type, _start) => {
+            parents.push({ name: type.name });
             if (type.name === "Body") {
               depth++;
             }
           },
           leave: (type, start, end) => {
-            const isBodyParent =
-              bodies.length > 0 &&
-              grammarInfo.compoundStatements.has(type.name);
-            const isBody = type.name === "Body";
-            if (isBody) {
-              // Skip past the colon starting the Body / block.
-              // This needs to get smarter to deal with the single line version, e.g. `while True: pass`
-              start = state.doc.lineAt(start).to + 1;
+            const leaving = parents.pop()!;
+            if (leaving.children) {
+              console.log("Should draw", leaving);
+            }
 
-              const top = view.visualLineAt(start).top;
-              const bottom = view.visualLineAt(
-                // We also need to skip comments in a similar way, as they're extending our highlighting.
-                skipTrailingBlankLines(state, end - 1)
-              ).bottom;
-              const height = bottom - top;
-              const leftIndent = depth * indentWidth;
-              const left = leftEdge + leftIndent;
-              bodies.push({ left, height, top });
-
-              depth--;
-            } else if (isBodyParent) {
-              // So this isn't recognising that a body parent can have multiple body children
-              // e.g. if/elif/else while/else try/catch etc.
-              //
-              // In the syntax tree, these compound statements have a flat structure with all the bodies
-              // as children of the, say, IfStatement interspersed with the other nodes (keywords, tests
-              // etc.), see examples at
-              // https://github.com/lezer-parser/python/blob/master/test/statement.txt
-              // so we could just find compound statements and then work with their children
-              // rather than the current mess :)
-              //
-              // Note that Body is defined as { ":" (simpleStatement | newline indent statement+ (dedent | eof)) }
-              //
-              //   IfStatement(if, BinaryExpression(Number, ArithOp, Number), Body(PassStatement(pass)),
-              //   elif, BinaryExpression(Number, CompareOp, Number), Body(PassStatement(pass)),
-              //   else, Body(PassStatement(pass))))
-              //
-              // if True:
-              //     pass
-              // else:
-              //     pass
-              //
-              // But what highlighting do we want? Start by highlighting the shape above exactly,
-              // so visually we'd have two cut-outs before the bodies and the rest highlighted.
-              // So we'd need to pick out the child nodes and do a line-mapped box for ("if"..Body]
-              // and one for Body
-              // and one for ("else"..Body]
-              // and one for Body
-              //
-              // So it'd take some work for each compound statement type but it could be data driven
-              // based on specific child type names for each compound statement.
-
-              const leftIndent = depth * indentWidth;
-              const top = view.visualLineAt(start).top;
-              const left = leftEdge + leftIndent;
-              const bottom = view.visualLineAt(
-                // We also need to skip comments in a similar way, as they're extending our highlighting.
-                skipTrailingBlankLines(state, end - 1)
-              ).bottom;
-              const height = bottom - top;
-              if (bodies.length > 0) {
-                console.log(JSON.stringify(bodies));
-                for (const body of bodies) {
-                  const parent = { top, left, height };
-                  blocks.push(new VisualBlock(type.name, parent, body));
-                }
+            // Poke our information into our parent if we need to track it.
+            const parent = parents[parents.length - 1];
+            if (parent && grammarInfo.compoundStatements.has(parent.name)) {
+              if (!parent.children) {
+                parent.children = [];
               }
-              bodies.length = 0;
+              parent.children.push({ name: type.name, start, end });
             }
           },
         });
