@@ -25,7 +25,7 @@ interface SettingsDialogProps {
  */
 export const SettingsDialog = ({ isOpen, onClose }: SettingsDialogProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="md">
+    <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
