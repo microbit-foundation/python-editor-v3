@@ -28,12 +28,14 @@ class VisualBlock {
     readonly name: string,
     readonly left: number,
     readonly top: number,
-    readonly height: number
+    readonly height: number,
+    readonly depth: number
   ) {}
 
   draw() {
     const elt = document.createElement("div");
     elt.className = "cm-box";
+    elt.classList.add(this.depth % 2 === 0 ? "cm-box-bg1" : "cm-box-bg2");
     this.adjust(elt);
     return elt;
   }
@@ -121,7 +123,7 @@ const blocksView = ViewPlugin.fromClass(
               const height = bottom - top;
               const leftIndent = depth * indentWidth;
               const left = leftEdge + leftIndent;
-              blocks.push(new VisualBlock(type.name, left, top, height));
+              blocks.push(new VisualBlock(type.name, left, top, height, depth));
             }
             if (isBody) {
               depth--;
@@ -129,6 +131,7 @@ const blocksView = ViewPlugin.fromClass(
           },
         });
       }
+      blocks.reverse();
       return { blocks };
     }
 
@@ -172,8 +175,14 @@ const baseTheme = EditorView.baseTheme({
   ".cm-box": {
     display: "block",
     position: "absolute",
-    backgroundColor: "var(--chakra-colors-code-block)",
     borderRadius: "var(--chakra-radii-lg)",
+    outline: "1px solid black",
+  },
+  ".cm-box-bg1": {
+    backgroundColor: "rgb(234, 249, 251)",
+  },
+  ".cm-box-bg2": {
+    backgroundColor: "rgb(208, 242, 252)",
   },
 });
 
