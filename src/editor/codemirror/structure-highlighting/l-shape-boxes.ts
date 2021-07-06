@@ -36,6 +36,7 @@ interface Positions {
 class VisualBlock {
   constructor(
     readonly name: string,
+    readonly depth: number,
     readonly parent?: Positions,
     readonly body?: Positions
   ) {}
@@ -43,13 +44,16 @@ class VisualBlock {
   draw() {
     let parent: HTMLElement | undefined;
     let body: HTMLElement | undefined;
+    const bg = this.depth % 2 === 0 ? "cm-lshapebox-bg1" : "cm-lshapebox-bg2";
     if (this.parent) {
       parent = document.createElement("div");
       parent.className = "cm-lshapebox";
+      parent.classList.add(bg);
     }
     if (this.body) {
       body = document.createElement("div");
       body.className = "cm-lshapebox";
+      body.classList.add(bg);
     }
     this.adjust(parent, body);
     return [parent, body].filter(Boolean) as HTMLElement[];
@@ -66,10 +70,11 @@ class VisualBlock {
 
     // Allows nested compound statements some breathing space
     if (body && this.body) {
+      const dark = this.depth % 2 === 0;
       const bodyPullBack = 3;
       body.style.left = this.body.left - bodyPullBack + "px";
       body.style.top = this.body.top + "px";
-      body.style.height = this.body.height + "px";
+      body.style.height = this.body.height + (dark ? 0 : 0) + "px";
       body.style.width = `calc(100% - ${this.body.left}px)`;
       body.style.borderTopLeftRadius = "unset";
     }
@@ -171,7 +176,7 @@ const blocksView = ViewPlugin.fromClass(
                     true
                   );
                   blocks.push(
-                    new VisualBlock(leaving.name, parentBox, bodyBox)
+                    new VisualBlock(leaving.name, depth, parentBox, bodyBox)
                   );
                   start = i + 1;
                 }
@@ -189,6 +194,7 @@ const blocksView = ViewPlugin.fromClass(
           },
         });
       }
+      blocks.reverse();
       return { blocks };
     }
 
@@ -268,8 +274,13 @@ const baseTheme = EditorView.baseTheme({
   ".cm-lshapebox": {
     display: "block",
     position: "absolute",
-    backgroundColor: "var(--chakra-colors-code-block)",
     borderRadius: "var(--chakra-radii-lg)",
+  },
+  ".cm-lshapebox-bg1": {
+    backgroundColor: "#CAEDF7", // "rgb(194, 230, 225)",
+  },
+  ".cm-lshapebox-bg2": {
+    backgroundColor: "#DFE3FA", // "rgb(239, 247, 246)",
   },
 });
 
