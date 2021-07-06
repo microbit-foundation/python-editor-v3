@@ -33,7 +33,7 @@ const codeStructureHighlightOptions = (() => {
   const lShapeBoxes = { value: "l-shape-boxes", label: "L-shape boxes" };
   // Hold some of these back for now while we discuss options.
   // Once finalised we also need to translate the option labels.
-  return stage === "REVIEW"
+  return stage === "local" || stage === "REVIEW"
     ? [none, brackets, boxes, lShapes, lShapeBoxes]
     : [none, boxes];
 })();

@@ -10,6 +10,18 @@ import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorState, Extension } from "@codemirror/state";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 
+const grammarInfo = {
+  compoundStatements: new Set([
+    "IfStatement",
+    "WhileStatement",
+    "ForStatement",
+    "TryStatement",
+    "WithStatement",
+    "FunctionDefinition",
+    "ClassDefinition",
+  ]),
+};
+
 interface Positions {
   top: number;
   left: number;
@@ -17,44 +29,66 @@ interface Positions {
 }
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
+
+// If we keep a background approach then we should simplify this so we create one per box.
+// Kept in one block for now in case we want to draw lines, so it's easier to experiment
+// with visualisations.
 class VisualBlock {
   constructor(
     readonly name: string,
-    readonly parent: Positions,
-    readonly body: Positions
+    readonly parent?: Positions,
+    readonly body?: Positions
   ) {}
 
   draw() {
-    const parent = document.createElement("div");
-    parent.className = "cm-lshapebox";
-    const body = document.createElement("div");
-    body.className = "cm-lshapebox";
+    let parent: HTMLElement | undefined;
+    let body: HTMLElement | undefined;
+    if (this.parent) {
+      parent = document.createElement("div");
+      parent.className = "cm-lshapebox";
+    }
+    if (this.body) {
+      body = document.createElement("div");
+      body.className = "cm-lshapebox";
+    }
     this.adjust(parent, body);
-    return [parent, body];
+    return [parent, body].filter(Boolean) as HTMLElement[];
   }
 
-  adjust(parent: HTMLElement, body: HTMLElement) {
-    // Parent covers the parent that isn't body
-    parent.style.left = this.parent.left + "px";
-    parent.style.top = this.parent.top + "px";
-    parent.style.height = this.parent.height - this.body.height + "px";
-    parent.style.width = `calc(100% - ${this.parent.left}px)`;
+  adjust(parent?: HTMLElement, body?: HTMLElement) {
+    // Parent is just the bit before the colon.
+    if (parent && this.parent) {
+      parent.style.left = this.parent.left + "px";
+      parent.style.top = this.parent.top + "px";
+      parent.style.height = this.parent.height + "px";
+      parent.style.width = `calc(100% - ${this.parent.left}px)`;
+    }
 
-    body.style.left = this.body.left + "px";
-    body.style.top = this.body.top + "px";
-    body.style.height = this.body.height + "px";
-    body.style.width = `calc(100% - ${this.body.left}px)`;
-    body.style.borderTopLeftRadius = "unset";
+    // Allows nested compound statements some breathing space
+    if (body && this.body) {
+      const bodyPullBack = 3;
+      body.style.left = this.body.left - bodyPullBack + "px";
+      body.style.top = this.body.top + "px";
+      body.style.height = this.body.height + "px";
+      body.style.width = `calc(100% - ${this.body.left}px)`;
+      body.style.borderTopLeftRadius = "unset";
+    }
   }
 
   eq(other: VisualBlock) {
     return (
-      this.parent.left === other.parent.left &&
-      this.parent.top === other.parent.top &&
-      this.parent.height === other.parent.height &&
-      this.body.left === other.body.left &&
-      this.body.top === other.body.top &&
-      this.body.height === other.body.height
+      ((!this.parent && !other.parent) ||
+        (this.parent &&
+          other.parent &&
+          this.parent.left === other.parent.left &&
+          this.parent.top === other.parent.top &&
+          this.parent.height === other.parent.height)) &&
+      ((!this.body && !other.body) ||
+        (this.body &&
+          other.body &&
+          this.body.left === other.body.left &&
+          this.body.top === other.body.top &&
+          this.body.height === other.body.height))
     );
   }
 }
@@ -90,61 +124,67 @@ const blocksView = ViewPlugin.fromClass(
     readBlocks(): Measure {
       const view = this.view;
       const { state } = view;
-      const leftEdge =
-        view.contentDOM.getBoundingClientRect().left -
-        view.scrollDOM.getBoundingClientRect().left;
-      const indentWidth =
-        state.facet(indentUnit).length * view.defaultCharacterWidth;
-
       const blocks: VisualBlock[] = [];
       // We could throw away blocks if we tracked returning to the top-level or started from
       // the closest top-level node. Otherwise we need to render them because they overlap.
       // Should consider switching to tree cursors to avoid allocating syntax nodes.
       let depth = 0;
       const tree = syntaxTree(state);
-      let body: { top: number; height: number; left: number } | undefined;
+      const parents: {
+        name: string;
+        children?: { name: string; start: number; end: number }[];
+      }[] = [];
       if (tree) {
         tree.iterate({
           enter: (type, _start) => {
+            parents.push({ name: type.name });
             if (type.name === "Body") {
               depth++;
             }
           },
           leave: (type, start, end) => {
-            const isBodyParent = Boolean(body);
-            const isBody = type.name === "Body";
-            if (isBody) {
-              // Skip past the colon starting the Body / block.
-              // This needs to get smarter to deal with the single line version, e.g. `while True: pass`
-              start = state.doc.lineAt(start).to + 1;
-
-              const top = view.visualLineAt(start).top;
-              const bottom = view.visualLineAt(
-                // We also need to skip comments in a similar way, as they're extending our highlighting.
-                skipTrailingBlankLines(state, end - 1)
-              ).bottom;
-              const height = bottom - top;
-              const leftIndent = depth * indentWidth;
-              const left = leftEdge + leftIndent;
-              body = { left, height, top };
-
+            if (type.name === "Body") {
               depth--;
-            } else if (isBodyParent) {
-              const leftIndent = depth * indentWidth;
-              const top = view.visualLineAt(start).top;
-              const left = leftEdge + leftIndent;
-              const bottom = view.visualLineAt(
-                // We also need to skip comments in a similar way, as they're extending our highlighting.
-                skipTrailingBlankLines(state, end - 1)
-              ).bottom;
-              const height = bottom - top;
-              if (body) {
-                const parent = { top, left, height };
-                blocks.push(new VisualBlock(type.name, parent, body));
+            }
+
+            const leaving = parents.pop()!;
+            const children = leaving.children;
+            if (children) {
+              // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
+              let start = 0;
+              for (let i = 0; i < children.length; ++i) {
+                if (children[i].name === "Body") {
+                  let startNode = children[start];
+                  let bodyNode = children[i];
+                  let parentBox = nodeBox(
+                    view,
+                    startNode.start,
+                    bodyNode.start,
+                    depth,
+                    false
+                  );
+                  let bodyBox = nodeBox(
+                    view,
+                    bodyNode.start,
+                    bodyNode.end,
+                    depth + 1,
+                    true
+                  );
+                  blocks.push(
+                    new VisualBlock(leaving.name, parentBox, bodyBox)
+                  );
+                  start = i + 1;
+                }
               }
-              body = undefined;
-            } else {
-              body = undefined;
+            }
+
+            // Poke our information into our parent if we need to track it.
+            const parent = parents[parents.length - 1];
+            if (parent && grammarInfo.compoundStatements.has(parent.name)) {
+              if (!parent.children) {
+                parent.children = [];
+              }
+              parent.children.push({ name: type.name, start, end });
             }
           },
         });
@@ -174,6 +214,40 @@ const blocksView = ViewPlugin.fromClass(
     }
   }
 );
+
+const nodeBox = (
+  view: EditorView,
+  start: number,
+  end: number,
+  depth: number,
+  body: boolean
+) => {
+  const state = view.state;
+  const leftEdge =
+    view.contentDOM.getBoundingClientRect().left -
+    view.scrollDOM.getBoundingClientRect().left;
+  const indentWidth =
+    state.facet(indentUnit).length * view.defaultCharacterWidth;
+
+  let topLine = view.visualLineAt(start);
+  if (body) {
+    topLine = view.visualLineAt(topLine.to + 1);
+    if (topLine.from > end) {
+      // If we've fallen out of the scope of the body then the statement is all on
+      // one line, e.g. "if True: pass". Avoid highlighting for now.
+      return undefined;
+    }
+  }
+  const top = topLine.top;
+  const bottom = view.visualLineAt(
+    // We also need to skip comments in a similar way, as they're extending our highlighting.
+    skipTrailingBlankLines(state, end - 1)
+  ).bottom;
+  const height = bottom - top;
+  const leftIndent = depth * indentWidth;
+  const left = leftEdge + leftIndent;
+  return { left, height, top };
+};
 
 const skipTrailingBlankLines = (state: EditorState, position: number) => {
   let line = state.doc.lineAt(position);
