@@ -29,46 +29,66 @@ interface Positions {
 }
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
+
+// If we keep a background approach then we should simplify this so we create one per box.
+// Kept in one block for now in case we want to draw lines, so it's easier to experiment
+// with visualisations.
 class VisualBlock {
   constructor(
     readonly name: string,
-    readonly parent: Positions,
-    readonly body: Positions
+    readonly parent?: Positions,
+    readonly body?: Positions
   ) {}
 
   draw() {
-    const parent = document.createElement("div");
-    parent.className = "cm-lshapebox";
-    const body = document.createElement("div");
-    body.className = "cm-lshapebox";
+    let parent: HTMLElement | undefined;
+    let body: HTMLElement | undefined;
+    if (this.parent) {
+      parent = document.createElement("div");
+      parent.className = "cm-lshapebox";
+    }
+    if (this.body) {
+      body = document.createElement("div");
+      body.className = "cm-lshapebox";
+    }
     this.adjust(parent, body);
-    return [parent, body];
+    return [parent, body].filter(Boolean) as HTMLElement[];
   }
 
-  adjust(parent: HTMLElement, body: HTMLElement) {
+  adjust(parent?: HTMLElement, body?: HTMLElement) {
     // Parent is just the bit before the colon.
-    parent.style.left = this.parent.left + "px";
-    parent.style.top = this.parent.top + "px";
-    parent.style.height = this.parent.height + "px";
-    parent.style.width = `calc(100% - ${this.parent.left}px)`;
+    if (parent && this.parent) {
+      parent.style.left = this.parent.left + "px";
+      parent.style.top = this.parent.top + "px";
+      parent.style.height = this.parent.height + "px";
+      parent.style.width = `calc(100% - ${this.parent.left}px)`;
+    }
 
     // Allows nested compound statements some breathing space
-    const bodyPullBack = 3;
-    body.style.left = this.body.left - bodyPullBack + "px";
-    body.style.top = this.body.top + "px";
-    body.style.height = this.body.height + "px";
-    body.style.width = `calc(100% - ${this.body.left}px)`;
-    body.style.borderTopLeftRadius = "unset";
+    if (body && this.body) {
+      const bodyPullBack = 3;
+      body.style.left = this.body.left - bodyPullBack + "px";
+      body.style.top = this.body.top + "px";
+      body.style.height = this.body.height + "px";
+      body.style.width = `calc(100% - ${this.body.left}px)`;
+      body.style.borderTopLeftRadius = "unset";
+    }
   }
 
   eq(other: VisualBlock) {
     return (
-      this.parent.left === other.parent.left &&
-      this.parent.top === other.parent.top &&
-      this.parent.height === other.parent.height &&
-      this.body.left === other.body.left &&
-      this.body.top === other.body.top &&
-      this.body.height === other.body.height
+      ((!this.parent && !other.parent) ||
+        (this.parent &&
+          other.parent &&
+          this.parent.left === other.parent.left &&
+          this.parent.top === other.parent.top &&
+          this.parent.height === other.parent.height)) &&
+      ((!this.body && !other.body) ||
+        (this.body &&
+          other.body &&
+          this.body.left === other.body.left &&
+          this.body.top === other.body.top &&
+          this.body.height === other.body.height))
     );
   }
 }
@@ -136,20 +156,19 @@ const blocksView = ViewPlugin.fromClass(
                 if (children[i].name === "Body") {
                   let startNode = children[start];
                   let bodyNode = children[i];
-                  console.log({ startNode, bodyNode });
                   let parentBox = nodeBox(
                     view,
                     startNode.start,
                     bodyNode.start,
-                    depth
+                    depth,
+                    false
                   );
                   let bodyBox = nodeBox(
                     view,
-                    // Hack: we need to move the body to the next line and skip it
-                    // or draw it differently if it's actually on the same line.
-                    bodyNode.start + 2,
+                    bodyNode.start,
                     bodyNode.end,
-                    depth + 1
+                    depth + 1,
+                    true
                   );
                   blocks.push(
                     new VisualBlock(leaving.name, parentBox, bodyBox)
@@ -200,7 +219,8 @@ const nodeBox = (
   view: EditorView,
   start: number,
   end: number,
-  depth: number
+  depth: number,
+  body: boolean
 ) => {
   const state = view.state;
   const leftEdge =
@@ -209,7 +229,16 @@ const nodeBox = (
   const indentWidth =
     state.facet(indentUnit).length * view.defaultCharacterWidth;
 
-  const top = view.visualLineAt(start).top;
+  let topLine = view.visualLineAt(start);
+  if (body) {
+    topLine = view.visualLineAt(topLine.to + 1);
+    if (topLine.from > end) {
+      // If we've fallen out of the scope of the body then the statement is all on
+      // one line, e.g. "if True: pass". Avoid highlighting for now.
+      return undefined;
+    }
+  }
+  const top = topLine.top;
   const bottom = view.visualLineAt(
     // We also need to skip comments in a similar way, as they're extending our highlighting.
     skipTrailingBlankLines(state, end - 1)
