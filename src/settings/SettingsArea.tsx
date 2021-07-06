@@ -25,7 +25,6 @@ import {
 import { FormattedMessage } from "react-intl";
 import { stage } from "../environment";
 
-console.log(stage);
 const codeStructureHighlightOptions = (() => {
   const none = { value: "none", label: "None" };
   const brackets = { value: "brackets", label: "Brackets" };
