@@ -277,10 +277,10 @@ const baseTheme = EditorView.baseTheme({
     borderRadius: "var(--chakra-radii-lg)",
   },
   ".cm-lshapebox-bg1": {
-    backgroundColor: "#CAEDF7", // "rgb(194, 230, 225)",
+    backgroundColor: "rgb(234, 249, 251)",
   },
   ".cm-lshapebox-bg2": {
-    backgroundColor: "#DFE3FA", // "rgb(239, 247, 246)",
+    backgroundColor: "rgb(208, 242, 252)",
   },
 });
 
