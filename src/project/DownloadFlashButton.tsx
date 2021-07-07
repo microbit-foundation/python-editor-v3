@@ -63,8 +63,8 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
             size={size}
           />
           <Portal>
-            {/* z-index above the xterm.js's layers */}
-            <MenuList zIndex={4}>
+            {/* z-index above the xterm.js's layers (currently 10 but given some margin for increases as it can vary with config) */}
+            <MenuList zIndex={20}>
               {!connected && (
                 <MenuItem
                   target="_blank"
