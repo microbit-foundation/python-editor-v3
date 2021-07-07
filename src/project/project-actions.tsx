@@ -174,7 +174,7 @@ export class ProjectActions {
             await this.fs.replaceWithHexContents(projectName, hex);
             this.actionFeedback.success({
               title: this.intl.formatMessage(
-                { id: "loaded-file" },
+                { id: "loaded-file-feedback" },
                 { filename: file.name }
               ),
             });
