@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
+import "./xterm-custom.css";
 import {
   backgroundColorTerm,
   codeFontFamily,
@@ -30,6 +31,7 @@ const XTerm = (props: BoxProps) => {
         fontFamily: codeFontFamily,
         fontSize: defaultCodeFontSizePt * ptToPixelRatio,
         letterSpacing: 1.1,
+        screenReaderMode: true,
         theme: {
           background: backgroundColorTerm,
         },
