@@ -35,7 +35,7 @@ const codeStructureHighlightOptions = (() => {
   // Once finalised we also need to translate the option labels.
   return stage === "local" || stage === "REVIEW"
     ? [none, brackets, boxes, lShapes, lShapeBoxes]
-    : [none, boxes];
+    : [none, lShapeBoxes];
 })();
 
 /**
