@@ -19,16 +19,15 @@ import {
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiFolderLine } from "react-icons/ri";
-import { useDeployment } from "../deployment";
+import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
+import { useDeployment } from "../deployment";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import HelpMenu from "../project/HelpMenu";
-import LanguageMenu from "../project/LanguageMenu";
-import SettingsButton from "../settings/SettingsButton";
+import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import { useIntl } from "react-intl";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -152,8 +151,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
             </Tab>
           ))}
           <VStack mt="auto" mb={1} spacing={0.5} color="white">
-            <SettingsButton />
-            <LanguageMenu size="lg" />
+            <SettingsMenu />
             <HelpMenu size="lg" />
           </VStack>
         </TabList>
