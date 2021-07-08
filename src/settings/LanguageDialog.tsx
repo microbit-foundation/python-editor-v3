@@ -52,6 +52,7 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
               <SimpleGrid width="100%" columns={[1, 1, 2, 2]} spacing={4}>
                 {supportedLanguages.map((language) => (
                   <LanguageCard
+                    key={language.id}
                     language={language}
                     onChooseLanguage={handleChooseLanguage}
                   />
