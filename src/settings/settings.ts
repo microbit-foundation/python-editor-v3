@@ -32,7 +32,7 @@ export const fontSizeStep = 3;
 export const defaultSettings: Settings = {
   languageId: supportedLanguages[0].id,
   fontSize: defaultCodeFontSizePt,
-  codeStructureHighlight: "brackets",
+  codeStructureHighlight: "l-shape-boxes",
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
