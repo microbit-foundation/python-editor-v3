@@ -5,20 +5,28 @@
  */
 import { Box, BoxProps } from "@chakra-ui/layout";
 import { useEffect, useRef } from "react";
+import wrap from "word-wrap";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
-import "./xterm-custom.css";
+import useIsUnmounted from "../common/use-is-unmounted";
 import {
   backgroundColorTerm,
   codeFontFamily,
   defaultCodeFontSizePt,
 } from "../deployment/misc";
-import useIsUnmounted from "../common/use-is-unmounted";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { useDevice } from "../device/device-hooks";
+import "./xterm-custom.css";
 
 const ptToPixelRatio = 96 / 72;
+
+const introText = `This box will show errors and things you print. Try
+
+print("Hello, World")
+
+You can press Ctrl-C to interrupt the micro:bit program then type Python commands directly to your micro:bit
+`;
 
 const XTerm = (props: BoxProps) => {
   const device = useDevice();
@@ -40,6 +48,50 @@ const XTerm = (props: BoxProps) => {
       term.loadAddon(fitAddon);
       term.open(ref.current);
 
+      let firstWrite = true;
+      const serialListener = (data: string) => {
+        if (!isUnmounted()) {
+          if (firstWrite) {
+            // Separate from intro text. We do it now to prevent scrolling a line off unnecessarily.
+            firstWrite = false;
+            data = "\r\n\r\n" + data;
+          }
+          term.write(data);
+        }
+      };
+      const resetListener = () => {
+        if (!isUnmounted()) {
+          term.reset();
+        }
+      };
+
+      let firstResize = true;
+      term.onResize(() => {
+        // We need to wait until we have the initial size to wrap the intro text.
+        if (firstResize) {
+          firstResize = false;
+          const wrapped = wrap(introText, {
+            width: term.cols - 2,
+            newline: "\r\n",
+            trim: true,
+            indent: "",
+          });
+          term.write(wrapped, () => {
+            term.scrollToTop();
+
+            // Start listening for data.
+            device.on(EVENT_SERIAL_DATA, serialListener);
+            device.on(EVENT_SERIAL_RESET, resetListener);
+            term.onData((data: string) => {
+              if (!isUnmounted()) {
+                // Async for internal error handling, we don't need to wait.
+                device.serialWrite(data);
+              }
+            });
+          });
+        }
+      });
+
       // Watch for resize and change terminal rows/cols accordingly.
       // This can result in a slither of space at the bottom, so backgrounds
       // should match.
@@ -51,25 +103,6 @@ const XTerm = (props: BoxProps) => {
       });
       resizeObserver.observe(ref.current);
 
-      // Input/output data.
-      const serialListener = (data: string) => {
-        if (!isUnmounted()) {
-          term.write(data);
-        }
-      };
-      device.on(EVENT_SERIAL_DATA, serialListener);
-      const resetListener = () => {
-        if (!isUnmounted()) {
-          term.reset();
-        }
-      };
-      device.on(EVENT_SERIAL_RESET, resetListener);
-      term.onData((data: string) => {
-        if (!isUnmounted()) {
-          // Async for internal error handling, we don't need to wait.
-          device.serialWrite(data);
-        }
-      });
       return () => {
         device.removeListener(EVENT_SERIAL_RESET, resetListener);
         device.removeListener(EVENT_SERIAL_DATA, serialListener);
