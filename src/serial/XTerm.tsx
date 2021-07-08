@@ -23,7 +23,7 @@ const ptToPixelRatio = 96 / 72;
 
 const introText = `This box will show errors and things you print. Try
 
-print("Hello, World")
+print('Hello, World')
 
 You can press Ctrl-C to interrupt the micro:bit program then type Python commands directly to your micro:bit
 `;
