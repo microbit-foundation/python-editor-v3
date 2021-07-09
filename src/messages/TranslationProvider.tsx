@@ -22,6 +22,9 @@ interface TranslationProviderProps {
   children: ReactNode;
 }
 
+/**
+ * Provides translation support to the app via react-intl.
+ */
 const TranslationProvider = ({ children }: TranslationProviderProps) => {
   const [{ languageId }] = useSettings();
   // If the messages are for a different language (or missing) then reload them

@@ -201,6 +201,9 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.logging.log(v);
   }
 
+  /**
+   * Initializes the device.
+   */
   async initialize(): Promise<void> {
     if (navigator.usb) {
       navigator.usb.addEventListener("disconnect", this.handleDisconnect);
@@ -248,10 +251,22 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     });
   }
 
+  /**
+   * Flash the micro:bit.
+   *
+   * @param dataSource The data to use.
+   * @param options Flash options and progress callback.
+   */
   async flash(
     dataSource: FlashDataSource,
     options: {
+      /**
+       * True to use a partial flash where possible, false to force a full flash.
+       */
       partial: boolean;
+      /**
+       * A progress callback. Called with undefined when the process is complete or has failed.
+       */
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
@@ -371,7 +386,7 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.emit(EVENT_STATUS, this.status);
   }
 
-  async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
+  private async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
     try {
       return await f();
     } catch (e) {
@@ -405,6 +420,14 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
+  /**
+   * Write serial data to the device.
+   *
+   * Does nothting if there is no connection.
+   *
+   * @param data The data to write.
+   * @returns A promise that resolves when the write is complete.
+   */
   serialWrite(data: string): Promise<void> {
     return this.withEnrichedErrors(async () => {
       if (this.connection) {

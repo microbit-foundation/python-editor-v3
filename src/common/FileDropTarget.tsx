@@ -13,6 +13,9 @@ interface FileDropTargetProps extends BoxProps {
   onFileDrop: (files: File[]) => void;
 }
 
+/**
+ * An area that handles multiple dropped files.
+ */
 const FileDropTarget = ({
   children,
   onFileDrop,

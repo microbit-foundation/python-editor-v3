@@ -14,6 +14,11 @@ export const DeviceContext = React.createContext<
   undefined | MicrobitWebUSBConnection
 >(undefined);
 
+/**
+ * Hook to access the device from UI code.
+ *
+ * @returns The device.
+ */
 export const useDevice = () => {
   const device = useContext(DeviceContext);
   if (!device) {
@@ -22,6 +27,9 @@ export const useDevice = () => {
   return device;
 };
 
+/**
+ * State that tracks the device connections status.
+ */
 export const useConnectionStatus = () => {
   const device = useDevice();
   const [status, setStatus] = useState<ConnectionStatus>(device.status);

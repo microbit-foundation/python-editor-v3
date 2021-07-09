@@ -38,9 +38,9 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { RiFileCopy2Line, RiGithubFill } from "react-icons/ri";
-import { useDeployment } from "../deployment";
+import { useDeployment } from "../../deployment";
 import { FormattedMessage } from "react-intl";
-import { microPythonVersions } from "../fs/micropython";
+import { microPythonVersions } from "../../fs/micropython";
 import comicImage from "./comic.png";
 import microbitHeartImage from "./microbit-heart.png";
 import micropythonLogo from "./micropython.jpeg";
@@ -70,6 +70,11 @@ interface AboutDialogProps {
   onClose: () => void;
 }
 
+/**
+ * An about dialog with credits and version information.
+ *
+ * Shown via the help menu.
+ */
 const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
   const { hasCopied, onCopy } = useClipboard(clipboardVersion);
   const deployment = useDeployment();

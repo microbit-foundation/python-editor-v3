@@ -24,6 +24,9 @@ interface ProgressDialogProps extends ProgressDialogParameters {
   isOpen: boolean;
 }
 
+/**
+ * A progress dialog used for the flashing process.
+ */
 const ProgressDialog = ({ header, progress }: ProgressDialogProps) => {
   return (
     <Modal isOpen={progress !== undefined} onClose={doNothing} isCentered>

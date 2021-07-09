@@ -6,6 +6,9 @@
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import useIsUnmounted from "./use-is-unmounted";
 
+/**
+ * State that rate limits changes with request animation frame.
+ */
 const useRafState = <S>(
   initialState: S | (() => S)
 ): [S, Dispatch<SetStateAction<S>>] => {
