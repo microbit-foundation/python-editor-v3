@@ -67,6 +67,7 @@ const EditorArea = ({
       />
       <Box position="relative" flex="1 1 auto" height={0}>
         <ZoomControls
+          display={["none", "none", "none", "flex"]}
           zIndex="1"
           top={6}
           right={spacingFromRight}
