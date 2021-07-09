@@ -621,6 +621,12 @@
       "value": "Open file when dropped"
     }
   ],
+  "options": [
+    {
+      "type": 0,
+      "value": "Options"
+    }
+  ],
   "permanently-delete": [
     {
       "type": 0,

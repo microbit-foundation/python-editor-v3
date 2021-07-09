@@ -303,6 +303,10 @@
     "defaultMessage": "Open file when dropped",
     "description": "Aria label for file drop target"
   },
+  "options": {
+    "defaultMessage": "Options",
+    "description": "Label for an options menu"
+  },
   "permanently-delete": {
     "defaultMessage": "Permanently delete {filename}?",
     "description": "Confirmation question to permanently delete file"

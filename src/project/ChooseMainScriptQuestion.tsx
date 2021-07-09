@@ -168,13 +168,14 @@ const FileChangeRow = ({
 };
 
 const OptionsMenu = ({ children, ...props }: MenuButtonProps) => {
+  const intl = useIntl();
   return (
     <Menu placement="right">
       <MenuButton
         {...props}
         as={IconButton}
         colorScheme="gray"
-        aria-label="Options"
+        aria-label={intl.formatMessage({ id: "options" })}
         size="md"
         variant="ghost"
         icon={<RiFileSettingsLine />}
