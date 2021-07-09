@@ -26,6 +26,13 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   minimums: [number, number];
 }
 
+/**
+ * An adjustable vertical or horizontal split area.
+ *
+ * Expects SplitViewSized, SplitViewDivider and SplitViewRemainder
+ * children. The sized and remainder components can be in either
+ * order.
+ */
 export const SplitView = ({
   children,
   direction,

@@ -3,4 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
+
+/**
+ * See craco.config.js.
+ */
 declare module "@deployment";

@@ -17,6 +17,9 @@ interface FeedbackFormProps {
   onClose: () => void;
 }
 
+/**
+ * Temporary embedded Jotform for the alpha release.
+ */
 const FeedbackForm = ({ isOpen, onClose }: FeedbackFormProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {

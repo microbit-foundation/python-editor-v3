@@ -107,6 +107,9 @@ export class Dialogs {
   }
 }
 
+/**
+ * A hook providing common dialog functionality.
+ */
 export const useDialogs = () => {
   const dialogs = useContext(DialogContext);
   if (!dialogs) {

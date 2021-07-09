@@ -24,7 +24,7 @@ import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import HelpMenu from "../project/HelpMenu";
+import HelpMenu from "./HelpMenu";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
@@ -84,6 +84,9 @@ interface LeftPanelContentsProps {
 
 const cornerSize = 32;
 
+/**
+ * The contents of the left-hand area.
+ */
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
   const [index, setIndex] = useState<number>(0);
   const width = "5rem";

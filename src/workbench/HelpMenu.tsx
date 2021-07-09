@@ -21,7 +21,7 @@ import {
   RiQuestionLine,
 } from "react-icons/ri";
 import { deployment } from "../deployment";
-import AboutDialog from "./AboutDialog";
+import AboutDialog from "./AboutDialog/AboutDialog";
 import { FormattedMessage, useIntl } from "react-intl";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {

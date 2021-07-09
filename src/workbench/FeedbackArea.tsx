@@ -8,6 +8,9 @@ import { Button } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import FeedbackForm from "./FeedbackForm";
 
+/**
+ * Temporary feedback prompt for the alpha release.
+ */
 const FeedbackArea = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = useCallback(() => {
