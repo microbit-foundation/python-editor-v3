@@ -151,7 +151,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
             </Tab>
           ))}
           <VStack mt="auto" mb={1} spacing={0.5} color="white">
-            <SettingsMenu />
+            <SettingsMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>
         </TabList>
