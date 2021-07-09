@@ -219,6 +219,10 @@
     "defaultMessage": "Фонтт сіззе",
     "description": "Font size option text"
   },
+  "help": {
+    "defaultMessage": "Хелпп",
+    "description": "Help menu label"
+  },
   "help-translate": {
     "defaultMessage": "Хелпп Траанслаате",
     "description": "Help translate  menu option text"

@@ -219,6 +219,10 @@
     "defaultMessage": "Font size",
     "description": "Font size option text"
   },
+  "help": {
+    "defaultMessage": "Help",
+    "description": "Help menu label"
+  },
   "help-translate": {
     "defaultMessage": "Help translate",
     "description": "Help translate  menu option text"

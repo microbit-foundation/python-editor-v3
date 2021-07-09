@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { IoMdGlobe } from "react-icons/io";
 import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { LanguageDialog } from "./LanguageDialog";
 import { SettingsDialog } from "./SettingsDialog";
 
@@ -30,6 +30,7 @@ interface SettingsMenuProps extends ThemingProps<"Menu"> {
 const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
   const settingsDisclosure = useDisclosure();
   const languageDisclosure = useDisclosure();
+  const intl = useIntl();
   return (
     <>
       <SettingsDialog
@@ -43,7 +44,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
       <Menu {...props}>
         <MenuButton
           as={IconButton}
-          aria-label="Help"
+          aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
           variant="sidebar"
           icon={<RiSettings2Line />}

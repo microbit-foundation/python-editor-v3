@@ -429,6 +429,12 @@
       "value": "Фонтт сіззе"
     }
   ],
+  "help": [
+    {
+      "type": 0,
+      "value": "Хелпп"
+    }
+  ],
   "help-translate": [
     {
       "type": 0,

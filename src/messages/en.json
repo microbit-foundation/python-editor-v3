@@ -429,6 +429,12 @@
       "value": "Font size"
     }
   ],
+  "help": [
+    {
+      "type": 0,
+      "value": "Help"
+    }
+  ],
   "help-translate": [
     {
       "type": 0,
