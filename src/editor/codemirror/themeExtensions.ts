@@ -18,7 +18,8 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-gutters": {
       // Make it easier to copy code dragging from the left without line numbers.
       userSelect: "none",
-      backgroundColor: "unset",
+      // Must be opaque for horizontal scrolling to work.
+      backgroundColor: "var(--chakra-colors-gray-10)",
       fontSize,
       fontFamily,
       paddingRight: "1rem",

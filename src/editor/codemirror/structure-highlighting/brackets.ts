@@ -39,10 +39,10 @@ class VisualBlock {
   }
 
   adjust(elt: HTMLElement) {
-    elt.style.left = this.left - 1 + "px";
+    elt.style.left = this.left + "px";
     elt.style.top = this.top + "px";
     elt.style.width = "10px";
-    elt.style.height = this.height + 1 + "px";
+    elt.style.height = this.height + "px";
   }
 
   eq(other: VisualBlock) {
