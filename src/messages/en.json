@@ -429,10 +429,16 @@
       "value": "Font size"
     }
   ],
+  "help": [
+    {
+      "type": 0,
+      "value": "Help"
+    }
+  ],
   "help-translate": [
     {
       "type": 0,
-      "value": "Help Translate"
+      "value": "Help translate"
     }
   ],
   "highlight-structure": [
@@ -613,6 +619,12 @@
     {
       "type": 0,
       "value": "Open file when dropped"
+    }
+  ],
+  "options": [
+    {
+      "type": 0,
+      "value": "Options"
     }
   ],
   "permanently-delete": [

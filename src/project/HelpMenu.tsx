@@ -22,7 +22,7 @@ import {
 } from "react-icons/ri";
 import { deployment } from "../deployment";
 import AboutDialog from "./AboutDialog";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -33,6 +33,7 @@ interface HelpMenuProps extends ThemingProps<"Menu"> {
  */
 const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   const aboutDialogDisclosure = useDisclosure();
+  const intl = useIntl();
   return (
     <>
       <AboutDialog
@@ -42,7 +43,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
       <Menu {...props}>
         <MenuButton
           as={IconButton}
-          aria-label="Help"
+          aria-label={intl.formatMessage({ id: "help" })}
           size={size}
           variant="sidebar"
           icon={<RiQuestionLine />}

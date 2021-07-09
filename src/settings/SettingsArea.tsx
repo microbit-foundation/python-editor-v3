@@ -15,15 +15,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useCallback } from "react";
+import { FormattedMessage } from "react-intl";
+import { stage } from "../environment";
 import {
   CodeStructureHighlight,
   maximumFontSize,
   minimumFontSize,
-  supportedLanguages,
   useSettings,
 } from "./settings";
-import { FormattedMessage } from "react-intl";
-import { stage } from "../environment";
 
 const codeStructureHighlightOptions = (() => {
   const none = { value: "none", label: "None" };
@@ -72,41 +71,9 @@ const SettingsArea = () => {
     },
     [settings, setSettings]
   );
-  const handleChangeLanguage = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSettings({
-        ...settings,
-        languageId: e.target.value,
-      });
-    },
-    [settings, setSettings]
-  );
 
   return (
     <VStack alignItems="flex-start" padding={3} spacing={5}>
-      <FormControl display="flex" alignItems="center">
-        <FormLabel
-          htmlFor="language"
-          mb="0"
-          fontWeight="normal"
-          flex="1 1 auto"
-        >
-          <FormattedMessage id="language" />
-        </FormLabel>
-        <Select
-          id="language"
-          variant="outline"
-          onChange={handleChangeLanguage}
-          value={settings.languageId}
-          width="20ch"
-        >
-          {supportedLanguages.map((language) => (
-            <option key={language.id} value={language.id}>
-              {language.name}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
       <FormControl display="flex" alignItems="center">
         <FormLabel
           htmlFor="font-size"

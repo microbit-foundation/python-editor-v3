@@ -219,8 +219,12 @@
     "defaultMessage": "Font size",
     "description": "Font size option text"
   },
+  "help": {
+    "defaultMessage": "Help",
+    "description": "Help menu label"
+  },
   "help-translate": {
-    "defaultMessage": "Help Translate",
+    "defaultMessage": "Help translate",
     "description": "Help translate  menu option text"
   },
   "highlight-structure": {
@@ -298,6 +302,10 @@
   "open-file-dropped": {
     "defaultMessage": "Open file when dropped",
     "description": "Aria label for file drop target"
+  },
+  "options": {
+    "defaultMessage": "Options",
+    "description": "Label for an options menu"
   },
   "permanently-delete": {
     "defaultMessage": "Permanently delete {filename}?",

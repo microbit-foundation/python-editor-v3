@@ -20,7 +20,7 @@ export const supportedLanguages = [
 ];
 if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
   supportedLanguages.push({
-    id: "lol",
+    id: "lol", // This has to be a valid locale value, so can't be e.g. "test".
     name: "Translation test",
   });
 }
@@ -39,7 +39,13 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (typeof value !== "object") {
     return false;
   }
-  // TODO: more!
+  const object = value as any;
+  if (
+    object.languageId &&
+    !supportedLanguages.find((x) => x.id === object.languageId)
+  ) {
+    return false;
+  }
   return true;
 };
 
