@@ -659,6 +659,12 @@
       "value": "Project actions"
     }
   ],
+  "project-header": [
+    {
+      "type": 0,
+      "value": "Project header"
+    }
+  ],
   "python-powered": [
     {
       "type": 0,

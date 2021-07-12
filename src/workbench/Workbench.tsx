@@ -73,11 +73,7 @@ const Workbench = () => {
               collapsed={!serialVisible}
             >
               <SplitViewRemainder>
-                <Box
-                  height="100%"
-                  as="section"
-                  aria-label={intl.formatMessage({ id: "code-editor" })}
-                >
+                <Box height="100%" as="section">
                   {selectedFile && fileVersion !== undefined && (
                     <EditorArea
                       key={selectedFile + "/" + fileVersion}

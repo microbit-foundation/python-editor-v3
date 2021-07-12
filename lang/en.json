@@ -323,6 +323,10 @@
     "defaultMessage": "Project actions",
     "description": "Aria label for the bar with project actions"
   },
+  "project-header": {
+    "defaultMessage": "Project header",
+    "description": "Aria label for the project header area"
+  },
   "python-powered": {
     "defaultMessage": "Python powered",
     "description": "Python powered logo alt text"

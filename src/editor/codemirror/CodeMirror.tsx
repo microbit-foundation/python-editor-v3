@@ -6,6 +6,7 @@
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
+import { useIntl } from "react-intl";
 import { CodeStructureHighlight } from "../../settings/settings";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
@@ -41,6 +42,7 @@ const CodeMirror = ({
 }: CodeMirrorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const intl = useIntl();
 
   // Group the option props together to keep configuration updates simple.
   const options = useMemo(
@@ -103,7 +105,12 @@ const CodeMirror = ({
   }, [options]);
 
   return (
-    <div style={{ height: "100%" }} className={className} ref={elementRef} />
+    <section
+      aria-label={intl.formatMessage({ id: "code-editor" })}
+      style={{ height: "100%" }}
+      className={className}
+      ref={elementRef}
+    />
   );
 };
 

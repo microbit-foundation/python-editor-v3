@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, Flex, Link } from "@chakra-ui/react";
+import { useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import ActiveFileInfo from "./ActiveFileInfo";
@@ -24,6 +25,7 @@ const EditorArea = ({
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
+  const intl = useIntl();
   const brand = useDeployment();
   const spacingFromRight = "1.5rem";
   return (
@@ -34,6 +36,8 @@ const EditorArea = ({
       backgroundColor="gray.10"
     >
       <Flex
+        as="section"
+        aria-label={intl.formatMessage({ id: "project-header" })}
         width="100%"
         alignItems="center"
         justifyContent="space-between"
