@@ -67,7 +67,7 @@ const LeftPanel = ({
     ],
     [onSelectedFileChanged, selectedFile, intl]
   );
-  return <LeftPanelContents panes={panes} />;
+  return <LeftPanelContents {...props} panes={panes} />;
 };
 
 interface Pane {

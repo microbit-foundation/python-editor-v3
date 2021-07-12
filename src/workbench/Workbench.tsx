@@ -20,6 +20,7 @@ import {
   SplitViewRemainder,
   SplitViewDivider,
 } from "../common/SplitView";
+import { useIntl } from "react-intl";
 
 const minimums: [number, number] = [380, 580];
 
@@ -28,6 +29,7 @@ const minimums: [number, number] = [380, 580];
  */
 const Workbench = () => {
   const [selectedFile, setSelectedFile] = useSelection();
+  const intl = useIntl();
   const { files } = useProject();
   useEffect(() => {
     // No file yet or selected file deleted? Default it.
@@ -48,6 +50,8 @@ const Workbench = () => {
       <SplitView direction="row" width="100%" minimums={minimums}>
         <SplitViewSized>
           <LeftPanel
+            as="section"
+            aria-label={intl.formatMessage({ id: "sidebar" })}
             selectedFile={selectedFile}
             onSelectedFileChanged={setSelectedFile}
             flex="1 1 100%"
@@ -56,6 +60,7 @@ const Workbench = () => {
         <SplitViewDivider />
         <SplitViewRemainder>
           <Flex
+            as="main"
             flex="1 1 100%"
             flexDirection="column"
             height="100%"
@@ -68,7 +73,7 @@ const Workbench = () => {
               collapsed={!serialVisible}
             >
               <SplitViewRemainder>
-                <Box height="100%">
+                <Box height="100%" as="section">
                   {selectedFile && fileVersion !== undefined && (
                     <EditorArea
                       key={selectedFile + "/" + fileVersion}
@@ -80,10 +85,18 @@ const Workbench = () => {
               </SplitViewRemainder>
               <SplitViewDivider />
               <SplitViewSized>
-                <SerialArea />
+                <SerialArea
+                  as="section"
+                  aria-label={intl.formatMessage({ id: "serial-termimal" })}
+                />
               </SplitViewSized>
             </SplitView>
-            <ProjectActionBar borderTopWidth={1} borderColor="gray.200" />
+            <ProjectActionBar
+              as="section"
+              aria-label={intl.formatMessage({ id: "project-actions" })}
+              borderTopWidth={1}
+              borderColor="gray.200"
+            />
           </Flex>
         </SplitViewRemainder>
       </SplitView>
