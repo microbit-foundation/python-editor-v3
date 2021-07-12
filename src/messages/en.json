@@ -195,6 +195,18 @@
       "value": "Close"
     }
   ],
+  "code-editor": [
+    {
+      "type": 0,
+      "value": "Code editor"
+    }
+  ],
+  "code-serial-terminal": [
+    {
+      "type": 0,
+      "value": "Serial terminal"
+    }
+  ],
   "confirm": [
     {
       "type": 0,
@@ -641,6 +653,12 @@
       "value": "?"
     }
   ],
+  "project-actions": [
+    {
+      "type": 0,
+      "value": "Project actions"
+    }
+  ],
   "python-powered": [
     {
       "type": 0,
@@ -681,6 +699,12 @@
     {
       "type": 0,
       "value": "Settings"
+    }
+  ],
+  "sidebar": [
+    {
+      "type": 0,
+      "value": "Sidebar"
     }
   ],
   "software-versions": [

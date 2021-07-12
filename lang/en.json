@@ -79,6 +79,14 @@
     "defaultMessage": "Close",
     "description": "Close button text"
   },
+  "code-editor": {
+    "defaultMessage": "Code editor",
+    "description": "Aria label for the code editor"
+  },
+  "code-serial-terminal": {
+    "defaultMessage": "Serial terminal",
+    "description": "Aria label for the serial terminal"
+  },
   "confirm": {
     "defaultMessage": "Confirm",
     "description": "Confirm action label"
@@ -311,6 +319,10 @@
     "defaultMessage": "Permanently delete {filename}?",
     "description": "Confirmation question to permanently delete file"
   },
+  "project-actions": {
+    "defaultMessage": "Project actions",
+    "description": "Aria label for the bar with project actions"
+  },
   "python-powered": {
     "defaultMessage": "Python powered",
     "description": "Python powered logo alt text"
@@ -338,6 +350,10 @@
   "settings": {
     "defaultMessage": "Settings",
     "description": "Settings text"
+  },
+  "sidebar": {
+    "defaultMessage": "Sidebar",
+    "description": "Aria label for the area on the left"
   },
   "software-versions": {
     "defaultMessage": "Software versions",
