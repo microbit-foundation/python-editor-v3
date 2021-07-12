@@ -56,7 +56,12 @@ const EditorArea = ({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Box width="140px" fill="brand.500">
+          <Box
+            width="140px"
+            fill="brand.500"
+            role="img"
+            aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+          >
             {brand.horizontalLogo}
           </Box>
         </Link>

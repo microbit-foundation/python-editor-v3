@@ -785,6 +785,12 @@
       "value": "changeName"
     }
   ],
+  "visit-dot-org": [
+    {
+      "type": 0,
+      "value": "visit microbit.org (opens in a new tab)"
+    }
+  ],
   "webusb-download-instead": [
     {
       "type": 0,
