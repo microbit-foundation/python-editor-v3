@@ -391,6 +391,10 @@
     "defaultMessage": "Updated file {changeName}",
     "description": "Change made to file"
   },
+  "visit-dot-org": {
+    "defaultMessage": "visit microbit.org (opens in a new tab)",
+    "description": "alt text for logo link to .org"
+  },
   "webusb-download-instead": {
     "defaultMessage": "Download the hex file or try Chrome or Microsoft Edge.",
     "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
