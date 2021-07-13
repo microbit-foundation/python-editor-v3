@@ -87,7 +87,7 @@ const Workbench = () => {
               <SplitViewSized>
                 <SerialArea
                   as="section"
-                  aria-label={intl.formatMessage({ id: "serial-termimal" })}
+                  aria-label={intl.formatMessage({ id: "serial-terminal" })}
                 />
               </SplitViewSized>
             </SplitView>
