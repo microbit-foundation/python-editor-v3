@@ -83,10 +83,6 @@
     "defaultMessage": "Code editor",
     "description": "Aria label for the code editor"
   },
-  "code-serial-terminal": {
-    "defaultMessage": "Serial terminal",
-    "description": "Aria label for the serial terminal"
-  },
   "confirm": {
     "defaultMessage": "Confirm",
     "description": "Confirm action label"
@@ -350,6 +346,10 @@
   "replace-action-label": {
     "defaultMessage": "Replace",
     "description": "Action label for replacing project dialog"
+  },
+  "serial-terminal": {
+    "defaultMessage": "Serial terminal",
+    "description": "Aria label for the serial terminal"
   },
   "settings": {
     "defaultMessage": "Settings",

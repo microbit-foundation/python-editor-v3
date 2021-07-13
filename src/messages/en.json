@@ -201,12 +201,6 @@
       "value": "Code editor"
     }
   ],
-  "code-serial-terminal": [
-    {
-      "type": 0,
-      "value": "Serial terminal"
-    }
-  ],
   "confirm": [
     {
       "type": 0,
@@ -699,6 +693,12 @@
     {
       "type": 0,
       "value": "Replace"
+    }
+  ],
+  "serial-terminal": [
+    {
+      "type": 0,
+      "value": "Serial terminal"
     }
   ],
   "settings": [
