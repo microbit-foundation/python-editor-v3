@@ -18,6 +18,14 @@ export const baseTheme = EditorView.baseTheme({
   ".cm-cs--block": {
     borderRadius: "var(--chakra-radii-lg)",
   },
+  // Disable border radius when it looks bad.
+  ".cm-cs--lshapes .cm-cs--block": {
+    borderRadius: "unset",
+  },
+  ".cm-cs--borders-left-edge-only .cm-cs--block": {
+    borderRadius: "unset",
+  },
+
   ".cm-cs--background-block .cm-cs--block": {
     backgroundColor: "var(--chakra-colors-code-block)",
   },
@@ -52,7 +60,7 @@ export const baseTheme = EditorView.baseTheme({
   },
 
   // boxes full border
-  ".cm-cs--boxes.cm-cs--borders-border .cm-cs--block": {
+  ".cm-cs--boxes.cm-cs--borders-borders .cm-cs--block": {
     border: "2px solid var(--chakra-colors-code-border)",
   },
 });
