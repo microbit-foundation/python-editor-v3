@@ -1,3 +1,12 @@
+/**
+ * A CoreMirror view extension providing structural highlighting using
+ * CodeMirror's syntax tree.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 import { EditorState } from "@codemirror/state";
 
 export const skipTrailingBlankLines = (

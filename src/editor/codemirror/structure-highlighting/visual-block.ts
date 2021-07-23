@@ -1,3 +1,11 @@
+/**
+ * A CoreMirror view extension providing structural highlighting using
+ * CodeMirror's syntax tree.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 export class Positions {
   constructor(public top: number, public left: number, public height: number) {}
   eq(other: Positions) {

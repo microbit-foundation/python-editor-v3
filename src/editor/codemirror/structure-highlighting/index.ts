@@ -1,3 +1,12 @@
+/**
+ * A CoreMirror view extension providing structural highlighting using
+ * CodeMirror's syntax tree.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 import { Compartment, Extension } from "@codemirror/state";
 import { CodeStructureHighlight } from "../../../settings/settings";
 import { baseTheme, themeTweakForBackgrounds } from "./theme";
