@@ -92,19 +92,25 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
               if (children) {
                 if (!this.lShape) {
                   // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
-                  const parentBox = nodeBox(view, start, end, depth, false);
-                  blocks.push(new VisualBlock(parentBox, undefined));
+                  const parentPositions = positionsForNode(
+                    view,
+                    start,
+                    end,
+                    depth,
+                    false
+                  );
+                  blocks.push(new VisualBlock(parentPositions, undefined));
                 }
 
                 // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
                 let runStart = 0;
                 for (let i = 0; i < children.length; ++i) {
                   if (children[i].name === "Body") {
-                    let startNode = children[runStart];
-                    let bodyNode = children[i];
+                    const startNode = children[runStart];
+                    const bodyNode = children[i];
 
-                    let parentBox = this.lShape
-                      ? nodeBox(
+                    const parentPositions = this.lShape
+                      ? positionsForNode(
                           view,
                           startNode.start,
                           bodyNode.start,
@@ -112,14 +118,16 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                           false
                         )
                       : undefined;
-                    let bodyBox = nodeBox(
+                    const bodyPositions = positionsForNode(
                       view,
                       bodyNode.start,
                       bodyNode.end,
                       depth + 1,
                       true
                     );
-                    blocks.push(new VisualBlock(parentBox, bodyBox));
+                    blocks.push(
+                      new VisualBlock(parentPositions, bodyPositions)
+                    );
                     runStart = i + 1;
                   }
                 }
@@ -162,7 +170,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
     }
   );
 
-const nodeBox = (
+const positionsForNode = (
   view: EditorView,
   start: number,
   end: number,
