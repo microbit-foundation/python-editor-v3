@@ -53,8 +53,7 @@ export type CodeStructureHighlight =
   | "none"
   | "l-shapes"
   | "boxes"
-  | "l-shape-boxes"
-  | "brackets";
+  | "l-shape-boxes";
 
 export interface Settings {
   languageId: string;

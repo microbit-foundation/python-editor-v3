@@ -26,14 +26,13 @@ import {
 
 const codeStructureHighlightOptions = (() => {
   const none = { value: "none", label: "None" };
-  const brackets = { value: "brackets", label: "Brackets" };
   const boxes = { value: "boxes", label: "Boxes" };
   const lShapes = { value: "l-shapes", label: "L shapes" };
   const lShapeBoxes = { value: "l-shape-boxes", label: "L-shape boxes" };
   // Hold some of these back for now while we discuss options.
   // Once finalised we also need to translate the option labels.
   return stage === "local" || stage === "REVIEW"
-    ? [none, brackets, boxes, lShapes, lShapeBoxes]
+    ? [none, boxes, lShapes, lShapeBoxes]
     : [none, lShapeBoxes];
 })();
 
