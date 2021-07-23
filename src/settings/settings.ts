@@ -5,6 +5,7 @@
  */
 import { createContext, useContext } from "react";
 import { defaultCodeFontSizePt } from "../deployment/misc";
+import { CodeStructureSettings } from "../editor/codemirror/structure-highlighting";
 import { stage } from "../environment";
 
 export interface Language {
@@ -32,7 +33,11 @@ export const fontSizeStep = 3;
 export const defaultSettings: Settings = {
   languageId: supportedLanguages[0].id,
   fontSize: defaultCodeFontSizePt,
-  codeStructureHighlight: "l-shape-boxes",
+  codeStructureHighlighting: {
+    background: "block",
+    borders: "none",
+    shape: "l-shape",
+  },
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -49,16 +54,10 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   return true;
 };
 
-export type CodeStructureHighlight =
-  | "none"
-  | "l-shapes"
-  | "boxes"
-  | "l-shape-boxes";
-
 export interface Settings {
   languageId: string;
   fontSize: number;
-  codeStructureHighlight: CodeStructureHighlight;
+  codeStructureHighlighting: CodeStructureSettings;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];

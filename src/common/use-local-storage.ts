@@ -17,10 +17,21 @@ export function useLocalStorage<T>(
     const value = localStorage.getItem(key);
     if (value !== null) {
       try {
-        const parsed = JSON.parse(value);
+        let parsed = JSON.parse(value);
+        // Ensure we get new top-level defaults.
+        parsed = {
+          ...defaultValue,
+          ...parsed,
+        };
+        // Remove any top-level keys that aren't present in defaults.
+        const unknownKeys = new Set(Object.keys(parsed));
+        Object.keys(defaultValue).forEach((k) => unknownKeys.delete(k));
+        unknownKeys.forEach((k) => delete parsed[k]);
+
         if (!validate(parsed)) {
           throw new Error("Invalid data stored in local storage");
         }
+
         return parsed;
       } catch (e) {
         // Better than exploding forever.
