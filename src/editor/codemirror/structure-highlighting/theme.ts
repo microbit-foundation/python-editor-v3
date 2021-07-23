@@ -15,7 +15,7 @@ export const baseTheme = EditorView.baseTheme({
     position: "absolute",
     borderRadius: "var(--chakra-radii-lg)",
   },
-  ".cm-cs--lshaped .cm-cs--body": {
+  ".cm-cs--lshapes .cm-cs--body": {
     borderTopLeftRadius: "unset",
   },
   ".cm-cs--background .cm-cs--block": {

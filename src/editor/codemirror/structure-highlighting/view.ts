@@ -7,10 +7,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { indentUnit, syntaxTree } from "@codemirror/language";
-import { Extension } from "@codemirror/state";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
+import { CodeStructureSettings } from ".";
 import { skipTrailingBlankLines } from "./doc-util";
-import { baseTheme, themeTweakForBackgrounds } from "./theme";
 import { Positions, VisualBlock } from "./visual-block";
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
@@ -30,7 +29,7 @@ interface Measure {
   blocks: VisualBlock[];
 }
 
-const codeStructureView = (settings: CodeStructureSettings) =>
+export const codeStructureView = (settings: CodeStructureSettings) =>
   ViewPlugin.fromClass(
     class {
       measureReq: { read: () => Measure; write: (value: Measure) => void };
@@ -196,24 +195,3 @@ const nodeBox = (
   const left = leftEdge + leftIndent;
   return new Positions(top, left, height);
 };
-
-export interface CodeStructureSettings {
-  shape: "l-shape" | "box";
-  background: "block" | "none";
-  borders: "borders" | "no-borders" | "left-edge-only";
-
-  hoverBackground?: boolean;
-  cursorBackground?: boolean;
-  hoverBorder?: boolean;
-  cursorBorder?: boolean;
-}
-
-export const codeStructure = (settings: CodeStructureSettings): Extension => [
-  codeStructureView(settings),
-  baseTheme,
-  settings.background !== "none" ||
-  settings.cursorBackground ||
-  settings.hoverBackground
-    ? themeTweakForBackgrounds
-    : [],
-];
