@@ -31,7 +31,11 @@ export class Positions {
  * This class is responsible for drawing the highlighting.
  */
 export class VisualBlock {
-  constructor(readonly parent?: Positions, readonly body?: Positions) {}
+  constructor(
+    readonly bodyPullBack: boolean,
+    readonly parent?: Positions,
+    readonly body?: Positions
+  ) {}
 
   draw() {
     let parent: HTMLElement | undefined;
@@ -63,8 +67,8 @@ export class VisualBlock {
       parent.style.width = `calc(100% - ${this.parent.left}px)`;
     }
 
-    // Allows nested compound statements some breathing space
-    const bodyPullBack = 3;
+    // Optionally allows nested compound statements some breathing space
+    const bodyPullBack = this.bodyPullBack ? 3 : 0;
     if (body && this.body) {
       body.style.left = this.body.left - bodyPullBack + "px";
       body.style.top = this.body.top + "px";

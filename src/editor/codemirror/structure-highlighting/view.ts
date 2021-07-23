@@ -65,6 +65,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       readBlocks(): Measure {
         const view = this.view;
         const { state } = view;
+        const bodyPullBack = this.lShape && settings.background !== "none";
         const blocks: VisualBlock[] = [];
         // We could throw away blocks if we tracked returning to the top-level or started from
         // the closest top-level node. Otherwise we need to render them because they overlap.
@@ -100,7 +101,9 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                     depth,
                     false
                   );
-                  blocks.push(new VisualBlock(parentPositions, undefined));
+                  blocks.push(
+                    new VisualBlock(bodyPullBack, parentPositions, undefined)
+                  );
                 }
 
                 // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
@@ -127,7 +130,11 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                       true
                     );
                     blocks.push(
-                      new VisualBlock(parentPositions, bodyPositions)
+                      new VisualBlock(
+                        bodyPullBack,
+                        parentPositions,
+                        bodyPositions
+                      )
                     );
                     runStart = i + 1;
                   }
