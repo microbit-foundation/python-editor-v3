@@ -5,6 +5,7 @@
  */
 import { createContext, useContext } from "react";
 import { defaultCodeFontSizePt } from "../deployment/misc";
+import { CodeStructureSettings } from "../editor/codemirror/structure-highlighting";
 import { stage } from "../environment";
 
 export interface Language {
@@ -32,7 +33,7 @@ export const fontSizeStep = 3;
 export const defaultSettings: Settings = {
   languageId: supportedLanguages[0].id,
   fontSize: defaultCodeFontSizePt,
-  codeStructureHighlight: "l-shape-boxes",
+  codeStructureHighlight: "full",
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -46,19 +47,58 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   ) {
     return false;
   }
+  if (codeStructureOptions.indexOf(object.codeStructureHighlight) === -1) {
+    return false;
+  }
   return true;
 };
 
-export type CodeStructureHighlight =
-  | "none"
-  | "l-shapes"
-  | "boxes"
-  | "l-shape-boxes";
+// These are the only configuration exposed to end users and are
+// sets of presets. We've retained more internal configurability
+// for experimentation.
+export type CodeStructureOption = "none" | "full" | "simple";
+export const codeStructureOptions: CodeStructureOption[] = [
+  "none",
+  "full",
+  "simple",
+];
+export const codeStructureSettings = (
+  settings: Settings
+): CodeStructureSettings => {
+  switch (settings.codeStructureHighlight) {
+    case "none":
+      return {
+        shape: "box",
+        background: "none",
+        borders: "none",
+        cursorBackground: false,
+        cursorBorder: "none",
+      };
+    case "simple":
+      return {
+        shape: "l-shape",
+        background: "none",
+        borders: "left-edge-only",
+        cursorBackground: false,
+        cursorBorder: "none",
+      };
+    case "full":
+    // same as default => fall through
+    default:
+      return {
+        shape: "l-shape",
+        background: "block",
+        borders: "none",
+        cursorBackground: true,
+        cursorBorder: "left-edge-only",
+      };
+  }
+};
 
 export interface Settings {
   languageId: string;
   fontSize: number;
-  codeStructureHighlight: CodeStructureHighlight;
+  codeStructureHighlight: CodeStructureOption;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];

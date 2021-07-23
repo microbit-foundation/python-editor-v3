@@ -14,27 +14,9 @@ import {
   Select,
   VStack,
 } from "@chakra-ui/react";
-import React, { useCallback } from "react";
+import React, { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
-import { stage } from "../environment";
-import {
-  CodeStructureHighlight,
-  maximumFontSize,
-  minimumFontSize,
-  useSettings,
-} from "./settings";
-
-const codeStructureHighlightOptions = (() => {
-  const none = { value: "none", label: "None" };
-  const boxes = { value: "boxes", label: "Boxes" };
-  const lShapes = { value: "l-shapes", label: "L shapes" };
-  const lShapeBoxes = { value: "l-shape-boxes", label: "L-shape boxes" };
-  // Hold some of these back for now while we discuss options.
-  // Once finalised we also need to translate the option labels.
-  return stage === "local" || stage === "REVIEW"
-    ? [none, boxes, lShapes, lShapeBoxes]
-    : [none, lShapeBoxes];
-})();
+import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
 
 /**
  * The settings area.
@@ -61,18 +43,9 @@ const SettingsArea = () => {
     },
     [settings, setSettings]
   );
-  const handleChangeCodeStructureHighlight = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSettings({
-        ...settings,
-        codeStructureHighlight: e.currentTarget.value as CodeStructureHighlight,
-      });
-    },
-    [settings, setSettings]
-  );
 
   return (
-    <VStack alignItems="flex-start" padding={3} spacing={5}>
+    <VStack alignItems="flex-start" spacing={5}>
       <FormControl display="flex" alignItems="center">
         <FormLabel
           htmlFor="font-size"
@@ -98,30 +71,75 @@ const SettingsArea = () => {
           </NumberInputStepper>
         </NumberInput>
       </FormControl>
-      <FormControl display="flex" alignItems="center">
-        <FormLabel
-          htmlFor="language"
-          mb="0"
-          fontWeight="normal"
-          flex="1 1 auto"
-        >
-          <FormattedMessage id="highlight-structure" />
-        </FormLabel>
-        <Select
-          id="language"
-          variant="outline"
-          onChange={handleChangeCodeStructureHighlight}
-          width="20ch"
-          value={settings.codeStructureHighlight}
-        >
-          {codeStructureHighlightOptions.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+      <SelectFormControl
+        id="codeStructureHighlight"
+        label="Highlight code structure"
+        options={[
+          {
+            value: "none",
+            label: "None",
+          },
+          {
+            value: "full",
+            label: "Full",
+          },
+          {
+            value: "simple",
+            label: "Simple",
+          },
+        ]}
+        value={settings.codeStructureHighlight}
+        onChange={(codeStructureHighlight) =>
+          setSettings({
+            ...settings,
+            codeStructureHighlight,
+          })
+        }
+      />
     </VStack>
+  );
+};
+
+interface SelectFormControlProps<T> {
+  id: string;
+  options: { value: T; label: ReactNode }[];
+  label: ReactNode;
+  value: T;
+  onChange: (value: T) => void;
+}
+
+const SelectFormControl = <T extends string>({
+  id,
+  options,
+  label,
+  value,
+  onChange,
+}: SelectFormControlProps<T>) => {
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) =>
+      onChange(e.currentTarget!.value as T),
+    [onChange]
+  );
+
+  return (
+    <FormControl display="flex" alignItems="center">
+      <FormLabel htmlFor={id} mb="0" fontWeight="normal" flex="1 1 auto">
+        {label}
+      </FormLabel>
+      <Select
+        id={id}
+        variant="outline"
+        onChange={handleChange}
+        width="20ch"
+        value={value}
+      >
+        {options.map(({ value, label }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 

@@ -40,7 +40,9 @@ export const themeExtensions = (fontSizePt: number) => {
       fontFamily,
     },
     ".cm-activeLine": {
-      backgroundColor: "var(--chakra-colors-code-activeLine)",
+      // Can't use background colour for conflicting purposes.
+      backgroundColor: "unset",
+      outline: "1px solid var(--chakra-colors-gray-100)",
     },
     ".cm-activeLineGutter": {
       backgroundColor: "unset",
