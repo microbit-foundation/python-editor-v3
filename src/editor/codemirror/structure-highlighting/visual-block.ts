@@ -73,7 +73,7 @@ export class VisualBlock {
       body.style.left = this.body.left - bodyPullBack + "px";
       body.style.top = this.body.top + "px";
       body.style.height = this.body.height + "px";
-      body.style.width = `calc(100% - ${this.body.left}px)`;
+      body.style.width = `calc(100% - ${this.body.left - bodyPullBack}px)`;
     }
 
     if (this.parent && parent && this.body && body && indent) {
