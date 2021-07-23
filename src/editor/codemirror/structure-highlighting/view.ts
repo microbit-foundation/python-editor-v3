@@ -50,8 +50,9 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
           this.lShape ? "cm-cs--lshapes" : "cm-cs--boxes"
         );
         this.overlayLayer.classList.add(
-          settings.background === "block" ? "cm-cs--background" : ""
+          "cm-cs--background-" + settings.background
         );
+        this.overlayLayer.classList.add("cm-cs--borders-" + settings.borders);
         this.overlayLayer.setAttribute("aria-hidden", "true");
         view.requestMeasure(this.measureReq);
       }

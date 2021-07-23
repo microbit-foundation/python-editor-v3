@@ -36,19 +36,24 @@ export class VisualBlock {
   draw() {
     let parent: HTMLElement | undefined;
     let body: HTMLElement | undefined;
+    let indent: HTMLElement | undefined;
     if (this.parent) {
-      parent = document.createElement("div");
-      parent.className = "cm-cs--block cm-cs--parent";
+      parent = blockWithClass("cm-cs--block cm-cs--parent");
     }
     if (this.body) {
-      body = document.createElement("div");
-      body.className = "cm-cs--block cm-cs--body";
+      body = blockWithClass("cm-cs--block cm-cs--body");
     }
-    this.adjust(parent, body);
-    return [parent, body].filter(Boolean) as HTMLElement[];
+    if (this.parent && this.body) {
+      // Add a indent element. We need this to draw a line under the
+      // parent in l-shape mode. We could avoid adding the DOM element
+      // in all other cases but for now we just style with CSS.
+      indent = blockWithClass("cm-cs--indent");
+    }
+    this.adjust(parent, body, indent);
+    return [parent, body, indent].filter(Boolean) as HTMLElement[];
   }
 
-  adjust(parent?: HTMLElement, body?: HTMLElement) {
+  adjust(parent?: HTMLElement, body?: HTMLElement, indent?: HTMLElement) {
     // Parent is just the bit before the colon for l-shapes
     // but is the entire compound statement for boxes.
     if (parent && this.parent) {
@@ -59,12 +64,20 @@ export class VisualBlock {
     }
 
     // Allows nested compound statements some breathing space
+    const bodyPullBack = 3;
     if (body && this.body) {
-      const bodyPullBack = 3;
       body.style.left = this.body.left - bodyPullBack + "px";
       body.style.top = this.body.top + "px";
       body.style.height = this.body.height + "px";
       body.style.width = `calc(100% - ${this.body.left}px)`;
+    }
+
+    if (this.parent && parent && this.body && body && indent) {
+      indent.style.left = this.parent.left + "px";
+      indent.style.top = body.style.top;
+      indent.style.width =
+        this.body.left - this.parent.left - bodyPullBack + "px";
+      indent.style.height = body.style.height;
     }
   }
 
@@ -72,6 +85,12 @@ export class VisualBlock {
     return equals(this.body, other.body) && equals(this.parent, other.parent);
   }
 }
+
+const blockWithClass = (className: string) => {
+  const element = document.createElement("div");
+  element.className = className;
+  return element;
+};
 
 const equals = (a?: Positions, b?: Positions) => {
   if (!a || !b) {

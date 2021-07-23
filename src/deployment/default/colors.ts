@@ -15,6 +15,7 @@ const colors = {
   gray,
   code: {
     block: "rgba(52, 162, 235, 0.06)",
+    border: theme.colors.gray[400],
     comment: "gray",
     default: "black",
     keyword: "darkblue",

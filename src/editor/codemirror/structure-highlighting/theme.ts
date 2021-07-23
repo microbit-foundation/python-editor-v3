@@ -3,19 +3,22 @@ import { EditorView } from "@codemirror/view";
 export const baseTheme = EditorView.baseTheme({
   // The layer we add to CM's DOM.
   // We set additional classes here to vary the formatting of the descendant blocks.
+  // See VisualBlock for the element creation code.
   ".cm-cs--layer": {
     position: "absolute",
     top: 0,
     height: "100%",
     width: "100%",
-    zIndex: -3,
+    zIndex: -1,
   },
-  ".cm-cs--block": {
+  ".cm-cs--block, .cm-cs--indent": {
     display: "block",
     position: "absolute",
+  },
+  ".cm-cs--block": {
     borderRadius: "var(--chakra-radii-lg)",
   },
-  ".cm-cs--background .cm-cs--block": {
+  ".cm-cs--background-block .cm-cs--block": {
     backgroundColor: "var(--chakra-colors-code-block)",
   },
   ".cm-cs--lshapes .cm-cs--body": {
@@ -23,10 +26,34 @@ export const baseTheme = EditorView.baseTheme({
     borderTopLeftRadius: "unset",
   },
 
-  // l-shaped border, hmm this needs a shorter parent element
-  ".cm-cs--lshapes.cm-cs--border .hmm": {
-    borderRight: "2px solid var(--chakra-colors-blimpTeal-100)",
-    borderTop: "2px solid var(--chakra-colors-blimpTeal-100)",
+  // l-shaped left-edge-only border
+  ".cm-cs--lshapes.cm-cs--borders-left-edge-only .cm-cs--indent": {
+    borderRight: "2px solid var(--chakra-colors-code-border)",
+    borderTop: "2px solid var(--chakra-colors-code-border)",
+  },
+  // boxes left-edge only border
+  ".cm-cs--boxes.cm-cs--borders-left-edge-only .cm-cs--block": {
+    borderLeft: "2px solid var(--chakra-colors-code-border)",
+  },
+
+  // l-shapes full border
+  ".cm-cs--lshapes.cm-cs--borders-borders .cm-cs--indent": {
+    borderTop: "2px solid var(--chakra-colors-code-border)",
+  },
+  ".cm-cs--lshapes.cm-cs--borders-borders .cm-cs--parent": {
+    borderTop: "2px solid var(--chakra-colors-code-border)",
+    borderRight: "2px solid var(--chakra-colors-code-border)",
+    borderLeft: "2px solid var(--chakra-colors-code-border)",
+  },
+  ".cm-cs--lshapes.cm-cs--borders-borders .cm-cs--body": {
+    borderRight: "2px solid var(--chakra-colors-code-border)",
+    borderLeft: "2px solid var(--chakra-colors-code-border)",
+    borderBottom: "2px solid var(--chakra-colors-code-border)",
+  },
+
+  // boxes full border
+  ".cm-cs--boxes.cm-cs--borders-border .cm-cs--block": {
+    border: "2px solid var(--chakra-colors-code-border)",
   },
 });
 
