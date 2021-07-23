@@ -2,12 +2,12 @@ import { EditorView } from "@codemirror/view";
 
 export const baseTheme = EditorView.baseTheme({
   // common
-  ".cm-codestructure": {
+  ".cm-codeStructureLayer": {
     position: "absolute",
     top: 0,
     height: "100%",
     width: "100%",
-    zIndex: -1,
+    zIndex: -3,
   },
 
   // l-shape-boxes

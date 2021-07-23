@@ -36,6 +36,7 @@ const codeStructureView = (settings: CodeStructureSettings) =>
       measureReq: { read: () => Measure; write: (value: Measure) => void };
       overlayLayer: HTMLElement;
       blocks: VisualBlock[] = [];
+      lShape = settings.shape === "l-shape";
 
       constructor(readonly view: EditorView) {
         this.measureReq = {
@@ -84,19 +85,28 @@ const codeStructureView = (settings: CodeStructureSettings) =>
               const leaving = parents.pop()!;
               const children = leaving.children;
               if (children) {
+                if (!this.lShape) {
+                  // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
+                  const parentBox = nodeBox(view, start, end, depth, false);
+                  blocks.push(new VisualBlock(parentBox, undefined));
+                }
+
                 // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
-                let start = 0;
+                let runStart = 0;
                 for (let i = 0; i < children.length; ++i) {
                   if (children[i].name === "Body") {
-                    let startNode = children[start];
+                    let startNode = children[runStart];
                     let bodyNode = children[i];
-                    let parentBox = nodeBox(
-                      view,
-                      startNode.start,
-                      bodyNode.start,
-                      depth,
-                      false
-                    );
+
+                    let parentBox = this.lShape
+                      ? nodeBox(
+                          view,
+                          startNode.start,
+                          bodyNode.start,
+                          depth,
+                          false
+                        )
+                      : undefined;
                     let bodyBox = nodeBox(
                       view,
                       bodyNode.start,
@@ -104,10 +114,8 @@ const codeStructureView = (settings: CodeStructureSettings) =>
                       depth + 1,
                       true
                     );
-                    blocks.push(
-                      new VisualBlock(leaving.name, parentBox, bodyBox)
-                    );
-                    start = i + 1;
+                    blocks.push(new VisualBlock(parentBox, bodyBox));
+                    runStart = i + 1;
                   }
                 }
               }

@@ -9,7 +9,7 @@ export const structureHighlighting = (
   switch (option) {
     case "l-shapes":
       return codeStructure({
-        shape: "l-shape",
+        shape: "box",
         background: "none",
         borders: "left-edge-only",
       });

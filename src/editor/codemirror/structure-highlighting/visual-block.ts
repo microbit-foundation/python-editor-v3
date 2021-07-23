@@ -16,11 +16,7 @@ export class Positions {
  * This class is responsible for drawing the highlighting.
  */
 export class VisualBlock {
-  constructor(
-    readonly name: string,
-    readonly parent?: Positions,
-    readonly body?: Positions
-  ) {}
+  constructor(readonly parent?: Positions, readonly body?: Positions) {}
 
   draw() {
     let parent: HTMLElement | undefined;
@@ -38,7 +34,8 @@ export class VisualBlock {
   }
 
   adjust(parent?: HTMLElement, body?: HTMLElement) {
-    // Parent is just the bit before the colon.
+    // Parent is just the bit before the colon for l-shapes
+    // but is the entire compound statement for boxes.
     if (parent && this.parent) {
       parent.style.left = this.parent.left + "px";
       parent.style.top = this.parent.top + "px";
