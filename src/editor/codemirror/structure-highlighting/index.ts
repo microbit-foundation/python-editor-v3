@@ -1,9 +1,6 @@
 import { Compartment, Extension } from "@codemirror/state";
 import { CodeStructureHighlight } from "../../../settings/settings";
-import { boxes } from "./boxes";
-import { brackets } from "./brackets";
-import { lshapeBoxes } from "./l-shape-boxes";
-import { lShapes } from "./l-shapes";
+import { codeStructure } from "./analysis";
 
 export const structureHighlightingCompartment = new Compartment();
 export const structureHighlighting = (
@@ -11,13 +8,23 @@ export const structureHighlighting = (
 ): Extension => {
   switch (option) {
     case "l-shapes":
-      return lShapes();
-    case "brackets":
-      return brackets();
+      return codeStructure({
+        shape: "l-shape",
+        background: "none",
+        borders: "left-edge-only",
+      });
     case "boxes":
-      return boxes();
+      return codeStructure({
+        shape: "box",
+        background: "block",
+        borders: "no-borders",
+      });
     case "l-shape-boxes":
-      return lshapeBoxes();
+      return codeStructure({
+        shape: "l-shape",
+        background: "block",
+        borders: "no-borders",
+      });
     case "none":
       return [];
     default:
