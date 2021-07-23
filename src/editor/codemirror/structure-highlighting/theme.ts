@@ -1,14 +1,16 @@
 import { EditorView } from "@codemirror/view";
 
 export const baseTheme = EditorView.baseTheme({
-  // l-shape-boxes
-  ".cm-lshapeboxesLayer": {
+  // common
+  ".cm-codestructure": {
     position: "absolute",
     top: 0,
     height: "100%",
     width: "100%",
     zIndex: -1,
   },
+
+  // l-shape-boxes
   ".cm-lshapebox": {
     display: "block",
     position: "absolute",
@@ -17,13 +19,6 @@ export const baseTheme = EditorView.baseTheme({
   },
 
   // l-shapes
-  ".cm-lshapesLayer": {
-    position: "absolute",
-    top: 0,
-    height: "100%",
-    width: "100%",
-    zIndex: -1,
-  },
   ".cm-lshape": {
     display: "block",
     position: "absolute",
@@ -32,13 +27,6 @@ export const baseTheme = EditorView.baseTheme({
   },
 
   // boxes
-  ".cm-boxLayer": {
-    position: "absolute",
-    top: 0,
-    height: "100%",
-    width: "100%",
-    zIndex: -1,
-  },
   ".cm-box": {
     display: "block",
     position: "absolute",

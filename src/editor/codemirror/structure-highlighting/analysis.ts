@@ -45,7 +45,7 @@ const codeStructureView = (settings: CodeStructureSettings) =>
         this.overlayLayer = view.scrollDOM.appendChild(
           document.createElement("div")
         );
-        this.overlayLayer.className = "cm-lshapeboxesLayer";
+        this.overlayLayer.className = "cm-codeStructureLayer";
         this.overlayLayer.setAttribute("aria-hidden", "true");
         view.requestMeasure(this.measureReq);
       }
