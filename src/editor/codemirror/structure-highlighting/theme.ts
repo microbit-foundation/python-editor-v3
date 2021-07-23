@@ -2,7 +2,7 @@ import { EditorView } from "@codemirror/view";
 
 export const baseTheme = EditorView.baseTheme({
   // The layer we add to CM's DOM.
-  // We set .cm-cs--lshapes or .cm-cs--boxes on this.
+  // We set additional classes here to vary the formatting of the descendant blocks.
   ".cm-cs--layer": {
     position: "absolute",
     top: 0,
@@ -15,11 +15,12 @@ export const baseTheme = EditorView.baseTheme({
     position: "absolute",
     borderRadius: "var(--chakra-radii-lg)",
   },
-  ".cm-cs--lshapes .cm-cs--body": {
-    borderTopLeftRadius: "unset",
-  },
   ".cm-cs--background .cm-cs--block": {
     backgroundColor: "var(--chakra-colors-code-block)",
+  },
+  ".cm-cs--lshapes .cm-cs--body": {
+    // Keep corner flush with parent above in the l-shape.
+    borderTopLeftRadius: "unset",
   },
 
   // l-shaped border, hmm this needs a shorter parent element
