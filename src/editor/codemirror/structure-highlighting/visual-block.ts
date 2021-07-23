@@ -30,11 +30,11 @@ export class VisualBlock {
     let body: HTMLElement | undefined;
     if (this.parent) {
       parent = document.createElement("div");
-      parent.className = "cm-lshapebox";
+      parent.className = "cm-cs--block cm-cs--parent";
     }
     if (this.body) {
       body = document.createElement("div");
-      body.className = "cm-lshapebox";
+      body.className = "cm-cs--block cm-cs--body";
     }
     this.adjust(parent, body);
     return [parent, body].filter(Boolean) as HTMLElement[];
@@ -57,7 +57,6 @@ export class VisualBlock {
       body.style.top = this.body.top + "px";
       body.style.height = this.body.height + "px";
       body.style.width = `calc(100% - ${this.body.left}px)`;
-      body.style.borderTopLeftRadius = "unset";
     }
   }
 

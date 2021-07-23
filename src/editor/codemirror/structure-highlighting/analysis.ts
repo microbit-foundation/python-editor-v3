@@ -46,7 +46,13 @@ const codeStructureView = (settings: CodeStructureSettings) =>
         this.overlayLayer = view.scrollDOM.appendChild(
           document.createElement("div")
         );
-        this.overlayLayer.className = "cm-codeStructureLayer";
+        this.overlayLayer.className = "cm-cs--layer";
+        this.overlayLayer.classList.add(
+          this.lShape ? "cm-cs--lshapes" : "cm-cs--boxes"
+        );
+        this.overlayLayer.classList.add(
+          settings.background === "block" ? "cm-cs--background" : ""
+        );
         this.overlayLayer.setAttribute("aria-hidden", "true");
         view.requestMeasure(this.measureReq);
       }
