@@ -13,6 +13,13 @@ export class Positions {
  * A block representing a nested body and it's parent in with
  * DOM pixel locations.
  *
+ * Both parent and body are defined for l-shapes, with the exception
+ * that the body will be omitted if it's on the same line as the parent.
+ *
+ * For box presentations either the parent or the body will be defined.
+ * In this case the parent is the entire compound statement rather than
+ * a branch.
+ *
  * This class is responsible for drawing the highlighting.
  */
 export class VisualBlock {
