@@ -30,7 +30,7 @@ export interface CodeStructureSettings {
 
 /**
  * Creates a CodeMirror extension that provides structural highlighting
- * based on the CodeMirror syntax tree. The indent is to aid code comprehension
+ * based on the CodeMirror syntax tree. The intent is to aid code comprehension
  * and provide clues when indentation isn't correct.
  *
  * @param settings Settings for the code structure CodeMirror extension.
