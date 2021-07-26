@@ -225,6 +225,8 @@ const positionsForNode = (
   const leftIndent = depth * indentWidth;
   const left = leftEdge + leftIndent;
   const mainCursor = state.selection.main.head;
+  // We only want the deepest node marked as active, not every node
+  // that contains the cursor.
   const cursorActive = mainCursor >= start && mainCursor <= end;
   return new Positions(top, left, height, cursorActive);
 };
