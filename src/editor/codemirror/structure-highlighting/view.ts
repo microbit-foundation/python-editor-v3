@@ -46,12 +46,26 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
           document.createElement("div")
         );
         this.overlayLayer.className = "cm-cs--layer";
+        // Add classes to activate CSS for the various settings.
         this.overlayLayer.classList.add(
           this.lShape ? "cm-cs--lshapes" : "cm-cs--boxes"
         );
         this.overlayLayer.classList.add(
           "cm-cs--background-" + settings.background
         );
+        if (settings.hoverBackground) {
+          this.overlayLayer.classList.add("cm-cs--hover-background");
+        }
+        if (settings.cursorBackground) {
+          this.overlayLayer.classList.add("cm-cs--cursor-background");
+        }
+        if (settings.hoverBorder) {
+          this.overlayLayer.classList.add("cm-cs--hover-border");
+        }
+        if (settings.cursorBorder) {
+          this.overlayLayer.classList.add("cm-cs--cursor-border");
+        }
+
         this.overlayLayer.classList.add("cm-cs--borders-" + settings.borders);
         this.overlayLayer.setAttribute("aria-hidden", "true");
         view.requestMeasure(this.measureReq);
@@ -65,6 +79,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       readBlocks(): Measure {
         const view = this.view;
         const { state } = view;
+
         const bodyPullBack = this.lShape && settings.background !== "none";
         const blocks: VisualBlock[] = [];
         // We could throw away blocks if we tracked returning to the top-level or started from
@@ -209,5 +224,7 @@ const positionsForNode = (
   const height = bottom - top;
   const leftIndent = depth * indentWidth;
   const left = leftEdge + leftIndent;
-  return new Positions(top, left, height);
+  const mainCursor = state.selection.main.head;
+  const cursorActive = mainCursor >= start && mainCursor <= end;
+  return new Positions(top, left, height, cursorActive);
 };

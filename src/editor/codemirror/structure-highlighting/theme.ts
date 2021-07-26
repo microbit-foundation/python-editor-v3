@@ -29,6 +29,10 @@ export const baseTheme = EditorView.baseTheme({
   ".cm-cs--background-block .cm-cs--block": {
     backgroundColor: "var(--chakra-colors-code-block)",
   },
+  ".cm-cs--background-block.cm-cs--cursor-background .cm-cs--block.cm-cs--active":
+    {
+      backgroundColor: "var(--chakra-colors-code-activeBlock)",
+    },
   ".cm-cs--lshapes .cm-cs--body": {
     // Keep corner flush with parent above in the l-shape.
     borderTopLeftRadius: "unset",

@@ -7,12 +7,18 @@
  * SPDX-License-Identifier: MIT
  */
 export class Positions {
-  constructor(public top: number, public left: number, public height: number) {}
+  constructor(
+    public top: number,
+    public left: number,
+    public height: number,
+    public cursorActive: boolean
+  ) {}
   eq(other: Positions) {
     return (
       this.top === other.top &&
       this.left === other.left &&
-      this.height === other.height
+      this.height === other.height &&
+      this.cursorActive === other.cursorActive
     );
   }
 }
@@ -41,11 +47,13 @@ export class VisualBlock {
     let parent: HTMLElement | undefined;
     let body: HTMLElement | undefined;
     let indent: HTMLElement | undefined;
+    let active = this.parent?.cursorActive || this.body?.cursorActive;
+    let activeClassname = active ? "cm-cs--active" : undefined;
     if (this.parent) {
-      parent = blockWithClass("cm-cs--block cm-cs--parent");
+      parent = blockWithClass("cm-cs--block cm-cs--parent", activeClassname);
     }
     if (this.body) {
-      body = blockWithClass("cm-cs--block cm-cs--body");
+      body = blockWithClass("cm-cs--block cm-cs--body", activeClassname);
     }
     if (this.parent && this.body) {
       // Add a indent element. We need this to draw a line under the
@@ -54,7 +62,8 @@ export class VisualBlock {
       indent = blockWithClass("cm-cs--indent");
     }
     this.adjust(parent, body, indent);
-    return [parent, body, indent].filter(Boolean) as HTMLElement[];
+    const elements = [parent, body, indent].filter(Boolean) as HTMLElement[];
+    return elements;
   }
 
   adjust(parent?: HTMLElement, body?: HTMLElement, indent?: HTMLElement) {
@@ -90,9 +99,9 @@ export class VisualBlock {
   }
 }
 
-const blockWithClass = (className: string) => {
+const blockWithClass = (...classNames: (string | undefined)[]) => {
   const element = document.createElement("div");
-  element.className = className;
+  element.className = classNames.join(" ");
   return element;
 };
 

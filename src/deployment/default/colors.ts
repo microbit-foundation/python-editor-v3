@@ -15,6 +15,8 @@ const colors = {
   gray,
   code: {
     block: "rgba(52, 162, 235, 0.06)",
+    activeBlock: "rgba(255, 255, 255, 1)",
+
     border: theme.colors.gray[400],
     comment: "gray",
     default: "black",
