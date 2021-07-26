@@ -27,11 +27,11 @@ export const baseTheme = EditorView.baseTheme({
   },
 
   ".cm-cs--background-block .cm-cs--block": {
-    backgroundColor: "var(--chakra-colors-code-block)",
+    backgroundColor: "var(--chakra-colors-code-blockBackground)",
   },
   ".cm-cs--background-block.cm-cs--cursor-background .cm-cs--block.cm-cs--active":
     {
-      backgroundColor: "var(--chakra-colors-code-activeBlock)",
+      backgroundColor: "var(--chakra-colors-code-blockBackgroundActive)",
     },
   ".cm-cs--lshapes .cm-cs--body": {
     // Keep corner flush with parent above in the l-shape.
@@ -40,38 +40,39 @@ export const baseTheme = EditorView.baseTheme({
 
   // l-shaped left-edge-only border
   ".cm-cs--lshapes.cm-cs--borders-left-edge-only .cm-cs--indent": {
-    borderRight: "2px solid var(--chakra-colors-code-border)",
-    borderTop: "2px solid var(--chakra-colors-code-border)",
+    borderRight: "2px solid var(--chakra-colors-code-blockBorder)",
+    borderTop: "2px solid var(--chakra-colors-code-blockBorder)",
   },
   // boxes left-edge only border
   ".cm-cs--boxes.cm-cs--borders-left-edge-only .cm-cs--block": {
-    borderLeft: "2px solid var(--chakra-colors-code-border)",
+    borderLeft: "2px solid var(--chakra-colors-code-blockBorder)",
   },
 
   // l-shapes full border
   ".cm-cs--lshapes.cm-cs--borders-borders .cm-cs--indent": {
-    borderTop: "2px solid var(--chakra-colors-code-border)",
+    borderTop: "2px solid var(--chakra-colors-code-blockBorder)",
   },
   ".cm-cs--lshapes.cm-cs--borders-borders .cm-cs--parent": {
-    borderTop: "2px solid var(--chakra-colors-code-border)",
-    borderRight: "2px solid var(--chakra-colors-code-border)",
-    borderLeft: "2px solid var(--chakra-colors-code-border)",
+    borderTop: "2px solid var(--chakra-colors-code-blockBorder)",
+    borderRight: "2px solid var(--chakra-colors-code-blockBorder)",
+    borderLeft: "2px solid var(--chakra-colors-code-blockBorder)",
   },
   ".cm-cs--lshapes.cm-cs--borders-borders .cm-cs--body": {
-    borderRight: "2px solid var(--chakra-colors-code-border)",
-    borderLeft: "2px solid var(--chakra-colors-code-border)",
-    borderBottom: "2px solid var(--chakra-colors-code-border)",
+    borderRight: "2px solid var(--chakra-colors-code-blockBorder)",
+    borderLeft: "2px solid var(--chakra-colors-code-blockBorder)",
+    borderBottom: "2px solid var(--chakra-colors-code-blockBorder)",
   },
 
   // boxes full border
   ".cm-cs--boxes.cm-cs--borders-borders .cm-cs--block": {
-    border: "2px solid var(--chakra-colors-code-border)",
+    border: "2px solid var(--chakra-colors-code-blockBorder)",
   },
 
   // active border
+  // for now we assume the border is already present but could restate border CSS
   ".cm-cs--background-block.cm-cs--cursor-border .cm-cs--block.cm-cs--active, .cm-cs--background-block.cm-cs--cursor-border .cm-cs--indent.cm-cs--active":
     {
-      borderColor: "orange",
+      borderColor: "var(--chakra-colors-code-blockBorderActive)",
     },
 });
 

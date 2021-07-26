@@ -14,10 +14,11 @@ const colors = {
   brand: gray,
   gray,
   code: {
-    block: "rgba(52, 162, 235, 0.06)",
-    activeBlock: "rgba(255, 255, 255, 1)",
+    blockBorder: theme.colors.gray[400],
+    blockBackground: "rgba(52, 162, 235, 0.06)",
+    blockBackgroundActive: "rgba(255, 255, 255, 1)",
+    blockBorderActive: theme.colors.blue[400],
 
-    border: theme.colors.gray[400],
     comment: "gray",
     default: "black",
     keyword: "darkblue",
