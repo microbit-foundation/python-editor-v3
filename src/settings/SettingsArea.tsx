@@ -68,9 +68,6 @@ const SettingsArea = () => {
   return (
     <VStack alignItems="flex-start" spacing={3}>
       <VStack alignItems="flex-start" padding={3} spacing={5}>
-        <Text as="h2" fontWeight="semibold">
-          Common
-        </Text>
         <FormControl display="flex" alignItems="center">
           <FormLabel
             htmlFor="font-size"
