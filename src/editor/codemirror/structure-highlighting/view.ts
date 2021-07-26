@@ -9,6 +9,7 @@
 import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 import { CodeStructureSettings } from ".";
+import { skipBodyTrailers } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
@@ -102,13 +103,18 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
             }
           }
           const top = topLine.top;
-          const bottom = view.visualLineAt(end - 1).bottom;
+          const bottomLine = view.visualLineAt(
+            skipBodyTrailers(state, end - 1)
+          );
+          const bottom = bottomLine.bottom;
           const height = bottom - top;
           const leftIndent = depth * indentWidth;
           const left = leftEdge + leftIndent;
           const mainCursor = state.selection.main.head;
           const cursorActive =
-            !cursorFound && mainCursor >= start && mainCursor <= end;
+            !cursorFound &&
+            mainCursor >= topLine.from &&
+            mainCursor <= bottomLine.to;
           if (cursorActive) {
             cursorFound = true;
           }
