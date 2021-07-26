@@ -59,7 +59,7 @@ export class VisualBlock {
       // Add a indent element. We need this to draw a line under the
       // parent in l-shape mode. We could avoid adding the DOM element
       // in all other cases but for now we just style with CSS.
-      indent = blockWithClass("cm-cs--indent");
+      indent = blockWithClass("cm-cs--indent", activeClassname);
     }
     this.adjust(parent, body, indent);
     const elements = [parent, body, indent].filter(Boolean) as HTMLElement[];

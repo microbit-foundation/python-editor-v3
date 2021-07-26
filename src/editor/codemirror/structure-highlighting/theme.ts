@@ -67,6 +67,12 @@ export const baseTheme = EditorView.baseTheme({
   ".cm-cs--boxes.cm-cs--borders-borders .cm-cs--block": {
     border: "2px solid var(--chakra-colors-code-border)",
   },
+
+  // active border
+  ".cm-cs--background-block.cm-cs--cursor-border .cm-cs--block.cm-cs--active, .cm-cs--background-block.cm-cs--cursor-border .cm-cs--indent.cm-cs--active":
+    {
+      borderColor: "orange",
+    },
 });
 
 export const themeTweakForBackgrounds = EditorView.theme({
