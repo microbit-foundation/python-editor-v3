@@ -157,16 +157,6 @@ const SettingsArea = () => {
           }
         />
         <BooleanFormControl
-          id="codeStructureHoverBackground"
-          label="Highlight background on mouse over"
-          value={settings.codeStructureHighlighting.hoverBackground || false}
-          onChange={(hoverBackground) =>
-            setSettings(
-              modifyCodeStructureSettings(settings, { hoverBackground })
-            )
-          }
-        />
-        <BooleanFormControl
           id="codeStructureCursorBackground"
           label="Highlight background for cursor position"
           value={settings.codeStructureHighlighting.cursorBackground || false}
@@ -176,22 +166,12 @@ const SettingsArea = () => {
             )
           }
         />
-
         <BooleanFormControl
           id="codeStructureCursorBorder"
           label="Highlight border for cursor position"
           value={settings.codeStructureHighlighting.cursorBorder || false}
           onChange={(cursorBorder) =>
             setSettings(modifyCodeStructureSettings(settings, { cursorBorder }))
-          }
-        />
-
-        <BooleanFormControl
-          id="codeStructureHoverBorder"
-          label="Highlight border on mouse over"
-          value={settings.codeStructureHighlighting.hoverBorder || false}
-          onChange={(hoverBorder) =>
-            setSettings(modifyCodeStructureSettings(settings, { hoverBorder }))
           }
         />
       </VStack>
