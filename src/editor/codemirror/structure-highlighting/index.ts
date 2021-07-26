@@ -34,7 +34,7 @@ export interface CodeStructureSettings {
  * and provide clues when indentation isn't correct.
  *
  * @param settings Settings for the code structure CodeMirror extension.
- * @returns A new
+ * @returns A appropriately configured extension.
  */
 export const codeStructure = (settings: CodeStructureSettings): Extension => [
   codeStructureView(settings),

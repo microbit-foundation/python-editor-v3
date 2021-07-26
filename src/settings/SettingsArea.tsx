@@ -120,6 +120,24 @@ const SettingsArea = () => {
           }
         />
         <SelectFormControl
+          id="codeStructureBackground"
+          label="Background"
+          options={[
+            {
+              value: "none",
+              label: "None",
+            },
+            {
+              value: "block",
+              label: "Block colour",
+            },
+          ]}
+          value={settings.codeStructureHighlighting.background}
+          onChange={(background) =>
+            setSettings(modifyCodeStructureSettings(settings, { background }))
+          }
+        />
+        <SelectFormControl
           id="codeStructureBorder"
           label="Borders"
           options={[

@@ -29,10 +29,10 @@ export const baseTheme = EditorView.baseTheme({
   ".cm-cs--background-block .cm-cs--block": {
     backgroundColor: "var(--chakra-colors-code-blockBackground)",
   },
-  ".cm-cs--background-block.cm-cs--cursor-background .cm-cs--block.cm-cs--active":
-    {
-      backgroundColor: "var(--chakra-colors-code-blockBackgroundActive)",
-    },
+  // Enabled independently of .cm-cs--background-block
+  ".cm-cs--cursor-background .cm-cs--block.cm-cs--active": {
+    backgroundColor: "var(--chakra-colors-code-blockBackgroundActive)",
+  },
   ".cm-cs--lshapes .cm-cs--body": {
     // Keep corner flush with parent above in the l-shape.
     borderTopLeftRadius: "unset",
@@ -70,7 +70,7 @@ export const baseTheme = EditorView.baseTheme({
 
   // active border
   // for now we assume the border is already present but could restate border CSS
-  ".cm-cs--background-block.cm-cs--cursor-border .cm-cs--block.cm-cs--active, .cm-cs--background-block.cm-cs--cursor-border .cm-cs--indent.cm-cs--active":
+  ".cm-cs--cursor-border .cm-cs--block.cm-cs--active, .cm-cs--cursor-border .cm-cs--indent.cm-cs--active":
     {
       borderColor: "var(--chakra-colors-code-blockBorderActive)",
     },
