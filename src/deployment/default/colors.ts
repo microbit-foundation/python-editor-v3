@@ -16,7 +16,7 @@ const colors = {
   code: {
     blockBorder: theme.colors.gray[400],
     blockBackground: "rgba(52, 162, 235, 0.06)",
-    blockBackgroundActive: "rgba(255, 255, 255, 1)",
+    blockBackgroundActive: "lightyellow",
     blockBorderActive: theme.colors.blue[400],
 
     comment: "gray",

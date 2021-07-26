@@ -9,7 +9,7 @@ export const baseTheme = EditorView.baseTheme({
     top: 0,
     height: "100%",
     width: "100%",
-    zIndex: -1,
+    zIndex: -3,
   },
   ".cm-cs--block, .cm-cs--indent": {
     display: "block",

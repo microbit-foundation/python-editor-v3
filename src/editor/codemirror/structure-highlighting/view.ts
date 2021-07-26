@@ -9,7 +9,6 @@
 import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 import { CodeStructureSettings } from ".";
-import { skipTrailingBlankLines } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
@@ -77,6 +76,45 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       }
 
       readBlocks(): Measure {
+        let cursorFound = false;
+
+        const positionsForNode = (
+          view: EditorView,
+          start: number,
+          end: number,
+          depth: number,
+          body: boolean
+        ) => {
+          const state = view.state;
+          const leftEdge =
+            view.contentDOM.getBoundingClientRect().left -
+            view.scrollDOM.getBoundingClientRect().left;
+          const indentWidth =
+            state.facet(indentUnit).length * view.defaultCharacterWidth;
+
+          let topLine = view.visualLineAt(start);
+          if (body) {
+            topLine = view.visualLineAt(topLine.to + 1);
+            if (topLine.from > end) {
+              // If we've fallen out of the scope of the body then the statement is all on
+              // one line, e.g. "if True: pass". Avoid highlighting for now.
+              return undefined;
+            }
+          }
+          const top = topLine.top;
+          const bottom = view.visualLineAt(end - 1).bottom;
+          const height = bottom - top;
+          const leftIndent = depth * indentWidth;
+          const left = leftEdge + leftIndent;
+          const mainCursor = state.selection.main.head;
+          const cursorActive =
+            !cursorFound && mainCursor >= start && mainCursor <= end;
+          if (cursorActive) {
+            cursorFound = true;
+          }
+          return new Positions(top, left, height, cursorActive);
+        };
+
         const view = this.view;
         const { state } = view;
 
@@ -107,20 +145,6 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
               const leaving = parents.pop()!;
               const children = leaving.children;
               if (children) {
-                if (!this.lShape) {
-                  // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
-                  const parentPositions = positionsForNode(
-                    view,
-                    start,
-                    end,
-                    depth,
-                    false
-                  );
-                  blocks.push(
-                    new VisualBlock(bodyPullBack, parentPositions, undefined)
-                  );
-                }
-
                 // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
                 let runStart = 0;
                 for (let i = 0; i < children.length; ++i) {
@@ -154,6 +178,19 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                     runStart = i + 1;
                   }
                 }
+                if (!this.lShape) {
+                  // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
+                  const parentPositions = positionsForNode(
+                    view,
+                    start,
+                    end,
+                    depth,
+                    false
+                  );
+                  blocks.push(
+                    new VisualBlock(bodyPullBack, parentPositions, undefined)
+                  );
+                }
               }
 
               // Poke our information into our parent if we need to track it.
@@ -167,7 +204,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
             },
           });
         }
-        return { blocks };
+        return { blocks: blocks.reverse() };
       }
 
       drawBlocks({ blocks }: Measure) {
@@ -192,41 +229,3 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       }
     }
   );
-
-const positionsForNode = (
-  view: EditorView,
-  start: number,
-  end: number,
-  depth: number,
-  body: boolean
-) => {
-  const state = view.state;
-  const leftEdge =
-    view.contentDOM.getBoundingClientRect().left -
-    view.scrollDOM.getBoundingClientRect().left;
-  const indentWidth =
-    state.facet(indentUnit).length * view.defaultCharacterWidth;
-
-  let topLine = view.visualLineAt(start);
-  if (body) {
-    topLine = view.visualLineAt(topLine.to + 1);
-    if (topLine.from > end) {
-      // If we've fallen out of the scope of the body then the statement is all on
-      // one line, e.g. "if True: pass". Avoid highlighting for now.
-      return undefined;
-    }
-  }
-  const top = topLine.top;
-  const bottom = view.visualLineAt(
-    // We also need to skip comments in a similar way, as they're extending our highlighting.
-    skipTrailingBlankLines(state, end - 1)
-  ).bottom;
-  const height = bottom - top;
-  const leftIndent = depth * indentWidth;
-  const left = leftEdge + leftIndent;
-  const mainCursor = state.selection.main.head;
-  // We only want the deepest node marked as active, not every node
-  // that contains the cursor.
-  const cursorActive = mainCursor >= start && mainCursor <= end;
-  return new Positions(top, left, height, cursorActive);
-};
