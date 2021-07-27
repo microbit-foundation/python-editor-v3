@@ -14,7 +14,6 @@
     "@codemirror/gutter": "^0.18.4",
     "@codemirror/highlight": "^0.18.4",
     "@codemirror/history": "^0.18.1",
-    "@codemirror/lang-python": "^0.18.1",
     "@codemirror/language": "^0.18.2",
     "@codemirror/lint": "^0.18.3",
     "@codemirror/matchbrackets": "^0.18.0",

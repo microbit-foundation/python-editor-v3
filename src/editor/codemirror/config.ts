@@ -22,7 +22,7 @@ import { commentKeymap } from "@codemirror/comment";
 import { defaultHighlightStyle } from "@codemirror/highlight";
 import { lintKeymap } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
-import { python } from "@codemirror/lang-python";
+import { python } from "./lang-python";
 import { completion } from "./completion";
 import highlightStyle from "./highlightStyle";
 
