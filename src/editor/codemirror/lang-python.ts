@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Couldn't persude codesandbox to use a GH branch as a dep so inlined from
 // https://github.com/microbit-matt-hillsdon/lang-python/blob/indent-rethink/src/python.ts
 import { parser } from "lezer-python";
