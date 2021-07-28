@@ -27,7 +27,8 @@ module.exports = {
     configure: {
       moduleNameMapper: {
         "^@deployment(.*)$": `<rootDir>/${location}$1`,
-        "^tigerpython-parser$": `"src/third-party/tigerpython-parser.js"`,
+        "^tigerpython-parser$": `"<rootDir>/src/third-party/tigerpython-parser.js"`,
+        "\\.worker": "<rootDir>/src/mocks/worker.js",
       },
     },
   },
