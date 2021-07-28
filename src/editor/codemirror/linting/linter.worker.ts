@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { TPyParser } from "tigerpython-parser";
+
+import * as TPyParser from "tigerpython-parser";
 
 // Fixable if we give this its own tsconfig.
 let workerSelf = self as unknown as BroadcastChannel;

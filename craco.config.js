@@ -16,18 +16,12 @@ module.exports = {
   webpack: {
     alias: {
       "@deployment": path.resolve(__dirname, location),
-      // We'll see if we can get this packaged on NPM.
-      "tigerpython-parser": path.resolve(
-        __dirname,
-        "src/third-party/tigerpython-parser.js"
-      ),
     },
   },
   jest: {
     configure: {
       moduleNameMapper: {
         "^@deployment(.*)$": `<rootDir>/${location}$1`,
-        "^tigerpython-parser$": `"<rootDir>/src/third-party/tigerpython-parser.js"`,
         "\\.worker": "<rootDir>/src/mocks/worker.js",
       },
     },
