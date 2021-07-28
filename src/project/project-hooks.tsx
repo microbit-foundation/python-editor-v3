@@ -8,11 +8,6 @@ import { useIntl } from "react-intl";
 import useActionFeedback from "../common/use-action-feedback";
 import { useDialogs } from "../common/use-dialogs";
 import useIsUnmounted from "../common/use-is-unmounted";
-import {
-  EVENT_SERIAL_DATA,
-  EVENT_SERIAL_ERROR,
-  EVENT_SERIAL_RESET,
-} from "../device/device";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
@@ -110,74 +105,4 @@ export const useProjectFileText = (
   );
 
   return [initialValue, handleChange];
-};
-
-interface Traceback {
-  error: string;
-  trace: string[];
-}
-
-export class TracebackScrollback {
-  private scrollback: string = "";
-  push(data: string) {
-    this.scrollback = this.scrollback + data;
-    const limit = 4096;
-    if (this.scrollback.length > limit) {
-      this.scrollback = this.scrollback.slice(data.length - limit);
-    }
-    const lines = this.scrollback.split("\r\n");
-    for (let i = lines.length - 1; i >= 0; --i) {
-      if (lines[i].startsWith("Traceback (most recent call last):")) {
-        // Start of last traceback
-        // Skip all following lines with an indent and grab the first one without, which is the error message.
-        let endOfIndent = i + 1;
-        while (
-          endOfIndent < lines.length &&
-          lines[endOfIndent].startsWith("  ")
-        ) {
-          endOfIndent++;
-        }
-        if (endOfIndent < lines.length) {
-          const trace = lines
-            .slice(i + 1, endOfIndent)
-            .map((line) => line.trim());
-          const error = lines[endOfIndent];
-          return { error, trace };
-        }
-        return undefined;
-      }
-    }
-    return undefined;
-  }
-  clear() {
-    this.scrollback = "";
-  }
-}
-
-export const useDeviceTraceback = () => {
-  const device = useDevice();
-  const [runtimeError, setRuntimeError] = useState<Traceback | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    const buffer = new TracebackScrollback();
-    const dataListener = (data: string) => {
-      setRuntimeError(buffer.push(data));
-    };
-    const clearListener = () => {
-      buffer.clear();
-      setRuntimeError(undefined);
-    };
-    device.addListener(EVENT_SERIAL_DATA, dataListener);
-    device.addListener(EVENT_SERIAL_RESET, clearListener);
-    device.addListener(EVENT_SERIAL_ERROR, clearListener);
-    return () => {
-      device.removeListener(EVENT_SERIAL_ERROR, clearListener);
-      device.removeListener(EVENT_SERIAL_RESET, clearListener);
-      device.removeListener(EVENT_SERIAL_DATA, dataListener);
-    };
-  }, [device, setRuntimeError]);
-
-  return runtimeError;
 };

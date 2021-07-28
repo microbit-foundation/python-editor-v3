@@ -1,4 +1,4 @@
-import { TracebackScrollback } from "./project-hooks";
+import { TracebackScrollback } from "./device-hooks";
 
 describe("TracebackScrollback", () => {
   it("matches tracebacks", () => {
