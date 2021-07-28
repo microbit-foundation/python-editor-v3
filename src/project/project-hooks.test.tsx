@@ -2,8 +2,8 @@ import { TracebackScrollback } from "./project-hooks";
 
 describe("TracebackScrollback", () => {
   it("matches tracebacks", () => {
-    const tb = new TracebackScrollback();
-    tb.push(
+    const tsb = new TracebackScrollback();
+    const traceback = tsb.push(
       `
 Misc output
 >>> Other stuff
@@ -54,8 +54,7 @@ RuntimeError: maximum recursion depth exceeded
 `
         .replace(/[\r\n]/g, "\n")
         .replace(/\n/g, "\r\n")
-    );
-    const traceback = tb.lastTraceback()!;
+    )!;
     expect(traceback.error).toEqual(
       "RuntimeError: maximum recursion depth exceeded"
     );
@@ -65,8 +64,8 @@ RuntimeError: maximum recursion depth exceeded
     );
   });
   it("finds the last one", () => {
-    const tb = new TracebackScrollback();
-    tb.push(
+    const tsb = new TracebackScrollback();
+    const traceback = tsb.push(
       `Traceback (most recent call last):
   File "main.py", line 5, in foo
 RuntimeError: 1
@@ -76,7 +75,7 @@ RuntimeError: 2
 `
         .replace(/[\r\n]/g, "\n")
         .replace(/\n/g, "\r\n")
-    );
-    expect(tb.lastTraceback()?.error).toEqual("RuntimeError: 2");
+    )!;
+    expect(traceback.error).toEqual("RuntimeError: 2");
   });
 });

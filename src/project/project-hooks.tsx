@@ -8,7 +8,11 @@ import { useIntl } from "react-intl";
 import useActionFeedback from "../common/use-action-feedback";
 import { useDialogs } from "../common/use-dialogs";
 import useIsUnmounted from "../common/use-is-unmounted";
-import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
+import {
+  EVENT_SERIAL_DATA,
+  EVENT_SERIAL_ERROR,
+  EVENT_SERIAL_RESET,
+} from "../device/device";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
@@ -108,46 +112,49 @@ export const useProjectFileText = (
   return [initialValue, handleChange];
 };
 
-const tracebackRegExp = /^Traceback.*$((\r\n^\s+.*)+)\r\n^(\w+:.*$)/gm;
-
 interface Traceback {
   error: string;
   trace: string[];
 }
 
 export class TracebackScrollback {
-  private data: string = "";
+  private scrollback: string = "";
   push(data: string) {
-    this.data = this.data += data;
+    this.scrollback = this.scrollback + data;
     const limit = 4096;
-    if (this.data.length > limit) {
-      this.data = this.data.slice(data.length - limit);
+    if (this.scrollback.length > limit) {
+      this.scrollback = this.scrollback.slice(data.length - limit);
     }
-  }
-  lastTraceback(): Traceback | undefined {
-    // Traceback (most recent call last):
-    //   Indented lines showing stack
-    // NameOfException: str(Exception)
-    // MicroPython v1.15-64-g1e2f0d280
-    const tracebacks = this.data.match(tracebackRegExp);
-    if (tracebacks) {
-      const last = tracebacks[tracebacks.length - 1];
-      const match = tracebackRegExp.exec(last);
-      if (!match) {
-        throw new Error("Must match");
+    const lines = this.scrollback.split("\r\n");
+    for (let i = lines.length - 1; i >= 0; --i) {
+      if (lines[i].startsWith("Traceback (most recent call last):")) {
+        // Start of last traceback
+        // Skip all following lines with an indent and grab the first one without, which is the error message.
+        let endOfIndent = i + 1;
+        while (
+          endOfIndent < lines.length &&
+          lines[endOfIndent].startsWith("  ")
+        ) {
+          endOfIndent++;
+        }
+        if (endOfIndent < lines.length) {
+          const trace = lines
+            .slice(i + 1, endOfIndent)
+            .map((line) => line.trim());
+          const error = lines[endOfIndent];
+          return { error, trace };
+        }
+        return undefined;
       }
-      const error = match[3];
-      const trace = match[1]
-        .split("\r\n")
-        .map((l) => l.trim())
-        .filter(Boolean);
-      return { error, trace };
     }
     return undefined;
   }
+  clear() {
+    this.scrollback = "";
+  }
 }
 
-export const useRuntimeError = () => {
+export const useDeviceTraceback = () => {
   const device = useDevice();
   const [runtimeError, setRuntimeError] = useState<Traceback | undefined>(
     undefined
@@ -156,17 +163,17 @@ export const useRuntimeError = () => {
   useEffect(() => {
     const buffer = new TracebackScrollback();
     const dataListener = (data: string) => {
-      buffer.push(data);
-      setRuntimeError(buffer.lastTraceback());
+      setRuntimeError(buffer.push(data));
     };
     const clearListener = () => {
+      buffer.clear();
       setRuntimeError(undefined);
     };
     device.addListener(EVENT_SERIAL_DATA, dataListener);
     device.addListener(EVENT_SERIAL_RESET, clearListener);
-    device.addListener(EVENT_SERIAL_DATA, clearListener);
+    device.addListener(EVENT_SERIAL_ERROR, clearListener);
     return () => {
-      device.removeListener(EVENT_SERIAL_DATA, clearListener);
+      device.removeListener(EVENT_SERIAL_ERROR, clearListener);
       device.removeListener(EVENT_SERIAL_RESET, clearListener);
       device.removeListener(EVENT_SERIAL_DATA, dataListener);
     };
