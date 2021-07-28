@@ -1,8 +1,6 @@
-/* eslint-disable */
-
 import * as TPyParser from "tigerpython-parser";
 
-// Fixable if we give this its own tsconfig.
+/* eslint-disable no-restricted-globals */
 let workerSelf = self as unknown as BroadcastChannel;
 
 workerSelf.onmessage = (event: MessageEvent) => {
