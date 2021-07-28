@@ -695,6 +695,18 @@
       "value": "Replace"
     }
   ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "Collapse the serial terminal"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "Expand the serial terminal"
+    }
+  ],
   "serial-terminal": [
     {
       "type": 0,

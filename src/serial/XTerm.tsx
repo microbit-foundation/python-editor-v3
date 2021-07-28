@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps } from "@chakra-ui/layout";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import wrap from "word-wrap";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
@@ -16,7 +16,9 @@ import {
   defaultCodeFontSizePt,
 } from "../deployment/misc";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
-import { useDevice } from "../device/device-hooks";
+import { parseTraceLine, useDevice } from "../device/device-hooks";
+import { useSelection } from "../workbench/use-selection";
+import { WebLinkProvider } from "./link-provider";
 import "./xterm-custom.css";
 import customKeyEventHandler from "./xterm-keyboard";
 
@@ -29,11 +31,24 @@ print('Hello, World')
 You can press Ctrl-C to interrupt the micro:bit program then type Python commands directly to your micro:bit
 `;
 
+// Group 1 is underlined by xterm.js
+const tracebackRegExpMatch = /^ {2}(File "[^"]+", line \d+)/;
+
 const XTerm = (props: BoxProps) => {
   const device = useDevice();
 
   const ref = useRef<HTMLDivElement>(null);
   const isUnmounted = useIsUnmounted();
+  const [, setSelection] = useSelection();
+  const tracebackLinkHandler = useCallback(
+    (e: MouseEvent, traceLine: string) => {
+      const { file, line } = parseTraceLine(traceLine);
+      if (file) {
+        setSelection({ file, location: { line } });
+      }
+    },
+    [setSelection]
+  );
   useEffect(() => {
     if (ref.current && !isUnmounted()) {
       const term = new Terminal({
@@ -45,6 +60,14 @@ const XTerm = (props: BoxProps) => {
           background: backgroundColorTerm,
         },
       });
+      term.registerLinkProvider(
+        new WebLinkProvider(
+          term,
+          tracebackRegExpMatch,
+          tracebackLinkHandler,
+          {}
+        )
+      );
       const fitAddon = new FitAddon();
       term.loadAddon(fitAddon);
       term.attachCustomKeyEventHandler(customKeyEventHandler);
@@ -101,7 +124,11 @@ const XTerm = (props: BoxProps) => {
         if (!Array.isArray(entries) || !entries.length) {
           return;
         }
-        fitAddon.fit();
+        try {
+          fitAddon.fit();
+        } catch (e) {
+          // It throws if you resize it when not visible but it does no harm.
+        }
       });
       resizeObserver.observe(ref.current);
 
@@ -112,7 +139,7 @@ const XTerm = (props: BoxProps) => {
         term.dispose();
       };
     }
-  }, [device, isUnmounted]);
+  }, [device, isUnmounted, tracebackLinkHandler]);
 
   // The terminal itself is sized based on the number of rows,
   // so we need a background that matches the theme.
