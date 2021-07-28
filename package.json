@@ -78,6 +78,9 @@
     "i18n:compile": "node bin/sort.js && formatjs compile-folder --ast lang src/messages"
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "src/third-party/**"
+    ],
     "extends": [
       "react-app",
       "react-app/jest"

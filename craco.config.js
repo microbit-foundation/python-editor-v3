@@ -16,6 +16,10 @@ module.exports = {
   webpack: {
     alias: {
       "@deployment": path.resolve(__dirname, location),
+      "tigerpython-parser": path.resolve(
+        __dirname,
+        "src/third-party/tigerpython-parser.js"
+      ),
     },
   },
   jest: {

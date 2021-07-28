@@ -25,6 +25,7 @@ import { EditorView } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
 import { completion } from "./completion";
 import highlightStyle from "./highlightStyle";
+import { tygerPythonLinter } from "./linting/linter";
 
 const customTabBinding: KeyBinding = {
   key: "Tab",
@@ -74,4 +75,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
+  tygerPythonLinter(),
 ];
