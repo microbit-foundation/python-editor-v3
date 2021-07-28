@@ -55,8 +55,14 @@ RuntimeError: maximum recursion depth exceeded
         .replace(/[\r\n]/g, "\n")
         .replace(/\n/g, "\r\n")
     );
-    expect(tb.lastTraceback()).toMatch(/^Traceback/);
-    expect(tb.lastTraceback()).toMatch(/exceeded$/);
+    const traceback = tb.lastTraceback()!;
+    expect(traceback.error).toEqual(
+      "RuntimeError: maximum recursion depth exceeded"
+    );
+    expect(traceback.trace[0]).toEqual('File "main.py", line 7, in <module>');
+    expect(traceback.trace[traceback.trace.length - 1]).toEqual(
+      'File "main.py", line 5, in foo'
+    );
   });
   it("finds the last one", () => {
     const tb = new TracebackScrollback();
@@ -71,6 +77,6 @@ RuntimeError: 2
         .replace(/[\r\n]/g, "\n")
         .replace(/\n/g, "\r\n")
     );
-    expect(tb.lastTraceback()).toMatch(/2$/);
+    expect(tb.lastTraceback()?.error).toEqual("RuntimeError: 2");
   });
 });

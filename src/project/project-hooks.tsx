@@ -108,6 +108,13 @@ export const useProjectFileText = (
   return [initialValue, handleChange];
 };
 
+const tracebackRegExp = /^Traceback.*$((\r\n^\s+.*)+)\r\n^(\w+:.*$)/gm;
+
+interface Traceback {
+  error: string;
+  trace: string[];
+}
+
 export class TracebackScrollback {
   private data: string = "";
   push(data: string) {
@@ -117,17 +124,24 @@ export class TracebackScrollback {
       this.data = this.data.slice(data.length - limit);
     }
   }
-  lastTraceback(): string | undefined {
+  lastTraceback(): Traceback | undefined {
     // Traceback (most recent call last):
     //   Indented lines showing stack
     // NameOfException: str(Exception)
     // MicroPython v1.15-64-g1e2f0d280
-    const tracebacks = this.data.match(
-      /^Traceback.*$(\r\n^\s+.*)+\r\n^(\w+:.*$)/gm
-    );
+    const tracebacks = this.data.match(tracebackRegExp);
     if (tracebacks) {
       const last = tracebacks[tracebacks.length - 1];
-      return last;
+      const match = tracebackRegExp.exec(last);
+      if (!match) {
+        throw new Error("Must match");
+      }
+      const error = match[3];
+      const trace = match[1]
+        .split("\r\n")
+        .map((l) => l.trim())
+        .filter(Boolean);
+      return { error, trace };
     }
     return undefined;
   }
@@ -135,7 +149,7 @@ export class TracebackScrollback {
 
 export const useRuntimeError = () => {
   const device = useDevice();
-  const [runtimeError, setRuntimeError] = useState<string | undefined>(
+  const [runtimeError, setRuntimeError] = useState<Traceback | undefined>(
     undefined
   );
 
