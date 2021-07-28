@@ -41,6 +41,7 @@
     "react-intl": "^5.20.4",
     "web-vitals": "^1.1.1",
     "word-wrap": "^1.2.3",
+    "worker-loader": "^3.0.8",
     "xterm": "^4.13.0",
     "xterm-addon-fit": "^0.5.0"
   },
