@@ -1,5 +1,9 @@
 import * as TPyParser from "tigerpython-parser";
 
+TPyParser.setLanguage("en");
+TPyParser.rejectDeadCode = true;
+TPyParser.strictCode = true;
+
 /* eslint-disable no-restricted-globals */
 let workerSelf = self as unknown as BroadcastChannel;
 
