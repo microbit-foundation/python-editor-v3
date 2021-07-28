@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "third-party/tigerpython-parser.js"]
+  "include": ["src"]
 }
