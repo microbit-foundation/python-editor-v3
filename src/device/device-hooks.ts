@@ -49,7 +49,7 @@ export const useConnectionStatus = () => {
   return status;
 };
 
-interface Traceback {
+export interface Traceback {
   error: string;
   trace: string[];
 }
@@ -78,7 +78,15 @@ export class TracebackScrollback {
           const trace = lines
             .slice(i + 1, endOfIndent)
             .map((line) => line.trim());
+          if (trace[0] && trace[0].startsWith('File "<stdin>"')) {
+            // User entered code at the REPL, discard.
+            return undefined;
+          }
           const error = lines[endOfIndent];
+          if (error.startsWith("KeyboardInterrupt")) {
+            // User interruptede the program (we assume), discard
+            return undefined;
+          }
           return { error, trace };
         }
         return undefined;
