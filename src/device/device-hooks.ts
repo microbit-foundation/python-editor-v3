@@ -84,7 +84,7 @@ export class TracebackScrollback {
           }
           const error = lines[endOfIndent];
           if (error.startsWith("KeyboardInterrupt")) {
-            // User interruptede the program (we assume), discard
+            // User interrupted the program (we assume), discard.
             return undefined;
           }
           return { error, trace };
