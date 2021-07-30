@@ -99,7 +99,11 @@ const XTerm = (props: BoxProps) => {
         if (!Array.isArray(entries) || !entries.length) {
           return;
         }
-        fitAddon.fit();
+        try {
+          fitAddon.fit();
+        } catch (e) {
+          // It throws if you resize it when not visible but it does no harm.
+        }
       });
       resizeObserver.observe(ref.current);
 

@@ -111,7 +111,14 @@ const CodeMirror = ({
     // When identify of location changes then the user has navigated.
     if (location.line) {
       const view = viewRef.current!;
-      const line = view.state.doc.line(location.line);
+      let line;
+      try {
+        line = view.state.doc.line(location.line);
+      } catch (e) {
+        // Document doesn't have that line, e.g. link from stale error
+        // after a code edit.
+        return;
+      }
       view.dispatch({
         scrollIntoView: true,
         selection: EditorSelection.single(line.from),
