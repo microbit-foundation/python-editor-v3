@@ -19,10 +19,13 @@ import {
 } from "./context";
 import SplitViewSized from "./SplitViewSized";
 
+export type SizedMode = "collapsed" | "compact" | "open";
+
 interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
-  collapsed?: boolean;
+  mode?: SizedMode;
   children: [JSX.Element, JSX.Element, JSX.Element];
   direction: Direction;
+  compactSize?: number;
   minimums: [number, number];
 }
 
@@ -37,7 +40,8 @@ export const SplitView = ({
   children,
   direction,
   minimums,
-  collapsed = false,
+  mode = "open",
+  compactSize = 0,
   ...props
 }: SplitViewProps) => {
   const sizedFirst = children[0].type === SplitViewSized;
@@ -131,7 +135,8 @@ export const SplitView = ({
 
   const context: SplitViewContext = useMemo(() => {
     return {
-      collapsed,
+      mode,
+      compactSize,
       sizedPaneSize,
       setSizedPaneSize,
       direction,
@@ -141,7 +146,8 @@ export const SplitView = ({
       handleTouchEndOrMouseUp,
     };
   }, [
-    collapsed,
+    mode,
+    compactSize,
     sizedPaneSize,
     setSizedPaneSize,
     direction,

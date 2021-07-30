@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { SizedMode } from "./SplitView";
 
 export const separatorPixels = 5;
 
@@ -20,7 +21,8 @@ export const dimensionProps = (
 };
 
 export interface SplitViewContext {
-  collapsed: boolean;
+  mode: SizedMode;
+  compactSize: number;
   sizedPaneSize: number | undefined;
   setSizedPaneSize: (v: number) => void;
   direction: Direction;

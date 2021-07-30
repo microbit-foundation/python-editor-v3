@@ -7,14 +7,14 @@ import { Box, Flex } from "@chakra-ui/react";
 
 const SplitViewDivider = () => {
   const {
-    collapsed,
+    mode,
     direction,
     handleMouseDown,
     handleTouchStart,
     handleTouchEndOrMouseUp,
   } = useSplitViewContext();
   const cursor = direction === "row" ? "col-resize" : "row-resize";
-  return collapsed ? null : (
+  return mode !== "open" ? null : (
     <Flex
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}

@@ -5,7 +5,6 @@
  */
 import { Button } from "@chakra-ui/button";
 import { useClipboard } from "@chakra-ui/hooks";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
 import {
   Box,
@@ -37,16 +36,16 @@ import {
   useDisclosure,
   VisuallyHidden,
 } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { RiFileCopy2Line, RiGithubFill } from "react-icons/ri";
+import { FormattedMessage, useIntl } from "react-intl";
+import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 import { useDeployment } from "../../deployment";
-import { FormattedMessage } from "react-intl";
 import { microPythonVersions } from "../../fs/micropython";
 import comicImage from "./comic.png";
 import microbitHeartImage from "./microbit-heart.png";
 import micropythonLogo from "./micropython.jpeg";
 import pythonPoweredLogo from "./python-powered.png";
-import { ReactNode } from "react";
-import { useIntl } from "react-intl";
 
 const versionInfo = [
   {
@@ -213,11 +212,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                   fontSize="lg"
                   fontWeight="normal"
                   rightIcon={
-                    micropythonSection.isOpen ? (
-                      <ChevronUpIcon />
-                    ) : (
-                      <ChevronDownIcon />
-                    )
+                    <ExpandCollapseIcon open={micropythonSection.isOpen} />
                   }
                   onClick={micropythonSection.onToggle}
                 >

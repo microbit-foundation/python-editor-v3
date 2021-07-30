@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import {
+  SplitView,
+  SplitViewDivider,
+  SplitViewRemainder,
+  SplitViewSized,
+} from "../common/SplitView";
+import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
@@ -14,13 +22,6 @@ import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
 import { useSelection } from "./use-selection";
-import {
-  SplitView,
-  SplitViewSized,
-  SplitViewRemainder,
-  SplitViewDivider,
-} from "../common/SplitView";
-import { useIntl } from "react-intl";
 
 const minimums: [number, number] = [380, 580];
 
@@ -44,7 +45,10 @@ const Workbench = () => {
 
   const fileVersion = files.find((f) => f.name === selectedFile)?.version;
 
-  const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const [serialStateWhenOpen, setSerialStateWhenOpen] =
+    useState<SizedMode>("compact");
+  const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   return (
     <Flex className="Workbench">
       <SplitView direction="row" width="100%" minimums={minimums}>
@@ -68,9 +72,10 @@ const Workbench = () => {
           >
             <SplitView
               direction="column"
-              minimums={[40, 40]}
+              minimums={[200, 248]}
+              compactSize={48}
               height="100%"
-              collapsed={!serialVisible}
+              mode={serialSizedMode}
             >
               <SplitViewRemainder>
                 <Box height="100%" as="section">
@@ -87,6 +92,8 @@ const Workbench = () => {
               <SplitViewSized>
                 <SerialArea
                   as="section"
+                  compact={serialSizedMode === "compact"}
+                  onSizeChange={setSerialStateWhenOpen}
                   aria-label={intl.formatMessage({ id: "serial-terminal" })}
                 />
               </SplitViewSized>
