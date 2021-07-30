@@ -7,12 +7,13 @@ import { Box, BoxProps, Flex, Link } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import ProjectNameEditable from "../project/ProjectNameEditable";
+import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
 import ZoomControls from "./ZoomControls";
 
 interface EditorAreaProps extends BoxProps {
-  filename: string;
+  selection: WorkbenchSelection;
   onSelectedFileChanged: (filename: string) => void;
 }
 
@@ -21,7 +22,7 @@ interface EditorAreaProps extends BoxProps {
  * and wires it to the currently open file.
  */
 const EditorArea = ({
-  filename,
+  selection,
   onSelectedFileChanged,
   ...props
 }: EditorAreaProps) => {
@@ -48,7 +49,7 @@ const EditorArea = ({
       >
         <ProjectNameEditable />
         <ActiveFileInfo
-          filename={filename}
+          filename={selection.file}
           onSelectedFileChanged={onSelectedFileChanged}
         />
         <Link
@@ -82,7 +83,7 @@ const EditorArea = ({
           right={spacingFromRight}
           position="absolute"
         />
-        <EditorContainer filename={filename} />
+        <EditorContainer selection={selection} />
       </Box>
     </Flex>
   );

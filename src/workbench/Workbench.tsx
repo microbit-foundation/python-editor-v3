@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   SplitView,
@@ -29,21 +29,27 @@ const minimums: [number, number] = [380, 580];
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [selectedFile, setSelectedFile] = useSelection();
+  const [selection, setSelection] = useSelection();
   const intl = useIntl();
   const { files } = useProject();
+  const setSelectedFile = useCallback(
+    (file: string) => {
+      setSelection({ file, location: { line: undefined } });
+    },
+    [setSelection]
+  );
   useEffect(() => {
     // No file yet or selected file deleted? Default it.
     if (
-      (!selectedFile || !files.find((x) => x.name === selectedFile)) &&
+      (!selection || !files.find((x) => x.name === selection.file)) &&
       files.length > 0
     ) {
       const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
       setSelectedFile(defaultFile.name);
     }
-  }, [selectedFile, setSelectedFile, files]);
+  }, [selection, setSelectedFile, files]);
 
-  const fileVersion = files.find((f) => f.name === selectedFile)?.version;
+  const fileVersion = files.find((f) => f.name === selection.file)?.version;
 
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
@@ -56,7 +62,7 @@ const Workbench = () => {
           <LeftPanel
             as="section"
             aria-label={intl.formatMessage({ id: "sidebar" })}
-            selectedFile={selectedFile}
+            selectedFile={selection.file}
             onSelectedFileChanged={setSelectedFile}
             flex="1 1 100%"
           />
@@ -79,10 +85,10 @@ const Workbench = () => {
             >
               <SplitViewRemainder>
                 <Box height="100%" as="section">
-                  {selectedFile && fileVersion !== undefined && (
+                  {selection && fileVersion !== undefined && (
                     <EditorArea
-                      key={selectedFile + "/" + fileVersion}
-                      filename={selectedFile}
+                      key={selection.file + "/" + fileVersion}
+                      selection={selection}
                       onSelectedFileChanged={setSelectedFile}
                     />
                   )}

@@ -10,9 +10,10 @@ import {
   HStack,
   Icon,
   IconButton,
+  Link,
   Text,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { ReactNode, useCallback } from "react";
 import { RiErrorWarningLine, RiTerminalBoxLine } from "react-icons/ri";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { backgroundColorTerm } from "../deployment/misc";
@@ -22,6 +23,7 @@ import {
   useConnectionStatus,
   useDeviceTraceback,
 } from "../device/device-hooks";
+import { useSelection } from "../workbench/use-selection";
 import XTerm from "./XTerm";
 
 interface SerialAreaProps extends BoxProps {
@@ -64,12 +66,19 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
   );
 };
 
-const formatTracebackLastLine = (traceback: Traceback) => {
-  const last = traceback.trace[traceback.trace.length - 1];
-  if (!last) {
-    return undefined;
+const formatTracebackFileLine = (traceback: Traceback) => {
+  const { file, line } = traceback;
+  if (file && line) {
+    return (
+      <TracebackLink traceback={traceback}>
+        {file} line {line}
+      </TracebackLink>
+    );
   }
-  return last.replace(/^File/, " in file");
+  if (line) {
+    return <TracebackLink traceback={traceback}>line {line}</TracebackLink>;
+  }
+  return undefined;
 };
 
 interface SerialBarProps extends BoxProps {
@@ -111,13 +120,41 @@ const SerialIndicators = ({ compact, ...props }: SerialIndicatorsProps) => {
             <>
               <Icon m={1} as={RiErrorWarningLine} fill="white" boxSize={5} />
               <Text color="white" whiteSpace="nowrap">
-                {traceback.error} {formatTracebackLastLine(traceback)}
+                {traceback.error} {formatTracebackFileLine(traceback)}
               </Text>
             </>
           )}
         </HStack>
       )}
     </HStack>
+  );
+};
+
+interface TracebackLinkProps {
+  traceback: Traceback;
+  children: ReactNode;
+}
+
+const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
+  const [, setSelection] = useSelection();
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+
+      const { file, line } = traceback;
+      if (file) {
+        setSelection({
+          file,
+          location: { line },
+        });
+      }
+    },
+    [setSelection, traceback]
+  );
+  return (
+    <Link textDecoration="underline" pl={2} onClick={handleClick}>
+      {children}
+    </Link>
   );
 };
 

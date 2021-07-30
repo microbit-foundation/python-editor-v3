@@ -49,9 +49,52 @@ export const useConnectionStatus = () => {
   return status;
 };
 
-export interface Traceback {
-  error: string;
-  trace: string[];
+interface TraceLineInfo {
+  file: string | undefined;
+  line: number | undefined;
+}
+
+export class Traceback {
+  private parsed?: TraceLineInfo;
+
+  constructor(public error: string, public trace: string[]) {}
+
+  private parse(): TraceLineInfo {
+    if (this.parsed) {
+      return this.parsed;
+    }
+    const trace = this.trace[this.trace.length - 1];
+    // E.g.
+    // File "main.py", line 5, in foo
+    // File "<stdin>", line 1, in <module>
+    const match = /^File [<"]([^>"]+)[">], line (\d+)/.exec(trace);
+    if (match) {
+      let file: string | undefined = match[1];
+      let line: number | undefined;
+      const number = match[2];
+      if (number) {
+        line = parseInt(number, 10);
+      }
+      this.parsed = { line, file };
+    } else {
+      this.parsed = { line: undefined, file: undefined };
+    }
+    return this.parsed;
+  }
+
+  get line(): number | undefined {
+    return this.parse().line;
+  }
+
+  get file(): string | undefined {
+    const file = this.parse().file;
+    switch (file) {
+      case "stdin":
+        return undefined;
+      default:
+        return file;
+    }
+  }
 }
 
 export class TracebackScrollback {
@@ -87,7 +130,7 @@ export class TracebackScrollback {
             // User interrupted the program (we assume), discard.
             return undefined;
           }
-          return { error, trace };
+          return new Traceback(error, trace);
         }
         return undefined;
       }
