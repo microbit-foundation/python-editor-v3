@@ -57,7 +57,7 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
           />
           <XTerm
             visibility={compact ? "hidden" : undefined}
-            height="calc(100% - 40px)"
+            height={`calc(100% - ${SerialArea.compactSize}px)`}
             ml={1}
             mr={1}
           />
@@ -66,6 +66,7 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
     </Flex>
   );
 };
+SerialArea.compactSize = 48;
 
 interface SerialBarProps extends BoxProps {
   compact?: boolean;

@@ -78,8 +78,8 @@ const Workbench = () => {
           >
             <SplitView
               direction="column"
-              minimums={[200, 248]}
-              compactSize={48}
+              minimums={[248, 200]}
+              compactSize={SerialArea.compactSize}
               height="100%"
               mode={serialSizedMode}
             >
