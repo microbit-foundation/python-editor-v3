@@ -34,7 +34,6 @@ export class WebLinkProvider implements ILinkProvider {
       this._terminal,
       this._handler
     );
-    console.log(links);
     callback(this._addCallbacks(links));
   }
 
