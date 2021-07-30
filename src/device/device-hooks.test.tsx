@@ -117,4 +117,18 @@ InsufficientCaffine:`)
     expect(traceback.file).toBe("bar.py");
     expect(traceback.line).toBe(12);
   });
+
+  it("limits scrollback", () => {
+    const tsb = new TracebackScrollback();
+    let traceback;
+    traceback = tsb.push(
+      toCrLf(`Traceback (most recent call last):
+  File "main.py", line 10, in <module>
+SomeError:
+`)
+    )!;
+    expect(traceback).toBeDefined();
+    traceback = tsb.push(toCrLf("0".repeat(5000)))!;
+    expect(traceback).toBeUndefined();
+  });
 });
