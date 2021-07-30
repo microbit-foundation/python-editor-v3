@@ -49,35 +49,49 @@ export const useConnectionStatus = () => {
   return status;
 };
 
-interface TraceLineInfo {
+interface TraceLineParts {
   file: string | undefined;
   line: number | undefined;
 }
+const unknownParts: TraceLineParts = { line: undefined, file: undefined };
+
+/**
+ * Parse a line from the trace of a traceback.
+ *
+ * Trims leading/trailing space and returns undefined files
+ * if it does not match the expected format.
+ */
+export const parseTraceLine = (line: string): TraceLineParts => {
+  // E.g.
+  // File "main.py", line 5, in foo
+  // File "<stdin>", line 1, in <module>
+  const match = /^File [<"]([^>"]+)[">], line (\d+)/.exec(line.trim());
+  if (match) {
+    let file: string | undefined = match[1];
+    let line: number | undefined;
+    const number = match[2];
+    if (number) {
+      line = parseInt(number, 10);
+    }
+    return { line, file };
+  }
+  return unknownParts;
+};
 
 export class Traceback {
-  private parsed?: TraceLineInfo;
+  private parsed?: TraceLineParts;
 
   constructor(public error: string, public trace: string[]) {}
 
-  private parse(): TraceLineInfo {
+  private parse(): TraceLineParts {
     if (this.parsed) {
       return this.parsed;
     }
     const trace = this.trace[this.trace.length - 1];
-    // E.g.
-    // File "main.py", line 5, in foo
-    // File "<stdin>", line 1, in <module>
-    const match = /^File [<"]([^>"]+)[">], line (\d+)/.exec(trace);
-    if (match) {
-      let file: string | undefined = match[1];
-      let line: number | undefined;
-      const number = match[2];
-      if (number) {
-        line = parseInt(number, 10);
-      }
-      this.parsed = { line, file };
+    if (trace) {
+      this.parsed = parseTraceLine(trace);
     } else {
-      this.parsed = { line: undefined, file: undefined };
+      this.parsed = unknownParts;
     }
     return this.parsed;
   }
