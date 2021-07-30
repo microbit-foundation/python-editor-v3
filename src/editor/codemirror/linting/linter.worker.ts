@@ -5,11 +5,11 @@ TPyParser.rejectDeadCode = true;
 TPyParser.strictCode = true;
 
 /* eslint-disable no-restricted-globals */
-let workerSelf = self as unknown as BroadcastChannel;
+const ctx: Worker = self as any;
 
-workerSelf.onmessage = (event: MessageEvent) => {
+ctx.onmessage = (event: MessageEvent) => {
   const errors = TPyParser.findAllErrors(event.data);
-  workerSelf.postMessage(
+  ctx.postMessage(
     errors.map((error: any) => ({
       offset: error.offset,
       line: error.line,
