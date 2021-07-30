@@ -347,6 +347,14 @@
     "defaultMessage": "Replace",
     "description": "Action label for replacing project dialog"
   },
+  "serial-collapse": {
+    "defaultMessage": "Collapse the serial terminal",
+    "description": "Aria label for serial expand/collapse"
+  },
+  "serial-expand": {
+    "defaultMessage": "Expand the serial terminal",
+    "description": "Aria label for serial expand/collapse"
+  },
   "serial-terminal": {
     "defaultMessage": "Serial terminal",
     "description": "Aria label for the serial terminal"

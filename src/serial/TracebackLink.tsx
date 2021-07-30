@@ -1,0 +1,34 @@
+import { Link } from "@chakra-ui/react";
+import { ReactNode, useCallback } from "react";
+import { Traceback } from "../device/device-hooks";
+import { useSelection } from "../workbench/use-selection";
+
+interface TracebackLinkProps {
+  traceback: Traceback;
+  children: ReactNode;
+}
+
+const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
+  const [, setSelection] = useSelection();
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+
+      const { file, line } = traceback;
+      if (file) {
+        setSelection({
+          file,
+          location: { line },
+        });
+      }
+    },
+    [setSelection, traceback]
+  );
+  return (
+    <Link textDecoration="underline" onClick={handleClick}>
+      {children}
+    </Link>
+  );
+};
+
+export default TracebackLink;

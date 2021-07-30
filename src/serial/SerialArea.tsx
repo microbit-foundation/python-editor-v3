@@ -10,21 +10,19 @@ import {
   HStack,
   Icon,
   IconButton,
-  Link,
   Text,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 import { RiErrorWarningLine, RiTerminalBoxLine } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { backgroundColorTerm } from "../deployment/misc";
 import { ConnectionStatus } from "../device/device";
 import {
-  Traceback,
   useConnectionStatus,
   useDeviceTraceback,
 } from "../device/device-hooks";
-import { MAIN_FILE } from "../fs/fs";
-import { useSelection } from "../workbench/use-selection";
+import MaybeTracebackLink from "./MaybeTracebackLink";
 import XTerm from "./XTerm";
 
 interface SerialAreaProps extends BoxProps {
@@ -77,6 +75,7 @@ const SerialBar = ({ compact, onSizeChange, ...props }: SerialBarProps) => {
   const handleExpandCollapseClick = useCallback(() => {
     onSizeChange(compact ? "open" : "compact");
   }, [compact, onSizeChange]);
+  const intl = useIntl();
   return (
     <HStack justifyContent="space-between" p={1} {...props}>
       <SerialIndicators compact={compact} overflow="hidden" />
@@ -84,7 +83,11 @@ const SerialBar = ({ compact, onSizeChange, ...props }: SerialBarProps) => {
         variant="sidebar"
         color="white"
         isRound
-        aria-label="Open"
+        aria-label={
+          compact
+            ? intl.formatMessage({ id: "serial-expand" })
+            : intl.formatMessage({ id: "serial-collapse" })
+        }
         icon={<ExpandCollapseIcon open={Boolean(compact)} />}
         onClick={handleExpandCollapseClick}
       />
@@ -114,53 +117,6 @@ const SerialIndicators = ({ compact, ...props }: SerialIndicatorsProps) => {
         </HStack>
       )}
     </HStack>
-  );
-};
-
-interface MaybeTracebackLinkProps {
-  traceback: Traceback;
-}
-
-const MaybeTracebackLink = ({ traceback }: MaybeTracebackLinkProps) => {
-  const { file, line } = traceback;
-  if (file === MAIN_FILE && line) {
-    return <TracebackLink traceback={traceback}>line {line}</TracebackLink>;
-  }
-  if (file && line) {
-    return (
-      <TracebackLink traceback={traceback}>
-        {file} line {line}
-      </TracebackLink>
-    );
-  }
-  return null;
-};
-
-interface TracebackLinkProps {
-  traceback: Traceback;
-  children: ReactNode;
-}
-
-const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
-  const [, setSelection] = useSelection();
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-
-      const { file, line } = traceback;
-      if (file) {
-        setSelection({
-          file,
-          location: { line },
-        });
-      }
-    },
-    [setSelection, traceback]
-  );
-  return (
-    <Link textDecoration="underline" onClick={handleClick}>
-      {children}
-    </Link>
   );
 };
 
