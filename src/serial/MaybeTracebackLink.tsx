@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Traceback } from "../device/device-hooks";
 import { MAIN_FILE } from "../fs/fs";
 import TracebackLink from "./TracebackLink";
