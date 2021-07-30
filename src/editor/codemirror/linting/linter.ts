@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Diagnostic, linter } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 // eslint-disable-next-line import/no-webpack-loader-syntax
