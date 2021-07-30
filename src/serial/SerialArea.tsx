@@ -23,6 +23,7 @@ import {
   useConnectionStatus,
   useDeviceTraceback,
 } from "../device/device-hooks";
+import { MAIN_FILE } from "../fs/fs";
 import { useSelection } from "../workbench/use-selection";
 import XTerm from "./XTerm";
 
@@ -66,21 +67,6 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
   );
 };
 
-const formatTracebackFileLine = (traceback: Traceback) => {
-  const { file, line } = traceback;
-  if (file && line) {
-    return (
-      <TracebackLink traceback={traceback}>
-        {file} line {line}
-      </TracebackLink>
-    );
-  }
-  if (line) {
-    return <TracebackLink traceback={traceback}>line {line}</TracebackLink>;
-  }
-  return undefined;
-};
-
 interface SerialBarProps extends BoxProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
@@ -120,7 +106,7 @@ const SerialIndicators = ({ compact, ...props }: SerialIndicatorsProps) => {
             <>
               <Icon m={1} as={RiErrorWarningLine} fill="white" boxSize={5} />
               <Text color="white" whiteSpace="nowrap">
-                {traceback.error} {formatTracebackFileLine(traceback)}
+                {traceback.error} <MaybeTracebackLink traceback={traceback} />
               </Text>
             </>
           )}
@@ -128,6 +114,25 @@ const SerialIndicators = ({ compact, ...props }: SerialIndicatorsProps) => {
       )}
     </HStack>
   );
+};
+
+interface MaybeTracebackLinkProps {
+  traceback: Traceback;
+}
+
+const MaybeTracebackLink = ({ traceback }: MaybeTracebackLinkProps) => {
+  const { file, line } = traceback;
+  if (file === MAIN_FILE && line) {
+    return <TracebackLink traceback={traceback}>line {line}</TracebackLink>;
+  }
+  if (file && line) {
+    return (
+      <TracebackLink traceback={traceback}>
+        {file} line {line}
+      </TracebackLink>
+    );
+  }
+  return null;
 };
 
 interface TracebackLinkProps {
