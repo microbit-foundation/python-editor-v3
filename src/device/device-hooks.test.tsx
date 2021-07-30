@@ -63,6 +63,8 @@ RuntimeError: maximum recursion depth exceeded
     expect(traceback.trace[traceback.trace.length - 1]).toEqual(
       'File "main.py", line 5, in foo'
     );
+    expect(traceback.line).toEqual(5);
+    expect(traceback.file).toEqual("main.py");
   });
   it("finds the last one", () => {
     const tsb = new TracebackScrollback();
@@ -100,5 +102,19 @@ KeyboardInterrupt:`)
     );
 
     expect(traceback).toBeUndefined();
+  });
+
+  it("identifies file and line from last line of trace", () => {
+    const tsb = new TracebackScrollback();
+    const traceback = tsb.push(
+      toCrLf(`Traceback (most recent call last):
+  File "main.py", line 10, in <module>
+  File "foo.py", line 11, in <module>
+  File "bar.py", line 12, in <module>
+InsufficientCaffine:`)
+    )!;
+
+    expect(traceback.file).toBe("bar.py");
+    expect(traceback.line).toBe(12);
   });
 });
