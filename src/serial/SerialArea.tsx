@@ -106,7 +106,7 @@ const SerialIndicators = ({ compact, ...props }: SerialIndicatorsProps) => {
             <>
               <Icon m={1} as={RiErrorWarningLine} fill="white" boxSize={5} />
               <Text color="white" whiteSpace="nowrap">
-                {traceback.error} <MaybeTracebackLink traceback={traceback} />
+                <MaybeTracebackLink traceback={traceback} /> {traceback.error}
               </Text>
             </>
           )}
@@ -157,7 +157,7 @@ const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
     [setSelection, traceback]
   );
   return (
-    <Link textDecoration="underline" pl={2} onClick={handleClick}>
+    <Link textDecoration="underline" onClick={handleClick}>
       {children}
     </Link>
   );
