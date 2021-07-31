@@ -403,16 +403,32 @@ export class ProjectActions {
         {
           output = output.substring(endindex, -1)
           this.device.removeListener(EVENT_SERIAL_DATA, serialListener);
-          const lines = output.split("\r\n").map(l => l.replace(/([0-9a-z]{2})/g, x => unescape("%"+x)));
+
+          // We got a complete file.
+          // Decode the hex and send as a data URI.
+          const lines = output.split("\r\n").map(l => unescape(l))
           const blob = new Blob(lines, {
             type: "application/octet-stream",
           });
           saveAs(blob, 'data.txt');
         }
       }
-//      output = output + JSON.parse(data)
     };
     this.device.on(EVENT_SERIAL_DATA, serialListener);
+
+    // This script is similar to the one used by microfs.py: It enters
+    // raw mode and reads the file 32 bytes at a time.  Unlike
+    // microfs.py, which uses repr(), here we convert each byte to
+    // urlencoded hex.
+    //
+    // We probably need to figure out how to enter raw mode more
+    // reliably (microfs.py has some delays that I did not implement,
+    // and I have no error handling at all here) and disable Xterm
+    // output while doing the download.
+    //
+    // Note that there's an apparent bug with sending multiple lines
+    // at a time:
+    // https://github.com/microbit-foundation/python-editor-next/issues/215
     const script = [
       '\x02', // Ctrl+B to end raw mode if required
       '\x03', // Ctrl+C three times to break
@@ -425,12 +441,15 @@ export class ProjectActions {
       'while result:\r\n',
       '  result = r(32)\r\n',
       '  if result:\r\n',
-      '    print("".join("%02x" % i for i in result)+"\\r\\n")\r\n',
+      '    print("".join("%%%02x" % i for i in result)+"\\r\\n")\r\n',
       'print("END\\r\\n")\r\n',
       'f.close()\r\n',
       '\x04', // Ctrl+D to run script
       '\x02', // Ctrl+B to exit raw mode
     ];
+
+    // there's probably a more correct way to send one line at a time
+    // asynchronously
     let i = 0;
     let p = null;
     const f = () => {
