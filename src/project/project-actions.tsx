@@ -39,6 +39,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -372,6 +373,73 @@ export class ProjectActions {
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
+  };
+
+  downloadMicrofsFiles = async () => {
+    this.logging.event({
+      type: "download-microfs-files",
+    });
+    if ( this.device.status != "CONNECTED" )
+    {
+      return this.webusbNotSupportedError();
+    }
+    let output = ""
+    let foundOK = false
+    const serialListener = (data: string) => {
+      output = output + data;
+      if(!foundOK)
+      {
+        const okindex = output.indexOf("OK");
+        if(okindex != -1)
+        {
+          output = output.substring(okindex+2);
+          foundOK = true;
+        }
+      }
+      if(foundOK)
+      {
+        const endindex = output.indexOf("END\r");
+        if(endindex != -1)
+        {
+          output = output.substring(endindex, -1)
+          this.device.removeListener(EVENT_SERIAL_DATA, serialListener);
+          const lines = output.split("\r\n").map(l => l.replace(/([0-9a-z]{2})/g, x => unescape("%"+x)));
+          const blob = new Blob(lines, {
+            type: "application/octet-stream",
+          });
+          saveAs(blob, 'data.txt');
+        }
+      }
+//      output = output + JSON.parse(data)
+    };
+    this.device.on(EVENT_SERIAL_DATA, serialListener);
+    const script = [
+      '\x02', // Ctrl+B to end raw mode if required
+      '\x03', // Ctrl+C three times to break
+      '\x03',
+      '\x03',
+      '\x01', // Ctrl+A to enter raw mode
+      'f = open("data.txt", "rb")\r\n',
+      'r = f.read\r\n',
+      'result = True\r\n',
+      'while result:\r\n',
+      '  result = r(32)\r\n',
+      '  if result:\r\n',
+      '    print("".join("%02x" % i for i in result)+"\\r\\n")\r\n',
+      'print("END\\r\\n")\r\n',
+      'f.close()\r\n',
+      '\x04', // Ctrl+D to run script
+      '\x02', // Ctrl+B to exit raw mode
+    ];
+    let i = 0;
+    let p = null;
+    const f = () => {
+      if (i >= script.length) return;
+      p = this.device.serialWrite(script[i]);
+      i = i + 1;
+      p.then(f);
+    }
+    f();
   };
 
   /**

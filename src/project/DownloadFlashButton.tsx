@@ -93,6 +93,14 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
               >
                 <FormattedMessage id="download-python" />
               </MenuItem>
+              <MenuItem
+                target="_blank"
+                rel="noopener"
+                icon={<RiDownload2Line />}
+                onClick={actions.downloadMicrofsFiles}
+              >
+                <FormattedMessage id="download-microfs-files" />
+              </MenuItem>
             </MenuList>
           </Portal>
         </ButtonGroup>
