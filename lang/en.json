@@ -175,6 +175,10 @@
     "defaultMessage": "Download a project hex file",
     "description": "Hover text over download button"
   },
+  "download-microfs-files": {
+    "defaultMessage": "Download MicroFS files",
+    "description": "Download button menu option for downloading on-board MicroFS files"
+  },
   "download-python": {
     "defaultMessage": "Download Python script",
     "description": "Download button menu option for downloading Python script"

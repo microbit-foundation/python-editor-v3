@@ -39,6 +39,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -372,6 +373,93 @@ export class ProjectActions {
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
+  };
+
+  downloadMicrofsFiles = async () => {
+    this.logging.event({
+      type: "download-microfs-files",
+    });
+    if ( this.device.status != "CONNECTED" )
+    {
+      // TODO: make my own error (or is there an appropriate one?)
+      return this.webusbNotSupportedError();
+    }
+    let output = ""
+    let foundOK = false
+    const serialListener = (data: string) => {
+      output = output + data;
+      if(!foundOK)
+      {
+        const okindex = output.indexOf("OK");
+        if(okindex != -1)
+        {
+          output = output.substring(okindex+2);
+          foundOK = true;
+        }
+      }
+      if(foundOK)
+      {
+        const endindex = output.indexOf("END\r");
+        if(endindex != -1)
+        {
+          output = output.substring(endindex, -1)
+          this.device.removeListener(EVENT_SERIAL_DATA, serialListener);
+
+          // We got a complete file.
+          // Decode the hex and send as a data URI.
+          const lines = output.split("\r\n").map(l => unescape(l))
+          const blob = new Blob(lines, {
+            type: "application/octet-stream",
+          });
+          saveAs(blob, 'data.txt');
+        }
+      }
+    };
+    this.device.on(EVENT_SERIAL_DATA, serialListener);
+
+    // This script is similar to the one used by microfs.py: It enters
+    // raw mode and reads the file 32 bytes at a time.  Unlike
+    // microfs.py, which uses repr(), here we convert each byte to
+    // urlencoded hex.
+    //
+    // We probably need to figure out how to enter raw mode more
+    // reliably (microfs.py has some delays that I did not implement,
+    // and I have no error handling at all here) and disable Xterm
+    // output while doing the download.
+    //
+    // Note that there's an apparent bug with sending multiple lines
+    // at a time:
+    // https://github.com/microbit-foundation/python-editor-next/issues/215
+    const script = [
+      '\x02', // Ctrl+B to end raw mode if required
+      '\x03', // Ctrl+C three times to break
+      '\x03',
+      '\x03',
+      '\x01', // Ctrl+A to enter raw mode
+      'f = open("data.txt", "rb")\r\n',
+      'r = f.read\r\n',
+      'result = True\r\n',
+      'while result:\r\n',
+      '  result = r(32)\r\n',
+      '  if result:\r\n',
+      '    print("".join("%%%02x" % i for i in result)+"\\r\\n")\r\n',
+      'print("END\\r\\n")\r\n',
+      'f.close()\r\n',
+      '\x04', // Ctrl+D to run script
+      '\x02', // Ctrl+B to exit raw mode
+    ];
+
+    // there's probably a more correct way to send one line at a time
+    // asynchronously
+    let i = 0;
+    let p = null;
+    const f = () => {
+      if (i >= script.length) return;
+      p = this.device.serialWrite(script[i]);
+      i = i + 1;
+      p.then(f);
+    }
+    f();
   };
 
   /**

@@ -355,6 +355,12 @@
       "value": "Download a project hex file"
     }
   ],
+  "download-microfs-files": [
+    {
+      "type": 0,
+      "value": "Download MicroFS files"
+    }
+  ],
   "download-python": [
     {
       "type": 0,
