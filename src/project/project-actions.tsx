@@ -381,6 +381,7 @@ export class ProjectActions {
     });
     if ( this.device.status != "CONNECTED" )
     {
+      // TODO: make my own error (or is there an appropriate one?)
       return this.webusbNotSupportedError();
     }
     let output = ""
