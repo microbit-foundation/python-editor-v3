@@ -18,6 +18,7 @@ import {
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { useDevice } from "../device/device-hooks";
 import "./xterm-custom.css";
+import customKeyEventHandler from "./xterm-keyboard";
 
 const ptToPixelRatio = 96 / 72;
 
@@ -46,6 +47,7 @@ const XTerm = (props: BoxProps) => {
       });
       const fitAddon = new FitAddon();
       term.loadAddon(fitAddon);
+      term.attachCustomKeyEventHandler(customKeyEventHandler);
       term.open(ref.current);
 
       let firstWrite = true;
