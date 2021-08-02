@@ -431,7 +431,16 @@ export class MicrobitWebUSBConnection extends EventEmitter {
   serialWrite(data: string): Promise<void> {
     return this.withEnrichedErrors(async () => {
       if (this.connection) {
-        return this.connection.daplink.serialWrite(data);
+        // Using WebUSB/DAPJs we're limited to 64 byte packet size with a two byte header.
+        // https://github.com/microbit-foundation/python-editor-next/issues/215
+        const maxSerialWrite = 62;
+        let start = 0;
+        while (start < data.length) {
+          const end = Math.min(start + maxSerialWrite, data.length);
+          const chunkData = data.slice(start, end);
+          await this.connection.daplink.serialWrite(chunkData);
+          start = end;
+        }
       }
     });
   }
