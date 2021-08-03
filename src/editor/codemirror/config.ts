@@ -3,27 +3,26 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  keymap,
-  highlightSpecialChars,
-  drawSelection,
-  highlightActiveLine,
-  KeyBinding,
-} from "@codemirror/view";
-import { Extension, EditorState, Prec, Compartment } from "@codemirror/state";
-import { history, historyKeymap } from "@codemirror/history";
-import { indentOnInput, indentUnit } from "@codemirror/language";
-import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
-import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
-import { bracketMatching } from "@codemirror/matchbrackets";
+import { completionKeymap } from "@codemirror/autocomplete";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
-import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
+import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
 import { commentKeymap } from "@codemirror/comment";
+import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { defaultHighlightStyle } from "@codemirror/highlight";
-import { lintKeymap } from "@codemirror/lint";
-import { EditorView } from "@codemirror/view";
+import { history, historyKeymap } from "@codemirror/history";
 import { python } from "@codemirror/lang-python";
-import { completion } from "./completion";
+import { indentOnInput, indentUnit } from "@codemirror/language";
+import { lintKeymap } from "@codemirror/lint";
+import { bracketMatching } from "@codemirror/matchbrackets";
+import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
+import {
+  drawSelection,
+  EditorView,
+  highlightActiveLine,
+  highlightSpecialChars,
+  KeyBinding,
+  keymap,
+} from "@codemirror/view";
 import highlightStyle from "./highlightStyle";
 
 const customTabBinding: KeyBinding = {
@@ -53,9 +52,6 @@ export const editorConfig: Extension = [
   bracketMatching(),
   closeBrackets(),
   highlightStyle(),
-  autocompletion({
-    override: completion,
-  }),
   highlightActiveLine(),
   highlightActiveLineGutter(),
 

@@ -7,9 +7,12 @@ import { EditorSelection, EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
-import { FileLocation } from "../../workbench/use-selection";
+import { createUri } from "../../language-server/client";
+import { useLanguageServerClient } from "../../language-server/language-server-hooks";
+import { WorkbenchSelection } from "../../workbench/use-selection";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
+import { languageServer } from "./language-server/view";
 import {
   codeStructure,
   CodeStructureSettings,
@@ -22,7 +25,7 @@ interface CodeMirrorProps {
   defaultValue: string;
   onChange: (doc: string) => void;
 
-  location: FileLocation;
+  selection: WorkbenchSelection;
   fontSize: number;
   codeStructureSettings: CodeStructureSettings;
 }
@@ -39,12 +42,14 @@ const CodeMirror = ({
   defaultValue,
   className,
   onChange,
-  location,
+  selection,
   fontSize,
   codeStructureSettings,
 }: CodeMirrorProps) => {
+  const uri = createUri(selection.file);
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const client = useLanguageServerClient();
   const intl = useIntl();
 
   // Group the option props together to keep configuration updates simple.
@@ -69,6 +74,7 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
+          client ? languageServer(client, uri) : [],
           // Extensions we enable/disable based on props.
           structureHighlightingCompartment.of(
             codeStructure(options.codeStructureSettings)
@@ -83,7 +89,7 @@ const CodeMirror = ({
 
       viewRef.current = view;
     }
-  }, [options, defaultValue, onChange]);
+  }, [options, defaultValue, onChange, client, uri]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {
@@ -107,6 +113,7 @@ const CodeMirror = ({
     });
   }, [options]);
 
+  const { location } = selection;
   useEffect(() => {
     // When the identity of location changes then the user has navigated.
     if (location.line) {
