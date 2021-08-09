@@ -17,6 +17,7 @@ import {
 import { MdMoreVert } from "react-icons/md";
 import { RiDownload2Line, RiFlashlightFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { zIndexAboveTerminal } from "../common/zIndex";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import DownloadButton from "./DownloadButton";
@@ -63,8 +64,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
             size={size}
           />
           <Portal>
-            {/* z-index above the xterm.js's layers (currently 10 but given some margin for increases as it can vary with config) */}
-            <MenuList zIndex={20}>
+            <MenuList zIndex={zIndexAboveTerminal}>
               {!connected && (
                 <MenuItem
                   target="_blank"

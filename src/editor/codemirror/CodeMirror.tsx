@@ -108,7 +108,7 @@ const CodeMirror = ({
   }, [options]);
 
   useEffect(() => {
-    // When identify of location changes then the user has navigated.
+    // When the identity of location changes then the user has navigated.
     if (location.line) {
       const view = viewRef.current!;
       let line;
