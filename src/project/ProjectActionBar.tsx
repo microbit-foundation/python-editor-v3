@@ -19,14 +19,11 @@ const ProjectActionBar = (props: BoxProps) => {
       pl={10}
       pr={10}
     >
-      <DownloadFlashButton size={size} />
       <HStack spacing={2.5}>
+        <DownloadFlashButton size={size} />
         <ConnectDisconnectButton />
-        <LoadButton mode="button" size={size} />
-        {/*Disabled for now but kept around as useful for UI discussions. 
-        <ShareButton variant="outline" size={size} />
-        */}
       </HStack>
+      <LoadButton mode="button" size={size} />
     </HStack>
   );
 };
