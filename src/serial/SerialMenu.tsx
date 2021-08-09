@@ -42,7 +42,7 @@ const SerialMenu = ({ compact, onOpenHelp, onSizeChange }: SerialMenuProps) => {
           </MenuItem>
           <MenuDivider />
           <MenuItem icon={<RiInformationLine />} onClick={onOpenHelp}>
-            <FormattedMessage id="help" />
+            Hints and tips
           </MenuItem>
         </MenuList>
       </Portal>
