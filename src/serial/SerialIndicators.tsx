@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
 import { RiErrorWarningLine, RiTerminalBoxLine } from "react-icons/ri";
 import { useDeviceTraceback } from "../device/device-hooks";

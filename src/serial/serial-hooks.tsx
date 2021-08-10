@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import React, { ReactNode, useContext, useEffect, useMemo } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
