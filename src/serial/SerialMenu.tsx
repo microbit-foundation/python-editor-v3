@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiInformationLine, RiKeyboardBoxLine } from "react-icons/ri";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { useSerialActions } from "./serial-hooks";
 
