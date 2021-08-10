@@ -5,6 +5,7 @@
  */
 import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
 import { RiErrorWarningLine, RiTerminalBoxLine } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 import { useDeviceTraceback } from "../device/device-hooks";
 import MaybeTracebackLink from "./MaybeTracebackLink";
 
@@ -26,7 +27,11 @@ const SerialIndicators = ({ compact, ...props }: SerialIndicatorsProps) => {
             </Text>
           </>
         )}
-        {!traceback && <Text color="white">Running…</Text>}
+        {!traceback && (
+          <Text color="white">
+            <FormattedMessage id="serial-running" />
+          </Text>
+        )}
       </HStack>
     </HStack>
   );

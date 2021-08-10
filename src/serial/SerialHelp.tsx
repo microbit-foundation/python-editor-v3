@@ -13,12 +13,18 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Code, Kbd, Text, VStack } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 
 interface SerialHelpDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const formatValues = {
+  code: (chunks: ReactNode) => <Code>{chunks}</Code>,
+  kbd: (chunks: ReactNode) => <Kbd>{chunks}</Kbd>,
+};
 
 /**
  * Settings dialog.
@@ -32,29 +38,30 @@ export const SerialHelpDialog = ({
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
-            Serial hints and tips
+            <FormattedMessage id="serial-help-title" />
           </ModalHeader>
           <ModalBody>
             <VStack spacing={5} alignItems="stretch">
               <Text>
-                The serial terminal shows errors and other output from the
-                program running on your micro:bit. By default, it shows the most
-                recent error from the program. Expand it to see all the output.
+                <FormattedMessage id="serial-help-intro" />
               </Text>
               <Text>
-                Your program can print messages using the <Code>print</Code>{" "}
-                function. Try adding <Code>print('micro:bit is awesome')</Code>{" "}
-                to your program.
+                <FormattedMessage
+                  id="serial-help-print"
+                  values={formatValues}
+                />
               </Text>
               <Text>
-                Use the keyboard shortcut <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> to
-                interrupt your program. Then you can type Python commands for
-                MicroPython to run. It's a great way to experiment with
-                something new.
+                <FormattedMessage
+                  id="serial-help-ctrl-c"
+                  values={formatValues}
+                />
               </Text>
               <Text>
-                To start your program running again use <Kbd>Ctrl</Kbd> +{" "}
-                <Kbd>D</Kbd>.
+                <FormattedMessage
+                  id="serial-help-ctrl-d"
+                  values={formatValues}
+                />
               </Text>
             </VStack>
           </ModalBody>

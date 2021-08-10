@@ -235,6 +235,10 @@
     "defaultMessage": "Highlight code structure",
     "description": "Highlight code option text"
   },
+  "hints-and-tips": {
+    "defaultMessage": "Hints and tips",
+    "description": "Link/button for minor internal help"
+  },
   "language": {
     "defaultMessage": "Language",
     "description": "Language option text"
@@ -351,9 +355,45 @@
     "defaultMessage": "Collapse the serial terminal",
     "description": "Aria label for serial expand/collapse"
   },
+  "serial-ctrl-c-button": {
+    "defaultMessage": "Send Ctrl-C for REPL",
+    "description": "Button to trigger the Python REPL from the serial area"
+  },
+  "serial-ctrl-d-button": {
+    "defaultMessage": "Send Ctrl-D to reset",
+    "description": "Button to reset the micro:bit from the serial area"
+  },
   "serial-expand": {
     "defaultMessage": "Expand the serial terminal",
     "description": "Aria label for serial expand/collapse"
+  },
+  "serial-help-ctrl-c": {
+    "defaultMessage": "Use the keyboard shortcut <kbd>Ctrl</kbd> + <kbd>C</kbd> to interrupt your program. Then you can type Python commands for MicroPython to run. It's a great way to experiment with something new.",
+    "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
+  },
+  "serial-help-ctrl-d": {
+    "defaultMessage": "To start your program running again use <kbd>Ctrl</kbd> <kbd>D</kbd>.",
+    "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
+  },
+  "serial-help-intro": {
+    "defaultMessage": "The serial terminal shows errors and other output from the program running on your micro:bit. By default, it shows the most recent error from the program. Expand it to see all the output.",
+    "description": "Text from the serial hints and tips dialog"
+  },
+  "serial-help-print": {
+    "defaultMessage": "Your program can print messages using the <code>print</code> function. Try adding <code>print('micro:bit is awesome')</code> to your program.",
+    "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
+  },
+  "serial-help-title": {
+    "defaultMessage": "Serial hints and tips",
+    "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-menu": {
+    "defaultMessage": "Serial menu",
+    "description": "Aria label for serial area menu"
+  },
+  "serial-running": {
+    "defaultMessage": "Running…",
+    "description": "Indicator text when the micro:bit is running a program"
   },
   "serial-terminal": {
     "defaultMessage": "Serial terminal",

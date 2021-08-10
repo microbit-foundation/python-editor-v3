@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { SerialHelpDialog } from "./SerialHelp";
 import SerialIndicators from "./SerialIndicators";
@@ -45,7 +45,7 @@ const SerialBar = ({ compact, onSizeChange, ...props }: SerialBarProps) => {
             color="white"
             onClick={helpDisclosure.onOpen}
           >
-            Hints and tips
+            <FormattedMessage id="hints-and-tips" />
           </Button>
           <HStack spacing={0}>
             <IconButton

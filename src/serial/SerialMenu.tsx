@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiInformationLine, RiKeyboardBoxLine } from "react-icons/ri";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { useSerialActions } from "./serial-hooks";
 
@@ -40,14 +40,14 @@ const SerialMenu = ({ compact, onOpenHelp, onSizeChange }: SerialMenuProps) => {
       <Portal>
         <MenuList zIndex={zIndexAboveTerminal}>
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.interrupt}>
-            Send Ctrl-C for REPL
+            <FormattedMessage id="serial-ctrl-c-button" />
           </MenuItem>
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.reset}>
-            Send Ctrl-D to reset
+            <FormattedMessage id="serial-ctrl-d-button" />
           </MenuItem>
           <MenuDivider />
           <MenuItem icon={<RiInformationLine />} onClick={onOpenHelp}>
-            Hints and tips
+            <FormattedMessage id="hints-and-tips" />
           </MenuItem>
         </MenuList>
       </Portal>
