@@ -13,6 +13,7 @@ import {
 import { useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import { useDeviceTraceback } from "../device/device-hooks";
 import { SerialHelpDialog } from "./SerialHelp";
 import SerialIndicators from "./SerialIndicators";
 import SerialMenu from "./SerialMenu";
@@ -22,20 +23,35 @@ interface SerialBarProps extends BoxProps {
   onSizeChange: (size: "compact" | "open") => void;
 }
 
-const SerialBar = ({ compact, onSizeChange, ...props }: SerialBarProps) => {
+const SerialBar = ({
+  compact,
+  onSizeChange,
+  background,
+  ...props
+}: SerialBarProps) => {
   const handleExpandCollapseClick = useCallback(() => {
     onSizeChange(compact ? "open" : "compact");
   }, [compact, onSizeChange]);
   const intl = useIntl();
   const helpDisclosure = useDisclosure();
+  const traceback = useDeviceTraceback();
   return (
     <>
       <SerialHelpDialog
         isOpen={helpDisclosure.isOpen}
         onClose={helpDisclosure.onClose}
       />
-      <HStack justifyContent="space-between" p={1} {...props}>
-        <SerialIndicators compact={compact} overflow="hidden" />
+      <HStack
+        justifyContent="space-between"
+        p={1}
+        backgroundColor={traceback && "code.error"}
+        {...props}
+      >
+        <SerialIndicators
+          compact={compact}
+          traceback={traceback}
+          overflow="hidden"
+        />
 
         <HStack>
           <Button
