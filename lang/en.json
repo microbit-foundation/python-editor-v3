@@ -372,7 +372,7 @@
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
-    "defaultMessage": "To start your program running again use <kbd>Ctrl</kbd> <kbd>D</kbd>.",
+    "defaultMessage": "To start your program running again use <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
