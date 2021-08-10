@@ -116,10 +116,69 @@ export interface FlashDataSource {
   fullFlashData(boardId: BoardId): Promise<Uint8Array>;
 }
 
+export interface DeviceConnection extends EventEmitter {
+  status: ConnectionStatus;
+
+  /**
+   * Initializes the device.
+   */
+  initialize(): Promise<void>;
+  /**
+   * Removes all listeners.
+   */
+  dispose(): void;
+
+  /**
+   * Connects to a currently paired device or requests pairing.
+   * Throws on error.
+   *
+   * @returns the final connection status.
+   */
+  connect(): Promise<ConnectionStatus>;
+
+  /**
+   * Flash the micro:bit.
+   *
+   * @param dataSource The data to use.
+   * @param options Flash options and progress callback.
+   */
+  flash(
+    dataSource: FlashDataSource,
+    options: {
+      /**
+       * True to use a partial flash where possible, false to force a full flash.
+       */
+      partial: boolean;
+      /**
+       * A progress callback. Called with undefined when the process is complete or has failed.
+       */
+      progress: (percentage: number | undefined) => void;
+    }
+  ): Promise<void>;
+
+  /**
+   * Disconnect from the device.
+   */
+  disconnect(): Promise<void>;
+
+  /**
+   * Write serial data to the device.
+   *
+   * Does nothting if there is no connection.
+   *
+   * @param data The data to write.
+   * @returns A promise that resolves when the write is complete.
+   */
+  serialWrite(data: string): Promise<void>;
+}
+
 /**
  * A WebUSB connection to a micro:bit device.
  */
-export class MicrobitWebUSBConnection extends EventEmitter {
+export class MicrobitWebUSBConnection
+  extends EventEmitter
+  implements DeviceConnection
+{
   status: ConnectionStatus = navigator.usb
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
     : ConnectionStatus.NOT_SUPPORTED;
@@ -201,9 +260,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     this.logging.log(v);
   }
 
-  /**
-   * Initializes the device.
-   */
   async initialize(): Promise<void> {
     if (navigator.usb) {
       navigator.usb.addEventListener("disconnect", this.handleDisconnect);
@@ -219,9 +275,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
-  /**
-   * Removes all listeners.
-   */
   dispose() {
     this.removeAllListeners();
     if (navigator.usb) {
@@ -238,12 +291,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
-  /**
-   * Connects to a currently paired device or requests pairing.
-   * Throws on error.
-   *
-   * @returns the final connection status.
-   */
   async connect(): Promise<ConnectionStatus> {
     return this.withEnrichedErrors(async () => {
       await this.connectInternal(true);
@@ -251,12 +298,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     });
   }
 
-  /**
-   * Flash the micro:bit.
-   *
-   * @param dataSource The data to use.
-   * @param options Flash options and progress callback.
-   */
   async flash(
     dataSource: FlashDataSource,
     options: {
@@ -352,9 +393,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
-  /**
-   * Disconnect from the device.
-   */
   async disconnect(): Promise<void> {
     try {
       if (this.connection) {
@@ -420,14 +458,6 @@ export class MicrobitWebUSBConnection extends EventEmitter {
     }
   }
 
-  /**
-   * Write serial data to the device.
-   *
-   * Does nothting if there is no connection.
-   *
-   * @param data The data to write.
-   * @returns A promise that resolves when the write is complete.
-   */
   serialWrite(data: string): Promise<void> {
     return this.withEnrichedErrors(async () => {
       if (this.connection) {

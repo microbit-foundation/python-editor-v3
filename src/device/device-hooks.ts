@@ -5,7 +5,7 @@
  */
 import React, { useContext, useEffect, useState } from "react";
 import {
-  MicrobitWebUSBConnection,
+  DeviceConnection,
   EVENT_STATUS,
   ConnectionStatus,
   EVENT_SERIAL_DATA,
@@ -13,9 +13,9 @@ import {
   EVENT_SERIAL_ERROR,
 } from "./device";
 
-export const DeviceContext = React.createContext<
-  undefined | MicrobitWebUSBConnection
->(undefined);
+export const DeviceContext = React.createContext<undefined | DeviceConnection>(
+  undefined
+);
 
 /**
  * Hook to access the device from UI code.

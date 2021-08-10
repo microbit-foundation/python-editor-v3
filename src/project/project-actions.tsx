@@ -13,8 +13,8 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
+  DeviceConnection,
   HexGenerationError,
-  MicrobitWebUSBConnection,
   WebUSBError,
   WebUSBErrorCode,
 } from "../device/device";
@@ -62,7 +62,7 @@ export interface MainScriptChoice {
 export class ProjectActions {
   constructor(
     private fs: FileSystem,
-    private device: MicrobitWebUSBConnection,
+    private device: DeviceConnection,
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
     private setSelection: (selection: WorkbenchSelection) => void,

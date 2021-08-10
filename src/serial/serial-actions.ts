@@ -3,14 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { MicrobitWebUSBConnection } from "../device/device";
+import { DeviceConnection } from "../device/device";
 
 /**
  * Serial/terminal/REPL UI-level actions.
  */
 export class SerialActions {
   constructor(
-    private device: MicrobitWebUSBConnection,
+    private device: DeviceConnection,
     private onSerialSizeChange: (size: "compact" | "open") => void
   ) {}
 

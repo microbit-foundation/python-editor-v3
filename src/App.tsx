@@ -12,6 +12,7 @@ import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
 import { DeviceContext } from "./device/device-hooks";
+import { MockDeviceConnection } from "./device/mock";
 import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
 import { fetchMicroPython } from "./fs/micropython";
@@ -29,7 +30,9 @@ import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
 const logging = deployment.logging;
-const device = new MicrobitWebUSBConnection({ logging });
+const device = process.env.REACT_APP_MOCK_DEVICE
+  ? new MockDeviceConnection()
+  : new MicrobitWebUSBConnection({ logging });
 const fs = new FileSystem(logging, fetchMicroPython);
 // If this fails then we retry on access.
 fs.initializeInBackground();
