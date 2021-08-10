@@ -26,6 +26,7 @@ import {
   readFileAsUint8Array,
 } from "../fs/fs-util";
 import { Logging } from "../logging/logging";
+import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
   FileChange,
@@ -64,7 +65,7 @@ export class ProjectActions {
     private device: MicrobitWebUSBConnection,
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
-    private setSelection: (filename: string) => void,
+    private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
     private logging: Logging
   ) {}
@@ -402,7 +403,7 @@ export class ProjectActions {
           "# Your new file!",
           VersionAction.INCREMENT
         );
-        this.setSelection(filename);
+        this.setSelection({ file: filename, location: { line: undefined } });
         this.actionFeedback.success({
           title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });

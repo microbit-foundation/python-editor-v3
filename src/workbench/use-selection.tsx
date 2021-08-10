@@ -13,8 +13,30 @@ import React, {
 
 import { MAIN_FILE } from "../fs/fs";
 const Selection = React.createContext<
-  [string, Dispatch<SetStateAction<string>>] | undefined
+  [WorkbenchSelection, Dispatch<SetStateAction<WorkbenchSelection>>] | undefined
 >(undefined);
+
+/**
+ * The workbench selection.
+ */
+export interface WorkbenchSelection {
+  /**
+   * Always defined as we don't let the user delete the main file and default
+   * to having it open.
+   */
+  file: string;
+
+  /**
+   * The line to display when first opening the file.
+   *
+   * Identity changes when the user performs a navigation.
+   */
+  location: FileLocation;
+}
+
+export interface FileLocation {
+  line: number | undefined;
+}
 
 /**
  * Hook exposing the context selection.
@@ -28,6 +50,9 @@ export const useSelection = () => {
 };
 
 export const SelectionContext = ({ children }: { children: ReactNode }) => {
-  const state = useState(MAIN_FILE);
+  const state = useState<WorkbenchSelection>({
+    file: MAIN_FILE,
+    location: { line: undefined },
+  });
   return <Selection.Provider value={state}>{children}</Selection.Provider>;
 };

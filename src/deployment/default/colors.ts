@@ -22,6 +22,8 @@ const colors = {
     literal: "darkgreen",
     string: "green",
     activeLine: theme.colors.gray[100],
+
+    error: theme.colors.red[500], // Match default error toast
   },
 };
 

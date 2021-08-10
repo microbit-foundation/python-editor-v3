@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import {
+  SplitView,
+  SplitViewDivider,
+  SplitViewRemainder,
+  SplitViewSized,
+} from "../common/SplitView";
+import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
@@ -14,13 +22,6 @@ import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import LeftPanel from "./LeftPanel";
 import { useSelection } from "./use-selection";
-import {
-  SplitView,
-  SplitViewSized,
-  SplitViewRemainder,
-  SplitViewDivider,
-} from "../common/SplitView";
-import { useIntl } from "react-intl";
 
 const minimums: [number, number] = [380, 580];
 
@@ -28,23 +29,32 @@ const minimums: [number, number] = [380, 580];
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [selectedFile, setSelectedFile] = useSelection();
+  const [selection, setSelection] = useSelection();
   const intl = useIntl();
   const { files } = useProject();
+  const setSelectedFile = useCallback(
+    (file: string) => {
+      setSelection({ file, location: { line: undefined } });
+    },
+    [setSelection]
+  );
   useEffect(() => {
     // No file yet or selected file deleted? Default it.
     if (
-      (!selectedFile || !files.find((x) => x.name === selectedFile)) &&
+      (!selection || !files.find((x) => x.name === selection.file)) &&
       files.length > 0
     ) {
       const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
       setSelectedFile(defaultFile.name);
     }
-  }, [selectedFile, setSelectedFile, files]);
+  }, [selection, setSelectedFile, files]);
 
-  const fileVersion = files.find((f) => f.name === selectedFile)?.version;
+  const fileVersion = files.find((f) => f.name === selection.file)?.version;
 
-  const serialVisible = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const [serialStateWhenOpen, setSerialStateWhenOpen] =
+    useState<SizedMode>("compact");
+  const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   return (
     <Flex className="Workbench">
       <SplitView direction="row" width="100%" minimums={minimums}>
@@ -52,7 +62,7 @@ const Workbench = () => {
           <LeftPanel
             as="section"
             aria-label={intl.formatMessage({ id: "sidebar" })}
-            selectedFile={selectedFile}
+            selectedFile={selection.file}
             onSelectedFileChanged={setSelectedFile}
             flex="1 1 100%"
           />
@@ -68,16 +78,17 @@ const Workbench = () => {
           >
             <SplitView
               direction="column"
-              minimums={[200, 200]}
+              minimums={[248, 200]}
+              compactSize={SerialArea.compactSize}
               height="100%"
-              collapsed={!serialVisible}
+              mode={serialSizedMode}
             >
               <SplitViewRemainder>
                 <Box height="100%" as="section">
-                  {selectedFile && fileVersion !== undefined && (
+                  {selection && fileVersion !== undefined && (
                     <EditorArea
-                      key={selectedFile + "/" + fileVersion}
-                      filename={selectedFile}
+                      key={selection.file + "/" + fileVersion}
+                      selection={selection}
                       onSelectedFileChanged={setSelectedFile}
                     />
                   )}
@@ -87,6 +98,8 @@ const Workbench = () => {
               <SplitViewSized>
                 <SerialArea
                   as="section"
+                  compact={serialSizedMode === "compact"}
+                  onSizeChange={setSerialStateWhenOpen}
                   aria-label={intl.formatMessage({ id: "serial-terminal" })}
                 />
               </SplitViewSized>

@@ -5,22 +5,24 @@
  */
 import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
+import { WorkbenchSelection } from "../workbench/use-selection";
 import Editor from "./codemirror/CodeMirror";
 
 interface EditorContainerProps {
-  filename: string;
+  selection: WorkbenchSelection;
 }
 
 /**
  * Container for the editor that integrates it with the app settings
  * and wires it to the currently open file.
  */
-const EditorContainer = ({ filename }: EditorContainerProps) => {
+const EditorContainer = ({ selection }: EditorContainerProps) => {
   const [{ fontSize, codeStructureHighlight }] = useSettings();
-  const [defaultValue, onFileChange] = useProjectFileText(filename);
+  const [defaultValue, onFileChange] = useProjectFileText(selection.file);
   return typeof defaultValue === "undefined" ? null : (
     <Editor
       defaultValue={defaultValue}
+      location={selection.location}
       onChange={onFileChange}
       fontSize={fontSize}
       codeStructureHighlight={codeStructureHighlight}

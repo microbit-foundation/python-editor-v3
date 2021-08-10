@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { EditorState } from "@codemirror/state";
+import { EditorSelection, EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { CodeStructureHighlight } from "../../settings/settings";
+import { FileLocation } from "../../workbench/use-selection";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
 import {
@@ -21,6 +22,7 @@ interface CodeMirrorProps {
   defaultValue: string;
   onChange: (doc: string) => void;
 
+  location: FileLocation;
   fontSize: number;
   codeStructureHighlight: CodeStructureHighlight;
 }
@@ -37,6 +39,7 @@ const CodeMirror = ({
   defaultValue,
   className,
   onChange,
+  location,
   fontSize,
   codeStructureHighlight,
 }: CodeMirrorProps) => {
@@ -103,6 +106,26 @@ const CodeMirror = ({
       ],
     });
   }, [options]);
+
+  useEffect(() => {
+    // When the identity of location changes then the user has navigated.
+    if (location.line) {
+      const view = viewRef.current!;
+      let line;
+      try {
+        line = view.state.doc.line(location.line);
+      } catch (e) {
+        // Document doesn't have that line, e.g. link from stale error
+        // after a code edit.
+        return;
+      }
+      view.dispatch({
+        scrollIntoView: true,
+        selection: EditorSelection.single(line.from),
+      });
+      view.focus();
+    }
+  }, [location]);
 
   return (
     <section

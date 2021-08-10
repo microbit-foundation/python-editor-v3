@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useIntl } from "react-intl";
 import useActionFeedback from "../common/use-action-feedback";
 import { useDialogs } from "../common/use-dialogs";
 import useIsUnmounted from "../common/use-is-unmounted";
@@ -13,7 +14,6 @@ import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSelection } from "../workbench/use-selection";
 import { ProjectActions } from "./project-actions";
-import { useIntl } from "react-intl";
 
 /**
  * Hook exposing the main UI actions.

@@ -453,6 +453,12 @@
       "value": "Highlight code structure"
     }
   ],
+  "hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Hints and tips"
+    }
+  ],
   "language": [
     {
       "type": 0,
@@ -693,6 +699,156 @@
     {
       "type": 0,
       "value": "Replace"
+    }
+  ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "Collapse the serial terminal"
+    }
+  ],
+  "serial-ctrl-c-button": [
+    {
+      "type": 0,
+      "value": "Send Ctrl-C for REPL"
+    }
+  ],
+  "serial-ctrl-d-button": [
+    {
+      "type": 0,
+      "value": "Send Ctrl-D to reset"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "Expand the serial terminal"
+    }
+  ],
+  "serial-help-ctrl-c": [
+    {
+      "type": 0,
+      "value": "Use the keyboard shortcut "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "C"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " to interrupt your program. Then you can type Python commands for MicroPython to run. It's a great way to experiment with something new."
+    }
+  ],
+  "serial-help-ctrl-d": [
+    {
+      "type": 0,
+      "value": "To start your program running again use "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "D"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "serial-help-intro": [
+    {
+      "type": 0,
+      "value": "The serial terminal shows errors and other output from the program running on your micro:bit. By default, it shows the most recent error from the program. Expand it to see all the output."
+    }
+  ],
+  "serial-help-print": [
+    {
+      "type": 0,
+      "value": "Your program can print messages using the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " function. Try adding "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print('micro:bit is awesome')"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " to your program."
+    }
+  ],
+  "serial-help-title": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
+    }
+  ],
+  "serial-menu": [
+    {
+      "type": 0,
+      "value": "Serial menu"
+    }
+  ],
+  "serial-running": [
+    {
+      "type": 0,
+      "value": "Running…"
     }
   ],
   "serial-terminal": [
