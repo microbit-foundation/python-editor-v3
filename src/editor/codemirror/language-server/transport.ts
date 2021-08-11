@@ -28,6 +28,7 @@ export class WorkerTransport extends Transport {
     data: JSONRPCRequestData,
     timeout?: number | null
   ): Promise<any> {
+    // iframe transports also set null for the timeout.
     const promise = this.transportRequestManager.addRequest(data, null);
     this.worker.postMessage((data as IJSONRPCData).request);
     return promise;
