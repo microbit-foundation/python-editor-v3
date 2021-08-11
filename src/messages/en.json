@@ -704,7 +704,7 @@
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Collapse the serial terminal"
+      "value": "Collapse serial"
     }
   ],
   "serial-ctrl-c-button": [
@@ -722,7 +722,7 @@
   "serial-expand": [
     {
       "type": 0,
-      "value": "Expand the serial terminal"
+      "value": "Show serial"
     }
   ],
   "serial-help-ctrl-c": [

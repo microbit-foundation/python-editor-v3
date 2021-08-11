@@ -11,6 +11,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
+import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useDeviceTraceback } from "../device/device-hooks";
@@ -56,25 +57,24 @@ const SerialBar = ({
         <HStack>
           <Button
             variant="unstyled"
+            display="flex"
             fontWeight="normal"
-            textDecoration="underline"
             color="white"
-            onClick={helpDisclosure.onOpen}
+            onClick={handleExpandCollapseClick}
+            rightIcon={<ExpandCollapseIcon open={Boolean(compact)} />}
           >
-            <FormattedMessage id="hints-and-tips" />
+            <FormattedMessage
+              id={compact ? "serial-expand" : "serial-collapse"}
+            />
           </Button>
-          <HStack spacing={0}>
+          <HStack spacing="0.5">
             <IconButton
               variant="sidebar"
               color="white"
               isRound
-              aria-label={
-                compact
-                  ? intl.formatMessage({ id: "serial-expand" })
-                  : intl.formatMessage({ id: "serial-collapse" })
-              }
-              icon={<ExpandCollapseIcon open={Boolean(compact)} />}
-              onClick={handleExpandCollapseClick}
+              aria-label={intl.formatMessage({ id: "hints-and-tips" })}
+              icon={<RiInformationLine />}
+              onClick={helpDisclosure.onOpen}
             />
             <SerialMenu
               compact={compact}
