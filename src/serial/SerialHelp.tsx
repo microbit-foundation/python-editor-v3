@@ -27,7 +27,7 @@ const formatValues = {
 };
 
 /**
- * Settings dialog.
+ * Serial help triggered from the info icon.
  */
 export const SerialHelpDialog = ({
   isOpen,

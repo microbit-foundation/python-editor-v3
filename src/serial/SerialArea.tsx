@@ -16,6 +16,12 @@ interface SerialAreaProps extends BoxProps {
   onSizeChange: (size: "compact" | "open") => void;
 }
 
+/**
+ * The serial area below the editor.
+ *
+ * This has a compact and expanded form and coordinates its
+ * size with the workspace layout via compact/onSizeChange.
+ */
 const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (

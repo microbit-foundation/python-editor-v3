@@ -23,6 +23,9 @@ interface SerialMenuProps {
   onOpenHelp: () => void;
 }
 
+/**
+ * Serial ara drop-down menu.
+ */
 const SerialMenu = ({ compact, onOpenHelp, onSizeChange }: SerialMenuProps) => {
   const intl = useIntl();
   const actions = useSerialActions(onSizeChange);

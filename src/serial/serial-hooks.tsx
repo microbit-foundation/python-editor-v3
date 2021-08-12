@@ -19,6 +19,9 @@ import { WebLinkProvider } from "./link-provider";
 import { SerialActions } from "./serial-actions";
 import customKeyEventHandler from "./xterm-keyboard";
 
+/**
+ * UI-level actions for the serial area.
+ */
 export const useSerialActions = (
   // We should pull this out into a workspace layout context.
   onSerialSizeChange: (size: "compact" | "open") => void
@@ -128,6 +131,11 @@ const InternalTerminalContext = React.createContext<undefined | Terminal>(
   undefined
 );
 
+/**
+ * A context that owns an xterm.js terminal.
+ *
+ * Nest an Xterm component to render the terminal.
+ */
 export const TerminalContext = ({ children }: { children: ReactNode }) => {
   const terminal = useNewTerminal();
   return (

@@ -13,6 +13,9 @@ interface TracebackLinkProps {
   children: ReactNode;
 }
 
+/**
+ * A link from a traceback to open the editor at the file and line.
+ */
 const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
   const [, setSelection] = useSelection();
   const handleClick = useCallback(
