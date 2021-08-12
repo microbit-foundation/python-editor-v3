@@ -352,7 +352,7 @@
     "description": "Action label for replacing project dialog"
   },
   "serial-collapse": {
-    "defaultMessage": "Collapse the serial terminal",
+    "defaultMessage": "Hide serial",
     "description": "Aria label for serial expand/collapse"
   },
   "serial-ctrl-c-button": {
@@ -364,7 +364,7 @@
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
-    "defaultMessage": "Expand the serial terminal",
+    "defaultMessage": "Show serial",
     "description": "Aria label for serial expand/collapse"
   },
   "serial-help-ctrl-c": {
