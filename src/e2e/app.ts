@@ -22,6 +22,8 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
+const rootUrl = "http://localhost:3000";
+
 /**
  * Model of the app to drive it for e2e testing.
  *
@@ -52,6 +54,13 @@ export class App {
     const browser = await this.browser;
 
     const page = await browser.newPage();
+    await page.setCookie({
+      // See corresponding code in App.tsx.
+      name: "mockDevice",
+      value: "1",
+      url: rootUrl,
+    });
+
     const client = await page.target().createCDPSession();
     await client.send("Page.setDownloadBehavior", {
       behavior: "allow",
@@ -392,6 +401,53 @@ export class App {
     return downloadButton.click();
   }
 
+  async connect(): Promise<void> {
+    const document = await this.document();
+    const connectButton = await document.findByRole("button", {
+      name: "Connect",
+    });
+    await connectButton.click();
+    await document.findByRole("button", {
+      name: "Serial menu",
+    });
+  }
+
+  async disconnect(): Promise<void> {
+    const document = await this.document();
+    const disconnectButton = await document.findByRole("button", {
+      name: "Disconnect",
+    });
+    await disconnectButton.click();
+    return waitFor(
+      async () => {
+        expect(
+          await document.queryByRole("button", {
+            name: "Serial menu",
+          })
+        ).toBeNull();
+      },
+      {
+        onTimeout: () => new Error("Serial still present after disconnect"),
+      }
+    );
+  }
+
+  async serialShow(): Promise<void> {
+    // TODO
+  }
+
+  async serialHide(): Promise<void> {
+    // TODO
+  }
+
+  async findSerialCompactTraceback(text: string): Promise<void> {
+    // TODO
+  }
+
+  async mockSerialWrite(data: string): Promise<void> {
+    // TODO
+  }
+
   /**
    * Trigger a download and wait for it to complete.
    *
@@ -412,7 +468,7 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto("http://localhost:3000");
+    await page.goto(rootUrl);
   }
 
   /**
