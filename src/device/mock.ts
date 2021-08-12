@@ -23,7 +23,7 @@ export class MockDeviceConnection
     : ConnectionStatus.NOT_SUPPORTED;
 
   private mockSerialListener = (e: Event) => {
-    const data = (e as CustomEvent).detail;
+    const { data } = (e as CustomEvent).detail;
     if (!data) {
       throw new Error("Unexpected custom event format");
     }
@@ -33,6 +33,7 @@ export class MockDeviceConnection
   async initialize(): Promise<void> {}
 
   dispose() {
+    console.log("Dispose");
     document.removeEventListener("mockSerialWrite", this.mockSerialListener);
 
     this.removeAllListeners();
@@ -40,6 +41,7 @@ export class MockDeviceConnection
 
   async connect(): Promise<ConnectionStatus> {
     this.setStatus(ConnectionStatus.CONNECTED);
+    console.log("Adding listener");
     document.addEventListener("mockSerialWrite", this.mockSerialListener);
     return this.status;
   }
@@ -70,6 +72,7 @@ export class MockDeviceConnection
   }
 
   async disconnect(): Promise<void> {
+    console.log("Disconnect");
     document.removeEventListener("mockSerialWrite", this.mockSerialListener);
     this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }

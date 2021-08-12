@@ -5,6 +5,11 @@
  */
 import { App } from "./app";
 
+const traceback = `Traceback (most recent call last):
+File "main.py", line 6
+SyntaxError: invalid syntax
+`; // Needs trailing newline!
+
 describe("Browser - WebUSB (mocked)", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
@@ -27,17 +32,18 @@ describe("Browser - WebUSB (mocked)", () => {
   it.only("shows summary of traceback from serial", async () => {
     await app.connect();
 
-    await app.mockSerialWrite(`Traceback (most recent call last):
-    File "main.py", line 6
-  SyntaxError: invalid syntax`);
+    await app.mockSerialWrite(traceback);
 
-    await app.followSerialCompactTracebackLink();
-    // await app.findSerialCompactTraceback("line 6 SyntaxError: invalid syntax");
+    await app.findSerialCompactTraceback("line 6 SyntaxError: invalid syntax");
   });
 
-  it("supports navigating to line from traceback", () => {});
+  it("supports navigating to line from traceback", async () => {
+    await app.connect();
 
-  it("supports navigating across file from traceback", () => {});
+    await app.mockSerialWrite(traceback);
 
-  it("copes when traceback refers to file/line that's gone", () => {});
+    await app.followSerialCompactTracebackLink();
+
+    // No good options yet for asserting editor line.
+  });
 });

@@ -458,9 +458,10 @@ export class App {
 
   async findSerialCompactTraceback(text: string): Promise<void> {
     const document = await this.document();
-    await document.findByRole("link", {
-      name: text,
-    });
+    await document.findByText(/SyntaxError/);
+    //await document.findByRole("link", {
+    //  name: text,
+    //});
   }
 
   async followSerialCompactTracebackLink(): Promise<void> {
@@ -480,7 +481,7 @@ export class App {
             },
           })
         ),
-      data
+      toCrLf(data)
     );
   }
 
@@ -583,3 +584,6 @@ const isDisabled = async (element: ElementHandle<Element>) => {
   const disabled = await element.getProperty("disabled");
   return disabled && (await disabled.jsonValue());
 };
+
+const toCrLf = (text: string): string =>
+  text.replace(/[\r\n]/g, "\n").replace(/\n/g, "\r\n");
