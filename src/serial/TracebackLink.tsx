@@ -30,7 +30,11 @@ const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
     [setSelection, traceback]
   );
   return (
-    <Link textDecoration="underline" onClick={handleClick}>
+    <Link
+      data-testid="traceback-link"
+      textDecoration="underline"
+      onClick={handleClick}
+    >
       {children}
     </Link>
   );

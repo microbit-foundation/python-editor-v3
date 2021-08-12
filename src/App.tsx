@@ -29,8 +29,14 @@ import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionContext } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
+const isMockDeviceMode = () =>
+  // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
+  Boolean(
+    document.cookie.split("; ").find((row) => row.startsWith("mockDevice="))
+  );
+
 const logging = deployment.logging;
-const device = process.env.REACT_APP_MOCK_DEVICE
+const device = isMockDeviceMode()
   ? new MockDeviceConnection()
   : new MicrobitWebUSBConnection({ logging });
 const fs = new FileSystem(logging, fetchMicroPython);

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { waitFor, waitForOptions } from "@testing-library/dom";
+import { Matcher } from "@testing-library/react";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as os from "os";
@@ -21,6 +22,8 @@ export interface BrowserDownload {
   filename: string;
   data: Buffer;
 }
+
+const rootUrl = "http://localhost:3000";
 
 /**
  * Model of the app to drive it for e2e testing.
@@ -52,6 +55,13 @@ export class App {
     const browser = await this.browser;
 
     const page = await browser.newPage();
+    await page.setCookie({
+      // See corresponding code in App.tsx.
+      name: "mockDevice",
+      value: "1",
+      url: rootUrl,
+    });
+
     const client = await page.target().createCDPSession();
     await client.send("Page.setDownloadBehavior", {
       behavior: "allow",
@@ -392,6 +402,87 @@ export class App {
     return downloadButton.click();
   }
 
+  async connect(): Promise<void> {
+    const document = await this.document();
+    const connectButton = await document.findByRole("button", {
+      name: "Connect",
+    });
+    await connectButton.click();
+    await document.findByRole("button", {
+      name: "Serial menu",
+    });
+  }
+
+  async disconnect(): Promise<void> {
+    const document = await this.document();
+    const disconnectButton = await document.findByRole("button", {
+      name: "Disconnect",
+    });
+    await disconnectButton.click();
+    return waitFor(
+      async () => {
+        expect(
+          await document.queryByRole("button", {
+            name: "Serial menu",
+          })
+        ).toBeNull();
+      },
+      {
+        onTimeout: () => new Error("Serial still present after disconnect"),
+      }
+    );
+  }
+
+  async serialShow(): Promise<void> {
+    const document = await this.document();
+    const showSerialButton = await document.findByRole("button", {
+      name: "Show serial",
+    });
+    await showSerialButton.click();
+    // Make sure the button has flipped.
+    await document.findByRole("button", {
+      name: "Hide serial",
+    });
+  }
+
+  async serialHide(): Promise<void> {
+    const document = await this.document();
+    const hideSerialButton = await document.findByRole("button", {
+      name: "Hide serial",
+    });
+    await hideSerialButton.click();
+    // Make sure the button has flipped.
+    await document.findByRole("button", {
+      name: "Show serial",
+    });
+  }
+
+  async findSerialCompactTraceback(text: Matcher): Promise<void> {
+    const document = await this.document();
+    await document.findByText(text);
+  }
+
+  async followSerialCompactTracebackLink(): Promise<void> {
+    const document = await this.document();
+    const link = await document.findByTestId("traceback-link");
+    await link.click();
+  }
+
+  async mockSerialWrite(data: string): Promise<void> {
+    const document = await this.document();
+    return document.evaluate(
+      (d, data) =>
+        d.dispatchEvent(
+          new CustomEvent("mockSerialWrite", {
+            detail: {
+              data,
+            },
+          })
+        ),
+      toCrLf(data)
+    );
+  }
+
   /**
    * Trigger a download and wait for it to complete.
    *
@@ -412,7 +503,7 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto("http://localhost:3000");
+    await page.goto(rootUrl);
   }
 
   /**
@@ -491,3 +582,6 @@ const isDisabled = async (element: ElementHandle<Element>) => {
   const disabled = await element.getProperty("disabled");
   return disabled && (await disabled.jsonValue());
 };
+
+const toCrLf = (text: string): string =>
+  text.replace(/[\r\n]/g, "\n").replace(/\n/g, "\r\n");
