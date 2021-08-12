@@ -352,7 +352,7 @@
     "description": "Action label for replacing project dialog"
   },
   "serial-collapse": {
-    "defaultMessage": "Collapse serial",
+    "defaultMessage": "Hide serial",
     "description": "Aria label for serial expand/collapse"
   },
   "serial-ctrl-c-button": {

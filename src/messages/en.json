@@ -704,7 +704,7 @@
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Collapse serial"
+      "value": "Hide serial"
     }
   ],
   "serial-ctrl-c-button": [
