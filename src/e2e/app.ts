@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { waitFor, waitForOptions } from "@testing-library/dom";
+import { Matcher } from "@testing-library/react";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as os from "os";
@@ -456,17 +457,14 @@ export class App {
     });
   }
 
-  async findSerialCompactTraceback(text: string): Promise<void> {
+  async findSerialCompactTraceback(text: Matcher): Promise<void> {
     const document = await this.document();
-    await document.findByText(/SyntaxError/);
-    //await document.findByRole("link", {
-    //  name: text,
-    //});
+    await document.findByText(text);
   }
 
   async followSerialCompactTracebackLink(): Promise<void> {
     const document = await this.document();
-    const link = await document.findByTestId("traceback");
+    const link = await document.findByTestId("traceback-link");
     await link.click();
   }
 

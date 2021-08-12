@@ -33,7 +33,6 @@ export class MockDeviceConnection
   async initialize(): Promise<void> {}
 
   dispose() {
-    console.log("Dispose");
     document.removeEventListener("mockSerialWrite", this.mockSerialListener);
 
     this.removeAllListeners();
@@ -72,7 +71,6 @@ export class MockDeviceConnection
   }
 
   async disconnect(): Promise<void> {
-    console.log("Disconnect");
     document.removeEventListener("mockSerialWrite", this.mockSerialListener);
     this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }

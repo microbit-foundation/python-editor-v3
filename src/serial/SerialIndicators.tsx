@@ -26,7 +26,7 @@ const SerialIndicators = ({
         {compact && traceback && (
           <>
             <Icon m={1} as={RiErrorWarningLine} fill="white" boxSize={5} />
-            <Text color="white" whiteSpace="nowrap">
+            <Text color="white" whiteSpace="nowrap" data-testid="traceback">
               <MaybeTracebackLink traceback={traceback} /> {traceback.error}
             </Text>
           </>

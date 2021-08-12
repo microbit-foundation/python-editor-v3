@@ -31,7 +31,7 @@ const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
   );
   return (
     <Link
-      data-testid="traceback"
+      data-testid="traceback-link"
       textDecoration="underline"
       onClick={handleClick}
     >

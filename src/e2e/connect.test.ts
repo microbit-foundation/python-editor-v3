@@ -34,7 +34,7 @@ describe("Browser - WebUSB (mocked)", () => {
 
     await app.mockSerialWrite(traceback);
 
-    await app.findSerialCompactTraceback("line 6 SyntaxError: invalid syntax");
+    await app.findSerialCompactTraceback(/SyntaxError: invalid syntax/);
   });
 
   it("supports navigating to line from traceback", async () => {
