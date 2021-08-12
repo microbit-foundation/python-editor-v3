@@ -9,7 +9,7 @@ import {
   ifNotIn,
 } from "@codemirror/autocomplete";
 import { syntaxTree } from "@codemirror/language";
-import { SyntaxNode } from "@lezer/common";
+import { SyntaxNode } from "lezer";
 import { keywords } from "./python";
 
 /**

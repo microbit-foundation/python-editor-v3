@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { syntaxTree } from "@codemirror/language";
-import { NodeType } from "@lezer/common";
+import { NodeType } from "lezer-tree";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 
 function isInteresting(type: NodeType) {
