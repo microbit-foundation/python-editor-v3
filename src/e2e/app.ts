@@ -433,19 +433,55 @@ export class App {
   }
 
   async serialShow(): Promise<void> {
-    // TODO
+    const document = await this.document();
+    const showSerialButton = await document.findByRole("button", {
+      name: "Show serial",
+    });
+    await showSerialButton.click();
+    // Make sure the button has flipped.
+    await document.findByRole("button", {
+      name: "Hide serial",
+    });
   }
 
   async serialHide(): Promise<void> {
-    // TODO
+    const document = await this.document();
+    const hideSerialButton = await document.findByRole("button", {
+      name: "Hide serial",
+    });
+    await hideSerialButton.click();
+    // Make sure the button has flipped.
+    await document.findByRole("button", {
+      name: "Show serial",
+    });
   }
 
   async findSerialCompactTraceback(text: string): Promise<void> {
-    // TODO
+    const document = await this.document();
+    await document.findByRole("link", {
+      name: text,
+    });
+  }
+
+  async followSerialCompactTracebackLink(): Promise<void> {
+    const document = await this.document();
+    const link = await document.findByTestId("traceback");
+    await link.click();
   }
 
   async mockSerialWrite(data: string): Promise<void> {
-    // TODO
+    const document = await this.document();
+    return document.evaluate(
+      (d, data) =>
+        d.dispatchEvent(
+          new CustomEvent("mockSerialWrite", {
+            detail: {
+              data,
+            },
+          })
+        ),
+      data
+    );
   }
 
   /**

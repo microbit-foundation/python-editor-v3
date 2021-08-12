@@ -1,6 +1,7 @@
 import {
   ConnectionStatus,
   DeviceConnection,
+  EVENT_SERIAL_DATA,
   EVENT_STATUS,
   FlashDataSource,
 } from "./device";
@@ -21,14 +22,25 @@ export class MockDeviceConnection
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
     : ConnectionStatus.NOT_SUPPORTED;
 
+  private mockSerialListener = (e: Event) => {
+    const data = (e as CustomEvent).detail;
+    if (!data) {
+      throw new Error("Unexpected custom event format");
+    }
+    this.emit(EVENT_SERIAL_DATA, data);
+  };
+
   async initialize(): Promise<void> {}
 
   dispose() {
+    document.removeEventListener("mockSerialWrite", this.mockSerialListener);
+
     this.removeAllListeners();
   }
 
   async connect(): Promise<ConnectionStatus> {
     this.setStatus(ConnectionStatus.CONNECTED);
+    document.addEventListener("mockSerialWrite", this.mockSerialListener);
     return this.status;
   }
 
@@ -58,11 +70,11 @@ export class MockDeviceConnection
   }
 
   async disconnect(): Promise<void> {
+    document.removeEventListener("mockSerialWrite", this.mockSerialListener);
     this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }
 
   async serialWrite(data: string): Promise<void> {
-    // Can we use Puppeteer
     console.log("[Serial] ", data);
   }
 

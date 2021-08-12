@@ -24,12 +24,15 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.serialHide();
   });
 
-  it("shows summary of traceback from serial", async () => {
+  it.only("shows summary of traceback from serial", async () => {
     await app.connect();
 
-    await app.mockSerialWrite("example traceback here");
+    await app.mockSerialWrite(`Traceback (most recent call last):
+    File "main.py", line 6
+  SyntaxError: invalid syntax`);
 
-    await app.findSerialCompactTraceback("something useful");
+    await app.followSerialCompactTracebackLink();
+    // await app.findSerialCompactTraceback("line 6 SyntaxError: invalid syntax");
   });
 
   it("supports navigating to line from traceback", () => {});
