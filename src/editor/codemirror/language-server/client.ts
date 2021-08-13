@@ -174,10 +174,7 @@ class LanguageServerPlugin implements PluginValue {
   async initialize({ documentText }: { documentText: string }) {
     // Must bootstrap before the initialize request so that the config file is in place.
     // Is this legit LSP? Otherwise we need a way to reconfigure.
-    this.notify(
-      "pyright/bootstrapFileSystem",
-      await import("./typeshed.json")
-    );
+    this.notify("pyright/bootstrapFileSystem", await import("./typeshed.json"));
 
     const { capabilities } = await this.request(
       "initialize",
@@ -319,8 +316,7 @@ class LanguageServerPlugin implements PluginValue {
     const dom = document.createElement("div");
     dom.classList.add("documentation");
     dom.textContent = formatContents(contents);
-    // Above looks a bit poor but need to coordinate to stack with the lint ones.
-    return { pos, end, create: (view) => ({ dom }), above: true };
+    return { pos, end, create: (view) => ({ dom }) };
   }
 
   private isKnownUnreachable(position: LSP.Position): boolean {
