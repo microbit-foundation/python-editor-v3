@@ -14,6 +14,9 @@ interface SerialIndicatorsProps extends BoxProps {
   traceback?: Traceback | undefined;
 }
 
+/**
+ * Icon and traceback status.
+ */
 const SerialIndicators = ({
   compact,
   traceback,

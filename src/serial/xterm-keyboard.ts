@@ -36,6 +36,14 @@ const micropythonShortcuts = (e: KeyboardEvent) => {
 };
 
 const handlers = [copyShortcut, micropythonShortcuts];
+
+/**
+ * A key event handler that can be installed on an xterm.js terminal
+ * to control which key events are handled by the terminal itself and
+ * which propagate.
+ *
+ * @returns true if xterm.js should handle the event, false otherwise.
+ */
 const customKeyEventHandler = (e: KeyboardEvent): boolean => {
   for (const handler of handlers) {
     if (!handler(e)) {

@@ -11,6 +11,9 @@ interface MaybeTracebackLinkProps {
   traceback: Traceback;
 }
 
+/**
+ * Renders a link to the editor line if provided with a traceback, otherwise nothing.
+ */
 const MaybeTracebackLink = ({ traceback }: MaybeTracebackLinkProps) => {
   const { file, line } = traceback;
   if (file === MAIN_FILE && line) {

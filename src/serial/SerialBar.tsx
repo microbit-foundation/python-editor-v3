@@ -24,6 +24,9 @@ interface SerialBarProps extends BoxProps {
   onSizeChange: (size: "compact" | "open") => void;
 }
 
+/**
+ * The bar at the top of the serial area exposing serial status and actions.
+ */
 const SerialBar = ({
   compact,
   onSizeChange,
