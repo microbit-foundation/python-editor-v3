@@ -1,5 +1,5 @@
 import {
-  IJSONRPCData,
+  isNotification,
   JSONRPCRequestData,
 } from "@open-rpc/client-js/build/Request";
 import { Transport } from "@open-rpc/client-js/build/transports/Transport";
@@ -28,9 +28,21 @@ export class WorkerTransport extends Transport {
     data: JSONRPCRequestData,
     timeout?: number | null
   ): Promise<any> {
-    // iframe transports also set null for the timeout.
-    const promise = this.transportRequestManager.addRequest(data, null);
-    this.worker.postMessage((data as IJSONRPCData).request);
-    return promise;
+    if (Array.isArray(data)) {
+      throw new Error("Batching not supported.");
+    }
+    if (isNotification(data)) {
+      // Bypass the leaky transport request manager for notifications.
+      // We don't care about the result and our I/O can't fail.
+      // See https://github.com/open-rpc/client-js/issues/294
+      this.worker.postMessage(data.request);
+    } else {
+      const promise = this.transportRequestManager.addRequest(
+        data,
+        timeout ?? null
+      );
+      this.worker.postMessage(data.request);
+      return promise;
+    }
   }
 }
