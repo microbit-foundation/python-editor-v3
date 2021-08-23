@@ -7,12 +7,12 @@ import { EditorSelection, EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
-import { CodeStructureHighlight } from "../../settings/settings";
 import { FileLocation } from "../../workbench/use-selection";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
 import {
-  structureHighlighting,
+  codeStructure,
+  CodeStructureSettings,
   structureHighlightingCompartment,
 } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
@@ -24,7 +24,7 @@ interface CodeMirrorProps {
 
   location: FileLocation;
   fontSize: number;
-  codeStructureHighlight: CodeStructureHighlight;
+  codeStructureSettings: CodeStructureSettings;
 }
 
 /**
@@ -41,7 +41,7 @@ const CodeMirror = ({
   onChange,
   location,
   fontSize,
-  codeStructureHighlight,
+  codeStructureSettings,
 }: CodeMirrorProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
@@ -51,9 +51,9 @@ const CodeMirror = ({
   const options = useMemo(
     () => ({
       fontSize,
-      codeStructureHighlight,
+      codeStructureSettings,
     }),
-    [fontSize, codeStructureHighlight]
+    [fontSize, codeStructureSettings]
   );
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const CodeMirror = ({
           editorConfig,
           // Extensions we enable/disable based on props.
           structureHighlightingCompartment.of(
-            structureHighlighting(options.codeStructureHighlight)
+            codeStructure(options.codeStructureSettings)
           ),
           themeExtensionsCompartment.of(themeExtensions(options.fontSize)),
         ],
@@ -101,7 +101,7 @@ const CodeMirror = ({
           themeExtensions(options.fontSize)
         ),
         structureHighlightingCompartment.reconfigure(
-          structureHighlighting(options.codeStructureHighlight)
+          codeStructure(options.codeStructureSettings)
         ),
       ],
     });

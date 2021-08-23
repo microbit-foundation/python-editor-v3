@@ -8,60 +8,32 @@
  */
 
 import { Compartment, Extension } from "@codemirror/state";
-import { CodeStructureHighlight } from "../../../settings/settings";
-import { baseTheme, themeTweakForBackgrounds } from "./theme";
+import { baseTheme } from "./theme";
 import { codeStructureView } from "./view";
 
 export const structureHighlightingCompartment = new Compartment();
 
-export interface CodeStructureSettings {
-  shape: "l-shape" | "box";
-  background: "block" | "none";
-  borders: "borders" | "no-borders" | "left-edge-only";
+export type CodeStructureShape = "l-shape" | "box";
+export type CodeStructureBackground = "block" | "none";
+export type CodeStructureBorders = "borders" | "none" | "left-edge-only";
 
-  hoverBackground?: boolean;
+export interface CodeStructureSettings {
+  shape: CodeStructureShape;
+  background: CodeStructureBackground;
+  borders: CodeStructureBorders;
+
   cursorBackground?: boolean;
-  hoverBorder?: boolean;
-  cursorBorder?: boolean;
+  cursorBorder?: CodeStructureBorders;
 }
 
-// We'll switch to exporting this soon, see below.
-const codeStructure = (settings: CodeStructureSettings): Extension => [
-  codeStructureView(settings),
-  baseTheme,
-  settings.background !== "none" ||
-  settings.cursorBackground ||
-  settings.hoverBackground
-    ? themeTweakForBackgrounds
-    : [],
-];
-
-// This will go soon in favour of more fine-grained settings
-export const structureHighlighting = (
-  option: CodeStructureHighlight
-): Extension => {
-  switch (option) {
-    case "l-shapes":
-      return codeStructure({
-        shape: "l-shape",
-        background: "none",
-        borders: "left-edge-only",
-      });
-    case "boxes":
-      return codeStructure({
-        shape: "box",
-        background: "block",
-        borders: "no-borders",
-      });
-    case "l-shape-boxes":
-      return codeStructure({
-        shape: "l-shape",
-        background: "block",
-        borders: "no-borders",
-      });
-    case "none":
-      return [];
-    default:
-      return [];
-  }
+/**
+ * Creates a CodeMirror extension that provides structural highlighting
+ * based on the CodeMirror syntax tree. The intent is to aid code comprehension
+ * and provide clues when indentation isn't correct.
+ *
+ * @param settings Settings for the code structure CodeMirror extension.
+ * @returns A appropriately configured extension.
+ */
+export const codeStructure = (settings: CodeStructureSettings): Extension => {
+  return [codeStructureView(settings), baseTheme];
 };

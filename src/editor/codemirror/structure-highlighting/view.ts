@@ -9,7 +9,7 @@
 import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 import { CodeStructureSettings } from ".";
-import { skipTrailingBlankLines } from "./doc-util";
+import { skipBodyTrailers } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
@@ -46,13 +46,20 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
           document.createElement("div")
         );
         this.overlayLayer.className = "cm-cs--layer";
+        // Add classes to activate CSS for the various settings.
         this.overlayLayer.classList.add(
           this.lShape ? "cm-cs--lshapes" : "cm-cs--boxes"
         );
         this.overlayLayer.classList.add(
           "cm-cs--background-" + settings.background
         );
+        if (settings.cursorBackground) {
+          this.overlayLayer.classList.add("cm-cs--cursor-background");
+        }
         this.overlayLayer.classList.add("cm-cs--borders-" + settings.borders);
+        this.overlayLayer.classList.add(
+          "cm-cs--cursor-borders-" + settings.cursorBorder
+        );
         this.overlayLayer.setAttribute("aria-hidden", "true");
         view.requestMeasure(this.measureReq);
       }
@@ -63,8 +70,53 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       }
 
       readBlocks(): Measure {
+        let cursorFound = false;
+
+        const positionsForNode = (
+          view: EditorView,
+          start: number,
+          end: number,
+          depth: number,
+          body: boolean
+        ) => {
+          const state = view.state;
+          const leftEdge =
+            view.contentDOM.getBoundingClientRect().left -
+            view.scrollDOM.getBoundingClientRect().left;
+          const indentWidth =
+            state.facet(indentUnit).length * view.defaultCharacterWidth;
+
+          let topLine = view.visualLineAt(start);
+          if (body) {
+            topLine = view.visualLineAt(topLine.to + 1);
+            if (topLine.from > end) {
+              // If we've fallen out of the scope of the body then the statement is all on
+              // one line, e.g. "if True: pass". Avoid highlighting for now.
+              return undefined;
+            }
+          }
+          const top = topLine.top;
+          const bottomLine = view.visualLineAt(
+            skipBodyTrailers(state, end - 1)
+          );
+          const bottom = bottomLine.bottom;
+          const height = bottom - top;
+          const leftIndent = depth * indentWidth;
+          const left = leftEdge + leftIndent;
+          const mainCursor = state.selection.main.head;
+          const cursorActive =
+            !cursorFound &&
+            mainCursor >= topLine.from &&
+            mainCursor <= bottomLine.to;
+          if (cursorActive) {
+            cursorFound = true;
+          }
+          return new Positions(top, left, height, cursorActive);
+        };
+
         const view = this.view;
         const { state } = view;
+
         const bodyPullBack = this.lShape && settings.background !== "none";
         const blocks: VisualBlock[] = [];
         // We could throw away blocks if we tracked returning to the top-level or started from
@@ -92,20 +144,6 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
               const leaving = parents.pop()!;
               const children = leaving.children;
               if (children) {
-                if (!this.lShape) {
-                  // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
-                  const parentPositions = positionsForNode(
-                    view,
-                    start,
-                    end,
-                    depth,
-                    false
-                  );
-                  blocks.push(
-                    new VisualBlock(bodyPullBack, parentPositions, undefined)
-                  );
-                }
-
                 // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
                 let runStart = 0;
                 for (let i = 0; i < children.length; ++i) {
@@ -139,6 +177,19 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                     runStart = i + 1;
                   }
                 }
+                if (!this.lShape) {
+                  // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
+                  const parentPositions = positionsForNode(
+                    view,
+                    start,
+                    end,
+                    depth,
+                    false
+                  );
+                  blocks.push(
+                    new VisualBlock(bodyPullBack, parentPositions, undefined)
+                  );
+                }
               }
 
               // Poke our information into our parent if we need to track it.
@@ -152,7 +203,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
             },
           });
         }
-        return { blocks };
+        return { blocks: blocks.reverse() };
       }
 
       drawBlocks({ blocks }: Measure) {
@@ -177,37 +228,3 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       }
     }
   );
-
-const positionsForNode = (
-  view: EditorView,
-  start: number,
-  end: number,
-  depth: number,
-  body: boolean
-) => {
-  const state = view.state;
-  const leftEdge =
-    view.contentDOM.getBoundingClientRect().left -
-    view.scrollDOM.getBoundingClientRect().left;
-  const indentWidth =
-    state.facet(indentUnit).length * view.defaultCharacterWidth;
-
-  let topLine = view.visualLineAt(start);
-  if (body) {
-    topLine = view.visualLineAt(topLine.to + 1);
-    if (topLine.from > end) {
-      // If we've fallen out of the scope of the body then the statement is all on
-      // one line, e.g. "if True: pass". Avoid highlighting for now.
-      return undefined;
-    }
-  }
-  const top = topLine.top;
-  const bottom = view.visualLineAt(
-    // We also need to skip comments in a similar way, as they're extending our highlighting.
-    skipTrailingBlankLines(state, end - 1)
-  ).bottom;
-  const height = bottom - top;
-  const leftIndent = depth * indentWidth;
-  const left = leftEdge + leftIndent;
-  return new Positions(top, left, height);
-};
