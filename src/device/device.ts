@@ -203,6 +203,8 @@ export class MicrobitWebUSBConnection
     this.emit(EVENT_SERIAL_DATA, data);
   };
 
+  private flashing: boolean = false;
+  private disconnectAfterFlash: boolean = false;
   private visibilityReconnect: boolean = false;
   private visibilityChangeListener = () => {
     if (document.visibilityState === "visible") {
@@ -210,14 +212,24 @@ export class MicrobitWebUSBConnection
         this.visibilityReconnect &&
         this.status !== ConnectionStatus.CONNECTED
       ) {
+        this.disconnectAfterFlash = false;
         this.visibilityReconnect = false;
-        this.connect();
+        if (!this.flashing) {
+          this.log("Reconnecting visible tab");
+          this.connect();
+        }
       }
     } else {
       if (!this.unloading && this.status === ConnectionStatus.CONNECTED) {
-        this.disconnect().then(() => {
-          this.visibilityReconnect = true;
-        });
+        if (!this.flashing) {
+          this.log("Disconnecting hidden tab");
+          this.disconnect().then(() => {
+            this.visibilityReconnect = true;
+          });
+        } else {
+          this.log("Scheduling disconnect of hidden tab for after flash");
+          this.disconnectAfterFlash = true;
+        }
       }
     }
   };
@@ -311,20 +323,25 @@ export class MicrobitWebUSBConnection
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
-    const startTime = new Date().getTime();
+    this.flashing = true;
+    try {
+      const startTime = new Date().getTime();
 
-    await this.withEnrichedErrors(() =>
-      this.flashInternal(dataSource, options)
-    );
+      await this.withEnrichedErrors(() =>
+        this.flashInternal(dataSource, options)
+      );
 
-    const flashTime = new Date().getTime() - startTime;
-    this.logging.event({
-      type: "WebUSB-time",
-      detail: {
-        flashTime,
-      },
-    });
-    this.logging.log("Flash complete");
+      const flashTime = new Date().getTime() - startTime;
+      this.logging.event({
+        type: "WebUSB-time",
+        detail: {
+          flashTime,
+        },
+      });
+      this.logging.log("Flash complete");
+    } finally {
+      this.flashing = false;
+    }
   }
 
   private async flashInternal(
@@ -356,12 +373,19 @@ export class MicrobitWebUSBConnection
     } finally {
       progress(undefined);
 
-      // This might not strictly be "reinstating". We should make this
-      // behaviour configurable when pulling out a library.
-      this.log("Reinstating serial after flash");
-      if (this.connection.daplink) {
-        await this.connection.daplink.connect();
-        await this.startSerialInternal();
+      if (this.disconnectAfterFlash) {
+        this.log("Disconnecting after flash due to tab visibility");
+        this.disconnectAfterFlash = false;
+        await this.disconnect();
+        this.visibilityReconnect = true;
+      } else {
+        // This might not strictly be "reinstating". We should make this
+        // behaviour configurable when pulling out a library.
+        this.log("Reinstating serial after flash");
+        if (this.connection.daplink) {
+          await this.connection.daplink.connect();
+          await this.startSerialInternal();
+        }
       }
     }
   }
