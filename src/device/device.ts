@@ -222,12 +222,12 @@ export class MicrobitWebUSBConnection
     } else {
       if (!this.unloading && this.status === ConnectionStatus.CONNECTED) {
         if (!this.flashing) {
-          this.log("Disconnecting hidden tab")
+          this.log("Disconnecting hidden tab");
           this.disconnect().then(() => {
             this.visibilityReconnect = true;
           });
         } else {
-          this.log("Scheduling disconnect of hidden tab for after flash")
+          this.log("Scheduling disconnect of hidden tab for after flash");
           this.disconnectAfterFlash = true;
         }
       }
@@ -377,6 +377,7 @@ export class MicrobitWebUSBConnection
         this.log("Disconnecting after flash due to tab visibility");
         this.disconnectAfterFlash = false;
         await this.disconnect();
+        this.visibilityReconnect = true;
       } else {
         // This might not strictly be "reinstating". We should make this
         // behaviour configurable when pulling out a library.
