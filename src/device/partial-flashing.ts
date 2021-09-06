@@ -58,7 +58,7 @@ import {
   read32FromUInt8Array,
 } from "./partial-flashing-utils";
 
-type ProgressCallback = (n: number, fullFlash?: boolean) => void;
+type ProgressCallback = (n: number, partial: boolean) => void;
 
 // Source code for binaries in can be found at https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/external/sha/source/main.c
 // Drawn from https://github.com/microsoft/pxt-microbit/blob/dec5b8ce72d5c2b4b0b20aafefce7474a6f0c7b2/editor/extension.tsx#L243
@@ -191,10 +191,10 @@ export class PartialFlashing {
   ) {
     this.log("Partial flash");
     for (let i = 0; i < pages.length; ++i) {
-      updateProgress(i / pages.length);
+      updateProgress(i / pages.length, true);
       await this.partialFlashPageAsync(pages[i], pages[i + 1], i);
     }
-    updateProgress(1);
+    updateProgress(1, true);
   }
 
   // Flash the micro:bit's ROM with the provided image by only copying over the pages that differ.
@@ -204,7 +204,7 @@ export class PartialFlashing {
     boardId: BoardId,
     dataSource: FlashDataSource,
     updateProgress: ProgressCallback
-  ) {
+  ): Promise<boolean> {
     const flashBytes = await dataSource.partialFlashData(boardId);
     const checksums = await this.getFlashChecksumsAsync();
     await this.dapwrapper.writeBlockAsync(loadAddr, flashPageBIN);
@@ -213,21 +213,26 @@ export class PartialFlashing {
     this.log("Total pages: " + totalPages);
     aligned = onlyChanged(aligned, checksums, this.dapwrapper.pageSize);
     this.log("Changed pages: " + aligned.length);
+    let partial: boolean | undefined;
     if (aligned.length > totalPages / 2) {
       try {
         await this.fullFlashAsync(boardId, dataSource, updateProgress);
+        partial = false;
       } catch (e) {
         this.log(e);
         this.log("Full flash failed, attempting partial flash.");
         await this.partialFlashCoreAsync(aligned, updateProgress);
+        partial = true;
       }
     } else {
       try {
         await this.partialFlashCoreAsync(aligned, updateProgress);
+        partial = true;
       } catch (e) {
         this.log(e);
         this.log("Partial flash failed, attempting full flash.");
         await this.fullFlashAsync(boardId, dataSource, updateProgress);
+        partial = false;
       }
     }
 
@@ -237,6 +242,7 @@ export class PartialFlashing {
       // Allow errors on resetting, user can always manually reset if necessary.
     }
     this.log("Flashing complete");
+    return partial;
   }
 
   // Perform full flash of micro:bit's ROM using daplink.
@@ -247,10 +253,10 @@ export class PartialFlashing {
   ) {
     this.log("Full flash");
 
-    const flashProgressListener = (progress: number) => {
-      updateProgress(progress, true);
+    const fullFlashProgress = (progress: number) => {
+      updateProgress(progress, false);
     };
-    this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, flashProgressListener);
+    this.dapwrapper.daplink.on(DAPLink.EVENT_PROGRESS, fullFlashProgress);
     try {
       const data = await dataSource.fullFlashData(boardId);
       await this.dapwrapper.transport.open();
@@ -262,7 +268,7 @@ export class PartialFlashing {
     } finally {
       this.dapwrapper.daplink.removeListener(
         DAPLink.EVENT_PROGRESS,
-        flashProgressListener
+        fullFlashProgress
       );
     }
   }
@@ -273,7 +279,7 @@ export class PartialFlashing {
     boardId: BoardId,
     dataSource: FlashDataSource,
     updateProgress: ProgressCallback
-  ) {
+  ): Promise<boolean> {
     let resetPromise = (async () => {
       // Reset micro:bit to ensure interface responds correctly.
       this.log("Begin reset");
@@ -291,7 +297,11 @@ export class PartialFlashing {
         await withTimeout(resetPromise, 1000);
 
         this.log("Begin flashing");
-        await this.partialFlashAsync(boardId, dataSource, updateProgress);
+        return await this.partialFlashAsync(
+          boardId,
+          dataSource,
+          updateProgress
+        );
       } catch (e) {
         if (e instanceof TimeoutError) {
           this.log("Resetting micro:bit timed out");
@@ -301,6 +311,7 @@ export class PartialFlashing {
             message: "flash-failed/attempting-full-flash",
           });
           await this.fullFlashAsync(boardId, dataSource, updateProgress);
+          return false;
         } else {
           throw e;
         }

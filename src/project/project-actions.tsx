@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, List, ListItem } from "@chakra-ui/layout";
-import { VStack } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
-import { IntlShape } from "react-intl";
+import { FormattedMessage, IntlShape } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
@@ -285,9 +285,19 @@ export class ProjectActions {
     }
 
     try {
-      const progress = (value: number | undefined) => {
+      const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
+      const flashingMicroPython = this.intl.formatMessage({
+        id: "flashing-micropython",
+      });
+      const firstFlashNotice = (
+        <Text fontSize="lg">
+          <FormattedMessage id="flashing-full-flash-detail" />
+        </Text>
+      );
+      const progress = (value: number | undefined, partial: boolean) => {
         this.dialogs.progress({
-          header: this.intl.formatMessage({ id: "flashing-code" }),
+          header: partial ? flashingCode : flashingMicroPython,
+          body: partial ? undefined : firstFlashNotice,
           progress: value,
         });
       };

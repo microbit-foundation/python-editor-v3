@@ -151,8 +151,12 @@ export interface DeviceConnection extends EventEmitter {
       partial: boolean;
       /**
        * A progress callback. Called with undefined when the process is complete or has failed.
+       *
+       * Requesting a partial flash doesn't guarantee one is performed. Partial flashes are avoided
+       * if too many blocks have changed and failed partial flashes are retried as full flashes.
+       * The partial parameter reports the flash type currently in progress.
        */
-      progress: (percentage: number | undefined) => void;
+      progress: (percentage: number | undefined, partial: boolean) => void;
     }
   ): Promise<void>;
 
@@ -348,7 +352,7 @@ export class MicrobitWebUSBConnection
     dataSource: FlashDataSource,
     options: {
       partial: boolean;
-      progress: (percentage: number | undefined) => void;
+      progress: (percentage: number | undefined, partial: boolean) => void;
     }
   ): Promise<void> {
     this.log("Stopping serial before flash");
@@ -364,14 +368,15 @@ export class MicrobitWebUSBConnection
 
     const boardId = this.connection.boardSerialInfo.id;
     const flashing = new PartialFlashing(this.connection, this.logging);
+    let wasPartial: boolean = false;
     try {
       if (partial) {
-        await flashing.flashAsync(boardId, dataSource, progress);
+        wasPartial = await flashing.flashAsync(boardId, dataSource, progress);
       } else {
         await flashing.fullFlashAsync(boardId, dataSource, progress);
       }
     } finally {
-      progress(undefined);
+      progress(undefined, wasPartial);
 
       if (this.disconnectAfterFlash) {
         this.log("Disconnecting after flash due to tab visibility");

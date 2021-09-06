@@ -11,12 +11,14 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Progress } from "@chakra-ui/progress";
+import { VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 const doNothing = () => {};
 
 export interface ProgressDialogParameters {
   header: ReactNode;
+  body?: ReactNode;
   progress: number | undefined;
 }
 
@@ -27,14 +29,28 @@ interface ProgressDialogProps extends ProgressDialogParameters {
 /**
  * A progress dialog used for the flashing process.
  */
-const ProgressDialog = ({ header, progress }: ProgressDialogProps) => {
+const ProgressDialog = ({ header, body, progress }: ProgressDialogProps) => {
   return (
-    <Modal isOpen={progress !== undefined} onClose={doNothing} isCentered>
+    <Modal
+      isOpen={progress !== undefined}
+      onClose={doNothing}
+      isCentered
+      size={body ? "xl" : "md"}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{header}</ModalHeader>
         <ModalBody>
-          <Progress value={progress! * 100} mb={3} />
+          <VStack
+            spacing={4}
+            mb={3}
+            width="100%"
+            justifyContent="stretch"
+            alignItems="flex-start"
+          >
+            {body}
+            <Progress value={progress! * 100} width="100%" />
+          </VStack>
         </ModalBody>
       </ModalContent>
     </Modal>
