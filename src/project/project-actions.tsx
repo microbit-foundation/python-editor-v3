@@ -290,7 +290,7 @@ export class ProjectActions {
         id: "flashing-micropython",
       });
       const firstFlashNotice = (
-        <Text pb={4} fontSize="lg">
+        <Text fontSize="lg">
           <FormattedMessage id="flashing-full-flash-detail" />
         </Text>
       );
