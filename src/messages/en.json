@@ -429,6 +429,18 @@
       "value": "Flashing code"
     }
   ],
+  "flashing-full-flash-detail": [
+    {
+      "type": 0,
+      "value": "Initial flash might take longer, subsequent flashes will be quicker."
+    }
+  ],
+  "flashing-micropython": [
+    {
+      "type": 0,
+      "value": "Flashing MicroPython"
+    }
+  ],
   "font-size": [
     {
       "type": 0,

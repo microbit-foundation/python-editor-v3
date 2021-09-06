@@ -217,7 +217,15 @@
   },
   "flashing-code": {
     "defaultMessage": "Flashing code",
-    "description": "Progress dialog text telling user that code is being flashed"
+    "description": "Progress dialog text for partial flashes (quick)"
+  },
+  "flashing-full-flash-detail": {
+    "defaultMessage": "Initial flash might take longer, subsequent flashes will be quicker.",
+    "description": "Message shown after the title in the progress dialog for a full flash"
+  },
+  "flashing-micropython": {
+    "defaultMessage": "Flashing MicroPython",
+    "description": "Progress dialog text for full flashes (slower)"
   },
   "font-size": {
     "defaultMessage": "Font size",
