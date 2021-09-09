@@ -22,7 +22,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
   return typeof defaultValue === "undefined" ? null : (
     <Editor
       defaultValue={defaultValue}
-      location={selection.location}
+      selection={selection}
       onChange={onFileChange}
       fontSize={settings.fontSize}
       codeStructureSettings={codeStructureSettings(settings)}

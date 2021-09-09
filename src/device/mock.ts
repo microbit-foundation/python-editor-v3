@@ -40,7 +40,6 @@ export class MockDeviceConnection
 
   async connect(): Promise<ConnectionStatus> {
     this.setStatus(ConnectionStatus.CONNECTED);
-    console.log("Adding listener");
     document.addEventListener("mockSerialWrite", this.mockSerialListener);
     return this.status;
   }

@@ -84,6 +84,53 @@ export interface Project {
   files: FileVersion[];
 }
 
+interface FileChange {
+  name: string;
+  type: "create" | "delete" | "edit";
+}
+
+const byName = (files: FileVersion[]): Record<string, FileVersion> => {
+  const result = Object.create(null);
+  files.forEach((f) => {
+    result[f.name] = f;
+  });
+  return result;
+};
+
+export const diff = (before: Project, after: Project): FileChange[] => {
+  const result: FileChange[] = [];
+  const beforeFiles = byName(before.files);
+  const afterFiles = byName(after.files);
+  for (const beforeVersion of before.files) {
+    const afterVersion = afterFiles[beforeVersion.name];
+    if (beforeVersion && !afterVersion) {
+      result.push({
+        name: beforeVersion.name,
+        type: "delete",
+      });
+    } else if (
+      beforeVersion &&
+      afterVersion &&
+      beforeVersion.version !== afterVersion.version
+    ) {
+      result.push({
+        name: afterVersion.name,
+        type: "edit",
+      });
+    }
+  }
+  for (const afterVersion of after.files) {
+    const beforeVersion = beforeFiles[afterVersion.name];
+    if (afterVersion && !beforeVersion) {
+      result.push({
+        name: afterVersion.name,
+        type: "create",
+      });
+    }
+  }
+  return result;
+};
+
 export const EVENT_PROJECT_UPDATED = "project_updated";
 export const MAIN_FILE = "main.py";
 

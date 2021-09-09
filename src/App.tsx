@@ -16,6 +16,9 @@ import { MockDeviceConnection } from "./device/mock";
 import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
 import { fetchMicroPython } from "./fs/micropython";
+import { trackFsChanges } from "./language-server/client-fs";
+import { LanguageServerClientContext } from "./language-server/language-server-hooks";
+import { pyright } from "./language-server/pyright";
 import { LoggingContext } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
@@ -39,7 +42,11 @@ const logging = deployment.logging;
 const device = isMockDeviceMode()
   ? new MockDeviceConnection()
   : new MicrobitWebUSBConnection({ logging });
+
+const client = pyright();
 const fs = new FileSystem(logging, fetchMicroPython);
+client?.initialize().then(() => trackFsChanges(client, fs));
+
 // If this fails then we retry on access.
 fs.initializeInBackground();
 
@@ -69,12 +76,14 @@ const App = () => {
               <DialogProvider>
                 <DeviceContext.Provider value={device}>
                   <FileSystemContext.Provider value={fs}>
-                    <BeforeUnloadDirtyCheck />
-                    <SelectionContext>
-                      <ProjectDropTarget>
-                        <Workbench />
-                      </ProjectDropTarget>
-                    </SelectionContext>
+                    <LanguageServerClientContext.Provider value={client}>
+                      <BeforeUnloadDirtyCheck />
+                      <SelectionContext>
+                        <ProjectDropTarget>
+                          <Workbench />
+                        </ProjectDropTarget>
+                      </SelectionContext>
+                    </LanguageServerClientContext.Provider>
                   </FileSystemContext.Provider>
                 </DeviceContext.Provider>
               </DialogProvider>
