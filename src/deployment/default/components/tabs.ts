@@ -8,9 +8,10 @@ import { theme } from "@chakra-ui/react";
 const Tabs = {
   variants: {
     sidebar: (props: any) => {
-      const base = {
-        ...theme.components.Tabs.variants["solid-rounded"](props),
-      };
+      // Theme typing issue.
+      const base = (theme.components.Tabs.variants["solid-rounded"] as any)(
+        props
+      );
       return {
         ...base,
         tablist: {

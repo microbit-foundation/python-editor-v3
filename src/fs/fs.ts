@@ -389,7 +389,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     try {
       const fs = await this.initialize();
       return asciiToBytes(fs.getIntelHex(boardId.normalize().id));
-    } catch (e) {
+    } catch (e: any) {
       throw new HexGenerationError(e.message);
     }
   }
@@ -398,7 +398,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     try {
       const fs = await this.initialize();
       return fs.getIntelHexBytes(boardId.normalize().id);
-    } catch (e) {
+    } catch (e: any) {
       throw new HexGenerationError(e.message);
     }
   }

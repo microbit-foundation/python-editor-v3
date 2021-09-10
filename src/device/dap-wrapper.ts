@@ -263,7 +263,7 @@ export class DAPWrapper {
       await this.cortexM.writeAP(ApReg.TAR, addr);
 
       await this.writeRegRepeat(apReg(ApReg.DRW, DapVal.WRITE), words);
-    } catch (e) {
+    } catch (e: any) {
       if (e.dapWait) {
         // Retry after a delay if required.
         this.logging.log(`Transfer wait, write block`);

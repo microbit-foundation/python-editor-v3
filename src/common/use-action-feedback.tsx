@@ -85,7 +85,7 @@ export class ActionFeedback {
    * Handles an unexpected error for which we can provide no good context or text.
    * @param error the error thrown.
    */
-  unexpectedError(error: Error) {
+  unexpectedError(error: any) {
     this.logging.error(error);
     this.toast({
       title: this.intl.formatMessage({ id: "unexpected-error-description" }),
