@@ -9,9 +9,8 @@ const Button = {
   variants: {
     // Ideally we'd drop this variant.
     zoom: (props: any) => {
-      const base = {
-        ...theme.components.Button.variants.solid(props),
-      };
+      // Theme typing issue.
+      const base: any = theme.components.Button.variants.solid(props);
       return {
         ...base,
         _hover: {
@@ -25,7 +24,8 @@ const Button = {
       };
     },
     sidebar: (props: any) => {
-      const base = {
+      // Theme typing issue.
+      const base: any = {
         ...theme.components.Button.variants.ghost(props),
       };
       return {

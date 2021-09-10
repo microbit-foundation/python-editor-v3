@@ -179,7 +179,7 @@ export class ProjectActions {
                 { filename: file.name }
               ),
             });
-          } catch (e) {
+          } catch (e: any) {
             this.actionFeedback.expectedError({
               title: errorTitle,
               description: e.message,
@@ -219,7 +219,7 @@ export class ProjectActions {
         await this.fs.write(change.name, data, VersionAction.INCREMENT);
       }
       this.actionFeedback.success(this.summarizeChanges(changes));
-    } catch (e) {
+    } catch (e: any) {
       this.actionFeedback.unexpectedError(e);
     }
   }
@@ -327,7 +327,7 @@ export class ProjectActions {
     let download: DownloadData | undefined;
     try {
       download = await this.fs.toHexForDownload();
-    } catch (e) {
+    } catch (e: any) {
       this.actionFeedback.expectedError({
         title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
         // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
@@ -357,7 +357,7 @@ export class ProjectActions {
         type: "application/octet-stream",
       });
       saveAs(blob, filename);
-    } catch (e) {
+    } catch (e: any) {
       this.actionFeedback.unexpectedError(e);
     }
   };

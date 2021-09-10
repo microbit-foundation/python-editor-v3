@@ -456,7 +456,7 @@ export class MicrobitWebUSBConnection
   private async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
     try {
       return await f();
-    } catch (e) {
+    } catch (e: any) {
       if (e instanceof HexGenerationError) {
         throw e;
       }
