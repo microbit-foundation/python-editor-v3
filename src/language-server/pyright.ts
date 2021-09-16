@@ -23,7 +23,7 @@ export const pyright = (): LanguageServerClient | undefined => {
   // Needed to support review branches that use a path location.
   const { origin, pathname } = window.location;
   const base = `${origin}${pathname}${pathname.endsWith("/") ? "" : "/"}`;
-  const workerScript = `${base}workers/pyright-8587f403755caf97977f.worker.js`;
+  const workerScript = `${base}workers/pyright-12355f70a6ba500c4f14.worker.js`;
   const channel = new MessageChannel();
   const foreground = new Worker(workerScript);
   foreground.postMessage(
@@ -49,8 +49,6 @@ export const pyright = (): LanguageServerClient | undefined => {
   );
   connection.listen();
 
-  // Must bootstrap before the initialize request so that the config file is in place.
-  // Need a better way to do this. Messages before init aren't valid LSP.
   const client = new LanguageServerClient(connection, {
     rootUri: createUri(""),
     initializationOptions: async () => {
