@@ -28,6 +28,7 @@ import HelpMenu from "./HelpMenu";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import ApiDocsArea from "../apidocs/ApiDocsArea";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -63,6 +64,12 @@ const LeftPanel = ({
             onSelectedFileChanged={onSelectedFileChanged}
           />
         ),
+      },
+      {
+        id: "api",
+        title: "API",
+        icon: RiFolderLine,
+        contents: <ApiDocsArea />,
       },
     ],
     [onSelectedFileChanged, selectedFile, intl]
