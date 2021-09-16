@@ -52,7 +52,10 @@ const ModuleDocs = ({
       <div>
         <Text fontSize={kind === "module" ? "xl" : "medium"}>
           <Text as="span" fontWeight="semibold">
-            {fullName}
+            {
+              /* Add zero width spaces to allow breaking*/
+              fullName.replaceAll(/\./g, "\u200b.\u200b")
+            }
           </Text>
           {suffix}
         </Text>
