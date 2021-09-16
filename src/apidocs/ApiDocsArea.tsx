@@ -62,6 +62,11 @@ const ModuleDocs = ({
         .map((c) => (
           <ModuleDocs key={c.fullName} docs={c} />
         ))}
+      {Object.values(children)
+        .filter((c) => c.kind === "module")
+        .map((c) => (
+          <ModuleDocs key={c.fullName} docs={c} />
+        ))}
     </VStack>
   );
 };

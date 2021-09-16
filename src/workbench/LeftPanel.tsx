@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import { RiFolderLine } from "react-icons/ri";
+import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
@@ -68,7 +68,7 @@ const LeftPanel = ({
       {
         id: "api",
         title: "API",
-        icon: RiFolderLine,
+        icon: RiLayoutMasonryFill,
         contents: <ApiDocsArea />,
       },
     ],
