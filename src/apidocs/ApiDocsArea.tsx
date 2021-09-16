@@ -50,7 +50,7 @@ const ModuleDocs = ({
       pb={kind === "module" ? 8 : undefined}
     >
       <div>
-        <Text fontSize={kind === "module" ? "xl" : "normal"}>
+        <Text fontSize={kind === "module" ? "xl" : "medium"}>
           <Text as="span" fontWeight="semibold">
             {fullName}
           </Text>
