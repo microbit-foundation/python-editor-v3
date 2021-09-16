@@ -3,8 +3,9 @@ import { LanguageServerClient } from "./client";
 export interface DocEntry {
   docString?: string;
   fullName: string;
+  type?: string;
   kind: "function" | "module" | "class" | "variable";
-  children?: DocEntry[];
+  children?: Record<string, DocEntry>;
 }
 
 export interface ApiDocsResponse extends Record<string, DocEntry> {}
@@ -30,8 +31,8 @@ export const apiDocs = (
       "neopixel",
       "os",
       "radio",
-      "urandom",
       "speech",
+      "urandom",
       "utime",
     ],
   });
