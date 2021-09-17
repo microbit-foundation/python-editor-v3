@@ -40,7 +40,7 @@ const ApiDocsArea = () => {
 const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
   return (
     <>
-      <Accordion allowToggle p={2}>
+      <Accordion allowToggle>
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
           <AccordionItem key={module.fullName}>
             <AccordionButton
