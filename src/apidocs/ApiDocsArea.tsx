@@ -1,9 +1,9 @@
-import { Box, BoxProps, Text, VStack } from "@chakra-ui/layout";
+import { Box, BoxProps, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
+import sortBy from "lodash.sortby";
 import { useEffect, useState } from "react";
 import { apiDocs, ApiDocsResponse, DocEntry } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
-import sortBy from "lodash.sortby";
 
 const ApiDocsArea = () => {
   const client = useLanguageServerClient();
@@ -20,24 +20,20 @@ const ApiDocsArea = () => {
     load();
   }, [client]);
   return (
-    <VStack alignItems="stretch" height="100%" p={2} spacing={5}>
+    <Box height="100%" p={3} pt={4}>
       {apidocs ? (
         sortBy(Object.values(apidocs), (m) => m.fullName).map((module) => (
           <DocEntryNode
             key={module.fullName}
             docs={module}
-            backgroundColor="gray.10"
             borderRadius="md"
-            pl={3}
-            pr={3}
-            pt={2}
-            pb={2}
+            _last={{ pb: 4 }}
           />
         ))
       ) : (
         <Spinner label="Loading API documentation" alignSelf="center" />
       )}
-    </VStack>
+    </Box>
   );
 };
 
@@ -45,76 +41,130 @@ interface DocEntryNodeProps extends BoxProps {
   docs: DocEntry;
 }
 
+const kindToFontSize: Record<string, any> = {
+  module: "2xl",
+  class: "lg",
+};
+
+const kindToSpacing: Record<string, any> = {
+  module: 8,
+  class: 5,
+  variable: 3,
+  function: 3,
+};
+
 const DocEntryNode = ({
   docs: { kind, fullName, children, type, docString },
-  pt,
-  pb,
+  mt,
+  mb,
   ...others
 }: DocEntryNodeProps) => {
-  if (fullName.endsWith("__") && !fullName.endsWith("__init__")) {
-    // Skip dunder methods for now. If we add anything we should recast in
-    // terms of the operations they enable.
-    return null;
-  }
-
-  let suffix = "";
-  if (kind === "function") {
-    suffix = type || "()";
-    suffix = suffix.replace(/ -> None$/, "");
-  } else if (kind === "variable") {
-    suffix = ": " + type;
-  }
-
+  const filteredChildren = filterChildren(children);
+  const groupedChildren = filteredChildren
+    ? groupBy(filteredChildren, (c) => c.kind)
+    : undefined;
   return (
-    <VStack
-      alignItems="stretch"
+    <Box
       wordBreak="break-word"
+      mb={kindToSpacing[kind]}
+      p={kind === "variable" || kind === "function" ? 2 : undefined}
+      backgroundColor={
+        kind === "variable" || kind === "function" ? "gray.10" : undefined
+      }
+      borderRadius="md"
       {...others}
-      pt={kind === "class" ? 3 : pt}
-      pb={kind === "class" ? 3 : pb}
     >
-      <div>
-        <Text fontSize={kind === "module" ? "2xl" : "medium"}>
+      <Box>
+        <Text fontSize={kindToFontSize[kind]}>
           <Text as="span" fontWeight="semibold">
-            {kind === "class" ? "class " : ""}
-            {
-              /* Add zero width spaces to allow breaking*/
-              kind === "module"
-                ? fullName.replaceAll(/\./g, "\u200b.\u200b")
-                : fullName.split(".").slice(-1)
-            }
+            {formatName(kind, fullName)}
           </Text>
-          {suffix}
+          {nameSuffix(kind, type)}
         </Text>
         {docString && (
-          <Text fontSize="sm">
+          <Text fontSize="sm" mt={2} noOfLines={2}>
             <DocString value={docString} />
           </Text>
         )}
-      </div>
-      {children && (
-        <Box pl={kind === "class" ? 2 : 0}>
-          <VStack
-            alignItems="stretch"
-            pl={kind === "class" ? 1 : 0}
+      </Box>
+      {filteredChildren && filteredChildren.length > 0 && (
+        <Box pl={kind === "class" ? 2 : 0} mt={3}>
+          <Box
+            pl={kind === "class" ? 2 : 0}
             borderLeftWidth={kind === "class" ? 1 : undefined}
           >
-            {Object.values(children)
-              .filter((c) => c.kind !== "module")
-              .map((c) => (
-                <DocEntryNode key={c.fullName} docs={c} />
-              ))}
-            {Object.values(children)
-              .filter((c) => c.kind === "module")
-              .map((c) => (
-                <DocEntryNode key={c.fullName} docs={c} />
-              ))}
-          </VStack>
+            {["function", "variable", "class"].map(
+              (childKind) =>
+                groupedChildren?.get(childKind as any) && (
+                  <>
+                    <Text fontWeight="lg" mb={2} mt={5}>
+                      {groupHeading(kind, childKind)}
+                    </Text>
+                    {groupedChildren?.get(childKind as any)?.map((c) => (
+                      <DocEntryNode key={c.fullName} docs={c} />
+                    ))}
+                  </>
+                )
+            )}
+          </Box>
         </Box>
       )}
-    </VStack>
+    </Box>
   );
 };
+
+const groupHeading = (kind: string, childKind: string): string => {
+  switch (childKind) {
+    case "variable":
+      return "Fields";
+    case "class":
+      return "Classes";
+    case "function":
+      return kind === "class" ? "Methods" : "Functions";
+    default: {
+      throw new Error("Unexpected");
+    }
+  }
+};
+
+const formatName = (kind: string, fullName: string): string => {
+  // Add zero width spaces to allow breaking
+  return kind === "module"
+    ? fullName.replaceAll(/\./g, "\u200b.\u200b")
+    : fullName.split(".").slice(-1)[0];
+};
+
+const nameSuffix = (kind: string, type: string | undefined): string => {
+  if (kind === "function") {
+    return (type || "()").replace(/ -> None$/, "");
+  } else if (kind === "variable") {
+    return ": " + type;
+  }
+  return "";
+};
+
+const filterChildren = (
+  children: Record<string, DocEntry> | undefined
+): DocEntry[] | undefined =>
+  children
+    ? Object.values(children).filter(
+        (c) => !(c.fullName.endsWith("__") && !c.fullName.endsWith("__init__"))
+      )
+    : undefined;
+
+function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
+  const result = new Map<U, T[]>();
+  for (const v of values) {
+    const k = fn(v);
+    let array = result.get(k);
+    if (!array) {
+      array = [];
+      result.set(k, array);
+    }
+    array.push(v);
+  }
+  return result;
+}
 
 const pullModulesToTop = (input: ApiDocsResponse) => {
   const recurse = (docs: Record<string, DocEntry>) => {
