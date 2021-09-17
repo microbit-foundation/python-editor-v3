@@ -1,3 +1,10 @@
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+} from "@chakra-ui/accordion";
 import { Box, BoxProps, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
@@ -20,7 +27,7 @@ const ApiDocsArea = () => {
     load();
   }, [client]);
   return (
-    <Box height="100%" p={3} pt={4}>
+    <Box height="100%">
       {apidocs ? (
         <ModuleDocs docs={apidocs} />
       ) : (
@@ -33,20 +40,32 @@ const ApiDocsArea = () => {
 const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
   return (
     <>
-      {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
-        <DocEntryNode
-          key={module.fullName}
-          docs={module}
-          borderRadius="md"
-          _last={{ pb: 4 }}
-        />
-      ))}
+      <Accordion allowToggle p={2}>
+        {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
+          <AccordionItem key={module.fullName}>
+            <AccordionButton
+              fontSize="xl"
+              _expanded={{ fontWeight: "semibold" }}
+            >
+              <Box flex="1" textAlign="left" mr={3}>
+                {module.fullName}
+                {module.docString && <DocString value={module.docString} />}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel>
+              <DocEntryNode docs={module} heading={false} />
+            </AccordionPanel>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </>
   );
 };
 
 interface DocEntryNodeProps extends BoxProps {
   docs: DocEntry;
+  heading?: boolean;
 }
 
 const kindToFontSize: Record<string, any> = {
@@ -55,7 +74,7 @@ const kindToFontSize: Record<string, any> = {
 };
 
 const kindToSpacing: Record<string, any> = {
-  module: 8,
+  module: 5,
   class: 5,
   variable: 3,
   function: 3,
@@ -63,6 +82,7 @@ const kindToSpacing: Record<string, any> = {
 
 const DocEntryNode = ({
   docs: { kind, fullName, children, type, docString },
+  heading = true,
   mt,
   mb,
   ...others
@@ -86,16 +106,16 @@ const DocEntryNode = ({
       {...others}
     >
       <Box>
-        <Text fontSize={kindToFontSize[kind]}>
-          <Text as="span" fontWeight="semibold">
-            {formatName(kind, fullName)}
-          </Text>
-          {nameSuffix(kind, type)}
-        </Text>
-        {docString && (
-          <Text fontSize="sm" mt={2} noOfLines={2}>
-            {docString.replaceAll("``", "").replaceAll("**", "")}
-          </Text>
+        {heading && (
+          <>
+            <Text fontSize={kindToFontSize[kind]}>
+              <Text as="span" fontWeight="semibold">
+                {formatName(kind, fullName)}
+              </Text>
+              {nameSuffix(kind, type)}
+            </Text>
+            {docString && <DocString value={docString} />}
+          </>
         )}
       </Box>
       {groupedChildren && groupedChildren.size > 0 && (
@@ -107,14 +127,14 @@ const DocEntryNode = ({
             {["function", "variable", "class"].map(
               (childKind) =>
                 groupedChildren?.get(childKind as any) && (
-                  <>
-                    <Text fontWeight="lg" mb={2} mt={5}>
+                  <Box mb={5}>
+                    <Text fontWeight="lg" mb={2}>
                       {groupHeading(kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
                       <DocEntryNode key={c.fullName} docs={c} />
                     ))}
-                  </>
+                  </Box>
                 )
             )}
           </Box>
@@ -191,5 +211,11 @@ const pullModulesToTop = (input: ApiDocsResponse) => {
   };
   recurse(input);
 };
+
+const DocString = ({ value }: { value: string }) => (
+  <Text fontSize="sm" mt={2} noOfLines={2} fontWeight="normal">
+    {value.replaceAll("``", "").replaceAll("**", "")}
+  </Text>
+);
 
 export default ApiDocsArea;
