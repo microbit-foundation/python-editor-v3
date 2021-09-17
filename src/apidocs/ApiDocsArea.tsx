@@ -40,7 +40,7 @@ const ApiDocsArea = () => {
 const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
   return (
     <>
-      <Accordion allowToggle>
+      <Accordion allowToggle wordBreak="break-word">
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
           <AccordionItem key={module.fullName}>
             <AccordionButton
@@ -96,7 +96,6 @@ const DocEntryNode = ({
 
   return (
     <Box
-      wordBreak="break-word"
       mb={kindToSpacing[kind]}
       p={kind === "variable" || kind === "function" ? 2 : undefined}
       backgroundColor={
