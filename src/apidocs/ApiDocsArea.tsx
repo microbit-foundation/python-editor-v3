@@ -27,7 +27,7 @@ const ApiDocsArea = () => {
     load();
   }, [client]);
   return (
-    <Box height="100%">
+    <Box height="100%" p={2}>
       {apidocs ? (
         <ModuleDocs docs={apidocs} />
       ) : (
