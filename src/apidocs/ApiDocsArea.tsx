@@ -1,7 +1,7 @@
 import { Box, BoxProps, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { apiDocs, ApiDocsResponse, DocEntry } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 
@@ -22,18 +22,26 @@ const ApiDocsArea = () => {
   return (
     <Box height="100%" p={3} pt={4}>
       {apidocs ? (
-        sortBy(Object.values(apidocs), (m) => m.fullName).map((module) => (
-          <DocEntryNode
-            key={module.fullName}
-            docs={module}
-            borderRadius="md"
-            _last={{ pb: 4 }}
-          />
-        ))
+        <ModuleDocs docs={apidocs} />
       ) : (
         <Spinner label="Loading API documentation" alignSelf="center" />
       )}
     </Box>
+  );
+};
+
+const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
+  return (
+    <>
+      {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
+        <DocEntryNode
+          key={module.fullName}
+          docs={module}
+          borderRadius="md"
+          _last={{ pb: 4 }}
+        />
+      ))}
+    </>
   );
 };
 
@@ -59,10 +67,13 @@ const DocEntryNode = ({
   mb,
   ...others
 }: DocEntryNodeProps) => {
-  const filteredChildren = filterChildren(children);
-  const groupedChildren = filteredChildren
-    ? groupBy(filteredChildren, (c) => c.kind)
-    : undefined;
+  const groupedChildren = useMemo(() => {
+    const filteredChildren = filterChildren(children);
+    return filteredChildren
+      ? groupBy(filteredChildren, (c) => c.kind)
+      : undefined;
+  }, [children]);
+
   return (
     <Box
       wordBreak="break-word"
@@ -83,11 +94,11 @@ const DocEntryNode = ({
         </Text>
         {docString && (
           <Text fontSize="sm" mt={2} noOfLines={2}>
-            <DocString value={docString} />
+            {docString.replaceAll("``", "").replaceAll("**", "")}
           </Text>
         )}
       </Box>
-      {filteredChildren && filteredChildren.length > 0 && (
+      {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
           <Box
             pl={kind === "class" ? 2 : 0}
@@ -179,12 +190,6 @@ const pullModulesToTop = (input: ApiDocsResponse) => {
     });
   };
   recurse(input);
-};
-
-const DocString = ({ value }: { value: string }) => {
-  // Do we tackle restructured text formatting here?
-  // Can we convert to plain text in Pyright?
-  return <span>{value.replaceAll("``", "").replaceAll("**", "")}</span>;
 };
 
 export default ApiDocsArea;
