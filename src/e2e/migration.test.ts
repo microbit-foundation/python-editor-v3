@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App, defaultRootUrl, LoadDialogType } from "./app";
+import { App, defaultRootUrl } from "./app";
 
 describe("Browser - migration", () => {
   const app = new App(
