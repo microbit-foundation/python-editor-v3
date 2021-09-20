@@ -23,7 +23,7 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
-const rootUrl = "http://localhost:3000";
+export const defaultRootUrl = "http://localhost:3000";
 
 /**
  * Model of the app to drive it for e2e testing.
@@ -46,7 +46,7 @@ export class App {
     path.join(os.tmpdir(), "puppeteer-downloads-")
   );
 
-  constructor() {
+  constructor(private rootUrl: string = defaultRootUrl) {
     this.browser = puppeteer.launch();
     this.page = this.createPage();
   }
@@ -59,7 +59,7 @@ export class App {
       // See corresponding code in App.tsx.
       name: "mockDevice",
       value: "1",
-      url: rootUrl,
+      url: this.rootUrl,
     });
 
     const client = await page.target().createCDPSession();
@@ -330,7 +330,11 @@ export class App {
       },
       {
         onTimeout: (e) =>
-          new Error(`Timeout waiting for ${match} but content was ${lastText}`),
+          new Error(
+            `Timeout waiting for ${match} but content was ${lastText}. JSON format: ${JSON.stringify(
+              lastText
+            )}`
+          ),
         ...options,
       }
     );
@@ -503,7 +507,7 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto(rootUrl);
+    await page.goto(this.rootUrl);
   }
 
   /**

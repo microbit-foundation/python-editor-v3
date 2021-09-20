@@ -15,6 +15,7 @@ import { DeviceContext } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import { FileSystem } from "./fs/fs";
 import { FileSystemContext } from "./fs/fs-hooks";
+import { createInitialProject } from "./fs/initial-project";
 import { fetchMicroPython } from "./fs/micropython";
 import { trackFsChanges } from "./language-server/client-fs";
 import { LanguageServerClientContext } from "./language-server/language-server-hooks";
@@ -44,7 +45,11 @@ const device = isMockDeviceMode()
   : new MicrobitWebUSBConnection({ logging });
 
 const client = pyright();
-const fs = new FileSystem(logging, fetchMicroPython);
+const fs = new FileSystem(
+  logging,
+  createInitialProject(window.location.href),
+  fetchMicroPython
+);
 client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
