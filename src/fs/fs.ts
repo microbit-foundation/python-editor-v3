@@ -208,6 +208,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       this.initializing = (async () => {
         if (!(await this.exists(MAIN_FILE))) {
           // Do this ASAP to unblock the editor.
+          // This is the point we should trigger a migration.
           await this.write(
             MAIN_FILE,
             new TextEncoder().encode(initialCode),
