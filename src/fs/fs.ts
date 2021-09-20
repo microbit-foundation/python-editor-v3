@@ -12,16 +12,15 @@ import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
 import { asciiToBytes, generateId } from "./fs-util";
-import initialCode from "./initial-code";
 import { MicroPythonSource } from "./micropython";
 import sortBy from "lodash.sortby";
 import {
-  defaultProjectName,
   FSStorage,
   InMemoryFSStorage,
   SessionStorageFSStorage,
   SplitStrategyStorage,
 } from "./storage";
+import { InitialProject } from "./initial-project";
 
 const commonFsSize = 20 * 1024;
 
@@ -157,24 +156,26 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   private fileVersions: Map<string, number> = new Map();
   private fs: undefined | MicropythonFsHex;
   private _dirty: boolean = false;
-  project: Project = {
-    files: [],
-    id: generateId(),
-    name: defaultProjectName,
-  };
+  project: Project;
 
   constructor(
     private logging: Logging,
+    private initialProject: InitialProject,
     private microPythonSource: MicroPythonSource
   ) {
     super();
     this.storage = new SplitStrategyStorage(
-      new InMemoryFSStorage(),
+      new InMemoryFSStorage(initialProject.name),
       typeof window !== "undefined" && window.sessionStorage
         ? new SessionStorageFSStorage(window.sessionStorage)
         : undefined,
       logging
     );
+    this.project = {
+      files: [],
+      id: generateId(),
+      name: initialProject.name,
+    };
   }
 
   /**
@@ -210,7 +211,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
           // Do this ASAP to unblock the editor.
           await this.write(
             MAIN_FILE,
-            new TextEncoder().encode(initialCode),
+            new TextEncoder().encode(this.initialProject.main),
             VersionAction.INCREMENT
           );
         } else {
@@ -352,7 +353,8 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       files: fs.ls().length,
       storageUsed: fs.getStorageUsed(),
       lines:
-        currentMainFile === initialCode
+        this.initialProject.isDefault &&
+        currentMainFile === this.initialProject.main
           ? undefined
           : currentMainFile.split(/\r\n|\r|\n/).length,
     };

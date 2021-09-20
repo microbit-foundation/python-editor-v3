@@ -20,8 +20,7 @@ import {
 } from "./fs";
 import { MicroPythonSource } from "./micropython";
 import { BoardId } from "../device/board-id";
-import { defaultProjectName } from "./storage";
-import initialCode from "./initial-code";
+import { defaultInitialProject, InitialProject } from "./initial-project";
 
 const hexes = Promise.all([
   fs.readFileSync("src/fs/microbit-micropython-v1.hex", {
@@ -48,12 +47,13 @@ const fsMicroPythonSource: MicroPythonSource = async () => {
 
 describe("Filesystem", () => {
   const logging = new NullLogging();
-  let ufs = new FileSystem(logging, fsMicroPythonSource);
+  const initialProject: InitialProject = defaultInitialProject;
+  let ufs = new FileSystem(logging, initialProject, fsMicroPythonSource);
   let events: Project[] = [];
 
   beforeEach(() => {
     events = [];
-    ufs = new FileSystem(logging, fsMicroPythonSource);
+    ufs = new FileSystem(logging, initialProject, fsMicroPythonSource);
     ufs.addListener(EVENT_PROJECT_UPDATED, events.push.bind(events));
   });
 
@@ -87,7 +87,7 @@ describe("Filesystem", () => {
 
   it("can manage the project name", async () => {
     expect(ufs.dirty).toEqual(false);
-    expect(ufs.project.name).toEqual(defaultProjectName);
+    expect(ufs.project.name).toEqual(defaultInitialProject.name);
     await ufs.setProjectName("test 1");
     expect(ufs.dirty).toEqual(true);
     expect(ufs.project.name).toEqual("test 1");
@@ -233,7 +233,7 @@ describe("Filesystem", () => {
 
     await ufs.write(
       MAIN_FILE,
-      "from __future__ import hope\n" + initialCode,
+      "from __future__ import hope\n" + initialProject.main,
       VersionAction.MAINTAIN
     );
     const data = new Uint8Array(512);

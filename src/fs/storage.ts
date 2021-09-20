@@ -5,8 +5,7 @@
  */
 import { fromByteArray, toByteArray } from "base64-js";
 import { Logging } from "../logging/logging";
-
-export const defaultProjectName = "my program";
+import { defaultInitialProject } from "./initial-project";
 
 /**
  * Backing storage for the file system.
@@ -30,8 +29,12 @@ export interface FSStorage {
  * Basic in-memory implementation.
  */
 export class InMemoryFSStorage implements FSStorage {
-  private _projectName: string = defaultProjectName;
+  private _projectName: string;
   private _data: Map<string, Uint8Array> = new Map();
+
+  constructor(private defaultProjectName: string) {
+    this._projectName = defaultProjectName;
+  }
 
   async ls() {
     return Array.from(this._data.keys());
@@ -68,7 +71,7 @@ export class InMemoryFSStorage implements FSStorage {
   }
   async clear() {
     this._data.clear();
-    this._projectName = defaultProjectName;
+    this._projectName = this.defaultProjectName;
   }
 }
 
@@ -95,7 +98,7 @@ export class SessionStorageFSStorage implements FSStorage {
   }
 
   async projectName(): Promise<string> {
-    return this.storage.getItem("projectName") || defaultProjectName;
+    return this.storage.getItem("projectName") || defaultInitialProject.name;
   }
 
   async read(filename: string): Promise<Uint8Array> {
