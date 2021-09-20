@@ -16,7 +16,7 @@ describe("Browser - migration", () => {
   it("Loads the project from the URL", async () => {
     await app.findProjectName("Hearts");
     await app.findVisibleEditorContents(
-      /from microbit import *\\ndisplay.show(Image.HEART)/
+      /from microbit import \*\ndisplay\.show\(Image.HEART\)/
     );
   });
 });
