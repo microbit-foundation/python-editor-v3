@@ -10,6 +10,9 @@ import {
 } from "vscode-jsonrpc/browser";
 import { createUri, LanguageServerClient } from "./client";
 
+// This is modified by bin/update-pyright.sh
+const workerScriptName = "pyright-7d6fb25c67e8b4ed3eaf.worker.js";
+
 /**
  * Creates Pyright workers and corresponding client.
  *
@@ -23,30 +26,40 @@ export const pyright = (): LanguageServerClient | undefined => {
   // Needed to support review branches that use a path location.
   const { origin, pathname } = window.location;
   const base = `${origin}${pathname}${pathname.endsWith("/") ? "" : "/"}`;
-  const workerScript = `${base}workers/pyright-0fa21f4869dd61b44452.worker.js`;
-  const channel = new MessageChannel();
-  const foreground = new Worker(workerScript);
-  foreground.postMessage(
-    {
-      type: "boot",
-      mode: "foreground",
-      port: channel.port1,
-    },
-    [channel.port1]
-  );
-  const background = new Worker(workerScript);
-  background.postMessage(
-    {
-      type: "boot",
-      mode: "background",
-      port: channel.port2,
-    },
-    [channel.port2]
-  );
+  const workerScript = `${base}workers/${workerScriptName}`;
+  const foreground = new Worker(workerScript, {
+    name: "Pyright-foreground",
+  });
+  foreground.postMessage({
+    type: "browser/boot",
+    mode: "foreground",
+  });
   const connection = createMessageConnection(
     new BrowserMessageReader(foreground),
     new BrowserMessageWriter(foreground)
   );
+  let backgroundWorkerCount = 0;
+  foreground.addEventListener("message", (e: MessageEvent) => {
+    if (e.data && e.data.type === "browser/newWorker") {
+      // Create a new background worker.
+      // The foreground worker has created a message channel and passed us
+      // a port. We create the background worker and pass transfer the port
+      // onward.
+      const { initialData, port } = e.data;
+      const background = new Worker(workerScript, {
+        name: `Pyright-background-${++backgroundWorkerCount}`,
+      });
+      background.postMessage(
+        {
+          type: "browser/boot",
+          mode: "background",
+          initialData,
+          port,
+        },
+        [port]
+      );
+    }
+  });
   connection.listen();
 
   // Must bootstrap before the initialize request so that the config file is in place.
