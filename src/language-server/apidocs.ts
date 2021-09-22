@@ -1,11 +1,12 @@
 import { LanguageServerClient } from "./client";
 
 export interface DocEntry {
+  name: string;
   docString?: string;
   fullName: string;
   type?: string;
   kind: "function" | "module" | "class" | "variable";
-  children?: Record<string, DocEntry>;
+  children?: DocEntry[];
 }
 
 export interface ApiDocsResponse extends Record<string, DocEntry> {}

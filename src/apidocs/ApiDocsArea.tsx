@@ -155,10 +155,10 @@ const nameSuffix = (kind: string, type: string | undefined): string => {
 };
 
 const filterChildren = (
-  children: Record<string, DocEntry> | undefined
+  children: DocEntry[] | undefined
 ): DocEntry[] | undefined =>
   children
-    ? Object.values(children).filter(
+    ? children.filter(
         (c) => !(c.fullName.endsWith("__") && !c.fullName.endsWith("__init__"))
       )
     : undefined;
@@ -178,18 +178,18 @@ function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
 }
 
 const pullModulesToTop = (input: ApiDocsResponse) => {
-  const recurse = (docs: Record<string, DocEntry>) => {
-    Object.entries(docs).forEach(([n, d]) => {
-      if (d.kind === "module" && docs !== input) {
+  const recurse = (docs: DocEntry[], topLevel: boolean) => {
+    [...docs].forEach((d, index) => {
+      if (d.kind === "module" && !topLevel) {
         input[d.fullName] = d;
-        delete docs[n];
+        docs.splice(index, 1);
       }
       if (d.children) {
-        recurse(d.children);
+        recurse(d.children, false);
       }
     });
   };
-  recurse(input);
+  recurse(Object.values(input), true);
 };
 
 export default ApiDocsArea;

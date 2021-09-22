@@ -10,6 +10,9 @@ import {
 } from "vscode-jsonrpc/browser";
 import { createUri, LanguageServerClient } from "./client";
 
+// This is modified by bin/update-pyright.sh
+const workerScriptName = "pyright-076f964b2110182d8329.worker.js";
+
 /**
  * Creates Pyright workers and corresponding client.
  *
@@ -23,30 +26,40 @@ export const pyright = (): LanguageServerClient | undefined => {
   // Needed to support review branches that use a path location.
   const { origin, pathname } = window.location;
   const base = `${origin}${pathname}${pathname.endsWith("/") ? "" : "/"}`;
-  const workerScript = `${base}workers/pyright-12355f70a6ba500c4f14.worker.js`;
-  const channel = new MessageChannel();
-  const foreground = new Worker(workerScript);
-  foreground.postMessage(
-    {
-      type: "boot",
-      mode: "foreground",
-      port: channel.port1,
-    },
-    [channel.port1]
-  );
-  const background = new Worker(workerScript);
-  background.postMessage(
-    {
-      type: "boot",
-      mode: "background",
-      port: channel.port2,
-    },
-    [channel.port2]
-  );
+  const workerScript = `${base}workers/${workerScriptName}`;
+  const foreground = new Worker(workerScript, {
+    name: "Pyright-foreground",
+  });
+  foreground.postMessage({
+    type: "browser/boot",
+    mode: "foreground",
+  });
   const connection = createMessageConnection(
     new BrowserMessageReader(foreground),
     new BrowserMessageWriter(foreground)
   );
+  let backgroundWorkerCount = 0;
+  foreground.addEventListener("message", (e: MessageEvent) => {
+    if (e.data && e.data.type === "browser/newWorker") {
+      // Create a new background worker.
+      // The foreground worker has created a message channel and passed us
+      // a port. We create the background worker and pass transfer the port
+      // onward.
+      const { initialData, port } = e.data;
+      const background = new Worker(workerScript, {
+        name: `Pyright-background-${++backgroundWorkerCount}`,
+      });
+      background.postMessage(
+        {
+          type: "browser/boot",
+          mode: "background",
+          initialData,
+          port,
+        },
+        [port]
+      );
+    }
+  });
   connection.listen();
 
   const client = new LanguageServerClient(connection, {
