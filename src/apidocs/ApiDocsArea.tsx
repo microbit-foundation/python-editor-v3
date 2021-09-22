@@ -9,7 +9,12 @@ import { Box, BoxProps, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
-import { apiDocs, ApiDocsResponse, DocEntry } from "../language-server/apidocs";
+import {
+  apiDocs,
+  ApiDocsResponse,
+  BaseClassDetails,
+  DocEntry,
+} from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 
 const ApiDocsArea = () => {
@@ -42,7 +47,7 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
     <>
       <Accordion allowToggle wordBreak="break-word">
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
-          <AccordionItem key={module.fullName}>
+          <AccordionItem key={module.id}>
             <AccordionButton
               fontSize="xl"
               _expanded={{ fontWeight: "semibold" }}
@@ -81,7 +86,7 @@ const kindToSpacing: Record<string, any> = {
 };
 
 const DocEntryNode = ({
-  docs: { kind, fullName, children, type, docString },
+  docs: { id, kind, fullName, children, type, docString, baseClasses },
   heading = true,
   mt,
   mb,
@@ -96,6 +101,8 @@ const DocEntryNode = ({
 
   return (
     <Box
+      id={fullName}
+      wordBreak="break-word"
       mb={kindToSpacing[kind]}
       p={kind === "variable" || kind === "function" ? 2 : undefined}
       backgroundColor={
@@ -113,6 +120,9 @@ const DocEntryNode = ({
               </Text>
               {nameSuffix(kind, type)}
             </Text>
+            {baseClasses && baseClasses.length > 0 && (
+              <BaseClasses value={baseClasses} />
+            )}
             {docString && <DocString value={docString} />}
           </>
         )}
@@ -126,12 +136,12 @@ const DocEntryNode = ({
             {["function", "variable", "class"].map(
               (childKind) =>
                 groupedChildren?.get(childKind as any) && (
-                  <Box mb={5}>
+                  <Box mb={5} key={childKind}>
                     <Text fontWeight="lg" mb={2}>
                       {groupHeading(kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <DocEntryNode key={c.fullName} docs={c} />
+                      <DocEntryNode key={c.id} docs={c} />
                     ))}
                   </Box>
                 )
@@ -174,10 +184,10 @@ const nameSuffix = (kind: string, type: string | undefined): string => {
 };
 
 const filterChildren = (
-  children: Record<string, DocEntry> | undefined
+  children: DocEntry[] | undefined
 ): DocEntry[] | undefined =>
   children
-    ? Object.values(children).filter(
+    ? children.filter(
         (c) => !(c.fullName.endsWith("__") && !c.fullName.endsWith("__init__"))
       )
     : undefined;
@@ -197,18 +207,32 @@ function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
 }
 
 const pullModulesToTop = (input: ApiDocsResponse) => {
-  const recurse = (docs: Record<string, DocEntry>) => {
-    Object.entries(docs).forEach(([n, d]) => {
-      if (d.kind === "module" && docs !== input) {
+  const recurse = (docs: DocEntry[], topLevel: boolean) => {
+    [...docs].forEach((d, index) => {
+      if (d.kind === "module" && !topLevel) {
         input[d.fullName] = d;
-        delete docs[n];
+        docs.splice(index, 1);
       }
       if (d.children) {
-        recurse(d.children);
+        recurse(d.children, false);
       }
     });
   };
-  recurse(input);
+  recurse(Object.values(input), true);
+};
+
+const BaseClasses = ({ value }: { value: BaseClassDetails[] }) => {
+  const prefix = value.length === 1 ? "base class " : "base classes: ";
+  return (
+    <Text pl={2}>
+      {prefix}
+      {value.map((bc) => (
+        <a key={bc.fullName} href={"#" + bc.fullName}>
+          {bc.name}
+        </a>
+      ))}
+    </Text>
+  );
 };
 
 const DocString = ({ value }: { value: string }) => (
