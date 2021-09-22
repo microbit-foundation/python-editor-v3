@@ -2,7 +2,12 @@ import { Box, BoxProps, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
-import { apiDocs, ApiDocsResponse, DocEntry } from "../language-server/apidocs";
+import {
+  apiDocs,
+  ApiDocsResponse,
+  BaseClassDetails,
+  DocEntry,
+} from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 
 const ApiDocsArea = () => {
@@ -35,7 +40,7 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
     <>
       {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
         <DocEntryNode
-          key={module.fullName}
+          key={module.id}
           docs={module}
           borderRadius="md"
           _last={{ pb: 4 }}
@@ -62,7 +67,7 @@ const kindToSpacing: Record<string, any> = {
 };
 
 const DocEntryNode = ({
-  docs: { kind, fullName, children, type, docString },
+  docs: { kind, fullName, children, type, docString, baseClasses },
   mt,
   mb,
   ...others
@@ -76,6 +81,7 @@ const DocEntryNode = ({
 
   return (
     <Box
+      id={fullName}
       wordBreak="break-word"
       mb={kindToSpacing[kind]}
       p={kind === "variable" || kind === "function" ? 2 : undefined}
@@ -92,6 +98,10 @@ const DocEntryNode = ({
           </Text>
           {nameSuffix(kind, type)}
         </Text>
+
+        {baseClasses && baseClasses.length > 0 && (
+          <BaseClasses value={baseClasses} />
+        )}
         {docString && (
           <Text fontSize="sm" mt={2} noOfLines={2}>
             {docString.replaceAll("``", "").replaceAll("**", "")}
@@ -107,14 +117,14 @@ const DocEntryNode = ({
             {["function", "variable", "class"].map(
               (childKind) =>
                 groupedChildren?.get(childKind as any) && (
-                  <>
+                  <React.Fragment key={childKind}>
                     <Text fontWeight="lg" mb={2} mt={5}>
                       {groupHeading(kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <DocEntryNode key={c.fullName} docs={c} />
+                      <DocEntryNode key={c.id} docs={c} />
                     ))}
-                  </>
+                  </React.Fragment>
                 )
             )}
           </Box>
@@ -190,6 +200,20 @@ const pullModulesToTop = (input: ApiDocsResponse) => {
     });
   };
   recurse(Object.values(input), true);
+};
+
+const BaseClasses = ({ value }: { value: BaseClassDetails[] }) => {
+  const prefix = value.length === 1 ? "base class " : "base classes: ";
+  return (
+    <Text pl={2}>
+      {prefix}
+      {value.map((bc) => (
+        <a key={bc.fullName} href={"#" + bc.fullName}>
+          {bc.name}
+        </a>
+      ))}
+    </Text>
+  );
 };
 
 export default ApiDocsArea;
