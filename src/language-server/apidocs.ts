@@ -1,22 +1,25 @@
+import { MarkupKind } from "vscode-languageserver-types";
 import { LanguageServerClient } from "./client";
 
-export interface BaseClassDetails {
+// This duplicates the types we added to Pyright.
+
+export interface ApiDocsBaseClass {
   name: string;
   fullName: string;
 }
 
-export interface DocEntry {
+export interface ApiDocsEntry {
   id: string;
   name: string;
   docString?: string;
   fullName: string;
   type?: string;
   kind: "function" | "module" | "class" | "variable";
-  children?: DocEntry[];
-  baseClasses?: BaseClassDetails[];
+  children?: ApiDocsEntry[];
+  baseClasses?: ApiDocsBaseClass[];
 }
 
-export interface ApiDocsResponse extends Record<string, DocEntry> {}
+export interface ApiDocsResponse extends Record<string, ApiDocsEntry> {}
 
 export const apiDocs = (
   client: LanguageServerClient
@@ -24,6 +27,7 @@ export const apiDocs = (
   // This is a non-standard LSP call that we've added support for to Pyright.
   return client.connection.sendRequest("pyright/apidocs", {
     path: client.options.rootUri,
+    documentationFormat: [MarkupKind.PlainText],
     modules: [
       // For now, this omits a lot of modules that aren't documented
       // in the readthedocs documentation. We could add them, but I
