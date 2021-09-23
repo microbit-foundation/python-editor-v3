@@ -1,3 +1,4 @@
+import { MarkupKind } from "vscode-languageserver-types";
 import { LanguageServerClient } from "./client";
 
 // This duplicates the types we added to Pyright.
@@ -26,6 +27,7 @@ export const apiDocs = (
   // This is a non-standard LSP call that we've added support for to Pyright.
   return client.connection.sendRequest("pyright/apidocs", {
     path: client.options.rootUri,
+    documentationFormat: [MarkupKind.PlainText],
     modules: [
       // For now, this omits a lot of modules that aren't documented
       // in the readthedocs documentation. We could add them, but I
