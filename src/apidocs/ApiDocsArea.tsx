@@ -5,8 +5,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   apiDocs,
   ApiDocsResponse,
-  BaseClassDetails,
-  DocEntry,
+  ApiDocsBaseClass,
+  ApiDocsEntry,
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 
@@ -51,7 +51,7 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
 };
 
 interface DocEntryNodeProps extends BoxProps {
-  docs: DocEntry;
+  docs: ApiDocsEntry;
 }
 
 const kindToFontSize: Record<string, any> = {
@@ -165,8 +165,8 @@ const nameSuffix = (kind: string, type: string | undefined): string => {
 };
 
 const filterChildren = (
-  children: DocEntry[] | undefined
-): DocEntry[] | undefined =>
+  children: ApiDocsEntry[] | undefined
+): ApiDocsEntry[] | undefined =>
   children
     ? children.filter(
         (c) => !(c.fullName.endsWith("__") && !c.fullName.endsWith("__init__"))
@@ -188,7 +188,7 @@ function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
 }
 
 const pullModulesToTop = (input: ApiDocsResponse) => {
-  const recurse = (docs: DocEntry[], topLevel: boolean) => {
+  const recurse = (docs: ApiDocsEntry[], topLevel: boolean) => {
     [...docs].forEach((d, index) => {
       if (d.kind === "module" && !topLevel) {
         input[d.fullName] = d;
@@ -202,7 +202,7 @@ const pullModulesToTop = (input: ApiDocsResponse) => {
   recurse(Object.values(input), true);
 };
 
-const BaseClasses = ({ value }: { value: BaseClassDetails[] }) => {
+const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   const prefix = value.length === 1 ? "base class " : "base classes: ";
   return (
     <Text pl={2}>
