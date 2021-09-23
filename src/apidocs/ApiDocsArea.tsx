@@ -16,6 +16,7 @@ import {
   ApiDocsEntry,
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
+import { pullModulesToTop } from "./apidocs-util";
 
 const ApiDocsArea = () => {
   const client = useLanguageServerClient();
@@ -205,21 +206,6 @@ function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
   }
   return result;
 }
-
-const pullModulesToTop = (input: ApiDocsResponse) => {
-  const recurse = (docs: ApiDocsEntry[], topLevel: boolean) => {
-    [...docs].forEach((d, index) => {
-      if (d.kind === "module" && !topLevel) {
-        input[d.fullName] = d;
-        docs.splice(index, 1);
-      }
-      if (d.children) {
-        recurse(d.children, false);
-      }
-    });
-  };
-  recurse(Object.values(input), true);
-};
 
 const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   const prefix = value.length === 1 ? "base class " : "base classes: ";
