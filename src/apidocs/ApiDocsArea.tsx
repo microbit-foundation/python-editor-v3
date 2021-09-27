@@ -14,6 +14,7 @@ import {
   ApiDocsResponse,
   ApiDocsBaseClass,
   ApiDocsEntry,
+  ApiDocsFunctionParameter,
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./apidocs-util";
@@ -87,7 +88,7 @@ const kindToSpacing: Record<string, any> = {
 };
 
 const DocEntryNode = ({
-  docs: { id, kind, fullName, children, type, docString, baseClasses },
+  docs: { id, kind, fullName, children, params, docString, baseClasses },
   heading = true,
   mt,
   mb,
@@ -119,7 +120,7 @@ const DocEntryNode = ({
               <Text as="span" fontWeight="semibold">
                 {formatName(kind, fullName)}
               </Text>
-              {nameSuffix(kind, type)}
+              {nameSuffix(kind, params)}
             </Text>
             {baseClasses && baseClasses.length > 0 && (
               <BaseClasses value={baseClasses} />
@@ -175,11 +176,32 @@ const formatName = (kind: string, fullName: string): string => {
     : fullName.split(".").slice(-1)[0];
 };
 
-const nameSuffix = (kind: string, type: string | undefined): string => {
-  if (kind === "function") {
-    return (type || "()").replace(/ -> None$/, "");
-  } else if (kind === "variable") {
-    return ": " + type;
+const nameSuffix = (
+  kind: string,
+  params: ApiDocsFunctionParameter[] | undefined
+): string => {
+  if (kind === "function" && params) {
+    return (
+      "(" +
+      params
+        .filter(
+          (parameter, index) => !(index === 0 && parameter.name === "self")
+        )
+        .map((parameter) => {
+          const prefix =
+            parameter.category === "varargDict"
+              ? "**"
+              : parameter.category === "varargList"
+              ? "*"
+              : "";
+          const suffix = parameter.defaultValue
+            ? `=${parameter.defaultValue}`
+            : "";
+          return prefix + parameter.name + suffix;
+        })
+        .join(", ") +
+      ")"
+    );
   }
   return "";
 };
