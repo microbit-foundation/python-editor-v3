@@ -16,19 +16,22 @@ import {
   CompletionTriggerKind,
 } from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
+import { clientFacet, uriFacet } from "./common";
 import { offsetToPosition } from "./positions";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
 // any language's identifier definition.
 const identifierLike = /[a-zA-Z0-9_\u{a1}-\u{10ffff}]+/u;
 
-export const autocompletion = (client: LanguageServerClient, uri: string) => {
-  return cmAutocompletion({
+export const autocompletion = () =>
+  cmAutocompletion({
     override: [
       async (context: CompletionContext): Promise<CompletionResult | null> => {
+        const client = context.state.facet(clientFacet);
         if (!client.capabilities?.completionProvider) {
           return null;
         }
+        const uri = context.state.facet(uriFacet);
 
         let triggerKind: CompletionTriggerKind | undefined;
         let triggerCharacter: string | undefined;
@@ -86,7 +89,6 @@ export const autocompletion = (client: LanguageServerClient, uri: string) => {
       },
     ],
   });
-};
 
 const createTriggerCharactersRegExp = (
   client: LanguageServerClient

@@ -11,7 +11,7 @@ import { LanguageServerClient } from "../../../language-server/client";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
-import { cursorTooltip } from "./signatureHelp";
+import { signatureHelp } from "./signatureHelp";
 
 /**
  * The main extension. This synchronises the diagnostics between the client
@@ -34,7 +34,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
 
     this.client.on("diagnostics", this.diagnosticsListener);
 
-    // Is there a better way to do this? We can't dispatch at this point.
+    // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
       const initialDiagnostics = this.client.currentDiagnostics(this.uri);
@@ -80,7 +80,7 @@ export function languageServer(client: LanguageServerClient, uri: string) {
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    cursorTooltip(),
-    autocompletion(client, uri),
+    signatureHelp(),
+    autocompletion(),
   ];
 }
