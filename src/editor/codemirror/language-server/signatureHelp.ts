@@ -144,7 +144,7 @@ const formatSignatureHelp = (result: SignatureHelp): string => {
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   ".cm-tooltip.cm-cursor-tooltip": {
-    maxWidth: "30ch",
+    maxWidth: "50ch",
   },
 });
 
