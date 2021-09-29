@@ -28,10 +28,10 @@ export const autocompletion = () =>
     override: [
       async (context: CompletionContext): Promise<CompletionResult | null> => {
         const client = context.state.facet(clientFacet);
-        if (!client.capabilities?.completionProvider) {
+        const uri = context.state.facet(uriFacet);
+        if (!client || !uri || !client.capabilities?.completionProvider) {
           return null;
         }
-        const uri = context.state.facet(uriFacet);
 
         let triggerKind: CompletionTriggerKind | undefined;
         let triggerCharacter: string | undefined;
