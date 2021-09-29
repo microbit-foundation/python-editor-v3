@@ -21,26 +21,24 @@ interface SignatureChangeEffect {
   result: SignatureHelp | null;
 }
 
-export const setSignatureHelpInformationEffect =
-  StateEffect.define<SignatureChangeEffect>({});
+export const setSignatureHelpEffect = StateEffect.define<SignatureChangeEffect>(
+  {}
+);
 
 interface SignatureHelpState {
-  // Do we need this?
-  pos: number;
   tooltip: Tooltip | null;
   result: SignatureHelp | null;
 }
 
 const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
   create: () => ({
-    pos: 0,
     result: null,
     tooltip: null,
   }),
   update(state, tr) {
     for (const effect of tr.effects) {
-      if (effect.is(setSignatureHelpInformationEffect)) {
-        return updateSignatureHelpState(state, effect.value);
+      if (effect.is(setSignatureHelpEffect)) {
+        return reduceSignatureHelpState(state, effect.value);
       }
     }
     return state;
@@ -82,29 +80,26 @@ export class SignatureHelpView
         params
       );
       this.view.dispatch({
-        effects: [setSignatureHelpInformationEffect.of({ pos, result })],
+        effects: [setSignatureHelpEffect.of({ pos, result })],
       });
     } catch (e) {
       logException(this.view.state, e, "signature-help");
       this.view.dispatch({
-        effects: [setSignatureHelpInformationEffect.of({ pos, result: null })],
+        effects: [setSignatureHelpEffect.of({ pos, result: null })],
       });
     }
   }
 }
 
-function updateSignatureHelpState(
+function reduceSignatureHelpState(
   state: SignatureHelpState,
   effect: SignatureChangeEffect
 ): SignatureHelpState {
   // Triggered by typing an opening bracket (may autocomplete the trailing one).
-  // Then persists so long as we get the same signature info back from
-  // the language server. If it changes (commonly but not always to null) then we stop.
-  // If the user types a new opening bracket then we restart the process.
+  // Then persists so long as we get the some signature info back (it may change).
   if (!state.result && effect.result) {
     const result = effect.result!;
     return {
-      pos: effect.pos,
       result,
       tooltip: {
         pos: effect.pos,
@@ -117,13 +112,9 @@ function updateSignatureHelpState(
         },
       },
     };
-  } else if (
-    state.tooltip &&
-    ((state.result && !effect.result) ||
-      !isSameSignature(state.result!, effect.result!))
-  ) {
+  }
+  if (state.tooltip && !effect.result) {
     return {
-      pos: effect.pos,
       result: null,
       tooltip: null,
     };
@@ -154,18 +145,4 @@ export const signatureHelp = () => {
     signatureHelpTooltipField,
     signatureHelpToolTipBaseTheme,
   ];
-};
-
-const isSameSignature = (a: SignatureHelp, b: SignatureHelp) => {
-  if (a.signatures.length !== b.signatures.length) {
-    return false;
-  }
-  for (let i = 0; i < a.signatures.length; ++i) {
-    if (a.signatures[i].label !== b.signatures[i].label) {
-      return false;
-    }
-    // More? Can we avoid this?
-    // Need to cope with activeSig/Param changes. It's the same but different!
-  }
-  return true;
 };
