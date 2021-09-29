@@ -1,3 +1,12 @@
+/**
+ * Signature help. This shows a documentation tooltip when a user is
+ * writing a function signature. Currently triggered by the opening
+ * bracket.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Tooltip, showTooltip } from "@codemirror/tooltip";
 import { StateEffect, StateField, Text } from "@codemirror/state";
 import {
@@ -50,7 +59,7 @@ export class SignatureHelpView
   extends BaseLanguageServerView
   implements PluginValue
 {
-  update({ docChanged, selectionSet, changes, transactions }: ViewUpdate) {
+  update({ docChanged, selectionSet, transactions }: ViewUpdate) {
     if (
       (docChanged || selectionSet) &&
       this.view.state.field(signatureHelpTooltipField).tooltip
@@ -91,21 +100,21 @@ export class SignatureHelpView
   }
 }
 
-function reduceSignatureHelpState(
+const reduceSignatureHelpState = (
   state: SignatureHelpState,
   effect: SignatureChangeEffect
-): SignatureHelpState {
+): SignatureHelpState => {
   // Triggered by typing an opening bracket (may autocomplete the trailing one).
   // Then persists so long as we get the some signature info back (it may change).
   if (!state.result && effect.result) {
-    const result = effect.result!;
+    const result = effect.result;
     return {
       result,
       tooltip: {
         pos: effect.pos,
         above: true,
         create: () => {
-          let dom = document.createElement("div");
+          const dom = document.createElement("div");
           dom.className = "cm-cursor-tooltip";
           dom.textContent = formatSignatureHelp(result);
           return { dom };
@@ -120,7 +129,7 @@ function reduceSignatureHelpState(
     };
   }
   return state;
-}
+};
 
 const formatSignatureHelp = (result: SignatureHelp): string => {
   const { documentation, label } = result.signatures[result.activeSignature!];
