@@ -104,15 +104,23 @@ const reduceSignatureHelpState = (
   state: SignatureHelpState,
   effect: SignatureChangeEffect
 ): SignatureHelpState => {
-  // Triggered by typing an opening bracket (may autocomplete the trailing one).
-  // Then persists so long as we get the some signature info back (it may change).
-  if (!state.result && effect.result) {
+  if (state.tooltip && !effect.result) {
+    return {
+      result: null,
+      tooltip: null,
+    };
+  }
+  // It's a bit weird that we always update the position, but VS Code does this too.
+  // I think ideally we'd have a notion of "same function signature". Does the
+  // node have a stable identity?
+  if (effect.result) {
     const result = effect.result;
     return {
       result,
       tooltip: {
         pos: effect.pos,
         above: true,
+        strictSide: true,
         create: () => {
           const dom = document.createElement("div");
           dom.className = "cm-signature-tooltip";
@@ -120,12 +128,6 @@ const reduceSignatureHelpState = (
           return { dom };
         },
       },
-    };
-  }
-  if (state.tooltip && !effect.result) {
-    return {
-      result: null,
-      tooltip: null,
     };
   }
   return state;
