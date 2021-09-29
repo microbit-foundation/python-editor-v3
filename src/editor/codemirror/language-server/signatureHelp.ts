@@ -115,7 +115,7 @@ const reduceSignatureHelpState = (
         above: true,
         create: () => {
           const dom = document.createElement("div");
-          dom.className = "cm-cursor-tooltip";
+          dom.className = "cm-signature-tooltip";
           dom.textContent = formatSignatureHelp(result);
           return { dom };
         },
@@ -143,8 +143,10 @@ const formatSignatureHelp = (result: SignatureHelp): string => {
 };
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
-  ".cm-tooltip.cm-cursor-tooltip": {
-    maxWidth: "50ch",
+  ".cm-tooltip.cm-signature-tooltip": {
+    padding: "3px 9px",
+    width: "max-content",
+    maxWidth: "400px",
   },
 });
 
