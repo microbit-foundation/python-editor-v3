@@ -77,7 +77,7 @@ export const autocompletion = () =>
                   label: item.label,
                   type: item.kind ? mapCompletionKind[item.kind] : undefined,
                   detail: item.detail,
-                  info: mapDocumentation(item.documentation),
+                  info: resolveDocumentation,
                   sortText: item.sortText ?? item.label,
                   boost: boost(item),
                 };
@@ -90,6 +90,12 @@ export const autocompletion = () =>
     ],
   });
 
+const resolveDocumentation = async (completion: Completion): Promise<Node> => {
+  const div = document.createElement("div");
+  div.innerText = "No docs for " + completion.label;
+  return div;
+};
+
 const createTriggerCharactersRegExp = (
   client: LanguageServerClient
 ): RegExp | undefined => {
@@ -98,17 +104,6 @@ const createTriggerCharactersRegExp = (
     return new RegExp("[" + escapeRegex(characters.join("")) + "]");
   }
   return undefined;
-};
-
-const mapDocumentation = (
-  documentation: string | LSP.MarkupContent | undefined
-): undefined | string => {
-  // We should be able to resolve documentation here by calling into the client again
-  // and returning a function.
-  if (typeof documentation === "object") {
-    return documentation.value;
-  }
-  return documentation;
 };
 
 const mapCompletionKind = Object.fromEntries(

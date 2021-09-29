@@ -14,6 +14,7 @@ import { stage } from "./environment";
 
 interface Flags {
   signatureHelp: boolean;
+  autocompleteDocs: boolean;
 }
 
 const isPreviewStage = () => !(stage === "STAGING" || stage === "PRODUCTION");
@@ -21,5 +22,9 @@ const isPreviewStage = () => !(stage === "STAGING" || stage === "PRODUCTION");
 export const flags: Flags = isPreviewStage()
   ? {
       signatureHelp: true,
+      autocompleteDocs: true,
     }
-  : { signatureHelp: false };
+  : {
+      signatureHelp: false,
+      autocompleteDocs: false,
+    };
