@@ -111,7 +111,7 @@ const reduceSignatureHelpState = (
     };
   }
   // It's a bit weird that we always update the position, but VS Code does this too.
-  // I think ideally we'd have a notion of "same function signature". Does the
+  // I think ideally we'd have a notion of "same function call". Does the
   // node have a stable identity?
   if (effect.result) {
     const result = effect.result;
