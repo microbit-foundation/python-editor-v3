@@ -36,7 +36,7 @@ const fixupMarkdown = (input: string): string => {
   // Messy because it's after escaping. Fragile because it's regex.
   // Let's see if we can upstream or align the docs with supported syntax.
   return input
-    .replace(/`([\w \n]+)<(.*)>`\\_/gs, "[$1]($2)")
+    .replace(/`([\w \n]+?) ?<(.*)>`\\_/gs, "[$1]($2)")
     .replaceAll("\\*\\*", "**");
 };
 
