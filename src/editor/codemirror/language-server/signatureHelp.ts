@@ -7,8 +7,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Tooltip, showTooltip } from "@codemirror/tooltip";
 import { StateEffect, StateField, Text } from "@codemirror/state";
+import { showTooltip, Tooltip } from "@codemirror/tooltip";
 import {
   EditorView,
   logException,
@@ -20,11 +20,10 @@ import {
   SignatureHelp,
   SignatureHelpParams,
   SignatureHelpRequest,
-  MarkupContent,
 } from "vscode-languageserver-protocol";
-import { offsetToPosition } from "./positions";
 import { BaseLanguageServerView } from "./common";
 import { formatDocumentation } from "./documentation";
+import { offsetToPosition } from "./positions";
 
 interface SignatureChangeEffect {
   pos: number;

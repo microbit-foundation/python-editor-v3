@@ -22,7 +22,6 @@ import { LanguageServerClient } from "../../../language-server/client";
 import { clientFacet, uriFacet } from "./common";
 import { formatDocumentation } from "./documentation";
 import { offsetToPosition } from "./positions";
-import { languageServer } from "./view";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
 // any language's identifier definition.
