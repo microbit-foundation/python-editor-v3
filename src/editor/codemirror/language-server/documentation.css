@@ -1,0 +1,15 @@
+.docs-markdown * + * {
+  margin-top: var(--chakra-space-2);
+}
+.docs-markdown * + p {
+  margin-top: var(--chakra-space-3);
+}
+.docs-markdown * + code {
+  margin-top: var(--chakra-space-3);
+}
+.docs-markdown code {
+  white-space: pre-wrap;
+}
+.docs-markdown ul {
+  margin-left: var(--chakra-space-5);
+}

@@ -51,7 +51,7 @@ export class LanguageServerClient extends EventEmitter {
 
   constructor(
     public connection: MessageConnection,
-    private options: {
+    public options: {
       rootUri: string;
       initializationOptions: () => Promise<any>;
     }
@@ -71,75 +71,83 @@ export class LanguageServerClient extends EventEmitter {
     return this.diagnostics.get(uri) ?? [];
   }
 
+  private initializePromise: Promise<void> | undefined;
+
+  /**
+   * Initialize or wait for in-progress initialization.
+   */
   async initialize(): Promise<void> {
-    this.connection.onNotification(LogMessageNotification.type, (params) =>
-      console.log("[LS]", params.message)
-    );
+    if (this.initializePromise) {
+      return this.initializePromise;
+    }
+    this.initializePromise = (async () => {
+      this.connection.onNotification(LogMessageNotification.type, (params) =>
+        console.log("[LS]", params.message)
+      );
 
-    this.connection.onNotification(
-      PublishDiagnosticsNotification.type,
-      (params) => {
-        this.diagnostics.set(params.uri, params.diagnostics);
-        // Republish as you can't listen twice.
-        this.emit("diagnostics", params);
-      }
-    );
-    this.connection.onRequest(RegistrationRequest.type, () => {
-      // Ignore. I don't think we should get these at all given our
-      // capabilities, but Pyright is sending one anyway.
-    });
+      this.connection.onNotification(
+        PublishDiagnosticsNotification.type,
+        (params) => {
+          this.diagnostics.set(params.uri, params.diagnostics);
+          // Republish as you can't listen twice.
+          this.emit("diagnostics", params);
+        }
+      );
+      this.connection.onRequest(RegistrationRequest.type, () => {
+        // Ignore. I don't think we should get these at all given our
+        // capabilities, but Pyright is sending one anyway.
+      });
 
-    const initializeParams: InitializeParams = {
-      capabilities: {
-        textDocument: {
-          hover: {
-            contentFormat: ["plaintext", "markdown"],
-          },
-          moniker: {},
-          synchronization: {
-            willSave: false,
-            didSave: false,
-            willSaveWaitUntil: false,
-          },
-          completion: {
-            completionItem: {
-              snippetSupport: false,
-              commitCharactersSupport: true,
-              documentationFormat: ["plaintext", "markdown"],
-              deprecatedSupport: false,
-              preselectSupport: false,
+      const initializeParams: InitializeParams = {
+        capabilities: {
+          textDocument: {
+            moniker: {},
+            synchronization: {
+              willSave: false,
+              didSave: false,
+              willSaveWaitUntil: false,
             },
-            contextSupport: true,
-          },
-          publishDiagnostics: {
-            tagSupport: {
-              valueSet: [DiagnosticTag.Unnecessary, DiagnosticTag.Deprecated],
+            completion: {
+              completionItem: {
+                snippetSupport: false,
+                commitCharactersSupport: true,
+                documentationFormat: ["markdown"],
+                deprecatedSupport: false,
+                preselectSupport: false,
+              },
+              contextSupport: true,
+            },
+            publishDiagnostics: {
+              tagSupport: {
+                valueSet: [DiagnosticTag.Unnecessary, DiagnosticTag.Deprecated],
+              },
             },
           },
+          workspace: {
+            workspaceFolders: true,
+            didChangeConfiguration: {},
+            configuration: true,
+          },
         },
-        workspace: {
-          workspaceFolders: true,
-          didChangeConfiguration: {},
-          configuration: true,
-        },
-      },
-      initializationOptions: await this.options.initializationOptions(),
-      processId: null,
-      // Do we need both of these?
-      rootUri: this.options.rootUri,
-      workspaceFolders: [
-        {
-          name: "src",
-          uri: this.options.rootUri,
-        },
-      ],
-    };
-    const { capabilities } = await this.connection.sendRequest(
-      InitializeRequest.type,
-      initializeParams
-    );
-    this.capabilities = capabilities;
-    this.connection.sendNotification(InitializedNotification.type, {});
+        initializationOptions: await this.options.initializationOptions(),
+        processId: null,
+        // Do we need both of these?
+        rootUri: this.options.rootUri,
+        workspaceFolders: [
+          {
+            name: "src",
+            uri: this.options.rootUri,
+          },
+        ],
+      };
+      const { capabilities } = await this.connection.sendRequest(
+        InitializeRequest.type,
+        initializeParams
+      );
+      this.capabilities = capabilities;
+      this.connection.sendNotification(InitializedNotification.type, {});
+    })();
+    return this.initializePromise;
   }
 
   didOpenTextDocument(params: {
