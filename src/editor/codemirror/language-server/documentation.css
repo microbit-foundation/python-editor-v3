@@ -13,3 +13,11 @@
 .docs-markdown ul {
   margin-left: var(--chakra-space-5);
 }
+
+/* Eliminate some cruft */
+.docs-markdown p > br:first-child {
+  display: none;
+}
+.docs-markdown p > br:last-child {
+  display: none;
+}

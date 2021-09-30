@@ -2,6 +2,7 @@ import { Box, BoxProps, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
+import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 import {
   apiDocs,
   ApiDocsResponse,
@@ -104,11 +105,7 @@ const DocEntryNode = ({
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
         )}
-        {docString && (
-          <Text fontSize="sm" mt={2} noOfLines={2}>
-            {docString.replaceAll("``", "").replaceAll("**", "")}
-          </Text>
-        )}
+        {docString && <DocString value={docString} />}
       </Box>
       {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
@@ -221,6 +218,20 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
         </a>
       ))}
     </Text>
+  );
+};
+
+const DocString = ({ value }: { value: string }) => {
+  const html = renderMarkdown(value);
+  console.log(value);
+  return (
+    <Text
+      className="docs-markdown"
+      fontSize="sm"
+      mt={2}
+      fontWeight="normal"
+      dangerouslySetInnerHTML={html}
+    />
   );
 };
 

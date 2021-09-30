@@ -14,11 +14,7 @@ export const renderDocumentation = (
   div.className = "docs-markdown";
   if (MarkupContent.is(documentation) && documentation.kind === "markdown") {
     try {
-      div.innerHTML = DOMPurify.sanitize(
-        render(documentation.value, {
-          gfm: true,
-        })
-      );
+      div.innerHTML = renderMarkdown(documentation.value).__html;
       return div;
     } catch (e) {
       // Fall through to simple text below.
@@ -29,4 +25,18 @@ export const renderDocumentation = (
     : documentation;
   div.appendChild(new Text(fallbackContent));
   return div;
+};
+
+export interface SanitisedHtml {
+  __html: string;
+}
+
+export const renderMarkdown = (markdown: string): SanitisedHtml => {
+  return {
+    __html: DOMPurify.sanitize(
+      render(markdown, {
+        gfm: true,
+      })
+    ),
+  };
 };
