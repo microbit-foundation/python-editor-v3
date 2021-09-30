@@ -22,7 +22,7 @@ import {
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView } from "./common";
-import { formatDocumentation } from "./documentation";
+import { renderDocumentation } from "./documentation";
 import { offsetToPosition } from "./positions";
 
 interface SignatureChangeEffect {
@@ -121,11 +121,11 @@ const reduceSignatureHelpState = (
         pos: effect.pos,
         above: true,
         // This isn't great but the impact is really bad when it conflicts with autocomplete.
-        strictSide: true,
+        // strictSide: true,
         create: () => {
           const dom = document.createElement("div");
           dom.className = "cm-signature-tooltip";
-          dom.textContent = formatSignatureHelp(result);
+          dom.appendChild(formatSignatureHelp(result));
           return { dom };
         },
       },
@@ -134,16 +134,17 @@ const reduceSignatureHelpState = (
   return state;
 };
 
-const formatSignatureHelp = (result: SignatureHelp): string => {
+const formatSignatureHelp = (result: SignatureHelp): Node => {
+  // There's more we could do here to provide interactive UI to see all signatures.
   const { documentation, label } = result.signatures[result.activeSignature!];
-  return documentation ? formatDocumentation(documentation) : label;
+  return renderDocumentation(documentation ?? label);
 };
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   ".cm-tooltip.cm-signature-tooltip": {
     padding: "3px 9px",
     width: "max-content",
-    maxWidth: "400px",
+    maxWidth: "500px",
   },
 });
 
