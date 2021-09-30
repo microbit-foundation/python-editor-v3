@@ -12,16 +12,23 @@ import {
 import sortBy from "lodash.sortby";
 import * as LSP from "vscode-languageserver-protocol";
 import {
+  CompletionItem,
   CompletionItemKind,
+  CompletionResolveRequest,
   CompletionTriggerKind,
 } from "vscode-languageserver-protocol";
+import { flags } from "../../../flags";
 import { LanguageServerClient } from "../../../language-server/client";
 import { clientFacet, uriFacet } from "./common";
+import { formatDocumentation } from "./documentation";
 import { offsetToPosition } from "./positions";
+import { languageServer } from "./view";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
 // any language's identifier definition.
 const identifierLike = /[a-zA-Z0-9_\u{a1}-\u{10ffff}]+/u;
+
+type AugmentedCompletion = Completion & { item: CompletionItem };
 
 export const autocompletion = () =>
   cmAutocompletion({
@@ -51,6 +58,9 @@ export const autocompletion = () =>
           }
         }
 
+        const documentationResolver = flags.autocompleteDocs
+          ? createDocumentationResolver(client)
+          : undefined;
         const results = await client.completionRequest({
           textDocument: {
             uri,
@@ -69,32 +79,41 @@ export const autocompletion = () =>
           span: identifierLike,
           options: sortBy(
             results.items
-              // For now we don't support these edits (they that usually add imports).
+              // For now we don't support these edits (they usually add imports).
               .filter((x) => !x.additionalTextEdits)
               .map((item) => {
-                const completion: Completion & { sortText: string } = {
+                const completion: AugmentedCompletion = {
                   // In practice we don't get textEdit fields back from Pyright so the label is used.
                   label: item.label,
                   type: item.kind ? mapCompletionKind[item.kind] : undefined,
                   detail: item.detail,
-                  info: resolveDocumentation,
-                  sortText: item.sortText ?? item.label,
+                  info: documentationResolver,
                   boost: boost(item),
+                  // Needed later for resolving.
+                  item,
                 };
                 return completion;
               }),
-            (item) => item.sortText
+            (item) => item.item.sortText ?? item.label
           ),
         };
       },
     ],
   });
 
-const resolveDocumentation = async (completion: Completion): Promise<Node> => {
-  const div = document.createElement("div");
-  div.innerText = "No docs for " + completion.label;
-  return div;
-};
+const createDocumentationResolver =
+  (client: LanguageServerClient) =>
+  async (completion: Completion): Promise<Node> => {
+    const resolved = await client.connection.sendRequest(
+      CompletionResolveRequest.type,
+      (completion as AugmentedCompletion).item
+    );
+    const div = document.createElement("div");
+    div.innerText = resolved.documentation
+      ? formatDocumentation(resolved.documentation)
+      : "No documentation";
+    return div;
+  };
 
 const createTriggerCharactersRegExp = (
   client: LanguageServerClient
