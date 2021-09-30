@@ -20,7 +20,7 @@ import {
 import { flags } from "../../../flags";
 import { LanguageServerClient } from "../../../language-server/client";
 import { clientFacet, uriFacet } from "./common";
-import { formatDocumentation } from "./documentation";
+import { renderDocumentation } from "./documentation";
 import { offsetToPosition } from "./positions";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
@@ -107,11 +107,7 @@ const createDocumentationResolver =
       CompletionResolveRequest.type,
       (completion as AugmentedCompletion).item
     );
-    const div = document.createElement("div");
-    div.innerText = resolved.documentation
-      ? formatDocumentation(resolved.documentation)
-      : "No documentation";
-    return div;
+    return renderDocumentation(resolved.documentation);
   };
 
 const createTriggerCharactersRegExp = (
