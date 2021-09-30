@@ -135,6 +135,7 @@ const reduceSignatureHelpState = (
 };
 
 const formatSignatureHelp = (result: SignatureHelp): Node => {
+  // There's more we could do here to provide interactive UI to see all signatures.
   const { documentation, label } = result.signatures[result.activeSignature!];
   return renderDocumentation(documentation ?? label);
 };
