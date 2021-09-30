@@ -25,3 +25,6 @@
 .docs-markdown a {
   color: var(--chakra-colors-brand-500);
 }
+.docs-markdown pre {
+  padding: var(--chakra-space-1);
+}
