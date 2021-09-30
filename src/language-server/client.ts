@@ -92,9 +92,6 @@ export class LanguageServerClient extends EventEmitter {
     const initializeParams: InitializeParams = {
       capabilities: {
         textDocument: {
-          hover: {
-            contentFormat: ["markdown"],
-          },
           moniker: {},
           synchronization: {
             willSave: false,
@@ -110,6 +107,11 @@ export class LanguageServerClient extends EventEmitter {
               preselectSupport: false,
             },
             contextSupport: true,
+          },
+          signatureHelp: {
+            signatureInformation: {
+              documentationFormat: ["markdown"],
+            },
           },
           publishDiagnostics: {
             tagSupport: {
