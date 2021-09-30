@@ -12,21 +12,30 @@ import {
 import sortBy from "lodash.sortby";
 import * as LSP from "vscode-languageserver-protocol";
 import {
+  CompletionItem,
   CompletionItemKind,
+  CompletionResolveRequest,
   CompletionTriggerKind,
 } from "vscode-languageserver-protocol";
+import { flags } from "../../../flags";
 import { LanguageServerClient } from "../../../language-server/client";
+import { clientFacet, uriFacet } from "./common";
+import { formatDocumentation } from "./documentation";
 import { offsetToPosition } from "./positions";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
 // any language's identifier definition.
 const identifierLike = /[a-zA-Z0-9_\u{a1}-\u{10ffff}]+/u;
 
-export const autocompletion = (client: LanguageServerClient, uri: string) => {
-  return cmAutocompletion({
+type AugmentedCompletion = Completion & { item: CompletionItem };
+
+export const autocompletion = () =>
+  cmAutocompletion({
     override: [
       async (context: CompletionContext): Promise<CompletionResult | null> => {
-        if (!client.capabilities?.completionProvider) {
+        const client = context.state.facet(clientFacet);
+        const uri = context.state.facet(uriFacet);
+        if (!client || !uri || !client.capabilities?.completionProvider) {
           return null;
         }
 
@@ -48,6 +57,9 @@ export const autocompletion = (client: LanguageServerClient, uri: string) => {
           }
         }
 
+        const documentationResolver = flags.autocompleteDocs
+          ? createDocumentationResolver(client)
+          : undefined;
         const results = await client.completionRequest({
           textDocument: {
             uri,
@@ -66,27 +78,41 @@ export const autocompletion = (client: LanguageServerClient, uri: string) => {
           span: identifierLike,
           options: sortBy(
             results.items
-              // For now we don't support these edits (they that usually add imports).
+              // For now we don't support these edits (they usually add imports).
               .filter((x) => !x.additionalTextEdits)
               .map((item) => {
-                const completion: Completion & { sortText: string } = {
+                const completion: AugmentedCompletion = {
                   // In practice we don't get textEdit fields back from Pyright so the label is used.
                   label: item.label,
                   type: item.kind ? mapCompletionKind[item.kind] : undefined,
                   detail: item.detail,
-                  info: mapDocumentation(item.documentation),
-                  sortText: item.sortText ?? item.label,
+                  info: documentationResolver,
                   boost: boost(item),
+                  // Needed later for resolving.
+                  item,
                 };
                 return completion;
               }),
-            (item) => item.sortText
+            (item) => item.item.sortText ?? item.label
           ),
         };
       },
     ],
   });
-};
+
+const createDocumentationResolver =
+  (client: LanguageServerClient) =>
+  async (completion: Completion): Promise<Node> => {
+    const resolved = await client.connection.sendRequest(
+      CompletionResolveRequest.type,
+      (completion as AugmentedCompletion).item
+    );
+    const div = document.createElement("div");
+    div.innerText = resolved.documentation
+      ? formatDocumentation(resolved.documentation)
+      : "No documentation";
+    return div;
+  };
 
 const createTriggerCharactersRegExp = (
   client: LanguageServerClient
@@ -96,17 +122,6 @@ const createTriggerCharactersRegExp = (
     return new RegExp("[" + escapeRegex(characters.join("")) + "]");
   }
   return undefined;
-};
-
-const mapDocumentation = (
-  documentation: string | LSP.MarkupContent | undefined
-): undefined | string => {
-  // We should be able to resolve documentation here by calling into the client again
-  // and returning a function.
-  if (typeof documentation === "object") {
-    return documentation.value;
-  }
-  return documentation;
 };
 
 const mapCompletionKind = Object.fromEntries(
