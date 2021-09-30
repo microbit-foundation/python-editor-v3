@@ -47,12 +47,21 @@ const ApiDocsArea = () => {
 const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
   return (
     <>
-      <Accordion allowToggle wordBreak="break-word">
+      <Accordion
+        allowToggle
+        wordBreak="break-word"
+        position="relative"
+        // Animations disabled as they conflict with the sticky heading, as we animate past the sticky point.
+        reduceMotion={true}
+      >
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
           <AccordionItem key={module.id}>
             <AccordionButton
               fontSize="xl"
-              _expanded={{ fontWeight: "semibold" }}
+              backgroundColor="gray.50"
+              _expanded={{ fontWeight: "semibold", position: "sticky", top: 0 }}
+              // Equivalent to the default alpha but without transparency due to the stickyness.
+              _hover={{ backgroundColor: "rgb(225, 226, 226)" }}
             >
               <Box flex="1" textAlign="left" mr={3}>
                 {module.fullName}
