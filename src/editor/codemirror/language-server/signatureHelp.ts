@@ -7,8 +7,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Tooltip, showTooltip } from "@codemirror/tooltip";
 import { StateEffect, StateField, Text } from "@codemirror/state";
+import { showTooltip, Tooltip } from "@codemirror/tooltip";
 import {
   EditorView,
   logException,
@@ -20,10 +20,10 @@ import {
   SignatureHelp,
   SignatureHelpParams,
   SignatureHelpRequest,
-  MarkupContent,
 } from "vscode-languageserver-protocol";
-import { offsetToPosition } from "./positions";
 import { BaseLanguageServerView } from "./common";
+import { formatDocumentation } from "./documentation";
+import { offsetToPosition } from "./positions";
 
 interface SignatureChangeEffect {
   pos: number;
@@ -120,6 +120,7 @@ const reduceSignatureHelpState = (
       tooltip: {
         pos: effect.pos,
         above: true,
+        // This isn't great but the impact is really bad when it conflicts with autocomplete.
         strictSide: true,
         create: () => {
           const dom = document.createElement("div");
@@ -135,13 +136,7 @@ const reduceSignatureHelpState = (
 
 const formatSignatureHelp = (result: SignatureHelp): string => {
   const { documentation, label } = result.signatures[result.activeSignature!];
-  if (documentation) {
-    if (MarkupContent.is(documentation)) {
-      return documentation.value;
-    }
-    return documentation;
-  }
-  return label;
+  return documentation ? formatDocumentation(documentation) : label;
 };
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
