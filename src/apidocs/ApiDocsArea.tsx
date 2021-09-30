@@ -223,7 +223,6 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
 
 const DocString = ({ value }: { value: string }) => {
   const html = renderMarkdown(value);
-  console.log(value);
   return (
     <Text
       className="docs-markdown"

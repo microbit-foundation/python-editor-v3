@@ -1,7 +1,6 @@
-import { MarkupContent } from "vscode-languageserver-types";
-import render from "marked";
 import DOMPurify from "dompurify";
-
+import render from "marked";
+import { MarkupContent } from "vscode-languageserver-types";
 import "./documentation.css";
 
 export const renderDocumentation = (
@@ -31,12 +30,27 @@ export interface SanitisedHtml {
   __html: string;
 }
 
+const fixupMarkdown = (input: string): string => {
+  // Pyright's reST -> markdown conversion is imperfect.
+  // Make some fixes.
+  // Messy because it's after escaping. Fragile because it's regex.
+  // Let's see if we can upstream or align the docs with supported syntax.
+  return input
+    .replace(/`([\w \n]+)<(.*)>`\\_/gs, "[$1]($2)")
+    .replaceAll("\\*\\*", "**");
+};
+
+// Workaround to open links in a new tab.
+DOMPurify.addHook("afterSanitizeAttributes", function (node) {
+  if (node.tagName === "A") {
+    node.setAttribute("target", "_blank");
+    node.setAttribute("rel", "noopener");
+  }
+});
+
 export const renderMarkdown = (markdown: string): SanitisedHtml => {
+  const html = DOMPurify.sanitize(render(fixupMarkdown(markdown)));
   return {
-    __html: DOMPurify.sanitize(
-      render(markdown, {
-        gfm: true,
-      })
-    ),
+    __html: html,
   };
 };
