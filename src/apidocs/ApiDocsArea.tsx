@@ -1,14 +1,16 @@
-import { Box, BoxProps, Text } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
+import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 import {
   apiDocs,
-  ApiDocsResponse,
   ApiDocsBaseClass,
   ApiDocsEntry,
   ApiDocsFunctionParameter,
+  ApiDocsResponse,
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./apidocs-util";
@@ -16,6 +18,8 @@ import { pullModulesToTop } from "./apidocs-util";
 const ApiDocsArea = () => {
   const client = useLanguageServerClient();
   const [apidocs, setApiDocs] = useState<ApiDocsResponse | undefined>();
+  const [openId, setOpenId] = useState<string | undefined>(undefined);
+  console.log("Rendering top-level", openId);
   useEffect(() => {
     const load = async () => {
       if (client) {
@@ -30,7 +34,7 @@ const ApiDocsArea = () => {
   return (
     <Box height="100%" p={3} pt={4}>
       {apidocs ? (
-        <ModuleDocs docs={apidocs} />
+        <ModuleDocs docs={apidocs} openId={openId} setOpenId={setOpenId} />
       ) : (
         <Spinner label="Loading API documentation" alignSelf="center" />
       )}
@@ -38,7 +42,13 @@ const ApiDocsArea = () => {
   );
 };
 
-const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
+interface ModuleDocsProps {
+  openId: string | undefined;
+  setOpenId: (id: string | undefined) => void;
+  docs: ApiDocsResponse;
+}
+
+const ModuleDocs = ({ openId, setOpenId, docs }: ModuleDocsProps) => {
   return (
     <>
       {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
@@ -47,15 +57,13 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
           docs={module}
           borderRadius="md"
           _last={{ pb: 4 }}
+          openId={openId}
+          setOpenId={setOpenId}
         />
       ))}
     </>
   );
 };
-
-interface DocEntryNodeProps extends BoxProps {
-  docs: ApiDocsEntry;
-}
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -69,8 +77,16 @@ const kindToSpacing: Record<string, any> = {
   function: 3,
 };
 
+interface DocEntryNodeProps extends BoxProps {
+  docs: ApiDocsEntry;
+  openId: string | undefined;
+  setOpenId: (id: string | undefined) => void;
+}
+
 const DocEntryNode = ({
-  docs: { kind, fullName, children, params, docString, baseClasses },
+  openId,
+  setOpenId,
+  docs: { id, kind, fullName, children, params, docString, baseClasses },
   mt,
   mb,
   ...others
@@ -105,7 +121,14 @@ const DocEntryNode = ({
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
         )}
-        {docString && <DocString value={docString} />}
+        {docString && (
+          <DocString
+            id={id}
+            docString={docString}
+            openId={openId}
+            setOpenId={setOpenId}
+          />
+        )}
       </Box>
       {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
@@ -121,7 +144,12 @@ const DocEntryNode = ({
                       {groupHeading(kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <DocEntryNode key={c.id} docs={c} />
+                      <DocEntryNode
+                        key={c.id}
+                        docs={c}
+                        openId={openId}
+                        setOpenId={setOpenId}
+                      />
                     ))}
                   </React.Fragment>
                 )
@@ -221,17 +249,51 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   );
 };
 
-const DocString = ({ value }: { value: string }) => {
-  const html = renderMarkdown(value);
-  return (
-    <Text
-      className="docs-markdown"
-      fontSize="sm"
-      mt={2}
-      fontWeight="normal"
-      dangerouslySetInnerHTML={html}
-    />
-  );
-};
+interface DocStringProps {
+  id: string;
+  docString: string;
+  openId: string | undefined;
+  setOpenId: (id: string | undefined) => void;
+}
+
+const DocString = React.memo(
+  ({ id, docString, openId, setOpenId }: DocStringProps) => {
+    const firstParagraph = docString.split(/\n{2,}/g)[0];
+    const isOpen = openId === id;
+    console.log("Rendering with openId = " + openId);
+    const html = renderMarkdown(isOpen ? docString : firstParagraph);
+    return (
+      <VStack alignItems="stretch" spacing={0}>
+        <Box
+          className="docs-markdown"
+          fontSize="sm"
+          mt={2}
+          fontWeight="normal"
+          dangerouslySetInnerHTML={html}
+        />
+        <HStack justifyContent="flex-end">
+          {docString.length > firstParagraph.length && (
+            <Button
+              color="unset"
+              variant="link"
+              size="xs"
+              onClick={() => setOpenId(isOpen ? undefined : id)}
+              rightIcon={<ExpandCollapseIcon open={isOpen} />}
+              _hover={{
+                textDecoration: "none",
+              }}
+              p={1}
+              pt={1.5}
+              pb={1.5}
+            >
+              {/* TODO: better aria-label with context */}
+              {isOpen ? "Collapse details" : "Show details"}
+            </Button>
+          )}
+        </HStack>
+      </VStack>
+    );
+  }
+);
 
 export default ApiDocsArea;
