@@ -14,6 +14,12 @@
 .docs-markdown ol {
   margin-left: var(--chakra-space-5);
 }
+.docs-markdown a {
+  color: var(--chakra-colors-brand-500);
+}
+.docs-markdown pre {
+  padding: var(--chakra-space-1);
+}
 
 /* Eliminate some cruft */
 .docs-markdown p > br:first-child {
@@ -21,10 +27,4 @@
 }
 .docs-markdown p > br:last-child {
   display: none;
-}
-.docs-markdown a {
-  color: var(--chakra-colors-brand-500);
-}
-.docs-markdown pre {
-  padding: var(--chakra-space-1);
 }
