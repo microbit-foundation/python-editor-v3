@@ -76,7 +76,7 @@ interface DocEntryNodeProps extends BoxProps {
 }
 
 const DocEntryNode = ({
-  docs: { kind, fullName, children, params, docString, baseClasses },
+  docs: { kind, name, fullName, children, params, docString, baseClasses },
   mt,
   mb,
   ...others
@@ -113,6 +113,7 @@ const DocEntryNode = ({
         )}
         {docString && (
           <DocString
+            name={name}
             details={kind !== "module" && kind !== "class"}
             docString={docString}
           />
@@ -233,11 +234,12 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
 };
 
 interface DocStringProps {
+  name: string;
   docString: string;
   details: boolean;
 }
 
-const DocString = React.memo(({ details, docString }: DocStringProps) => {
+const DocString = React.memo(({ name, details, docString }: DocStringProps) => {
   const firstParagraph = docString.split(/\n{2,}/g)[0];
   const [isOpen, setOpen] = useState(false);
   const html = renderMarkdown(isOpen ? docString : firstParagraph);
@@ -265,8 +267,12 @@ const DocString = React.memo(({ details, docString }: DocStringProps) => {
               p={1}
               pt={1.5}
               pb={1.5}
+              aria-label={
+                isOpen
+                  ? `Collapse details for ${name}`
+                  : `Show details for ${name}`
+              }
             >
-              {/* TODO: better aria-label with context */}
               {isOpen ? "Collapse details" : "Show details"}
             </Button>
           )}
