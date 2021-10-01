@@ -76,7 +76,7 @@ interface DocEntryNodeProps extends BoxProps {
 }
 
 const DocEntryNode = ({
-  docs: { id, kind, fullName, children, params, docString, baseClasses },
+  docs: { kind, fullName, children, params, docString, baseClasses },
   mt,
   mb,
   ...others
@@ -111,7 +111,12 @@ const DocEntryNode = ({
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
         )}
-        {docString && <DocString docString={docString} />}
+        {docString && (
+          <DocString
+            details={kind !== "module" && kind !== "class"}
+            docString={docString}
+          />
+        )}
       </Box>
       {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
@@ -229,14 +234,15 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
 
 interface DocStringProps {
   docString: string;
+  details: boolean;
 }
 
-const DocString = React.memo(({ docString }: DocStringProps) => {
+const DocString = React.memo(({ details, docString }: DocStringProps) => {
   const firstParagraph = docString.split(/\n{2,}/g)[0];
   const [isOpen, setOpen] = useState(false);
   const html = renderMarkdown(isOpen ? docString : firstParagraph);
   return (
-    <VStack alignItems="stretch" spacing={0}>
+    <VStack alignItems="stretch" spacing={1}>
       <Box
         className="docs-markdown"
         fontSize="sm"
@@ -244,26 +250,28 @@ const DocString = React.memo(({ docString }: DocStringProps) => {
         fontWeight="normal"
         dangerouslySetInnerHTML={html}
       />
-      <HStack justifyContent="flex-end">
-        {docString.length > firstParagraph.length && (
-          <Button
-            color="unset"
-            variant="link"
-            size="xs"
-            onClick={() => setOpen(!isOpen)}
-            rightIcon={<ExpandCollapseIcon open={isOpen} />}
-            _hover={{
-              textDecoration: "none",
-            }}
-            p={1}
-            pt={1.5}
-            pb={1.5}
-          >
-            {/* TODO: better aria-label with context */}
-            {isOpen ? "Collapse details" : "Show details"}
-          </Button>
-        )}
-      </HStack>
+      {details && (
+        <HStack justifyContent="flex-end">
+          {docString.length > firstParagraph.length && (
+            <Button
+              color="unset"
+              variant="link"
+              size="xs"
+              onClick={() => setOpen(!isOpen)}
+              rightIcon={<ExpandCollapseIcon open={isOpen} />}
+              _hover={{
+                textDecoration: "none",
+              }}
+              p={1}
+              pt={1.5}
+              pb={1.5}
+            >
+              {/* TODO: better aria-label with context */}
+              {isOpen ? "Collapse details" : "Show details"}
+            </Button>
+          )}
+        </HStack>
+      )}
     </VStack>
   );
 });
