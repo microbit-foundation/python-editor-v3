@@ -1,9 +1,15 @@
 import { Button } from "@chakra-ui/button";
+import Icon from "@chakra-ui/icon";
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { MdDragHandle } from "react-icons/md";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import {
+  CodeWithImports,
+  pythonWithImportsMediaType,
+} from "../editor/codemirror/dnd";
 import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 import {
   apiDocs,
@@ -14,6 +20,13 @@ import {
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./apidocs-util";
+
+const classToInstanceMap: Record<string, string> = {
+  Button: "button_a",
+  MicroBitDigitalPin: "pin0",
+  MicroBitTouchPin: "pin0",
+  MicroBitAnalogDigitalPin: "pin0",
+};
 
 const ApiDocsArea = () => {
   const client = useLanguageServerClient();
@@ -81,32 +94,67 @@ const DocEntryNode = ({
   mb,
   ...others
 }: DocEntryNodeProps) => {
+  const functionOrVariable = kind === "variable" || kind === "function";
   const groupedChildren = useMemo(() => {
     const filteredChildren = filterChildren(children);
     return filteredChildren
       ? groupBy(filteredChildren, (c) => c.kind)
       : undefined;
   }, [children]);
-
+  const handleDragStart = useCallback(
+    (event: React.DragEvent) => {
+      // This assumes a "from microbit import *" import style.
+      // In future we'll add information to allow other modules to be auto-imported.
+      let parts = fullName.split(".");
+      const isMicrobit = parts[0] === "microbit";
+      if (parts[0] === "microbit") {
+        parts = parts.slice(1);
+      }
+      parts = parts.map((p) => classToInstanceMap[p] ?? p);
+      const codeWithImports: CodeWithImports = {
+        code: parts.join(".") + (kind === "function" ? "()" : ""),
+        imports: [
+          isMicrobit
+            ? {
+                module: "microbit",
+                names: ["*"],
+              }
+            : { module: parts[0], names: [parts[1]] },
+        ],
+      };
+      event.dataTransfer.setData(
+        pythonWithImportsMediaType,
+        JSON.stringify(codeWithImports)
+      );
+    },
+    [fullName, kind]
+  );
   return (
     <Box
       id={fullName}
       wordBreak="break-word"
       mb={kindToSpacing[kind]}
-      p={kind === "variable" || kind === "function" ? 2 : undefined}
-      backgroundColor={
-        kind === "variable" || kind === "function" ? "gray.10" : undefined
-      }
+      p={functionOrVariable ? 2 : undefined}
+      backgroundColor={functionOrVariable ? "gray.10" : undefined}
       borderRadius="md"
       {...others}
     >
       <Box>
-        <Text fontSize={kindToFontSize[kind]}>
-          <Text as="span" fontWeight="semibold">
-            {formatName(kind, fullName)}
+        <HStack
+          draggable={functionOrVariable}
+          onDragStart={handleDragStart}
+          fontSize={kindToFontSize[kind]}
+        >
+          <Text flex="1 1 auto">
+            <Text as="span" fontWeight="semibold">
+              {formatName(kind, fullName)}
+            </Text>
+            {nameSuffix(kind, params)}
           </Text>
-          {nameSuffix(kind, params)}
-        </Text>
+          {functionOrVariable && (
+            <Icon as={MdDragHandle} transform="rotate(90deg) scaleX(1.5)" />
+          )}
+        </HStack>
 
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
@@ -114,7 +162,7 @@ const DocEntryNode = ({
         {docString && (
           <DocString
             name={name}
-            details={kind !== "module" && kind !== "class"}
+            details={functionOrVariable}
             docString={docString}
           />
         )}

@@ -23,6 +23,7 @@ import {
   KeyBinding,
   keymap,
 } from "@codemirror/view";
+import { dragAndDrop } from "./dnd";
 import highlightStyle from "./highlightStyle";
 
 const customTabBinding: KeyBinding = {
@@ -70,4 +71,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
+  dragAndDrop(),
 ];

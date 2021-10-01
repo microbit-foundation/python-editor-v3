@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { StateEffect, StateField, Text } from "@codemirror/state";
+import { StateEffect, StateField } from "@codemirror/state";
 import { showTooltip, Tooltip } from "@codemirror/tooltip";
 import {
   EditorView,
@@ -30,9 +30,7 @@ interface SignatureChangeEffect {
   result: SignatureHelp | null;
 }
 
-export const setSignatureHelpEffect = StateEffect.define<SignatureChangeEffect>(
-  {}
-);
+const setSignatureHelpEffect = StateEffect.define<SignatureChangeEffect>({});
 
 interface SignatureHelpState {
   tooltip: Tooltip | null;
@@ -67,9 +65,15 @@ export class SignatureHelpView
       this.triggerSignatureHelpRequest();
     } else if (docChanged) {
       const last = transactions[transactions.length - 1];
-      if (last.isUserEvent("input.type")) {
+      if (
+        last.isUserEvent("input.type") ||
+        last.isUserEvent("input.drop.apidocs")
+      ) {
         last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-          if (inserted.eq(Text.of(["("])) || inserted.eq(Text.of(["()"]))) {
+          if (
+            inserted.sliceString(inserted.length - 1) === "(" ||
+            inserted.sliceString(inserted.length - 2) === "()"
+          ) {
             this.triggerSignatureHelpRequest();
           }
         });
