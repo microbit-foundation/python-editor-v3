@@ -37,7 +37,7 @@ const fixupMarkdown = (input: string): string => {
   // Let's see if we can upstream or align the docs with supported syntax.
   return input
     .replace(/`([\w \n]+?) ?<(.*)>`\\_/gs, "[$1]($2)")
-    .replaceAll("\\*\\*", "**");
+    .replace(/\\\*\\\*/g, "**");
 };
 
 // Workaround to open links in a new tab.
