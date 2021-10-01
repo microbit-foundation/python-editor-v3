@@ -49,7 +49,9 @@ DOMPurify.addHook("afterSanitizeAttributes", function (node) {
 });
 
 export const renderMarkdown = (markdown: string): SanitisedHtml => {
-  const html = DOMPurify.sanitize(render(fixupMarkdown(markdown)));
+  const html = DOMPurify.sanitize(
+    render(fixupMarkdown(markdown), { gfm: true })
+  );
   return {
     __html: html,
   };
