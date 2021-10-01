@@ -5,16 +5,19 @@ import {
   AccordionItem,
   AccordionPanel,
 } from "@chakra-ui/accordion";
-import { Box, BoxProps, Text } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
+import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 import {
   apiDocs,
-  ApiDocsResponse,
   ApiDocsBaseClass,
   ApiDocsEntry,
   ApiDocsFunctionParameter,
+  ApiDocsResponse,
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./apidocs-util";
@@ -44,7 +47,11 @@ const ApiDocsArea = () => {
   );
 };
 
-const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
+interface ModuleDocsProps {
+  docs: ApiDocsResponse;
+}
+
+const ModuleDocs = ({ docs }: ModuleDocsProps) => {
   return (
     <>
       <Accordion
@@ -65,7 +72,13 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
             >
               <Box flex="1" textAlign="left" mr={3}>
                 {module.fullName}
-                {module.docString && <DocString value={module.docString} />}
+                {module.docString && (
+                  <DocString
+                    name={module.fullName}
+                    details={false}
+                    docString={module.docString}
+                  />
+                )}
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -79,11 +92,6 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
   );
 };
 
-interface DocEntryNodeProps extends BoxProps {
-  docs: ApiDocsEntry;
-  heading?: boolean;
-}
-
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
   class: "lg",
@@ -96,8 +104,13 @@ const kindToSpacing: Record<string, any> = {
   function: 3,
 };
 
+interface DocEntryNodeProps extends BoxProps {
+  docs: ApiDocsEntry;
+  heading?: boolean;
+}
+
 const DocEntryNode = ({
-  docs: { id, kind, fullName, children, params, docString, baseClasses },
+  docs: { kind, name, fullName, children, params, docString, baseClasses },
   heading = true,
   mt,
   mb,
@@ -122,22 +135,27 @@ const DocEntryNode = ({
       borderRadius="md"
       {...others}
     >
-      <Box>
-        {heading && (
-          <>
-            <Text fontSize={kindToFontSize[kind]}>
-              <Text as="span" fontWeight="semibold">
-                {formatName(kind, fullName)}
-              </Text>
-              {nameSuffix(kind, params)}
+      {heading && (
+        <Box>
+          <Text fontSize={kindToFontSize[kind]}>
+            <Text as="span" fontWeight="semibold">
+              {formatName(kind, fullName)}
             </Text>
-            {baseClasses && baseClasses.length > 0 && (
-              <BaseClasses value={baseClasses} />
-            )}
-            {docString && <DocString value={docString} />}
-          </>
-        )}
-      </Box>
+            {nameSuffix(kind, params)}
+          </Text>
+
+          {baseClasses && baseClasses.length > 0 && (
+            <BaseClasses value={baseClasses} />
+          )}
+          {docString && (
+            <DocString
+              name={name}
+              details={kind !== "module" && kind !== "class"}
+              docString={docString}
+            />
+          )}
+        </Box>
+      )}
       {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
           <Box
@@ -252,10 +270,53 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   );
 };
 
-const DocString = ({ value }: { value: string }) => (
-  <Text fontSize="sm" mt={2} noOfLines={2} fontWeight="normal">
-    {value.replaceAll("``", "").replaceAll("**", "")}
-  </Text>
-);
+interface DocStringProps {
+  name: string;
+  docString: string;
+  details: boolean;
+}
+
+const DocString = React.memo(({ name, details, docString }: DocStringProps) => {
+  const firstParagraph = docString.split(/\n{2,}/g)[0];
+  const [isOpen, setOpen] = useState(false);
+  const html = renderMarkdown(isOpen ? docString : firstParagraph);
+  return (
+    <VStack alignItems="stretch" spacing={1}>
+      <Box
+        className="docs-markdown"
+        fontSize="sm"
+        mt={2}
+        fontWeight="normal"
+        dangerouslySetInnerHTML={html}
+      />
+      {details && (
+        <HStack justifyContent="flex-end">
+          {docString.length > firstParagraph.length && (
+            <Button
+              color="unset"
+              variant="link"
+              size="xs"
+              onClick={() => setOpen(!isOpen)}
+              rightIcon={<ExpandCollapseIcon open={isOpen} />}
+              _hover={{
+                textDecoration: "none",
+              }}
+              p={1}
+              pt={1.5}
+              pb={1.5}
+              aria-label={
+                isOpen
+                  ? `Collapse details for ${name}`
+                  : `Show details for ${name}`
+              }
+            >
+              {isOpen ? "Collapse details" : "Show details"}
+            </Button>
+          )}
+        </HStack>
+      )}
+    </VStack>
+  );
+});
 
 export default ApiDocsArea;
