@@ -22,6 +22,8 @@ describe("renderDocumentation", () => {
 describe("renderMarkdown", () => {
   it("sanitizes html", () => {
     const html = renderMarkdown("<script>alert(1)</script>");
-    expect(html).toEqual("");
+    expect(html).toEqual({
+      __html: "",
+    });
   });
 });
