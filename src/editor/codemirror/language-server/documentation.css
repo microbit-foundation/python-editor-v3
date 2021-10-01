@@ -10,6 +10,21 @@
 .docs-markdown code {
   white-space: pre-wrap;
 }
-.docs-markdown ul {
+.docs-markdown ul,
+.docs-markdown ol {
   margin-left: var(--chakra-space-5);
+}
+.docs-markdown a {
+  color: var(--chakra-colors-brand-500);
+}
+.docs-markdown pre {
+  padding: var(--chakra-space-1);
+}
+
+/* Eliminate some cruft */
+.docs-markdown p > br:first-child {
+  display: none;
+}
+.docs-markdown p > br:last-child {
+  display: none;
 }

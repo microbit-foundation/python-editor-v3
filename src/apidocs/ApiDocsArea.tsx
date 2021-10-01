@@ -1,13 +1,16 @@
-import { Box, BoxProps, Text } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
+import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 import {
   apiDocs,
-  ApiDocsResponse,
   ApiDocsBaseClass,
   ApiDocsEntry,
   ApiDocsFunctionParameter,
+  ApiDocsResponse,
 } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./apidocs-util";
@@ -37,7 +40,11 @@ const ApiDocsArea = () => {
   );
 };
 
-const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
+interface ModuleDocsProps {
+  docs: ApiDocsResponse;
+}
+
+const ModuleDocs = ({ docs }: ModuleDocsProps) => {
   return (
     <>
       {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
@@ -52,10 +59,6 @@ const ModuleDocs = ({ docs }: { docs: ApiDocsResponse }) => {
   );
 };
 
-interface DocEntryNodeProps extends BoxProps {
-  docs: ApiDocsEntry;
-}
-
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
   class: "lg",
@@ -68,8 +71,12 @@ const kindToSpacing: Record<string, any> = {
   function: 3,
 };
 
+interface DocEntryNodeProps extends BoxProps {
+  docs: ApiDocsEntry;
+}
+
 const DocEntryNode = ({
-  docs: { kind, fullName, children, params, docString, baseClasses },
+  docs: { kind, name, fullName, children, params, docString, baseClasses },
   mt,
   mb,
   ...others
@@ -105,9 +112,11 @@ const DocEntryNode = ({
           <BaseClasses value={baseClasses} />
         )}
         {docString && (
-          <Text fontSize="sm" mt={2} noOfLines={2}>
-            {docString.replaceAll("``", "").replaceAll("**", "")}
-          </Text>
+          <DocString
+            name={name}
+            details={kind !== "module" && kind !== "class"}
+            docString={docString}
+          />
         )}
       </Box>
       {groupedChildren && groupedChildren.size > 0 && (
@@ -223,5 +232,54 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
     </Text>
   );
 };
+
+interface DocStringProps {
+  name: string;
+  docString: string;
+  details: boolean;
+}
+
+const DocString = React.memo(({ name, details, docString }: DocStringProps) => {
+  const firstParagraph = docString.split(/\n{2,}/g)[0];
+  const [isOpen, setOpen] = useState(false);
+  const html = renderMarkdown(isOpen ? docString : firstParagraph);
+  return (
+    <VStack alignItems="stretch" spacing={1}>
+      <Box
+        className="docs-markdown"
+        fontSize="sm"
+        mt={2}
+        fontWeight="normal"
+        dangerouslySetInnerHTML={html}
+      />
+      {details && (
+        <HStack justifyContent="flex-end">
+          {docString.length > firstParagraph.length && (
+            <Button
+              color="unset"
+              variant="link"
+              size="xs"
+              onClick={() => setOpen(!isOpen)}
+              rightIcon={<ExpandCollapseIcon open={isOpen} />}
+              _hover={{
+                textDecoration: "none",
+              }}
+              p={1}
+              pt={1.5}
+              pb={1.5}
+              aria-label={
+                isOpen
+                  ? `Collapse details for ${name}`
+                  : `Show details for ${name}`
+              }
+            >
+              {isOpen ? "Collapse details" : "Show details"}
+            </Button>
+          )}
+        </HStack>
+      )}
+    </VStack>
+  );
+});
 
 export default ApiDocsArea;
