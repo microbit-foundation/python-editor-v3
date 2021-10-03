@@ -26,6 +26,7 @@ const classToInstanceMap: Record<string, string> = {
   MicroBitDigitalPin: "pin0",
   MicroBitTouchPin: "pin0",
   MicroBitAnalogDigitalPin: "pin0",
+  Image: "Image.HEART"
 };
 
 const ApiDocsArea = () => {

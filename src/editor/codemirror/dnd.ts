@@ -101,8 +101,86 @@ function calculateImportChanges(
   state: EditorState,
   imports: RequiredImport[]
 ): SimpleChangeSpec[] {
-  // eslint-disable-next-line
-  const tree = syntaxTree(state);
-  // TODO!
+  const current = currentImports(state);
+  console.log(current);
   return [];
 }
+
+interface Import {
+  kind: "import" | "from";
+  module: string;
+  alias?: string;
+  names?: ImportedName[];
+}
+  
+interface ImportedName {
+  name: string;
+  alias?: string;
+}
+
+const currentImports = (state: EditorState): Import[] => {
+  const tree = syntaxTree(state);
+  const imports: (Import | undefined)[] = tree.topNode
+    .getChildren("ImportStatement")
+    .map((existingImport) => {
+      // The tree is flat here, so making sense of this is distressingly like parsing it again.
+      // (1) kw<"from"> (("." | "...")+ dottedName? | dottedName) kw<"import"> ("*" | importList | importedNames)
+      // (2) kw<"import"> dottedName (kw<"as"> VariableName)? |
+      if (existingImport.firstChild?.name === "from") {
+        const moduleNode = existingImport.getChild("VariableName");
+        if (!moduleNode) {
+          return undefined;
+        }
+        const module = state.doc.sliceString(moduleNode.from, moduleNode.to);
+        const importNode = existingImport.getChild("import");
+        if (!importNode) {
+          return undefined;
+        }
+        const names: ImportedName[] = [];
+        let current: ImportedName | undefined;
+        for (
+          let node = importNode.nextSibling;
+          node;
+          node = node?.nextSibling
+        ) {
+          const isVariableName = node.name === "VariableName";
+          if (current) {
+            if (isVariableName) {
+              current.alias = state.sliceDoc(node.from, node.to);
+            } else if (
+              node.name === "as" ||
+              node.name === "(" ||
+              node.name === ")"
+            ) {
+              continue;
+            } else if (node.name === ",") {
+              names.push(current);
+              current = undefined;
+            }
+          } else {
+            current = {
+              name: state.sliceDoc(node.from, node.to),
+            };
+          }
+        }
+        if (current) {
+          names.push(current);
+        }
+        return { module, names, kind: "from" };
+      } else if (existingImport.firstChild?.name === "import") {
+        const variableNames = existingImport.getChildren("VariableName");
+        if (variableNames.length === 0) {
+          return undefined;
+        }
+        return {
+          module: state.doc.sliceString(variableNames[0].from, variableNames[0].to),
+          alias: variableNames.length === 2
+            ? state.doc.sliceString(variableNames[1].from, variableNames[1].to)
+            : undefined,
+          kind: "import"
+        };
+      }
+      return undefined;
+    });
+    return imports.filter((x: Import | undefined): x is Import => !!x);
+};
