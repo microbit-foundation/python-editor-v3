@@ -26,7 +26,7 @@ const classToInstanceMap: Record<string, string> = {
   MicroBitDigitalPin: "pin0",
   MicroBitTouchPin: "pin0",
   MicroBitAnalogDigitalPin: "pin0",
-  Image: "Image.HEART"
+  Image: "Image.HEART",
 };
 
 const ApiDocsArea = () => {
@@ -104,24 +104,14 @@ const DocEntryNode = ({
   }, [children]);
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
-      // This assumes a "from microbit import *" import style.
-      // In future we'll add information to allow other modules to be auto-imported.
-      let parts = fullName.split(".");
+      const parts = fullName.split(".");
       const isMicrobit = parts[0] === "microbit";
-      if (parts[0] === "microbit") {
-        parts = parts.slice(1);
-      }
-      parts = parts.map((p) => classToInstanceMap[p] ?? p);
+      let use = isMicrobit ? parts.slice(1) : parts
+      use = use.map((p) => classToInstanceMap[p] ?? p);
+      const requiredImport = isMicrobit ? { module: "microbit", name: "*"} : { module: parts[0] };
       const codeWithImports: CodeWithImports = {
-        code: parts.join(".") + (kind === "function" ? "()" : ""),
-        imports: [
-          isMicrobit
-            ? {
-                module: "microbit",
-                names: ["*"],
-              }
-            : { module: parts[0], names: [parts[1]] },
-        ],
+        code: use.join(".") + (kind === "function" ? "()" : ""),
+        requiredImport
       };
       event.dataTransfer.setData(
         pythonWithImportsMediaType,

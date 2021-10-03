@@ -1,17 +1,18 @@
 import { syntaxTree } from "@codemirror/language";
 import { EditorState, StateEffect } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
+import { SyntaxNode } from "@lezer/common";
 
 export const pythonWithImportsMediaType = "application/x.python-with-imports";
 
 interface RequiredImport {
   module: string;
-  names: string[];
+  name?: string;
 }
 
 export interface CodeWithImports {
   code: string;
-  imports: RequiredImport[];
+  requiredImport: RequiredImport;
 }
 
 // The intent is to use this to draw drop cues.
@@ -63,8 +64,8 @@ export const dragAndDrop = () =>
           pythonWithImportsMediaType
         );
         if (jsonText) {
-          const { code, imports } = JSON.parse(jsonText) as CodeWithImports;
-          const importChanges = calculateImportChanges(view.state, imports);
+          const { code, requiredImport } = JSON.parse(jsonText) as CodeWithImports;
+          const importChanges = calculateImportChanges(view.state, requiredImport);
           const isCallable = code.endsWith(")");
           view.dispatch({
             effects: [
@@ -99,11 +100,41 @@ type SimpleChangeSpec = {
 
 function calculateImportChanges(
   state: EditorState,
-  imports: RequiredImport[]
+  required: RequiredImport
 ): SimpleChangeSpec[] {
-  const current = currentImports(state);
-  console.log(current);
-  return [];
+  const allCurrent = currentImports(state);
+  if (!required.name) {
+    // Module import.
+    if (allCurrent.find(c => !c.names && c.module === required.module)) {
+      return [];
+    } else {
+      return [{ from: 0, to: 0, insert: `import ${required.module}\n`}];
+    }
+  } else if (required.name === "*") {
+    // Wildcard import.
+    if (allCurrent.find(c => c.names?.length === 1 && c.names[0].name === "*" && c.module === required.module)) {
+      return [];
+    } else {
+      return [{ from: 0, to: 0, insert: `from ${required.module} import *\n`}];
+    }
+  } else {
+    // Importing some name from a module.
+    const partMatches = allCurrent.filter(c => c.names && !(c.names?.length === 1 && c.names[0].name === "*") && c.module === required.module);
+    const fullMatch = partMatches.find(nameImport => nameImport.names?.find(n => n.name === required.name && !n.alias))
+    if (fullMatch) {
+      return [];
+    } else if (partMatches.length > 0) {
+      return [
+        {
+          from: partMatches[0].node.to,
+          to: partMatches[0].node.to,
+          insert: `, ${required.name}`
+        }
+      ]
+    } else {
+      return [{ from: 0, to: 0, insert: `from ${required.module} import ${required.name}\n`}];
+    }
+  }
 }
 
 interface Import {
@@ -111,6 +142,7 @@ interface Import {
   module: string;
   alias?: string;
   names?: ImportedName[];
+  node: SyntaxNode;
 }
   
 interface ImportedName {
@@ -166,7 +198,7 @@ const currentImports = (state: EditorState): Import[] => {
         if (current) {
           names.push(current);
         }
-        return { module, names, kind: "from" };
+        return { module, names, kind: "from", node: existingImport };
       } else if (existingImport.firstChild?.name === "import") {
         const variableNames = existingImport.getChildren("VariableName");
         if (variableNames.length === 0) {
@@ -177,7 +209,8 @@ const currentImports = (state: EditorState): Import[] => {
           alias: variableNames.length === 2
             ? state.doc.sliceString(variableNames[1].from, variableNames[1].to)
             : undefined,
-          kind: "import"
+          kind: "import",
+          node: existingImport
         };
       }
       return undefined;
