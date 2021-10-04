@@ -5,7 +5,7 @@ import { SyntaxNode } from "@lezer/common";
 
 export const pythonWithImportsMediaType = "application/x.python-with-imports";
 
-interface RequiredImport {
+export interface RequiredImport {
   module: string;
   name?: string;
 }
@@ -104,10 +104,10 @@ type SimpleChangeSpec = {
   insert: string;
 };
 
-function calculateImportChanges(
+export const calculateImportChanges = (
   state: EditorState,
   required: RequiredImport
-): SimpleChangeSpec[] {
+): SimpleChangeSpec[] => {
   const allCurrent = currentImports(state);
   const changes = calculateImportChangesInternal(allCurrent, required);
   if (changes.length > 0 && allCurrent.length === 0) {
@@ -115,12 +115,12 @@ function calculateImportChanges(
     changes[changes.length - 1].insert += "\n\n";
   }
   return changes;
-}
+};
 
-function calculateImportChangesInternal(
+const calculateImportChangesInternal = (
   allCurrent: Import[],
   required: RequiredImport
-): SimpleChangeSpec[] {
+): SimpleChangeSpec[] => {
   const from = allCurrent.length
     ? allCurrent[allCurrent.length - 1].node.to
     : 0;
@@ -129,7 +129,11 @@ function calculateImportChangesInternal(
 
   if (!required.name) {
     // Module import.
-    if (allCurrent.find((c) => !c.names && c.module === required.module)) {
+    if (
+      allCurrent.find(
+        (c) => !c.names && c.module === required.module && !c.alias
+      )
+    ) {
       return [];
     } else {
       return [{ from, to, insert: `${prefix}import ${required.module}` }];
@@ -181,7 +185,7 @@ function calculateImportChangesInternal(
       ];
     }
   }
-}
+};
 
 interface Import {
   kind: "import" | "from";

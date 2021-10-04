@@ -1,0 +1,119 @@
+import { EditorState } from "@codemirror/state";
+import { python } from "@codemirror/lang-python";
+import { calculateImportChanges, RequiredImport } from "./dnd";
+import { EditorView } from "@codemirror/view";
+
+describe("dnd", () => {
+  const check = (
+    initial: string,
+    requiredImport: RequiredImport,
+    expected: string
+  ) => {
+    const state = EditorState.create({
+      doc: initial,
+      extensions: [python()],
+    });
+    const view = new EditorView({ state });
+    const transaction = state.update({
+      changes: calculateImportChanges(state, requiredImport),
+    });
+    view.update([transaction]);
+    expect(view.state.sliceDoc(0)).toEqual(expected);
+  };
+
+  it("first import from case - wildcard", () => {
+    check(
+      "",
+      {
+        module: "microbit",
+        name: "*",
+      },
+      "from microbit import *\n\n"
+    );
+  });
+
+  it("first import from case - name", () => {
+    check(
+      "",
+      {
+        module: "random",
+        name: "randrange",
+      },
+      "from random import randrange\n\n"
+    );
+  });
+
+  it("first import module case", () => {
+    check(
+      "",
+      {
+        module: "audio",
+      },
+      "import audio\n\n"
+    );
+  });
+
+  it("existing import module case", () => {
+    check(
+      "import audio",
+      {
+        module: "audio",
+      },
+      "import audio"
+    );
+  });
+
+  it("existing import module case - as variant", () => {
+    check(
+      "import audio as foo",
+      {
+        module: "audio",
+      },
+      "import audio as foo\nimport audio"
+    );
+  });
+
+  it("existing import from case - wildcard", () => {
+    check(
+      "from microbit import *",
+      {
+        module: "microbit",
+        name: "*",
+      },
+      "from microbit import *"
+    );
+  });
+
+  it("existing import from case - name", () => {
+    check(
+      "from random import randrange",
+      {
+        module: "random",
+        name: "randrange",
+      },
+      "from random import randrange"
+    );
+  });
+
+  it("existing import from case - alias", () => {
+    check(
+      "from random import randrange as foo",
+      {
+        module: "random",
+        name: "randrange",
+      },
+      "from random import randrange as foo, randrange"
+    );
+  });
+
+  it("existing from import new name", () => {
+    check(
+      "from random import getrandbits",
+      {
+        module: "random",
+        name: "randrange",
+      },
+      "from random import getrandbits, randrange"
+    );
+  });
+});
