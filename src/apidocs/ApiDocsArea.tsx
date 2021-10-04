@@ -106,12 +106,14 @@ const DocEntryNode = ({
     (event: React.DragEvent) => {
       const parts = fullName.split(".");
       const isMicrobit = parts[0] === "microbit";
-      let use = isMicrobit ? parts.slice(1) : parts
+      let use = isMicrobit ? parts.slice(1) : parts;
       use = use.map((p) => classToInstanceMap[p] ?? p);
-      const requiredImport = isMicrobit ? { module: "microbit", name: "*"} : { module: parts[0] };
+      const requiredImport = isMicrobit
+        ? { module: "microbit", name: "*" }
+        : { module: parts[0] };
       const codeWithImports: CodeWithImports = {
         code: use.join(".") + (kind === "function" ? "()" : ""),
-        requiredImport
+        requiredImport,
       };
       event.dataTransfer.setData(
         pythonWithImportsMediaType,

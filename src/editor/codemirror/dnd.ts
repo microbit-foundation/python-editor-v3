@@ -64,8 +64,13 @@ export const dragAndDrop = () =>
           pythonWithImportsMediaType
         );
         if (jsonText) {
-          const { code, requiredImport } = JSON.parse(jsonText) as CodeWithImports;
-          const importChanges = calculateImportChanges(view.state, requiredImport);
+          const { code, requiredImport } = JSON.parse(
+            jsonText
+          ) as CodeWithImports;
+          const importChanges = calculateImportChanges(
+            view.state,
+            requiredImport
+          );
           const isCallable = code.endsWith(")");
           view.dispatch({
             effects: [
@@ -103,24 +108,58 @@ function calculateImportChanges(
   required: RequiredImport
 ): SimpleChangeSpec[] {
   const allCurrent = currentImports(state);
+  const changes = calculateImportChangesInternal(allCurrent, required);
+  if (changes.length > 0 && allCurrent.length === 0) {
+    // Two blank lines.
+    changes[changes.length - 1].insert += "\n\n";
+  }
+  return changes;
+}
+
+function calculateImportChangesInternal(
+  allCurrent: Import[],
+  required: RequiredImport
+): SimpleChangeSpec[] {
+  const from = allCurrent.length
+    ? allCurrent[allCurrent.length - 1].node.to
+    : 0;
+  const to = from;
+  const prefix = to > 0 ? "\n" : "";
+
   if (!required.name) {
     // Module import.
-    if (allCurrent.find(c => !c.names && c.module === required.module)) {
+    if (allCurrent.find((c) => !c.names && c.module === required.module)) {
       return [];
     } else {
-      return [{ from: 0, to: 0, insert: `import ${required.module}\n`}];
+      return [{ from, to, insert: `${prefix}import ${required.module}` }];
     }
   } else if (required.name === "*") {
     // Wildcard import.
-    if (allCurrent.find(c => c.names?.length === 1 && c.names[0].name === "*" && c.module === required.module)) {
+    if (
+      allCurrent.find(
+        (c) =>
+          c.names?.length === 1 &&
+          c.names[0].name === "*" &&
+          c.module === required.module
+      )
+    ) {
       return [];
     } else {
-      return [{ from: 0, to: 0, insert: `from ${required.module} import *\n`}];
+      return [
+        { from, to, insert: `${prefix}from ${required.module} import *` },
+      ];
     }
   } else {
     // Importing some name from a module.
-    const partMatches = allCurrent.filter(c => c.names && !(c.names?.length === 1 && c.names[0].name === "*") && c.module === required.module);
-    const fullMatch = partMatches.find(nameImport => nameImport.names?.find(n => n.name === required.name && !n.alias))
+    const partMatches = allCurrent.filter(
+      (c) =>
+        c.names &&
+        !(c.names?.length === 1 && c.names[0].name === "*") &&
+        c.module === required.module
+    );
+    const fullMatch = partMatches.find((nameImport) =>
+      nameImport.names?.find((n) => n.name === required.name && !n.alias)
+    );
     if (fullMatch) {
       return [];
     } else if (partMatches.length > 0) {
@@ -128,11 +167,17 @@ function calculateImportChanges(
         {
           from: partMatches[0].node.to,
           to: partMatches[0].node.to,
-          insert: `, ${required.name}`
-        }
-      ]
+          insert: `, ${required.name}`,
+        },
+      ];
     } else {
-      return [{ from: 0, to: 0, insert: `from ${required.module} import ${required.name}\n`}];
+      return [
+        {
+          from,
+          to,
+          insert: `${prefix}from ${required.module} import ${required.name}`,
+        },
+      ];
     }
   }
 }
@@ -144,7 +189,7 @@ interface Import {
   names?: ImportedName[];
   node: SyntaxNode;
 }
-  
+
 interface ImportedName {
   name: string;
   alias?: string;
@@ -205,15 +250,22 @@ const currentImports = (state: EditorState): Import[] => {
           return undefined;
         }
         return {
-          module: state.doc.sliceString(variableNames[0].from, variableNames[0].to),
-          alias: variableNames.length === 2
-            ? state.doc.sliceString(variableNames[1].from, variableNames[1].to)
-            : undefined,
+          module: state.doc.sliceString(
+            variableNames[0].from,
+            variableNames[0].to
+          ),
+          alias:
+            variableNames.length === 2
+              ? state.doc.sliceString(
+                  variableNames[1].from,
+                  variableNames[1].to
+                )
+              : undefined,
           kind: "import",
-          node: existingImport
+          node: existingImport,
         };
       }
       return undefined;
     });
-    return imports.filter((x: Import | undefined): x is Import => !!x);
+  return imports.filter((x: Import | undefined): x is Import => !!x);
 };
