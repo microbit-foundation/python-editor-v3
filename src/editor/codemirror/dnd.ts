@@ -4,6 +4,8 @@ import { EditorView } from "@codemirror/view";
 import { SyntaxNode } from "@lezer/common";
 
 export const pythonWithImportsMediaType = "application/x.python-with-imports";
+// We augment input.drop so we can trigger signature help.
+export const inputDropApiDocs = "input.drop.apidocs";
 
 export interface RequiredImport {
   module: string;
@@ -78,7 +80,7 @@ export const dragAndDrop = () =>
                 active: false,
               }),
             ],
-            userEvent: "input.drop.apidocs",
+            userEvent: inputDropApiDocs,
             changes: [...importChanges, { from: pos, to: pos, insert: code }],
             selection: {
               // Put the cursor between the brackets of functions.

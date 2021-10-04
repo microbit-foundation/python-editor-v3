@@ -21,6 +21,7 @@ import {
   SignatureHelpParams,
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
+import { inputDropApiDocs } from "../dnd";
 import { BaseLanguageServerView } from "./common";
 import { renderDocumentation } from "./documentation";
 import { offsetToPosition } from "./positions";
@@ -67,7 +68,7 @@ export class SignatureHelpView
       const last = transactions[transactions.length - 1];
       if (
         last.isUserEvent("input.type") ||
-        last.isUserEvent("input.drop.apidocs")
+        last.isUserEvent(inputDropApiDocs)
       ) {
         last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
           if (
