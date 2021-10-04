@@ -89,6 +89,9 @@ interface DocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
 }
 
+const img = document.createElement("img");
+img.src = "https://microbit.org/favicon.ico";
+
 const DocEntryNode = ({
   docs: { kind, name, fullName, children, params, docString, baseClasses },
   mt,
@@ -104,6 +107,9 @@ const DocEntryNode = ({
   }, [children]);
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
+      const dragImage = event.currentTarget.querySelector(".drag-image");
+      event.dataTransfer.setDragImage(dragImage!, 0, 0);
+
       const parts = fullName.split(".");
       const isMicrobit = parts[0] === "microbit";
       let use = isMicrobit ? parts.slice(1) : parts;
@@ -138,12 +144,14 @@ const DocEntryNode = ({
           onDragStart={handleDragStart}
           fontSize={kindToFontSize[kind]}
         >
-          <Text flex="1 1 auto">
-            <Text as="span" fontWeight="semibold">
-              {formatName(kind, fullName)}
+          <Box flex="1 1 auto">
+            <Text className="drag-image">
+              <Text as="span" fontWeight="semibold">
+                {formatName(kind, fullName)}
+              </Text>
+              {nameSuffix(kind, params)}
             </Text>
-            {nameSuffix(kind, params)}
-          </Text>
+          </Box>
           {functionOrVariable && (
             <Icon as={MdDragHandle} transform="rotate(90deg) scaleX(1.5)" />
           )}

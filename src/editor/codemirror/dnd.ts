@@ -1,6 +1,11 @@
 import { syntaxTree } from "@codemirror/language";
-import { EditorState, StateEffect } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
+import { EditorState, StateEffect, StateField } from "@codemirror/state";
+import {
+  Decoration,
+  DecorationSet,
+  EditorView,
+  WidgetType,
+} from "@codemirror/view";
 import { SyntaxNode } from "@lezer/common";
 
 export const pythonWithImportsMediaType = "application/x.python-with-imports";
@@ -19,18 +24,78 @@ export interface CodeWithImports {
 
 // The intent is to use this to draw drop cues.
 interface DragState {
-  active: boolean;
   pos: number | null;
+  decorations: DecorationSet;
 }
 
-type DragStateChange = Partial<DragState>;
+type DragStateChange = {
+  pos: number | null;
+};
 
 export const dragStateChangeEffect = StateEffect.define<DragStateChange>({});
 
-export const dragAndDrop = () =>
-  EditorView.domEventHandlers({
-    dragover(event, view) {
-      const pos = view.posAtCoords(event);
+class InsertPointWidget extends WidgetType {
+  eq(other: InsertPointWidget) {
+    return true;
+  }
+
+  toDOM() {
+    let lineHeight = 15;
+    const elt = document.createElement("div");
+    elt.style.display = "inline-block";
+    elt.style.position = "relative";
+    elt.style.width = "0";
+    elt.style.height = lineHeight + "px";
+
+    const cursor = document.createElement("div");
+    cursor.style.display = "block";
+    cursor.style.position = "absolute";
+    cursor.style.left = "0";
+    cursor.style.top = "0";
+    cursor.style.height = lineHeight + "px";
+    cursor.style.width = "1px";
+    cursor.style.backgroundColor = "black";
+
+    elt.appendChild(cursor);
+    return elt;
+  }
+}
+
+const dragStateField = StateField.define<DragState>({
+  create() {
+    return {
+      pos: null,
+      decorations: Decoration.none,
+    };
+  },
+  update({ decorations, pos }, tr) {
+    decorations = decorations.map(tr.changes);
+
+    for (let e of tr.effects)
+      if (e.is(dragStateChangeEffect)) {
+        decorations = decorations.update({
+          add:
+            e.value.pos !== null
+              ? [
+                  Decoration.widget({
+                    widget: new InsertPointWidget(),
+                  }).range(e.value.pos, e.value.pos),
+                ]
+              : undefined,
+          filter: () => false,
+        });
+      }
+    return { decorations, pos };
+  },
+  provide: (f) => EditorView.decorations.from(f, (f) => f.decorations),
+});
+
+export const dragAndDrop = () => {
+  const updateState = (event: DragEvent, view: EditorView) => {
+    console.log(event.type);
+    const pos = view.posAtCoords(event);
+    const curr = view.state.field(dragStateField).pos;
+    if (pos !== curr) {
       view.dispatch({
         effects: [
           dragStateChangeEffect.of({
@@ -38,67 +103,75 @@ export const dragAndDrop = () =>
           }),
         ],
       });
-    },
-    dragenter(event, view) {
-      view.dispatch({
-        effects: [
-          dragStateChangeEffect.of({
-            active: true,
-          }),
-        ],
-      });
-    },
-    dragleave(event, view) {
-      view.dispatch({
-        effects: [
-          dragStateChangeEffect.of({
-            active: false,
-          }),
-        ],
-      });
-    },
-    drop(event, view) {
-      event.preventDefault();
-      const pos = view.posAtCoords(event);
-
-      if (pos !== null) {
-        const jsonText = event.dataTransfer?.getData(
-          pythonWithImportsMediaType
-        );
-        if (jsonText) {
-          const { code, requiredImport } = JSON.parse(
-            jsonText
-          ) as CodeWithImports;
-          const importChanges = calculateImportChanges(
-            view.state,
-            requiredImport
-          );
-          const isCallable = code.endsWith(")");
+    }
+  };
+  return [
+    EditorView.domEventHandlers({
+      dragover: updateState,
+      dragenter: updateState,
+      dragleave(event, view) {
+        const rect = view.contentDOM.getBoundingClientRect();
+        console.log(rect, event.clientX, event.clientY);
+        if (
+          event.clientY < rect.top ||
+          event.clientY >= rect.bottom ||
+          event.clientX < rect.left ||
+          event.clientX >= rect.right
+        ) {
           view.dispatch({
             effects: [
               dragStateChangeEffect.of({
-                active: false,
+                pos: null,
               }),
             ],
-            userEvent: inputDropApiDocs,
-            changes: [...importChanges, { from: pos, to: pos, insert: code }],
-            selection: {
-              // Put the cursor between the brackets of functions.
-              // Perhaps we shouldn't do this if the (required?) arity is zero.
-              anchor:
-                pos +
-                importChanges
-                  .map((c) => c.insert.length)
-                  .reduce((acc, cur) => acc + cur, 0) +
-                code.length -
-                (isCallable ? 1 : 0),
-            },
           });
-          view.focus();
         }
-      }
-    },
-  });
+      },
+      drop(event, view) {
+        event.preventDefault();
+        const pos = view.posAtCoords(event);
+
+        if (pos !== null) {
+          const jsonText = event.dataTransfer?.getData(
+            pythonWithImportsMediaType
+          );
+          if (jsonText) {
+            const { code, requiredImport } = JSON.parse(
+              jsonText
+            ) as CodeWithImports;
+            const importChanges = calculateImportChanges(
+              view.state,
+              requiredImport
+            );
+            const isCallable = code.endsWith(")");
+            view.dispatch({
+              userEvent: inputDropApiDocs,
+              effects: [
+                dragStateChangeEffect.of({
+                  pos: null,
+                }),
+              ],
+              changes: [...importChanges, { from: pos, to: pos, insert: code }],
+              selection: {
+                // Put the cursor between the brackets of functions.
+                // Perhaps we shouldn't do this if the (required?) arity is zero.
+                anchor:
+                  pos +
+                  importChanges
+                    .map((c) => c.insert.length)
+                    .reduce((acc, cur) => acc + cur, 0) +
+                  code.length -
+                  (isCallable ? 1 : 0),
+              },
+            });
+            view.focus();
+          }
+        }
+      },
+    }),
+    dragStateField,
+  ];
+};
 
 type SimpleChangeSpec = {
   from: number;
