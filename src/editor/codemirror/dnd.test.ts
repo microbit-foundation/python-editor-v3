@@ -116,4 +116,15 @@ describe("dnd", () => {
       "from random import getrandbits, randrange"
     );
   });
+
+  it("copes with invalid imports", () => {
+    check(
+      "import\nfrom\n",
+      {
+        module: "random",
+        name: "randrange",
+      },
+      "from random import randrange\n\nimport\nfrom\n"
+    );
+  });
 });
