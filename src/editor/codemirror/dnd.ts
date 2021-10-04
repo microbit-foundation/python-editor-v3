@@ -92,7 +92,6 @@ const dragStateField = StateField.define<DragState>({
 
 export const dragAndDrop = () => {
   const updateState = (event: DragEvent, view: EditorView) => {
-    console.log(event.type);
     const pos = view.posAtCoords(event);
     const curr = view.state.field(dragStateField).pos;
     if (pos !== curr) {
@@ -111,7 +110,6 @@ export const dragAndDrop = () => {
       dragenter: updateState,
       dragleave(event, view) {
         const rect = view.contentDOM.getBoundingClientRect();
-        console.log(rect, event.clientX, event.clientY);
         if (
           event.clientY < rect.top ||
           event.clientY >= rect.bottom ||
