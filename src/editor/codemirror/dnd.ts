@@ -82,6 +82,7 @@ export const dragAndDrop = () =>
             changes: [...importChanges, { from: pos, to: pos, insert: code }],
             selection: {
               // Put the cursor between the brackets of functions.
+              // Perhaps we shouldn't do this if the (required?) arity is zero.
               anchor:
                 pos +
                 importChanges
