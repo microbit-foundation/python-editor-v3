@@ -310,7 +310,7 @@ const DocString = React.memo(({ name, details, docString }: DocStringProps) => {
                   : `Show details for ${name}`
               }
             >
-              {isOpen ? "Collapse details" : "Show details"}
+              {isOpen ? "Show less" : "Show more"}
             </Button>
           )}
         </HStack>
