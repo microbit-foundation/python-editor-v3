@@ -66,7 +66,12 @@ const ModuleDocs = ({ docs }: ModuleDocsProps) => {
             <AccordionButton
               fontSize="xl"
               backgroundColor="gray.50"
-              _expanded={{ fontWeight: "semibold", position: "sticky", top: 0 }}
+              _expanded={{
+                fontWeight: "semibold",
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
+              }}
               // Equivalent to the default alpha but without transparency due to the stickyness.
               _hover={{ backgroundColor: "rgb(225, 226, 226)" }}
             >
