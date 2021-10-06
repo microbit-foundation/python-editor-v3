@@ -37,7 +37,7 @@ const fixupMarkdown = (input: string): string => {
   // Let's see if we can upstream or align the docs with supported syntax.
   return input
     .replace(/^\\\n/, "")
-    .replace(/`([\w \n]+?) ?<(.*)>`\\_/gs, "[$1]($2)")
+    .replace(/`([\w² \n]+?) ?<(.*)>`\\_/gs, "[$1]($2)")
     .replace(/\\\*\\\*/g, "**")
     .replace(/:param ([^:]+):/g, "**$1**: ")
     .replace(/:return:/g, "**returns**: ");
