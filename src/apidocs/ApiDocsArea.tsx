@@ -24,6 +24,7 @@ const ApiDocsArea = () => {
         await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
+        console.log(docs);
         setApiDocs(docs);
       }
     };
@@ -81,6 +82,7 @@ const DocEntryNode = ({
   mb,
   ...others
 }: DocEntryNodeProps) => {
+  const [isOpen, setOpen] = useState(false);
   const groupedChildren = useMemo(() => {
     const filteredChildren = filterChildren(children);
     return filteredChildren
@@ -105,7 +107,7 @@ const DocEntryNode = ({
           <Text as="span" fontWeight="semibold">
             {formatName(kind, fullName)}
           </Text>
-          {nameSuffix(kind, params)}
+          {nameSuffix(kind, params, isOpen)}
         </Text>
 
         {baseClasses && baseClasses.length > 0 && (
@@ -116,6 +118,8 @@ const DocEntryNode = ({
             name={name}
             details={kind !== "module" && kind !== "class"}
             docString={docString}
+            isOpen={isOpen}
+            setOpen={setOpen}
           />
         )}
       </Box>
@@ -168,14 +172,17 @@ const formatName = (kind: string, fullName: string): string => {
 
 const nameSuffix = (
   kind: string,
-  params: ApiDocsFunctionParameter[] | undefined
+  params: ApiDocsFunctionParameter[] | undefined,
+  detailed: boolean
 ): string => {
   if (kind === "function" && params) {
     return (
       "(" +
       params
         .filter(
-          (parameter, index) => !(index === 0 && parameter.name === "self")
+          (parameter, index) =>
+            !(index === 0 && parameter.name === "self") &&
+            (detailed || parameter.defaultValue === undefined)
         )
         .map((parameter) => {
           const prefix =
@@ -237,49 +244,50 @@ interface DocStringProps {
   name: string;
   docString: string;
   details: boolean;
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
 }
 
-const DocString = React.memo(({ name, details, docString }: DocStringProps) => {
-  const firstParagraph = docString.split(/\n{2,}/g)[0];
-  const [isOpen, setOpen] = useState(false);
-  const html = renderMarkdown(isOpen ? docString : firstParagraph);
-  return (
-    <VStack alignItems="stretch" spacing={1}>
-      <Box
-        className="docs-markdown"
-        fontSize="sm"
-        mt={2}
-        fontWeight="normal"
-        dangerouslySetInnerHTML={html}
-      />
-      {details && (
-        <HStack justifyContent="flex-end">
-          {docString.length > firstParagraph.length && (
-            <Button
-              color="unset"
-              variant="link"
-              size="xs"
-              onClick={() => setOpen(!isOpen)}
-              rightIcon={<ExpandCollapseIcon open={isOpen} />}
-              _hover={{
-                textDecoration: "none",
-              }}
-              p={1}
-              pt={1.5}
-              pb={1.5}
-              aria-label={
-                isOpen
-                  ? `Collapse details for ${name}`
-                  : `Show details for ${name}`
-              }
-            >
-              {isOpen ? "Collapse details" : "Show details"}
-            </Button>
-          )}
-        </HStack>
-      )}
-    </VStack>
-  );
-});
+const DocString = React.memo(
+  ({ name, details, docString, isOpen, setOpen }: DocStringProps) => {
+    const firstParagraph = docString.split(/\n{2,}/g)[0];
+    const html = renderMarkdown(isOpen ? docString : firstParagraph);
+    return (
+      <VStack alignItems="stretch" spacing={1}>
+        <Box
+          className="docs-markdown"
+          fontSize="sm"
+          mt={2}
+          fontWeight="normal"
+          dangerouslySetInnerHTML={html}
+        />
+        {details && (
+          <HStack justifyContent="flex-end">
+            {docString.length > firstParagraph.length && (
+              <Button
+                color="unset"
+                variant="link"
+                size="xs"
+                onClick={() => setOpen(!isOpen)}
+                rightIcon={<ExpandCollapseIcon open={isOpen} />}
+                _hover={{
+                  textDecoration: "none",
+                }}
+                p={1}
+                pt={1.5}
+                pb={1.5}
+                aria-label={
+                  isOpen ? `Show less for ${name}` : `Show more for ${name}`
+                }
+              >
+                {isOpen ? "Show less" : "Show more"}
+              </Button>
+            )}
+          </HStack>
+        )}
+      </VStack>
+    );
+  }
+);
 
 export default ApiDocsArea;

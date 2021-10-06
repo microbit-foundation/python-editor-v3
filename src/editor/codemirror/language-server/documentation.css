@@ -1,3 +1,7 @@
+.docs-markdown pre,
+.docs-markdown code {
+  font-family: "Source Code Pro", monospace;
+}
 .docs-markdown * + * {
   margin-top: var(--chakra-space-2);
 }
