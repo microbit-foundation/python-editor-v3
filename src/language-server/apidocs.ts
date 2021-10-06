@@ -61,7 +61,7 @@ export const apiDocs = (
       // think we'd need some progressive disclosure UX.
       // Need to consider e.g. urandom vs random and perhaps move
       // the stubs to the primary file.
-      "audio",
+      // "audio" is covered under micro:bit.
       "machine",
       "math",
       "microbit",
