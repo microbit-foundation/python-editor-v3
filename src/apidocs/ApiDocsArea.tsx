@@ -31,6 +31,7 @@ const ApiDocsArea = () => {
         await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
+        console.log(docs);
         setApiDocs(docs);
       }
     };
@@ -77,13 +78,7 @@ const ModuleDocs = ({ docs }: ModuleDocsProps) => {
             >
               <Box flex="1" textAlign="left" mr={3}>
                 {module.fullName}
-                {module.docString && (
-                  <DocString
-                    name={module.fullName}
-                    details={false}
-                    docString={module.docString}
-                  />
-                )}
+                {module.docString && <DocString value={module.docString} />}
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -121,12 +116,27 @@ const DocEntryNode = ({
   mb,
   ...others
 }: DocEntryNodeProps) => {
+  const [isShowingDetail, setShowingDetail] = useState(false);
   const groupedChildren = useMemo(() => {
     const filteredChildren = filterChildren(children);
     return filteredChildren
       ? groupBy(filteredChildren, (c) => c.kind)
       : undefined;
   }, [children]);
+  const docStringFirstParagraph = docString
+    ? docString.split(/\n{2,}/g)[0]
+    : undefined;
+  const hasDocStringDetail =
+    docString &&
+    docStringFirstParagraph &&
+    docString.length > docStringFirstParagraph.length;
+  const activeDocString = isShowingDetail ? docString : docStringFirstParagraph;
+  const { signature, hasSignatureDetail } = buildSignature(
+    kind,
+    params,
+    isShowingDetail
+  );
+  const hasDetail = hasDocStringDetail || hasSignatureDetail;
 
   return (
     <Box
@@ -146,19 +156,40 @@ const DocEntryNode = ({
             <Text as="span" fontWeight="semibold">
               {formatName(kind, fullName)}
             </Text>
-            {nameSuffix(kind, params)}
+            {signature}
           </Text>
-
           {baseClasses && baseClasses.length > 0 && (
             <BaseClasses value={baseClasses} />
           )}
-          {docString && (
-            <DocString
-              name={name}
-              details={kind !== "module" && kind !== "class"}
-              docString={docString}
-            />
-          )}
+          <VStack alignItems="stretch" spacing={1}>
+            {activeDocString && <DocString value={activeDocString} />}
+            {kind !== "module" && kind !== "class" && (
+              <HStack justifyContent="flex-end">
+                {hasDetail && (
+                  <Button
+                    color="unset"
+                    variant="link"
+                    size="xs"
+                    onClick={() => setShowingDetail(!isShowingDetail)}
+                    rightIcon={<ExpandCollapseIcon open={isShowingDetail} />}
+                    _hover={{
+                      textDecoration: "none",
+                    }}
+                    p={1}
+                    pt={1.5}
+                    pb={1.5}
+                    aria-label={
+                      isShowingDetail
+                        ? `Show less for ${name}`
+                        : `Show more for ${name}`
+                    }
+                  >
+                    {isShowingDetail ? "Show less" : "Show more"}
+                  </Button>
+                )}
+              </HStack>
+            )}
+          </VStack>
         </Box>
       )}
       {groupedChildren && groupedChildren.size > 0 && (
@@ -208,16 +239,19 @@ const formatName = (kind: string, fullName: string): string => {
     : fullName.split(".").slice(-1)[0];
 };
 
-const nameSuffix = (
+const buildSignature = (
   kind: string,
-  params: ApiDocsFunctionParameter[] | undefined
-): string => {
+  params: ApiDocsFunctionParameter[] | undefined,
+  detailed: boolean
+): { signature?: string; hasSignatureDetail: boolean } => {
   if (kind === "function" && params) {
-    return (
+    const signature =
       "(" +
       params
         .filter(
-          (parameter, index) => !(index === 0 && parameter.name === "self")
+          (parameter, index) =>
+            !(index === 0 && parameter.name === "self") &&
+            (detailed || parameter.defaultValue === undefined)
         )
         .map((parameter) => {
           const prefix =
@@ -232,10 +266,13 @@ const nameSuffix = (
           return prefix + parameter.name + suffix;
         })
         .join(", ") +
-      ")"
-    );
+      ")";
+    return {
+      signature,
+      hasSignatureDetail: !!params.find((p) => p.defaultValue !== undefined),
+    };
   }
-  return "";
+  return { signature: undefined, hasSignatureDetail: false };
 };
 
 const filterChildren = (
@@ -276,51 +313,19 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
 };
 
 interface DocStringProps {
-  name: string;
-  docString: string;
-  details: boolean;
+  value: string;
 }
 
-const DocString = React.memo(({ name, details, docString }: DocStringProps) => {
-  const firstParagraph = docString.split(/\n{2,}/g)[0];
-  const [isOpen, setOpen] = useState(false);
-  const html = renderMarkdown(isOpen ? docString : firstParagraph);
+const DocString = React.memo(({ value }: DocStringProps) => {
+  const html = renderMarkdown(value);
   return (
-    <VStack alignItems="stretch" spacing={1}>
-      <Box
-        className="docs-markdown"
-        fontSize="sm"
-        mt={2}
-        fontWeight="normal"
-        dangerouslySetInnerHTML={html}
-      />
-      {details && (
-        <HStack justifyContent="flex-end">
-          {docString.length > firstParagraph.length && (
-            <Button
-              color="unset"
-              variant="link"
-              size="xs"
-              onClick={() => setOpen(!isOpen)}
-              rightIcon={<ExpandCollapseIcon open={isOpen} />}
-              _hover={{
-                textDecoration: "none",
-              }}
-              p={1}
-              pt={1.5}
-              pb={1.5}
-              aria-label={
-                isOpen
-                  ? `Collapse details for ${name}`
-                  : `Show details for ${name}`
-              }
-            >
-              {isOpen ? "Show less" : "Show more"}
-            </Button>
-          )}
-        </HStack>
-      )}
-    </VStack>
+    <Box
+      className="docs-markdown"
+      fontSize="sm"
+      mt={2}
+      fontWeight="normal"
+      dangerouslySetInnerHTML={html}
+    />
   );
 });
 
