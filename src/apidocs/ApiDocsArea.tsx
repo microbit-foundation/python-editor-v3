@@ -24,7 +24,6 @@ const ApiDocsArea = () => {
         await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
-        console.log(docs);
         setApiDocs(docs);
       }
     };
