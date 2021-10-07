@@ -31,7 +31,6 @@ const ApiDocsArea = () => {
         await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
-        console.log(docs);
         setApiDocs(docs);
       }
     };
@@ -77,7 +76,7 @@ const ModuleDocs = ({ docs }: ModuleDocsProps) => {
               _hover={{ backgroundColor: "rgb(225, 226, 226)" }}
             >
               <Box flex="1" textAlign="left" mr={3}>
-                {module.fullName}
+                <Text as={kindToHeading["module"]}>{module.fullName}</Text>
                 {module.docString && <DocString value={module.docString} />}
               </Box>
               <AccordionIcon />
@@ -95,6 +94,13 @@ const ModuleDocs = ({ docs }: ModuleDocsProps) => {
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
   class: "lg",
+};
+
+const kindToHeading: Record<string, any> = {
+  module: "h2",
+  class: "h3",
+  variable: "h4",
+  function: "h4",
 };
 
 const kindToSpacing: Record<string, any> = {
@@ -152,9 +158,9 @@ const DocEntryNode = ({
     >
       {heading && (
         <Box>
-          <Text fontSize={kindToFontSize[kind]}>
+          <Text fontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
             <Text as="span" fontWeight="semibold">
-              {formatName(kind, fullName)}
+              {formatName(kind, fullName, name)}
             </Text>
             {signature}
           </Text>
@@ -232,11 +238,9 @@ const groupHeading = (kind: string, childKind: string): string => {
   }
 };
 
-const formatName = (kind: string, fullName: string): string => {
+const formatName = (kind: string, fullName: string, name: string): string => {
   // Add zero width spaces to allow breaking
-  return kind === "module"
-    ? fullName.replaceAll(/\./g, "\u200b.\u200b")
-    : fullName.split(".").slice(-1)[0];
+  return kind === "module" ? fullName.replaceAll(/\./g, "\u200b.\u200b") : name;
 };
 
 const buildSignature = (
@@ -275,14 +279,13 @@ const buildSignature = (
   return { signature: undefined, hasSignatureDetail: false };
 };
 
+const isInitOrOtherNonDunderMethod = (c: ApiDocsEntry) =>
+  !c.name.endsWith("__") || c.name === "__init__";
+
 const filterChildren = (
   children: ApiDocsEntry[] | undefined
 ): ApiDocsEntry[] | undefined =>
-  children
-    ? children.filter(
-        (c) => !(c.fullName.endsWith("__") && !c.fullName.endsWith("__init__"))
-      )
-    : undefined;
+  children ? children.filter(isInitOrOtherNonDunderMethod) : undefined;
 
 function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
   const result = new Map<U, T[]>();
