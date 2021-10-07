@@ -5,6 +5,7 @@
  */
 import { Box, Flex, HStack } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
+import "./LeftPanelTabContent.css";
 
 interface LeftPanelTabContentProps {
   title: string;
@@ -23,7 +24,13 @@ const LeftPanelTabContent = ({
   return (
     <Flex height="100%" direction="column">
       {nav && <HStack justifyContent="flex-end">{nav}</HStack>}
-      <Box flex="1 0 auto" overflowY="auto" overflowX="hidden" height={0}>
+      <Box
+        className="left-panel-content"
+        flex="1 0 auto"
+        overflowY={"overlay" as any}
+        overflowX="hidden"
+        height={0}
+      >
         {children}
       </Box>
     </Flex>

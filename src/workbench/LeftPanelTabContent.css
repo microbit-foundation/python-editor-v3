@@ -1,0 +1,16 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+.left-panel-content {
+  scrollbar-color: var(--chakra-colors-gray-600) var(--chakra-colors-gray-50);
+}
+.left-panel-content::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+.left-panel-content::-webkit-scrollbar-thumb {
+  background: var(--chakra-colors-gray-600);
+  border-radius: var(--chakra-radii-md);
+}
