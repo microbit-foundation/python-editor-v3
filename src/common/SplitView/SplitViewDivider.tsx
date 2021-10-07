@@ -22,7 +22,6 @@ const SplitViewDivider = () => {
       cursor={cursor}
       alignSelf="stretch"
       alignItems="center"
-      zIndex={1}
     >
       <Box
         height="100%"
