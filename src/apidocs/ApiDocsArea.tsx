@@ -119,7 +119,7 @@ const DocEntryNode = ({
       <Box>
         <Text fontSize={kindToFontSize[kind]}>
           <Text as="span" fontWeight="semibold">
-            {formatName(kind, fullName)}
+            {formatName(kind, fullName, name)}
           </Text>
           {signature}
         </Text>
@@ -197,11 +197,9 @@ const groupHeading = (kind: string, childKind: string): string => {
   }
 };
 
-const formatName = (kind: string, fullName: string): string => {
+const formatName = (kind: string, fullName: string, name: string): string => {
   // Add zero width spaces to allow breaking
-  return kind === "module"
-    ? fullName.replaceAll(/\./g, "\u200b.\u200b")
-    : fullName.split(".").slice(-1)[0];
+  return kind === "module" ? fullName.replaceAll(/\./g, "\u200b.\u200b") : name;
 };
 
 const buildSignature = (
