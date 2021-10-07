@@ -18,17 +18,17 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import { RiFolderLine, RiLayoutMasonryFill } from "react-icons/ri";
+import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import ApiDocsArea from "../apidocs/ApiDocsArea";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import HelpMenu from "./HelpMenu";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
+import HelpMenu from "./HelpMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import ApiDocsArea from "../apidocs/ApiDocsArea";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -54,9 +54,15 @@ const LeftPanel = ({
         contents: <FeedbackArea />,
       },
       {
+        id: "advanced",
+        title: "Advanced",
+        icon: RiBookReadFill,
+        contents: <ApiDocsArea />,
+      },
+      {
         id: "files",
         title: intl.formatMessage({ id: "files-tab" }),
-        icon: RiFolderLine,
+        icon: RiFolderFill,
         nav: <FilesAreaNav />,
         contents: (
           <FilesArea
@@ -64,12 +70,6 @@ const LeftPanel = ({
             onSelectedFileChanged={onSelectedFileChanged}
           />
         ),
-      },
-      {
-        id: "api",
-        title: "API",
-        icon: RiLayoutMasonryFill,
-        contents: <ApiDocsArea />,
       },
     ],
     [onSelectedFileChanged, selectedFile, intl]
@@ -145,7 +145,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
                   <Icon boxSize={6} as={p.icon} mt="3px" />
                   <Text
                     m={0}
-                    fontSize="sm"
+                    fontSize={13}
                     borderBottom="3px solid transparent"
                     sx={{
                       ".sidebar-tab:focus &": {
