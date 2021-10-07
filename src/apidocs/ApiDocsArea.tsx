@@ -237,14 +237,13 @@ const buildSignature = (
   return { signature: undefined, hasSignatureDetail: false };
 };
 
+const isInitOrOtherNonDunderMethod = (c: ApiDocsEntry) =>
+  !c.name.endsWith("__") || c.name === "__init__";
+
 const filterChildren = (
   children: ApiDocsEntry[] | undefined
 ): ApiDocsEntry[] | undefined =>
-  children
-    ? children.filter(
-        (c) => !(c.fullName.endsWith("__") && !c.fullName.endsWith("__init__"))
-      )
-    : undefined;
+  children ? children.filter(isInitOrOtherNonDunderMethod) : undefined;
 
 function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
   const result = new Map<U, T[]>();
