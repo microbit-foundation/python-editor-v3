@@ -64,6 +64,13 @@ const kindToFontSize: Record<string, any> = {
   class: "lg",
 };
 
+const kindToHeading: Record<string, any> = {
+  module: "h2",
+  class: "h3",
+  variable: "h4",
+  function: "h4",
+};
+
 const kindToSpacing: Record<string, any> = {
   module: 8,
   class: 5,
@@ -116,7 +123,7 @@ const DocEntryNode = ({
       {...others}
     >
       <Box>
-        <Text fontSize={kindToFontSize[kind]}>
+        <Text fontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
           <Text as="span" fontWeight="semibold">
             {formatName(kind, fullName, name)}
           </Text>
