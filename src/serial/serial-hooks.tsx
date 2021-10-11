@@ -27,9 +27,10 @@ export const useSerialActions = (
   onSerialSizeChange: (size: "compact" | "open") => void
 ) => {
   const device = useDevice();
+  const terminal = useTerminal();
   return useMemo(
-    () => new SerialActions(device, onSerialSizeChange),
-    [device, onSerialSizeChange]
+    () => new SerialActions(terminal, device, onSerialSizeChange),
+    [terminal, device, onSerialSizeChange]
   );
 };
 
