@@ -5,11 +5,16 @@ import {
   AccordionItem,
   AccordionPanel,
 } from "@chakra-ui/accordion";
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
+import { useClipboard } from "@chakra-ui/hooks";
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
+import { HTMLChakraProps } from "@chakra-ui/system";
+import { Tooltip } from "@chakra-ui/tooltip";
 import sortBy from "lodash.sortby";
 import React, { useEffect, useMemo, useState } from "react";
+import { RiFileCopy2Line } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 import {
@@ -116,12 +121,15 @@ interface DocEntryNodeProps extends BoxProps {
 }
 
 const DocEntryNode = ({
-  docs: { kind, name, fullName, children, params, docString, baseClasses },
+  docs,
   heading = true,
   mt,
   mb,
   ...others
 }: DocEntryNodeProps) => {
+  const { kind, name, fullName, children, params, docString, baseClasses } =
+    docs;
+  const variableOrFunction = kind === "variable" || kind === "function";
   const [isShowingDetail, setShowingDetail] = useState(false);
   const groupedChildren = useMemo(() => {
     const filteredChildren = filterChildren(children);
@@ -149,21 +157,27 @@ const DocEntryNode = ({
       id={fullName}
       wordBreak="break-word"
       mb={kindToSpacing[kind]}
-      p={kind === "variable" || kind === "function" ? 2 : undefined}
-      backgroundColor={
-        kind === "variable" || kind === "function" ? "gray.10" : undefined
-      }
+      p={variableOrFunction ? 2 : undefined}
+      backgroundColor={variableOrFunction ? "gray.10" : undefined}
       borderRadius="md"
       {...others}
+      _hover={{
+        "& button": {
+          display: "flex",
+        },
+      }}
     >
       {heading && (
         <Box>
-          <Text fontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
-            <Text as="span" fontWeight="semibold">
-              {formatName(kind, fullName, name)}
+          <HStack>
+            <Text fontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
+              <Text as="span" fontWeight="semibold">
+                {formatName(kind, fullName, name)}
+              </Text>
+              {signature}
             </Text>
-            {signature}
-          </Text>
+            {variableOrFunction && <CopyButton docs={docs} display="none" />}
+          </HStack>
           {baseClasses && baseClasses.length > 0 && (
             <BaseClasses value={baseClasses} />
           )}
@@ -331,5 +345,33 @@ const DocString = React.memo(({ value }: DocStringProps) => {
     />
   );
 });
+
+interface CopyButtonProps extends HTMLChakraProps<"button"> {
+  docs: ApiDocsEntry;
+}
+
+const CopyButton = ({ docs }: CopyButtonProps) => {
+  const { hasCopied, onCopy } = useClipboard(clipboardText(docs));
+  const intl = useIntl();
+  const label = intl.formatMessage({ id: hasCopied ? "copied" : "copy" });
+  return (
+    <Tooltip hasArrow placement="right" label="Copy to clipboard">
+      <IconButton
+        size="sm"
+        variant="ghost"
+        onClick={onCopy}
+        icon={<RiFileCopy2Line />}
+        aria-label={label}
+      />
+    </Tooltip>
+  );
+};
+
+const clipboardText = (docs: ApiDocsEntry) => {
+  const parts = docs.fullName.split(".");
+  const isMicrobit = parts[0] === "microbit";
+  let use = isMicrobit ? parts.slice(1) : parts;
+  return use.join(".") + (docs.kind === "function" ? "()" : "");
+};
 
 export default ApiDocsArea;
