@@ -135,9 +135,17 @@ const reduceSignatureHelpState = (
 };
 
 const formatSignatureHelp = (result: SignatureHelp): Node => {
-  // There's more we could do here to provide interactive UI to see all signatures.
-  const { documentation, label } = result.signatures[result.activeSignature!];
-  return renderDocumentation(documentation ?? label);
+  // There's more we could do here to provide interactive UI to see docs for all signatures.
+  const { label, documentation } = result.signatures[result.activeSignature!];
+  const parentElement = renderDocumentation(documentation);
+  parentElement.insertBefore(
+    document.createElement("hr"),
+    parentElement.firstChild
+  );
+  const labelElement = document.createElement("code");
+  parentElement.insertBefore(labelElement, parentElement.firstChild);
+  labelElement.innerText = label;
+  return parentElement;
 };
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
