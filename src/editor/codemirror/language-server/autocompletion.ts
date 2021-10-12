@@ -21,6 +21,7 @@ import { flags } from "../../../flags";
 import { LanguageServerClient } from "../../../language-server/client";
 import { clientFacet, uriFacet } from "./common";
 import { renderDocumentation } from "./documentation";
+import { removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
@@ -107,7 +108,12 @@ const createDocumentationResolver =
       CompletionResolveRequest.type,
       (completion as AugmentedCompletion).item
     );
-    return renderDocumentation(resolved.documentation);
+    const node = renderDocumentation(resolved.documentation, true);
+    const code = node.querySelector("code");
+    if (code) {
+      code.innerText = removeFullyQualifiedName(code.innerText);
+    }
+    return node;
   };
 
 const createTriggerCharactersRegExp = (

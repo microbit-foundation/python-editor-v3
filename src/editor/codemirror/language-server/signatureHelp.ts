@@ -22,7 +22,7 @@ import {
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView } from "./common";
-import { renderDocumentation } from "./documentation";
+import { removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 
 interface SignatureChangeEffect {
@@ -134,18 +134,58 @@ const reduceSignatureHelpState = (
   return state;
 };
 
-const formatSignatureHelp = (result: SignatureHelp): Node => {
-  // There's more we could do here to provide interactive UI to see docs for all signatures.
-  const { label, documentation } = result.signatures[result.activeSignature!];
-  const parentElement = renderDocumentation(documentation);
-  parentElement.insertBefore(
-    document.createElement("hr"),
-    parentElement.firstChild
-  );
-  const labelElement = document.createElement("code");
-  parentElement.insertBefore(labelElement, parentElement.firstChild);
-  labelElement.innerText = label;
-  return parentElement;
+const formatSignatureHelp = ({
+  activeSignature: activeSignatureIndex,
+  signatures,
+}: SignatureHelp): Node => {
+  // We intentionally do something minimal here to minimise distraction.
+  const activeSignature =
+    activeSignatureIndex === null
+      ? signatures[0]
+      : signatures[activeSignatureIndex!];
+  const {
+    label,
+    parameters,
+    activeParameter: activeParameterIndex,
+  } = activeSignature;
+  const activeParameter =
+    activeParameterIndex !== undefined && parameters
+      ? parameters[activeParameterIndex]
+      : undefined;
+  const activeParameterLabel = activeParameter?.label;
+  if (Array.isArray(activeParameterLabel)) {
+    const [from, to] = activeParameterLabel;
+    return renderHighlightedParameter(label, from, to);
+  } else if (typeof activeParameterLabel === "string") {
+    const from = label.indexOf(activeParameterLabel);
+    const to = from + activeParameterLabel.length;
+    return renderHighlightedParameter(label, from, to);
+  } else {
+    return renderHighlightedParameter(label, -1, -1);
+  }
+};
+
+const renderHighlightedParameter = (
+  label: string,
+  from: number,
+  to: number
+) => {
+  let before = label.substring(0, from);
+  const parameter = label.substring(from, to);
+  const after = label.substring(to);
+
+  // Do this after using the indexes, not to the original label.
+  before = removeFullyQualifiedName(before);
+
+  const parent = document.createElement("div");
+  parent.className = "docs-markdown";
+  const code = parent.appendChild(document.createElement("code"));
+  code.appendChild(document.createTextNode(before));
+  const span = code.appendChild(document.createElement("span"));
+  span.className = "cm-signature-activeParameter";
+  span.appendChild(document.createTextNode(parameter));
+  code.appendChild(document.createTextNode(after));
+  return parent;
 };
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
@@ -153,6 +193,9 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
     padding: "3px 9px",
     width: "max-content",
     maxWidth: "500px",
+  },
+  ".cm-tooltip .cm-signature-activeParameter": {
+    fontWeight: "bold",
   },
 });
 

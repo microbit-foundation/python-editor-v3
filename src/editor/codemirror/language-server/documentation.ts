@@ -3,8 +3,11 @@ import render from "marked";
 import { MarkupContent } from "vscode-languageserver-types";
 import "./documentation.css";
 
+export const firstParagraph = (markup: string) => markup.split(/\n{2,}/g)[0];
+
 export const renderDocumentation = (
-  documentation: MarkupContent | string | undefined
+  documentation: MarkupContent | string | undefined,
+  firstParagraphOnly: boolean = false
 ): Element => {
   if (!documentation) {
     documentation = "No documentation";
@@ -13,15 +16,21 @@ export const renderDocumentation = (
   div.className = "docs-markdown";
   if (MarkupContent.is(documentation) && documentation.kind === "markdown") {
     try {
-      div.innerHTML = renderMarkdown(documentation.value).__html;
+      div.innerHTML = renderMarkdown(
+        documentation.value,
+        firstParagraphOnly
+      ).__html;
       return div;
     } catch (e) {
       // Fall through to simple text below.
     }
   }
-  const fallbackContent = MarkupContent.is(documentation)
+  let fallbackContent = MarkupContent.is(documentation)
     ? documentation.value
     : documentation;
+  if (firstParagraphOnly) {
+    fallbackContent = firstParagraph(fallbackContent);
+  }
   div.appendChild(new Text(fallbackContent));
   return div;
 };
@@ -51,7 +60,13 @@ DOMPurify.addHook("afterSanitizeAttributes", function (node) {
   }
 });
 
-export const renderMarkdown = (markdown: string): SanitisedHtml => {
+export const renderMarkdown = (
+  markdown: string,
+  firstParagraphOnly: boolean = false
+): SanitisedHtml => {
+  if (firstParagraphOnly) {
+    markdown = firstParagraph(markdown);
+  }
   const html = DOMPurify.sanitize(
     render(fixupMarkdown(markdown), { gfm: true })
   );

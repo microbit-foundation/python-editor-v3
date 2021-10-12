@@ -16,7 +16,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
-import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
+import {
+  firstParagraph,
+  renderMarkdown,
+} from "../editor/codemirror/language-server/documentation";
 import {
   apiDocs,
   ApiDocsBaseClass,
@@ -138,7 +141,7 @@ const DocEntryNode = ({
       : undefined;
   }, [children]);
   const docStringFirstParagraph = docString
-    ? docString.split(/\n{2,}/g)[0]
+    ? firstParagraph(docString)
     : undefined;
   const hasDocStringDetail =
     docString &&
