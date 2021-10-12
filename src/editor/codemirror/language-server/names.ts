@@ -1,3 +1,9 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 export const removeFullyQualifiedName = (fn: string): string => {
   const bracket = fn.indexOf("(");
   const before = fn.substring(0, bracket);
