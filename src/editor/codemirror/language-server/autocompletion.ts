@@ -23,6 +23,7 @@ import { clientFacet, uriFacet } from "./common";
 import { renderDocumentation } from "./documentation";
 import { removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
+import { escapeRegExp } from "./regexp-util";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
 // any language's identifier definition.
@@ -121,7 +122,7 @@ const createTriggerCharactersRegExp = (
 ): RegExp | undefined => {
   const characters = client.capabilities?.completionProvider?.triggerCharacters;
   if (characters && characters.length > 0) {
-    return new RegExp("[" + escapeRegex(characters.join("")) + "]");
+    return new RegExp("[" + escapeRegExp(characters.join("")) + "]");
   }
   return undefined;
 };
@@ -132,10 +133,6 @@ const mapCompletionKind = Object.fromEntries(
     key.toLowerCase(),
   ])
 ) as Record<CompletionItemKind, string>;
-
-const escapeRegex = (unescaped: string) => {
-  return unescaped.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
-};
 
 const boost = (item: LSP.CompletionItem): number | undefined => {
   if (item.label.startsWith("__")) {

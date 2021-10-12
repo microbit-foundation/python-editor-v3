@@ -24,6 +24,7 @@ import {
 import { BaseLanguageServerView } from "./common";
 import { removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
+import { escapeRegExp } from "./regexp-util";
 
 interface SignatureChangeEffect {
   pos: number;
@@ -157,12 +158,17 @@ const formatSignatureHelp = ({
     const [from, to] = activeParameterLabel;
     return renderHighlightedParameter(label, from, to);
   } else if (typeof activeParameterLabel === "string") {
-    const from = label.indexOf(activeParameterLabel);
-    const to = from + activeParameterLabel.length;
-    return renderHighlightedParameter(label, from, to);
-  } else {
-    return renderHighlightedParameter(label, -1, -1);
+    const parameterRegExp = new RegExp(
+      "[(, ]" + escapeRegExp(activeParameterLabel) + "[), ]"
+    );
+    const match = parameterRegExp.exec(label);
+    if (match) {
+      const from = match.index + 1;
+      const to = from + activeParameterLabel.length;
+      return renderHighlightedParameter(label, from, to);
+    }
   }
+  return renderHighlightedParameter(label, label.length, label.length);
 };
 
 const renderHighlightedParameter = (
