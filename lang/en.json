@@ -295,6 +295,10 @@
     "defaultMessage": "Loaded {filename}",
     "description": "Success feedback for loading file"
   },
+  "loading": {
+    "defaultMessage": "Loading…",
+    "description": "Shown on loading indicators"
+  },
   "lowercase-no-space": {
     "defaultMessage": "Python files should have lowercase names with no spaces",
     "description": "Warning text for uppercase Pyton file name or space"

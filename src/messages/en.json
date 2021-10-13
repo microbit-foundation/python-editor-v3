@@ -591,6 +591,12 @@
       "value": "filename"
     }
   ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "Loading…"
+    }
+  ],
   "lowercase-no-space": [
     {
       "type": 0,
