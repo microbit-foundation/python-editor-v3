@@ -86,6 +86,33 @@ export const autocompletion = () =>
                 const completion: AugmentedCompletion = {
                   // In practice we don't get textEdit fields back from Pyright so the label is used.
                   label: item.label,
+                  apply: (view, completion, from, to) => {
+                    const addBrackets =
+                      completion.type === "function" ||
+                      completion.type === "method";
+                    if (addBrackets) {
+                      view.dispatch({
+                        changes: {
+                          from,
+                          to,
+                          insert: item.label + "()",
+                        },
+                        userEvent: "autocomplete",
+                        selection: {
+                          // Put the cursor between the brackets
+                          anchor: from + item.label.length + 1,
+                        },
+                      });
+                    } else {
+                      view.dispatch({
+                        changes: {
+                          from,
+                          to,
+                          insert: item.label,
+                        },
+                      });
+                    }
+                  },
                   type: item.kind ? mapCompletionKind[item.kind] : undefined,
                   detail: item.detail,
                   info: documentationResolver,

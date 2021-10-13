@@ -74,6 +74,12 @@ export class SignatureHelpView
             this.triggerSignatureHelpRequest();
           }
         });
+      } else if (last.isUserEvent("autocomplete")) {
+        last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
+          if (inserted.sliceString(0).endsWith("()")) {
+            this.triggerSignatureHelpRequest();
+          }
+        });
       }
     }
   }
