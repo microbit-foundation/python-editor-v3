@@ -18,16 +18,18 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import { RiFolderLine } from "react-icons/ri";
+import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import HelpMenu from "./HelpMenu";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
+import HelpMenu from "./HelpMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import { flags } from "../flags";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -44,8 +46,8 @@ const LeftPanel = ({
   ...props
 }: LeftPanelProps) => {
   const intl = useIntl();
-  const panes: Pane[] = useMemo(
-    () => [
+  const panes: Pane[] = useMemo(() => {
+    const result = [
       {
         id: "python",
         title: intl.formatMessage({ id: "python-tab" }),
@@ -55,7 +57,7 @@ const LeftPanel = ({
       {
         id: "files",
         title: intl.formatMessage({ id: "files-tab" }),
-        icon: RiFolderLine,
+        icon: RiFolderFill,
         nav: <FilesAreaNav />,
         contents: (
           <FilesArea
@@ -64,9 +66,17 @@ const LeftPanel = ({
           />
         ),
       },
-    ],
-    [onSelectedFileChanged, selectedFile, intl]
-  );
+    ];
+    if (flags.advancedDocumentation) {
+      result.splice(1, 0, {
+        id: "advanced",
+        title: "Advanced",
+        icon: RiBookReadFill,
+        contents: <AdvancedDocumentation />,
+      });
+    }
+    return result;
+  }, [onSelectedFileChanged, selectedFile, intl]);
   return <LeftPanelContents {...props} panes={panes} />;
 };
 
@@ -138,7 +148,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
                   <Icon boxSize={6} as={p.icon} mt="3px" />
                   <Text
                     m={0}
-                    fontSize="sm"
+                    fontSize={13}
                     borderBottom="3px solid transparent"
                     sx={{
                       ".sidebar-tab:focus &": {

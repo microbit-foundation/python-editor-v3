@@ -26,6 +26,7 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   children: [JSX.Element, JSX.Element, JSX.Element];
   direction: Direction;
   compactSize?: number;
+  initialSize?: number;
   minimums: [number, number];
 }
 
@@ -39,6 +40,7 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
 export const SplitView = ({
   children,
   direction,
+  initialSize,
   minimums,
   mode = "open",
   compactSize = 0,
@@ -46,7 +48,7 @@ export const SplitView = ({
 }: SplitViewProps) => {
   const sizedFirst = children[0].type === SplitViewSized;
   const [sizedPaneSize, setSizedPaneSize] = useState<undefined | number>(
-    minimums[0]
+    initialSize || minimums[0]
   );
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);

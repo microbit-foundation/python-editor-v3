@@ -11,7 +11,7 @@ import {
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-7d6fb25c67e8b4ed3eaf.worker.js";
+const workerScriptName = "pyright-3d980d05f025e92c3691.worker.js";
 
 /**
  * Creates Pyright workers and corresponding client.
@@ -62,8 +62,6 @@ export const pyright = (): LanguageServerClient | undefined => {
   });
   connection.listen();
 
-  // Must bootstrap before the initialize request so that the config file is in place.
-  // Need a better way to do this. Messages before init aren't valid LSP.
   const client = new LanguageServerClient(connection, {
     rootUri: createUri(""),
     initializationOptions: async () => {

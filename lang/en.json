@@ -31,6 +31,26 @@
     "defaultMessage": "This file already exists",
     "description": "File already exists notification text"
   },
+  "apidocs-baseclass": {
+    "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
+    "description": "Prefix for a single base class or a list of base classes"
+  },
+  "apidocs-classes": {
+    "defaultMessage": "Classes",
+    "description": "Heading in Advanced documentation for the classes in a Python module"
+  },
+  "apidocs-fields": {
+    "defaultMessage": "Fields",
+    "description": "Heading in Advanced documentation for the fields in a Python module"
+  },
+  "apidocs-functions": {
+    "defaultMessage": "Functions",
+    "description": "Heading in Advanced documentation for the functions in a Python module"
+  },
+  "apidocs-methods": {
+    "defaultMessage": "Methods",
+    "description": "Heading in Advanced documentation for the methods in a Python class"
+  },
   "back-to-main": {
     "defaultMessage": "back to the main code",
     "description": "Text button, takes back to main code"
@@ -275,6 +295,10 @@
     "defaultMessage": "Loaded {filename}",
     "description": "Success feedback for loading file"
   },
+  "loading": {
+    "defaultMessage": "Loading…",
+    "description": "Shown on loading indicators"
+  },
   "lowercase-no-space": {
     "defaultMessage": "Python files should have lowercase names with no spaces",
     "description": "Warning text for uppercase Pyton file name or space"
@@ -414,6 +438,22 @@
   "settings": {
     "defaultMessage": "Settings",
     "description": "Settings text"
+  },
+  "show-less": {
+    "defaultMessage": "Show less",
+    "description": "Show less for general progressive disclosure"
+  },
+  "show-less-for": {
+    "defaultMessage": "Show less for {item}",
+    "description": "Show less with item usually for aria label"
+  },
+  "show-more": {
+    "defaultMessage": "Show more",
+    "description": "Show more for general progressive disclosure"
+  },
+  "show-more-for": {
+    "defaultMessage": "Show more for {item}",
+    "description": "Show more with item usually for aria label"
   },
   "sidebar": {
     "defaultMessage": "Sidebar",

@@ -1,4 +1,9 @@
-import { renderDocumentation } from "./documentation";
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+import { renderDocumentation, renderMarkdown } from "./documentation";
 
 describe("renderDocumentation", () => {
   it("sanitizes html", () => {
@@ -17,5 +22,13 @@ describe("renderDocumentation", () => {
   it("defaults to placeholder", () => {
     const node = renderDocumentation(undefined);
     expect(node.textContent).toEqual("No documentation");
+  });
+});
+describe("renderMarkdown", () => {
+  it("sanitizes html", () => {
+    const html = renderMarkdown("<script>alert(1)</script>");
+    expect(html).toEqual({
+      __html: "",
+    });
   });
 });

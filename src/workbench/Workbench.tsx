@@ -57,7 +57,15 @@ const Workbench = () => {
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   return (
     <Flex className="Workbench">
-      <SplitView direction="row" width="100%" minimums={minimums}>
+      <SplitView
+        direction="row"
+        width="100%"
+        minimums={minimums}
+        initialSize={Math.min(
+          700,
+          Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
+        )}
+      >
         <SplitViewSized>
           <LeftPanel
             as="section"
