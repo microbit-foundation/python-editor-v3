@@ -5,35 +5,35 @@ import FixedTranslationProvider from "../messages/FixedTranslationProvider";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 
 describe("ApiDocsEntryNode", () => {
-  it("works", async () => {
-    const node: ApiDocsEntry = {
-      fullName: "microbit.compass",
-      id: "microbit.compass",
-      name: "compass",
-      kind: "module",
-      docString: "Totally magnetic!",
-      children: [
-        {
-          fullName: "microbit.compass.get_x",
-          id: "123",
-          name: "get_x",
-          kind: "function",
-          docString: "Get me!\n\nNot initially displayed",
-          params: [
-            {
-              name: "foo",
-              category: "simple",
-            },
-            {
-              name: "bar",
-              category: "simple",
-              defaultValue: "12",
-            },
-          ],
-        },
-      ],
-    };
+  const node: ApiDocsEntry = {
+    fullName: "microbit.compass",
+    id: "microbit.compass",
+    name: "compass",
+    kind: "module",
+    docString: "Totally magnetic!",
+    children: [
+      {
+        fullName: "microbit.compass.get_x",
+        id: "123",
+        name: "get_x",
+        kind: "function",
+        docString: "Get me!\n\nNot initially displayed",
+        params: [
+          {
+            name: "foo",
+            category: "simple",
+          },
+          {
+            name: "bar",
+            category: "simple",
+            defaultValue: "12",
+          },
+        ],
+      },
+    ],
+  };
 
+  it("Show more / less", async () => {
     const result = render(
       <FixedTranslationProvider>
         <ApiDocsEntryNode docs={node} />
@@ -54,5 +54,36 @@ describe("ApiDocsEntryNode", () => {
 
     expect(result.queryByText("Not initially displayed")).toBeInTheDocument();
     expect(result.queryByText("(foo, bar=12)")).toBeInTheDocument();
+  });
+
+  let commands: string[] = [];
+
+  beforeEach(() => {
+    commands.length = 0;
+    document.execCommand = (command) => {
+      commands.push(command);
+      return true;
+    };
+  });
+
+  afterEach(() => {
+    (document as any).execCommand = undefined;
+  });
+
+  it("offers copy-to-clipboard for the signature", async () => {
+    const result = render(
+      <FixedTranslationProvider>
+        <ApiDocsEntryNode docs={node} />
+      </FixedTranslationProvider>
+    );
+
+    const copyButton = await result.findByRole("button", {
+      name: /Copy/,
+    });
+    act(() => {
+      copyButton.click();
+    });
+
+    expect(commands).toEqual(["copy"]);
   });
 });
