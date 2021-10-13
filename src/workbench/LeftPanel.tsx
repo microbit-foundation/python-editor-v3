@@ -29,6 +29,7 @@ import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
+import { flags } from "../flags";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -45,19 +46,13 @@ const LeftPanel = ({
   ...props
 }: LeftPanelProps) => {
   const intl = useIntl();
-  const panes: Pane[] = useMemo(
-    () => [
+  const panes: Pane[] = useMemo(() => {
+    const result = [
       {
         id: "python",
         title: intl.formatMessage({ id: "python-tab" }),
         icon: PythonLogo as IconType,
         contents: <FeedbackArea />,
-      },
-      {
-        id: "advanced",
-        title: "Advanced",
-        icon: RiBookReadFill,
-        contents: <AdvancedDocumentation />,
       },
       {
         id: "files",
@@ -71,9 +66,17 @@ const LeftPanel = ({
           />
         ),
       },
-    ],
-    [onSelectedFileChanged, selectedFile, intl]
-  );
+    ];
+    if (flags.advancedDocumentation) {
+      result.splice(1, 0, {
+        id: "advanced",
+        title: "Advanced",
+        icon: RiBookReadFill,
+        contents: <AdvancedDocumentation />,
+      });
+    }
+    return result;
+  }, [onSelectedFileChanged, selectedFile, intl]);
   return <LeftPanelContents {...props} panes={panes} />;
 };
 
