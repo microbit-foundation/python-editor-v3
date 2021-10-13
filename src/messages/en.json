@@ -75,6 +75,56 @@
       "value": "This file already exists"
     }
   ],
+  "apidocs-baseclass": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "base class"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "base classes: "
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "baseClassCount"
+    }
+  ],
+  "apidocs-classes": [
+    {
+      "type": 0,
+      "value": "Classes"
+    }
+  ],
+  "apidocs-fields": [
+    {
+      "type": 0,
+      "value": "Fields"
+    }
+  ],
+  "apidocs-functions": [
+    {
+      "type": 0,
+      "value": "Functions"
+    }
+  ],
+  "apidocs-methods": [
+    {
+      "type": 0,
+      "value": "Methods"
+    }
+  ],
   "back-to-main": [
     {
       "type": 0,
@@ -873,6 +923,38 @@
     {
       "type": 0,
       "value": "Settings"
+    }
+  ],
+  "show-less": [
+    {
+      "type": 0,
+      "value": "Show less"
+    }
+  ],
+  "show-less-for": [
+    {
+      "type": 0,
+      "value": "Show less for "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "show-more": [
+    {
+      "type": 0,
+      "value": "Show more"
+    }
+  ],
+  "show-more-for": [
+    {
+      "type": 0,
+      "value": "Show more for "
+    },
+    {
+      "type": 1,
+      "value": "item"
     }
   ],
   "sidebar": [

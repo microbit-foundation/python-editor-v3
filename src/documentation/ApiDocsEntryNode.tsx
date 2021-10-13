@@ -5,7 +5,7 @@ import { HTMLChakraProps } from "@chakra-ui/system";
 import { Tooltip } from "@chakra-ui/tooltip";
 import React, { useMemo, useState } from "react";
 import { RiFileCopy2Line } from "react-icons/ri";
-import { useIntl } from "react-intl";
+import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { firstParagraph } from "../editor/codemirror/language-server/documentation";
 import {
@@ -48,6 +48,7 @@ const ApiDocsEntryNode = ({
 }: ApiDocEntryNodeProps) => {
   const { kind, name, fullName, children, params, docString, baseClasses } =
     docs;
+  const intl = useIntl();
   const variableOrFunction = kind === "variable" || kind === "function";
   const [isShowingDetail, setShowingDetail] = useState(false);
   const groupedChildren = useMemo(() => {
@@ -117,13 +118,16 @@ const ApiDocsEntryNode = ({
                     p={1}
                     pt={1.5}
                     pb={1.5}
-                    aria-label={
-                      isShowingDetail
-                        ? `Show less for ${name}`
-                        : `Show more for ${name}`
-                    }
+                    aria-label={intl.formatMessage(
+                      {
+                        id: isShowingDetail ? "show-less-for" : "show-more-for",
+                      },
+                      { item: name }
+                    )}
                   >
-                    {isShowingDetail ? "Show less" : "Show more"}
+                    <FormattedMessage
+                      id={isShowingDetail ? "show-less" : "show-more"}
+                    />
                   </Button>
                 )}
               </HStack>
@@ -142,7 +146,7 @@ const ApiDocsEntryNode = ({
                 groupedChildren?.get(childKind as any) && (
                   <Box mb={5} key={childKind}>
                     <Text fontWeight="lg" mb={2}>
-                      {groupHeading(kind, childKind)}
+                      {groupHeading(intl, kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
                       <ApiDocsEntryNode key={c.id} docs={c} />
@@ -157,14 +161,20 @@ const ApiDocsEntryNode = ({
   );
 };
 
-const groupHeading = (kind: string, childKind: string): string => {
+const groupHeading = (
+  intl: IntlShape,
+  kind: string,
+  childKind: string
+): string => {
   switch (childKind) {
     case "variable":
-      return "Fields";
+      return intl.formatMessage({ id: "apidocs-fields" });
     case "class":
-      return "Classes";
+      return intl.formatMessage({ id: "apidocs-classes" });
     case "function":
-      return kind === "class" ? "Methods" : "Functions";
+      return intl.formatMessage({
+        id: kind === "class" ? "apidocs-methods" : "apidocs-functions",
+      });
     default: {
       throw new Error("Unexpected");
     }
@@ -235,10 +245,12 @@ function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
 }
 
 const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
-  const prefix = value.length === 1 ? "base class " : "base classes: ";
   return (
     <Text pl={2}>
-      {prefix}
+      <FormattedMessage
+        id="apidocs-baseclass"
+        values={{ baseClassCount: value.length }}
+      />{" "}
       {value.map((bc) => (
         <a key={bc.fullName} href={"#" + bc.fullName}>
           {bc.name}
