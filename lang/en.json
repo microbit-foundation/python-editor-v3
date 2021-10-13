@@ -371,6 +371,10 @@
     "defaultMessage": "Send Ctrl-D to reset",
     "description": "Button to reset the micro:bit from the serial area"
   },
+  "serial-ctrl-e-button": {
+    "defaultMessage": "Send Ctrl-E for paste mode",
+    "description": "Button to enter serial paste mode"
+  },
   "serial-expand": {
     "defaultMessage": "Show serial",
     "description": "Aria label for serial expand/collapse"

@@ -731,6 +731,12 @@
       "value": "Send Ctrl-D to reset"
     }
   ],
+  "serial-ctrl-e-button": [
+    {
+      "type": 0,
+      "value": "Send Ctrl-E for paste mode"
+    }
+  ],
   "serial-expand": [
     {
       "type": 0,

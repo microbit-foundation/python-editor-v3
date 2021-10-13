@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { Terminal } from "xterm";
 import { DeviceConnection } from "../device/device";
 
 /**
@@ -10,15 +11,19 @@ import { DeviceConnection } from "../device/device";
  */
 export class SerialActions {
   constructor(
+    private terminal: Terminal,
     private device: DeviceConnection,
     private onSerialSizeChange: (size: "compact" | "open") => void
   ) {}
 
   interrupt = (): void => this.sendCommand("\x03");
   reset = (): void => this.sendCommand("\x04");
+  pasteMode = (): void => this.sendCommand("\x05");
 
   private sendCommand(data: string): void {
     this.onSerialSizeChange("open");
     this.device.serialWrite(data);
+    // Particularly important for paste mode.
+    this.terminal.focus();
   }
 }
