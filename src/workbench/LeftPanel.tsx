@@ -20,7 +20,7 @@ import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import ApiDocsArea from "../apidocs/ApiDocsArea";
+import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import FilesArea from "../files/FilesArea";
@@ -57,7 +57,7 @@ const LeftPanel = ({
         id: "advanced",
         title: "Advanced",
         icon: RiBookReadFill,
-        contents: <ApiDocsArea />,
+        contents: <AdvancedDocumentation />,
       },
       {
         id: "files",

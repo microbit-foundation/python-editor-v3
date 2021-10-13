@@ -173,7 +173,7 @@ const groupHeading = (kind: string, childKind: string): string => {
 
 const formatName = (kind: string, fullName: string, name: string): string => {
   // Add zero width spaces to allow breaking
-  return kind === "module" ? fullName.replaceAll(/\./g, "\u200b.\u200b") : name;
+  return kind === "module" ? fullName.replace(/\./g, "\u200b.\u200b") : name;
 };
 
 const buildSignature = (
