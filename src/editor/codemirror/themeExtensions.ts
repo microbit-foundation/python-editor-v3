@@ -39,6 +39,28 @@ export const themeExtensions = (fontSizePt: number) => {
       fontSize,
       fontFamily,
     },
+    ".cm-tooltip-autocomplete.cm-tooltip": {
+      border: "none",
+    },
+    ".cm-tooltip-autocomplete.cm-tooltip > *": {
+      border: "1px solid #ddd",
+      backgroundColor: "#f5f5f5",
+    },
+    ".cm-tooltip.cm-completionInfo.cm-completionInfo-right": {
+      borderLeft: "none",
+    },
+    ".cm-tooltip.cm-completionInfo.cm-completionInfo-left": {
+      borderRight: "none",
+    },
+    ".cm-tooltip.cm-completionInfo": {
+      width: "15rem",
+      height: "6rem",
+      top: "0 !important",
+      overflowY: "auto",
+    },
+    ".cm-tooltip-autocomplete > ul": {
+      height: "6rem",
+    },
     ".cm-activeLine": {
       // Can't use background colour for conflicting purposes.
       backgroundColor: "unset",

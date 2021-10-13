@@ -16,6 +16,10 @@
 .docs-markdown * + code {
   margin-top: var(--chakra-space-3);
 }
+.docs-markdown hr + *,
+.docs-markdown * + hr {
+  margin-top: var(--chakra-space-1);
+}
 .docs-markdown code {
   white-space: pre-wrap;
 }
