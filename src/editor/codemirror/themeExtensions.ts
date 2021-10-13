@@ -54,12 +54,12 @@ export const themeExtensions = (fontSizePt: number) => {
     },
     ".cm-tooltip.cm-completionInfo": {
       width: "15rem",
-      height: "6rem",
+      height: "6.1rem",
       top: "0 !important",
       overflowY: "auto",
     },
     ".cm-tooltip-autocomplete > ul": {
-      height: "6rem",
+      height: "6.1rem",
     },
     ".cm-activeLine": {
       // Can't use background colour for conflicting purposes.
