@@ -6,9 +6,9 @@
 import { createContext, useContext } from "react";
 import { FileSystem } from "./fs";
 
-export const FileSystemContext = createContext<FileSystem | undefined>(
-  undefined
-);
+const FileSystemContext = createContext<FileSystem | undefined>(undefined);
+
+export const FileSystemProvider = FileSystemContext.Provider;
 
 /**
  * Hook exposing the file system.

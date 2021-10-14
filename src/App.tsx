@@ -11,26 +11,26 @@ import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
-import { DeviceContext } from "./device/device-hooks";
+import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import { FileSystem } from "./fs/fs";
-import { FileSystemContext } from "./fs/fs-hooks";
+import { FileSystemProvider } from "./fs/fs-hooks";
 import { createInitialProject } from "./fs/initial-project";
 import { fetchMicroPython } from "./fs/micropython";
 import { trackFsChanges } from "./language-server/client-fs";
-import { LanguageServerClientContext } from "./language-server/language-server-hooks";
+import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
 import { pyright } from "./language-server/pyright";
-import { LoggingContext } from "./logging/logging-hooks";
+import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import {
   defaultSettings,
   isValidSettingsObject,
   Settings,
-  SettingsContext,
+  SettingsProvider,
 } from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
-import { SelectionContext } from "./workbench/use-selection";
+import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
 const isMockDeviceMode = () =>
@@ -75,26 +75,26 @@ const App = () => {
     <>
       <VisualViewPortCSSVariables />
       <ChakraProvider theme={deployment.chakraTheme}>
-        <LoggingContext.Provider value={logging}>
-          <SettingsContext.Provider value={settings}>
+        <LoggingProvider value={logging}>
+          <SettingsProvider value={settings}>
             <TranslationProvider>
               <DialogProvider>
-                <DeviceContext.Provider value={device}>
-                  <FileSystemContext.Provider value={fs}>
-                    <LanguageServerClientContext.Provider value={client}>
+                <DeviceContextProvider value={device}>
+                  <FileSystemProvider value={fs}>
+                    <LanguageServerClientProvider value={client}>
                       <BeforeUnloadDirtyCheck />
-                      <SelectionContext>
+                      <SelectionProvider>
                         <ProjectDropTarget>
                           <Workbench />
                         </ProjectDropTarget>
-                      </SelectionContext>
-                    </LanguageServerClientContext.Provider>
-                  </FileSystemContext.Provider>
-                </DeviceContext.Provider>
+                      </SelectionProvider>
+                    </LanguageServerClientProvider>
+                  </FileSystemProvider>
+                </DeviceContextProvider>
               </DialogProvider>
             </TranslationProvider>
-          </SettingsContext.Provider>
-        </LoggingContext.Provider>
+          </SettingsProvider>
+        </LoggingProvider>
       </ChakraProvider>
     </>
   );

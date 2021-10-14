@@ -49,7 +49,7 @@ export const useSelection = () => {
   return value;
 };
 
-export const SelectionContext = ({ children }: { children: ReactNode }) => {
+export const SelectionProvider = ({ children }: { children: ReactNode }) => {
   const state = useState<WorkbenchSelection>({
     file: MAIN_FILE,
     location: { line: undefined },
