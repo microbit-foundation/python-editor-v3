@@ -9,6 +9,8 @@ import {
   CompletionContext,
   CompletionResult,
 } from "@codemirror/autocomplete";
+import { insertBracket } from "@codemirror/closebrackets";
+import { TransactionSpec } from "@codemirror/state";
 import sortBy from "lodash.sortby";
 import * as LSP from "vscode-languageserver-protocol";
 import {
@@ -86,6 +88,21 @@ export const autocompletion = () =>
                 const completion: AugmentedCompletion = {
                   // In practice we don't get textEdit fields back from Pyright so the label is used.
                   label: item.label,
+                  apply: (view, completion, from, to) => {
+                    const transactions: TransactionSpec[] = [
+                      { changes: { from, to, insert: item.label } },
+                    ];
+                    if (
+                      completion.type === "function" ||
+                      completion.type === "method"
+                    ) {
+                      const bracketTransaction = insertBracket(view.state, "(");
+                      if (bracketTransaction) {
+                        transactions.push(bracketTransaction);
+                      }
+                    }
+                    view.dispatch(...transactions);
+                  },
                   type: item.kind ? mapCompletionKind[item.kind] : undefined,
                   detail: item.detail,
                   info: documentationResolver,
