@@ -23,6 +23,8 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
+const defaultWaitForOptions = { timeout: 5_000 };
+
 export const defaultRootUrl = "http://localhost:3000";
 
 /**
@@ -329,6 +331,7 @@ export class App {
         expect(value).toMatch(match);
       },
       {
+        ...defaultWaitForOptions,
         onTimeout: (e) =>
           new Error(
             `Timeout waiting for ${match} but content was ${lastText}. JSON format: ${JSON.stringify(
@@ -391,7 +394,7 @@ export class App {
     return waitFor(async () => {
       const value = await text();
       expect(value).toEqual(match);
-    });
+    }, defaultWaitForOptions);
   }
 
   /**
@@ -432,6 +435,7 @@ export class App {
         ).toBeNull();
       },
       {
+        ...defaultWaitForOptions,
         onTimeout: () => new Error("Serial still present after disconnect"),
       }
     );
