@@ -19,7 +19,6 @@ import {
   CompletionResolveRequest,
   CompletionTriggerKind,
 } from "vscode-languageserver-protocol";
-import { flags } from "../../../flags";
 import { LanguageServerClient } from "../../../language-server/client";
 import { clientFacet, uriFacet } from "./common";
 import { renderDocumentation } from "./documentation";
@@ -61,9 +60,7 @@ export const autocompletion = () =>
           }
         }
 
-        const documentationResolver = flags.autocompleteDocs
-          ? createDocumentationResolver(client)
-          : undefined;
+        const documentationResolver = createDocumentationResolver(client);
         const results = await client.completionRequest({
           textDocument: {
             uri,
