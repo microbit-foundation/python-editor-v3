@@ -53,13 +53,20 @@ export const themeExtensions = (fontSizePt: number) => {
       fontSize,
       fontFamily,
     },
+    ".cm-tooltip": {
+      backgroundColor: "var(--chakra-colors-gray-50) !important",
+      border: "1px solid var(--chakra-colors-gray-400)",
+    },
     ".cm-tooltip-autocomplete.cm-tooltip": {
       border: "none",
     },
     ".cm-tooltip-autocomplete.cm-tooltip > *": {
-      // CM colours for now.
-      border: "1px solid #ddd",
-      backgroundColor: "#f5f5f5",
+      border: "1px solid var(--chakra-colors-gray-400)",
+    },
+    ".cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected]": {
+      // Matches the text selection colour from the default CM theme.
+      // We might like to change both if we add a lighter brand color.
+      background: "#d7d4f0",
     },
     ".cm-tooltip.cm-completionInfo.cm-completionInfo-right": {
       borderLeft: "none",
