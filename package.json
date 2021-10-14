@@ -75,7 +75,7 @@
     "test": "craco test --testPathIgnorePatterns=e2e",
     "eject": "craco eject",
     "serve": "npx serve --no-clipboard -l 3000 -- build/",
-    "test:e2e": "craco test --testPathPattern e2e -w 1",
+    "test:e2e": "craco test --testPathPattern e2e -w 1 --testTimeout 15000",
     "test:e2e:headless": "CI=true npm run test:e2e",
     "ci:update-version": "update-ci-version",
     "deploy": "website-deploy-aws",
