@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { StateEffect, StateField, Text } from "@codemirror/state";
+import { StateEffect, StateField } from "@codemirror/state";
 import { showTooltip, Tooltip } from "@codemirror/tooltip";
 import {
   EditorView,
@@ -68,13 +68,11 @@ export class SignatureHelpView
       this.triggerSignatureHelpRequest();
     } else if (docChanged) {
       const last = transactions[transactions.length - 1];
-      if (last.isUserEvent("input.type")) {
-        last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-          if (inserted.eq(Text.of(["("])) || inserted.eq(Text.of(["()"]))) {
-            this.triggerSignatureHelpRequest();
-          }
-        });
-      } else if (last.isUserEvent("autocomplete")) {
+
+      // This needs to trigger for autocomplete adding function parens
+      // as well as normal user input with `closebrackets` inserting
+      // the closing bracket.
+      if (last.isUserEvent("input")) {
         last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
           if (inserted.sliceString(0).endsWith("()")) {
             this.triggerSignatureHelpRequest();
