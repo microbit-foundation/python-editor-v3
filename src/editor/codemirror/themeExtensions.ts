@@ -29,6 +29,20 @@ export const themeExtensions = (fontSizePt: number) => {
     ".cm-gutter": {
       width: "5rem",
     },
+    ".cm-activeLine": {
+      // Can't use background colour for conflicting purposes.
+      backgroundColor: "unset",
+      outline: "1px solid var(--chakra-colors-gray-100)",
+    },
+    ".cm-activeLineGutter": {
+      backgroundColor: "unset",
+      color: "var(--chakra-colors-gray-800)",
+    },
+    // $wrap can't be styled here, see App.css.
+
+    // This block restyles autocomplete and aims for a rectangular arrangement
+    // rather than the default where the docs are positioned just offset from
+    // the item in the completion list.
     ".cm-completionIcon": {
       // Seems broken by default
       width: "auto",
@@ -43,6 +57,7 @@ export const themeExtensions = (fontSizePt: number) => {
       border: "none",
     },
     ".cm-tooltip-autocomplete.cm-tooltip > *": {
+      // CM colours for now.
       border: "1px solid #ddd",
       backgroundColor: "#f5f5f5",
     },
@@ -62,16 +77,6 @@ export const themeExtensions = (fontSizePt: number) => {
       height: "10rem",
       maxHeight: "10rem",
     },
-    ".cm-activeLine": {
-      // Can't use background colour for conflicting purposes.
-      backgroundColor: "unset",
-      outline: "1px solid var(--chakra-colors-gray-100)",
-    },
-    ".cm-activeLineGutter": {
-      backgroundColor: "unset",
-      color: "var(--chakra-colors-gray-800)",
-    },
-    // $wrap can't be styled here, see App.css.
   });
 };
 
