@@ -12,23 +12,19 @@
 
 import { stage } from "./environment";
 
-interface Flags {
-  signatureHelp: boolean;
-  autocompleteDocs: boolean;
-  // We'll ship this when we have more beginner friendly docs.
-  advancedDocumentation: boolean;
-}
+type Flag = "signatureHelp" | "autocompleteDocs" | "advancedDocumentation";
 
-const isPreviewStage = () => !(stage === "STAGING" || stage === "PRODUCTION");
+type Flags = Record<Flag, boolean>;
 
-export const flags: Flags = isPreviewStage()
-  ? {
-      signatureHelp: true,
-      autocompleteDocs: true,
-      advancedDocumentation: true,
-    }
-  : {
-      signatureHelp: false,
-      autocompleteDocs: false,
-      advancedDocumentation: false,
-    };
+export const flags: Flags = (() => {
+  const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
+  const flags = ["signatureHelp", "autocompleteDocs", "advancedDocumentation"];
+  const params = new URLSearchParams(window.location.search);
+  const enableFlags = new Set(params.getAll("flag"));
+  const allFlagsEnabled = enableFlags.has("*");
+  return Object.fromEntries(
+    flags.map((f) => {
+      return [f, isPreviewStage || allFlagsEnabled || enableFlags.has(f)];
+    })
+  ) as Flags;
+})();
