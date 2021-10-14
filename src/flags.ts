@@ -12,13 +12,13 @@
 
 import { stage } from "./environment";
 
-type Flag = "signatureHelp" | "autocompleteDocs" | "advancedDocumentation";
+type Flag = "signatureHelp" | "advancedDocumentation";
 
 type Flags = Record<Flag, boolean>;
 
 export const flags: Flags = (() => {
   const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
-  const flags = ["signatureHelp", "autocompleteDocs", "advancedDocumentation"];
+  const flags = ["signatureHelp", "advancedDocumentation"];
   const params = new URLSearchParams(window.location.search);
   const enableFlags = new Set(params.getAll("flag"));
   const allFlagsEnabled = enableFlags.has("*");
