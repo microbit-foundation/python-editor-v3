@@ -103,9 +103,11 @@ export interface Settings {
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];
 
-export const SettingsContext = createContext<SettingsContextValue | undefined>(
+const SettingsContext = createContext<SettingsContextValue | undefined>(
   undefined
 );
+
+export const SettingsProvider = SettingsContext.Provider;
 
 export const useSettings = (): SettingsContextValue => {
   const settings = useContext(SettingsContext);

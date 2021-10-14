@@ -13,9 +13,11 @@ import {
   EVENT_SERIAL_ERROR,
 } from "./device";
 
-export const DeviceContext = React.createContext<undefined | DeviceConnection>(
+const DeviceContext = React.createContext<undefined | DeviceConnection>(
   undefined
 );
+
+export const DeviceContextProvider = DeviceContext.Provider;
 
 /**
  * Hook to access the device from UI code.

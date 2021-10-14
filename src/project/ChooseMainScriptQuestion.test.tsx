@@ -10,8 +10,7 @@ import ChooseMainScriptQuestion, {
 } from "./ChooseMainScriptQuestion";
 import { MainScriptChoice } from "./project-actions";
 import { stubIntl as intl } from "../messages/testing";
-import TranslationProvider from "../messages/TranslationProvider";
-import { defaultSettings, SettingsContext } from "../settings/settings";
+import FixedTranslationProvider from "../messages/FixedTranslationProvider";
 
 describe("ChooseMainScriptQuestion", () => {
   const data = () => Promise.resolve(new Uint8Array([0]));
@@ -35,19 +34,17 @@ describe("ChooseMainScriptQuestion", () => {
       choice: string | undefined
     ) => {
       return render(
-        <SettingsContext.Provider value={[defaultSettings, () => {}]}>
-          <TranslationProvider>
-            <ChooseMainScriptQuestion
-              error={undefined}
-              setError={setError}
-              setValue={setValue}
-              currentFiles={currentFiles}
-              value={{ main: choice }}
-              inputs={inputs}
-              validate={() => undefined}
-            />
-          </TranslationProvider>
-        </SettingsContext.Provider>
+        <FixedTranslationProvider>
+          <ChooseMainScriptQuestion
+            error={undefined}
+            setError={setError}
+            setValue={setValue}
+            currentFiles={currentFiles}
+            value={{ main: choice }}
+            inputs={inputs}
+            validate={() => undefined}
+          />
+        </FixedTranslationProvider>
       );
     };
 

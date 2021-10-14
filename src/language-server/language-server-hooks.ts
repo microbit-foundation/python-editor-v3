@@ -6,9 +6,12 @@
 import { createContext, useContext } from "react";
 import { LanguageServerClient } from "./client";
 
-export const LanguageServerClientContext = createContext<
+const LanguageServerClientContext = createContext<
   LanguageServerClient | undefined
 >(undefined);
+
+export const LanguageServerClientProvider =
+  LanguageServerClientContext.Provider;
 
 export const useLanguageServerClient = (): LanguageServerClient | undefined => {
   // It can be undefined if not supported (e.g. in Jest).
