@@ -53,13 +53,14 @@ export const themeExtensions = (fontSizePt: number) => {
       borderRight: "none",
     },
     ".cm-tooltip.cm-completionInfo": {
-      width: "15rem",
-      height: "6.1rem",
+      width: "20rem",
+      height: "10rem",
       top: "0 !important",
       overflowY: "auto",
     },
-    ".cm-tooltip-autocomplete > ul": {
-      height: "6.1rem",
+    ".cm-tooltip.cm-tooltip-autocomplete > ul": {
+      height: "10rem",
+      maxHeight: "10rem",
     },
     ".cm-activeLine": {
       // Can't use background colour for conflicting purposes.
