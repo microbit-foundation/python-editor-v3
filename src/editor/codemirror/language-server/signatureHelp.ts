@@ -17,16 +17,15 @@ import {
   ViewUpdate,
 } from "@codemirror/view";
 import {
+  MarkupContent,
   SignatureHelp,
   SignatureHelpParams,
   SignatureHelpRequest,
-  MarkupContent,
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView } from "./common";
 import { renderDocumentation } from "./documentation";
 import { removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
-import { escapeRegExp } from "./regexp-util";
 
 interface SignatureChangeEffect {
   pos: number;
@@ -163,15 +162,7 @@ const formatSignatureHelp = (help: SignatureHelp): Node => {
     const [from, to] = activeParameterLabel;
     return formatHighlightedParameter(label, from, to, activeParameterDoc);
   } else if (typeof activeParameterLabel === "string") {
-    const parameterRegExp = new RegExp(
-      "[(, ]" + escapeRegExp(activeParameterLabel) + "[), ]"
-    );
-    const match = parameterRegExp.exec(label);
-    if (match) {
-      const from = match.index + 1;
-      const to = from + activeParameterLabel.length;
-      return formatHighlightedParameter(label, from, to, activeParameterDoc);
-    }
+    throw new Error("Not supported");
   }
   return formatHighlightedParameter(
     label,

@@ -120,6 +120,10 @@ export class LanguageServerClient extends EventEmitter {
             signatureHelp: {
               signatureInformation: {
                 documentationFormat: ["markdown"],
+                activeParameterSupport: true,
+                parameterInformation: {
+                  labelOffsetSupport: true,
+                },
               },
             },
             publishDiagnostics: {
