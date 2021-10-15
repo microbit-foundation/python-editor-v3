@@ -36,7 +36,8 @@ export const renderDocumentation = (
   if (firstParagraphOnly) {
     fallbackContent = firstParagraph(fallbackContent);
   }
-  div.appendChild(new Text(fallbackContent));
+  const p = div.appendChild(document.createElement("p"));
+  p.appendChild(new Text(fallbackContent));
   return div;
 };
 
