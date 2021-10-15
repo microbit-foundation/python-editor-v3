@@ -20,8 +20,10 @@ import {
   SignatureHelp,
   SignatureHelpParams,
   SignatureHelpRequest,
+  MarkupContent,
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView } from "./common";
+import { renderDocumentation } from "./documentation";
 import { removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 import { escapeRegExp } from "./regexp-util";
@@ -139,10 +141,8 @@ const reduceSignatureHelpState = (
   return state;
 };
 
-const formatSignatureHelp = ({
-  activeSignature: activeSignatureIndex,
-  signatures,
-}: SignatureHelp): Node => {
+const formatSignatureHelp = (help: SignatureHelp): Node => {
+  const { activeSignature: activeSignatureIndex, signatures } = help;
   // We intentionally do something minimal here to minimise distraction.
   const activeSignature =
     activeSignatureIndex === null
@@ -158,9 +158,11 @@ const formatSignatureHelp = ({
       ? parameters[activeParameterIndex]
       : undefined;
   const activeParameterLabel = activeParameter?.label;
+  const activeParameterDoc = activeParameter?.documentation;
+  console.log(activeParameterDoc);
   if (Array.isArray(activeParameterLabel)) {
     const [from, to] = activeParameterLabel;
-    return renderHighlightedParameter(label, from, to);
+    return formatHighlightedParameter(label, from, to, activeParameterDoc);
   } else if (typeof activeParameterLabel === "string") {
     const parameterRegExp = new RegExp(
       "[(, ]" + escapeRegExp(activeParameterLabel) + "[), ]"
@@ -169,17 +171,23 @@ const formatSignatureHelp = ({
     if (match) {
       const from = match.index + 1;
       const to = from + activeParameterLabel.length;
-      return renderHighlightedParameter(label, from, to);
+      return formatHighlightedParameter(label, from, to, activeParameterDoc);
     }
   }
-  return renderHighlightedParameter(label, label.length, label.length);
+  return formatHighlightedParameter(
+    label,
+    label.length,
+    label.length,
+    activeParameterDoc
+  );
 };
 
-const renderHighlightedParameter = (
+const formatHighlightedParameter = (
   label: string,
   from: number,
-  to: number
-) => {
+  to: number,
+  activeParameterDoc: string | MarkupContent | undefined
+): Node => {
   let before = label.substring(0, from);
   const parameter = label.substring(from, to);
   const after = label.substring(to);
@@ -195,6 +203,10 @@ const renderHighlightedParameter = (
   span.className = "cm-signature-activeParameter";
   span.appendChild(document.createTextNode(parameter));
   code.appendChild(document.createTextNode(after));
+
+  const documentation = renderDocumentation(activeParameterDoc);
+  parent.appendChild(documentation);
+
   return parent;
 };
 
