@@ -13,7 +13,6 @@ import { history, historyKeymap } from "@codemirror/history";
 import { python } from "@codemirror/lang-python";
 import { indentOnInput, indentUnit } from "@codemirror/language";
 import { lintKeymap } from "@codemirror/lint";
-import { bracketMatching } from "@codemirror/matchbrackets";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
@@ -49,7 +48,6 @@ export const editorConfig: Extension = [
   drawSelection(),
   indentOnInput(),
   Prec.fallback(defaultHighlightStyle),
-  bracketMatching(),
   closeBrackets(),
   highlightStyle(),
   highlightActiveLine(),
