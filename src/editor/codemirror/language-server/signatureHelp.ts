@@ -159,7 +159,6 @@ const formatSignatureHelp = (help: SignatureHelp): Node => {
       : undefined;
   const activeParameterLabel = activeParameter?.label;
   const activeParameterDoc = activeParameter?.documentation;
-  console.log(activeParameterDoc);
   if (Array.isArray(activeParameterLabel)) {
     const [from, to] = activeParameterLabel;
     return formatHighlightedParameter(label, from, to, activeParameterDoc);
