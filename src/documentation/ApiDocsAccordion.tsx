@@ -4,10 +4,11 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  ExpandedIndex,
 } from "@chakra-ui/accordion";
 import { Box, Text } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
-import React from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
@@ -17,16 +18,47 @@ interface ApiDocsAccordionProps {
 }
 
 const ApiDocsAccordion = ({ docs }: ApiDocsAccordionProps) => {
+  const modules = useMemo(
+    () => sortBy(Object.values(docs), (m) => m.fullName),
+    [docs]
+  );
+  const [expandedIndex, setExpandedIndex] = useState<
+    ExpandedIndex | undefined
+  >();
+  const scrollTarget = useRef<string | undefined>();
+  useEffect(() => {
+    const listener = (event: Event) => {
+      const id = (event as CustomEvent).detail.id;
+      const module = id.slice(0, id.lastIndexOf("."));
+      const index = modules.findIndex((m) => m.fullName === module);
+      scrollTarget.current = id;
+      setExpandedIndex(index);
+    };
+    document.addEventListener("cm/openDocs", listener);
+    return () => {
+      document.removeEventListener("cm/openDocs", listener);
+    };
+  }, [modules]);
+  useEffect(() => {
+    if (scrollTarget.current) {
+      const elt = document.getElementById(scrollTarget.current);
+      console.log("Scrolling", elt);
+      scrollTarget.current = undefined;
+      elt?.scrollIntoView();
+    }
+  }, [expandedIndex]);
   return (
     <>
       <Accordion
+        index={expandedIndex}
+        onChange={setExpandedIndex}
         allowToggle
         wordBreak="break-word"
         position="relative"
         // Animations disabled as they conflict with the sticky heading, as we animate past the sticky point.
         reduceMotion={true}
       >
-        {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
+        {modules.map((module) => (
           <AccordionItem key={module.id}>
             <AccordionButton
               fontSize="xl"
