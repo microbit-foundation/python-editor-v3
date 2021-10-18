@@ -8,7 +8,13 @@ import {
 } from "@chakra-ui/accordion";
 import { Box, Text } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
@@ -26,27 +32,34 @@ const ApiDocsAccordion = ({ docs }: ApiDocsAccordionProps) => {
     ExpandedIndex | undefined
   >();
   const scrollTarget = useRef<string | undefined>();
+  const scrollToId = useCallback((id: string) => {
+    const elt = document.getElementById(id);
+    elt?.scrollIntoView();
+  }, []);
   useEffect(() => {
     const listener = (event: Event) => {
       const id = (event as CustomEvent).detail.id;
       const module = id.slice(0, id.lastIndexOf("."));
       const index = modules.findIndex((m) => m.fullName === module);
-      scrollTarget.current = id;
-      setExpandedIndex(index);
+      if (index !== expandedIndex) {
+        scrollTarget.current = id;
+        setExpandedIndex(index);
+      } else {
+        scrollToId(id);
+      }
     };
     document.addEventListener("cm/openDocs", listener);
     return () => {
       document.removeEventListener("cm/openDocs", listener);
     };
-  }, [modules]);
+  }, [modules, expandedIndex, scrollToId]);
   useEffect(() => {
     if (scrollTarget.current) {
-      const elt = document.getElementById(scrollTarget.current);
-      console.log("Scrolling", elt);
+      const id = scrollTarget.current;
       scrollTarget.current = undefined;
-      elt?.scrollIntoView();
+      scrollToId(id);
     }
-  }, [expandedIndex]);
+  });
   return (
     <>
       <Accordion

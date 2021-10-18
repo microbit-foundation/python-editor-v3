@@ -160,7 +160,8 @@ const formatSignatureHelp = (help: SignatureHelp): Node => {
       ? parameters[activeParameterIndex]
       : undefined;
   const activeParameterLabel = activeParameter?.label;
-  const activeParameterDoc = activeParameter?.documentation;
+  const activeParameterDoc =
+    activeParameter?.documentation || activeSignature.documentation;
   if (Array.isArray(activeParameterLabel)) {
     const [from, to] = activeParameterLabel;
     return formatHighlightedParameter(label, from, to, activeParameterDoc);
@@ -198,7 +199,7 @@ const formatHighlightedParameter = (
   span.appendChild(document.createTextNode(parameter));
   code.appendChild(document.createTextNode(after));
 
-  const documentation = renderDocumentation(activeParameterDoc);
+  const documentation = renderDocumentation(activeParameterDoc, true);
   parent.appendChild(documentation);
 
   return wrapWithDocumentationButton(parent, id);
