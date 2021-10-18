@@ -147,7 +147,7 @@ export const TerminalContext = ({ children }: { children: ReactNode }) => {
 };
 
 /**
- * Hook to access the termimal from UI code.
+ * Hook to access the terminal from UI code.
  *
  * Prefer {@link #useSerialActions}.
  *
