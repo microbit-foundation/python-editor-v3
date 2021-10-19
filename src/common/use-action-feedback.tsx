@@ -45,7 +45,7 @@ export class ActionFeedback {
   }
 
   /**
-   * Handles an warning.
+   * Handles a warning.
    */
   warning({
     title,
@@ -67,12 +67,27 @@ export class ActionFeedback {
   }
 
   /**
-   * Handles an warning.
+   * For when an action succeeds.
    */
   success({ title, description }: { title: string; description?: ReactNode }) {
     this.toast({
       title,
       status: "success",
+      description,
+      position: "top",
+      isClosable: false,
+      duration: 2000, // Quicker than for errors,
+      variant: "toast",
+    });
+  }
+
+  /**
+   * For when an action succeeds.
+   */
+  info({ title, description }: { title: string; description?: ReactNode }) {
+    this.toast({
+      title,
+      status: "info",
       description,
       position: "top",
       isClosable: false,

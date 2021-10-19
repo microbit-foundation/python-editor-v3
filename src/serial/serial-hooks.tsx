@@ -6,6 +6,7 @@
 import React, { ReactNode, useContext, useEffect, useMemo } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
+import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import {
   backgroundColorTerm,
@@ -43,6 +44,7 @@ const ptToPixelRatio = 96 / 72;
  * so its API can be used to implement user actions.
  */
 const useNewTerminal = (): Terminal => {
+  const actionFeedback = useActionFeedback();
   const terminal = useMemo(() => {
     return new Terminal({
       fontFamily: codeFontFamily,
@@ -130,6 +132,10 @@ const useNewTerminal = (): Terminal => {
       if (event.clipboardData) {
         let text = event.clipboardData.getData("text/plain");
         if (/[\n\r]/.test(text)) {
+          actionFeedback.info({
+            title:
+              "Automatically switched to MicroPython paste mode for multi-line paste.",
+          });
           // Wrap in start/end paste mode to prevent auto-indent.
           text = `\x05${text}\x04`;
         }
