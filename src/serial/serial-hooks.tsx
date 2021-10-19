@@ -117,6 +117,32 @@ const useNewTerminal = (): Terminal => {
       terminalOpen(parent);
       resizeObserver.observe(parent);
     };
+
+    // Fragile interception of paste events.
+    // We should see if we can get API for this in xterm.js.
+    const coreTerminal = (terminal as any)._core;
+    const initGlobal = coreTerminal._initGlobal.bind(coreTerminal);
+    const customPasteEventHandler = (event: ClipboardEvent) => {
+      // Avoid the handler xterm.js will add.
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+      event.preventDefault();
+      if (event.clipboardData) {
+        let text = event.clipboardData.getData("text/plain");
+        if (/[\n\r]/.test(text)) {
+          // Wrap in start/end paste mode to prevent auto-indent.
+          text = `\x05${text}\x04`;
+        }
+        terminal.paste(text);
+      }
+    };
+    coreTerminal._initGlobal = () => {
+      // We don't need to remove these as we share a lifetime with this DOM.
+      terminal.element!.addEventListener("paste", customPasteEventHandler);
+      terminal.textarea!.addEventListener("paste", customPasteEventHandler);
+      initGlobal();
+    };
+
     return () => {
       device.removeListener(EVENT_SERIAL_RESET, resetListener);
       device.removeListener(EVENT_SERIAL_DATA, serialListener);
