@@ -155,7 +155,7 @@ const useNewTerminal = (): Terminal => {
       resizeObserver.disconnect();
       terminal.dispose();
     };
-  }, [device, setSelection, isUnmounted, terminal]);
+  }, [actionFeedback, device, setSelection, isUnmounted, terminal]);
 
   return terminal;
 };
