@@ -134,7 +134,8 @@ const useNewTerminal = (): Terminal => {
         if (/[\n\r]/.test(text)) {
           actionFeedback.info({
             title:
-              "Automatically switched to MicroPython paste mode for multi-line paste.",
+              "Started and finished MicroPython paste mode for the multi-line paste.",
+            position: "bottom-right",
           });
           // Wrap in start/end paste mode to prevent auto-indent.
           text = `\x05${text}\x04`;
