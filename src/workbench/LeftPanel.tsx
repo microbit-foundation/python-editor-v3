@@ -20,16 +20,16 @@ import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
 import PythonLogo from "../common/PythonLogo";
+import { pythonToolkit, ToolkitNavigation } from "../common/Toolkit";
 import { useDeployment } from "../deployment";
+import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
+import { flags } from "../flags";
 import SettingsMenu from "../settings/SettingsMenu";
-import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
-import { flags } from "../flags";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -52,7 +52,7 @@ const LeftPanel = ({
         id: "python",
         title: intl.formatMessage({ id: "python-tab" }),
         icon: PythonLogo as IconType,
-        contents: <FeedbackArea />,
+        contents: <ToolkitNavigation toolkit={pythonToolkit} />,
       },
       {
         id: "files",
