@@ -1,15 +1,22 @@
-import { IconButton } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
 import {
   Box,
   Divider,
+  HStack,
   List,
   ListIcon,
   ListItem,
+  ListItemProps,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/layout";
-import { useState } from "react";
-import { RiArrowRightSFill, RiCheckboxBlankFill } from "react-icons/ri";
+import { ReactNode, useState } from "react";
+import {
+  RiArrowLeftSFill,
+  RiArrowRightSFill,
+  RiCheckboxBlankFill,
+} from "react-icons/ri";
 
 export const pythonToolkit: Toolkit = {
   name: "Python toolkit",
@@ -55,6 +62,11 @@ while True:
         },
       ],
     },
+    {
+      name: "Loops",
+      description: "See Loops",
+      contents: [],
+    },
   ],
 };
 
@@ -87,49 +99,43 @@ export const ToolkitTopicList = ({
   onNavigate,
 }: TopicListProps) => {
   return (
-    <VStack
-      height="100%"
-      justifyContent="stretch"
-      backgroundColor="rgb(245, 246, 248)"
-      spacing={0}
+    <ToolkitLevel
+      heading={
+        <>
+          <Text as="h2" fontSize="3xl" fontWeight="semibold">
+            {name}
+          </Text>
+          <Text fontSize="sm">{description}</Text>
+        </>
+      }
     >
-      <Box
-        minHeight="30"
-        backgroundColor="rgb(230, 232, 239)"
-        flex="0 0 auto"
-        width="100%"
-        p={3}
-      >
-        <Text as="h2" fontSize="3xl" fontWeight="semibold">
-          {name}
-        </Text>
-        <Text>{description}</Text>
-      </Box>
-      <List flex="1 1 auto" p={3}>
-        {contents.map((topic, index) => (
-          <ListItem display="flex">
-            <ListIcon
-              as={RiCheckboxBlankFill}
-              color="rgb(205, 210, 226)"
-              fontSize="3xl"
-            />
+      <List flex="1 1 auto" m={3}>
+        {contents.map((topic) => (
+          <ToolkitListItem
+            onClick={() => onNavigate({ topicId: topic.name })}
+            cursor="pointer"
+          >
             <Box flex="1 1 auto">
-              <Text as="h3">{topic.name}</Text>
+              <Text as="h3" fontSize="lg" fontWeight="semibold">
+                {topic.name}
+              </Text>
               {/*Content problem! We need all descriptions to be short, or two sets.*/}
-              <Text noOfLines={1}>{topic.description}</Text>
+              <Text fontSize="sm" noOfLines={1}>
+                {topic.description}
+              </Text>
             </Box>
             <IconButton
               icon={<RiArrowRightSFill />}
               aria-label="More details"
               variant="ghost"
-              color="rgb(205, 210, 226)"
+              color="rgb(179, 186, 211)"
               fontSize="3xl"
+              onClick={() => onNavigate({ topicId: topic.name })}
             />
-            {index < topic.contents.length - 1 && <Divider />}
-          </ListItem>
+          </ToolkitListItem>
         ))}
       </List>
-    </VStack>
+    </ToolkitLevel>
   );
 };
 
@@ -139,23 +145,56 @@ interface TopicContentsProps {
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-export const TopicContents = ({ topic, onNavigate }: TopicContentsProps) => {
-  const { name, description, contents } = topic;
+export const TopicContents = ({
+  toolkit,
+  topic,
+  onNavigate,
+}: TopicContentsProps) => {
+  const { name, contents } = topic;
   return (
-    <VStack>
-      <Box>
-        <Text as="h3">{name}</Text>
-        <Text>{description}</Text>
-      </Box>
-      {contents.map((item) => (
-        <TopicItem
-          topic={topic}
-          item={item}
-          detail={false}
-          onNavigate={onNavigate}
-        />
-      ))}
-    </VStack>
+    <ToolkitLevel
+      heading={
+        <>
+          <HStack>
+            <Button
+              leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
+              sx={{
+                span: {
+                  margin: 0,
+                },
+                svg: {
+                  width: "1.5rem",
+                  height: "1.5rem",
+                },
+              }}
+              display="flex"
+              variant="unstyled"
+              onClick={() => onNavigate({})}
+              alignItems="center"
+              fontWeight="sm"
+            >
+              {toolkit.name}
+            </Button>
+          </HStack>
+          <Text as="h2" fontSize="3xl" fontWeight="semibold">
+            {name}
+          </Text>
+        </>
+      }
+    >
+      <List flex="1 1 auto">
+        {contents.map((item) => (
+          <ToolkitListItem>
+            <TopicItem
+              topic={topic}
+              item={item}
+              detail={false}
+              onNavigate={onNavigate}
+            />
+          </ToolkitListItem>
+        ))}
+      </List>
+    </ToolkitLevel>
   );
 };
 
@@ -168,22 +207,34 @@ interface TopicItemProps {
 
 export const TopicItem = ({ item, detail }: TopicItemProps) => {
   return (
-    <Box>
-      <Box>
-        <Text as="h3">{item.name}</Text>
-        <Text>{item.text}</Text>
+    <Stack overflowY="hidden">
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        {item.name}
+      </Text>
+      <Text>{item.text}</Text>
+      <Box position="relative">
         <Code value={item.code} />
-        {detail && <Text>{item.furtherText}</Text>}
       </Box>
-    </Box>
+      {detail && <Text>{item.furtherText}</Text>}
+    </Stack>
   );
 };
 
 const Code = ({ value }: { value: string }) => {
   return (
-    <pre>
+    <Box
+      as="pre"
+      backgroundColor="rgb(247,245,242)"
+      padding={5}
+      borderRadius="lg"
+      boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+      _hover={{
+        zIndex: 1,
+        overflowY: "visible",
+      }}
+    >
       <code>{value}</code>
-    </pre>
+    </Box>
   );
 };
 
@@ -220,3 +271,43 @@ export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
   }
   return <ToolkitTopicList toolkit={toolkit} onNavigate={setState} />;
 };
+
+interface ToolkitLevelProps {
+  heading: ReactNode;
+  children: ReactNode;
+}
+
+const ToolkitLevel = ({ heading, children }: ToolkitLevelProps) => (
+  <VStack
+    height="100%"
+    justifyContent="stretch"
+    backgroundColor="rgb(245, 246, 248)"
+    spacing={0}
+  >
+    <Box
+      minHeight="28"
+      backgroundColor="rgb(230, 232, 239)"
+      flex="0 0 auto"
+      width="100%"
+      p={3}
+    >
+      {heading}
+    </Box>
+    {children}
+  </VStack>
+);
+
+const ToolkitListItem = ({ children, ...props }: ListItemProps) => (
+  <ListItem {...props}>
+    <HStack ml={3} mr={3} mt={5} mb={5} spacing={0.5}>
+      <ListIcon
+        as={RiCheckboxBlankFill}
+        color="rgb(205, 210, 226)"
+        fontSize="3xl"
+        alignSelf="flex-start"
+      />
+      {children}
+    </HStack>
+    <Divider />
+  </ListItem>
+);
