@@ -20,13 +20,12 @@ import { useSerialActions } from "./serial-hooks";
 interface SerialMenuProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
-  onOpenHelp: () => void;
 }
 
 /**
  * Serial ara drop-down menu.
  */
-const SerialMenu = ({ compact, onOpenHelp, onSizeChange }: SerialMenuProps) => {
+const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
   const intl = useIntl();
   const actions = useSerialActions(onSizeChange);
   return (
