@@ -18,12 +18,10 @@ export class SerialActions {
 
   interrupt = (): void => this.sendCommand("\x03");
   reset = (): void => this.sendCommand("\x04");
-  pasteMode = (): void => this.sendCommand("\x05");
 
   private sendCommand(data: string): void {
     this.onSerialSizeChange("open");
     this.device.serialWrite(data);
-    // Particularly important for paste mode.
     this.terminal.focus();
   }
 }
