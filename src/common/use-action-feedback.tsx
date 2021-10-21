@@ -82,7 +82,7 @@ export class ActionFeedback {
   }
 
   /**
-   * For when an action succeeds.
+   * Info, not a success/error message.
    */
   info({
     title,
