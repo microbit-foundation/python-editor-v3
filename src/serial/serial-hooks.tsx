@@ -121,7 +121,8 @@ const useNewTerminal = (): Terminal => {
     };
 
     // Fragile interception of paste events.
-    // We should see if we can get API for this in xterm.js.
+    // Raised https://github.com/xtermjs/xterm.js/issues/3516
+    // for API in xterm.js
     const coreTerminal = (terminal as any)._core;
     const initGlobal = coreTerminal._initGlobal.bind(coreTerminal);
     const customPasteEventHandler = (event: ClipboardEvent) => {
