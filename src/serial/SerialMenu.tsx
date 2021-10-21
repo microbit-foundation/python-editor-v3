@@ -20,13 +20,12 @@ import { useSerialActions } from "./serial-hooks";
 interface SerialMenuProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
-  onOpenHelp: () => void;
 }
 
 /**
  * Serial ara drop-down menu.
  */
-const SerialMenu = ({ compact, onOpenHelp, onSizeChange }: SerialMenuProps) => {
+const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
   const intl = useIntl();
   const actions = useSerialActions(onSizeChange);
   return (
@@ -46,9 +45,6 @@ const SerialMenu = ({ compact, onOpenHelp, onSizeChange }: SerialMenuProps) => {
           </MenuItem>
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.reset}>
             <FormattedMessage id="serial-ctrl-d-button" />
-          </MenuItem>
-          <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.pasteMode}>
-            <FormattedMessage id="serial-ctrl-e-button" />
           </MenuItem>
         </MenuList>
       </Portal>

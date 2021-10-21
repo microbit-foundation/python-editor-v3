@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useToast } from "@chakra-ui/react";
+import { useToast, ToastPosition } from "@chakra-ui/toast";
 import { ReactNode, useMemo } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import { deployment } from "../deployment";
@@ -45,7 +45,7 @@ export class ActionFeedback {
   }
 
   /**
-   * Handles an warning.
+   * Handles a warning.
    */
   warning({
     title,
@@ -67,7 +67,7 @@ export class ActionFeedback {
   }
 
   /**
-   * Handles an warning.
+   * For when an action succeeds.
    */
   success({ title, description }: { title: string; description?: ReactNode }) {
     this.toast({
@@ -75,6 +75,29 @@ export class ActionFeedback {
       status: "success",
       description,
       position: "top",
+      isClosable: false,
+      duration: 2000, // Quicker than for errors,
+      variant: "toast",
+    });
+  }
+
+  /**
+   * Info, not a success/error message.
+   */
+  info({
+    title,
+    description,
+    position = "top",
+  }: {
+    title: string;
+    description?: ReactNode;
+    position?: ToastPosition;
+  }) {
+    this.toast({
+      title,
+      status: "info",
+      description,
+      position,
       isClosable: false,
       duration: 2000, // Quicker than for errors,
       variant: "toast",

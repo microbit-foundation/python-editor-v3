@@ -6,6 +6,7 @@
 import React, { ReactNode, useContext, useEffect, useMemo } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
+import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import {
   backgroundColorTerm,
@@ -43,6 +44,7 @@ const ptToPixelRatio = 96 / 72;
  * so its API can be used to implement user actions.
  */
 const useNewTerminal = (): Terminal => {
+  const actionFeedback = useActionFeedback();
   const terminal = useMemo(() => {
     return new Terminal({
       fontFamily: codeFontFamily,
@@ -117,13 +119,45 @@ const useNewTerminal = (): Terminal => {
       terminalOpen(parent);
       resizeObserver.observe(parent);
     };
+
+    // Fragile interception of paste events.
+    // Raised https://github.com/xtermjs/xterm.js/issues/3516
+    // for API in xterm.js
+    const coreTerminal = (terminal as any)._core;
+    const initGlobal = coreTerminal._initGlobal.bind(coreTerminal);
+    const customPasteEventHandler = (event: ClipboardEvent) => {
+      // Avoid the handler xterm.js will add.
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+      event.preventDefault();
+      if (event.clipboardData) {
+        let text = event.clipboardData.getData("text/plain");
+        if (/[\n\r]/.test(text)) {
+          actionFeedback.info({
+            title:
+              "Started and finished MicroPython paste mode for the multi-line paste.",
+            position: "bottom-right",
+          });
+          // Wrap in start/end paste mode to prevent auto-indent.
+          text = `\x05${text}\x04`;
+        }
+        terminal.paste(text);
+      }
+    };
+    coreTerminal._initGlobal = () => {
+      // We don't need to remove these as we share a lifetime with this DOM.
+      terminal.element!.addEventListener("paste", customPasteEventHandler);
+      terminal.textarea!.addEventListener("paste", customPasteEventHandler);
+      initGlobal();
+    };
+
     return () => {
       device.removeListener(EVENT_SERIAL_RESET, resetListener);
       device.removeListener(EVENT_SERIAL_DATA, serialListener);
       resizeObserver.disconnect();
       terminal.dispose();
     };
-  }, [device, setSelection, isUnmounted, terminal]);
+  }, [actionFeedback, device, setSelection, isUnmounted, terminal]);
 
   return terminal;
 };
