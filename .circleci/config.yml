@@ -12,7 +12,7 @@ _steps:
     # See https://github.com/eddiewebb/circleci-queue
     queue/until_front_of_line:
       time: "60"
-      block-workflow: true
+      block-workflow: true # Workaround: https://github.com/eddiewebb/circleci-queue/issues/70
   restore_npm_cache: &restore_npm_cache
     restore_cache:
       keys:
