@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  queue: eddiewebb/queue@1.0.110
+  queue: eddiewebb/queue@1.6.1
 
 _defaults: &defaults
   working_directory: ~/repo
@@ -12,9 +12,6 @@ _steps:
     # See https://github.com/eddiewebb/circleci-queue
     queue/until_front_of_line:
       time: "60"
-      consider-job: true
-      consider-branch: true
-      dont-quit: false
   restore_npm_cache: &restore_npm_cache
     restore_cache:
       keys:
