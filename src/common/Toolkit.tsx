@@ -229,7 +229,7 @@ export const TopicItem = ({ item, detail }: TopicItemProps) => {
         <Code
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
-          onTouchEnd={() => setHovering(!hovering)}
+          onClick={() => setHovering(!hovering)}
           value={item.code}
           position="absolute"
           ref={codeRef}
@@ -266,6 +266,7 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
       <Code
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
+        onClick={() => setHovering(false)}
         value={value}
         position="absolute"
         top={codeRef.current.getBoundingClientRect().y}
