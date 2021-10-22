@@ -1,6 +1,7 @@
 import { Button, IconButton } from "@chakra-ui/button";
 import {
   Box,
+  BoxProps,
   Divider,
   HStack,
   List,
@@ -11,6 +12,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
+import { Portal } from "@chakra-ui/portal";
 import { ReactNode, useState } from "react";
 import {
   RiArrowLeftSFill,
@@ -207,20 +209,33 @@ interface TopicItemProps {
 
 export const TopicItem = ({ item, detail }: TopicItemProps) => {
   return (
-    <Stack overflowY="hidden">
+    <Stack spacing={3}>
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
       <Text>{item.text}</Text>
-      <Box position="relative">
-        <Code value={item.code} />
+      <Box
+        position="relative"
+        _hover={{
+          position: "static",
+          zIndex: 1,
+        }}
+        left="0"
+        right="100"
+        height={item.code.trim().split(/[\r\n]+/).length * 2 + "em"}
+      >
+        <Code value={item.code} position="absolute" />
       </Box>
       {detail && <Text>{item.furtherText}</Text>}
     </Stack>
   );
 };
 
-const Code = ({ value }: { value: string }) => {
+interface CodeProps extends BoxProps {
+  value: string;
+}
+
+const Code = ({ value, ...props }: CodeProps) => {
   return (
     <Box
       as="pre"
@@ -228,12 +243,9 @@ const Code = ({ value }: { value: string }) => {
       padding={5}
       borderRadius="lg"
       boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-      _hover={{
-        zIndex: 1,
-        overflowY: "visible",
-      }}
+      {...props}
     >
-      <code>{value}</code>
+      {value}
     </Box>
   );
 };
@@ -279,7 +291,6 @@ interface ToolkitLevelProps {
 
 const ToolkitLevel = ({ heading, children }: ToolkitLevelProps) => (
   <VStack
-    height="100%"
     justifyContent="stretch"
     backgroundColor="rgb(245, 246, 248)"
     spacing={0}
