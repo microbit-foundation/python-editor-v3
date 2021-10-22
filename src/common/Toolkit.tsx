@@ -12,7 +12,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
-import { ReactNode, useState } from "react";
+import { Portal } from "@chakra-ui/portal";
+import { forwardRef } from "@chakra-ui/system";
+import { ReactNode, Ref, useRef, useState } from "react";
 import {
   RiArrowLeftSFill,
   RiArrowRightSFill,
@@ -113,6 +115,7 @@ export const ToolkitTopicList = ({
       <List flex="1 1 auto" m={3}>
         {contents.map((topic) => (
           <ToolkitListItem
+            key={topic.name}
             onClick={() => onNavigate({ topicId: topic.name })}
             cursor="pointer"
           >
@@ -185,7 +188,7 @@ export const TopicContents = ({
     >
       <List flex="1 1 auto">
         {contents.map((item) => (
-          <ToolkitListItem>
+          <ToolkitListItem key={item.name}>
             <TopicItem
               topic={topic}
               item={item}
@@ -207,23 +210,35 @@ interface TopicItemProps {
 }
 
 export const TopicItem = ({ item, detail }: TopicItemProps) => {
+  const [hovering, setHovering] = useState(false);
+  const codeRef = useRef<HTMLDivElement>(null);
+
   return (
     <Stack spacing={3}>
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
       <Text>{item.text}</Text>
-      <Box
-        position="relative"
-        _hover={{
-          position: "static",
-          zIndex: 1,
-        }}
-        left="0"
-        right="100"
-        height={item.code.trim().split(/[\r\n]+/).length * 2 + "em"}
-      >
-        <Code value={item.code} position="absolute" />
+      <Box height={item.code.trim().split(/[\r\n]+/).length * 2 + "em"}>
+        <Code
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+          value={item.code}
+          position="absolute"
+          ref={codeRef}
+        />
+        {hovering && codeRef.current && (
+          <Portal>
+            <Code
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
+              value={item.code}
+              position="absolute"
+              top={codeRef.current!.offsetTop - codeRef.current!.scrollTop}
+              left={codeRef.current!.clientLeft}
+            />
+          </Portal>
+        )}
       </Box>
       {detail && <Text>{item.furtherText}</Text>}
     </Stack>
@@ -232,22 +247,26 @@ export const TopicItem = ({ item, detail }: TopicItemProps) => {
 
 interface CodeProps extends BoxProps {
   value: string;
+  ref?: Ref<HTMLDivElement>;
 }
 
-const Code = ({ value, ...props }: CodeProps) => {
-  return (
-    <Box
-      as="pre"
-      backgroundColor="rgb(247,245,242)"
-      padding={5}
-      borderRadius="lg"
-      boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-      {...props}
-    >
-      {value}
-    </Box>
-  );
-};
+const Code = forwardRef<CodeProps, "pre">(
+  ({ value, ...props }: CodeProps, ref) => {
+    return (
+      <Box
+        ref={ref}
+        as="pre"
+        backgroundColor="rgb(247,245,242)"
+        padding={5}
+        borderRadius="lg"
+        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+        {...props}
+      >
+        {value}
+      </Box>
+    );
+  }
+);
 
 interface ToolkitNavigationState {
   topicId?: string;

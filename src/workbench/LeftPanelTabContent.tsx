@@ -23,7 +23,13 @@ const LeftPanelTabContent = ({
   return (
     <Flex height="100%" direction="column">
       {nav && <HStack justifyContent="flex-end">{nav}</HStack>}
-      <Box flex="1 0 auto" overflowY="auto" overflowX="hidden" height={0}>
+      <Box
+        flex="1 0 auto"
+        overflowY="auto"
+        overflowX="hidden"
+        height={0}
+        position="relative"
+      >
         {children}
       </Box>
     </Flex>
