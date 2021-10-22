@@ -12,7 +12,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
-import { Portal } from "@chakra-ui/portal";
 import { ReactNode, useState } from "react";
 import {
   RiArrowLeftSFill,
