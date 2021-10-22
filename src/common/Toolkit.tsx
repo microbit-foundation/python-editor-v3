@@ -269,8 +269,8 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
         onClick={() => setHovering(false)}
         value={value}
         position="absolute"
-        top={codeRef.current.getBoundingClientRect().y}
-        left={codeRef.current.getBoundingClientRect().x}
+        top={codeRef.current.getBoundingClientRect().top + "px"}
+        left={codeRef.current.getBoundingClientRect().left + "px"}
       />
     </Portal>
   );
