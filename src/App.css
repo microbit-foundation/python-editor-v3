@@ -31,3 +31,6 @@ body,
   /* --ios-vvh set by VisualViewPortCSSVariables on iOS only. */
   height: var(--ios-vvh, var(--webkit-vvh, 100vh));
 }
+body {
+  overflow-y: hidden;
+}

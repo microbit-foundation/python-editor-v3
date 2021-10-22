@@ -14,7 +14,14 @@ import {
 } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
-import { ReactNode, Ref, useRef, useState } from "react";
+import {
+  ReactNode,
+  Ref,
+  RefObject,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   RiArrowLeftSFill,
   RiArrowRightSFill,
@@ -212,9 +219,8 @@ interface TopicItemProps {
 export const TopicItem = ({ item, detail }: TopicItemProps) => {
   const [hovering, setHovering] = useState(false);
   const codeRef = useRef<HTMLDivElement>(null);
-
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} onScroll={() => setHovering(false)}>
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
@@ -223,25 +229,49 @@ export const TopicItem = ({ item, detail }: TopicItemProps) => {
         <Code
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
+          onTouchEnd={() => setHovering(!hovering)}
           value={item.code}
           position="absolute"
           ref={codeRef}
         />
-        {hovering && codeRef.current && (
-          <Portal>
-            <Code
-              onMouseEnter={() => setHovering(true)}
-              onMouseLeave={() => setHovering(false)}
-              value={item.code}
-              position="absolute"
-              top={codeRef.current!.offsetTop - codeRef.current!.scrollTop}
-              left={codeRef.current!.clientLeft}
-            />
-          </Portal>
+        {hovering && (
+          <CodePopUp
+            setHovering={setHovering}
+            value={item.code}
+            codeRef={codeRef}
+          />
         )}
       </Box>
       {detail && <Text>{item.furtherText}</Text>}
     </Stack>
+  );
+};
+
+interface CodePopUpProps extends BoxProps {
+  setHovering: (hovering: boolean) => void;
+  value: string;
+  codeRef: RefObject<HTMLDivElement | null>;
+}
+
+// We draw the same code over the top in a portal so we can draw it
+// above the scrollbar.
+const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
+  // We need to re-render, we don't need the value.
+  useScrollTop("left-panel-viewport");
+  if (!codeRef.current) {
+    return null;
+  }
+  return (
+    <Portal>
+      <Code
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        value={value}
+        position="absolute"
+        top={codeRef.current.getBoundingClientRect().y}
+        left={codeRef.current.getBoundingClientRect().x}
+      />
+    </Portal>
   );
 };
 
@@ -340,3 +370,20 @@ const ToolkitListItem = ({ children, ...props }: ListItemProps) => (
     <Divider />
   </ListItem>
 );
+
+const useScrollTop = (id: string) => {
+  const [scrollTop, setScrollTop] = useState(0);
+  useLayoutEffect(() => {
+    const parent = document.getElementById(id);
+    if (!parent) {
+      throw new Error();
+    }
+    setScrollTop(parent.scrollTop);
+    const listener = () => setScrollTop(parent.scrollTop);
+    parent.addEventListener("scroll", listener);
+    return () => {
+      parent.removeEventListener("scroll", listener);
+    };
+  }, [id]);
+  return scrollTop;
+};

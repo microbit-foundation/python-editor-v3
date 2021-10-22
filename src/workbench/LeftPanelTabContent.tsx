@@ -24,6 +24,7 @@ const LeftPanelTabContent = ({
     <Flex height="100%" direction="column">
       {nav && <HStack justifyContent="flex-end">{nav}</HStack>}
       <Box
+        id="left-panel-viewport"
         flex="1 0 auto"
         overflowY="auto"
         overflowX="hidden"
