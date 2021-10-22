@@ -79,11 +79,7 @@ const SerialBar = ({
               icon={<RiInformationLine />}
               onClick={helpDisclosure.onOpen}
             />
-            <SerialMenu
-              compact={compact}
-              onSizeChange={onSizeChange}
-              onOpenHelp={helpDisclosure.onOpen}
-            />
+            <SerialMenu compact={compact} onSizeChange={onSizeChange} />
           </HStack>
         </HStack>
       </HStack>
