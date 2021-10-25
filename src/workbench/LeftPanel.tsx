@@ -21,7 +21,7 @@ import { IconType } from "react-icons";
 import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
-import { pythonToolkit, ToolkitNavigation } from "../common/Toolkit";
+import { pythonToolkit, ToolkitNavigation } from "../documentation/Toolkit";
 import { useDeployment } from "../deployment";
 import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
 import FilesArea from "../files/FilesArea";

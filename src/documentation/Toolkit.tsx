@@ -28,7 +28,7 @@ import {
   RiArrowRightSFill,
   RiCheckboxBlankFill,
 } from "react-icons/ri";
-import { useSplitViewContext } from "./SplitView/context";
+import { useSplitViewContext } from "../common/SplitView/context";
 
 export const pythonToolkit: Toolkit = {
   name: "Python toolkit",
@@ -405,9 +405,8 @@ interface ToolkitLevelProps {
 const ToolkitLevel = ({ heading, children }: ToolkitLevelProps) => (
   <VStack
     justifyContent="stretch"
-    // Disabled for now. If this it to be the background of all tabs it shouyld
-    // go way heigher up.
-    // backgroundColor="rgb(245, 246, 248)"
+    // Disabled for now. If this it to be the background of all tabs it should
+    // be higher up the tree.
     spacing={0}
   >
     <Box
