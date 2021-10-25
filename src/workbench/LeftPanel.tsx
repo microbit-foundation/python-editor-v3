@@ -18,16 +18,21 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
+import { RiBookReadFill, RiFolderFill, RiMessage3Fill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
-import { pythonToolkit, ToolkitNavigation } from "../documentation/Toolkit";
 import { useDeployment } from "../deployment";
 import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
+import {
+  microbitToolkit,
+  pythonToolkit,
+} from "../documentation/toolkit-mock-data";
+import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import { flags } from "../flags";
 import SettingsMenu from "../settings/SettingsMenu";
+import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
 import LeftPanelTabContent from "./LeftPanelTabContent";
 
@@ -52,7 +57,7 @@ const LeftPanel = ({
         id: "python",
         title: intl.formatMessage({ id: "python-tab" }),
         icon: PythonLogo as IconType,
-        contents: <ToolkitNavigation toolkit={pythonToolkit} />,
+        contents: <FeedbackArea />,
       },
       {
         id: "files",
@@ -68,12 +73,28 @@ const LeftPanel = ({
       },
     ];
     if (flags.advancedDocumentation) {
-      result.splice(1, 0, {
-        id: "advanced",
-        title: "Advanced",
-        icon: RiBookReadFill,
-        contents: <AdvancedDocumentation />,
-      });
+      result.splice(
+        0,
+        1,
+        {
+          id: "micro:bit",
+          title: "micro:bit", // No brand translation
+          icon: RiMessage3Fill,
+          contents: <ToolkitDocumentation toolkit={microbitToolkit} />,
+        },
+        {
+          id: "python",
+          title: intl.formatMessage({ id: "python-tab" }),
+          icon: PythonLogo as IconType,
+          contents: <ToolkitDocumentation toolkit={pythonToolkit} />,
+        },
+        {
+          id: "advanced",
+          title: "Advanced",
+          icon: RiBookReadFill,
+          contents: <AdvancedDocumentation />,
+        }
+      );
     }
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);

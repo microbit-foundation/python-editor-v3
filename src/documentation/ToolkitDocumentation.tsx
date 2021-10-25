@@ -32,71 +32,19 @@ import {
 } from "react-icons/ri";
 import { useSplitViewContext } from "../common/SplitView/context";
 
-export const pythonToolkit: Toolkit = {
-  name: "Python toolkit",
-  description: "Some useful description here",
-  contents: [
-    {
-      name: "Functions",
-      description:
-        "Functions let you re-use the same set of instructions many times in a program. They can perform a complex task, or add new functionality to your code and make it easier to read and modify. You define your function near the start of your program, giving it a name, then call it using its name.",
-      contents: [
-        {
-          name: "Procedures",
-          text: "Procedures, also called sub-routines, are functions that perform a fixed set of instructions.\nThis function called heartbeat animates a heart on the LED display when you press button A:",
-          code: `def heartbeat():
-    display.show(Image.HEART_SMALL)
-    sleep(500)
-    display.show(Image.HEART)
-    sleep(500)
-    display.clear()
-
-while True:
-    if button_a.was_pressed():
-        heartbeat()`,
-        },
-        {
-          name: "Functions with parameters",
-          text: "You can pass parameters to functions. In this example, the animation runs once if you press button A, three times if you press button B:",
-          code: `def heartbeat(h):
-    for x in range(h):
-        display.show(Image.HEART_SMALL)
-        sleep(500)
-        display.show(Image.HEART)
-        sleep(500)
-        display.clear()
-
-while True:
-    if button_a.was_pressed():
-        heartbeat(1)
-    if button_b.was_pressed():
-        heartbeat(3)`,
-          furtherText:
-            "Note that because we used a function, we only need one set of code to display the animation.",
-        },
-      ],
-    },
-    {
-      name: "Loops",
-      description: "See Loops",
-      contents: [],
-    },
-  ],
-};
-
-interface Toolkit {
+export interface Toolkit {
   name: string;
   description: string;
   contents: ToolkitTopic[];
 }
 
-interface ToolkitTopic {
+export interface ToolkitTopic {
   name: string;
   description: string;
   contents: ToolkitTopicItem[];
 }
 
-interface ToolkitTopicItem {
+export interface ToolkitTopicItem {
   name: string;
   text: string;
   code: string;
@@ -108,7 +56,7 @@ interface TopicListProps {
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-export const ToolkitTopicList = ({
+const ToolkitTopicList = ({
   toolkit: { name, description, contents },
   onNavigate,
 }: TopicListProps) => {
@@ -160,7 +108,7 @@ interface TopicContentsProps extends BoxProps {
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-export const TopicContents = ({
+const TopicContents = ({
   toolkit,
   topic,
   onNavigate,
@@ -201,7 +149,7 @@ interface TopicItemDetailProps extends BoxProps {
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-export const TopicItemDetail = ({
+const TopicItemDetail = ({
   toolkit,
   topic,
   item,
@@ -242,7 +190,7 @@ interface TopicItemProps extends BoxProps {
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-export const TopicItem = ({
+const TopicItem = ({
   topic,
   item,
   detail,
@@ -251,7 +199,8 @@ export const TopicItem = ({
 }: TopicItemProps) => {
   const [hovering, setHovering] = useState(false);
   const codeRef = useRef<HTMLDivElement>(null);
-  const textHeight = item.code.trim().split(/[\r\n]+/).length * 1.5 + "em";
+  const lines = item.code.trim().split("\n").length;
+  const textHeight = lines * 1.5 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
   return (
     <Stack spacing={3} {...props}>
@@ -259,53 +208,55 @@ export const TopicItem = ({
         {item.name}
       </Text>
       <Text fontSize="sm">{item.text}</Text>
-      <Box height={codeHeight}>
-        <Code
-          onMouseEnter={() => setHovering(true)}
-          onMouseLeave={() => setHovering(false)}
-          value={item.code}
-          position="absolute"
-          ref={codeRef}
-        />
-        {hovering && (
-          <CodePopUp
-            setHovering={setHovering}
+      <Box>
+        <Box height={codeHeight}>
+          <Code
+            onMouseEnter={() => setHovering(false)}
+            onMouseLeave={() => setHovering(false)}
             value={item.code}
-            codeRef={codeRef}
+            position="absolute"
+            ref={codeRef}
           />
-        )}
-      </Box>
-      <HStack pt={3} spacing={3}>
-        <Button
-          fontWeight="normal"
-          color="white"
-          borderColor="rgb(141, 141, 143)"
-          bgColor="rgb(141, 141, 143)"
-          borderTopRadius="0"
-          borderBottomRadius="xl"
-          variant="ghost"
-          size="sm"
-        >
-          Insert code
-        </Button>
-        {!detail && (
+          {hovering && (
+            <CodePopUp
+              setHovering={setHovering}
+              value={item.code}
+              codeRef={codeRef}
+            />
+          )}
+        </Box>
+        <HStack spacing={3}>
           <Button
-            onClick={() =>
-              onNavigate({
-                topicId: topic.name,
-                itemId: item.name,
-              })
-            }
             fontWeight="normal"
-            color="brand.500"
-            variant="unstyled"
+            color="white"
+            borderColor="rgb(141, 141, 143)"
+            bgColor="rgb(141, 141, 143)"
+            borderTopRadius="0"
+            borderBottomRadius="xl"
+            variant="ghost"
             size="sm"
-            rightIcon={<RiArrowRightLine />}
           >
-            More
+            Insert code
           </Button>
-        )}
-      </HStack>
+          {!detail && item.furtherText && (
+            <Button
+              onClick={() =>
+                onNavigate({
+                  topicId: topic.name,
+                  itemId: item.name,
+                })
+              }
+              fontWeight="normal"
+              color="brand.500"
+              variant="unstyled"
+              size="sm"
+              rightIcon={<RiArrowRightLine />}
+            >
+              More
+            </Button>
+          )}
+        </HStack>
+      </Box>
       {detail && <Text fontSize="sm">{item.furtherText}</Text>}
     </Stack>
   );
@@ -349,17 +300,18 @@ interface CodeProps extends BoxProps {
 const Code = forwardRef<CodeProps, "pre">(
   ({ value, ...props }: CodeProps, ref) => {
     return (
-      <Box
+      <Text
         ref={ref}
         as="pre"
         backgroundColor="rgb(247,245,242)"
         padding={5}
         borderTopRadius="lg"
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+        fontFamily="Source Code Pro, monospace"
         {...props}
       >
         {value}
-      </Box>
+      </Text>
     );
   }
 );
@@ -369,11 +321,11 @@ interface ToolkitNavigationState {
   itemId?: string;
 }
 
-interface ToolkitNavigationProps {
+interface ToolkitProps {
   toolkit: Toolkit;
 }
 
-export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
+export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   const [state, setState] = useState<ToolkitNavigationState>({});
   const previous = usePrevious(state);
   const currentLevel = [state.itemId, state.topicId].filter(Boolean).length;
@@ -386,9 +338,8 @@ export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
       : currentLevel > previousLevel
       ? "forward"
       : "back";
-  console.log(direction);
   return (
-    <ToolkitNavigationChild
+    <ActiveTooklitLevel
       key={state.topicId + "-" + state.itemId}
       state={state}
       setState={setState}
@@ -398,18 +349,18 @@ export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
   );
 };
 
-interface ToolkitNavigationChildProps extends ToolkitNavigationProps {
+interface ActiveTooklitLevelProps extends ToolkitProps {
   state: ToolkitNavigationState;
   setState: React.Dispatch<React.SetStateAction<ToolkitNavigationState>>;
   direction: "forward" | "back" | "none";
 }
 
-const ToolkitNavigationChild = ({
+const ActiveTooklitLevel = ({
   state,
   setState,
   toolkit,
   direction,
-}: ToolkitNavigationChildProps) => {
+}: ActiveTooklitLevelProps) => {
   if (state.topicId && state.itemId) {
     const topic = toolkit.contents.find((t) => t.name === state.topicId);
     if (topic) {
@@ -598,3 +549,5 @@ const useScrollTop = (id: string) => {
   }, [id]);
   return scrollTop;
 };
+
+export default ToolkitDocumentation;
