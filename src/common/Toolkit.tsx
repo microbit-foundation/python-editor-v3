@@ -211,23 +211,90 @@ export const TopicContents = ({
   );
 };
 
-interface TopicItemProps {
+interface TopicItemDetailProps {
+  toolkit: Toolkit;
+  topic: ToolkitTopic;
+  item: ToolkitTopicItem;
+  onNavigate: (next: ToolkitNavigationState) => void;
+}
+
+export const TopicItemDetail = ({
+  toolkit,
+  topic,
+  item,
+  onNavigate,
+}: TopicItemDetailProps) => {
+  return (
+    <ToolkitLevel
+      heading={
+        <>
+          <HStack>
+            <Button
+              leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
+              sx={{
+                span: {
+                  margin: 0,
+                },
+                svg: {
+                  width: "1.5rem",
+                  height: "1.5rem",
+                },
+              }}
+              display="flex"
+              variant="unstyled"
+              onClick={() =>
+                onNavigate({
+                  topicId: topic.name,
+                })
+              }
+              alignItems="center"
+              fontWeight="sm"
+            >
+              {topic.name}
+            </Button>
+          </HStack>
+          <Text as="h2" fontSize="3xl" fontWeight="semibold">
+            {item.name}
+          </Text>
+        </>
+      }
+    >
+      <TopicItem
+        topic={topic}
+        item={item}
+        detail={true}
+        onNavigate={onNavigate}
+        padding={5}
+      />
+    </ToolkitLevel>
+  );
+};
+
+interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
   item: ToolkitTopicItem;
   detail?: boolean;
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-export const TopicItem = ({ item, detail }: TopicItemProps) => {
+export const TopicItem = ({
+  topic,
+  item,
+  detail,
+  onNavigate,
+  ...props
+}: TopicItemProps) => {
   const [hovering, setHovering] = useState(false);
   const codeRef = useRef<HTMLDivElement>(null);
+  const textHeight = item.code.trim().split(/[\r\n]+/).length * 1.5 + "em";
+  const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
   return (
-    <Stack spacing={3} onScroll={() => setHovering(false)}>
+    <Stack spacing={3} {...props}>
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
       <Text fontSize="sm">{item.text}</Text>
-      <Box height={item.code.trim().split(/[\r\n]+/).length * 1.9 + "em"}>
+      <Box height={codeHeight}>
         <Code
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
@@ -244,9 +311,34 @@ export const TopicItem = ({ item, detail }: TopicItemProps) => {
           />
         )}
       </Box>
-      <HStack>
-        <Button>Insert code</Button>
-        {!detail && <Button rightIcon={<RiArrowRightLine />}>More</Button>}
+      <HStack pt={3} spacing={3}>
+        <Button
+          fontWeight="normal"
+          color="white"
+          borderColor="rgb(141, 141, 143)"
+          bgColor="rgb(141, 141, 143)"
+          borderTopRadius="0"
+          borderBottomRadius="xl"
+          variant="ghost"
+        >
+          Insert code
+        </Button>
+        {!detail && (
+          <Button
+            onClick={() =>
+              onNavigate({
+                topicId: topic.name,
+                itemId: item.name,
+              })
+            }
+            fontWeight="normal"
+            color="brand.500"
+            variant="unstyled"
+            rightIcon={<RiArrowRightLine />}
+          >
+            More
+          </Button>
+        )}
       </HStack>
       {detail && <Text fontSize="sm">{item.furtherText}</Text>}
     </Stack>
@@ -297,7 +389,7 @@ const Code = forwardRef<CodeProps, "pre">(
         as="pre"
         backgroundColor="rgb(247,245,242)"
         padding={5}
-        borderRadius="lg"
+        borderTopRadius="lg"
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
         {...props}
       >
@@ -325,7 +417,12 @@ export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
       const item = topic.contents.find((i) => i.name === state.itemId);
       if (item) {
         return (
-          <TopicItem topic={topic} item={item} detail onNavigate={setState} />
+          <TopicItemDetail
+            toolkit={toolkit}
+            topic={topic}
+            item={item}
+            onNavigate={setState}
+          />
         );
       }
     }
@@ -360,6 +457,8 @@ const ToolkitLevel = ({ heading, children }: ToolkitLevelProps) => (
       flex="0 0 auto"
       width="100%"
       p={3}
+      pl={5}
+      pr={5}
     >
       {heading}
     </Box>
