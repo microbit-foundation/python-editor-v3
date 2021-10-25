@@ -263,7 +263,6 @@ export const TopicItem = ({
         <Code
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
-          onClick={() => setHovering(!hovering)}
           value={item.code}
           position="absolute"
           ref={codeRef}
@@ -285,6 +284,7 @@ export const TopicItem = ({
           borderTopRadius="0"
           borderBottomRadius="xl"
           variant="ghost"
+          size="sm"
         >
           Insert code
         </Button>
@@ -299,6 +299,7 @@ export const TopicItem = ({
             fontWeight="normal"
             color="brand.500"
             variant="unstyled"
+            size="sm"
             rightIcon={<RiArrowRightLine />}
           >
             More
@@ -331,7 +332,6 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
       <Code
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
-        onClick={() => setHovering(false)}
         value={value}
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
