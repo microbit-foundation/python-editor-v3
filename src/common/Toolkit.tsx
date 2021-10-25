@@ -163,36 +163,15 @@ export const TopicContents = ({
   topic,
   onNavigate,
 }: TopicContentsProps) => {
-  const { name, contents } = topic;
+  const { contents } = topic;
   return (
     <ToolkitLevel
       heading={
-        <>
-          <HStack>
-            <Button
-              leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
-              sx={{
-                span: {
-                  margin: 0,
-                },
-                svg: {
-                  width: "1.5rem",
-                  height: "1.5rem",
-                },
-              }}
-              display="flex"
-              variant="unstyled"
-              onClick={() => onNavigate({})}
-              alignItems="center"
-              fontWeight="sm"
-            >
-              {toolkit.name}
-            </Button>
-          </HStack>
-          <Text as="h2" fontSize="3xl" fontWeight="semibold">
-            {name}
-          </Text>
-        </>
+        <BreadcrumbHeading
+          parent={toolkit.name}
+          title={topic.name}
+          onBack={() => onNavigate({})}
+        />
       }
     >
       <List flex="1 1 auto">
@@ -227,36 +206,16 @@ export const TopicItemDetail = ({
   return (
     <ToolkitLevel
       heading={
-        <>
-          <HStack>
-            <Button
-              leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
-              sx={{
-                span: {
-                  margin: 0,
-                },
-                svg: {
-                  width: "1.5rem",
-                  height: "1.5rem",
-                },
-              }}
-              display="flex"
-              variant="unstyled"
-              onClick={() =>
-                onNavigate({
-                  topicId: topic.name,
-                })
-              }
-              alignItems="center"
-              fontWeight="sm"
-            >
-              {topic.name}
-            </Button>
-          </HStack>
-          <Text as="h2" fontSize="3xl" fontWeight="semibold">
-            {item.name}
-          </Text>
-        </>
+        <BreadcrumbHeading
+          parent={topic.name}
+          grandparent={toolkit.name}
+          title={item.name}
+          onBack={() =>
+            onNavigate({
+              topicId: topic.name,
+            })
+          }
+        />
       }
     >
       <TopicItem
@@ -480,6 +439,50 @@ const ToolkitListItem = ({ children, ...props }: ListItemProps) => (
     <Divider />
   </ListItem>
 );
+
+interface BreadcrumbHeadingProps {
+  title: string;
+  parent: string;
+  grandparent?: string;
+  onBack: () => void;
+}
+
+const BreadcrumbHeading = ({
+  title,
+  parent,
+  grandparent,
+  onBack,
+}: BreadcrumbHeadingProps) => {
+  return (
+    <>
+      <HStack>
+        <Button
+          leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
+          sx={{
+            span: {
+              margin: 0,
+            },
+            svg: {
+              width: "1.5rem",
+              height: "1.5rem",
+            },
+          }}
+          display="flex"
+          variant="unstyled"
+          onClick={onBack}
+          alignItems="center"
+          fontWeight="sm"
+        >
+          {grandparent && grandparent + " / "}
+          {parent}
+        </Button>
+      </HStack>
+      <Text as="h2" fontSize="3xl" fontWeight="semibold">
+        {title}
+      </Text>
+    </>
+  );
+};
 
 const useScrollTop = (id: string) => {
   const [scrollTop, setScrollTop] = useState(0);
