@@ -20,6 +20,7 @@ import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { RiBookReadFill, RiFolderFill, RiMessage3Fill } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import FaceIcon from "../common/FaceIcon";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
@@ -79,7 +80,7 @@ const LeftPanel = ({
         {
           id: "micro:bit",
           title: "micro:bit", // No brand translation
-          icon: RiMessage3Fill,
+          icon: FaceIcon as IconType,
           contents: <ToolkitDocumentation toolkit={microbitToolkit} />,
         },
         {
