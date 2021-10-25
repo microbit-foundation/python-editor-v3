@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
-import { RiBookReadFill, RiFolderFill, RiMessage3Fill } from "react-icons/ri";
+import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import FaceIcon from "../common/FaceIcon";
 import PythonLogo from "../common/PythonLogo";
