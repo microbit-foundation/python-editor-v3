@@ -24,9 +24,11 @@ import {
 } from "react";
 import {
   RiArrowLeftSFill,
+  RiArrowRightLine,
   RiArrowRightSFill,
   RiCheckboxBlankFill,
 } from "react-icons/ri";
+import { useSplitViewContext } from "./SplitView/context";
 
 export const pythonToolkit: Toolkit = {
   name: "Python toolkit",
@@ -224,8 +226,8 @@ export const TopicItem = ({ item, detail }: TopicItemProps) => {
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
-      <Text>{item.text}</Text>
-      <Box height={item.code.trim().split(/[\r\n]+/).length * 2 + "em"}>
+      <Text fontSize="sm">{item.text}</Text>
+      <Box height={item.code.trim().split(/[\r\n]+/).length * 1.9 + "em"}>
         <Code
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
@@ -242,7 +244,11 @@ export const TopicItem = ({ item, detail }: TopicItemProps) => {
           />
         )}
       </Box>
-      {detail && <Text>{item.furtherText}</Text>}
+      <HStack>
+        <Button>Insert code</Button>
+        {!detail && <Button rightIcon={<RiArrowRightLine />}>More</Button>}
+      </HStack>
+      {detail && <Text fontSize="sm">{item.furtherText}</Text>}
     </Stack>
   );
 };
@@ -258,6 +264,8 @@ interface CodePopUpProps extends BoxProps {
 const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop("left-panel-viewport");
+  useSplitViewContext();
+
   if (!codeRef.current) {
     return null;
   }
@@ -341,7 +349,9 @@ interface ToolkitLevelProps {
 const ToolkitLevel = ({ heading, children }: ToolkitLevelProps) => (
   <VStack
     justifyContent="stretch"
-    backgroundColor="rgb(245, 246, 248)"
+    // Disabled for now. If this it to be the background of all tabs it shouyld
+    // go way heigher up.
+    // backgroundColor="rgb(245, 246, 248)"
     spacing={0}
   >
     <Box
