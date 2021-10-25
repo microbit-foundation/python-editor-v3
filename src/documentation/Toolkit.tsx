@@ -406,6 +406,50 @@ interface ToolkitNavigationChildProps extends ToolkitNavigationProps {
   direction: "forward" | "back" | "none";
 }
 
+const ToolkitNavigationChild = ({
+  state,
+  setState,
+  toolkit,
+  direction,
+}: ToolkitNavigationChildProps) => {
+  if (state.topicId && state.itemId) {
+    const topic = toolkit.contents.find((t) => t.name === state.topicId);
+    if (topic) {
+      const item = topic.contents.find((i) => i.name === state.itemId);
+      if (item) {
+        return (
+          <Slide direction={direction}>
+            <TopicItemDetail
+              toolkit={toolkit}
+              topic={topic}
+              item={item}
+              onNavigate={setState}
+            />
+          </Slide>
+        );
+      }
+    }
+  } else if (state.topicId) {
+    const topic = toolkit.contents.find((t) => t.name === state.topicId);
+    if (topic) {
+      return (
+        <Slide direction={direction}>
+          <TopicContents
+            toolkit={toolkit}
+            topic={topic}
+            onNavigate={setState}
+          />
+        </Slide>
+      );
+    }
+  }
+  return (
+    <Slide direction={direction}>
+      <ToolkitTopicList toolkit={toolkit} onNavigate={setState} />
+    </Slide>
+  );
+};
+
 const animations = {
   forward: {
     initial: {
@@ -433,59 +477,21 @@ const spring = {
   bounce: 0.3,
 };
 
-const ToolkitNavigationChild = ({
-  state,
-  setState,
-  toolkit,
+const Slide = ({
   direction,
-}: ToolkitNavigationChildProps) => {
+  children,
+}: {
+  direction: "forward" | "back" | "none";
+  children: ReactNode;
+}) => {
   const animation = animations[direction];
-  if (state.topicId && state.itemId) {
-    const topic = toolkit.contents.find((t) => t.name === state.topicId);
-    if (topic) {
-      const item = topic.contents.find((i) => i.name === state.itemId);
-      if (item) {
-        return (
-          <motion.div
-            transition={spring}
-            initial={animation.initial}
-            animate={animation.animate}
-          >
-            <TopicItemDetail
-              toolkit={toolkit}
-              topic={topic}
-              item={item}
-              onNavigate={setState}
-            />
-          </motion.div>
-        );
-      }
-    }
-  } else if (state.topicId) {
-    const topic = toolkit.contents.find((t) => t.name === state.topicId);
-    if (topic) {
-      return (
-        <motion.div
-          transition={spring}
-          initial={animation.initial}
-          animate={animation.animate}
-        >
-          <TopicContents
-            toolkit={toolkit}
-            topic={topic}
-            onNavigate={setState}
-          />
-        </motion.div>
-      );
-    }
-  }
   return (
     <motion.div
       transition={spring}
       initial={animation.initial}
       animate={animation.animate}
     >
-      <ToolkitTopicList toolkit={toolkit} onNavigate={setState} />
+      {children}
     </motion.div>
   );
 };
