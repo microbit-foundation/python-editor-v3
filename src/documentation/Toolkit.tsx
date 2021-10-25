@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion, Spring } from "framer-motion";
 import {
   ReactNode,
   Ref,
@@ -388,15 +388,13 @@ export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
       : "back";
   console.log(direction);
   return (
-    <AnimatePresence>
-      <ToolkitNavigationChild
-        key={state.topicId + "-" + state.itemId}
-        state={state}
-        setState={setState}
-        toolkit={toolkit}
-        direction={direction}
-      />
-    </AnimatePresence>
+    <ToolkitNavigationChild
+      key={state.topicId + "-" + state.itemId}
+      state={state}
+      setState={setState}
+      toolkit={toolkit}
+      direction={direction}
+    />
   );
 };
 
@@ -472,9 +470,10 @@ const animations = {
     animate: {},
   },
 };
-const spring = {
+const spring: Spring = {
   type: "spring",
-  bounce: 0.3,
+  bounce: 0.2,
+  duration: 0.5,
 };
 
 const Slide = ({
