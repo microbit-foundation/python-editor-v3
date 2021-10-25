@@ -1,4 +1,5 @@
 import { Button, IconButton } from "@chakra-ui/button";
+import { usePrevious } from "@chakra-ui/hooks";
 import {
   Box,
   BoxProps,
@@ -14,6 +15,7 @@ import {
 } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ReactNode,
   Ref,
@@ -152,7 +154,7 @@ export const ToolkitTopicList = ({
   );
 };
 
-interface TopicContentsProps {
+interface TopicContentsProps extends BoxProps {
   toolkit: Toolkit;
   topic: ToolkitTopic;
   onNavigate: (next: ToolkitNavigationState) => void;
@@ -162,6 +164,7 @@ export const TopicContents = ({
   toolkit,
   topic,
   onNavigate,
+  ...props
 }: TopicContentsProps) => {
   const { contents } = topic;
   return (
@@ -173,6 +176,7 @@ export const TopicContents = ({
           onBack={() => onNavigate({})}
         />
       }
+      {...props}
     >
       <List flex="1 1 auto">
         {contents.map((item) => (
@@ -190,7 +194,7 @@ export const TopicContents = ({
   );
 };
 
-interface TopicItemDetailProps {
+interface TopicItemDetailProps extends BoxProps {
   toolkit: Toolkit;
   topic: ToolkitTopic;
   item: ToolkitTopicItem;
@@ -202,6 +206,7 @@ export const TopicItemDetail = ({
   topic,
   item,
   onNavigate,
+  ...props
 }: TopicItemDetailProps) => {
   return (
     <ToolkitLevel
@@ -217,6 +222,7 @@ export const TopicItemDetail = ({
           }
         />
       }
+      {...props}
     >
       <TopicItem
         topic={topic}
@@ -368,46 +374,134 @@ interface ToolkitNavigationProps {
 }
 
 export const ToolkitNavigation = ({ toolkit }: ToolkitNavigationProps) => {
-  // Try this with useReducer?
   const [state, setState] = useState<ToolkitNavigationState>({});
+  const previous = usePrevious(state);
+  const currentLevel = [state.itemId, state.topicId].filter(Boolean).length;
+  const previousLevel = previous
+    ? [previous.itemId, previous.topicId].filter(Boolean).length
+    : 0;
+  const direction =
+    currentLevel === previousLevel
+      ? "none"
+      : currentLevel > previousLevel
+      ? "forward"
+      : "back";
+  console.log(direction);
+  return (
+    <AnimatePresence>
+      <ToolkitNavigationChild
+        key={state.topicId + "-" + state.itemId}
+        state={state}
+        setState={setState}
+        toolkit={toolkit}
+        direction={direction}
+      />
+    </AnimatePresence>
+  );
+};
+
+interface ToolkitNavigationChildProps extends ToolkitNavigationProps {
+  state: ToolkitNavigationState;
+  setState: React.Dispatch<React.SetStateAction<ToolkitNavigationState>>;
+  direction: "forward" | "back" | "none";
+}
+
+const animations = {
+  forward: {
+    initial: {
+      x: "-100%",
+    },
+    animate: {
+      x: 0,
+    },
+  },
+  back: {
+    initial: {
+      x: "100%",
+    },
+    animate: {
+      x: 0,
+    },
+  },
+  none: {
+    initial: false,
+    animate: {},
+  },
+};
+const spring = {
+  type: "spring",
+  bounce: 0.3,
+};
+
+const ToolkitNavigationChild = ({
+  state,
+  setState,
+  toolkit,
+  direction,
+}: ToolkitNavigationChildProps) => {
+  const animation = animations[direction];
   if (state.topicId && state.itemId) {
     const topic = toolkit.contents.find((t) => t.name === state.topicId);
     if (topic) {
       const item = topic.contents.find((i) => i.name === state.itemId);
       if (item) {
         return (
-          <TopicItemDetail
-            toolkit={toolkit}
-            topic={topic}
-            item={item}
-            onNavigate={setState}
-          />
+          <motion.div
+            transition={spring}
+            initial={animation.initial}
+            animate={animation.animate}
+          >
+            <TopicItemDetail
+              toolkit={toolkit}
+              topic={topic}
+              item={item}
+              onNavigate={setState}
+            />
+          </motion.div>
         );
       }
     }
-  }
-  if (state.topicId) {
+  } else if (state.topicId) {
     const topic = toolkit.contents.find((t) => t.name === state.topicId);
     if (topic) {
       return (
-        <TopicContents toolkit={toolkit} topic={topic} onNavigate={setState} />
+        <motion.div
+          transition={spring}
+          initial={animation.initial}
+          animate={animation.animate}
+        >
+          <TopicContents
+            toolkit={toolkit}
+            topic={topic}
+            onNavigate={setState}
+          />
+        </motion.div>
       );
     }
   }
-  return <ToolkitTopicList toolkit={toolkit} onNavigate={setState} />;
+  return (
+    <motion.div
+      transition={spring}
+      initial={animation.initial}
+      animate={animation.animate}
+    >
+      <ToolkitTopicList toolkit={toolkit} onNavigate={setState} />
+    </motion.div>
+  );
 };
 
-interface ToolkitLevelProps {
+interface ToolkitLevelProps extends BoxProps {
   heading: ReactNode;
   children: ReactNode;
 }
 
-const ToolkitLevel = ({ heading, children }: ToolkitLevelProps) => (
+const ToolkitLevel = ({ heading, children, ...props }: ToolkitLevelProps) => (
   <VStack
     justifyContent="stretch"
     // Disabled for now. If this it to be the background of all tabs it should
     // be higher up the tree.
     spacing={0}
+    {...props}
   >
     <Box
       minHeight="28"
