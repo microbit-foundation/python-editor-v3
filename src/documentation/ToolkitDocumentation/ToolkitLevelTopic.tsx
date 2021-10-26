@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { BoxProps, List } from "@chakra-ui/layout";
 import { Toolkit, ToolkitNavigationState, ToolkitTopic } from "./model";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
@@ -5,18 +10,18 @@ import ToolkitLevel from "./ToolkitLevel";
 import ToolkitListItem from "./ToolkitListItem";
 import TopicItem from "./TopicItem";
 
-interface TopicContentsProps extends BoxProps {
+interface ToolkitLevelTopicProps extends BoxProps {
   toolkit: Toolkit;
   topic: ToolkitTopic;
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-const TopicContents = ({
+const ToolkitLevelTopic = ({
   toolkit,
   topic,
   onNavigate,
   ...props
-}: TopicContentsProps) => {
+}: ToolkitLevelTopicProps) => {
   const { contents } = topic;
   return (
     <ToolkitLevel
@@ -45,4 +50,4 @@ const TopicContents = ({
   );
 };
 
-export default TopicContents;
+export default ToolkitLevelTopic;

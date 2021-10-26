@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { IconButton } from "@chakra-ui/button";
 import { Box, List, Text } from "@chakra-ui/layout";
 import { RiArrowRightSFill } from "react-icons/ri";
@@ -5,15 +10,15 @@ import { Toolkit, ToolkitNavigationState } from "./model";
 import ToolkitLevel from "./ToolkitLevel";
 import ToolkitListItem from "./ToolkitListItem";
 
-interface TopicListProps {
+interface ToolkitLevelTopicListProps {
   toolkit: Toolkit;
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
-const ToolkitTopicList = ({
+const ToolkitLevelTopicList = ({
   toolkit: { name, description, contents },
   onNavigate,
-}: TopicListProps) => {
+}: ToolkitLevelTopicListProps) => {
   return (
     <ToolkitLevel
       heading={
@@ -56,4 +61,4 @@ const ToolkitTopicList = ({
   );
 };
 
-export default ToolkitTopicList;
+export default ToolkitLevelTopicList;

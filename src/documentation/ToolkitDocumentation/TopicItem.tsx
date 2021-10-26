@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
@@ -18,6 +23,13 @@ interface TopicItemProps extends BoxProps {
   onNavigate: (next: ToolkitNavigationState) => void;
 }
 
+/**
+ * A toolkit topic item. Can be displayed without detail (for the listing)
+ * or with detail for the "More info" view.
+ *
+ * We show a pop-up over the code on hover to reveal the full code, overlapping
+ * the sidebar scroll area.
+ */
 const TopicItem = ({
   topic,
   item,

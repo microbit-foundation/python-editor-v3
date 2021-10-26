@@ -1,10 +1,15 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { usePrevious } from "@chakra-ui/hooks";
 import { motion, Spring } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { Toolkit, ToolkitNavigationState } from "./model";
-import TopicItemDetail from "./ToolkitItemDetail";
-import TopicContents from "./TopicContents";
-import ToolkitTopicList from "./ToolkitTopicList";
+import ToolkitLevelItem from "./ToolkitLevelItem";
+import ToolkitLevelTopic from "./ToolkitLevelTopic";
+import ToolkitLevelTopicList from "./ToolkitLevelTopicList";
 
 interface ToolkitProps {
   toolkit: Toolkit;
@@ -53,7 +58,7 @@ const ActiveTooklitLevel = ({
       if (item) {
         return (
           <Slide direction={direction}>
-            <TopicItemDetail
+            <ToolkitLevelItem
               toolkit={toolkit}
               topic={topic}
               item={item}
@@ -68,7 +73,7 @@ const ActiveTooklitLevel = ({
     if (topic) {
       return (
         <Slide direction={direction}>
-          <TopicContents
+          <ToolkitLevelTopic
             toolkit={toolkit}
             topic={topic}
             onNavigate={setState}
@@ -79,7 +84,7 @@ const ActiveTooklitLevel = ({
   }
   return (
     <Slide direction={direction}>
-      <ToolkitTopicList toolkit={toolkit} onNavigate={setState} />
+      <ToolkitLevelTopicList toolkit={toolkit} onNavigate={setState} />
     </Slide>
   );
 };

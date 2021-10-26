@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { render, prettyDOM } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import { ApiDocsEntry } from "../language-server/apidocs";

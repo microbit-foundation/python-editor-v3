@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Button, IconButton } from "@chakra-ui/button";
 import { useClipboard } from "@chakra-ui/hooks";
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
