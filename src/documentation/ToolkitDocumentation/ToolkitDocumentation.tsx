@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 import { usePrevious } from "@chakra-ui/hooks";
-import { motion, Spring } from "framer-motion";
-import { ReactNode, useState } from "react";
+import { List, Text } from "@chakra-ui/layout";
+import { useState } from "react";
 import { Toolkit, ToolkitNavigationState } from "./model";
-import ToolkitLevelItem from "./ToolkitLevelItem";
-import ToolkitLevelTopic from "./ToolkitLevelTopic";
-import ToolkitLevelTopicList from "./ToolkitLevelTopicList";
+import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
+import ToolkitLevel from "./ToolkitLevel";
+import ToolkitListItem from "./ToolkitListItem";
+import ToolkitTopicListItem from "./ToolkitTopicListItem";
+import TopicItem from "./TopicItem";
+import Slide from "./Slide";
 
 interface ToolkitProps {
   toolkit: Toolkit;
@@ -32,7 +35,7 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
     <ActiveTooklitLevel
       key={state.topicId + "-" + state.itemId}
       state={state}
-      setState={setState}
+      onNavigate={setState}
       toolkit={toolkit}
       direction={direction}
     />
@@ -41,13 +44,13 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
 
 interface ActiveTooklitLevelProps extends ToolkitProps {
   state: ToolkitNavigationState;
-  setState: React.Dispatch<React.SetStateAction<ToolkitNavigationState>>;
+  onNavigate: React.Dispatch<React.SetStateAction<ToolkitNavigationState>>;
   direction: "forward" | "back" | "none";
 }
 
 const ActiveTooklitLevel = ({
   state,
-  setState,
+  onNavigate,
   toolkit,
   direction,
 }: ActiveTooklitLevelProps) => {
@@ -58,12 +61,33 @@ const ActiveTooklitLevel = ({
       if (item) {
         return (
           <Slide direction={direction}>
-            <ToolkitLevelItem
-              toolkit={toolkit}
-              topic={topic}
-              item={item}
-              onNavigate={setState}
-            />
+            <ToolkitLevel
+              heading={
+                <ToolkitBreadcrumbHeading
+                  parent={topic.name}
+                  grandparent={toolkit.name}
+                  title={item.name}
+                  onBack={() =>
+                    onNavigate({
+                      topicId: topic.name,
+                    })
+                  }
+                />
+              }
+            >
+              <TopicItem
+                topic={topic}
+                item={item}
+                detail={true}
+                onForward={() =>
+                  onNavigate({
+                    topicId: topic.name,
+                    itemId: item.name,
+                  })
+                }
+                padding={5}
+              />
+            </ToolkitLevel>
           </Slide>
         );
       }
@@ -73,65 +97,62 @@ const ActiveTooklitLevel = ({
     if (topic) {
       return (
         <Slide direction={direction}>
-          <ToolkitLevelTopic
-            toolkit={toolkit}
-            topic={topic}
-            onNavigate={setState}
-          />
+          <ToolkitLevel
+            heading={
+              <ToolkitBreadcrumbHeading
+                parent={toolkit.name}
+                title={topic.name}
+                onBack={() => onNavigate({})}
+              />
+            }
+          >
+            <List flex="1 1 auto">
+              {topic.contents.map((item) => (
+                <ToolkitListItem key={item.name}>
+                  <TopicItem
+                    topic={topic}
+                    item={item}
+                    detail={false}
+                    onForward={() =>
+                      onNavigate({
+                        topicId: topic.name,
+                        itemId: item.name,
+                      })
+                    }
+                  />
+                </ToolkitListItem>
+              ))}
+            </List>
+          </ToolkitLevel>
         </Slide>
       );
     }
   }
   return (
     <Slide direction={direction}>
-      <ToolkitLevelTopicList toolkit={toolkit} onNavigate={setState} />
+      <ToolkitLevel
+        heading={
+          <>
+            <Text as="h2" fontSize="3xl" fontWeight="semibold">
+              {toolkit.name}
+            </Text>
+            <Text fontSize="sm">{toolkit.description}</Text>
+          </>
+        }
+      >
+        <List flex="1 1 auto" m={3}>
+          {toolkit.contents.map((topic) => (
+            <ToolkitTopicListItem
+              topic={topic}
+              onForward={() =>
+                onNavigate({
+                  topicId: topic.name,
+                })
+              }
+            />
+          ))}
+        </List>
+      </ToolkitLevel>
     </Slide>
-  );
-};
-
-const animations = {
-  forward: {
-    initial: {
-      x: "-100%",
-    },
-    animate: {
-      x: 0,
-    },
-  },
-  back: {
-    initial: {
-      x: "100%",
-    },
-    animate: {
-      x: 0,
-    },
-  },
-  none: {
-    initial: false,
-    animate: {},
-  },
-};
-const spring: Spring = {
-  type: "spring",
-  bounce: 0.2,
-  duration: 0.5,
-};
-
-const Slide = ({
-  direction,
-  children,
-}: {
-  direction: "forward" | "back" | "none";
-  children: ReactNode;
-}) => {
-  const animation = animations[direction];
-  return (
-    <motion.div
-      transition={spring}
-      initial={animation.initial}
-      animate={animation.animate}
-    >
-      {children}
-    </motion.div>
   );
 };

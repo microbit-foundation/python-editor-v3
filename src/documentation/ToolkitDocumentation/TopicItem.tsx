@@ -10,17 +10,13 @@ import { forwardRef } from "@chakra-ui/system";
 import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useSplitViewContext } from "../../common/SplitView/context";
-import {
-  ToolkitNavigationState,
-  ToolkitTopic,
-  ToolkitTopicItem,
-} from "./model";
+import { ToolkitTopic, ToolkitTopicItem } from "./model";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
   item: ToolkitTopicItem;
   detail?: boolean;
-  onNavigate: (next: ToolkitNavigationState) => void;
+  onForward: () => void;
 }
 
 /**
@@ -34,7 +30,7 @@ const TopicItem = ({
   topic,
   item,
   detail,
-  onNavigate,
+  onForward,
   ...props
 }: TopicItemProps) => {
   const [hovering, setHovering] = useState(false);
@@ -80,12 +76,7 @@ const TopicItem = ({
           </Button>
           {!detail && item.furtherText && (
             <Button
-              onClick={() =>
-                onNavigate({
-                  topicId: topic.name,
-                  itemId: item.name,
-                })
-              }
+              onClick={onForward}
               fontWeight="normal"
               color="brand.500"
               variant="unstyled"
