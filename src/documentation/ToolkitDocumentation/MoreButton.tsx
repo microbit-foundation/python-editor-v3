@@ -11,6 +11,7 @@ const MoreButton = (props: ButtonProps) => (
     fontWeight="normal"
     color="brand.500"
     variant="unstyled"
+    display="flex"
     size="sm"
     rightIcon={<RiArrowRightLine />}
     {...props}

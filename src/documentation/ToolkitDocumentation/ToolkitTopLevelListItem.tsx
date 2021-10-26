@@ -21,9 +21,9 @@ const ToolkitTopLevelListItem = ({
         {name}
       </Text>
       {/*Content problem! We need all descriptions to be short, or two sets.*/}
-      <Text fontSize="sm" noOfLines={1}>
+      <Box fontSize="sm" noOfLines={1}>
         {description}
-      </Text>
+      </Box>
     </Box>
     <IconButton
       icon={<RiArrowRightSFill />}
