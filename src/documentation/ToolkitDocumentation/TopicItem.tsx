@@ -8,7 +8,6 @@ import { Box, BoxProps, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
-import { RiArrowRightLine } from "react-icons/ri";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { ToolkitTopic, ToolkitTopicItem } from "./model";
 import MoreButton from "./MoreButton";
