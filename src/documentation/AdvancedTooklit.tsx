@@ -5,6 +5,7 @@
  */
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
+import { sortBy } from "lodash";
 import { useState } from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
@@ -138,10 +139,10 @@ const ActiveTooklitLevel = ({
         }
       >
         <List flex="1 1 auto" m={3}>
-          {Object.values(docs).map((module) => (
+          {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
             <ToolkitTopLevelListItem
               key={module.fullName}
-              name={module.name}
+              name={module.fullName}
               description={
                 module.docString && <DocString value={module.docString} />
               }
