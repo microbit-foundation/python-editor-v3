@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { HStack, Text } from "@chakra-ui/layout";
+import { HStack, Stack, Text } from "@chakra-ui/layout";
 import { RiArrowLeftSFill } from "react-icons/ri";
 
 interface BreadcrumbHeadingProps {
@@ -21,7 +21,7 @@ const ToolkitBreadcrumbHeading = ({
   onBack,
 }: BreadcrumbHeadingProps) => {
   return (
-    <>
+    <Stack spacing={0} position="sticky">
       <HStack>
         <Button
           leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
@@ -47,7 +47,7 @@ const ToolkitBreadcrumbHeading = ({
       <Text as="h2" fontSize="3xl" fontWeight="semibold">
         {title}
       </Text>
-    </>
+    </Stack>
   );
 };
 

@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: MIT
  */
 import { usePrevious } from "@chakra-ui/hooks";
-import { List, Text } from "@chakra-ui/layout";
+import { List } from "@chakra-ui/layout";
 import { useState } from "react";
 import { Toolkit, ToolkitNavigationState } from "./model";
+import Slide from "./Slide";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitLevel from "./ToolkitLevel";
 import ToolkitListItem from "./ToolkitListItem";
-import ToolkitTopicListItem from "./ToolkitTopicListItem";
+import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
+import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
 import TopicItem from "./TopicItem";
-import Slide from "./Slide";
 
 interface ToolkitProps {
   toolkit: Toolkit;
@@ -132,18 +133,18 @@ const ActiveTooklitLevel = ({
     <Slide direction={direction}>
       <ToolkitLevel
         heading={
-          <>
-            <Text as="h2" fontSize="3xl" fontWeight="semibold">
-              {toolkit.name}
-            </Text>
-            <Text fontSize="sm">{toolkit.description}</Text>
-          </>
+          <ToolkitTopLevelHeading
+            name={toolkit.name}
+            description={toolkit.description}
+          />
         }
       >
         <List flex="1 1 auto" m={3}>
           {toolkit.contents.map((topic) => (
-            <ToolkitTopicListItem
-              topic={topic}
+            <ToolkitTopLevelListItem
+              key={topic.name}
+              name={topic.name}
+              description={topic.description}
               onForward={() =>
                 onNavigate({
                   topicId: topic.name,

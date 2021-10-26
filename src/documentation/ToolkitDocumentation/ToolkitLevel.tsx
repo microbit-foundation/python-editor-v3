@@ -12,12 +12,11 @@ interface ToolkitLevelProps extends BoxProps {
 }
 
 const ToolkitLevel = ({ heading, children, ...props }: ToolkitLevelProps) => (
-  <VStack justifyContent="stretch" spacing={0} {...props}>
+  <VStack alignItems="stretch" spacing={0} {...props}>
     <Box
       minHeight="28"
       backgroundColor="rgb(230, 232, 239)"
       flex="0 0 auto"
-      width="100%"
       p={3}
       pl={5}
       pr={5}

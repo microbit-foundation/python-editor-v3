@@ -1,26 +1,28 @@
 import { IconButton } from "@chakra-ui/button";
 import { Box, Text } from "@chakra-ui/layout";
+import { ReactNode } from "react";
 import { RiArrowRightSFill } from "react-icons/ri";
-import { ToolkitTopic } from "./model";
 import ToolkitListItem from "./ToolkitListItem";
 
-interface ToolkitTopicListItemProps {
-  topic: ToolkitTopic;
+interface ToolkitTopLevelListItemProps {
+  name: string;
+  description: ReactNode;
   onForward: () => void;
 }
 
-const ToolkitTopicListItem = ({
-  topic,
+const ToolkitTopLevelListItem = ({
+  name,
+  description,
   onForward,
-}: ToolkitTopicListItemProps) => (
-  <ToolkitListItem key={topic.name} onClick={onForward} cursor="pointer">
+}: ToolkitTopLevelListItemProps) => (
+  <ToolkitListItem onClick={onForward} cursor="pointer">
     <Box flex="1 1 auto">
       <Text as="h3" fontSize="lg" fontWeight="semibold">
-        {topic.name}
+        {name}
       </Text>
       {/*Content problem! We need all descriptions to be short, or two sets.*/}
       <Text fontSize="sm" noOfLines={1}>
-        {topic.description}
+        {description}
       </Text>
     </Box>
     <IconButton
@@ -34,4 +36,4 @@ const ToolkitTopicListItem = ({
   </ToolkitListItem>
 );
 
-export default ToolkitTopicListItem;
+export default ToolkitTopLevelListItem;

@@ -11,6 +11,7 @@ import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { ToolkitTopic, ToolkitTopicItem } from "./model";
+import MoreButton from "./MoreButton";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
@@ -74,18 +75,7 @@ const TopicItem = ({
           >
             Insert code
           </Button>
-          {!detail && item.furtherText && (
-            <Button
-              onClick={onForward}
-              fontWeight="normal"
-              color="brand.500"
-              variant="unstyled"
-              size="sm"
-              rightIcon={<RiArrowRightLine />}
-            >
-              More
-            </Button>
-          )}
+          {!detail && item.furtherText && <MoreButton onClick={onForward} />}
         </HStack>
       </Box>
       {detail && <Text fontSize="sm">{item.furtherText}</Text>}
