@@ -1,4 +1,4 @@
-import { Toolkit } from "./ToolkitDocumentation";
+import { Toolkit } from "./ToolkitDocumentation/model";
 
 export const microbitToolkit: Toolkit = {
   name: "micro:bit toolkit",
