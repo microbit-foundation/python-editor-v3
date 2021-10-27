@@ -6,7 +6,7 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
@@ -53,7 +53,7 @@ export const AdvancedToolkit = ({ docs }: AdvancedToolkitProps) => {
 interface ActiveTooklitLevelProps {
   state: AdvancedDocsNavigationState;
   docs: ApiDocsResponse;
-  onNavigate: React.Dispatch<React.SetStateAction<AdvancedDocsNavigationState>>;
+  onNavigate: (state: AdvancedDocsNavigationState) => void;
   direction: "forward" | "back" | "none";
 }
 

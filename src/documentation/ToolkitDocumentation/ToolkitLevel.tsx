@@ -20,6 +20,9 @@ const ToolkitLevel = ({ heading, children, ...props }: ToolkitLevelProps) => (
       p={3}
       pl={5}
       pr={5}
+      position="sticky"
+      top="0"
+      zIndex={2} // Above code pop-up.
     >
       {heading}
     </Box>
