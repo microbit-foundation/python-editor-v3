@@ -23,8 +23,11 @@ import {
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView } from "./common";
-import { renderDocumentation } from "./documentation";
-import { removeFullyQualifiedName } from "./names";
+import {
+  wrapWithDocumentationButton,
+  renderDocumentation,
+} from "./documentation";
+import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 
 interface SignatureChangeEffect {
@@ -157,7 +160,8 @@ const formatSignatureHelp = (help: SignatureHelp): Node => {
       ? parameters[activeParameterIndex]
       : undefined;
   const activeParameterLabel = activeParameter?.label;
-  const activeParameterDoc = activeParameter?.documentation;
+  const activeParameterDoc =
+    activeParameter?.documentation || activeSignature.documentation;
   if (Array.isArray(activeParameterLabel)) {
     const [from, to] = activeParameterLabel;
     return formatHighlightedParameter(label, from, to, activeParameterDoc);
@@ -179,6 +183,7 @@ const formatHighlightedParameter = (
   activeParameterDoc: string | MarkupContent | undefined
 ): Node => {
   let before = label.substring(0, from);
+  const id = nameFromSignature(before);
   const parameter = label.substring(from, to);
   const after = label.substring(to);
 
@@ -194,10 +199,10 @@ const formatHighlightedParameter = (
   span.appendChild(document.createTextNode(parameter));
   code.appendChild(document.createTextNode(after));
 
-  const documentation = renderDocumentation(activeParameterDoc);
+  const documentation = renderDocumentation(activeParameterDoc, true);
   parent.appendChild(documentation);
 
-  return parent;
+  return wrapWithDocumentationButton(parent, id);
 };
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
