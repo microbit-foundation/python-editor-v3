@@ -3,11 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
-import { useState } from "react";
-import { ApiDocsResponse } from "../language-server/apidocs";
+import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
+import { useNavigationParameter } from "../navigation-hooks";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
 import Slide from "./ToolkitDocumentation/Slide";
@@ -21,39 +20,24 @@ interface AdvancedToolkitProps {
   docs: ApiDocsResponse;
 }
 
-interface AdvancedDocsNavigationState {
-  moduleId?: string;
-  itemId?: string;
-}
-
 export const AdvancedToolkit = ({ docs }: AdvancedToolkitProps) => {
-  const [state, setState] = useState<AdvancedDocsNavigationState>({});
-  const previous = usePrevious(state);
-  const currentLevel = [state.itemId, state.moduleId].filter(Boolean).length;
-  const previousLevel = previous
-    ? [previous.itemId, previous.moduleId].filter(Boolean).length
-    : 0;
-  const direction =
-    currentLevel === previousLevel
-      ? "none"
-      : currentLevel > previousLevel
-      ? "forward"
-      : "back";
+  const [advancedParam = "", setAdvancedParam] =
+    useNavigationParameter("advanced");
   return (
     <ActiveTooklitLevel
-      key={state.moduleId + "-" + state.itemId}
-      state={state}
-      onNavigate={setState}
+      key={advancedParam}
+      state={advancedParam}
+      onNavigate={setAdvancedParam}
       docs={docs}
-      direction={direction}
+      direction={"forward"} // Hack!
     />
   );
 };
 
 interface ActiveTooklitLevelProps {
-  state: AdvancedDocsNavigationState;
+  state: string;
   docs: ApiDocsResponse;
-  onNavigate: (state: AdvancedDocsNavigationState) => void;
+  onNavigate: (state: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
@@ -63,34 +47,46 @@ const ActiveTooklitLevel = ({
   docs,
   direction,
 }: ActiveTooklitLevelProps) => {
-  const module = state.moduleId
-    ? Object.values(docs).find((module) => module.id === state.moduleId)
+  // microbit.compass.get_x
+  // microbit.display.show-1
+
+  const module = state
+    ? Object.values(docs)
+        .filter((module) => state.startsWith(module.fullName))
+        .reduce(
+          (acc: ApiDocsEntry | undefined, curr) =>
+            // Longest match wins (e.g. microbit.compass)
+            !acc || acc.fullName.length < curr.fullName.length ? curr : acc,
+          undefined
+        )
     : undefined;
-  if (module && state.itemId) {
-    const item = (module.children ?? []).find((i) => i.id === state.itemId);
-    if (item) {
-      return (
-        <Slide direction={direction}>
-          <ToolkitLevel
-            heading={
-              <ToolkitBreadcrumbHeading
-                parent={module.fullName}
-                grandparent={"Advanced"}
-                title={item.name}
-                onBack={() =>
-                  onNavigate({
-                    moduleId: module.id,
-                  })
-                }
-              />
-            }
-          >
-            <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
-          </ToolkitLevel>
-        </Slide>
-      );
-    }
-  } else if (module) {
+
+  // It'd be cleaner to annotate the docs with these ids up-front.
+  const [fullName, overloadCount] = state.split("-");
+  const item = module
+    ? (module.children ?? []).filter((i) => i.fullName === fullName)[
+        overloadCount ? parseInt(overloadCount, 10) : 0
+      ]
+    : undefined;
+  if (module && item) {
+    return (
+      <Slide direction={direction}>
+        <ToolkitLevel
+          heading={
+            <ToolkitBreadcrumbHeading
+              parent={module.fullName}
+              grandparent={"Advanced"}
+              title={item.name}
+              onBack={() => onNavigate(module.fullName)}
+            />
+          }
+        >
+          <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
+        </ToolkitLevel>
+      </Slide>
+    );
+  }
+  if (module) {
     return (
       <Slide direction={direction}>
         <ToolkitLevel
@@ -98,7 +94,7 @@ const ActiveTooklitLevel = ({
             <ToolkitBreadcrumbHeading
               parent={"Advanced"}
               title={module.name}
-              onBack={() => onNavigate({})}
+              onBack={() => onNavigate(undefined)}
             />
           }
         >
@@ -108,13 +104,7 @@ const ActiveTooklitLevel = ({
                 <ApiDocsEntryNode
                   docs={item}
                   width="100%"
-                  onForward={(itemId) =>
-                    onNavigate({
-                      moduleId: module.id,
-                      // Potentially more nested than item.fullName, e.g. a method on a class.
-                      itemId,
-                    })
-                  }
+                  onForward={(fullName) => onNavigate(fullName)}
                 />
               </ToolkitListItem>
             ))}
@@ -141,11 +131,7 @@ const ActiveTooklitLevel = ({
               description={
                 module.docString && <DocString value={module.docString} />
               }
-              onForward={() =>
-                onNavigate({
-                  moduleId: module.id,
-                })
-              }
+              onForward={() => onNavigate(module.fullName)}
             />
           ))}
         </List>

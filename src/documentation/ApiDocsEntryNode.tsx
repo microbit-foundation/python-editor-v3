@@ -55,7 +55,7 @@ const ApiDocsEntryNode = ({
   mb,
   ...others
 }: ApiDocEntryNodeProps) => {
-  const { id, kind, name, fullName, children, params, docString, baseClasses } =
+  const { kind, name, fullName, children, params, docString, baseClasses } =
     docs;
   const intl = useIntl();
   const variableOrFunction = kind === "variable" || kind === "function";
@@ -112,7 +112,7 @@ const ApiDocsEntryNode = ({
             hasDetail &&
             !isShowingDetail && (
               <HStack>
-                <MoreButton onClick={() => onForward(id)} />
+                <MoreButton onClick={() => onForward(fullName)} />
               </HStack>
             )}
         </VStack>
