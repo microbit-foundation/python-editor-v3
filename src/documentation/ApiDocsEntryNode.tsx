@@ -42,7 +42,7 @@ const kindToSpacing: Record<string, any> = {
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   isShowingDetail?: boolean;
-  onForward?: (fullName: string) => void;
+  onForward?: (itemId: string) => void;
 }
 
 const noop = () => {};
@@ -55,7 +55,7 @@ const ApiDocsEntryNode = ({
   mb,
   ...others
 }: ApiDocEntryNodeProps) => {
-  const { kind, name, fullName, children, params, docString, baseClasses } =
+  const { id, kind, name, fullName, children, params, docString, baseClasses } =
     docs;
   const intl = useIntl();
   const variableOrFunction = kind === "variable" || kind === "function";
@@ -112,7 +112,7 @@ const ApiDocsEntryNode = ({
             hasDetail &&
             !isShowingDetail && (
               <HStack>
-                <MoreButton onClick={() => onForward(fullName)} />
+                <MoreButton onClick={() => onForward(id)} />
               </HStack>
             )}
         </VStack>

@@ -63,70 +63,65 @@ const ActiveTooklitLevel = ({
   docs,
   direction,
 }: ActiveTooklitLevelProps) => {
-  if (state.moduleId && state.itemId) {
-    const module = docs[state.moduleId];
-    if (module) {
-      const item = (module.children ?? []).find(
-        (i) => i.fullName === state.itemId
-      );
-      if (item) {
-        return (
-          <Slide direction={direction}>
-            <ToolkitLevel
-              heading={
-                <ToolkitBreadcrumbHeading
-                  parent={module.fullName}
-                  grandparent={"Advanced"}
-                  title={item.name}
-                  onBack={() =>
-                    onNavigate({
-                      moduleId: module.fullName,
-                    })
-                  }
-                />
-              }
-            >
-              <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
-            </ToolkitLevel>
-          </Slide>
-        );
-      }
-    }
-  } else if (state.moduleId) {
-    const module = docs[state.moduleId]!;
-    if (module) {
+  const module = state.moduleId
+    ? Object.values(docs).find((module) => module.id === state.moduleId)
+    : undefined;
+  if (module && state.itemId) {
+    const item = (module.children ?? []).find((i) => i.id === state.itemId);
+    if (item) {
       return (
         <Slide direction={direction}>
           <ToolkitLevel
             heading={
               <ToolkitBreadcrumbHeading
-                parent={"Advanced"}
-                title={module.name}
-                onBack={() => onNavigate({})}
+                parent={module.fullName}
+                grandparent={"Advanced"}
+                title={item.name}
+                onBack={() =>
+                  onNavigate({
+                    moduleId: module.id,
+                  })
+                }
               />
             }
           >
-            <List flex="1 1 auto">
-              {(module.children ?? []).map((item) => (
-                <ToolkitListItem key={item.fullName}>
-                  <ApiDocsEntryNode
-                    docs={item}
-                    width="100%"
-                    onForward={(fullName) =>
-                      onNavigate({
-                        moduleId: module.name,
-                        // Potentially more nested than item.fullName, e.g. a method on a class.
-                        itemId: fullName,
-                      })
-                    }
-                  />
-                </ToolkitListItem>
-              ))}
-            </List>
+            <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
           </ToolkitLevel>
         </Slide>
       );
     }
+  } else if (module) {
+    return (
+      <Slide direction={direction}>
+        <ToolkitLevel
+          heading={
+            <ToolkitBreadcrumbHeading
+              parent={"Advanced"}
+              title={module.name}
+              onBack={() => onNavigate({})}
+            />
+          }
+        >
+          <List flex="1 1 auto">
+            {(module.children ?? []).map((item) => (
+              <ToolkitListItem key={item.id}>
+                <ApiDocsEntryNode
+                  docs={item}
+                  width="100%"
+                  onForward={(itemId) =>
+                    onNavigate({
+                      moduleId: module.id,
+                      // Potentially more nested than item.fullName, e.g. a method on a class.
+                      itemId,
+                    })
+                  }
+                />
+              </ToolkitListItem>
+            ))}
+          </List>
+        </ToolkitLevel>
+      </Slide>
+    );
   }
   return (
     <Slide direction={direction}>
@@ -141,14 +136,14 @@ const ActiveTooklitLevel = ({
         <List flex="1 1 auto" m={3}>
           {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
             <ToolkitTopLevelListItem
-              key={module.fullName}
+              key={module.id}
               name={module.fullName}
               description={
                 module.docString && <DocString value={module.docString} />
               }
               onForward={() =>
                 onNavigate({
-                  moduleId: module.fullName,
+                  moduleId: module.id,
                 })
               }
             />
