@@ -6,7 +6,7 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
