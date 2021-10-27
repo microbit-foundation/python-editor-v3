@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
 import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
@@ -23,13 +24,21 @@ interface AdvancedToolkitProps {
 export const AdvancedToolkit = ({ docs }: AdvancedToolkitProps) => {
   const [advancedParam = "", setAdvancedParam] =
     useNavigationParameter("advanced");
+  // Only transitions are up or down levels so can just compare length.
+  const previousParam = usePrevious(advancedParam) ?? "";
+  const direction =
+    previousParam.length === advancedParam.length
+      ? "none"
+      : previousParam.length < advancedParam.length
+      ? "forward"
+      : "back";
   return (
     <ActiveTooklitLevel
       key={advancedParam}
       state={advancedParam}
       onNavigate={setAdvancedParam}
       docs={docs}
-      direction={"forward"} // Hack!
+      direction={direction}
     />
   );
 };
