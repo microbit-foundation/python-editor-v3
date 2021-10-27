@@ -113,6 +113,7 @@ const ActiveTooklitLevel = ({
                 <ApiDocsEntryNode
                   docs={item}
                   width="100%"
+                  // This isn't coping with overloads.
                   onForward={(fullName) => onNavigate(fullName)}
                 />
               </ToolkitListItem>

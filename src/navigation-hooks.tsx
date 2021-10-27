@@ -29,17 +29,18 @@ const useNavigationState = (): [
     };
   }, []);
   const navigate = useCallback(
-    (state: NavigationState) => {
-      const query = Object.entries(state)
+    (newState: NavigationState) => {
+      const query = Object.entries(newState)
         .filter(([_, v]) => !!v)
         .map(([k, v]) => {
           return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
         })
         .join("&");
-      setState(state);
       const url =
         window.location.toString().split("?")[0] + (query ? "?" + query : "");
-      window.history.pushState(state, "", url);
+      window.history.pushState(newState, "", url);
+
+      setState(newState);
     },
     [setState]
   );
@@ -51,12 +52,10 @@ export const useNavigationParameter = (
   param: keyof NavigationState
 ): [string | undefined, (param: string | undefined) => void] => {
   const [state, setState] = useNavigationState();
-  const navigateParam = useCallback(
-    (value: string | undefined) => {
-      setState({ ...state, [param]: value });
-    },
-    [param, state, setState]
-  );
+  const navigateParam = (value: string | undefined) => {
+    console.log("Updating parameter to ", value, " others", state);
+    setState({ ...state, [param]: value });
+  };
   return [state[param], navigateParam];
 };
 

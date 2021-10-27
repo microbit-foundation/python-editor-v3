@@ -16,7 +16,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import { IconType } from "react-icons";
 import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
@@ -32,6 +32,7 @@ import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import { flags } from "../flags";
+import { useNavigationParameter } from "../navigation-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
@@ -78,7 +79,7 @@ const LeftPanel = ({
         0,
         1,
         {
-          id: "micro:bit",
+          id: "microbit",
           title: "micro:bit", // No brand translation
           icon: FaceIcon as IconType,
           contents: <ToolkitDocumentation toolkit={microbitToolkit} />,
@@ -120,7 +121,15 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
-  const [index, setIndex] = useState<number>(0);
+  const [tab, setTab] = useNavigationParameter("tab");
+  const tabIndexOf = panes.findIndex((p) => p.id === tab);
+  const index = tabIndexOf === -1 ? 0 : tabIndexOf;
+  const setIndex = useCallback(
+    (index: number) => {
+      setTab(panes[index].id);
+    },
+    [panes, setTab]
+  );
   const width = "5rem";
   const brand = useDeployment();
   return (
