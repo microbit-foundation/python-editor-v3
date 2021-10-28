@@ -32,7 +32,7 @@ import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import { flags } from "../flags";
-import { useNavigationParameter } from "../navigation-hooks";
+import { useRouterParam } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
@@ -121,7 +121,7 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
-  const [tab, setTab] = useNavigationParameter("tab");
+  const [tab, setTab] = useRouterParam("tab");
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const setIndex = useCallback(

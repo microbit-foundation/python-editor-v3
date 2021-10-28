@@ -23,6 +23,7 @@ import { pyright } from "./language-server/pyright";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
+import { RouterProvider } from "./router-hooks";
 import {
   defaultSettings,
   isValidSettingsObject,
@@ -84,9 +85,11 @@ const App = () => {
                     <LanguageServerClientProvider value={client}>
                       <BeforeUnloadDirtyCheck />
                       <SelectionProvider>
-                        <ProjectDropTarget>
-                          <Workbench />
-                        </ProjectDropTarget>
+                        <RouterProvider>
+                          <ProjectDropTarget>
+                            <Workbench />
+                          </ProjectDropTarget>
+                        </RouterProvider>
                       </SelectionProvider>
                     </LanguageServerClientProvider>
                   </FileSystemProvider>

@@ -7,7 +7,7 @@ import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
 import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
-import { useNavigationParameter } from "../navigation-hooks";
+import { useRouterParam } from "../router-hooks";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
 import Slide from "./ToolkitDocumentation/Slide";
@@ -22,8 +22,7 @@ interface AdvancedToolkitProps {
 }
 
 export const AdvancedToolkit = ({ docs }: AdvancedToolkitProps) => {
-  const [advancedParam = "", setAdvancedParam] =
-    useNavigationParameter("advanced");
+  const [advancedParam = "", setAdvancedParam] = useRouterParam("advanced");
   // Only transitions are up or down levels so can just compare length.
   const previousParam = usePrevious(advancedParam) ?? "";
   const direction =
