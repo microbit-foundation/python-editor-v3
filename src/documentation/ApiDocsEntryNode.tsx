@@ -94,7 +94,7 @@ const ApiDocsEntryNode = ({
     >
       <Box>
         <HStack>
-          <Text fontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
+          <Text fontfontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
             <Text as="span" fontWeight="semibold">
               {formatName(kind, fullName, name)}
             </Text>

@@ -127,7 +127,7 @@ const Code = forwardRef<CodeProps, "pre">(
         padding={5}
         borderTopRadius="lg"
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-        fontFamily="Source Code Pro, monospace"
+        fontFamily="code"
         {...props}
       >
         {value}

@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { EditorView } from "@codemirror/view";
-import { codeFontFamily } from "../../deployment/misc";
 
 export const themeExtensions = (fontSizePt: number) => {
   const fontSize = `${fontSizePt}pt`;
-  const fontFamily = codeFontFamily;
+  const fontFamily = "var(--chakra-fonts-code)";
   return EditorView.theme({
     ".cm-content": {
       fontSize,

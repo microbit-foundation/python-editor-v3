@@ -3,16 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { useToken } from "@chakra-ui/system";
 import React, { ReactNode, useContext, useEffect, useMemo } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
-import {
-  backgroundColorTerm,
-  codeFontFamily,
-  defaultCodeFontSizePt,
-} from "../deployment/misc";
+import { backgroundColorTerm, defaultCodeFontSizePt } from "../deployment/misc";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
 import { useSelection } from "../workbench/use-selection";
@@ -45,6 +42,7 @@ const ptToPixelRatio = 96 / 72;
  */
 const useNewTerminal = (): Terminal => {
   const actionFeedback = useActionFeedback();
+  const codeFontFamily = useToken("fonts", "code");
   const terminal = useMemo(() => {
     return new Terminal({
       fontFamily: codeFontFamily,
@@ -55,7 +53,7 @@ const useNewTerminal = (): Terminal => {
         background: backgroundColorTerm,
       },
     });
-  }, []);
+  }, [codeFontFamily]);
 
   const device = useDevice();
   const isUnmounted = useIsUnmounted();

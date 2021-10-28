@@ -86,17 +86,16 @@ const ActiveTooklitLevel = ({
         </Slide>
       );
     } else {
+      const moduleName = resolveModule(docs, item.fullName)!.fullName;
       return (
         <Slide direction={direction}>
           <ToolkitLevel
             heading={
               <ToolkitBreadcrumbHeading
-                parent={item.fullName}
+                parent={moduleName}
                 grandparent={"Advanced"}
                 title={item.name}
-                onBack={() =>
-                  onNavigate(resolveModule(docs, item.fullName)!.fullName)
-                }
+                onBack={() => onNavigate(moduleName)}
               />
             }
           >
