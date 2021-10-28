@@ -38,7 +38,15 @@ const parse = (search: string): RouterState => {
   };
 };
 
-const useRouterState = (): RouterContextValue => {
+/**
+ * The full router state.
+ * Consider using useRouterParam instead if you only care about one parameter.
+ *
+ * Updating the state updates the URL.
+ *
+ * @return a [state, setState] pair.
+ */
+export const useRouterState = (): RouterContextValue => {
   const value = useContext(RouterContext);
   if (!value) {
     throw new Error("Missing provider!");
@@ -84,6 +92,13 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+/**
+ * Access a single parameter of the router state.
+ * All other parameters will remain unchanged if you set this parameter.
+ *
+ * @param param The parameter name.
+ * @returns A [state, setState] pair for the parameter.
+ */
 export const useRouterParam = (
   param: keyof RouterState
 ): [string | undefined, (param: string | undefined) => void] => {

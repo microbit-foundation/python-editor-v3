@@ -9,6 +9,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
+import { useRouterState } from "../../router-hooks";
 import { WorkbenchSelection } from "../../workbench/use-selection";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
@@ -133,6 +134,25 @@ const CodeMirror = ({
       view.focus();
     }
   }, [location]);
+
+  const [routerState, setRouterState] = useRouterState();
+  useEffect(() => {
+    const listener = (event: Event) => {
+      const id = (event as CustomEvent).detail.id;
+      setRouterState({
+        ...routerState,
+        tab: "advanced",
+        advanced: id,
+      });
+      const view = viewRef.current!;
+      // Put the focus back in the text editor so the docs are immediately useful.
+      view.focus();
+    };
+    document.addEventListener("cm/openDocs", listener);
+    return () => {
+      document.removeEventListener("cm/openDocs", listener);
+    };
+  });
 
   return (
     <section
