@@ -6,8 +6,9 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
-import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
+import { ApiDocsResponse } from "../language-server/apidocs";
 import { useRouterParam } from "../router-hooks";
+import { resolveDottedName, resolveModule } from "./apidocs-util";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
 import Slide from "./ToolkitDocumentation/Slide";
@@ -55,72 +56,55 @@ const ActiveTooklitLevel = ({
   docs,
   direction,
 }: ActiveTooklitLevelProps) => {
-  // microbit.compass.get_x
-  // microbit.display.show-1
-
-  const module = state
-    ? Object.values(docs)
-        .filter((module) => state.startsWith(module.fullName))
-        .reduce(
-          (acc: ApiDocsEntry | undefined, curr) =>
-            // Longest match wins (e.g. microbit.compass)
-            !acc || acc.fullName.length < curr.fullName.length ? curr : acc,
-          undefined
-        )
-    : undefined;
-
-  // It'd be cleaner to annotate the docs with these ids up-front.
-  const [fullName, overloadCount] = state.split("-");
-  const item = module
-    ? (module.children ?? []).filter((i) => i.fullName === fullName)[
-        overloadCount ? parseInt(overloadCount, 10) : 0
-      ]
-    : undefined;
-  if (module && item) {
-    return (
-      <Slide direction={direction}>
-        <ToolkitLevel
-          heading={
-            <ToolkitBreadcrumbHeading
-              parent={module.fullName}
-              grandparent={"Advanced"}
-              title={item.name}
-              onBack={() => onNavigate(module.fullName)}
-            />
-          }
-        >
-          <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
-        </ToolkitLevel>
-      </Slide>
-    );
-  }
-  if (module) {
-    return (
-      <Slide direction={direction}>
-        <ToolkitLevel
-          heading={
-            <ToolkitBreadcrumbHeading
-              parent={"Advanced"}
-              title={module.name}
-              onBack={() => onNavigate(undefined)}
-            />
-          }
-        >
-          <List flex="1 1 auto">
-            {(module.children ?? []).map((item) => (
-              <ToolkitListItem key={item.id}>
-                <ApiDocsEntryNode
-                  docs={item}
-                  width="100%"
-                  // This isn't coping with overloads.
-                  onForward={(fullName) => onNavigate(fullName)}
-                />
-              </ToolkitListItem>
-            ))}
-          </List>
-        </ToolkitLevel>
-      </Slide>
-    );
+  const item = resolveDottedName(docs, state);
+  if (item) {
+    if (item.kind === "module") {
+      return (
+        <Slide direction={direction}>
+          <ToolkitLevel
+            heading={
+              <ToolkitBreadcrumbHeading
+                parent={"Advanced"}
+                title={item.name}
+                onBack={() => onNavigate(undefined)}
+              />
+            }
+          >
+            <List flex="1 1 auto">
+              {(item.children ?? []).map((child) => (
+                <ToolkitListItem key={child.id}>
+                  <ApiDocsEntryNode
+                    docs={child}
+                    width="100%"
+                    // This isn't coping with overloads.
+                    onForward={onNavigate}
+                  />
+                </ToolkitListItem>
+              ))}
+            </List>
+          </ToolkitLevel>
+        </Slide>
+      );
+    } else {
+      return (
+        <Slide direction={direction}>
+          <ToolkitLevel
+            heading={
+              <ToolkitBreadcrumbHeading
+                parent={item.fullName}
+                grandparent={"Advanced"}
+                title={item.name}
+                onBack={() =>
+                  onNavigate(resolveModule(docs, item.fullName)!.fullName)
+                }
+              />
+            }
+          >
+            <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
+          </ToolkitLevel>
+        </Slide>
+      );
+    }
   }
   return (
     <Slide direction={direction}>
