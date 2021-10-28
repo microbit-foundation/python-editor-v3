@@ -152,7 +152,7 @@ const CodeMirror = ({
     return () => {
       document.removeEventListener("cm/openDocs", listener);
     };
-  });
+  }, [routerState, setRouterState]);
 
   return (
     <section

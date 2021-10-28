@@ -19,6 +19,12 @@ interface ToolkitProps {
   toolkit: Toolkit;
 }
 
+/**
+ * A data-driven toolkit component.
+ *
+ * The components used here are also used with the API data to
+ * generate the advanced documentation.
+ */
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   const [state, setState] = useState<ToolkitNavigationState>({});
   const previous = usePrevious(state);
