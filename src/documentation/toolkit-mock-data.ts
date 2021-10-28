@@ -7,7 +7,7 @@ import { Toolkit } from "./ToolkitDocumentation/model";
 
 export const microbitToolkit: Toolkit = {
   name: "micro:bit toolkit",
-  description: "Control your micro:bit with these helpful examples",
+  description: "Mock content for demo purposes.",
   contents: [
     {
       name: "LED display",
@@ -25,7 +25,7 @@ export const microbitToolkit: Toolkit = {
 
 export const pythonToolkit: Toolkit = {
   name: "Python toolkit",
-  description: "Learn the Python language using these helpful examples",
+  description: "Mock content for demo purposes",
   contents: [
     {
       name: "Functions",
