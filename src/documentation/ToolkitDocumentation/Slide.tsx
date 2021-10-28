@@ -12,7 +12,7 @@ const transition: Spring = {
 };
 
 const animations = {
-  forward: {
+  back: {
     initial: {
       x: "-100%",
     },
@@ -21,7 +21,7 @@ const animations = {
       transition,
     },
   },
-  back: {
+  forward: {
     initial: {
       x: "100%",
     },
