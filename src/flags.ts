@@ -22,9 +22,15 @@ export const flags: Flags = (() => {
   const params = new URLSearchParams(window.location.search);
   const enableFlags = new Set(params.getAll("flag"));
   const allFlagsEnabled = enableFlags.has("*");
+  // To allow local testing of no-flag state.
+  const allFlagsDisabled = enableFlags.has("none");
   return Object.fromEntries(
     flags.map((f) => {
-      return [f, isPreviewStage || allFlagsEnabled || enableFlags.has(f)];
+      return [
+        f,
+        !allFlagsDisabled &&
+          (isPreviewStage || allFlagsEnabled || enableFlags.has(f)),
+      ];
     })
   ) as Flags;
 })();
