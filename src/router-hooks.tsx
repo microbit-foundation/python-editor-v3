@@ -72,7 +72,6 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
         window.location.toString().split("?")[0] + (query ? "?" + query : "");
       window.history.pushState(newState, "", url);
 
-      console.log("Set state via navigate to ", newState);
       setState(newState);
     },
     [setState]
@@ -91,7 +90,6 @@ export const useRouterParam = (
   const [state, setState] = useRouterState();
   const navigateParam = useCallback(
     (value: string | undefined) => {
-      console.log("Updating parameter to ", value, " others", state);
       setState({ ...state, [param]: value });
     },
     [param, setState, state]

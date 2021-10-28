@@ -5,6 +5,12 @@
  */
 import { motion, Spring, useReducedMotion } from "framer-motion";
 
+const transition: Spring = {
+  type: "spring",
+  bounce: 0.2,
+  duration: 0.5,
+};
+
 const animations = {
   forward: {
     initial: {
@@ -12,6 +18,7 @@ const animations = {
     },
     animate: {
       x: 0,
+      transition,
     },
   },
   back: {
@@ -20,17 +27,9 @@ const animations = {
     },
     animate: {
       x: 0,
+      transition,
     },
   },
-  none: {
-    initial: false,
-    animate: {},
-  },
-};
-const spring: Spring = {
-  type: "spring",
-  bounce: 0.2,
-  duration: 0.5,
 };
 
 const Slide = ({
@@ -40,15 +39,13 @@ const Slide = ({
   direction: "forward" | "back" | "none";
   children: JSX.Element;
 }) => {
-  const animation = animations[direction];
   const reducedMotion = useReducedMotion();
-  return reducedMotion ? (
+  return direction === "none" || reducedMotion ? (
     children
   ) : (
     <motion.div
-      transition={spring}
-      initial={animation.initial}
-      animate={animation.animate}
+      initial={animations[direction].initial}
+      animate={animations[direction].animate}
     >
       {children}
     </motion.div>
