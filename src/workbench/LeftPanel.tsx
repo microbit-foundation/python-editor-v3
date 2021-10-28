@@ -74,7 +74,7 @@ const LeftPanel = ({
         ),
       },
     ];
-    if (flags.advancedDocumentation) {
+    if (flags.toolkit) {
       result.splice(
         0,
         1,
