@@ -365,7 +365,7 @@ export class App {
   async clearEditor(): Promise<void> {
     await this.focusEditorContent();
     const keyboard = (await this.page).keyboard;
-    await keyboard.down("Meta");
+    await keyboard.down(process.platform === "darwin" ? "Meta" : "Control");
     await keyboard.press("a");
     await keyboard.up("Meta");
   }
@@ -405,6 +405,12 @@ export class App {
       const value = await text();
       expect(value).toEqual(match);
     }, defaultWaitForOptions);
+  }
+
+  async findToolkitHeading(context: string, title: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(context);
+    await document.findByText(title);
   }
 
   /**
@@ -543,6 +549,14 @@ export class App {
   async acceptActiveCompletion(): Promise<void> {
     const page = await this.page;
     return page.keyboard.press("Enter");
+  }
+
+  async followCompletionAdvancedLink(): Promise<void> {
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: "Show reference documentation",
+    });
+    return button.click();
   }
 
   async screenshot() {

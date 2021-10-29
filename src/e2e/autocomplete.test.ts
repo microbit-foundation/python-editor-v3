@@ -26,4 +26,12 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.acceptActiveCompletion();
     await app.findVisibleEditorContents(/display.show\(\)/);
   });
+
+  it("autocomplete can navigate to toolkit content", async () => {
+    await app.clearEditor();
+    await app.typeInEditor("from microbit import *\ndisplay.sho");
+
+    await app.findCompletionActiveOption("show(image)");
+    await app.followCompletionAdvancedLink();
+  });
 });
