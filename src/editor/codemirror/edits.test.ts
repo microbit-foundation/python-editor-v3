@@ -1,35 +1,24 @@
 import { EditorState } from "@codemirror/state";
 import { python } from "@codemirror/lang-python";
-import { calculateImportChanges, RequiredImport } from "./edits";
+import { calculateChanges } from "./edits";
 import { EditorView } from "@codemirror/view";
 
 describe("edits", () => {
-  const check = (
-    initial: string,
-    requiredImport: RequiredImport,
-    expected: string
-  ) => {
+  const check = (initial: string, additional: string, expected: string) => {
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],
     });
     const view = new EditorView({ state });
     const transaction = state.update({
-      changes: calculateImportChanges(state, requiredImport),
+      changes: calculateChanges(state, additional),
     });
     view.update([transaction]);
     expect(view.state.sliceDoc(0)).toEqual(expected);
   };
 
   it("first import from case - wildcard", () => {
-    check(
-      "",
-      {
-        module: "microbit",
-        name: "*",
-      },
-      "from microbit import *\n\n"
-    );
+    check("", "from microbit import *", "from microbit import *\n\n");
   });
 
   it("first import from case - name", () => {
@@ -126,5 +115,15 @@ describe("edits", () => {
       },
       "from random import randrange\n\nimport\nfrom\n"
     );
+  });
+});
+
+describe("smoosh", () => {
+  it("works", () => {
+    const state = EditorState.create({
+      doc: "",
+      extensions: [python()],
+    });
+    smoosh(state, "import radio\n\nradio.on()\n");
   });
 });

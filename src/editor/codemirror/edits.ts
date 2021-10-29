@@ -1,6 +1,7 @@
+import { python } from "@codemirror/lang-python";
 import { syntaxTree } from "@codemirror/language";
-import { EditorState } from "@codemirror/state";
-import { SyntaxNode } from "@lezer/common";
+import { EditorState, Text } from "@codemirror/state";
+import { SyntaxNode, Tree } from "@lezer/common";
 
 export const pythonWithImportsMediaType = "application/x.python-with-imports";
 // We augment input.drop so we can trigger signature help.
@@ -20,19 +21,6 @@ type SimpleChangeSpec = {
   from: number;
   to?: number;
   insert: string;
-};
-
-export const calculateImportChanges = (
-  state: EditorState,
-  required: RequiredImport
-): SimpleChangeSpec[] => {
-  const allCurrent = currentImports(state);
-  const changes = calculateImportChangesInternal(allCurrent, required);
-  if (changes.length > 0 && allCurrent.length === 0) {
-    // Two blank lines.
-    changes[changes.length - 1].insert += "\n\n";
-  }
-  return changes;
 };
 
 const calculateImportChangesInternal = (
@@ -118,8 +106,59 @@ interface ImportedName {
   alias?: string;
 }
 
+class AliasesNotSupportedError extends Error {}
+
+export const calculateChanges = (state: EditorState, addition: string) => {
+  const parser = python().language.parser;
+  const additionTree = parser.parse(addition);
+  // So if we can turn these into "required imports then we're golden!
+  const additionalImports = topLevelImports(additionTree, (from, to) =>
+    addition.slice(from, to)
+  );
+  // We don't bother supporting aliases as all our inputs should use standard names,
+  // if we need more context then we import the module.
+  const requiredImports: RequiredImport[] = additionalImports.flatMap(
+    (additionalImport) => {
+      if (additionalImport.kind === "from") {
+        (additionalImport.names ?? []).map((name) => {
+          if (name.alias) {
+            throw new AliasesNotSupportedError();
+          }
+          return {
+            module: additionalImport.module,
+            name: name.name,
+          };
+        });
+      }
+      if (additionalImport.alias) {
+        throw new AliasesNotSupportedError();
+      }
+      return {
+        module: additionalImport.module,
+      };
+    }
+  );
+
+  const allCurrent = currentImports(state);
+  const changes = requiredImports.flatMap((required) =>
+    calculateImportChangesInternal(allCurrent, required)
+  );
+  if (changes.length > 0 && allCurrent.length === 0) {
+    // Two blank lines.
+    changes[changes.length - 1].insert += "\n\n";
+  }
+  return changes;
+};
+
 const currentImports = (state: EditorState): Import[] => {
   const tree = syntaxTree(state);
+  return topLevelImports(tree, (from, to) => state.sliceDoc(from, to));
+};
+
+const topLevelImports = (
+  tree: Tree,
+  text: (from: number, to: number) => string
+) => {
   const imports: (Import | undefined)[] = tree.topNode
     .getChildren("ImportStatement")
     .map((existingImport) => {
@@ -131,7 +170,7 @@ const currentImports = (state: EditorState): Import[] => {
         if (!moduleNode) {
           return undefined;
         }
-        const module = state.doc.sliceString(moduleNode.from, moduleNode.to);
+        const module = text(moduleNode.from, moduleNode.to);
         const importNode = existingImport.getChild("import");
         if (!importNode) {
           return undefined;
@@ -146,7 +185,7 @@ const currentImports = (state: EditorState): Import[] => {
           const isVariableName = node.name === "VariableName";
           if (current) {
             if (isVariableName) {
-              current.alias = state.sliceDoc(node.from, node.to);
+              current.alias = text(node.from, node.to);
             } else if (
               node.name === "as" ||
               node.name === "(" ||
@@ -159,7 +198,7 @@ const currentImports = (state: EditorState): Import[] => {
             }
           } else {
             current = {
-              name: state.sliceDoc(node.from, node.to),
+              name: text(node.from, node.to),
             };
           }
         }
@@ -173,16 +212,10 @@ const currentImports = (state: EditorState): Import[] => {
           return undefined;
         }
         return {
-          module: state.doc.sliceString(
-            variableNames[0].from,
-            variableNames[0].to
-          ),
+          module: text(variableNames[0].from, variableNames[0].to),
           alias:
             variableNames.length === 2
-              ? state.doc.sliceString(
-                  variableNames[1].from,
-                  variableNames[1].to
-                )
+              ? text(variableNames[1].from, variableNames[1].to)
               : undefined,
           kind: "import",
           node: existingImport,
