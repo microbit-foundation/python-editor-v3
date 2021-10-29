@@ -24,7 +24,7 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findCompletionActiveOption("show(image)");
 
     // Accepted completion
-    await app.acceptActiveCompletion();
+    await app.acceptActiveCompletion("show");
     await app.findVisibleEditorContents(/display.show\(\)/);
   });
 
@@ -40,10 +40,8 @@ describe("Browser - autocomplete and signature help tests", () => {
   it("shows signature help after autocomplete", async () => {
     await app.clearEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
+    await app.acceptActiveCompletion("show");
 
-    await app.findCompletionOptions(["show"]);
-    await app.acceptActiveCompletion();
-    await app.screenshot();
     await app.findSignatureHelp("show(image)");
   });
 });

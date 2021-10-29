@@ -558,10 +558,14 @@ export class App {
     });
   }
 
-  async acceptActiveCompletion(): Promise<void> {
-    await this.focusEditorContent();
-    const page = await this.page;
-    return page.keyboard.press("Enter");
+  async acceptActiveCompletion(name: string): Promise<void> {
+    // This seems significantly more reliable than pressing Enter, though there's
+    // no real-life issue here.
+    const document = await this.document();
+    const option = await document.findByRole("option", {
+      name,
+    });
+    option.click();
   }
 
   async followCompletionAdvancedLink(): Promise<void> {
