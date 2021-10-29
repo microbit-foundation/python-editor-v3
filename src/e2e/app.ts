@@ -10,7 +10,13 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
+import puppeteer, {
+  Browser,
+  Dialog,
+  ElementHandle,
+  KeyInput,
+  Page,
+} from "puppeteer";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -349,15 +355,19 @@ export class App {
    * This will focus the editor area and type with the caret in its default position
    * (the beginning unless we've otherwise interacted with it).
    *
-   * @param match The regex.
+   * @param text The text to type.
    */
   async typeInEditor(text: string): Promise<void> {
-    const document = await this.document();
-    const content = await document.$(".cm-content");
-    if (!content) {
-      throw new Error("Missing editor area");
-    }
-    await content.type(text);
+    const content = await this.focusEditorContent();
+    return content.type(text);
+  }
+
+  async clearEditor(): Promise<void> {
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    await keyboard.down("Meta");
+    await keyboard.press("a");
+    await keyboard.up("Meta");
   }
 
   /**
@@ -512,6 +522,44 @@ export class App {
     this.page = this.createPage();
     page = await this.page;
     await page.goto(this.rootUrl);
+  }
+
+  async findCompletionOptions(expected: string[]): Promise<void> {
+    const document = await this.document();
+    return waitFor(async () => {
+      const items = await document.$$(".cm-completionLabel");
+      const actual = await Promise.all(
+        items.map((e) => e.evaluate((node) => node.innerText))
+      );
+      expect(actual).toEqual(expected);
+    }, defaultWaitForOptions);
+  }
+
+  async findCompletionActiveOption(signature: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(signature);
+  }
+
+  async acceptActiveCompletion(): Promise<void> {
+    const page = await this.page;
+    return page.keyboard.press("Enter");
+  }
+
+  async screenshot() {
+    const page = await this.page;
+    return page.screenshot({
+      path: "reports/screenshots/" + expect.getState().currentTestName + ".png",
+    });
+  }
+
+  private async focusEditorContent(): Promise<ElementHandle> {
+    const document = await this.document();
+    const content = await document.$(".cm-content");
+    if (!content) {
+      throw new Error("Missing editor area");
+    }
+    await content.focus();
+    return content;
   }
 
   /**
