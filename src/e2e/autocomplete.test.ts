@@ -3,10 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { App, defaultRootUrl } from "./app";
 
 describe("Browser - autocomplete and signature help tests", () => {
-  const app = new App();
+  // Enable flags to allow testing the toolkit interactions.
+  const app = new App(defaultRootUrl + "?flag=*");
   beforeEach(app.reset.bind(app));
   afterAll(app.dispose.bind(app));
 
@@ -33,5 +34,16 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.findCompletionActiveOption("show(image)");
     await app.followCompletionAdvancedLink();
+    await app.findToolkitHeading("Advanced / microbit.display", "show");
+  });
+
+  it("shows signature help after autocomplete", async () => {
+    await app.clearEditor();
+    await app.typeInEditor("from microbit import *\ndisplay.sho");
+
+    await app.findCompletionOptions(["show"]);
+    await app.acceptActiveCompletion();
+    await app.screenshot();
+    await app.findSignatureHelp("show(image)");
   });
 });

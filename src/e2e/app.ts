@@ -410,7 +410,7 @@ export class App {
   async findToolkitHeading(context: string, title: string): Promise<void> {
     const document = await this.document();
     await document.findByText(context);
-    await document.findByText(title);
+    await document.findByText(title, { selector: "h2" });
   }
 
   /**
@@ -541,12 +541,25 @@ export class App {
     }, defaultWaitForOptions);
   }
 
+  async findSignatureHelp(expectedSignature: string): Promise<void> {
+    const document = await this.document();
+    return waitFor(async () => {
+      const tooltip = await document.$(".cm-signature-tooltip code");
+      expect(tooltip).toBeTruthy();
+      const actualSignature = await tooltip!.evaluate((e) => e.innerText);
+      expect(actualSignature).toEqual(expectedSignature);
+    }, defaultWaitForOptions);
+  }
+
   async findCompletionActiveOption(signature: string): Promise<void> {
     const document = await this.document();
-    await document.findByText(signature);
+    await document.findByText(signature, {
+      selector: "code",
+    });
   }
 
   async acceptActiveCompletion(): Promise<void> {
+    await this.focusEditorContent();
     const page = await this.page;
     return page.keyboard.press("Enter");
   }
