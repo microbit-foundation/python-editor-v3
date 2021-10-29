@@ -7,6 +7,7 @@ import {
   Box,
   BoxProps,
   Flex,
+  HStack,
   Icon,
   Tab,
   TabList,
@@ -36,7 +37,7 @@ import { useRouterParam } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
-import LeftPanelTabContent from "./LeftPanelTabContent";
+import ScrollablePanel from "./ScrollablePanel";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -202,9 +203,10 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         <TabPanels>
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
-              <LeftPanelTabContent nav={p.nav}>
-                {p.contents}
-              </LeftPanelTabContent>
+              <Flex height="100%" direction="column">
+                {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
+                <ScrollablePanel>{p.contents}</ScrollablePanel>
+              </Flex>
             </TabPanel>
           ))}
         </TabPanels>
