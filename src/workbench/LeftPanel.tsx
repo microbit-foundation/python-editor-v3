@@ -202,7 +202,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         <TabPanels>
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
-              <LeftPanelTabContent title={p.title} nav={p.nav}>
+              <LeftPanelTabContent nav={p.nav}>
                 {p.contents}
               </LeftPanelTabContent>
             </TabPanel>

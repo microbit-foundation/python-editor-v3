@@ -7,7 +7,6 @@ import { Box, Flex, HStack } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 
 interface LeftPanelTabContentProps {
-  title: string;
   children: ReactNode;
   nav: ReactNode;
 }
@@ -15,11 +14,7 @@ interface LeftPanelTabContentProps {
 /**
  * A wrapper for each area shown inside the left panel.
  */
-const LeftPanelTabContent = ({
-  title,
-  children,
-  nav,
-}: LeftPanelTabContentProps) => {
+const LeftPanelTabContent = ({ children, nav }: LeftPanelTabContentProps) => {
   return (
     <Flex height="100%" direction="column">
       {nav && <HStack justifyContent="flex-end">{nav}</HStack>}
