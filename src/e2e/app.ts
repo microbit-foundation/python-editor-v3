@@ -127,7 +127,7 @@ export class App {
     filePath: string,
     options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.switchTab("Files");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
@@ -140,7 +140,7 @@ export class App {
    * @param name The name to enter in the dialog.
    */
   async createNewFile(name: string): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.switchTab("Files");
     const document = await this.document();
     const newButton = await document.findByRole("button", {
       name: "Create new file",
@@ -637,7 +637,13 @@ export class App {
     await page.browser().close();
   }
 
-  private async selectSideBar(tabName: string) {
+  /**
+   * Switch to a sidebar tab.
+   *
+   * Prefer more specific navigation actions, but this is useful to check initial state
+   * and that tab state is remembered.
+   */
+  async switchTab(tabName: "Files" | "Advanced" | "micro:bit" | "Python") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,
@@ -682,7 +688,7 @@ export class App {
   }
 
   private async openFileActionsMenu(filename: string): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.switchTab("Files");
     const document = await this.document();
     const actions = await document.findByRole("button", {
       name: `${filename} file actions`,
