@@ -37,7 +37,6 @@ import { useRouterParam } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
-import ScrollablePanel from "./ScrollablePanel";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -205,7 +204,7 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
-                <ScrollablePanel>{p.contents}</ScrollablePanel>
+                {p.contents}
               </Flex>
             </TabPanel>
           ))}

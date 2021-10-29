@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
@@ -22,20 +21,16 @@ const AdvancedDocumentation = () => {
     };
     load();
   }, [client]);
-  return (
-    <Box>
-      {apidocs ? (
-        <AdvancedToolkit docs={apidocs} />
-      ) : (
-        <Spinner
-          display="block"
-          ml="auto"
-          mr="auto"
-          mt={2}
-          label={intl.formatMessage({ id: "loading" })}
-        />
-      )}
-    </Box>
+  return apidocs ? (
+    <AdvancedToolkit docs={apidocs} />
+  ) : (
+    <Spinner
+      display="block"
+      ml="auto"
+      mr="auto"
+      mt={2}
+      label={intl.formatMessage({ id: "loading" })}
+    />
   );
 };
 

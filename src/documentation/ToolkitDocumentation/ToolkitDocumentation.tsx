@@ -7,7 +7,6 @@ import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { useState } from "react";
 import { Toolkit, ToolkitNavigationState } from "./model";
-import Slide from "./Slide";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitLevel from "./ToolkitLevel";
 import ToolkitListItem from "./ToolkitListItem";
@@ -67,35 +66,34 @@ const ActiveTooklitLevel = ({
       const item = topic.contents.find((i) => i.name === state.itemId);
       if (item) {
         return (
-          <Slide direction={direction}>
-            <ToolkitLevel
-              heading={
-                <ToolkitBreadcrumbHeading
-                  parent={topic.name}
-                  grandparent={toolkit.name}
-                  title={item.name}
-                  onBack={() =>
-                    onNavigate({
-                      topicId: topic.name,
-                    })
-                  }
-                />
-              }
-            >
-              <TopicItem
-                topic={topic}
-                item={item}
-                detail={true}
-                onForward={() =>
+          <ToolkitLevel
+            direction={direction}
+            heading={
+              <ToolkitBreadcrumbHeading
+                parent={topic.name}
+                grandparent={toolkit.name}
+                title={item.name}
+                onBack={() =>
                   onNavigate({
                     topicId: topic.name,
-                    itemId: item.name,
                   })
                 }
-                padding={5}
               />
-            </ToolkitLevel>
-          </Slide>
+            }
+          >
+            <TopicItem
+              topic={topic}
+              item={item}
+              detail={true}
+              onForward={() =>
+                onNavigate({
+                  topicId: topic.name,
+                  itemId: item.name,
+                })
+              }
+              padding={5}
+            />
+          </ToolkitLevel>
         );
       }
     }
@@ -103,63 +101,61 @@ const ActiveTooklitLevel = ({
     const topic = toolkit.contents.find((t) => t.name === state.topicId);
     if (topic) {
       return (
-        <Slide direction={direction}>
-          <ToolkitLevel
-            heading={
-              <ToolkitBreadcrumbHeading
-                parent={toolkit.name}
-                title={topic.name}
-                onBack={() => onNavigate({})}
-              />
-            }
-          >
-            <List flex="1 1 auto">
-              {topic.contents.map((item) => (
-                <ToolkitListItem key={item.name}>
-                  <TopicItem
-                    topic={topic}
-                    item={item}
-                    detail={false}
-                    onForward={() =>
-                      onNavigate({
-                        topicId: topic.name,
-                        itemId: item.name,
-                      })
-                    }
-                  />
-                </ToolkitListItem>
-              ))}
-            </List>
-          </ToolkitLevel>
-        </Slide>
+        <ToolkitLevel
+          direction={direction}
+          heading={
+            <ToolkitBreadcrumbHeading
+              parent={toolkit.name}
+              title={topic.name}
+              onBack={() => onNavigate({})}
+            />
+          }
+        >
+          <List flex="1 1 auto">
+            {topic.contents.map((item) => (
+              <ToolkitListItem key={item.name}>
+                <TopicItem
+                  topic={topic}
+                  item={item}
+                  detail={false}
+                  onForward={() =>
+                    onNavigate({
+                      topicId: topic.name,
+                      itemId: item.name,
+                    })
+                  }
+                />
+              </ToolkitListItem>
+            ))}
+          </List>
+        </ToolkitLevel>
       );
     }
   }
   return (
-    <Slide direction={direction}>
-      <ToolkitLevel
-        heading={
-          <ToolkitTopLevelHeading
-            name={toolkit.name}
-            description={toolkit.description}
+    <ToolkitLevel
+      direction={direction}
+      heading={
+        <ToolkitTopLevelHeading
+          name={toolkit.name}
+          description={toolkit.description}
+        />
+      }
+    >
+      <List flex="1 1 auto" m={3}>
+        {toolkit.contents.map((topic) => (
+          <ToolkitTopLevelListItem
+            key={topic.name}
+            name={topic.name}
+            description={topic.description}
+            onForward={() =>
+              onNavigate({
+                topicId: topic.name,
+              })
+            }
           />
-        }
-      >
-        <List flex="1 1 auto" m={3}>
-          {toolkit.contents.map((topic) => (
-            <ToolkitTopLevelListItem
-              key={topic.name}
-              name={topic.name}
-              description={topic.description}
-              onForward={() =>
-                onNavigate({
-                  topicId: topic.name,
-                })
-              }
-            />
-          ))}
-        </List>
-      </ToolkitLevel>
-    </Slide>
+        ))}
+      </List>
+    </ToolkitLevel>
   );
 };

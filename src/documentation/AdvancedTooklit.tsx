@@ -11,7 +11,6 @@ import { useRouterParam } from "../router-hooks";
 import { resolveDottedName, resolveModule } from "./apidocs-util";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
 import DocString from "./DocString";
-import Slide from "./ToolkitDocumentation/Slide";
 import ToolkitBreadcrumbHeading from "./ToolkitDocumentation/ToolkitBreadcrumbHeading";
 import ToolkitLevel from "./ToolkitDocumentation/ToolkitLevel";
 import ToolkitListItem from "./ToolkitDocumentation/ToolkitListItem";
@@ -60,74 +59,71 @@ const ActiveTooklitLevel = ({
   if (item) {
     if (item.kind === "module") {
       return (
-        <Slide direction={direction}>
-          <ToolkitLevel
-            heading={
-              <ToolkitBreadcrumbHeading
-                parent={"Advanced"}
-                title={item.name}
-                onBack={() => onNavigate(undefined)}
-              />
-            }
-          >
-            <List flex="1 1 auto">
-              {(item.children ?? []).map((child) => (
-                <ToolkitListItem key={child.id}>
-                  <ApiDocsEntryNode
-                    docs={child}
-                    width="100%"
-                    // This isn't coping with overloads.
-                    onForward={onNavigate}
-                  />
-                </ToolkitListItem>
-              ))}
-            </List>
-          </ToolkitLevel>
-        </Slide>
+        <ToolkitLevel
+          direction={direction}
+          heading={
+            <ToolkitBreadcrumbHeading
+              parent={"Advanced"}
+              title={item.name}
+              onBack={() => onNavigate(undefined)}
+            />
+          }
+        >
+          <List flex="1 1 auto">
+            {(item.children ?? []).map((child) => (
+              <ToolkitListItem key={child.id}>
+                <ApiDocsEntryNode
+                  docs={child}
+                  width="100%"
+                  // This isn't coping with overloads.
+                  onForward={onNavigate}
+                />
+              </ToolkitListItem>
+            ))}
+          </List>
+        </ToolkitLevel>
       );
     } else {
       const moduleName = resolveModule(docs, item.fullName)!.fullName;
       return (
-        <Slide direction={direction}>
-          <ToolkitLevel
-            heading={
-              <ToolkitBreadcrumbHeading
-                parent={moduleName}
-                grandparent={"Advanced"}
-                title={item.name}
-                onBack={() => onNavigate(moduleName)}
-              />
-            }
-          >
-            <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
-          </ToolkitLevel>
-        </Slide>
+        <ToolkitLevel
+          direction={direction}
+          heading={
+            <ToolkitBreadcrumbHeading
+              parent={moduleName}
+              grandparent={"Advanced"}
+              title={item.name}
+              onBack={() => onNavigate(moduleName)}
+            />
+          }
+        >
+          <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
+        </ToolkitLevel>
       );
     }
   }
   return (
-    <Slide direction={direction}>
-      <ToolkitLevel
-        heading={
-          <ToolkitTopLevelHeading
-            name="Advanced"
-            description="Reference documentation for micro:bit MicroPython"
+    <ToolkitLevel
+      direction={direction}
+      heading={
+        <ToolkitTopLevelHeading
+          name="Advanced"
+          description="Reference documentation for micro:bit MicroPython"
+        />
+      }
+    >
+      <List flex="1 1 auto" m={3}>
+        {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
+          <ToolkitTopLevelListItem
+            key={module.id}
+            name={module.fullName}
+            description={
+              module.docString && <DocString value={module.docString} />
+            }
+            onForward={() => onNavigate(module.fullName)}
           />
-        }
-      >
-        <List flex="1 1 auto" m={3}>
-          {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
-            <ToolkitTopLevelListItem
-              key={module.id}
-              name={module.fullName}
-              description={
-                module.docString && <DocString value={module.docString} />
-              }
-              onForward={() => onNavigate(module.fullName)}
-            />
-          ))}
-        </List>
-      </ToolkitLevel>
-    </Slide>
+        ))}
+      </List>
+    </ToolkitLevel>
   );
 };
