@@ -9,6 +9,7 @@ describe("Browser - autocomplete and signature help tests", () => {
   // Enable flags to allow testing the toolkit interactions.
   const app = new App(defaultRootUrl + "?flag=*");
   beforeEach(app.reset.bind(app));
+  afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("shows autocomplete as you type", async () => {

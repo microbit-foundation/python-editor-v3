@@ -601,9 +601,6 @@ export class App {
    * Clean up, including the browser and downloads temporary folder.
    */
   async dispose() {
-    // Grab a screenshot, useful for debug.
-    await this.screenshot();
-
     await fsp.rmdir(this.downloadPath, { recursive: true });
     const page = await this.page;
     await page.browser().close();
