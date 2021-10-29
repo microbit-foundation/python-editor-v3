@@ -13,7 +13,7 @@ describe("Browser - autocomplete and signature help tests", () => {
   afterAll(app.dispose.bind(app));
 
   it("shows autocomplete as you type", async () => {
-    await app.clearEditor();
+    await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.s");
 
     // Initial completions
@@ -25,12 +25,12 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findCompletionActiveOption("show(image)");
 
     // Accepted completion
-    await app.acceptActiveCompletion("show");
+    await app.acceptCompletion("show");
     await app.findVisibleEditorContents(/display.show\(\)/);
   });
 
   it("autocomplete can navigate to toolkit content", async () => {
-    await app.clearEditor();
+    await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
 
     await app.findCompletionActiveOption("show(image)");
@@ -41,15 +41,15 @@ describe("Browser - autocomplete and signature help tests", () => {
   });
 
   it("shows signature help after autocomplete", async () => {
-    await app.clearEditor();
+    await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
-    await app.acceptActiveCompletion("show");
+    await app.acceptCompletion("show");
 
     await app.findSignatureHelp("show(image)");
   });
 
   it("signature can navigate to toolkit content", async () => {
-    await app.clearEditor();
+    await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
 

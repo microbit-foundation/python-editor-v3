@@ -362,7 +362,12 @@ export class App {
     return content.type(text);
   }
 
-  async clearEditor(): Promise<void> {
+  /**
+   * Select all the text in the code editor.
+   *
+   * Subsequent typing will overwrite it.
+   */
+  async selectAllInEditor(): Promise<void> {
     await this.focusEditorContent();
     const keyboard = (await this.page).keyboard;
     const meta = process.platform === "darwin" ? "Meta" : "Control";
@@ -531,6 +536,9 @@ export class App {
     await page.goto(this.rootUrl);
   }
 
+  /**
+   * Wait for matching completion options to appear.
+   */
   async findCompletionOptions(expected: string[]): Promise<void> {
     const document = await this.document();
     return waitFor(async () => {
@@ -542,6 +550,9 @@ export class App {
     }, defaultWaitForOptions);
   }
 
+  /**
+   * Wait for the a signature tooltip to appear with a matching signature.
+   */
   async findSignatureHelp(expectedSignature: string): Promise<void> {
     const document = await this.document();
     return waitFor(async () => {
@@ -552,14 +563,25 @@ export class App {
     }, defaultWaitForOptions);
   }
 
+  /**
+   * Wait for active completion option by waiting for its signature to be shown
+   * in the documentation tooltip area.
+   */
   async findCompletionActiveOption(signature: string): Promise<void> {
     const document = await this.document();
-    await document.findByText(signature, {
-      selector: "code",
-    });
+    await document.findByText(
+      signature,
+      {
+        selector: "code",
+      },
+      defaultWaitForOptions
+    );
   }
 
-  async acceptActiveCompletion(name: string): Promise<void> {
+  /**
+   * Accept the given completion.
+   */
+  async acceptCompletion(name: string): Promise<void> {
     // This seems significantly more reliable than pressing Enter, though there's
     // no real-life issue here.
     const document = await this.document();
@@ -573,6 +595,10 @@ export class App {
     option.click();
   }
 
+  /**
+   * Follow the documentation link shown in the signature help or autocomplete tooltips.
+   * This will update the "Advanced" tab and switch to it.
+   */
   async followCompletionOrSignatureAdvancedLink(): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
@@ -581,6 +607,10 @@ export class App {
     return button.click();
   }
 
+  /**
+   * Take a screenshot named after the running test case and store it in the reports folder.
+   * The folder is published in CI.
+   */
   async screenshot() {
     const page = await this.page;
     return page.screenshot({
