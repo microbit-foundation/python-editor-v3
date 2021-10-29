@@ -365,9 +365,10 @@ export class App {
   async clearEditor(): Promise<void> {
     await this.focusEditorContent();
     const keyboard = (await this.page).keyboard;
-    await keyboard.down(process.platform === "darwin" ? "Meta" : "Control");
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
     await keyboard.press("a");
-    await keyboard.up("Meta");
+    await keyboard.up(meta);
   }
 
   /**
