@@ -4,7 +4,23 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, RefObject, useContext, useRef } from "react";
+
+const ScrollablePanelContext =
+  React.createContext<RefObject<HTMLDivElement> | null>(null);
+
+/**
+ * Exposes the ancesor scrollable panel.
+ *
+ * This should be rarely used but is needed in some circumstanced for absolute positioning.
+ */
+export const useScrollablePanelAncestor = () => {
+  const value = useContext(ScrollablePanelContext);
+  if (!value) {
+    throw new Error();
+  }
+  return value;
+};
 
 interface ScrollablePanelProps {
   children: ReactNode;
@@ -14,17 +30,20 @@ interface ScrollablePanelProps {
  * A wrapper for each area shown inside the left panel.
  */
 const ScrollablePanel = ({ children }: ScrollablePanelProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   return (
     <Box
-      // This needs to go, as we have four of them!
-      id="left-panel-viewport"
+      ref={ref}
       flex="1 0 auto"
       overflowY="auto"
       overflowX="hidden"
       height={0}
       position="relative"
     >
-      {children}
+      <ScrollablePanelContext.Provider value={ref}>
+        {children}
+      </ScrollablePanelContext.Provider>
     </Box>
   );
 };

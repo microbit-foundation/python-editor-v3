@@ -9,6 +9,7 @@ import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { useSplitViewContext } from "../../common/SplitView/context";
+import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import { ToolkitTopic, ToolkitTopicItem } from "./model";
 import MoreButton from "./MoreButton";
 
@@ -92,7 +93,7 @@ interface CodePopUpProps extends BoxProps {
 // above the scrollbar.
 const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
-  useScrollTop("left-panel-viewport");
+  useScrollTop();
   useSplitViewContext();
 
   if (!codeRef.current) {
@@ -136,20 +137,21 @@ const Code = forwardRef<CodeProps, "pre">(
   }
 );
 
-const useScrollTop = (id: string) => {
+const useScrollTop = () => {
+  const scrollableRef = useScrollablePanelAncestor();
   const [scrollTop, setScrollTop] = useState(0);
   useLayoutEffect(() => {
-    const parent = document.getElementById(id);
-    if (!parent) {
+    const scrollable = scrollableRef.current;
+    if (!scrollable) {
       throw new Error();
     }
-    setScrollTop(parent.scrollTop);
-    const listener = () => setScrollTop(parent.scrollTop);
-    parent.addEventListener("scroll", listener);
+    setScrollTop(scrollable.scrollTop);
+    const listener = () => setScrollTop(scrollable.scrollTop);
+    scrollable.addEventListener("scroll", listener);
     return () => {
-      parent.removeEventListener("scroll", listener);
+      scrollable.removeEventListener("scroll", listener);
     };
-  }, [id]);
+  }, [scrollableRef]);
   return scrollTop;
 };
 
