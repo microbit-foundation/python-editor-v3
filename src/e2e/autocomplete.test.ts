@@ -33,7 +33,9 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.typeInEditor("from microbit import *\ndisplay.sho");
 
     await app.findCompletionActiveOption("show(image)");
-    await app.followCompletionAdvancedLink();
+
+    await app.followCompletionOrSignatureAdvancedLink();
+
     await app.findToolkitHeading("Advanced / microbit.display", "show");
   });
 
@@ -43,5 +45,17 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.acceptActiveCompletion("show");
 
     await app.findSignatureHelp("show(image)");
+  });
+
+  it("signature can navigate to toolkit content", async () => {
+    await app.clearEditor();
+    // The closing bracket is autoinserted.
+    await app.typeInEditor("from microbit import *\ndisplay.show(");
+
+    await app.findSignatureHelp("show(image)");
+
+    await app.followCompletionOrSignatureAdvancedLink();
+
+    await app.findToolkitHeading("Advanced / microbit.display", "show");
   });
 });

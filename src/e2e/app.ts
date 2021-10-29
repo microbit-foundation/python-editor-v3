@@ -562,13 +562,17 @@ export class App {
     // This seems significantly more reliable than pressing Enter, though there's
     // no real-life issue here.
     const document = await this.document();
-    const option = await document.findByRole("option", {
-      name,
-    });
+    const option = await document.findByRole(
+      "option",
+      {
+        name,
+      },
+      defaultWaitForOptions
+    );
     option.click();
   }
 
-  async followCompletionAdvancedLink(): Promise<void> {
+  async followCompletionOrSignatureAdvancedLink(): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: "Show reference documentation",
