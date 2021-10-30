@@ -24,40 +24,23 @@ describe("edits", () => {
   it("first import from case - name", () => {
     check(
       "",
-      {
-        module: "random",
-        name: "randrange",
-      },
+      "from random import randrange",
       "from random import randrange\n\n"
     );
   });
 
   it("first import module case", () => {
-    check(
-      "",
-      {
-        module: "audio",
-      },
-      "import audio\n\n"
-    );
+    check("", "import audio", "import audio\n\n");
   });
 
   it("existing import module case", () => {
-    check(
-      "import audio",
-      {
-        module: "audio",
-      },
-      "import audio"
-    );
+    check("import audio", "import audio", "import audio");
   });
 
   it("existing import module case - as variant", () => {
     check(
       "import audio as foo",
-      {
-        module: "audio",
-      },
+      "import audio",
       "import audio as foo\nimport audio"
     );
   });
@@ -65,10 +48,7 @@ describe("edits", () => {
   it("existing import from case - wildcard", () => {
     check(
       "from microbit import *",
-      {
-        module: "microbit",
-        name: "*",
-      },
+      "from microbit import *",
       "from microbit import *"
     );
   });
@@ -76,10 +56,7 @@ describe("edits", () => {
   it("existing import from case - name", () => {
     check(
       "from random import randrange",
-      {
-        module: "random",
-        name: "randrange",
-      },
+      "from random import randrange",
       "from random import randrange"
     );
   });
@@ -87,10 +64,7 @@ describe("edits", () => {
   it("existing import from case - alias", () => {
     check(
       "from random import randrange as foo",
-      {
-        module: "random",
-        name: "randrange",
-      },
+      "from random import randrange",
       "from random import randrange as foo, randrange"
     );
   });
@@ -98,10 +72,7 @@ describe("edits", () => {
   it("existing from import new name", () => {
     check(
       "from random import getrandbits",
-      {
-        module: "random",
-        name: "randrange",
-      },
+      "from random import randrange",
       "from random import getrandbits, randrange"
     );
   });
@@ -109,21 +80,8 @@ describe("edits", () => {
   it("copes with invalid imports", () => {
     check(
       "import\nfrom\n",
-      {
-        module: "random",
-        name: "randrange",
-      },
+      "from random import randrange",
       "from random import randrange\n\nimport\nfrom\n"
     );
-  });
-});
-
-describe("smoosh", () => {
-  it("works", () => {
-    const state = EditorState.create({
-      doc: "",
-      extensions: [python()],
-    });
-    smoosh(state, "import radio\n\nradio.on()\n");
   });
 });

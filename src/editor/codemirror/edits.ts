@@ -120,7 +120,7 @@ export const calculateChanges = (state: EditorState, addition: string) => {
   const requiredImports: RequiredImport[] = additionalImports.flatMap(
     (additionalImport) => {
       if (additionalImport.kind === "from") {
-        (additionalImport.names ?? []).map((name) => {
+        return (additionalImport.names ?? []).map((name) => {
           if (name.alias) {
             throw new AliasesNotSupportedError();
           }
