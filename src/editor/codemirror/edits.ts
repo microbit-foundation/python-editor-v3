@@ -115,6 +115,10 @@ export const calculateChanges = (state: EditorState, addition: string) => {
   const additionalImports = topLevelImports(additionTree, (from, to) =>
     addition.slice(from, to)
   );
+  const endOfLastImport =
+    additionalImports[additionalImports.length - 1]?.node?.to ?? 0;
+  addition = addition.slice(endOfLastImport).trim();
+
   // We don't bother supporting aliases as all our inputs should use standard names,
   // if we need more context then we import the module.
   const requiredImports: RequiredImport[] = additionalImports.flatMap(
@@ -144,8 +148,18 @@ export const calculateChanges = (state: EditorState, addition: string) => {
     calculateImportChangesInternal(allCurrent, required)
   );
   if (changes.length > 0 && allCurrent.length === 0) {
-    // Two blank lines.
+    // Two blank lines separating the imports from everything else.
     changes[changes.length - 1].insert += "\n\n";
+  }
+
+  // We'll want to add more sophisticated insertion than this,
+  // e.g. adding after existing `while` loop is a poor plan.
+  if (addition) {
+    changes.push({
+      from: state.doc.length,
+      to: state.doc.length,
+      insert: "\n" + addition + "\n",
+    });
   }
   return changes;
 };

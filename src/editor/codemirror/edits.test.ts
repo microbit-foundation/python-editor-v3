@@ -92,4 +92,20 @@ describe("edits", () => {
       "from microbit import *\nfrom random import randrange, rantint\nimport radio\nimport micropython\n"
     );
   });
+
+  it("non-import content separated and appended", () => {
+    check(
+      "from microbit import *",
+      "from microbit import *\nwhile True:\n    display.scroll('Hello, World')\n",
+      "from microbit import *\nwhile True:\n    display.scroll('Hello, World')\n"
+    );
+  });
+
+  it("non-import content separated and existing content", () => {
+    check(
+      "from microbit import *\n\nwhile True:\n    display.scroll('Hello, World')\n",
+      "import radio\n\nradio.off()",
+      "from microbit import *\nimport radio\n\nwhile True:\n    display.scroll('Hello, World')\n\nradio.off()\n"
+    );
+  });
 });
