@@ -35,8 +35,10 @@ const TopicItem = ({
   ...props
 }: TopicItemProps) => {
   const [hovering, setHovering] = useState(false);
+  // Strip the imports.
+  const code = item.code.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
   const codeRef = useRef<HTMLDivElement>(null);
-  const lines = item.code.trim().split("\n").length;
+  const lines = code.trim().split("\n").length;
   const textHeight = lines * 1.5 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
   return (
@@ -50,14 +52,14 @@ const TopicItem = ({
           <Code
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
-            value={item.code}
+            value={code}
             position="absolute"
             ref={codeRef}
           />
           {hovering && (
             <CodePopUp
               setHovering={setHovering}
-              value={item.code}
+              value={code}
               codeRef={codeRef}
             />
           )}

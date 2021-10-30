@@ -16,7 +16,7 @@ export const microbitToolkit: Toolkit = {
         {
           name: "Words and numbers",
           text: "You can scroll words and numbers on the micro:bit's LED display:",
-          code: "display.scroll('score')\ndisplay.scroll(23)",
+          code: "from microbit import *\n\ndisplay.scroll('score')\ndisplay.scroll(23)",
         },
       ],
     },
@@ -35,7 +35,7 @@ export const pythonToolkit: Toolkit = {
         {
           name: "Procedures",
           text: "Procedures, also called sub-routines, are functions that perform a fixed set of instructions.\nThis function called heartbeat animates a heart on the LED display when you press button A:",
-          code: `def heartbeat():
+          code: `from microbit import *\n\ndef heartbeat():
     display.show(Image.HEART_SMALL)
     sleep(500)
     display.show(Image.HEART)
@@ -49,7 +49,7 @@ while True:
         {
           name: "Functions with parameters",
           text: "You can pass parameters to functions. In this example, the animation runs once if you press button A, three times if you press button B:",
-          code: `def heartbeat(h):
+          code: `from microbit import *\n\ndef heartbeat(h):
     for x in range(h):
         display.show(Image.HEART_SMALL)
         sleep(500)
