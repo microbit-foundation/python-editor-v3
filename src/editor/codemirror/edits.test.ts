@@ -84,4 +84,12 @@ describe("edits", () => {
       "from random import randrange\n\nimport\nfrom\n"
     );
   });
+
+  it("combo imports", () => {
+    check(
+      "from microbit import *\nfrom random import randrange\nimport radio\n",
+      "from microbit import *\nfrom random import rantint\nimport micropython\n",
+      "from microbit import *\nfrom random import randrange, rantint\nimport radio\nimport micropython\n"
+    );
+  });
 });
