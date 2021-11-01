@@ -45,6 +45,7 @@ export class ActiveEditorActions {
       changes: calculateChanges(state, code),
     });
     this.view.dispatch(transaction);
+    this.view.focus();
   };
 }
 
