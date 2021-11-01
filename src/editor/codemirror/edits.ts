@@ -106,6 +106,12 @@ interface ImportedName {
   alias?: string;
 }
 
+enum Relation {
+  Before,
+  After,
+  Default,
+}
+
 class AliasesNotSupportedError extends Error {}
 
 export const calculateChanges = (state: EditorState, addition: string) => {
@@ -152,17 +158,29 @@ export const calculateChanges = (state: EditorState, addition: string) => {
     changes[changes.length - 1].insert += "\n\n";
   }
 
-  const lastImport = allCurrent?.[allCurrent.length - 1]?.node;
-  const insertionPoint = lastImport?.nextSibling?.from ?? 0;
-  console.log(lastImport?.nextSibling?.type);
-
   // We'll want to add more sophisticated insertion than this,
-  // e.g. adding after existing `while` loop is a poor plan.
   if (addition) {
+    // We always want a newline at the end as for now our inserts are whole lines.
+    // If the insertion point is after a node then we want an newline before it.
+    // If the insertion point is before a node then we want an newline after it to break the line.
+    const lastImport = allCurrent?.[allCurrent.length - 1]?.node;
+    let relation = Relation.Default;
+    let insertionPoint = 0;
+    if (lastImport?.nextSibling) {
+      relation = Relation.Before;
+      insertionPoint = lastImport.nextSibling.from;
+    } else if (lastImport) {
+      relation = Relation.After;
+      insertionPoint = lastImport.to;
+    }
+
     changes.push({
       from: insertionPoint,
-      to: insertionPoint,
-      insert: addition + "\n\n",
+      insert:
+        (relation === Relation.After ? "\n" : "") +
+        addition +
+        "\n" +
+        (relation === Relation.Before ? "\n" : ""),
     });
   }
   return changes;

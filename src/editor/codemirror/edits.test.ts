@@ -13,8 +13,9 @@ describe("edits", () => {
     const transaction = state.update({
       changes: calculateChanges(state, additional),
     });
-    view.update([transaction]);
-    expect(view.state.sliceDoc(0)).toEqual(expected);
+    view.dispatch(transaction);
+    const actual = view.state.sliceDoc(0);
+    expect(actual).toEqual(expected);
   };
 
   it("first import from case - wildcard", () => {
@@ -105,7 +106,7 @@ describe("edits", () => {
     check(
       "from microbit import *\n\nwhile True:\n    display.scroll('Hello, World')\n",
       "import radio\n\nradio.off()",
-      "from microbit import *\nimport radio\n\nwhile True:\n    display.scroll('Hello, World')\n\nradio.off()\n"
+      "from microbit import *\nimport radio\n\nradio.off()\n\nwhile True:\n    display.scroll('Hello, World')\n"
     );
   });
 });
