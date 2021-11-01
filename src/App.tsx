@@ -13,6 +13,7 @@ import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createInitialProject } from "./fs/initial-project";
@@ -87,7 +88,9 @@ const App = () => {
                       <SelectionProvider>
                         <RouterProvider>
                           <ProjectDropTarget>
-                            <Workbench />
+                            <ActiveEditorProvider>
+                              <Workbench />
+                            </ActiveEditorProvider>
                           </ProjectDropTarget>
                         </RouterProvider>
                       </SelectionProvider>

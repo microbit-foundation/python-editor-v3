@@ -9,6 +9,7 @@ import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { useSplitViewContext } from "../../common/SplitView/context";
+import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import { ToolkitTopic, ToolkitTopicItem } from "./model";
 import MoreButton from "./MoreButton";
@@ -34,6 +35,7 @@ const TopicItem = ({
   onForward,
   ...props
 }: TopicItemProps) => {
+  const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
   // Strip the imports.
   const code = item.code.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
@@ -74,6 +76,7 @@ const TopicItem = ({
             borderBottomRadius="xl"
             variant="ghost"
             size="sm"
+            onClick={() => actions?.insertCode(item.code)}
           >
             Insert code
           </Button>

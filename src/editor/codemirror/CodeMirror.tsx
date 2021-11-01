@@ -11,6 +11,7 @@ import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { useRouterState } from "../../router-hooks";
 import { WorkbenchSelection } from "../../workbench/use-selection";
+import { ActiveEditorActions, useActiveEditor } from "../active-editor-hooks";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
 import { languageServer } from "./language-server/view";
@@ -47,6 +48,8 @@ const CodeMirror = ({
   fontSize,
   codeStructureSettings,
 }: CodeMirrorProps) => {
+  // Really simple model for now as we only have one editor at a time.
+  const [, setActiveEditor] = useActiveEditor();
   const uri = createUri(selection.file);
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
@@ -89,17 +92,19 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
+      setActiveEditor(new ActiveEditorActions(view));
     }
-  }, [options, defaultValue, onChange, client, uri]);
+  }, [options, defaultValue, onChange, client, setActiveEditor, uri]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {
       if (viewRef.current) {
         viewRef.current.destroy();
         viewRef.current = null;
+        setActiveEditor(undefined);
       }
     };
-  }, []);
+  }, [setActiveEditor]);
 
   useEffect(() => {
     viewRef.current!.dispatch({

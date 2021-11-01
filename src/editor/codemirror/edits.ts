@@ -1,6 +1,6 @@
 import { python } from "@codemirror/lang-python";
 import { syntaxTree } from "@codemirror/language";
-import { EditorState, Text } from "@codemirror/state";
+import { EditorState } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
 
 export const pythonWithImportsMediaType = "application/x.python-with-imports";
@@ -152,13 +152,17 @@ export const calculateChanges = (state: EditorState, addition: string) => {
     changes[changes.length - 1].insert += "\n\n";
   }
 
+  const lastImport = allCurrent?.[allCurrent.length - 1]?.node;
+  const insertionPoint = lastImport?.nextSibling?.from ?? 0;
+  console.log(lastImport?.nextSibling?.type);
+
   // We'll want to add more sophisticated insertion than this,
   // e.g. adding after existing `while` loop is a poor plan.
   if (addition) {
     changes.push({
-      from: state.doc.length,
-      to: state.doc.length,
-      insert: "\n" + addition + "\n",
+      from: insertionPoint,
+      to: insertionPoint,
+      insert: addition + "\n\n",
     });
   }
   return changes;
