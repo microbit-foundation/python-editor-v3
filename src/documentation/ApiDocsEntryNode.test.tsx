@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { render, prettyDOM } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import { ApiDocsEntry } from "../language-server/apidocs";
@@ -32,29 +37,6 @@ describe("ApiDocsEntryNode", () => {
       },
     ],
   };
-
-  it("Show more / less", async () => {
-    const result = render(
-      <FixedTranslationProvider>
-        <ApiDocsEntryNode docs={node} />
-      </FixedTranslationProvider>
-    );
-    // Before "Show more" we have first paragraph of docs and no defaulted parameters.
-    expect(
-      result.queryByText("Not initially displayed")
-    ).not.toBeInTheDocument();
-    expect(result.queryByText("(foo)")).toBeInTheDocument();
-
-    const showMoreButton = await result.findByRole("button", {
-      name: /Show more/,
-    });
-    act(() => {
-      showMoreButton.click();
-    });
-
-    expect(result.queryByText("Not initially displayed")).toBeInTheDocument();
-    expect(result.queryByText("(foo, bar=12)")).toBeInTheDocument();
-  });
 
   let commands: string[] = [];
 

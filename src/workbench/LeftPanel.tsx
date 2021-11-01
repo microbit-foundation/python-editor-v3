@@ -7,6 +7,7 @@ import {
   Box,
   BoxProps,
   Flex,
+  HStack,
   Icon,
   Tab,
   TabList,
@@ -16,20 +17,26 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import { IconType } from "react-icons";
 import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
+import FaceIcon from "../common/FaceIcon";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
+import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
+import {
+  microbitToolkit,
+  pythonToolkit,
+} from "../documentation/toolkit-mock-data";
+import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
+import { flags } from "../flags";
+import { useRouterParam } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
-import LeftPanelTabContent from "./LeftPanelTabContent";
-import { flags } from "../flags";
 
 interface LeftPanelProps extends BoxProps {
   selectedFile: string | undefined;
@@ -67,13 +74,29 @@ const LeftPanel = ({
         ),
       },
     ];
-    if (flags.advancedDocumentation) {
-      result.splice(1, 0, {
-        id: "advanced",
-        title: "Advanced",
-        icon: RiBookReadFill,
-        contents: <AdvancedDocumentation />,
-      });
+    if (flags.toolkit) {
+      result.splice(
+        0,
+        1,
+        {
+          id: "microbit",
+          title: "micro:bit", // No brand translation
+          icon: FaceIcon as IconType,
+          contents: <ToolkitDocumentation toolkit={microbitToolkit} />,
+        },
+        {
+          id: "python",
+          title: intl.formatMessage({ id: "python-tab" }),
+          icon: PythonLogo as IconType,
+          contents: <ToolkitDocumentation toolkit={pythonToolkit} />,
+        },
+        {
+          id: "advanced",
+          title: "Advanced",
+          icon: RiBookReadFill,
+          contents: <AdvancedDocumentation />,
+        }
+      );
     }
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
@@ -98,7 +121,15 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
-  const [index, setIndex] = useState<number>(0);
+  const [tab, setTab] = useRouterParam("tab");
+  const tabIndexOf = panes.findIndex((p) => p.id === tab);
+  const index = tabIndexOf === -1 ? 0 : tabIndexOf;
+  const setIndex = useCallback(
+    (index: number) => {
+      setTab(panes[index].id);
+    },
+    [panes, setTab]
+  );
   const width = "5rem";
   const brand = useDeployment();
   return (
@@ -171,9 +202,10 @@ const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
         <TabPanels>
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
-              <LeftPanelTabContent title={p.title} nav={p.nav}>
+              <Flex height="100%" direction="column">
+                {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                 {p.contents}
-              </LeftPanelTabContent>
+              </Flex>
             </TabPanel>
           ))}
         </TabPanels>

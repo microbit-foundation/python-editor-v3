@@ -10,7 +10,13 @@ import * as fsp from "fs/promises";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { ElementHandle, Page, Dialog, Browser } from "puppeteer";
+import puppeteer, {
+  Browser,
+  Dialog,
+  ElementHandle,
+  KeyInput,
+  Page,
+} from "puppeteer";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -121,7 +127,7 @@ export class App {
     filePath: string,
     options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.switchTab("Files");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
@@ -134,7 +140,7 @@ export class App {
    * @param name The name to enter in the dialog.
    */
   async createNewFile(name: string): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.switchTab("Files");
     const document = await this.document();
     const newButton = await document.findByRole("button", {
       name: "Create new file",
@@ -349,15 +355,25 @@ export class App {
    * This will focus the editor area and type with the caret in its default position
    * (the beginning unless we've otherwise interacted with it).
    *
-   * @param match The regex.
+   * @param text The text to type.
    */
   async typeInEditor(text: string): Promise<void> {
-    const document = await this.document();
-    const content = await document.$(".cm-content");
-    if (!content) {
-      throw new Error("Missing editor area");
-    }
-    await content.type(text);
+    const content = await this.focusEditorContent();
+    return content.type(text);
+  }
+
+  /**
+   * Select all the text in the code editor.
+   *
+   * Subsequent typing will overwrite it.
+   */
+  async selectAllInEditor(): Promise<void> {
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
+    await keyboard.press("a");
+    await keyboard.up(meta);
   }
 
   /**
@@ -395,6 +411,12 @@ export class App {
       const value = await text();
       expect(value).toEqual(match);
     }, defaultWaitForOptions);
+  }
+
+  async findToolkitHeading(context: string, title: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(context);
+    await document.findByText(title, { selector: "h2" });
   }
 
   /**
@@ -515,6 +537,98 @@ export class App {
   }
 
   /**
+   * Wait for matching completion options to appear.
+   */
+  async findCompletionOptions(expected: string[]): Promise<void> {
+    const document = await this.document();
+    return waitFor(async () => {
+      const items = await document.$$(".cm-completionLabel");
+      const actual = await Promise.all(
+        items.map((e) => e.evaluate((node) => node.innerText))
+      );
+      expect(actual).toEqual(expected);
+    }, defaultWaitForOptions);
+  }
+
+  /**
+   * Wait for the a signature tooltip to appear with a matching signature.
+   */
+  async findSignatureHelp(expectedSignature: string): Promise<void> {
+    const document = await this.document();
+    return waitFor(async () => {
+      const tooltip = await document.$(".cm-signature-tooltip code");
+      expect(tooltip).toBeTruthy();
+      const actualSignature = await tooltip!.evaluate((e) => e.innerText);
+      expect(actualSignature).toEqual(expectedSignature);
+    }, defaultWaitForOptions);
+  }
+
+  /**
+   * Wait for active completion option by waiting for its signature to be shown
+   * in the documentation tooltip area.
+   */
+  async findCompletionActiveOption(signature: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(
+      signature,
+      {
+        selector: "code",
+      },
+      defaultWaitForOptions
+    );
+  }
+
+  /**
+   * Accept the given completion.
+   */
+  async acceptCompletion(name: string): Promise<void> {
+    // This seems significantly more reliable than pressing Enter, though there's
+    // no real-life issue here.
+    const document = await this.document();
+    const option = await document.findByRole(
+      "option",
+      {
+        name,
+      },
+      defaultWaitForOptions
+    );
+    option.click();
+  }
+
+  /**
+   * Follow the documentation link shown in the signature help or autocomplete tooltips.
+   * This will update the "Advanced" tab and switch to it.
+   */
+  async followCompletionOrSignatureAdvancedLink(): Promise<void> {
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: "Show reference documentation",
+    });
+    return button.click();
+  }
+
+  /**
+   * Take a screenshot named after the running test case and store it in the reports folder.
+   * The folder is published in CI.
+   */
+  async screenshot() {
+    const page = await this.page;
+    return page.screenshot({
+      path: "reports/screenshots/" + expect.getState().currentTestName + ".png",
+    });
+  }
+
+  private async focusEditorContent(): Promise<ElementHandle> {
+    const document = await this.document();
+    const content = await document.$(".cm-content");
+    if (!content) {
+      throw new Error("Missing editor area");
+    }
+    await content.focus();
+    return content;
+  }
+
+  /**
    * Clean up, including the browser and downloads temporary folder.
    */
   async dispose() {
@@ -523,7 +637,13 @@ export class App {
     await page.browser().close();
   }
 
-  private async selectSideBar(tabName: string) {
+  /**
+   * Switch to a sidebar tab.
+   *
+   * Prefer more specific navigation actions, but this is useful to check initial state
+   * and that tab state is remembered.
+   */
+  async switchTab(tabName: "Files" | "Advanced" | "micro:bit" | "Python") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,
@@ -568,7 +688,7 @@ export class App {
   }
 
   private async openFileActionsMenu(filename: string): Promise<void> {
-    await this.selectSideBar("Files");
+    await this.switchTab("Files");
     const document = await this.document();
     const actions = await document.findByRole("button", {
       name: `${filename} file actions`,

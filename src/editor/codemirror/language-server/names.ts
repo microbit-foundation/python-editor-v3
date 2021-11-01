@@ -13,3 +13,9 @@ export const removeFullyQualifiedName = (fn: string): string => {
   const name = parts[parts.length - 1];
   return name + remainder;
 };
+
+export const nameFromSignature = (fn: string): string => {
+  const bracket = fn.indexOf("(");
+  const before = fn.substring(0, bracket);
+  return before;
+};

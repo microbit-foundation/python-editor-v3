@@ -1,12 +1,16 @@
-import { Button, IconButton } from "@chakra-ui/button";
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+import { IconButton } from "@chakra-ui/button";
 import { useClipboard } from "@chakra-ui/hooks";
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { HTMLChakraProps } from "@chakra-ui/system";
 import { Tooltip } from "@chakra-ui/tooltip";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
-import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { firstParagraph } from "../editor/codemirror/language-server/documentation";
 import {
   ApiDocsBaseClass,
@@ -14,6 +18,7 @@ import {
   ApiDocsFunctionParameter,
 } from "../language-server/apidocs";
 import DocString from "./DocString";
+import MoreButton from "./ToolkitDocumentation/MoreButton";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -36,12 +41,16 @@ const kindToSpacing: Record<string, any> = {
 
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
-  heading?: boolean;
+  isShowingDetail?: boolean;
+  onForward?: (itemId: string) => void;
 }
 
+const noop = () => {};
+
 const ApiDocsEntryNode = ({
+  isShowingDetail = false,
   docs,
-  heading = true,
+  onForward = noop,
   mt,
   mb,
   ...others
@@ -50,7 +59,6 @@ const ApiDocsEntryNode = ({
     docs;
   const intl = useIntl();
   const variableOrFunction = kind === "variable" || kind === "function";
-  const [isShowingDetail, setShowingDetail] = useState(false);
   const groupedChildren = useMemo(() => {
     const filteredChildren = filterChildren(children);
     return filteredChildren
@@ -77,9 +85,6 @@ const ApiDocsEntryNode = ({
       id={fullName}
       wordBreak="break-word"
       mb={kindToSpacing[kind]}
-      p={variableOrFunction ? 2 : undefined}
-      backgroundColor={variableOrFunction ? "gray.10" : undefined}
-      borderRadius="md"
       {...others}
       _hover={{
         "& button": {
@@ -87,54 +92,36 @@ const ApiDocsEntryNode = ({
         },
       }}
     >
-      {heading && (
-        <Box>
-          <HStack>
-            <Text fontSize={kindToFontSize[kind]} as={kindToHeading[kind]}>
-              <Text as="span" fontWeight="semibold">
-                {formatName(kind, fullName, name)}
-              </Text>
-              {signature}
+      <Box>
+        <HStack>
+          <Text
+            fontFamily="code"
+            fontSize={kindToFontSize[kind]}
+            as={kindToHeading[kind]}
+          >
+            <Text as="span" fontWeight="semibold">
+              {formatName(kind, fullName, name)}
             </Text>
-            {variableOrFunction && <CopyButton docs={docs} display="none" />}
-          </HStack>
-          {baseClasses && baseClasses.length > 0 && (
-            <BaseClasses value={baseClasses} />
-          )}
-          <VStack alignItems="stretch" spacing={1}>
-            {activeDocString && <DocString value={activeDocString} />}
-            {kind !== "module" && kind !== "class" && (
-              <HStack justifyContent="flex-end">
-                {hasDetail && (
-                  <Button
-                    color="unset"
-                    variant="link"
-                    size="xs"
-                    onClick={() => setShowingDetail(!isShowingDetail)}
-                    rightIcon={<ExpandCollapseIcon open={isShowingDetail} />}
-                    _hover={{
-                      textDecoration: "none",
-                    }}
-                    p={1}
-                    pt={1.5}
-                    pb={1.5}
-                    aria-label={intl.formatMessage(
-                      {
-                        id: isShowingDetail ? "show-less-for" : "show-more-for",
-                      },
-                      { item: name }
-                    )}
-                  >
-                    <FormattedMessage
-                      id={isShowingDetail ? "show-less" : "show-more"}
-                    />
-                  </Button>
-                )}
+            {signature}
+          </Text>
+          {variableOrFunction && <CopyButton docs={docs} display="none" />}
+        </HStack>
+        {baseClasses && baseClasses.length > 0 && (
+          <BaseClasses value={baseClasses} />
+        )}
+        <VStack alignItems="stretch" spacing={1}>
+          {activeDocString && <DocString value={activeDocString} />}
+          {kind !== "module" &&
+            kind !== "class" &&
+            hasDetail &&
+            !isShowingDetail && (
+              <HStack>
+                <MoreButton onClick={() => onForward(fullName)} />
               </HStack>
             )}
-          </VStack>
-        </Box>
-      )}
+        </VStack>
+      </Box>
+
       {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
           <Box
@@ -149,7 +136,12 @@ const ApiDocsEntryNode = ({
                       {groupHeading(intl, kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <ApiDocsEntryNode key={c.id} docs={c} />
+                      <ApiDocsEntryNode
+                        isShowingDetail={isShowingDetail}
+                        key={c.id}
+                        docs={c}
+                        onForward={onForward}
+                      />
                     ))}
                   </Box>
                 )

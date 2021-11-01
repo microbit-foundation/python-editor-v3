@@ -21,8 +21,11 @@ import {
 } from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
 import { clientFacet, uriFacet } from "./common";
-import { renderDocumentation } from "./documentation";
-import { removeFullyQualifiedName } from "./names";
+import {
+  renderDocumentation,
+  wrapWithDocumentationButton,
+} from "./documentation";
+import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 import { escapeRegExp } from "./regexp-util";
 
@@ -126,7 +129,9 @@ const createDocumentationResolver =
     const node = renderDocumentation(resolved.documentation, true);
     const code = node.querySelector("code");
     if (code) {
+      const id = nameFromSignature(code.innerText);
       code.innerText = removeFullyQualifiedName(code.innerText);
+      return wrapWithDocumentationButton(node, id);
     }
     return node;
   };

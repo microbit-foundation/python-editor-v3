@@ -13,6 +13,7 @@ import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createInitialProject } from "./fs/initial-project";
@@ -23,6 +24,7 @@ import { pyright } from "./language-server/pyright";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
+import { RouterProvider } from "./router-hooks";
 import {
   defaultSettings,
   isValidSettingsObject,
@@ -84,9 +86,13 @@ const App = () => {
                     <LanguageServerClientProvider value={client}>
                       <BeforeUnloadDirtyCheck />
                       <SelectionProvider>
-                        <ProjectDropTarget>
-                          <Workbench />
-                        </ProjectDropTarget>
+                        <RouterProvider>
+                          <ProjectDropTarget>
+                            <ActiveEditorProvider>
+                              <Workbench />
+                            </ActiveEditorProvider>
+                          </ProjectDropTarget>
+                        </RouterProvider>
                       </SelectionProvider>
                     </LanguageServerClientProvider>
                   </FileSystemProvider>

@@ -12,19 +12,25 @@
 
 import { stage } from "./environment";
 
-type Flag = "signatureHelp" | "advancedDocumentation";
+type Flag = "signatureHelp" | "toolkit";
 
 type Flags = Record<Flag, boolean>;
 
 export const flags: Flags = (() => {
   const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
-  const flags = ["signatureHelp", "advancedDocumentation"];
+  const flags = ["signatureHelp", "toolkit"];
   const params = new URLSearchParams(window.location.search);
   const enableFlags = new Set(params.getAll("flag"));
   const allFlagsEnabled = enableFlags.has("*");
+  // To allow local testing of no-flag state.
+  const allFlagsDisabled = enableFlags.has("none");
   return Object.fromEntries(
     flags.map((f) => {
-      return [f, isPreviewStage || allFlagsEnabled || enableFlags.has(f)];
+      return [
+        f,
+        !allFlagsDisabled &&
+          (isPreviewStage || allFlagsEnabled || enableFlags.has(f)),
+      ];
     })
   ) as Flags;
 })();

@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box } from "@chakra-ui/layout";
 import React from "react";
 import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
