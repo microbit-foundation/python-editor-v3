@@ -120,6 +120,7 @@ const ActiveTooklitLevel = ({
           <ToolkitTopLevelListItem
             key={module.id}
             name={module.fullName}
+            headingFontFamily="code"
             description={
               module.docString && <DocString value={module.docString} />
             }
