@@ -51,8 +51,15 @@ export class ActiveEditorActions {
    */
   insertCode = (code: string): void => {
     const state = this.view.state;
+    const changes = calculateChanges(state, code);
+    const changeSet = state.changes(changes);
+    const lastChange = changes[changes.length - 1];
+    const updatedSelection =
+      changeSet.mapPos(lastChange.from) + lastChange.insert.trim().length;
     const transaction = state.update({
-      changes: calculateChanges(state, code),
+      changes: changeSet,
+      selection: { anchor: updatedSelection },
+      scrollIntoView: true,
     });
     this.view.dispatch(transaction);
     this.view.focus();
