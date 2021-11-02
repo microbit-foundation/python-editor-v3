@@ -13,9 +13,9 @@ describe("Browser - toolkit tabs", () => {
   afterAll(app.dispose.bind(app));
 
   it("Advanced toolkit navigation", async () => {
-    await app.switchTab("Advanced");
+    await app.switchTab("Reference");
     await app.findToolkitTopLevelHeading(
-      "Advanced",
+      "Reference",
       "Reference documentation for micro:bit MicroPython"
     );
   });

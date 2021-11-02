@@ -615,9 +615,9 @@ export class App {
 
   /**
    * Follow the documentation link shown in the signature help or autocomplete tooltips.
-   * This will update the "Advanced" tab and switch to it.
+   * This will update the "Reference" tab and switch to it.
    */
-  async followCompletionOrSignatureAdvancedLink(): Promise<void> {
+  async followCompletionOrSignatureDocumentionLink(): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: "Show reference documentation",
@@ -661,7 +661,7 @@ export class App {
    * Prefer more specific navigation actions, but this is useful to check initial state
    * and that tab state is remembered.
    */
-  async switchTab(tabName: "Files" | "Advanced" | "micro:bit" | "Python") {
+  async switchTab(tabName: "Files" | "Reference" | "micro:bit" | "Python") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,

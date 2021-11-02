@@ -63,7 +63,7 @@ const ActiveTooklitLevel = ({
           direction={direction}
           heading={
             <ToolkitBreadcrumbHeading
-              parent={"Advanced"}
+              parent="Reference"
               titleFontFamily="code"
               title={item.name}
               onBack={() => onNavigate(undefined)}
@@ -92,7 +92,7 @@ const ActiveTooklitLevel = ({
           heading={
             <ToolkitBreadcrumbHeading
               parent={moduleName}
-              grandparent={"Advanced"}
+              grandparent="Reference"
               title={item.name}
               titleFontFamily="code"
               parentFontFamily="code"
@@ -110,7 +110,7 @@ const ActiveTooklitLevel = ({
       direction={direction}
       heading={
         <ToolkitTopLevelHeading
-          name="Advanced"
+          name="Reference"
           description="Reference documentation for micro:bit MicroPython"
         />
       }
