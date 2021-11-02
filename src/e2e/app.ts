@@ -413,10 +413,28 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findToolkitHeading(context: string, title: string): Promise<void> {
+  async findToolkitBreadcrumbHeading(
+    context: string,
+    title: string
+  ): Promise<void> {
     const document = await this.document();
-    await document.findByText(context);
-    await document.findByText(title, { selector: "h2" });
+    await document.findByRole("button", {
+      name: context,
+    });
+    await document.findByText(title, {
+      selector: "h2",
+    });
+  }
+
+  async findToolkitTopLevelHeading(
+    title: string,
+    description: string
+  ): Promise<void> {
+    const document = await this.document();
+    await document.findByText(title, {
+      selector: "h2",
+    });
+    await document.findByText(description);
   }
 
   /**

@@ -12,6 +12,8 @@ interface BreadcrumbHeadingProps {
   parent: string;
   grandparent?: string;
   onBack: () => void;
+  titleFontFamily?: "code";
+  parentFontFamily?: "code";
 }
 
 const ToolkitBreadcrumbHeading = ({
@@ -19,6 +21,8 @@ const ToolkitBreadcrumbHeading = ({
   parent,
   grandparent,
   onBack,
+  parentFontFamily,
+  titleFontFamily,
 }: BreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
@@ -40,11 +44,20 @@ const ToolkitBreadcrumbHeading = ({
           alignItems="center"
           fontWeight="sm"
         >
-          {grandparent && grandparent + " / "}
-          {parent}
+          <Text as="span">
+            {grandparent && grandparent + " / "}
+            <Text as="span" fontFamily={parentFontFamily}>
+              {parent}
+            </Text>
+          </Text>
         </Button>
       </HStack>
-      <Text as="h2" fontSize="3xl" fontWeight="semibold">
+      <Text
+        as="h2"
+        fontSize="3xl"
+        fontWeight="semibold"
+        fontFamily={titleFontFamily}
+      >
         {title}
       </Text>
     </Stack>
