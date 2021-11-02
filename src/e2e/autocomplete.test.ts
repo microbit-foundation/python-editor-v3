@@ -37,7 +37,10 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureAdvancedLink();
 
-    await app.findToolkitHeading("Advanced / microbit.display", "show");
+    await app.findToolkitBreadcrumbHeading(
+      "Advanced / microbit.display",
+      "show"
+    );
   });
 
   it("shows signature help after autocomplete", async () => {
@@ -57,6 +60,9 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureAdvancedLink();
 
-    await app.findToolkitHeading("Advanced / microbit.display", "show");
+    await app.findToolkitBreadcrumbHeading(
+      "Advanced / microbit.display",
+      "show"
+    );
   });
 });

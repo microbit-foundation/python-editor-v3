@@ -64,6 +64,7 @@ const ActiveTooklitLevel = ({
           heading={
             <ToolkitBreadcrumbHeading
               parent={"Advanced"}
+              titleFontFamily="code"
               title={item.name}
               onBack={() => onNavigate(undefined)}
             />
@@ -93,6 +94,8 @@ const ActiveTooklitLevel = ({
               parent={moduleName}
               grandparent={"Advanced"}
               title={item.name}
+              titleFontFamily="code"
+              parentFontFamily="code"
               onBack={() => onNavigate(moduleName)}
             />
           }
@@ -117,6 +120,7 @@ const ActiveTooklitLevel = ({
           <ToolkitTopLevelListItem
             key={module.id}
             name={module.fullName}
+            headingFontFamily="code"
             description={
               module.docString && <DocString value={module.docString} />
             }
