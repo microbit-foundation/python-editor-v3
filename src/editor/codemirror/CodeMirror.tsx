@@ -146,8 +146,8 @@ const CodeMirror = ({
       const id = (event as CustomEvent).detail.id;
       setRouterState({
         ...routerState,
-        tab: "advanced",
-        advanced: id,
+        tab: "reference",
+        reference: id,
       });
       const view = viewRef.current!;
       // Put the focus back in the text editor so the docs are immediately useful.
