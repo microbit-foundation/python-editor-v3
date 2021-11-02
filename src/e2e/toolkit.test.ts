@@ -12,7 +12,7 @@ describe("Browser - toolkit tabs", () => {
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
-  it("Advanced toolkit navigation", async () => {
+  it("Reference toolkit navigation", async () => {
     await app.switchTab("Reference");
     await app.findToolkitTopLevelHeading(
       "Reference",

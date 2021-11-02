@@ -37,19 +37,19 @@
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
-    "description": "Heading in Advanced documentation for the classes in a Python module"
+    "description": "Heading in Reference documentation for the classes in a Python module"
   },
   "apidocs-fields": {
     "defaultMessage": "Fields",
-    "description": "Heading in Advanced documentation for the fields in a Python module"
+    "description": "Heading in Reference documentation for the fields in a Python module"
   },
   "apidocs-functions": {
     "defaultMessage": "Functions",
-    "description": "Heading in Advanced documentation for the functions in a Python module"
+    "description": "Heading in Reference documentation for the functions in a Python module"
   },
   "apidocs-methods": {
     "defaultMessage": "Methods",
-    "description": "Heading in Advanced documentation for the methods in a Python class"
+    "description": "Heading in Reference documentation for the methods in a Python class"
   },
   "back-to-main": {
     "defaultMessage": "back to the main code",
