@@ -22,7 +22,7 @@ import {
 
 export interface RouterState {
   tab?: string;
-  advanced?: string;
+  reference?: string;
 }
 
 type RouterContextValue = [RouterState, (state: RouterState) => void];
@@ -33,7 +33,7 @@ const parse = (search: string): RouterState => {
   const params = new URLSearchParams(search);
   return {
     tab: params.get("tab") ?? undefined,
-    advanced: params.get("advanced") ?? undefined,
+    reference: params.get("reference") ?? undefined,
     // other tabs will get state here in time, as well as the active file
   };
 };

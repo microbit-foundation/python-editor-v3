@@ -22,7 +22,7 @@ interface ToolkitProps {
  * A data-driven toolkit component.
  *
  * The components used here are also used with the API data to
- * generate the advanced documentation.
+ * generate the reference documentation.
  */
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   const [state, setState] = useState<ToolkitNavigationState>({});

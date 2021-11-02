@@ -17,25 +17,25 @@ import ToolkitListItem from "./ToolkitDocumentation/ToolkitListItem";
 import ToolkitTopLevelHeading from "./ToolkitDocumentation/ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "./ToolkitDocumentation/ToolkitTopLevelListItem";
 
-interface AdvancedToolkitProps {
+interface ReferenceToolkitProps {
   docs: ApiDocsResponse;
 }
 
-export const AdvancedToolkit = ({ docs }: AdvancedToolkitProps) => {
-  const [advancedParam = "", setAdvancedParam] = useRouterParam("advanced");
+export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
+  const [urlParam = "", setUrlParam] = useRouterParam("reference");
   // Only transitions are up or down levels so can just compare length.
-  const previousParam = usePrevious(advancedParam) ?? "";
+  const previousParam = usePrevious(urlParam) ?? "";
   const direction =
-    previousParam.length === advancedParam.length
+    previousParam.length === urlParam.length
       ? "none"
-      : previousParam.length < advancedParam.length
+      : previousParam.length < urlParam.length
       ? "forward"
       : "back";
   return (
     <ActiveTooklitLevel
-      key={advancedParam}
-      state={advancedParam}
-      onNavigate={setAdvancedParam}
+      key={urlParam}
+      state={urlParam}
+      onNavigate={setUrlParam}
       docs={docs}
       direction={direction}
     />
@@ -63,7 +63,7 @@ const ActiveTooklitLevel = ({
           direction={direction}
           heading={
             <ToolkitBreadcrumbHeading
-              parent={"Advanced"}
+              parent="Reference"
               titleFontFamily="code"
               title={item.name}
               onBack={() => onNavigate(undefined)}
@@ -92,7 +92,7 @@ const ActiveTooklitLevel = ({
           heading={
             <ToolkitBreadcrumbHeading
               parent={moduleName}
-              grandparent={"Advanced"}
+              grandparent="Reference"
               title={item.name}
               titleFontFamily="code"
               parentFontFamily="code"
@@ -110,7 +110,7 @@ const ActiveTooklitLevel = ({
       direction={direction}
       heading={
         <ToolkitTopLevelHeading
-          name="Advanced"
+          name="Reference"
           description="Reference documentation for micro:bit MicroPython"
         />
       }

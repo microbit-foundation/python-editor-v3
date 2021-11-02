@@ -19,12 +19,13 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useMemo } from "react";
 import { IconType } from "react-icons";
-import { RiBookReadFill, RiFolderFill } from "react-icons/ri";
+import { RiFolderFill } from "react-icons/ri";
+import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import FaceIcon from "../common/FaceIcon";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
-import AdvancedDocumentation from "../documentation/AdvancedDocumentation";
+import ReferenceDocumentation from "../documentation/ReferenceDocumentation";
 import {
   microbitToolkit,
   pythonToolkit,
@@ -91,10 +92,10 @@ const LeftPanel = ({
           contents: <ToolkitDocumentation toolkit={pythonToolkit} />,
         },
         {
-          id: "advanced",
-          title: "Advanced",
-          icon: RiBookReadFill,
-          contents: <AdvancedDocumentation />,
+          id: "reference",
+          title: "Reference",
+          icon: VscLibrary,
+          contents: <ReferenceDocumentation />,
         }
       );
     }
