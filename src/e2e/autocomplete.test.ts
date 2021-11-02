@@ -35,7 +35,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.findCompletionActiveOption("show(image)");
 
-    await app.followCompletionOrSignatureAdvancedLink();
+    await app.followCompletionOrSignatureDocumentionLink();
 
     await app.findToolkitBreadcrumbHeading(
       "Advanced / microbit.display",
@@ -58,7 +58,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.findSignatureHelp("show(image)");
 
-    await app.followCompletionOrSignatureAdvancedLink();
+    await app.followCompletionOrSignatureDocumentionLink();
 
     await app.findToolkitBreadcrumbHeading(
       "Advanced / microbit.display",
