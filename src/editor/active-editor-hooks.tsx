@@ -55,7 +55,7 @@ export class ActiveEditorActions {
     const changeSet = state.changes(changes);
     const lastChange = changes[changes.length - 1];
     const updatedSelection =
-      changeSet.mapPos(lastChange.from) + lastChange.insert.trim().length;
+      changeSet.mapPos(lastChange.from) + lastChange.insert.trimEnd().length;
     const transaction = state.update({
       changes: changeSet,
       selection: { anchor: updatedSelection },
