@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { EditorState } from "@codemirror/state";
 import { python } from "@codemirror/lang-python";
 import { calculateChanges } from "./edits";

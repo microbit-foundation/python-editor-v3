@@ -1,3 +1,10 @@
+/**
+ * Hooks to perform actions on the current editor.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { EditorView } from "@codemirror/view";
 import React, {
   Dispatch,
@@ -29,11 +36,14 @@ export const useActiveEditorActions = (): ActiveEditorActions | undefined => {
   return useActiveEditor()?.[0];
 };
 
+/**
+ * Actions that operate on the active editor.
+ */
 export class ActiveEditorActions {
   constructor(private view: EditorView) {}
 
   /**
-   * A smart, import aware code insert.
+   * A smart, import-aware code insert.
    *
    * The logic used at the moment is pretty simple but we plan to improve this.
    *

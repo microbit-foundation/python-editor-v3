@@ -1,20 +1,18 @@
+/**
+ * Code-aware edits to CodeMirror Python text.
+ *
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { python } from "@codemirror/lang-python";
 import { syntaxTree } from "@codemirror/language";
 import { EditorState } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
 
-export const pythonWithImportsMediaType = "application/x.python-with-imports";
-// We augment input.drop so we can trigger signature help.
-export const inputDropApiDocs = "input.drop.apidocs";
-
 export interface RequiredImport {
   module: string;
   name?: string;
-}
-
-export interface CodeWithImports {
-  code: string;
-  requiredImport: RequiredImport;
 }
 
 type SimpleChangeSpec = {
@@ -24,7 +22,7 @@ type SimpleChangeSpec = {
 };
 
 const calculateImportChangesInternal = (
-  allCurrent: Import[],
+  allCurrent: ImportNode[],
   required: RequiredImport
 ): SimpleChangeSpec[] => {
   const from = allCurrent.length
@@ -93,7 +91,11 @@ const calculateImportChangesInternal = (
   }
 };
 
-interface Import {
+/**
+ * A representation of an import node.
+ * The CodeMirror tree isn't easy to work with so we convert to these.
+ */
+interface ImportNode {
   kind: "import" | "from";
   module: string;
   alias?: string;
@@ -101,11 +103,18 @@ interface Import {
   node: SyntaxNode;
 }
 
+/**
+ * An imported name with alias.
+ */
 interface ImportedName {
   name: string;
   alias?: string;
 }
 
+/**
+ * A relative insertion position to some node.
+ * Default is used when there is no relative insertion point (e.g. in the empty document case).
+ */
 enum Relation {
   Before,
   After,
@@ -114,56 +123,44 @@ enum Relation {
 
 class AliasesNotSupportedError extends Error {}
 
+/**
+ * Calculate the changes needed to insert the given code into the editor.
+ * Imports are separated and merged with existing imports.
+ * The remaining code (if any) is inserted prior to any non-import code.
+ *
+ * @param state The editor state.
+ * @param addition The new Python code.
+ * @returns The necessary changes suitable for a CodeMirror transaction.
+ * @throws AliasesNotSupportedError if the additional code contains alias imports.
+ */
 export const calculateChanges = (state: EditorState, addition: string) => {
   const parser = python().language.parser;
   const additionTree = parser.parse(addition);
-  // So if we can turn these into "required imports then we're golden!
   const additionalImports = topLevelImports(additionTree, (from, to) =>
     addition.slice(from, to)
   );
-  const endOfLastImport =
+  const endOfAdditionalImports =
     additionalImports[additionalImports.length - 1]?.node?.to ?? 0;
-  addition = addition.slice(endOfLastImport).trim();
-
-  // We don't bother supporting aliases as all our inputs should use standard names,
-  // if we need more context then we import the module.
-  const requiredImports: RequiredImport[] = additionalImports.flatMap(
-    (additionalImport) => {
-      if (additionalImport.kind === "from") {
-        return (additionalImport.names ?? []).map((name) => {
-          if (name.alias) {
-            throw new AliasesNotSupportedError();
-          }
-          return {
-            module: additionalImport.module,
-            name: name.name,
-          };
-        });
-      }
-      if (additionalImport.alias) {
-        throw new AliasesNotSupportedError();
-      }
-      return {
-        module: additionalImport.module,
-      };
-    }
+  addition = addition.slice(endOfAdditionalImports).trim();
+  const requiredImports = additionalImports.flatMap(
+    convertImportNodeToRequiredImports
   );
+  const allCurrentImports = currentImports(state);
 
-  const allCurrent = currentImports(state);
   const changes = requiredImports.flatMap((required) =>
-    calculateImportChangesInternal(allCurrent, required)
+    calculateImportChangesInternal(allCurrentImports, required)
   );
-  if (changes.length > 0 && allCurrent.length === 0) {
+  if (changes.length > 0 && allCurrentImports.length === 0) {
     // Two blank lines separating the imports from everything else.
     changes[changes.length - 1].insert += "\n\n";
   }
 
-  // We'll want to add more sophisticated insertion than this,
+  // We'll want to add more sophisticated insertion than this.
   if (addition) {
     // We always want a newline at the end as for now our inserts are whole lines.
     // If the insertion point is after a node then we want an newline before it.
     // If the insertion point is before a node then we want an newline after it to break the line.
-    const lastImport = allCurrent?.[allCurrent.length - 1]?.node;
+    const lastImport = allCurrentImports?.[allCurrentImports.length - 1]?.node;
     let relation = Relation.Default;
     let insertionPoint = 0;
     if (lastImport?.nextSibling) {
@@ -186,7 +183,7 @@ export const calculateChanges = (state: EditorState, addition: string) => {
   return changes;
 };
 
-const currentImports = (state: EditorState): Import[] => {
+const currentImports = (state: EditorState): ImportNode[] => {
   const tree = syntaxTree(state);
   return topLevelImports(tree, (from, to) => state.sliceDoc(from, to));
 };
@@ -194,8 +191,8 @@ const currentImports = (state: EditorState): Import[] => {
 const topLevelImports = (
   tree: Tree,
   text: (from: number, to: number) => string
-) => {
-  const imports: (Import | undefined)[] = tree.topNode
+): ImportNode[] => {
+  const imports: (ImportNode | undefined)[] = tree.topNode
     .getChildren("ImportStatement")
     .map((existingImport) => {
       // The tree is flat here, so making sense of this is distressingly like parsing it again.
@@ -259,5 +256,33 @@ const topLevelImports = (
       }
       return undefined;
     });
-  return imports.filter((x: Import | undefined): x is Import => !!x);
+  return imports.filter((x: ImportNode | undefined): x is ImportNode => !!x);
+};
+
+/**
+ * Flattens an import node into the imported names.
+ * Throws if aliases are encountered.
+ */
+const convertImportNodeToRequiredImports = (
+  actualImport: ImportNode
+): RequiredImport[] => {
+  if (actualImport.kind === "from") {
+    return (actualImport.names ?? []).map((name) => {
+      if (name.alias) {
+        throw new AliasesNotSupportedError();
+      }
+      return {
+        module: actualImport.module,
+        name: name.name,
+      };
+    });
+  }
+  if (actualImport.alias) {
+    throw new AliasesNotSupportedError();
+  }
+  return [
+    {
+      module: actualImport.module,
+    },
+  ];
 };
