@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { createRef, useEffect } from "react";
 import { dimensionPropName, useSplitViewContext } from "./context";
 import { Box } from "@chakra-ui/layout";

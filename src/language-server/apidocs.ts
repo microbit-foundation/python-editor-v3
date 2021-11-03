@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { ProtocolRequestType } from "vscode-languageserver-protocol";
 import { MarkupKind } from "vscode-languageserver-types";
 import { LanguageServerClient } from "./client";

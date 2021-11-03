@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { useLocalStorage } from "./use-local-storage";
