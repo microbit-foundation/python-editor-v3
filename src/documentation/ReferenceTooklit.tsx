@@ -16,6 +16,7 @@ import ToolkitLevel from "./ToolkitDocumentation/ToolkitLevel";
 import ToolkitListItem from "./ToolkitDocumentation/ToolkitListItem";
 import ToolkitTopLevelHeading from "./ToolkitDocumentation/ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "./ToolkitDocumentation/ToolkitTopLevelListItem";
+import { allowWrapAtPeriods } from "./wrap";
 
 interface ReferenceToolkitProps {
   docs: ApiDocsResponse;
@@ -90,7 +91,7 @@ const ActiveTooklitLevel = ({
           direction={direction}
           heading={
             <ToolkitBreadcrumbHeading
-              parent={moduleName}
+              parent={allowWrapAtPeriods(moduleName)}
               grandparent="Reference"
               title={item.name}
               titleFontFamily="code"
@@ -117,7 +118,7 @@ const ActiveTooklitLevel = ({
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
           <ToolkitTopLevelListItem
             key={module.id}
-            name={module.fullName}
+            name={allowWrapAtPeriods(module.fullName)}
             description={
               module.docString && <DocString value={module.docString} />
             }

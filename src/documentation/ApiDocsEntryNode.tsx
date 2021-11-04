@@ -14,6 +14,7 @@ import {
 } from "../language-server/apidocs";
 import DocString from "./DocString";
 import MoreButton from "./ToolkitDocumentation/MoreButton";
+import { allowWrapAtPeriods } from "./wrap";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -167,8 +168,7 @@ const groupHeading = (
 };
 
 const formatName = (kind: string, fullName: string, name: string): string => {
-  // Add zero width spaces to allow breaking
-  return kind === "module" ? fullName.replace(/\./g, "\u200b.\u200b") : name;
+  return kind === "module" ? allowWrapAtPeriods(fullName) : name;
 };
 
 const buildSignature = (

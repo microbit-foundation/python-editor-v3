@@ -43,6 +43,8 @@ const ToolkitBreadcrumbHeading = ({
           onClick={onBack}
           alignItems="center"
           fontWeight="sm"
+          whiteSpace="normal"
+          textAlign="left"
         >
           <Text as="span">
             {grandparent && grandparent + " / "}
