@@ -23,10 +23,19 @@ export interface ToolkitTopic {
   contents: ToolkitTopicItem[];
 }
 
+export interface ToolkitCode {
+  value: string;
+  select?: {
+    prompt: string;
+    options: string[];
+    placeholder: string;
+  };
+}
+
 export interface ToolkitTopicItem {
   name: string;
   text: string;
-  code: string;
+  code: ToolkitCode;
   furtherText?: string;
 }
 
