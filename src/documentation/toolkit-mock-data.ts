@@ -49,6 +49,8 @@ export const pythonToolkit: Toolkit = {
     {
       name: "Loops",
       description: "Repeat a block of code",
+      introduction:
+        "Loops repeat sections of code. They are useful to make programs more compact, easier to read and help us control the flow of a set of instructions. Using loops is also called ‘iteration’.",
       contents: [
         {
           name: "While loops",
