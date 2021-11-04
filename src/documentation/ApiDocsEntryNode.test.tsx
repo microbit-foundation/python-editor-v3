@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { render, prettyDOM } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { render } from "@testing-library/react";
 import { ApiDocsEntry } from "../language-server/apidocs";
 import FixedTranslationProvider from "../messages/FixedTranslationProvider";
 import ApiDocsEntryNode from "./ApiDocsEntryNode";
@@ -38,34 +37,11 @@ describe("ApiDocsEntryNode", () => {
     ],
   };
 
-  let commands: string[] = [];
-
-  beforeEach(() => {
-    commands.length = 0;
-    document.execCommand = (command) => {
-      commands.push(command);
-      return true;
-    };
-  });
-
-  afterEach(() => {
-    (document as any).execCommand = undefined;
-  });
-
-  it("offers copy-to-clipboard for the signature", async () => {
-    const result = render(
+  it("renders", async () => {
+    render(
       <FixedTranslationProvider>
         <ApiDocsEntryNode docs={node} />
       </FixedTranslationProvider>
     );
-
-    const copyButton = await result.findByRole("button", {
-      name: /Copy/,
-    });
-    act(() => {
-      copyButton.click();
-    });
-
-    expect(commands).toEqual(["copy"]);
   });
 });
