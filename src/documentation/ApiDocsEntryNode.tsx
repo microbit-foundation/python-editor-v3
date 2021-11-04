@@ -3,13 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { IconButton } from "@chakra-ui/button";
-import { useClipboard } from "@chakra-ui/hooks";
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import { HTMLChakraProps } from "@chakra-ui/system";
-import { Tooltip } from "@chakra-ui/tooltip";
 import React, { useMemo } from "react";
-import { RiFileCopy2Line } from "react-icons/ri";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { firstParagraph } from "../editor/codemirror/language-server/documentation";
 import {
@@ -58,7 +53,6 @@ const ApiDocsEntryNode = ({
   const { kind, name, fullName, children, params, docString, baseClasses } =
     docs;
   const intl = useIntl();
-  const variableOrFunction = kind === "variable" || kind === "function";
   const groupedChildren = useMemo(() => {
     const filteredChildren = filterChildren(children);
     return filteredChildren
@@ -104,7 +98,6 @@ const ApiDocsEntryNode = ({
             </Text>
             {signature}
           </Text>
-          {variableOrFunction && <CopyButton docs={docs} display="none" />}
         </HStack>
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
@@ -250,34 +243,6 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
       ))}
     </Text>
   );
-};
-
-interface CopyButtonProps extends HTMLChakraProps<"button"> {
-  docs: ApiDocsEntry;
-}
-
-const CopyButton = ({ docs }: CopyButtonProps) => {
-  const { hasCopied, onCopy } = useClipboard(clipboardText(docs));
-  const intl = useIntl();
-  const label = intl.formatMessage({ id: hasCopied ? "copied" : "copy" });
-  return (
-    <Tooltip hasArrow placement="right" label="Copy to clipboard">
-      <IconButton
-        size="sm"
-        variant="ghost"
-        onClick={onCopy}
-        icon={<RiFileCopy2Line />}
-        aria-label={label}
-      />
-    </Tooltip>
-  );
-};
-
-const clipboardText = (docs: ApiDocsEntry) => {
-  const parts = docs.fullName.split(".");
-  const isMicrobit = parts[0] === "microbit";
-  let use = isMicrobit ? parts.slice(1) : parts;
-  return use.join(".") + (docs.kind === "function" ? "()" : "");
 };
 
 export default ApiDocsEntryNode;
