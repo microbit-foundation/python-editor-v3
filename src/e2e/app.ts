@@ -17,6 +17,7 @@ import puppeteer, {
   KeyInput,
   Page,
 } from "puppeteer";
+import { allowWrapAtPeriods } from "../documentation/wrap";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -419,9 +420,9 @@ export class App {
   ): Promise<void> {
     const document = await this.document();
     await document.findByRole("button", {
-      name: context,
+      name: allowWrapAtPeriods(context),
     });
-    await document.findByText(title, {
+    await document.findByText(allowWrapAtPeriods(title), {
       selector: "h2",
     });
   }
