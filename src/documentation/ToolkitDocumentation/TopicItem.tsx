@@ -153,6 +153,7 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
+        fontSize="sm"
       />
     </Portal>
   );
