@@ -12,7 +12,14 @@ export interface Toolkit {
 
 export interface ToolkitTopic {
   name: string;
+  /**
+   * Short, for the listing.
+   */
   description: string;
+  /**
+   * Longer, for the heading above the contents.
+   */
+  introduction?: string;
   contents: ToolkitTopicItem[];
 }
 
