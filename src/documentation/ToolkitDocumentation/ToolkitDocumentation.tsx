@@ -112,7 +112,7 @@ const ActiveTooklitLevel = ({
           }
         >
           {topic.introduction && (
-            <Text p={5} fontSize="md">
+            <Text p={5} pb={1} fontSize="md">
               {topic.introduction}
             </Text>
           )}
