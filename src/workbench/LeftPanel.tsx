@@ -34,7 +34,7 @@ import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import { flags } from "../flags";
-import { useRouterParam } from "../router-hooks";
+import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
@@ -122,14 +122,17 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
-  const [tab, setTab] = useRouterParam("tab");
-  const tabIndexOf = panes.findIndex((p) => p.id === tab);
+  const [params, setParams] = useRouterState();
+  const tabIndexOf = panes.findIndex((p) => p.id === params.tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const setIndex = useCallback(
     (index: number) => {
-      setTab(panes[index].id);
+      // Intentionally overwrite other tab-related state.
+      setParams({
+        tab: panes[index].id,
+      });
     },
-    [panes, setTab]
+    [panes, setParams]
   );
   const width = "5rem";
   const brand = useDeployment();
