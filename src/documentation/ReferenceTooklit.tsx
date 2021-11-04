@@ -91,7 +91,7 @@ const ActiveTooklitLevel = ({
           direction={direction}
           heading={
             <ToolkitBreadcrumbHeading
-              parent={moduleName}
+              parent={allowWrapAtPeriods(moduleName)}
               grandparent="Reference"
               title={item.name}
               titleFontFamily="code"
