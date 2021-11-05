@@ -189,7 +189,7 @@ display.show(Image('00300:'
               _type: "text",
               detail: true,
               value:
-                "You can light up individual pixels. Each pixel has a co-ordinate starting at the top left with 0,0. Use numbers 0 to 9 to select how bright you want each pixel to be, with 9 being the brightest. This will light the top left LED as bright as it can go:",
+                "This program will fill the LED display one pixel at a time:",
             },
             {
               _type: "code",
@@ -206,6 +206,27 @@ for x in range(5):
               _type: "text",
               detail: true,
               value: "Note that this uses a nested loop, a loop inside a loop.",
+            },
+          ],
+        },
+        {
+          name: "Get pixels",
+          contents: [
+            {
+              _type: "text",
+              value:
+                "You can find out how bright a pixel is. This will read how bright the top left pixel is and store the value between 0 and 9 in a variable called `top_left`:",
+            },
+            {
+              _type: "code",
+              value:
+                "from microbit import *\ntop_left = display.get_pixel(0,0)",
+            },
+            {
+              _type: "text",
+              detail: true,
+              value:
+                "You might want to use this if you’re making a game and want to find out if a pixel contains an object. You could also use pixels to store binary numbers in a visual display, just like early computers did.",
             },
           ],
         },
