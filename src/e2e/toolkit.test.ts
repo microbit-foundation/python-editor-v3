@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { escapeRegExp } from "../editor/codemirror/language-server/regexp-util";
 import { App, defaultRootUrl } from "./app";
 
 describe("Browser - toolkit tabs", () => {
@@ -20,5 +21,22 @@ describe("Browser - toolkit tabs", () => {
     );
   });
 
-  // When we have firmer content for the other toolkits we'll add navigation here.
+  it("Insert code", async () => {
+    await app.switchTab("micro:bit");
+    await app.selectToolkitSection("Display");
+    await app.selectAllInEditor();
+    await app.typeInEditor("# Initial document");
+    await app.insertToolkitCode("Images: built-in");
+    await app.findVisibleEditorContents("display.show(Image.HEART)");
+  });
+
+  it("Insert code after dropdown choice", async () => {
+    await app.switchTab("micro:bit");
+    await app.selectToolkitSection("Display");
+    await app.selectAllInEditor();
+    await app.typeInEditor("# Initial document");
+    await app.selectToolkitDropDownOption("Show example for:", "Image.SILLY");
+    await app.insertToolkitCode("Images: built-in");
+    await app.findVisibleEditorContents("display.show(Image.SILLY)");
+  });
 });

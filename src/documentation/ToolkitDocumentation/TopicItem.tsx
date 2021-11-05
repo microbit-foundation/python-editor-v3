@@ -4,14 +4,23 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Box, BoxProps, HStack, Stack, Text } from "@chakra-ui/layout";
+import { Box, BoxProps, Flex, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
+import { Select } from "@chakra-ui/select";
 import { forwardRef } from "@chakra-ui/system";
-import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Ref,
+  RefObject,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
-import { ToolkitTopic, ToolkitTopicItem } from "./model";
+import { ToolkitCode, ToolkitTopic, ToolkitTopicItem } from "./model";
 import MoreButton from "./MoreButton";
 
 interface TopicItemProps extends BoxProps {
@@ -37,21 +46,52 @@ const TopicItem = ({
 }: TopicItemProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
+  const [option, setOption] = useState<string | undefined>(
+    item.code.select?.options[0]
+  );
+  const handleSelectChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setOption(e.currentTarget.value);
+    },
+    [setOption]
+  );
+  const templatedCode = templateCode(item.code, option);
   // Strip the imports.
-  const code = item.code.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
+  const code = templatedCode.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
   const codeRef = useRef<HTMLDivElement>(null);
   const lines = code.trim().split("\n").length;
   const textHeight = lines * 1.5 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
   return (
-    <Stack spacing={3} {...props}>
+    <Stack spacing={3} {...props} fontSize="sm">
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
-      <Text fontSize="sm">{item.text}</Text>
+      <Text>{item.text}</Text>
+      {item.code.select && (
+        <Flex wrap="wrap" as="label">
+          <Text alignSelf="center" mr={2} as="span">
+            {item.code.select.prompt}
+          </Text>
+          <Select
+            w="fit-content"
+            onChange={handleSelectChange}
+            value={option}
+            size="sm"
+          >
+            {item.code.select.options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+      )}
       <Box>
-        <Box height={codeHeight}>
+        <Box height={codeHeight} fontSize="md">
           <Code
+            // Shadow only on this one, not the pop-up.
+            boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
             value={code}
@@ -76,14 +116,14 @@ const TopicItem = ({
             borderBottomRadius="xl"
             variant="ghost"
             size="sm"
-            onClick={() => actions?.insertCode(item.code)}
+            onClick={() => actions?.insertCode(templatedCode)}
           >
             Insert code
           </Button>
           {!detail && item.furtherText && <MoreButton onClick={onForward} />}
         </HStack>
       </Box>
-      {detail && <Text fontSize="sm">{item.furtherText}</Text>}
+      {detail && <Text>{item.furtherText}</Text>}
     </Stack>
   );
 };
@@ -132,7 +172,6 @@ const Code = forwardRef<CodeProps, "pre">(
         backgroundColor="rgb(247,245,242)"
         padding={5}
         borderTopRadius="lg"
-        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
         fontFamily="code"
         {...props}
       >
@@ -158,6 +197,14 @@ const useScrollTop = () => {
     };
   }, [scrollableRef]);
   return scrollTop;
+};
+
+const templateCode = (code: ToolkitCode, option: string | undefined) => {
+  if (!code.select || option === undefined) {
+    return code.value;
+  }
+
+  return code.value.replace(code.select.placeholder, option);
 };
 
 export default TopicItem;

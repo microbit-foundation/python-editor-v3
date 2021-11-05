@@ -26,7 +26,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     // Accepted completion
     await app.acceptCompletion("show");
-    await app.findVisibleEditorContents(/display.show\(\)/);
+    await app.findVisibleEditorContents("display.show()");
   });
 
   it("autocomplete can navigate to toolkit content", async () => {
