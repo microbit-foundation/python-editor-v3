@@ -24,6 +24,8 @@ export interface ToolkitTopic {
 }
 
 export interface ToolkitCode {
+  _type: "code";
+  detail?: boolean;
   value: string;
   select?: {
     prompt: string;
@@ -32,11 +34,15 @@ export interface ToolkitCode {
   };
 }
 
+export interface ToolkitText {
+  _type: "text";
+  detail?: boolean;
+  value: string;
+}
+
 export interface ToolkitTopicItem {
   name: string;
-  text: string;
-  code: ToolkitCode;
-  furtherText?: string;
+  contents: Array<ToolkitCode | ToolkitText>;
 }
 
 export interface ToolkitNavigationState {
