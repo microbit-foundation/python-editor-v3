@@ -49,10 +49,12 @@ const TopicItem = ({
     ? item.contents
     : item.contents.filter((x) => !x.detail);
   return (
-    <Stack spacing={3} {...props} fontSize="sm">
-      <Text as="h3" fontSize="lg" fontWeight="semibold">
-        {item.name}
-      </Text>
+    <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"}>
+      {!detail && (
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          {item.name}
+        </Text>
+      )}
       {contents.map((block, index) => {
         // CMS will have _key here.
         // We can also support paragraphs, formatting etc. properly.

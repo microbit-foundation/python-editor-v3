@@ -152,10 +152,10 @@ display.show(9876543210, delay=1000, loop=True, wait=False)`,
               value: `from microbit import *
 
 display.show(Image('00300:'
-  '03630:'
-  '36963:'
-  '03630:'
-  '00300'))      
+                   '03630:'
+                   '36963:'
+                   '03630:'
+                   '00300'))      
 `,
             },
           ],
