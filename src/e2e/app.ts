@@ -7,6 +7,7 @@ import { waitFor, waitForOptions } from "@testing-library/dom";
 import { Matcher } from "@testing-library/react";
 import * as fs from "fs";
 import * as fsp from "fs/promises";
+import { escapeRegExp } from "lodash";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
@@ -321,9 +322,12 @@ export class App {
    * @param match The regex.
    */
   async findVisibleEditorContents(
-    match: RegExp,
+    match: RegExp | string,
     options?: waitForOptions
   ): Promise<void> {
+    if (typeof match === "string") {
+      match = new RegExp(escapeRegExp(match));
+    }
     const document = await this.document();
     let lastText: string | undefined;
     const text = () =>
@@ -436,6 +440,35 @@ export class App {
       selector: "h2",
     });
     await document.findByText(description);
+  }
+
+  async selectToolkitSection(name: string): Promise<void> {
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: `View ${name} documentation`,
+    });
+    return button.click();
+  }
+
+  async insertToolkitCode(name: string): Promise<void> {
+    const document = await this.document();
+    const heading = await document.findByText(name, {
+      selector: "h3",
+    });
+    const handle = heading.asElement();
+    await handle!.evaluate((element) => {
+      const item = element.closest("li");
+      item.querySelector("button").click();
+    });
+  }
+
+  async selectToolkitDropDownOption(
+    label: string,
+    option: string
+  ): Promise<void> {
+    const document = await this.document();
+    const select = await document.findByLabelText(label);
+    await select.select(option);
   }
 
   /**

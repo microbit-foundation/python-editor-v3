@@ -69,8 +69,8 @@ const TopicItem = ({
       </Text>
       <Text>{item.text}</Text>
       {item.code.select && (
-        <Flex wrap="wrap">
-          <Text alignSelf="center" mr={2}>
+        <Flex wrap="wrap" as="label">
+          <Text alignSelf="center" mr={2} as="span">
             {item.code.select.prompt}
           </Text>
           <Select

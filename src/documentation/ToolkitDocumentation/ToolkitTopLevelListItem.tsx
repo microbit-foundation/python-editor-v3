@@ -39,7 +39,7 @@ const ToolkitTopLevelListItem = ({
     </Box>
     <IconButton
       icon={<RiArrowRightSFill />}
-      aria-label="More details"
+      aria-label={`View ${name} documentation`}
       variant="ghost"
       color="rgb(179, 186, 211)"
       fontSize="3xl"
