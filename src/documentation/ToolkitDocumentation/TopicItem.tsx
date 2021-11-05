@@ -42,12 +42,60 @@ const TopicItem = ({
   item,
   detail,
   onForward,
+
   ...props
 }: TopicItemProps) => {
+  const contents = detail
+    ? item.contents
+    : item.contents.filter((x) => !x.detail);
+  return (
+    <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"}>
+      {!detail && (
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          {item.name}
+        </Text>
+      )}
+      {contents.map((block, index) => {
+        // CMS will have _key here.
+        // We can also support paragraphs, formatting etc. properly.
+        switch (block._type) {
+          case "code":
+            return (
+              <CodeTemplate
+                key={index}
+                toolkitCode={block}
+                detail={detail}
+                hasDetail={contents.length !== item.contents.length}
+                onForward={onForward}
+              />
+            );
+          case "text":
+            return <Text key={index}>{block.value}</Text>;
+          default:
+            throw new Error();
+        }
+      })}
+    </Stack>
+  );
+};
+
+interface CodeTemplateProps {
+  toolkitCode: ToolkitCode;
+  detail?: boolean;
+  hasDetail?: boolean;
+  onForward: () => void;
+}
+
+const CodeTemplate = ({
+  detail,
+  hasDetail,
+  onForward,
+  toolkitCode,
+}: CodeTemplateProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
   const [option, setOption] = useState<string | undefined>(
-    item.code.select?.options[0]
+    toolkitCode.select?.options[0]
   );
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -55,23 +103,20 @@ const TopicItem = ({
     },
     [setOption]
   );
-  const templatedCode = templateCode(item.code, option);
+  const templatedCode = templateCode(toolkitCode, option);
   // Strip the imports.
   const code = templatedCode.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
   const codeRef = useRef<HTMLDivElement>(null);
   const lines = code.trim().split("\n").length;
   const textHeight = lines * 1.5 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
+
   return (
-    <Stack spacing={3} {...props} fontSize="sm">
-      <Text as="h3" fontSize="lg" fontWeight="semibold">
-        {item.name}
-      </Text>
-      <Text>{item.text}</Text>
-      {item.code.select && (
+    <>
+      {toolkitCode.select && (
         <Flex wrap="wrap" as="label">
           <Text alignSelf="center" mr={2} as="span">
-            {item.code.select.prompt}
+            {toolkitCode.select.prompt}
           </Text>
           <Select
             w="fit-content"
@@ -79,7 +124,7 @@ const TopicItem = ({
             value={option}
             size="sm"
           >
-            {item.code.select.options.map((option) => (
+            {toolkitCode.select.options.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -120,11 +165,10 @@ const TopicItem = ({
           >
             Insert code
           </Button>
-          {!detail && item.furtherText && <MoreButton onClick={onForward} />}
+          {!detail && hasDetail && <MoreButton onClick={onForward} />}
         </HStack>
       </Box>
-      {detail && <Text>{item.furtherText}</Text>}
-    </Stack>
+    </>
   );
 };
 
