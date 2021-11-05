@@ -56,7 +56,6 @@ const TopicItem = ({
     [setOption]
   );
   const templatedCode = templateCode(item.code, option);
-  console.log(option, templatedCode);
   // Strip the imports.
   const code = templatedCode.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
   const codeRef = useRef<HTMLDivElement>(null);
@@ -75,7 +74,6 @@ const TopicItem = ({
             {item.code.select.prompt}
           </Text>
           <Select
-            d="inline-block"
             w="fit-content"
             onChange={handleSelectChange}
             value={option}
@@ -90,8 +88,10 @@ const TopicItem = ({
         </Flex>
       )}
       <Box>
-        <Box height={codeHeight}>
+        <Box height={codeHeight} fontSize="md">
           <Code
+            // Shadow only on this one, not the pop-up.
+            boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
             value={code}
@@ -123,7 +123,7 @@ const TopicItem = ({
           {!detail && item.furtherText && <MoreButton onClick={onForward} />}
         </HStack>
       </Box>
-      {detail && <Text fontSize="sm">{item.furtherText}</Text>}
+      {detail && <Text>{item.furtherText}</Text>}
     </Stack>
   );
 };
@@ -153,7 +153,6 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
-        fontSize="sm"
       />
     </Portal>
   );
@@ -173,7 +172,6 @@ const Code = forwardRef<CodeProps, "pre">(
         backgroundColor="rgb(247,245,242)"
         padding={5}
         borderTopRadius="lg"
-        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
         fontFamily="code"
         {...props}
       >
@@ -205,6 +203,7 @@ const templateCode = (code: ToolkitCode, option: string | undefined) => {
   if (!code.select || option === undefined) {
     return code.value;
   }
+
   return code.value.replace(code.select.placeholder, option);
 };
 
