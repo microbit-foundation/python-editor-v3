@@ -86,12 +86,13 @@ const ApiDocsEntryNode = ({
           display: "flex",
         },
       }}
+      fontSize={isShowingDetail ? "md" : "sm"}
     >
       <Box>
         <HStack>
           <Text
             fontFamily="code"
-            fontSize={kindToFontSize[kind]}
+            fontSize={kindToFontSize[kind] || "md"}
             as={kindToHeading[kind]}
           >
             <Text as="span" fontWeight="semibold">
@@ -104,7 +105,13 @@ const ApiDocsEntryNode = ({
           <BaseClasses value={baseClasses} />
         )}
         <VStack alignItems="stretch" spacing={1}>
-          {activeDocString && <DocString value={activeDocString} />}
+          {activeDocString && (
+            <DocString
+              mt={isShowingDetail ? 5 : 2}
+              fontWeight="normal"
+              value={activeDocString}
+            />
+          )}
           {kind !== "module" &&
             kind !== "class" &&
             hasDetail &&
