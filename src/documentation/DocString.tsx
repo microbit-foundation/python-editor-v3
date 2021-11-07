@@ -3,24 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box } from "@chakra-ui/layout";
+import { Box, BoxProps } from "@chakra-ui/layout";
 import React from "react";
 import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
 
-export interface DocStringProps {
+export interface DocStringProps extends BoxProps {
   value: string;
 }
 
-const DocString = React.memo(({ value }: DocStringProps) => {
+const DocString = React.memo(({ value, ...props }: DocStringProps) => {
   const html = renderMarkdown(value);
   return (
-    <Box
-      className="docs-markdown"
-      fontSize="sm"
-      mt={2}
-      fontWeight="normal"
-      dangerouslySetInnerHTML={html}
-    />
+    <Box className="docs-markdown" dangerouslySetInnerHTML={html} {...props} />
   );
 });
 

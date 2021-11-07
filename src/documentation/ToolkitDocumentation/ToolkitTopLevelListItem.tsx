@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { IconButton } from "@chakra-ui/button";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Text, VStack } from "@chakra-ui/layout";
 import { ReactNode } from "react";
 import { RiArrowRightSFill } from "react-icons/ri";
 import ToolkitListItem from "./ToolkitListItem";
@@ -23,7 +23,7 @@ const ToolkitTopLevelListItem = ({
   headingFontFamily,
 }: ToolkitTopLevelListItemProps) => (
   <ToolkitListItem onClick={onForward} cursor="pointer">
-    <Box flex="1 1 auto">
+    <VStack alignItems="stretch" spacing={2} flex="1 1 auto">
       <Text
         as="h3"
         fontFamily={headingFontFamily}
@@ -36,7 +36,7 @@ const ToolkitTopLevelListItem = ({
       <Box fontSize="sm" noOfLines={1}>
         {description}
       </Box>
-    </Box>
+    </VStack>
     <IconButton
       icon={<RiArrowRightSFill />}
       aria-label={`View ${name} documentation`}
