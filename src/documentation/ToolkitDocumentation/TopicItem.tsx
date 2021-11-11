@@ -61,7 +61,6 @@ const TopicItem = ({
     },
     [setAlternativeIndex]
   );
-  console.log("contents", item.content);
   return (
     <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"}>
       {!detail && (
