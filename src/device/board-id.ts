@@ -22,7 +22,12 @@ export class BoardId {
   }
 
   isV2(): boolean {
-    return this.id === 0x9903 || this.id === 0x9904;
+    return (
+      this.id === 0x9903 ||
+      this.id === 0x9904 ||
+      this.id === 0x9905 ||
+      this.id === 0x9906
+    );
   }
 
   /**
