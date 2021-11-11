@@ -5,6 +5,7 @@
  */
 
 export interface Toolkit {
+  id: string;
   name: string;
   description: string;
   contents: ToolkitTopic[];
@@ -15,34 +16,42 @@ export interface ToolkitTopic {
   /**
    * Short, for the listing.
    */
-  description: string;
+  subtitle: string;
   /**
    * Longer, for the heading above the contents.
    */
   introduction?: string;
-  contents: ToolkitTopicItem[];
+  contents: ToolkitTopicEntry[];
 }
 
 export interface ToolkitCode {
-  _type: "code";
-  detail?: boolean;
-  value: string;
-  select?: {
-    prompt: string;
-    options: string[];
-    placeholder: string;
-  };
+  _type: "python";
+  main: string;
 }
 
 export interface ToolkitText {
-  _type: "text";
-  detail?: boolean;
-  value: string;
+  _type: "block";
 }
 
-export interface ToolkitTopicItem {
+export interface ToolkitImage {
+  _type: "simpleImage";
+  // More!
+}
+
+export type ToolkitPortableText = Array<
+  ToolkitCode | ToolkitText | ToolkitImage
+>;
+
+interface ToolkitAlternative {
   name: string;
-  contents: Array<ToolkitCode | ToolkitText>;
+  contents: ToolkitPortableText;
+}
+
+export interface ToolkitTopicEntry {
+  name: string;
+  contents: ToolkitPortableText;
+  alternatives: ToolkitAlternative[];
+  detailContents: ToolkitPortableText;
 }
 
 export interface ToolkitNavigationState {
