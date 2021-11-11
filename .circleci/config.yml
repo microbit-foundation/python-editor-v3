@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  queue: eddiewebb/queue@1.6.1
+  queue: eddiewebb/queue@1.6.2
 
 _defaults: &defaults
   working_directory: ~/repo
@@ -12,7 +12,6 @@ _steps:
     # See https://github.com/eddiewebb/circleci-queue
     queue/until_front_of_line:
       time: "60"
-      block-workflow: true # Workaround: https://github.com/eddiewebb/circleci-queue/issues/70
   restore_npm_cache: &restore_npm_cache
     restore_cache:
       keys:
