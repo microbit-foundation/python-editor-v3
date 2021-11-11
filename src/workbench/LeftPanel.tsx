@@ -26,7 +26,6 @@ import FaceIcon from "../common/FaceIcon";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import ReferenceDocumentation from "../documentation/ReferenceDocumentation";
-import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
 import ToolkitContainer from "../documentation/ToolkitDocumentation/ToolkitContainer";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";

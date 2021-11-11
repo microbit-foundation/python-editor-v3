@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Box, BoxProps, Flex, HStack, Stack, Text } from "@chakra-ui/layout";
+import { Box, BoxProps, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { Select } from "@chakra-ui/select";
 import { forwardRef } from "@chakra-ui/system";
+import BlockContent from "@sanity/block-content-to-react";
 import {
   ChangeEvent,
   Ref,
@@ -20,12 +21,17 @@ import {
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
-import { ToolkitCode, ToolkitTopic, ToolkitTopicItem } from "./model";
+import {
+  ToolkitCode,
+  ToolkitPortableText,
+  ToolkitTopic,
+  ToolkitTopicEntry,
+} from "./model";
 import MoreButton from "./MoreButton";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
-  item: ToolkitTopicItem;
+  item: ToolkitTopicEntry;
   detail?: boolean;
   onForward: () => void;
 }
@@ -42,12 +48,20 @@ const TopicItem = ({
   item,
   detail,
   onForward,
-
   ...props
 }: TopicItemProps) => {
-  const contents = detail
-    ? item.contents
-    : item.contents.filter((x) => !x.detail);
+  const { content: contents, detailContents, alternatives } = item;
+  const hasDetail = !!detailContents;
+  const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
+    alternatives && alternatives.length > 1 ? 0 : undefined
+  );
+  const handleSelectChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setAlternativeIndex(parseInt(e.currentTarget.value, 10));
+    },
+    [setAlternativeIndex]
+  );
+  console.log("contents", item.content);
   return (
     <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"}>
       {!detail && (
@@ -55,57 +69,84 @@ const TopicItem = ({
           {item.name}
         </Text>
       )}
-      {contents.map((block, index) => {
-        // CMS will have _key here.
-        // We can also support paragraphs, formatting etc. properly.
-        switch (block._type) {
-          case "code":
-            return (
-              <CodeTemplate
-                key={index}
-                toolkitCode={block}
-                detail={detail}
-                hasDetail={contents.length !== item.contents.length}
-                onForward={onForward}
-              />
-            );
-          case "text":
-            return <Text key={index}>{block.value}</Text>;
-          default:
-            throw new Error();
-        }
-      })}
+      <ToolkitContents
+        contents={contents}
+        detail={detail}
+        hasDetail={hasDetail}
+        onForward={onForward}
+      />
+      {alternatives && typeof alternativeIndex === "number" && (
+        <>
+          <Select
+            w="fit-content"
+            onChange={handleSelectChange}
+            value={alternativeIndex}
+            size="sm"
+          >
+            {alternatives.map((alterative, index) => (
+              <option key={alterative.name} value={index}>
+                {alterative.name}
+              </option>
+            ))}
+          </Select>
+          <ToolkitContents
+            contents={alternatives[alternativeIndex].contents}
+            detail={detail}
+            hasDetail={hasDetail}
+            onForward={onForward}
+          />
+        </>
+      )}
+      {detailContents && (
+        <ToolkitContents
+          contents={detailContents}
+          detail={detail}
+          hasDetail={hasDetail}
+          onForward={onForward}
+        />
+      )}
     </Stack>
   );
 };
 
-interface CodeTemplateProps {
-  toolkitCode: ToolkitCode;
+interface ToolkitContentsProps {
+  contents: ToolkitPortableText;
   detail?: boolean;
   hasDetail?: boolean;
   onForward: () => void;
 }
 
-const CodeTemplate = ({
+const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
+  const serializers = {
+    types: {
+      python: ({ node: { main } }: { node: ToolkitCode }) => (
+        <CodeEmbed code={main} {...outerProps} />
+      ),
+      simpleImage: (props: unknown) => <p>Image here!</p>,
+    },
+  };
+  return <BlockContent blocks={contents} serializers={serializers} />;
+};
+
+interface CodeEmbedProps {
+  code: string;
+  detail?: boolean;
+  hasDetail?: boolean;
+  onForward: () => void;
+}
+
+const CodeEmbed = ({
   detail,
   hasDetail,
   onForward,
-  toolkitCode,
-}: CodeTemplateProps) => {
+  code: codeWithImports,
+}: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
-  const [option, setOption] = useState<string | undefined>(
-    toolkitCode.select?.options[0]
-  );
-  const handleSelectChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      setOption(e.currentTarget.value);
-    },
-    [setOption]
-  );
-  const templatedCode = templateCode(toolkitCode, option);
   // Strip the imports.
-  const code = templatedCode.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
+  const code = codeWithImports
+    .replace(/^\s*(from[ ]|import[ ]).*$/gm, "")
+    .trim();
   const codeRef = useRef<HTMLDivElement>(null);
   const lines = code.trim().split("\n").length;
   const textHeight = lines * 1.5 + "em";
@@ -113,25 +154,6 @@ const CodeTemplate = ({
 
   return (
     <>
-      {toolkitCode.select && (
-        <Flex wrap="wrap" as="label">
-          <Text alignSelf="center" mr={2} as="span">
-            {toolkitCode.select.prompt}
-          </Text>
-          <Select
-            w="fit-content"
-            onChange={handleSelectChange}
-            value={option}
-            size="sm"
-          >
-            {toolkitCode.select.options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Select>
-        </Flex>
-      )}
       <Box>
         <Box height={codeHeight} fontSize="md">
           <Code
@@ -161,7 +183,7 @@ const CodeTemplate = ({
             borderBottomRadius="xl"
             variant="ghost"
             size="sm"
-            onClick={() => actions?.insertCode(templatedCode)}
+            onClick={() => actions?.insertCode(codeWithImports)}
           >
             Insert code
           </Button>
@@ -219,7 +241,7 @@ const Code = forwardRef<CodeProps, "pre">(
         fontFamily="code"
         {...props}
       >
-        {value}
+        <code>{value}</code>
       </Text>
     );
   }
@@ -241,14 +263,6 @@ const useScrollTop = () => {
     };
   }, [scrollableRef]);
   return scrollTop;
-};
-
-const templateCode = (code: ToolkitCode, option: string | undefined) => {
-  if (!code.select || option === undefined) {
-    return code.value;
-  }
-
-  return code.value.replace(code.select.placeholder, option);
 };
 
 export default TopicItem;

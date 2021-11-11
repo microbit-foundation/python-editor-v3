@@ -8,7 +8,7 @@ export interface Toolkit {
   id: string;
   name: string;
   description: string;
-  contents: ToolkitTopic[];
+  contents?: ToolkitTopic[];
 }
 
 export interface ToolkitTopic {
@@ -21,7 +21,7 @@ export interface ToolkitTopic {
    * Longer, for the heading above the contents.
    */
   introduction?: string;
-  contents: ToolkitTopicEntry[];
+  contents?: ToolkitTopicEntry[];
 }
 
 export interface ToolkitCode {
@@ -49,9 +49,10 @@ interface ToolkitAlternative {
 
 export interface ToolkitTopicEntry {
   name: string;
-  contents: ToolkitPortableText;
-  alternatives: ToolkitAlternative[];
-  detailContents: ToolkitPortableText;
+  // This is really a naming screw-up we should fix in Sanity.
+  content: ToolkitPortableText;
+  alternatives?: ToolkitAlternative[];
+  detailContents?: ToolkitPortableText;
 }
 
 export interface ToolkitNavigationState {

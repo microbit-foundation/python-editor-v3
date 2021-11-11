@@ -40,7 +40,7 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
       }
     };
     load();
-  }, [setState, toolkitId, isUnmounted]);
+  }, [setState, toolkitId, isUnmounted, logging]);
   switch (state.status) {
     case "loading":
       return <ToolkitSpinner />;

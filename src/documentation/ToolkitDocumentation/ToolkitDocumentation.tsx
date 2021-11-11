@@ -61,9 +61,9 @@ const ActiveTooklitLevel = ({
   direction,
 }: ActiveTooklitLevelProps) => {
   if (state.topicId && state.itemId) {
-    const topic = toolkit.contents.find((t) => t.name === state.topicId);
+    const topic = toolkit.contents?.find((t) => t.name === state.topicId);
     if (topic) {
-      const item = topic.contents.find((i) => i.name === state.itemId);
+      const item = topic.contents?.find((i) => i.name === state.itemId);
       if (item) {
         return (
           <ToolkitLevel
@@ -98,7 +98,7 @@ const ActiveTooklitLevel = ({
       }
     }
   } else if (state.topicId) {
-    const topic = toolkit.contents.find((t) => t.name === state.topicId);
+    const topic = toolkit.contents?.find((t) => t.name === state.topicId);
     if (topic) {
       return (
         <ToolkitLevel
@@ -117,7 +117,7 @@ const ActiveTooklitLevel = ({
             </Text>
           )}
           <List flex="1 1 auto">
-            {topic.contents.map((item) => (
+            {topic.contents?.map((item) => (
               <ToolkitListItem key={item.name}>
                 <TopicItem
                   topic={topic}
@@ -148,11 +148,11 @@ const ActiveTooklitLevel = ({
       }
     >
       <List flex="1 1 auto" m={3}>
-        {toolkit.contents.map((topic) => (
+        {toolkit.contents?.map((topic) => (
           <ToolkitTopLevelListItem
             key={topic.name}
             name={topic.name}
-            description={topic.description}
+            description={topic.subtitle}
             onForward={() =>
               onNavigate({
                 topicId: topic.name,
