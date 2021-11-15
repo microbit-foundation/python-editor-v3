@@ -18,8 +18,10 @@ import { Portal } from "@chakra-ui/portal";
 import { Select } from "@chakra-ui/select";
 import { forwardRef } from "@chakra-ui/system";
 import BlockContent from "@sanity/block-content-to-react";
+import unconfiguredImageUrlBuilder from "@sanity/image-url";
 import {
   ChangeEvent,
+  ReactNode,
   Ref,
   RefObject,
   useCallback,
@@ -29,16 +31,18 @@ import {
 } from "react";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import { useRouterState } from "../../router-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import {
+  ToolkitApiLink,
   ToolkitCode,
+  ToolkitImage,
+  ToolkitInternalLink,
   ToolkitPortableText,
   ToolkitTopic,
   ToolkitTopicEntry,
 } from "./model";
 import MoreButton from "./MoreButton";
-import unconfiguredImageUrlBuilder from "@sanity/image-url";
-import { useRouterState } from "../../router-hooks";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
@@ -142,7 +146,7 @@ export const imageUrlBuilder = unconfiguredImageUrlBuilder()
   .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
 
-const ToolkitApiLink = (props: any) => {
+const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
   const [state, setState] = useRouterState();
   return (
     <Link
@@ -161,7 +165,9 @@ const ToolkitApiLink = (props: any) => {
   );
 };
 
-const ToolkitInternalLink = (props: any) => {
+const ToolkitInternalLinkMark = (
+  props: SerializerMarkProps<ToolkitInternalLink>
+) => {
   const [state, setState] = useRouterState();
   return (
     <Link
@@ -180,16 +186,28 @@ const ToolkitInternalLink = (props: any) => {
   );
 };
 
+interface SerializerNodeProps<T> {
+  node: T;
+}
+
+interface HasChildren {
+  children: ReactNode;
+}
+
+interface SerializerMarkProps<T> extends HasChildren {
+  mark: T;
+}
+
 const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
   const serializers = {
     // This is a serializer for the wrapper element.
     // We use a fragment so we can use spacing from the context into which we render.
-    container: (props: any) => <>{props.children}</>,
+    container: (props: HasChildren) => <>{props.children}</>,
     types: {
-      python: ({ node: { main } }: { node: ToolkitCode }) => (
+      python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
         <CodeEmbed code={main} {...outerProps} />
       ),
-      simpleImage: (props: any) => {
+      simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
         return (
           <Image
             src={imageUrlBuilder
@@ -204,8 +222,8 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
       },
     },
     marks: {
-      toolkitInternalLink: ToolkitInternalLink,
-      toolkitApiLink: ToolkitApiLink,
+      toolkitInternalLink: ToolkitInternalLinkMark,
+      toolkitApiLink: ToolkitApiLinkMark,
     },
   };
   return <BlockContent blocks={content} serializers={serializers} />;

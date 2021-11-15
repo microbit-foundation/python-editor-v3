@@ -35,7 +35,9 @@ export interface ToolkitText {
 
 export interface ToolkitImage {
   _type: "simpleImage";
-  // More!
+  alt?: string;
+  // The Sanity image asset.
+  asset: any;
 }
 
 export type ToolkitPortableText = Array<
@@ -54,6 +56,14 @@ export interface ToolkitTopicEntry {
   alternativesLabel?: string;
   alternatives?: ToolkitAlternative[];
   detailContent?: ToolkitPortableText;
+}
+
+export interface ToolkitInternalLink {
+  reference: ToolkitTopicEntry;
+}
+
+export interface ToolkitApiLink {
+  name: string;
 }
 
 export interface ToolkitNavigationState {
