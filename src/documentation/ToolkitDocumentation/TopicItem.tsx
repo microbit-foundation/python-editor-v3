@@ -139,6 +139,7 @@ export const imageUrlBuilder = unconfiguredImageUrlBuilder()
   .projectId("ajwvhvgo")
   .dataset("apps")
   .auto("format")
+  .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
 
 const ToolkitApiLink = (props: any) => {
