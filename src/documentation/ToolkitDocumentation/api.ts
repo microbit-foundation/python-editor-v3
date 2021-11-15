@@ -29,7 +29,6 @@ const fetchToolkits = async (): Promise<Toolkit[]> => {
 export const fetchToolkit = async (id: string) => {
   const toolkits = await fetchToolkits();
   const toolkit = toolkits.find((t) => id === t.id);
-  console.log(id, toolkit);
   if (!toolkit) {
     throw new Error(`No toolkit with id ${id}`);
   }
