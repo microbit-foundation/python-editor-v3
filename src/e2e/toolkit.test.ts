@@ -40,7 +40,7 @@ describe("Browser - toolkit tabs", () => {
 
     await app.selectToolkitDropDownOption(
       "Use the dropdown to try different images:",
-      "Image.SILLY"
+      "9" // "Image.SILLY"
     );
     await app.insertToolkitCode("Images: built-in");
 

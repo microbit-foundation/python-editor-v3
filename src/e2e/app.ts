@@ -663,10 +663,10 @@ export class App {
    * Take a screenshot named after the running test case and store it in the reports folder.
    * The folder is published in CI.
    */
-  async screenshot() {
+  async screenshot(name: string = expect.getState().currentTestName) {
     const page = await this.page;
     return page.screenshot({
-      path: "reports/screenshots/" + expect.getState().currentTestName + ".png",
+      path: "reports/screenshots/" + name + ".png",
     });
   }
 
