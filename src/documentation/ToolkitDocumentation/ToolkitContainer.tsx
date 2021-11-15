@@ -1,5 +1,6 @@
 import { Text } from "@chakra-ui/layout";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import ToolkitDocumentation from ".";
 import useIsUnmounted from "../../common/use-is-unmounted";
 import { useLogging } from "../../logging/logging-hooks";
@@ -9,7 +10,7 @@ import ToolkitSpinner from "./ToolkitSpinner";
 
 type State =
   | { status: "ok"; toolkit: Toolkit }
-  | { status: "error"; error: string }
+  | { status: "error" }
   | { status: "loading" };
 
 interface ToolkitContainerProps {
@@ -34,7 +35,6 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
         if (!isUnmounted()) {
           setState({
             status: "error",
-            error: "TODO pretty translatable error",
           });
         }
       }
@@ -45,7 +45,11 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
     case "loading":
       return <ToolkitSpinner />;
     case "error":
-      return <Text p={5}>{state.error}</Text>;
+      return (
+        <Text p={5}>
+          <FormattedMessage id="toolkit-error-loading" />
+        </Text>
+      );
     case "ok":
       return <ToolkitDocumentation toolkit={state.toolkit} />;
     default:

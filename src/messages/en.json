@@ -1005,6 +1005,12 @@
       "value": "Connection timed out"
     }
   ],
+  "toolkit-error-loading": [
+    {
+      "type": 0,
+      "value": "An error occurred loading the toolkit."
+    }
+  ],
   "unexpected-error-description": [
     {
       "type": 0,
