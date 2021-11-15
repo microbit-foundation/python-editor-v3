@@ -1,9 +1,21 @@
 import { Toolkit } from "./model";
 
+// For now we just slurp everything at once.
+// Might revisit depending on eventual size.
+const toolkitQuery = `
+  *[_type == "toolkit" && !(_id in path("drafts.**"))]{
+    id, name, description, 
+    contents[]->{
+      name, subtitle, introduction, 
+      contents[]->{
+        name, content, alternativesLabel, alternatives, detailContent
+      }
+    }
+  }`;
+// No need to add a Sanity client dependency just for this.
 const toolkitQueryUrl =
-  // For now we just slurp everything at once.
-  // Might revisit depending on eventual size.
-  "https://ajwvhvgo.api.sanity.io/v1/data/query/apps?query=*%5B_type%20%3D%3D%20%22toolkit%22%5D%7Bid%2C%20name%2C%20description%2C%20contents%5B%5D-%3E%7Bname%2C%20subtitle%2C%20introduction%2C%20contents%5B%5D-%3E%7Bname%2C%20content%2C%20alternatives%2C%20detailContent%7D%7D%7D";
+  "https://ajwvhvgo.api.sanity.io/v1/data/query/apps?query=" +
+  encodeURIComponent(toolkitQuery);
 
 const fetchToolkitsInternal = async (): Promise<Toolkit[]> => {
   const response = await fetch(toolkitQueryUrl);

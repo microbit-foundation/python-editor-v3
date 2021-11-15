@@ -49,8 +49,9 @@ interface ToolkitAlternative {
 
 export interface ToolkitTopicEntry {
   name: string;
-  // This is really a naming screw-up we should fix in Sanity.
   content: ToolkitPortableText;
+  // Should be co-present with alternatives.
+  alternativesLabel?: string;
   alternatives?: ToolkitAlternative[];
   detailContent?: ToolkitPortableText;
 }

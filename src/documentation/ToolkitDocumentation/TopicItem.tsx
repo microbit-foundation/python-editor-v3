@@ -5,7 +5,15 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
-import { Box, BoxProps, HStack, Link, Stack, Text } from "@chakra-ui/layout";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  HStack,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { Select } from "@chakra-ui/select";
 import { forwardRef } from "@chakra-ui/system";
@@ -53,7 +61,7 @@ const TopicItem = ({
   onForward,
   ...props
 }: TopicItemProps) => {
-  const { content: contents, detailContent, alternatives } = item;
+  const { content, detailContent, alternatives, alternativesLabel } = item;
   const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
     alternatives && alternatives.length > 0 ? 0 : undefined
@@ -71,28 +79,34 @@ const TopicItem = ({
           {item.name}
         </Text>
       )}
-      <ToolkitContents
-        contents={contents}
+      <ToolkitContent
+        content={content}
         detail={detail}
         hasDetail={hasDetail}
         onForward={onForward}
       />
       {alternatives && typeof alternativeIndex === "number" && (
         <>
-          <Select
-            w="fit-content"
-            onChange={handleSelectChange}
-            value={alternativeIndex}
-            size="sm"
-          >
-            {alternatives.map((alterative, index) => (
-              <option key={alterative.name} value={index}>
-                {alterative.name}
-              </option>
-            ))}
-          </Select>
-          <ToolkitContents
-            contents={alternatives[alternativeIndex].content}
+          <Flex wrap="wrap" as="label">
+            <Text alignSelf="center" mr={2} as="span">
+              {alternativesLabel}
+            </Text>
+            <Select
+              w="fit-content"
+              onChange={handleSelectChange}
+              value={alternativeIndex}
+              size="sm"
+            >
+              {alternatives.map((alterative, index) => (
+                <option key={alterative.name} value={index}>
+                  {alterative.name}
+                </option>
+              ))}
+            </Select>
+          </Flex>
+
+          <ToolkitContent
+            content={alternatives[alternativeIndex].content}
             detail={detail}
             hasDetail={hasDetail}
             onForward={onForward}
@@ -100,8 +114,8 @@ const TopicItem = ({
         </>
       )}
       {detail && detailContent && (
-        <ToolkitContents
-          contents={detailContent}
+        <ToolkitContent
+          content={detailContent}
           detail={detail}
           hasDetail={hasDetail}
           onForward={onForward}
@@ -111,8 +125,8 @@ const TopicItem = ({
   );
 };
 
-interface ToolkitContentsProps {
-  contents: ToolkitPortableText;
+interface ToolkitContentProps {
+  content: ToolkitPortableText;
   detail?: boolean;
   hasDetail?: boolean;
   onForward: () => void;
@@ -165,7 +179,7 @@ const ToolkitInternalLink = (props: any) => {
   );
 };
 
-const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
+const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
   const serializers = {
     // This is a serializer for the wrapper element.
     // We use a fragment so we can use spacing from the context into which we render.
@@ -193,7 +207,7 @@ const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
       toolkitApiLink: ToolkitApiLink,
     },
   };
-  return <BlockContent blocks={contents} serializers={serializers} />;
+  return <BlockContent blocks={content} serializers={serializers} />;
 };
 
 interface CodeEmbedProps {
