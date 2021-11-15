@@ -479,6 +479,10 @@
     "defaultMessage": "Connection timed out",
     "description": "Title for error messages relating to WebUSB timeout"
   },
+  "toolkit-error-loading": {
+    "defaultMessage": "An error occurred loading the toolkit.",
+    "description": "Error shown if we failed to load toolkit content"
+  },
   "unexpected-error-description": {
     "defaultMessage": "Please try again or <link>raise a support request</link>",
     "description": "Progress dialog text telling user that code is being flashed"

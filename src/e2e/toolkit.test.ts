@@ -38,7 +38,10 @@ describe("Browser - toolkit tabs", () => {
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
 
-    await app.selectToolkitDropDownOption("Show example for:", "Image.SILLY");
+    await app.selectToolkitDropDownOption(
+      "Use the dropdown to try different images:",
+      "9" // "Image.SILLY"
+    );
     await app.insertToolkitCode("Images: built-in");
 
     await app.findVisibleEditorContents("display.show(Image.SILLY)");

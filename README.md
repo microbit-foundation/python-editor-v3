@@ -73,10 +73,22 @@ We use [Puppeteer](https://pptr.dev/) and the helpers provided by [Testing Libra
 
 The CI tests run these end-to-end tests against a production build.
 
+### `npm run test:all --testPathPattern toolkit`
+
+An example of how to use jest options to filter to a specific subset of the tests (e2e or unit).
+
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+## Translations
+
+We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.
+
+Add strings to `lang/en.json` and run `npm run i18n:compile` to update the strings used by the app.
+
+There are currently no translations while the app is in alpha.
 
 ## License
 

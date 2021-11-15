@@ -26,11 +26,7 @@ import FaceIcon from "../common/FaceIcon";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import ReferenceDocumentation from "../documentation/ReferenceDocumentation";
-import {
-  microbitToolkit,
-  pythonToolkit,
-} from "../documentation/toolkit-mock-data";
-import ToolkitDocumentation from "../documentation/ToolkitDocumentation";
+import ToolkitContainer from "../documentation/ToolkitDocumentation/ToolkitContainer";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import { flags } from "../flags";
@@ -83,13 +79,13 @@ const LeftPanel = ({
           id: "microbit",
           title: "micro:bit", // No brand translation
           icon: FaceIcon as IconType,
-          contents: <ToolkitDocumentation toolkit={microbitToolkit} />,
+          contents: <ToolkitContainer toolkitId="microbit" />,
         },
         {
           id: "python",
           title: intl.formatMessage({ id: "python-tab" }),
           icon: PythonLogo as IconType,
-          contents: <ToolkitDocumentation toolkit={pythonToolkit} />,
+          contents: <ToolkitContainer toolkitId="python" />,
         },
         {
           id: "reference",

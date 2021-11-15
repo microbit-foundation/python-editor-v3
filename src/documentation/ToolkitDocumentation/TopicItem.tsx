@@ -4,12 +4,24 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Box, BoxProps, Flex, HStack, Stack, Text } from "@chakra-ui/layout";
+import { Image } from "@chakra-ui/image";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  HStack,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { Select } from "@chakra-ui/select";
 import { forwardRef } from "@chakra-ui/system";
+import BlockContent from "@sanity/block-content-to-react";
+import unconfiguredImageUrlBuilder from "@sanity/image-url";
 import {
   ChangeEvent,
+  ReactNode,
   Ref,
   RefObject,
   useCallback,
@@ -19,13 +31,22 @@ import {
 } from "react";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import { useRouterState } from "../../router-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
-import { ToolkitCode, ToolkitTopic, ToolkitTopicItem } from "./model";
+import {
+  ToolkitApiLink,
+  ToolkitCode,
+  ToolkitImage,
+  ToolkitInternalLink,
+  ToolkitPortableText,
+  ToolkitTopic,
+  ToolkitTopicEntry,
+} from "./model";
 import MoreButton from "./MoreButton";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
-  item: ToolkitTopicItem;
+  item: ToolkitTopicEntry;
   detail?: boolean;
   onForward: () => void;
 }
@@ -42,12 +63,19 @@ const TopicItem = ({
   item,
   detail,
   onForward,
-
   ...props
 }: TopicItemProps) => {
-  const contents = detail
-    ? item.contents
-    : item.contents.filter((x) => !x.detail);
+  const { content, detailContent, alternatives, alternativesLabel } = item;
+  const hasDetail = !!detailContent;
+  const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
+    alternatives && alternatives.length > 0 ? 0 : undefined
+  );
+  const handleSelectChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setAlternativeIndex(parseInt(e.currentTarget.value, 10));
+    },
+    [setAlternativeIndex]
+  );
   return (
     <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"}>
       {!detail && (
@@ -55,57 +83,171 @@ const TopicItem = ({
           {item.name}
         </Text>
       )}
-      {contents.map((block, index) => {
-        // CMS will have _key here.
-        // We can also support paragraphs, formatting etc. properly.
-        switch (block._type) {
-          case "code":
-            return (
-              <CodeTemplate
-                key={index}
-                toolkitCode={block}
-                detail={detail}
-                hasDetail={contents.length !== item.contents.length}
-                onForward={onForward}
-              />
-            );
-          case "text":
-            return <Text key={index}>{block.value}</Text>;
-          default:
-            throw new Error();
-        }
-      })}
+      <ToolkitContent
+        content={content}
+        detail={detail}
+        hasDetail={hasDetail}
+        onForward={onForward}
+      />
+      {alternatives && typeof alternativeIndex === "number" && (
+        <>
+          <Flex wrap="wrap" as="label">
+            <Text alignSelf="center" mr={2} as="span">
+              {alternativesLabel}
+            </Text>
+            <Select
+              w="fit-content"
+              onChange={handleSelectChange}
+              value={alternativeIndex}
+              size="sm"
+            >
+              {alternatives.map((alterative, index) => (
+                <option key={alterative.name} value={index}>
+                  {alterative.name}
+                </option>
+              ))}
+            </Select>
+          </Flex>
+
+          <ToolkitContent
+            content={alternatives[alternativeIndex].content}
+            detail={detail}
+            hasDetail={hasDetail}
+            onForward={onForward}
+          />
+        </>
+      )}
+      {detail && detailContent && (
+        <ToolkitContent
+          content={detailContent}
+          detail={detail}
+          hasDetail={hasDetail}
+          onForward={onForward}
+        />
+      )}
     </Stack>
   );
 };
 
-interface CodeTemplateProps {
-  toolkitCode: ToolkitCode;
+interface ToolkitContentProps {
+  content: ToolkitPortableText;
   detail?: boolean;
   hasDetail?: boolean;
   onForward: () => void;
 }
 
-const CodeTemplate = ({
+export const defaultQuality = 80;
+
+export const imageUrlBuilder = unconfiguredImageUrlBuilder()
+  // Hardcoded for now as there's no practical alternative.
+  .projectId("ajwvhvgo")
+  .dataset("apps")
+  .auto("format")
+  .dpr(window.devicePixelRatio ?? 1)
+  .quality(defaultQuality);
+
+const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
+  const [state, setState] = useRouterState();
+  return (
+    <Link
+      color="brand.600"
+      onClick={(e) => {
+        e.preventDefault();
+        setState({
+          ...state,
+          tab: "reference",
+          reference: props.mark.name,
+        });
+      }}
+    >
+      {props.children}
+    </Link>
+  );
+};
+
+const ToolkitInternalLinkMark = (
+  props: SerializerMarkProps<ToolkitInternalLink>
+) => {
+  const [state, setState] = useRouterState();
+  return (
+    <Link
+      color="brand.600"
+      onClick={(e) => {
+        e.preventDefault();
+        setState({
+          ...state,
+          // Hmm, we need to know the tab/toolkit (we should name them the same).
+          // We also need to switch to router-based navigation for the other toolkits.
+        });
+      }}
+    >
+      {props.children}
+    </Link>
+  );
+};
+
+interface SerializerNodeProps<T> {
+  node: T;
+}
+
+interface HasChildren {
+  children: ReactNode;
+}
+
+interface SerializerMarkProps<T> extends HasChildren {
+  mark: T;
+}
+
+const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
+  const serializers = {
+    // This is a serializer for the wrapper element.
+    // We use a fragment so we can use spacing from the context into which we render.
+    container: (props: HasChildren) => <>{props.children}</>,
+    types: {
+      python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
+        <CodeEmbed code={main} {...outerProps} />
+      ),
+      simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
+        return (
+          <Image
+            src={imageUrlBuilder
+              .image(props.node.asset)
+              .width(300)
+              .fit("max")
+              .url()}
+            alt={props.node.alt}
+            w="300px"
+          />
+        );
+      },
+    },
+    marks: {
+      toolkitInternalLink: ToolkitInternalLinkMark,
+      toolkitApiLink: ToolkitApiLinkMark,
+    },
+  };
+  return <BlockContent blocks={content} serializers={serializers} />;
+};
+
+interface CodeEmbedProps {
+  code: string;
+  detail?: boolean;
+  hasDetail?: boolean;
+  onForward: () => void;
+}
+
+const CodeEmbed = ({
   detail,
   hasDetail,
   onForward,
-  toolkitCode,
-}: CodeTemplateProps) => {
+  code: codeWithImports,
+}: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
-  const [option, setOption] = useState<string | undefined>(
-    toolkitCode.select?.options[0]
-  );
-  const handleSelectChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      setOption(e.currentTarget.value);
-    },
-    [setOption]
-  );
-  const templatedCode = templateCode(toolkitCode, option);
   // Strip the imports.
-  const code = templatedCode.replace(/^\s*(from[ ]|import[ ]).*$/gm, "").trim();
+  const code = codeWithImports
+    .replace(/^\s*(from[ ]|import[ ]).*$/gm, "")
+    .trim();
   const codeRef = useRef<HTMLDivElement>(null);
   const lines = code.trim().split("\n").length;
   const textHeight = lines * 1.5 + "em";
@@ -113,25 +255,6 @@ const CodeTemplate = ({
 
   return (
     <>
-      {toolkitCode.select && (
-        <Flex wrap="wrap" as="label">
-          <Text alignSelf="center" mr={2} as="span">
-            {toolkitCode.select.prompt}
-          </Text>
-          <Select
-            w="fit-content"
-            onChange={handleSelectChange}
-            value={option}
-            size="sm"
-          >
-            {toolkitCode.select.options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Select>
-        </Flex>
-      )}
       <Box>
         <Box height={codeHeight} fontSize="md">
           <Code
@@ -161,7 +284,7 @@ const CodeTemplate = ({
             borderBottomRadius="xl"
             variant="ghost"
             size="sm"
-            onClick={() => actions?.insertCode(templatedCode)}
+            onClick={() => actions?.insertCode(codeWithImports)}
           >
             Insert code
           </Button>
@@ -219,7 +342,7 @@ const Code = forwardRef<CodeProps, "pre">(
         fontFamily="code"
         {...props}
       >
-        {value}
+        <code>{value}</code>
       </Text>
     );
   }
@@ -241,14 +364,6 @@ const useScrollTop = () => {
     };
   }, [scrollableRef]);
   return scrollTop;
-};
-
-const templateCode = (code: ToolkitCode, option: string | undefined) => {
-  if (!code.select || option === undefined) {
-    return code.value;
-  }
-
-  return code.value.replace(code.select.placeholder, option);
 };
 
 export default TopicItem;

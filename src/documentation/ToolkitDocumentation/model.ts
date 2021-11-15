@@ -5,9 +5,10 @@
  */
 
 export interface Toolkit {
+  id: string;
   name: string;
   description: string;
-  contents: ToolkitTopic[];
+  contents?: ToolkitTopic[];
 }
 
 export interface ToolkitTopic {
@@ -15,34 +16,54 @@ export interface ToolkitTopic {
   /**
    * Short, for the listing.
    */
-  description: string;
+  subtitle: string;
   /**
    * Longer, for the heading above the contents.
    */
   introduction?: string;
-  contents: ToolkitTopicItem[];
+  contents?: ToolkitTopicEntry[];
 }
 
 export interface ToolkitCode {
-  _type: "code";
-  detail?: boolean;
-  value: string;
-  select?: {
-    prompt: string;
-    options: string[];
-    placeholder: string;
-  };
+  _type: "python";
+  main: string;
 }
 
 export interface ToolkitText {
-  _type: "text";
-  detail?: boolean;
-  value: string;
+  _type: "block";
 }
 
-export interface ToolkitTopicItem {
+export interface ToolkitImage {
+  _type: "simpleImage";
+  alt?: string;
+  // The Sanity image asset.
+  asset: any;
+}
+
+export type ToolkitPortableText = Array<
+  ToolkitCode | ToolkitText | ToolkitImage
+>;
+
+interface ToolkitAlternative {
   name: string;
-  contents: Array<ToolkitCode | ToolkitText>;
+  content: ToolkitPortableText;
+}
+
+export interface ToolkitTopicEntry {
+  name: string;
+  content: ToolkitPortableText;
+  // Should be co-present with alternatives.
+  alternativesLabel?: string;
+  alternatives?: ToolkitAlternative[];
+  detailContent?: ToolkitPortableText;
+}
+
+export interface ToolkitInternalLink {
+  reference: ToolkitTopicEntry;
+}
+
+export interface ToolkitApiLink {
+  name: string;
 }
 
 export interface ToolkitNavigationState {
