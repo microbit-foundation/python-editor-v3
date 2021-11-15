@@ -117,6 +117,9 @@ interface ToolkitContentsProps {
 
 const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
   const serializers = {
+    // This is a serializer for the wrapper element.
+    // We use a fragment so we can use spacing from the context into which we render.
+    container: (props: any) => <>{props.children}</>,
     types: {
       python: ({ node: { main } }: { node: ToolkitCode }) => (
         <CodeEmbed code={main} {...outerProps} />
