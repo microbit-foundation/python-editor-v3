@@ -52,8 +52,8 @@ const TopicItem = ({
   onForward,
   ...props
 }: TopicItemProps) => {
-  const { content: contents, detailContents, alternatives } = item;
-  const hasDetail = !!detailContents;
+  const { content: contents, detailContent, alternatives } = item;
+  const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
     alternatives && alternatives.length > 0 ? 0 : undefined
   );
@@ -98,9 +98,9 @@ const TopicItem = ({
           />
         </>
       )}
-      {detailContents && (
+      {detail && detailContent && (
         <ToolkitContents
-          contents={detailContents}
+          contents={detailContent}
           detail={detail}
           hasDetail={hasDetail}
           onForward={onForward}

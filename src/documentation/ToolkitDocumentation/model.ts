@@ -52,7 +52,7 @@ export interface ToolkitTopicEntry {
   // This is really a naming screw-up we should fix in Sanity.
   content: ToolkitPortableText;
   alternatives?: ToolkitAlternative[];
-  detailContents?: ToolkitPortableText;
+  detailContent?: ToolkitPortableText;
 }
 
 export interface ToolkitNavigationState {
