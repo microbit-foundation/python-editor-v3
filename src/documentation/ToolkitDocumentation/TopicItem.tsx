@@ -5,7 +5,7 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
-import { Box, BoxProps, HStack, Stack, Text } from "@chakra-ui/layout";
+import { Box, BoxProps, HStack, Link, Stack, Text } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { Select } from "@chakra-ui/select";
 import { forwardRef } from "@chakra-ui/system";
@@ -30,6 +30,7 @@ import {
 } from "./model";
 import MoreButton from "./MoreButton";
 import unconfiguredImageUrlBuilder from "@sanity/image-url";
+import { useRouterState } from "../../router-hooks";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
@@ -120,11 +121,49 @@ interface ToolkitContentsProps {
 export const defaultQuality = 80;
 
 export const imageUrlBuilder = unconfiguredImageUrlBuilder()
-  // Hardcoded for now as there's no pratical alternative.
+  // Hardcoded for now as there's no practical alternative.
   .projectId("ajwvhvgo")
   .dataset("apps")
   .auto("format")
   .quality(defaultQuality);
+
+const ToolkitApiLink = (props: any) => {
+  const [state, setState] = useRouterState();
+  return (
+    <Link
+      color="brand.600"
+      onClick={(e) => {
+        e.preventDefault();
+        setState({
+          ...state,
+          tab: "reference",
+          reference: props.mark.name,
+        });
+      }}
+    >
+      {props.children}
+    </Link>
+  );
+};
+
+const ToolkitInternalLink = (props: any) => {
+  const [state, setState] = useRouterState();
+  return (
+    <Link
+      color="brand.600"
+      onClick={(e) => {
+        e.preventDefault();
+        setState({
+          ...state,
+          // Hmm, we need to know the tab/toolkit (we should name them the same).
+          // We also need to switch to router-based navigation for the other toolkits.
+        });
+      }}
+    >
+      {props.children}
+    </Link>
+  );
+};
 
 const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
   const serializers = {
@@ -150,13 +189,8 @@ const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
       },
     },
     marks: {
-      // Just unwrap for now, implementation required.
-      toolkitInternalLink: (props: any) => {
-        return <>{props.children}</>;
-      },
-      toolkitApiLink: (props: any) => {
-        return <>{props.children}</>;
-      },
+      toolkitInternalLink: ToolkitInternalLink,
+      toolkitApiLink: ToolkitApiLink,
     },
   };
   return <BlockContent blocks={contents} serializers={serializers} />;
