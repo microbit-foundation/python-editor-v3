@@ -53,7 +53,7 @@ const TopicItem = ({
   const { content: contents, detailContents, alternatives } = item;
   const hasDetail = !!detailContents;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
-    alternatives && alternatives.length > 1 ? 0 : undefined
+    alternatives && alternatives.length > 0 ? 0 : undefined
   );
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -89,7 +89,7 @@ const TopicItem = ({
             ))}
           </Select>
           <ToolkitContents
-            contents={alternatives[alternativeIndex].contents}
+            contents={alternatives[alternativeIndex].content}
             detail={detail}
             hasDetail={hasDetail}
             onForward={onForward}

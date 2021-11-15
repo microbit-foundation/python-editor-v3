@@ -45,7 +45,7 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
     case "loading":
       return <ToolkitSpinner />;
     case "error":
-      return <Text>{state.error}</Text>;
+      return <Text p={5}>{state.error}</Text>;
     case "ok":
       return <ToolkitDocumentation toolkit={state.toolkit} />;
     default:

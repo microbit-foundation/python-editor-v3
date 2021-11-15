@@ -44,7 +44,7 @@ export type ToolkitPortableText = Array<
 
 interface ToolkitAlternative {
   name: string;
-  contents: ToolkitPortableText;
+  content: ToolkitPortableText;
 }
 
 export interface ToolkitTopicEntry {
