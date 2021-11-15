@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
+import { Image } from "@chakra-ui/image";
 import { Box, BoxProps, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { Select } from "@chakra-ui/select";
@@ -28,6 +29,7 @@ import {
   ToolkitTopicEntry,
 } from "./model";
 import MoreButton from "./MoreButton";
+import unconfiguredImageUrlBuilder from "@sanity/image-url";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
@@ -115,6 +117,15 @@ interface ToolkitContentsProps {
   onForward: () => void;
 }
 
+export const defaultQuality = 80;
+
+export const imageUrlBuilder = unconfiguredImageUrlBuilder()
+  // Hardcoded for now as there's no pratical alternative.
+  .projectId("ajwvhvgo")
+  .dataset("apps")
+  .auto("format")
+  .quality(defaultQuality);
+
 const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
   const serializers = {
     // This is a serializer for the wrapper element.
@@ -124,7 +135,28 @@ const ToolkitContents = ({ contents, ...outerProps }: ToolkitContentsProps) => {
       python: ({ node: { main } }: { node: ToolkitCode }) => (
         <CodeEmbed code={main} {...outerProps} />
       ),
-      simpleImage: (props: unknown) => <p>Image here!</p>,
+      simpleImage: (props: any) => {
+        return (
+          <Image
+            src={imageUrlBuilder
+              .image(props.node.asset)
+              .width(300)
+              .fit("max")
+              .url()}
+            alt={props.node.alt}
+            w="300px"
+          />
+        );
+      },
+    },
+    marks: {
+      // Just unwrap for now, implementation required.
+      toolkitInternalLink: (props: any) => {
+        return <>{props.children}</>;
+      },
+      toolkitApiLink: (props: any) => {
+        return <>{props.children}</>;
+      },
     },
   };
   return <BlockContent blocks={contents} serializers={serializers} />;
