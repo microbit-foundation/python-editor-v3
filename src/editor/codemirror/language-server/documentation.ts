@@ -54,6 +54,8 @@ const fixupMarkdown = (input: string): string => {
   return input
     .replace(/^\\\n/, "")
     .replace(/`([\w² \n]+?) ?<(.*?)>`\\_/gs, "[$1]($2)")
+    .replace(/\\\*args/, "*args")
+    .replace(/\\\*kwargs/, "*kwargs")
     .replace(/\\\*\\\*/g, "**")
     .replace(/:param ([^:]+):/g, "**`$1`**: ")
     .replace(/:return:/g, "**returns**: ");

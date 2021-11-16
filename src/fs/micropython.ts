@@ -20,8 +20,12 @@ export const microPythonVersions = [
     name: "MicroPython (micro:bit V2)",
     url: microPythonV2HexUrl,
     boardId: microbitBoardId.V2,
-    version: "2.0.0",
-    web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.0.0",
+    // Temporary pre-release version for data logging testing
+    // Commit 16d43808069bb19d3b29f6c9eadccfd24a120c52 (master)
+    version: "16d4380",
+    web: "https://github.com/microbit-foundation/micropython-microbit-v2/actions/runs/1381046685",
+    // When we're back on a release we want URLs in this format:
+    // web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.0.0",
   },
 ];
 

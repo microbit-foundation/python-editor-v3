@@ -67,6 +67,7 @@ export const apiDocs = (
       // Need to consider e.g. urandom vs random and perhaps move
       // the stubs to the primary file.
       // "audio" is covered under micro:bit.
+      "log",
       "machine",
       "math",
       "microbit",
