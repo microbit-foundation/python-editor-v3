@@ -31,6 +31,7 @@ import {
 } from "react";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { useRouterState } from "../../router-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import {
@@ -250,7 +251,7 @@ const CodeEmbed = ({
     .trim();
   const codeRef = useRef<HTMLDivElement>(null);
   const lines = code.trim().split("\n").length;
-  const textHeight = lines * 1.5 + "em";
+  const textHeight = lines * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
 
   return (
@@ -333,17 +334,16 @@ interface CodeProps extends BoxProps {
 const Code = forwardRef<CodeProps, "pre">(
   ({ value, ...props }: CodeProps, ref) => {
     return (
-      <Text
-        ref={ref}
-        as="pre"
+      <Box
         backgroundColor="rgb(247,245,242)"
-        padding={5}
+        p={5}
         borderTopRadius="lg"
         fontFamily="code"
         {...props}
+        ref={ref}
       >
-        <code>{value}</code>
-      </Text>
+        <CodeMirrorView value={value} />
+      </Box>
     );
   }
 );

@@ -5,8 +5,7 @@
  */
 import { EditorView } from "@codemirror/view";
 
-export const themeExtensions = (fontSizePt: number) => {
-  const fontSize = `${fontSizePt}pt`;
+export const themeExtensions = (fontSize: string) => {
   const fontFamily = "var(--chakra-fonts-code)";
   return EditorView.theme({
     ".cm-content": {
