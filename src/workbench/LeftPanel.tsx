@@ -76,16 +76,10 @@ const LeftPanel = ({
         0,
         1,
         {
-          id: "microbit",
-          title: "micro:bit", // No brand translation
+          id: "explore",
+          title: "Explore", // No brand translation
           icon: FaceIcon as IconType,
-          contents: <ToolkitContainer toolkitId="microbit" />,
-        },
-        {
-          id: "python",
-          title: intl.formatMessage({ id: "python-tab" }),
-          icon: PythonLogo as IconType,
-          contents: <ToolkitContainer toolkitId="python" />,
+          contents: <ToolkitContainer toolkitId="explore" />,
         },
         {
           id: "reference",
