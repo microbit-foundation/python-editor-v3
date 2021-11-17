@@ -7,7 +7,6 @@ import { completionKeymap } from "@codemirror/autocomplete";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
 import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
 import { commentKeymap } from "@codemirror/comment";
-import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { defaultHighlightStyle } from "@codemirror/highlight";
 import { history, historyKeymap } from "@codemirror/history";
 import { python } from "@codemirror/lang-python";
@@ -17,7 +16,6 @@ import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
   EditorView,
-  highlightActiveLine,
   highlightSpecialChars,
   KeyBinding,
   keymap,
@@ -42,7 +40,6 @@ export const editorConfig: Extension = [
     // Disable Grammarly.
     "data-gramm": "false",
   }),
-  lineNumbers(),
   highlightSpecialChars(),
   history(),
   drawSelection(),
@@ -50,8 +47,6 @@ export const editorConfig: Extension = [
   Prec.fallback(defaultHighlightStyle),
   closeBrackets(),
   highlightStyle(),
-  highlightActiveLine(),
-  highlightActiveLineGutter(),
 
   keymap.of([
     // Added, but see https://codemirror.net/6/examples/tab/ for accessibility discussion.

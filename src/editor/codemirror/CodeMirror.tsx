@@ -3,8 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { EditorSelection, EditorState } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
+import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
+import { EditorSelection, EditorState, Extension } from "@codemirror/state";
+import { EditorView, highlightActiveLine } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { createUri } from "../../language-server/client";
@@ -78,12 +79,16 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
+          // Extensions only relevant for editing:
+          lineNumbers(),
+          highlightActiveLineGutter(),
+          highlightActiveLine(),
           client ? languageServer(client, uri) : [],
           // Extensions we enable/disable based on props.
           structureHighlightingCompartment.of(
             codeStructure(options.codeStructureSettings)
           ),
-          themeExtensionsCompartment.of(themeExtensions(options.fontSize)),
+          themeExtensionsCompartment.of(themeExtensionsForOptions(options)),
         ],
       });
       const view = new EditorView({
@@ -110,7 +115,7 @@ const CodeMirror = ({
     viewRef.current!.dispatch({
       effects: [
         themeExtensionsCompartment.reconfigure(
-          themeExtensions(options.fontSize)
+          themeExtensionsForOptions(options)
         ),
         structureHighlightingCompartment.reconfigure(
           codeStructure(options.codeStructureSettings)
@@ -168,5 +173,9 @@ const CodeMirror = ({
     />
   );
 };
+
+function themeExtensionsForOptions(options: { fontSize: number }): Extension {
+  return themeExtensions(options.fontSize + "pt");
+}
 
 export default CodeMirror;
