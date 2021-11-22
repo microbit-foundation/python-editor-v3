@@ -114,4 +114,12 @@ describe("edits", () => {
       "from microbit import *\nimport radio\n\nradio.off()\n\nwhile True:\n    display.scroll('Hello, World')\n"
     );
   });
+
+  it("multiple imports into empty doc", () => {
+    check(
+      "",
+      "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
+      "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n"
+    );
+  });
 });
