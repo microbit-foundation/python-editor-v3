@@ -76,7 +76,7 @@ const LeftPanel = ({
         1,
         {
           id: "explore",
-          title: "Explore", // No brand translation
+          title: "Explore",
           icon: PythonLogo as IconType,
           contents: <ToolkitContainer toolkitId="explore" />,
         },
