@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { escapeRegExp } from "../editor/codemirror/language-server/regexp-util";
 import { App, defaultRootUrl } from "./app";
 
 describe("Browser - toolkit tabs", () => {
@@ -22,7 +21,7 @@ describe("Browser - toolkit tabs", () => {
   });
 
   it("Insert code", async () => {
-    await app.switchTab("micro:bit");
+    await app.switchTab("Explore");
     await app.selectToolkitSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -33,7 +32,7 @@ describe("Browser - toolkit tabs", () => {
   });
 
   it("Insert code after dropdown choice", async () => {
-    await app.switchTab("micro:bit");
+    await app.switchTab("Explore");
     await app.selectToolkitSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
