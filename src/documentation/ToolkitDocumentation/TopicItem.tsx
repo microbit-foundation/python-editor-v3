@@ -1,3 +1,4 @@
+
 /**
  * (c) 2021, Micro:bit Educational Foundation and contributors
  *
@@ -78,7 +79,7 @@ const TopicItem = ({
     [setAlternativeIndex]
   );
   return (
-    <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"}>
+    <Stack spacing={detail ? 5 : 3} {...props} fontSize={detail ? "md" : "sm"} listStyle="disc inside">
       {!detail && (
         <Text as="h3" fontSize="lg" fontWeight="semibold">
           {item.name}

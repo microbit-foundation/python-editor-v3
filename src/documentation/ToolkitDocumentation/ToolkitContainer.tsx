@@ -26,7 +26,7 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
   useEffect(() => {
     const load = async () => {
       try {
-        const toolkit = await fetchToolkit(toolkitId);
+        const toolkit = await fetchToolkit();
         if (!isUnmounted()) {
           setState({ status: "ok", toolkit });
         }
