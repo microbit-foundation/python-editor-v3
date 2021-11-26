@@ -113,8 +113,21 @@ export const calculateChanges = (state: EditorState, addition: string) => {
         "\n" +
         (relation === Relation.Before ? "\n" : ""),
     });
+
+    const changeSet = state.changes(changes);
+    return state.update({
+      changes: changeSet,
+      scrollIntoView: true,
+      selection: {
+        anchor: changeSet.mapPos(insertionPoint, 1),
+      },
+    });
   }
-  return changes;
+
+  return state.update({
+    changes: state.changes(changes),
+    scrollIntoView: true,
+  });
 };
 
 const calculateImportChangesInternal = (
