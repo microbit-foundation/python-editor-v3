@@ -22,6 +22,7 @@ import {
 
 export interface RouterState {
   tab?: string;
+  explore?: string;
   reference?: string;
 }
 
@@ -34,6 +35,7 @@ const parse = (search: string): RouterState => {
   return {
     tab: params.get("tab") ?? undefined,
     reference: params.get("reference") ?? undefined,
+    explore: params.get("explore") ?? undefined,
     // other tabs will get state here in time, as well as the active file
   };
 };
