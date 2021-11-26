@@ -77,9 +77,13 @@ export const calculateChanges = (state: EditorState, addition: string) => {
   );
   const allCurrentImports = currentImports(state);
 
+  const insertPoint = defaultImportInsertPoint(state, allCurrentImports);
   const changes = requiredImports.flatMap((required) =>
-    calculateImportChangesInternal(allCurrentImports, required)
+    calculateImportChangesInternal(insertPoint, allCurrentImports, required)
   );
+  if (insertPoint.used) {
+    changes[0].insert = insertPoint.prefix + changes[0].insert;
+  }
   if (changes.length > 0 && allCurrentImports.length === 0) {
     // Two blank lines separating the imports from everything else.
     changes[changes.length - 1].insert += "\n\n";
@@ -114,15 +118,10 @@ export const calculateChanges = (state: EditorState, addition: string) => {
 };
 
 const calculateImportChangesInternal = (
+  importInsertPoint: DefaultImportInsertPoint,
   allCurrent: ImportNode[],
   required: RequiredImport
 ): SimpleChangeSpec[] => {
-  const from = allCurrent.length
-    ? allCurrent[allCurrent.length - 1].node.to
-    : 0;
-  const to = from;
-  const prefix = to > 0 ? "\n" : "";
-
   if (!required.name) {
     // Module import.
     if (
@@ -132,7 +131,9 @@ const calculateImportChangesInternal = (
     ) {
       return [];
     } else {
-      return [{ from, to, insert: `${prefix}import ${required.module}` }];
+      return [
+        { from: importInsertPoint.from, insert: `import ${required.module}\n` },
+      ];
     }
   } else if (required.name === "*") {
     // Wildcard import.
@@ -147,7 +148,10 @@ const calculateImportChangesInternal = (
       return [];
     } else {
       return [
-        { from, to, insert: `${prefix}from ${required.module} import *` },
+        {
+          from: importInsertPoint.from,
+          insert: `from ${required.module} import *\n`,
+        },
       ];
     }
   } else {
@@ -174,13 +178,51 @@ const calculateImportChangesInternal = (
     } else {
       return [
         {
-          from,
-          to,
-          insert: `${prefix}from ${required.module} import ${required.name}`,
+          from: importInsertPoint.from,
+          insert: `from ${required.module} import ${required.name}\n`,
         },
       ];
     }
   }
+};
+
+/**
+ * The default point to insert imports.
+ *
+ * This tracks whether its used and exposes a prefix to add to the first import
+ * if it's used.
+ *
+ * This helps address the case where the document is a single line containing
+ * an import, as in that scenario there is no trailing line break.
+ */
+class DefaultImportInsertPoint {
+  used: boolean = false;
+  private _from;
+
+  constructor(from: number, public prefix: string = "") {
+    this._from = from;
+  }
+
+  get from() {
+    this.used = true;
+    return this._from;
+  }
+}
+
+const defaultImportInsertPoint = (
+  state: EditorState,
+  allCurrent: ImportNode[]
+): DefaultImportInsertPoint => {
+  if (allCurrent.length) {
+    const line = state.doc.lineAt(allCurrent[allCurrent.length - 1].node.to);
+    // We want the point after the line break, i.e. the start of the next line
+    // If it doesn't exist, we want the end of this line.
+    if (state.doc.lines > line.number) {
+      return new DefaultImportInsertPoint(state.doc.line(line.number + 1).from);
+    }
+    return new DefaultImportInsertPoint(line.to, "\n");
+  }
+  return new DefaultImportInsertPoint(0);
 };
 
 const currentImports = (state: EditorState): ImportNode[] => {
