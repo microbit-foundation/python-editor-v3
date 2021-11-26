@@ -23,9 +23,7 @@ describe("edits", () => {
       extensions: [python()],
     });
     const view = new EditorView({ state });
-    const transaction = state.update({
-      changes: calculateChanges(state, additional),
-    });
+    const transaction = state.update(calculateChanges(state, additional));
     view.dispatch(transaction);
     const actual = view.state.sliceDoc(0);
     expect(actual).toEqual(expected);
