@@ -21,76 +21,6 @@ type SimpleChangeSpec = {
   insert: string;
 };
 
-const calculateImportChangesInternal = (
-  allCurrent: ImportNode[],
-  required: RequiredImport
-): SimpleChangeSpec[] => {
-  const from = allCurrent.length
-    ? allCurrent[allCurrent.length - 1].node.to
-    : 0;
-  const to = from;
-  const prefix = to > 0 ? "\n" : "";
-
-  if (!required.name) {
-    // Module import.
-    if (
-      allCurrent.find(
-        (c) => !c.names && c.module === required.module && !c.alias
-      )
-    ) {
-      return [];
-    } else {
-      return [{ from, to, insert: `${prefix}import ${required.module}` }];
-    }
-  } else if (required.name === "*") {
-    // Wildcard import.
-    if (
-      allCurrent.find(
-        (c) =>
-          c.names?.length === 1 &&
-          c.names[0].name === "*" &&
-          c.module === required.module
-      )
-    ) {
-      return [];
-    } else {
-      return [
-        { from, to, insert: `${prefix}from ${required.module} import *` },
-      ];
-    }
-  } else {
-    // Importing some name from a module.
-    const partMatches = allCurrent.filter(
-      (c) =>
-        c.names &&
-        !(c.names?.length === 1 && c.names[0].name === "*") &&
-        c.module === required.module
-    );
-    const fullMatch = partMatches.find((nameImport) =>
-      nameImport.names?.find((n) => n.name === required.name && !n.alias)
-    );
-    if (fullMatch) {
-      return [];
-    } else if (partMatches.length > 0) {
-      return [
-        {
-          from: partMatches[0].node.to,
-          to: partMatches[0].node.to,
-          insert: `, ${required.name}`,
-        },
-      ];
-    } else {
-      return [
-        {
-          from,
-          to,
-          insert: `${prefix}from ${required.module} import ${required.name}`,
-        },
-      ];
-    }
-  }
-};
-
 /**
  * A representation of an import node.
  * The CodeMirror tree isn't easy to work with so we convert to these.
@@ -181,6 +111,76 @@ export const calculateChanges = (state: EditorState, addition: string) => {
     });
   }
   return changes;
+};
+
+const calculateImportChangesInternal = (
+  allCurrent: ImportNode[],
+  required: RequiredImport
+): SimpleChangeSpec[] => {
+  const from = allCurrent.length
+    ? allCurrent[allCurrent.length - 1].node.to
+    : 0;
+  const to = from;
+  const prefix = to > 0 ? "\n" : "";
+
+  if (!required.name) {
+    // Module import.
+    if (
+      allCurrent.find(
+        (c) => !c.names && c.module === required.module && !c.alias
+      )
+    ) {
+      return [];
+    } else {
+      return [{ from, to, insert: `${prefix}import ${required.module}` }];
+    }
+  } else if (required.name === "*") {
+    // Wildcard import.
+    if (
+      allCurrent.find(
+        (c) =>
+          c.names?.length === 1 &&
+          c.names[0].name === "*" &&
+          c.module === required.module
+      )
+    ) {
+      return [];
+    } else {
+      return [
+        { from, to, insert: `${prefix}from ${required.module} import *` },
+      ];
+    }
+  } else {
+    // Importing some name from a module.
+    const partMatches = allCurrent.filter(
+      (c) =>
+        c.names &&
+        !(c.names?.length === 1 && c.names[0].name === "*") &&
+        c.module === required.module
+    );
+    const fullMatch = partMatches.find((nameImport) =>
+      nameImport.names?.find((n) => n.name === required.name && !n.alias)
+    );
+    if (fullMatch) {
+      return [];
+    } else if (partMatches.length > 0) {
+      return [
+        {
+          from: partMatches[0].node.to,
+          to: partMatches[0].node.to,
+          insert: `, ${required.name}`,
+        },
+      ];
+    } else {
+      return [
+        {
+          from,
+          to,
+          insert: `${prefix}from ${required.module} import ${required.name}`,
+        },
+      ];
+    }
+  }
 };
 
 const currentImports = (state: EditorState): ImportNode[] => {
