@@ -5,7 +5,8 @@
  */
 import { usePrevious } from "@chakra-ui/hooks";
 import { List, Text } from "@chakra-ui/layout";
-import { useState } from "react";
+import { useCallback } from "react";
+import { useRouterParam } from "../../router-hooks";
 import { Toolkit, ToolkitNavigationState } from "./model";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitLevel from "./ToolkitLevel";
@@ -25,21 +26,26 @@ interface ToolkitProps {
  * generate the reference documentation.
  */
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
-  const [state, setState] = useState<ToolkitNavigationState>({});
-  const previous = usePrevious(state);
-  const currentLevel = [state.itemId, state.topicId].filter(Boolean).length;
-  const previousLevel = previous
-    ? [previous.itemId, previous.topicId].filter(Boolean).length
-    : 0;
+  const [urlParam = "", setUrlParam] = useRouterParam("explore");
+  // Only transitions are up or down levels so can just compare length.
+  const previousParam = usePrevious(urlParam) ?? "";
   const direction =
-    currentLevel === previousLevel
+    previousParam.length === urlParam.length
       ? "none"
-      : currentLevel > previousLevel
+      : previousParam.length < urlParam.length
       ? "forward"
       : "back";
+
+  const state = parseUrlParam(urlParam);
+  const setState = useCallback(
+    (state: ToolkitNavigationState) => {
+      setUrlParam([state.topicId, state.itemId].filter(Boolean).join("/"));
+    },
+    [setUrlParam]
+  );
   return (
     <ActiveTooklitLevel
-      key={state.topicId + "-" + state.itemId}
+      key={urlParam}
       state={state}
       onNavigate={setState}
       toolkit={toolkit}
@@ -48,9 +54,20 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   );
 };
 
+const parseUrlParam = (urlParam: string): ToolkitNavigationState => {
+  let [topicId, itemId]: Array<string | undefined> = urlParam.split("/");
+  if (!topicId) {
+    topicId = undefined;
+  }
+  return {
+    topicId,
+    itemId,
+  };
+};
+
 interface ActiveTooklitLevelProps extends ToolkitProps {
   state: ToolkitNavigationState;
-  onNavigate: React.Dispatch<React.SetStateAction<ToolkitNavigationState>>;
+  onNavigate: (state: ToolkitNavigationState) => void;
   direction: "forward" | "back" | "none";
 }
 
