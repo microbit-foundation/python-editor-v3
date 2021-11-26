@@ -213,13 +213,14 @@ const defaultImportInsertPoint = (
   state: EditorState,
   allCurrent: ImportNode[]
 ): DefaultImportInsertPoint => {
-  if (allCurrent.length) {
+  if (allCurrent.length > 0) {
     const line = state.doc.lineAt(allCurrent[allCurrent.length - 1].node.to);
-    // We want the point after the line break, i.e. the start of the next line
-    // If it doesn't exist, we want the end of this line.
+    // We want the point after the line break, i.e. the start of the next line.
     if (state.doc.lines > line.number) {
       return new DefaultImportInsertPoint(state.doc.line(line.number + 1).from);
     }
+    // If it doesn't exist, we want the end of this line, but need to insert a
+    // line break later if we actually insert anything.
     return new DefaultImportInsertPoint(line.to, "\n");
   }
   return new DefaultImportInsertPoint(0);
