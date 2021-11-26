@@ -9,109 +9,144 @@ import { calculateChanges } from "./edits";
 import { EditorView } from "@codemirror/view";
 
 describe("edits", () => {
-  const check = (initial: string, additional: string, expected: string) => {
+  const check = ({
+    initial,
+    additional,
+    expected,
+  }: {
+    initial: string;
+    additional: string;
+    expected: string;
+  }) => {
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],
     });
     const view = new EditorView({ state });
-    const transaction = state.update({
-      changes: calculateChanges(state, additional),
-    });
+    const transaction = state.update(calculateChanges(state, additional));
     view.dispatch(transaction);
     const actual = view.state.sliceDoc(0);
     expect(actual).toEqual(expected);
   };
 
   it("first import from case - wildcard", () => {
-    check("", "from microbit import *", "from microbit import *\n\n");
+    check({
+      initial: "",
+      additional: "from microbit import *",
+      expected: "from microbit import *\n\n\n",
+    });
   });
 
   it("first import from case - name", () => {
-    check(
-      "",
-      "from random import randrange",
-      "from random import randrange\n\n"
-    );
+    check({
+      initial: "",
+      additional: "from random import randrange",
+      expected: "from random import randrange\n\n\n",
+    });
   });
 
   it("first import module case", () => {
-    check("", "import audio", "import audio\n\n");
+    check({
+      initial: "",
+      additional: "import audio",
+      expected: "import audio\n\n\n",
+    });
   });
 
   it("existing import module case", () => {
-    check("import audio", "import audio", "import audio");
+    check({
+      initial: "import audio",
+      additional: "import audio",
+      expected: "import audio",
+    });
   });
 
   it("existing import module case - as variant", () => {
-    check(
-      "import audio as foo",
-      "import audio",
-      "import audio as foo\nimport audio"
-    );
+    check({
+      initial: "import audio as foo",
+      additional: "import audio",
+      expected: "import audio as foo\nimport audio\n",
+    });
   });
 
   it("existing import from case - wildcard", () => {
-    check(
-      "from microbit import *",
-      "from microbit import *",
-      "from microbit import *"
-    );
+    check({
+      initial: "from microbit import *",
+      additional: "from microbit import *",
+      expected: "from microbit import *",
+    });
   });
 
   it("existing import from case - name", () => {
-    check(
-      "from random import randrange",
-      "from random import randrange",
-      "from random import randrange"
-    );
+    check({
+      initial: "from random import randrange",
+      additional: "from random import randrange",
+      expected: "from random import randrange",
+    });
   });
 
   it("existing import from case - alias", () => {
-    check(
-      "from random import randrange as foo",
-      "from random import randrange",
-      "from random import randrange as foo, randrange"
-    );
+    check({
+      initial: "from random import randrange as foo",
+      additional: "from random import randrange",
+      expected: "from random import randrange as foo, randrange",
+    });
   });
 
   it("existing from import new name", () => {
-    check(
-      "from random import getrandbits",
-      "from random import randrange",
-      "from random import getrandbits, randrange"
-    );
+    check({
+      initial: "from random import getrandbits",
+      additional: "from random import randrange",
+      expected: "from random import getrandbits, randrange",
+    });
   });
 
   it("copes with invalid imports", () => {
-    check(
-      "import\nfrom\n",
-      "from random import randrange",
-      "from random import randrange\n\nimport\nfrom\n"
-    );
+    check({
+      initial: "import\nfrom\n",
+      additional: "from random import randrange",
+      expected: "from random import randrange\n\n\nimport\nfrom\n",
+    });
   });
 
   it("combo imports", () => {
-    check(
-      "from microbit import *\nfrom random import randrange\nimport radio\n",
-      "from microbit import *\nfrom random import rantint\nimport micropython\n",
-      "from microbit import *\nfrom random import randrange, rantint\nimport radio\nimport micropython\n"
-    );
+    check({
+      initial:
+        "from microbit import *\nfrom random import randrange\nimport radio\n",
+      additional:
+        "from microbit import *\nfrom random import rantint\nimport micropython\n",
+      expected:
+        "from microbit import *\nfrom random import randrange, rantint\nimport radio\nimport micropython\n",
+    });
   });
 
   it("non-import content separated and appended", () => {
-    check(
-      "from microbit import *",
-      "from microbit import *\nwhile True:\n    display.scroll('Hello, World')\n",
-      "from microbit import *\nwhile True:\n    display.scroll('Hello, World')\n"
-    );
+    check({
+      initial: "from microbit import *",
+      additional:
+        "from microbit import *\nwhile True:\n    display.scroll('Hello, World')\n",
+      expected:
+        "from microbit import *\nwhile True:\n    display.scroll('Hello, World')\n",
+    });
   });
 
   it("non-import content separated and existing content", () => {
-    check(
-      "from microbit import *\n\nwhile True:\n    display.scroll('Hello, World')\n",
-      "import radio\n\nradio.off()",
-      "from microbit import *\nimport radio\n\nradio.off()\n\nwhile True:\n    display.scroll('Hello, World')\n"
-    );
+    check({
+      initial:
+        "from microbit import *\n\nwhile True:\n    display.scroll('Hello, World')\n",
+      additional: "import radio\n\nradio.off()",
+      expected:
+        "from microbit import *\nimport radio\n\nradio.off()\n\nwhile True:\n    display.scroll('Hello, World')\n",
+    });
+  });
+
+  it("multiple imports into empty doc", () => {
+    check({
+      initial: "",
+      additional:
+        "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
+      expected:
+        "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
+    });
   });
 });

@@ -21,76 +21,6 @@ type SimpleChangeSpec = {
   insert: string;
 };
 
-const calculateImportChangesInternal = (
-  allCurrent: ImportNode[],
-  required: RequiredImport
-): SimpleChangeSpec[] => {
-  const from = allCurrent.length
-    ? allCurrent[allCurrent.length - 1].node.to
-    : 0;
-  const to = from;
-  const prefix = to > 0 ? "\n" : "";
-
-  if (!required.name) {
-    // Module import.
-    if (
-      allCurrent.find(
-        (c) => !c.names && c.module === required.module && !c.alias
-      )
-    ) {
-      return [];
-    } else {
-      return [{ from, to, insert: `${prefix}import ${required.module}` }];
-    }
-  } else if (required.name === "*") {
-    // Wildcard import.
-    if (
-      allCurrent.find(
-        (c) =>
-          c.names?.length === 1 &&
-          c.names[0].name === "*" &&
-          c.module === required.module
-      )
-    ) {
-      return [];
-    } else {
-      return [
-        { from, to, insert: `${prefix}from ${required.module} import *` },
-      ];
-    }
-  } else {
-    // Importing some name from a module.
-    const partMatches = allCurrent.filter(
-      (c) =>
-        c.names &&
-        !(c.names?.length === 1 && c.names[0].name === "*") &&
-        c.module === required.module
-    );
-    const fullMatch = partMatches.find((nameImport) =>
-      nameImport.names?.find((n) => n.name === required.name && !n.alias)
-    );
-    if (fullMatch) {
-      return [];
-    } else if (partMatches.length > 0) {
-      return [
-        {
-          from: partMatches[0].node.to,
-          to: partMatches[0].node.to,
-          insert: `, ${required.name}`,
-        },
-      ];
-    } else {
-      return [
-        {
-          from,
-          to,
-          insert: `${prefix}from ${required.module} import ${required.name}`,
-        },
-      ];
-    }
-  }
-};
-
 /**
  * A representation of an import node.
  * The CodeMirror tree isn't easy to work with so we convert to these.
@@ -147,9 +77,13 @@ export const calculateChanges = (state: EditorState, addition: string) => {
   );
   const allCurrentImports = currentImports(state);
 
+  const insertPoint = defaultImportInsertPoint(state, allCurrentImports);
   const changes = requiredImports.flatMap((required) =>
-    calculateImportChangesInternal(allCurrentImports, required)
+    calculateImportChangesInternal(insertPoint, allCurrentImports, required)
   );
+  if (insertPoint.used) {
+    changes[0].insert = insertPoint.prefix + changes[0].insert;
+  }
   if (changes.length > 0 && allCurrentImports.length === 0) {
     // Two blank lines separating the imports from everything else.
     changes[changes.length - 1].insert += "\n\n";
@@ -179,8 +113,130 @@ export const calculateChanges = (state: EditorState, addition: string) => {
         "\n" +
         (relation === Relation.Before ? "\n" : ""),
     });
+
+    const changeSet = state.changes(changes);
+    return state.update({
+      changes: changeSet,
+      scrollIntoView: true,
+      selection: {
+        anchor: changeSet.mapPos(insertionPoint, 1),
+      },
+    });
   }
-  return changes;
+
+  return state.update({
+    changes: state.changes(changes),
+    scrollIntoView: true,
+  });
+};
+
+const calculateImportChangesInternal = (
+  importInsertPoint: DefaultImportInsertPoint,
+  allCurrent: ImportNode[],
+  required: RequiredImport
+): SimpleChangeSpec[] => {
+  if (!required.name) {
+    // Module import.
+    if (
+      allCurrent.find(
+        (c) => !c.names && c.module === required.module && !c.alias
+      )
+    ) {
+      return [];
+    } else {
+      return [
+        { from: importInsertPoint.from, insert: `import ${required.module}\n` },
+      ];
+    }
+  } else if (required.name === "*") {
+    // Wildcard import.
+    if (
+      allCurrent.find(
+        (c) =>
+          c.names?.length === 1 &&
+          c.names[0].name === "*" &&
+          c.module === required.module
+      )
+    ) {
+      return [];
+    } else {
+      return [
+        {
+          from: importInsertPoint.from,
+          insert: `from ${required.module} import *\n`,
+        },
+      ];
+    }
+  } else {
+    // Importing some name from a module.
+    const partMatches = allCurrent.filter(
+      (c) =>
+        c.names &&
+        !(c.names?.length === 1 && c.names[0].name === "*") &&
+        c.module === required.module
+    );
+    const fullMatch = partMatches.find((nameImport) =>
+      nameImport.names?.find((n) => n.name === required.name && !n.alias)
+    );
+    if (fullMatch) {
+      return [];
+    } else if (partMatches.length > 0) {
+      return [
+        {
+          from: partMatches[0].node.to,
+          to: partMatches[0].node.to,
+          insert: `, ${required.name}`,
+        },
+      ];
+    } else {
+      return [
+        {
+          from: importInsertPoint.from,
+          insert: `from ${required.module} import ${required.name}\n`,
+        },
+      ];
+    }
+  }
+};
+
+/**
+ * The default point to insert imports.
+ *
+ * This tracks whether its used and exposes a prefix to add to the first import
+ * if it's used.
+ *
+ * This helps address the case where the document is a single line containing
+ * an import, as in that scenario there is no trailing line break.
+ */
+class DefaultImportInsertPoint {
+  used: boolean = false;
+  private _from;
+
+  constructor(from: number, public prefix: string = "") {
+    this._from = from;
+  }
+
+  get from() {
+    this.used = true;
+    return this._from;
+  }
+}
+
+const defaultImportInsertPoint = (
+  state: EditorState,
+  allCurrent: ImportNode[]
+): DefaultImportInsertPoint => {
+  if (allCurrent.length > 0) {
+    const line = state.doc.lineAt(allCurrent[allCurrent.length - 1].node.to);
+    // We want the point after the line break, i.e. the start of the next line.
+    if (state.doc.lines > line.number) {
+      return new DefaultImportInsertPoint(state.doc.line(line.number + 1).from);
+    }
+    // If it doesn't exist, we want the end of this line, but need to insert a
+    // line break later if we actually insert anything.
+    return new DefaultImportInsertPoint(line.to, "\n");
+  }
+  return new DefaultImportInsertPoint(0);
 };
 
 const currentImports = (state: EditorState): ImportNode[] => {
