@@ -250,7 +250,6 @@ const CodeEmbed = ({
 }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
-  // Strip the imports.
   const code = codeWithImports
     .split("\n")
     .filter((line) => line !== "from microbit import *")
