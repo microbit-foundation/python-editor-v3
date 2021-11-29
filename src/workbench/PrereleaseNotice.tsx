@@ -1,6 +1,8 @@
 import { Button } from "@chakra-ui/button";
-import { Flex, Text } from "@chakra-ui/layout";
+import { Flex, HStack, Text } from "@chakra-ui/layout";
+import { Icon } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import { RiMessage2Fill } from "react-icons/ri";
 import FeedbackForm from "./FeedbackForm";
 
 const PrereleaseNotice = () => {
@@ -21,9 +23,12 @@ const PrereleaseNotice = () => {
       pr={3}
       justifyContent="space-between"
     >
-      <Text fontSize="sm" textAlign="center" fontWeight="semibold" p={1}>
-        Alpha release
-      </Text>
+      <HStack spacing={1}>
+        <Icon as={RiMessage2Fill} />
+        <Text fontSize="sm" textAlign="center" fontWeight="semibold" p={1}>
+          Alpha release
+        </Text>
+      </HStack>
       <Button variant="link" color="white" size="xs" p={1} onClick={openDialog}>
         Find out more
       </Button>
