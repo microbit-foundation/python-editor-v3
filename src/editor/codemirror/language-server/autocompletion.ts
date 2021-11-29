@@ -93,7 +93,9 @@ export const autocompletion = () =>
                       { changes: { from, to, insert: item.label } },
                     ];
                     if (
-                      completion.type === "function" ||
+                      // funcParensDisabled is set to true by Pyright for e.g. a function completion in an import
+                      (completion.type === "function" &&
+                        !item.data.funcParensDisabled) ||
                       completion.type === "method"
                     ) {
                       const bracketTransaction = insertBracket(view.state, "(");
