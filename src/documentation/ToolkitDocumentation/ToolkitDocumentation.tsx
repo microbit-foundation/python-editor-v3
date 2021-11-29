@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { usePrevious } from "@chakra-ui/hooks";
-import { List, Text } from "@chakra-ui/layout";
+import { Box, List, Text } from "@chakra-ui/layout";
 import { useCallback } from "react";
 import { useRouterParam } from "../../router-hooks";
 import { Toolkit, ToolkitNavigationState } from "./model";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
+import ToolkitContent from "./ToolkitContent";
 import ToolkitLevel from "./ToolkitLevel";
 import ToolkitListItem from "./ToolkitListItem";
 import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
@@ -128,11 +129,16 @@ const ActiveTooklitLevel = ({
             />
           }
         >
-          {topic.introduction && (
-            <Text p={5} pb={1} fontSize="md">
-              {topic.introduction}
-            </Text>
-          )}
+          {topic.introduction &&
+            (typeof topic.introduction === "string" ? (
+              <Text p={5} pb={1} fontSize="md">
+                {topic.introduction}
+              </Text>
+            ) : (
+              <Box p={5} pb={1} fontSize="md">
+                <ToolkitContent content={topic.introduction} />
+              </Box>
+            ))}
           <List flex="1 1 auto">
             {topic.contents?.map((item) => (
               <ToolkitListItem key={item.name}>
