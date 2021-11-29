@@ -24,14 +24,12 @@ import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
-import ReferenceArea from "../documentation/ReferenceArea";
 import ExploreArea from "../documentation/ExploreArea";
+import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import { flags } from "../flags";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
-import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
 import ErrorBoundary from "../common/ErrorBoundary";
 
@@ -53,10 +51,16 @@ const SideBar = ({
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
-        id: "python",
-        title: intl.formatMessage({ id: "python-tab" }),
+        id: "explore",
+        title: "Explore",
         icon: PythonLogo as IconType,
-        contents: <FeedbackArea />,
+        contents: <ExploreArea />,
+      },
+      {
+        id: "reference",
+        title: "Reference",
+        icon: VscLibrary,
+        contents: <ReferenceArea />,
       },
       {
         id: "files",
@@ -71,24 +75,6 @@ const SideBar = ({
         ),
       },
     ];
-    if (flags.toolkit) {
-      result.splice(
-        0,
-        1,
-        {
-          id: "explore",
-          title: "Explore",
-          icon: PythonLogo as IconType,
-          contents: <ExploreArea />,
-        },
-        {
-          id: "reference",
-          title: "Reference",
-          icon: VscLibrary,
-          contents: <ReferenceArea />,
-        }
-      );
-    }
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
   return <SideBarContents {...props} panes={panes} />;
