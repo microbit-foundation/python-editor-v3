@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Divider, Link, Text, VStack } from "@chakra-ui/layout";
+import { Link, Text, VStack } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
