@@ -111,8 +111,8 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
-  const [params, setParams] = useRouterState();
-  const tabIndexOf = panes.findIndex((p) => p.id === params.tab);
+  const [{ tab }, setParams] = useRouterState();
+  const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
     (index: number) => {
@@ -124,11 +124,10 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
   );
   const handleTabClick = useCallback(() => {
     // The tab change itself is handled above.
-    const { tab } = params;
     setParams({
       tab,
     });
-  }, [params, setParams]);
+  }, [tab, setParams]);
   const width = "5rem";
   const brand = useDeployment();
   return (
