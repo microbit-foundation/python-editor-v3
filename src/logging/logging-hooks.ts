@@ -6,7 +6,8 @@
 import { createContext, useContext } from "react";
 import { Logging } from "./logging";
 
-const LoggingContext = createContext<Logging | undefined>(undefined);
+// Exported for class-based error boundary.
+export const LoggingContext = createContext<Logging | undefined>(undefined);
 
 export const LoggingProvider = LoggingContext.Provider;
 

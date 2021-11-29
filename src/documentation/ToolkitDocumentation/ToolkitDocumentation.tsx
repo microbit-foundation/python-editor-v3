@@ -129,7 +129,8 @@ const ActiveTooklitLevel = ({
             />
           }
         >
-          {topic.introduction &&
+          {topic.introduction!.length > 0 &&
+            topic.introduction &&
             (typeof topic.introduction === "string" ? (
               <Text p={5} pb={1} fontSize="md">
                 {topic.introduction}
