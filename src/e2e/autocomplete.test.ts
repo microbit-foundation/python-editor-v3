@@ -51,6 +51,15 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findSignatureHelp("show(image)");
   });
 
+  it("does not insert brackets for import completion", async () => {
+    // This relies on undocumented Pyright behaviour so important to cover at a high level.
+    await app.selectAllInEditor();
+    await app.typeInEditor("from audio import is_pla");
+    await app.acceptCompletion("is_playing");
+
+    await app.findVisibleEditorContents(/is_playing$/);
+  });
+
   it("signature can navigate to toolkit content", async () => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
