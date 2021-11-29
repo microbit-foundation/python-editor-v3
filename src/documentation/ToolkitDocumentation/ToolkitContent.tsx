@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Image } from "@chakra-ui/image";
 import { Link } from "@chakra-ui/layout";
 import BlockContent from "@sanity/block-content-to-react";
