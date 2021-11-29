@@ -20,7 +20,7 @@ import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
-import LeftPanel from "./LeftPanel";
+import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
 const minimums: [number, number] = [380, 580];
@@ -67,7 +67,7 @@ const Workbench = () => {
         )}
       >
         <SplitViewSized>
-          <LeftPanel
+          <SideBar
             as="section"
             aria-label={intl.formatMessage({ id: "sidebar" })}
             selectedFile={selection.file}

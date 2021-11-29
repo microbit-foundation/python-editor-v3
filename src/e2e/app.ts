@@ -18,7 +18,7 @@ import puppeteer, {
   KeyInput,
   Page,
 } from "puppeteer";
-import { allowWrapAtPeriods } from "../documentation/wrap";
+import { allowWrapAtPeriods } from "../documentation/common/wrap";
 
 export enum LoadDialogType {
   CONFIRM,

@@ -43,7 +43,7 @@ import {
   ToolkitTopic,
   ToolkitTopicEntry,
 } from "./model";
-import MoreButton from "./MoreButton";
+import MoreButton from "../common/MoreButton";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;

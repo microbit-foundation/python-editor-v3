@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { render } from "@testing-library/react";
-import { ApiDocsEntry } from "../language-server/apidocs";
-import FixedTranslationProvider from "../messages/FixedTranslationProvider";
-import ApiDocsEntryNode from "./ApiDocsEntryNode";
+import { ApiDocsEntry } from "../../language-server/apidocs";
+import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
+import ReferenceNode from "./ReferenceNode";
 
-describe("ApiDocsEntryNode", () => {
+describe("ReferenceNode", () => {
   const node: ApiDocsEntry = {
     fullName: "microbit.compass",
     id: "microbit.compass",
@@ -40,7 +40,7 @@ describe("ApiDocsEntryNode", () => {
   it("renders", async () => {
     render(
       <FixedTranslationProvider>
-        <ApiDocsEntryNode docs={node} />
+        <ReferenceNode docs={node} />
       </FixedTranslationProvider>
     );
   });

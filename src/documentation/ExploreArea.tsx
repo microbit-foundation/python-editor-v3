@@ -1,23 +1,19 @@
 import { Text } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import ToolkitDocumentation from ".";
-import useIsUnmounted from "../../common/use-is-unmounted";
-import { useLogging } from "../../logging/logging-hooks";
-import { fetchToolkit } from "./api";
-import { Toolkit } from "./model";
-import ToolkitSpinner from "./ToolkitSpinner";
+import ToolkitDocumentation from "./ToolkitDocumentation";
+import useIsUnmounted from "../common/use-is-unmounted";
+import { useLogging } from "../logging/logging-hooks";
+import { fetchToolkit } from "./ToolkitDocumentation/api";
+import { Toolkit } from "./ToolkitDocumentation/model";
+import ToolkitSpinner from "./ToolkitDocumentation/ToolkitSpinner";
 
 type State =
   | { status: "ok"; toolkit: Toolkit }
   | { status: "error" }
   | { status: "loading" };
 
-interface ToolkitContainerProps {
-  toolkitId: string;
-}
-
-const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
+const ExploreArea = () => {
   const [state, setState] = useState<State>({
     status: "loading",
   });
@@ -40,7 +36,7 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
       }
     };
     load();
-  }, [setState, toolkitId, isUnmounted, logging]);
+  }, [setState, isUnmounted, logging]);
   switch (state.status) {
     case "loading":
       return <ToolkitSpinner />;
@@ -57,4 +53,4 @@ const ToolkitContainer = ({ toolkitId }: ToolkitContainerProps) => {
   }
 };
 
-export default ToolkitContainer;
+export default ExploreArea;
