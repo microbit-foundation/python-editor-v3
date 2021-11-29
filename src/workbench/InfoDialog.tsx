@@ -60,9 +60,7 @@ const InfoDialog = ({
                     Look up details of the micro:bit MicroPython API in the{" "}
                     <strong>Reference</strong> tab.
                   </ListItem>
-                  <ListItem m={1}>
-                    A pre-release of <strong>Data logging</strong>.
-                  </ListItem>
+                  <ListItem m={1}>A pre-release of Data logging.</ListItem>
                 </List>
                 <Text>Things to try:</Text>
                 <List listStyleType="disc" listStylePos="outside" pl={8}>
@@ -73,8 +71,8 @@ const InfoDialog = ({
                     serial area.
                   </ListItem>
                   <ListItem m={1}>
-                    As-you-type error markers in the editor. Catch problems
-                    before running your code.
+                    As-you-type error markers in the code editor. Catch problems
+                    before running your program.
                   </ListItem>
                 </List>
               </Stack>
