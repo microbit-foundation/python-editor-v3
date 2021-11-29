@@ -8,10 +8,10 @@ import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
-import { ReferenceToolkit } from "./ReferenceTooklit";
-import { pullModulesToTop } from "./apidocs-util";
+import { ReferenceToolkit } from "./reference/ReferenceTooklit";
+import { pullModulesToTop } from "./reference/apidocs-util";
 
-const ReferenceDocumentation = () => {
+const ReferenceArea = () => {
   const client = useLanguageServerClient();
   const intl = useIntl();
   const [apidocs, setApiDocs] = useState<ApiDocsResponse | undefined>();
@@ -39,4 +39,4 @@ const ReferenceDocumentation = () => {
   );
 };
 
-export default ReferenceDocumentation;
+export default ReferenceArea;

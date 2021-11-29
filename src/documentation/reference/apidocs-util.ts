@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
+import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 
 export const pullModulesToTop = (input: ApiDocsResponse) => {
   const recurse = (docs: ApiDocsEntry[], topLevel: boolean) => {

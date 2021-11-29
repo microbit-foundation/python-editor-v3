@@ -6,15 +6,15 @@
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import React, { useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
-import { firstParagraph } from "../editor/codemirror/language-server/documentation";
+import { firstParagraph } from "../../editor/codemirror/language-server/documentation";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
   ApiDocsFunctionParameter,
-} from "../language-server/apidocs";
-import DocString from "./DocString";
-import MoreButton from "./ToolkitDocumentation/MoreButton";
-import { allowWrapAtPeriods } from "./wrap";
+} from "../../language-server/apidocs";
+import DocString from "../common/DocString";
+import MoreButton from "../common/MoreButton";
+import { allowWrapAtPeriods } from "../common/wrap";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -43,7 +43,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
 
 const noop = () => {};
 
-const ApiDocsEntryNode = ({
+const ReferenceNode = ({
   isShowingDetail = false,
   docs,
   onForward = noop,
@@ -137,7 +137,7 @@ const ApiDocsEntryNode = ({
                       {groupHeading(intl, kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <ApiDocsEntryNode
+                      <ReferenceNode
                         isShowingDetail={isShowingDetail}
                         key={c.id}
                         docs={c}
@@ -252,4 +252,4 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   );
 };
 
-export default ApiDocsEntryNode;
+export default ReferenceNode;

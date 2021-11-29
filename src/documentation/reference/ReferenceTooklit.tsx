@@ -6,17 +6,17 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import { sortBy } from "lodash";
-import { ApiDocsResponse } from "../language-server/apidocs";
-import { useRouterParam } from "../router-hooks";
+import { ApiDocsResponse } from "../../language-server/apidocs";
+import { useRouterParam } from "../../router-hooks";
 import { resolveDottedName, resolveModule } from "./apidocs-util";
-import ApiDocsEntryNode from "./ApiDocsEntryNode";
-import DocString from "./DocString";
-import ToolkitBreadcrumbHeading from "./ToolkitDocumentation/ToolkitBreadcrumbHeading";
-import ToolkitLevel from "./ToolkitDocumentation/ToolkitLevel";
-import ToolkitListItem from "./ToolkitDocumentation/ToolkitListItem";
-import ToolkitTopLevelHeading from "./ToolkitDocumentation/ToolkitTopLevelHeading";
-import ToolkitTopLevelListItem from "./ToolkitDocumentation/ToolkitTopLevelListItem";
-import { allowWrapAtPeriods } from "./wrap";
+import ReferenceNode from "./ReferenceNode";
+import DocString from "../common/DocString";
+import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
+import ToolkitLevel from "../ToolkitDocumentation/ToolkitLevel";
+import ToolkitListItem from "../ToolkitDocumentation/ToolkitListItem";
+import ToolkitTopLevelHeading from "../ToolkitDocumentation/ToolkitTopLevelHeading";
+import ToolkitTopLevelListItem from "../ToolkitDocumentation/ToolkitTopLevelListItem";
+import { allowWrapAtPeriods } from "../common/wrap";
 
 interface ReferenceToolkitProps {
   docs: ApiDocsResponse;
@@ -73,7 +73,7 @@ const ActiveTooklitLevel = ({
           <List flex="1 1 auto">
             {(item.children ?? []).map((child) => (
               <ToolkitListItem key={child.id}>
-                <ApiDocsEntryNode
+                <ReferenceNode
                   docs={child}
                   width="100%"
                   // This isn't coping with overloads.
@@ -99,7 +99,7 @@ const ActiveTooklitLevel = ({
             />
           }
         >
-          <ApiDocsEntryNode docs={item} isShowingDetail p={5} />
+          <ReferenceNode docs={item} isShowingDetail p={5} />
         </ToolkitLevel>
       );
     }

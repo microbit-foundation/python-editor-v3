@@ -24,8 +24,8 @@ import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
-import ReferenceDocumentation from "../documentation/ReferenceDocumentation";
-import ToolkitContainer from "../documentation/ToolkitDocumentation/ToolkitContainer";
+import ReferenceArea from "../documentation/ReferenceArea";
+import ExploreArea from "../documentation/ExploreArea";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
 import { flags } from "../flags";
@@ -34,20 +34,20 @@ import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
 
-interface LeftPanelProps extends BoxProps {
+interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (filename: string) => void;
 }
 
 /**
- * The tabbed area on the left of the UI offering access to API documentation,
+ * The tabbed area on the left of the UI offering access to documentation,
  * files and settings.
  */
-const LeftPanel = ({
+const SideBar = ({
   selectedFile,
   onSelectedFileChanged,
   ...props
-}: LeftPanelProps) => {
+}: SideBarProps) => {
   const intl = useIntl();
   const panes: Pane[] = useMemo(() => {
     const result = [
@@ -78,19 +78,19 @@ const LeftPanel = ({
           id: "explore",
           title: "Explore",
           icon: PythonLogo as IconType,
-          contents: <ToolkitContainer toolkitId="explore" />,
+          contents: <ExploreArea />,
         },
         {
           id: "reference",
           title: "Reference",
           icon: VscLibrary,
-          contents: <ReferenceDocumentation />,
+          contents: <ReferenceArea />,
         }
       );
     }
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  return <LeftPanelContents {...props} panes={panes} />;
+  return <SideBarContents {...props} panes={panes} />;
 };
 
 interface Pane {
@@ -101,7 +101,7 @@ interface Pane {
   contents: ReactNode;
 }
 
-interface LeftPanelContentsProps {
+interface SideBarContentsProps {
   panes: Pane[];
 }
 
@@ -110,7 +110,7 @@ const cornerSize = 32;
 /**
  * The contents of the left-hand area.
  */
-const LeftPanelContents = ({ panes, ...props }: LeftPanelContentsProps) => {
+const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
   const [params, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === params.tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
@@ -234,4 +234,4 @@ const Corner = ({ id, ...props }: BoxProps) => (
   </Box>
 );
 
-export default LeftPanel;
+export default SideBar;

@@ -5,7 +5,7 @@
  */
 import { Box, BoxProps } from "@chakra-ui/layout";
 import React from "react";
-import { renderMarkdown } from "../editor/codemirror/language-server/documentation";
+import { renderMarkdown } from "../../editor/codemirror/language-server/documentation";
 
 export interface DocStringProps extends BoxProps {
   value: string;
