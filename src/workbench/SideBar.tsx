@@ -114,15 +114,21 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
   const [params, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === params.tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
-  const setIndex = useCallback(
+  const handleTabChange = useCallback(
     (index: number) => {
-      // Intentionally overwrite other tab-related state.
       setParams({
         tab: panes[index].id,
       });
     },
     [panes, setParams]
   );
+  const handleTabClick = useCallback(() => {
+    // The tab change itself is handled above.
+    const { tab } = params;
+    setParams({
+      tab,
+    });
+  }, [params, setParams]);
   const width = "5rem";
   const brand = useDeployment();
   return (
@@ -132,7 +138,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         size="lg"
         variant="sidebar"
         flex="1 0 auto"
-        onChange={setIndex}
+        onChange={handleTabChange}
         index={index}
       >
         <TabList>
@@ -149,6 +155,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
               p={0}
               position="relative"
               className="sidebar-tab" // Used for custom outline below
+              onClick={handleTabClick}
             >
               <VStack spacing={0}>
                 {i === index && (
