@@ -19,8 +19,9 @@ export interface ToolkitTopic {
   subtitle: string;
   /**
    * Longer, for the heading above the contents.
+   * Currently migrating to portable text.
    */
-  introduction?: string;
+  introduction?: string | ToolkitPortableText;
   contents?: ToolkitTopicEntry[];
 }
 
