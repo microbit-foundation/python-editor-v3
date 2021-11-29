@@ -82,7 +82,10 @@ const TopicItem = ({
       spacing={detail ? 5 : 3}
       {...props}
       fontSize={detail ? "md" : "sm"}
-      listStyle="disc inside"
+      listStylePos="inside"
+      sx={{
+        "& ul": { listStyleType: "disc" },
+      }}
     >
       {!detail && (
         <Text as="h3" fontSize="lg" fontWeight="semibold">
