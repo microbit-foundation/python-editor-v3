@@ -26,7 +26,7 @@ class ErrorBoundary extends React.Component<{}, State> {
     if (this.state.hasError) {
       return (
         <Text p={5}>
-          Something went wrong. Download your HEX file for safe keeping, then
+          Something went wrong. Download your hex file for safe keeping, then
           refresh the page to reload.
         </Text>
       );
