@@ -64,7 +64,7 @@ const InfoDialog = ({
                     A pre-release of <strong>Data logging</strong>.
                   </ListItem>
                 </List>
-                <Text>Don't miss:</Text>
+                <Text>Things to try:</Text>
                 <List listStyleType="disc" listStylePos="outside" pl={8}>
                   <ListItem m={1}>
                     Connecting your micro:bit via WebUSB. Click{" "}
