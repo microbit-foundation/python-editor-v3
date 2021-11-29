@@ -33,6 +33,7 @@ import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
+import ErrorBoundary from "../common/ErrorBoundary";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -202,8 +203,10 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
-                {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
-                {p.contents}
+                <ErrorBoundary>
+                  {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
+                  {p.contents}
+                </ErrorBoundary>
               </Flex>
             </TabPanel>
           ))}
