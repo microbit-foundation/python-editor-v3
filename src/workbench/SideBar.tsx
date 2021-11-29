@@ -22,6 +22,7 @@ import { IconType } from "react-icons";
 import { RiFolderFill } from "react-icons/ri";
 import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
+import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import ExploreArea from "../documentation/ExploreArea";
@@ -31,7 +32,7 @@ import FilesAreaNav from "../files/FilesAreaNav";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
-import ErrorBoundary from "../common/ErrorBoundary";
+import PrereleaseNotice from "./PrereleaseNotice";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -129,7 +130,13 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
       >
         <TabList>
           {/* Top margin aims to align with other logo. */}
-          <Box width="3.75rem" mt="1.2rem" ml="auto" mr="auto" mb="11.5vh">
+          <Box
+            width="3.75rem"
+            mt="1.2rem"
+            ml="auto"
+            mr="auto"
+            mb="max(11.5vh, 7.7rem)"
+          >
             {brand.squareLogo}
           </Box>
           {panes.map((p, i) => (
@@ -190,6 +197,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
+                  <PrereleaseNotice />
                   {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
                 </ErrorBoundary>
