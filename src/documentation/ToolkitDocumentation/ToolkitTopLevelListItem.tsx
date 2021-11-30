@@ -13,23 +13,16 @@ interface ToolkitTopLevelListItemProps {
   name: string;
   description: ReactNode;
   onForward: () => void;
-  headingFontFamily?: "code";
 }
 
 const ToolkitTopLevelListItem = ({
   name,
   description,
   onForward,
-  headingFontFamily,
 }: ToolkitTopLevelListItemProps) => (
   <ToolkitListItem onClick={onForward} cursor="pointer">
     <VStack alignItems="stretch" spacing={2} flex="1 1 auto">
-      <Text
-        as="h3"
-        fontFamily={headingFontFamily}
-        fontSize="lg"
-        fontWeight="semibold"
-      >
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
         {name}
       </Text>
       {/*Content problem! We need all descriptions to be short, or two sets.*/}
