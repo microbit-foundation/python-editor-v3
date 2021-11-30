@@ -12,13 +12,13 @@
 
 import { stage } from "./environment";
 
-type Flag = "signatureHelp" | "toolkit";
+type Flag = "signatureHelp";
 
 type Flags = Record<Flag, boolean>;
 
 export const flags: Flags = (() => {
   const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
-  const flags = ["signatureHelp", "toolkit"];
+  const flags = ["signatureHelp"];
   const params = new URLSearchParams(window.location.search);
   const enableFlags = new Set(params.getAll("flag"));
   const allFlagsEnabled = enableFlags.has("*");

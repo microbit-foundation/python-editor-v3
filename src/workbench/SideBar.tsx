@@ -22,18 +22,18 @@ import { IconType } from "react-icons";
 import { RiFolderFill } from "react-icons/ri";
 import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
+import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
-import ReferenceArea from "../documentation/ReferenceArea";
 import ExploreArea from "../documentation/ExploreArea";
+import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
 import FilesAreaNav from "../files/FilesAreaNav";
-import { flags } from "../flags";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
-import FeedbackArea from "./FeedbackArea";
 import HelpMenu from "./HelpMenu";
-import ErrorBoundary from "../common/ErrorBoundary";
+import ReleaseDialogs from "./ReleaseDialogs";
+import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -53,10 +53,16 @@ const SideBar = ({
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
-        id: "python",
-        title: intl.formatMessage({ id: "python-tab" }),
+        id: "explore",
+        title: "Explore",
         icon: PythonLogo as IconType,
-        contents: <FeedbackArea />,
+        contents: <ExploreArea />,
+      },
+      {
+        id: "reference",
+        title: "Reference",
+        icon: VscLibrary,
+        contents: <ReferenceArea />,
       },
       {
         id: "files",
@@ -71,24 +77,6 @@ const SideBar = ({
         ),
       },
     ];
-    if (flags.toolkit) {
-      result.splice(
-        0,
-        1,
-        {
-          id: "explore",
-          title: "Explore",
-          icon: PythonLogo as IconType,
-          contents: <ExploreArea />,
-        },
-        {
-          id: "reference",
-          title: "Reference",
-          icon: VscLibrary,
-          contents: <ReferenceArea />,
-        }
-      );
-    }
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
   return <SideBarContents {...props} panes={panes} />;
@@ -112,6 +100,8 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
+  const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
+
   const [{ tab }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
@@ -143,7 +133,13 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
       >
         <TabList>
           {/* Top margin aims to align with other logo. */}
-          <Box width="3.75rem" mt="1.2rem" ml="auto" mr="auto" mb="11.5vh">
+          <Box
+            width="3.75rem"
+            mt="1.2rem"
+            ml="auto"
+            mr="auto"
+            mb="max(11.5vh, 7.7rem)"
+          >
             {brand.squareLogo}
           </Box>
           {panes.map((p, i) => (
@@ -204,6 +200,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
+                  <ReleaseNotice onDialogChange={setReleaseDialog} />
                   {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
                 </ErrorBoundary>
@@ -212,6 +209,10 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           ))}
         </TabPanels>
       </Tabs>
+      <ReleaseDialogs
+        onDialogChange={setReleaseDialog}
+        dialog={releaseDialog}
+      />
     </Flex>
   );
 };

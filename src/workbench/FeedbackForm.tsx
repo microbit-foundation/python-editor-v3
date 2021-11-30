@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { Link, Text, VStack } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -14,13 +15,14 @@ import { useEffect, useRef } from "react";
 
 interface FeedbackFormProps {
   isOpen: boolean;
+  info?: boolean;
   onClose: () => void;
 }
 
 /**
  * Temporary embedded Jotform for the alpha release.
  */
-const FeedbackForm = ({ isOpen, onClose }: FeedbackFormProps) => {
+const FeedbackForm = ({ info, isOpen, onClose }: FeedbackFormProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     const listener = (message: MessageEvent) => {
@@ -45,8 +47,24 @@ const FeedbackForm = ({ isOpen, onClose }: FeedbackFormProps) => {
     <Modal isOpen={isOpen} onClose={onClose} size="2xl">
       <ModalOverlay>
         <ModalContent>
+          <ModalCloseButton />
           <ModalBody>
-            <ModalCloseButton />
+            {info && (
+              <VStack pl={8} pr={8} pt={8} spacing={5} alignItems="stretch">
+                <Text fontWeight="semibold">
+                  Welcome to the alpha release of the new micro:bit Python
+                  editor.
+                </Text>
+                <Text>
+                  This editor will change rapidly and sometimes things will
+                  break. Use the{" "}
+                  <Link color="brand.600" href="https://python.microbit.org">
+                    stable editor
+                  </Link>{" "}
+                  for day-to-day use.
+                </Text>
+              </VStack>
+            )}
             <iframe
               ref={iframeRef}
               title="Python editor feedback"
