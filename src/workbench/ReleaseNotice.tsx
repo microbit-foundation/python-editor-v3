@@ -34,6 +34,10 @@ export const useReleaseDialogState = (): [
     useState<ReleaseNoticeState>("closed");
   // Show the dialog on start-up once per user.
   useEffect(() => {
+    if (window.location.host === "localhost") {
+      // Skip to avoid e2e and dev annoyance.
+      return;
+    }
     if (storedNotice.version < currentVersion) {
       setReleaseDialog("info");
       setStoredNotice({ version: currentVersion });
