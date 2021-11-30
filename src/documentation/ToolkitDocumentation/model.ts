@@ -21,7 +21,7 @@ export interface ToolkitTopic {
    * Longer, for the heading above the contents.
    * Currently migrating to portable text.
    */
-  introduction?: string | ToolkitPortableText;
+  introduction?: ToolkitPortableText;
   contents?: ToolkitTopicEntry[];
 }
 
