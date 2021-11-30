@@ -59,7 +59,7 @@ const ReleaseNotice = ({ onDialogChange }: ReleaseNoticeProps) => {
       justifyContent="space-between"
     >
       <Text fontSize="sm" textAlign="center" fontWeight="semibold" p={1}>
-        Development preview
+        Alpha release
       </Text>
       <HStack>
         <Button
