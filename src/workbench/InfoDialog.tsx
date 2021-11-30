@@ -81,6 +81,7 @@ const InfoDialog = ({
                   Feedback
                 </Button>
                 <Button
+                  variant="solid"
                   as={Link}
                   size="lg"
                   href="https://python.microbit.org"

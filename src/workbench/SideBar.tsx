@@ -32,7 +32,8 @@ import FilesAreaNav from "../files/FilesAreaNav";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
-import PrereleaseNotice from "./PrereleaseNotice";
+import ReleaseDialogs from "./ReleaseDialogs";
+import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -99,6 +100,8 @@ const cornerSize = 32;
  * The contents of the left-hand area.
  */
 const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
+  const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
+
   const [{ tab }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
@@ -197,7 +200,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
-                  <PrereleaseNotice />
+                  <ReleaseNotice onDialogChange={setReleaseDialog} />
                   {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
                 </ErrorBoundary>
@@ -206,6 +209,10 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           ))}
         </TabPanels>
       </Tabs>
+      <ReleaseDialogs
+        onDialogChange={setReleaseDialog}
+        dialog={releaseDialog}
+      />
     </Flex>
   );
 };
