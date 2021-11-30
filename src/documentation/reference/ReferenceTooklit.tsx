@@ -5,7 +5,7 @@
  */
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
-import { sortBy } from "lodash";
+import sortBy from "lodash.sortby";
 import { ApiDocsResponse } from "../../language-server/apidocs";
 import { useRouterParam } from "../../router-hooks";
 import { resolveDottedName, resolveModule } from "./apidocs-util";
