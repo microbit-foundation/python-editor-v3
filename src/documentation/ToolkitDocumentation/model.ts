@@ -32,6 +32,11 @@ export interface ToolkitCode {
 
 export interface ToolkitText {
   _type: "block";
+  _key: string;
+  // Partial/lax modelling. We pass this straight to Sanity's rendering API.
+  children: any;
+  markDefs: any;
+  style: string;
 }
 
 export interface ToolkitImage {
@@ -61,6 +66,10 @@ export interface ToolkitTopicEntry {
 
 export interface ToolkitInternalLink {
   reference: ToolkitTopicEntry;
+}
+
+export interface ToolkitExternalLink {
+  href: string;
 }
 
 export interface ToolkitApiLink {

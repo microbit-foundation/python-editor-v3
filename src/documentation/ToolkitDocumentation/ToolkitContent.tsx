@@ -13,6 +13,7 @@ import CodeEmbed from "./CodeEmbed";
 import {
   ToolkitApiLink,
   ToolkitCode,
+  ToolkitExternalLink,
   ToolkitImage,
   ToolkitInternalLink,
   ToolkitPortableText,
@@ -75,6 +76,21 @@ const ToolkitInternalLinkMark = (
   );
 };
 
+const ToolkitExternalLinkMark = (
+  props: SerializerMarkProps<ToolkitExternalLink>
+) => {
+  return (
+    <Link
+      color="brand.600"
+      href={props.mark.href}
+      target="_blank"
+      rel="nofollow noopener"
+    >
+      {props.children}
+    </Link>
+  );
+};
+
 interface SerializerNodeProps<T> {
   node: T;
 }
@@ -113,6 +129,7 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
     marks: {
       toolkitInternalLink: ToolkitInternalLinkMark,
       toolkitApiLink: ToolkitApiLinkMark,
+      link: ToolkitExternalLinkMark,
     },
   };
   return <BlockContent blocks={content} serializers={serializers} />;
