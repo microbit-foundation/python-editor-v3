@@ -3,11 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Link } from "@chakra-ui/layout";
 import BlockContent from "@sanity/block-content-to-react";
 import unconfiguredImageUrlBuilder from "@sanity/image-url";
 import { ReactNode } from "react";
+import { RiExternalLinkLine } from "react-icons/ri";
 import { useRouterState } from "../../router-hooks";
 import CodeEmbed from "./CodeEmbed";
 import {
@@ -87,6 +89,7 @@ const ToolkitExternalLinkMark = (
       rel="nofollow noopener"
     >
       {props.children}
+      <Icon mb={1 / 3 + "em"} ml={1} as={RiExternalLinkLine} />
     </Link>
   );
 };
