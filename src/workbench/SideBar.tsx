@@ -61,6 +61,8 @@ const SideBar = ({
       {
         id: "reference",
         title: "Reference",
+        // If you change this icon you also need to change the version embedded
+        // in documentation.ts (used for CM documentation tooltips).
         icon: VscLibrary,
         contents: <ReferenceArea />,
       },
