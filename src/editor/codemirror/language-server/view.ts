@@ -7,7 +7,6 @@ import { setDiagnostics } from "@codemirror/lint";
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
 import * as LSP from "vscode-languageserver-protocol";
-import { flags } from "../../../flags";
 import { LanguageServerClient } from "../../../language-server/client";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
@@ -81,7 +80,7 @@ export function languageServer(client: LanguageServerClient, uri: string) {
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    flags.signatureHelp ? signatureHelp() : [],
+    signatureHelp(),
     autocompletion(),
   ];
 }

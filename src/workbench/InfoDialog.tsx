@@ -51,7 +51,9 @@ const InfoDialog = ({
                 </Text>
                 <Text>What's new:</Text>
                 <List listStyleType="disc" listStylePos="outside" pl={8}>
-                  <ListItem m={1}>Autocomplete in the code editor.</ListItem>
+                  <ListItem m={1}>
+                    Autocomplete and signature help in the code editor.
+                  </ListItem>
                   <ListItem m={1}>
                     Explore what Python and your micro:bit can do in the{" "}
                     <strong>Explore</strong> tab.
