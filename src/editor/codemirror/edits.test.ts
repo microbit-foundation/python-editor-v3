@@ -136,7 +136,15 @@ describe("edits", () => {
         "from microbit import *\n\nwhile True:\n    display.scroll('Hello, World')\n",
       additional: "import radio\n\nradio.off()",
       expected:
-        "from microbit import *\nimport radio\n\nradio.off()\n\nwhile True:\n    display.scroll('Hello, World')\n",
+        "from microbit import *\nimport radio\n\nradio.off()\nwhile True:\n    display.scroll('Hello, World')\n",
+    });
+  });
+
+  it("non-import content before code rather than after imports", () => {
+    check({
+      initial: "from microbit import *\n\n\n\nprint('foo')",
+      additional: "print('bar')",
+      expected: "from microbit import *\n\n\n\nprint('bar')\nprint('foo')",
     });
   });
 

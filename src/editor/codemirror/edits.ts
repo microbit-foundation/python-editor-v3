@@ -7,7 +7,7 @@
  */
 import { python } from "@codemirror/lang-python";
 import { syntaxTree } from "@codemirror/language";
-import { EditorState } from "@codemirror/state";
+import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
 
 export interface RequiredImport {
@@ -41,16 +41,7 @@ interface ImportedName {
   alias?: string;
 }
 
-/**
- * A relative insertion position to some node.
- * Default is used when there is no relative insertion point (e.g. in the empty document case).
- */
-enum Relation {
-  Before,
-  After,
-  Default,
-}
-
+// CM has more options than this.
 class AliasesNotSupportedError extends Error {}
 
 /**
@@ -60,10 +51,15 @@ class AliasesNotSupportedError extends Error {}
  *
  * @param state The editor state.
  * @param addition The new Python code.
- * @returns The necessary changes suitable for a CodeMirror transaction.
- * @throws AliasesNotSupportedError if the additional code contains alias imports.
+ * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
+ * @returns A CM transaction with the necessary changes.
+ * @throws AliasesNotSupportedError If the additional code contains alias imports.
  */
-export const calculateChanges = (state: EditorState, addition: string) => {
+export const calculateChanges = (
+  state: EditorState,
+  addition: string,
+  line?: number
+) => {
   const parser = python().language.parser;
   const additionTree = parser.parse(addition);
   const additionalImports = topLevelImports(additionTree, (from, to) =>
@@ -77,57 +73,85 @@ export const calculateChanges = (state: EditorState, addition: string) => {
   );
   const allCurrentImports = currentImports(state);
 
-  const insertPoint = defaultImportInsertPoint(state, allCurrentImports);
+  const importInsertPoint = defaultInsertPoint(state, allCurrentImports);
   const changes = requiredImports.flatMap((required) =>
-    calculateImportChangesInternal(insertPoint, allCurrentImports, required)
+    calculateImportChangesInternal(
+      importInsertPoint,
+      allCurrentImports,
+      required
+    )
   );
-  if (insertPoint.used) {
-    changes[0].insert = insertPoint.prefix + changes[0].insert;
-  }
   if (changes.length > 0 && allCurrentImports.length === 0) {
     // Two blank lines separating the imports from everything else.
     changes[changes.length - 1].insert += "\n\n";
   }
 
-  // We'll want to add more sophisticated insertion than this.
+  let additionInsertPoint: number = -1;
   if (addition) {
-    // We always want a newline at the end as for now our inserts are whole lines.
-    // If the insertion point is after a node then we want an newline before it.
-    // If the insertion point is before a node then we want an newline after it to break the line.
-    const lastImport = allCurrentImports?.[allCurrentImports.length - 1]?.node;
-    let relation = Relation.Default;
-    let insertionPoint = 0;
-    if (lastImport?.nextSibling) {
-      relation = Relation.Before;
-      insertionPoint = lastImport.nextSibling.from;
-    } else if (lastImport) {
-      relation = Relation.After;
-      insertionPoint = lastImport.to;
+    let additionPrefix = "";
+    if (line !== undefined) {
+      const extraLines = line - state.doc.lines;
+      if (extraLines > 0) {
+        additionInsertPoint = state.doc.length;
+        additionPrefix = "\n".repeat(extraLines);
+      } else {
+        additionInsertPoint = state.doc.line(line).from;
+      }
+    } else {
+      additionInsertPoint = skipWhitespaceLines(
+        state.doc,
+        importInsertPoint.from
+      );
     }
 
+    const insertLine = state.doc.lineAt(additionInsertPoint);
+    const indent = insertLine.text.match(/^(\s*)/);
     changes.push({
-      from: insertionPoint,
+      from: additionInsertPoint,
       insert:
-        (relation === Relation.After ? "\n" : "") +
-        addition +
-        "\n" +
-        (relation === Relation.Before ? "\n" : ""),
-    });
-
-    const changeSet = state.changes(changes);
-    return state.update({
-      changes: changeSet,
-      scrollIntoView: true,
-      selection: {
-        anchor: changeSet.mapPos(insertionPoint, 1),
-      },
+        additionPrefix + indentBy(addition, indent ? indent[0] : "") + "\n",
     });
   }
 
+  if (importInsertPoint.used) {
+    changes[0].insert = importInsertPoint.prefix + changes[0].insert;
+  }
   return state.update({
-    changes: state.changes(changes),
+    changes,
     scrollIntoView: true,
+    selection: addition
+      ? {
+          anchor: additionInsertPoint,
+        }
+      : undefined,
   });
+};
+
+/**
+ * Find the beginning of the first content line after `pos`,
+ * or failing that return `pos` unchanged.
+ */
+const skipWhitespaceLines = (doc: Text, pos: number): number => {
+  let original = doc.lineAt(pos);
+  let line = original;
+  while (line.text.match(/^\s*$/)) {
+    try {
+      line = doc.line(line.number + 1);
+    } catch {
+      break;
+    }
+  }
+  return line.number === original.number ? pos : line.from;
+};
+
+const indentBy = (text: string, indent: string) => {
+  if (indent === "") {
+    return text;
+  }
+  return text
+    .split("\n")
+    .map((p) => indent + p)
+    .join("\n");
 };
 
 const calculateImportChangesInternal = (
@@ -222,7 +246,7 @@ class DefaultImportInsertPoint {
   }
 }
 
-const defaultImportInsertPoint = (
+const defaultInsertPoint = (
   state: EditorState,
   allCurrent: ImportNode[]
 ): DefaultImportInsertPoint => {

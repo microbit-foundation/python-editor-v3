@@ -4,13 +4,24 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
+import { DragHandleIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
-import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
+import {
+  Ref,
+  RefObject,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
+import { setDraggedCode } from "../../editor/codemirror/dnd";
+import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import MoreButton from "../common/MoreButton";
 
@@ -127,20 +138,47 @@ interface CodeProps extends BoxProps {
 
 const Code = forwardRef<CodeProps, "pre">(
   ({ value, ...props }: CodeProps, ref) => {
+    const handleDragStart = useCallback(
+      (event: React.DragEvent) => {
+        event.dataTransfer.dropEffect = "copy";
+        setDraggedCode(value);
+        event.dataTransfer.setData(pythonSnippetMediaType, value);
+      },
+      [value]
+    );
+    const handleDragEnd = useCallback((event: React.DragEvent) => {
+      setDraggedCode(undefined);
+    }, []);
     return (
-      <Box
+      <HStack
+        draggable={true}
         backgroundColor="rgb(247,245,242)"
-        p={5}
         borderTopRadius="lg"
         fontFamily="code"
         {...props}
         ref={ref}
+        spacing={0}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
-        <CodeMirrorView value={value} />
-      </Box>
+        {flags.dnd && (
+          <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
+        )}
+        <CodeMirrorView value={value} p={5} pl={flags.dnd ? 1 : 5} />
+      </HStack>
     );
   }
 );
+
+interface DragHandleProps extends BoxProps {}
+
+const DragHandle = (props: DragHandleProps) => {
+  return (
+    <HStack {...props} bgColor="blackAlpha.100">
+      <DragHandleIcon boxSize={3} />
+    </HStack>
+  );
+};
 
 const useScrollTop = () => {
   const scrollableRef = useScrollablePanelAncestor();
