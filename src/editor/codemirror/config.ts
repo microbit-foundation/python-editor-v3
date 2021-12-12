@@ -21,7 +21,7 @@ import {
   keymap,
 } from "@codemirror/view";
 import { flags } from "../../flags";
-import { snippetDropSupport } from "./dnd";
+import { dndSupport } from "./dnd";
 import highlightStyle from "./highlightStyle";
 
 const customTabBinding: KeyBinding = {
@@ -65,5 +65,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
-  flags.dnd ? snippetDropSupport() : [],
+  flags.dnd ? dndSupport() : [],
 ];

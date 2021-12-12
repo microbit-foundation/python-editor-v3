@@ -3,11 +3,6 @@ import { EditorView } from "@codemirror/view";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { calculateChanges } from "./edits";
 
-// No access to the content via the event in dragover (as it may be cross-document)
-// so we need shared state with the drag so we can draw previews of the drop in
-// the document.
-let draggedCode: string | undefined;
-
 /**
  * Information stashed last time we handled dragover.
  * Cleared on drop of dragleave.
@@ -25,25 +20,40 @@ interface LastDragPos {
 
 let lastDragPos: LastDragPos | undefined;
 
+let draggedCode: string | undefined;
+
+/**
+ * Set the dragged code.
+ *
+ * There's no access to the content via the event in dragover (as it may be cross-document),
+ * we use that event to draw a preview, so we need shared state with the drag.
+ *
+ * Set it in dragstart and clear it in dragend.
+ */
 export const setDraggedCode = (value: string | undefined) => {
   draggedCode = value;
   lastDragPos = undefined;
 };
 
-export const snippetDropSupport = () => {
-  const revertPreview = (view: EditorView) => {
-    if (lastDragPos) {
-      view.dispatch({
-        changes: lastDragPos.previewUndo,
-        annotations: [Transaction.addToHistory.of(false)],
-      });
-      lastDragPos = undefined;
-    }
-  };
+const revertPreview = (view: EditorView) => {
+  if (lastDragPos) {
+    view.dispatch({
+      changes: lastDragPos.previewUndo,
+      annotations: [Transaction.addToHistory.of(false)],
+    });
+    lastDragPos = undefined;
+  }
+};
+
+/**
+ * Support for dropping snippets.
+ *
+ * Note this requires coordination from the drag end via {@link setDraggedCode}.
+ */
+export const dndSupport = () => {
   return [
     EditorView.domEventHandlers({
       dragover(event, view) {
-        // Can't access event data in dragover.
         if (draggedCode) {
           event.preventDefault();
 
