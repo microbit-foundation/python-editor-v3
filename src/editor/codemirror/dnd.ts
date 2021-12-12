@@ -1,4 +1,4 @@
-import { ChangeSet, Transaction } from "@codemirror/state";
+import { ChangeSet, EditorState, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { calculateChanges } from "./edits";
@@ -54,6 +54,10 @@ export const dndSupport = () => {
   return [
     EditorView.domEventHandlers({
       dragover(event, view) {
+        if (!view.state.facet(EditorView.editable)) {
+          return;
+        }
+
         if (draggedCode) {
           event.preventDefault();
 
@@ -81,6 +85,10 @@ export const dndSupport = () => {
         }
       },
       dragleave(event, view) {
+        if (!view.state.facet(EditorView.editable)) {
+          return;
+        }
+
         const isChildElement = (event.currentTarget as Node).contains(
           event.relatedTarget as Node
         );
@@ -96,6 +104,10 @@ export const dndSupport = () => {
         }
       },
       drop(event, view) {
+        if (!view.state.facet(EditorView.editable)) {
+          return;
+        }
+
         const draggedCode = event.dataTransfer?.getData(pythonSnippetMediaType);
         if (draggedCode) {
           event.preventDefault();
