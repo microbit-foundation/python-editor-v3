@@ -71,19 +71,18 @@ export const snippetDropSupport = () => {
         }
       },
       dragleave(event, view) {
+        const isChildElement = (event.currentTarget as Node).contains(
+          event.relatedTarget as Node
+        );
+        if (isChildElement) {
+          // Skip dragleave events for child elements as we're still dragging over the editor.
+          return;
+        }
+
         if (draggedCode) {
           event.preventDefault();
 
-          // dragenter and leave are fired for the child elements of the view too.
-          const rect = view.contentDOM.getBoundingClientRect();
-          if (
-            event.clientY < rect.top ||
-            event.clientY >= rect.bottom ||
-            event.clientX < rect.left ||
-            event.clientX >= rect.right
-          ) {
-            revertPreview(view);
-          }
+          revertPreview(view);
         }
       },
       drop(event, view) {
