@@ -1,4 +1,4 @@
-import { ChangeSet, EditorState, Transaction } from "@codemirror/state";
+import { ChangeSet, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { calculateChanges } from "./edits";
