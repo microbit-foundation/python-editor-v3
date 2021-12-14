@@ -201,10 +201,10 @@ describe("edits", () => {
   });
   it("still separates imports even when inserting at a line", () => {
     check({
-      line: 3,
+      line: 5,
       initial: "pass",
       additional: "import radio\nradio.off()",
-      expected: "import radio\n\n\npass\n\nradio.off()\n",
+      expected: "import radio\n\n\npass\nradio.off()\n",
     });
   });
 });
