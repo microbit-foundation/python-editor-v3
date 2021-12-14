@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { escapeRegExp } from "../editor/codemirror/language-server/regexp-util";
 import { App, defaultRootUrl } from "./app";
 
 describe("Browser - toolkit tabs", () => {
