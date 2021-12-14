@@ -13,17 +13,19 @@ describe("edits", () => {
     initial,
     additional,
     expected,
+    line,
   }: {
     initial: string;
     additional: string;
     expected: string;
+    line?: number;
   }) => {
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],
     });
     const view = new EditorView({ state });
-    const transaction = state.update(calculateChanges(state, additional));
+    const transaction = state.update(calculateChanges(state, additional, line));
     view.dispatch(transaction);
     const actual = view.state.sliceDoc(0);
     expect(actual).toEqual(expected);
@@ -155,6 +157,54 @@ describe("edits", () => {
         "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
       expected:
         "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
+    });
+  });
+
+  it("can insert at first line", () => {
+    check({
+      line: 1,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "print('Hi')\nfrom microbit import *\npass",
+    });
+  });
+  it("can insert at last line", () => {
+    check({
+      line: 3,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "from microbit import *\npass\nprint('Hi')\n",
+    });
+  });
+  it("can insert in the middle", () => {
+    check({
+      line: 2,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "from microbit import *\nprint('Hi')\npass",
+    });
+  });
+  it("can insert beyond the end of the document by adding blank lines", () => {
+    check({
+      line: 5,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "from microbit import *\npass\n\n\nprint('Hi')\n",
+    });
+  });
+  it("can insert into empty document", () => {
+    check({
+      initial: "",
+      additional: "pass",
+      expected: "pass\n",
+    });
+  });
+  it("still separates imports even when inserting at a line", () => {
+    check({
+      line: 3,
+      initial: "pass",
+      additional: "import radio\nradio.off()",
+      expected: "import radio\n\n\npass\n\nradio.off()\n",
     });
   });
 });
