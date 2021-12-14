@@ -57,14 +57,8 @@ describe("Browser - toolkit tabs", () => {
     await app.dragToolkitCode("Scroll", 5);
 
     // There's some weird trailing whitespace in this snippet that needs fixing in the content.
-    const expected = `#1
-#2
-#3
-#4
-display.scroll('score')    
-display.scroll(23)
-#5
-#6`;
+    const expected =
+      "from microbit import *\n\n\n\n\n#1\ndisplay.scroll('score')    \ndisplay.scroll(23)\n#2\n#3\n#4\n#5\n#6\n\n";
 
     expect(await app.findVisibleEditorContents(expected));
   });

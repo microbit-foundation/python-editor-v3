@@ -85,11 +85,17 @@ export const calculateChanges = (
     // Two blank lines separating the imports from everything else.
     changes[changes.length - 1].insert += "\n\n";
   }
+  let importLines = changes
+    .map((c) => c.insert.split("\n").length - 1)
+    .reduce((acc, cur) => acc + cur, 0);
 
   let additionInsertPoint: number = -1;
   if (addition) {
     let additionPrefix = "";
     if (line !== undefined) {
+      // Tweak so the addition preview is under the mouse even if we added imports.
+      line -= importLines;
+      line = Math.max(1, line);
       const extraLines = line - state.doc.lines;
       if (extraLines > 0) {
         additionInsertPoint = state.doc.length;

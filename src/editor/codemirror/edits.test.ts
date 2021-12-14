@@ -207,4 +207,13 @@ describe("edits", () => {
       expected: "import radio\n\n\npass\n\nradio.off()\n",
     });
   });
+  it("oddity", () => {
+    check({
+      line: 5,
+      initial: "#1\n#2\n#3\n#4\n#5\n#6\n",
+      additional: "from microbit import *\ndisplay.scroll('Woah')",
+      expected:
+        "from microbit import *\n\n\n#1\n#2\n#3\n#4\ndisplay.scroll('Woah')\n#5\n#6\n",
+    });
+  });
 });
