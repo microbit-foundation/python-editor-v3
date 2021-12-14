@@ -17,6 +17,7 @@ import puppeteer, {
   ElementHandle,
   KeyInput,
   Page,
+  Point,
 } from "puppeteer";
 import { allowWrapAtPeriods } from "../documentation/common/wrap";
 
@@ -171,11 +172,12 @@ export class App {
     options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
     const page = await this.page;
-    // Puppeteer doesn't have file drio support but we can use an input
+    // Puppeteer doesn't have file drop support but we can use an input
     // to grab a file and trigger an event that's good enough.
     // It's a bit of a pain as the drop happens on an element created by
     // the drag-over.
     // https://github.com/puppeteer/puppeteer/issues/1376
+    // This issue has since been fixed and we've upgraded, so there's an opportunity to simplify here.
     const inputId = "simulated-drop-input";
     await page.evaluate((inputId) => {
       const input = document.createElement("input");
@@ -345,9 +347,7 @@ export class App {
         ...defaultWaitForOptions,
         onTimeout: (e) =>
           new Error(
-            `Timeout waiting for ${match} but content was ${lastText}. JSON format: ${JSON.stringify(
-              lastText
-            )}`
+            `Timeout waiting for ${match} but content was:\n${lastText}}`
           ),
         ...options,
       }
@@ -595,7 +595,6 @@ export class App {
     const document = await this.document();
     return waitFor(async () => {
       const items = await document.$$(".cm-completionLabel");
-      const e: Element = null as any;
       const actual = await Promise.all(
         items.map((e) => e.evaluate((node) => (node as HTMLElement).innerText))
       );
@@ -660,6 +659,49 @@ export class App {
       name: "Show reference documentation",
     });
     return button.click();
+  }
+
+  /**
+   * Drag the first code snippet from the named section to the target line.
+   * The section must alread be in view.
+   *
+   * @param name The name of the section.
+   * @param targetLine The target line
+   */
+  async dragToolkitCode(name: string, targetLine: number) {
+    const page = await this.page;
+    // page.setDragInterception(true);
+    const document = await this.document();
+    const heading = await document.findByRole("heading", {
+      name: "Scroll",
+      level: 3,
+    });
+    const section = await (heading.getProperty("parentNode") as Promise<
+      ElementHandle<Element>
+    >);
+    const draggable = (await section.$("[draggable]"))!;
+
+    const findPoint = (e: Element) => {
+      const getTop = (el: any): number =>
+        el.offsetTop + (el.offsetParent && getTop(el.offsetParent));
+      const getLeft = (el: any): number =>
+        el.offsetLeft + (el.offsetParent && getLeft(el.offsetParent));
+      return { x: getLeft(e), y: getTop(e) };
+    };
+
+    const start = await draggable.evaluate(findPoint);
+    console.log(start);
+
+    const lines = await document.$$(".cm-line");
+    const line = lines[targetLine];
+    console.log("Target line", await line.evaluate((l) => l.textContent));
+    if (!line) {
+      throw new Error(`No line ${targetLine} found. Line must exist.`);
+    }
+    const target = await line.evaluate(findPoint);
+    await page.mouse.dragAndDrop(start, target, {
+      delay: 50,
+    });
   }
 
   /**

@@ -45,4 +45,16 @@ describe("Browser - toolkit tabs", () => {
 
     await app.findVisibleEditorContents("display.show(Image.SILLY)");
   });
+
+  it.only("Insert code via drag and drop", async () => {
+    await app.selectAllInEditor();
+    await app.typeInEditor("#1\n#2\n#3\n#4\n#5\n#6\n");
+    await app.findVisibleEditorContents("#5");
+    await app.switchTab("Explore");
+    await app.selectToolkitSection("Display");
+
+    await app.dragToolkitCode("Scroll", 5);
+
+    expect(await app.findVisibleEditorContents(/display\.scroll\('foo'\)/));
+  });
 });
