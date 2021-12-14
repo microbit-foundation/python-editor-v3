@@ -458,7 +458,7 @@ export class App {
     const handle = heading.asElement();
     await handle!.evaluate((element) => {
       const item = element.closest("li");
-      item.querySelector("button").click();
+      item!.querySelector("button")!.click();
     });
   }
 
@@ -552,7 +552,7 @@ export class App {
 
   async mockSerialWrite(data: string): Promise<void> {
     const document = await this.document();
-    return document.evaluate(
+    await document.evaluate(
       (d, data) =>
         d.dispatchEvent(
           new CustomEvent("mockSerialWrite", {
@@ -595,8 +595,9 @@ export class App {
     const document = await this.document();
     return waitFor(async () => {
       const items = await document.$$(".cm-completionLabel");
+      const e: Element = null as any;
       const actual = await Promise.all(
-        items.map((e) => e.evaluate((node) => node.innerText))
+        items.map((e) => e.evaluate((node) => (node as HTMLElement).innerText))
       );
       expect(actual).toEqual(expected);
     }, defaultWaitForOptions);
@@ -610,7 +611,9 @@ export class App {
     return waitFor(async () => {
       const tooltip = await document.$(".cm-signature-tooltip code");
       expect(tooltip).toBeTruthy();
-      const actualSignature = await tooltip!.evaluate((e) => e.innerText);
+      const actualSignature = await tooltip!.evaluate(
+        (e) => (e as HTMLElement).innerText
+      );
       expect(actualSignature).toEqual(expectedSignature);
     }, defaultWaitForOptions);
   }
