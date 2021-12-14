@@ -66,6 +66,7 @@ export class App {
     const browser = await this.browser;
 
     const page = await browser.newPage();
+    await page.setViewport({ width: 1200, height: 800 });
     await page.setCookie({
       // See corresponding code in App.tsx.
       name: "mockDevice",
@@ -673,38 +674,29 @@ export class App {
    */
   async dragToolkitCode(name: string, targetLine: number) {
     const page = await this.page;
-    page.setDragInterception(true);
     const document = await this.document();
     const heading = await document.findByRole("heading", {
-      name: "Scroll",
+      name,
       level: 3,
     });
     const section = await (heading.getProperty("parentNode") as Promise<
       ElementHandle<Element>
     >);
     const draggable = (await section.$("[draggable]"))!;
-
-    const findPoint = (e: Element) => {
-      const getTop = (el: any): number =>
-        el.offsetTop + (el.offsetParent && getTop(el.offsetParent));
-      const getLeft = (el: any): number =>
-        el.offsetLeft + (el.offsetParent && getLeft(el.offsetParent));
-      return { x: getLeft(e) + 5, y: getTop(e) + 5 };
-    };
-
-    const start = await draggable.evaluate(findPoint);
-
     const lines = await document.$$("[data-testid='editor'] .cm-line");
     const line = lines[targetLine - 1];
     if (!line) {
       throw new Error(`No line ${targetLine} found. Line must exist.`);
     }
-    console.log("Target line", await line.evaluate((l) => l.textContent));
-    const target = await line.evaluate(findPoint);
-    console.log({ start, target });
-
+    const findPoint = (e: Element) => {
+      // We use the top left to avoid interaction with the text of the code.
+      const { x, y } = e.getBoundingClientRect();
+      return { x, y };
+    };
+    const start = await draggable.evaluate(findPoint);
+    const target = await line.clickablePoint();
+    await page.setDragInterception(true);
     await page.mouse.dragAndDrop(start, target);
-    console.log("Done with it");
   }
 
   /**

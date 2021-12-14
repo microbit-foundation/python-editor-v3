@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { escapeRegExp } from "../editor/codemirror/language-server/regexp-util";
 import { App, defaultRootUrl } from "./app";
 
 describe("Browser - toolkit tabs", () => {
@@ -46,7 +47,7 @@ describe("Browser - toolkit tabs", () => {
     await app.findVisibleEditorContents("display.show(Image.SILLY)");
   });
 
-  it.only("Insert code via drag and drop", async () => {
+  it("Insert code via drag and drop", async () => {
     await app.selectAllInEditor();
     await app.typeInEditor("#1\n#2\n#3\n#4\n#5\n#6\n");
     await app.findVisibleEditorContents("#5");
@@ -55,6 +56,16 @@ describe("Browser - toolkit tabs", () => {
 
     await app.dragToolkitCode("Scroll", 5);
 
-    expect(await app.findVisibleEditorContents(/display\.scroll\('foo'\)/));
+    // There's some weird trailing whitespace in this snippet that needs fixing in the content.
+    const expected = `#1
+#2
+#3
+#4
+display.scroll('score')    
+display.scroll(23)
+#5
+#6`;
+
+    expect(await app.findVisibleEditorContents(expected));
   });
 });
