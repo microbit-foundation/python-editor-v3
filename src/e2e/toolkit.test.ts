@@ -49,16 +49,16 @@ describe("Browser - toolkit tabs", () => {
 
   it("Insert code via drag and drop", async () => {
     await app.selectAllInEditor();
-    await app.typeInEditor("#1\n#2\n#3\n#4\n#5\n#6\n");
-    await app.findVisibleEditorContents("#5");
+    await app.typeInEditor("#1\n#2\n#3\n");
+    await app.findVisibleEditorContents("#2");
     await app.switchTab("Explore");
     await app.selectToolkitSection("Display");
 
-    await app.dragToolkitCode("Scroll", 5);
+    await app.dragDropToolkitCode("Scroll", 2);
 
     // There's some weird trailing whitespace in this snippet that needs fixing in the content.
     const expected =
-      "from microbit import *\n\n\n\n\n#1\ndisplay.scroll('score')    \ndisplay.scroll(23)\n#2\n#3\n#4\n#5\n#6\n\n";
+      "from microbit import *\n\n\ndisplay.scroll('score')    \ndisplay.scroll(23)\n#1\n#2\n#3\n";
 
     expect(await app.findVisibleEditorContents(expected));
   });

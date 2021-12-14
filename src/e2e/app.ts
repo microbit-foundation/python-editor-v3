@@ -339,7 +339,13 @@ export class App {
         const lines = Array.from(
           window.document.querySelectorAll("[data-testid='editor'] .cm-line")
         );
-        return lines.map((l) => (l as HTMLElement).innerText).join("\n");
+        return (
+          lines
+            .map((l) => (l as HTMLElement).innerText)
+            // Blank lines here are \n but non-blank lines have no trailing separator. Fix so we can join the text.
+            .map((l) => (l === "\n" ? "" : l))
+            .join("\n")
+        );
       });
     return waitFor(
       async () => {
@@ -674,7 +680,7 @@ export class App {
    * @param name The name of the section.
    * @param targetLine The target line (1-based).
    */
-  async dragToolkitCode(name: string, targetLine: number) {
+  async dragDropToolkitCode(name: string, targetLine: number) {
     const page = await this.page;
     const document = await this.document();
     const heading = await document.findByRole("heading", {
