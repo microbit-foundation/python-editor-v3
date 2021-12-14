@@ -166,6 +166,7 @@ const CodeMirror = ({
 
   return (
     <section
+      data-testid="editor"
       aria-label={intl.formatMessage({ id: "code-editor" })}
       style={{ height: "100%" }}
       className={className}

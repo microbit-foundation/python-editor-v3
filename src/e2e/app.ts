@@ -334,7 +334,10 @@ export class App {
     let lastText: string | undefined;
     const text = () =>
       document.evaluate(() => {
-        const lines = Array.from(window.document.querySelectorAll(".cm-line"));
+        // We use the testid to identify the main editor as we also have read-only code views.
+        const lines = Array.from(
+          window.document.querySelectorAll("[data-testid='editor'] .cm-line")
+        );
         return lines.map((l) => (l as HTMLElement).innerText).join("\n");
       });
     return waitFor(
@@ -666,11 +669,11 @@ export class App {
    * The section must alread be in view.
    *
    * @param name The name of the section.
-   * @param targetLine The target line
+   * @param targetLine The target line (1-based).
    */
   async dragToolkitCode(name: string, targetLine: number) {
     const page = await this.page;
-    // page.setDragInterception(true);
+    page.setDragInterception(true);
     const document = await this.document();
     const heading = await document.findByRole("heading", {
       name: "Scroll",
@@ -686,22 +689,22 @@ export class App {
         el.offsetTop + (el.offsetParent && getTop(el.offsetParent));
       const getLeft = (el: any): number =>
         el.offsetLeft + (el.offsetParent && getLeft(el.offsetParent));
-      return { x: getLeft(e), y: getTop(e) };
+      return { x: getLeft(e) + 5, y: getTop(e) + 5 };
     };
 
     const start = await draggable.evaluate(findPoint);
-    console.log(start);
 
-    const lines = await document.$$(".cm-line");
-    const line = lines[targetLine];
-    console.log("Target line", await line.evaluate((l) => l.textContent));
+    const lines = await document.$$("[data-testid='editor'] .cm-line");
+    const line = lines[targetLine - 1];
     if (!line) {
       throw new Error(`No line ${targetLine} found. Line must exist.`);
     }
+    console.log("Target line", await line.evaluate((l) => l.textContent));
     const target = await line.evaluate(findPoint);
-    await page.mouse.dragAndDrop(start, target, {
-      delay: 50,
-    });
+    console.log({ start, target });
+
+    await page.mouse.dragAndDrop(start, target);
+    console.log("Done with it");
   }
 
   /**
