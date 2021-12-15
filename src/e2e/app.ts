@@ -684,7 +684,7 @@ export class App {
    * Clean up, including the browser and downloads temporary folder.
    */
   async dispose() {
-    await fsp.rmdir(this.downloadPath, { recursive: true });
+    await fsp.rm(this.downloadPath, { recursive: true });
     const page = await this.page;
     await page.browser().close();
   }
