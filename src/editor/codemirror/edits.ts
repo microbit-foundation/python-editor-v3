@@ -103,6 +103,7 @@ export const calculateChanges = (
         additionInsertPoint = state.doc.line(line).from;
       }
     } else {
+      // When no line is specified, insert before the code (not just after the imports).
       additionInsertPoint = skipWhitespaceLines(
         state.doc,
         importInsertPoint.from
