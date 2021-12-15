@@ -94,8 +94,7 @@ export const calculateChanges = (
     let additionPrefix = "";
     if (line !== undefined) {
       // Tweak so the addition preview is under the mouse even if we added imports.
-      line -= importLines;
-      line = Math.max(1, line);
+      line = Math.max(1, line - importLines);
       const extraLines = line - state.doc.lines;
       if (extraLines > 0) {
         additionInsertPoint = state.doc.length;

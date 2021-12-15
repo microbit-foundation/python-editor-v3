@@ -5,7 +5,7 @@ import { calculateChanges } from "./edits";
 
 /**
  * Information stashed last time we handled dragover.
- * Cleared on drop of dragleave.
+ * Cleared on drop or dragleave.
  */
 interface LastDragPos {
   /**
@@ -17,8 +17,6 @@ interface LastDragPos {
    */
   previewUndo: ChangeSet;
 }
-
-let lastDragPos: LastDragPos | undefined;
 
 let draggedCode: string | undefined;
 
@@ -32,25 +30,25 @@ let draggedCode: string | undefined;
  */
 export const setDraggedCode = (value: string | undefined) => {
   draggedCode = value;
-  lastDragPos = undefined;
-};
-
-const revertPreview = (view: EditorView) => {
-  if (lastDragPos) {
-    view.dispatch({
-      changes: lastDragPos.previewUndo,
-      annotations: [Transaction.addToHistory.of(false)],
-    });
-    lastDragPos = undefined;
-  }
 };
 
 /**
- * Support for dropping snippets.
+ * Support for dropping code snippets.
  *
  * Note this requires coordination from the drag end via {@link setDraggedCode}.
  */
 export const dndSupport = () => {
+  let lastDragPos: LastDragPos | undefined;
+  const revertPreview = (view: EditorView) => {
+    if (lastDragPos) {
+      view.dispatch({
+        changes: lastDragPos.previewUndo,
+        annotations: [Transaction.addToHistory.of(false)],
+      });
+      lastDragPos = undefined;
+    }
+  };
+
   return [
     EditorView.domEventHandlers({
       dragover(event, view) {

@@ -696,12 +696,12 @@ export class App {
     if (!line) {
       throw new Error(`No line ${targetLine} found. Line must exist.`);
     }
-    const findPoint = (e: Element) => {
-      // We use the top left to avoid interaction with the text of the code.
+    const topLeft = (e: Element) => {
       const { x, y } = e.getBoundingClientRect();
       return { x, y };
     };
-    const start = await draggable.evaluate(findPoint);
+    // We use the top left to avoid interaction with the text of the code.
+    const start = await draggable.evaluate(topLeft);
     const target = await line.clickablePoint();
     await page.setDragInterception(true);
     await page.mouse.dragAndDrop(start, target);
