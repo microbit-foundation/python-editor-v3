@@ -3,10 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { EditorState } from "@codemirror/state";
 import { python } from "@codemirror/lang-python";
+import { EditorState } from "@codemirror/state";
 import { calculateChanges } from "./edits";
-import { EditorView } from "@codemirror/view";
 
 describe("edits", () => {
   const check = ({
@@ -24,10 +23,8 @@ describe("edits", () => {
       doc: initial,
       extensions: [python()],
     });
-    const view = new EditorView({ state });
     const transaction = state.update(calculateChanges(state, additional, line));
-    view.dispatch(transaction);
-    const actual = view.state.sliceDoc(0);
+    const actual = transaction.newDoc.sliceString(0);
     expect(actual).toEqual(expected);
   };
 
