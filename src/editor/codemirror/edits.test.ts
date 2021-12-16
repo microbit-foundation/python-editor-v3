@@ -3,29 +3,28 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { EditorState } from "@codemirror/state";
 import { python } from "@codemirror/lang-python";
+import { EditorState } from "@codemirror/state";
 import { calculateChanges } from "./edits";
-import { EditorView } from "@codemirror/view";
 
 describe("edits", () => {
   const check = ({
     initial,
     additional,
     expected,
+    line,
   }: {
     initial: string;
     additional: string;
     expected: string;
+    line?: number;
   }) => {
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],
     });
-    const view = new EditorView({ state });
-    const transaction = state.update(calculateChanges(state, additional));
-    view.dispatch(transaction);
-    const actual = view.state.sliceDoc(0);
+    const transaction = state.update(calculateChanges(state, additional, line));
+    const actual = transaction.newDoc.sliceString(0);
     expect(actual).toEqual(expected);
   };
 
@@ -136,7 +135,15 @@ describe("edits", () => {
         "from microbit import *\n\nwhile True:\n    display.scroll('Hello, World')\n",
       additional: "import radio\n\nradio.off()",
       expected:
-        "from microbit import *\nimport radio\n\nradio.off()\n\nwhile True:\n    display.scroll('Hello, World')\n",
+        "from microbit import *\nimport radio\n\nradio.off()\nwhile True:\n    display.scroll('Hello, World')\n",
+    });
+  });
+
+  it("non-import content before code rather than after imports", () => {
+    check({
+      initial: "from microbit import *\n\n\n\nprint('foo')",
+      additional: "print('bar')",
+      expected: "from microbit import *\n\n\n\nprint('bar')\nprint('foo')",
     });
   });
 
@@ -147,6 +154,54 @@ describe("edits", () => {
         "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
       expected:
         "from microbit import *\nimport music\n\n\ndisplay.scroll('score', delay=100, loop=True, wait=False)\nmusic.play(music.ODE)\n",
+    });
+  });
+
+  it("can insert at first line", () => {
+    check({
+      line: 1,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "print('Hi')\nfrom microbit import *\npass",
+    });
+  });
+  it("can insert at last line", () => {
+    check({
+      line: 3,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "from microbit import *\npass\nprint('Hi')\n",
+    });
+  });
+  it("can insert in the middle", () => {
+    check({
+      line: 2,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "from microbit import *\nprint('Hi')\npass",
+    });
+  });
+  it("can insert beyond the end of the document by adding blank lines", () => {
+    check({
+      line: 5,
+      initial: "from microbit import *\npass",
+      additional: "print('Hi')",
+      expected: "from microbit import *\npass\n\n\nprint('Hi')\n",
+    });
+  });
+  it("can insert into empty document", () => {
+    check({
+      initial: "",
+      additional: "pass",
+      expected: "pass\n",
+    });
+  });
+  it("still separates imports even when inserting at a line", () => {
+    check({
+      line: 5,
+      initial: "pass",
+      additional: "import radio\nradio.off()",
+      expected: "import radio\n\n\npass\nradio.off()\n",
     });
   });
 });

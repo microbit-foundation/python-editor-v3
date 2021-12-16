@@ -17,6 +17,7 @@ import puppeteer, {
   ElementHandle,
   KeyInput,
   Page,
+  Point,
 } from "puppeteer";
 import { allowWrapAtPeriods } from "../documentation/common/wrap";
 
@@ -65,6 +66,7 @@ export class App {
     const browser = await this.browser;
 
     const page = await browser.newPage();
+    await page.setViewport({ width: 1200, height: 800 });
     await page.setCookie({
       // See corresponding code in App.tsx.
       name: "mockDevice",
@@ -171,11 +173,12 @@ export class App {
     options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
     const page = await this.page;
-    // Puppeteer doesn't have file drio support but we can use an input
+    // Puppeteer doesn't have file drop support but we can use an input
     // to grab a file and trigger an event that's good enough.
     // It's a bit of a pain as the drop happens on an element created by
     // the drag-over.
     // https://github.com/puppeteer/puppeteer/issues/1376
+    // This issue has since been fixed and we've upgraded, so there's an opportunity to simplify here.
     const inputId = "simulated-drop-input";
     await page.evaluate((inputId) => {
       const input = document.createElement("input");
@@ -332,8 +335,17 @@ export class App {
     let lastText: string | undefined;
     const text = () =>
       document.evaluate(() => {
-        const lines = Array.from(window.document.querySelectorAll(".cm-line"));
-        return lines.map((l) => (l as HTMLElement).innerText).join("\n");
+        // We use the testid to identify the main editor as we also have read-only code views.
+        const lines = Array.from(
+          window.document.querySelectorAll("[data-testid='editor'] .cm-line")
+        );
+        return (
+          lines
+            .map((l) => (l as HTMLElement).innerText)
+            // Blank lines here are \n but non-blank lines have no trailing separator. Fix so we can join the text.
+            .map((l) => (l === "\n" ? "" : l))
+            .join("\n")
+        );
       });
     return waitFor(
       async () => {
@@ -345,7 +357,7 @@ export class App {
         ...defaultWaitForOptions,
         onTimeout: (e) =>
           new Error(
-            `Timeout waiting for ${match} but content was ${lastText}. JSON format: ${JSON.stringify(
+            `Timeout waiting for ${match} but content was:\n${lastText}}\n\nJSON version:\n${JSON.stringify(
               lastText
             )}`
           ),
@@ -458,7 +470,7 @@ export class App {
     const handle = heading.asElement();
     await handle!.evaluate((element) => {
       const item = element.closest("li");
-      item.querySelector("button").click();
+      item!.querySelector("button")!.click();
     });
   }
 
@@ -552,7 +564,7 @@ export class App {
 
   async mockSerialWrite(data: string): Promise<void> {
     const document = await this.document();
-    return document.evaluate(
+    await document.evaluate(
       (d, data) =>
         d.dispatchEvent(
           new CustomEvent("mockSerialWrite", {
@@ -596,7 +608,7 @@ export class App {
     return waitFor(async () => {
       const items = await document.$$(".cm-completionLabel");
       const actual = await Promise.all(
-        items.map((e) => e.evaluate((node) => node.innerText))
+        items.map((e) => e.evaluate((node) => (node as HTMLElement).innerText))
       );
       expect(actual).toEqual(expected);
     }, defaultWaitForOptions);
@@ -610,7 +622,9 @@ export class App {
     return waitFor(async () => {
       const tooltip = await document.$(".cm-signature-tooltip code");
       expect(tooltip).toBeTruthy();
-      const actualSignature = await tooltip!.evaluate((e) => e.innerText);
+      const actualSignature = await tooltip!.evaluate(
+        (e) => (e as HTMLElement).innerText
+      );
       expect(actualSignature).toEqual(expectedSignature);
     }, defaultWaitForOptions);
   }
@@ -657,6 +671,40 @@ export class App {
       name: "Show reference documentation",
     });
     return button.click();
+  }
+
+  /**
+   * Drag the first code snippet from the named section to the target line.
+   * The section must alread be in view.
+   *
+   * @param name The name of the section.
+   * @param targetLine The target line (1-based).
+   */
+  async dragDropToolkitCode(name: string, targetLine: number) {
+    const page = await this.page;
+    const document = await this.document();
+    const heading = await document.findByRole("heading", {
+      name,
+      level: 3,
+    });
+    const section = await (heading.getProperty("parentNode") as Promise<
+      ElementHandle<Element>
+    >);
+    const draggable = (await section.$("[draggable]"))!;
+    const lines = await document.$$("[data-testid='editor'] .cm-line");
+    const line = lines[targetLine - 1];
+    if (!line) {
+      throw new Error(`No line ${targetLine} found. Line must exist.`);
+    }
+    const topLeft = (e: Element) => {
+      const { x, y } = e.getBoundingClientRect();
+      return { x, y };
+    };
+    // We use the top left to avoid interaction with the text of the code.
+    const start = await draggable.evaluate(topLeft);
+    const target = await line.clickablePoint();
+    await page.setDragInterception(true);
+    await page.mouse.dragAndDrop(start, target);
   }
 
   /**

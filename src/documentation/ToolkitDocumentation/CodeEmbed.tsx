@@ -4,13 +4,24 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
+import { DragHandleIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
-import { Ref, RefObject, useLayoutEffect, useRef, useState } from "react";
+import {
+  Ref,
+  RefObject,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
+import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
+import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import MoreButton from "../common/MoreButton";
 
@@ -55,14 +66,16 @@ const CodeEmbed = ({
             boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
-            value={code}
+            concise={code}
+            full={codeWithImports}
             position="absolute"
             ref={codeRef}
           />
           {hovering && (
             <CodePopUp
               setHovering={setHovering}
-              value={code}
+              concise={code}
+              full={codeWithImports}
               codeRef={codeRef}
             />
           )}
@@ -92,13 +105,14 @@ const CodeEmbed = ({
 
 interface CodePopUpProps extends BoxProps {
   setHovering: (hovering: boolean) => void;
-  value: string;
+  concise: string;
+  full: string;
   codeRef: RefObject<HTMLDivElement | null>;
 }
 
 // We draw the same code over the top in a portal so we can draw it
 // above the scrollbar.
-const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
+const CodePopUp = ({ setHovering, codeRef, concise, full }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
@@ -111,7 +125,8 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
       <Code
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
-        value={value}
+        concise={concise}
+        full={full}
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
@@ -121,26 +136,56 @@ const CodePopUp = ({ setHovering, codeRef, value }: CodePopUpProps) => {
 };
 
 interface CodeProps extends BoxProps {
-  value: string;
+  concise: string;
+  full: string;
   ref?: Ref<HTMLDivElement>;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
-  ({ value, ...props }: CodeProps, ref) => {
+  ({ concise, full, ...props }: CodeProps, ref) => {
+    const handleDragStart = useCallback(
+      (event: React.DragEvent) => {
+        dndDebug("dragstart");
+        event.dataTransfer.dropEffect = "copy";
+        setDraggedCode(full);
+        event.dataTransfer.setData(pythonSnippetMediaType, full);
+      },
+      [full]
+    );
+    const handleDragEnd = useCallback((event: React.DragEvent) => {
+      dndDebug("dragend");
+      setDraggedCode(undefined);
+    }, []);
     return (
-      <Box
+      <HStack
+        draggable={true}
         backgroundColor="rgb(247,245,242)"
-        p={5}
         borderTopRadius="lg"
         fontFamily="code"
         {...props}
         ref={ref}
+        spacing={0}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
-        <CodeMirrorView value={value} />
-      </Box>
+        {flags.dnd && (
+          <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
+        )}
+        <CodeMirrorView value={concise} p={5} pl={flags.dnd ? 1 : 5} />
+      </HStack>
     );
   }
 );
+
+interface DragHandleProps extends BoxProps {}
+
+const DragHandle = (props: DragHandleProps) => {
+  return (
+    <HStack {...props} bgColor="blackAlpha.100">
+      <DragHandleIcon boxSize={3} />
+    </HStack>
+  );
+};
 
 const useScrollTop = () => {
   const scrollableRef = useScrollablePanelAncestor();
