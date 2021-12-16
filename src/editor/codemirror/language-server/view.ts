@@ -78,9 +78,6 @@ export function languageServer(
   uri: string,
   intl: IntlShape
 ) {
-  // Would it make sense to use document state for client, uri?
-  // If we did that then it would be easy to pick and choose client
-  // functionality.
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
