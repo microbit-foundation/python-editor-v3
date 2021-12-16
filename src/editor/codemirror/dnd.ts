@@ -6,7 +6,7 @@ import { calculateChanges } from "./edits";
 
 export const debug = (message: string, ...args: any) => {
   if (flags.dndDebug) {
-    console.log(message, args);
+    console.log(message, ...args);
   }
 };
 
