@@ -1,0 +1,3 @@
+.cm-drag-in-progress .cm-line {
+  pointer-events: none;
+}

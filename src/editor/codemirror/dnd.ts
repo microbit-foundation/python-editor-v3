@@ -1,7 +1,7 @@
 import { ChangeSet, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { flags } from "../../flags";
+import "./dnd.css";
 import { calculateChanges } from "./edits";
 
 export const debug = (message: string, ...args: any) => {
@@ -39,6 +39,28 @@ export const setDraggedCode = (value: string | undefined) => {
   draggedCode = value;
 };
 
+// We add the class to the parent element that we own as otherwise CM
+// will remove it when it re-renders. Might be worth replacing this
+// with a CM compartment with the style.
+const findWrappingSection = (view: EditorView) => {
+  let e: HTMLElement | null = view.contentDOM;
+  while (e && e.localName !== "section") {
+    e = e.parentElement;
+  }
+  if (!e) {
+    throw new Error("Unexpected DOM structure");
+  }
+  return e;
+};
+
+const suppressChildDragEnterLeave = (view: EditorView) => {
+  findWrappingSection(view).classList.add("cm-drag-in-progress");
+};
+
+const clearSuppressChildDragEnterLeave = (view: EditorView) => {
+  findWrappingSection(view).classList.remove("cm-drag-in-progress");
+};
+
 /**
  * Support for dropping code snippets.
  *
@@ -46,6 +68,7 @@ export const setDraggedCode = (value: string | undefined) => {
  */
 export const dndSupport = () => {
   let lastDragPos: LastDragPos | undefined;
+
   const revertPreview = (view: EditorView) => {
     if (lastDragPos) {
       view.dispatch({
@@ -90,62 +113,56 @@ export const dndSupport = () => {
           }
         }
       },
+      dragenter(event, view) {
+        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+          return;
+        }
+        debug("dragenter");
+        event.preventDefault();
+        suppressChildDragEnterLeave(view);
+      },
       dragleave(event, view) {
-        if (!view.state.facet(EditorView.editable)) {
+        if (!view.state.facet(EditorView.editable) || !draggedCode) {
           return;
         }
 
-        if (draggedCode) {
+        if (event.target === view.contentDOM) {
           event.preventDefault();
-
-          // dragenter and leave are fired for the child elements of the view too.
-          const rect = view.contentDOM.getBoundingClientRect();
-          if (
-            event.clientY < rect.top ||
-            event.clientY >= rect.bottom ||
-            event.clientX < rect.left ||
-            event.clientX >= rect.right
-          ) {
-            debug(
-              "  dragleave",
-              rect,
-              {
-                x: event.clientX,
-                y: event.clientY,
-              },
-              event.target
-            );
-            revertPreview(view);
-          } else {
-            debug(
-              "  dragleave (ignored)",
-              rect,
-              {
-                x: event.clientX,
-                y: event.clientY,
-              },
-              event.target
-            );
-          }
+          clearSuppressChildDragEnterLeave(view);
+          revertPreview(view);
+          debug(
+            "  dragleave",
+            {
+              x: event.clientX,
+              y: event.clientY,
+            },
+            event.target
+          );
+        } else {
+          debug(
+            "  dragleave (ignored)",
+            {
+              x: event.clientX,
+              y: event.clientY,
+            },
+            event.target
+          );
         }
       },
       drop(event, view) {
-        if (!view.state.facet(EditorView.editable)) {
+        if (!view.state.facet(EditorView.editable) || !draggedCode) {
           return;
         }
+        debug("  drop");
+        clearSuppressChildDragEnterLeave(view);
+        event.preventDefault();
 
-        const draggedCode = event.dataTransfer?.getData(pythonSnippetMediaType);
-        if (draggedCode) {
-          debug("  drop");
-          event.preventDefault();
+        const visualLine = view.visualLineAtHeight(event.y);
+        const line = view.state.doc.lineAt(visualLine.from);
 
-          const visualLine = view.visualLineAtHeight(event.y);
-          const line = view.state.doc.lineAt(visualLine.from);
-
-          revertPreview(view);
-          view.dispatch(calculateChanges(view.state, draggedCode, line.number));
-          view.focus();
-        }
+        revertPreview(view);
+        view.dispatch(calculateChanges(view.state, draggedCode, line.number));
+        view.focus();
       },
     }),
   ];
