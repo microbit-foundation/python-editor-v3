@@ -12,6 +12,7 @@ import {
 import { insertBracket } from "@codemirror/closebrackets";
 import { TransactionSpec } from "@codemirror/state";
 import sortBy from "lodash.sortby";
+import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import {
   CompletionItem,
@@ -35,7 +36,7 @@ const identifierLike = /[a-zA-Z0-9_\u{a1}-\u{10ffff}]+/u;
 
 type AugmentedCompletion = Completion & { item: CompletionItem };
 
-export const autocompletion = () =>
+export const autocompletion = (intl: IntlShape) =>
   cmAutocompletion({
     override: [
       async (context: CompletionContext): Promise<CompletionResult | null> => {
@@ -63,7 +64,7 @@ export const autocompletion = () =>
           }
         }
 
-        const documentationResolver = createDocumentationResolver(client);
+        const documentationResolver = createDocumentationResolver(client, intl);
         const results = await client.completionRequest({
           textDocument: {
             uri,
@@ -122,7 +123,7 @@ export const autocompletion = () =>
   });
 
 const createDocumentationResolver =
-  (client: LanguageServerClient) =>
+  (client: LanguageServerClient, intl: IntlShape) =>
   async (completion: Completion): Promise<Node> => {
     const resolved = await client.connection.sendRequest(
       CompletionResolveRequest.type,
@@ -133,7 +134,7 @@ const createDocumentationResolver =
     if (code) {
       const id = nameFromSignature(code.innerText);
       code.innerText = removeFullyQualifiedName(code.innerText);
-      return wrapWithDocumentationButton(node, id);
+      return wrapWithDocumentationButton(intl, node, id);
     }
     return node;
   };

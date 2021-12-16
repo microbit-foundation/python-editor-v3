@@ -319,6 +319,10 @@
     "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1> and <linkV2>micro:bit V2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
+  "more-button": {
+    "defaultMessage": "More",
+    "description": "More button text"
+  },
   "name-not-blank": {
     "defaultMessage": "The project name cannot be blank",
     "description": "Validation message for project name"
@@ -382,6 +386,10 @@
   "read-more": {
     "defaultMessage": "Read more",
     "description": "Action text to expand a collapsed section"
+  },
+  "reference-description": {
+    "defaultMessage": "Reference documentation for micro:bit MicroPython",
+    "description": "Description at the top of the Reference tab"
   },
   "reference-tab": {
     "defaultMessage": "Reference",
@@ -463,6 +471,10 @@
     "defaultMessage": "Show more for {item}",
     "description": "Show more with item usually for aria label"
   },
+  "show-reference-documentation": {
+    "defaultMessage": "Show reference documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
+  },
   "sidebar": {
     "defaultMessage": "Sidebar",
     "description": "Aria label for the area on the left"
@@ -490,6 +502,10 @@
   "toolkit-error-loading": {
     "defaultMessage": "An error occurred loading the toolkit.",
     "description": "Error shown if we failed to load toolkit content"
+  },
+  "toolkit-view-documentation": {
+    "defaultMessage": "View {name} documentation",
+    "description": "Aria label for the toolkit topic right arrow"
   },
   "unexpected-error-description": {
     "defaultMessage": "Please try again or <link>raise a support request</link>",
