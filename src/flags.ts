@@ -12,13 +12,13 @@
 
 import { stage } from "./environment";
 
-type Flag = "dnd"; // Should be union of strings.
+type Flag = "dnd" | "dndDebug"; // Should be union of strings.
 
 type Flags = Record<Flag, boolean>;
 
 export const flags: Flags = (() => {
   const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
-  const flags: Flag[] = ["dnd"];
+  const flags: Flag[] = ["dnd", "dndDebug"];
   const params = new URLSearchParams(window.location.search);
   const enableFlags = new Set(params.getAll("flag"));
   const allFlagsEnabled = enableFlags.has("*");

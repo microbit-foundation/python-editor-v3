@@ -20,7 +20,7 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDraggedCode } from "../../editor/codemirror/dnd";
+import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import MoreButton from "../common/MoreButton";
@@ -145,6 +145,7 @@ const Code = forwardRef<CodeProps, "pre">(
   ({ concise, full, ...props }: CodeProps, ref) => {
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
+        dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
         setDraggedCode(full);
         event.dataTransfer.setData(pythonSnippetMediaType, full);
@@ -152,6 +153,7 @@ const Code = forwardRef<CodeProps, "pre">(
       [full]
     );
     const handleDragEnd = useCallback((event: React.DragEvent) => {
+      dndDebug("dragend");
       setDraggedCode(undefined);
     }, []);
     return (

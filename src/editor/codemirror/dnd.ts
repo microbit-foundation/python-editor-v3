@@ -1,7 +1,14 @@
 import { ChangeSet, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import { flags } from "../../flags";
 import { calculateChanges } from "./edits";
+
+export const debug = (message: string, ...args: any) => {
+  if (flags.dndDebug) {
+    console.log(message, args);
+  }
+};
 
 /**
  * Information stashed last time we handled dragover.
@@ -63,6 +70,7 @@ export const dndSupport = () => {
           const line = view.state.doc.lineAt(visualLine.from);
 
           if (line.number !== lastDragPos?.line) {
+            debug("  dragover", line);
             revertPreview(view);
 
             const transaction = calculateChanges(
@@ -98,7 +106,26 @@ export const dndSupport = () => {
             event.clientX < rect.left ||
             event.clientX >= rect.right
           ) {
+            debug(
+              "  dragleave",
+              rect,
+              {
+                x: event.clientX,
+                y: event.clientY,
+              },
+              event.target
+            );
             revertPreview(view);
+          } else {
+            debug(
+              "  dragleave (ignored)",
+              rect,
+              {
+                x: event.clientX,
+                y: event.clientY,
+              },
+              event.target
+            );
           }
         }
       },
@@ -109,6 +136,7 @@ export const dndSupport = () => {
 
         const draggedCode = event.dataTransfer?.getData(pythonSnippetMediaType);
         if (draggedCode) {
+          debug("  drop");
           event.preventDefault();
 
           const visualLine = view.visualLineAtHeight(event.y);
