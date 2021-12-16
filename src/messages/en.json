@@ -433,6 +433,12 @@
       "value": "Edit project name"
     }
   ],
+  "explore-tab": [
+    {
+      "type": 0,
+      "value": "Explore"
+    }
+  ],
   "failed-to-build-hex": [
     {
       "type": 0,
@@ -761,6 +767,12 @@
     {
       "type": 0,
       "value": "Read more"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "Reference"
     }
   ],
   "replace-action-label": [

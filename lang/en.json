@@ -211,6 +211,10 @@
     "defaultMessage": "Edit project name",
     "description": "Text for user to edit the name of the project"
   },
+  "explore-tab": {
+    "defaultMessage": "Explore",
+    "description": "Explore tab button text"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
@@ -221,7 +225,7 @@
   },
   "files-tab": {
     "defaultMessage": "Files",
-    "description": "Python tab text"
+    "description": "Files tab button text"
   },
   "flash-button": {
     "defaultMessage": "Flash",
@@ -378,6 +382,10 @@
   "read-more": {
     "defaultMessage": "Read more",
     "description": "Action text to expand a collapsed section"
+  },
+  "reference-tab": {
+    "defaultMessage": "Reference",
+    "description": "Reference tab button text"
   },
   "replace-action-label": {
     "defaultMessage": "Replace",
