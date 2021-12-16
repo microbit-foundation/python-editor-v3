@@ -556,7 +556,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB.",
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
