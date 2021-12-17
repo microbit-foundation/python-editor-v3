@@ -10,7 +10,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { stage } from "./environment";
+import { stage as stageFromEnvironment } from "./environment";
 
 // A union of the flag names.
 type Flag =
@@ -36,20 +36,21 @@ const allFlags: Flag[] = ["dnd", "dndDebug", "noWelcome"];
 
 type Flags = Record<Flag, boolean>;
 
-export const flags: Flags = (() => {
+// Exposed for testing.
+export const flagsForParams = (stage: string, params: URLSearchParams) => {
   const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
-  const params = new URLSearchParams(window.location.search);
   const enableFlags = new Set(params.getAll("flag"));
-  const allFlagsEnabled = enableFlags.has("*");
-  // To allow local testing of no-flag state.
-  const allFlagsDisabled = enableFlags.has("none");
+  const allFlagsEnabled =
+    (enableFlags.has("*") || isPreviewStage) && !enableFlags.has("none");
   return Object.fromEntries(
     allFlags.map((f) => {
-      return [
-        f,
-        !allFlagsDisabled &&
-          (isPreviewStage || allFlagsEnabled || enableFlags.has(f)),
-      ];
+      const enabled = allFlagsEnabled || enableFlags.has(f);
+      return [f, enabled];
     })
   ) as Flags;
+};
+
+export const flags: Flags = (() => {
+  const params = new URLSearchParams(window.location.search);
+  return flagsForParams(stageFromEnvironment, params);
 })();
