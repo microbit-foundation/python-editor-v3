@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { useEffect, useRef } from "react";
 import { usePrevious } from "@chakra-ui/hooks";
 import { Box, List } from "@chakra-ui/layout";
 import { useCallback } from "react";
@@ -78,6 +79,21 @@ const ActiveTooklitLevel = ({
   toolkit,
   direction,
 }: ActiveTooklitLevelProps) => {
+  const scrollElement: any = useRef(null);
+  const scrollToElement = () =>
+    scrollElement.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "start",
+    });
+
+  // scrolling works, but top of topic is hidden by ToolkitBreadcrumbHeading
+  useEffect(() => {
+    if (scrollElement.current) {
+      scrollToElement();
+    }
+  }, [scrollElement]);
+
   if (state.topicId && state.itemId) {
     const topic = toolkit.contents?.find((t) => t.name === state.topicId);
     if (topic) {
@@ -88,29 +104,39 @@ const ActiveTooklitLevel = ({
             direction={direction}
             heading={
               <ToolkitBreadcrumbHeading
-                parent={topic.name}
-                grandparent={toolkit.name}
-                title={item.name}
-                onBack={() =>
-                  onNavigate({
-                    topicId: topic.name,
-                  })
-                }
+                parent={toolkit.name}
+                title={topic.name}
+                onBack={() => onNavigate({})}
               />
             }
           >
-            <TopicItem
-              topic={topic}
-              item={item}
-              detail={true}
-              onForward={() =>
-                onNavigate({
-                  topicId: topic.name,
-                  itemId: item.name,
-                })
-              }
-              padding={5}
-            />
+            {topic.introduction && (
+              <Box p={5} pb={1} fontSize="md">
+                <ToolkitContent content={topic.introduction} />
+              </Box>
+            )}
+            <List flex="1 1 auto">
+              {topic.contents?.map((item) => (
+                <div
+                  ref={state.itemId === item.name ? scrollElement : null}
+                  key={item.name}
+                >
+                  <ToolkitListItem>
+                    <TopicItem
+                      topic={topic}
+                      item={item}
+                      detail={state.itemId === item.name}
+                      onForward={() =>
+                        onNavigate({
+                          topicId: topic.name,
+                          itemId: item.name,
+                        })
+                      }
+                    />
+                  </ToolkitListItem>
+                </div>
+              ))}
+            </List>
           </ToolkitLevel>
         );
       }

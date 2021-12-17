@@ -23,19 +23,20 @@ import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
-import MoreButton from "../common/MoreButton";
 
 interface CodeEmbedProps {
   code: string;
   detail?: boolean;
   hasDetail?: boolean;
   onForward?: () => void;
+  toggleShowMore?: () => void;
 }
 
 const CodeEmbed = ({
   detail,
   hasDetail,
   onForward,
+  toggleShowMore,
   code: codeWithImports,
 }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
@@ -94,9 +95,6 @@ const CodeEmbed = ({
           >
             Insert code
           </Button>
-          {!detail && hasDetail && onForward && (
-            <MoreButton onClick={onForward} />
-          )}
         </HStack>
       </Box>
     </>

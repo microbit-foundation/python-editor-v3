@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Collapse } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
+import ShowMoreButton from "../common/ShowMoreButton";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
@@ -35,6 +37,7 @@ const TopicItem = ({
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
     alternatives && alternatives.length > 0 ? 0 : undefined
   );
+  const [showMore, toggleShowMore] = useState(detail ?? false);
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       setAlternativeIndex(parseInt(e.currentTarget.value, 10));
@@ -51,11 +54,9 @@ const TopicItem = ({
         "& ul": { listStyleType: "disc" },
       }}
     >
-      {!detail && (
-        <Text as="h3" fontSize="lg" fontWeight="semibold">
-          {item.name}
-        </Text>
-      )}
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        {item.name}
+      </Text>
       <ToolkitContent
         content={content}
         detail={detail}
@@ -90,12 +91,21 @@ const TopicItem = ({
           />
         </>
       )}
-      {detail && detailContent && (
-        <ToolkitContent
-          content={detailContent}
-          detail={detail}
-          hasDetail={hasDetail}
-          onForward={onForward}
+      {detailContent && (
+        <Collapse in={showMore}>
+          <ToolkitContent
+            content={detailContent}
+            detail={detail}
+            hasDetail={hasDetail}
+            onForward={onForward}
+          />
+        </Collapse>
+      )}
+
+      {hasDetail && toggleShowMore && onForward && (
+        <ShowMoreButton
+          onClick={() => toggleShowMore(!showMore)}
+          showmore={showMore}
         />
       )}
     </Stack>

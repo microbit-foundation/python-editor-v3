@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import React, { useMemo } from "react";
+import { Collapse } from "@chakra-ui/react";
+import React, { useMemo, useState } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { firstParagraph } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -13,7 +14,7 @@ import {
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
 import DocString from "../common/DocString";
-import MoreButton from "../common/MoreButton";
+import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 
 const kindToFontSize: Record<string, any> = {
@@ -74,6 +75,7 @@ const ReferenceNode = ({
     isShowingDetail
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
+  const [showMore, toggleShowMore] = useState(false);
 
   return (
     <Box
@@ -105,21 +107,21 @@ const ReferenceNode = ({
           <BaseClasses value={baseClasses} />
         )}
         <VStack alignItems="stretch" spacing={1}>
-          {activeDocString && (
+          {/* This needs working out properly */}
+          {activeDocString && !showMore && (
             <DocString
               mt={isShowingDetail ? 5 : 2}
               fontWeight="normal"
-              value={activeDocString}
+              value={docStringFirstParagraph ?? ""}
             />
           )}
-          {kind !== "module" &&
-            kind !== "class" &&
-            hasDetail &&
-            !isShowingDetail && (
-              <HStack>
-                <MoreButton onClick={() => onForward(fullName)} />
-              </HStack>
-            )}
+          <Collapse in={showMore}>
+            <DocString
+              mt={isShowingDetail ? 5 : 2}
+              fontWeight="normal"
+              value={docString ?? ""}
+            />
+          </Collapse>
         </VStack>
       </Box>
 
@@ -149,6 +151,15 @@ const ReferenceNode = ({
             )}
           </Box>
         </Box>
+      )}
+
+      {kind !== "module" && kind !== "class" && hasDetail && (
+        <HStack>
+          <ShowMoreButton
+            onClick={() => toggleShowMore(!showMore)}
+            showmore={showMore}
+          />
+        </HStack>
       )}
     </Box>
   );

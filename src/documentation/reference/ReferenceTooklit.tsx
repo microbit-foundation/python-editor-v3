@@ -81,6 +81,7 @@ const ActiveTooklitLevel = ({
                   width="100%"
                   // This isn't coping with overloads.
                   onForward={onNavigate}
+                  isShowingDetail
                 />
               </ToolkitListItem>
             ))}
