@@ -6,7 +6,7 @@
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
-import { ToolkitTopic, ToolkitTopicEntry } from "./model";
+import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
 
 interface TopicItemProps extends BoxProps {
@@ -54,6 +54,7 @@ const TopicItem = ({
       {!detail && (
         <Text as="h3" fontSize="lg" fontWeight="semibold">
           {item.name}
+          {isV2Only(item) ? " (V2)" : ""}
         </Text>
       )}
       <ToolkitContent
