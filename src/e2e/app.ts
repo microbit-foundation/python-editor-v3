@@ -34,7 +34,7 @@ export interface BrowserDownload {
 
 const defaultWaitForOptions = { timeout: 5_000 };
 
-export const defaultRootUrl = "http://localhost:3000";
+export const defaultRootUrl = "http://localhost:3000?flag=noWelcome";
 
 /**
  * Model of the app to drive it for e2e testing.
