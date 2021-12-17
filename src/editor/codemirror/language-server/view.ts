@@ -6,6 +6,7 @@
 import { setDiagnostics } from "@codemirror/lint";
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
+import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
 import { autocompletion } from "./autocompletion";
@@ -72,15 +73,16 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
  * @param uri The uri of the open document.
  * @returns Extensions.
  */
-export function languageServer(client: LanguageServerClient, uri: string) {
-  // Would it make sense to use document state for client, uri?
-  // If we did that then it would be easy to pick and choose client
-  // functionality.
+export function languageServer(
+  client: LanguageServerClient,
+  uri: string,
+  intl: IntlShape
+) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    signatureHelp(),
-    autocompletion(),
+    signatureHelp(intl),
+    autocompletion(intl),
   ];
 }

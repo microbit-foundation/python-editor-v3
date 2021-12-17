@@ -83,7 +83,7 @@ const CodeMirror = ({
           lineNumbers(),
           highlightActiveLineGutter(),
           highlightActiveLine(),
-          client ? languageServer(client, uri) : [],
+          client ? languageServer(client, uri, intl) : [],
           // Extensions we enable/disable based on props.
           structureHighlightingCompartment.of(
             codeStructure(options.codeStructureSettings)
@@ -99,7 +99,7 @@ const CodeMirror = ({
       viewRef.current = view;
       setActiveEditor(new ActiveEditorActions(view));
     }
-  }, [options, defaultValue, onChange, client, setActiveEditor, uri]);
+  }, [options, defaultValue, onChange, client, setActiveEditor, uri, intl]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {

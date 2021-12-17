@@ -54,13 +54,13 @@ const SideBar = ({
     const result = [
       {
         id: "explore",
-        title: "Explore",
+        title: intl.formatMessage({ id: "explore-tab" }),
         icon: PythonLogo as IconType,
         contents: <ExploreArea />,
       },
       {
         id: "reference",
-        title: "Reference",
+        title: intl.formatMessage({ id: "reference-tab" }),
         // If you change this icon you also need to change the version embedded
         // in documentation.ts (used for CM documentation tooltips).
         icon: VscLibrary,

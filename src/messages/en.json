@@ -433,6 +433,12 @@
       "value": "Edit project name"
     }
   ],
+  "explore-tab": [
+    {
+      "type": 0,
+      "value": "Explore"
+    }
+  ],
   "failed-to-build-hex": [
     {
       "type": 0,
@@ -645,6 +651,12 @@
       "value": "linkV2"
     }
   ],
+  "more-button": [
+    {
+      "type": 0,
+      "value": "More"
+    }
+  ],
   "name-not-blank": [
     {
       "type": 0,
@@ -761,6 +773,18 @@
     {
       "type": 0,
       "value": "Read more"
+    }
+  ],
+  "reference-description": [
+    {
+      "type": 0,
+      "value": "Reference documentation for micro:bit MicroPython"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "Reference"
     }
   ],
   "replace-action-label": [
@@ -969,6 +993,12 @@
       "value": "item"
     }
   ],
+  "show-reference-documentation": [
+    {
+      "type": 0,
+      "value": "Show reference documentation"
+    }
+  ],
   "sidebar": [
     {
       "type": 0,
@@ -1009,6 +1039,20 @@
     {
       "type": 0,
       "value": "An error occurred loading the toolkit."
+    }
+  ],
+  "toolkit-view-documentation": [
+    {
+      "type": 0,
+      "value": "View "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " documentation"
     }
   ],
   "unexpected-error-description": [

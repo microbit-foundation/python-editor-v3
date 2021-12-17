@@ -17,6 +17,7 @@ import ToolkitListItem from "../ToolkitDocumentation/ToolkitListItem";
 import ToolkitTopLevelHeading from "../ToolkitDocumentation/ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "../ToolkitDocumentation/ToolkitTopLevelListItem";
 import { allowWrapAtPeriods } from "../common/wrap";
+import { useIntl } from "react-intl";
 
 interface ReferenceToolkitProps {
   docs: ApiDocsResponse;
@@ -56,6 +57,8 @@ const ActiveTooklitLevel = ({
   docs,
   direction,
 }: ActiveTooklitLevelProps) => {
+  const intl = useIntl();
+  const referenceString = intl.formatMessage({ id: "reference-tab" });
   const item = resolveDottedName(docs, state);
   if (item) {
     if (item.kind === "module") {
@@ -64,7 +67,7 @@ const ActiveTooklitLevel = ({
           direction={direction}
           heading={
             <ToolkitBreadcrumbHeading
-              parent="Reference"
+              parent={referenceString}
               title={item.name}
               onBack={() => onNavigate(undefined)}
             />
@@ -92,7 +95,7 @@ const ActiveTooklitLevel = ({
           heading={
             <ToolkitBreadcrumbHeading
               parent={allowWrapAtPeriods(moduleName)}
-              grandparent="Reference"
+              grandparent={referenceString}
               title={item.name}
               titleFontFamily="code"
               onBack={() => onNavigate(moduleName)}
@@ -109,8 +112,8 @@ const ActiveTooklitLevel = ({
       direction={direction}
       heading={
         <ToolkitTopLevelHeading
-          name="Reference"
-          description="Reference documentation for micro:bit MicroPython"
+          name={referenceString}
+          description={intl.formatMessage({ id: "reference-description" })}
         />
       }
     >

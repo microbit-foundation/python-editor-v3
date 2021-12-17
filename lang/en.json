@@ -211,6 +211,10 @@
     "defaultMessage": "Edit project name",
     "description": "Text for user to edit the name of the project"
   },
+  "explore-tab": {
+    "defaultMessage": "Explore",
+    "description": "Explore tab button text"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
@@ -221,7 +225,7 @@
   },
   "files-tab": {
     "defaultMessage": "Files",
-    "description": "Python tab text"
+    "description": "Files tab button text"
   },
   "flash-button": {
     "defaultMessage": "Flash",
@@ -315,6 +319,10 @@
     "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1> and <linkV2>micro:bit V2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
+  "more-button": {
+    "defaultMessage": "More",
+    "description": "More button text"
+  },
   "name-not-blank": {
     "defaultMessage": "The project name cannot be blank",
     "description": "Validation message for project name"
@@ -378,6 +386,14 @@
   "read-more": {
     "defaultMessage": "Read more",
     "description": "Action text to expand a collapsed section"
+  },
+  "reference-description": {
+    "defaultMessage": "Reference documentation for micro:bit MicroPython",
+    "description": "Description at the top of the Reference tab"
+  },
+  "reference-tab": {
+    "defaultMessage": "Reference",
+    "description": "Reference tab button text"
   },
   "replace-action-label": {
     "defaultMessage": "Replace",
@@ -455,6 +471,10 @@
     "defaultMessage": "Show more for {item}",
     "description": "Show more with item usually for aria label"
   },
+  "show-reference-documentation": {
+    "defaultMessage": "Show reference documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
+  },
   "sidebar": {
     "defaultMessage": "Sidebar",
     "description": "Aria label for the area on the left"
@@ -482,6 +502,10 @@
   "toolkit-error-loading": {
     "defaultMessage": "An error occurred loading the toolkit.",
     "description": "Error shown if we failed to load toolkit content"
+  },
+  "toolkit-view-documentation": {
+    "defaultMessage": "View {name} documentation",
+    "description": "Aria label for the toolkit topic right arrow"
   },
   "unexpected-error-description": {
     "defaultMessage": "Please try again or <link>raise a support request</link>",
@@ -532,7 +556,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome, or a Chrome-based browser to use WebUSB.",
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {

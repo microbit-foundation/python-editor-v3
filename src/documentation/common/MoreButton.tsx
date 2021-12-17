@@ -5,6 +5,7 @@
  */
 import { Button, ButtonProps } from "@chakra-ui/button";
 import { RiArrowRightLine } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 
 const MoreButton = (props: ButtonProps) => (
   <Button
@@ -16,7 +17,7 @@ const MoreButton = (props: ButtonProps) => (
     rightIcon={<RiArrowRightLine />}
     {...props}
   >
-    More
+    <FormattedMessage id="more-button" />
   </Button>
 );
 
