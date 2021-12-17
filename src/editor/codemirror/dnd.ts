@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { ChangeSet, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { flags } from "../../flags";
