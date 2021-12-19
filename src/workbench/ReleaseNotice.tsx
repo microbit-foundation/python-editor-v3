@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Button } from "@chakra-ui/button";
 import { Flex, HStack, Text } from "@chakra-ui/layout";
 import { useCallback, useEffect, useState } from "react";
