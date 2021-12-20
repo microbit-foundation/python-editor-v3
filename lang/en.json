@@ -259,9 +259,21 @@
     "defaultMessage": "Help translate",
     "description": "Help translate  menu option text"
   },
-  "highlight-structure": {
+  "highlight-code-structure": {
     "defaultMessage": "Highlight code structure",
-    "description": "Highlight code option text"
+    "description": "Code structure setting label"
+  },
+  "highlight-code-structure-full": {
+    "defaultMessage": "Full",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-none": {
+    "defaultMessage": "None",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-simple": {
+    "defaultMessage": "Simple",
+    "description": "Highlight code structure option"
   },
   "hints-and-tips": {
     "defaultMessage": "Hints and tips",

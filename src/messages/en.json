@@ -509,10 +509,28 @@
       "value": "Help translate"
     }
   ],
-  "highlight-structure": [
+  "highlight-code-structure": [
     {
       "type": 0,
       "value": "Highlight code structure"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "Full"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "None"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "Simple"
     }
   ],
   "hints-and-tips": [
