@@ -10,7 +10,7 @@ import {
   ThemeTypings,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
+import { RiAddLine, RiSubtractLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
   fontSizeStep,
@@ -42,29 +42,22 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   }, [setSettings, settings]);
   const intl = useIntl();
   return (
-    <ButtonGroup
-      {...props}
-      isAttached
-      colorScheme="gray"
-      variant="zoom"
-      transform="rotate(90deg)"
-      transformOrigin="bottom"
-    >
+    <ButtonGroup {...props} colorScheme="gray" variant="ghost">
       <IconButton
         size={size}
         isRound
-        icon={<RiZoomInLine style={{ transform: "rotate(-90deg)" }} />}
-        aria-label={intl.formatMessage({ id: "zoom-in" })}
-        onClick={handleZoomIn}
+        opacity={0.8}
+        icon={<RiSubtractLine size="20px" />}
+        aria-label={intl.formatMessage({ id: "zoom-out" })}
+        onClick={handleZoomOut}
       />
       <IconButton
         size={size}
         isRound
-        borderLeft="1px"
-        borderLeftColor="gray.10"
-        icon={<RiZoomOutLine style={{ transform: "rotate(-90deg)" }} />}
-        aria-label={intl.formatMessage({ id: "zoom-out" })}
-        onClick={handleZoomOut}
+        opacity={0.8}
+        icon={<RiAddLine size="20px" />}
+        aria-label={intl.formatMessage({ id: "zoom-in" })}
+        onClick={handleZoomIn}
       />
     </ButtonGroup>
   );

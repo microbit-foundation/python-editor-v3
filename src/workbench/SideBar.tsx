@@ -9,6 +9,7 @@ import {
   Flex,
   HStack,
   Icon,
+  Link,
   Tab,
   TabList,
   TabPanel,
@@ -34,6 +35,7 @@ import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
 import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
+import MicrobitLogo from "../common/MicrobitLogo";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -103,7 +105,6 @@ const cornerSize = 32;
  */
 const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
   const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
-
   const [{ tab }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
@@ -123,8 +124,42 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
   }, [tab, setParams]);
   const width = "5rem";
   const brand = useDeployment();
+  const intl = useIntl();
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
+      <Flex
+        backgroundColor="brand.500"
+        boxShadow="0px 4px 16px #00000033"
+        zIndex={3}
+        maxHeight="68px"
+      >
+        <Link
+          p={[3.5, 4]}
+          href="https://microbit.org/code/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Flex>
+            <Box
+              width="3.75rem"
+              fill="#F8F8FB"
+              role="img"
+              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+            >
+              {brand.squareLogo}
+            </Box>
+            <Box
+              width="212px"
+              role="img"
+              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+            >
+              {/* Logo needs editing profressionally */}
+              <MicrobitLogo fill="#F8F8FB" />
+            </Box>
+          </Flex>
+        </Link>
+      </Flex>
+
       <Tabs
         orientation="vertical"
         size="lg"
@@ -141,9 +176,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
             ml="auto"
             mr="auto"
             mb="max(11.5vh, 7.7rem)"
-          >
-            {brand.squareLogo}
-          </Box>
+          ></Box>
           {panes.map((p, i) => (
             <Tab
               key={p.id}
@@ -202,9 +235,9 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
-                  <ReleaseNotice onDialogChange={setReleaseDialog} />
                   {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
+                  <ReleaseNotice onDialogChange={setReleaseDialog} />
                 </ErrorBoundary>
               </Flex>
             </TabPanel>

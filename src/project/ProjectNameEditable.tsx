@@ -10,6 +10,7 @@ import { useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
 import { useProject, useProjectActions } from "./project-hooks";
 import ProjectNameQuestion from "./ProjectNameQuestion";
+import ZoomControls from "../editor/ZoomControls";
 
 /**
  * A control to enable editing of the project name.
@@ -36,7 +37,7 @@ const ProjectNameEditable = () => {
     }
   }, [dialogs, actions, project, intl]);
   return (
-    <HStack spacing={2.5}>
+    <HStack spacing={2.5} height="52px">
       <Tooltip
         hasArrow
         label={intl.formatMessage({ id: "edit-name-project" })}
@@ -44,8 +45,8 @@ const ProjectNameEditable = () => {
       >
         <IconButton
           size="md"
-          icon={<RiEdit2Line />}
-          color="gray.500"
+          icon={<RiEdit2Line size="20px" />}
+          color="brand.500"
           variant="ghost"
           onClick={handleEdit}
           aria-label={intl.formatMessage({ id: "edit-project-name" })}
@@ -61,6 +62,12 @@ const ProjectNameEditable = () => {
       >
         {project.name}
       </Text>
+      <ZoomControls
+        display={["none", "none", "none", "flex"]}
+        zIndex="1"
+        right={10}
+        position="absolute"
+      />
     </HStack>
   );
 };
