@@ -131,7 +131,7 @@
       "value": "back to the main code"
     }
   ],
-  "cancel": [
+  "cancel-action": [
     {
       "type": 0,
       "value": "Cancel"
@@ -239,7 +239,7 @@
       "value": "source"
     }
   ],
-  "close-button": [
+  "close-action": [
     {
       "type": 0,
       "value": "Close"
@@ -251,7 +251,7 @@
       "value": "Code editor"
     }
   ],
-  "confirm": [
+  "confirm-action": [
     {
       "type": 0,
       "value": "Confirm"
@@ -275,7 +275,7 @@
       "value": "Confirm replace project"
     }
   ],
-  "connect-button": [
+  "connect-action": [
     {
       "type": 0,
       "value": "Connect"
@@ -299,19 +299,19 @@
       "value": "Copied"
     }
   ],
-  "copy": [
+  "copy-action": [
     {
       "type": 0,
       "value": "Copy"
     }
   ],
-  "create": [
+  "create-action": [
     {
       "type": 0,
       "value": "Create"
     }
   ],
-  "create-file": [
+  "create-file-action": [
     {
       "type": 0,
       "value": "Create new file"
@@ -333,13 +333,13 @@
       "value": "filename"
     }
   ],
-  "delete-button": [
+  "delete-action": [
     {
       "type": 0,
       "value": "Delete"
     }
   ],
-  "delete-file": [
+  "delete-file-action": [
     {
       "type": 0,
       "value": "Delete "
@@ -359,7 +359,7 @@
       "value": "filename"
     }
   ],
-  "disconnect-button": [
+  "disconnect-action": [
     {
       "type": 0,
       "value": "Disconnect"
@@ -377,13 +377,13 @@
       "value": "Documentation"
     }
   ],
-  "download-button": [
+  "download-action": [
     {
       "type": 0,
       "value": "Download"
     }
   ],
-  "download-file": [
+  "download-file-action": [
     {
       "type": 0,
       "value": "Download "
@@ -393,7 +393,7 @@
       "value": "name"
     }
   ],
-  "download-hex": [
+  "download-hex-action": [
     {
       "type": 0,
       "value": "Download project hex"
@@ -405,13 +405,13 @@
       "value": "Download a project hex file"
     }
   ],
-  "download-python": [
+  "download-python-action": [
     {
       "type": 0,
       "value": "Download Python script"
     }
   ],
-  "edit-file": [
+  "edit-file-action": [
     {
       "type": 0,
       "value": "Edit "
@@ -421,13 +421,13 @@
       "value": "name"
     }
   ],
-  "edit-name-project": [
+  "edit-name-project-hover": [
     {
       "type": 0,
       "value": "Edit the name of your project"
     }
   ],
-  "edit-project-name": [
+  "edit-project-name-action": [
     {
       "type": 0,
       "value": "Edit project name"
@@ -461,22 +461,16 @@
       "value": "Files"
     }
   ],
-  "flash-button": [
+  "flash-action": [
     {
       "type": 0,
       "value": "Flash"
     }
   ],
-  "flash-project": [
+  "flash-hover": [
     {
       "type": 0,
       "value": "Flash the project directly to the micro:bit"
-    }
-  ],
-  "flash-text": [
-    {
-      "type": 0,
-      "value": "Flash"
     }
   ],
   "flashing-code": [
@@ -539,7 +533,7 @@
       "value": "Language"
     }
   ],
-  "load-button": [
+  "load-action": [
     {
       "type": 0,
       "value": "Load…"
@@ -657,7 +651,7 @@
       "value": "linkV2"
     }
   ],
-  "more-button": [
+  "more-action": [
     {
       "type": 0,
       "value": "More"
@@ -805,19 +799,19 @@
       "value": "Hide serial"
     }
   ],
-  "serial-ctrl-c-button": [
+  "serial-ctrl-c-action": [
     {
       "type": 0,
       "value": "Send Ctrl-C for REPL"
     }
   ],
-  "serial-ctrl-d-button": [
+  "serial-ctrl-d-action": [
     {
       "type": 0,
       "value": "Send Ctrl-D to reset"
     }
   ],
-  "serial-ctrl-e-button": [
+  "serial-ctrl-e-action": [
     {
       "type": 0,
       "value": "Send Ctrl-E for paste mode"
@@ -1183,13 +1177,13 @@
       "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."
     }
   ],
-  "zoom-in": [
+  "zoom-in-action": [
     {
       "type": 0,
       "value": "Zoom in"
     }
   ],
-  "zoom-out": [
+  "zoom-out-action": [
     {
       "type": 0,
       "value": "Zoom out"

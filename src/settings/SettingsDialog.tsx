@@ -36,7 +36,7 @@ export const SettingsDialog = ({ isOpen, onClose }: SettingsDialogProps) => {
           </ModalBody>
           <ModalFooter>
             <Button variant="solid" onClick={onClose}>
-              <FormattedMessage id="close-button" />
+              <FormattedMessage id="close-action" />
             </Button>
           </ModalFooter>
         </ModalContent>

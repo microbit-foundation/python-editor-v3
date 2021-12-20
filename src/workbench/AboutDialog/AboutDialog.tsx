@@ -180,7 +180,9 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                     onClick={onCopy}
                     size="md"
                   >
-                    <FormattedMessage id={hasCopied ? "copied" : "copy"} />
+                    <FormattedMessage
+                      id={hasCopied ? "copied" : "copy-action"}
+                    />
                   </Button>
                 </VStack>
               </SimpleGrid>
@@ -229,7 +231,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose} variant="solid" size="lg">
-              <FormattedMessage id="close-button" />
+              <FormattedMessage id="close-action" />
             </Button>
           </ModalFooter>
         </ModalContent>

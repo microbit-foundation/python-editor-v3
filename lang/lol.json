@@ -55,7 +55,7 @@
     "defaultMessage": "баск то тхе маін соде",
     "description": "Text button, takes back to main code"
   },
-  "cancel": {
+  "cancel-action": {
     "defaultMessage": "Cансел",
     "description": "Cancel button text"
   },
@@ -95,7 +95,7 @@
     "defaultMessage": "Репласе маін соде вітх {source}",
     "description": "Shown in load dialog to confirm actions"
   },
-  "close-button": {
+  "close-action": {
     "defaultMessage": "Cлосе",
     "description": "Close button text"
   },
@@ -103,7 +103,7 @@
     "defaultMessage": "Cоде едітор",
     "description": "Aria label for the code editor"
   },
-  "confirm": {
+  "confirm-action": {
     "defaultMessage": "Cонфірм",
     "description": "Confirm action label"
   },
@@ -119,7 +119,7 @@
     "defaultMessage": "Cонфірм репласе проджест",
     "description": "Confirmation message title for replacing project dialog"
   },
-  "connect-button": {
+  "connect-action": {
     "defaultMessage": "Cоннест",
     "description": "Connect button text"
   },
@@ -135,31 +135,31 @@
     "defaultMessage": "Cопіед",
     "description": "Text shown after copy to clipboard"
   },
-  "copy": {
+  "copy-action": {
     "defaultMessage": "Cопу",
     "description": "Copy to clipboard action text"
   },
-  "create": {
+  "create-action": {
     "defaultMessage": "Cреате",
     "description": "Create action label"
   },
-  "create-file": {
+  "create-file-action": {
     "defaultMessage": "Cреате нев філе",
     "description": "Create new file button text"
   },
   "create-python": {
     "defaultMessage": "Cреате а нев Путхон філе",
-    "description": "Hover text over create Python file button"
+    "description": "Hover and dialog title when creating a new Python file"
   },
   "created-file": {
     "defaultMessage": "Cреатед {filename}",
     "description": "Action feedback for creating a file"
   },
-  "delete-button": {
+  "delete-action": {
     "defaultMessage": "Делете",
     "description": "Button text for delete action"
   },
-  "delete-file": {
+  "delete-file-action": {
     "defaultMessage": "Делете {name}",
     "description": "Menu option to delete file"
   },
@@ -167,7 +167,7 @@
     "defaultMessage": "Делетед {filename}",
     "description": "Confirmation message that file got deleted"
   },
-  "disconnect-button": {
+  "disconnect-action": {
     "defaultMessage": "Діссоннест",
     "description": "Disconnect button text"
   },
@@ -179,15 +179,15 @@
     "defaultMessage": "Досюментатіон",
     "description": "Documentation menu option text"
   },
-  "download-button": {
+  "download-action": {
     "defaultMessage": "Довнлоад",
     "description": "Download button text"
   },
-  "download-file": {
+  "download-file-action": {
     "defaultMessage": "Довнлоад {name}",
     "description": "Menu option to download file"
   },
-  "download-hex": {
+  "download-hex-action": {
     "defaultMessage": "Довнлоад проджест хекс",
     "description": "Text for menu item for downloading project hex file"
   },
@@ -195,19 +195,19 @@
     "defaultMessage": "Довнлоад а проджест хекс філе",
     "description": "Hover text over download button"
   },
-  "download-python": {
+  "download-python-action": {
     "defaultMessage": "Довнлоад Путхон ссріпт",
     "description": "Download button menu option for downloading Python script"
   },
-  "edit-file": {
+  "edit-file-action": {
     "defaultMessage": "Eдіт {name}",
     "description": "Menu option to edit file"
   },
-  "edit-name-project": {
+  "edit-name-project-hover": {
     "defaultMessage": "Eдіт тхе наме оф уоюр проджест",
     "description": "Text for user to edit the name of the project"
   },
-  "edit-project-name": {
+  "edit-project-name-action": {
     "defaultMessage": "Eдіт проджест наме",
     "description": "Text for user to edit the name of the project"
   },
@@ -227,17 +227,13 @@
     "defaultMessage": "Філес",
     "description": "Files tab button text"
   },
-  "flash-button": {
+  "flash-action": {
     "defaultMessage": "Фласх",
     "description": "Text for flash button"
   },
-  "flash-project": {
+  "flash-hover": {
     "defaultMessage": "Фласх тхе проджест дірестлу то тхе місро:біт",
     "description": "Hover text over flash button"
-  },
-  "flash-text": {
-    "defaultMessage": "Фласх",
-    "description": "Text of Flash button"
   },
   "flashing-code": {
     "defaultMessage": "Фласхіндж соде",
@@ -271,11 +267,14 @@
     "defaultMessage": "Хінтс анд тіпс",
     "description": "Link/button for minor internal help"
   },
+  "insert-code-action": {
+    "defaultMessage": "Інсерт соде"
+  },
   "language": {
     "defaultMessage": "Ланджюадже",
     "description": "Language option text"
   },
-  "load-button": {
+  "load-action": {
     "defaultMessage": "Лоад…",
     "description": "Load button text"
   },
@@ -319,7 +318,7 @@
     "defaultMessage": "МісроПутхон <linkV1>союрсе соде фор тхе місро:біт В1</linkV1> анд <linkV2>місро:біт В2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
-  "more-button": {
+  "more-action": {
     "defaultMessage": "Море",
     "description": "More button text"
   },
@@ -403,15 +402,15 @@
     "defaultMessage": "Хіде серіал",
     "description": "Aria label for serial expand/collapse"
   },
-  "serial-ctrl-c-button": {
+  "serial-ctrl-c-action": {
     "defaultMessage": "Сенд Cтрл-C фор РEПЛ",
     "description": "Button to trigger the Python REPL from the serial area"
   },
-  "serial-ctrl-d-button": {
+  "serial-ctrl-d-action": {
     "defaultMessage": "Сенд Cтрл-Д то ресет",
     "description": "Button to reset the micro:bit from the serial area"
   },
-  "serial-ctrl-e-button": {
+  "serial-ctrl-e-action": {
     "defaultMessage": "Сенд Cтрл-E фор пасте моде",
     "description": "Button to enter serial paste mode"
   },
@@ -563,11 +562,11 @@
     "defaultMessage": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор.",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
-  "zoom-in": {
+  "zoom-in-action": {
     "defaultMessage": "Зоом ін",
     "description": "Text label for zoom in button"
   },
-  "zoom-out": {
+  "zoom-out-action": {
     "defaultMessage": "Зоом оют",
     "description": "Text label for zoom out button"
   }
