@@ -25,14 +25,13 @@ interface ReferenceToolkitProps {
 
 export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   const [urlParam = "", setUrlParam] = useRouterParam("reference");
-  // Only transitions are up or down levels so can just compare length.
   const previousParam = usePrevious(urlParam) ?? "";
   const direction =
-    previousParam.length === urlParam.length
-      ? "none"
-      : previousParam.length < urlParam.length
+    previousParam.length === 0 && urlParam.length > 0
       ? "forward"
-      : "back";
+      : previousParam.length > 0 && urlParam.length === 0
+      ? "back"
+      : "none";
   return (
     <ActiveTooklitLevel
       key={urlParam}
@@ -59,54 +58,36 @@ const ActiveTooklitLevel = ({
 }: ActiveTooklitLevelProps) => {
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "reference-tab" });
+  const module = resolveModule(docs, state);
   const item = resolveDottedName(docs, state);
-  if (item) {
-    if (item.kind === "module") {
-      return (
-        <ToolkitLevel
-          direction={direction}
-          heading={
-            <ToolkitBreadcrumbHeading
-              parent={referenceString}
-              title={item.name}
-              onBack={() => onNavigate(undefined)}
-            />
-          }
-        >
-          <List flex="1 1 auto">
-            {(item.children ?? []).map((child) => (
-              <ToolkitListItem key={child.id}>
-                <ReferenceNode
-                  docs={child}
-                  width="100%"
-                  // This isn't coping with overloads.
-                  onForward={onNavigate}
-                  isShowingDetail
-                />
-              </ToolkitListItem>
-            ))}
-          </List>
-        </ToolkitLevel>
-      );
-    } else {
-      const moduleName = resolveModule(docs, item.fullName)!.fullName;
-      return (
-        <ToolkitLevel
-          direction={direction}
-          heading={
-            <ToolkitBreadcrumbHeading
-              parent={allowWrapAtPeriods(moduleName)}
-              grandparent={referenceString}
-              title={item.name}
-              titleFontFamily="code"
-              onBack={() => onNavigate(moduleName)}
-            />
-          }
-        >
-          <ReferenceNode docs={item} isShowingDetail p={5} />
-        </ToolkitLevel>
-      );
-    }
+  if (module) {
+    return (
+      <ToolkitLevel
+        direction={direction}
+        heading={
+          <ToolkitBreadcrumbHeading
+            parent={referenceString}
+            title={module.name}
+            onBack={() => onNavigate(undefined)}
+          />
+        }
+      >
+        <List flex="1 1 auto">
+          {(module.children ?? []).map((child) => (
+            <ToolkitListItem key={child.id}>
+              <ReferenceNode
+                docs={child}
+                width="100%"
+                // This isn't coping with overloads.
+                onForward={onNavigate}
+                onBack={() => onNavigate(module.fullName)}
+                isShowingDetail={item?.fullName === child.fullName}
+              />
+            </ToolkitListItem>
+          ))}
+        </List>
+      </ToolkitLevel>
+    );
   }
   return (
     <ToolkitLevel

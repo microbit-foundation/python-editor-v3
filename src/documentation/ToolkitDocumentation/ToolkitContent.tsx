@@ -23,9 +23,6 @@ import {
 
 interface ToolkitContentProps {
   content: ToolkitPortableText;
-  detail?: boolean;
-  hasDetail?: boolean;
-  onForward?: () => void;
 }
 
 export const defaultQuality = 80;

@@ -16,6 +16,7 @@ interface TopicItemProps extends BoxProps {
   item: ToolkitTopicEntry;
   detail?: boolean;
   onForward: () => void;
+  onBack: () => void;
 }
 
 /**
@@ -30,6 +31,7 @@ const TopicItem = ({
   item,
   detail,
   onForward,
+  onBack,
   ...props
 }: TopicItemProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = item;
@@ -37,18 +39,26 @@ const TopicItem = ({
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
     alternatives && alternatives.length > 0 ? 0 : undefined
   );
-  const [showMore, toggleShowMore] = useState(detail ?? false);
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       setAlternativeIndex(parseInt(e.currentTarget.value, 10));
     },
     [setAlternativeIndex]
   );
+
+  const handleShowMoreClicked = () => {
+    if (detail) {
+      onBack();
+    } else {
+      onForward();
+    }
+  };
+
   return (
     <Stack
-      spacing={detail ? 5 : 3}
+      spacing={3}
       {...props}
-      fontSize={detail ? "md" : "sm"}
+      fontSize="sm"
       listStylePos="inside"
       sx={{
         "& ul": { listStyleType: "disc" },
@@ -57,12 +67,7 @@ const TopicItem = ({
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
       </Text>
-      <ToolkitContent
-        content={content}
-        detail={detail}
-        hasDetail={hasDetail}
-        onForward={onForward}
-      />
+      <ToolkitContent content={content} />
       {alternatives && typeof alternativeIndex === "number" && (
         <>
           <Flex wrap="wrap" as="label">
@@ -83,30 +88,17 @@ const TopicItem = ({
             </Select>
           </Flex>
 
-          <ToolkitContent
-            content={alternatives[alternativeIndex].content}
-            detail={detail}
-            hasDetail={hasDetail}
-            onForward={onForward}
-          />
+          <ToolkitContent content={alternatives[alternativeIndex].content} />
         </>
       )}
       {detailContent && (
-        <Collapse in={showMore}>
-          <ToolkitContent
-            content={detailContent}
-            detail={detail}
-            hasDetail={hasDetail}
-            onForward={onForward}
-          />
+        <Collapse in={detail}>
+          <ToolkitContent content={detailContent} />
         </Collapse>
       )}
 
-      {hasDetail && toggleShowMore && onForward && (
-        <ShowMoreButton
-          onClick={() => toggleShowMore(!showMore)}
-          showmore={showMore}
-        />
+      {hasDetail && (
+        <ShowMoreButton onClick={handleShowMoreClicked} showmore={!!detail} />
       )}
     </Stack>
   );

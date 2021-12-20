@@ -5,9 +5,9 @@
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
-import { firstParagraph } from "../../editor/codemirror/language-server/documentation";
+import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
@@ -40,6 +40,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   isShowingDetail?: boolean;
   onForward?: (itemId: string) => void;
+  onBack?: () => void;
 }
 
 const noop = () => {};
@@ -48,6 +49,7 @@ const ReferenceNode = ({
   isShowingDetail = false,
   docs,
   onForward = noop,
+  onBack = noop,
   mt,
   mb,
   ...others
@@ -61,21 +63,24 @@ const ReferenceNode = ({
       ? groupBy(filteredChildren, (c) => c.kind)
       : undefined;
   }, [children]);
-  const docStringFirstParagraph = docString
-    ? firstParagraph(docString)
-    : undefined;
+  const [docStringFirstParagraph, docStringRemainder] = docString
+    ? splitDocString(docString)
+    : [undefined, undefined];
   const hasDocStringDetail =
-    docString &&
-    docStringFirstParagraph &&
-    docString.length > docStringFirstParagraph.length;
-  const activeDocString = isShowingDetail ? docString : docStringFirstParagraph;
+    docStringRemainder && docStringRemainder.length > 0;
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
     isShowingDetail
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
-  const [showMore, toggleShowMore] = useState(false);
+  const handleShowMoreClicked = () => {
+    if (isShowingDetail) {
+      onBack();
+    } else {
+      onForward(fullName);
+    }
+  };
 
   return (
     <Box
@@ -88,7 +93,7 @@ const ReferenceNode = ({
           display: "flex",
         },
       }}
-      fontSize={isShowingDetail ? "md" : "sm"}
+      fontSize="sm"
     >
       <Box>
         <HStack>
@@ -108,18 +113,16 @@ const ReferenceNode = ({
         )}
         <VStack alignItems="stretch" spacing={1}>
           {/* This needs working out properly */}
-          {activeDocString && !showMore && (
+          <DocString
+            mt="2"
+            fontWeight="normal"
+            value={docStringFirstParagraph ?? ""}
+          />
+          <Collapse in={isShowingDetail}>
             <DocString
-              mt={isShowingDetail ? 5 : 2}
+              mt="2"
               fontWeight="normal"
-              value={docStringFirstParagraph ?? ""}
-            />
-          )}
-          <Collapse in={showMore}>
-            <DocString
-              mt={isShowingDetail ? 5 : 2}
-              fontWeight="normal"
-              value={docString ?? ""}
+              value={docStringRemainder ?? ""}
             />
           </Collapse>
         </VStack>
@@ -156,8 +159,8 @@ const ReferenceNode = ({
       {kind !== "module" && kind !== "class" && hasDetail && (
         <HStack>
           <ShowMoreButton
-            onClick={() => toggleShowMore(!showMore)}
-            showmore={showMore}
+            onClick={handleShowMoreClicked}
+            showmore={isShowingDetail}
           />
         </HStack>
       )}

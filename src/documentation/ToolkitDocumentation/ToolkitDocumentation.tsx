@@ -32,11 +32,11 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   // Only transitions are up or down levels so can just compare length.
   const previousParam = usePrevious(urlParam) ?? "";
   const direction =
-    previousParam.length === urlParam.length
-      ? "none"
-      : previousParam.length < urlParam.length
+    previousParam.length === 0 && urlParam.length > 0
       ? "forward"
-      : "back";
+      : previousParam.length > 0 && urlParam.length === 0
+      ? "back"
+      : "none";
 
   const state = parseUrlParam(urlParam);
   const setState = useCallback(
@@ -94,92 +94,51 @@ const ActiveTooklitLevel = ({
     }
   }, [scrollElement]);
 
-  if (state.topicId && state.itemId) {
-    const topic = toolkit.contents?.find((t) => t.name === state.topicId);
-    if (topic) {
-      const item = topic.contents?.find((i) => i.name === state.itemId);
-      if (item) {
-        return (
-          <ToolkitLevel
-            direction={direction}
-            heading={
-              <ToolkitBreadcrumbHeading
-                parent={toolkit.name}
-                title={topic.name}
-                onBack={() => onNavigate({})}
+  const topic = state.topicId
+    ? toolkit.contents?.find((t) => t.name === state.topicId)
+    : undefined;
+  const activeItem =
+    topic && state.itemId
+      ? topic.contents?.find((i) => i.name === state.itemId)
+      : undefined;
+
+  if (topic) {
+    return (
+      <ToolkitLevel
+        direction={direction}
+        heading={
+          <ToolkitBreadcrumbHeading
+            parent={toolkit.name}
+            title={topic.name}
+            onBack={() => onNavigate({})}
+          />
+        }
+      >
+        {topic.introduction && (
+          <Box p={5} pb={1} fontSize="md">
+            <ToolkitContent content={topic.introduction} />
+          </Box>
+        )}
+        <List flex="1 1 auto">
+          {topic.contents?.map((item) => (
+            <ToolkitListItem key={item.name}>
+              <TopicItem
+                topic={topic}
+                item={item}
+                detail={activeItem === item}
+                onForward={() =>
+                  onNavigate({
+                    topicId: topic.name,
+                    itemId: item.name,
+                  })
+                }
+                onBack={() => onNavigate({ topicId: topic.name })}
               />
-            }
-          >
-            {topic.introduction && (
-              <Box p={5} pb={1} fontSize="md">
-                <ToolkitContent content={topic.introduction} />
-              </Box>
-            )}
-            <List flex="1 1 auto">
-              {topic.contents?.map((item) => (
-                <div
-                  ref={state.itemId === item.name ? scrollElement : null}
-                  key={item.name}
-                >
-                  <ToolkitListItem>
-                    <TopicItem
-                      topic={topic}
-                      item={item}
-                      detail={state.itemId === item.name}
-                      onForward={() =>
-                        onNavigate({
-                          topicId: topic.name,
-                          itemId: item.name,
-                        })
-                      }
-                    />
-                  </ToolkitListItem>
-                </div>
-              ))}
-            </List>
-          </ToolkitLevel>
-        );
-      }
-    }
-  } else if (state.topicId) {
-    const topic = toolkit.contents?.find((t) => t.name === state.topicId);
-    if (topic) {
-      return (
-        <ToolkitLevel
-          direction={direction}
-          heading={
-            <ToolkitBreadcrumbHeading
-              parent={toolkit.name}
-              title={topic.name}
-              onBack={() => onNavigate({})}
-            />
-          }
-        >
-          {topic.introduction && (
-            <Box p={5} pb={1} fontSize="md">
-              <ToolkitContent content={topic.introduction} />
-            </Box>
-          )}
-          <List flex="1 1 auto">
-            {topic.contents?.map((item) => (
-              <ToolkitListItem key={item.name}>
-                <TopicItem
-                  topic={topic}
-                  item={item}
-                  detail={false}
-                  onForward={() =>
-                    onNavigate({
-                      topicId: topic.name,
-                      itemId: item.name,
-                    })
-                  }
-                />
-              </ToolkitListItem>
-            ))}
-          </List>
-        </ToolkitLevel>
-      );
-    }
+            </ToolkitListItem>
+          ))}
+        </List>
+      </ToolkitLevel>
+    );
   }
   return (
     <ToolkitLevel

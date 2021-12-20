@@ -26,19 +26,9 @@ import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 
 interface CodeEmbedProps {
   code: string;
-  detail?: boolean;
-  hasDetail?: boolean;
-  onForward?: () => void;
-  toggleShowMore?: () => void;
 }
 
-const CodeEmbed = ({
-  detail,
-  hasDetail,
-  onForward,
-  toggleShowMore,
-  code: codeWithImports,
-}: CodeEmbedProps) => {
+const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
   const code = codeWithImports
