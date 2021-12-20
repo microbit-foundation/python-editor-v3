@@ -527,6 +527,12 @@
       "value": "Hints and tips"
     }
   ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "Insert code"
+    }
+  ],
   "language": [
     {
       "type": 0,

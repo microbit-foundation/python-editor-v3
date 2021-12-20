@@ -271,6 +271,10 @@
     "defaultMessage": "Hints and tips",
     "description": "Link/button for minor internal help"
   },
+  "insert-code-action": {
+    "defaultMessage": "Insert code",
+    "descrition": "Insert code action label"
+  },
   "language": {
     "defaultMessage": "Language",
     "description": "Language option text"
