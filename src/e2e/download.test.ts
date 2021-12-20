@@ -8,6 +8,7 @@ import { App, LoadDialogType } from "./app";
 describe("Browser - download", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
+  afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("Download - download the default HEX asd", async () => {

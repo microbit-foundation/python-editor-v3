@@ -8,6 +8,7 @@ import { App } from "./app";
 describe("Browser - edits", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
+  afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("doesn't prompt on close if no edits made", async () => {
