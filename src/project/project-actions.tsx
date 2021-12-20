@@ -251,7 +251,7 @@ export class ProjectActions {
           inputs={inputs}
         />
       ),
-      actionLabel: this.intl.formatMessage({ id: "confirm" }),
+      actionLabel: this.intl.formatMessage({ id: "confirm-action" }),
       size: "lg",
     });
     if (!chosenScript) {

@@ -8,7 +8,8 @@ import { App } from "./app";
 describe("Browser - edits", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
+  // We intentionally close the page so can't screenshot here.
+  // afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("doesn't prompt on close if no edits made", async () => {
