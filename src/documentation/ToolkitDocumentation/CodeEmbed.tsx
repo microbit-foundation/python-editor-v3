@@ -73,6 +73,7 @@ const CodeEmbed = ({
           />
           {hovering && (
             <CodePopUp
+              height={codeHeight}
               setHovering={setHovering}
               concise={code}
               full={codeWithImports}
@@ -112,7 +113,13 @@ interface CodePopUpProps extends BoxProps {
 
 // We draw the same code over the top in a portal so we can draw it
 // above the scrollbar.
-const CodePopUp = ({ setHovering, codeRef, concise, full }: CodePopUpProps) => {
+const CodePopUp = ({
+  setHovering,
+  codeRef,
+  concise,
+  full,
+  ...props
+}: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
@@ -130,6 +137,7 @@ const CodePopUp = ({ setHovering, codeRef, concise, full }: CodePopUpProps) => {
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
+        {...props}
       />
     </Portal>
   );
