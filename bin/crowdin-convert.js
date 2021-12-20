@@ -8,12 +8,13 @@
  *
  * For now we add/download files from Crowdin manually.
  */
+const fs = require("fs");
 const fsp = require("fs/promises");
 const path = require("path");
 
 const exists = async (destination) => {
   try {
-    await fsp.access(destination, fsp.constants.F_OK);
+    await fsp.access(destination, fs.constants.F_OK);
     return true;
   } catch (e) {
     return false;
@@ -69,7 +70,8 @@ const main = async () => {
       translatedDirEntries.map((translated) =>
         convertFile(
           path.join(translatedDir, translated),
-          path.join("lang/", crowdinToIntl)
+          path.join("lang/", translated),
+          crowdinToIntl
         )
       )
     );
