@@ -14,7 +14,7 @@ import ShowMoreButton from "../common/ShowMoreButton";
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
   item: ToolkitTopicEntry;
-  detail?: boolean;
+  active?: boolean;
   onForward: () => void;
   onBack: () => void;
 }
@@ -29,7 +29,7 @@ interface TopicItemProps extends BoxProps {
 const TopicItem = ({
   topic,
   item,
-  detail,
+  active,
   onForward,
   onBack,
   ...props
@@ -46,18 +46,20 @@ const TopicItem = ({
     [setAlternativeIndex]
   );
 
-  const handleShowMoreClicked = () => {
-    if (detail) {
+  const [showMore, setShowMore] = useState(!!active);
+  const handleShowMoreClicked = useCallback(() => {
+    setShowMore(!showMore);
+    if (active) {
       onBack();
     } else {
       onForward();
     }
-  };
+  }, [active, onBack, onForward, showMore, setShowMore]);
 
   return (
     <Stack
-      spacing={3}
       {...props}
+      spacing={3}
       fontSize="sm"
       listStylePos="inside"
       sx={{
@@ -91,14 +93,14 @@ const TopicItem = ({
           <ToolkitContent content={alternatives[alternativeIndex].content} />
         </>
       )}
-      {detailContent && (
-        <Collapse in={detail}>
+      {hasDetail && (
+        <Collapse in={showMore}>
           <ToolkitContent content={detailContent} />
         </Collapse>
       )}
 
       {hasDetail && (
-        <ShowMoreButton onClick={handleShowMoreClicked} showmore={!!detail} />
+        <ShowMoreButton onClick={handleShowMoreClicked} showmore={showMore} />
       )}
     </Stack>
   );

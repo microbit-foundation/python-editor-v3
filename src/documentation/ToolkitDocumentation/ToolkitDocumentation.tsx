@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useEffect, useRef } from "react";
 import { usePrevious } from "@chakra-ui/hooks";
 import { Box, List } from "@chakra-ui/layout";
 import { useCallback } from "react";
@@ -47,7 +46,7 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   );
   return (
     <ActiveTooklitLevel
-      key={urlParam}
+      key={urlParam.length > 0 ? 0 : 1}
       state={state}
       onNavigate={setState}
       toolkit={toolkit}
@@ -79,21 +78,6 @@ const ActiveTooklitLevel = ({
   toolkit,
   direction,
 }: ActiveTooklitLevelProps) => {
-  const scrollElement: any = useRef(null);
-  const scrollToElement = () =>
-    scrollElement.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "start",
-    });
-
-  // scrolling works, but top of topic is hidden by ToolkitBreadcrumbHeading
-  useEffect(() => {
-    if (scrollElement.current) {
-      scrollToElement();
-    }
-  }, [scrollElement]);
-
   const topic = state.topicId
     ? toolkit.contents?.find((t) => t.name === state.topicId)
     : undefined;
@@ -125,7 +109,7 @@ const ActiveTooklitLevel = ({
               <TopicItem
                 topic={topic}
                 item={item}
-                detail={activeItem === item}
+                active={activeItem === item}
                 onForward={() =>
                   onNavigate({
                     topicId: topic.name,

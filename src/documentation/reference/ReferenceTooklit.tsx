@@ -34,7 +34,7 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
       : "none";
   return (
     <ActiveTooklitLevel
-      key={urlParam}
+      key={urlParam.length > 0 ? 0 : 1}
       state={urlParam}
       onNavigate={setUrlParam}
       docs={docs}
@@ -81,7 +81,7 @@ const ActiveTooklitLevel = ({
                 // This isn't coping with overloads.
                 onForward={onNavigate}
                 onBack={() => onNavigate(module.fullName)}
-                isShowingDetail={item?.fullName === child.fullName}
+                active={item?.fullName === child.fullName}
               />
             </ToolkitListItem>
           ))}

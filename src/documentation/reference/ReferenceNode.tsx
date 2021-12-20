@@ -5,7 +5,7 @@
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -38,7 +38,7 @@ const kindToSpacing: Record<string, any> = {
 
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
-  isShowingDetail?: boolean;
+  active?: boolean;
   onForward?: (itemId: string) => void;
   onBack?: () => void;
 }
@@ -46,7 +46,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
 const noop = () => {};
 
 const ReferenceNode = ({
-  isShowingDetail = false,
+  active = false,
   docs,
   onForward = noop,
   onBack = noop,
@@ -71,16 +71,18 @@ const ReferenceNode = ({
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
-    isShowingDetail
+    active
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
-  const handleShowMoreClicked = () => {
-    if (isShowingDetail) {
+  const [showMore, setShowMore] = useState(active);
+  const handleShowMoreClicked = useCallback(() => {
+    setShowMore(!showMore);
+    if (active) {
       onBack();
     } else {
       onForward(fullName);
     }
-  };
+  }, [showMore, setShowMore, onBack, onForward, fullName, active]);
 
   return (
     <Box
@@ -118,7 +120,7 @@ const ReferenceNode = ({
             fontWeight="normal"
             value={docStringFirstParagraph ?? ""}
           />
-          <Collapse in={isShowingDetail}>
+          <Collapse in={active}>
             <DocString
               mt="2"
               fontWeight="normal"
@@ -143,7 +145,7 @@ const ReferenceNode = ({
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
                       <ReferenceNode
-                        isShowingDetail={isShowingDetail}
+                        active={active}
                         key={c.id}
                         docs={c}
                         onForward={onForward}
@@ -157,12 +159,7 @@ const ReferenceNode = ({
       )}
 
       {kind !== "module" && kind !== "class" && hasDetail && (
-        <HStack>
-          <ShowMoreButton
-            onClick={handleShowMoreClicked}
-            showmore={isShowingDetail}
-          />
-        </HStack>
+        <ShowMoreButton onClick={handleShowMoreClicked} showmore={active} />
       )}
     </Box>
   );

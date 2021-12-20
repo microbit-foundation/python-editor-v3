@@ -10,7 +10,7 @@ interface ShowMoreButtonProps extends ButtonProps {
   showmore: boolean;
 }
 
-const ShowMoreButton = (props: ShowMoreButtonProps) => (
+const ShowMoreButton = ({ showmore, ...props }: ShowMoreButtonProps) => (
   <Button
     fontWeight="normal"
     color="#262626"
@@ -25,7 +25,7 @@ const ShowMoreButton = (props: ShowMoreButtonProps) => (
     width="max-content"
     {...props}
   >
-    <FormattedMessage id={props.showmore ? "show-less" : "show-more"} />
+    <FormattedMessage id={showmore ? "show-less" : "show-more"} />
   </Button>
 );
 
