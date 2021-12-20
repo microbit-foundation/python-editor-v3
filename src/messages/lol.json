@@ -131,7 +131,7 @@
       "value": "баск то тхе маін соде"
     }
   ],
-  "cancel": [
+  "cancel-action": [
     {
       "type": 0,
       "value": "Cансел"
@@ -239,7 +239,7 @@
       "value": "source"
     }
   ],
-  "close-button": [
+  "close-action": [
     {
       "type": 0,
       "value": "Cлосе"
@@ -251,7 +251,7 @@
       "value": "Cоде едітор"
     }
   ],
-  "confirm": [
+  "confirm-action": [
     {
       "type": 0,
       "value": "Cонфірм"
@@ -275,7 +275,7 @@
       "value": "Cонфірм репласе проджест"
     }
   ],
-  "connect-button": [
+  "connect-action": [
     {
       "type": 0,
       "value": "Cоннест"
@@ -299,19 +299,19 @@
       "value": "Cопіед"
     }
   ],
-  "copy": [
+  "copy-action": [
     {
       "type": 0,
       "value": "Cопу"
     }
   ],
-  "create": [
+  "create-action": [
     {
       "type": 0,
       "value": "Cреате"
     }
   ],
-  "create-file": [
+  "create-file-action": [
     {
       "type": 0,
       "value": "Cреате нев філе"
@@ -333,13 +333,13 @@
       "value": "filename"
     }
   ],
-  "delete-button": [
+  "delete-action": [
     {
       "type": 0,
       "value": "Делете"
     }
   ],
-  "delete-file": [
+  "delete-file-action": [
     {
       "type": 0,
       "value": "Делете "
@@ -359,7 +359,7 @@
       "value": "filename"
     }
   ],
-  "disconnect-button": [
+  "disconnect-action": [
     {
       "type": 0,
       "value": "Діссоннест"
@@ -377,13 +377,13 @@
       "value": "Досюментатіон"
     }
   ],
-  "download-button": [
+  "download-action": [
     {
       "type": 0,
       "value": "Довнлоад"
     }
   ],
-  "download-file": [
+  "download-file-action": [
     {
       "type": 0,
       "value": "Довнлоад "
@@ -393,7 +393,7 @@
       "value": "name"
     }
   ],
-  "download-hex": [
+  "download-hex-action": [
     {
       "type": 0,
       "value": "Довнлоад проджест хекс"
@@ -405,13 +405,13 @@
       "value": "Довнлоад а проджест хекс філе"
     }
   ],
-  "download-python": [
+  "download-python-action": [
     {
       "type": 0,
       "value": "Довнлоад Путхон ссріпт"
     }
   ],
-  "edit-file": [
+  "edit-file-action": [
     {
       "type": 0,
       "value": "Eдіт "
@@ -421,13 +421,13 @@
       "value": "name"
     }
   ],
-  "edit-name-project": [
+  "edit-name-project-hover": [
     {
       "type": 0,
       "value": "Eдіт тхе наме оф уоюр проджест"
     }
   ],
-  "edit-project-name": [
+  "edit-project-name-action": [
     {
       "type": 0,
       "value": "Eдіт проджест наме"
@@ -461,22 +461,16 @@
       "value": "Філес"
     }
   ],
-  "flash-button": [
+  "flash-action": [
     {
       "type": 0,
       "value": "Фласх"
     }
   ],
-  "flash-project": [
+  "flash-hover": [
     {
       "type": 0,
       "value": "Фласх тхе проджест дірестлу то тхе місро:біт"
-    }
-  ],
-  "flash-text": [
-    {
-      "type": 0,
-      "value": "Фласх"
     }
   ],
   "flashing-code": [
@@ -515,10 +509,28 @@
       "value": "Хелп транслате"
     }
   ],
-  "highlight-structure": [
+  "highlight-code-structure": [
     {
       "type": 0,
       "value": "Хіджхліджхт соде стрюстюре"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "Фюлл"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "Ноне"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "Сімпле"
     }
   ],
   "hints-and-tips": [
@@ -527,13 +539,19 @@
       "value": "Хінтс анд тіпс"
     }
   ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "Інсерт соде"
+    }
+  ],
   "language": [
     {
       "type": 0,
       "value": "Ланджюадже"
     }
   ],
-  "load-button": [
+  "load-action": [
     {
       "type": 0,
       "value": "Лоад…"
@@ -651,7 +669,7 @@
       "value": "linkV2"
     }
   ],
-  "more-button": [
+  "more-action": [
     {
       "type": 0,
       "value": "Море"
@@ -799,19 +817,19 @@
       "value": "Хіде серіал"
     }
   ],
-  "serial-ctrl-c-button": [
+  "serial-ctrl-c-action": [
     {
       "type": 0,
       "value": "Сенд Cтрл-C фор РEПЛ"
     }
   ],
-  "serial-ctrl-d-button": [
+  "serial-ctrl-d-action": [
     {
       "type": 0,
       "value": "Сенд Cтрл-Д то ресет"
     }
   ],
-  "serial-ctrl-e-button": [
+  "serial-ctrl-e-action": [
     {
       "type": 0,
       "value": "Сенд Cтрл-E фор пасте моде"
@@ -1177,13 +1195,13 @@
       "value": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор."
     }
   ],
-  "zoom-in": [
+  "zoom-in-action": [
     {
       "type": 0,
       "value": "Зоом ін"
     }
   ],
-  "zoom-out": [
+  "zoom-out-action": [
     {
       "type": 0,
       "value": "Зоом оют"

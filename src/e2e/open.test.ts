@@ -8,6 +8,7 @@ import { App, LoadDialogType } from "./app";
 describe("Browser - open", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
+  afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("Shows an alert when loading a MakeCode hex", async () => {

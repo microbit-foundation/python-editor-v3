@@ -15,7 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { ReactNode, useCallback } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
 
 /**
@@ -25,6 +25,7 @@ import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
  */
 const SettingsArea = () => {
   const [settings, setSettings] = useSettings();
+  const intl = useIntl();
 
   const handleChangeFontSize = useCallback(
     (_: string, valueAsNumber: number) => {
@@ -73,19 +74,21 @@ const SettingsArea = () => {
       </FormControl>
       <SelectFormControl
         id="codeStructureHighlight"
-        label="Highlight code structure"
+        label={intl.formatMessage({ id: "highlight-code-structure" })}
         options={[
           {
             value: "none",
-            label: "None",
+            label: intl.formatMessage({ id: "highlight-code-structure-none" }),
           },
           {
             value: "full",
-            label: "Full",
+            label: intl.formatMessage({ id: "highlight-code-structure-full" }),
           },
           {
             value: "simple",
-            label: "Simple",
+            label: intl.formatMessage({
+              id: "highlight-code-structure-simple",
+            }),
           },
         ]}
         value={settings.codeStructureHighlight}

@@ -41,10 +41,10 @@ const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
       <Portal>
         <MenuList zIndex={zIndexAboveTerminal}>
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.interrupt}>
-            <FormattedMessage id="serial-ctrl-c-button" />
+            <FormattedMessage id="serial-ctrl-c-action" />
           </MenuItem>
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.reset}>
-            <FormattedMessage id="serial-ctrl-d-button" />
+            <FormattedMessage id="serial-ctrl-d-action" />
           </MenuItem>
         </MenuList>
       </Portal>

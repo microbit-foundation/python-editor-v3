@@ -22,7 +22,7 @@ const LoadButton = ({ children, ...props }: LoadButtonProps) => {
     <FileInputButton
       {...props}
       text={intl.formatMessage({
-        id: "load-button",
+        id: "load-action",
       })}
       onOpen={actions.load}
       data-testid="open"

@@ -17,7 +17,7 @@ const MoreButton = (props: ButtonProps) => (
     rightIcon={<RiArrowRightLine />}
     {...props}
   >
-    <FormattedMessage id="more-button" />
+    <FormattedMessage id="more-action" />
   </Button>
 );
 

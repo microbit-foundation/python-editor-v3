@@ -24,7 +24,7 @@ const ProjectNameEditable = () => {
       header: intl.formatMessage({ id: "name-project" }),
       Body: ProjectNameQuestion,
       initialValue: project.name,
-      actionLabel: intl.formatMessage({ id: "confirm" }),
+      actionLabel: intl.formatMessage({ id: "confirm-action" }),
       customFocus: true,
       validate: (name: string) =>
         name.trim().length === 0
@@ -39,7 +39,7 @@ const ProjectNameEditable = () => {
     <HStack spacing={2.5}>
       <Tooltip
         hasArrow
-        label={intl.formatMessage({ id: "edit-name-project" })}
+        label={intl.formatMessage({ id: "edit-name-project-hover" })}
         placement="top-start"
       >
         <IconButton
@@ -48,7 +48,7 @@ const ProjectNameEditable = () => {
           color="gray.500"
           variant="ghost"
           onClick={handleEdit}
-          aria-label={intl.formatMessage({ id: "edit-project-name" })}
+          aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
         />
       </Tooltip>
       <Text

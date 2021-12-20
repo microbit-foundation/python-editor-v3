@@ -13,6 +13,7 @@ SyntaxError: invalid syntax
 describe("Browser - WebUSB (mocked)", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
+  afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("shows serial when connected", async () => {

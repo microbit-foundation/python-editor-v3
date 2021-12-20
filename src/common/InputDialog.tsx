@@ -102,7 +102,7 @@ export const InputDialog = <T extends unknown>({
           </ModalBody>
           <ModalFooter>
             <Button ref={leastDestructiveRef} onClick={onCancel}>
-              <FormattedMessage id="cancel" />
+              <FormattedMessage id="cancel-action" />
             </Button>
             <Button
               variant="solid"

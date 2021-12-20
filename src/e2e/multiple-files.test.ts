@@ -8,6 +8,7 @@ import { App, LoadDialogType } from "./app";
 describe("Browser - multiple and missing file cases", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
+  afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
   it("Copes with hex with no Python files", async () => {
