@@ -6,9 +6,9 @@
 import { Text } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import ToolkitDocumentation from "./ToolkitDocumentation";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useLogging } from "../logging/logging-hooks";
+import ToolkitDocumentation from "./ToolkitDocumentation";
 import { fetchToolkit } from "./ToolkitDocumentation/api";
 import { Toolkit } from "./ToolkitDocumentation/model";
 import ToolkitSpinner from "./ToolkitDocumentation/ToolkitSpinner";
@@ -47,7 +47,7 @@ const ExploreArea = () => {
       return <ToolkitSpinner />;
     case "error":
       return (
-        <Text p={5}>
+        <Text p={5} height="100%">
           <FormattedMessage id="toolkit-error-loading" />
         </Text>
       );
