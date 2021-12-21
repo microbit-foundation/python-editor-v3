@@ -154,7 +154,6 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
               role="img"
               aria-label={intl.formatMessage({ id: "visit-dot-org" })}
             >
-              {/* Logo needs editing profressionally */}
               <MicrobitLogo fill="#F8F8FB" />
             </Box>
           </Flex>
