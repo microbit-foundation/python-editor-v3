@@ -63,7 +63,7 @@ export const ConfirmDialog = ({
           <AlertDialogBody>{body}</AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={leastDestructiveRef} onClick={onCancel}>
-              <FormattedMessage id="cancel" />
+              <FormattedMessage id="cancel-action" />
             </Button>
             <Button
               variant="solid"

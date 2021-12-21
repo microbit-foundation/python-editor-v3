@@ -16,6 +16,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
@@ -93,7 +94,7 @@ const CodeEmbed = ({
             size="sm"
             onClick={() => actions?.insertCode(codeWithImports)}
           >
-            Insert code
+            <FormattedMessage id="insert-code-action" />
           </Button>
           {!detail && hasDetail && onForward && (
             <MoreButton onClick={onForward} />

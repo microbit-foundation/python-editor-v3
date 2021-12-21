@@ -34,7 +34,7 @@ const ConnectDisconnectButton = () => {
         onClick={handleToggleConnected}
       >
         <FormattedMessage
-          id={connected ? "disconnect-button" : "connect-button"}
+          id={connected ? "disconnect-action" : "connect-action"}
         />
       </Button>
     </Tooltip>

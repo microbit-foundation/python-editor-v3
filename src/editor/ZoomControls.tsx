@@ -48,7 +48,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
         isRound
         opacity={0.8}
         icon={<RiSubtractLine size="20px" />}
-        aria-label={intl.formatMessage({ id: "zoom-out" })}
+        aria-label={intl.formatMessage({ id: "zoom-out-action" })}
         onClick={handleZoomOut}
       />
       <IconButton
@@ -56,7 +56,7 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
         isRound
         opacity={0.8}
         icon={<RiAddLine size="20px" />}
-        aria-label={intl.formatMessage({ id: "zoom-in" })}
+        aria-label={intl.formatMessage({ id: "zoom-in-action" })}
         onClick={handleZoomIn}
       />
     </ButtonGroup>

@@ -25,7 +25,7 @@ const FlashButton = (
         hasArrow
         placement="top-start"
         label={intl.formatMessage({
-          id: "flash-project",
+          id: "flash-hover",
         })}
       >
         <CollapsableButton
@@ -34,7 +34,7 @@ const FlashButton = (
           icon={<RiFlashlightFill />}
           onClick={actions.flash}
           text={intl.formatMessage({
-            id: "flash-text",
+            id: "flash-action",
           })}
         />
       </Tooltip>

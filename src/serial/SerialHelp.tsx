@@ -67,7 +67,7 @@ export const SerialHelpDialog = ({
           </ModalBody>
           <ModalFooter>
             <Button variant="solid" onClick={onClose}>
-              <FormattedMessage id="close-button" />
+              <FormattedMessage id="close-action" />
             </Button>
           </ModalFooter>
         </ModalContent>

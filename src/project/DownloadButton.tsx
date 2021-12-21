@@ -39,7 +39,7 @@ const DownloadButton = (props: DownloadButtonProps) => {
         icon={<RiDownload2Line />}
         onClick={actions.download}
         text={intl.formatMessage({
-          id: "download-button",
+          id: "download-action",
         })}
       />
     </Tooltip>

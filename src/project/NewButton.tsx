@@ -31,7 +31,7 @@ const NewButton = (props: NewButtonProps) => {
       <CollapsableButton
         {...props}
         text={intl.formatMessage({
-          id: "create-file",
+          id: "create-file-action",
         })}
         onClick={actions.createFile}
         icon={<RiFileAddLine />}

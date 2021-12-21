@@ -83,6 +83,7 @@
     "deploy": "website-deploy-aws",
     "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
     "i18n:compile": "node bin/sort.js && formatjs compile-folder --ast lang src/messages",
+    "i18n:convert": "node bin/sort.js && node bin/crowdin-convert.js",
     "fix-licensing-headers": "node bin/fix-licensing-headers.js"
   },
   "eslintConfig": {
