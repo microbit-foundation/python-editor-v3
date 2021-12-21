@@ -36,6 +36,7 @@ import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
 import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
 import MicrobitLogo from "../common/MicrobitLogo";
+import { topBarHeight } from "../deployment/misc";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -131,7 +132,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
         zIndex={3}
-        maxHeight="68px"
+        maxHeight={topBarHeight}
       >
         <Link
           p={[3.5, 4]}

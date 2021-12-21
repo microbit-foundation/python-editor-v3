@@ -37,7 +37,7 @@ const ProjectNameEditable = () => {
     }
   }, [dialogs, actions, project, intl]);
   return (
-    <HStack spacing={2.5} height="52px">
+    <HStack spacing={2.5}>
       <Tooltip
         hasArrow
         label={intl.formatMessage({ id: "edit-name-project-hover" })}

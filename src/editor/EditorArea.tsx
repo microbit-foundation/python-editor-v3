@@ -5,6 +5,7 @@
  */
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
+import { topBarHeight } from "../deployment/misc";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
@@ -42,6 +43,7 @@ const EditorArea = ({
         pr={10}
         pt={2}
         pb={2}
+        height={topBarHeight}
       >
         <ProjectNameEditable />
         <ActiveFileInfo
