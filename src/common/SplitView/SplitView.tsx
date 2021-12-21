@@ -94,6 +94,8 @@ export const SplitView = ({
         if (size > maximum) {
           size = maximum;
         }
+        // fix offset of dragHandle without affect serial divider
+        size = direction === "column" ? size : size - 15;
         setSizedPaneSize(size);
       }
     },
@@ -146,6 +148,7 @@ export const SplitView = ({
       handleMouseDown,
       handleMouseMove,
       handleTouchEndOrMouseUp,
+      dragging,
     };
   }, [
     mode,
@@ -157,6 +160,7 @@ export const SplitView = ({
     handleMouseDown,
     handleMouseMove,
     handleTouchEndOrMouseUp,
+    dragging,
   ]);
 
   return (

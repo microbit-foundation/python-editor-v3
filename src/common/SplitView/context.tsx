@@ -34,6 +34,7 @@ export interface SplitViewContext {
   handleMouseDown: (e: React.MouseEvent) => void;
   handleTouchStart: (e: React.TouchEvent) => void;
   handleTouchEndOrMouseUp: () => void;
+  dragging: Boolean;
 }
 
 export const splitViewContext = createContext<SplitViewContext | null>(null);
