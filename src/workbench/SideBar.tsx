@@ -132,7 +132,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
         zIndex={3}
-        maxHeight={topBarHeight}
+        height={topBarHeight}
       >
         <Link
           p={[3.5, 4]}
