@@ -139,21 +139,13 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           href="https://microbit.org/code/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={intl.formatMessage({ id: "visit-dot-org" })}
         >
           <Flex>
-            <Box
-              width="3.75rem"
-              fill="#F8F8FB"
-              role="img"
-              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-            >
+            <Box width="3.75rem" fill="#F8F8FB" role="img">
               {brand.squareLogo}
             </Box>
-            <Box
-              width="212px"
-              role="img"
-              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-            >
+            <Box width="212px" role="img">
               <MicrobitLogo fill="#F8F8FB" />
             </Box>
           </Flex>
