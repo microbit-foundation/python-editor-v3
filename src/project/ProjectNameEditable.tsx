@@ -45,7 +45,8 @@ const ProjectNameEditable = () => {
       >
         <IconButton
           size="md"
-          icon={<RiEdit2Line size="20px" />}
+          icon={<RiEdit2Line />}
+          fontSize="xl"
           color="brand.500"
           variant="ghost"
           onClick={handleEdit}
