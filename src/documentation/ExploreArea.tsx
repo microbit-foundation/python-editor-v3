@@ -12,6 +12,7 @@ import { useLogging } from "../logging/logging-hooks";
 import { fetchToolkit } from "./ToolkitDocumentation/api";
 import { Toolkit } from "./ToolkitDocumentation/model";
 import ToolkitSpinner from "./ToolkitDocumentation/ToolkitSpinner";
+import { useSettings } from "../settings/settings";
 
 type State =
   | { status: "ok"; toolkit: Toolkit }
@@ -24,10 +25,11 @@ const ExploreArea = () => {
   });
   const logging = useLogging();
   const isUnmounted = useIsUnmounted();
+  const [{ languageId }] = useSettings();
   useEffect(() => {
     const load = async () => {
       try {
-        const toolkit = await fetchToolkit();
+        const toolkit = await fetchToolkit(languageId);
         if (!isUnmounted()) {
           setState({ status: "ok", toolkit });
         }
@@ -41,7 +43,7 @@ const ExploreArea = () => {
       }
     };
     load();
-  }, [setState, isUnmounted, logging]);
+  }, [setState, isUnmounted, logging, languageId]);
   switch (state.status) {
     case "loading":
       return <ToolkitSpinner />;
