@@ -26,6 +26,7 @@ import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
+import { topBarHeight } from "../deployment/misc";
 import ExploreArea from "../documentation/ExploreArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
@@ -35,8 +36,6 @@ import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
 import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
-import MicrobitLogo from "../common/MicrobitLogo";
-import { topBarHeight } from "../deployment/misc";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -133,31 +132,32 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         boxShadow="0px 4px 16px #00000033"
         zIndex={3}
         height={topBarHeight}
+        alignItems="center"
       >
         <Link
-          p={[3.5, 4]}
+          display="block"
           href="https://microbit.org/code/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Flex>
+          <HStack spacing={3.5} pl={4} pr={4}>
             <Box
-              width="3.75rem"
-              fill="#F8F8FB"
+              width="3.56875rem"
+              color="white"
               role="img"
               aria-label={intl.formatMessage({ id: "visit-dot-org" })}
             >
               {brand.squareLogo}
             </Box>
             <Box
-              width="212px"
+              width="9.098rem"
               role="img"
               aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+              color="white"
             >
-              {/* Logo needs editing profressionally */}
-              <MicrobitLogo fill="#F8F8FB" />
+              {brand.horizontalLogo}
             </Box>
-          </Flex>
+          </HStack>
         </Link>
       </Flex>
 
