@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { python } from "@codemirror/lang-python";
-import { syntaxTree } from "@codemirror/language";
+import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
 
@@ -270,7 +270,10 @@ const defaultInsertPoint = (
 };
 
 const currentImports = (state: EditorState): ImportNode[] => {
-  const tree = syntaxTree(state);
+  const tree = ensureSyntaxTree(state, state.doc.length);
+  if (tree === null) {
+    throw new Error("No timeout set so tree should be non-null");
+  }
   return topLevelImports(tree, (from, to) => state.sliceDoc(from, to));
 };
 
