@@ -30,7 +30,7 @@ interface ToolkitContentProps {
 
 export const defaultQuality = 80;
 
-export const imageUrlBuilder = unconfiguredImageUrlBuilder()
+const imageUrlBuilder = unconfiguredImageUrlBuilder()
   // Hardcoded for now as there's no practical alternative.
   .projectId("ajwvhvgo")
   .dataset("apps")
@@ -38,25 +38,14 @@ export const imageUrlBuilder = unconfiguredImageUrlBuilder()
   .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
 
-const getImageDimensions = (imageRef: string): number[] | undefined => {
-  const regex = /\d+x\d+/g;
-  const dimensionsArr = imageRef.match(regex);
+const getAspectRatio = (imageRef: string): number | undefined => {
+  const dimensionsArr = imageRef.match(/\d+x\d+/g);
   if (!dimensionsArr) {
     return undefined;
   }
   const dimensions = dimensionsArr.join().split("x");
   const [width, height] = dimensions.map((n: string) => Number(n));
-  return width && height ? [width, height] : undefined;
-};
-
-const getHeightToWidthRatio = (
-  dimensions: number[] | undefined
-): number | undefined => {
-  if (!dimensions) {
-    return undefined;
-  }
-  const [width, height] = dimensions;
-  return height / width;
+  return width / height;
 };
 
 const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
@@ -137,9 +126,7 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
         <CodeEmbed code={main} {...outerProps} />
       ),
       simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
-        const ratio = getHeightToWidthRatio(
-          getImageDimensions(props.node.asset._ref)
-        );
+        const ratio = getAspectRatio(props.node.asset._ref);
         return (
           <Image
             src={imageUrlBuilder
@@ -149,7 +136,7 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
               .url()}
             alt={props.node.alt}
             w="300px"
-            h={ratio ? `${Math.round(ratio * 300)}px` : "auto"}
+            h={ratio ? `${Math.round(300 / ratio)}px` : "auto"}
           />
         );
       },

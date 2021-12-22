@@ -3,6 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+jest.mock("@chakra-ui/image", () => ({
+  Image: ({ src, w, h }: ImageProps) => (
+    <img src={src} width={w as string} height={h as string} />
+  ),
+}));
+
+import { ImageProps } from "@chakra-ui/react";
 import { render } from "@testing-library/react";
 import { ToolkitPortableText } from "./model";
 import ToolkitContent, { imageUrlBuilder } from "./ToolkitContent";
@@ -55,19 +62,9 @@ describe("ToolkitContent", () => {
       },
     ];
     const rendered = render(<ToolkitContent content={content} />);
+    // This relies on the mock above because Chakra UI's images have the src added later.
     expect(rendered.container.innerHTML).toMatchInlineSnapshot(
-      `"<img alt=\\"micro:bit showing X axis going across the front, Y axis going down and up, Z axis going back to front\\" class=\\"chakra-image__placeholder css-1rg1djq\\">"`
-    );
-  });
-
-  it("creates an image url from a Sanity asset", () => {
-    const asset = {
-      _ref: "image-9fccaf51a164fedc98662188593de19bfb9be8ad-435x512-png",
-      _type: "reference",
-    };
-    const url = imageUrlBuilder.image(asset).width(300).fit("max").url();
-    expect(url).toEqual(
-      "https://cdn.sanity.io/images/ajwvhvgo/apps/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&q=80&fit=max&auto=format"
+      `"<img src=\\"https://cdn.sanity.io/images/ajwvhvgo/apps/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&amp;q=80&amp;fit=max&amp;auto=format\\" width=\\"300px\\" height=\\"353px\\">"`
     );
   });
 });
