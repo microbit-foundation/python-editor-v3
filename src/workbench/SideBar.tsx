@@ -139,22 +139,13 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           href="https://microbit.org/code/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={intl.formatMessage({ id: "visit-dot-org" })}
         >
           <HStack spacing={3.5} pl={4} pr={4}>
-            <Box
-              width="3.56875rem"
-              color="white"
-              role="img"
-              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-            >
+            <Box width="3.56875rem" color="white" role="img">
               {brand.squareLogo}
             </Box>
-            <Box
-              width="9.098rem"
-              role="img"
-              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-              color="white"
-            >
+            <Box width="9.098rem" role="img" color="white">
               {brand.horizontalLogo}
             </Box>
           </HStack>
@@ -170,7 +161,6 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         index={index}
       >
         <TabList>
-          {/* Top margin aims to align with other logo. */}
           <Box
             width="3.75rem"
             mt="1.2rem"

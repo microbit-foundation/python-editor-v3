@@ -57,7 +57,7 @@ const EditorArea = ({
         mr="2.5rem"
         mb={5}
         width="calc(100% - 8.5rem)"
-        borderBottomWidth={1}
+        borderBottomWidth={2}
         borderColor="gray.200"
       />
       <Box position="relative" flex="1 1 auto" height={0}>
