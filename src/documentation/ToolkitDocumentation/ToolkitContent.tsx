@@ -30,13 +30,23 @@ interface ToolkitContentProps {
 
 export const defaultQuality = 80;
 
-export const imageUrlBuilder = unconfiguredImageUrlBuilder()
+const imageUrlBuilder = unconfiguredImageUrlBuilder()
   // Hardcoded for now as there's no practical alternative.
   .projectId("ajwvhvgo")
   .dataset("apps")
   .auto("format")
   .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
+
+const getAspectRatio = (imageRef: string): number | undefined => {
+  const dimensionsArr = imageRef.match(/\d+x\d+/g);
+  if (!dimensionsArr) {
+    return undefined;
+  }
+  const dimensions = dimensionsArr.join().split("x");
+  const [width, height] = dimensions.map((n: string) => Number(n));
+  return width / height;
+};
 
 const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
   const [state, setState] = useRouterState();
@@ -116,6 +126,7 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
         <CodeEmbed code={main} {...outerProps} />
       ),
       simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
+        const ratio = getAspectRatio(props.node.asset._ref);
         return (
           <Image
             src={imageUrlBuilder
@@ -125,6 +136,7 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
               .url()}
             alt={props.node.alt}
             w="300px"
+            h={ratio ? `${Math.round(300 / ratio)}px` : "auto"}
           />
         );
       },
