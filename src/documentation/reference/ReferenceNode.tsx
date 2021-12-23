@@ -71,7 +71,6 @@ const ReferenceNode = ({
     params,
     disclosure.isOpen
   );
-  const hasDetail = hasDocStringDetail || hasSignatureDetail;
 
   return (
     <Box
@@ -109,16 +108,17 @@ const ReferenceNode = ({
             fontWeight="normal"
             value={docStringFirstParagraph ?? ""}
           />
-          {docStringRemainder && (
+          {(hasDocStringDetail || hasSignatureDetail) && (
             <>
-              <Collapse in={disclosure.isOpen}>
-                <DocString
-                  mt="2"
-                  fontWeight="normal"
-                  value={docStringRemainder ?? ""}
-                />
-              </Collapse>
-
+              {docStringRemainder && (
+                <Collapse in={disclosure.isOpen}>
+                  <DocString
+                    mt="2"
+                    fontWeight="normal"
+                    value={docStringRemainder ?? ""}
+                  />
+                </Collapse>
+              )}
               <ShowMoreButton
                 onClick={disclosure.onToggle}
                 showmore={disclosure.isOpen}
