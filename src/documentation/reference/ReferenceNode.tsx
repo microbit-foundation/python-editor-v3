@@ -109,13 +109,22 @@ const ReferenceNode = ({
             fontWeight="normal"
             value={docStringFirstParagraph ?? ""}
           />
-          <Collapse in={disclosure.isOpen}>
-            <DocString
-              mt="2"
-              fontWeight="normal"
-              value={docStringRemainder ?? ""}
-            />
-          </Collapse>
+          {docStringRemainder && (
+            <>
+              <Collapse in={disclosure.isOpen}>
+                <DocString
+                  mt="2"
+                  fontWeight="normal"
+                  value={docStringRemainder ?? ""}
+                />
+              </Collapse>
+
+              <ShowMoreButton
+                onClick={disclosure.onToggle}
+                showmore={disclosure.isOpen}
+              />
+            </>
+          )}
         </VStack>
       </Box>
 
@@ -144,13 +153,6 @@ const ReferenceNode = ({
             )}
           </Box>
         </Box>
-      )}
-
-      {kind !== "module" && kind !== "class" && hasDetail && (
-        <ShowMoreButton
-          onClick={disclosure.onToggle}
-          showmore={disclosure.isOpen}
-        />
       )}
     </Box>
   );
