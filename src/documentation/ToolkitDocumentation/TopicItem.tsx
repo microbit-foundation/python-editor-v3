@@ -78,8 +78,9 @@ const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
       )}
       {hasDetail && (
         <>
-          <Collapse in={disclosure.isOpen}>
-            <Stack spacing={3}>
+          {/* Avoid Stack spacing here so the margin animates too. */}
+          <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+            <Stack spacing={3} mt={3}>
               <ToolkitContent content={detailContent} />
             </Stack>
           </Collapse>
