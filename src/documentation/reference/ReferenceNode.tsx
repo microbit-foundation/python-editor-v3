@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import React, { useMemo } from "react";
+import { DragHandleIcon } from "@chakra-ui/icons";
+import React, { useMemo, useCallback } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { firstParagraph } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -15,6 +16,8 @@ import {
 import DocString from "../common/DocString";
 import MoreButton from "../common/MoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
+import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
+import { pythonSnippetMediaType } from "../../common/mediaTypes";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -33,6 +36,16 @@ const kindToSpacing: Record<string, any> = {
   class: 5,
   variable: 3,
   function: 3,
+};
+
+interface DragHandleProps extends BoxProps {}
+
+const DragHandle = (props: DragHandleProps) => {
+  return (
+    <HStack {...props} bgColor="blackAlpha.100">
+      <DragHandleIcon boxSize={3} />
+    </HStack>
+  );
 };
 
 interface ApiDocEntryNodeProps extends BoxProps {
@@ -75,6 +88,22 @@ const ReferenceNode = ({
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
 
+  const draggableCode = kind === "function" ? `${name}()` : name;
+
+  const handleDragStart = useCallback(
+    (event: React.DragEvent) => {
+      dndDebug("dragstart");
+      event.dataTransfer.dropEffect = "copy";
+      setDraggedCode(draggableCode);
+      event.dataTransfer.setData(pythonSnippetMediaType, draggableCode);
+    },
+    [draggableCode]
+  );
+  const handleDragEnd = useCallback((event: React.DragEvent) => {
+    dndDebug("dragend");
+    setDraggedCode(undefined);
+  }, []);
+
   return (
     <Box
       id={fullName}
@@ -89,7 +118,17 @@ const ReferenceNode = ({
       fontSize={isShowingDetail ? "md" : "sm"}
     >
       <Box>
-        <HStack>
+        <HStack
+          draggable={true}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <DragHandle
+            borderTopLeftRadius="lg"
+            borderBottomLeftRadius="lg"
+            p={1}
+            alignSelf="stretch"
+          />
           <Text
             fontFamily="code"
             fontSize={kindToFontSize[kind] || "md"}

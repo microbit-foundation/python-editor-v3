@@ -75,7 +75,7 @@ const ActiveToolkitLevel = ({
         >
           <List flex="1 1 auto">
             {(item.children ?? []).map((child) => (
-              <ToolkitListItem key={child.id}>
+              <ToolkitListItem key={child.id} showIcon={false}>
                 <ReferenceNode
                   docs={child}
                   width="100%"

@@ -136,7 +136,7 @@ const ActiveToolkitLevel = ({
           )}
           <List flex="1 1 auto">
             {topic.contents?.map((item) => (
-              <ToolkitListItem key={item.name}>
+              <ToolkitListItem key={item.name} showIcon={false}>
                 <TopicItem
                   topic={topic}
                   item={item}
