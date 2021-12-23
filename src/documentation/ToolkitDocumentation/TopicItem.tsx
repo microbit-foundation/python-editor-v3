@@ -4,19 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
-import { Collapse } from "@chakra-ui/react";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
+import ShowMoreButton from "../common/ShowMoreButton";
 import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
-import ShowMoreButton from "../common/ShowMoreButton";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
   item: ToolkitTopicEntry;
   active?: boolean;
-  onForward: () => void;
-  onBack: () => void;
 }
 
 /**
@@ -26,14 +24,7 @@ interface TopicItemProps extends BoxProps {
  * We show a pop-up over the code on hover to reveal the full code, overlapping
  * the sidebar scroll area.
  */
-const TopicItem = ({
-  topic,
-  item,
-  active,
-  onForward,
-  onBack,
-  ...props
-}: TopicItemProps) => {
+const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = item;
   const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
@@ -46,15 +37,7 @@ const TopicItem = ({
     [setAlternativeIndex]
   );
 
-  const [showMore, setShowMore] = useState(!!active);
-  const handleShowMoreClicked = useCallback(() => {
-    setShowMore(!showMore);
-    if (active) {
-      onBack();
-    } else {
-      onForward();
-    }
-  }, [active, onBack, onForward, showMore, setShowMore]);
+  const disclosure = useDisclosure();
 
   return (
     <Stack
@@ -95,15 +78,17 @@ const TopicItem = ({
         </>
       )}
       {hasDetail && (
-        <Collapse in={showMore}>
-          <Stack spacing={3}>
-            <ToolkitContent content={detailContent} />
-          </Stack>
-        </Collapse>
-      )}
-
-      {hasDetail && (
-        <ShowMoreButton onClick={handleShowMoreClicked} showmore={showMore} />
+        <>
+          <Collapse in={disclosure.isOpen}>
+            <Stack spacing={3}>
+              <ToolkitContent content={detailContent} />
+            </Stack>
+          </Collapse>
+          <ShowMoreButton
+            onClick={disclosure.onToggle}
+            showmore={disclosure.isOpen}
+          />
+        </>
       )}
     </Stack>
   );

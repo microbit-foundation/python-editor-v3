@@ -110,13 +110,6 @@ const ActiveTooklitLevel = ({
                 topic={topic}
                 item={item}
                 active={activeItem === item}
-                onForward={() =>
-                  onNavigate({
-                    topicId: topic.name,
-                    itemId: item.name,
-                  })
-                }
-                onBack={() => onNavigate({ topicId: topic.name })}
               />
             </ToolkitListItem>
           ))}

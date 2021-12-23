@@ -74,14 +74,7 @@ const ActiveTooklitLevel = ({
         <List flex="1 1 auto">
           {(module.children ?? []).map((child) => (
             <ToolkitListItem key={child.id}>
-              <ReferenceNode
-                docs={child}
-                width="100%"
-                // This isn't coping with overloads.
-                onForward={onNavigate}
-                onBack={() => onNavigate(module.fullName)}
-                activeFullName={state}
-              />
+              <ReferenceNode docs={child} width="100%" activeFullName={state} />
             </ToolkitListItem>
           ))}
         </List>

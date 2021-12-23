@@ -13,6 +13,7 @@ import {
   RefObject,
   useCallback,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -32,64 +33,76 @@ interface CodeEmbedProps {
 const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
-  const code = codeWithImports
-    .split("\n")
-    .filter((line) => line !== "from microbit import *")
-    // Collapse repeated blank lines to save space. Two blank lines after imports
-    // is conventional but a big waste of space here.
-    .filter(
-      (line, index, array) =>
-        index === 0 || !(line.length === 0 && array[index - 1].length === 0)
-    )
-    .join("\n")
-    .trim();
+  const code = useMemo(
+    () =>
+      codeWithImports
+        .split("\n")
+        .filter((line) => line !== "from microbit import *")
+        // Collapse repeated blank lines to save space. Two blank lines after imports
+        // is conventional but a big waste of space here.
+        .filter(
+          (line, index, array) =>
+            index === 0 || !(line.length === 0 && array[index - 1].length === 0)
+        )
+        .join("\n")
+        .trim(),
+    [codeWithImports]
+  );
 
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.3994140625 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
+  const handleMouseEnter = useCallback(() => {
+    setHovering(true);
+  }, [setHovering]);
+  const handleMouseLeave = useCallback(() => {
+    setHovering(false);
+  }, [setHovering]);
+  const handleInsertCode = useCallback(
+    () => actions?.insertCode(codeWithImports),
+    [actions, codeWithImports]
+  );
 
   return (
-    <>
-      <Box>
-        <Box height={codeHeight} fontSize="md">
-          <Code
-            // Shadow only on this one, not the pop-up.
-            boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => setHovering(false)}
+    <Box>
+      <Box height={codeHeight} fontSize="md">
+        <Code
+          // Shadow only on this one, not the pop-up.
+          boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          concise={code}
+          full={codeWithImports}
+          position="absolute"
+          ref={codeRef}
+        />
+        {hovering && (
+          <CodePopUp
+            height={codeHeight}
+            setHovering={setHovering}
             concise={code}
             full={codeWithImports}
-            position="absolute"
-            ref={codeRef}
+            codeRef={codeRef}
           />
-          {hovering && (
-            <CodePopUp
-              height={codeHeight}
-              setHovering={setHovering}
-              concise={code}
-              full={codeWithImports}
-              codeRef={codeRef}
-            />
-          )}
-        </Box>
-        <HStack spacing={3}>
-          <Button
-            fontWeight="normal"
-            color="white"
-            borderColor="rgb(141, 141, 143)"
-            bgColor="rgb(141, 141, 143)"
-            borderTopRadius="0"
-            borderBottomRadius="xl"
-            variant="ghost"
-            size="sm"
-            onClick={() => actions?.insertCode(codeWithImports)}
-          >
-            <FormattedMessage id="insert-code-action" />
-          </Button>
-        </HStack>
+        )}
       </Box>
-    </>
+      <HStack spacing={3}>
+        <Button
+          fontWeight="normal"
+          color="white"
+          borderColor="rgb(141, 141, 143)"
+          bgColor="rgb(141, 141, 143)"
+          borderTopRadius="0"
+          borderBottomRadius="xl"
+          variant="ghost"
+          size="sm"
+          onClick={handleInsertCode}
+        >
+          <FormattedMessage id="insert-code-action" />
+        </Button>
+      </HStack>
+    </Box>
   );
 };
 
@@ -112,6 +125,12 @@ const CodePopUp = ({
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
+  const handleMouseEnter = useCallback(() => {
+    setHovering(true);
+  }, [setHovering]);
+  const handleMouseLeave = useCallback(() => {
+    setHovering(false);
+  }, [setHovering]);
 
   if (!codeRef.current) {
     return null;
@@ -119,8 +138,8 @@ const CodePopUp = ({
   return (
     <Portal>
       <Code
-        onMouseEnter={() => setHovering(true)}
-        onMouseLeave={() => setHovering(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         concise={concise}
         full={full}
         position="absolute"
@@ -155,15 +174,15 @@ const Code = forwardRef<CodeProps, "pre">(
     }, []);
     return (
       <HStack
-        draggable={true}
+        draggable={flags.dnd}
         backgroundColor="rgb(247,245,242)"
         borderTopRadius="lg"
         fontFamily="code"
-        {...props}
         ref={ref}
         spacing={0}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        {...props}
       >
         {flags.dnd && (
           <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />

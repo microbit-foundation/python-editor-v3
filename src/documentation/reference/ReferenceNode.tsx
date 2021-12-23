@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import { Collapse } from "@chakra-ui/react";
-import React, { useCallback, useMemo, useState } from "react";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
+import React, { useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -40,17 +40,11 @@ interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   // We pass the name down the tree as we might not be active but a descendent may.
   activeFullName?: string;
-  onForward?: (itemId: string) => void;
-  onBack?: () => void;
 }
-
-const noop = () => {};
 
 const ReferenceNode = ({
   activeFullName = undefined,
   docs,
-  onForward = noop,
-  onBack = noop,
   mt,
   mb,
   ...others
@@ -64,27 +58,20 @@ const ReferenceNode = ({
       ? groupBy(filteredChildren, (c) => c.kind)
       : undefined;
   }, [children]);
-  const [docStringFirstParagraph, docStringRemainder] = docString
-    ? splitDocString(docString)
-    : [undefined, undefined];
+  const [docStringFirstParagraph, docStringRemainder] = useMemo(
+    () => (docString ? splitDocString(docString) : [undefined, undefined]),
+    [docString]
+  );
   const hasDocStringDetail =
     docStringRemainder && docStringRemainder.length > 0;
+  const disclosure = useDisclosure();
   const active = activeFullName === fullName;
-  const [showMore, setShowMore] = useState(active);
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
-    showMore
+    disclosure.isOpen
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
-  const handleShowMoreClicked = useCallback(() => {
-    setShowMore(!showMore);
-    if (active) {
-      onBack();
-    } else {
-      onForward(fullName);
-    }
-  }, [showMore, setShowMore, onBack, onForward, fullName, active]);
 
   return (
     <Box
@@ -122,7 +109,7 @@ const ReferenceNode = ({
             fontWeight="normal"
             value={docStringFirstParagraph ?? ""}
           />
-          <Collapse in={showMore}>
+          <Collapse in={disclosure.isOpen}>
             <DocString
               mt="2"
               fontWeight="normal"
@@ -150,7 +137,6 @@ const ReferenceNode = ({
                         activeFullName={activeFullName}
                         key={c.id}
                         docs={c}
-                        onForward={onForward}
                       />
                     ))}
                   </Box>
@@ -161,7 +147,10 @@ const ReferenceNode = ({
       )}
 
       {kind !== "module" && kind !== "class" && hasDetail && (
-        <ShowMoreButton onClick={handleShowMoreClicked} showmore={showMore} />
+        <ShowMoreButton
+          onClick={disclosure.onToggle}
+          showmore={disclosure.isOpen}
+        />
       )}
     </Box>
   );
