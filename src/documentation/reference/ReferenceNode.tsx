@@ -110,12 +110,12 @@ const ReferenceNode = ({
           />
           {(hasDocStringDetail || hasSignatureDetail) && (
             <>
-              {docStringRemainder && (
+              {hasDocStringDetail && (
                 <Collapse in={disclosure.isOpen}>
                   <DocString
                     mt="2"
                     fontWeight="normal"
-                    value={docStringRemainder ?? ""}
+                    value={docStringRemainder}
                   />
                 </Collapse>
               )}
