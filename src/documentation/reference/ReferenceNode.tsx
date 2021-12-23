@@ -102,7 +102,6 @@ const ReferenceNode = ({
           <BaseClasses value={baseClasses} />
         )}
         <VStack alignItems="stretch" spacing={1}>
-          {/* This needs working out properly */}
           <DocString
             mt="2"
             fontWeight="normal"
