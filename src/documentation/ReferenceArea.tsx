@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./reference/apidocs-util";
-import { ReferenceToolkit } from "./reference/ReferenceTooklit";
+import { ReferenceToolkit } from "./reference/ReferenceToolkit";
 import ToolkitSpinner from "./ToolkitDocumentation/ToolkitSpinner";
 
 const ReferenceArea = () => {
