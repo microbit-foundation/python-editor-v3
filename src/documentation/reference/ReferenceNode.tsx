@@ -18,6 +18,7 @@ import MoreButton from "../common/MoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import { flags } from "../../flags";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -120,8 +121,12 @@ const ReferenceNode = ({
       <Box>
         <HStack
           draggable={true}
+          spacing={0}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
+          boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+          borderRadius="lg"
+          display="inline-flex"
         >
           <DragHandle
             borderTopLeftRadius="lg"
@@ -130,6 +135,11 @@ const ReferenceNode = ({
             alignSelf="stretch"
           />
           <Text
+            backgroundColor="#f7f5f2"
+            borderTopRightRadius="lg"
+            borderBottomRightRadius="lg"
+            p={[5, 2]}
+            pl={flags.dnd ? 2 : 5}
             fontFamily="code"
             fontSize={kindToFontSize[kind] || "md"}
             as={kindToHeading[kind]}
