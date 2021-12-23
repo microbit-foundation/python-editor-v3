@@ -90,7 +90,15 @@ const ReferenceNode = ({
       });
       disclosure.onOpen();
     }
-  }, [scrollable, active, previouslyActive, prefersReducedMotion]);
+  }, [
+    scrollable,
+    active,
+    previouslyActive,
+    prefersReducedMotion,
+    logging,
+    disclosure,
+    fullName,
+  ]);
 
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
