@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import { Collapse, useDisclosure, usePrefersReducedMotion, usePrevious } from "@chakra-ui/react";
+import {
+  Collapse,
+  useDisclosure,
+  usePrefersReducedMotion,
+  usePrevious,
+} from "@chakra-ui/react";
 import React, { useEffect, useMemo, useRef } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
@@ -13,6 +18,7 @@ import {
   ApiDocsEntry,
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
+import { useLogging } from "../../logging/logging-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -68,20 +74,23 @@ const ReferenceNode = ({
   const disclosure = useDisclosure();
 
   const active = activeFullName === fullName;
-  // If we're newly active then scroll to us and set a fading background highlight.
+  // If we're newly active then scroll to us and set a fading background highlight (todo!)
   const ref = useRef<HTMLDivElement>(null);
   const previouslyActive = usePrevious(active);
   const scrollable = useScrollablePanelAncestor();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const logging = useLogging();
   useEffect(() => {
     if (!previouslyActive && active && ref.current && scrollable.current) {
+      logging.log("Activating " + fullName);
       scrollable.current.scrollTo({
-        // Fudge to account for the fixed header and to leave a small space.
+        // Fudge to account for the fixed header and to leave a small gap.
         top: ref.current.offsetTop - 112 - 25,
         behavior: prefersReducedMotion ? "auto" : "smooth",
       });
+      disclosure.onOpen();
     }
-  }, [scrollable, active, previouslyActive]);
+  }, [scrollable, active, previouslyActive, prefersReducedMotion]);
 
   const { signature, hasSignatureDetail } = buildSignature(
     kind,

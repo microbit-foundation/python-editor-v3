@@ -6,6 +6,7 @@
 import { render } from "@testing-library/react";
 import { ApiDocsEntry } from "../../language-server/apidocs";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
+import ScrollablePanel from "../../workbench/ScrollablePanel";
 import ReferenceNode from "./ReferenceNode";
 
 describe("ReferenceNode", () => {
@@ -40,7 +41,9 @@ describe("ReferenceNode", () => {
   it("renders", async () => {
     render(
       <FixedTranslationProvider>
-        <ReferenceNode docs={node} />
+        <ScrollablePanel>
+          <ReferenceNode docs={node} />
+        </ScrollablePanel>
       </FixedTranslationProvider>
     );
   });

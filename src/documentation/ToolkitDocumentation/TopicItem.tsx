@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
-import { Collapse, useDisclosure, usePrevious } from "@chakra-ui/react";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
