@@ -45,7 +45,7 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
     [setUrlParam]
   );
   return (
-    <ActiveTooklitLevel
+    <ActiveToolkitLevel
       key={urlParam}
       state={state}
       onNavigate={setState}
@@ -66,18 +66,18 @@ const parseUrlParam = (urlParam: string): ToolkitNavigationState => {
   };
 };
 
-interface ActiveTooklitLevelProps extends ToolkitProps {
+interface ActiveToolkitLevelProps extends ToolkitProps {
   state: ToolkitNavigationState;
   onNavigate: (state: ToolkitNavigationState) => void;
   direction: "forward" | "back" | "none";
 }
 
-const ActiveTooklitLevel = ({
+const ActiveToolkitLevel = ({
   state,
   onNavigate,
   toolkit,
   direction,
-}: ActiveTooklitLevelProps) => {
+}: ActiveToolkitLevelProps) => {
   if (state.topicId && state.itemId) {
     const topic = toolkit.contents?.find((t) => t.name === state.topicId);
     if (topic) {

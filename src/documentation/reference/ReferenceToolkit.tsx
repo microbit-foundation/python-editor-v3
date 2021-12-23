@@ -34,7 +34,7 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
       ? "forward"
       : "back";
   return (
-    <ActiveTooklitLevel
+    <ActiveToolkitLevel
       key={urlParam}
       state={urlParam}
       onNavigate={setUrlParam}
@@ -44,19 +44,19 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   );
 };
 
-interface ActiveTooklitLevelProps {
+interface ActiveToolkitLevelProps {
   state: string;
   docs: ApiDocsResponse;
   onNavigate: (state: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
-const ActiveTooklitLevel = ({
+const ActiveToolkitLevel = ({
   state,
   onNavigate,
   docs,
   direction,
-}: ActiveTooklitLevelProps) => {
+}: ActiveToolkitLevelProps) => {
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "reference-tab" });
   const item = resolveDottedName(docs, state);
