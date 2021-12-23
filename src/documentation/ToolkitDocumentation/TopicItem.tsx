@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { Collapse, useDisclosure, usePrevious } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
@@ -25,6 +25,7 @@ interface TopicItemProps extends BoxProps {
  * the sidebar scroll area.
  */
 const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
+  // `active` prop not yet used but we can follow a similar approach to ReferenceNode.
   const { content, detailContent, alternatives, alternativesLabel } = item;
   const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
@@ -36,9 +37,7 @@ const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
     },
     [setAlternativeIndex]
   );
-
   const disclosure = useDisclosure();
-
   return (
     <Stack
       {...props}

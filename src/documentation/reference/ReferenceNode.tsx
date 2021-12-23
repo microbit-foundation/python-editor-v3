@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import { Collapse, useDisclosure, usePrefersReducedMotion, usePrevious } from "@chakra-ui/react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -13,6 +13,7 @@ import {
   ApiDocsEntry,
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
+import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
@@ -65,7 +66,23 @@ const ReferenceNode = ({
   const hasDocStringDetail =
     docStringRemainder && docStringRemainder.length > 0;
   const disclosure = useDisclosure();
+
   const active = activeFullName === fullName;
+  // If we're newly active then scroll to us and set a fading background highlight.
+  const ref = useRef<HTMLDivElement>(null);
+  const previouslyActive = usePrevious(active);
+  const scrollable = useScrollablePanelAncestor();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  useEffect(() => {
+    if (!previouslyActive && active && ref.current && scrollable.current) {
+      scrollable.current.scrollTo({
+        // Fudge to account for the fixed header and to leave a small space.
+        top: ref.current.offsetTop - 112 - 25,
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    }
+  }, [scrollable, active, previouslyActive]);
+
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
@@ -74,6 +91,7 @@ const ReferenceNode = ({
 
   return (
     <Box
+      ref={ref}
       id={fullName}
       wordBreak="break-word"
       mb={kindToSpacing[kind]}
