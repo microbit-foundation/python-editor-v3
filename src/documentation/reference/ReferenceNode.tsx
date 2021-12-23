@@ -136,20 +136,20 @@ const ReferenceNode = ({
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
         )}
-        <VStack alignItems="stretch" spacing={1}>
+        <VStack alignItems="stretch" spacing={3}>
           <DocString
-            mt="2"
             fontWeight="normal"
             value={docStringFirstParagraph ?? ""}
           />
           {(hasDocStringDetail || hasSignatureDetail) && (
             <>
               {hasDocStringDetail && (
-                <Collapse in={disclosure.isOpen}>
+                // Avoid VStack spacing here so the margin animates too.
+                <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
                   <DocString
-                    mt="2"
                     fontWeight="normal"
                     value={docStringRemainder}
+                    mt={3}
                   />
                 </Collapse>
               )}
