@@ -8,6 +8,9 @@ import { Toolkit } from "./model";
 // For now we just slurp the whole toolkit at once.
 // Might revisit depending on eventual size.
 const toolkitQuery = (languageId: string): string => {
+  if (!languageId.match(/^[a-z-]+$/g)) {
+    throw new Error("Invalid language id.");
+  }
   return `
   *[_type == "toolkit" && language == "${languageId}" && slug.current == "explore" && !(_id in path("drafts.**"))]{
     id, name, description,
@@ -27,33 +30,35 @@ const toolkitQueryUrl = (languageId: string): string => {
   );
 };
 
-const fetchToolkitExternal = async (languageId: string): Promise<Toolkit> => {
-  let numRequests = 0;
-  const sanitisedLanguageId = languageId.match(/[a-z]+/g)?.join() ?? "";
-
-  const fetchToolkitInternal = async (languageId: string): Promise<Toolkit> => {
-    const response = await fetch(toolkitQueryUrl(languageId));
-    numRequests++;
-    if (response.ok) {
-      const { result } = await response.json();
-      if (!result) {
-        throw new Error("Unexpected response format");
-      }
-      const toolkits = result as Toolkit[];
-      if (toolkits.length !== 1 && numRequests === 1) {
-        return fetchToolkitInternal("en");
-      }
-      if (toolkits.length !== 1) {
-        throw new Error("Could not find expected toolkit");
-      }
-      return toolkits[0];
+const fetchToolkitInternal = async (
+  languageId: string
+): Promise<Toolkit | undefined> => {
+  const response = await fetch(toolkitQueryUrl(languageId));
+  if (response.ok) {
+    const { result } = await response.json();
+    if (!result) {
+      throw new Error("Unexpected response format");
     }
-    throw new Error("Error fetching toolkit content: " + response.status);
-  };
-
-  return fetchToolkitInternal(sanitisedLanguageId);
+    const toolkits = result as Toolkit[];
+    if (toolkits.length === 0) {
+      return undefined;
+    }
+    if (toolkits.length > 1) {
+      throw new Error("Unexpected results");
+    }
+    return toolkits[0];
+  }
+  throw new Error("Error fetching toolkit content: " + response.status);
 };
 
 export const fetchToolkit = async (languageId: string): Promise<Toolkit> => {
-  return await fetchToolkitExternal(languageId);
+  const preferred = await fetchToolkitInternal(languageId);
+  if (preferred) {
+    return preferred;
+  }
+  const fallback = await fetchToolkitInternal("en");
+  if (!fallback) {
+    throw new Error("English toolkit must exist");
+  }
+  return fallback;
 };
