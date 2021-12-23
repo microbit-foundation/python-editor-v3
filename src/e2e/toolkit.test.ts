@@ -3,11 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App, defaultRootUrl } from "./app";
+import { App } from "./app";
 
 describe("Browser - toolkit tabs", () => {
-  // Enable flags to allow testing the toolkit interactions.
-  const app = new App(defaultRootUrl + "?flag=*");
+  const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));

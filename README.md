@@ -82,6 +82,24 @@ An example of how to use jest options to filter to a specific subset of the test
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+## Feature flags
+
+The editor supports a simple runtime feature flag system to:
+
+- allow work-in-progress features to be integrated before they're ready for general use
+- allow scenarios to be set up for user testing
+- enable debug features
+
+This system may change without notice. Flags are regularly added and removed.
+
+The current set of flags are documented in [the source](./src/flags.ts).
+
+Flags may be specified via the query string with repeated `flag` parameters,
+for example, http://localhost:3000/?flag=oneFlag&flag=anotherFlag
+
+By default, all flags are enabled for local development and branches builds.
+They can be disabled with the special flag `none`.
+
 ## Translations
 
 We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.

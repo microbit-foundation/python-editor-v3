@@ -1,3 +1,8 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { useCallback } from "react";
 import FeedbackForm from "./FeedbackForm";
 import InfoDialog from "./InfoDialog";

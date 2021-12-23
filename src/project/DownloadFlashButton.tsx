@@ -72,7 +72,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
                   icon={<RiFlashlightFill />}
                   onClick={actions.flash}
                 >
-                  <FormattedMessage id="flash-button" />
+                  <FormattedMessage id="flash-action" />
                 </MenuItem>
               )}
               {connected && (
@@ -82,7 +82,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
                   icon={<RiDownload2Line />}
                   onClick={actions.download}
                 >
-                  <FormattedMessage id="download-hex" />
+                  <FormattedMessage id="download-hex-action" />
                 </MenuItem>
               )}
               <MenuItem
@@ -91,7 +91,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
                 icon={<RiDownload2Line />}
                 onClick={actions.downloadMainFile}
               >
-                <FormattedMessage id="download-python" />
+                <FormattedMessage id="download-python-action" />
               </MenuItem>
             </MenuList>
           </Portal>

@@ -7,7 +7,7 @@ import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
-import { ToolkitTopic, ToolkitTopicEntry } from "./model";
+import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
 import ShowMoreButton from "../common/ShowMoreButton";
 
@@ -68,6 +68,7 @@ const TopicItem = ({
     >
       <Text as="h3" fontSize="lg" fontWeight="semibold">
         {item.name}
+        {isV2Only(item) ? " (V2)" : ""}
       </Text>
       <ToolkitContent content={content} />
       {alternatives && typeof alternativeIndex === "number" && (

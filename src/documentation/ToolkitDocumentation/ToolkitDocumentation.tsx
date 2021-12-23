@@ -7,7 +7,7 @@ import { usePrevious } from "@chakra-ui/hooks";
 import { Box, List } from "@chakra-ui/layout";
 import { useCallback } from "react";
 import { useRouterParam } from "../../router-hooks";
-import { Toolkit, ToolkitNavigationState } from "./model";
+import { isV2Only, Toolkit, ToolkitNavigationState } from "./model";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
 import ToolkitLevel from "./ToolkitLevel";
@@ -138,7 +138,7 @@ const ActiveTooklitLevel = ({
         {toolkit.contents?.map((topic) => (
           <ToolkitTopLevelListItem
             key={topic.name}
-            name={topic.name}
+            name={topic.name + (isV2Only(topic) ? " (V2)" : "")}
             description={topic.subtitle}
             onForward={() =>
               onNavigate({

@@ -8,12 +8,12 @@ import { Toolkit } from "./model";
 // For now we just slurp the whole toolkit at once.
 // Might revisit depending on eventual size.
 const toolkitQuery = `
-  *[_type == "toolkit" && id=="explore" && !(_id in path("drafts.**"))]{
-    id, name, description, 
+  *[_type == "toolkit" && slug.current == "explore" && !(_id in path("drafts.**"))]{
+    id, name, description,
     contents[]->{
-      name, subtitle, introduction, 
+      name, compatibility, subtitle, introduction,
       contents[]->{
-        name, content, alternativesLabel, alternatives, detailContent
+        name, compatibility, content, alternativesLabel, alternatives, detailContent
       }
     }
   }`;

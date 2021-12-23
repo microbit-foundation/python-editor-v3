@@ -56,7 +56,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         <MenuButton
           as={IconButton}
           aria-label={intl.formatMessage({ id: "file-actions" }, { name })}
-          size="md"
+          fontSize="xl"
           variant="ghost"
           icon={<MdMoreVert />}
         />
@@ -67,20 +67,20 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
               isDisabled={!isEditableFile(name)}
               onClick={onEdit}
             >
-              <FormattedMessage id="edit-file" values={{ name }} />
+              <FormattedMessage id="edit-file-action" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDownload2Line />}
               onClick={() => actions.downloadFile(name)}
             >
-              <FormattedMessage id="download-file" values={{ name }} />
+              <FormattedMessage id="download-file-action" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDeleteBin2Line />}
               onClick={() => actions.deleteFile(name)}
               isDisabled={isMainFile}
             >
-              <FormattedMessage id="delete-file" values={{ name }} />
+              <FormattedMessage id="delete-file-action" values={{ name }} />
             </MenuItem>
           </MenuList>
         </Portal>

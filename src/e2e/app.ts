@@ -11,14 +11,7 @@ import { escapeRegExp } from "lodash";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, {
-  Browser,
-  Dialog,
-  ElementHandle,
-  KeyInput,
-  Page,
-  Point,
-} from "puppeteer";
+import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
 import { allowWrapAtPeriods } from "../documentation/common/wrap";
 
 export enum LoadDialogType {
@@ -34,7 +27,7 @@ export interface BrowserDownload {
 
 const defaultWaitForOptions = { timeout: 5_000 };
 
-export const defaultRootUrl = "http://localhost:3000";
+export const defaultRootUrl = "http://localhost:3000?flag=*";
 
 /**
  * Model of the app to drive it for e2e testing.

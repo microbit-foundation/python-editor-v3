@@ -251,7 +251,7 @@ export class ProjectActions {
           inputs={inputs}
         />
       ),
-      actionLabel: this.intl.formatMessage({ id: "confirm" }),
+      actionLabel: this.intl.formatMessage({ id: "confirm-action" }),
       size: "lg",
     });
     if (!chosenScript) {
@@ -400,7 +400,7 @@ export class ProjectActions {
       header: this.intl.formatMessage({ id: "create-python" }),
       Body: NewFileNameQuestion,
       initialValue: "",
-      actionLabel: this.intl.formatMessage({ id: "create" }),
+      actionLabel: this.intl.formatMessage({ id: "create-action" }),
       validate,
       customFocus: true,
     });
@@ -440,7 +440,7 @@ export class ProjectActions {
             { id: "permanently-delete" },
             { filename }
           ),
-          actionLabel: this.intl.formatMessage({ id: "delete-button" }),
+          actionLabel: this.intl.formatMessage({ id: "delete-action" }),
         })
       ) {
         await this.fs.remove(filename);

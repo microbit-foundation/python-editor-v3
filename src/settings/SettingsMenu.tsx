@@ -46,6 +46,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
           as={IconButton}
           aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
+          fontSize="xl"
           variant="sidebar"
           icon={<RiSettings2Line />}
           colorScheme="gray"

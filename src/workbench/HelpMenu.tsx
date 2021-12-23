@@ -45,6 +45,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
           as={IconButton}
           aria-label={intl.formatMessage({ id: "help" })}
           size={size}
+          fontSize="xl"
           variant="sidebar"
           icon={<RiQuestionLine />}
           colorScheme="gray"

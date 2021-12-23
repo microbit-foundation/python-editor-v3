@@ -11,7 +11,13 @@ export interface Toolkit {
   contents?: ToolkitTopic[];
 }
 
-export interface ToolkitTopic {
+type Product = "microbitV1" | "microbitV2";
+
+interface HasCompatibility {
+  compatibility: Product[];
+}
+
+export interface ToolkitTopic extends HasCompatibility {
   name: string;
   /**
    * Short, for the listing.
@@ -55,7 +61,7 @@ interface ToolkitAlternative {
   content: ToolkitPortableText;
 }
 
-export interface ToolkitTopicEntry {
+export interface ToolkitTopicEntry extends HasCompatibility {
   name: string;
   content: ToolkitPortableText;
   // Should be co-present with alternatives.
@@ -80,3 +86,14 @@ export interface ToolkitNavigationState {
   topicId?: string;
   itemId?: string;
 }
+
+// Although the data model is more flexible, in the UI we just want to
+// show a V2 marker for newer board features.
+export const isV2Only = (compatible: HasCompatibility) => {
+  return (
+    // This will be defined everywhere shortly, but for now we need to cope before the migration.
+    compatible.compatibility &&
+    compatible.compatibility.length === 1 &&
+    compatible.compatibility[0] === "microbitV2"
+  );
+};

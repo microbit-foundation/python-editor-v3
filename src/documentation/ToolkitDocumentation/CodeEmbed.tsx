@@ -16,6 +16,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
@@ -64,6 +65,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           />
           {hovering && (
             <CodePopUp
+              height={codeHeight}
               setHovering={setHovering}
               concise={code}
               full={codeWithImports}
@@ -83,7 +85,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
             size="sm"
             onClick={() => actions?.insertCode(codeWithImports)}
           >
-            Insert code
+            <FormattedMessage id="insert-code-action" />
           </Button>
         </HStack>
       </Box>
@@ -100,7 +102,13 @@ interface CodePopUpProps extends BoxProps {
 
 // We draw the same code over the top in a portal so we can draw it
 // above the scrollbar.
-const CodePopUp = ({ setHovering, codeRef, concise, full }: CodePopUpProps) => {
+const CodePopUp = ({
+  setHovering,
+  codeRef,
+  concise,
+  full,
+  ...props
+}: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
@@ -118,6 +126,7 @@ const CodePopUp = ({ setHovering, codeRef, concise, full }: CodePopUpProps) => {
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
+        {...props}
       />
     </Portal>
   );

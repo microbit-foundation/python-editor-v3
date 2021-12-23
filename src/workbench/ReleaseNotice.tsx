@@ -1,8 +1,14 @@
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Button } from "@chakra-ui/button";
 import { Flex, HStack, Text } from "@chakra-ui/layout";
 import { useCallback, useEffect, useState } from "react";
 import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
 import { useLocalStorage } from "../common/use-local-storage";
+import { flags } from "../flags";
 
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
 
@@ -34,11 +40,7 @@ export const useReleaseDialogState = (): [
     useState<ReleaseNoticeState>("closed");
   // Show the dialog on start-up once per user.
   useEffect(() => {
-    if (document.domain === "localhost") {
-      // Skip to avoid e2e and dev annoyance.
-      return;
-    }
-    if (storedNotice.version < currentVersion) {
+    if (!flags.noWelcome && storedNotice.version < currentVersion) {
       setReleaseDialog("info");
       setStoredNotice({ version: currentVersion });
     }
