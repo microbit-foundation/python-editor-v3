@@ -96,7 +96,9 @@ const TopicItem = ({
       )}
       {hasDetail && (
         <Collapse in={showMore}>
-          <ToolkitContent content={detailContent} />
+          <Stack spacing={3}>
+            <ToolkitContent content={detailContent} />
+          </Stack>
         </Collapse>
       )}
 
