@@ -6,18 +6,18 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
+import { useIntl } from "react-intl";
 import { ApiDocsResponse } from "../../language-server/apidocs";
 import { useRouterParam } from "../../router-hooks";
-import { resolveDottedName, resolveModule } from "./apidocs-util";
-import ReferenceNode from "./ReferenceNode";
 import DocString from "../common/DocString";
+import { allowWrapAtPeriods } from "../common/wrap";
 import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
 import ToolkitLevel from "../ToolkitDocumentation/ToolkitLevel";
 import ToolkitListItem from "../ToolkitDocumentation/ToolkitListItem";
 import ToolkitTopLevelHeading from "../ToolkitDocumentation/ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "../ToolkitDocumentation/ToolkitTopLevelListItem";
-import { allowWrapAtPeriods } from "../common/wrap";
-import { useIntl } from "react-intl";
+import { resolveModule } from "./apidocs-util";
+import ReferenceNode from "./ReferenceNode";
 
 interface ReferenceToolkitProps {
   docs: ApiDocsResponse;
@@ -59,7 +59,6 @@ const ActiveTooklitLevel = ({
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "reference-tab" });
   const module = resolveModule(docs, state);
-  const item = resolveDottedName(docs, state);
   if (module) {
     return (
       <ToolkitLevel
@@ -81,7 +80,7 @@ const ActiveTooklitLevel = ({
                 // This isn't coping with overloads.
                 onForward={onNavigate}
                 onBack={() => onNavigate(module.fullName)}
-                active={item?.fullName === child.fullName}
+                activeFullName={state}
               />
             </ToolkitListItem>
           ))}

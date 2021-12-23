@@ -38,7 +38,8 @@ const kindToSpacing: Record<string, any> = {
 
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
-  active?: boolean;
+  // We pass the name down the tree as we might not be active but a descendent may.
+  activeFullName?: string;
   onForward?: (itemId: string) => void;
   onBack?: () => void;
 }
@@ -46,7 +47,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
 const noop = () => {};
 
 const ReferenceNode = ({
-  active = false,
+  activeFullName = undefined,
   docs,
   onForward = noop,
   onBack = noop,
@@ -68,13 +69,14 @@ const ReferenceNode = ({
     : [undefined, undefined];
   const hasDocStringDetail =
     docStringRemainder && docStringRemainder.length > 0;
+  const active = activeFullName === fullName;
+  const [showMore, setShowMore] = useState(active);
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
-    active
+    showMore
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
-  const [showMore, setShowMore] = useState(active);
   const handleShowMoreClicked = useCallback(() => {
     setShowMore(!showMore);
     if (active) {
@@ -120,7 +122,7 @@ const ReferenceNode = ({
             fontWeight="normal"
             value={docStringFirstParagraph ?? ""}
           />
-          <Collapse in={active}>
+          <Collapse in={showMore}>
             <DocString
               mt="2"
               fontWeight="normal"
@@ -145,7 +147,7 @@ const ReferenceNode = ({
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
                       <ReferenceNode
-                        active={active}
+                        activeFullName={activeFullName}
                         key={c.id}
                         docs={c}
                         onForward={onForward}
@@ -159,7 +161,7 @@ const ReferenceNode = ({
       )}
 
       {kind !== "module" && kind !== "class" && hasDetail && (
-        <ShowMoreButton onClick={handleShowMoreClicked} showmore={active} />
+        <ShowMoreButton onClick={handleShowMoreClicked} showmore={showMore} />
       )}
     </Box>
   );
