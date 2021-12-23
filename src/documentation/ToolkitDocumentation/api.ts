@@ -27,27 +27,33 @@ const toolkitQueryUrl = (languageId: string): string => {
   );
 };
 
-const fetchToolkitInternal = async (languageId: string): Promise<Toolkit> => {
-  const response = await fetch(toolkitQueryUrl(languageId));
-  if (response.ok) {
-    const { result } = await response.json();
-    if (!result) {
-      throw new Error("Unexpected response format");
+const fetchToolkitExternal = async (languageId: string): Promise<Toolkit> => {
+  let numRequests = 0;
+  const sanitisedLanguageId = languageId.match(/[a-z]+/g)?.join() ?? "";
+
+  const fetchToolkitInternal = async (languageId: string): Promise<Toolkit> => {
+    const response = await fetch(toolkitQueryUrl(languageId));
+    numRequests++;
+    if (response.ok) {
+      const { result } = await response.json();
+      if (!result) {
+        throw new Error("Unexpected response format");
+      }
+      const toolkits = result as Toolkit[];
+      if (toolkits.length !== 1 && numRequests === 1) {
+        return fetchToolkitInternal("en");
+      }
+      if (toolkits.length !== 1) {
+        throw new Error("Could not find expected toolkit");
+      }
+      return toolkits[0];
     }
-    const toolkits = result as Toolkit[];
-    if (toolkits.length !== 1) {
-      throw new Error("Could not find expected toolkit");
-    }
-    return toolkits[0];
-  }
-  throw new Error("Error fetching toolkit content: " + response.status);
+    throw new Error("Error fetching toolkit content: " + response.status);
+  };
+
+  return fetchToolkitInternal(sanitisedLanguageId);
 };
 
-let promise: Promise<Toolkit> | undefined;
-
 export const fetchToolkit = async (languageId: string): Promise<Toolkit> => {
-  if (!promise) {
-    promise = fetchToolkitInternal(languageId);
-  }
-  return await promise;
+  return await fetchToolkitExternal(languageId);
 };
