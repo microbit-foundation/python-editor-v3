@@ -171,7 +171,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           {panes.map((p, i) => (
             <Tab
               key={p.id}
-              color="white"
+              color={p.id === "files" ? "gray.50" : "#F5F6F8"}
               height={width}
               width={width}
               p={0}
