@@ -201,7 +201,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
                   <Icon boxSize={6} as={p.icon} mt="3px" />
                   <Text
                     m={0}
-                    fontSize={13}
+                    fontSize={11}
                     borderBottom="3px solid transparent"
                     sx={{
                       ".sidebar-tab:focus &": {
