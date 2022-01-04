@@ -161,13 +161,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         index={index}
       >
         <TabList>
-          <Box
-            width="3.75rem"
-            mt="1.2rem"
-            ml="auto"
-            mr="auto"
-            mb="max(11.5vh, 7.7rem)"
-          ></Box>
+          <Box width="3.75rem" flex={1} maxHeight="8.9rem" minHeight={7}></Box>
           {panes.map((p, i) => (
             <Tab
               key={p.id}
@@ -180,6 +174,8 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
               onClick={handleTabClick}
               borderRadius={`${cornerSize}px 0 0 ${cornerSize}px`} //temp override - apply to branding
               pr="6px" //temp override - apply to branding
+              mb={p.id === "reference" ? "auto" : 3}
+              mt={p.id === "files" ? 3 : 0}
             >
               <VStack spacing={0}>
                 {i === index && (
@@ -199,8 +195,8 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
                     transform="rotate(90deg)"
                   />
                 )}
-                <VStack spacing={1}>
-                  <Icon boxSize={7} as={p.icon} mt="4px" />
+                <VStack spacing={0.5}>
+                  <Icon boxSize={8} as={p.icon} mt="4px" />
                   <Text
                     m={0}
                     fontSize={11}
