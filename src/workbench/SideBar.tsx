@@ -200,7 +200,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
                   />
                 )}
                 <VStack spacing={1}>
-                  <Icon boxSize={7} as={p.icon} mt="3px" />
+                  <Icon boxSize={7} as={p.icon} mt="4px" />
                   <Text
                     m={0}
                     fontSize={11}
