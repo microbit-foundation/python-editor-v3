@@ -98,7 +98,7 @@ interface SideBarContentsProps {
   panes: Pane[];
 }
 
-const cornerSize = 32;
+const cornerSize = 25;
 
 /**
  * The contents of the left-hand area.
@@ -178,6 +178,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
               position="relative"
               className="sidebar-tab" // Used for custom outline below
               onClick={handleTabClick}
+              borderRadius={`${cornerSize}px 0 0 ${cornerSize}px`} //temp override - apply to branding
             >
               <VStack spacing={0}>
                 {i === index && (
@@ -244,25 +245,36 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
 };
 
 const Corner = ({ id, ...props }: BoxProps) => (
-  <Box {...props} pointerEvents="none" width="32px" height="32px">
+  <Box
+    {...props}
+    pointerEvents="none"
+    width={`${cornerSize}px`}
+    height={`${cornerSize}px`}
+  >
     <svg
       width="100%"
       height="100%"
-      viewBox="0 0 32 32"
+      viewBox={`0 0 ${cornerSize} ${cornerSize}`}
       overflow="visible"
       fill="var(--chakra-colors-gray-50)"
     >
       <defs>
         <mask id={id}>
-          <rect x="0" y="0" width="32" height="32" fill="#fff" />
-          <circle r="32" cx="0" cy="32" fill="#000" />
+          <rect
+            x="0"
+            y="0"
+            width={cornerSize}
+            height={cornerSize}
+            fill="#fff"
+          />
+          <circle r={cornerSize} cx="0" cy={cornerSize} fill="#000" />
         </mask>
       </defs>
       <rect
         x="0"
         y="0"
-        width="32"
-        height="32"
+        width={cornerSize}
+        height={cornerSize}
         fill="var(--chakra-colors-gray-50)"
         mask={`url(#${id})`}
       />
