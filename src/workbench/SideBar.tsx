@@ -179,6 +179,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
               className="sidebar-tab" // Used for custom outline below
               onClick={handleTabClick}
               borderRadius={`${cornerSize}px 0 0 ${cornerSize}px`} //temp override - apply to branding
+              pr="6px" //temp override - apply to branding
             >
               <VStack spacing={0}>
                 {i === index && (
