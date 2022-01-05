@@ -34,7 +34,7 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   );
   const direction = useAnimationDirection(anchor);
   return (
-    <ActiveTooklitLevel
+    <ActiveToolkitLevel
       key={anchor ? 0 : 1}
       anchor={anchor}
       onNavigate={handleNavigate}
@@ -44,19 +44,19 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   );
 };
 
-interface ActiveTooklitLevelProps {
+interface ActiveToolkitLevelProps {
   anchor: Anchor | undefined;
   docs: ApiDocsResponse;
   onNavigate: (state: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
-const ActiveTooklitLevel = ({
+const ActiveToolkitLevel = ({
   anchor,
   onNavigate,
   docs,
   direction,
-}: ActiveTooklitLevelProps) => {
+}: ActiveToolkitLevelProps) => {
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "reference-tab" });
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;

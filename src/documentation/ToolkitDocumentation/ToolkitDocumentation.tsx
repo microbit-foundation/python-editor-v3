@@ -38,7 +38,7 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
     [setAnchor]
   );
   return (
-    <ActiveTooklitLevel
+    <ActiveToolkitLevel
       key={anchor ? 0 : 1}
       state={state}
       onNavigate={handleNavigate}
@@ -59,18 +59,18 @@ const parseAnchor = (anchor: Anchor | undefined): ToolkitNavigationState => {
   };
 };
 
-interface ActiveTooklitLevelProps extends ToolkitProps {
+interface ActiveToolkitLevelProps extends ToolkitProps {
   state: ToolkitNavigationState;
   onNavigate: (state: ToolkitNavigationState) => void;
   direction: "forward" | "back" | "none";
 }
 
-const ActiveTooklitLevel = ({
+const ActiveToolkitLevel = ({
   state,
   onNavigate,
   toolkit,
   direction,
-}: ActiveTooklitLevelProps) => {
+}: ActiveToolkitLevelProps) => {
   const topic = state.topicId
     ? toolkit.contents?.find((t) => t.name === state.topicId)
     : undefined;
