@@ -12,16 +12,16 @@ interface ShowMoreButtonProps extends ButtonProps {
 
 const ShowMoreButton = ({ showmore, ...props }: ShowMoreButtonProps) => (
   <Button
-    fontWeight="normal"
-    color="#262626"
+    // Design is medium but we don't have 500 weight.
+    fontWeight="semibold"
+    fontSize="14px"
     variant="unstyled"
-    display="inline-flex"
-    justifyContent="flex-start"
     size="sm"
     opacity="0.6"
-    letterSpacing="0px"
-    p="0 12px"
     textTransform="uppercase"
+    // These should be factored out if we reuse elsewhere
+    pl={3}
+    pr={3}
     width="max-content"
     {...props}
   >
