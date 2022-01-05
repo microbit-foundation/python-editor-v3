@@ -55,7 +55,7 @@ const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
         setState({
           ...state,
           tab: "reference",
-          reference: props.mark.name,
+          reference: { id: props.mark.name },
         });
       }}
     >

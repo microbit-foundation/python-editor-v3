@@ -6,7 +6,7 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { Box, List } from "@chakra-ui/layout";
 import { useCallback } from "react";
-import { useRouterParam } from "../../router-hooks";
+import { RouterParam, useRouterParam } from "../../router-hooks";
 import { isV2Only, Toolkit, ToolkitNavigationState } from "./model";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
@@ -27,7 +27,14 @@ interface ToolkitProps {
  * generate the reference documentation.
  */
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
-  const [urlParam = "", setUrlParam] = useRouterParam("explore");
+  const [anchor, setAnchor] = useRouterParam(RouterParam.explore);
+  const urlParam = anchor?.id ?? "";
+  const setUrlParam = useCallback(
+    (id: string | undefined) => {
+      setAnchor(id ? { id } : undefined);
+    },
+    [setAnchor]
+  );
   // Only transitions are up or down levels so can just compare length.
   const previousParam = usePrevious(urlParam) ?? "";
   const direction =

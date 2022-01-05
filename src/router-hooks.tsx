@@ -20,10 +20,33 @@ import {
   useState,
 } from "react";
 
+/**
+ * An anchor-like navigation used for scroll positions.
+ * We sync to on first load, allow drift when you scroll, and, importantly,
+ * allow you to navigate back to the same anchor by using its identity.
+ */
+interface Anchor {
+  id: string;
+}
+const anchorForParam = (param: string | null): Anchor | undefined =>
+  param ? { id: param } : undefined;
+
+export class RouterParam<T> {
+  static tab: RouterParam<string> = new RouterParam("tab");
+  static reference: RouterParam<Anchor> = new RouterParam("reference");
+  static explore: RouterParam<Anchor> = new RouterParam("explore");
+
+  private constructor(public id: keyof RouterState) {}
+
+  get(state: RouterState): T | undefined {
+    return state[this.id] as unknown as T | undefined;
+  }
+}
+
 export interface RouterState {
   tab?: string;
-  explore?: string;
-  reference?: string;
+  explore?: Anchor;
+  reference?: Anchor;
 }
 
 type RouterContextValue = [RouterState, (state: RouterState) => void];
@@ -34,9 +57,8 @@ const parse = (search: string): RouterState => {
   const params = new URLSearchParams(search);
   return {
     tab: params.get("tab") ?? undefined,
-    reference: params.get("reference") ?? undefined,
-    explore: params.get("explore") ?? undefined,
-    // other tabs will get state here in time, as well as the active file
+    reference: anchorForParam(params.get("reference")),
+    explore: anchorForParam(params.get("explore")),
   };
 };
 
@@ -101,15 +123,15 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
  * @param param The parameter name.
  * @returns A [state, setState] pair for the parameter.
  */
-export const useRouterParam = (
-  param: keyof RouterState
-): [string | undefined, (param: string | undefined) => void] => {
+export const useRouterParam = <T,>(
+  param: RouterParam<T>
+): [T | undefined, (param: T | undefined) => void] => {
   const [state, setState] = useRouterState();
   const navigateParam = useCallback(
-    (value: string | undefined) => {
-      setState({ ...state, [param]: value });
+    (value: T | undefined) => {
+      setState({ ...state, [param.id]: value });
     },
     [param, setState, state]
   );
-  return [state[param], navigateParam];
+  return [param.get(state), navigateParam];
 };

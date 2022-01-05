@@ -6,9 +6,10 @@
 import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
+import { useCallback } from "react";
 import { useIntl } from "react-intl";
 import { ApiDocsResponse } from "../../language-server/apidocs";
-import { useRouterParam } from "../../router-hooks";
+import { RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
 import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
@@ -24,7 +25,15 @@ interface ReferenceToolkitProps {
 }
 
 export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
-  const [urlParam = "", setUrlParam] = useRouterParam("reference");
+  const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
+  const urlParam = anchor ? anchor.id : "";
+  const setUrlParam = useCallback(
+    (id: string | undefined) => {
+      setAnchor(id ? { id } : undefined);
+    },
+    [setAnchor]
+  );
+
   const previousParam = usePrevious(urlParam) ?? "";
   const direction =
     previousParam.length === 0 && urlParam.length > 0
