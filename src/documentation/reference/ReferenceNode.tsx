@@ -93,7 +93,7 @@ const ReferenceNode = ({
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }
-      }, 100);
+      }, 150);
     }
   }, [
     anchor,
