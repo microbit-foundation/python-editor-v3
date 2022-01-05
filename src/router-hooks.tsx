@@ -22,8 +22,9 @@ import {
 
 /**
  * An anchor-like navigation used for scroll positions.
+ *
  * We sync to on first load, allow drift when you scroll, and, importantly,
- * allow you to navigate back to the same anchor by using its identity.
+ * will scroll again if you set a new anchor with the same id.
  */
 export interface Anchor {
   id: string;
@@ -39,6 +40,7 @@ export class RouterParam<T> {
   private constructor(public id: keyof RouterState) {}
 
   get(state: RouterState): T | undefined {
+    // Constructor is private so this is safe.
     return state[this.id] as unknown as T | undefined;
   }
 }
