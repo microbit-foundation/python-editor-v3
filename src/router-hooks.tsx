@@ -80,6 +80,9 @@ export const useRouterState = (): RouterContextValue => {
   return value;
 };
 
+const serializeValue = (value: Anchor | string) =>
+  typeof value === "string" ? value : value.id;
+
 export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState(parse(window.location.search));
   useEffect(() => {
@@ -99,7 +102,9 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       const query = Object.entries(newState)
         .filter(([_, v]) => !!v)
         .map(([k, v]) => {
-          return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
+          return `${encodeURIComponent(k)}=${encodeURIComponent(
+            serializeValue(v)
+          )}`;
         })
         .join("&");
       const url =
