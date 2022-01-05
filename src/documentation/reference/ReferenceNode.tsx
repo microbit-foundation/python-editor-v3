@@ -19,6 +19,7 @@ import {
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
 import { useLogging } from "../../logging/logging-hooks";
+import { Anchor } from "../../router-hooks";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -45,12 +46,11 @@ const kindToSpacing: Record<string, any> = {
 
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
-  // We pass the name down the tree as we might not be active but a descendent may.
-  activeFullName?: string;
+  anchor?: Anchor;
 }
 
 const ReferenceNode = ({
-  activeFullName = undefined,
+  anchor,
   docs,
   mt,
   mb,
@@ -73,15 +73,20 @@ const ReferenceNode = ({
     docStringRemainder && docStringRemainder.length > 0;
   const disclosure = useDisclosure();
 
-  const active = activeFullName === fullName;
+  const active = anchor?.id === fullName;
   // If we're newly active then scroll to us and set a fading background highlight (todo!)
   const ref = useRef<HTMLDivElement>(null);
-  const previouslyActive = usePrevious(active);
+  const previousAnchor = usePrevious(anchor);
   const scrollable = useScrollablePanelAncestor();
   const prefersReducedMotion = usePrefersReducedMotion();
   const logging = useLogging();
   useEffect(() => {
-    if (!previouslyActive && active && ref.current && scrollable.current) {
+    if (
+      previousAnchor !== anchor &&
+      active &&
+      ref.current &&
+      scrollable.current
+    ) {
       logging.log("Activating " + fullName);
       scrollable.current.scrollTo({
         // Fudge to account for the fixed header and to leave a small gap.
@@ -91,9 +96,10 @@ const ReferenceNode = ({
       disclosure.onOpen();
     }
   }, [
+    anchor,
     scrollable,
     active,
-    previouslyActive,
+    previousAnchor,
     prefersReducedMotion,
     logging,
     disclosure,
@@ -176,11 +182,7 @@ const ReferenceNode = ({
                       {groupHeading(intl, kind, childKind)}
                     </Text>
                     {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <ReferenceNode
-                        activeFullName={activeFullName}
-                        key={c.id}
-                        docs={c}
-                      />
+                      <ReferenceNode anchor={anchor} key={c.id} docs={c} />
                     ))}
                   </Box>
                 )

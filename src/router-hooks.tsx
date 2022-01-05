@@ -25,7 +25,7 @@ import {
  * We sync to on first load, allow drift when you scroll, and, importantly,
  * allow you to navigate back to the same anchor by using its identity.
  */
-interface Anchor {
+export interface Anchor {
   id: string;
 }
 const anchorForParam = (param: string | null): Anchor | undefined =>

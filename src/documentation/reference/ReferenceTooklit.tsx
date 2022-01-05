@@ -9,7 +9,7 @@ import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
 import { ApiDocsResponse } from "../../language-server/apidocs";
-import { RouterParam, useRouterParam } from "../../router-hooks";
+import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
 import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
@@ -44,7 +44,7 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   return (
     <ActiveTooklitLevel
       key={urlParam.length > 0 ? 0 : 1}
-      state={urlParam}
+      anchor={anchor}
       onNavigate={setUrlParam}
       docs={docs}
       direction={direction}
@@ -53,21 +53,21 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
 };
 
 interface ActiveTooklitLevelProps {
-  state: string;
+  anchor: Anchor | undefined;
   docs: ApiDocsResponse;
   onNavigate: (state: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
 const ActiveTooklitLevel = ({
-  state,
+  anchor,
   onNavigate,
   docs,
   direction,
 }: ActiveTooklitLevelProps) => {
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "reference-tab" });
-  const module = resolveModule(docs, state);
+  const module = anchor ? resolveModule(docs, anchor.id) : undefined;
   if (module) {
     return (
       <ToolkitLevel
@@ -83,7 +83,7 @@ const ActiveTooklitLevel = ({
         <List flex="1 1 auto">
           {(module.children ?? []).map((child) => (
             <ToolkitListItem key={child.id}>
-              <ReferenceNode docs={child} width="100%" activeFullName={state} />
+              <ReferenceNode docs={child} width="100%" anchor={anchor} />
             </ToolkitListItem>
           ))}
         </List>
