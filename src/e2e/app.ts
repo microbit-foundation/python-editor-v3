@@ -438,7 +438,6 @@ export class App {
           })
         )
       );
-      console.log(h4s);
       const match = h4s.find((info) => info.visible && info.text === text);
       expect(match).toBeDefined();
     }, defaultWaitForOptions);
