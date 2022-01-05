@@ -86,7 +86,7 @@ const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
           </Collapse>
           <ShowMoreButton
             onClick={disclosure.onToggle}
-            showmore={disclosure.isOpen}
+            isOpen={disclosure.isOpen}
           />
         </>
       )}

@@ -7,10 +7,10 @@ import { Button, ButtonProps } from "@chakra-ui/button";
 import { FormattedMessage } from "react-intl";
 
 interface ShowMoreButtonProps extends ButtonProps {
-  showmore: boolean;
+  isOpen: boolean;
 }
 
-const ShowMoreButton = ({ showmore, ...props }: ShowMoreButtonProps) => (
+const ShowMoreButton = ({ isOpen, ...props }: ShowMoreButtonProps) => (
   <Button
     // Design is medium but we don't have 500 weight.
     fontWeight="semibold"
@@ -25,7 +25,7 @@ const ShowMoreButton = ({ showmore, ...props }: ShowMoreButtonProps) => (
     width="max-content"
     {...props}
   >
-    <FormattedMessage id={showmore ? "show-less" : "show-more"} />
+    <FormattedMessage id={isOpen ? "show-less" : "show-more"} />
   </Button>
 );
 

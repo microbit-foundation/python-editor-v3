@@ -126,7 +126,7 @@ const ReferenceNode = ({
       }}
       fontSize="sm"
     >
-      <Box>
+      <VStack alignItems="stretch" spacing={3}>
         <HStack>
           <Text
             fontFamily="code"
@@ -142,31 +142,26 @@ const ReferenceNode = ({
         {baseClasses && baseClasses.length > 0 && (
           <BaseClasses value={baseClasses} />
         )}
-        <VStack alignItems="stretch" spacing={3}>
-          <DocString
-            fontWeight="normal"
-            value={docStringFirstParagraph ?? ""}
-          />
-          {(hasDocStringDetail || hasSignatureDetail) && (
-            <>
-              {hasDocStringDetail && (
-                // Avoid VStack spacing here so the margin animates too.
-                <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-                  <DocString
-                    fontWeight="normal"
-                    value={docStringRemainder}
-                    mt={3}
-                  />
-                </Collapse>
-              )}
-              <ShowMoreButton
-                onClick={disclosure.onToggle}
-                showmore={disclosure.isOpen}
-              />
-            </>
-          )}
-        </VStack>
-      </Box>
+        <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+        {(hasDocStringDetail || hasSignatureDetail) && (
+          <>
+            {hasDocStringDetail && (
+              // Avoid VStack spacing here so the margin animates too.
+              <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+                <DocString
+                  fontWeight="normal"
+                  value={docStringRemainder}
+                  mt={3}
+                />
+              </Collapse>
+            )}
+            <ShowMoreButton
+              onClick={disclosure.onToggle}
+              isOpen={disclosure.isOpen}
+            />
+          </>
+        )}
+      </VStack>
 
       {groupedChildren && groupedChildren.size > 0 && (
         <Box pl={kind === "class" ? 2 : 0} mt={3}>
