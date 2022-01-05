@@ -23,15 +23,13 @@ const ToolkitListItem = ({
 }: ToolkitListItemProps) => (
   <ListItem {...props}>
     <HStack ml={showIcon ? 3 : 5} mr={3} mt={5} mb={5} spacing={0.5}>
-      {showIcon ? (
+      {showIcon && (
         <ListIcon
           as={RiCheckboxBlankFill}
           color="rgb(205, 210, 226)"
           fontSize="3xl"
           alignSelf="flex-start"
         />
-      ) : (
-        <></>
       )}
 
       {children}
