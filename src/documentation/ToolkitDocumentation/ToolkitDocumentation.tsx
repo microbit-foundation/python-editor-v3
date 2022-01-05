@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@chakra-ui/hooks";
 import { Box, List } from "@chakra-ui/layout";
 import { useCallback } from "react";
-import { RouterParam, useRouterParam } from "../../router-hooks";
+import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { isV2Only, Toolkit, ToolkitNavigationState } from "./model";
+import { useAnimationDirection } from "./toolkit-hooks";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
 import ToolkitLevel from "./ToolkitLevel";
@@ -28,45 +28,31 @@ interface ToolkitProps {
  */
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.explore);
-  const urlParam = anchor?.id ?? "";
-  const setUrlParam = useCallback(
-    (id: string | undefined) => {
-      setAnchor(id ? { id } : undefined);
+  const direction = useAnimationDirection(anchor);
+  const state = parseAnchor(anchor);
+  const handleNavigate = useCallback(
+    (state: ToolkitNavigationState) => {
+      const parts = [state.topicId, state.itemId].filter(Boolean);
+      setAnchor(parts.length ? { id: parts.join("/") } : undefined);
     },
     [setAnchor]
   );
-  // Only transitions are up or down levels so can just compare length.
-  const previousParam = usePrevious(urlParam) ?? "";
-  const direction =
-    previousParam.length === 0 && urlParam.length > 0
-      ? "forward"
-      : previousParam.length > 0 && urlParam.length === 0
-      ? "back"
-      : "none";
-
-  const state = parseUrlParam(urlParam);
-  const setState = useCallback(
-    (state: ToolkitNavigationState) => {
-      setUrlParam([state.topicId, state.itemId].filter(Boolean).join("/"));
-    },
-    [setUrlParam]
-  );
   return (
     <ActiveTooklitLevel
-      key={urlParam.length > 0 ? 0 : 1}
+      key={anchor ? 0 : 1}
       state={state}
-      onNavigate={setState}
+      onNavigate={handleNavigate}
       toolkit={toolkit}
       direction={direction}
     />
   );
 };
 
-const parseUrlParam = (urlParam: string): ToolkitNavigationState => {
-  let [topicId, itemId]: Array<string | undefined> = urlParam.split("/");
-  if (!topicId) {
-    topicId = undefined;
+const parseAnchor = (anchor: Anchor | undefined): ToolkitNavigationState => {
+  if (!anchor) {
+    return {};
   }
+  const [topicId, itemId] = anchor.id.split("/");
   return {
     topicId,
     itemId,

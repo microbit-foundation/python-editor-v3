@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@chakra-ui/hooks";
 import { List } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
@@ -12,6 +11,7 @@ import { ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
+import { useAnimationDirection } from "../ToolkitDocumentation/toolkit-hooks";
 import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
 import ToolkitLevel from "../ToolkitDocumentation/ToolkitLevel";
 import ToolkitListItem from "../ToolkitDocumentation/ToolkitListItem";
@@ -26,26 +26,18 @@ interface ReferenceToolkitProps {
 
 export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
-  const urlParam = anchor ? anchor.id : "";
-  const setUrlParam = useCallback(
+  const handleNavigate = useCallback(
     (id: string | undefined) => {
       setAnchor(id ? { id } : undefined);
     },
     [setAnchor]
   );
-
-  const previousParam = usePrevious(urlParam) ?? "";
-  const direction =
-    previousParam.length === 0 && urlParam.length > 0
-      ? "forward"
-      : previousParam.length > 0 && urlParam.length === 0
-      ? "back"
-      : "none";
+  const direction = useAnimationDirection(anchor);
   return (
     <ActiveTooklitLevel
-      key={urlParam.length > 0 ? 0 : 1}
+      key={anchor ? 0 : 1}
       anchor={anchor}
-      onNavigate={setUrlParam}
+      onNavigate={handleNavigate}
       docs={docs}
       direction={direction}
     />
