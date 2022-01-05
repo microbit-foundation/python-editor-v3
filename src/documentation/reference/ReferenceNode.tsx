@@ -81,19 +81,19 @@ const ReferenceNode = ({
   const prefersReducedMotion = usePrefersReducedMotion();
   const logging = useLogging();
   useEffect(() => {
-    if (
-      previousAnchor !== anchor &&
-      active &&
-      ref.current &&
-      scrollable.current
-    ) {
+    if (previousAnchor !== anchor && active) {
       logging.log("Activating " + fullName);
-      scrollable.current.scrollTo({
-        // Fudge to account for the fixed header and to leave a small gap.
-        top: ref.current.offsetTop - 112 - 25,
-        behavior: prefersReducedMotion ? "auto" : "smooth",
-      });
       disclosure.onOpen();
+      // Delay until after the opening animation so the full container height is known for the scroll.
+      window.setTimeout(() => {
+        if (ref.current && scrollable.current) {
+          scrollable.current.scrollTo({
+            // Fudge to account for the fixed header and to leave a small gap.
+            top: ref.current.offsetTop - 112 - 25,
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
+        }
+      }, 100);
     }
   }, [
     anchor,
