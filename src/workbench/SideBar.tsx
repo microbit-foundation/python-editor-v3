@@ -161,7 +161,7 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           <CustomTab
             color="gray.50"
             handleTabClick={handleTabClick}
-            activeTabId={tab}
+            activeTabId={tab ? tab : panes[0].id}
             {...panes[0]}
           />
           <CustomTab

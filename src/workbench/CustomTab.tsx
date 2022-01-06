@@ -34,7 +34,6 @@ const CustomTab = ({
       className="sidebar-tab" // Used for custom outline below
       onClick={handleTabClick}
       mb={mb ? mb : 0}
-      pr={activeTabId !== id ? "6px" : 0}
     >
       <VStack spacing={0}>
         {activeTabId === id && (
