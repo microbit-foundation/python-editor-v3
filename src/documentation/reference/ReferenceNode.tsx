@@ -6,16 +6,11 @@
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import {
   Collapse,
+  useDisclosure,
   usePrefersReducedMotion,
   usePrevious,
 } from "@chakra-ui/react";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -62,10 +57,7 @@ const ReferenceNode = ({
   ...others
 }: ApiDocEntryNodeProps) => {
   const { kind, fullName } = docs;
-  const [showDetails, setShowDetails] = useState(false);
-  const handleShowMore = useCallback(() => {
-    setShowDetails(!showDetails);
-  }, [showDetails, setShowDetails]);
+  const disclosure = useDisclosure();
 
   const active = anchor?.id === fullName;
   // If we're newly active then scroll to us and set a fading background highlight (todo!)
@@ -77,9 +69,7 @@ const ReferenceNode = ({
   useEffect(() => {
     if (previousAnchor !== anchor && active) {
       logging.log("Activating " + fullName);
-      if (!showDetails) {
-        setShowDetails(true);
-      }
+      disclosure.onOpen();
       // Delay until after the opening animation so the full container height is known for the scroll.
       window.setTimeout(() => {
         if (ref.current && scrollable.current) {
@@ -98,8 +88,7 @@ const ReferenceNode = ({
     previousAnchor,
     prefersReducedMotion,
     logging,
-    showDetails,
-    setShowDetails,
+    disclosure,
     fullName,
   ]);
 
@@ -119,8 +108,8 @@ const ReferenceNode = ({
     >
       <ReferenceNodeSelf
         docs={docs}
-        showMore={showDetails}
-        onToggleShowMore={handleShowMore}
+        showMore={disclosure.isOpen}
+        onToggleShowMore={disclosure.onToggle}
       />
       <ReferenceNodeChildren docs={docs} anchor={anchor} />
     </Box>

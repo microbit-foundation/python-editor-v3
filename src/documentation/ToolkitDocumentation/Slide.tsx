@@ -30,6 +30,14 @@ const animations = {
       transition,
     },
   },
+  none: {
+    initial: {
+      x: 0,
+    },
+    animate: {
+      x: 0,
+    },
+  },
 };
 
 const Slide = ({
@@ -40,7 +48,7 @@ const Slide = ({
   children: JSX.Element;
 }) => {
   const reducedMotion = useReducedMotion();
-  return direction === "none" || reducedMotion ? (
+  return reducedMotion ? (
     children
   ) : (
     <motion.div
