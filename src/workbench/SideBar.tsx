@@ -94,7 +94,7 @@ const SideBar = ({
             onSelectedFileChanged={onSelectedFileChanged}
           />
         ),
-        color: "#F5F6F8",
+        color: "gray.25",
       },
     ];
     return result;
