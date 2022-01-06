@@ -8,7 +8,7 @@ import { Image } from "@chakra-ui/image";
 import { Link } from "@chakra-ui/layout";
 import BlockContent from "@sanity/block-content-to-react";
 import unconfiguredImageUrlBuilder from "@sanity/image-url";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { useRouterState } from "../../router-hooks";
 import CodeEmbed from "./CodeEmbed";
@@ -23,9 +23,6 @@ import {
 
 interface ToolkitContentProps {
   content: ToolkitPortableText;
-  detail?: boolean;
-  hasDetail?: boolean;
-  onForward?: () => void;
 }
 
 export const defaultQuality = 80;
@@ -58,7 +55,7 @@ const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
         setState({
           ...state,
           tab: "reference",
-          reference: props.mark.name,
+          reference: { id: props.mark.name },
         });
       }}
     >
@@ -150,4 +147,4 @@ const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
   return <BlockContent blocks={content} serializers={serializers} />;
 };
 
-export default ToolkitContent;
+export default React.memo(ToolkitContent);

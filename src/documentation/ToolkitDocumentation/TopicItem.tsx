@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
+import ShowMoreButton from "../common/ShowMoreButton";
 import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
 import ToolkitContent from "./ToolkitContent";
 
 interface TopicItemProps extends BoxProps {
   topic: ToolkitTopic;
   item: ToolkitTopicEntry;
-  detail?: boolean;
-  onForward: () => void;
+  active?: boolean;
 }
 
 /**
@@ -23,13 +24,8 @@ interface TopicItemProps extends BoxProps {
  * We show a pop-up over the code on hover to reveal the full code, overlapping
  * the sidebar scroll area.
  */
-const TopicItem = ({
-  topic,
-  item,
-  detail,
-  onForward,
-  ...props
-}: TopicItemProps) => {
+const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
+  // `active` prop not yet used but we can follow a similar approach to ReferenceNode.
   const { content, detailContent, alternatives, alternativesLabel } = item;
   const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
@@ -41,28 +37,22 @@ const TopicItem = ({
     },
     [setAlternativeIndex]
   );
+  const disclosure = useDisclosure();
   return (
     <Stack
-      spacing={detail ? 5 : 3}
       {...props}
-      fontSize={detail ? "md" : "sm"}
+      spacing={3}
+      fontSize="sm"
       listStylePos="inside"
       sx={{
         "& ul": { listStyleType: "disc" },
       }}
     >
-      {!detail && (
-        <Text as="h3" fontSize="lg" fontWeight="semibold">
-          {item.name}
-          {isV2Only(item) ? " (V2)" : ""}
-        </Text>
-      )}
-      <ToolkitContent
-        content={content}
-        detail={detail}
-        hasDetail={hasDetail}
-        onForward={onForward}
-      />
+      <Text as="h3" fontSize="lg" fontWeight="semibold">
+        {item.name}
+        {isV2Only(item) ? " (V2)" : ""}
+      </Text>
+      <ToolkitContent content={content} />
       {alternatives && typeof alternativeIndex === "number" && (
         <>
           <Flex wrap="wrap" as="label">
@@ -83,21 +73,22 @@ const TopicItem = ({
             </Select>
           </Flex>
 
-          <ToolkitContent
-            content={alternatives[alternativeIndex].content}
-            detail={detail}
-            hasDetail={hasDetail}
-            onForward={onForward}
-          />
+          <ToolkitContent content={alternatives[alternativeIndex].content} />
         </>
       )}
-      {detail && detailContent && (
-        <ToolkitContent
-          content={detailContent}
-          detail={detail}
-          hasDetail={hasDetail}
-          onForward={onForward}
-        />
+      {hasDetail && (
+        <>
+          {/* Avoid Stack spacing here so the margin animates too. */}
+          <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+            <Stack spacing={3} mt={3}>
+              <ToolkitContent content={detailContent} />
+            </Stack>
+          </Collapse>
+          <ShowMoreButton
+            onClick={disclosure.onToggle}
+            isOpen={disclosure.isOpen}
+          />
+        </>
       )}
     </Stack>
   );

@@ -423,17 +423,24 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findToolkitBreadcrumbHeading(
-    context: string,
-    title: string
-  ): Promise<void> {
+  async findActiveToolkitEntry(text: string): Promise<void> {
+    // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
-    await document.findByRole("button", {
-      name: allowWrapAtPeriods(context),
-    });
-    await document.findByText(allowWrapAtPeriods(title), {
-      selector: "h2",
-    });
+    return waitFor(async () => {
+      const items = await document.$$("h4");
+      const h4s = await Promise.all(
+        items.map((e) =>
+          e.evaluate((node) => {
+            const text = (node as HTMLElement).innerText;
+            const rect = (node as HTMLElement).getBoundingClientRect();
+            const visible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+            return { text, visible };
+          })
+        )
+      );
+      const match = h4s.find((info) => info.visible && info.text === text);
+      expect(match).toBeDefined();
+    }, defaultWaitForOptions);
   }
 
   async findToolkitTopLevelHeading(

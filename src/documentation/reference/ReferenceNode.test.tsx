@@ -5,7 +5,9 @@
  */
 import { render } from "@testing-library/react";
 import { ApiDocsEntry } from "../../language-server/apidocs";
+import NullLoggingProvider from "../../logging/NullLoggingProvider";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
+import ScrollablePanel from "../../workbench/ScrollablePanel";
 import ReferenceNode from "./ReferenceNode";
 
 describe("ReferenceNode", () => {
@@ -40,7 +42,11 @@ describe("ReferenceNode", () => {
   it("renders", async () => {
     render(
       <FixedTranslationProvider>
-        <ReferenceNode docs={node} />
+        <NullLoggingProvider>
+          <ScrollablePanel>
+            <ReferenceNode docs={node} />
+          </ScrollablePanel>
+        </NullLoggingProvider>
       </FixedTranslationProvider>
     );
   });

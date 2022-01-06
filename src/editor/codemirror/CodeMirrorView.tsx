@@ -7,7 +7,7 @@ import { Box, BoxProps } from "@chakra-ui/layout";
 import { useToken } from "@chakra-ui/system";
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./CodeMirror.css";
 import { editorConfig } from "./config";
 import themeExtensions from "./themeExtensions";
@@ -54,4 +54,4 @@ const CodeMirrorView = ({ value, ...props }: CodeMirrorViewProps) => {
   return <Box {...props} ref={elementRef} />;
 };
 
-export default CodeMirrorView;
+export default React.memo(CodeMirrorView);
