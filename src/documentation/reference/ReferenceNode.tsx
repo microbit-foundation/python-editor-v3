@@ -16,9 +16,21 @@ import {
 import DocString from "../common/DocString";
 import MoreButton from "../common/MoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
-import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
+import {
+  setDraggedCode,
+  setToolkitType,
+  debug as dndDebug,
+} from "../../editor/codemirror/dnd";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { flags } from "../../flags";
+import { RequiredImport } from "../../editor/codemirror/edits";
+
+export const referenceToolkitType = "reference";
+
+interface CodeWithImports {
+  code: string;
+  requiredImport: RequiredImport;
+}
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -37,6 +49,14 @@ const kindToSpacing: Record<string, any> = {
   class: 5,
   variable: 3,
   function: 3,
+};
+
+const classToInstanceMap: Record<string, string> = {
+  Button: "button_a",
+  MicroBitDigitalPin: "pin0",
+  MicroBitTouchPin: "pin0",
+  MicroBitAnalogDigitalPin: "pin0",
+  Image: "Image.HEART",
 };
 
 interface DragHandleProps extends BoxProps {}
@@ -89,20 +109,39 @@ const ReferenceNode = ({
   );
   const hasDetail = hasDocStringDetail || hasSignatureDetail;
 
-  const draggableCode = kind === "function" ? `${name}()` : name;
-
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";
-      setDraggedCode(draggableCode);
-      event.dataTransfer.setData(pythonSnippetMediaType, draggableCode);
+
+      const parts = fullName.split(".");
+      const isMicrobit = parts[0] === "microbit";
+      let use = isMicrobit ? parts.slice(1) : parts;
+      use = use.map((p) => classToInstanceMap[p] ?? p);
+      const requiredImport = isMicrobit
+        ? { module: "microbit", name: "*" }
+        : { module: parts[0] };
+      const codeWithImports: CodeWithImports = {
+        code: use.join(".") + (kind === "function" ? "()" : ""),
+        requiredImport,
+      };
+
+      const requiredImportCode = requiredImport.name
+        ? `from ${requiredImport.module} import ${requiredImport.name}`
+        : `import ${requiredImport.module}`;
+      const changes = `${requiredImportCode} ${codeWithImports.code}`;
+
+      setDraggedCode(changes);
+      setToolkitType(referenceToolkitType);
+      event.dataTransfer.setData(pythonSnippetMediaType, changes);
     },
-    [draggableCode]
+    [fullName, kind]
   );
+
   const handleDragEnd = useCallback((event: React.DragEvent) => {
     dndDebug("dragend");
     setDraggedCode(undefined);
+    setToolkitType(undefined);
   }, []);
 
   return (
@@ -144,9 +183,7 @@ const ReferenceNode = ({
             fontSize={kindToFontSize[kind] || "md"}
             as={kindToHeading[kind]}
           >
-            <Text as="span" fontWeight="semibold">
-              {formatName(kind, fullName, name)}
-            </Text>
+            <Text as="span">{formatName(kind, fullName, name)}</Text>
             {signature}
           </Text>
         </HStack>

@@ -21,10 +21,16 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
+import {
+  setDraggedCode,
+  setToolkitType,
+  debug as dndDebug,
+} from "../../editor/codemirror/dnd";
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import MoreButton from "../common/MoreButton";
+
+export const exploreToolkitType = "explore";
 
 interface CodeEmbedProps {
   code: string;
@@ -157,6 +163,7 @@ const Code = forwardRef<CodeProps, "pre">(
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
         setDraggedCode(full);
+        setToolkitType(exploreToolkitType);
         event.dataTransfer.setData(pythonSnippetMediaType, full);
       },
       [full]
@@ -164,6 +171,7 @@ const Code = forwardRef<CodeProps, "pre">(
     const handleDragEnd = useCallback((event: React.DragEvent) => {
       dndDebug("dragend");
       setDraggedCode(undefined);
+      setToolkitType(undefined);
     }, []);
     return (
       <HStack

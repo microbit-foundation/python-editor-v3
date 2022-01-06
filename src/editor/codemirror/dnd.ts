@@ -31,6 +31,7 @@ interface LastDragPos {
 }
 
 let draggedCode: string | undefined;
+let toolkitType: string | undefined;
 
 /**
  * Set the dragged code.
@@ -42,6 +43,10 @@ let draggedCode: string | undefined;
  */
 export const setDraggedCode = (value: string | undefined) => {
   draggedCode = value;
+};
+
+export const setToolkitType = (value: string | undefined) => {
+  toolkitType = value;
 };
 
 // We add the class to the parent element that we own as otherwise CM
@@ -166,7 +171,9 @@ export const dndSupport = () => {
         const line = view.state.doc.lineAt(visualLine.from);
 
         revertPreview(view);
-        view.dispatch(calculateChanges(view.state, draggedCode, line.number));
+        view.dispatch(
+          calculateChanges(view.state, draggedCode, line.number, toolkitType)
+        );
         view.focus();
       },
     }),

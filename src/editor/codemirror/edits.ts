@@ -9,6 +9,7 @@ import { python } from "@codemirror/lang-python";
 import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
+import { referenceToolkitType } from "../../documentation/reference/ReferenceNode";
 
 export interface RequiredImport {
   module: string;
@@ -58,7 +59,8 @@ class AliasesNotSupportedError extends Error {}
 export const calculateChanges = (
   state: EditorState,
   addition: string,
-  line?: number
+  line?: number,
+  userEvent?: string | undefined
 ) => {
   const parser = python().language.parser;
   const additionTree = parser.parse(addition);
@@ -90,8 +92,8 @@ export const calculateChanges = (
     .reduce((acc, cur) => acc + cur, 0);
 
   let additionInsertPoint: number = -1;
+  let additionPrefix = "";
   if (addition) {
-    let additionPrefix = "";
     if (line !== undefined) {
       // Tweak so the addition preview is under the mouse even if we added imports.
       line = Math.max(1, line - importLines);
@@ -122,7 +124,19 @@ export const calculateChanges = (
   if (importInsertPoint.used) {
     changes[0].insert = importInsertPoint.prefix + changes[0].insert;
   }
+
+  if (userEvent === referenceToolkitType) {
+    additionInsertPoint += addition.length + additionPrefix.length - 1;
+    if (changes.length > 1) {
+      additionInsertPoint += changes
+        .slice(0, changes.length - 1)
+        .flatMap((c) => c.insert)
+        .join("").length;
+    }
+  }
+
   return state.update({
+    userEvent: userEvent ?? undefined,
     changes,
     scrollIntoView: true,
     selection: addition
