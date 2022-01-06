@@ -21,11 +21,7 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import {
-  setDraggedCode,
-  setToolkitType,
-  debug as dndDebug,
-} from "../../editor/codemirror/dnd";
+import { setDragContext, debug as dndDebug } from "../../editor/codemirror/dnd";
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
@@ -169,16 +165,17 @@ const Code = forwardRef<CodeProps, "pre">(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
-        setDraggedCode(full);
-        setToolkitType(exploreToolkitType);
+        setDragContext({
+          code: full,
+          type: exploreToolkitType,
+        });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
       },
       [full]
     );
     const handleDragEnd = useCallback((event: React.DragEvent) => {
       dndDebug("dragend");
-      setDraggedCode(undefined);
-      setToolkitType(undefined);
+      setDragContext(undefined);
     }, []);
     return (
       <HStack

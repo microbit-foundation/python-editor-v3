@@ -30,8 +30,17 @@ interface LastDragPos {
   previewUndo: ChangeSet;
 }
 
-let draggedCode: string | undefined;
-let toolkitType: string | undefined;
+export interface DragContext {
+  code: string;
+  // I'd like these to be "example" and "call"
+  // "example" just inserts code as it always has and is used when it's Explore or a non-function call from Reference
+  // "call" is used for function calls and results in cursor between the brackets and signature help
+  // single line examples have the cursor at the end of the line
+  // multi-line examples have the cursor at the beginning of the example (ideally ignoring whitespace but can do that later)
+  type: "reference" | "explore";
+}
+
+let dragContext: DragContext | undefined;
 
 /**
  * Set the dragged code.
@@ -41,12 +50,8 @@ let toolkitType: string | undefined;
  *
  * Set it in dragstart and clear it in dragend.
  */
-export const setDraggedCode = (value: string | undefined) => {
-  draggedCode = value;
-};
-
-export const setToolkitType = (value: string | undefined) => {
-  toolkitType = value;
+export const setDragContext = (context: DragContext | undefined) => {
+  dragContext = context;
 };
 
 // We add the class to the parent element that we own as otherwise CM
@@ -96,7 +101,7 @@ export const dndSupport = () => {
           return;
         }
 
-        if (draggedCode) {
+        if (dragContext) {
           event.preventDefault();
 
           const visualLine = view.visualLineAtHeight(event.y);
@@ -108,7 +113,7 @@ export const dndSupport = () => {
 
             const transaction = calculateChanges(
               view.state,
-              draggedCode,
+              dragContext.code,
               line.number
             );
             lastDragPos = {
@@ -124,7 +129,7 @@ export const dndSupport = () => {
         }
       },
       dragenter(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("dragenter");
@@ -132,7 +137,7 @@ export const dndSupport = () => {
         suppressChildDragEnterLeave(view);
       },
       dragleave(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
 
@@ -160,7 +165,7 @@ export const dndSupport = () => {
         }
       },
       drop(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("  drop");
@@ -172,7 +177,12 @@ export const dndSupport = () => {
 
         revertPreview(view);
         view.dispatch(
-          calculateChanges(view.state, draggedCode, line.number, toolkitType)
+          calculateChanges(
+            view.state,
+            dragContext.code,
+            line.number,
+            dragContext.type
+          )
         );
         view.focus();
       },

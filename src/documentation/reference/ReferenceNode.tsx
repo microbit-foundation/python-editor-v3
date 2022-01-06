@@ -21,8 +21,8 @@ import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import {
   debug as dndDebug,
-  setDraggedCode,
-  setToolkitType,
+  DragContext,
+  setDragContext,
 } from "../../editor/codemirror/dnd";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import { flags } from "../../flags";
@@ -58,6 +58,14 @@ const kindToSpacing: Record<string, any> = {
   class: 5,
   variable: 3,
   function: 3,
+};
+
+const classToInstanceMap: Record<string, string> = {
+  Button: "button_a",
+  MicroBitDigitalPin: "pin0",
+  MicroBitTouchPin: "pin0",
+  MicroBitAnalogDigitalPin: "pin0",
+  Image: "Image.HEART",
 };
 
 interface ApiDocEntryNodeProps extends BoxProps {
@@ -158,7 +166,7 @@ const ReferenceNodeSelf = ({
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";
 
-      const parts = fullName.split(".");
+      const parts = fullName.split(".").map((p) => classToInstanceMap[p] ?? p);
       const isMicrobit = parts[0] === "microbit";
       const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
       const code =
@@ -168,9 +176,11 @@ const ReferenceNodeSelf = ({
         ? `from microbit import *`
         : `import ${parts[0]}`;
       const changes = `${requiredImport}\n${code}`;
-
-      setDraggedCode(changes);
-      setToolkitType(referenceToolkitType);
+      const context: DragContext = {
+        code,
+        type: referenceToolkitType,
+      };
+      setDragContext(context);
       event.dataTransfer.setData(pythonSnippetMediaType, changes);
     },
     [fullName, kind]
@@ -178,8 +188,7 @@ const ReferenceNodeSelf = ({
 
   const handleDragEnd = useCallback((event: React.DragEvent) => {
     dndDebug("dragend");
-    setDraggedCode(undefined);
-    setToolkitType(undefined);
+    setDragContext(undefined);
   }, []);
 
   return (
