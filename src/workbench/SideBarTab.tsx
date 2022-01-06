@@ -6,22 +6,22 @@
 import { Box, BoxProps, Icon, Tab, Text, VStack } from "@chakra-ui/react";
 import { cornerSize, Pane } from "./SideBar";
 
-interface CustomTabProps extends Pane {
+interface SideBarTabProps extends Pane {
   color: string;
   mb?: string;
   handleTabClick: () => void;
-  activeTabId: string | undefined;
+  active: boolean;
 }
 
-const CustomTab = ({
+const SideBarTab = ({
   id,
   icon,
   title,
   color,
   mb,
   handleTabClick,
-  activeTabId,
-}: CustomTabProps) => {
+  active,
+}: SideBarTabProps) => {
   const width = "5rem";
   return (
     <Tab
@@ -36,7 +36,7 @@ const CustomTab = ({
       mb={mb ? mb : 0}
     >
       <VStack spacing={0}>
-        {activeTabId === id && (
+        {active && (
           <Corner
             id="bottom"
             position="absolute"
@@ -44,7 +44,7 @@ const CustomTab = ({
             right={0}
           />
         )}
-        {activeTabId === id && (
+        {active && (
           <Corner
             id="top"
             position="absolute"
@@ -112,4 +112,4 @@ const Corner = ({ id, ...props }: BoxProps) => (
   </Box>
 );
 
-export default CustomTab;
+export default SideBarTab;
