@@ -6,11 +6,16 @@
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
 import {
   Collapse,
-  useDisclosure,
   usePrefersReducedMotion,
   usePrevious,
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -56,22 +61,11 @@ const ReferenceNode = ({
   mb,
   ...others
 }: ApiDocEntryNodeProps) => {
-  const { kind, name, fullName, children, params, docString, baseClasses } =
-    docs;
-  const intl = useIntl();
-  const groupedChildren = useMemo(() => {
-    const filteredChildren = filterChildren(children);
-    return filteredChildren
-      ? groupBy(filteredChildren, (c) => c.kind)
-      : undefined;
-  }, [children]);
-  const [docStringFirstParagraph, docStringRemainder] = useMemo(
-    () => (docString ? splitDocString(docString) : [undefined, undefined]),
-    [docString]
-  );
-  const hasDocStringDetail =
-    docStringRemainder && docStringRemainder.length > 0;
-  const disclosure = useDisclosure();
+  const { kind, fullName } = docs;
+  const [showDetails, setShowDetails] = useState(false);
+  const handleShowMore = useCallback(() => {
+    setShowDetails(!showDetails);
+  }, [showDetails, setShowDetails]);
 
   const active = anchor?.id === fullName;
   // If we're newly active then scroll to us and set a fading background highlight (todo!)
@@ -83,7 +77,9 @@ const ReferenceNode = ({
   useEffect(() => {
     if (previousAnchor !== anchor && active) {
       logging.log("Activating " + fullName);
-      disclosure.onOpen();
+      if (!showDetails) {
+        setShowDetails(true);
+      }
       // Delay until after the opening animation so the full container height is known for the scroll.
       window.setTimeout(() => {
         if (ref.current && scrollable.current) {
@@ -102,15 +98,10 @@ const ReferenceNode = ({
     previousAnchor,
     prefersReducedMotion,
     logging,
-    disclosure,
+    showDetails,
+    setShowDetails,
     fullName,
   ]);
-
-  const { signature, hasSignatureDetail } = buildSignature(
-    kind,
-    params,
-    disclosure.isOpen
-  );
 
   return (
     <Box
@@ -126,67 +117,120 @@ const ReferenceNode = ({
       }}
       fontSize="sm"
     >
-      <VStack alignItems="stretch" spacing={3}>
-        <HStack>
-          <Text
-            fontFamily="code"
-            fontSize={kindToFontSize[kind] || "md"}
-            as={kindToHeading[kind]}
-          >
-            <Text as="span" fontWeight="semibold">
-              {formatName(kind, fullName, name)}
-            </Text>
-            {signature}
-          </Text>
-        </HStack>
-        {baseClasses && baseClasses.length > 0 && (
-          <BaseClasses value={baseClasses} />
-        )}
-        <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
-        {(hasDocStringDetail || hasSignatureDetail) && (
-          <>
-            {hasDocStringDetail && (
-              // Avoid VStack spacing here so the margin animates too.
-              <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-                <DocString
-                  fontWeight="normal"
-                  value={docStringRemainder}
-                  mt={3}
-                />
-              </Collapse>
-            )}
-            <ShowMoreButton
-              onClick={disclosure.onToggle}
-              isOpen={disclosure.isOpen}
-            />
-          </>
-        )}
-      </VStack>
-
-      {groupedChildren && groupedChildren.size > 0 && (
-        <Box pl={kind === "class" ? 2 : 0} mt={3}>
-          <Box
-            pl={kind === "class" ? 2 : 0}
-            borderLeftWidth={kind === "class" ? 1 : undefined}
-          >
-            {["function", "variable", "class"].map(
-              (childKind) =>
-                groupedChildren?.get(childKind as any) && (
-                  <Box mb={5} key={childKind}>
-                    <Text fontWeight="lg" mb={2}>
-                      {groupHeading(intl, kind, childKind)}
-                    </Text>
-                    {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <ReferenceNode anchor={anchor} key={c.id} docs={c} />
-                    ))}
-                  </Box>
-                )
-            )}
-          </Box>
-        </Box>
-      )}
+      <ReferenceNodeSelf
+        docs={docs}
+        showMore={showDetails}
+        onToggleShowMore={handleShowMore}
+      />
+      <ReferenceNodeChildren docs={docs} anchor={anchor} />
     </Box>
   );
+};
+
+interface ReferenceNodeSelfProps {
+  docs: ApiDocsEntry;
+  showMore: boolean;
+  onToggleShowMore: () => void;
+}
+
+/**
+ * The current node's details, not its children.
+ */
+const ReferenceNodeSelf = ({
+  docs,
+  showMore,
+  onToggleShowMore,
+}: ReferenceNodeSelfProps) => {
+  const { fullName, name, kind, params, baseClasses, docString } = docs;
+  const { signature, hasSignatureDetail } = buildSignature(
+    kind,
+    params,
+    showMore
+  );
+  const [docStringFirstParagraph, docStringRemainder] = useMemo(
+    () => (docString ? splitDocString(docString) : [undefined, undefined]),
+    [docString]
+  );
+  const hasDocStringDetail =
+    docStringRemainder && docStringRemainder.length > 0;
+
+  return (
+    <VStack alignItems="stretch" spacing={3}>
+      <HStack>
+        <Text
+          fontFamily="code"
+          fontSize={kindToFontSize[kind] || "md"}
+          as={kindToHeading[kind]}
+        >
+          <Text as="span" fontWeight="semibold">
+            {formatName(kind, fullName, name)}
+          </Text>
+          {signature}
+        </Text>
+      </HStack>
+      {baseClasses && baseClasses.length > 0 && (
+        <BaseClasses value={baseClasses} />
+      )}
+      <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      {(hasDocStringDetail || hasSignatureDetail) && (
+        <>
+          {hasDocStringDetail && (
+            // Avoid VStack spacing here so the margin animates too.
+            <Collapse in={showMore} style={{ marginTop: 0 }}>
+              <DocString
+                fontWeight="normal"
+                value={docStringRemainder}
+                mt={3}
+              />
+            </Collapse>
+          )}
+          <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
+        </>
+      )}
+    </VStack>
+  );
+};
+
+interface ReferenceNodeChildrenProps {
+  anchor: Anchor | undefined;
+  docs: ApiDocsEntry;
+}
+
+const ReferenceNodeChildren = ({
+  docs,
+  anchor,
+}: ReferenceNodeChildrenProps) => {
+  const { kind, children } = docs;
+  const intl = useIntl();
+  const groupedChildren = useMemo(() => {
+    const filteredChildren = filterChildren(children);
+    return filteredChildren
+      ? groupBy(filteredChildren, (c) => c.kind)
+      : undefined;
+  }, [children]);
+
+  return groupedChildren && groupedChildren.size > 0 ? (
+    <Box pl={kind === "class" ? 2 : 0} mt={3}>
+      <Box
+        pl={kind === "class" ? 2 : 0}
+        borderLeftWidth={kind === "class" ? 1 : undefined}
+      >
+        {["function", "variable", "class"].map(
+          (childKind) =>
+            groupedChildren?.get(childKind as any) && (
+              <Box mb={5} key={childKind}>
+                <Text fontWeight="lg" mb={2}>
+                  {groupHeading(intl, kind, childKind)}
+                </Text>
+                {groupedChildren?.get(childKind as any)?.map((c) => (
+                  <ReferenceNode anchor={anchor} key={c.id} docs={c} />
+                ))}
+              </Box>
+            )
+        )}
+      </Box>
+    </Box>
+  ) : null;
 };
 
 const groupHeading = (
