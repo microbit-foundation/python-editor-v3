@@ -133,8 +133,10 @@ const createDocumentationResolver =
     const code = node.querySelector("code");
     if (code) {
       const id = nameFromSignature(code.innerText);
-      code.innerText = removeFullyQualifiedName(code.innerText);
-      return wrapWithDocumentationButton(intl, node, id);
+      if (id) {
+        code.innerText = removeFullyQualifiedName(code.innerText);
+        return wrapWithDocumentationButton(intl, node, id);
+      }
     }
     return node;
   };
