@@ -8,14 +8,11 @@ import {
   BoxProps,
   Flex,
   HStack,
-  Icon,
   Link,
-  Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useMemo } from "react";
@@ -36,6 +33,7 @@ import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
 import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
+import CustomTab from "./CustomTab";
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -86,7 +84,7 @@ const SideBar = ({
   return <SideBarContents {...props} panes={panes} />;
 };
 
-interface Pane {
+export interface Pane {
   id: string;
   icon: IconType;
   title: string;
@@ -98,7 +96,7 @@ interface SideBarContentsProps {
   panes: Pane[];
 }
 
-const cornerSize = 25;
+export const cornerSize = 32;
 
 /**
  * The contents of the left-hand area.
@@ -122,7 +120,6 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
       tab,
     });
   }, [tab, setParams]);
-  const width = "5rem";
   const brand = useDeployment();
   const intl = useIntl();
   return (
@@ -151,7 +148,6 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
           </HStack>
         </Link>
       </Flex>
-
       <Tabs
         orientation="vertical"
         size="lg"
@@ -161,60 +157,27 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         index={index}
       >
         <TabList>
-          <Box width="3.75rem" flex={1} maxHeight="8.9rem" minHeight={7}></Box>
-          {panes.map((p, i) => (
-            <Tab
-              key={p.id}
-              color={p.id === "files" ? "gray.50" : "#F5F6F8"}
-              height={width}
-              width={width}
-              p={0}
-              position="relative"
-              className="sidebar-tab" // Used for custom outline below
-              onClick={handleTabClick}
-              borderRadius={`${cornerSize}px 0 0 ${cornerSize}px`} //temp override - apply to branding
-              pr="6px" //temp override - apply to branding
-              mb={p.id === "reference" ? "auto" : 3}
-              mt={p.id === "files" ? 3 : 0}
-            >
-              <VStack spacing={0}>
-                {i === index && (
-                  <Corner
-                    id="bottom"
-                    position="absolute"
-                    bottom={-cornerSize + "px"}
-                    right={0}
-                  />
-                )}
-                {i === index && (
-                  <Corner
-                    id="top"
-                    position="absolute"
-                    top={-cornerSize + "px"}
-                    right={0}
-                    transform="rotate(90deg)"
-                  />
-                )}
-                <VStack spacing={0.5}>
-                  <Icon boxSize={8} as={p.icon} mt="4px" />
-                  <Text
-                    m={0}
-                    fontSize={11}
-                    borderBottom="3px solid transparent"
-                    sx={{
-                      ".sidebar-tab:focus &": {
-                        // To match the focus outline
-                        borderBottom: "3px solid rgba(66, 153, 225, 0.6)",
-                      },
-                    }}
-                  >
-                    {p.title}
-                  </Text>
-                </VStack>
-              </VStack>
-            </Tab>
-          ))}
-          <VStack mt="auto" mb={1} spacing={0.5} color="white">
+          <Box width="3.75rem" flex={1} maxHeight="8.9rem" minHeight={8}></Box>
+          <CustomTab
+            color="gray.50"
+            handleTabClick={handleTabClick}
+            activeTabId={tab}
+            {...panes[0]}
+          />
+          <CustomTab
+            color="gray.50"
+            mb="auto"
+            handleTabClick={handleTabClick}
+            activeTabId={tab}
+            {...panes[1]}
+          />
+          <CustomTab
+            color="#F5F6F8"
+            handleTabClick={handleTabClick}
+            activeTabId={tab}
+            {...panes[2]}
+          />
+          <VStack mt={4} mb={1} spacing={0.5} color="white">
             <SettingsMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>
@@ -240,43 +203,5 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
     </Flex>
   );
 };
-
-const Corner = ({ id, ...props }: BoxProps) => (
-  <Box
-    {...props}
-    pointerEvents="none"
-    width={`${cornerSize}px`}
-    height={`${cornerSize}px`}
-  >
-    <svg
-      width="100%"
-      height="100%"
-      viewBox={`0 0 ${cornerSize} ${cornerSize}`}
-      overflow="visible"
-      fill="var(--chakra-colors-gray-50)"
-    >
-      <defs>
-        <mask id={id}>
-          <rect
-            x="0"
-            y="0"
-            width={cornerSize}
-            height={cornerSize}
-            fill="#fff"
-          />
-          <circle r={cornerSize} cx="0" cy={cornerSize} fill="#000" />
-        </mask>
-      </defs>
-      <rect
-        x="0"
-        y="0"
-        width={cornerSize}
-        height={cornerSize}
-        fill="var(--chakra-colors-gray-50)"
-        mask={`url(#${id})`}
-      />
-    </svg>
-  </Box>
-);
 
 export default SideBar;
