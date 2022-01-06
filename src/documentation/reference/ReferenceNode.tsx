@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import { DragHandleIcon } from "@chakra-ui/icons";
 import React, { useMemo, useCallback } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { firstParagraph } from "../../editor/codemirror/language-server/documentation";
@@ -16,6 +15,7 @@ import {
 import DocString from "../common/DocString";
 import MoreButton from "../common/MoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
+import DragHandle from "../common/DragHandle";
 import {
   setDraggedCode,
   setToolkitType,
@@ -57,16 +57,6 @@ const classToInstanceMap: Record<string, string> = {
   MicroBitTouchPin: "pin0",
   MicroBitAnalogDigitalPin: "pin0",
   Image: "Image.HEART",
-};
-
-interface DragHandleProps extends BoxProps {}
-
-const DragHandle = (props: DragHandleProps) => {
-  return (
-    <HStack {...props} bgColor="blackAlpha.100">
-      <DragHandleIcon boxSize={3} />
-    </HStack>
-  );
 };
 
 interface ApiDocEntryNodeProps extends BoxProps {
@@ -159,24 +149,25 @@ const ReferenceNode = ({
     >
       <Box>
         <HStack
-          draggable={true}
+          draggable={kind !== "class" ? flags.dnd : false}
           spacing={0}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
           borderRadius="lg"
           display="inline-flex"
+          overflow="hidden"
         >
-          <DragHandle
-            borderTopLeftRadius="lg"
-            borderBottomLeftRadius="lg"
-            p={1}
-            alignSelf="stretch"
-          />
+          {kind !== "class" && flags.dnd && (
+            <DragHandle
+              borderTopLeftRadius="lg"
+              borderBottomLeftRadius="lg"
+              p={1}
+              alignSelf="stretch"
+            />
+          )}
           <Text
             backgroundColor="#f7f5f2"
-            borderTopRightRadius="lg"
-            borderBottomRightRadius="lg"
             p={[5, 2]}
             pl={flags.dnd ? 2 : 5}
             fontFamily="code"

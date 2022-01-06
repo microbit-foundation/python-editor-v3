@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { DragHandleIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
@@ -29,6 +28,7 @@ import {
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import MoreButton from "../common/MoreButton";
+import DragHandle from "../common/DragHandle";
 
 export const exploreToolkitType = "explore";
 
@@ -193,16 +193,6 @@ const Code = forwardRef<CodeProps, "pre">(
     );
   }
 );
-
-interface DragHandleProps extends BoxProps {}
-
-const DragHandle = (props: DragHandleProps) => {
-  return (
-    <HStack {...props} bgColor="blackAlpha.100">
-      <DragHandleIcon boxSize={3} />
-    </HStack>
-  );
-};
 
 const useScrollTop = () => {
   const scrollableRef = useScrollablePanelAncestor();
