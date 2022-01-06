@@ -33,7 +33,6 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
     [setAnchor]
   );
   const direction = useAnimationDirection(anchor);
-  console.log({ anchor });
   return (
     <ActiveToolkitLevel
       key={anchor ? 0 : 1}
