@@ -4,26 +4,41 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import React, { useMemo, useCallback } from "react";
+import {
+  Collapse,
+  useDisclosure,
+  usePrefersReducedMotion,
+  usePrevious,
+} from "@chakra-ui/react";
+import {
+  default as React,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
-import { firstParagraph } from "../../editor/codemirror/language-server/documentation";
+import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import {
+  debug as dndDebug,
+  setDraggedCode,
+  setToolkitType,
+} from "../../editor/codemirror/dnd";
+import { RequiredImport } from "../../editor/codemirror/edits";
+import { splitDocString } from "../../editor/codemirror/language-server/documentation";
+import { flags } from "../../flags";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
+import { useLogging } from "../../logging/logging-hooks";
+import { Anchor } from "../../router-hooks";
+import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
-import MoreButton from "../common/MoreButton";
-import { allowWrapAtPeriods } from "../common/wrap";
 import DragHandle from "../common/DragHandle";
-import {
-  setDraggedCode,
-  setToolkitType,
-  debug as dndDebug,
-} from "../../editor/codemirror/dnd";
-import { pythonSnippetMediaType } from "../../common/mediaTypes";
-import { flags } from "../../flags";
-import { RequiredImport } from "../../editor/codemirror/edits";
+import ShowMoreButton from "../common/ShowMoreButton";
+import { allowWrapAtPeriods } from "../common/wrap";
 
 export const referenceToolkitType = "reference";
 
@@ -61,43 +76,96 @@ const classToInstanceMap: Record<string, string> = {
 
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
-  isShowingDetail?: boolean;
-  onForward?: (itemId: string) => void;
+  anchor?: Anchor;
 }
 
-const noop = () => {};
+const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
+  const { kind, fullName } = docs;
+  const disclosure = useDisclosure();
 
-const ReferenceNode = ({
-  isShowingDetail = false,
+  const active = anchor?.id === fullName;
+  // If we're newly active then scroll to us and set a fading background highlight (todo!)
+  const ref = useRef<HTMLDivElement>(null);
+  const previousAnchor = usePrevious(anchor);
+  const scrollable = useScrollablePanelAncestor();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const logging = useLogging();
+  useEffect(() => {
+    if (previousAnchor !== anchor && active) {
+      logging.log("Activating " + fullName);
+      disclosure.onOpen();
+      // Delay until after the opening animation so the full container height is known for the scroll.
+      window.setTimeout(() => {
+        if (ref.current && scrollable.current) {
+          scrollable.current.scrollTo({
+            // Fudge to account for the fixed header and to leave a small gap.
+            top: ref.current.offsetTop - 112 - 25,
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
+        }
+      }, 150);
+    }
+  }, [
+    anchor,
+    scrollable,
+    active,
+    previousAnchor,
+    prefersReducedMotion,
+    logging,
+    disclosure,
+    fullName,
+  ]);
+
+  return (
+    <Box
+      ref={ref}
+      id={fullName}
+      wordBreak="break-word"
+      mb={kindToSpacing[kind]}
+      _hover={{
+        "& button": {
+          display: "flex",
+        },
+      }}
+      fontSize="sm"
+      {...others}
+    >
+      <ReferenceNodeSelf
+        docs={docs}
+        showMore={disclosure.isOpen}
+        onToggleShowMore={disclosure.onToggle}
+      />
+      <ReferenceNodeChildren docs={docs} anchor={anchor} />
+    </Box>
+  );
+};
+
+interface ReferenceNodeSelfProps {
+  docs: ApiDocsEntry;
+  showMore: boolean;
+  onToggleShowMore: () => void;
+}
+
+/**
+ * The current node's details, not its children.
+ */
+const ReferenceNodeSelf = ({
   docs,
-  onForward = noop,
-  mt,
-  mb,
-  ...others
-}: ApiDocEntryNodeProps) => {
-  const { kind, name, fullName, children, params, docString, baseClasses } =
-    docs;
-  const intl = useIntl();
-  const groupedChildren = useMemo(() => {
-    const filteredChildren = filterChildren(children);
-    return filteredChildren
-      ? groupBy(filteredChildren, (c) => c.kind)
-      : undefined;
-  }, [children]);
-  const docStringFirstParagraph = docString
-    ? firstParagraph(docString)
-    : undefined;
-  const hasDocStringDetail =
-    docString &&
-    docStringFirstParagraph &&
-    docString.length > docStringFirstParagraph.length;
-  const activeDocString = isShowingDetail ? docString : docStringFirstParagraph;
+  showMore,
+  onToggleShowMore,
+}: ReferenceNodeSelfProps) => {
+  const { fullName, name, kind, params, baseClasses, docString } = docs;
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
-    isShowingDetail
+    showMore
   );
-  const hasDetail = hasDocStringDetail || hasSignatureDetail;
+  const [docStringFirstParagraph, docStringRemainder] = useMemo(
+    () => (docString ? splitDocString(docString) : [undefined, undefined]),
+    [docString]
+  );
+  const hasDocStringDetail =
+    docStringRemainder && docStringRemainder.length > 0;
 
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
@@ -135,100 +203,101 @@ const ReferenceNode = ({
   }, []);
 
   return (
-    <Box
-      id={fullName}
-      wordBreak="break-word"
-      mb={kindToSpacing[kind]}
-      {...others}
-      _hover={{
-        "& button": {
-          display: "flex",
-        },
-      }}
-      fontSize={isShowingDetail ? "md" : "sm"}
-    >
-      <Box>
-        <HStack
-          draggable={kind !== "class" ? flags.dnd : false}
-          spacing={0}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-          boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-          borderRadius="lg"
-          display="inline-flex"
-          overflow="hidden"
-        >
-          {kind !== "class" && flags.dnd && (
-            <DragHandle
-              borderTopLeftRadius="lg"
-              borderBottomLeftRadius="lg"
-              p={1}
-              alignSelf="stretch"
-            />
-          )}
-          <Text
-            backgroundColor="#f7f5f2"
-            p={[5, 2]}
-            pl={flags.dnd ? 2 : 5}
-            fontFamily="code"
-            fontSize={kindToFontSize[kind] || "md"}
-            as={kindToHeading[kind]}
-          >
-            <Text as="span">{formatName(kind, fullName, name)}</Text>
-            {signature}
-          </Text>
-        </HStack>
-        {baseClasses && baseClasses.length > 0 && (
-          <BaseClasses value={baseClasses} />
+    <VStack alignItems="stretch" spacing={3}>
+      <HStack
+        alignSelf="flex-start"
+        draggable={kind !== "class" ? flags.dnd : false}
+        spacing={0}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+        borderRadius="lg"
+        display="inline-flex"
+        overflow="hidden"
+      >
+        {kind !== "class" && flags.dnd && (
+          <DragHandle
+            borderTopLeftRadius="lg"
+            borderBottomLeftRadius="lg"
+            p={1}
+            alignSelf="stretch"
+          />
         )}
-        <VStack alignItems="stretch" spacing={1}>
-          {activeDocString && (
-            <DocString
-              mt={isShowingDetail ? 5 : 2}
-              fontWeight="normal"
-              value={activeDocString}
-            />
-          )}
-          {kind !== "module" &&
-            kind !== "class" &&
-            hasDetail &&
-            !isShowingDetail && (
-              <HStack>
-                <MoreButton onClick={() => onForward(fullName)} />
-              </HStack>
-            )}
-        </VStack>
-      </Box>
-
-      {groupedChildren && groupedChildren.size > 0 && (
-        <Box pl={kind === "class" ? 2 : 0} mt={3}>
-          <Box
-            pl={kind === "class" ? 2 : 0}
-            borderLeftWidth={kind === "class" ? 1 : undefined}
-          >
-            {["function", "variable", "class"].map(
-              (childKind) =>
-                groupedChildren?.get(childKind as any) && (
-                  <Box mb={5} key={childKind}>
-                    <Text fontWeight="lg" mb={2}>
-                      {groupHeading(intl, kind, childKind)}
-                    </Text>
-                    {groupedChildren?.get(childKind as any)?.map((c) => (
-                      <ReferenceNode
-                        isShowingDetail={isShowingDetail}
-                        key={c.id}
-                        docs={c}
-                        onForward={onForward}
-                      />
-                    ))}
-                  </Box>
-                )
-            )}
-          </Box>
-        </Box>
+        <Text
+          backgroundColor="#f7f5f2"
+          p={[5, 2]}
+          pl={flags.dnd ? 2 : 5}
+          fontFamily="code"
+          fontSize={kindToFontSize[kind] || "md"}
+          as={kindToHeading[kind]}
+        >
+          <Text as="span">{formatName(kind, fullName, name)}</Text>
+          {signature}
+        </Text>
+      </HStack>
+      {baseClasses && baseClasses.length > 0 && (
+        <BaseClasses value={baseClasses} />
       )}
-    </Box>
+      <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      {(hasDocStringDetail || hasSignatureDetail) && (
+        <>
+          {hasDocStringDetail && (
+            // Avoid VStack spacing here so the margin animates too.
+            <Collapse in={showMore} style={{ marginTop: 0 }}>
+              <DocString
+                fontWeight="normal"
+                value={docStringRemainder}
+                mt={3}
+              />
+            </Collapse>
+          )}
+          <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
+        </>
+      )}
+    </VStack>
   );
+};
+
+interface ReferenceNodeChildrenProps {
+  anchor: Anchor | undefined;
+  docs: ApiDocsEntry;
+}
+
+const ReferenceNodeChildren = ({
+  docs,
+  anchor,
+}: ReferenceNodeChildrenProps) => {
+  const { kind, children } = docs;
+  const intl = useIntl();
+  const groupedChildren = useMemo(() => {
+    const filteredChildren = filterChildren(children);
+    return filteredChildren
+      ? groupBy(filteredChildren, (c) => c.kind)
+      : undefined;
+  }, [children]);
+
+  return groupedChildren && groupedChildren.size > 0 ? (
+    <Box pl={kind === "class" ? 2 : 0} mt={3}>
+      <Box
+        pl={kind === "class" ? 2 : 0}
+        borderLeftWidth={kind === "class" ? 1 : undefined}
+      >
+        {["function", "variable", "class"].map(
+          (childKind) =>
+            groupedChildren?.get(childKind as any) && (
+              <Box mb={5} key={childKind}>
+                <Text fontWeight="lg" mb={2}>
+                  {groupHeading(intl, kind, childKind)}
+                </Text>
+                {groupedChildren?.get(childKind as any)?.map((c) => (
+                  <ReferenceNode anchor={anchor} key={c.id} docs={c} />
+                ))}
+              </Box>
+            )
+        )}
+      </Box>
+    </Box>
+  ) : null;
 };
 
 const groupHeading = (

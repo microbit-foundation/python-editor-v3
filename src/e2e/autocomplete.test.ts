@@ -37,10 +37,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureDocumentionLink();
 
-    await app.findToolkitBreadcrumbHeading(
-      "Reference / microbit.display",
-      "show"
-    );
+    await app.findActiveToolkitEntry("show(image)");
   });
 
   it("shows signature help after autocomplete", async () => {
@@ -69,9 +66,6 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureDocumentionLink();
 
-    await app.findToolkitBreadcrumbHeading(
-      "Reference / microbit.display",
-      "show"
-    );
+    await app.findActiveToolkitEntry("clear()");
   });
 });

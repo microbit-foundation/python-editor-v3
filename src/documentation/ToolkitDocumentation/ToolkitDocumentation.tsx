@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@chakra-ui/hooks";
 import { Box, List } from "@chakra-ui/layout";
 import { useCallback } from "react";
-import { useRouterParam } from "../../router-hooks";
+import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { isV2Only, Toolkit, ToolkitNavigationState } from "./model";
+import { useAnimationDirection } from "./toolkit-hooks";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
 import ToolkitLevel from "./ToolkitLevel";
@@ -27,39 +27,32 @@ interface ToolkitProps {
  * generate the reference documentation.
  */
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
-  const [urlParam = "", setUrlParam] = useRouterParam("explore");
-  // Only transitions are up or down levels so can just compare length.
-  const previousParam = usePrevious(urlParam) ?? "";
-  const direction =
-    previousParam.length === urlParam.length
-      ? "none"
-      : previousParam.length < urlParam.length
-      ? "forward"
-      : "back";
-
-  const state = parseUrlParam(urlParam);
-  const setState = useCallback(
+  const [anchor, setAnchor] = useRouterParam(RouterParam.explore);
+  const direction = useAnimationDirection(anchor);
+  const state = parseAnchor(anchor);
+  const handleNavigate = useCallback(
     (state: ToolkitNavigationState) => {
-      setUrlParam([state.topicId, state.itemId].filter(Boolean).join("/"));
+      const parts = [state.topicId, state.itemId].filter(Boolean);
+      setAnchor(parts.length ? { id: parts.join("/") } : undefined);
     },
-    [setUrlParam]
+    [setAnchor]
   );
   return (
     <ActiveToolkitLevel
-      key={urlParam}
+      key={anchor ? 0 : 1}
       state={state}
-      onNavigate={setState}
+      onNavigate={handleNavigate}
       toolkit={toolkit}
       direction={direction}
     />
   );
 };
 
-const parseUrlParam = (urlParam: string): ToolkitNavigationState => {
-  let [topicId, itemId]: Array<string | undefined> = urlParam.split("/");
-  if (!topicId) {
-    topicId = undefined;
+const parseAnchor = (anchor: Anchor | undefined): ToolkitNavigationState => {
+  if (!anchor) {
+    return {};
   }
+  const [topicId, itemId] = anchor.id.split("/");
   return {
     topicId,
     itemId,
@@ -78,82 +71,44 @@ const ActiveToolkitLevel = ({
   toolkit,
   direction,
 }: ActiveToolkitLevelProps) => {
-  if (state.topicId && state.itemId) {
-    const topic = toolkit.contents?.find((t) => t.name === state.topicId);
-    if (topic) {
-      const item = topic.contents?.find((i) => i.name === state.itemId);
-      if (item) {
-        return (
-          <ToolkitLevel
-            direction={direction}
-            heading={
-              <ToolkitBreadcrumbHeading
-                parent={topic.name}
-                grandparent={toolkit.name}
-                title={item.name}
-                onBack={() =>
-                  onNavigate({
-                    topicId: topic.name,
-                  })
-                }
+  const topic = state.topicId
+    ? toolkit.contents?.find((t) => t.name === state.topicId)
+    : undefined;
+  const activeItem =
+    topic && state.itemId
+      ? topic.contents?.find((i) => i.name === state.itemId)
+      : undefined;
+
+  if (topic) {
+    return (
+      <ToolkitLevel
+        direction={direction}
+        heading={
+          <ToolkitBreadcrumbHeading
+            parent={toolkit.name}
+            title={topic.name}
+            onBack={() => onNavigate({})}
+          />
+        }
+      >
+        {topic.introduction && (
+          <Box p={5} pb={1} fontSize="md">
+            <ToolkitContent content={topic.introduction} />
+          </Box>
+        )}
+        <List flex="1 1 auto">
+          {topic.contents?.map((item) => (
+            <ToolkitListItem key={item.name} showIcon={false}>
+              <TopicItem
+                topic={topic}
+                item={item}
+                active={activeItem === item}
               />
-            }
-          >
-            <TopicItem
-              topic={topic}
-              item={item}
-              detail={true}
-              onForward={() =>
-                onNavigate({
-                  topicId: topic.name,
-                  itemId: item.name,
-                })
-              }
-              padding={5}
-            />
-          </ToolkitLevel>
-        );
-      }
-    }
-  } else if (state.topicId) {
-    const topic = toolkit.contents?.find((t) => t.name === state.topicId);
-    if (topic) {
-      return (
-        <ToolkitLevel
-          direction={direction}
-          heading={
-            <ToolkitBreadcrumbHeading
-              parent={toolkit.name}
-              title={topic.name}
-              onBack={() => onNavigate({})}
-            />
-          }
-        >
-          {topic.introduction && (
-            <Box p={5} pb={1} fontSize="md">
-              <ToolkitContent content={topic.introduction} />
-            </Box>
-          )}
-          <List flex="1 1 auto">
-            {topic.contents?.map((item) => (
-              <ToolkitListItem key={item.name} showIcon={false}>
-                <TopicItem
-                  topic={topic}
-                  item={item}
-                  detail={false}
-                  onForward={() =>
-                    onNavigate({
-                      topicId: topic.name,
-                      itemId: item.name,
-                    })
-                  }
-                />
-              </ToolkitListItem>
-            ))}
-          </List>
-        </ToolkitLevel>
-      );
-    }
+            </ToolkitListItem>
+          ))}
+        </List>
+      </ToolkitLevel>
+    );
   }
   return (
     <ToolkitLevel
