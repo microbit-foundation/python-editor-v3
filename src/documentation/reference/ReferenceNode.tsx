@@ -65,7 +65,7 @@ export const classToInstanceMap: Record<string, string> = {
   MicroBitDigitalPin: "pin0",
   MicroBitTouchPin: "pin0",
   MicroBitAnalogDigitalPin: "pin0",
-  Image: "Image",
+  Image: "Image.HEART",
 };
 
 interface ApiDocEntryNodeProps extends BoxProps {
@@ -374,7 +374,9 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
 };
 
 export const getDragContext = (fullName: string, kind: string): DragContext => {
-  const parts = fullName.split(".").map((p) => classToInstanceMap[p] ?? p);
+  const parts = fullName
+    .split(".")
+    .map((p) => (kind === "variable" ? p : classToInstanceMap[p] ?? p));
   const isMicrobit = parts[0] === "microbit";
   const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
   const code = nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
