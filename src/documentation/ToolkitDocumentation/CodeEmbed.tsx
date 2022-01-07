@@ -21,12 +21,14 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDragContext, debug as dndDebug } from "../../editor/codemirror/dnd";
+import {
+  setDragContext,
+  debug as dndDebug,
+  exampleCode,
+} from "../../editor/codemirror/dnd";
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
-
-export const exploreToolkitType = "explore";
 
 interface CodeEmbedProps {
   code: string;
@@ -167,7 +169,7 @@ const Code = forwardRef<CodeProps, "pre">(
         event.dataTransfer.dropEffect = "copy";
         setDragContext({
           code: full,
-          type: exploreToolkitType,
+          type: exampleCode,
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
       },

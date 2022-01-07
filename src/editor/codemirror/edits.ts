@@ -9,7 +9,7 @@ import { python } from "@codemirror/lang-python";
 import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
-import { referenceToolkitType } from "../../documentation/reference/ReferenceNode";
+import { callableCode } from "./dnd";
 
 export interface RequiredImport {
   module: string;
@@ -125,11 +125,11 @@ export const calculateChanges = (
     changes[0].insert = importInsertPoint.prefix + changes[0].insert;
   }
 
-  if (userEvent === referenceToolkitType) {
-    const callableAdjustment = addition.endsWith("()") ? 2 : 1;
+  if (userEvent === callableCode) {
+    //adjusts for closing bracket and newline char
+    const callableAdjustment = 2;
 
     //point of code added, plus code length
-    //adjusts for callable code
     additionInsertPoint =
       changes[changes.length - 1].from +
       changes[changes.length - 1].insert.length -

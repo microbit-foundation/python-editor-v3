@@ -30,6 +30,10 @@ interface LastDragPos {
   previewUndo: ChangeSet;
 }
 
+type DragContextType = "example" | "call";
+export const exampleCode: DragContextType = "example";
+export const callableCode: DragContextType = "call";
+
 export interface DragContext {
   code: string;
   // I'd like these to be "example" and "call"
@@ -37,7 +41,7 @@ export interface DragContext {
   // "call" is used for function calls and results in cursor between the brackets and signature help
   // single line examples have the cursor at the end of the line
   // multi-line examples have the cursor at the beginning of the example (ideally ignoring whitespace but can do that later)
-  type: "reference" | "explore";
+  type: DragContextType;
 }
 
 let dragContext: DragContext | undefined;

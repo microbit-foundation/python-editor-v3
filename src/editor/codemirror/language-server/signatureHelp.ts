@@ -30,7 +30,7 @@ import {
 } from "./documentation";
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
-import { referenceToolkitType } from "../../../documentation/reference/ReferenceNode";
+import { callableCode } from "../../../editor/codemirror/dnd";
 
 interface SignatureChangeEffect {
   pos: number;
@@ -94,10 +94,7 @@ export const signatureHelp = (intl: IntlShape) => {
         // This needs to trigger for autocomplete adding function parens
         // as well as normal user input with `closebrackets` inserting
         // the closing bracket.
-        if (
-          last.isUserEvent("input") ||
-          last.isUserEvent(referenceToolkitType)
-        ) {
+        if (last.isUserEvent("input") || last.isUserEvent(callableCode)) {
           last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
             if (inserted.sliceString(0).trim().endsWith("()")) {
               this.triggerSignatureHelpRequest();

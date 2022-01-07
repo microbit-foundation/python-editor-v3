@@ -23,6 +23,8 @@ import {
   debug as dndDebug,
   DragContext,
   setDragContext,
+  callableCode,
+  exampleCode,
 } from "../../editor/codemirror/dnd";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import { flags } from "../../flags";
@@ -38,8 +40,6 @@ import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
-
-export const referenceToolkitType = "reference";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -178,7 +178,7 @@ const ReferenceNodeSelf = ({
       const full = `${requiredImport}\n${code}`;
       const context: DragContext = {
         code: full,
-        type: referenceToolkitType,
+        type: kind === "function" ? callableCode : exampleCode,
       };
       setDragContext(context);
       event.dataTransfer.setData(pythonSnippetMediaType, full);
