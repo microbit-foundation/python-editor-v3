@@ -93,6 +93,7 @@ export const calculateChanges = (
 
   let additionInsertPoint: number = -1;
   let additionPrefix = "";
+  let indent;
   if (addition) {
     if (line !== undefined) {
       // Tweak so the addition preview is under the mouse even if we added imports.
@@ -113,7 +114,7 @@ export const calculateChanges = (
     }
 
     const insertLine = state.doc.lineAt(additionInsertPoint);
-    const indent = insertLine.text.match(/^(\s*)/);
+    indent = insertLine.text.match(/^(\s*)/);
     changes.push({
       from: additionInsertPoint,
       insert:
@@ -178,6 +179,13 @@ export const calculateChanges = (
         changes[changes.length - 1].insert.length -
         addition.length -
         trailingNewLineChar;
+    }
+
+    if (!addition.includes("\n")) {
+      //if single line code example
+      //move selection to end of code
+      const indentLength = indentBy("", indent ? indent[0] : "").length;
+      additionInsertPoint += addition.length + indentLength;
     }
   }
 
