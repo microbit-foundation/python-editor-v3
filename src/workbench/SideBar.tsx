@@ -157,6 +157,7 @@ const SideBar = ({
           <Box flex={1} maxHeight="8.9rem" minHeight={8}></Box>
           {panes.map((pane, current) => (
             <SideBarTab
+              key={pane.id}
               handleTabClick={handleTabClick}
               active={index === current}
               {...pane}
