@@ -9,7 +9,7 @@ import { python } from "@codemirror/lang-python";
 import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
-import { callableCode } from "./dnd";
+import { callableCode, exampleCode } from "./dnd";
 
 export interface RequiredImport {
   module: string;
@@ -142,6 +142,42 @@ export const calculateChanges = (
         .slice(0, changes.length - 1)
         .flatMap((c) => c.insert)
         .join("").length;
+    }
+  }
+
+  if (userEvent === exampleCode) {
+    if (changes.length > 1) {
+      //if import statement added
+      //assumes that there may be more than one import
+      const fromOffset = changes
+        .flatMap((c) => c.from)
+        .reduce((acc, cur) => acc + cur, 0);
+
+      //from offset is zero if code is dragged into empty editor
+      if (!fromOffset) {
+        additionInsertPoint +=
+          changes[changes.length - 1].from +
+          changes
+            .slice(0, changes.length - 1)
+            .flatMap((c) => c.insert)
+            .join("").length +
+          additionPrefix.length;
+      } else {
+        additionInsertPoint =
+          changes[changes.length - 1].from +
+          changes
+            .slice(0, changes.length - 1)
+            .flatMap((c) => c.insert)
+            .join("").length;
+      }
+    } else if (additionPrefix.length) {
+      //if code inserted below existing lines
+      const trailingNewLineChar = 1;
+      additionInsertPoint =
+        changes[changes.length - 1].from +
+        changes[changes.length - 1].insert.length -
+        addition.length -
+        trailingNewLineChar;
     }
   }
 
