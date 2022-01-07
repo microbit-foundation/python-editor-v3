@@ -60,12 +60,12 @@ const kindToSpacing: Record<string, any> = {
   function: 3,
 };
 
-const classToInstanceMap: Record<string, string> = {
+export const classToInstanceMap: Record<string, string> = {
   Button: "button_a",
   MicroBitDigitalPin: "pin0",
   MicroBitTouchPin: "pin0",
   MicroBitAnalogDigitalPin: "pin0",
-  Image: "Image.HEART",
+  Image: "Image",
 };
 
 interface ApiDocEntryNodeProps extends BoxProps {
@@ -165,23 +165,9 @@ const ReferenceNodeSelf = ({
     (event: React.DragEvent) => {
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";
-
-      const parts = fullName.split(".").map((p) => classToInstanceMap[p] ?? p);
-      const isMicrobit = parts[0] === "microbit";
-      const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
-      const code =
-        nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
-
-      const requiredImport = isMicrobit
-        ? `from microbit import *`
-        : `import ${parts[0]}`;
-      const full = `${requiredImport}\n${code}`;
-      const context: DragContext = {
-        code: full,
-        type: kind === "function" ? callableCode : exampleCode,
-      };
+      const context = getDragContext(fullName, kind);
       setDragContext(context);
-      event.dataTransfer.setData(pythonSnippetMediaType, full);
+      event.dataTransfer.setData(pythonSnippetMediaType, context.code);
     },
     [fullName, kind]
   );
@@ -385,6 +371,21 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
       ))}
     </Text>
   );
+};
+
+export const getDragContext = (fullName: string, kind: string): DragContext => {
+  const parts = fullName.split(".").map((p) => classToInstanceMap[p] ?? p);
+  const isMicrobit = parts[0] === "microbit";
+  const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
+  const code = nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
+  const requiredImport = isMicrobit
+    ? `from microbit import *`
+    : `import ${parts[0]}`;
+  const full = `${requiredImport}\n${code}`;
+  return {
+    code: full,
+    type: kind === "function" ? callableCode : exampleCode,
+  };
 };
 
 export default ReferenceNode;
