@@ -14,7 +14,7 @@ import ToolkitLevel from "./ToolkitLevel";
 import ToolkitListItem from "./ToolkitListItem";
 import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
-import TopicItem from "./TopicItem";
+import ToolkitTopicEntry from "./ToolkitTopicEntry";
 
 interface ToolkitProps {
   toolkit: Toolkit;
@@ -99,9 +99,9 @@ const ActiveToolkitLevel = ({
         <List flex="1 1 auto">
           {topic.contents?.map((item) => (
             <ToolkitListItem key={item.name}>
-              <TopicItem
+              <ToolkitTopicEntry
                 topic={topic}
-                item={item}
+                entry={item}
                 active={activeItem === item}
               />
             </ToolkitListItem>

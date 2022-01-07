@@ -8,25 +8,33 @@ import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import ShowMoreButton from "../common/ShowMoreButton";
-import { isV2Only, ToolkitTopic, ToolkitTopicEntry } from "./model";
+import {
+  isV2Only,
+  ToolkitTopic,
+  ToolkitTopicEntry as ToolkitTopicEntryModel,
+} from "./model";
 import ToolkitContent from "./ToolkitContent";
 
-interface TopicItemProps extends BoxProps {
+interface ToolkitTopicEntryProps extends BoxProps {
   topic: ToolkitTopic;
-  item: ToolkitTopicEntry;
+  entry: ToolkitTopicEntryModel;
   active?: boolean;
 }
 
 /**
- * A toolkit topic item. Can be displayed without detail (for the listing)
- * or with detail for the "More info" view.
+ * A toolkit topic entry. Can be displayed with and without detail.
  *
  * We show a pop-up over the code on hover to reveal the full code, overlapping
  * the sidebar scroll area.
  */
-const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
+const ToolkitTopicEntry = ({
+  topic,
+  entry,
+  active,
+  ...props
+}: ToolkitTopicEntryProps) => {
   // `active` prop not yet used but we can follow a similar approach to ReferenceNode.
-  const { content, detailContent, alternatives, alternativesLabel } = item;
+  const { content, detailContent, alternatives, alternativesLabel } = entry;
   const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
     alternatives && alternatives.length > 0 ? 0 : undefined
@@ -49,8 +57,8 @@ const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
       }}
     >
       <Text as="h3" fontSize="lg" fontWeight="semibold">
-        {item.name}
-        {isV2Only(item) ? " (V2)" : ""}
+        {entry.name}
+        {isV2Only(entry) ? " (V2)" : ""}
       </Text>
       <ToolkitContent content={content} />
       {alternatives && typeof alternativeIndex === "number" && (
@@ -94,4 +102,4 @@ const TopicItem = ({ topic, item, active, ...props }: TopicItemProps) => {
   );
 };
 
-export default TopicItem;
+export default ToolkitTopicEntry;
