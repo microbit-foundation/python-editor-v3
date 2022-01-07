@@ -175,13 +175,13 @@ const ReferenceNodeSelf = ({
       const requiredImport = isMicrobit
         ? `from microbit import *`
         : `import ${parts[0]}`;
-      const changes = `${requiredImport}\n${code}`;
+      const full = `${requiredImport}\n${code}`;
       const context: DragContext = {
-        code,
+        code: full,
         type: referenceToolkitType,
       };
       setDragContext(context);
-      event.dataTransfer.setData(pythonSnippetMediaType, changes);
+      event.dataTransfer.setData(pythonSnippetMediaType, full);
     },
     [fullName, kind]
   );

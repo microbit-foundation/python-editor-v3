@@ -126,9 +126,17 @@ export const calculateChanges = (
   }
 
   if (userEvent === referenceToolkitType) {
-    const callableAdjustment = addition.endsWith("()") ? 1 : 0;
-    additionInsertPoint +=
-      addition.length + additionPrefix.length - callableAdjustment;
+    const callableAdjustment = addition.endsWith("()") ? 2 : 1;
+
+    //point of code added, plus code length
+    //adjusts for callable code
+    additionInsertPoint =
+      changes[changes.length - 1].from +
+      changes[changes.length - 1].insert.length -
+      callableAdjustment;
+
+    //if import statement added
+    //assumes that there may be more than one import
     if (changes.length > 1) {
       additionInsertPoint += changes
         .slice(0, changes.length - 1)
