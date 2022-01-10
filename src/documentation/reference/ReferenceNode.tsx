@@ -10,7 +10,13 @@ import {
   usePrefersReducedMotion,
   usePrevious,
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -93,7 +99,9 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
     disclosure,
     fullName,
   ]);
-
+  const handleHighlightClick = useCallback(() => {
+    setHighlighting(false);
+  }, [setHighlighting]);
   return (
     <Box
       ref={ref}
@@ -108,7 +116,16 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
       fontSize="sm"
       {...others}
     >
-      <Highlight value={highlighting} mt={1} mb={1} pl={3} pr={3} pt={3} pb={3}>
+      <Highlight
+        onClick={handleHighlightClick}
+        value={highlighting}
+        mt={1}
+        mb={1}
+        pl={3}
+        pr={3}
+        pt={3}
+        pb={3}
+      >
         <ReferenceNodeSelf
           docs={docs}
           showMore={disclosure.isOpen}
