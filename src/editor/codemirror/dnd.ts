@@ -3,17 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { RangeSetBuilder } from "@codemirror/rangeset";
-import { Extension } from "@codemirror/state";
-import { ChangeSet, Transaction } from "@codemirror/state";
-import {
-  Decoration,
-  DecorationSet,
-  EditorView,
-  ViewPlugin,
-  ViewUpdate,
-} from "@codemirror/view";
+import { ChangeSet, Extension, Transaction } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
 import { flags } from "../../flags";
+import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
 
@@ -22,77 +15,6 @@ export const debug = (message: string, ...args: any) => {
     console.log(message, ...args);
   }
 };
-
-const ghost = Decoration.line({
-  attributes: { class: "cm-ghost" },
-});
-
-const corporeal = Decoration.line({
-  attributes: { class: "cm-corporeal" },
-});
-
-const showGhostCode = ViewPlugin.fromClass(
-  class {
-    decorations: DecorationSet;
-
-    constructor(view: EditorView) {
-      this.decorations = ghostDecorations(view, new Set([]));
-    }
-
-    update(update: ViewUpdate) {
-      if (update.docChanged) {
-        const ghosts =
-          update.transactions.length === 1 &&
-          update.transactions[0].annotation(Transaction.addToHistory) === false;
-        const ghostLineFroms = new Set<number>();
-        if (ghosts) {
-          update.changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
-            const start = update.state.doc.lineAt(fromB);
-            const end = update.state.doc.lineAt(toB);
-            for (let l = start.number; l < end.number; ++l) {
-              const line = update.state.doc.line(l);
-              if (line.text.trim()) {
-                ghostLineFroms.add(line.from);
-              }
-            }
-          });
-        }
-        this.decorations = ghostDecorations(update.view, ghostLineFroms);
-      }
-    }
-  },
-  {
-    decorations: (v) => v.decorations,
-  }
-);
-
-const ghostTheme = EditorView.theme({
-  ".cm-ghost": {
-    backgroundColor: "#95D7CE4D",
-    transition: "opacity ease-out 2s",
-  },
-  // This doesn't get us a useful transition, I think because lines get removed and re-added.
-  ".cm-corporeal": {
-    opacity: 1,
-  },
-});
-
-const ghostDecorations = (
-  view: EditorView,
-  ghostLineFroms: Set<number>
-): DecorationSet => {
-  const builder = new RangeSetBuilder<Decoration>();
-  for (let { from: rangeFrom, to: rangeTo } of view.visibleRanges) {
-    for (let pos = rangeFrom; pos <= rangeTo; ) {
-      let { from, to } = view.state.doc.lineAt(pos);
-      builder.add(from, from, ghostLineFroms.has(from) ? ghost : corporeal);
-      pos = to + 1;
-    }
-  }
-  return builder.finish();
-};
-
-const ghostExtension = () => [ghostTheme, showGhostCode];
 
 /**
  * Information stashed last time we handled dragover.
@@ -151,6 +73,7 @@ const dndHandlers = () => {
   const revertPreview = (view: EditorView) => {
     if (lastDragPos) {
       view.dispatch({
+        userEvent: "dnd.cleanup",
         changes: lastDragPos.previewUndo,
         annotations: [Transaction.addToHistory.of(false)],
       });
@@ -186,6 +109,7 @@ const dndHandlers = () => {
             };
             // Take just the changes, skip the selection updates we perform on drop.
             view.dispatch({
+              userEvent: "dnd.preview",
               changes: transaction.changes,
               annotations: [Transaction.addToHistory.of(false)],
             });
@@ -252,4 +176,4 @@ const dndHandlers = () => {
  *
  * Note this requires coordination from the drag end via {@link setDraggedCode}.
  */
-export const dndSupport = (): Extension => [dndHandlers(), ghostExtension()];
+export const dndSupport = (): Extension => [dndHandlers(), dndDecorations()];
