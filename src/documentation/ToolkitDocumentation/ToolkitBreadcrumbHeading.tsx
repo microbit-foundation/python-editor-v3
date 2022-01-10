@@ -29,7 +29,7 @@ const ToolkitBreadcrumbHeading = ({
       <Button
         // Button is full width so put content at the start.
         justifyContent="flex-start"
-        leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
+        leftIcon={<RiArrowLeftSFill />}
         sx={{
           span: {
             margin: 0,
@@ -43,9 +43,11 @@ const ToolkitBreadcrumbHeading = ({
         variant="unstyled"
         onClick={onBack}
         alignItems="center"
-        fontWeight="sm"
+        fontWeight="bold"
+        fontSize="md"
         whiteSpace="normal"
         textAlign="left"
+        color="brand.500"
       >
         <Text as="span">
           {grandparent && grandparent + " / "}

@@ -93,7 +93,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
       <HStack spacing={3} mt="2px">
         <Button
           fontWeight="normal"
-          color="#gray.800"
+          color="gray.800"
           border="none"
           bgColor="#CAEBE7" //unlisted color
           borderTopRadius="0"
