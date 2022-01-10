@@ -68,7 +68,7 @@ const showGhostCode = ViewPlugin.fromClass(
 
 const ghostTheme = EditorView.theme({
   ".cm-ghost": {
-    backgroundColor: "lightyellow",
+    backgroundColor: "#95D7CE4D",
     transition: "opacity ease-out 2s",
   },
   // This doesn't get us a useful transition, I think because lines get removed and re-added.
