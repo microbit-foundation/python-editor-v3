@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List } from "@chakra-ui/layout";
+import { List, ListItem, Divider } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
@@ -14,7 +14,6 @@ import { allowWrapAtPeriods } from "../common/wrap";
 import { useAnimationDirection } from "../ToolkitDocumentation/toolkit-hooks";
 import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
 import ToolkitLevel from "../ToolkitDocumentation/ToolkitLevel";
-import ToolkitListItem from "../ToolkitDocumentation/ToolkitListItem";
 import ToolkitTopLevelHeading from "../ToolkitDocumentation/ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "../ToolkitDocumentation/ToolkitTopLevelListItem";
 import { resolveModule } from "./apidocs-util";
@@ -74,9 +73,10 @@ const ActiveToolkitLevel = ({
       >
         <List flex="1 1 auto">
           {(module.children ?? []).map((child) => (
-            <ToolkitListItem key={child.id}>
-              <ReferenceNode docs={child} width="100%" anchor={anchor} />
-            </ToolkitListItem>
+            <ListItem key={child.id}>
+              <ReferenceNode docs={child} width="100%" anchor={anchor} mb={0} />
+              <Divider />
+            </ListItem>
           ))}
         </List>
       </ToolkitLevel>

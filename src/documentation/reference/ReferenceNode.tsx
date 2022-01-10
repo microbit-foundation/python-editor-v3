@@ -50,13 +50,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
   anchor?: Anchor;
 }
 
-const ReferenceNode = ({
-  anchor,
-  docs,
-  mt,
-  mb,
-  ...others
-}: ApiDocEntryNodeProps) => {
+const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
   const { kind, fullName } = docs;
   const disclosure = useDisclosure();
 
@@ -106,15 +100,15 @@ const ReferenceNode = ({
       id={fullName}
       wordBreak="break-word"
       mb={kindToSpacing[kind]}
-      {...others}
       _hover={{
         "& button": {
           display: "flex",
         },
       }}
       fontSize="sm"
+      {...others}
     >
-      <Highlight value={highlighting}>
+      <Highlight value={highlighting} mt={1} mb={1} pl={3} pr={3} pt={3} pb={3}>
         <ReferenceNodeSelf
           docs={docs}
           showMore={disclosure.isOpen}
