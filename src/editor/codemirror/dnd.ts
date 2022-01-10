@@ -3,8 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { RangeSetBuilder } from "@codemirror/rangeset";
+import { Extension } from "@codemirror/state";
 import { ChangeSet, Transaction } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
+import {
+  Decoration,
+  DecorationSet,
+  EditorView,
+  ViewPlugin,
+  ViewUpdate,
+} from "@codemirror/view";
 import { flags } from "../../flags";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
@@ -14,6 +22,56 @@ export const debug = (message: string, ...args: any) => {
     console.log(message, ...args);
   }
 };
+
+const ghost = Decoration.line({
+  attributes: { class: "cm-ghost" },
+});
+
+const showGhostCode = ViewPlugin.fromClass(
+  class {
+    decorations: DecorationSet;
+
+    constructor(view: EditorView) {
+      this.decorations = ghostDecorations(view, new Set([]));
+    }
+
+    update(update: ViewUpdate) {
+      if (update.docChanged) {
+        const lineFroms = new Set<number>();
+        update.changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
+          const start = update.state.doc.lineAt(fromB);
+          const end = update.state.doc.lineAt(toB);
+          for (let l = start.number; l <= end.number; ++l) {
+            lineFroms.add(update.state.doc.line(l).from);
+          }
+        });
+        this.decorations = ghostDecorations(update.view, lineFroms);
+      }
+    }
+  },
+  {
+    decorations: (v) => v.decorations,
+  }
+);
+
+const ghostTheme = EditorView.theme({
+  ".cm-ghost": {
+    opacity: 0.5,
+  },
+});
+
+const ghostDecorations = (
+  view: EditorView,
+  lineFroms: Set<number>
+): DecorationSet => {
+  const builder = new RangeSetBuilder<Decoration>();
+  lineFroms.forEach((from) => {
+    builder.add(from, from, ghost);
+  });
+  return builder.finish();
+};
+
+const ghostExtension = () => [ghostTheme, showGhostCode];
 
 /**
  * Information stashed last time we handled dragover.
@@ -66,12 +124,7 @@ const clearSuppressChildDragEnterLeave = (view: EditorView) => {
   findWrappingSection(view).classList.remove("cm-drag-in-progress");
 };
 
-/**
- * Support for dropping code snippets.
- *
- * Note this requires coordination from the drag end via {@link setDraggedCode}.
- */
-export const dndSupport = () => {
+const dndHandlers = () => {
   let lastDragPos: LastDragPos | undefined;
 
   const revertPreview = (view: EditorView) => {
@@ -172,3 +225,10 @@ export const dndSupport = () => {
     }),
   ];
 };
+
+/**
+ * Support for dropping code snippets.
+ *
+ * Note this requires coordination from the drag end via {@link setDraggedCode}.
+ */
+export const dndSupport = (): Extension => [dndHandlers(), ghostExtension()];
