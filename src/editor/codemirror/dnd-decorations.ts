@@ -110,10 +110,10 @@ const dndTheme = EditorView.theme({
     backgroundColor: "#FEFCBF",
   },
   ".cm-dropped--recent": {
-    backgroundColor: "#FEFCBF7f",
+    backgroundColor: "#FEFCBF99",
   },
   ".cm-dropped--done": {
-    transition: "background-color ease-in 1.2s",
+    transition: "background-color ease-in 1s",
   },
 });
 
