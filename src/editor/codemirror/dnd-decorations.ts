@@ -107,13 +107,13 @@ const droppedDone = Decoration.line({
 
 const dndTheme = EditorView.theme({
   ".cm-preview": {
-    backgroundColor: "#95D7CE4D",
+    backgroundColor: "#FEFCBF",
   },
   ".cm-dropped--recent": {
-    backgroundColor: "#95D7CE4D",
+    backgroundColor: "#FEFCBF7f",
   },
   ".cm-dropped--done": {
-    transition: "background-color ease-in 0.8s",
+    transition: "background-color ease-in 1.2s",
   },
 });
 
