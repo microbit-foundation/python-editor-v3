@@ -25,7 +25,7 @@ const ToolkitLevel = ({
       <VStack alignItems="stretch" spacing={0} {...props}>
         <Box
           minHeight="28"
-          backgroundColor="rgb(230, 232, 239)"
+          backgroundColor="gray.25"
           flex="0 0 auto"
           p={3}
           pl={5}
