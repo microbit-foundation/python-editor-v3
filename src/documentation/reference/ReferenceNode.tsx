@@ -121,10 +121,7 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
         value={highlighting}
         mt={1}
         mb={1}
-        pl={3}
-        pr={3}
-        pt={3}
-        pb={3}
+        p={3}
       >
         <ReferenceNodeSelf
           docs={docs}
