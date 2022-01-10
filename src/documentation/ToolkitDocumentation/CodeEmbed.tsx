@@ -5,6 +5,7 @@
  */
 import { Button } from "@chakra-ui/button";
 import { DragHandleIcon } from "@chakra-ui/icons";
+import { RiFileTransferLine } from "react-icons/ri";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
@@ -53,6 +54,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.3994140625 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
+  const codePopUpHeight = `calc(${codeHeight} + 2px)`; //account for border
   const handleMouseEnter = useCallback(() => {
     setHovering(true);
   }, [setHovering]);
@@ -69,7 +71,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
       <Box height={codeHeight} fontSize="md">
         <Code
           // Shadow only on this one, not the pop-up.
-          boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+          // boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           concise={code}
@@ -79,7 +81,8 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
         />
         {hovering && (
           <CodePopUp
-            height={codeHeight}
+            height={codePopUpHeight}
+            width={codeRef.current ? codeRef.current.offsetWidth : "unset"}
             setHovering={setHovering}
             concise={code}
             full={codeWithImports}
@@ -87,17 +90,19 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           />
         )}
       </Box>
-      <HStack spacing={3}>
+      <HStack spacing={3} mt="2px">
         <Button
           fontWeight="normal"
-          color="white"
-          borderColor="rgb(141, 141, 143)"
-          bgColor="rgb(141, 141, 143)"
+          color="#gray.800"
+          border="none"
+          bgColor="#CAEBE7" //unlisted color
           borderTopRadius="0"
-          borderBottomRadius="xl"
+          borderBottomRadius="lg"
+          ml={5}
           variant="ghost"
           size="sm"
           onClick={handleInsertCode}
+          rightIcon={<RiFileTransferLine />}
         >
           <FormattedMessage id="insert-code-action" />
         </Button>
@@ -175,9 +180,11 @@ const Code = forwardRef<CodeProps, "pre">(
     return (
       <HStack
         draggable={flags.dnd}
-        backgroundColor="rgb(247,245,242)"
-        borderTopRadius="lg"
+        backgroundColor="white"
+        border="1px solid #95d7ce" /*brand color*/
+        borderRadius="lg"
         fontFamily="code"
+        overflow="hidden"
         ref={ref}
         spacing={0}
         onDragStart={handleDragStart}
@@ -197,8 +204,8 @@ interface DragHandleProps extends BoxProps {}
 
 const DragHandle = (props: DragHandleProps) => {
   return (
-    <HStack {...props} bgColor="blackAlpha.100">
-      <DragHandleIcon boxSize={3} />
+    <HStack {...props} bgColor="#e9f6f5" /*unlisted color*/>
+      <DragHandleIcon boxSize={3} color="#95d7ce" /*brand color*/ />
     </HStack>
   );
 };
