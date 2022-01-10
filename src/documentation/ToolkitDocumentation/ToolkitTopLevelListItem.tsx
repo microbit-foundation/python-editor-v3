@@ -23,7 +23,7 @@ const ToolkitTopLevelListItem = ({
 }: ToolkitTopLevelListItemProps) => {
   const intl = useIntl();
   return (
-    <ToolkitListItem onClick={onForward} cursor="pointer">
+    <ToolkitListItem onClick={onForward} cursor="pointer" showIcon={true}>
       <VStack alignItems="stretch" spacing={2} flex="1 1 auto">
         <Text as="h3" fontSize="lg" fontWeight="semibold">
           {name}
