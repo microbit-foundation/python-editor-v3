@@ -6,8 +6,11 @@ interface HighlightProps extends BoxProps {
 
 const Highlight = ({ value, children, ...props }: HighlightProps) => {
   const style = value
-    ? { backgroundColor: "brand.100" }
-    : { transition: "background-color ease-in 0.5s" };
+    ? {
+        backgroundColor: "brand.100",
+        transition: "background-color ease-out 0.2s",
+      }
+    : { transition: "background-color ease-in 0.6s" };
   return (
     <Box {...props} {...style} borderLeftRadius="md">
       {children}
