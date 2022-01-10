@@ -88,6 +88,7 @@ const ActiveToolkitLevel = ({
             parent={toolkit.name}
             title={topic.name}
             onBack={() => onNavigate({})}
+            subtitle={topic.subtitle}
           />
         }
       >

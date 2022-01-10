@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Stack, Text } from "@chakra-ui/layout";
+import { Box, Stack, Text } from "@chakra-ui/layout";
+import { HStack, VStack } from "@chakra-ui/react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 
 interface BreadcrumbHeadingProps {
@@ -14,6 +15,7 @@ interface BreadcrumbHeadingProps {
   onBack: () => void;
   titleFontFamily?: "code";
   parentFontFamily?: "code";
+  subtitle?: string;
 }
 
 const ToolkitBreadcrumbHeading = ({
@@ -23,6 +25,7 @@ const ToolkitBreadcrumbHeading = ({
   onBack,
   parentFontFamily,
   titleFontFamily,
+  subtitle,
 }: BreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
@@ -56,14 +59,33 @@ const ToolkitBreadcrumbHeading = ({
           </Text>
         </Text>
       </Button>
-      <Text
-        as="h2"
-        fontSize="3xl"
-        fontWeight="semibold"
-        fontFamily={titleFontFamily}
-      >
-        {title}
-      </Text>
+      <HStack align="flex-start" spacing={4}>
+        <Box
+          minWidth="80px"
+          height="64px"
+          bg="#d7d9dc"
+          borderRadius="lg"
+          mt={1}
+        ></Box>
+        <VStack align="flex-start" spacing={1}>
+          <Text
+            as="h2"
+            fontSize="2xl"
+            fontWeight="semibold"
+            fontFamily={titleFontFamily}
+          >
+            {title}
+          </Text>
+          {subtitle && (
+            <Text
+              fontSize="md"
+              color="rgba(97, 97, 98, 0.7)" /*unlisted color*/
+            >
+              {subtitle}
+            </Text>
+          )}
+        </VStack>
+      </HStack>
     </Stack>
   );
 };

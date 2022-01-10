@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  Box,
   Divider,
   HStack,
-  ListIcon,
   ListItem,
   ListItemProps,
 } from "@chakra-ui/layout";
-import { RiCheckboxBlankFill } from "react-icons/ri";
 
 interface ToolkitListItemProps extends ListItemProps {
   showIcon: boolean;
@@ -22,14 +21,15 @@ const ToolkitListItem = ({
   ...props
 }: ToolkitListItemProps) => (
   <ListItem {...props}>
-    <HStack ml={showIcon ? 3 : 5} mr={3} mt={5} mb={5} spacing={0.5}>
+    <HStack ml={showIcon ? 3 : 5} mr={3} mt={5} mb={5} spacing={5}>
       {showIcon && (
-        <ListIcon
-          as={RiCheckboxBlankFill}
-          color="rgb(205, 210, 226)"
-          fontSize="3xl"
-          alignSelf="flex-start"
-        />
+        <Box
+          minWidth="80px"
+          height="64px"
+          bg="#d7d9dc"
+          borderRadius="lg"
+          mt={1}
+        ></Box>
       )}
       {children}
     </HStack>
