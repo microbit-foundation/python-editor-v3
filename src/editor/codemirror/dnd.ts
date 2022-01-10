@@ -27,6 +27,10 @@ const ghost = Decoration.line({
   attributes: { class: "cm-ghost" },
 });
 
+const corporeal = Decoration.line({
+  attributes: { class: "cm-corporeal" },
+});
+
 const showGhostCode = ViewPlugin.fromClass(
   class {
     decorations: DecorationSet;
@@ -37,15 +41,23 @@ const showGhostCode = ViewPlugin.fromClass(
 
     update(update: ViewUpdate) {
       if (update.docChanged) {
-        const lineFroms = new Set<number>();
-        update.changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
-          const start = update.state.doc.lineAt(fromB);
-          const end = update.state.doc.lineAt(toB);
-          for (let l = start.number; l <= end.number; ++l) {
-            lineFroms.add(update.state.doc.line(l).from);
-          }
-        });
-        this.decorations = ghostDecorations(update.view, lineFroms);
+        const ghosts =
+          update.transactions.length === 1 &&
+          update.transactions[0].annotation(Transaction.addToHistory) === false;
+        const ghostLineFroms = new Set<number>();
+        if (ghosts) {
+          update.changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
+            const start = update.state.doc.lineAt(fromB);
+            const end = update.state.doc.lineAt(toB);
+            for (let l = start.number; l < end.number; ++l) {
+              const line = update.state.doc.line(l);
+              if (line.text.trim()) {
+                ghostLineFroms.add(line.from);
+              }
+            }
+          });
+        }
+        this.decorations = ghostDecorations(update.view, ghostLineFroms);
       }
     }
   },
@@ -56,18 +68,27 @@ const showGhostCode = ViewPlugin.fromClass(
 
 const ghostTheme = EditorView.theme({
   ".cm-ghost": {
-    opacity: 0.5,
+    backgroundColor: "lightyellow",
+    transition: "opacity ease-out 2s",
+  },
+  // This doesn't get us a useful transition, I think because lines get removed and re-added.
+  ".cm-corporeal": {
+    opacity: 1,
   },
 });
 
 const ghostDecorations = (
   view: EditorView,
-  lineFroms: Set<number>
+  ghostLineFroms: Set<number>
 ): DecorationSet => {
   const builder = new RangeSetBuilder<Decoration>();
-  lineFroms.forEach((from) => {
-    builder.add(from, from, ghost);
-  });
+  for (let { from: rangeFrom, to: rangeTo } of view.visibleRanges) {
+    for (let pos = rangeFrom; pos <= rangeTo; ) {
+      let { from, to } = view.state.doc.lineAt(pos);
+      builder.add(from, from, ghostLineFroms.has(from) ? ghost : corporeal);
+      pos = to + 1;
+    }
+  }
   return builder.finish();
 };
 
