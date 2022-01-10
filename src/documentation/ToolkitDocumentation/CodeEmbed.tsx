@@ -53,7 +53,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.3994140625 + "em";
-  const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
+  const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const codePopUpHeight = `calc(${codeHeight} + 2px)`; //account for border
   const handleMouseEnter = useCallback(() => {
     setHovering(true);
@@ -194,7 +194,13 @@ const Code = forwardRef<CodeProps, "pre">(
         {flags.dnd && (
           <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
         )}
-        <CodeMirrorView value={concise} p={5} pl={flags.dnd ? 1 : 5} />
+        <CodeMirrorView
+          value={concise}
+          p={5}
+          pl={flags.dnd ? 1 : 5}
+          pt={2}
+          pb={2}
+        />
       </HStack>
     );
   }

@@ -29,6 +29,7 @@ export interface ToolkitTopic extends HasCompatibility {
    */
   introduction?: ToolkitPortableText;
   contents?: ToolkitTopicEntry[];
+  image?: ToolkitImage;
 }
 
 export interface ToolkitCode {

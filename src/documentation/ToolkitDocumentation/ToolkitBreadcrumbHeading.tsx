@@ -4,9 +4,21 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Box, Stack, Text } from "@chakra-ui/layout";
-import { HStack, VStack } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/layout";
+import { HStack, VStack, Image } from "@chakra-ui/react";
 import { RiArrowLeftSFill } from "react-icons/ri";
+import unconfiguredImageUrlBuilder from "@sanity/image-url";
+import { ToolkitImage } from "../ToolkitDocumentation/model";
+
+export const defaultQuality = 80;
+
+const imageUrlBuilder = unconfiguredImageUrlBuilder()
+  // Hardcoded for now as there's no practical alternative.
+  .projectId("ajwvhvgo")
+  .dataset("apps")
+  .auto("format")
+  .dpr(window.devicePixelRatio ?? 1)
+  .quality(defaultQuality);
 
 interface BreadcrumbHeadingProps {
   title: string;
@@ -16,6 +28,7 @@ interface BreadcrumbHeadingProps {
   titleFontFamily?: "code";
   parentFontFamily?: "code";
   subtitle?: string;
+  icon?: ToolkitImage;
 }
 
 const ToolkitBreadcrumbHeading = ({
@@ -26,6 +39,7 @@ const ToolkitBreadcrumbHeading = ({
   parentFontFamily,
   titleFontFamily,
   subtitle,
+  icon,
 }: BreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
@@ -60,13 +74,16 @@ const ToolkitBreadcrumbHeading = ({
         </Text>
       </Button>
       <HStack align="flex-start" spacing={4}>
-        <Box
-          minWidth="80px"
-          height="64px"
-          bg="#d7d9dc"
-          borderRadius="lg"
-          mt={1}
-        ></Box>
+        {icon && (
+          <Image
+            src={imageUrlBuilder.image(icon.asset).width(80).height(64).url()}
+            alt="something"
+            width="80px"
+            height="64px"
+            borderRadius="lg"
+            mt={1}
+          />
+        )}
         <VStack align="flex-start" spacing={1}>
           <Text
             as="h2"
@@ -76,14 +93,7 @@ const ToolkitBreadcrumbHeading = ({
           >
             {title}
           </Text>
-          {subtitle && (
-            <Text
-              fontSize="md"
-              color="rgba(97, 97, 98, 0.7)" /*unlisted color*/
-            >
-              {subtitle}
-            </Text>
-          )}
+          {subtitle && <Text fontSize="md">{subtitle}</Text>}
         </VStack>
       </HStack>
     </Stack>

@@ -9,21 +9,29 @@ import { ReactNode } from "react";
 import { RiArrowRightSFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import ToolkitListItem from "./ToolkitListItem";
+import { ToolkitImage } from "../ToolkitDocumentation/model";
 
 interface ToolkitTopLevelListItemProps {
   name: string;
   description: ReactNode;
+  icon?: ToolkitImage;
   onForward: () => void;
 }
 
 const ToolkitTopLevelListItem = ({
   name,
   description,
+  icon,
   onForward,
 }: ToolkitTopLevelListItemProps) => {
   const intl = useIntl();
   return (
-    <ToolkitListItem onClick={onForward} cursor="pointer" showIcon={true}>
+    <ToolkitListItem
+      onClick={onForward}
+      cursor="pointer"
+      showIcon={true}
+      icon={icon}
+    >
       <VStack alignItems="stretch" spacing={2} flex="1 1 auto">
         <Text as="h3" fontSize="lg" fontWeight="semibold">
           {name}

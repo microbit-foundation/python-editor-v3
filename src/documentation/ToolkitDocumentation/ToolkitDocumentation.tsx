@@ -78,7 +78,6 @@ const ActiveToolkitLevel = ({
     topic && state.itemId
       ? topic.contents?.find((i) => i.name === state.itemId)
       : undefined;
-
   if (topic) {
     return (
       <ToolkitLevel
@@ -89,11 +88,12 @@ const ActiveToolkitLevel = ({
             title={topic.name}
             onBack={() => onNavigate({})}
             subtitle={topic.subtitle}
+            icon={topic.image}
           />
         }
       >
         {topic.introduction && (
-          <Box p={5} pb={1} fontSize="md">
+          <Box p={5} pb={1} fontSize="sm">
             <ToolkitContent content={topic.introduction} />
           </Box>
         )}
@@ -127,6 +127,7 @@ const ActiveToolkitLevel = ({
             key={topic.name}
             name={topic.name + (isV2Only(topic) ? " (V2)" : "")}
             description={topic.subtitle}
+            icon={topic.image}
             onForward={() =>
               onNavigate({
                 topicId: topic.name,

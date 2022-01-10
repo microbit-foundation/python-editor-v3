@@ -60,50 +60,44 @@ const ToolkitTopicEntry = ({
         {entry.name}
         {isV2Only(entry) ? " (V2)" : ""}
       </Text>
-      <Stack
-        spacing={3}
-        fontSize="sm"
-        color="rgba(97, 97, 98, 0.9)" /*unlisted color*/
-      >
-        <ToolkitContent content={content} />
-        {alternatives && typeof alternativeIndex === "number" && (
-          <>
-            <Flex wrap="wrap" as="label">
-              <Text alignSelf="center" mr={2} as="span">
-                {alternativesLabel}
-              </Text>
-              <Select
-                w="fit-content"
-                onChange={handleSelectChange}
-                value={alternativeIndex}
-                size="sm"
-              >
-                {alternatives.map((alterative, index) => (
-                  <option key={alterative.name} value={index}>
-                    {alterative.name}
-                  </option>
-                ))}
-              </Select>
-            </Flex>
+      <ToolkitContent content={content} />
+      {alternatives && typeof alternativeIndex === "number" && (
+        <>
+          <Flex wrap="wrap" as="label">
+            <Text alignSelf="center" mr={2} as="span">
+              {alternativesLabel}
+            </Text>
+            <Select
+              w="fit-content"
+              onChange={handleSelectChange}
+              value={alternativeIndex}
+              size="sm"
+            >
+              {alternatives.map((alterative, index) => (
+                <option key={alterative.name} value={index}>
+                  {alterative.name}
+                </option>
+              ))}
+            </Select>
+          </Flex>
 
-            <ToolkitContent content={alternatives[alternativeIndex].content} />
-          </>
-        )}
-        {hasDetail && (
-          <>
-            {/* Avoid Stack spacing here so the margin animates too. */}
-            <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-              <Stack spacing={3} mt={3}>
-                <ToolkitContent content={detailContent} />
-              </Stack>
-            </Collapse>
-            <ShowMoreButton
-              onClick={disclosure.onToggle}
-              isOpen={disclosure.isOpen}
-            />
-          </>
-        )}
-      </Stack>
+          <ToolkitContent content={alternatives[alternativeIndex].content} />
+        </>
+      )}
+      {hasDetail && (
+        <>
+          {/* Avoid Stack spacing here so the margin animates too. */}
+          <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+            <Stack spacing={3} mt={3}>
+              <ToolkitContent content={detailContent} />
+            </Stack>
+          </Collapse>
+          <ShowMoreButton
+            onClick={disclosure.onToggle}
+            isOpen={disclosure.isOpen}
+          />
+        </>
+      )}
     </Stack>
   );
 };

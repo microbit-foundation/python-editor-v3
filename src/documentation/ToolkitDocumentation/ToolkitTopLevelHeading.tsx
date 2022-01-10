@@ -18,9 +18,7 @@ const ToolkitTopLevelHeading = ({
     <Text as="h2" fontSize="3xl" fontWeight="semibold">
       {name}
     </Text>
-    <Text fontSize="md" color="rgba(97, 97, 98, 0.7)" /*unlisted color*/>
-      {description}{" "}
-    </Text>
+    <Text fontSize="md">{description} </Text>
   </>
 );
 
