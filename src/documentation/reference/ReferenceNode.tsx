@@ -10,7 +10,7 @@ import {
   usePrefersReducedMotion,
   usePrevious,
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -24,6 +24,7 @@ import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
+import Highlight from "../ToolkitDocumentation/Highlight";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -66,6 +67,7 @@ const ReferenceNode = ({
   const scrollable = useScrollablePanelAncestor();
   const prefersReducedMotion = usePrefersReducedMotion();
   const logging = useLogging();
+  const [highlighting, setHighlighting] = useState(false);
   useEffect(() => {
     if (previousAnchor !== anchor && active) {
       logging.log("Activating " + fullName);
@@ -79,6 +81,12 @@ const ReferenceNode = ({
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }
+        setTimeout(() => {
+          setHighlighting(true);
+          setTimeout(() => {
+            setHighlighting(false);
+          }, 3000);
+        }, 300);
       }, 150);
     }
   }, [
@@ -106,12 +114,14 @@ const ReferenceNode = ({
       }}
       fontSize="sm"
     >
-      <ReferenceNodeSelf
-        docs={docs}
-        showMore={disclosure.isOpen}
-        onToggleShowMore={disclosure.onToggle}
-      />
-      <ReferenceNodeChildren docs={docs} anchor={anchor} />
+      <Highlight value={highlighting}>
+        <ReferenceNodeSelf
+          docs={docs}
+          showMore={disclosure.isOpen}
+          onToggleShowMore={disclosure.onToggle}
+        />
+        <ReferenceNodeChildren docs={docs} anchor={anchor} />
+      </Highlight>
     </Box>
   );
 };
