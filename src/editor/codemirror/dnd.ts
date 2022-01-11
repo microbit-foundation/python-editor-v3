@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ChangeSet, Transaction } from "@codemirror/state";
+import { ChangeSet, Extension, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { flags } from "../../flags";
+import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
 
@@ -66,17 +67,13 @@ const clearSuppressChildDragEnterLeave = (view: EditorView) => {
   findWrappingSection(view).classList.remove("cm-drag-in-progress");
 };
 
-/**
- * Support for dropping code snippets.
- *
- * Note this requires coordination from the drag end via {@link setDraggedCode}.
- */
-export const dndSupport = () => {
+const dndHandlers = () => {
   let lastDragPos: LastDragPos | undefined;
 
   const revertPreview = (view: EditorView) => {
     if (lastDragPos) {
       view.dispatch({
+        userEvent: "dnd.cleanup",
         changes: lastDragPos.previewUndo,
         annotations: [Transaction.addToHistory.of(false)],
       });
@@ -112,6 +109,7 @@ export const dndSupport = () => {
             };
             // Take just the changes, skip the selection updates we perform on drop.
             view.dispatch({
+              userEvent: "dnd.preview",
               changes: transaction.changes,
               annotations: [Transaction.addToHistory.of(false)],
             });
@@ -172,3 +170,10 @@ export const dndSupport = () => {
     }),
   ];
 };
+
+/**
+ * Support for dropping code snippets.
+ *
+ * Note this requires coordination from the drag end via {@link setDraggedCode}.
+ */
+export const dndSupport = (): Extension => [dndHandlers(), dndDecorations()];

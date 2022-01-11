@@ -123,6 +123,7 @@ export const calculateChanges = (
     changes[0].insert = importInsertPoint.prefix + changes[0].insert;
   }
   return state.update({
+    userEvent: "dnd.drop",
     changes,
     scrollIntoView: true,
     selection: addition
