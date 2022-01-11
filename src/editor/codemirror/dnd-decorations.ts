@@ -17,7 +17,7 @@ export class DndDecorationsViewPlugin {
   droppedRecentPos = new Set<number>();
   droppedDonePos = new Set<number>();
 
-  constructor(view: EditorView, private timeout: number = 2_000) {
+  constructor(view: EditorView, private timeout: number = 100) {
     this.decorations = this.dndDecorationsForLines(view);
   }
 
@@ -97,16 +97,18 @@ const droppedDone = Decoration.line({
   attributes: { class: "cm-dropped--done" },
 });
 
+const baseColor = "#f7febf";
+
 export const dndDecorations = () => [
   EditorView.theme({
     ".cm-preview": {
-      backgroundColor: "#fefcbfdd",
+      backgroundColor: `${baseColor}55`,
     },
     ".cm-dropped--recent": {
-      backgroundColor: "#fefcbf99",
+      backgroundColor: `${baseColor}dd`,
     },
     ".cm-dropped--done": {
-      transition: "background-color ease-in 1s",
+      transition: "background-color ease-in 2.9s",
     },
   }),
   ViewPlugin.fromClass(DndDecorationsViewPlugin, {
