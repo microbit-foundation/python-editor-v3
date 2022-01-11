@@ -31,7 +31,7 @@ const ToolkitListItem = ({
 }: ToolkitListItemProps) => {
   return (
     <ListItem {...props}>
-      <HStack ml={showIcon ? 3 : 5} mr={3} mt={5} mb={5} spacing={5}>
+      <HStack ml={showIcon && icon ? 3 : 5} mr={3} mt={5} mb={5} spacing={5}>
         {showIcon && icon && (
           <Image
             src={imageUrlBuilder.image(icon.asset).width(80).height(64).url()}
