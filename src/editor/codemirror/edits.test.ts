@@ -6,7 +6,7 @@
 import { python } from "@codemirror/lang-python";
 import { EditorState } from "@codemirror/state";
 import { calculateChanges } from "./edits";
-import { callableCode, exampleCode } from "./dnd";
+import { CodeInsertType } from "./dnd";
 
 describe("edits", () => {
   const check = ({
@@ -14,20 +14,20 @@ describe("edits", () => {
     additional,
     expected,
     line,
-    userEvent,
+    type,
   }: {
     initial: string;
     additional: string;
     expected: string;
     line?: number;
-    userEvent?: string | undefined;
+    type?: CodeInsertType;
   }) => {
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],
     });
     const transaction = state.update(
-      calculateChanges(state, additional, line, userEvent)
+      calculateChanges(state, additional, line, type)
     );
     const actual = transaction.newDoc.sliceString(0);
     const expectedSelection = expected.indexOf("█");
@@ -222,7 +222,7 @@ describe("edits", () => {
       initial: "",
       additional: "import math\nmath.asin()",
       expected: "import math\n\n\nmath.asin(█)\n",
-      userEvent: callableCode,
+      type: "call",
     });
   });
   it("moves selection into function brackets of callable code with empty editor at line 7", () => {
@@ -231,7 +231,7 @@ describe("edits", () => {
       initial: "",
       additional: "import math\nmath.asin()",
       expected: "import math\n\n\n\n\n\nmath.asin(█)\n",
-      userEvent: callableCode,
+      type: "call",
     });
   });
   it("moves selection into function brackets of callable code with existing import", () => {
@@ -240,7 +240,7 @@ describe("edits", () => {
       initial: "import math",
       additional: "import math\nmath.asin()",
       expected: "import math\n\n\n\n\n\nmath.asin(█)\n",
-      userEvent: callableCode,
+      type: "call",
     });
   });
   it("moves selection into function brackets of callable code when inserted into indented block", () => {
@@ -251,7 +251,7 @@ describe("edits", () => {
       additional: "import math\nmath.asin()",
       expected:
         "from microbit import *\nimport math\n\n\n\nwhile True:\n\tmath.asin(█)\n\tdisplay.scroll('micro:bit')\n",
-      userEvent: callableCode,
+      type: "call",
     });
   });
   it("moves selection into function brackets of callable code when inserted into indented block with existing import", () => {
@@ -262,7 +262,7 @@ describe("edits", () => {
       additional: "import math\nmath.asin()",
       expected:
         "from microbit import *\nimport math\n\n\n\nwhile True:\n\tmath.asin(█)\n\tdisplay.scroll('micro:bit')\n",
-      userEvent: callableCode,
+      type: "call",
     });
   });
 
@@ -274,7 +274,7 @@ describe("edits", () => {
         "from microbit import *\nwhile True:\n\tdisplay.scroll('micro:bit')",
       expected:
         "from microbit import *\n\n\n█while True:\n\tdisplay.scroll('micro:bit')\n",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of multiline code example with empty editor at line 7", () => {
@@ -285,7 +285,7 @@ describe("edits", () => {
         "from microbit import *\nwhile True:\n\tdisplay.scroll('micro:bit')",
       expected:
         "from microbit import *\n\n\n\n\n\n█while True:\n\tdisplay.scroll('micro:bit')\n",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of multiline code example with existing import", () => {
@@ -296,7 +296,7 @@ describe("edits", () => {
         "from microbit import *\nwhile True:\n\tdisplay.scroll('micro:bit')",
       expected:
         "from microbit import *\n\n\n\n\n\n█while True:\n\tdisplay.scroll('micro:bit')\n",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of multiline code example when inserted into indented block", () => {
@@ -307,7 +307,7 @@ describe("edits", () => {
         "from microbit import *\ndisplay.scroll('score')\ndisplay.scroll(23)",
       expected:
         "from microbit import *\n\n\nwhile True:\n█\tdisplay.scroll('score')\n\tdisplay.scroll(23)\n\tprint('')",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of multiline code example when inserted into indented block with existing import", () => {
@@ -318,7 +318,7 @@ describe("edits", () => {
         "from microbit import *\ndisplay.scroll('score')\ndisplay.scroll(23)",
       expected:
         "from microbit import *\n\nwhile True:\n█\tdisplay.scroll('score')\n\tdisplay.scroll(23)\n\tprint('')",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
 
@@ -328,7 +328,7 @@ describe("edits", () => {
       initial: "",
       additional: "from microbit import *\ndisplay.scroll('score')",
       expected: "from microbit import *\n\n\ndisplay.scroll('score')█\n",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of single line code example with empty editor at line 7", () => {
@@ -337,7 +337,7 @@ describe("edits", () => {
       initial: "",
       additional: "from microbit import *\ndisplay.scroll('score')",
       expected: "from microbit import *\n\n\n\n\n\ndisplay.scroll('score')█\n",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of single line code example with existing import", () => {
@@ -346,7 +346,7 @@ describe("edits", () => {
       initial: "from microbit import *",
       additional: "from microbit import *\ndisplay.scroll('score')",
       expected: "from microbit import *\n\n\n\n\n\ndisplay.scroll('score')█\n",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of single line code example when inserted into indented block", () => {
@@ -356,7 +356,7 @@ describe("edits", () => {
       additional: "from microbit import *\ndisplay.scroll('score')",
       expected:
         "from microbit import *\n\n\nwhile True:\n\tdisplay.scroll('score')█\n\tprint('')",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
   it("moves selection to start of single line code example when inserted into indented block with existing import", () => {
@@ -366,7 +366,7 @@ describe("edits", () => {
       additional: "from microbit import *\ndisplay.scroll('score')",
       expected:
         "from microbit import *\n\nwhile True:\n\tdisplay.scroll('score')█\n\tprint('')",
-      userEvent: exampleCode,
+      type: "example",
     });
   });
 });
