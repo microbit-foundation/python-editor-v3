@@ -8,49 +8,38 @@ import {
 import { RangeSetBuilder } from "@codemirror/rangeset";
 import { StateEffect } from "@codemirror/state";
 
-export const timeoutDropDecorationEffect = StateEffect.define<{}>({});
+export const timeoutEffect = StateEffect.define<{}>({});
 
 const dndDecorationsViewPlugin = ViewPlugin.fromClass(
   class {
     decorations: DecorationSet;
-    previewLineFroms = new Set<number>();
-    droppedRecentLineFroms = new Set<number>();
-    droppedDoneLineFroms = new Set<number>();
+    previewPos = new Set<number>();
+    droppedReceptPos = new Set<number>();
+    droppedDonePos = new Set<number>();
 
     constructor(view: EditorView) {
       this.decorations = this.dndDecorationsForLines(view);
     }
 
     update(update: ViewUpdate) {
-      for (const transaction of update.transactions) {
-        if (
-          transaction.effects.find((e) => e.is(timeoutDropDecorationEffect))
-        ) {
-          this.droppedDoneLineFroms.clear();
-          this.droppedRecentLineFroms.forEach((v) =>
-            this.droppedDoneLineFroms.add(v)
-          );
-          this.previewLineFroms.clear();
-          this.droppedRecentLineFroms.clear();
-        }
-      }
-
       if (update.docChanged) {
-        this.previewLineFroms.clear();
-        this.droppedRecentLineFroms.clear();
-        this.droppedDoneLineFroms.clear();
+        this.previewPos.clear();
+        this.droppedReceptPos.clear();
+        this.droppedDonePos.clear();
         for (const transaction of update.transactions) {
-          if (transaction.isUserEvent("dnd")) {
+          const isPreview = transaction.isUserEvent("dnd.preview");
+          const isDrop = transaction.isUserEvent("dnd.drop");
+          if (isPreview || isDrop) {
             update.changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
               const start = update.state.doc.lineAt(fromB);
               const end = update.state.doc.lineAt(toB);
               for (let l = start.number; l < end.number; ++l) {
                 const line = update.state.doc.line(l);
                 if (line.text.trim()) {
-                  if (transaction.isUserEvent("dnd.preview")) {
-                    this.previewLineFroms.add(line.from);
-                  } else if (transaction.isUserEvent("dnd.drop")) {
-                    this.droppedRecentLineFroms.add(line.from);
+                  if (isPreview) {
+                    this.previewPos.add(line.from);
+                  } else if (isDrop) {
+                    this.droppedReceptPos.add(line.from);
                   }
                 }
               }
@@ -58,13 +47,22 @@ const dndDecorationsViewPlugin = ViewPlugin.fromClass(
           }
         }
 
-        // Later we need to flip the decoration type.
+        // Later we need to flip the decoration type to fade the highlighting.
+        // The "done" decoration will be removed by a future document change.
         if (update.transactions.some((t) => t.isUserEvent("dnd.drop"))) {
           setTimeout(() => {
             update.view.dispatch({
-              effects: [timeoutDropDecorationEffect.of({})],
+              effects: [timeoutEffect.of({})],
             });
           }, 2_000);
+        }
+      } else {
+        for (const transaction of update.transactions) {
+          if (transaction.effects.find((e) => e.is(timeoutEffect))) {
+            this.droppedDonePos = this.droppedReceptPos;
+            this.droppedReceptPos = new Set();
+            this.previewPos.clear();
+          }
         }
       }
       this.decorations = this.dndDecorationsForLines(update.view);
@@ -75,11 +73,11 @@ const dndDecorationsViewPlugin = ViewPlugin.fromClass(
       for (let { from: rangeFrom, to: rangeTo } of view.visibleRanges) {
         for (let pos = rangeFrom; pos <= rangeTo; ) {
           let { from, to } = view.state.doc.lineAt(pos);
-          if (this.previewLineFroms.has(from)) {
+          if (this.previewPos.has(from)) {
             builder.add(from, from, preview);
-          } else if (this.droppedRecentLineFroms.has(from)) {
+          } else if (this.droppedReceptPos.has(from)) {
             builder.add(from, from, droppedRecent);
-          } else if (this.droppedDoneLineFroms.has(from)) {
+          } else if (this.droppedDonePos.has(from)) {
             builder.add(from, from, droppedDone);
           }
           pos = to + 1;
