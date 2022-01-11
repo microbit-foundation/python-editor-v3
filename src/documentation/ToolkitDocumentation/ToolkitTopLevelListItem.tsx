@@ -6,10 +6,11 @@
 import { IconButton } from "@chakra-ui/button";
 import { Box, Text, VStack } from "@chakra-ui/layout";
 import { ReactNode } from "react";
-import { RiArrowRightSFill } from "react-icons/ri";
+import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import ToolkitListItem from "./ToolkitListItem";
 import { ToolkitImage } from "../ToolkitDocumentation/model";
+import { HStack } from "@chakra-ui/react";
 
 interface ToolkitTopLevelListItemProps {
   name: string;
@@ -32,26 +33,29 @@ const ToolkitTopLevelListItem = ({
       showIcon={true}
       icon={icon}
     >
-      <VStack alignItems="stretch" spacing={2} flex="1 1 auto">
-        <Text as="h3" fontSize="lg" fontWeight="semibold">
-          {name}
-        </Text>
+      <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
+        <HStack justifyContent="space-between">
+          <Text as="h3" fontSize="lg" fontWeight="semibold">
+            {name}
+          </Text>
+          <IconButton
+            icon={<RiArrowRightLine />}
+            aria-label={intl.formatMessage(
+              { id: "toolkit-view-documentation" },
+              { name }
+            )}
+            size="sm"
+            color="#8972CB" //not in theme
+            variant="ghost"
+            fontSize="2xl"
+            onClick={onForward}
+          />
+        </HStack>
         {/*Content problem! We need all descriptions to be short, or two sets.*/}
         <Box fontSize="sm" noOfLines={1}>
           {description}
         </Box>
       </VStack>
-      <IconButton
-        icon={<RiArrowRightSFill />}
-        aria-label={intl.formatMessage(
-          { id: "toolkit-view-documentation" },
-          { name }
-        )}
-        variant="ghost"
-        color="rgb(179, 186, 211)"
-        fontSize="3xl"
-        onClick={onForward}
-      />
     </ToolkitListItem>
   );
 };
