@@ -7,6 +7,7 @@ import { theme } from "@chakra-ui/theme";
 
 const gray = {
   10: "#fcfcfc",
+  25: "#f5f6f8",
   ...theme.colors.gray,
 };
 

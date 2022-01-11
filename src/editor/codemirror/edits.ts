@@ -9,7 +9,7 @@ import { python } from "@codemirror/lang-python";
 import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
-import { callableCode, exampleCode } from "./dnd";
+import { CodeInsertType } from "./dnd";
 
 export interface RequiredImport {
   module: string;
@@ -53,6 +53,7 @@ class AliasesNotSupportedError extends Error {}
  * @param state The editor state.
  * @param addition The new Python code.
  * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
+ * @param type The type of change.
  * @returns A CM transaction with the necessary changes.
  * @throws AliasesNotSupportedError If the additional code contains alias imports.
  */
@@ -60,7 +61,7 @@ export const calculateChanges = (
   state: EditorState,
   addition: string,
   line?: number,
-  userEvent?: string | undefined
+  type?: CodeInsertType
 ) => {
   const parser = python().language.parser;
   const additionTree = parser.parse(addition);
@@ -126,7 +127,7 @@ export const calculateChanges = (
     changes[0].insert = importInsertPoint.prefix + changes[0].insert;
   }
 
-  if (userEvent === callableCode) {
+  if (type === "call") {
     //adjusts for closing bracket and newline char
     const callableAdjustment = 2;
 
@@ -146,7 +147,7 @@ export const calculateChanges = (
     }
   }
 
-  if (userEvent === exampleCode) {
+  if (type === "example") {
     if (changes.length > 1) {
       //if import statement added
       //assumes that there may be more than one import
@@ -190,7 +191,7 @@ export const calculateChanges = (
   }
 
   return state.update({
-    userEvent: userEvent ?? undefined,
+    userEvent: `dnd.drop.${type ?? "example"}`,
     changes,
     scrollIntoView: true,
     selection: addition

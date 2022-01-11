@@ -16,6 +16,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
@@ -23,8 +24,6 @@ import {
   debug as dndDebug,
   DragContext,
   setDragContext,
-  callableCode,
-  exampleCode,
 } from "../../editor/codemirror/dnd";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import { flags } from "../../flags";
@@ -40,6 +39,7 @@ import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
+import Highlight from "../ToolkitDocumentation/Highlight";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -84,6 +84,7 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
   const scrollable = useScrollablePanelAncestor();
   const prefersReducedMotion = usePrefersReducedMotion();
   const logging = useLogging();
+  const [highlighting, setHighlighting] = useState(false);
   useEffect(() => {
     if (previousAnchor !== anchor && active) {
       logging.log("Activating " + fullName);
@@ -97,6 +98,12 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }
+        setTimeout(() => {
+          setHighlighting(true);
+          setTimeout(() => {
+            setHighlighting(false);
+          }, 3000);
+        }, 300);
       }, 150);
     }
   }, [
@@ -109,7 +116,9 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
     disclosure,
     fullName,
   ]);
-
+  const handleHighlightClick = useCallback(() => {
+    setHighlighting(false);
+  }, [setHighlighting]);
   return (
     <Box
       ref={ref}
@@ -124,12 +133,20 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
       fontSize="sm"
       {...others}
     >
-      <ReferenceNodeSelf
-        docs={docs}
-        showMore={disclosure.isOpen}
-        onToggleShowMore={disclosure.onToggle}
-      />
-      <ReferenceNodeChildren docs={docs} anchor={anchor} />
+      <Highlight
+        onClick={handleHighlightClick}
+        value={highlighting}
+        mt={1}
+        mb={1}
+        p={3}
+      >
+        <ReferenceNodeSelf
+          docs={docs}
+          showMore={disclosure.isOpen}
+          onToggleShowMore={disclosure.onToggle}
+        />
+        <ReferenceNodeChildren docs={docs} anchor={anchor} />
+      </Highlight>
     </Box>
   );
 };
@@ -386,7 +403,7 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
   const full = `${requiredImport}\n${code}`;
   return {
     code: full,
-    type: kind === "function" ? callableCode : exampleCode,
+    type: kind === "function" ? "call" : "example",
   };
 };
 

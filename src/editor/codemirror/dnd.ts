@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ChangeSet, Transaction } from "@codemirror/state";
+import { ChangeSet, Extension, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { flags } from "../../flags";
+import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
 
@@ -30,18 +31,19 @@ interface LastDragPos {
   previewUndo: ChangeSet;
 }
 
-type DragContextType = "example" | "call";
-export const exampleCode: DragContextType = "example";
-export const callableCode: DragContextType = "call";
+export type CodeInsertType =
+  /**
+   * A potentially multi-line example snippet.
+   */
+  | "example"
+  /**
+   * A function call.
+   */
+  | "call";
 
 export interface DragContext {
   code: string;
-  // I'd like these to be "example" and "call"
-  // "example" just inserts code as it always has and is used when it's Explore or a non-function call from Reference
-  // "call" is used for function calls and results in cursor between the brackets and signature help
-  // single line examples have the cursor at the end of the line
-  // multi-line examples have the cursor at the beginning of the example (ideally ignoring whitespace but can do that later)
-  type: DragContextType;
+  type: CodeInsertType;
 }
 
 let dragContext: DragContext | undefined;
@@ -80,17 +82,13 @@ const clearSuppressChildDragEnterLeave = (view: EditorView) => {
   findWrappingSection(view).classList.remove("cm-drag-in-progress");
 };
 
-/**
- * Support for dropping code snippets.
- *
- * Note this requires coordination from the drag end via {@link setDraggedCode}.
- */
-export const dndSupport = () => {
+const dndHandlers = () => {
   let lastDragPos: LastDragPos | undefined;
 
   const revertPreview = (view: EditorView) => {
     if (lastDragPos) {
       view.dispatch({
+        userEvent: "dnd.cleanup",
         changes: lastDragPos.previewUndo,
         annotations: [Transaction.addToHistory.of(false)],
       });
@@ -126,6 +124,7 @@ export const dndSupport = () => {
             };
             // Take just the changes, skip the selection updates we perform on drop.
             view.dispatch({
+              userEvent: "dnd.preview",
               changes: transaction.changes,
               annotations: [Transaction.addToHistory.of(false)],
             });
@@ -193,3 +192,10 @@ export const dndSupport = () => {
     }),
   ];
 };
+
+/**
+ * Support for dropping code snippets.
+ *
+ * Note this requires coordination from the drag end via {@link setDraggedCode}.
+ */
+export const dndSupport = (): Extension => [dndHandlers(), dndDecorations()];
