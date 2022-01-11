@@ -1,6 +1,5 @@
-import { isInputEvent } from "@chakra-ui/utils";
 import { ChangeSet, EditorState, Text, Transaction } from "@codemirror/state";
-import { DecorationSet, EditorView, ViewUpdate } from "@codemirror/view";
+import { EditorView, ViewUpdate } from "@codemirror/view";
 import { DndDecorationsViewPlugin } from "./dnd-decorations";
 
 describe("dndDecorations", () => {
@@ -157,6 +156,10 @@ const createView = (doc: Text = Text.of([""])): EditorView => {
   } as Partial<EditorView> as unknown as EditorView;
 };
 
+/**
+ * Note that, unlike normal CodeMirror usage, should use the update's
+ * view for any subsequent changes.
+ */
 const createViewUpdate = (
   view: EditorView,
   docChanged: boolean,
@@ -164,14 +167,10 @@ const createViewUpdate = (
 ): ViewUpdate => {
   const state = transaction ? transaction.state || view.state : view.state;
   return {
-    view: {
-      ...view,
-      state,
-      visibleRanges: [{ from: 0, to: state.doc.length - 1 }],
-    },
+    view: createView(state.doc),
     state,
     transactions: transaction ? [transaction] : [],
     changes: transaction ? transaction.changes : ChangeSet.empty(0),
     docChanged,
-  } as unknown as any;
+  } as Partial<ViewUpdate> as unknown as any;
 };
