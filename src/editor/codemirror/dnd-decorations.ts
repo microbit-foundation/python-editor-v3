@@ -60,7 +60,6 @@ export class DndDecorationsViewPlugin {
         if (transaction.effects.find((e) => e.is(timeoutEffect))) {
           this.droppedDonePos = this.droppedRecentPos;
           this.droppedRecentPos = new Set();
-          this.previewPos.clear();
         }
       }
     }
