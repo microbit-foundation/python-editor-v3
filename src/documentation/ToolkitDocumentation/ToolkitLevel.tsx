@@ -34,7 +34,7 @@ const ToolkitLevel = ({
           <Box p={5} pt={3}>
             {heading}
           </Box>
-          <Divider />
+          <Divider borderWidth="1px" />
         </Box>
 
         {children}
