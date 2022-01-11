@@ -34,6 +34,7 @@ interface CodeEmbedProps {
 const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
+  const [hoverInsertBtn, setHoverInsertBtn] = useState(false);
   const code = useMemo(
     () =>
       codeWithImports
@@ -70,14 +71,13 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
     <Box>
       <Box height={codeHeight} fontSize="md">
         <Code
-          // Shadow only on this one, not the pop-up.
-          // boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           concise={code}
           full={codeWithImports}
           position="absolute"
           ref={codeRef}
+          background={hovering || hoverInsertBtn ? "#E9F6F5" : "white"}
         />
         {hovering && (
           <CodePopUp
@@ -92,10 +92,12 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
       </Box>
       <HStack spacing={3} mt="2px">
         <Button
+          onMouseEnter={() => setHoverInsertBtn(true)}
+          onMouseLeave={() => setHoverInsertBtn(false)}
           fontWeight="normal"
           color="gray.800"
           border="none"
-          bgColor="#CAEBE7" //unlisted color
+          bgColor={hoverInsertBtn ? "#95D7CE" : "#CAEBE7"} //unlisted colors
           borderTopRadius="0"
           borderBottomRadius="lg"
           ml={5}
@@ -128,10 +130,14 @@ const CodePopUp = ({
   ...props
 }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
+  const [bgColor, setBgColor] = useState("white");
+  const [boxShadow, setBoxShadow] = useState("none");
   useScrollTop();
   useSplitViewContext();
   const handleMouseEnter = useCallback(() => {
     setHovering(true);
+    setBgColor("#E9F6F5");
+    setBoxShadow("rgba(0, 0, 0, 0.18) 0px 2px 6px");
   }, [setHovering]);
   const handleMouseLeave = useCallback(() => {
     setHovering(false);
@@ -140,6 +146,7 @@ const CodePopUp = ({
   if (!codeRef.current) {
     return null;
   }
+
   return (
     <Portal>
       <Code
@@ -150,6 +157,8 @@ const CodePopUp = ({
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
+        background={bgColor}
+        boxShadow={boxShadow}
         {...props}
       />
     </Portal>
@@ -180,7 +189,7 @@ const Code = forwardRef<CodeProps, "pre">(
     return (
       <HStack
         draggable={flags.dnd}
-        backgroundColor="white"
+        transition="background .2s, box-shadow .2s"
         border="1px solid #95d7ce" /*brand color*/
         borderRadius="lg"
         fontFamily="code"
@@ -209,9 +218,20 @@ const Code = forwardRef<CodeProps, "pre">(
 interface DragHandleProps extends BoxProps {}
 
 const DragHandle = (props: DragHandleProps) => {
+  const [hoverDragIcon, setHoverDragIcon] = useState(false);
   return (
-    <HStack {...props} bgColor="#e9f6f5" /*unlisted color*/>
-      <DragHandleIcon boxSize={3} color="#95d7ce" /*brand color*/ />
+    <HStack
+      {...props}
+      bgColor={hoverDragIcon ? "#95D7CE" : "#e9f6f5"}
+      onMouseEnter={() => setHoverDragIcon(true)}
+      onMouseLeave={() => setHoverDragIcon(false)} /*unlisted color*/
+      transition="background .2s"
+    >
+      <DragHandleIcon
+        boxSize={3}
+        color={hoverDragIcon ? "#4A7B75" : "#95d7ce"} /*brand color*/
+        transition="color .2s"
+      />
     </HStack>
   );
 };
