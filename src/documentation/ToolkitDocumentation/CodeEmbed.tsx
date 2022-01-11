@@ -87,6 +87,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
             concise={code}
             full={codeWithImports}
             codeRef={codeRef}
+            background={hovering || hoverInsertBtn ? "#E9F6F5" : "white"}
           />
         )}
       </Box>
@@ -118,6 +119,7 @@ interface CodePopUpProps extends BoxProps {
   concise: string;
   full: string;
   codeRef: RefObject<HTMLDivElement | null>;
+  background: string;
 }
 
 // We draw the same code over the top in a portal so we can draw it
@@ -127,10 +129,11 @@ const CodePopUp = ({
   codeRef,
   concise,
   full,
+  background,
   ...props
 }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
-  const [bgColor, setBgColor] = useState("white");
+  const [bgColor, setBgColor] = useState(background);
   const [boxShadow, setBoxShadow] = useState("none");
   useScrollTop();
   useSplitViewContext();
