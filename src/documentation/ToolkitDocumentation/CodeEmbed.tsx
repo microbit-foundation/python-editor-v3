@@ -35,6 +35,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
   const [hovering, setHovering] = useState(false);
   const [hoverInsertBtn, setHoverInsertBtn] = useState(false);
+  const [hoverDragIcon, setHoverDragIcon] = useState(false);
   const code = useMemo(
     () =>
       codeWithImports
@@ -78,6 +79,9 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           position="absolute"
           ref={codeRef}
           background={hovering || hoverInsertBtn ? "#E9F6F5" : "white"}
+          hovering={hovering || hoverInsertBtn}
+          hoverDragIcon={hoverDragIcon}
+          setHoverDragIcon={setHoverDragIcon}
         />
         {hovering && (
           <CodePopUp
@@ -88,6 +92,8 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
             full={codeWithImports}
             codeRef={codeRef}
             background={hovering || hoverInsertBtn ? "#E9F6F5" : "white"}
+            hoverDragIcon={hoverDragIcon}
+            setHoverDragIcon={setHoverDragIcon}
           />
         )}
       </Box>
@@ -120,6 +126,8 @@ interface CodePopUpProps extends BoxProps {
   full: string;
   codeRef: RefObject<HTMLDivElement | null>;
   background: string;
+  hoverDragIcon: boolean;
+  setHoverDragIcon: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // We draw the same code over the top in a portal so we can draw it
@@ -130,6 +138,8 @@ const CodePopUp = ({
   concise,
   full,
   background,
+  hoverDragIcon,
+  setHoverDragIcon,
   ...props
 }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
@@ -162,6 +172,8 @@ const CodePopUp = ({
         left={codeRef.current.getBoundingClientRect().left + "px"}
         background={bgColor}
         boxShadow={boxShadow}
+        hoverDragIcon={hoverDragIcon}
+        setHoverDragIcon={setHoverDragIcon}
         {...props}
       />
     </Portal>
@@ -171,11 +183,24 @@ const CodePopUp = ({
 interface CodeProps extends BoxProps {
   concise: string;
   full: string;
+  hovering?: boolean;
   ref?: Ref<HTMLDivElement>;
+  hoverDragIcon: boolean;
+  setHoverDragIcon: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
-  ({ concise, full, ...props }: CodeProps, ref) => {
+  (
+    {
+      concise,
+      full,
+      hovering,
+      hoverDragIcon,
+      setHoverDragIcon,
+      ...props
+    }: CodeProps,
+    ref
+  ) => {
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
@@ -189,6 +214,7 @@ const Code = forwardRef<CodeProps, "pre">(
       dndDebug("dragend");
       setDraggedCode(undefined);
     }, []);
+
     return (
       <HStack
         draggable={flags.dnd}
@@ -204,7 +230,14 @@ const Code = forwardRef<CodeProps, "pre">(
         {...props}
       >
         {flags.dnd && (
-          <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
+          <DragHandle
+            borderTopLeftRadius="lg"
+            p={1}
+            alignSelf="stretch"
+            hoverDragIcon={hoverDragIcon}
+            onMouseEnter={() => setHoverDragIcon(true)}
+            onMouseLeave={() => setHoverDragIcon(false)}
+          />
         )}
         <CodeMirrorView
           value={concise}
@@ -218,16 +251,15 @@ const Code = forwardRef<CodeProps, "pre">(
   }
 );
 
-interface DragHandleProps extends BoxProps {}
+interface DragHandleProps extends BoxProps {
+  hoverDragIcon: boolean | undefined;
+}
 
-const DragHandle = (props: DragHandleProps) => {
-  const [hoverDragIcon, setHoverDragIcon] = useState(false);
+const DragHandle = ({ hoverDragIcon, ...props }: DragHandleProps) => {
   return (
     <HStack
       {...props}
-      bgColor={hoverDragIcon ? "#95D7CE" : "#e9f6f5"}
-      onMouseEnter={() => setHoverDragIcon(true)}
-      onMouseLeave={() => setHoverDragIcon(false)} /*unlisted color*/
+      bgColor={hoverDragIcon ? "#95D7CE" : "#e9f6f5"} //brand color?
       transition="background .2s"
     >
       <DragHandleIcon
