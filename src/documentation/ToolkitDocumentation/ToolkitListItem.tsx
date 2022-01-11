@@ -44,7 +44,7 @@ const ToolkitListItem = ({
         )}
         {children}
       </HStack>
-      <Divider ml={3} />
+      <Divider ml={3} borderWidth="1px" />
     </ListItem>
   );
 };
