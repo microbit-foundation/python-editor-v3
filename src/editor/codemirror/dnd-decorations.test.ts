@@ -157,7 +157,7 @@ const createView = (doc: Text = Text.of([""])): EditorView => {
 };
 
 /**
- * Note that, unlike normal CodeMirror usage, should use the update's
+ * Note that, unlike normal CodeMirror usage, you must use the update's
  * view for any subsequent changes.
  */
 const createViewUpdate = (
