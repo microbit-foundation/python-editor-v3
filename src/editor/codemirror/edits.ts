@@ -52,8 +52,8 @@ class AliasesNotSupportedError extends Error {}
  *
  * @param state The editor state.
  * @param addition The new Python code.
- * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
  * @param type The type of change.
+ * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
  * @returns A CM transaction with the necessary changes.
  * @throws AliasesNotSupportedError If the additional code contains alias imports.
  */
