@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { HStack, IconButton, Text, Tooltip, Flex } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, ReactNode } from "react";
 import { RiEdit2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
@@ -12,10 +12,14 @@ import { useProject, useProjectActions } from "./project-hooks";
 import ProjectNameQuestion from "./ProjectNameQuestion";
 import ZoomControls from "../editor/ZoomControls";
 
+interface ProjectNameEditableProps {
+  children: ReactNode;
+}
+
 /**
  * A control to enable editing of the project name.
  */
-const ProjectNameEditable = () => {
+const ProjectNameEditable = ({ children }: ProjectNameEditableProps) => {
   const project = useProject();
   const actions = useProjectActions();
   const dialogs = useDialogs();
@@ -65,6 +69,7 @@ const ProjectNameEditable = () => {
           {project.name}
         </Text>
       </HStack>
+      {children}
       <ZoomControls display={["none", "none", "none", "flex"]} />
     </Flex>
   );

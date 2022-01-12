@@ -45,11 +45,12 @@ const EditorArea = ({
         pb={2}
         height={topBarHeight}
       >
-        <ProjectNameEditable />
-        <ActiveFileInfo
-          filename={selection.file}
-          onSelectedFileChanged={onSelectedFileChanged}
-        />
+        <ProjectNameEditable>
+          <ActiveFileInfo
+            filename={selection.file}
+            onSelectedFileChanged={onSelectedFileChanged}
+          />
+        </ProjectNameEditable>
       </Flex>
       {/* Just for the line */}
       <Box
