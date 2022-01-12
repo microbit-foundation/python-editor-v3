@@ -20,7 +20,6 @@ import {
   KeyBinding,
   keymap,
 } from "@codemirror/view";
-import { flags } from "../../flags";
 import { dndSupport } from "./dnd";
 import highlightStyle from "./highlightStyle";
 

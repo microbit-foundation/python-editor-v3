@@ -21,8 +21,7 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDragContext, debug as dndDebug } from "../../editor/codemirror/dnd";
-import { flags } from "../../flags";
+import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
 

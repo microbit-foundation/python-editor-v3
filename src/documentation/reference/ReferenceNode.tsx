@@ -27,7 +27,6 @@ import {
   setDragContext,
 } from "../../editor/codemirror/dnd";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
-import { flags } from "../../flags";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
