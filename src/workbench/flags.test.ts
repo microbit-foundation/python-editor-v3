@@ -44,7 +44,7 @@ describe("flags", () => {
 
     const flags = flagsForParams("REVIEW", params);
 
-    expect(flags.dnd).toBe(false);
+    expect(flags.dndDebug).toBe(false);
     expect(flags.noWelcome).toBe(true);
   });
 });

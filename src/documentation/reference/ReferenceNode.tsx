@@ -181,7 +181,7 @@ const ReferenceNodeSelf = ({
 
   return (
     <VStack alignItems="stretch" spacing={3}>
-      {(flags.dnd && kind === "function") || kind === "variable" ? (
+      {kind === "function" || kind === "variable" ? (
         <DraggableSignature
           signature={signature}
           docs={docs}

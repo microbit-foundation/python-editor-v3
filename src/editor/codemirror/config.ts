@@ -65,5 +65,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
-  flags.dnd ? dndSupport() : [],
+  dndSupport(),
 ];
