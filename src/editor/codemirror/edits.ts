@@ -59,145 +59,132 @@ class AliasesNotSupportedError extends Error {}
  */
 export const calculateChanges = (
   state: EditorState,
-  addition: string,
+  source: string,
   type: CodeInsertType,
   line?: number
 ) => {
   const parser = python().language.parser;
-  const additionTree = parser.parse(addition);
-  const additionalImports = topLevelImports(additionTree, (from, to) =>
-    addition.slice(from, to)
+  const sourceTree = parser.parse(source);
+  const sourceImports = topLevelImports(sourceTree, (from, to) =>
+    source.slice(from, to)
   );
-  const endOfAdditionalImports =
-    additionalImports[additionalImports.length - 1]?.node?.to ?? 0;
-  addition = addition.slice(endOfAdditionalImports).trim();
-  const requiredImports = additionalImports.flatMap(
+  const sourceImportsTo =
+    sourceImports[sourceImports.length - 1]?.node?.to ?? 0;
+  const mainCode = source.slice(sourceImportsTo).trim();
+  const requiredImports = sourceImports.flatMap(
     convertImportNodeToRequiredImports
   );
   const allCurrentImports = currentImports(state);
 
   const importInsertPoint = defaultInsertPoint(state, allCurrentImports);
-  const changes = requiredImports.flatMap((required) =>
+  const importChanges = requiredImports.flatMap((required) =>
     calculateImportChangesInternal(
       importInsertPoint,
       allCurrentImports,
       required
     )
   );
-  if (changes.length > 0 && allCurrentImports.length === 0) {
+  if (importChanges.length > 0 && allCurrentImports.length === 0) {
     // Two blank lines separating the imports from everything else.
-    changes[changes.length - 1].insert += "\n\n";
+    importChanges[importChanges.length - 1].insert += "\n\n";
   }
-  let importLines = changes
+  const importLines = importChanges
     .map((c) => c.insert.split("\n").length - 1)
     .reduce((acc, cur) => acc + cur, 0);
 
-  let additionInsertPoint: number = -1;
-  let additionPrefix = "";
-  let indent;
-  if (addition) {
+  let mainFrom: number = -1;
+  let mainPreceedingWhitespace = "";
+  let mainChange: SimpleChangeSpec | undefined;
+  let mainIndent = "";
+  if (mainCode) {
     if (line !== undefined) {
       // Tweak so the addition preview is under the mouse even if we added imports.
       line = Math.max(1, line - importLines);
       const extraLines = line - state.doc.lines;
       if (extraLines > 0) {
-        additionInsertPoint = state.doc.length;
-        additionPrefix = "\n".repeat(extraLines);
+        mainFrom = state.doc.length;
+        mainPreceedingWhitespace = "\n".repeat(extraLines);
       } else {
-        additionInsertPoint = state.doc.line(line).from;
+        mainFrom = state.doc.line(line).from;
       }
     } else {
       // When no line is specified, insert before the code (not just after the imports).
-      additionInsertPoint = skipWhitespaceLines(
-        state.doc,
-        importInsertPoint.from
-      );
+      mainFrom = skipWhitespaceLines(state.doc, importInsertPoint.from);
     }
 
-    const insertLine = state.doc.lineAt(additionInsertPoint);
-    indent = insertLine.text.match(/^(\s*)/);
-    changes.push({
-      from: additionInsertPoint,
-      insert:
-        additionPrefix + indentBy(addition, indent ? indent[0] : "") + "\n",
-    });
+    const insertLine = state.doc.lineAt(mainFrom);
+    mainIndent = insertLine.text.match(/^(\s*)/)?.[0] ?? "";
+    mainChange = {
+      from: mainFrom,
+      insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
+    };
   }
 
   if (importInsertPoint.used) {
-    changes[0].insert = importInsertPoint.prefix + changes[0].insert;
+    const firstChange = importChanges[0] ?? mainChange;
+    firstChange.insert = importInsertPoint.prefix + firstChange.insert;
   }
-
-  if (type === "call") {
-    //adjusts for closing bracket and newline char
-    const callableAdjustment = 2;
-
-    //point of code added, plus code length
-    additionInsertPoint =
-      changes[changes.length - 1].from +
-      changes[changes.length - 1].insert.length -
-      callableAdjustment;
-
-    //if import statement added
-    //assumes that there may be more than one import
-    if (changes.length > 1) {
-      additionInsertPoint += changes
-        .slice(0, changes.length - 1)
-        .flatMap((c) => c.insert)
-        .join("").length;
-    }
-  } else {
-    if (changes.length > 1) {
-      //if import statement added
-      //assumes that there may be more than one import
-      const fromOffset = changes
-        .flatMap((c) => c.from)
-        .reduce((acc, cur) => acc + cur, 0);
-
-      //from offset is zero if code is dragged into empty editor
-      if (!fromOffset) {
-        additionInsertPoint +=
-          changes[changes.length - 1].from +
-          changes
-            .slice(0, changes.length - 1)
-            .flatMap((c) => c.insert)
-            .join("").length +
-          additionPrefix.length;
-      } else {
-        additionInsertPoint =
-          changes[changes.length - 1].from +
-          changes
-            .slice(0, changes.length - 1)
-            .flatMap((c) => c.insert)
-            .join("").length;
-      }
-    } else if (additionPrefix.length) {
-      //if code inserted below existing lines
-      const trailingNewLineChar = 1;
-      additionInsertPoint =
-        changes[changes.length - 1].from +
-        changes[changes.length - 1].insert.length -
-        addition.length -
-        trailingNewLineChar;
-    }
-
-    if (!addition.includes("\n")) {
-      //if single line code example
-      //move selection to end of code
-      const indentLength = indentBy("", indent ? indent[0] : "").length;
-      additionInsertPoint += addition.length + indentLength;
-    }
-  }
-
+  const selection = calculateNewSelection(
+    mainCode,
+    type,
+    importChanges,
+    mainChange,
+    mainPreceedingWhitespace,
+    mainIndent
+  );
   return state.update({
-    userEvent: `dnd.drop.${type ?? "example"}`,
-    changes,
+    userEvent: `dnd.drop.${type}`,
+    changes: [...importChanges, ...(mainChange ? [mainChange] : [])],
     scrollIntoView: true,
-    selection: addition
-      ? {
-          anchor: additionInsertPoint,
-        }
-      : undefined,
+    selection,
   });
+};
+
+const calculateNewSelection = (
+  mainCode: string,
+  type: CodeInsertType,
+  importChanges: SimpleChangeSpec[],
+  mainChange: SimpleChangeSpec | undefined,
+  mainPreceedingWhitespace: string,
+  mainIndent: string
+): { anchor: number } | undefined => {
+  if (!mainChange) {
+    return undefined;
+  }
+  const importLength = importChanges.flatMap((c) => c.insert).join("").length;
+  const mainLength = mainChange ? mainChange.insert.length : 0;
+  if (type === "call") {
+    // E.g. `foo(█)\n`
+    // with potential imports
+    const callableAdjustment = 2;
+    return {
+      anchor: mainChange.from + importLength + mainLength - callableAdjustment,
+    };
+  }
+
+  // E.g.
+  // ```
+  // import foo
+  //
+  // # preexisting
+  // █foo()
+  // foo()
+  // ```
+
+  // If multiline then we move to the start of the new code, otherwise the end of the line.
+  if (mainCode.includes("\n")) {
+    return {
+      anchor:
+        mainChange.from +
+        importLength +
+        mainPreceedingWhitespace.length +
+        mainIndent.length,
+    };
+  }
+  const newlineAdjustment = 1;
+  return {
+    anchor: mainChange.from + importLength + mainLength - newlineAdjustment,
+  };
 };
 
 /**

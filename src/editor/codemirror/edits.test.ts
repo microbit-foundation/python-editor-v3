@@ -306,7 +306,7 @@ describe("edits", () => {
       additional:
         "from microbit import *\ndisplay.scroll('score')\ndisplay.scroll(23)",
       expected:
-        "from microbit import *\n\n\nwhile True:\n█\tdisplay.scroll('score')\n\tdisplay.scroll(23)\n\tprint('')",
+        "from microbit import *\n\n\nwhile True:\n\t█display.scroll('score')\n\tdisplay.scroll(23)\n\tprint('')",
       type: "example",
     });
   });
@@ -317,12 +317,12 @@ describe("edits", () => {
       additional:
         "from microbit import *\ndisplay.scroll('score')\ndisplay.scroll(23)",
       expected:
-        "from microbit import *\n\nwhile True:\n█\tdisplay.scroll('score')\n\tdisplay.scroll(23)\n\tprint('')",
+        "from microbit import *\n\nwhile True:\n\t█display.scroll('score')\n\tdisplay.scroll(23)\n\tprint('')",
       type: "example",
     });
   });
 
-  it("moves selection to start of single line code example with empty editor at line 0", () => {
+  it("moves selection to end of single line code example with empty editor at line 0", () => {
     check({
       line: 0,
       initial: "",
@@ -331,7 +331,7 @@ describe("edits", () => {
       type: "example",
     });
   });
-  it("moves selection to start of single line code example with empty editor at line 7", () => {
+  it("moves selection to end of single line code example with empty editor at line 7", () => {
     check({
       line: 7,
       initial: "",
@@ -340,7 +340,7 @@ describe("edits", () => {
       type: "example",
     });
   });
-  it("moves selection to start of single line code example with existing import", () => {
+  it("moves selection to end of single line code example with existing import", () => {
     check({
       line: 7,
       initial: "from microbit import *",
@@ -349,7 +349,7 @@ describe("edits", () => {
       type: "example",
     });
   });
-  it("moves selection to start of single line code example when inserted into indented block", () => {
+  it("moves selection to end of single line code example when inserted into indented block", () => {
     check({
       line: 5,
       initial: "while True:\n\tprint('')",
@@ -359,7 +359,7 @@ describe("edits", () => {
       type: "example",
     });
   });
-  it("moves selection to start of single line code example when inserted into indented block with existing import", () => {
+  it("moves selection to end of single line code example when inserted into indented block with existing import", () => {
     check({
       line: 4,
       initial: "from microbit import *\n\nwhile True:\n\tprint('')",
