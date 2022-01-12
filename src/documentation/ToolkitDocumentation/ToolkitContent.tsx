@@ -7,7 +7,6 @@ import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Link } from "@chakra-ui/layout";
 import BlockContent from "@sanity/block-content-to-react";
-import unconfiguredImageUrlBuilder from "@sanity/image-url";
 import React, { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { useRouterState } from "../../router-hooks";
@@ -20,20 +19,11 @@ import {
   ToolkitInternalLink,
   ToolkitPortableText,
 } from "./model";
+import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
 interface ToolkitContentProps {
   content: ToolkitPortableText;
 }
-
-export const defaultQuality = 80;
-
-const imageUrlBuilder = unconfiguredImageUrlBuilder()
-  // Hardcoded for now as there's no practical alternative.
-  .projectId("ajwvhvgo")
-  .dataset("apps")
-  .auto("format")
-  .dpr(window.devicePixelRatio ?? 1)
-  .quality(defaultQuality);
 
 const getAspectRatio = (imageRef: string): number | undefined => {
   const dimensionsArr = imageRef.match(/\d+x\d+/g);

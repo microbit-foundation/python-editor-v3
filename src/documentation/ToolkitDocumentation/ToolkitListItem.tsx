@@ -6,17 +6,7 @@
 import { Divider, HStack, ListItem, ListItemProps } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/react";
 import { ToolkitImage } from "../ToolkitDocumentation/model";
-import unconfiguredImageUrlBuilder from "@sanity/image-url";
-
-export const defaultQuality = 80;
-
-const imageUrlBuilder = unconfiguredImageUrlBuilder()
-  // Hardcoded for now as there's no practical alternative.
-  .projectId("ajwvhvgo")
-  .dataset("apps")
-  .auto("format")
-  .dpr(window.devicePixelRatio ?? 1)
-  .quality(defaultQuality);
+import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
 interface ToolkitListItemProps extends ListItemProps {
   showIcon: boolean;
@@ -34,8 +24,8 @@ const ToolkitListItem = ({
       <HStack ml={showIcon && icon ? 3 : 5} mr={3} mt={5} mb={5} spacing={5}>
         {showIcon && icon && (
           <Image
-            src={imageUrlBuilder.image(icon.asset).width(80).height(64).url()}
-            alt="something"
+            src={imageUrlBuilder.image(icon.asset).url()}
+            alt="Topic icon"
             width="80px"
             height="64px"
             borderRadius="lg"

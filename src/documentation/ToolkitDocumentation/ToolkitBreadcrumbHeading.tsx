@@ -7,18 +7,8 @@ import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
 import { HStack, VStack, Image } from "@chakra-ui/react";
 import { RiArrowLeftSFill } from "react-icons/ri";
-import unconfiguredImageUrlBuilder from "@sanity/image-url";
 import { ToolkitImage } from "../ToolkitDocumentation/model";
-
-export const defaultQuality = 80;
-
-const imageUrlBuilder = unconfiguredImageUrlBuilder()
-  // Hardcoded for now as there's no practical alternative.
-  .projectId("ajwvhvgo")
-  .dataset("apps")
-  .auto("format")
-  .dpr(window.devicePixelRatio ?? 1)
-  .quality(defaultQuality);
+import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
 interface BreadcrumbHeadingProps {
   title: string;
@@ -76,8 +66,8 @@ const ToolkitBreadcrumbHeading = ({
       <HStack align="flex-start" spacing={4}>
         {icon && (
           <Image
-            src={imageUrlBuilder.image(icon.asset).width(80).height(64).url()}
-            alt="something"
+            src={imageUrlBuilder.image(icon.asset).url()}
+            alt="Topic icon"
             width="80px"
             height="64px"
             borderRadius="lg"
