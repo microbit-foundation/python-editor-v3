@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { DragHandleIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
@@ -22,9 +21,10 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
+import { setDragContext, debug as dndDebug } from "../../editor/codemirror/dnd";
 import { flags } from "../../flags";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
+import DragHandle from "../common/DragHandle";
 
 interface CodeEmbedProps {
   code: string;
@@ -163,14 +163,17 @@ const Code = forwardRef<CodeProps, "pre">(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
-        setDraggedCode(full);
+        setDragContext({
+          code: full,
+          type: "example",
+        });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
       },
       [full]
     );
     const handleDragEnd = useCallback((event: React.DragEvent) => {
       dndDebug("dragend");
-      setDraggedCode(undefined);
+      setDragContext(undefined);
     }, []);
     return (
       <HStack
@@ -192,16 +195,6 @@ const Code = forwardRef<CodeProps, "pre">(
     );
   }
 );
-
-interface DragHandleProps extends BoxProps {}
-
-const DragHandle = (props: DragHandleProps) => {
-  return (
-    <HStack {...props} bgColor="blackAlpha.100">
-      <DragHandleIcon boxSize={3} />
-    </HStack>
-  );
-};
 
 const useScrollTop = () => {
   const scrollableRef = useScrollablePanelAncestor();

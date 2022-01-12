@@ -31,7 +31,22 @@ interface LastDragPos {
   previewUndo: ChangeSet;
 }
 
-let draggedCode: string | undefined;
+export type CodeInsertType =
+  /**
+   * A potentially multi-line example snippet.
+   */
+  | "example"
+  /**
+   * A function call.
+   */
+  | "call";
+
+export interface DragContext {
+  code: string;
+  type: CodeInsertType;
+}
+
+let dragContext: DragContext | undefined;
 
 /**
  * Set the dragged code.
@@ -41,8 +56,8 @@ let draggedCode: string | undefined;
  *
  * Set it in dragstart and clear it in dragend.
  */
-export const setDraggedCode = (value: string | undefined) => {
-  draggedCode = value;
+export const setDragContext = (context: DragContext | undefined) => {
+  dragContext = context;
 };
 
 // We add the class to the parent element that we own as otherwise CM
@@ -88,7 +103,7 @@ const dndHandlers = () => {
           return;
         }
 
-        if (draggedCode) {
+        if (dragContext) {
           event.preventDefault();
 
           const visualLine = view.visualLineAtHeight(event.y);
@@ -100,7 +115,8 @@ const dndHandlers = () => {
 
             const transaction = calculateChanges(
               view.state,
-              draggedCode,
+              dragContext.code,
+              dragContext.type,
               line.number
             );
             lastDragPos = {
@@ -117,7 +133,7 @@ const dndHandlers = () => {
         }
       },
       dragenter(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("dragenter");
@@ -125,7 +141,7 @@ const dndHandlers = () => {
         suppressChildDragEnterLeave(view);
       },
       dragleave(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
 
@@ -153,7 +169,7 @@ const dndHandlers = () => {
         }
       },
       drop(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("  drop");
@@ -164,7 +180,14 @@ const dndHandlers = () => {
         const line = view.state.doc.lineAt(visualLine.from);
 
         revertPreview(view);
-        view.dispatch(calculateChanges(view.state, draggedCode, line.number));
+        view.dispatch(
+          calculateChanges(
+            view.state,
+            dragContext.code,
+            dragContext.type,
+            line.number
+          )
+        );
         view.focus();
       },
     }),
