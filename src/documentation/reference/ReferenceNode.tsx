@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {
   default as React,
+  ReactNode,
   useCallback,
   useEffect,
   useMemo,
@@ -165,7 +166,7 @@ const ReferenceNodeSelf = ({
   showMore,
   onToggleShowMore,
 }: ReferenceNodeSelfProps) => {
-  const { fullName, name, kind, params, baseClasses, docString } = docs;
+  const { name, fullName, kind, params, baseClasses, docString } = docs;
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
@@ -178,47 +179,12 @@ const ReferenceNodeSelf = ({
   const hasDocStringDetail =
     docStringRemainder && docStringRemainder.length > 0;
 
-  const handleDragStart = useCallback(
-    (event: React.DragEvent) => {
-      dndDebug("dragstart");
-      event.dataTransfer.dropEffect = "copy";
-      const context = getDragContext(fullName, kind);
-      setDragContext(context);
-      event.dataTransfer.setData(pythonSnippetMediaType, context.code);
-    },
-    [fullName, kind]
-  );
-
-  const handleDragEnd = useCallback((event: React.DragEvent) => {
-    dndDebug("dragend");
-    setDragContext(undefined);
-  }, []);
-
   return (
     <VStack alignItems="stretch" spacing={3}>
-      <HStack
-        alignSelf="flex-start"
-        draggable={kind !== "class" ? flags.dnd : false}
-        spacing={0}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-        borderRadius="lg"
-        display="inline-flex"
-        overflow="hidden"
-      >
-        {kind !== "class" && flags.dnd && (
-          <DragHandle
-            borderTopLeftRadius="lg"
-            borderBottomLeftRadius="lg"
-            p={1}
-            alignSelf="stretch"
-          />
-        )}
+      {(flags.dnd && kind === "function") || kind === "variable" ? (
+        <DraggableSignature signature={signature} docs={docs} />
+      ) : (
         <Text
-          backgroundColor="#f7f5f2"
-          p={[5, 2]}
-          pl={flags.dnd ? 2 : 5}
           fontFamily="code"
           fontSize={kindToFontSize[kind] || "md"}
           as={kindToHeading[kind]}
@@ -226,7 +192,8 @@ const ReferenceNodeSelf = ({
           <Text as="span">{formatName(kind, fullName, name)}</Text>
           {signature}
         </Text>
-      </HStack>
+      )}
+
       {baseClasses && baseClasses.length > 0 && (
         <BaseClasses value={baseClasses} />
       )}
@@ -405,6 +372,62 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
     code: full,
     type: kind === "function" ? "call" : "example",
   };
+};
+
+const DraggableSignature = ({
+  signature,
+  docs,
+}: {
+  signature: ReactNode;
+  docs: ApiDocsEntry;
+}) => {
+  const { fullName, kind, name } = docs;
+  const handleDragStart = useCallback(
+    (event: React.DragEvent) => {
+      dndDebug("dragstart");
+      event.dataTransfer.dropEffect = "copy";
+      const context = getDragContext(fullName, kind);
+      setDragContext(context);
+      event.dataTransfer.setData(pythonSnippetMediaType, context.code);
+    },
+    [fullName, kind]
+  );
+
+  const handleDragEnd = useCallback((event: React.DragEvent) => {
+    dndDebug("dragend");
+    setDragContext(undefined);
+  }, []);
+
+  return (
+    <HStack
+      alignSelf="flex-start"
+      draggable
+      spacing={0}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
+      borderRadius="lg"
+      display="inline-flex"
+      overflow="hidden"
+    >
+      <DragHandle
+        borderTopLeftRadius="lg"
+        borderBottomLeftRadius="lg"
+        p={1}
+        alignSelf="stretch"
+      />
+      <Text
+        backgroundColor="#f7f5f2"
+        p={2}
+        fontFamily="code"
+        fontSize={kindToFontSize[kind] || "md"}
+        as={kindToHeading[kind]}
+      >
+        <Text as="span">{formatName(kind, fullName, name)}</Text>
+        {signature}
+      </Text>
+    </HStack>
+  );
 };
 
 export default ReferenceNode;
