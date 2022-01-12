@@ -27,7 +27,7 @@ describe("edits", () => {
       extensions: [python()],
     });
     const transaction = state.update(
-      calculateChanges(state, additional, line, type)
+      calculateChanges(state, additional, type ?? "example", line)
     );
     const actual = transaction.newDoc.sliceString(0);
     const expectedSelection = expected.indexOf("█");

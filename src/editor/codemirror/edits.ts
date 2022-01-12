@@ -60,8 +60,8 @@ class AliasesNotSupportedError extends Error {}
 export const calculateChanges = (
   state: EditorState,
   addition: string,
-  line?: number,
-  type?: CodeInsertType
+  type: CodeInsertType,
+  line?: number
 ) => {
   const parser = python().language.parser;
   const additionTree = parser.parse(addition);
@@ -145,9 +145,7 @@ export const calculateChanges = (
         .flatMap((c) => c.insert)
         .join("").length;
     }
-  }
-
-  if (type === "example") {
+  } else {
     if (changes.length > 1) {
       //if import statement added
       //assumes that there may be more than one import

@@ -116,6 +116,7 @@ const dndHandlers = () => {
             const transaction = calculateChanges(
               view.state,
               dragContext.code,
+              dragContext.type,
               line.number
             );
             lastDragPos = {
@@ -183,8 +184,8 @@ const dndHandlers = () => {
           calculateChanges(
             view.state,
             dragContext.code,
-            line.number,
-            dragContext.type
+            dragContext.type,
+            line.number
           )
         );
         view.focus();
