@@ -143,10 +143,10 @@ const CodePopUp = ({
   ...props
 }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
-  const [bgColor, setBgColor] = useState(background);
-  const [boxShadow, setBoxShadow] = useState("none");
   useScrollTop();
   useSplitViewContext();
+  const [bgColor, setBgColor] = useState(background);
+  const [boxShadow, setBoxShadow] = useState("none");
   const handleMouseEnter = useCallback(() => {
     setHovering(true);
     setBgColor("#E9F6F5");
