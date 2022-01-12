@@ -10,6 +10,7 @@ import ProjectNameEditable from "../project/ProjectNameEditable";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
+import ZoomControls from "../editor/ZoomControls";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
@@ -45,12 +46,12 @@ const EditorArea = ({
         pb={2}
         height={topBarHeight}
       >
-        <ProjectNameEditable>
-          <ActiveFileInfo
-            filename={selection.file}
-            onSelectedFileChanged={onSelectedFileChanged}
-          />
-        </ProjectNameEditable>
+        <ProjectNameEditable />
+        <ActiveFileInfo
+          filename={selection.file}
+          onSelectedFileChanged={onSelectedFileChanged}
+        />
+        <ZoomControls display={["none", "none", "none", "flex"]} />
       </Flex>
       {/* Just for the line */}
       <Box
