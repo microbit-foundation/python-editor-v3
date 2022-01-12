@@ -145,20 +145,21 @@ const calculateNewSelection = (
   type: CodeInsertType,
   importChanges: SimpleChangeSpec[],
   mainChange: SimpleChangeSpec | undefined,
-  mainPreceedingWhitespace: string,
+  mainBlankLines: string,
   mainIndent: string
 ): { anchor: number } | undefined => {
   if (!mainChange) {
     return undefined;
   }
   const importLength = importChanges.flatMap((c) => c.insert).join("").length;
-  const mainLength = mainChange ? mainChange.insert.length : 0;
+  const mainLength = mainChange.insert.length;
+  const from = mainChange.from;
   if (type === "call") {
     // E.g. `foo(█)\n`
     // with potential imports
     const callableAdjustment = 2;
     return {
-      anchor: mainChange.from + importLength + mainLength - callableAdjustment,
+      anchor: from + importLength + mainLength - callableAdjustment,
     };
   }
 
@@ -174,16 +175,12 @@ const calculateNewSelection = (
   // If multiline then we move to the start of the new code, otherwise the end of the line.
   if (mainCode.includes("\n")) {
     return {
-      anchor:
-        mainChange.from +
-        importLength +
-        mainPreceedingWhitespace.length +
-        mainIndent.length,
+      anchor: from + importLength + mainBlankLines.length + mainIndent.length,
     };
   }
   const newlineAdjustment = 1;
   return {
-    anchor: mainChange.from + importLength + mainLength - newlineAdjustment,
+    anchor: from + importLength + mainLength - newlineAdjustment,
   };
 };
 
