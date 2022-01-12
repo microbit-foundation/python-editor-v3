@@ -92,11 +92,11 @@ export const calculateChanges = (
     .map((c) => c.insert.split("\n").length - 1)
     .reduce((acc, cur) => acc + cur, 0);
 
-  let mainFrom: number = -1;
   let mainPreceedingWhitespace = "";
   let mainChange: SimpleChangeSpec | undefined;
   let mainIndent = "";
   if (mainCode) {
+    let mainFrom: number;
     if (line !== undefined) {
       // Tweak so the addition preview is under the mouse even if we added imports.
       line = Math.max(1, line - importLines);
