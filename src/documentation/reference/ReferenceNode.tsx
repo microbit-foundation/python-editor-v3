@@ -182,7 +182,11 @@ const ReferenceNodeSelf = ({
   return (
     <VStack alignItems="stretch" spacing={3}>
       {(flags.dnd && kind === "function") || kind === "variable" ? (
-        <DraggableSignature signature={signature} docs={docs} />
+        <DraggableSignature
+          signature={signature}
+          docs={docs}
+          alignSelf="flex-start"
+        />
       ) : (
         <Text
           fontFamily="code"
@@ -374,13 +378,16 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
   };
 };
 
+interface DraggableSignatureProps extends BoxProps {
+  signature: ReactNode;
+  docs: ApiDocsEntry;
+}
+
 const DraggableSignature = ({
   signature,
   docs,
-}: {
-  signature: ReactNode;
-  docs: ApiDocsEntry;
-}) => {
+  ...props
+}: DraggableSignatureProps) => {
   const { fullName, kind, name } = docs;
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
@@ -400,7 +407,6 @@ const DraggableSignature = ({
 
   return (
     <HStack
-      alignSelf="flex-start"
       draggable
       spacing={0}
       onDragStart={handleDragStart}
@@ -409,6 +415,7 @@ const DraggableSignature = ({
       borderRadius="lg"
       display="inline-flex"
       overflow="hidden"
+      {...props}
     >
       <DragHandle
         borderTopLeftRadius="lg"
