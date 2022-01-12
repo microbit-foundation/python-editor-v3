@@ -15,10 +15,6 @@ import { stage as stageFromEnvironment } from "./environment";
 // A union of the flag names.
 type Flag =
   /**
-   * Enables experimental drag and drop features.
-   */
-  | "dnd"
-  /**
    * Enables verbose debug logging to the console of drag events.
    */
   | "dndDebug"
@@ -32,7 +28,7 @@ type Flag =
    */
   | "noWelcome";
 
-const allFlags: Flag[] = ["dnd", "dndDebug", "noWelcome"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome"];
 
 type Flags = Record<Flag, boolean>;
 

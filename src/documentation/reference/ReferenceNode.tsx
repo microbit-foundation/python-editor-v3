@@ -27,7 +27,6 @@ import {
   setDragContext,
 } from "../../editor/codemirror/dnd";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
-import { flags } from "../../flags";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
@@ -181,7 +180,7 @@ const ReferenceNodeSelf = ({
 
   return (
     <VStack alignItems="stretch" spacing={3}>
-      {(flags.dnd && kind === "function") || kind === "variable" ? (
+      {kind === "function" || kind === "variable" ? (
         <DraggableSignature
           signature={signature}
           docs={docs}

@@ -21,8 +21,7 @@ import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDragContext, debug as dndDebug } from "../../editor/codemirror/dnd";
-import { flags } from "../../flags";
+import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
 
@@ -177,7 +176,7 @@ const Code = forwardRef<CodeProps, "pre">(
     }, []);
     return (
       <HStack
-        draggable={flags.dnd}
+        draggable
         backgroundColor="rgb(247,245,242)"
         borderTopRadius="lg"
         fontFamily="code"
@@ -187,10 +186,8 @@ const Code = forwardRef<CodeProps, "pre">(
         onDragEnd={handleDragEnd}
         {...props}
       >
-        {flags.dnd && (
-          <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
-        )}
-        <CodeMirrorView value={concise} p={5} pl={flags.dnd ? 1 : 5} />
+        <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
+        <CodeMirrorView value={concise} p={5} pl={1} />
       </HStack>
     );
   }
