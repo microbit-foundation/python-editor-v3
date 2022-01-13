@@ -417,7 +417,7 @@ const DraggableSignature = ({
       {...props}
     >
       <DragHandle
-        hoverDragIcon={false}
+        highlighted={false}
         borderTopLeftRadius="lg"
         borderBottomLeftRadius="lg"
         p={1}

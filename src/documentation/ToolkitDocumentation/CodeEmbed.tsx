@@ -235,7 +235,7 @@ const Code = forwardRef<CodeProps, "pre">(
           borderTopLeftRadius="lg"
           p={1}
           alignSelf="stretch"
-          hoverDragIcon={hoverDragIcon}
+          highlighted={hoverDragIcon}
           onMouseEnter={() => setHoverDragIcon(true)}
           onMouseLeave={() => setHoverDragIcon(false)}
         />

@@ -7,19 +7,19 @@ import { BoxProps, HStack } from "@chakra-ui/layout";
 import { DragHandleIcon } from "@chakra-ui/icons";
 
 interface DragHandleProps extends BoxProps {
-  hoverDragIcon: boolean | undefined;
+  highlighted: boolean | undefined;
 }
 
-const DragHandle = ({ hoverDragIcon, ...props }: DragHandleProps) => {
+const DragHandle = ({ highlighted, ...props }: DragHandleProps) => {
   return (
     <HStack
       {...props}
-      bgColor={hoverDragIcon ? "#95D7CE" : "#e9f6f5"} //brand color?
+      bgColor={highlighted ? "#95D7CE" : "#e9f6f5"} //brand color?
       transition="background .2s"
     >
       <DragHandleIcon
         boxSize={3}
-        color={hoverDragIcon ? "#4A7B75" : "#95d7ce"} /*brand color*/
+        color={highlighted ? "#4A7B75" : "#95d7ce"} /*brand color*/
         transition="color .2s"
       />
     </HStack>
