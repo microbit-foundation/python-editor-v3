@@ -30,11 +30,23 @@ interface CodeEmbedProps {
   code: string;
 }
 
+type CodeEmbedState =
+  /**
+   * Default state.
+   */
+  | "default"
+  /**
+   * Highlighted state when hovering "Insert code".
+   */
+  | "highlighted"
+  /**
+   * Raised state on mouse over.
+   */
+  | "raised";
+
 const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
-  const [hovering, setHovering] = useState(false);
-  const [hoverInsertBtn, setHoverInsertBtn] = useState(false);
-  const [hoverDragIcon, setHoverDragIcon] = useState(false);
+  const [state, setState] = useState<CodeEmbedState>("default");
   const code = useMemo(
     () =>
       codeWithImports
@@ -56,12 +68,8 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const textHeight = lineCount * 1.3994140625 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const codePopUpHeight = `calc(${codeHeight} + 2px)`; //account for border
-  const handleMouseEnter = useCallback(() => {
-    setHovering(true);
-  }, [setHovering]);
-  const handleMouseLeave = useCallback(() => {
-    setHovering(false);
-  }, [setHovering]);
+  const handleMouseEnter = useCallback(() => setState("raised"), [setState]);
+  const handleMouseLeave = useCallback(() => setState("default"), [setState]);
   const handleInsertCode = useCallback(
     () => actions?.insertCode(codeWithImports),
     [actions, codeWithImports]
@@ -77,33 +85,29 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           full={codeWithImports}
           position="absolute"
           ref={codeRef}
-          background={hovering || hoverInsertBtn ? "#E9F6F5" : "white"}
-          hovering={hovering || hoverInsertBtn}
-          hoverDragIcon={hoverDragIcon}
-          setHoverDragIcon={setHoverDragIcon}
+          background={state === "default" ? "white" : "#E9F6F5"}
+          highlightDragHandle={state === "raised"}
         />
-        {hovering && (
+        {state === "raised" && (
           <CodePopUp
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             height={codePopUpHeight}
             width={codeRef.current ? codeRef.current.offsetWidth : "unset"}
-            setHovering={setHovering}
             concise={code}
             full={codeWithImports}
             codeRef={codeRef}
-            background={hovering || hoverInsertBtn ? "#E9F6F5" : "white"}
-            hoverDragIcon={hoverDragIcon}
-            setHoverDragIcon={setHoverDragIcon}
           />
         )}
       </Box>
       <HStack spacing={3} mt="2px">
         <Button
-          onMouseEnter={() => setHoverInsertBtn(true)}
-          onMouseLeave={() => setHoverInsertBtn(false)}
+          onMouseEnter={() => setState("highlighted")}
+          onMouseLeave={() => setState("default")}
           fontWeight="normal"
           color="gray.800"
           border="none"
-          bgColor={hoverInsertBtn ? "#95D7CE" : "#CAEBE7"} //unlisted colors
+          bgColor={state === "highlighted" ? "#95D7CE" : "#CAEBE7"} //unlisted colors
           borderTopRadius="0"
           borderBottomRadius="lg"
           ml={5}
@@ -120,41 +124,23 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
 };
 
 interface CodePopUpProps extends BoxProps {
-  setHovering: (hovering: boolean) => void;
   concise: string;
   full: string;
   codeRef: RefObject<HTMLDivElement | null>;
-  background: string;
-  hoverDragIcon: boolean;
-  setHoverDragIcon: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // We draw the same code over the top in a portal so we can draw it
 // above the scrollbar.
 const CodePopUp = ({
-  setHovering,
   codeRef,
   concise,
   full,
   background,
-  hoverDragIcon,
-  setHoverDragIcon,
   ...props
 }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
-  const [bgColor, setBgColor] = useState(background);
-  const [boxShadow, setBoxShadow] = useState("none");
-  const handleMouseEnter = useCallback(() => {
-    setHovering(true);
-    setBgColor("#E9F6F5");
-    setBoxShadow("rgba(0, 0, 0, 0.18) 0px 2px 6px");
-  }, [setHovering]);
-  const handleMouseLeave = useCallback(() => {
-    setHovering(false);
-  }, [setHovering]);
-
   if (!codeRef.current) {
     return null;
   }
@@ -162,17 +148,15 @@ const CodePopUp = ({
   return (
     <Portal>
       <Code
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         concise={concise}
         full={full}
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
-        background={bgColor}
-        boxShadow={boxShadow}
-        hoverDragIcon={hoverDragIcon}
-        setHoverDragIcon={setHoverDragIcon}
+        // We're always "raised" as this is the pop-up.
+        background="#E9F6F5"
+        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
+        highlightDragHandle
         {...props}
       />
     </Portal>
@@ -182,24 +166,12 @@ const CodePopUp = ({
 interface CodeProps extends BoxProps {
   concise: string;
   full: string;
-  hovering?: boolean;
   ref?: Ref<HTMLDivElement>;
-  hoverDragIcon: boolean;
-  setHoverDragIcon: React.Dispatch<React.SetStateAction<boolean>>;
+  highlightDragHandle: boolean;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
-  (
-    {
-      concise,
-      full,
-      hovering,
-      hoverDragIcon,
-      setHoverDragIcon,
-      ...props
-    }: CodeProps,
-    ref
-  ) => {
+  ({ concise, full, highlightDragHandle, ...props }: CodeProps, ref) => {
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
@@ -235,9 +207,7 @@ const Code = forwardRef<CodeProps, "pre">(
           borderTopLeftRadius="lg"
           p={1}
           alignSelf="stretch"
-          highlighted={hoverDragIcon}
-          onMouseEnter={() => setHoverDragIcon(true)}
-          onMouseLeave={() => setHoverDragIcon(false)}
+          highlight={highlightDragHandle}
         />
         <CodeMirrorView value={concise} p={5} pl={1} pt={2} pb={2} />
       </HStack>
