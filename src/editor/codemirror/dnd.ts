@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ChangeSet, Transaction } from "@codemirror/state";
+import { ChangeSet, Extension, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { flags } from "../../flags";
+import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
 
@@ -30,7 +31,22 @@ interface LastDragPos {
   previewUndo: ChangeSet;
 }
 
-let draggedCode: string | undefined;
+export type CodeInsertType =
+  /**
+   * A potentially multi-line example snippet.
+   */
+  | "example"
+  /**
+   * A function call.
+   */
+  | "call";
+
+export interface DragContext {
+  code: string;
+  type: CodeInsertType;
+}
+
+let dragContext: DragContext | undefined;
 
 /**
  * Set the dragged code.
@@ -40,8 +56,8 @@ let draggedCode: string | undefined;
  *
  * Set it in dragstart and clear it in dragend.
  */
-export const setDraggedCode = (value: string | undefined) => {
-  draggedCode = value;
+export const setDragContext = (context: DragContext | undefined) => {
+  dragContext = context;
 };
 
 // We add the class to the parent element that we own as otherwise CM
@@ -66,17 +82,13 @@ const clearSuppressChildDragEnterLeave = (view: EditorView) => {
   findWrappingSection(view).classList.remove("cm-drag-in-progress");
 };
 
-/**
- * Support for dropping code snippets.
- *
- * Note this requires coordination from the drag end via {@link setDraggedCode}.
- */
-export const dndSupport = () => {
+const dndHandlers = () => {
   let lastDragPos: LastDragPos | undefined;
 
   const revertPreview = (view: EditorView) => {
     if (lastDragPos) {
       view.dispatch({
+        userEvent: "dnd.cleanup",
         changes: lastDragPos.previewUndo,
         annotations: [Transaction.addToHistory.of(false)],
       });
@@ -91,7 +103,7 @@ export const dndSupport = () => {
           return;
         }
 
-        if (draggedCode) {
+        if (dragContext) {
           event.preventDefault();
 
           const visualLine = view.visualLineAtHeight(event.y);
@@ -103,7 +115,8 @@ export const dndSupport = () => {
 
             const transaction = calculateChanges(
               view.state,
-              draggedCode,
+              dragContext.code,
+              dragContext.type,
               line.number
             );
             lastDragPos = {
@@ -112,6 +125,7 @@ export const dndSupport = () => {
             };
             // Take just the changes, skip the selection updates we perform on drop.
             view.dispatch({
+              userEvent: "dnd.preview",
               changes: transaction.changes,
               annotations: [Transaction.addToHistory.of(false)],
             });
@@ -119,7 +133,7 @@ export const dndSupport = () => {
         }
       },
       dragenter(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("dragenter");
@@ -127,7 +141,7 @@ export const dndSupport = () => {
         suppressChildDragEnterLeave(view);
       },
       dragleave(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
 
@@ -155,7 +169,7 @@ export const dndSupport = () => {
         }
       },
       drop(event, view) {
-        if (!view.state.facet(EditorView.editable) || !draggedCode) {
+        if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("  drop");
@@ -166,9 +180,23 @@ export const dndSupport = () => {
         const line = view.state.doc.lineAt(visualLine.from);
 
         revertPreview(view);
-        view.dispatch(calculateChanges(view.state, draggedCode, line.number));
+        view.dispatch(
+          calculateChanges(
+            view.state,
+            dragContext.code,
+            dragContext.type,
+            line.number
+          )
+        );
         view.focus();
       },
     }),
   ];
 };
+
+/**
+ * Support for dropping code snippets.
+ *
+ * Note this requires coordination from the drag end via {@link setDraggedCode}.
+ */
+export const dndSupport = (): Extension => [dndHandlers(), dndDecorations()];

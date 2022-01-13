@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { DragHandleIcon } from "@chakra-ui/icons";
-import { RiFileTransferLine } from "react-icons/ri";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
@@ -18,14 +16,15 @@ import {
   useRef,
   useState,
 } from "react";
+import { RiFileTransferLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
-import { setDraggedCode, debug as dndDebug } from "../../editor/codemirror/dnd";
-import { flags } from "../../flags";
+import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
+import DragHandle from "../common/DragHandle";
 
 interface CodeEmbedProps {
   code: string;
@@ -205,19 +204,22 @@ const Code = forwardRef<CodeProps, "pre">(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
-        setDraggedCode(full);
+        setDragContext({
+          code: full,
+          type: "example",
+        });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
       },
       [full]
     );
     const handleDragEnd = useCallback((event: React.DragEvent) => {
       dndDebug("dragend");
-      setDraggedCode(undefined);
+      setDragContext(undefined);
     }, []);
 
     return (
       <HStack
-        draggable={flags.dnd}
+        draggable
         transition="background .2s, box-shadow .2s"
         border="1px solid #95d7ce" /*brand color*/
         borderRadius="lg"
@@ -229,47 +231,19 @@ const Code = forwardRef<CodeProps, "pre">(
         onDragEnd={handleDragEnd}
         {...props}
       >
-        {flags.dnd && (
-          <DragHandle
-            borderTopLeftRadius="lg"
-            p={1}
-            alignSelf="stretch"
-            hoverDragIcon={hoverDragIcon}
-            onMouseEnter={() => setHoverDragIcon(true)}
-            onMouseLeave={() => setHoverDragIcon(false)}
-          />
-        )}
-        <CodeMirrorView
-          value={concise}
-          p={5}
-          pl={flags.dnd ? 1 : 5}
-          pt={2}
-          pb={2}
+        <DragHandle
+          borderTopLeftRadius="lg"
+          p={1}
+          alignSelf="stretch"
+          hoverDragIcon={hoverDragIcon}
+          onMouseEnter={() => setHoverDragIcon(true)}
+          onMouseLeave={() => setHoverDragIcon(false)}
         />
+        <CodeMirrorView value={concise} p={5} pl={1} pt={2} pb={2} />
       </HStack>
     );
   }
 );
-
-interface DragHandleProps extends BoxProps {
-  hoverDragIcon: boolean | undefined;
-}
-
-const DragHandle = ({ hoverDragIcon, ...props }: DragHandleProps) => {
-  return (
-    <HStack
-      {...props}
-      bgColor={hoverDragIcon ? "#95D7CE" : "#e9f6f5"} //brand color?
-      transition="background .2s"
-    >
-      <DragHandleIcon
-        boxSize={3}
-        color={hoverDragIcon ? "#4A7B75" : "#95d7ce"} /*brand color*/
-        transition="color .2s"
-      />
-    </HStack>
-  );
-};
 
 const useScrollTop = () => {
   const scrollableRef = useScrollablePanelAncestor();
