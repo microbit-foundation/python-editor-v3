@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, List } from "@chakra-ui/layout";
+import { Box, List, ListItem, Divider } from "@chakra-ui/layout";
 import { useCallback } from "react";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { isV2Only, Toolkit, ToolkitNavigationState } from "./model";
@@ -11,7 +11,6 @@ import { useAnimationDirection } from "./toolkit-hooks";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
 import ToolkitLevel from "./ToolkitLevel";
-import ToolkitListItem from "./ToolkitListItem";
 import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
 import ToolkitTopicEntry from "./ToolkitTopicEntry";
@@ -40,6 +39,7 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   return (
     <ActiveToolkitLevel
       key={anchor ? 0 : 1}
+      anchor={anchor}
       state={state}
       onNavigate={handleNavigate}
       toolkit={toolkit}
@@ -60,23 +60,25 @@ const parseAnchor = (anchor: Anchor | undefined): ToolkitNavigationState => {
 };
 
 interface ActiveToolkitLevelProps extends ToolkitProps {
+  anchor: Anchor | undefined;
   state: ToolkitNavigationState;
   onNavigate: (state: ToolkitNavigationState) => void;
   direction: "forward" | "back" | "none";
 }
 
 const ActiveToolkitLevel = ({
+  anchor,
   state,
   onNavigate,
   toolkit,
   direction,
 }: ActiveToolkitLevelProps) => {
   const topic = state.topicId
-    ? toolkit.contents?.find((t) => t.name === state.topicId)
+    ? toolkit.contents?.find((t) => t.slug.current === state.topicId)
     : undefined;
   const activeItem =
     topic && state.itemId
-      ? topic.contents?.find((i) => i.name === state.itemId)
+      ? topic.contents?.find((i) => i.slug.current === state.itemId)
       : undefined;
 
   if (topic) {
@@ -98,13 +100,15 @@ const ActiveToolkitLevel = ({
         )}
         <List flex="1 1 auto">
           {topic.contents?.map((item) => (
-            <ToolkitListItem key={item.name}>
+            <ListItem key={item.name}>
               <ToolkitTopicEntry
                 topic={topic}
                 entry={item}
+                anchor={anchor}
                 active={activeItem === item}
               />
-            </ToolkitListItem>
+              <Divider />
+            </ListItem>
           ))}
         </List>
       </ToolkitLevel>
@@ -128,7 +132,7 @@ const ActiveToolkitLevel = ({
             description={topic.subtitle}
             onForward={() =>
               onNavigate({
-                topicId: topic.name,
+                topicId: topic.slug.current,
               })
             }
           />

@@ -75,8 +75,10 @@ const ToolkitInternalLinkMark = (
         e.preventDefault();
         setState({
           ...state,
-          // Hmm, we need to know the tab/toolkit (we should name them the same).
-          // We also need to switch to router-based navigation for the other toolkits.
+          tab: "explore",
+          explore: {
+            id: props.mark.slug.current,
+          },
         });
       }}
     >

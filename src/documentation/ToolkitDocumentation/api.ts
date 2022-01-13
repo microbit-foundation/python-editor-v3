@@ -15,9 +15,40 @@ const toolkitQuery = (languageId: string): string => {
   *[_type == "toolkit" && language == "${languageId}" && slug.current == "explore" && !(_id in path("drafts.**"))]{
     id, name, description,
     contents[]->{
-      name, compatibility, subtitle, introduction,
+      name, slug, compatibility, subtitle, 
+      introduction[] {
+        ...,
+        markDefs[]{
+          ...,
+          _type == "toolkitInternalLink" => {
+            "slug": @.reference->slug,
+            "targetType": @.reference->_type
+          }
+        }
+      },
       contents[]->{
-        name, compatibility, content, alternativesLabel, alternatives, detailContent
+        name, slug, compatibility, 
+        content[] {
+          ...,
+          markDefs[]{
+            ...,
+            _type == "toolkitInternalLink" => {
+              "slug": @.reference->slug,
+              "targetType": @.reference->_type
+            }
+          }
+        },
+        alternativesLabel, alternatives, 
+        detailContent[] {
+          ...,
+          markDefs[]{
+            ...,
+            _type == "toolkitInternalLink" => {
+              "slug": @.reference->slug,
+              "targetType": @.reference->_type
+            }
+          }
+        },
       }
     }
   }`;

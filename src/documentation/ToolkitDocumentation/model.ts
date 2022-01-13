@@ -29,6 +29,7 @@ export interface ToolkitTopic extends HasCompatibility {
    */
   introduction?: ToolkitPortableText;
   contents?: ToolkitTopicEntry[];
+  slug: ToolkitSlug;
 }
 
 export interface ToolkitCode {
@@ -61,6 +62,11 @@ interface ToolkitAlternative {
   content: ToolkitPortableText;
 }
 
+interface ToolkitSlug {
+  current: string;
+  _type: string;
+}
+
 export interface ToolkitTopicEntry extends HasCompatibility {
   name: string;
   content: ToolkitPortableText;
@@ -68,10 +74,12 @@ export interface ToolkitTopicEntry extends HasCompatibility {
   alternativesLabel?: string;
   alternatives?: ToolkitAlternative[];
   detailContent?: ToolkitPortableText;
+  slug: ToolkitSlug;
 }
 
 export interface ToolkitInternalLink {
   reference: ToolkitTopicEntry;
+  slug: ToolkitSlug;
 }
 
 export interface ToolkitExternalLink {
