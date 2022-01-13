@@ -55,6 +55,7 @@ const ToolkitTopicEntry = ({
     },
     [setAlternativeIndex]
   );
+
   const disclosure = useDisclosure();
   const ref = useRef<HTMLDivElement>(null);
   const previousAnchor = usePrevious(anchor);
@@ -103,14 +104,10 @@ const ToolkitTopicEntry = ({
         ref={ref}
         spacing={3}
         fontSize="sm"
-        listStylePos="inside"
         p={5}
         pr={3}
         mt={1}
         mb={1}
-        sx={{
-          "& ul": { listStyleType: "disc" },
-        }}
         {...props}
       >
         <Text as="h3" fontSize="lg" fontWeight="semibold">

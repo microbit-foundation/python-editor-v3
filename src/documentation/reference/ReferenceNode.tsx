@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Box, BoxProps, HStack, Text, VStack, Stack } from "@chakra-ui/layout";
 import {
   Collapse,
   useDisclosure,
@@ -56,12 +56,12 @@ interface ApiDocEntryNodeProps extends BoxProps {
   anchor?: Anchor;
 }
 
-const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
-  const { kind, fullName } = docs;
-  const disclosure = useDisclosure();
+const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
+  const { fullName } = docs;
 
   const active = anchor?.id === fullName;
-  // If we're newly active then scroll to us and set a fading background highlight (todo!)
+
+  const disclosure = useDisclosure();
   const ref = useRef<HTMLDivElement>(null);
   const previousAnchor = usePrevious(anchor);
   const scrollable = useScrollablePanelAncestor();
@@ -103,25 +103,16 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
     setHighlighting(false);
   }, [setHighlighting]);
   return (
-    <Box
-      ref={ref}
-      id={fullName}
-      wordBreak="break-word"
-      mb={kindToSpacing[kind]}
-      _hover={{
-        "& button": {
-          display: "flex",
-        },
-      }}
-      fontSize="sm"
-      {...others}
-    >
-      <Highlight
-        onClick={handleHighlightClick}
-        value={highlighting}
+    <Highlight onClick={handleHighlightClick} value={highlighting}>
+      <Stack
+        ref={ref}
+        id={fullName}
+        spacing={3}
+        fontSize="sm"
+        p={3}
         mt={1}
         mb={1}
-        p={3}
+        {...props}
       >
         <ReferenceNodeSelf
           docs={docs}
@@ -129,8 +120,8 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
           onToggleShowMore={disclosure.onToggle}
         />
         <ReferenceNodeChildren docs={docs} anchor={anchor} />
-      </Highlight>
-    </Box>
+      </Stack>
+    </Highlight>
   );
 };
 
