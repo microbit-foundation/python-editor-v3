@@ -77,7 +77,14 @@ const fetchToolkitInternal = async (
     if (toolkits.length > 1) {
       throw new Error("Unexpected results");
     }
-    return toolkits[0];
+    // add topic entry parent for toolkit navigation
+    const toolkit = toolkits[0];
+    toolkit.contents?.forEach((topic) => {
+      topic.contents?.forEach((entry) => {
+        entry.parent = topic;
+      });
+    });
+    return toolkit;
   }
   throw new Error("Error fetching toolkit content: " + response.status);
 };

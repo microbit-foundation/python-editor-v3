@@ -73,12 +73,24 @@ const ActiveToolkitLevel = ({
   toolkit,
   direction,
 }: ActiveToolkitLevelProps) => {
-  const topic = state.topicId
-    ? toolkit.contents?.find((t) => t.slug.current === state.topicId)
-    : undefined;
+  const topic = toolkit.contents?.find((t) => {
+    if (!state.topicId) {
+      return undefined;
+    }
+    if (t.slug.current === state.topicId) {
+      return t;
+    }
+    const parentTopic = t.contents?.find(
+      (e) => e.slug.current === state.topicId
+    )?.parent;
+    return parentTopic || undefined;
+  });
+
   const activeItem =
     topic && state.itemId
       ? topic.contents?.find((i) => i.slug.current === state.itemId)
+      : topic && !state.itemId
+      ? topic.contents?.find((i) => i.slug.current === state.topicId)
       : undefined;
 
   if (topic) {

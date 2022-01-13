@@ -74,6 +74,7 @@ export interface ToolkitTopicEntry extends HasCompatibility {
   alternativesLabel?: string;
   alternatives?: ToolkitAlternative[];
   detailContent?: ToolkitPortableText;
+  parent: ToolkitTopic;
   slug: ToolkitSlug;
 }
 
