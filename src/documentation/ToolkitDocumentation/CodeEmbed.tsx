@@ -16,7 +16,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { RiFileTransferLine } from "react-icons/ri";
+import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
@@ -114,7 +114,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           variant="ghost"
           size="sm"
           onClick={handleInsertCode}
-          rightIcon={<RiFileTransferLine />}
+          rightIcon={<Box as={RiDownloadFill} transform="rotate(270deg)" />}
         >
           <FormattedMessage id="insert-code-action" />
         </Button>
