@@ -79,6 +79,7 @@ export interface ToolkitTopicEntry extends HasCompatibility {
 
 export interface ToolkitInternalLink {
   reference: ToolkitTopicEntry;
+  targetType: string;
   slug: ToolkitSlug;
 }
 
