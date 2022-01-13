@@ -82,13 +82,6 @@ const ToolkitTopicEntry = ({
           }, 3000);
         }, 300);
       }, 150);
-    } else if (previousAnchor !== anchor) {
-      if (ref.current && scrollable.current) {
-        scrollable.current.scrollTo({
-          top: 0,
-          behavior: prefersReducedMotion ? "auto" : "smooth",
-        });
-      }
     }
   }, [
     anchor,

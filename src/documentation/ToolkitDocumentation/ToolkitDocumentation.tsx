@@ -84,6 +84,9 @@ const ActiveToolkitLevel = ({
   if (topic) {
     return (
       <ToolkitLevel
+        // key prop used to ensure scroll position top
+        // after using internal link to toolkit topic
+        key={topic.name}
         direction={direction}
         heading={
           <ToolkitBreadcrumbHeading
