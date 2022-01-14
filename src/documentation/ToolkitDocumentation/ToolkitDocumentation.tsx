@@ -3,18 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, List, ListItem, Divider } from "@chakra-ui/layout";
+import { Box, Divider, List, ListItem } from "@chakra-ui/layout";
 import { useCallback } from "react";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
-import { isV2Only, Toolkit, ToolkitNavigationState } from "./model";
+import { getTopicAndEntry } from "./api";
+import { isV2Only, Toolkit } from "./model";
 import { useAnimationDirection } from "./toolkit-hooks";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
 import ToolkitLevel from "./ToolkitLevel";
+import ToolkitTopicEntry from "./ToolkitTopicEntry";
 import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
-import ToolkitTopicEntry from "./ToolkitTopicEntry";
-import { getTopicAndActiveItem } from "./api";
 
 interface ToolkitProps {
   toolkit: Toolkit;
@@ -29,11 +29,10 @@ interface ToolkitProps {
 export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.explore);
   const direction = useAnimationDirection(anchor);
-  const state = parseAnchor(anchor);
+  const topicOrEntryId = anchor?.id;
   const handleNavigate = useCallback(
-    (state: ToolkitNavigationState) => {
-      const parts = [state.topicId, state.itemId].filter(Boolean);
-      setAnchor(parts.length ? { id: parts.join("/") } : undefined);
+    (topicOrEntryId: string | undefined) => {
+      setAnchor(topicOrEntryId ? { id: topicOrEntryId } : undefined);
     },
     [setAnchor]
   );
@@ -41,7 +40,7 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
     <ActiveToolkitLevel
       key={anchor ? 0 : 1}
       anchor={anchor}
-      state={state}
+      topicOrEntryId={topicOrEntryId}
       onNavigate={handleNavigate}
       toolkit={toolkit}
       direction={direction}
@@ -49,32 +48,21 @@ export const ToolkitDocumentation = ({ toolkit }: ToolkitProps) => {
   );
 };
 
-const parseAnchor = (anchor: Anchor | undefined): ToolkitNavigationState => {
-  if (!anchor) {
-    return {};
-  }
-  const [topicId, itemId] = anchor.id.split("/");
-  return {
-    topicId,
-    itemId,
-  };
-};
-
 interface ActiveToolkitLevelProps extends ToolkitProps {
   anchor: Anchor | undefined;
-  state: ToolkitNavigationState;
-  onNavigate: (state: ToolkitNavigationState) => void;
+  topicOrEntryId: string | undefined;
+  onNavigate: (topicOrEntryId: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
 const ActiveToolkitLevel = ({
   anchor,
-  state,
+  topicOrEntryId,
   onNavigate,
   toolkit,
   direction,
 }: ActiveToolkitLevelProps) => {
-  const [topic, activeItem] = getTopicAndActiveItem(toolkit, state.topicId);
+  const [topic, activeItem] = getTopicAndEntry(toolkit, topicOrEntryId);
 
   if (topic) {
     return (
@@ -87,7 +75,7 @@ const ActiveToolkitLevel = ({
           <ToolkitBreadcrumbHeading
             parent={toolkit.name}
             title={topic.name}
-            onBack={() => onNavigate({})}
+            onBack={() => onNavigate(undefined)}
           />
         }
       >
@@ -128,11 +116,7 @@ const ActiveToolkitLevel = ({
             key={topic.name}
             name={topic.name + (isV2Only(topic) ? " (V2)" : "")}
             description={topic.subtitle}
-            onForward={() =>
-              onNavigate({
-                topicId: topic.slug.current,
-              })
-            }
+            onForward={() => onNavigate(topic.slug.current)}
           />
         ))}
       </List>

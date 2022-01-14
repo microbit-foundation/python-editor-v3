@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { Anchor } from "../../router-hooks";
 import ShowMoreButton from "../common/ShowMoreButton";
+import Highlight from "../ToolkitDocumentation/Highlight";
 import {
   isV2Only,
   ToolkitTopic,
   ToolkitTopicEntry as ToolkitTopicEntryModel,
 } from "./model";
 import ToolkitContent from "./ToolkitContent";
-import Highlight from "../ToolkitDocumentation/Highlight";
 
-interface ToolkitTopicEntryProps extends BoxProps {
+interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
   entry: ToolkitTopicEntryModel;
   active?: boolean;
@@ -35,7 +35,6 @@ const ToolkitTopicEntry = ({
   topic,
   entry,
   active,
-  ...other
 }: ToolkitTopicEntryProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = entry;
   const hasDetail = !!detailContent;
@@ -56,7 +55,18 @@ const ToolkitTopicEntry = ({
       active={active}
       disclosure={disclosure}
     >
-      <Stack spacing={3} fontSize="sm" p={5} pr={3} mt={1} mb={1}>
+      <Stack
+        spacing={3}
+        fontSize="sm"
+        p={5}
+        pr={3}
+        mt={1}
+        mb={1}
+        listStylePos="inside"
+        sx={{
+          "& ul": { listStyleType: "disc", pl: 3 },
+        }}
+      >
         <Text as="h3" fontSize="lg" fontWeight="semibold">
           {entry.name}
           {isV2Only(entry) ? " (V2)" : ""}

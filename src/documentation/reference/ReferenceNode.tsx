@@ -31,13 +31,20 @@ const kindToHeading: Record<string, any> = {
   function: "h4",
 };
 
+const kindToSpacing: Record<string, any> = {
+  module: 5,
+  class: 5,
+  variable: 3,
+  function: 3,
+};
+
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   anchor?: Anchor;
 }
 
 const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
-  const { fullName } = docs;
+  const { fullName, kind } = docs;
   const active = anchor?.id === fullName;
   const disclosure = useDisclosure();
   return (
@@ -60,7 +67,7 @@ const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
         p={5}
         pr={3}
         mt={1}
-        mb={1}
+        mb={kindToSpacing[kind]}
         {...props}
       >
         <ReferenceNodeSelf

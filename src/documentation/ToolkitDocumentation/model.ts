@@ -92,11 +92,6 @@ export interface ToolkitApiLink {
   name: string;
 }
 
-export interface ToolkitNavigationState {
-  topicId?: string;
-  itemId?: string;
-}
-
 // Although the data model is more flexible, in the UI we just want to
 // show a V2 marker for newer board features.
 export const isV2Only = (compatible: HasCompatibility) => {

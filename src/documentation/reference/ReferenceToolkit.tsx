@@ -74,7 +74,7 @@ const ActiveToolkitLevel = ({
         <List flex="1 1 auto">
           {(module.children ?? []).map((child) => (
             <ListItem key={child.id}>
-              <ReferenceNode docs={child} width="100%" anchor={anchor} />
+              <ReferenceNode docs={child} width="100%" anchor={anchor} mb={0} />
               <Divider />
             </ListItem>
           ))}

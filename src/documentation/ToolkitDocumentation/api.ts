@@ -101,7 +101,7 @@ export const fetchToolkit = async (languageId: string): Promise<Toolkit> => {
   return fallback;
 };
 
-export const getTopicAndActiveItem = (
+export const getTopicAndEntry = (
   toolkit: Toolkit,
   topicId: string | undefined
 ): [ToolkitTopic | undefined, ToolkitTopicEntry | undefined] => {
