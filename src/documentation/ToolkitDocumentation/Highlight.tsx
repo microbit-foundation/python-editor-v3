@@ -72,10 +72,11 @@ const Highlight = ({
     <Box
       onClick={handleHighlightClick}
       borderLeftRadius="md"
+      ref={ref}
       {...props}
       {...style}
     >
-      <Box ref={ref}>{children}</Box>
+      {children}
     </Box>
   );
 };
