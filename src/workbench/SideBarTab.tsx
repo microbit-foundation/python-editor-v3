@@ -34,12 +34,6 @@ const SideBarTab = ({
       className="sidebar-tab" // Used for custom outline below
       onClick={handleTabClick}
       mb={mb ? mb : 0}
-      // add to theme (change bg color)
-      _selected={{
-        color: "brand.300",
-        bg: "gray.25",
-        outline: "none",
-      }}
     >
       <VStack spacing={0}>
         {active && (
