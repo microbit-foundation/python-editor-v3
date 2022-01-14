@@ -131,13 +131,7 @@ interface CodePopUpProps extends BoxProps {
 
 // We draw the same code over the top in a portal so we can draw it
 // above the scrollbar.
-const CodePopUp = ({
-  codeRef,
-  concise,
-  full,
-  background,
-  ...props
-}: CodePopUpProps) => {
+const CodePopUp = ({ codeRef, concise, full, ...props }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
@@ -210,7 +204,7 @@ const Code = forwardRef<CodeProps, "pre">(
           alignSelf="stretch"
           highlight={highlightDragHandle}
         />
-        <CodeMirrorView value={concise} p={5} pl={1} pt={2} pb={2} />
+        <CodeMirrorView value={concise} p={5} pl={1} pt={2} pb={2} minW={40} />
       </HStack>
     );
   }
