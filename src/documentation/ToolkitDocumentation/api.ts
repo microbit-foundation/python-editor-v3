@@ -77,7 +77,7 @@ const fetchToolkitInternal = async (
     if (toolkits.length > 1) {
       throw new Error("Unexpected results");
     }
-    // add topic entry parent for toolkit navigation
+    // Add topic entry parent for toolkit navigation.
     const toolkit = toolkits[0];
     toolkit.contents?.forEach((topic) => {
       topic.contents?.forEach((entry) => {
