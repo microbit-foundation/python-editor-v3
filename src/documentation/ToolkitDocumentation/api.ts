@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Toolkit } from "./model";
+import { Toolkit, ToolkitTopic, ToolkitTopicEntry } from "./model";
 
 // For now we just slurp the whole toolkit at once.
 // Might revisit depending on eventual size.
@@ -99,4 +99,19 @@ export const fetchToolkit = async (languageId: string): Promise<Toolkit> => {
     throw new Error("English toolkit must exist");
   }
   return fallback;
+};
+
+export const getTopicAndActiveItem = (
+  toolkit: Toolkit,
+  topicId: string | undefined
+): [ToolkitTopic | undefined, ToolkitTopicEntry | undefined] => {
+  let activeItem: ToolkitTopicEntry | undefined;
+  const topic: ToolkitTopic | undefined = toolkit.contents?.find((t) => {
+    if (t.slug.current === topicId) {
+      return t;
+    }
+    activeItem = t.contents?.find((e) => e.slug.current === topicId);
+    return activeItem?.parent;
+  });
+  return [topic, activeItem];
 };

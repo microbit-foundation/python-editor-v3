@@ -14,6 +14,7 @@ import ToolkitLevel from "./ToolkitLevel";
 import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
 import ToolkitTopicEntry from "./ToolkitTopicEntry";
+import { getTopicAndActiveItem } from "./api";
 
 interface ToolkitProps {
   toolkit: Toolkit;
@@ -73,25 +74,7 @@ const ActiveToolkitLevel = ({
   toolkit,
   direction,
 }: ActiveToolkitLevelProps) => {
-  const topic = toolkit.contents?.find((t) => {
-    if (!state.topicId) {
-      return undefined;
-    }
-    if (t.slug.current === state.topicId) {
-      return t;
-    }
-    const parentTopic = t.contents?.find(
-      (e) => e.slug.current === state.topicId
-    )?.parent;
-    return parentTopic || undefined;
-  });
-
-  const activeItem =
-    topic && state.itemId
-      ? topic.contents?.find((i) => i.slug.current === state.itemId)
-      : topic && !state.itemId
-      ? topic.contents?.find((i) => i.slug.current === state.topicId)
-      : undefined;
+  const [topic, activeItem] = getTopicAndActiveItem(toolkit, state.topicId);
 
   if (topic) {
     return (
