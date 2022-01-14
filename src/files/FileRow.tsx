@@ -59,6 +59,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
           fontSize="xl"
           variant="ghost"
           icon={<MdMoreVert />}
+          color="grey.800"
         />
         <Portal>
           <MenuList>
