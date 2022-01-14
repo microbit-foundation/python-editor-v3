@@ -100,7 +100,7 @@ const ActiveToolkitLevel = ({
             description={
               module.docString && <DocString value={module.docString} />
             }
-            onForward={() => onNavigate(module.fullName)}
+            onForward={() => onNavigate(module.id)}
           />
         ))}
       </List>

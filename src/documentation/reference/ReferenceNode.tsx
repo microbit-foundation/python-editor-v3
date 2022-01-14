@@ -59,18 +59,15 @@ interface ApiDocEntryNodeProps extends BoxProps {
 }
 
 const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
-  const { fullName, kind } = docs;
-  const active = anchor?.id === fullName;
+  const { id, kind } = docs;
+
+  // Numeric suffixes are used for overrides but links may omit them when
+  // a specific override is not known and we should match the first only.
+  const active = anchor && (anchor.id === id || anchor.id + "-1" === id);
   const disclosure = useDisclosure();
   return (
-    <Highlight
-      anchor={anchor}
-      active={active}
-      entryName={fullName}
-      disclosure={disclosure}
-    >
+    <Highlight anchor={anchor} active={active} id={id} disclosure={disclosure}>
       <Stack
-        id={fullName}
         wordBreak="break-word"
         _hover={{
           "& button": {
