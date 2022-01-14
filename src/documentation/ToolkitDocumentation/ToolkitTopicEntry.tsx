@@ -3,11 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
+import { Anchor } from "../../router-hooks";
 import ShowMoreButton from "../common/ShowMoreButton";
+import Highlight from "../ToolkitDocumentation/Highlight";
 import {
   isV2Only,
   ToolkitTopic,
@@ -15,10 +17,11 @@ import {
 } from "./model";
 import ToolkitContent from "./ToolkitContent";
 
-interface ToolkitTopicEntryProps extends BoxProps {
+interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
   entry: ToolkitTopicEntryModel;
   active?: boolean;
+  anchor?: Anchor;
 }
 
 /**
@@ -28,12 +31,11 @@ interface ToolkitTopicEntryProps extends BoxProps {
  * the sidebar scroll area.
  */
 const ToolkitTopicEntry = ({
+  anchor,
   topic,
   entry,
   active,
-  ...props
 }: ToolkitTopicEntryProps) => {
-  // `active` prop not yet used but we can follow a similar approach to ReferenceNode.
   const { content, detailContent, alternatives, alternativesLabel } = entry;
   const hasDetail = !!detailContent;
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
@@ -47,58 +49,68 @@ const ToolkitTopicEntry = ({
   );
   const disclosure = useDisclosure();
   return (
-    <Stack
-      {...props}
-      spacing={3}
-      fontSize="sm"
-      listStylePos="inside"
-      sx={{
-        "& ul": { listStyleType: "disc" },
-      }}
+    <Highlight
+      anchor={anchor}
+      entryName={topic.name}
+      active={active}
+      disclosure={disclosure}
     >
-      <Text as="h3" fontSize="lg" fontWeight="semibold">
-        {entry.name}
-        {isV2Only(entry) ? " (V2)" : ""}
-      </Text>
-      <ToolkitContent content={content} />
-      {alternatives && typeof alternativeIndex === "number" && (
-        <>
-          <Flex wrap="wrap" as="label">
-            <Text alignSelf="center" mr={2} as="span">
-              {alternativesLabel}
-            </Text>
-            <Select
-              w="fit-content"
-              onChange={handleSelectChange}
-              value={alternativeIndex}
-              size="sm"
-            >
-              {alternatives.map((alterative, index) => (
-                <option key={alterative.name} value={index}>
-                  {alterative.name}
-                </option>
-              ))}
-            </Select>
-          </Flex>
+      <Stack
+        spacing={3}
+        fontSize="sm"
+        p={5}
+        pr={3}
+        mt={1}
+        mb={1}
+        listStylePos="inside"
+        sx={{
+          "& ul": { listStyleType: "disc", pl: 3 },
+        }}
+      >
+        <Text as="h3" fontSize="lg" fontWeight="semibold">
+          {entry.name}
+          {isV2Only(entry) ? " (V2)" : ""}
+        </Text>
+        <ToolkitContent content={content} />
+        {alternatives && typeof alternativeIndex === "number" && (
+          <>
+            <Flex wrap="wrap" as="label">
+              <Text alignSelf="center" mr={2} as="span">
+                {alternativesLabel}
+              </Text>
+              <Select
+                w="fit-content"
+                onChange={handleSelectChange}
+                value={alternativeIndex}
+                size="sm"
+              >
+                {alternatives.map((alterative, index) => (
+                  <option key={alterative.name} value={index}>
+                    {alterative.name}
+                  </option>
+                ))}
+              </Select>
+            </Flex>
 
-          <ToolkitContent content={alternatives[alternativeIndex].content} />
-        </>
-      )}
-      {hasDetail && (
-        <>
-          {/* Avoid Stack spacing here so the margin animates too. */}
-          <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-            <Stack spacing={3} mt={3}>
-              <ToolkitContent content={detailContent} />
-            </Stack>
-          </Collapse>
-          <ShowMoreButton
-            onClick={disclosure.onToggle}
-            isOpen={disclosure.isOpen}
-          />
-        </>
-      )}
-    </Stack>
+            <ToolkitContent content={alternatives[alternativeIndex].content} />
+          </>
+        )}
+        {hasDetail && (
+          <>
+            {/* Avoid Stack spacing here so the margin animates too. */}
+            <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+              <Stack spacing={3} mt={3}>
+                <ToolkitContent content={detailContent} />
+              </Stack>
+            </Collapse>
+            <ShowMoreButton
+              onClick={disclosure.onToggle}
+              isOpen={disclosure.isOpen}
+            />
+          </>
+        )}
+      </Stack>
+    </Highlight>
   );
 };
 

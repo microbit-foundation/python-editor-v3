@@ -8,9 +8,15 @@ import { Box, Text, VStack } from "@chakra-ui/layout";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import ToolkitListItem from "./ToolkitListItem";
 import { ToolkitImage } from "../ToolkitDocumentation/model";
-import { HStack } from "@chakra-ui/react";
+import {
+  HStack,
+  Image,
+  ListItemProps,
+  ListItem,
+  Divider,
+} from "@chakra-ui/react";
+import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
 interface ToolkitTopLevelListItemProps {
   name: string;
@@ -57,6 +63,37 @@ const ToolkitTopLevelListItem = ({
         </Box>
       </VStack>
     </ToolkitListItem>
+  );
+};
+
+interface ToolkitListItemProps extends ListItemProps {
+  showIcon: boolean;
+  icon?: ToolkitImage;
+}
+
+const ToolkitListItem = ({
+  children,
+  showIcon,
+  icon,
+  ...props
+}: ToolkitListItemProps) => {
+  return (
+    <ListItem {...props}>
+      <HStack ml={showIcon && icon ? 3 : 5} mr={3} mt={5} mb={5} spacing={5}>
+        {showIcon && icon && (
+          <Image
+            src={imageUrlBuilder.image(icon.asset).url()}
+            alt="Topic icon"
+            width="80px"
+            height="64px"
+            borderRadius="lg"
+            mt={1}
+          />
+        )}
+        {children}
+      </HStack>
+      <Divider ml={3} borderWidth="1px" />
+    </ListItem>
   );
 };
 

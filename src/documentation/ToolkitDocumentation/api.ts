@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Toolkit } from "./model";
+import { Toolkit, ToolkitTopic, ToolkitTopicEntry } from "./model";
 
 // For now we just slurp the whole toolkit at once.
 // Might revisit depending on eventual size.
@@ -15,9 +15,40 @@ const toolkitQuery = (languageId: string): string => {
   *[_type == "toolkit" && language == "${languageId}" && slug.current == "explore" && !(_id in path("drafts.**"))]{
     id, name, description,
     contents[]->{
-      name, compatibility, subtitle, introduction, image,
+      name, slug, compatibility, subtitle, image,
+      introduction[] {
+        ...,
+        markDefs[]{
+          ...,
+          _type == "toolkitInternalLink" => {
+            "slug": @.reference->slug,
+            "targetType": @.reference->_type
+          }
+        }
+      },
       contents[]->{
-        name, compatibility, content, alternativesLabel, alternatives, detailContent
+        name, slug, compatibility, 
+        content[] {
+          ...,
+          markDefs[]{
+            ...,
+            _type == "toolkitInternalLink" => {
+              "slug": @.reference->slug,
+              "targetType": @.reference->_type
+            }
+          }
+        },
+        alternativesLabel, alternatives, 
+        detailContent[] {
+          ...,
+          markDefs[]{
+            ...,
+            _type == "toolkitInternalLink" => {
+              "slug": @.reference->slug,
+              "targetType": @.reference->_type
+            }
+          }
+        },
       }
     }
   }`;
@@ -46,7 +77,14 @@ const fetchToolkitInternal = async (
     if (toolkits.length > 1) {
       throw new Error("Unexpected results");
     }
-    return toolkits[0];
+    // Add topic entry parent for toolkit navigation.
+    const toolkit = toolkits[0];
+    toolkit.contents?.forEach((topic) => {
+      topic.contents?.forEach((entry) => {
+        entry.parent = topic;
+      });
+    });
+    return toolkit;
   }
   throw new Error("Error fetching toolkit content: " + response.status);
 };
@@ -61,4 +99,23 @@ export const fetchToolkit = async (languageId: string): Promise<Toolkit> => {
     throw new Error("English toolkit must exist");
   }
   return fallback;
+};
+
+export const getTopicAndEntry = (
+  toolkit: Toolkit,
+  topicOrEntryId: string | undefined
+): [ToolkitTopic | undefined, ToolkitTopicEntry | undefined] => {
+  const topic = toolkit.contents?.find(
+    (t) => t.slug.current === topicOrEntryId
+  );
+  if (topic) {
+    return [topic, undefined];
+  }
+  const entry = toolkit.contents
+    ?.flatMap((topic) => topic.contents ?? [])
+    .find((entry) => entry.slug.current === topicOrEntryId);
+  if (!entry) {
+    return [undefined, undefined];
+  }
+  return [entry.parent, entry];
 };

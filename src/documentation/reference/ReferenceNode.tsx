@@ -3,22 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, HStack, Text, VStack } from "@chakra-ui/layout";
-import {
-  Collapse,
-  useDisclosure,
-  usePrefersReducedMotion,
-  usePrevious,
-} from "@chakra-ui/react";
-import {
-  default as React,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import {
@@ -32,9 +19,7 @@ import {
   ApiDocsEntry,
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
-import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
-import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -73,72 +58,32 @@ interface ApiDocEntryNodeProps extends BoxProps {
   anchor?: Anchor;
 }
 
-const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
-  const { kind, fullName } = docs;
-  const disclosure = useDisclosure();
-
+const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
+  const { fullName, kind } = docs;
   const active = anchor?.id === fullName;
-  // If we're newly active then scroll to us and set a fading background highlight (todo!)
-  const ref = useRef<HTMLDivElement>(null);
-  const previousAnchor = usePrevious(anchor);
-  const scrollable = useScrollablePanelAncestor();
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const logging = useLogging();
-  const [highlighting, setHighlighting] = useState(false);
-  useEffect(() => {
-    if (previousAnchor !== anchor && active) {
-      logging.log("Activating " + fullName);
-      disclosure.onOpen();
-      // Delay until after the opening animation so the full container height is known for the scroll.
-      window.setTimeout(() => {
-        if (ref.current && scrollable.current) {
-          scrollable.current.scrollTo({
-            // Fudge to account for the fixed header and to leave a small gap.
-            top: ref.current.offsetTop - 112 - 25,
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-          });
-        }
-        setTimeout(() => {
-          setHighlighting(true);
-          setTimeout(() => {
-            setHighlighting(false);
-          }, 3000);
-        }, 300);
-      }, 150);
-    }
-  }, [
-    anchor,
-    scrollable,
-    active,
-    previousAnchor,
-    prefersReducedMotion,
-    logging,
-    disclosure,
-    fullName,
-  ]);
-  const handleHighlightClick = useCallback(() => {
-    setHighlighting(false);
-  }, [setHighlighting]);
+  const disclosure = useDisclosure();
   return (
-    <Box
-      ref={ref}
-      id={fullName}
-      wordBreak="break-word"
-      mb={kindToSpacing[kind]}
-      _hover={{
-        "& button": {
-          display: "flex",
-        },
-      }}
-      fontSize="sm"
-      {...others}
+    <Highlight
+      anchor={anchor}
+      active={active}
+      entryName={fullName}
+      disclosure={disclosure}
     >
-      <Highlight
-        onClick={handleHighlightClick}
-        value={highlighting}
+      <Stack
+        id={fullName}
+        wordBreak="break-word"
+        _hover={{
+          "& button": {
+            display: "flex",
+          },
+        }}
+        fontSize="sm"
+        spacing={3}
+        p={5}
+        pr={3}
         mt={1}
-        mb={1}
-        p={3}
+        mb={kindToSpacing[kind]}
+        {...props}
       >
         <ReferenceNodeSelf
           docs={docs}
@@ -146,8 +91,8 @@ const ReferenceNode = ({ anchor, docs, ...others }: ApiDocEntryNodeProps) => {
           onToggleShowMore={disclosure.onToggle}
         />
         <ReferenceNodeChildren docs={docs} anchor={anchor} />
-      </Highlight>
-    </Box>
+      </Stack>
+    </Highlight>
   );
 };
 
