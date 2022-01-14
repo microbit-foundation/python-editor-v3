@@ -31,13 +31,6 @@ const kindToHeading: Record<string, any> = {
   function: "h4",
 };
 
-const kindToSpacing: Record<string, any> = {
-  module: 5,
-  class: 5,
-  variable: 3,
-  function: 3,
-};
-
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   anchor?: Anchor;
