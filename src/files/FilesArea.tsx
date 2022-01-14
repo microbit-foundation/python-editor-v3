@@ -21,8 +21,9 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
   const { files, name: projectName } = useProject();
   return (
     <ScrollablePanel>
-      <List flexGrow={1} px={1}>
+      <List flexGrow={1} pl={1} pr={1.5}>
         {files.map((f) => {
+          const selected = selectedFile === f.name;
           const select = () => {
             if (isEditableFile(f.name)) {
               onSelectedFileChanged(f.name);
@@ -31,7 +32,10 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
           return (
             <ListItem
               key={f.name}
-              backgroundColor={selectedFile === f.name ? "gray.10" : undefined}
+              fontWeight={selected ? "semibold" : undefined}
+              _hover={{
+                bgColor: "#CAEBE7",
+              }}
               pl={2}
               pr={1}
               cursor={isEditableFile(f.name) ? "pointer" : undefined}

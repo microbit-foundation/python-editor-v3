@@ -44,7 +44,6 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         onClick={onEdit}
         variant="unstyled"
         fontSize="md"
-        fontWeight="normal"
         flexGrow={1}
         textAlign="left"
         overflowX="hidden"
