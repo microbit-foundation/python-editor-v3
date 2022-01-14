@@ -11,7 +11,7 @@ import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 
 interface HighlightProps extends BoxProps {
   anchor?: Anchor;
-  entryName: string;
+  id: string;
   active: Boolean | undefined;
   disclosure: UseDisclosureReturn;
 }
@@ -20,7 +20,7 @@ const Highlight = ({
   children,
   active,
   anchor,
-  entryName,
+  id,
   disclosure,
   ...props
 }: HighlightProps) => {
@@ -32,7 +32,7 @@ const Highlight = ({
   const [highlighting, setHighlighting] = useState(false);
   useEffect(() => {
     if (previousAnchor !== anchor && active) {
-      logging.log("Activating " + entryName);
+      logging.log("Activating " + id);
       disclosure.onOpen();
       // Delay until after the opening animation so the full container height is known for the scroll.
       window.setTimeout(() => {
@@ -52,14 +52,14 @@ const Highlight = ({
       }, 150);
     }
   }, [
-    anchor,
-    scrollable,
     active,
-    previousAnchor,
-    prefersReducedMotion,
-    logging,
+    anchor,
     disclosure,
-    entryName,
+    id,
+    logging,
+    prefersReducedMotion,
+    previousAnchor,
+    scrollable,
   ]);
 
   const handleHighlightClick = useCallback(() => {

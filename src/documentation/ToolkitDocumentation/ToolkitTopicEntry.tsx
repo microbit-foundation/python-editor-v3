@@ -51,7 +51,7 @@ const ToolkitTopicEntry = ({
   return (
     <Highlight
       anchor={anchor}
-      entryName={topic.name}
+      id={topic.name}
       active={active}
       disclosure={disclosure}
     >
