@@ -1,5 +1,9 @@
 import { Box, BoxProps } from "@chakra-ui/layout";
-import { usePrefersReducedMotion, usePrevious } from "@chakra-ui/react";
+import {
+  UseDisclosureReturn,
+  usePrefersReducedMotion,
+  usePrevious,
+} from "@chakra-ui/react";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Anchor } from "../../router-hooks";
 import { useLogging } from "../../logging/logging-hooks";
@@ -9,7 +13,7 @@ interface HighlightProps extends BoxProps {
   anchor?: Anchor;
   entryName: string;
   active: Boolean | undefined;
-  disclosure: any;
+  disclosure: UseDisclosureReturn;
 }
 
 const Highlight = ({

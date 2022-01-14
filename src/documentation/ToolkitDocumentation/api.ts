@@ -103,15 +103,19 @@ export const fetchToolkit = async (languageId: string): Promise<Toolkit> => {
 
 export const getTopicAndEntry = (
   toolkit: Toolkit,
-  topicId: string | undefined
+  topicOrEntryId: string | undefined
 ): [ToolkitTopic | undefined, ToolkitTopicEntry | undefined] => {
-  let activeItem: ToolkitTopicEntry | undefined;
-  const topic: ToolkitTopic | undefined = toolkit.contents?.find((t) => {
-    if (t.slug.current === topicId) {
-      return t;
-    }
-    activeItem = t.contents?.find((e) => e.slug.current === topicId);
-    return activeItem?.parent;
-  });
-  return [topic, activeItem];
+  const topic = toolkit.contents?.find(
+    (t) => t.slug.current === topicOrEntryId
+  );
+  if (topic) {
+    return [topic, undefined];
+  }
+  const entry = toolkit.contents
+    ?.flatMap((topic) => topic.contents ?? [])
+    .find((entry) => entry.slug.current === topicOrEntryId);
+  if (!entry) {
+    return [undefined, undefined];
+  }
+  return [entry.parent, entry];
 };
