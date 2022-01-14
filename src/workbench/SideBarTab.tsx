@@ -86,7 +86,7 @@ const Corner = ({ id, ...props }: BoxProps) => (
       height="100%"
       viewBox={`0 0 ${cornerSize} ${cornerSize}`}
       overflow="visible"
-      fill="var(--chakra-colors-gray-50)"
+      fill="var(--chakra-colors-gray-25)"
     >
       <defs>
         <mask id={id}>
@@ -105,7 +105,7 @@ const Corner = ({ id, ...props }: BoxProps) => (
         y="0"
         width={cornerSize}
         height={cornerSize}
-        fill="var(--chakra-colors-gray-50)"
+        fill="var(--chakra-colors-gray-25)"
         mask={`url(#${id})`}
       />
     </svg>

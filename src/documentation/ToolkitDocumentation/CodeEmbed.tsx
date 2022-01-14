@@ -16,6 +16,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useSplitViewContext } from "../../common/SplitView/context";
@@ -29,9 +30,23 @@ interface CodeEmbedProps {
   code: string;
 }
 
+type CodeEmbedState =
+  /**
+   * Default state.
+   */
+  | "default"
+  /**
+   * Highlighted state when hovering "Insert code".
+   */
+  | "highlighted"
+  /**
+   * Raised state on mouse over.
+   */
+  | "raised";
+
 const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const actions = useActiveEditorActions();
-  const [hovering, setHovering] = useState(false);
+  const [state, setState] = useState<CodeEmbedState>("default");
   const code = useMemo(
     () =>
       codeWithImports
@@ -51,13 +66,10 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.3994140625 + "em";
-  const codeHeight = `calc(${textHeight} + var(--chakra-space-5) + var(--chakra-space-5))`;
-  const handleMouseEnter = useCallback(() => {
-    setHovering(true);
-  }, [setHovering]);
-  const handleMouseLeave = useCallback(() => {
-    setHovering(false);
-  }, [setHovering]);
+  const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
+  const codePopUpHeight = `calc(${codeHeight} + 2px)`; // Account for border.
+  const handleMouseEnter = useCallback(() => setState("raised"), [setState]);
+  const handleMouseLeave = useCallback(() => setState("default"), [setState]);
   const handleInsertCode = useCallback(
     () => actions?.insertCode(codeWithImports),
     [actions, codeWithImports]
@@ -67,36 +79,42 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
     <Box>
       <Box height={codeHeight} fontSize="md">
         <Code
-          // Shadow only on this one, not the pop-up.
-          boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           concise={code}
           full={codeWithImports}
           position="absolute"
           ref={codeRef}
+          background={state === "default" ? "white" : "blimpTeal.50"}
+          highlightDragHandle={state === "raised"}
         />
-        {hovering && (
+        {state === "raised" && (
           <CodePopUp
-            height={codeHeight}
-            setHovering={setHovering}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            height={codePopUpHeight}
+            width={codeRef.current ? codeRef.current.offsetWidth : "unset"}
             concise={code}
             full={codeWithImports}
             codeRef={codeRef}
           />
         )}
       </Box>
-      <HStack spacing={3}>
+      <HStack spacing={3} mt="2px">
         <Button
+          onMouseEnter={() => setState("highlighted")}
+          onMouseLeave={() => setState("default")}
           fontWeight="normal"
-          color="white"
-          borderColor="rgb(141, 141, 143)"
-          bgColor="rgb(141, 141, 143)"
+          color="gray.800"
+          border="none"
+          bgColor={state === "highlighted" ? "blimpTeal.300" : "blimpTeal.100"}
           borderTopRadius="0"
-          borderBottomRadius="xl"
+          borderBottomRadius="lg"
+          ml={5}
           variant="ghost"
           size="sm"
           onClick={handleInsertCode}
+          rightIcon={<Box as={RiDownloadFill} transform="rotate(270deg)" />}
         >
           <FormattedMessage id="insert-code-action" />
         </Button>
@@ -106,7 +124,6 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
 };
 
 interface CodePopUpProps extends BoxProps {
-  setHovering: (hovering: boolean) => void;
   concise: string;
   full: string;
   codeRef: RefObject<HTMLDivElement | null>;
@@ -114,36 +131,26 @@ interface CodePopUpProps extends BoxProps {
 
 // We draw the same code over the top in a portal so we can draw it
 // above the scrollbar.
-const CodePopUp = ({
-  setHovering,
-  codeRef,
-  concise,
-  full,
-  ...props
-}: CodePopUpProps) => {
+const CodePopUp = ({ codeRef, concise, full, ...props }: CodePopUpProps) => {
   // We need to re-render, we don't need the value.
   useScrollTop();
   useSplitViewContext();
-  const handleMouseEnter = useCallback(() => {
-    setHovering(true);
-  }, [setHovering]);
-  const handleMouseLeave = useCallback(() => {
-    setHovering(false);
-  }, [setHovering]);
-
   if (!codeRef.current) {
     return null;
   }
+
   return (
     <Portal>
       <Code
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         concise={concise}
         full={full}
         position="absolute"
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
+        // We're always "raised" as this is the pop-up.
+        background="blimpTeal.50"
+        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
+        highlightDragHandle
         {...props}
       />
     </Portal>
@@ -154,10 +161,11 @@ interface CodeProps extends BoxProps {
   concise: string;
   full: string;
   ref?: Ref<HTMLDivElement>;
+  highlightDragHandle: boolean;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
-  ({ concise, full, ...props }: CodeProps, ref) => {
+  ({ concise, full, highlightDragHandle, ...props }: CodeProps, ref) => {
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
@@ -174,20 +182,29 @@ const Code = forwardRef<CodeProps, "pre">(
       dndDebug("dragend");
       setDragContext(undefined);
     }, []);
+
     return (
       <HStack
         draggable
-        backgroundColor="rgb(247,245,242)"
-        borderTopRadius="lg"
+        transition="background .2s, box-shadow .2s"
+        borderWidth="1px"
+        borderColor="blimpTeal.300"
+        borderRadius="lg"
         fontFamily="code"
+        overflow="hidden"
         ref={ref}
         spacing={0}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         {...props}
       >
-        <DragHandle borderTopLeftRadius="lg" p={1} alignSelf="stretch" />
-        <CodeMirrorView value={concise} p={5} pl={1} />
+        <DragHandle
+          borderTopLeftRadius="lg"
+          p={1}
+          alignSelf="stretch"
+          highlight={highlightDragHandle}
+        />
+        <CodeMirrorView value={concise} p={5} pl={1} pt={2} pb={2} minW={40} />
       </HStack>
     );
   }

@@ -404,26 +404,32 @@ const DraggableSignature = ({
     setDragContext(undefined);
   }, []);
 
+  const highlight = useDisclosure();
   return (
     <HStack
       draggable
       spacing={0}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px;"
-      borderRadius="lg"
       display="inline-flex"
       overflow="hidden"
+      borderWidth="1px"
+      borderColor="blimpTeal.300"
+      borderRadius="lg"
+      onMouseEnter={highlight.onOpen}
+      onMouseLeave={highlight.onClose}
       {...props}
     >
       <DragHandle
+        highlight={highlight.isOpen}
         borderTopLeftRadius="lg"
         borderBottomLeftRadius="lg"
         p={1}
         alignSelf="stretch"
       />
       <Text
-        backgroundColor="#f7f5f2"
+        background={highlight.isOpen ? "blimpTeal.50" : "white"}
+        transition="background .2s"
         p={2}
         fontFamily="code"
         fontSize={kindToFontSize[kind] || "md"}

@@ -17,6 +17,7 @@ const ShowMoreButton = ({ isOpen, ...props }: ShowMoreButtonProps) => (
     fontSize="14px"
     variant="unstyled"
     size="sm"
+    color="gray.800"
     opacity="0.6"
     textTransform="uppercase"
     // These should be factored out if we reuse elsewhere

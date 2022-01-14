@@ -5,7 +5,10 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
+import { HStack, VStack, Image } from "@chakra-ui/react";
 import { RiArrowLeftSFill } from "react-icons/ri";
+import { ToolkitImage } from "../ToolkitDocumentation/model";
+import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
 interface BreadcrumbHeadingProps {
   title: string;
@@ -14,6 +17,8 @@ interface BreadcrumbHeadingProps {
   onBack: () => void;
   titleFontFamily?: "code";
   parentFontFamily?: "code";
+  subtitle?: string;
+  icon?: ToolkitImage;
 }
 
 const ToolkitBreadcrumbHeading = ({
@@ -23,13 +28,15 @@ const ToolkitBreadcrumbHeading = ({
   onBack,
   parentFontFamily,
   titleFontFamily,
+  subtitle,
+  icon,
 }: BreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
       <Button
         // Button is full width so put content at the start.
         justifyContent="flex-start"
-        leftIcon={<RiArrowLeftSFill color="rgb(179, 186, 211)" />}
+        leftIcon={<RiArrowLeftSFill />}
         sx={{
           span: {
             margin: 0,
@@ -43,9 +50,11 @@ const ToolkitBreadcrumbHeading = ({
         variant="unstyled"
         onClick={onBack}
         alignItems="center"
-        fontWeight="sm"
+        fontWeight="bold"
+        fontSize="md"
         whiteSpace="normal"
         textAlign="left"
+        color="brand.500"
       >
         <Text as="span">
           {grandparent && grandparent + " / "}
@@ -54,14 +63,29 @@ const ToolkitBreadcrumbHeading = ({
           </Text>
         </Text>
       </Button>
-      <Text
-        as="h2"
-        fontSize="3xl"
-        fontWeight="semibold"
-        fontFamily={titleFontFamily}
-      >
-        {title}
-      </Text>
+      <HStack align="flex-start" spacing={4}>
+        {icon && (
+          <Image
+            src={imageUrlBuilder.image(icon.asset).url()}
+            alt="Topic icon"
+            width="80px"
+            height="64px"
+            borderRadius="lg"
+            mt={1}
+          />
+        )}
+        <VStack align="flex-start" spacing={1}>
+          <Text
+            as="h2"
+            fontSize="2xl"
+            fontWeight="semibold"
+            fontFamily={titleFontFamily}
+          >
+            {title}
+          </Text>
+          {subtitle && <Text fontSize="md">{subtitle}</Text>}
+        </VStack>
+      </HStack>
     </Stack>
   );
 };

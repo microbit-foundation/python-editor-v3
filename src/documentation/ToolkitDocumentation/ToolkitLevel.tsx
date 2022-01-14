@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, VStack } from "@chakra-ui/layout";
+import { Box, BoxProps, VStack, Divider } from "@chakra-ui/layout";
 import { ReactNode } from "react";
 import ScrollablePanel from "../../workbench/ScrollablePanel";
 import Slide from "./Slide";
@@ -24,18 +24,18 @@ const ToolkitLevel = ({
     <Slide direction={direction}>
       <VStack alignItems="stretch" spacing={0} {...props}>
         <Box
-          minHeight="28"
-          backgroundColor="rgb(230, 232, 239)"
+          bg="gray.25"
           flex="0 0 auto"
-          p={3}
-          pl={5}
-          pr={5}
           position="sticky"
           top="0"
           zIndex={2} // Above code pop-up.
         >
-          {heading}
+          <Box p={5} pt={3}>
+            {heading}
+          </Box>
+          <Divider borderWidth="1px" />
         </Box>
+
         {children}
       </VStack>
     </Slide>
