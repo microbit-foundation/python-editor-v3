@@ -71,7 +71,7 @@ const SideBar = ({
         title: intl.formatMessage({ id: "explore-tab" }),
         icon: PythonLogo as IconType,
         contents: <ExploreArea />,
-        color: "gray.50",
+        color: "gray.25",
       },
       {
         id: "reference",
@@ -80,7 +80,7 @@ const SideBar = ({
         // in documentation.ts (used for CM documentation tooltips).
         icon: VscLibrary,
         contents: <ReferenceArea />,
-        color: "gray.50",
+        color: "gray.25",
         mb: "auto",
       },
       {
@@ -94,7 +94,7 @@ const SideBar = ({
             onSelectedFileChanged={onSelectedFileChanged}
           />
         ),
-        color: "gray.25",
+        color: "gray.50",
       },
     ];
     return result;
@@ -120,7 +120,7 @@ const SideBar = ({
   }, [tab, setParams]);
 
   return (
-    <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
+    <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
       <Flex
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"

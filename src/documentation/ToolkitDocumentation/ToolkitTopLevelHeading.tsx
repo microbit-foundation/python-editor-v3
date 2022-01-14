@@ -18,7 +18,7 @@ const ToolkitTopLevelHeading = ({
     <Text as="h2" fontSize="3xl" fontWeight="semibold">
       {name}
     </Text>
-    <Text fontSize="sm">{description}</Text>
+    <Text fontSize="md">{description} </Text>
   </>
 );
 

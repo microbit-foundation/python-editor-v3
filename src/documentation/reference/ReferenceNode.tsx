@@ -3,10 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, HStack, Text, VStack, Stack } from "@chakra-ui/layout";
+import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
+import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import {
+  debug as dndDebug,
+  DragContext,
+  setDragContext,
+} from "../../editor/codemirror/dnd";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
   ApiDocsBaseClass,
@@ -15,6 +21,7 @@ import {
 } from "../../language-server/apidocs";
 import { Anchor } from "../../router-hooks";
 import DocString from "../common/DocString";
+import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import Highlight from "../ToolkitDocumentation/Highlight";
@@ -36,6 +43,14 @@ const kindToSpacing: Record<string, any> = {
   class: 5,
   variable: 3,
   function: 3,
+};
+
+export const classToInstanceMap: Record<string, string> = {
+  Button: "button_a",
+  MicroBitDigitalPin: "pin0",
+  MicroBitTouchPin: "pin0",
+  MicroBitAnalogDigitalPin: "pin0",
+  Image: "Image.HEART",
 };
 
 interface ApiDocEntryNodeProps extends BoxProps {
@@ -95,7 +110,7 @@ const ReferenceNodeSelf = ({
   showMore,
   onToggleShowMore,
 }: ReferenceNodeSelfProps) => {
-  const { fullName, name, kind, params, baseClasses, docString } = docs;
+  const { name, fullName, kind, params, baseClasses, docString } = docs;
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
     params,
@@ -110,18 +125,23 @@ const ReferenceNodeSelf = ({
 
   return (
     <VStack alignItems="stretch" spacing={3}>
-      <HStack>
+      {kind === "function" || kind === "variable" ? (
+        <DraggableSignature
+          signature={signature}
+          docs={docs}
+          alignSelf="flex-start"
+        />
+      ) : (
         <Text
           fontFamily="code"
           fontSize={kindToFontSize[kind] || "md"}
           as={kindToHeading[kind]}
         >
-          <Text as="span" fontWeight="semibold">
-            {formatName(kind, fullName, name)}
-          </Text>
+          <Text as="span">{formatName(kind, fullName, name)}</Text>
           {signature}
         </Text>
-      </HStack>
+      )}
+
       {baseClasses && baseClasses.length > 0 && (
         <BaseClasses value={baseClasses} />
       )}
@@ -282,6 +302,88 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
         </a>
       ))}
     </Text>
+  );
+};
+
+export const getDragContext = (fullName: string, kind: string): DragContext => {
+  const parts = fullName
+    .split(".")
+    .map((p) => (kind === "variable" ? p : classToInstanceMap[p] ?? p));
+  const isMicrobit = parts[0] === "microbit";
+  const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
+  const code = nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
+  const requiredImport = isMicrobit
+    ? `from microbit import *`
+    : `import ${parts[0]}`;
+  const full = `${requiredImport}\n${code}`;
+  return {
+    code: full,
+    type: kind === "function" ? "call" : "example",
+  };
+};
+
+interface DraggableSignatureProps extends BoxProps {
+  signature: ReactNode;
+  docs: ApiDocsEntry;
+}
+
+const DraggableSignature = ({
+  signature,
+  docs,
+  ...props
+}: DraggableSignatureProps) => {
+  const { fullName, kind, name } = docs;
+  const handleDragStart = useCallback(
+    (event: React.DragEvent) => {
+      dndDebug("dragstart");
+      event.dataTransfer.dropEffect = "copy";
+      const context = getDragContext(fullName, kind);
+      setDragContext(context);
+      event.dataTransfer.setData(pythonSnippetMediaType, context.code);
+    },
+    [fullName, kind]
+  );
+
+  const handleDragEnd = useCallback((event: React.DragEvent) => {
+    dndDebug("dragend");
+    setDragContext(undefined);
+  }, []);
+
+  const highlight = useDisclosure();
+  return (
+    <HStack
+      draggable
+      spacing={0}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      display="inline-flex"
+      overflow="hidden"
+      borderWidth="1px"
+      borderColor="blimpTeal.300"
+      borderRadius="lg"
+      onMouseEnter={highlight.onOpen}
+      onMouseLeave={highlight.onClose}
+      {...props}
+    >
+      <DragHandle
+        highlight={highlight.isOpen}
+        borderTopLeftRadius="lg"
+        borderBottomLeftRadius="lg"
+        p={1}
+        alignSelf="stretch"
+      />
+      <Text
+        background={highlight.isOpen ? "blimpTeal.50" : "white"}
+        transition="background .2s"
+        p={2}
+        fontFamily="code"
+        fontSize={kindToFontSize[kind] || "md"}
+        as={kindToHeading[kind]}
+      >
+        <Text as="span">{formatName(kind, fullName, name)}</Text>
+        {signature}
+      </Text>
+    </HStack>
   );
 };
 

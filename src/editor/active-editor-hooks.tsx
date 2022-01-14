@@ -45,12 +45,10 @@ export class ActiveEditorActions {
   /**
    * A smart, import-aware code insert.
    *
-   * The logic used at the moment is pretty simple but we plan to improve this.
-   *
    * @param code The code with any required imports.
    */
   insertCode = (code: string): void => {
-    this.view.dispatch(calculateChanges(this.view.state, code));
+    this.view.dispatch(calculateChanges(this.view.state, code, "example"));
     this.view.focus();
   };
 }

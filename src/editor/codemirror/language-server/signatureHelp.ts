@@ -93,9 +93,9 @@ export const signatureHelp = (intl: IntlShape) => {
         // This needs to trigger for autocomplete adding function parens
         // as well as normal user input with `closebrackets` inserting
         // the closing bracket.
-        if (last.isUserEvent("input")) {
+        if (last.isUserEvent("input") || last.isUserEvent("dnd.drop.call")) {
           last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-            if (inserted.sliceString(0).endsWith("()")) {
+            if (inserted.sliceString(0).trim().endsWith("()")) {
               this.triggerSignatureHelpRequest();
             }
           });

@@ -15,7 +15,7 @@ const toolkitQuery = (languageId: string): string => {
   *[_type == "toolkit" && language == "${languageId}" && slug.current == "explore" && !(_id in path("drafts.**"))]{
     id, name, description,
     contents[]->{
-      name, slug, compatibility, subtitle, 
+      name, slug, compatibility, subtitle, image,
       introduction[] {
         ...,
         markDefs[]{

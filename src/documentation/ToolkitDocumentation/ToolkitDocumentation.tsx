@@ -76,11 +76,13 @@ const ActiveToolkitLevel = ({
             parent={toolkit.name}
             title={topic.name}
             onBack={() => onNavigate(undefined)}
+            subtitle={topic.subtitle}
+            icon={topic.image}
           />
         }
       >
         {topic.introduction && (
-          <Box p={5} pb={1} fontSize="md">
+          <Box p={5} pb={1} fontSize="sm">
             <ToolkitContent content={topic.introduction} />
           </Box>
         )}
@@ -116,6 +118,7 @@ const ActiveToolkitLevel = ({
             key={topic.name}
             name={topic.name + (isV2Only(topic) ? " (V2)" : "")}
             description={topic.subtitle}
+            icon={topic.image}
             onForward={() => onNavigate(topic.slug.current)}
           />
         ))}

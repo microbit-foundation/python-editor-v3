@@ -30,6 +30,7 @@ export interface ToolkitTopic extends HasCompatibility {
   introduction?: ToolkitPortableText;
   contents?: ToolkitTopicEntry[];
   slug: ToolkitSlug;
+  image?: ToolkitImage;
 }
 
 export interface ToolkitCode {
