@@ -413,7 +413,8 @@ const DraggableSignature = ({
       onDragEnd={handleDragEnd}
       display="inline-flex"
       overflow="hidden"
-      border="1px solid #95d7ce" /*brand color*/
+      borderWidth="1px"
+      borderColor="blimpTeal.300"
       borderRadius="lg"
       onMouseEnter={highlight.onOpen}
       onMouseLeave={highlight.onClose}
@@ -427,7 +428,7 @@ const DraggableSignature = ({
         alignSelf="stretch"
       />
       <Text
-        background={highlight.isOpen ? "#E9F6F5" : "white"}
+        background={highlight.isOpen ? "blimpTeal.50" : "white"}
         transition="background .2s"
         p={2}
         fontFamily="code"

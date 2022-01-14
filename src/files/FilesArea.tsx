@@ -34,7 +34,7 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
               key={f.name}
               fontWeight={selected ? "semibold" : undefined}
               _hover={{
-                bgColor: "#CAEBE7",
+                bgColor: "blimpTeal.100",
               }}
               pl={2}
               pr={1}

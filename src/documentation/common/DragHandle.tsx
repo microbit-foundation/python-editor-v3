@@ -14,12 +14,12 @@ const DragHandle = ({ highlight, ...props }: DragHandleProps) => {
   return (
     <HStack
       {...props}
-      bgColor={highlight ? "#95D7CE" : "#e9f6f5"} //brand color?
+      bgColor={highlight ? "blimpTeal.300" : "blimpTeal.50"} //brand color?
       transition="background .2s"
     >
       <DragHandleIcon
         boxSize={3}
-        color={highlight ? "#4A7B75" : "#95d7ce"} /*brand color*/
+        color={highlight ? "blimpTeal.600" : "blimpTeal.300"} /*brand color*/
         transition="color .2s"
       />
     </HStack>

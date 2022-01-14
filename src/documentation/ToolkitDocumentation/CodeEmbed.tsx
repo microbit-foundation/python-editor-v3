@@ -85,7 +85,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           full={codeWithImports}
           position="absolute"
           ref={codeRef}
-          background={state === "default" ? "white" : "#E9F6F5"}
+          background={state === "default" ? "white" : "blimpTeal.50"}
           highlightDragHandle={state === "raised"}
         />
         {state === "raised" && (
@@ -107,7 +107,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           fontWeight="normal"
           color="gray.800"
           border="none"
-          bgColor={state === "highlighted" ? "#95D7CE" : "#CAEBE7"} //unlisted colors
+          bgColor={state === "highlighted" ? "blimpTeal.300" : "blimpTeal.100"}
           borderTopRadius="0"
           borderBottomRadius="lg"
           ml={5}
@@ -154,7 +154,7 @@ const CodePopUp = ({
         top={codeRef.current.getBoundingClientRect().top + "px"}
         left={codeRef.current.getBoundingClientRect().left + "px"}
         // We're always "raised" as this is the pop-up.
-        background="#E9F6F5"
+        background="blimpTeal.50"
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
         highlightDragHandle
         {...props}
@@ -193,7 +193,8 @@ const Code = forwardRef<CodeProps, "pre">(
       <HStack
         draggable
         transition="background .2s, box-shadow .2s"
-        border="1px solid #95d7ce" /*brand color*/
+        borderWidth="1px"
+        borderColor="blimpTeal.300"
         borderRadius="lg"
         fontFamily="code"
         overflow="hidden"

@@ -45,7 +45,7 @@ const ToolkitTopLevelListItem = ({
               { name }
             )}
             size="sm"
-            color="#8972CB" //not in theme
+            color="brand.200"
             variant="ghost"
             fontSize="2xl"
             onClick={onForward}
