@@ -19,7 +19,6 @@ const ReferenceArea = () => {
         await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
-        console.log(JSON.stringify(docs, null, 2));
         setApiDocs(docs);
       }
     };
