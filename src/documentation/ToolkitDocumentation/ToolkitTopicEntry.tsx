@@ -4,16 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, Stack, Text } from "@chakra-ui/layout";
-import {
-  Collapse,
-  useDisclosure,
-  usePrefersReducedMotion,
-  usePrevious,
-} from "@chakra-ui/react";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
-import { ChangeEvent, useCallback, useState, useEffect, useRef } from "react";
-import { useLogging } from "../../logging/logging-hooks";
-import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
+import { ChangeEvent, useCallback, useState } from "react";
 import { Anchor } from "../../router-hooks";
 import ShowMoreButton from "../common/ShowMoreButton";
 import {
@@ -42,7 +35,7 @@ const ToolkitTopicEntry = ({
   topic,
   entry,
   active,
-  ...props
+  ...other
 }: ToolkitTopicEntryProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = entry;
   const hasDetail = !!detailContent;
@@ -55,61 +48,15 @@ const ToolkitTopicEntry = ({
     },
     [setAlternativeIndex]
   );
-
   const disclosure = useDisclosure();
-  const ref = useRef<HTMLDivElement>(null);
-  const previousAnchor = usePrevious(anchor);
-  const scrollable = useScrollablePanelAncestor();
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const logging = useLogging();
-  const [highlighting, setHighlighting] = useState(false);
-  useEffect(() => {
-    if (previousAnchor !== anchor && active) {
-      logging.log("Activating " + topic.name);
-      disclosure.onOpen();
-      // Delay until after the opening animation so the full container height is known for the scroll.
-      window.setTimeout(() => {
-        if (ref.current && scrollable.current) {
-          scrollable.current.scrollTo({
-            // Fudge to account for the fixed header and to leave a small gap.
-            top: ref.current.offsetTop - 112 - 25,
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-          });
-        }
-        setTimeout(() => {
-          setHighlighting(true);
-          setTimeout(() => {
-            setHighlighting(false);
-          }, 3000);
-        }, 300);
-      }, 150);
-    }
-  }, [
-    anchor,
-    scrollable,
-    active,
-    previousAnchor,
-    prefersReducedMotion,
-    logging,
-    disclosure,
-    topic,
-    entry,
-  ]);
-  const handleHighlightClick = useCallback(() => {
-    setHighlighting(false);
-  }, [setHighlighting]);
   return (
-    <Highlight onClick={handleHighlightClick} value={highlighting}>
-      <Stack
-        ref={ref}
-        spacing={3}
-        fontSize="sm"
-        p={5}
-        pr={3}
-        mt={1}
-        mb={1}
-        {...props}
-      >
+    <Highlight
+      anchor={anchor}
+      entryName={topic.name}
+      active={active}
+      disclosure={disclosure}
+    >
+      <Stack spacing={3} fontSize="sm" p={5} pr={3} mt={1} mb={1}>
         <Text as="h3" fontSize="lg" fontWeight="semibold">
           {entry.name}
           {isV2Only(entry) ? " (V2)" : ""}

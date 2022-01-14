@@ -4,19 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Text, VStack, Stack } from "@chakra-ui/layout";
-import {
-  Collapse,
-  useDisclosure,
-  usePrefersReducedMotion,
-  usePrevious,
-} from "@chakra-ui/react";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { splitDocString } from "../../editor/codemirror/language-server/documentation";
 import {
@@ -24,9 +13,7 @@ import {
   ApiDocsEntry,
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
-import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
-import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DocString from "../common/DocString";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
@@ -58,58 +45,27 @@ interface ApiDocEntryNodeProps extends BoxProps {
 
 const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
   const { fullName } = docs;
-
   const active = anchor?.id === fullName;
-
   const disclosure = useDisclosure();
-  const ref = useRef<HTMLDivElement>(null);
-  const previousAnchor = usePrevious(anchor);
-  const scrollable = useScrollablePanelAncestor();
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const logging = useLogging();
-  const [highlighting, setHighlighting] = useState(false);
-  useEffect(() => {
-    if (previousAnchor !== anchor && active) {
-      logging.log("Activating " + fullName);
-      disclosure.onOpen();
-      // Delay until after the opening animation so the full container height is known for the scroll.
-      window.setTimeout(() => {
-        if (ref.current && scrollable.current) {
-          scrollable.current.scrollTo({
-            // Fudge to account for the fixed header and to leave a small gap.
-            top: ref.current.offsetTop - 112 - 25,
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-          });
-        }
-        setTimeout(() => {
-          setHighlighting(true);
-          setTimeout(() => {
-            setHighlighting(false);
-          }, 3000);
-        }, 300);
-      }, 150);
-    }
-  }, [
-    anchor,
-    scrollable,
-    active,
-    previousAnchor,
-    prefersReducedMotion,
-    logging,
-    disclosure,
-    fullName,
-  ]);
-  const handleHighlightClick = useCallback(() => {
-    setHighlighting(false);
-  }, [setHighlighting]);
   return (
-    <Highlight onClick={handleHighlightClick} value={highlighting}>
+    <Highlight
+      anchor={anchor}
+      active={active}
+      entryName={fullName}
+      disclosure={disclosure}
+    >
       <Stack
-        ref={ref}
         id={fullName}
-        spacing={3}
+        wordBreak="break-word"
+        _hover={{
+          "& button": {
+            display: "flex",
+          },
+        }}
         fontSize="sm"
-        p={3}
+        spacing={3}
+        p={5}
+        pr={3}
         mt={1}
         mb={1}
         {...props}
