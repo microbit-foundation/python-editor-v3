@@ -5,11 +5,15 @@
  */
 import { ReferenceToolkit } from "./reference/ReferenceToolkit";
 import ToolkitSpinner from "./explore/ToolkitSpinner";
-import { useApiDocs } from "./documentation-hooks";
+import { useToolkitState } from "./ToolkitProvider";
 
 const ReferenceArea = () => {
-  const apidocs = useApiDocs();
-  return apidocs ? <ReferenceToolkit docs={apidocs} /> : <ToolkitSpinner />;
+  const { referenceToolkit } = useToolkitState();
+  return referenceToolkit ? (
+    <ReferenceToolkit docs={referenceToolkit} />
+  ) : (
+    <ToolkitSpinner />
+  );
 };
 
 export default ReferenceArea;

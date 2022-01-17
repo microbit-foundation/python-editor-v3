@@ -9,7 +9,7 @@ import { Toolkit } from "./explore/model";
 import { pullModulesToTop } from "./reference/apidocs-util";
 import lunr from "lunr";
 
-type State =
+export type State =
   | { status: "ok"; toolkit: Toolkit }
   | { status: "error" }
   | { status: "loading" };
@@ -63,7 +63,7 @@ interface Search {
   search(text: string): string[];
 }
 
-export const useSearch = () => {
+export const useSearch = (): Search => {
   const documents = [
     {
       id: "Lunr",

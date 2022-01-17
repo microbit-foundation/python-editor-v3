@@ -34,6 +34,7 @@ import {
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
+import ToolkitProvider from "./documentation/ToolkitProvider";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -85,15 +86,17 @@ const App = () => {
                   <FileSystemProvider value={fs}>
                     <LanguageServerClientProvider value={client}>
                       <BeforeUnloadDirtyCheck />
-                      <SelectionProvider>
-                        <RouterProvider>
-                          <ProjectDropTarget>
-                            <ActiveEditorProvider>
-                              <Workbench />
-                            </ActiveEditorProvider>
-                          </ProjectDropTarget>
-                        </RouterProvider>
-                      </SelectionProvider>
+                      <ToolkitProvider>
+                        <SelectionProvider>
+                          <RouterProvider>
+                            <ProjectDropTarget>
+                              <ActiveEditorProvider>
+                                <Workbench />
+                              </ActiveEditorProvider>
+                            </ProjectDropTarget>
+                          </RouterProvider>
+                        </SelectionProvider>
+                      </ToolkitProvider>
                     </LanguageServerClientProvider>
                   </FileSystemProvider>
                 </DeviceContextProvider>
