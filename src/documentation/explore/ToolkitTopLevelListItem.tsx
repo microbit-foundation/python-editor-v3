@@ -8,7 +8,7 @@ import { Box, Text, VStack } from "@chakra-ui/layout";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { ToolkitImage } from "../ToolkitDocumentation/model";
+import { ToolkitImage } from "./model";
 import {
   HStack,
   Image,

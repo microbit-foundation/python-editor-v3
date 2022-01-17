@@ -8,7 +8,7 @@ import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { pullModulesToTop } from "./reference/apidocs-util";
 import { ReferenceToolkit } from "./reference/ReferenceToolkit";
-import ToolkitSpinner from "./ToolkitDocumentation/ToolkitSpinner";
+import ToolkitSpinner from "./explore/ToolkitSpinner";
 
 const ReferenceArea = () => {
   const client = useLanguageServerClient();

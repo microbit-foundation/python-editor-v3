@@ -7,7 +7,7 @@ import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
 import { HStack, VStack, Image } from "@chakra-ui/react";
 import { RiArrowLeftSFill } from "react-icons/ri";
-import { ToolkitImage } from "../ToolkitDocumentation/model";
+import { ToolkitImage } from "./model";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
 interface BreadcrumbHeadingProps {

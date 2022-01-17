@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useLogging } from "../logging/logging-hooks";
-import ToolkitDocumentation from "./ToolkitDocumentation";
-import { fetchToolkit } from "./ToolkitDocumentation/api";
-import { Toolkit } from "./ToolkitDocumentation/model";
-import ToolkitSpinner from "./ToolkitDocumentation/ToolkitSpinner";
+import ExploreToolkit from "./explore/ExploreToolkit";
+import { fetchToolkit } from "./explore/api";
+import { Toolkit } from "./explore/model";
+import ToolkitSpinner from "./explore/ToolkitSpinner";
 import { useSettings } from "../settings/settings";
 
 type State =
@@ -54,7 +54,7 @@ const ExploreArea = () => {
         </Text>
       );
     case "ok":
-      return <ToolkitDocumentation toolkit={state.toolkit} />;
+      return <ExploreToolkit toolkit={state.toolkit} />;
     default:
       throw new Error();
   }

@@ -9,7 +9,7 @@ import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { Anchor } from "../../router-hooks";
 import ShowMoreButton from "../common/ShowMoreButton";
-import Highlight from "../ToolkitDocumentation/Highlight";
+import Highlight from "./Highlight";
 import {
   isV2Only,
   ToolkitTopic,
