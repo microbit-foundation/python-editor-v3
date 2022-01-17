@@ -67,7 +67,7 @@ const ToolkitBreadcrumbHeading = ({
         {icon && (
           <Image
             src={imageUrlBuilder.image(icon.asset).url()}
-            alt="Topic icon"
+            alt=""
             width="80px"
             height="64px"
             borderRadius="lg"
