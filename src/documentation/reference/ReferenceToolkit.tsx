@@ -11,11 +11,11 @@ import { ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
-import { useAnimationDirection } from "../ToolkitDocumentation/toolkit-hooks";
-import ToolkitBreadcrumbHeading from "../ToolkitDocumentation/ToolkitBreadcrumbHeading";
-import ToolkitLevel from "../ToolkitDocumentation/ToolkitLevel";
-import ToolkitTopLevelHeading from "../ToolkitDocumentation/ToolkitTopLevelHeading";
-import ToolkitTopLevelListItem from "../ToolkitDocumentation/ToolkitTopLevelListItem";
+import { useAnimationDirection } from "../explore/toolkit-hooks";
+import ToolkitBreadcrumbHeading from "../explore/ToolkitBreadcrumbHeading";
+import ToolkitLevel from "../explore/ToolkitLevel";
+import ToolkitTopLevelHeading from "../explore/ToolkitTopLevelHeading";
+import ToolkitTopLevelListItem from "../explore/ToolkitTopLevelListItem";
 import { resolveModule } from "./apidocs-util";
 import ReferenceNode from "./ReferenceNode";
 
