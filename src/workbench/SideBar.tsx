@@ -8,7 +8,6 @@ import {
   BoxProps,
   Flex,
   HStack,
-  Link,
   TabList,
   TabPanel,
   TabPanels,
@@ -22,8 +21,6 @@ import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
-import { useDeployment } from "../deployment";
-import { topBarHeight } from "../deployment/misc";
 import ExploreArea from "../documentation/ExploreArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
@@ -33,6 +30,7 @@ import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
 import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
+import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
 
 export const cornerSize = 32;
@@ -63,7 +61,6 @@ const SideBar = ({
 }: SideBarProps) => {
   const intl = useIntl();
   const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
-  const brand = useDeployment();
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
@@ -121,30 +118,7 @@ const SideBar = ({
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
-      <Flex
-        backgroundColor="brand.500"
-        boxShadow="0px 4px 16px #00000033"
-        zIndex={3}
-        height={topBarHeight}
-        alignItems="center"
-      >
-        <Link
-          display="block"
-          href="https://microbit.org/code/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-        >
-          <HStack spacing={3.5} pl={4} pr={4}>
-            <Box width="3.56875rem" color="white" role="img">
-              {brand.squareLogo}
-            </Box>
-            <Box width="9.098rem" role="img" color="white">
-              {brand.horizontalLogo}
-            </Box>
-          </HStack>
-        </Link>
-      </Flex>
+      <SideBarHeader />
       <Tabs
         orientation="vertical"
         size="lg"
