@@ -7,7 +7,6 @@ import { useSettings } from "../settings/settings";
 import { fetchToolkit } from "./explore/api";
 import { Toolkit } from "./explore/model";
 import { pullModulesToTop } from "./reference/apidocs-util";
-import lunr from "lunr";
 
 export type State =
   | { status: "ok"; toolkit: Toolkit }
@@ -57,41 +56,4 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
     load();
   }, [client]);
   return apidocs;
-};
-
-interface Search {
-  search(text: string): string[];
-}
-
-export const useSearch = (): Search => {
-  const documents = [
-    {
-      id: "Lunr",
-      text: "Like Solr, but much smaller, and not as bright.",
-    },
-    {
-      id: "React",
-      text: "A JavaScript library for building user interfaces.",
-    },
-    {
-      id: "Lodash",
-      text: "A modern JavaScript utility library delivering modularity, performance & extras and very modern.",
-    },
-  ];
-
-  const index = lunr(function () {
-    this.ref("id");
-    this.field("text");
-    this.metadataWhitelist = ["position"];
-    for (const doc of documents) {
-      this.add(doc);
-    }
-  });
-  return {
-    search: (text: string) => {
-      const results = index.search(text);
-      console.log(results);
-      return results.map((r) => r.ref);
-    },
-  };
 };
