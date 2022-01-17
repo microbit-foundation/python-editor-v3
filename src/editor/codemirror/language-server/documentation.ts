@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import DOMPurify from "dompurify";
-import render from "marked";
+import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
 import "./documentation.css";
@@ -86,7 +86,7 @@ export const renderMarkdown = (
     markdown = firstParagraph(markdown);
   }
   const html = DOMPurify.sanitize(
-    render(fixupMarkdown(markdown), { gfm: true })
+    marked.parse(fixupMarkdown(markdown), { gfm: true })
   );
   return {
     __html: html,
