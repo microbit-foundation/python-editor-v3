@@ -4,46 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 import { Text } from "@chakra-ui/layout";
-import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import useIsUnmounted from "../common/use-is-unmounted";
-import { useLogging } from "../logging/logging-hooks";
+import { useExploreToolkit } from "./documentation-hooks";
 import ExploreToolkit from "./explore/ExploreToolkit";
-import { fetchToolkit } from "./explore/api";
-import { Toolkit } from "./explore/model";
 import ToolkitSpinner from "./explore/ToolkitSpinner";
-import { useSettings } from "../settings/settings";
-
-type State =
-  | { status: "ok"; toolkit: Toolkit }
-  | { status: "error" }
-  | { status: "loading" };
 
 const ExploreArea = () => {
-  const [state, setState] = useState<State>({
-    status: "loading",
-  });
-  const logging = useLogging();
-  const isUnmounted = useIsUnmounted();
-  const [{ languageId }] = useSettings();
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const toolkit = await fetchToolkit(languageId);
-        if (!isUnmounted()) {
-          setState({ status: "ok", toolkit });
-        }
-      } catch (e) {
-        logging.error(e);
-        if (!isUnmounted()) {
-          setState({
-            status: "error",
-          });
-        }
-      }
-    };
-    load();
-  }, [setState, isUnmounted, logging, languageId]);
+  const state = useExploreToolkit();
   switch (state.status) {
     case "loading":
       return <ToolkitSpinner />;
