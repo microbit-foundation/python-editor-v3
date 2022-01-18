@@ -7,7 +7,7 @@ import { Text } from "@chakra-ui/layout";
 import { FormattedMessage } from "react-intl";
 import ExploreToolkit from "./explore/ExploreToolkit";
 import ToolkitSpinner from "./explore/ToolkitSpinner";
-import { useToolkitState } from "./ToolkitProvider";
+import { useToolkitState } from "./toolkit-hooks";
 
 const ExploreArea = () => {
   const { exploreToolkit } = useToolkitState();

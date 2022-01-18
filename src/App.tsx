@@ -34,8 +34,8 @@ import {
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
-import ToolkitProvider from "./documentation/ToolkitProvider";
-import SearchProvider from "./documentation/SearchProvider";
+import ToolkitProvider from "./documentation/toolkit-hooks";
+import SearchProvider from "./documentation/search-hooks";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
