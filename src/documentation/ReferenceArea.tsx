@@ -5,7 +5,7 @@
  */
 import { ReferenceToolkit } from "./reference/ReferenceToolkit";
 import ToolkitSpinner from "./explore/ToolkitSpinner";
-import { useToolkitState } from "./ToolkitProvider";
+import { useToolkitState } from "./toolkit-hooks";
 
 const ReferenceArea = () => {
   const { referenceToolkit } = useToolkitState();
