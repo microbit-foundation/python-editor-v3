@@ -113,7 +113,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     }
-    console.log(searchableReferenceContent);
+
     if (exploreToolkit.status === "ok") {
       exploreToolkit.toolkit.contents?.forEach((t) => {
         t.contents?.forEach((e) => {
