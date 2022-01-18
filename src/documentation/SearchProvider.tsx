@@ -15,7 +15,8 @@ interface Search {
 
 interface searchableContent {
   id: string;
-  text: string | undefined;
+  title: string;
+  content: string | undefined;
 }
 
 const SearchContext = createContext<Search | undefined>(undefined);
@@ -60,16 +61,20 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
 
     if (referenceToolkit) {
       for (const doc in referenceToolkit) {
-        searchableReferenceContent.push({
-          id: referenceToolkit[doc].id,
-          text: referenceToolkit[doc].docString,
+        referenceToolkit[doc].children?.forEach((c) => {
+          searchableReferenceContent.push({
+            id: c.id,
+            title: c.fullName,
+            content: c.docString,
+          });
         });
       }
     }
 
     const referenceIndex = lunr(function () {
       this.ref("id");
-      this.field("text");
+      this.field("title");
+      this.field("content");
       this.metadataWhitelist = ["position"];
       for (const doc of searchableReferenceContent) {
         this.add(doc);
@@ -83,7 +88,8 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
           const detailContentString = blocksToText(e.detailContent);
           searchableExploreContent.push({
             id: e.slug.current,
-            text: contentString + detailContentString,
+            title: e.name,
+            content: contentString + detailContentString,
           });
         });
       });
@@ -91,7 +97,8 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
 
     const exploreIndex = lunr(function () {
       this.ref("id");
-      this.field("text");
+      this.field("title");
+      this.field("content");
       this.metadataWhitelist = ["position"];
       for (const doc of searchableExploreContent) {
         this.add(doc);
