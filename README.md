@@ -37,6 +37,8 @@ The `main` branch is deployed to https://stage-python-editor-next.microbit.org/ 
 
 Other branches (e.g. for PRs) are deployed to https://review-python-editor-next.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
 
+For custom deployments, note that the educational content in the sidebar is currently sourced live from our CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
+
 ## Building and running the editor
 
 1. Ensure you have a working Node.js environment. We recommend using the LTS version of Node.
