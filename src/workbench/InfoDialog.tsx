@@ -26,7 +26,7 @@ const InfoDialog = ({
   switchToInfoDialog,
 }: InfoDialogProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
       <ModalOverlay>
         <ModalContent>
           <ModalCloseButton />
@@ -37,10 +37,10 @@ const InfoDialog = ({
               mr="auto"
               pt={10}
               p={8}
-              spacing={8}
+              spacing={5}
               alignItems="stretch"
             >
-              <Stack spacing={3.5}>
+              <Stack spacing={3}>
                 <Text fontWeight="semibold">
                   Welcome to the alpha release of the new micro:bit Python
                   editor.
@@ -55,12 +55,9 @@ const InfoDialog = ({
                     Autocomplete and signature help in the code editor.
                   </ListItem>
                   <ListItem m={1}>
-                    Explore what Python and your micro:bit can do in the{" "}
-                    <strong>Explore</strong> tab.
-                  </ListItem>
-                  <ListItem m={1}>
-                    Look up details of the micro:bit MicroPython API in the{" "}
-                    <strong>Reference</strong> tab.
+                    Drag and drop code examples from the{" "}
+                    <strong>Explore</strong> and <strong>Reference</strong>{" "}
+                    documentation tabs.
                   </ListItem>
                   <ListItem m={1}>A pre-release of Data logging.</ListItem>
                 </List>
