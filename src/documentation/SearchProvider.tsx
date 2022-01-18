@@ -86,6 +86,10 @@ const blocksToText = (
     .join("\n\n");
 };
 
+const validateString = (string: string | undefined): string => {
+  return string || "";
+};
+
 const SearchProvider = ({ children }: { children: ReactNode }) => {
   const { exploreToolkit, referenceToolkit } = useToolkitState();
 
@@ -96,15 +100,20 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
     if (referenceToolkit) {
       for (const doc in referenceToolkit) {
         referenceToolkit[doc].children?.forEach((c) => {
+          const classOrModuleContent = c.children
+            ?.flatMap((c) => c.docString)
+            .join("");
+          const content =
+            validateString(c.docString) + validateString(classOrModuleContent);
           searchableReferenceContent.push({
             id: c.id,
             title: c.fullName,
-            content: c.docString,
+            content,
           });
         });
       }
     }
-
+    console.log(searchableReferenceContent);
     if (exploreToolkit.status === "ok") {
       exploreToolkit.toolkit.contents?.forEach((t) => {
         t.contents?.forEach((e) => {
