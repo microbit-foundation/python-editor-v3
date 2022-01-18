@@ -101,7 +101,7 @@ const getReferenceSearchableContent = (
   return searchableReferenceContent;
 };
 
-const buildSearchIndex = (
+export const buildSearchIndex = (
   searchableContent: SearchableContent[]
 ): lunr.Index => {
   return lunr(function () {
