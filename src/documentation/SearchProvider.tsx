@@ -8,12 +8,46 @@ import { useToolkitState } from "./ToolkitProvider";
 import lunr from "lunr";
 import { ToolkitPortableText } from "./explore/model";
 
-interface Search {
-  referenceSearch(text: string): string[];
-  exploreSearch(text: string): string[];
+class Search {
+  searchableExploreContent: SearchableContent[];
+  searchableReferenceContent: SearchableContent[];
+  referenceIndex: lunr.Index;
+  exploreIndex: lunr.Index;
+
+  constructor(
+    searchableExploreContent: SearchableContent[],
+    searchableReferenceContent: SearchableContent[]
+  ) {
+    this.searchableExploreContent = searchableExploreContent;
+    this.searchableReferenceContent = searchableReferenceContent;
+    this.exploreIndex = this.buildIndex(this.searchableExploreContent);
+    this.referenceIndex = this.buildIndex(this.searchableReferenceContent);
+  }
+  buildIndex(searchableContent: SearchableContent[]) {
+    return lunr(function () {
+      this.ref("id");
+      this.field("title");
+      this.field("content");
+      this.metadataWhitelist = ["position"];
+      for (const doc of searchableContent) {
+        this.add(doc);
+      }
+    });
+  }
+  search(index: lunr.Index, text: string) {
+    const results = index.search(text);
+    console.log(results);
+    return results.map((r) => r.ref);
+  }
+  searchExplore(text: string) {
+    return this.search(this.exploreIndex, text);
+  }
+  searchReference(text: string) {
+    return this.search(this.referenceIndex, text);
+  }
 }
 
-interface searchableContent {
+interface SearchableContent {
   id: string;
   title: string;
   content: string | undefined;
@@ -56,8 +90,8 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
   const { exploreToolkit, referenceToolkit } = useToolkitState();
 
   const value: Search = useMemo(() => {
-    const searchableReferenceContent: searchableContent[] = [];
-    const searchableExploreContent: searchableContent[] = [];
+    const searchableReferenceContent: SearchableContent[] = [];
+    const searchableExploreContent: SearchableContent[] = [];
 
     if (referenceToolkit) {
       for (const doc in referenceToolkit) {
@@ -70,16 +104,6 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     }
-
-    const referenceIndex = lunr(function () {
-      this.ref("id");
-      this.field("title");
-      this.field("content");
-      this.metadataWhitelist = ["position"];
-      for (const doc of searchableReferenceContent) {
-        this.add(doc);
-      }
-    });
 
     if (exploreToolkit.status === "ok") {
       exploreToolkit.toolkit.contents?.forEach((t) => {
@@ -95,28 +119,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
       });
     }
 
-    const exploreIndex = lunr(function () {
-      this.ref("id");
-      this.field("title");
-      this.field("content");
-      this.metadataWhitelist = ["position"];
-      for (const doc of searchableExploreContent) {
-        this.add(doc);
-      }
-    });
-
-    return {
-      referenceSearch: (text: string) => {
-        const results = referenceIndex.search(text);
-        console.log(results);
-        return results.map((r) => r.ref);
-      },
-      exploreSearch: (text: string) => {
-        const results = exploreIndex.search(text);
-        console.log(results);
-        return results.map((r) => r.ref);
-      },
-    };
+    return new Search(searchableExploreContent, searchableReferenceContent);
   }, [exploreToolkit, referenceToolkit]);
 
   return (
