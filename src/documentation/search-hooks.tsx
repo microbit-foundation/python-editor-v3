@@ -44,7 +44,7 @@ export class SearchIndex {
     const results = this.index.search(
       // TODO: Review escaping and decide what we let through.
       //       Ideally nothing that can cause query errors.
-      text.replace(/[~^+:-]/g, (x) => `\\${x}`)
+      text.replace(/[~^+:-]/g, (x) => `\\$1`)
     );
     return results.map((result) => {
       const content = this.contentByRef.get(result.ref);

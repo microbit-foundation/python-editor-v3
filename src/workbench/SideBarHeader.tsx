@@ -5,6 +5,7 @@ import {
   HStack,
   Link,
   Modal,
+  ModalBody,
   ModalContent,
   ModalOverlay,
   useDisclosure,
@@ -47,8 +48,11 @@ const SideBarHeader = () => {
               p={1}
               borderRadius="20px"
               maxWidth="unset"
+              maxHeight="80vh"
             >
-              <Search />
+              <ModalBody p={0}>
+                <Search onClose={search.onClose} />
+              </ModalBody>
             </ModalContent>
           </ModalOverlay>
         </Modal>

@@ -13,7 +13,11 @@ import { RiArrowRightLine, RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { SearchResults, useSearch } from "./search-hooks";
 import SearchResultList from "./SearchResultList";
 
-const Search = () => {
+interface SearchProps {
+  onClose: () => void;
+}
+
+const Search = ({ onClose }: SearchProps) => {
   const search = useSearch();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResults | undefined>();
@@ -38,57 +42,68 @@ const Search = () => {
   }, [setQuery, setResults]);
 
   return (
-    <Box py={2} px={1}>
-      <InputGroup variant="outline">
-        <InputLeftElement
-          pointerEvents="none"
-          children={<RiSearch2Line color="gray.800" />}
-        />
-        <Input
-          ref={ref}
-          value={query}
-          onChange={handleQueryChange}
-          type="text"
-          outline="none"
-          border="none"
-          placeholder="Documentation search"
-          fontSize="lg"
-          // Needs some thought, the default breaks the design.
-          _focus={{}}
-          _placeholder={{
-            color: "gray.600",
-          }}
-        />
-        <InputRightElement width={20} pr={0.5}>
-          <IconButton
-            fontSize="2xl"
-            isRound={false}
-            variant="ghost"
-            aria-label="Clear"
-            // Also used for Zoom, move to theme.
-            color="#838383"
-            icon={<RiCloseLine />}
-            onClick={handleClear}
+    <Box>
+      <Box py={2} px={1}>
+        <InputGroup variant="outline">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<RiSearch2Line color="gray.800" />}
           />
-          <Divider
-            orientation="vertical"
-            height="66%"
-            borderWidth="1px"
-            color="gray.400"
+          <Input
+            ref={ref}
+            value={query}
+            onChange={handleQueryChange}
+            type="text"
+            outline="none"
+            border="none"
+            placeholder="Documentation search"
+            fontSize="lg"
+            // Needs some thought, the default breaks the design.
+            _focus={{}}
+            _placeholder={{
+              color: "gray.600",
+            }}
           />
-          <IconButton
-            color="brand.400"
-            fontSize="2xl"
-            variant="ghost"
-            aria-label="Search"
-            icon={<RiArrowRightLine />}
-          />
-        </InputRightElement>
-      </InputGroup>
+          <InputRightElement width={20} pr={0.5}>
+            <IconButton
+              fontSize="2xl"
+              isRound={false}
+              variant="ghost"
+              aria-label="Clear"
+              // Also used for Zoom, move to theme.
+              color="#838383"
+              icon={<RiCloseLine />}
+              onClick={handleClear}
+            />
+            <Divider
+              orientation="vertical"
+              height="66%"
+              borderWidth="1px"
+              color="gray.400"
+            />
+            <IconButton
+              color="brand.400"
+              fontSize="2xl"
+              variant="ghost"
+              aria-label="Search"
+              icon={<RiArrowRightLine />}
+            />
+          </InputRightElement>
+        </InputGroup>
+      </Box>
       {results && (
-        <Stack>
-          <SearchResultList title="Explore" results={results.explore} />
-          <SearchResultList title="Reference" results={results.reference} />
+        <Stack spacing={5} pb={5}>
+          <Divider />
+          <SearchResultList
+            title="Explore"
+            results={results.explore}
+            onClose={onClose}
+          />
+          <SearchResultList
+            title="Reference"
+            results={results.reference}
+            onClose={onClose}
+          />
         </Stack>
       )}
     </Box>
