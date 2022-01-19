@@ -1,0 +1,97 @@
+import {
+  Box,
+  Divider,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+} from "@chakra-ui/react";
+import { useCallback, useRef, useState } from "react";
+import { RiArrowRightLine, RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { useSearch } from "./search-hooks";
+
+type SearchResults = any;
+
+const Search = () => {
+  const search = useSearch();
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<SearchResults | undefined>();
+  const ref = useRef<HTMLInputElement>(null);
+
+  const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback(
+      (e) => {
+        const newQuery = e.currentTarget.value;
+        setQuery(newQuery);
+        setResults(search.search(newQuery));
+      },
+      [search]
+    );
+
+  const handleClear = useCallback(() => {
+    setQuery("");
+    setResults(undefined);
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, [setQuery, setResults]);
+
+  return (
+    <Box py={2} px={1}>
+      <InputGroup variant="outline">
+        <InputLeftElement
+          pointerEvents="none"
+          children={<RiSearch2Line color="gray.800" />}
+        />
+        <Input
+          ref={ref}
+          value={query}
+          onChange={handleQueryChange}
+          type="text"
+          outline="none"
+          border="none"
+          placeholder="Documentation search"
+          fontSize="lg"
+          // Needs some thought, the default breaks the design.
+          _focus={{}}
+          _placeholder={{
+            color: "gray.600",
+          }}
+        />
+        <InputRightElement width={20} pr={0.5}>
+          <IconButton
+            fontSize="2xl"
+            isRound={false}
+            variant="ghost"
+            aria-label="Clear"
+            // Also used for Zoom, move to theme.
+            color="#838383"
+            icon={<RiCloseLine />}
+            onClick={handleClear}
+          />
+          <Divider
+            orientation="vertical"
+            height="66%"
+            borderWidth="1px"
+            color="grey.400"
+          />
+          <IconButton
+            color="brand.400"
+            fontSize="2xl"
+            variant="ghost"
+            aria-label="Search"
+            icon={<RiArrowRightLine />}
+          />
+        </InputRightElement>
+      </InputGroup>
+
+      {
+        // Temporary!
+        results && JSON.stringify(results)
+      }
+    </Box>
+  );
+};
+
+export default Search;

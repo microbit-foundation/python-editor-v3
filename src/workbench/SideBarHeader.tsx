@@ -3,9 +3,6 @@ import {
   Button,
   Flex,
   HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Link,
   Modal,
   ModalContent,
@@ -17,6 +14,7 @@ import { RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
+import Search from "../documentation/Search";
 import { flags } from "../flags";
 
 const SideBarHeader = () => {
@@ -26,6 +24,9 @@ const SideBarHeader = () => {
   const search = useDisclosure();
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const offset = 86;
+  const width = ref.current
+    ? ref.current!.clientWidth - offset - 24 + "px"
+    : undefined;
   return (
     <>
       {flags.search && (
@@ -39,28 +40,15 @@ const SideBarHeader = () => {
             <ModalContent
               mt={3.5}
               ml={offset + "px"}
-              width={
-                !ref.current
-                  ? undefined
-                  : ref.current!.clientWidth - offset + "px"
-              }
+              width={width}
               containerProps={{
                 justifyContent: "flex-start",
               }}
-              p={5}
-              borderRadius="xl"
+              p={1}
+              borderRadius="20px"
+              maxWidth="unset"
             >
-              <InputGroup
-                borderRadius="button"
-                variant="outline"
-                outline="unset"
-              >
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<RiSearch2Line color="gray.800" />}
-                />
-                <Input type="text" placeholder="Search the documentation" />
-              </InputGroup>
+              <Search />
             </ModalContent>
           </ModalOverlay>
         </Modal>
