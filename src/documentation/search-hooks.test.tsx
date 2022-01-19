@@ -40,7 +40,7 @@ describe("Search", () => {
         id: "indentations",
         navigation: {
           tab: "explore",
-          explore: "indentations",
+          explore: { id: "indentations" },
         },
       },
     ]);
