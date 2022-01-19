@@ -15,6 +15,7 @@ import {
   ListItemProps,
   ListItem,
   Divider,
+  Tag,
 } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 
@@ -22,6 +23,7 @@ interface ToolkitTopLevelListItemProps {
   name: string;
   description: ReactNode;
   icon?: ToolkitImage;
+  isV2Only?: Boolean;
   onForward: () => void;
 }
 
@@ -29,6 +31,7 @@ const ToolkitTopLevelListItem = ({
   name,
   description,
   icon,
+  isV2Only,
   onForward,
 }: ToolkitTopLevelListItemProps) => {
   const intl = useIntl();
@@ -41,9 +44,17 @@ const ToolkitTopLevelListItem = ({
     >
       <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
         <HStack justifyContent="space-between">
-          <Text as="h3" fontSize="lg" fontWeight="semibold">
-            {name}
-          </Text>
+          <HStack>
+            <Text as="h3" fontSize="lg" fontWeight="semibold">
+              {name}
+            </Text>
+            {isV2Only && (
+              <Tag fontWeight="semibold" background="brand.500" color="gray.25">
+                V2
+              </Tag>
+            )}
+          </HStack>
+
           <IconButton
             icon={<RiArrowRightLine />}
             aria-label={intl.formatMessage(

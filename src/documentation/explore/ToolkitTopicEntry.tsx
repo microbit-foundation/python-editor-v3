@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, Stack, Text } from "@chakra-ui/layout";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { Flex, Stack, Text, HStack } from "@chakra-ui/layout";
+import { Collapse, useDisclosure, Tag } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { Anchor } from "../../router-hooks";
@@ -67,10 +67,17 @@ const ToolkitTopicEntry = ({
           "& ul": { listStyleType: "disc", pl: 3 },
         }}
       >
-        <Text as="h3" fontSize="lg" fontWeight="semibold">
-          {entry.name}
-          {isV2Only(entry) ? " (V2)" : ""}
-        </Text>
+        <HStack>
+          <Text as="h3" fontSize="lg" fontWeight="semibold">
+            {entry.name}
+          </Text>
+          {isV2Only(entry) && (
+            <Tag fontWeight="semibold" background="brand.500" color="gray.25">
+              V2
+            </Tag>
+          )}
+        </HStack>
+
         <ToolkitContent content={content} />
         {alternatives && typeof alternativeIndex === "number" && (
           <>
