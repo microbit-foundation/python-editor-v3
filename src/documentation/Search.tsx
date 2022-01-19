@@ -6,12 +6,12 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Stack,
 } from "@chakra-ui/react";
 import { useCallback, useRef, useState } from "react";
 import { RiArrowRightLine, RiCloseLine, RiSearch2Line } from "react-icons/ri";
-import { useSearch } from "./search-hooks";
-
-type SearchResults = any;
+import { SearchResults, useSearch } from "./search-hooks";
+import SearchResultList from "./SearchResultList";
 
 const Search = () => {
   const search = useSearch();
@@ -85,11 +85,12 @@ const Search = () => {
           />
         </InputRightElement>
       </InputGroup>
-
-      {
-        // Temporary!
-        results && JSON.stringify(results)
-      }
+      {results && (
+        <Stack>
+          <SearchResultList title="Explore" results={results.explore} />
+          <SearchResultList title="Reference" results={results.reference} />
+        </Stack>
+      )}
     </Box>
   );
 };
