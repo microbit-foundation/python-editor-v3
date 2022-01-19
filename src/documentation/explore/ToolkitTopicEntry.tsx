@@ -16,6 +16,7 @@ import {
   ToolkitTopicEntry as ToolkitTopicEntryModel,
 } from "./model";
 import ToolkitContent from "./ToolkitContent";
+import ToolkitName from "./ToolkitName";
 
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
@@ -67,10 +68,8 @@ const ToolkitTopicEntry = ({
           "& ul": { listStyleType: "disc", pl: 3 },
         }}
       >
-        <Text as="h3" fontSize="lg" fontWeight="semibold">
-          {entry.name}
-          {isV2Only(entry) ? " (V2)" : ""}
-        </Text>
+        <ToolkitName name={entry.name} isV2Only={isV2Only(entry)}></ToolkitName>
+
         <ToolkitContent content={content} />
         {alternatives && typeof alternativeIndex === "number" && (
           <>

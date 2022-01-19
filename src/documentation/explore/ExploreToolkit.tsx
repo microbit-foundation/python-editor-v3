@@ -116,7 +116,8 @@ const ActiveToolkitLevel = ({
         {toolkit.contents?.map((topic) => (
           <ToolkitTopLevelListItem
             key={topic.name}
-            name={topic.name + (isV2Only(topic) ? " (V2)" : "")}
+            name={topic.name}
+            isV2Only={isV2Only(topic)}
             description={topic.subtitle}
             icon={topic.image}
             onForward={() => onNavigate(topic.slug.current)}

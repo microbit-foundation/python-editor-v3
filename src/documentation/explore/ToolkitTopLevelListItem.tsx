@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { IconButton } from "@chakra-ui/button";
-import { Box, Text, VStack } from "@chakra-ui/layout";
+import { Box, VStack } from "@chakra-ui/layout";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
@@ -17,11 +17,13 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
+import ToolkitName from "./ToolkitName";
 
 interface ToolkitTopLevelListItemProps {
   name: string;
   description: ReactNode;
   icon?: ToolkitImage;
+  isV2Only?: boolean;
   onForward: () => void;
 }
 
@@ -29,6 +31,7 @@ const ToolkitTopLevelListItem = ({
   name,
   description,
   icon,
+  isV2Only,
   onForward,
 }: ToolkitTopLevelListItemProps) => {
   const intl = useIntl();
@@ -41,9 +44,7 @@ const ToolkitTopLevelListItem = ({
     >
       <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
         <HStack justifyContent="space-between">
-          <Text as="h3" fontSize="lg" fontWeight="semibold">
-            {name}
-          </Text>
+          <ToolkitName name={name} isV2Only={!!isV2Only}></ToolkitName>
           <IconButton
             icon={<RiArrowRightLine />}
             aria-label={intl.formatMessage(
