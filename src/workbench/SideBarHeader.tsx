@@ -31,12 +31,7 @@ const SideBarHeader = () => {
   return (
     <>
       {flags.search && (
-        <Modal
-          isOpen={search.isOpen}
-          onClose={search.onClose}
-          size="lg"
-          scrollBehavior="inside"
-        >
+        <Modal isOpen={search.isOpen} onClose={search.onClose} size="lg">
           <ModalOverlay>
             <ModalContent
               mt={3.5}
@@ -48,7 +43,7 @@ const SideBarHeader = () => {
               p={1}
               borderRadius="20px"
               maxWidth="unset"
-              maxHeight="80vh"
+              maxHeight="unset"
             >
               <ModalBody p={0}>
                 <Search onClose={search.onClose} />

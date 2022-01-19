@@ -92,19 +92,28 @@ const Search = ({ onClose }: SearchProps) => {
         </InputGroup>
       </Box>
       {results && (
-        <Stack spacing={5} pb={5}>
-          <Divider />
-          <SearchResultList
-            title="Explore"
-            results={results.explore}
-            onClose={onClose}
-          />
-          <SearchResultList
-            title="Reference"
-            results={results.reference}
-            onClose={onClose}
-          />
-        </Stack>
+        <Box
+          height="auto"
+          maxHeight="80vh"
+          overflowY="auto"
+          // Avoid scrollbar outside rounded corner.
+          mb={1.5}
+          overflowX="hidden"
+        >
+          <Stack spacing={5} pb={5}>
+            <Divider />
+            <SearchResultList
+              title="Explore"
+              results={results.explore}
+              onClose={onClose}
+            />
+            <SearchResultList
+              title="Reference"
+              results={results.reference}
+              onClose={onClose}
+            />
+          </Stack>
+        </Box>
       )}
     </Box>
   );
