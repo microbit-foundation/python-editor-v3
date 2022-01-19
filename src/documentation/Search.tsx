@@ -74,7 +74,7 @@ const Search = () => {
             orientation="vertical"
             height="66%"
             borderWidth="1px"
-            color="grey.400"
+            color="gray.400"
           />
           <IconButton
             color="brand.400"
