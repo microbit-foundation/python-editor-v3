@@ -68,7 +68,7 @@ const ToolkitTopicEntry = ({
           "& ul": { listStyleType: "disc", pl: 3 },
         }}
       >
-        <ToolkitName name={topic.name} isV2Only={isV2Only(topic)}></ToolkitName>
+        <ToolkitName name={entry.name} isV2Only={isV2Only(entry)}></ToolkitName>
 
         <ToolkitContent content={content} />
         {alternatives && typeof alternativeIndex === "number" && (
