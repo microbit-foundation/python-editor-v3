@@ -13,7 +13,7 @@ import { useToolkitState } from "./toolkit-hooks";
 
 export interface Result {
   id: string;
-  navigation: Partial<RouterState>;
+  navigation: RouterState;
   containerTitle: string;
   title: string;
   extract?: string;
@@ -59,7 +59,7 @@ export class SearchIndex {
         containerTitle: content.containerTitle,
         navigation: {
           tab: this.tab,
-          [this.tab]: content.id,
+          [this.tab]: { id: content.id },
         },
         // We've not done this yet!
         extract: undefined,

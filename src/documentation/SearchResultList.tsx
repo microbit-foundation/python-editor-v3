@@ -39,7 +39,7 @@ const SearchResultItem = ({
   value: { extract, navigation, containerTitle, title },
   onClose,
 }: SearchResultItemProps) => {
-  const [state, setState] = useRouterState();
+  const [, setState] = useRouterState();
   return (
     <Stack>
       <Stack px={8} py={2} spacing={0}>
