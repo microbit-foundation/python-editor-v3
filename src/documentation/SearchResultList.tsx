@@ -23,7 +23,7 @@ const SearchResultList = ({
       ))}
       {results.length === 0 && (
         <Text as="h2" fontSize="sm" px={8}>
-          No matches
+          No results
         </Text>
       )}
     </Stack>

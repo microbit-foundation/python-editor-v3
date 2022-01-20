@@ -7,6 +7,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { useCallback, useRef, useState } from "react";
 import { RiArrowRightLine, RiCloseLine, RiSearch2Line } from "react-icons/ri";
@@ -102,6 +103,9 @@ const Search = ({ onClose }: SearchProps) => {
         >
           <Stack spacing={5} pb={5}>
             <Divider />
+            <Text px={3} fontSize="2xl">
+              {results.explore.length + results.reference.length} results
+            </Text>
             <SearchResultList
               title="Explore"
               results={results.explore}
