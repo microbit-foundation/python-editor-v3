@@ -87,7 +87,9 @@ const bundlePositions = (
     } else {
       const previousBundleIndex = bundledPositions.length - 1;
       const previousBundle = bundledPositions[previousBundleIndex];
-      const previousEndPos = previousBundle[previousBundle.length - 1][0];
+      const previousEndPos =
+        previousBundle[previousBundle.length - 1][0] +
+        previousBundle[previousBundle.length - 1][1];
       if (previousEndPos + extensionLength >= p[0] - extensionLength) {
         // Bundle overlapping positions.
         previousBundle.push(p);
@@ -143,7 +145,9 @@ const getExtracts = (
   const extensionLength = 10;
   const contentSubStrings: string[] = [];
 
+  const allContentPositions: Position[] = [];
   const allTitlePositions: Position[] = [];
+
   for (const field of Object.values(matchMetadata)) {
     if (field.title) {
       field.title.position.forEach((p) => {
@@ -152,68 +156,72 @@ const getExtracts = (
     }
 
     if (field.content) {
-      const bundledPositions: Position[][] = bundlePositions(
-        field.content.position,
-        extensionLength
-      );
-
-      bundledPositions.forEach((bundle, bi) => {
-        let extract = "";
-        let prevEndPos = 0;
-        bundle.forEach((p, pi) => {
-          let extractStartPos = p[0] - extensionLength;
-          let startPrefix = "";
-          let extractEndPos = p[0] + p[1] + extensionLength;
-          let endPrefix = "";
-          if (content.content) {
-            if (pi === 0 && bi === 0) {
-              // First item only.
-              if (extractStartPos < 0) {
-                extractStartPos = 0;
-                startPrefix = "";
-              } else {
-                startPrefix = "...";
-              }
-            }
-            if (pi === bundle.length - 1) {
-              // Last item or only item.
-              if (extractEndPos > content.content.length - 1) {
-                extractEndPos = content.content.length - 1;
-                endPrefix = "";
-              } else {
-                endPrefix = "...";
-              }
-            }
-
-            extractStartPos = prevEndPos ? prevEndPos : extractStartPos;
-
-            if (pi !== bundle.length - 1) {
-              // If there are additional extract parts to add.
-              extractEndPos = p[0] + p[1];
-              prevEndPos = extractEndPos;
-            }
-
-            const preExtract = content.content.substring(extractStartPos, p[0]);
-            const match =
-              matchStart +
-              content.content.substring(p[0], p[0] + p[1]) +
-              matchEnd;
-            const postExtract = content.content.substring(
-              p[0] + p[1],
-              extractEndPos
-            );
-
-            extract +=
-              startPrefix + preExtract + match + postExtract + endPrefix;
-          }
-        });
-        contentSubStrings.push(extract);
+      field.content.position.forEach((p) => {
+        allContentPositions.push(p);
       });
     }
   }
 
+  const sortedContentPositions = sortPositions(allContentPositions);
+  const bundledPositions: Position[][] = bundlePositions(
+    sortedContentPositions,
+    extensionLength
+  );
+  console.log(bundledPositions);
+
+  bundledPositions.forEach((bundle, bi) => {
+    let extract = "";
+    let prevEndPos = 0;
+    bundle.forEach((p, pi) => {
+      let extractStartPos = p[0] - extensionLength;
+      let startPrefix = "";
+      let extractEndPos = p[0] + p[1] + extensionLength;
+      let endPrefix = "";
+      if (content.content) {
+        if (pi === 0 && bi === 0) {
+          // First item only.
+          if (extractStartPos < 0) {
+            extractStartPos = 0;
+            startPrefix = "";
+          } else {
+            startPrefix = "...";
+          }
+        }
+        if (pi === bundle.length - 1) {
+          // Last item or only item.
+          if (extractEndPos > content.content.length - 1) {
+            extractEndPos = content.content.length - 1;
+            endPrefix = "";
+          } else {
+            endPrefix = "...";
+          }
+        }
+
+        extractStartPos = prevEndPos ? prevEndPos : extractStartPos;
+
+        if (pi !== bundle.length - 1) {
+          // If there are additional extract parts to add.
+          extractEndPos = p[0] + p[1];
+          prevEndPos = extractEndPos;
+        }
+
+        const preExtract = content.content.substring(extractStartPos, p[0]);
+        const match =
+          matchStart + content.content.substring(p[0], p[0] + p[1]) + matchEnd;
+        const postExtract = content.content.substring(
+          p[0] + p[1],
+          extractEndPos
+        );
+
+        extract += startPrefix + preExtract + match + postExtract + endPrefix;
+      }
+    });
+    contentSubStrings.push(extract);
+  });
+
   return {
     formattedTitle: getTitleExtractArray(allTitlePositions, content.title),
+    // Content needs a fallback if only text in the title is matched.
     formattedContent: contentSubStrings.join(""),
   };
 };
