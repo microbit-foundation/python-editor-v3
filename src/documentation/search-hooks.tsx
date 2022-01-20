@@ -17,7 +17,7 @@ interface Extract {
 }
 interface Extracts {
   formattedTitle: Extract[];
-  formattedContent: string;
+  formattedContent: Extract[];
 }
 export interface Result {
   id: string;
@@ -134,50 +134,25 @@ const getTitleExtractArray = (
   return titleExtractArray;
 };
 
-const getExtracts = (
-  matchMetadata: Metadata,
-  content: SearchableContent
-): Extracts => {
-  // Change matchStart and matchEnd to format matched text appropriately.
-  const matchStart = "<b>";
-  const matchEnd = "</b>";
-  // Change extension length to increase number of characters either side of the match.
+const getContentExtractArray = (
+  allContentPositions: Position[],
+  content: string
+): Extract[] => {
   const extensionLength = 10;
-  const contentSubStrings: string[] = [];
-
-  const allContentPositions: Position[] = [];
-  const allTitlePositions: Position[] = [];
-
-  for (const field of Object.values(matchMetadata)) {
-    if (field.title) {
-      field.title.position.forEach((p) => {
-        allTitlePositions.push(p);
-      });
-    }
-
-    if (field.content) {
-      field.content.position.forEach((p) => {
-        allContentPositions.push(p);
-      });
-    }
-  }
-
   const sortedContentPositions = sortPositions(allContentPositions);
   const bundledPositions: Position[][] = bundlePositions(
     sortedContentPositions,
     extensionLength
   );
-  console.log(bundledPositions);
-
+  const contentExtractArray: Extract[] = [];
   bundledPositions.forEach((bundle, bi) => {
-    let extract = "";
     let prevEndPos = 0;
     bundle.forEach((p, pi) => {
       let extractStartPos = p[0] - extensionLength;
       let startPrefix = "";
       let extractEndPos = p[0] + p[1] + extensionLength;
       let endPrefix = "";
-      if (content.content) {
+      if (content) {
         if (pi === 0 && bi === 0) {
           // First item only.
           if (extractStartPos < 0) {
@@ -189,8 +164,8 @@ const getExtracts = (
         }
         if (pi === bundle.length - 1) {
           // Last item or only item.
-          if (extractEndPos > content.content.length - 1) {
-            extractEndPos = content.content.length - 1;
+          if (extractEndPos > content.length - 1) {
+            extractEndPos = content.length - 1;
             endPrefix = "";
           } else {
             endPrefix = "...";
@@ -205,24 +180,52 @@ const getExtracts = (
           prevEndPos = extractEndPos;
         }
 
-        const preExtract = content.content.substring(extractStartPos, p[0]);
-        const match =
-          matchStart + content.content.substring(p[0], p[0] + p[1]) + matchEnd;
-        const postExtract = content.content.substring(
-          p[0] + p[1],
-          extractEndPos
-        );
+        const preExtract = content.substring(extractStartPos, p[0]);
+        const match = content.substring(p[0], p[0] + p[1]);
+        const postExtract = content.substring(p[0] + p[1], extractEndPos);
 
-        extract += startPrefix + preExtract + match + postExtract + endPrefix;
+        contentExtractArray.push({
+          extract: startPrefix + preExtract,
+          type: "text",
+        });
+        contentExtractArray.push({ extract: match, type: "match" });
+        contentExtractArray.push({
+          extract: postExtract + endPrefix,
+          type: "text",
+        });
       }
     });
-    contentSubStrings.push(extract);
   });
+  return contentExtractArray;
+};
+
+const getExtracts = (
+  matchMetadata: Metadata,
+  content: SearchableContent
+): Extracts => {
+  const allContentPositions: Position[] = [];
+  const allTitlePositions: Position[] = [];
+
+  for (const field of Object.values(matchMetadata)) {
+    if (field.title) {
+      field.title.position.forEach((p) => {
+        allTitlePositions.push(p);
+      });
+    }
+    if (field.content) {
+      field.content.position.forEach((p) => {
+        allContentPositions.push(p);
+      });
+    }
+  }
 
   return {
     formattedTitle: getTitleExtractArray(allTitlePositions, content.title),
     // Content needs a fallback if only text in the title is matched.
-    formattedContent: contentSubStrings.join(""),
+    formattedContent: getContentExtractArray(
+      allContentPositions,
+      content.content || ""
+    ),
   };
 };
 

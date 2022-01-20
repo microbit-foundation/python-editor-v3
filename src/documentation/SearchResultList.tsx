@@ -59,7 +59,9 @@ const SearchResultItem = ({
             {extract?.formattedTitle.map((t) => t.extract)}
           </Text>
         </Link>
-        <Text fontSize="sm">{extract?.formattedContent}</Text>
+        <Text fontSize="sm">
+          {extract?.formattedContent.map((c) => c.extract)}
+        </Text>
       </Stack>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
