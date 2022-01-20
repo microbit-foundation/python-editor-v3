@@ -11,8 +11,12 @@ import { RouterState } from "../router-hooks";
 import { State } from "./documentation-hooks";
 import { useToolkitState } from "./toolkit-hooks";
 
+interface Extract {
+  extract: string;
+  type: string;
+}
 interface Extracts {
-  formattedTitle: string;
+  formattedTitle: Extract[];
   formattedContent: string;
 }
 export interface Result {
@@ -106,27 +110,15 @@ const getExtracts = (
   const matchEnd = "</b>";
   // Change extension length to increase number of characters either side of the match.
   const extensionLength = 10;
-  let formattedTitle = "";
   const contentSubStrings: string[] = [];
 
+  const allTitlePositions: Position[] = [];
+  // let formattedTitle = "";
   for (const field of Object.values(matchMetadata)) {
     if (field.title) {
-      const numOccurrences = field.title.position.length;
-      const titleSubStrings: string[] = [];
-      field.title.position.forEach((p, i) => {
-        if (0 !== p[0]) {
-          titleSubStrings.push(content.title.substring(0, p[0]));
-        }
-        titleSubStrings.push(
-          matchStart + content.title.substring(p[0], p[0] + p[1]) + matchEnd
-        );
-        if (i === numOccurrences - 1) {
-          titleSubStrings.push(content.title.substring(p[0] + p[1]));
-        }
+      field.title.position.forEach((p) => {
+        allTitlePositions.push(p);
       });
-      formattedTitle = titleSubStrings.join("");
-    } else {
-      formattedTitle = content.title;
     }
 
     if (field.content) {
@@ -189,8 +181,27 @@ const getExtracts = (
       });
     }
   }
+
+  let titleArr: Extract[] = [];
+  let previousEndPos = 0;
+  allTitlePositions.forEach((p) => {
+    titleArr.push({
+      extract: content.title.substring(previousEndPos, p[0]),
+      type: "text",
+    });
+    titleArr.push({
+      extract: content.title.substring(p[0], p[0] + p[1]),
+      type: "match",
+    });
+    previousEndPos = p[0] + p[1];
+  });
+  titleArr.push({
+    extract: content.title.substring(previousEndPos),
+    type: "text",
+  });
+
   return {
-    formattedTitle,
+    formattedTitle: titleArr,
     formattedContent: contentSubStrings.join(""),
   };
 };

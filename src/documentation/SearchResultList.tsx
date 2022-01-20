@@ -56,7 +56,7 @@ const SearchResultItem = ({
           }}
         >
           <Text as="h3" fontWeight="semibold" fontSize="lg">
-            {extract?.formattedTitle}
+            {extract?.formattedTitle.map((t) => t.extract)}
           </Text>
         </Link>
         <Text fontSize="sm">{extract?.formattedContent}</Text>
