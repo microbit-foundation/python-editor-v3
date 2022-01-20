@@ -11,12 +11,16 @@ import { RouterState } from "../router-hooks";
 import { State } from "./documentation-hooks";
 import { useToolkitState } from "./toolkit-hooks";
 
+interface Extracts {
+  formattedTitle: string;
+  formattedContent: string;
+}
 export interface Result {
   id: string;
   navigation: RouterState;
   containerTitle: string;
   title: string;
-  extract?: string;
+  extract?: Extracts;
 }
 
 export interface SearchResults {
@@ -30,7 +34,7 @@ interface Metadata {
   [match: string]: MatchMetadata;
 }
 interface MatchMetadata {
-  [field: string]: { position: Position };
+  [field: string]: { position: Position[] };
 }
 
 export class SearchIndex {
@@ -53,6 +57,7 @@ export class SearchIndex {
       }
       // eslint-disable-next-line
       const matchMetadata = result.matchData.metadata as Metadata;
+      const extracts = getExtracts(matchMetadata, content);
       return {
         id: content.id,
         title: content.title,
@@ -61,12 +66,125 @@ export class SearchIndex {
           tab: this.tab,
           [this.tab]: { id: content.id },
         },
-        // We've not done this yet!
-        extract: undefined,
+        extract: extracts,
       };
     });
   }
 }
+
+const getExtracts = (
+  matchMetadata: Metadata,
+  content: SearchableContent
+): Extracts => {
+  // Change matchStart and matchEnd to format matched text appropriately.
+  const matchStart = "<b>";
+  const matchEnd = "</b>";
+  // Change extension length to increase number of characters either side of the match.
+  const extensionLength = 10;
+  let formattedTitle = "";
+  let formattedContent = "";
+
+  for (const field of Object.values(matchMetadata)) {
+    if (field.title) {
+      const numOccurrences = field.title.position.length;
+      const titleSubStrings: string[] = [];
+      field.title.position.forEach((p, i) => {
+        if (0 !== p[0]) {
+          titleSubStrings.push(content.title.substring(0, p[0]));
+        }
+        titleSubStrings.push(
+          matchStart + content.title.substring(p[0], p[0] + p[1]) + matchEnd
+        );
+        if (i === numOccurrences - 1) {
+          titleSubStrings.push(content.title.substring(p[0] + p[1]));
+        }
+      });
+      formattedTitle = titleSubStrings.join("");
+    } else {
+      formattedTitle = content.title;
+    }
+
+    if (field.content) {
+      const contentSubStrings: string[] = [];
+      const bundledPositions: Position[][] = [];
+      field.content.position.forEach((p, i) => {
+        // Bundle overlapping positions.
+        if (i === 0) {
+          bundledPositions.push([p]);
+        } else {
+          const previousBundleIndex = bundledPositions.length - 1;
+          const previousBundle = bundledPositions[previousBundleIndex];
+          const previousEndPos = previousBundle[previousBundle.length - 1][0];
+          if (previousEndPos + extensionLength >= p[0] - extensionLength) {
+            previousBundle.push(p);
+            bundledPositions.pop();
+            bundledPositions.push(previousBundle);
+          } else {
+            bundledPositions.push([p]);
+          }
+        }
+      });
+
+      bundledPositions.forEach((bundle, bi) => {
+        let extract = "";
+        let prevEndPos = 0;
+        bundle.forEach((p, pi) => {
+          let extractStartPos = p[0] - extensionLength;
+          let startPrefix = "";
+          let extractEndPos = p[0] + p[1] + extensionLength;
+          let endPrefix = "";
+          if (content.content) {
+            if (pi === 0 && bi === 0) {
+              // First item only.
+              if (extractStartPos < 0) {
+                extractStartPos = 0;
+                startPrefix = "";
+              } else {
+                startPrefix = "...";
+              }
+            }
+            if (pi === bundle.length - 1) {
+              // Last item or only item.
+              if (extractEndPos > content.content.length - 1) {
+                extractEndPos = content.content.length - 1;
+                endPrefix = "";
+              } else {
+                endPrefix = "...";
+              }
+            }
+
+            extractStartPos = prevEndPos ? prevEndPos : extractStartPos;
+
+            if (pi !== bundle.length - 1) {
+              // If there are additional extract parts to add.
+              extractEndPos = p[0] + p[1];
+              prevEndPos = extractEndPos;
+            }
+
+            const preExtract = content.content.substring(extractStartPos, p[0]);
+            const match =
+              matchStart +
+              content.content.substring(p[0], p[0] + p[1]) +
+              matchEnd;
+            const postExtract = content.content.substring(
+              p[0] + p[1],
+              extractEndPos
+            );
+
+            extract +=
+              startPrefix + preExtract + match + postExtract + endPrefix;
+          }
+        });
+        contentSubStrings.push(extract);
+      });
+      formattedContent = contentSubStrings.join("");
+    }
+  }
+  return {
+    formattedTitle,
+    formattedContent,
+  };
+};
 
 export class Search {
   constructor(private explore: SearchIndex, private reference: SearchIndex) {}
