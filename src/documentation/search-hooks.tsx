@@ -103,16 +103,14 @@ const validateString = (string: string | undefined): string => {
   return string || "";
 };
 
-const getExploreSearchableContent = (
-  exploreToolkit: State
-): SearchableContent[] => {
-  const searchableExploreContent: SearchableContent[] = [];
-  if (exploreToolkit.status === "ok") {
-    exploreToolkit.toolkit.contents?.forEach((t) => {
+const getExploreSearchableContent = (state: State): SearchableContent[] => {
+  const content: SearchableContent[] = [];
+  if (state.status === "ok") {
+    state.toolkit.contents?.forEach((t) => {
       t.contents?.forEach((e) => {
         const contentString = blocksToText(e.content);
         const detailContentString = blocksToText(e.detailContent);
-        searchableExploreContent.push({
+        content.push({
           id: e.slug.current,
           title: e.name,
           containerTitle: t.name,
@@ -121,35 +119,33 @@ const getExploreSearchableContent = (
       });
     });
   }
-  return searchableExploreContent;
+  return content;
 };
 
 const getReferenceSearchableContent = (
-  referenceToolkit: ApiDocsResponse | undefined
+  toolkit: ApiDocsResponse | undefined
 ): SearchableContent[] => {
-  const searchableReferenceContent: SearchableContent[] = [];
-  const getNestedDocs = (
+  const content: SearchableContent[] = [];
+  const addNestedDocs = (
     moduleName: string,
     entries: ApiDocsEntry[] | undefined
   ): void => {
-    if (entries) {
-      entries.forEach((c) => {
-        searchableReferenceContent.push({
-          id: c.id,
-          title: c.fullName.substring(moduleName.length + 1),
-          containerTitle: moduleName,
-          content: validateString(c.docString),
-        });
-        getNestedDocs(moduleName, c.children);
+    entries?.forEach((c) => {
+      content.push({
+        id: c.id,
+        title: c.fullName.substring(moduleName.length + 1),
+        containerTitle: moduleName,
+        content: validateString(c.docString),
       });
-    }
+      addNestedDocs(moduleName, c.children);
+    });
   };
-  if (referenceToolkit) {
-    for (const module of Object.values(referenceToolkit)) {
-      getNestedDocs(module.fullName, module.children);
+  if (toolkit) {
+    for (const module of Object.values(toolkit)) {
+      addNestedDocs(module.fullName, module.children);
     }
   }
-  return searchableReferenceContent;
+  return content;
 };
 
 export const buildSearchIndex = (
