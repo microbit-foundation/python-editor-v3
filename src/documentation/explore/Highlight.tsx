@@ -37,9 +37,12 @@ const Highlight = ({
       // Delay until after the opening animation so the full container height is known for the scroll.
       window.setTimeout(() => {
         if (ref.current && scrollable.current) {
+          const stickyHeaderHeight = scrollable.current
+            .querySelector("header")!
+            .getBoundingClientRect().height;
+          const gap = 25;
           scrollable.current.scrollTo({
-            // Fudge to account for the fixed header and to leave a small gap.
-            top: ref.current.offsetTop - 112 - 25,
+            top: ref.current.offsetTop - stickyHeaderHeight - gap,
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }
