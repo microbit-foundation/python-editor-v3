@@ -154,7 +154,7 @@ export const buildSearchIndex = (
 ): SearchIndex => {
   const index = lunr(function () {
     this.ref("id");
-    this.field("title");
+    this.field("title", { boost: 10 });
     this.field("content");
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
