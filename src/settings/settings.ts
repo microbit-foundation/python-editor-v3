@@ -18,6 +18,10 @@ export const supportedLanguages = [
     id: "en",
     name: "English",
   },
+  {
+    id: "fr",
+    name: "French",
+  },
 ];
 if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
   supportedLanguages.push({
