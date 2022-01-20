@@ -57,7 +57,7 @@ describe("Browser - multiple and missing file cases", () => {
 
     await app.deleteFile("module.py");
 
-    await app.findVisibleEditorContents(/Hello, World/);
+    await app.findVisibleEditorContents(/micro:bit/);
   });
 
   it("Muddles through if given non-UTF-8 main.py", async () => {
