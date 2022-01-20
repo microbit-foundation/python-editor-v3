@@ -28,11 +28,9 @@ const SideBarHeader = () => {
   const offset = horizontalLogoRef.current
     ? horizontalLogoRef.current.getBoundingClientRect().left
     : 0;
-  console.log(offset);
   const width = ref.current
     ? ref.current!.clientWidth - offset - 14 + "px"
     : undefined;
-  console.log(ref?.current?.querySelector("svg"));
   return (
     <>
       {flags.search && (
