@@ -30,7 +30,8 @@ const ToolkitLevel = ({
           top="0"
           zIndex={2} // Above code pop-up.
         >
-          <Box p={5} pt={3}>
+          {/* Use of header here is relied on to correctly offset the scrolling based on the actual height of the sticky header. See Highlight.tsx */}
+          <Box as="header" p={5} pt={3}>
             {heading}
           </Box>
           <Divider borderWidth="1px" />

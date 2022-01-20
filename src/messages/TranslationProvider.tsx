@@ -9,6 +9,8 @@ import { ReactNode, useEffect, useState } from "react";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
+    case "fr":
+      return (await import("./fr.json")).default;
     case "lol":
       return (await import("./lol.json")).default;
     default:

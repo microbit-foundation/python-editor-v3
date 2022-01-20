@@ -11,18 +11,26 @@ import { stage } from "../environment";
 export interface Language {
   id: string;
   name: string;
+  enName: string;
 }
 
-export const supportedLanguages = [
+export const supportedLanguages: Language[] = [
   {
     id: "en",
     name: "English",
+    enName: "English",
+  },
+  {
+    id: "fr",
+    name: "Français",
+    enName: "French",
   },
 ];
 if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
   supportedLanguages.push({
     id: "lol", // This has to be a valid locale value, so can't be e.g. "test".
     name: "Translation test",
+    enName: "Translation test",
   });
 }
 
