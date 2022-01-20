@@ -56,14 +56,10 @@ const SearchResultItem = ({
           }}
         >
           <Text as="h3" fontWeight="semibold" fontSize="lg">
-            {title}
+            {extract?.formattedTitle}
           </Text>
         </Link>
-        <Text fontSize="sm">
-          {extract ??
-            // Temporary for the benefit of the design.
-            "Turning and turning in the widening gyre / The falcon cannot hear the falconer / Things fall apart; the centre cannot hold"}
-        </Text>
+        <Text fontSize="sm">{extract?.formattedContent}</Text>
       </Stack>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
