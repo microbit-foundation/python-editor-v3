@@ -101,6 +101,37 @@ const bundlePositions = (
   return bundledPositions;
 };
 
+const sortPositions = (positions: Position[]): Position[] => {
+  return positions.sort((a, b) => {
+    return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
+  });
+};
+
+const getTitleExtractArray = (
+  allTitlePositions: Position[],
+  title: string
+): Extract[] => {
+  const sortedPositions = sortPositions(allTitlePositions);
+  const titleExtractArray: Extract[] = [];
+  let previousEndPos = 0;
+  sortedPositions.forEach((p) => {
+    titleExtractArray.push({
+      extract: title.substring(previousEndPos, p[0]),
+      type: "text",
+    });
+    titleExtractArray.push({
+      extract: title.substring(p[0], p[0] + p[1]),
+      type: "match",
+    });
+    previousEndPos = p[0] + p[1];
+  });
+  titleExtractArray.push({
+    extract: title.substring(previousEndPos),
+    type: "text",
+  });
+  return titleExtractArray;
+};
+
 const getExtracts = (
   matchMetadata: Metadata,
   content: SearchableContent
@@ -113,7 +144,6 @@ const getExtracts = (
   const contentSubStrings: string[] = [];
 
   const allTitlePositions: Position[] = [];
-  // let formattedTitle = "";
   for (const field of Object.values(matchMetadata)) {
     if (field.title) {
       field.title.position.forEach((p) => {
@@ -182,26 +212,8 @@ const getExtracts = (
     }
   }
 
-  let titleArr: Extract[] = [];
-  let previousEndPos = 0;
-  allTitlePositions.forEach((p) => {
-    titleArr.push({
-      extract: content.title.substring(previousEndPos, p[0]),
-      type: "text",
-    });
-    titleArr.push({
-      extract: content.title.substring(p[0], p[0] + p[1]),
-      type: "match",
-    });
-    previousEndPos = p[0] + p[1];
-  });
-  titleArr.push({
-    extract: content.title.substring(previousEndPos),
-    type: "text",
-  });
-
   return {
-    formattedTitle: titleArr,
+    formattedTitle: getTitleExtractArray(allTitlePositions, content.title),
     formattedContent: contentSubStrings.join(""),
   };
 };
