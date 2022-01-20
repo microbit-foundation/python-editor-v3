@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Search, SearchableContent, buildSearchIndex } from "./search-hooks";
+import { SearchableContent, buildSearchIndex } from "./search-hooks";
 
 const searchableExploreContent: SearchableContent[] = [
   {
@@ -11,7 +11,7 @@ const searchableExploreContent: SearchableContent[] = [
     title: "Indentations",
     containerTitle: "Loops",
     content:
-      "Python uses indentations, usually 4 spaces, to show which instructions are inside and outside a loop.\n\nThis program uses a for loop to scroll 'micro:bit' on the LED display 3 times.",
+      "Python uses indentations, usually 4 spaces, to show which instructions are inside and outside a loop.\n\nThis program uses a for loop to scroll 'micro:bit' on the LED display 3 times.\n\nThis program uses a for loop to scroll 'micro:bit' on the LED display 3 times. The 'Python' line is not indented, so it's not in the loop and it only runs once.",
   },
   {
     id: "while-loops-infinite",
@@ -42,65 +42,83 @@ describe("Search", () => {
           tab: "explore",
           explore: { id: "indentations" },
         },
+        extract: {
+          formattedTitle: [
+            {
+              extract: "Indentations",
+              type: "text",
+            },
+          ],
+          formattedContent: [
+            {
+              extract: "",
+              type: "text",
+            },
+            {
+              extract: "Python",
+              type: "match",
+            },
+            {
+              extract: " uses inde...",
+              type: "text",
+            },
+            {
+              extract: "imes. The ",
+              type: "text",
+            },
+            {
+              extract: "'Python'",
+              type: "match",
+            },
+            {
+              extract: " line is n...",
+              type: "text",
+            },
+          ],
+        },
       },
     ]);
   });
 
-  it("returns useful position info at a low-level", () => {
-    // Temporary debug of position information.
-    const results = search.index.search("loops");
-    expect(results).toEqual([
+  it("ignores stop words", () => {
+    expect(search.search("infinite while")).toEqual([
       {
-        ref: "while-loops-conditional",
-        score: 0.616,
-        matchData: {
-          metadata: {
-            loop: {
-              title: {
-                position: [[6, 6]],
-              },
-              content: {
-                position: [
-                  [6, 5],
-                  [153, 5],
-                  [165, 4],
-                  [267, 4],
-                ],
-              },
-            },
-          },
+        title: "While loops: infinite",
+        containerTitle: "Loops",
+        id: "while-loops-infinite",
+        navigation: {
+          tab: "explore",
+          explore: { id: "while-loops-infinite" },
         },
-      },
-      {
-        ref: "while-loops-infinite",
-        score: 0.471,
-        matchData: {
-          metadata: {
-            loop: {
-              title: {
-                position: [[6, 6]],
-              },
-              content: {
-                position: [[28, 5]],
-              },
+        extract: {
+          formattedTitle: [
+            {
+              extract: "While loops: ",
+              type: "text",
             },
-          },
-        },
-      },
-      {
-        ref: "indentations",
-        score: 0.347,
-        matchData: {
-          metadata: {
-            loop: {
-              content: {
-                position: [
-                  [96, 5],
-                  [127, 4],
-                ],
-              },
+            {
+              extract: "infinite",
+              type: "match",
             },
-          },
+            {
+              extract: "",
+              type: "text",
+            },
+          ],
+          formattedContent: [
+            {
+              extract: "...often use ",
+              type: "text",
+            },
+            {
+              extract: "infinite",
+              type: "match",
+            },
+            {
+              extract: " loops to ...",
+              type: "text",
+            },
+          ],
         },
       },
     ]);
