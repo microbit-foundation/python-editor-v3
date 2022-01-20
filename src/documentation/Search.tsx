@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useCallback, useRef, useState } from "react";
-import { RiArrowRightLine, RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { SearchResults, useSearch } from "./search-hooks";
 import SearchResultList from "./SearchResultList";
 
@@ -65,7 +65,7 @@ const Search = ({ onClose }: SearchProps) => {
               color: "gray.600",
             }}
           />
-          <InputRightElement width={20} pr={0.5}>
+          <InputRightElement>
             <IconButton
               fontSize="2xl"
               isRound={false}
@@ -75,19 +75,6 @@ const Search = ({ onClose }: SearchProps) => {
               color="#838383"
               icon={<RiCloseLine />}
               onClick={handleClear}
-            />
-            <Divider
-              orientation="vertical"
-              height="66%"
-              borderWidth="1px"
-              color="gray.400"
-            />
-            <IconButton
-              color="brand.400"
-              fontSize="2xl"
-              variant="ghost"
-              aria-label="Search"
-              icon={<RiArrowRightLine />}
             />
           </InputRightElement>
         </InputGroup>

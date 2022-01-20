@@ -65,7 +65,7 @@ const SearchResultItem = ({
             "Turning and turning in the widening gyre / The falcon cannot hear the falconer / Things fall apart; the centre cannot hold"}
         </Text>
       </Stack>
-      <Divider />
+      <Divider borderWidth="1px" color="gray.400" />
     </Stack>
   );
 };

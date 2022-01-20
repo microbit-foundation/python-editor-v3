@@ -20,14 +20,19 @@ import { flags } from "../flags";
 
 const SideBarHeader = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const horizontalLogoRef = useRef<HTMLDivElement>(null);
   const intl = useIntl();
   const brand = useDeployment();
   const search = useDisclosure();
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
-  const offset = 86;
+  const offset = horizontalLogoRef.current
+    ? horizontalLogoRef.current.getBoundingClientRect().left
+    : 0;
+  console.log(offset);
   const width = ref.current
-    ? ref.current!.clientWidth - offset - 24 + "px"
+    ? ref.current!.clientWidth - offset - 14 + "px"
     : undefined;
+  console.log(ref?.current?.querySelector("svg"));
   return (
     <>
       {flags.search && (
@@ -73,7 +78,12 @@ const SideBarHeader = () => {
             <Box width="3.56875rem" color="white" role="img">
               {brand.squareLogo}
             </Box>
-            <Box width="9.098rem" role="img" color="white">
+            <Box
+              ref={horizontalLogoRef}
+              width="9.098rem"
+              role="img"
+              color="white"
+            >
               {brand.horizontalLogo}
             </Box>
           </HStack>
