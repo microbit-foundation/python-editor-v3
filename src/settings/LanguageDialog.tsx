@@ -105,7 +105,7 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
             {language.name}
           </Text>
           <Text fontWeight="normal" color="gray.700">
-            {language.name}
+            {language.enName}
           </Text>
         </VStack>
       </HStack>
