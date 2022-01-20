@@ -72,6 +72,31 @@ export class SearchIndex {
   }
 }
 
+const bundlePositions = (
+  positions: Position[],
+  extensionLength: number
+): Position[][] => {
+  const bundledPositions: Position[][] = [];
+  positions.forEach((p, i) => {
+    if (i === 0) {
+      bundledPositions.push([p]);
+    } else {
+      const previousBundleIndex = bundledPositions.length - 1;
+      const previousBundle = bundledPositions[previousBundleIndex];
+      const previousEndPos = previousBundle[previousBundle.length - 1][0];
+      if (previousEndPos + extensionLength >= p[0] - extensionLength) {
+        // Bundle overlapping positions.
+        previousBundle.push(p);
+        bundledPositions.pop();
+        bundledPositions.push(previousBundle);
+      } else {
+        bundledPositions.push([p]);
+      }
+    }
+  });
+  return bundledPositions;
+};
+
 const getExtracts = (
   matchMetadata: Metadata,
   content: SearchableContent
@@ -82,7 +107,7 @@ const getExtracts = (
   // Change extension length to increase number of characters either side of the match.
   const extensionLength = 10;
   let formattedTitle = "";
-  let formattedContent = "";
+  const contentSubStrings: string[] = [];
 
   for (const field of Object.values(matchMetadata)) {
     if (field.title) {
@@ -105,25 +130,10 @@ const getExtracts = (
     }
 
     if (field.content) {
-      const contentSubStrings: string[] = [];
-      const bundledPositions: Position[][] = [];
-      field.content.position.forEach((p, i) => {
-        // Bundle overlapping positions.
-        if (i === 0) {
-          bundledPositions.push([p]);
-        } else {
-          const previousBundleIndex = bundledPositions.length - 1;
-          const previousBundle = bundledPositions[previousBundleIndex];
-          const previousEndPos = previousBundle[previousBundle.length - 1][0];
-          if (previousEndPos + extensionLength >= p[0] - extensionLength) {
-            previousBundle.push(p);
-            bundledPositions.pop();
-            bundledPositions.push(previousBundle);
-          } else {
-            bundledPositions.push([p]);
-          }
-        }
-      });
+      const bundledPositions: Position[][] = bundlePositions(
+        field.content.position,
+        extensionLength
+      );
 
       bundledPositions.forEach((bundle, bi) => {
         let extract = "";
@@ -177,12 +187,11 @@ const getExtracts = (
         });
         contentSubStrings.push(extract);
       });
-      formattedContent = contentSubStrings.join("");
     }
   }
   return {
     formattedTitle,
-    formattedContent,
+    formattedContent: contentSubStrings.join(""),
   };
 };
 
