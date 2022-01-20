@@ -10,12 +10,13 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import Search from "../documentation/Search";
+import { SearchResults, useSearch } from "../documentation/search-hooks";
 import { flags } from "../flags";
 
 const SideBarHeader = () => {
@@ -23,7 +24,20 @@ const SideBarHeader = () => {
   const horizontalLogoRef = useRef<HTMLDivElement>(null);
   const intl = useIntl();
   const brand = useDeployment();
-  const search = useDisclosure();
+  const searchModal = useDisclosure();
+  const search = useSearch();
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<SearchResults | undefined>();
+  const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback(
+      (e) => {
+        const newQuery = e.currentTarget.value;
+        setQuery(newQuery);
+        const results = search.search(newQuery);
+        setResults(results);
+      },
+      [search]
+    );
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const offset = horizontalLogoRef.current
     ? horizontalLogoRef.current.getBoundingClientRect().left
@@ -34,7 +48,11 @@ const SideBarHeader = () => {
   return (
     <>
       {flags.search && (
-        <Modal isOpen={search.isOpen} onClose={search.onClose} size="lg">
+        <Modal
+          isOpen={searchModal.isOpen}
+          onClose={searchModal.onClose}
+          size="lg"
+        >
           <ModalOverlay>
             <ModalContent
               mt={3.5}
@@ -49,7 +67,14 @@ const SideBarHeader = () => {
               maxHeight="unset"
             >
               <ModalBody p={0}>
-                <Search onClose={search.onClose} />
+                <Search
+                  onClose={searchModal.onClose}
+                  results={results}
+                  setResults={setResults}
+                  query={query}
+                  setQuery={setQuery}
+                  handleQueryChange={handleQueryChange}
+                />
               </ModalBody>
             </ModalContent>
           </ModalOverlay>
@@ -88,7 +113,7 @@ const SideBarHeader = () => {
         </Link>
         {flags.search && (
           <Button
-            onClick={search.onOpen}
+            onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"
             color="#fffc"

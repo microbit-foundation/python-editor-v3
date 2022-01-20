@@ -9,31 +9,29 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
-import { SearchResults, useSearch } from "./search-hooks";
+import { SearchResults } from "./search-hooks";
 import SearchResultList from "./SearchResultList";
 
 interface SearchProps {
   onClose: () => void;
+  results: SearchResults | undefined;
+  setResults: React.Dispatch<React.SetStateAction<SearchResults | undefined>>;
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  handleQueryChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const Search = ({ onClose }: SearchProps) => {
-  const search = useSearch();
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResults | undefined>();
+const Search = ({
+  onClose,
+  results,
+  setResults,
+  query,
+  setQuery,
+  handleQueryChange,
+}: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
-
-  const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      (e) => {
-        const newQuery = e.currentTarget.value;
-        setQuery(newQuery);
-        setResults(search.search(newQuery));
-      },
-      [search]
-    );
-
   const handleClear = useCallback(() => {
     setQuery("");
     setResults(undefined);
