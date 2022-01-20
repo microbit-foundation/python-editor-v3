@@ -136,7 +136,7 @@ const getReferenceSearchableContent = (
       entries.forEach((c) => {
         searchableReferenceContent.push({
           id: c.id,
-          title: c.fullName,
+          title: c.fullName.substring(moduleName.length + 1),
           containerTitle: moduleName,
           content: validateString(c.docString),
         });
@@ -146,7 +146,7 @@ const getReferenceSearchableContent = (
   };
   if (referenceToolkit) {
     for (const module of Object.values(referenceToolkit)) {
-      getNestedDocs(module.name, module.children);
+      getNestedDocs(module.fullName, module.children);
     }
   }
   return searchableReferenceContent;
