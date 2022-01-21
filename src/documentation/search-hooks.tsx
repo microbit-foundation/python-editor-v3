@@ -8,7 +8,7 @@ import { createContext, ReactNode, useContext, useMemo } from "react";
 import { blocksToText } from "../common/sanity-utils";
 import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
 import { RouterState } from "../router-hooks";
-import { State } from "./documentation-hooks";
+import { ExploreToolkitState } from "./documentation-hooks";
 import {
   contextExtracts,
   Extract,
@@ -138,7 +138,9 @@ const validateString = (string: string | undefined): string => {
   return string || "";
 };
 
-const getExploreSearchableContent = (state: State): SearchableContent[] => {
+const getExploreSearchableContent = (
+  state: ExploreToolkitState
+): SearchableContent[] => {
   const content: SearchableContent[] = [];
   if (state.status === "ok") {
     state.toolkit.contents?.forEach((t) => {

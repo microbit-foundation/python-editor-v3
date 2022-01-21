@@ -6,13 +6,13 @@
 import { createContext, ReactNode, useContext, useMemo } from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import {
-  State as ExploreState,
+  ExploreToolkitState,
   useApiDocs,
   useExploreToolkit,
 } from "./documentation-hooks";
 
 export interface ToolkitContextValue {
-  exploreToolkit: ExploreState;
+  exploreToolkit: ExploreToolkitState;
   referenceToolkit: ApiDocsResponse | undefined;
 }
 

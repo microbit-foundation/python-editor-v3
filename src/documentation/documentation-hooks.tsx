@@ -8,13 +8,13 @@ import { fetchToolkit } from "./explore/api";
 import { Toolkit } from "./explore/model";
 import { pullModulesToTop } from "./reference/apidocs-util";
 
-export type State =
+export type ExploreToolkitState =
   | { status: "ok"; toolkit: Toolkit }
   | { status: "error" }
   | { status: "loading" };
 
-export const useExploreToolkit = (): State => {
-  const [state, setState] = useState<State>({
+export const useExploreToolkit = (): ExploreToolkitState => {
+  const [state, setState] = useState<ExploreToolkitState>({
     status: "loading",
   });
   const logging = useLogging();
