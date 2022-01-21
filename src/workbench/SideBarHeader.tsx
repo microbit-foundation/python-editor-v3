@@ -77,7 +77,7 @@ const SideBarHeader = () => {
                   setResults={setResults}
                   query={query}
                   setQuery={setQuery}
-                  onHandleQueryChange={handleQueryChange}
+                  onQueryChange={handleQueryChange}
                 />
               </ModalBody>
             </ModalContent>
