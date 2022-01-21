@@ -55,9 +55,9 @@ const SearchResultItem = ({
             setState(navigation);
           }}
         >
-          <ExtractText extract={extract?.formattedTitle} title={true} />
+          <ExtractText extract={extract.formattedTitle} title={true} />
         </Link>
-        <ExtractText extract={extract?.formattedContent} title={false} />
+        <ExtractText extract={extract.formattedContent} title={false} />
       </Stack>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
@@ -65,7 +65,7 @@ const SearchResultItem = ({
 };
 
 interface ExtractTextProps {
-  extract: Extract[] | undefined;
+  extract: Extract[];
   title: boolean;
 }
 
@@ -76,7 +76,7 @@ const ExtractText = ({ extract, title }: ExtractTextProps) => {
       fontWeight={title ? "semibold" : "normal"}
       fontSize={title ? "lg" : "sm"}
     >
-      {extract?.map((t, i) =>
+      {extract.map((t, i) =>
         t.type === "text" ? (
           <Text key={i} as="span">
             {t.extract}

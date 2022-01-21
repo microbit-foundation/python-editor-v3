@@ -24,7 +24,7 @@ export interface Result {
   navigation: RouterState;
   containerTitle: string;
   title: string;
-  extract?: Extracts;
+  extract: Extracts;
 }
 
 export interface SearchResults {
