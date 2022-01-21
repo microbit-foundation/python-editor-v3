@@ -20,7 +20,7 @@ interface SearchProps {
   setResults: React.Dispatch<React.SetStateAction<SearchResults | undefined>>;
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
-  onHandleQueryChange: React.ChangeEventHandler<HTMLInputElement>;
+  onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const Search = ({
@@ -29,7 +29,7 @@ const Search = ({
   setResults,
   query,
   setQuery,
-  onHandleQueryChange,
+  onQueryChange,
 }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const handleClear = useCallback(() => {
@@ -51,7 +51,7 @@ const Search = ({
           <Input
             ref={ref}
             value={query}
-            onChange={onHandleQueryChange}
+            onChange={onQueryChange}
             type="text"
             outline="none"
             border="none"
