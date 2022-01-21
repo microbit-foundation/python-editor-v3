@@ -104,7 +104,7 @@ const getExtracts = (
   };
 };
 
-interface Search {
+export interface Search {
   search(text: string): SearchResults;
 }
 
