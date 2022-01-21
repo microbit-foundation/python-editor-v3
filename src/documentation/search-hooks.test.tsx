@@ -51,15 +51,11 @@ describe("Search", () => {
           ],
           formattedContent: [
             {
-              extract: "",
-              type: "text",
-            },
-            {
               extract: "Python",
               type: "match",
             },
             {
-              extract: " uses inde...",
+              extract: " uses inde…",
               type: "text",
             },
             {
@@ -71,7 +67,7 @@ describe("Search", () => {
               type: "match",
             },
             {
-              extract: " line is n...",
+              extract: " line is n…",
               type: "text",
             },
           ],
@@ -100,14 +96,10 @@ describe("Search", () => {
               extract: "infinite",
               type: "match",
             },
-            {
-              extract: "",
-              type: "text",
-            },
           ],
           formattedContent: [
             {
-              extract: "...often use ",
+              extract: "…often use ",
               type: "text",
             },
             {
@@ -115,7 +107,7 @@ describe("Search", () => {
               type: "match",
             },
             {
-              extract: " loops to ...",
+              extract: " loops to …",
               type: "text",
             },
           ],
