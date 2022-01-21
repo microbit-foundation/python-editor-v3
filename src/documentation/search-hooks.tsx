@@ -6,6 +6,7 @@
 import lunr from "lunr";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 import { blocksToText } from "../common/sanity-utils";
+import { flags } from "../flags";
 import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
 import { RouterState } from "../router-hooks";
 import { ExploreToolkitState } from "./documentation-hooks";
@@ -103,7 +104,20 @@ const getExtracts = (
   };
 };
 
-export class Search {
+interface Search {
+  search(text: string): SearchResults;
+}
+
+class NullSearch implements Search {
+  search(text: string) {
+    return {
+      explore: [],
+      reference: [],
+    };
+  }
+}
+
+class LunrSearch implements Search {
   constructor(private explore: SearchIndex, private reference: SearchIndex) {}
 
   search(text: string): SearchResults {
@@ -138,7 +152,7 @@ const validateString = (string: string | undefined): string => {
   return string || "";
 };
 
-const getExploreSearchableContent = (
+const exploreSearchableContent = (
   state: ExploreToolkitState
 ): SearchableContent[] => {
   const content: SearchableContent[] = [];
@@ -159,7 +173,7 @@ const getExploreSearchableContent = (
   return content;
 };
 
-const getReferenceSearchableContent = (
+const referenceSearchableContent = (
   toolkit: ApiDocsResponse | undefined
 ): SearchableContent[] => {
   const content: SearchableContent[] = [];
@@ -206,16 +220,17 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
   const { exploreToolkit, referenceToolkit } = useToolkitState();
 
   const value: Search = useMemo(() => {
-    const exploreSearchIndex = buildSearchIndex(
-      getExploreSearchableContent(exploreToolkit),
-      "explore"
-    );
-    const referenceSearchIndex = buildSearchIndex(
-      getReferenceSearchableContent(referenceToolkit),
-      "reference"
-    );
+    if (!flags.search) {
+      return new NullSearch();
+    }
 
-    return new Search(exploreSearchIndex, referenceSearchIndex);
+    return new LunrSearch(
+      buildSearchIndex(exploreSearchableContent(exploreToolkit), "explore"),
+      buildSearchIndex(
+        referenceSearchableContent(referenceToolkit),
+        "reference"
+      )
+    );
   }, [exploreToolkit, referenceToolkit]);
 
   return (
