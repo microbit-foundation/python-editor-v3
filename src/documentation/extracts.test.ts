@@ -37,8 +37,7 @@ describe("contextExtracts", () => {
       )
     ).toEqual([
       { type: "match", extract: "match1" },
-      { type: "text", extract: "012…" },
-      { type: "text", extract: "…789" },
+      { type: "text", extract: "012…789" },
       { type: "match", extract: "match2" },
     ]);
   });

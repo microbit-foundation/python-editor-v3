@@ -55,12 +55,7 @@ describe("Search", () => {
               type: "match",
             },
             {
-              extract: " uses inde…",
-              type: "text",
-            },
-            {
-              // We don't want the redundant … here.
-              extract: "imes. The ",
+              extract: " uses inde…imes. The ",
               type: "text",
             },
             {

@@ -61,32 +61,28 @@ export const contextExtracts = (
   context: number = 10
 ): Extract[] => {
   const extracts = fullStringExtracts(positions, text);
-  return extracts.flatMap((e, index) => {
+  return extracts.map((e, index) => {
     const length = e.extract.length;
     if (e.type === "text" && length > context) {
       const first = index === 0;
       const last = index === extracts.length - 1;
       if (first) {
-        return [
-          {
-            type: "text",
-            extract: "…" + e.extract.substring(length - context),
-          },
-        ];
+        return {
+          type: "text",
+          extract: "…" + e.extract.substring(length - context),
+        };
       } else if (last) {
-        return [
-          { type: "text", extract: e.extract.substring(0, context) + "…" },
-        ];
+        return { type: "text", extract: e.extract.substring(0, context) + "…" };
       } else if (length > context * 2) {
-        return [
-          { type: "text", extract: e.extract.substring(0, context) + "…" },
-          {
-            type: "text",
-            extract: "…" + e.extract.substring(length - context),
-          },
-        ];
+        return {
+          type: "text",
+          extract:
+            e.extract.substring(0, context) +
+            "…" +
+            e.extract.substring(length - context),
+        };
       }
     }
-    return [e];
+    return e;
   });
 };
