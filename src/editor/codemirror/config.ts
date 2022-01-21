@@ -39,7 +39,8 @@ export const editorConfig: Extension = [
     // This matches Ace/Monaco behaviour.
     autocapitalize: "none",
     // Disable Grammarly.
-    "data-gramm": "false",
+    // https://discuss.codemirror.net/t/codemirror6-and-grammarly/3917/2
+    "data-enable-grammarly": "false",
   }),
   highlightSpecialChars(),
   history(),
