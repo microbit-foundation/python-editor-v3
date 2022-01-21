@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Text } from "@chakra-ui/layout";
-import { HStack, Tag } from "@chakra-ui/react";
+import { Tag, Flex } from "@chakra-ui/react";
 
 interface ToolkitNameProps {
   name: string;
@@ -13,26 +13,27 @@ interface ToolkitNameProps {
 
 const ToolkitName = ({ name, isV2Only }: ToolkitNameProps) => {
   return (
-    <HStack>
-      <Text as="h3" fontSize="lg" fontWeight="semibold">
-        {name}
-      </Text>
+    <Text as="h3" fontSize="lg" fontWeight="semibold">
+      {name}
       {isV2Only && (
-        <Tag
-          fontWeight="semibold"
-          background="brand.500"
-          color="gray.25"
-          minH="unset"
-          pt="1px"
-          pb="1px"
-          pl={1.5}
-          pr={1.5}
-          borderRadius={4}
-        >
-          V2
-        </Tag>
+        <Flex display="inline-flex">
+          <Tag
+            fontWeight="semibold"
+            background="brand.500"
+            color="gray.25"
+            minH="unset"
+            pt="1px"
+            pb="1px"
+            pl={1.5}
+            pr={1.5}
+            ml={1.5}
+            borderRadius={4}
+          >
+            V2
+          </Tag>
+        </Flex>
       )}
-    </HStack>
+    </Text>
   );
 };
 
