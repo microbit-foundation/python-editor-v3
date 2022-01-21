@@ -33,8 +33,12 @@ const SideBarHeader = () => {
       (e) => {
         const newQuery = e.currentTarget.value;
         setQuery(newQuery);
-        const results = search.search(newQuery);
-        setResults(results);
+        const trimmedQuery = newQuery.trim();
+        if (trimmedQuery) {
+          setResults(search.search(trimmedQuery));
+        } else {
+          setResults(undefined);
+        }
       },
       [search]
     );
