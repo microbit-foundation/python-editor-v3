@@ -93,7 +93,7 @@ const bundlePositions = (
     if (i === 0) {
       result.push([p]);
     } else {
-      const previous = result[i - 1];
+      const previous = result[result.length - 1];
       const previousEndPos =
         previous[previous.length - 1][0] + previous[previous.length - 1][1];
       if (previousEndPos + extensionLength >= p[0] - extensionLength) {
