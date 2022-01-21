@@ -1,6 +1,6 @@
 import { Divider, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouterState } from "../router-hooks";
-import { Result } from "./search-hooks";
+import { Result, Extract } from "./search-hooks";
 
 interface SearchResultListProps {
   title: string;
@@ -55,16 +55,39 @@ const SearchResultItem = ({
             setState(navigation);
           }}
         >
-          <Text as="h3" fontWeight="semibold" fontSize="lg">
-            {extract?.formattedTitle.map((t) => t.extract)}
-          </Text>
+          <ExtractText extract={extract.formattedTitle} title={true} />
         </Link>
-        <Text fontSize="sm">
-          {extract?.formattedContent.map((c) => c.extract)}
-        </Text>
+        <ExtractText extract={extract.formattedContent} title={false} />
       </Stack>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
+  );
+};
+
+interface ExtractTextProps {
+  extract: Extract[];
+  title: boolean;
+}
+
+const ExtractText = ({ extract, title }: ExtractTextProps) => {
+  return (
+    <Text
+      as={title ? "h3" : "p"}
+      fontWeight={title ? "semibold" : "normal"}
+      fontSize={title ? "lg" : "sm"}
+    >
+      {extract.map((t, i) =>
+        t.type === "text" ? (
+          <Text key={i} as="span">
+            {t.extract}
+          </Text>
+        ) : (
+          <Text key={i} as="span" bgColor="#6C4BC14D" borderRadius="md" p={0.5}>
+            {t.extract}
+          </Text>
+        )
+      )}
+    </Text>
   );
 };
 
