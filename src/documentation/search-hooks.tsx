@@ -3,19 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import sortBy from "lodash.sortby";
 import lunr from "lunr";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 import { blocksToText } from "../common/sanity-utils";
 import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
 import { RouterState } from "../router-hooks";
 import { State } from "./documentation-hooks";
+import {
+  contextExtracts,
+  Extract,
+  fullStringExtracts,
+  Position,
+} from "./extracts";
 import { useToolkitState } from "./toolkit-hooks";
 
-export interface Extract {
-  extract: string;
-  type: string;
-}
 interface Extracts {
   title: Extract[];
   content: Extract[];
@@ -32,8 +33,6 @@ export interface SearchResults {
   explore: Result[];
   reference: Result[];
 }
-
-type Position = [number, number];
 
 interface Metadata {
   [match: string]: MatchMetadata;
@@ -77,149 +76,6 @@ export class SearchIndex {
   }
 }
 
-/**
- * Group positions that overlap when extending them by `extensionLength`.
- *
- * @param positions Sorted positions.
- * @param extensionLength The maximum length of text to show either side.
- * @returns The bundled positions.
- */
-const bundlePositions = (
-  positions: Position[],
-  extensionLength: number
-): Position[][] => {
-  const result: Position[][] = [];
-  positions.forEach((p, i) => {
-    if (i === 0) {
-      result.push([p]);
-    } else {
-      const previous = result[result.length - 1];
-      const previousEndPos =
-        previous[previous.length - 1][0] + previous[previous.length - 1][1];
-      if (previousEndPos + extensionLength >= p[0] - extensionLength) {
-        // Bundle overlapping positions.
-        previous.push(p);
-        result.pop();
-        result.push(previous);
-      } else {
-        result.push([p]);
-      }
-    }
-  });
-  return result;
-};
-
-const sortByStart = (positions: Position[]): Position[] =>
-  sortBy(positions, (p) => p[0]);
-
-/**
- * Return text or matches covering the string from start to end.
- *
- * @param positions The match positions.
- * @param text The text.
- * @returns The string divided into extracts.
- */
-const fullStringExtracts = (positions: Position[], text: string): Extract[] => {
-  const result: Extract[] = [];
-  let start = 0;
-  sortByStart(positions).forEach((p) => {
-    const before = {
-      extract: text.substring(start, p[0]),
-      type: "text",
-    };
-    const match = {
-      extract: text.substring(p[0], p[0] + p[1]),
-      type: "match",
-    };
-    if (before.extract.length) {
-      result.push(before);
-    }
-    result.push(match);
-    start = p[0] + p[1];
-  });
-  const remainder = {
-    extract: text.substring(start),
-    type: "text",
-  };
-  if (remainder.extract.length) {
-    result.push(remainder);
-  }
-  return result;
-};
-
-/**
- * Return extracts from the text with contextual information either side.
- *
- * @param positions The match positions.
- * @param text The text.
- * @returns Extracts from the text giving context to the matches.
- */
-const contextExtracts = (positions: Position[], text: string): Extract[] => {
-  const extensionLength = 10;
-  const sortedPositions = sortByStart(positions);
-  const bundledPositions: Position[][] = bundlePositions(
-    sortedPositions,
-    extensionLength
-  );
-  const results: Extract[] = [];
-  bundledPositions.forEach((bundle, bi) => {
-    let prevEndPos = 0;
-    bundle.forEach((p, pi) => {
-      let extractStartPos = p[0] - extensionLength;
-      let prefix = "";
-      let extractEndPos = p[0] + p[1] + extensionLength;
-      let suffix = "";
-      if (text) {
-        if (pi === 0 && bi === 0) {
-          // First item only.
-          if (extractStartPos < 0) {
-            extractStartPos = 0;
-            prefix = "";
-          } else {
-            prefix = "…";
-          }
-        }
-        if (pi === bundle.length - 1) {
-          // Last item or only item.
-          if (extractEndPos > text.length - 1) {
-            extractEndPos = text.length - 1;
-            suffix = "";
-          } else {
-            suffix = "…";
-          }
-        }
-
-        extractStartPos = prevEndPos ? prevEndPos : extractStartPos;
-
-        if (pi !== bundle.length - 1) {
-          // If there are additional extract parts to add.
-          extractEndPos = p[0] + p[1];
-          prevEndPos = extractEndPos;
-        }
-
-        const preExtract = text.substring(extractStartPos, p[0]);
-        const match = text.substring(p[0], p[0] + p[1]);
-        const postExtract = text.substring(p[0] + p[1], extractEndPos);
-
-        if (preExtract.length > 0) {
-          results.push({
-            extract: prefix + preExtract,
-            type: "text",
-          });
-        }
-        results.push({ extract: match, type: "match" });
-        if (postExtract.length > 0) {
-          results.push({
-            extract: postExtract + suffix,
-            type: "text",
-          });
-        }
-      }
-    });
-  });
-  return results;
-};
-
 const getExtracts = (
   matchMetadata: Metadata,
   content: SearchableContent
@@ -242,7 +98,7 @@ const getExtracts = (
 
   return {
     title: fullStringExtracts(allTitlePositions, content.title),
-    // Content needs a fallback if only text in the title is matched.
+    // TODO: consider a fallback if only text in the title is matched.
     content: contextExtracts(allContentPositions, content.content),
   };
 };

@@ -1,6 +1,7 @@
 import { Divider, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouterState } from "../router-hooks";
-import { Result, Extract } from "./search-hooks";
+import { Extract } from "./extracts";
+import { Result } from "./search-hooks";
 
 interface SearchResultListProps {
   title: string;

@@ -59,6 +59,7 @@ describe("Search", () => {
               type: "text",
             },
             {
+              // We don't want the redundant … here.
               extract: "imes. The ",
               type: "text",
             },
