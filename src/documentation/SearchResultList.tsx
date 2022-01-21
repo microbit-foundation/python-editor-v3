@@ -55,9 +55,9 @@ const SearchResultItem = ({
             setState(navigation);
           }}
         >
-          <ExtractText extract={extract.formattedTitle} title={true} />
+          <ExtractText extract={extract.title} title={true} />
         </Link>
-        <ExtractText extract={extract.formattedContent} title={false} />
+        <ExtractText extract={extract.content} title={false} />
       </Stack>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>

@@ -43,13 +43,13 @@ describe("Search", () => {
           explore: { id: "indentations" },
         },
         extract: {
-          formattedTitle: [
+          title: [
             {
               extract: "Indentations",
               type: "text",
             },
           ],
-          formattedContent: [
+          content: [
             {
               extract: "Python",
               type: "match",
@@ -87,7 +87,7 @@ describe("Search", () => {
           explore: { id: "while-loops-infinite" },
         },
         extract: {
-          formattedTitle: [
+          title: [
             {
               extract: "While loops: ",
               type: "text",
@@ -97,7 +97,7 @@ describe("Search", () => {
               type: "match",
             },
           ],
-          formattedContent: [
+          content: [
             {
               extract: "…often use ",
               type: "text",
