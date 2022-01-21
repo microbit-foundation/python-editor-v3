@@ -243,7 +243,7 @@ const getExtracts = (
   return {
     title: fullStringExtracts(allTitlePositions, content.title),
     // Content needs a fallback if only text in the title is matched.
-    content: contextExtracts(allContentPositions, content.content || ""),
+    content: contextExtracts(allContentPositions, content.content),
   };
 };
 
@@ -265,7 +265,7 @@ export interface SearchableContent {
    */
   containerTitle: string;
   title: string;
-  content: string | undefined;
+  content: string;
 }
 
 const SearchContext = createContext<Search | undefined>(undefined);
