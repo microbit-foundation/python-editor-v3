@@ -11,7 +11,7 @@ import { RouterState } from "../router-hooks";
 import { State } from "./documentation-hooks";
 import { useToolkitState } from "./toolkit-hooks";
 
-interface Extract {
+export interface Extract {
   extract: string;
   type: string;
 }
