@@ -56,15 +56,41 @@ const SearchResultItem = ({
           }}
         >
           <Text as="h3" fontWeight="semibold" fontSize="lg">
-            {extract?.formattedTitle.map((t) => t.extract)}
+            {extract?.formattedTitle.map((t) =>
+              t.type === "text" ? (
+                t.extract
+              ) : (
+                // Need a unique key for this.
+                <HighlightedText text={t.extract} />
+              )
+            )}
           </Text>
         </Link>
         <Text fontSize="sm">
-          {extract?.formattedContent.map((c) => c.extract)}
+          {extract?.formattedContent.map((c) =>
+            c.type === "text" ? (
+              c.extract
+            ) : (
+              // Need a unique key for this.
+              <HighlightedText text={c.extract} />
+            )
+          )}
         </Text>
       </Stack>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
+  );
+};
+
+interface HighlightedTextProps {
+  text: string;
+}
+
+const HighlightedText = ({ text }: HighlightedTextProps) => {
+  return (
+    <Text as="span" bgColor="#6C4BC14D" borderRadius="md" p={0.5}>
+      {text}
+    </Text>
   );
 };
 
