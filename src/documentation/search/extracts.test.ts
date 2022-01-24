@@ -1,4 +1,4 @@
-import { contextExtracts } from "./extracts";
+import { contextExtracts, sortByStart } from "./extracts";
 
 describe("contextExtracts", () => {
   it("gives leading trailing", () => {
@@ -59,6 +59,22 @@ describe("contextExtracts", () => {
       // Ensure no pointless "…"
       { type: "text", extract: "012345" },
       { type: "match", extract: "match2" },
+    ]);
+  });
+});
+
+describe("sortByStart", () => {
+  it("works", () => {
+    expect(
+      sortByStart([
+        [5, 10],
+        [99, 1],
+        [1, 20],
+      ])
+    ).toEqual([
+      [1, 20],
+      [5, 10],
+      [99, 1],
     ]);
   });
 });
