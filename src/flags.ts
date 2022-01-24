@@ -26,9 +26,13 @@ type Flag =
    * The flag has the nice side-effect of disabling the dialog for
    * local development so is worth keeping for that use alone.
    */
-  | "noWelcome";
+  | "noWelcome"
+  /**
+   * Enableds the work-in-progress Explore/Reference search.
+   */
+  | "search";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome", "search"];
 
 type Flags = Record<Flag, boolean>;
 
