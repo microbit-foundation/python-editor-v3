@@ -64,7 +64,7 @@ describe("contextExtracts", () => {
 });
 
 describe("sortByStart", () => {
-  it("works", () => {
+  it("sorts by first (start) position in pair", () => {
     expect(
       sortByStart([
         [5, 10],
