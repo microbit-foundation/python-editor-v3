@@ -90,9 +90,7 @@ const SideBarHeader = () => {
                 <SearchDialog
                   onClose={searchModal.onClose}
                   results={results}
-                  setResults={setResults}
                   query={query}
-                  setQuery={setQuery}
                   onQueryChange={handleQueryChange}
                   onClear={handleClear}
                 />

@@ -17,9 +17,7 @@ import SearchResultList from "./SearchResultList";
 interface SearchDialogProps {
   onClose: () => void;
   results: SearchResults | undefined;
-  setResults: React.Dispatch<React.SetStateAction<SearchResults | undefined>>;
   query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
   onClear: () => void;
 }
@@ -27,9 +25,7 @@ interface SearchDialogProps {
 const SearchDialog = ({
   onClose,
   results,
-  setResults,
   query,
-  setQuery,
   onQueryChange,
   onClear,
 }: SearchDialogProps) => {
