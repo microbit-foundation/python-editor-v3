@@ -1,6 +1,11 @@
+/**
+ * Shared between the search worker and client code.
+ *
+ * We only need type definitions of the content.
+ */
 import type { ApiDocsResponse } from "../../language-server/apidocs";
 import type { RouterState } from "../../router-hooks";
-import { Toolkit } from "../explore/model";
+import type { Toolkit } from "../explore/model";
 
 export interface Search {
   search(text: string): Promise<SearchResults>;
