@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
   HStack,
+  IconButton,
   Link,
   Modal,
   ModalBody,
@@ -10,8 +12,8 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRef, useState, useCallback } from "react";
-import { RiSearch2Line } from "react-icons/ri";
+import { useCallback, useRef, useState } from "react";
+import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
@@ -21,7 +23,7 @@ import { flags } from "../flags";
 
 const SideBarHeader = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const horizontalLogoRef = useRef<HTMLDivElement>(null);
+  const faceLogoRef = useRef<HTMLDivElement>(null);
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
@@ -42,15 +44,26 @@ const SideBarHeader = () => {
       },
       [search]
     );
+  const handleClear = useCallback(() => {
+    setQuery("");
+    setResults(undefined);
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, [setQuery, setResults]);
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
-  const offset = horizontalLogoRef.current
-    ? horizontalLogoRef.current.getBoundingClientRect().left
+  const sidebarWidth = useRef<HTMLDivElement>(null);
+  const offset = faceLogoRef.current
+    ? faceLogoRef.current.getBoundingClientRect().right + 14
     : 0;
-  const width = ref.current
-    ? ref.current!.clientWidth - offset - 14 + "px"
+  const width = sidebarWidth.current
+    ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
     : undefined;
+
   return (
     <>
+      {/* Empty box used to calculate width only. */}
+      <Box ref={sidebarWidth}></Box>
       {flags.search && (
         <Modal
           isOpen={searchModal.isOpen}
@@ -78,6 +91,7 @@ const SideBarHeader = () => {
                   query={query}
                   setQuery={setQuery}
                   onQueryChange={handleQueryChange}
+                  onHandleClear={handleClear}
                 />
               </ModalBody>
             </ModalContent>
@@ -102,20 +116,17 @@ const SideBarHeader = () => {
           aria-label={intl.formatMessage({ id: "visit-dot-org" })}
         >
           <HStack spacing={3.5} pl={4} pr={4}>
-            <Box width="3.56875rem" color="white" role="img">
+            <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
               {brand.squareLogo}
             </Box>
-            <Box
-              ref={horizontalLogoRef}
-              width="9.098rem"
-              role="img"
-              color="white"
-            >
-              {brand.horizontalLogo}
-            </Box>
+            {!query && (
+              <Box width="9.098rem" role="img" color="white">
+                {brand.horizontalLogo}
+              </Box>
+            )}
           </HStack>
         </Link>
-        {flags.search && (
+        {flags.search && !query && (
           <Button
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
@@ -132,6 +143,42 @@ const SideBarHeader = () => {
           >
             Search
           </Button>
+        )}
+        {flags.search && query && (
+          <ButtonGroup
+            isAttached
+            backgroundColor="white"
+            width="full"
+            borderRadius="3xl"
+          >
+            <Button
+              _active={{}}
+              _hover={{}}
+              border="unset"
+              color="#gray.800"
+              flex={1}
+              fontSize="md"
+              fontWeight="normal"
+              justifyContent="flex-start"
+              leftIcon={<Box as={RiSearch2Line} fontSize="lg" />}
+              onClick={searchModal.onOpen}
+            >
+              {query}
+            </Button>
+            <IconButton
+              aria-label="Clear"
+              backgroundColor="white"
+              // Also used for Zoom, move to theme.
+              color="#838383"
+              fontSize="2xl"
+              icon={<RiCloseLine />}
+              isRound={false}
+              onClick={handleClear}
+              pl={3}
+              pr={3}
+              variant="ghost"
+            />
+          </ButtonGroup>
         )}
       </Flex>
     </>
