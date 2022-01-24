@@ -5,18 +5,18 @@
  */
 import lunr from "lunr";
 import { createContext, ReactNode, useContext, useMemo } from "react";
-import { blocksToText } from "../common/sanity-utils";
-import { flags } from "../flags";
-import { ApiDocsEntry, ApiDocsResponse } from "../language-server/apidocs";
-import { RouterState } from "../router-hooks";
-import { ExploreToolkitState } from "./documentation-hooks";
+import { blocksToText } from "../../common/sanity-utils";
+import { flags } from "../../flags";
+import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
+import { RouterState } from "../../router-hooks";
+import { ExploreToolkitState } from "./../documentation-hooks";
 import {
   contextExtracts,
   Extract,
   fullStringExtracts,
   Position,
 } from "./extracts";
-import { useToolkitState } from "./toolkit-hooks";
+import { useToolkitState } from "../toolkit-hooks";
 
 interface Extracts {
   title: Extract[];

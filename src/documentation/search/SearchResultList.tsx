@@ -1,5 +1,5 @@
 import { Divider, Link, Stack, Text, TextProps } from "@chakra-ui/react";
-import { useRouterState } from "../router-hooks";
+import { useRouterState } from "../../router-hooks";
 import { Extract } from "./extracts";
 import { Result } from "./search-hooks";
 
