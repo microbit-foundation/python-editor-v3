@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   HStack,
   IconButton,
@@ -12,16 +11,17 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { useSplitViewContext } from "../common/SplitView/context";
+import useIsUnmounted from "../common/use-is-unmounted";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import SearchDialog from "../documentation/search/SearchDialog";
-import { useSearch } from "../documentation/search/search-hooks";
-import { flags } from "../flags";
 import { SearchResults } from "../documentation/search/common";
-import useIsUnmounted from "../common/use-is-unmounted";
+import { useSearch } from "../documentation/search/search-hooks";
+import SearchDialog from "../documentation/search/SearchDialog";
+import { flags } from "../flags";
 
 const SideBarHeader = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -62,6 +62,12 @@ const SideBarHeader = () => {
   const width = sidebarWidth.current
     ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
     : undefined;
+
+  const { sizedPaneSize } = useSplitViewContext();
+  const [searchWidth, setSearchWidth] = useState<number | undefined>();
+  useEffect(() => {
+    setSearchWidth((sizedPaneSize || 0) - offset - 14);
+  }, [offset, sizedPaneSize]);
 
   return (
     <>
@@ -147,23 +153,27 @@ const SideBarHeader = () => {
           </Button>
         )}
         {flags.search && query && (
-          <ButtonGroup
-            isAttached
+          <Flex
             backgroundColor="white"
-            width="full"
             borderRadius="3xl"
+            width="full"
+            position="relative"
+            maxWidth={searchWidth}
           >
             <Button
               _active={{}}
               _hover={{}}
               border="unset"
-              color="#gray.800"
+              color="gray.800"
               flex={1}
               fontSize="md"
               fontWeight="normal"
               justifyContent="flex-start"
-              leftIcon={<Box as={RiSearch2Line} fontSize="lg" />}
+              leftIcon={
+                <Box as={RiSearch2Line} fontSize="lg" color="#838383" />
+              }
               onClick={searchModal.onOpen}
+              overflow="hidden"
             >
               {query}
             </Button>
@@ -176,11 +186,13 @@ const SideBarHeader = () => {
               icon={<RiCloseLine />}
               isRound={false}
               onClick={handleClear}
-              pl={3}
+              position="absolute"
+              right="0"
               pr={3}
+              pl={3}
               variant="ghost"
             />
-          </ButtonGroup>
+          </Flex>
         )}
       </Flex>
     </>
