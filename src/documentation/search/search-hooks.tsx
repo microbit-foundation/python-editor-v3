@@ -26,7 +26,7 @@ export const useSearch = (): Search => {
 const SearchProvider = ({ children }: { children: ReactNode }) => {
   const { exploreToolkit, referenceToolkit } = useToolkitState();
   useEffect(() => {
-    // Wait for both, we'll be re-run for each at start-up.
+    // Wait for both, no reason to index with just one then redo with both.
     if (exploreToolkit.status === "ok" && referenceToolkit) {
       search?.index(exploreToolkit.toolkit, referenceToolkit);
     }
