@@ -1,9 +1,5 @@
 import sortBy from "lodash.sortby";
-
-export interface Extract {
-  extract: string;
-  type: "text" | "match";
-}
+import { Extract } from "./common";
 
 export type Position = [number, number];
 
