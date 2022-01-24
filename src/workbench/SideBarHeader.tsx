@@ -89,10 +89,11 @@ const SideBarHeader = () => {
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
         zIndex={3}
-        height={topBarHeight}
+        height={searchModal.isOpen ? "5.5rem" : topBarHeight}
         alignItems="center"
         justifyContent="space-between"
         pr={4}
+        transition="height .2s"
       >
         <Link
           display="block"
