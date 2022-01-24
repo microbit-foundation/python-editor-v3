@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { SearchableContent, buildSearchIndex } from "./search-hooks";
+import { SearchableContent, buildSearchIndex } from "./search";
 
 const searchableExploreContent: SearchableContent[] = [
   {

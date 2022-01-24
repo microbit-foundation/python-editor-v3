@@ -163,7 +163,7 @@ const referenceSearchableContent = (
   return content;
 };
 
-const buildSearchIndex = (
+export const buildSearchIndex = (
   searchableContent: SearchableContent[],
   tab: "explore" | "reference"
 ): SearchIndex => {
