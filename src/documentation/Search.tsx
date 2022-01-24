@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { SearchResults } from "./search-hooks";
 import SearchResultList from "./SearchResultList";
@@ -21,7 +21,7 @@ interface SearchProps {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
-  onClear: (inputRef: React.RefObject<HTMLInputElement>) => void;
+  onClear: () => void;
 }
 
 const Search = ({
@@ -34,6 +34,12 @@ const Search = ({
   onClear,
 }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
+  const handleClear = useCallback(() => {
+    onClear();
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, [onClear]);
 
   return (
     <Box>
@@ -67,7 +73,7 @@ const Search = ({
               // Also used for Zoom, move to theme.
               color="#838383"
               icon={<RiCloseLine />}
-              onClick={() => onClear(ref)}
+              onClick={handleClear}
             />
           </InputRightElement>
         </InputGroup>
