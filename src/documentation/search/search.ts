@@ -19,6 +19,9 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
+import stemmerSupport from "lunr-languages/lunr.stemmer.support";
+stemmerSupport(lunr);
+
 interface Metadata {
   [match: string]: MatchMetadata;
 }
@@ -177,12 +180,14 @@ const referenceSearchableContent = (
 
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
-  tab: "explore" | "reference"
+  tab: "explore" | "reference",
+  ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
   const index = lunr(function () {
     this.ref("id");
     this.field("title", { boost: 10 });
     this.field("content");
+    plugins.forEach((p) => this.use(p));
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
       this.add(doc);
@@ -192,29 +197,60 @@ export const buildSearchIndex = (
   return new SearchIndex(contentByRef, index, tab);
 };
 
-const buildToolkitIndex = (
+// Exposed for testing.
+export const buildToolkitIndex = async (
   exploreToolkit: Toolkit,
   referenceToolkit: ApiDocsResponse
-): LunrSearch => {
+): Promise<LunrSearch> => {
+  const language = exploreToolkit.language;
+  const languageSupport = await loadLunrLanguageSupport(language);
+  const plugins: lunr.Builder.Plugin[] = [];
+  if (languageSupport) {
+    // Loading plugin for fr makes lunr.fr available but we don't model this in the types.
+    // Avoid repeatedly initializing them when switching back and forth.
+    if (!(lunr as any)[language]) {
+      languageSupport(lunr);
+    }
+    plugins.push((lunr as any)[language]);
+  }
+
   return new LunrSearch(
-    buildSearchIndex(exploreSearchableContent(exploreToolkit), "explore"),
+    buildSearchIndex(
+      exploreSearchableContent(exploreToolkit),
+      "explore",
+      ...plugins
+    ),
     buildSearchIndex(referenceSearchableContent(referenceToolkit), "reference")
   );
 };
 
+async function loadLunrLanguageSupport(
+  language: string
+): Promise<undefined | ((l: typeof lunr) => void)> {
+  // Enumerated for code splitting.
+  switch (language) {
+    case "fr":
+      return (await import("lunr-languages/lunr.fr")).default;
+    default:
+      // No search support for the language, default to lunr's built-in English support.
+      return undefined;
+  }
+}
+
 export class SearchWorker {
-  private current: LunrSearch | undefined;
-  // We block queries on the first indexing.
+  private search: LunrSearch | undefined;
+  // We block queries on indexing.
   private recordInitialization: (() => void) | undefined;
   private initialized: Promise<void>;
 
   constructor(private ctx: Worker) {
+    // We return Promises here just to allow for easy testing.
     this.ctx.onmessage = async (event: MessageEvent) => {
       const data = event.data;
       if (data.kind === "query") {
-        this.query(data as QueryMessage);
+        return this.query(data as QueryMessage);
       } else if (data.kind === "index") {
-        this.index(data as IndexMessage);
+        return this.index(data as IndexMessage);
       } else {
         console.error("Unexpected worker message", event);
       }
@@ -225,22 +261,22 @@ export class SearchWorker {
     });
   }
 
-  private index(message: IndexMessage) {
-    this.current = buildToolkitIndex(message.explore, message.reference);
+  private async index(message: IndexMessage) {
+    this.search = await buildToolkitIndex(message.explore, message.reference);
     this.recordInitialization!();
   }
 
   private async query(message: QueryMessage) {
-    const search = await this.currentIndex();
+    const search = await this.initializedIndex();
     this.ctx.postMessage({
       kind: "queryResponse",
       ...search.search(message.query),
     });
   }
 
-  private async currentIndex(): Promise<LunrSearch> {
+  private async initializedIndex(): Promise<LunrSearch> {
     await this.initialized;
-    return this.current!;
+    return this.search!;
   }
 }
 
