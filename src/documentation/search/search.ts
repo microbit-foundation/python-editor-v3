@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import lunr from "lunr";
-import { blocksToText } from "../../common/sanity-utils";
+import { blocksToText } from "./blocks-to-text";
 import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Toolkit } from "../explore/model";
 import {
