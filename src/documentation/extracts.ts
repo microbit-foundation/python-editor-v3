@@ -60,6 +60,9 @@ export const contextExtracts = (
   text: string,
   context: number = 10
 ): Extract[] => {
+  if (positions.length === 0) {
+    return [];
+  }
   const extracts = fullStringExtracts(positions, text);
   return extracts.map((e, index) => {
     const length = e.extract.length;

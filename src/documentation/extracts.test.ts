@@ -25,6 +25,9 @@ describe("contextExtracts", () => {
       { type: "match", extract: "match" },
     ]);
   });
+  it("no match", () => {
+    expect(contextExtracts([], "match", 3)).toEqual([]);
+  });
   it("splits text between matches", () => {
     expect(
       contextExtracts(
