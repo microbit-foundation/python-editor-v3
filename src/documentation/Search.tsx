@@ -21,7 +21,7 @@ interface SearchProps {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
-  onHandleClear: React.MouseEventHandler<HTMLButtonElement>;
+  onClear: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Search = ({
@@ -31,7 +31,7 @@ const Search = ({
   query,
   setQuery,
   onQueryChange,
-  onHandleClear,
+  onClear,
 }: SearchProps) => {
   const ref = useRef<HTMLInputElement>(null);
 
@@ -67,7 +67,7 @@ const Search = ({
               // Also used for Zoom, move to theme.
               color="#838383"
               icon={<RiCloseLine />}
-              onClick={onHandleClear}
+              onClick={onClear}
             />
           </InputRightElement>
         </InputGroup>
