@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { PortableText } from "../../common/sanity";
+
 export interface Toolkit {
   id: string;
   name: string;
@@ -27,7 +29,7 @@ export interface ToolkitTopic extends HasCompatibility {
    * Longer, for the heading above the contents.
    * Currently migrating to portable text.
    */
-  introduction?: ToolkitPortableText;
+  introduction?: PortableText;
   contents?: ToolkitTopicEntry[];
   slug: ToolkitSlug;
   image?: ToolkitImage;
@@ -38,15 +40,6 @@ export interface ToolkitCode {
   main: string;
 }
 
-export interface ToolkitText {
-  _type: "block";
-  _key: string;
-  // Partial/lax modelling. We pass this straight to Sanity's rendering API.
-  children: any;
-  markDefs: any;
-  style: string;
-}
-
 export interface ToolkitImage {
   _type: "simpleImage";
   alt?: string;
@@ -54,13 +47,9 @@ export interface ToolkitImage {
   asset: any;
 }
 
-export type ToolkitPortableText = Array<
-  ToolkitCode | ToolkitText | ToolkitImage
->;
-
 interface ToolkitAlternative {
   name: string;
-  content: ToolkitPortableText;
+  content: PortableText;
 }
 
 interface ToolkitSlug {
@@ -70,11 +59,11 @@ interface ToolkitSlug {
 
 export interface ToolkitTopicEntry extends HasCompatibility {
   name: string;
-  content: ToolkitPortableText;
+  content: PortableText;
   // Should be co-present with alternatives.
   alternativesLabel?: string;
   alternatives?: ToolkitAlternative[];
-  detailContent?: ToolkitPortableText;
+  detailContent?: PortableText;
   parent: ToolkitTopic;
   slug: ToolkitSlug;
 }

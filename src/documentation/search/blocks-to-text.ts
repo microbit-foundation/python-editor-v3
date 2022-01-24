@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ToolkitPortableText } from "../documentation/explore/model";
+import { PortableText } from "../../common/sanity";
 
 const defaults = { nonTextBehavior: "remove" };
 
 export const blocksToText = (
-  blocks: ToolkitPortableText | undefined,
+  blocks: PortableText | undefined,
   opts = {}
 ): string => {
   const options = Object.assign({}, defaults, opts);

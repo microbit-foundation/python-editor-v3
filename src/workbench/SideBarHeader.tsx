@@ -15,9 +15,11 @@ import { RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import Search from "../documentation/Search";
-import { SearchResults, useSearch } from "../documentation/search-hooks";
+import SearchDialog from "../documentation/search/SearchDialog";
+import { useSearch } from "../documentation/search/search-hooks";
 import { flags } from "../flags";
+import { SearchResults } from "../documentation/search/common";
+import useIsUnmounted from "../common/use-is-unmounted";
 
 const SideBarHeader = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,19 +30,23 @@ const SideBarHeader = () => {
   const search = useSearch();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResults | undefined>();
+  const isUnmounted = useIsUnmounted();
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
-      (e) => {
+      async (e) => {
         const newQuery = e.currentTarget.value;
         setQuery(newQuery);
         const trimmedQuery = newQuery.trim();
         if (trimmedQuery) {
-          setResults(search.search(trimmedQuery));
+          const results = await search.search(trimmedQuery);
+          if (!isUnmounted()) {
+            setResults(results);
+          }
         } else {
           setResults(undefined);
         }
       },
-      [search]
+      [search, isUnmounted]
     );
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const offset = horizontalLogoRef.current
@@ -71,7 +77,7 @@ const SideBarHeader = () => {
               maxHeight="unset"
             >
               <ModalBody p={0}>
-                <Search
+                <SearchDialog
                   onClose={searchModal.onClose}
                   results={results}
                   setResults={setResults}

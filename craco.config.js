@@ -22,6 +22,7 @@ module.exports = {
     configure: {
       moduleNameMapper: {
         "^@deployment(.*)$": `<rootDir>/${location}$1`,
+        "\\.worker": "<rootDir>/src/mocks/worker.js",
       },
     },
   },

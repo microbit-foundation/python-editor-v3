@@ -11,10 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
-import { SearchResults } from "./search-hooks";
+import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
 
-interface SearchProps {
+interface SearchDialogProps {
   onClose: () => void;
   results: SearchResults | undefined;
   setResults: React.Dispatch<React.SetStateAction<SearchResults | undefined>>;
@@ -23,14 +23,14 @@ interface SearchProps {
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const Search = ({
+const SearchDialog = ({
   onClose,
   results,
   setResults,
   query,
   setQuery,
   onQueryChange,
-}: SearchProps) => {
+}: SearchDialogProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const handleClear = useCallback(() => {
     setQuery("");
@@ -108,4 +108,4 @@ const Search = ({
   );
 };
 
-export default Search;
+export default SearchDialog;
