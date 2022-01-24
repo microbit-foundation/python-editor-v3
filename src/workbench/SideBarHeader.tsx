@@ -44,13 +44,16 @@ const SideBarHeader = () => {
       },
       [search]
     );
-  const handleClear = useCallback(() => {
-    setQuery("");
-    setResults(undefined);
-    if (ref.current) {
-      ref.current.focus();
-    }
-  }, [setQuery, setResults]);
+  const handleClear = useCallback(
+    (inputRef: React.RefObject<HTMLInputElement> | null) => {
+      setQuery("");
+      setResults(undefined);
+      if (inputRef?.current) {
+        inputRef?.current.focus();
+      }
+    },
+    [setQuery, setResults]
+  );
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const sidebarWidth = useRef<HTMLDivElement>(null);
   const offset = faceLogoRef.current
@@ -173,7 +176,7 @@ const SideBarHeader = () => {
               fontSize="2xl"
               icon={<RiCloseLine />}
               isRound={false}
-              onClick={handleClear}
+              onClick={() => handleClear(null)}
               pl={3}
               pr={3}
               variant="ghost"
