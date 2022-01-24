@@ -17,28 +17,25 @@ import SearchResultList from "./SearchResultList";
 interface SearchDialogProps {
   onClose: () => void;
   results: SearchResults | undefined;
-  setResults: React.Dispatch<React.SetStateAction<SearchResults | undefined>>;
   query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
+  onClear: () => void;
 }
 
 const SearchDialog = ({
   onClose,
   results,
-  setResults,
   query,
-  setQuery,
   onQueryChange,
+  onClear,
 }: SearchDialogProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const handleClear = useCallback(() => {
-    setQuery("");
-    setResults(undefined);
+    onClear();
     if (ref.current) {
       ref.current.focus();
     }
-  }, [setQuery, setResults]);
+  }, [onClear]);
 
   return (
     <Box>
