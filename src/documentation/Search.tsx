@@ -42,7 +42,7 @@ const Search = ({
 
   return (
     <Box>
-      <Box py={2} px={1}>
+      <Box py={1.5} px={1}>
         <InputGroup variant="outline">
           <InputLeftElement
             pointerEvents="none"
