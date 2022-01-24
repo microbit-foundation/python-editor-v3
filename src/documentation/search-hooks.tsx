@@ -158,6 +158,12 @@ const exploreSearchableContent = (
   const content: SearchableContent[] = [];
   if (state.status === "ok") {
     state.toolkit.contents?.forEach((t) => {
+      content.push({
+        id: t.slug.current,
+        title: t.name,
+        containerTitle: t.name,
+        content: t.subtitle + ".\n\n" + blocksToText(t.introduction),
+      });
       t.contents?.forEach((e) => {
         const contentString = blocksToText(e.content);
         const detailContentString = blocksToText(e.detailContent);
