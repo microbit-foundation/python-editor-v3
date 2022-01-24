@@ -1,14 +1,13 @@
-import sortBy from "lodash.sortby";
-
-export interface Extract {
-  extract: string;
-  type: "text" | "match";
-}
+import { Extract } from "./common";
 
 export type Position = [number, number];
 
-const sortByStart = (positions: Position[]): Position[] =>
-  sortBy(positions, (p) => p[0]);
+// Avoid lodash in the worker
+export const sortByStart = (positions: Position[]): Position[] => {
+  const copy = [...positions];
+  copy.sort((a, b) => (a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0));
+  return copy;
+};
 
 /**
  * Return text or matches covering the string from start to end.

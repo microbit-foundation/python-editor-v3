@@ -17,12 +17,12 @@ import {
   ToolkitExternalLink,
   ToolkitImage,
   ToolkitInternalLink,
-  ToolkitPortableText,
 } from "./model";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
+import { PortableText } from "../../common/sanity";
 
 interface ToolkitContentProps {
-  content: ToolkitPortableText;
+  content: PortableText;
 }
 
 const getAspectRatio = (imageRef: string): number | undefined => {

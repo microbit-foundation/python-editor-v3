@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { blocksToText } from "./sanity-utils";
-import { ToolkitPortableText } from "../documentation/explore/model";
+import { blocksToText } from "./blocks-to-text";
+import { ToolkitPortableText } from "../explore/model";
 
 const content: ToolkitPortableText[] = [
   [
