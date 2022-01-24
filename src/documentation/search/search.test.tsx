@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { SearchableContent, buildSearchIndex } from "./search";
+import { IndexMessage } from "./common";
+import { SearchableContent, buildSearchIndex, SearchWorker } from "./search";
 
 const searchableExploreContent: SearchableContent[] = [
   {
@@ -110,5 +111,114 @@ describe("Search", () => {
         },
       },
     ]);
+  });
+});
+
+describe("SearchWorker", () => {
+  it("blocks queries on initialization", async () => {
+    const postMessage = jest.fn();
+    const ctx = {
+      postMessage,
+    } as unknown as Worker;
+
+    new SearchWorker(ctx);
+
+    ctx.onmessage!(
+      new MessageEvent("message", {
+        data: {
+          kind: "query",
+          query: "hey",
+        },
+      })
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(postMessage.mock.calls).toEqual([]);
+
+    const indexMessage: IndexMessage = {
+      kind: "index",
+      explore: {
+        id: "explore",
+        description: "Explore stuff",
+        name: "Explore",
+        contents: [],
+      },
+      reference: {},
+    };
+    ctx.onmessage!(
+      new MessageEvent("message", {
+        data: indexMessage,
+      })
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(postMessage.mock.calls).toEqual([
+      [{ explore: [], reference: [], kind: "queryResponse" }],
+    ]);
+  });
+
+  it("reindexes", async () => {
+    const postMessage = jest.fn();
+    const ctx = {
+      postMessage,
+    } as unknown as Worker;
+
+    new SearchWorker(ctx);
+
+    const emptyIndex: IndexMessage = {
+      kind: "index",
+      explore: {
+        id: "explore",
+        description: "Explore stuff",
+        name: "Explore",
+        contents: [],
+      },
+      reference: {},
+    };
+    const fullIndex: IndexMessage = {
+      kind: "index",
+      explore: {
+        id: "explore",
+        description: "Explore stuff",
+        name: "Explore",
+        contents: [
+          {
+            name: "Hello",
+            subtitle: "Hello",
+            slug: { _type: "slug", current: "hello" },
+            compatibility: [],
+          },
+        ],
+      },
+      reference: {},
+    };
+
+    const queryHello = async () => {
+      ctx.onmessage!(
+        new MessageEvent("message", {
+          data: {
+            kind: "query",
+            query: "hello",
+          },
+        })
+      );
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    };
+    ctx.onmessage!(
+      new MessageEvent("message", {
+        data: emptyIndex,
+      })
+    );
+    await queryHello();
+    ctx.onmessage!(
+      new MessageEvent("message", {
+        data: fullIndex,
+      })
+    );
+    await queryHello();
+
+    expect(postMessage.mock.calls.length).toEqual(2);
+    expect(postMessage.mock.calls[0][0].explore.length).toEqual(0);
+    expect(postMessage.mock.calls[1][0].explore.length).toEqual(1);
   });
 });
