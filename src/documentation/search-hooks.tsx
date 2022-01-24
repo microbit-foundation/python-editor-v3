@@ -199,6 +199,12 @@ const referenceSearchableContent = (
   };
   if (toolkit) {
     for (const module of Object.values(toolkit)) {
+      content.push({
+        id: module.id,
+        title: module.fullName,
+        containerTitle: module.fullName,
+        content: validateString(module.docString),
+      });
       addNestedDocs(module.fullName, module.children);
     }
   }
