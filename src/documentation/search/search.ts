@@ -6,9 +6,14 @@
 import lunr from "lunr";
 import { blocksToText } from "../../common/sanity-utils";
 import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
-import { ExploreToolkitState } from "../documentation-hooks";
 import { Toolkit } from "../explore/model";
-import { Extracts, Result, Search, SearchResults } from "./common";
+import {
+  Extracts,
+  IndexMessage,
+  QueryMessage,
+  Result,
+  SearchResults,
+} from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
 interface Metadata {
@@ -175,7 +180,7 @@ const buildSearchIndex = (
   return new SearchIndex(contentByRef, index, tab);
 };
 
-export const buildToolkitIndex = (
+const buildToolkitIndex = (
   exploreToolkit: Toolkit,
   referenceToolkit: ApiDocsResponse
 ): LunrSearch => {
@@ -184,3 +189,45 @@ export const buildToolkitIndex = (
     buildSearchIndex(referenceSearchableContent(referenceToolkit), "reference")
   );
 };
+
+export class SearchWorker {
+  private current: LunrSearch | undefined;
+  // We block queries on the first indexing.
+  private recordInitialization: (() => void) | undefined;
+  private initialized: Promise<void>;
+
+  constructor(private ctx: Worker) {
+    this.ctx.onmessage = async (event: MessageEvent) => {
+      const data = event.data;
+      if (data.kind === "query") {
+        this.query(data as QueryMessage);
+      } else if (data.kind === "index") {
+        this.index(data as IndexMessage);
+      } else {
+        console.error("Unexpected worker message", event);
+      }
+    };
+    this.initialized = new Promise((resolve) => {
+      // Later, in response to the index message.
+      this.recordInitialization = resolve;
+    });
+  }
+
+  private index(message: IndexMessage) {
+    this.current = buildToolkitIndex(message.explore, message.reference);
+    this.recordInitialization!();
+  }
+
+  private async query(message: QueryMessage) {
+    const search = await this.currentIndex();
+    this.ctx.postMessage({
+      kind: "queryResponse",
+      ...search.search(message.query),
+    });
+  }
+
+  private async currentIndex(): Promise<LunrSearch> {
+    await this.initialized;
+    return this.current!;
+  }
+}
