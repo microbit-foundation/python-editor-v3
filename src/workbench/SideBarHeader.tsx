@@ -11,10 +11,9 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { useSplitViewContext } from "../common/SplitView/context";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
@@ -62,13 +61,6 @@ const SideBarHeader = () => {
   const width = sidebarWidth.current
     ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
     : undefined;
-
-  const { sizedPaneSize } = useSplitViewContext();
-  const [searchWidth, setSearchWidth] = useState<number | undefined>();
-  useEffect(() => {
-    setSearchWidth((sizedPaneSize || 0) - offset - 14);
-  }, [offset, sizedPaneSize]);
-
   return (
     <>
       {/* Empty box used to calculate width only. */}
@@ -156,9 +148,8 @@ const SideBarHeader = () => {
           <Flex
             backgroundColor="white"
             borderRadius="3xl"
-            width="full"
+            width={`calc(100% - ${offset}px)`}
             position="relative"
-            maxWidth={searchWidth}
           >
             <Button
               _active={{}}
