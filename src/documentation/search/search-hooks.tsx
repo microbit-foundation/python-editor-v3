@@ -5,13 +5,23 @@
  */
 import { createContext, ReactNode, useContext, useEffect } from "react";
 import { flags } from "../../flags";
+import { ApiDocsResponse } from "../../language-server/apidocs";
+import { Toolkit } from "../explore/model";
 import { useToolkitState } from "../toolkit-hooks";
-import { Search } from "./common";
+import { Search, SearchResults } from "./common";
 import { WorkerSearch } from "./search-client";
 
-const search: WorkerSearch | undefined = flags.search
-  ? new WorkerSearch()
-  : undefined;
+export class NullSearch implements Search {
+  search(text: string): Promise<SearchResults> {
+    return Promise.resolve({
+      explore: [],
+      reference: [],
+    });
+  }
+  index(explore: Toolkit, reference: ApiDocsResponse): void {}
+}
+
+const search: Search = flags.search ? new WorkerSearch() : new NullSearch();
 
 const SearchContext = createContext<Search | undefined>(undefined);
 
@@ -28,7 +38,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Wait for both, no reason to index with just one then redo with both.
     if (exploreToolkit.status === "ok" && referenceToolkit) {
-      search?.index(exploreToolkit.toolkit, referenceToolkit);
+      search.index(exploreToolkit.toolkit, referenceToolkit);
     }
   }, [exploreToolkit, referenceToolkit]);
 
