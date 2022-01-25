@@ -5,7 +5,7 @@
  *
  * Preview features are not ready for general use.
  *
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021 - 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */

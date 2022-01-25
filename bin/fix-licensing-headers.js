@@ -6,7 +6,7 @@ const { promises: fsp } = require("fs");
 const path = require("path");
 
 const header = `/**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */

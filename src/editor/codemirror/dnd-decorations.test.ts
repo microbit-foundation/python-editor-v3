@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { ChangeSet, EditorState, Text, Transaction } from "@codemirror/state";
 import { EditorView, ViewUpdate } from "@codemirror/view";
 import { DndDecorationsViewPlugin } from "./dnd-decorations";

@@ -2,7 +2,10 @@
  * Shared between the search worker and client code.
  *
  * We only need type definitions of the content.
- */
+ *
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT */
 import type { ApiDocsResponse } from "../../language-server/apidocs";
 import type { RouterState } from "../../router-hooks";
 import type { Toolkit } from "../explore/model";
