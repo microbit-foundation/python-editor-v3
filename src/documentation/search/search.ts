@@ -5,8 +5,11 @@
  */
 import lunr from "lunr";
 import { blocksToText } from "./blocks-to-text";
-import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
-import { Toolkit } from "../explore/model";
+import type {
+  ApiDocsEntry,
+  ApiDocsResponse,
+} from "../../language-server/apidocs";
+import type { Toolkit, ToolkitTopic } from "../explore/model";
 import {
   Extracts,
   IndexMessage,
@@ -113,12 +116,14 @@ const defaultString = (string: string | undefined): string => {
 const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
   const content: SearchableContent[] = [];
   toolkit.contents?.forEach((t) => {
-    content.push({
-      id: t.slug.current,
-      title: t.name,
-      containerTitle: t.name,
-      content: t.subtitle + ".\n\n" + blocksToText(t.introduction),
-    });
+    if (!isSingletonTopic(t)) {
+      content.push({
+        id: t.slug.current,
+        title: t.name,
+        containerTitle: t.name,
+        content: t.subtitle + ".\n\n" + blocksToText(t.introduction),
+      });
+    }
     t.contents?.forEach((e) => {
       const contentString = blocksToText(e.content);
       const detailContentString = blocksToText(e.detailContent);
@@ -231,3 +236,8 @@ export class SearchWorker {
     return this.current!;
   }
 }
+
+// We have some topics that contain a single item with the same id.
+// There's no sense indexing the topic itself in those cases.
+const isSingletonTopic = (t: ToolkitTopic): boolean =>
+  t.contents?.length === 1 && t.contents[0].slug.current === t.slug.current;
