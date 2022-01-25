@@ -800,8 +800,11 @@ export class App {
       name: "Search",
     });
     await searchField.type(searchText);
+  }
+
+  async selectFirstSearchResult(): Promise<void> {
+    const document = await this.document();
     const modalDialog = await document.findByRole("dialog");
-    // const result = await modalDialog.getAllByRole("button");
     const result = await modalDialog.findAllByRole("heading", {
       level: 3,
     });

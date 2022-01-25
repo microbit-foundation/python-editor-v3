@@ -65,6 +65,7 @@ describe("Browser - toolkit tabs", () => {
 
   it("Searches and navigates to the first result", async () => {
     await app.searchToolkits("loop");
+    await app.selectFirstSearchResult();
     await app.findToolkitTopLevelHeading(
       "Loops",
       "Count and repeat sets of instructions"
