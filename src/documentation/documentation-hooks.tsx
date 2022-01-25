@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { useEffect, useState } from "react";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
