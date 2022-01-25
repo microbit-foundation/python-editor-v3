@@ -6,7 +6,9 @@
 import { App } from "./app";
 
 describe("Browser - toolkit tabs", () => {
-  const app = new App();
+  const app = new App({
+    flags: ["search"],
+  });
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
@@ -59,5 +61,13 @@ describe("Browser - toolkit tabs", () => {
       "from microbit import *\n\n\ndisplay.scroll('score')    \ndisplay.scroll(23)\n#1\n#2\n#3\n";
 
     await app.findVisibleEditorContents(expected);
+  });
+
+  it("Searches and navigates to the first result", async () => {
+    await app.searchToolkits("loop");
+    await app.findToolkitTopLevelHeading(
+      "Loops",
+      "Count and repeat sets of instructions"
+    );
   });
 });

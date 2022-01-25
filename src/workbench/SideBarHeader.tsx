@@ -133,6 +133,7 @@ const SideBarHeader = () => {
         </Link>
         {flags.search && !query && (
           <Button
+            aria-label="Open search"
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"

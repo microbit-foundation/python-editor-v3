@@ -790,6 +790,24 @@ export class App {
     return tab.click();
   }
 
+  async searchToolkits(searchText: string): Promise<void> {
+    const document = await this.document();
+    const searchButton = await document.findByRole("button", {
+      name: "Open search",
+    });
+    await searchButton.click();
+    const searchField = await document.findByRole("textbox", {
+      name: "Search",
+    });
+    await searchField.type(searchText);
+    const modalDialog = await document.findByRole("dialog");
+    // const result = await modalDialog.getAllByRole("button");
+    const result = await modalDialog.findAllByRole("heading", {
+      level: 3,
+    });
+    await result[0].click();
+  }
+
   private async document(): Promise<puppeteer.ElementHandle<Element>> {
     const page = await this.page;
     return page.getDocument();
