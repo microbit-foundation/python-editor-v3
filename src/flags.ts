@@ -13,7 +13,7 @@
 import { stage as stageFromEnvironment } from "./environment";
 
 // A union of the flag names.
-type Flag =
+export type Flag =
   /**
    * Enables verbose debug logging to the console of drag events.
    */
