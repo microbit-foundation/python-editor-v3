@@ -12,6 +12,8 @@ import {
   SplitStrategyStorage,
 } from "./storage";
 
+const projectName = "projectName";
+
 const commonStorageTests = (storage: FSStorage) => {
   it("is empty", async () => {
     expect(await storage.ls()).toEqual([]);
@@ -67,7 +69,7 @@ describe("SessionStorageFSStorage", () => {
 });
 
 describe("InMemoryFSStorage", () => {
-  const storage = new InMemoryFSStorage();
+  const storage = new InMemoryFSStorage(projectName);
   beforeEach(() => {
     storage.clear();
   });
@@ -76,7 +78,7 @@ describe("InMemoryFSStorage", () => {
 
 describe("SplitStrategyStorage", () => {
   const storage = new SplitStrategyStorage(
-    new InMemoryFSStorage(),
+    new InMemoryFSStorage(projectName),
     new SessionStorageFSStorage(sessionStorage),
     new NullLogging()
   );
@@ -88,7 +90,7 @@ describe("SplitStrategyStorage", () => {
   commonStorageTests(storage);
 
   it("initializes from session storage", async () => {
-    const memory = new InMemoryFSStorage();
+    const memory = new InMemoryFSStorage(projectName);
     const session = new SessionStorageFSStorage(sessionStorage);
     session.write("test1.py", new Uint8Array([1]));
 
@@ -98,7 +100,7 @@ describe("SplitStrategyStorage", () => {
   });
 
   it("clears and stops using session storage if we hit errors", async () => {
-    const memory = new InMemoryFSStorage();
+    const memory = new InMemoryFSStorage(projectName);
     const session = new SessionStorageFSStorage(sessionStorage);
 
     const log = new MockLogging();

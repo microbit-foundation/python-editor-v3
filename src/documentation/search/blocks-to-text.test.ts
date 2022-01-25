@@ -3,10 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { PortableText } from "../../common/sanity";
 import { blocksToText } from "./blocks-to-text";
-import { ToolkitPortableText } from "../explore/model";
 
-const content: ToolkitPortableText[] = [
+const content: PortableText[] = [
   [
     {
       _key: "41931367cb0c",

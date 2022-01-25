@@ -11,12 +11,12 @@ jest.mock("@chakra-ui/image", () => ({
 
 import { ImageProps } from "@chakra-ui/react";
 import { render } from "@testing-library/react";
-import { ToolkitPortableText } from "./model";
-import ToolkitContent, { imageUrlBuilder } from "./ToolkitContent";
+import { PortableText } from "../../common/sanity";
+import ToolkitContent from "./ToolkitContent";
 
 describe("ToolkitContent", () => {
   it("renders external links", () => {
-    const content: ToolkitPortableText = [
+    const content: PortableText = [
       {
         _key: "aa98d45c4830",
         _type: "block",
@@ -51,7 +51,7 @@ describe("ToolkitContent", () => {
   });
 
   it("renders images", () => {
-    const content: ToolkitPortableText = [
+    const content: PortableText = [
       {
         _type: "simpleImage",
         alt: "micro:bit showing X axis going across the front, Y axis going down and up, Z axis going back to front",

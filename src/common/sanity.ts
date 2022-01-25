@@ -12,5 +12,5 @@ export interface PortableTextBlock {
 }
 
 export type PortableText = Array<
-  PortableTextBlock | { _type: string; children?: any }
+  PortableTextBlock | { _type: string; children?: any; [other: string]: any }
 >;
