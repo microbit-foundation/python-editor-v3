@@ -107,6 +107,17 @@ export class App {
       await dialog.accept();
     });
 
+    const logsPath =
+      "reports/screenshots/" + expect.getState().currentTestName + ".txt";
+    page.on("console", (msg) => {
+      fs.appendFile(logsPath, msg.text(), (err) => {
+        if (err) {
+          // Log file error.
+          console.log("Log file error: ", err.message);
+        }
+      });
+    });
+
     await page.evaluate(() => {
       if (document.domain === "localhost") {
         window.localStorage.clear();
