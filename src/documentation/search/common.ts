@@ -9,6 +9,7 @@ import type { Toolkit } from "../explore/model";
 
 export interface Search {
   search(text: string): Promise<SearchResults>;
+  index(explore: Toolkit, reference: ApiDocsResponse): void;
 }
 
 export interface SearchResults {
