@@ -12,7 +12,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
-import { allowWrapAtPeriods } from "../documentation/common/wrap";
+import { Flag } from "../flags";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -27,7 +27,22 @@ export interface BrowserDownload {
 
 const defaultWaitForOptions = { timeout: 5_000 };
 
-export const defaultRootUrl = "http://localhost:3000?flag=*";
+const baseUrl = "http://localhost:3000";
+
+interface Options {
+  /**
+   * Flags.
+   *
+   * "none" and "noWelcome" are always added.
+   *
+   * Do not use "*", instead explicitly enable the set of flags your test requires.
+   */
+  flags?: Flag[];
+  /**
+   * URL fragment including the #.
+   */
+  fragment?: string;
+}
 
 /**
  * Model of the app to drive it for e2e testing.
@@ -40,6 +55,7 @@ export const defaultRootUrl = "http://localhost:3000?flag=*";
  * them to be true, than to read and return data from the DOM.
  */
 export class App {
+  private url: string;
   /**
    * Tracks dialogs observed by Pupeteer's dialog event.
    */
@@ -50,7 +66,18 @@ export class App {
     path.join(os.tmpdir(), "puppeteer-downloads-")
   );
 
-  constructor(private rootUrl: string = defaultRootUrl) {
+  constructor(options: Options = {}) {
+    const flags = new Set<string>([
+      "none",
+      "noWelcome",
+      ...(options.flags ?? []),
+    ]);
+    this.url =
+      baseUrl +
+      "/?" +
+      new URLSearchParams(Array.from(flags).map((f) => ["flag", f])) +
+      (options.fragment ?? "");
+
     this.browser = puppeteer.launch();
     this.page = this.createPage();
   }
@@ -64,7 +91,7 @@ export class App {
       // See corresponding code in App.tsx.
       name: "mockDevice",
       value: "1",
-      url: this.rootUrl,
+      url: this.url,
     });
 
     const client = await page.target().createCDPSession();
@@ -597,7 +624,7 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto(this.rootUrl);
+    await page.goto(this.url);
   }
 
   /**
