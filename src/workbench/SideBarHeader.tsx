@@ -44,7 +44,7 @@ const SideBarHeader = () => {
     const isMac = /Mac/.test(navigator.platform);
     const keydown = (e: KeyboardEvent) => {
       if (
-        e.key === "f" &&
+        (e.key === "F" || e.key === "f") &&
         (isMac ? e.metaKey : e.ctrlKey) &&
         e.shiftKey &&
         !e.repeat
