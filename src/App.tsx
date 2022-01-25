@@ -36,6 +36,7 @@ import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import SearchProvider from "./documentation/search/search-hooks";
+import TrackKeyboardProvider from "./workbench/track-keyboard-hooks";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -93,7 +94,9 @@ const App = () => {
                             <RouterProvider>
                               <ProjectDropTarget>
                                 <ActiveEditorProvider>
-                                  <Workbench />
+                                  <TrackKeyboardProvider>
+                                    <Workbench />
+                                  </TrackKeyboardProvider>
                                 </ActiveEditorProvider>
                               </ProjectDropTarget>
                             </RouterProvider>
