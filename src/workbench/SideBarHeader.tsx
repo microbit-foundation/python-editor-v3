@@ -56,7 +56,7 @@ const SideBarHeader = () => {
     return () => {
       document.removeEventListener("keydown", keydown);
     };
-  }, []);
+  }, [searchModal]);
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
