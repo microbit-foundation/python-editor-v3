@@ -127,11 +127,18 @@ const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
     t.contents?.forEach((e) => {
       const contentString = blocksToText(e.content);
       const detailContentString = blocksToText(e.detailContent);
+      const alternativesLabel = "\n\n" + defaultString(e.alternativesLabel);
+      const alternatives =
+        "\n\n" + defaultString(e.alternatives?.map((a) => a.name).join(" "));
       content.push({
         id: e.slug.current,
         title: e.name,
         containerTitle: t.name,
-        content: contentString + detailContentString,
+        content:
+          contentString +
+          alternativesLabel +
+          alternatives +
+          detailContentString,
       });
     });
   });
