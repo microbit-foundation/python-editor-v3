@@ -90,4 +90,10 @@ describe("getDragContext", () => {
     const classInstance = classToInstanceMap["MicroBitTouchPin"];
     expect(context.code).toEqual(`from microbit import *\n${classInstance}`);
   });
+
+  it("creates the correct dragContext with __init__", () => {
+    const context = getDragContext("neopixel.NeoPixel.__init__", "function");
+    expect(context.type).toEqual("call");
+    expect(context.code).toEqual("import neopixel\nneopixel.NeoPixel()");
+  });
 });

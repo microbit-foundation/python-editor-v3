@@ -305,7 +305,8 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
 export const getDragContext = (fullName: string, kind: string): DragContext => {
   const parts = fullName
     .split(".")
-    .map((p) => (kind === "variable" ? p : classToInstanceMap[p] ?? p));
+    .map((p) => (kind === "variable" ? p : classToInstanceMap[p] ?? p))
+    .filter((p) => p !== "__init__");
   const isMicrobit = parts[0] === "microbit";
   const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
   const code = nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
