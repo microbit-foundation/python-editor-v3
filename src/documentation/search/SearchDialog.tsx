@@ -66,18 +66,20 @@ const SearchDialog = ({
               color: "gray.600",
             }}
           />
-          <InputRightElement>
-            <IconButton
-              fontSize="2xl"
-              isRound={false}
-              variant="ghost"
-              aria-label="Clear"
-              // Also used for Zoom, move to theme.
-              color="#838383"
-              icon={<RiCloseLine />}
-              onClick={handleClear}
-            />
-          </InputRightElement>
+          {query && (
+            <InputRightElement>
+              <IconButton
+                fontSize="2xl"
+                isRound={false}
+                variant="ghost"
+                aria-label="Clear"
+                // Also used for Zoom, move to theme.
+                color="#838383"
+                icon={<RiCloseLine />}
+                onClick={handleClear}
+              />
+            </InputRightElement>
+          )}
         </InputGroup>
       </Box>
       {results && (
