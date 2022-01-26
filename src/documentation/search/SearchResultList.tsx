@@ -50,30 +50,33 @@ const SearchResultItem = ({
     window.location.toString().split("?")[0] + (query ? "?" + query : "");
 
   return (
-    <Stack>
-      <Stack px={8} py={2} spacing={0}>
-        {title !== containerTitle && (
-          <Text fontSize="sm" color="gray.600" fontWeight="bold">
-            {containerTitle}
-          </Text>
-        )}
-        <Link
-          href={url}
-          onClick={(e) => {
-            e.preventDefault();
-            onClose();
-            setState(navigation);
-          }}
-        >
+    <Stack pl="3px" pr="3px">
+      <Link
+        borderRadius="md"
+        href={url}
+        onClick={(e) => {
+          e.preventDefault();
+          onClose();
+          setState(navigation);
+        }}
+        _hover={{ textDecor: "none", bgColor: "brand.100" }}
+        _focus={{ bgColor: "brand.100" }}
+      >
+        <Stack px={8} py={2} spacing={0}>
+          {title !== containerTitle && (
+            <Text fontSize="sm" color="gray.600" fontWeight="bold">
+              {containerTitle}
+            </Text>
+          )}
           <ExtractText
             extract={extract.title}
             as="h3"
             fontWeight="semibold"
             fontSize="lg"
           />
-        </Link>
-        <ExtractText extract={extract.content} />
-      </Stack>
+          <ExtractText extract={extract.content} />
+        </Stack>
+      </Link>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
   );
