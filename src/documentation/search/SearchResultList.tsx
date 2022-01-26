@@ -11,12 +11,16 @@ interface SearchResultListProps {
   title: string;
   results: Result[];
   onClose: () => void;
+  viewedResults: string[];
+  onViewResult: (id: string) => void;
 }
 
 const SearchResultList = ({
   title,
   results,
   onClose,
+  viewedResults,
+  onViewResult,
 }: SearchResultListProps) => {
   return (
     <Stack spacing={2}>
@@ -24,7 +28,13 @@ const SearchResultList = ({
         {title}
       </Text>
       {results.map((result) => (
-        <SearchResultItem key={result.id} value={result} onClose={onClose} />
+        <SearchResultItem
+          key={result.id}
+          value={result}
+          onClose={onClose}
+          viewedResults={viewedResults}
+          onViewResult={onViewResult}
+        />
       ))}
       {results.length === 0 && (
         <Text as="h2" fontSize="sm" px={8}>
@@ -38,26 +48,33 @@ const SearchResultList = ({
 interface SearchResultItemProps {
   value: Result;
   onClose: () => void;
+  viewedResults: string[];
+  onViewResult: (id: string) => void;
 }
 
 const SearchResultItem = ({
-  value: { extract, navigation, containerTitle, title },
+  value: { extract, navigation, containerTitle, title, id },
   onClose,
+  viewedResults,
+  onViewResult,
 }: SearchResultItemProps) => {
   const [, setState] = useRouterState();
   const query = getQueryString(navigation);
   const url =
     window.location.toString().split("?")[0] + (query ? "?" + query : "");
 
+  //#efedf5 or #f8f6fc for viewed
   return (
     <Stack pl="3px" pr="3px">
       <Link
+        bgColor={viewedResults.includes(id) ? "#efedf5" : "unset"}
         borderRadius="md"
         href={url}
         onClick={(e) => {
           e.preventDefault();
           onClose();
           setState(navigation);
+          onViewResult(id);
         }}
         _hover={{ textDecor: "none", bgColor: "brand.100" }}
         _focus={{ bgColor: "brand.100" }}

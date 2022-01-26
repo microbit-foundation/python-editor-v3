@@ -37,6 +37,7 @@ const SideBarHeader = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
+  const [viewedResults, setViewedResults] = useState<string[]>([]);
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -72,13 +73,24 @@ const SideBarHeader = () => {
         } else {
           setResults(undefined);
         }
+        setViewedResults([]);
       },
       [search, isUnmounted]
     );
   const handleClear = useCallback(() => {
     setQuery("");
     setResults(undefined);
+    setViewedResults([]);
   }, [setQuery, setResults]);
+
+  const handleViewResult = useCallback(
+    (id: string) => {
+      if (!viewedResults.includes(id)) {
+        setViewedResults([...viewedResults, id]);
+      }
+    },
+    [setViewedResults, viewedResults]
+  );
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const sidebarWidth = useRef<HTMLDivElement>(null);
   const offset = faceLogoRef.current
@@ -87,6 +99,7 @@ const SideBarHeader = () => {
   const width = sidebarWidth.current
     ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
     : undefined;
+
   return (
     <>
       {/* Empty box used to calculate width only. */}
@@ -117,6 +130,8 @@ const SideBarHeader = () => {
                   query={query}
                   onQueryChange={handleQueryChange}
                   onClear={handleClear}
+                  viewedResults={viewedResults}
+                  onViewResult={handleViewResult}
                 />
               </ModalBody>
             </ModalContent>

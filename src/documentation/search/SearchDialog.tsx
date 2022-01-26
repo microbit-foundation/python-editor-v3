@@ -25,6 +25,8 @@ interface SearchDialogProps {
   query: string;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
   onClear: () => void;
+  viewedResults: string[];
+  onViewResult: (id: string) => void;
 }
 
 const SearchDialog = ({
@@ -33,6 +35,8 @@ const SearchDialog = ({
   query,
   onQueryChange,
   onClear,
+  viewedResults,
+  onViewResult,
 }: SearchDialogProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const handleClear = useCallback(() => {
@@ -100,11 +104,15 @@ const SearchDialog = ({
               title="Explore"
               results={results.explore}
               onClose={onClose}
+              viewedResults={viewedResults}
+              onViewResult={onViewResult}
             />
             <SearchResultList
               title="Reference"
               results={results.reference}
               onClose={onClose}
+              viewedResults={viewedResults}
+              onViewResult={onViewResult}
             />
           </Stack>
         </Box>
