@@ -14,7 +14,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
@@ -45,6 +45,47 @@ const SearchDialog = ({
       ref.current.focus();
     }
   }, [onClear]);
+
+  useEffect(() => {
+    const keydown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const activeEl = document.activeElement;
+        const siblingEl =
+          activeEl?.parentElement?.previousElementSibling?.firstElementChild;
+        if (siblingEl) {
+          (siblingEl as HTMLElement).focus();
+        } else {
+          const siblingInPrevSection =
+            activeEl?.parentElement?.parentElement?.previousElementSibling
+              ?.lastElementChild?.firstElementChild;
+          if (siblingInPrevSection) {
+            (siblingInPrevSection as HTMLElement).focus();
+          }
+        }
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const activeEl = document.activeElement;
+        const siblingEl =
+          activeEl?.parentElement?.nextElementSibling?.firstElementChild;
+        if (siblingEl) {
+          (siblingEl as HTMLElement).focus();
+        } else {
+          const siblingInNextSection =
+            activeEl?.parentElement?.parentElement?.nextElementSibling
+              ?.firstElementChild?.nextElementSibling?.firstElementChild;
+          if (siblingInNextSection) {
+            (siblingInNextSection as HTMLElement).focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener("keydown", keydown);
+    return () => {
+      document.removeEventListener("keydown", keydown);
+    };
+  }, []);
 
   return (
     <Box>

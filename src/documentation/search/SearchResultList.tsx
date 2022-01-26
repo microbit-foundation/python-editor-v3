@@ -63,7 +63,6 @@ const SearchResultItem = ({
   const url =
     window.location.toString().split("?")[0] + (query ? "?" + query : "");
 
-  //#efedf5 or #f8f6fc for viewed
   return (
     <Stack pl="3px" pr="3px">
       <Link
