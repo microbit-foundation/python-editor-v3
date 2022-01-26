@@ -51,6 +51,7 @@ const SearchDialog = ({
             children={<RiSearch2Line color="gray.800" />}
           />
           <Input
+            aria-label="Search"
             ref={ref}
             value={query}
             onChange={onQueryChange}

@@ -28,6 +28,7 @@ export interface BrowserDownload {
 const defaultWaitForOptions = { timeout: 5_000 };
 
 const baseUrl = "http://localhost:3000";
+const reportsPath = "reports/e2e/";
 
 interface Options {
   /**
@@ -105,6 +106,23 @@ export class App {
       this.dialogs.push(dialog.type());
       // Need to accept() so that reload() will complete.
       await dialog.accept();
+    });
+
+    const logsPath = reportsPath + expect.getState().currentTestName + ".txt";
+    // Clears previous output from local file.
+    fs.writeFile(logsPath, "", (err) => {
+      if (err) {
+        // Log file error.
+        console.error("Log file error: ", err.message);
+      }
+    });
+    page.on("console", (msg) => {
+      fs.appendFile(logsPath, msg.text() + "\n", (err) => {
+        if (err) {
+          // Log file error.
+          console.error("Log file error: ", err.message);
+        }
+      });
     });
 
     await page.evaluate(() => {
@@ -753,7 +771,7 @@ export class App {
   async screenshot() {
     const page = await this.page;
     return page.screenshot({
-      path: "reports/screenshots/" + expect.getState().currentTestName + ".png",
+      path: reportsPath + expect.getState().currentTestName + ".png",
     });
   }
 
@@ -788,6 +806,27 @@ export class App {
       name: tabName,
     });
     return tab.click();
+  }
+
+  async searchToolkits(searchText: string): Promise<void> {
+    const document = await this.document();
+    const searchButton = await document.findByRole("button", {
+      name: "Open search",
+    });
+    await searchButton.click();
+    const searchField = await document.findByRole("textbox", {
+      name: "Search",
+    });
+    await searchField.type(searchText);
+  }
+
+  async selectFirstSearchResult(): Promise<void> {
+    const document = await this.document();
+    const modalDialog = await document.findByRole("dialog");
+    const result = await modalDialog.findAllByRole("heading", {
+      level: 3,
+    });
+    await result[0].click();
   }
 
   private async document(): Promise<puppeteer.ElementHandle<Element>> {
