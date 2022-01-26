@@ -28,6 +28,7 @@ export interface BrowserDownload {
 const defaultWaitForOptions = { timeout: 5_000 };
 
 const baseUrl = "http://localhost:3000";
+const reportsPath = "reports/e2e/";
 
 interface Options {
   /**
@@ -107,13 +108,19 @@ export class App {
       await dialog.accept();
     });
 
-    const logsPath =
-      "reports/screenshots/" + expect.getState().currentTestName + ".txt";
+    const logsPath = reportsPath + expect.getState().currentTestName + ".txt";
+    // Clears previous output from local file.
+    fs.writeFile(logsPath, "", (err) => {
+      if (err) {
+        // Log file error.
+        console.error("Log file error: ", err.message);
+      }
+    });
     page.on("console", (msg) => {
-      fs.appendFile(logsPath, msg.text(), (err) => {
+      fs.appendFile(logsPath, msg.text() + "\n", (err) => {
         if (err) {
           // Log file error.
-          console.log("Log file error: ", err.message);
+          console.error("Log file error: ", err.message);
         }
       });
     });
@@ -764,7 +771,7 @@ export class App {
   async screenshot() {
     const page = await this.page;
     return page.screenshot({
-      path: "reports/screenshots/" + expect.getState().currentTestName + ".png",
+      path: reportsPath + expect.getState().currentTestName + ".png",
     });
   }
 
