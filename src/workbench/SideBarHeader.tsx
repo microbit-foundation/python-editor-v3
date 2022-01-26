@@ -16,7 +16,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import useIsUnmounted from "../common/use-is-unmounted";
@@ -37,6 +37,27 @@ const SideBarHeader = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
+
+  // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
+  // available actions and their shortcuts, with a hook used here to register a handler for the action.
+  useEffect(() => {
+    const isMac = /Mac/.test(navigator.platform);
+    const keydown = (e: KeyboardEvent) => {
+      if (
+        (e.key === "F" || e.key === "f") &&
+        (isMac ? e.metaKey : e.ctrlKey) &&
+        e.shiftKey &&
+        !e.repeat
+      ) {
+        searchModal.onOpen();
+      }
+    };
+    document.addEventListener("keydown", keydown);
+    return () => {
+      document.removeEventListener("keydown", keydown);
+    };
+  }, [searchModal]);
+
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       async (e) => {
