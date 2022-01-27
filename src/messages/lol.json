@@ -799,6 +799,12 @@
       "value": "Реад море"
     }
   ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "Redo"
+    }
+  ],
   "reference-description": [
     {
       "type": 0,
@@ -1095,6 +1101,12 @@
     {
       "type": 0,
       "value": " досюментатіон"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "Undo"
     }
   ],
   "unexpected-error-description": [

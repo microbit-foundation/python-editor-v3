@@ -403,6 +403,10 @@
     "defaultMessage": "Read more",
     "description": "Action text to expand a collapsed section"
   },
+  "redo": {
+    "defaultMessage": "Redo",
+    "description": "Aria label for the redo button"
+  },
   "reference-description": {
     "defaultMessage": "Reference documentation for micro:bit MicroPython",
     "description": "Description at the top of the Reference tab"
@@ -534,6 +538,10 @@
   "toolkit-view-documentation": {
     "defaultMessage": "View {name} documentation",
     "description": "Aria label for the toolkit topic right arrow"
+  },
+  "undo": {
+    "defaultMessage": "Undo",
+    "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
     "defaultMessage": "Please try again or <link>raise a support request</link>",

@@ -799,6 +799,12 @@
       "value": "Read more"
     }
   ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "Redo"
+    }
+  ],
   "reference-description": [
     {
       "type": 0,
@@ -1095,6 +1101,12 @@
     {
       "type": 0,
       "value": " documentation"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "Undo"
     }
   ],
   "unexpected-error-description": [
