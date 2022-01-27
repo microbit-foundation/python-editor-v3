@@ -16,7 +16,8 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import debounce from "lodash.debounce";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import useIsUnmounted from "../common/use-is-unmounted";
@@ -61,11 +62,9 @@ const SideBarHeader = () => {
     };
   }, [searchModal]);
 
-  const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      async (e) => {
-        const newQuery = e.currentTarget.value;
-        setQuery(newQuery);
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(async (newQuery: string) => {
         const trimmedQuery = newQuery.trim();
         if (trimmedQuery) {
           const results = await search.search(trimmedQuery);
@@ -76,9 +75,20 @@ const SideBarHeader = () => {
           setResults(undefined);
         }
         setViewedResults([]);
+      }, 300),
+    [search, setResults, setViewedResults, isUnmounted]
+  );
+
+  const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback(
+      (e) => {
+        const newQuery = e.currentTarget.value;
+        setQuery(newQuery);
+        debouncedSearch(newQuery);
       },
-      [search, isUnmounted]
+      [debouncedSearch, setQuery]
     );
+
   const handleClear = useCallback(() => {
     setQuery("");
     setResults(undefined);
