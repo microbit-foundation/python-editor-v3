@@ -38,6 +38,13 @@ const kindToHeading: Record<string, any> = {
   function: "h4",
 };
 
+const kindToSpacing: Record<string, any> = {
+  module: 5,
+  class: 5,
+  variable: 4,
+  function: 4,
+};
+
 export const classToInstanceMap: Record<string, string> = {
   Button: "button_a",
   MicroBitDigitalPin: "pin0",
@@ -49,11 +56,16 @@ export const classToInstanceMap: Record<string, string> = {
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   anchor?: Anchor;
+  parentType?: string;
 }
 
-const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
-  const { id } = docs;
-
+const ReferenceNode = ({
+  anchor,
+  docs,
+  parentType,
+  ...props
+}: ApiDocEntryNodeProps) => {
+  const { id, kind } = docs;
   // Numeric suffixes are used for overrides but links may omit them when
   // a specific override is not known and we should match the first only.
   const active = anchor && (anchor.id === id || anchor.id + "-1" === id);
@@ -69,8 +81,9 @@ const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
         }}
         fontSize="sm"
         spacing={3}
-        p={5}
-        pb={4}
+        pt={parentType !== "class" ? kindToSpacing[kind] : 2}
+        pb={parentType !== "class" ? kindToSpacing[kind] - 1 : 1}
+        pl={5}
         pr={3}
         mt={1}
         mb={1}
@@ -136,7 +149,9 @@ const ReferenceNodeSelf = ({
       {baseClasses && baseClasses.length > 0 && (
         <BaseClasses value={baseClasses} />
       )}
-      <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      {docStringFirstParagraph && (
+        <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      )}
       {(hasDocStringDetail || hasSignatureDetail) && (
         <>
           {hasDocStringDetail && (
@@ -188,7 +203,12 @@ const ReferenceNodeChildren = ({
                   {groupHeading(intl, kind, childKind)}
                 </Text>
                 {groupedChildren?.get(childKind as any)?.map((c) => (
-                  <ReferenceNode anchor={anchor} key={c.id} docs={c} />
+                  <ReferenceNode
+                    anchor={anchor}
+                    key={c.id}
+                    docs={c}
+                    parentType={docs.kind}
+                  />
                 ))}
               </Box>
             )
