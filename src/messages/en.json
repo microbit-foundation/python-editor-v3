@@ -239,6 +239,12 @@
       "value": "source"
     }
   ],
+  "clear": [
+    {
+      "type": 0,
+      "value": "Clear"
+    }
+  ],
   "close-action": [
     {
       "type": 0,
@@ -809,6 +815,18 @@
     {
       "type": 0,
       "value": "Replace"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Search"
+    }
+  ],
+  "search-open": [
+    {
+      "type": 0,
+      "value": "Open search"
     }
   ],
   "serial-collapse": [
