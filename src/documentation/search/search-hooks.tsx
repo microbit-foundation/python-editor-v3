@@ -4,24 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { createContext, ReactNode, useContext, useEffect } from "react";
-import { flags } from "../../flags";
-import { ApiDocsResponse } from "../../language-server/apidocs";
-import { Toolkit } from "../explore/model";
 import { useToolkitState } from "../toolkit-hooks";
-import { Search, SearchResults } from "./common";
+import { Search } from "./common";
 import { WorkerSearch } from "./search-client";
 
-export class NullSearch implements Search {
-  search(text: string): Promise<SearchResults> {
-    return Promise.resolve({
-      explore: [],
-      reference: [],
-    });
-  }
-  index(explore: Toolkit, reference: ApiDocsResponse): void {}
-}
-
-const search: Search = flags.search ? new WorkerSearch() : new NullSearch();
+const search: Search = new WorkerSearch();
 
 const SearchContext = createContext<Search | undefined>(undefined);
 
