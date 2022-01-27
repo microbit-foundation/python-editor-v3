@@ -41,8 +41,8 @@ const kindToHeading: Record<string, any> = {
 const kindToSpacing: Record<string, any> = {
   module: 5,
   class: 5,
-  variable: 3,
-  function: 3,
+  variable: 4,
+  function: 4,
 };
 
 export const classToInstanceMap: Record<string, string> = {
@@ -56,11 +56,16 @@ export const classToInstanceMap: Record<string, string> = {
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   anchor?: Anchor;
+  parentType?: string;
 }
 
-const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
+const ReferenceNode = ({
+  anchor,
+  docs,
+  parentType,
+  ...props
+}: ApiDocEntryNodeProps) => {
   const { id, kind } = docs;
-
   // Numeric suffixes are used for overrides but links may omit them when
   // a specific override is not known and we should match the first only.
   const active = anchor && (anchor.id === id || anchor.id + "-1" === id);
@@ -76,10 +81,13 @@ const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
         }}
         fontSize="sm"
         spacing={3}
-        p={5}
+        // Reduce padding inside a class.
+        pt={kindToSpacing[kind] - (parentType === "class" ? 1 : 0)}
+        pb={kindToSpacing[kind] - (parentType === "class" ? 2 : 1)}
+        pl={5}
         pr={3}
         mt={1}
-        mb={kindToSpacing[kind]}
+        mb={1}
         {...props}
       >
         <ReferenceNodeSelf
@@ -142,7 +150,9 @@ const ReferenceNodeSelf = ({
       {baseClasses && baseClasses.length > 0 && (
         <BaseClasses value={baseClasses} />
       )}
-      <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      {docStringFirstParagraph && (
+        <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      )}
       {(hasDocStringDetail || hasSignatureDetail) && (
         <>
           {hasDocStringDetail && (
@@ -194,7 +204,12 @@ const ReferenceNodeChildren = ({
                   {groupHeading(intl, kind, childKind)}
                 </Text>
                 {groupedChildren?.get(childKind as any)?.map((c) => (
-                  <ReferenceNode anchor={anchor} key={c.id} docs={c} />
+                  <ReferenceNode
+                    anchor={anchor}
+                    key={c.id}
+                    docs={c}
+                    parentType={docs.kind}
+                  />
                 ))}
               </Box>
             )
