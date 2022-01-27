@@ -10,7 +10,7 @@ import {
   ThemeTypings,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { RiAddLine, RiSubtractLine } from "react-icons/ri";
+import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
   fontSizeStep,
@@ -42,24 +42,50 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   }, [setSettings, settings]);
   const intl = useIntl();
   return (
-    <ButtonGroup {...props} colorScheme="blackAlpha" variant="ghost">
+    // <ButtonGroup {...props} colorScheme="blackAlpha" variant="ghost">
+    //   <IconButton
+    //     size={size}
+    //     isRound
+    //     color="#838383"
+    //     fontSize="xl"
+    //     icon={<RiSubtractLine />}
+    //     aria-label={intl.formatMessage({ id: "zoom-out-action" })}
+    //     onClick={handleZoomOut}
+    //   />
+    //   <IconButton
+    //     size={size}
+    //     isRound
+    //     color="#838383"
+    //     fontSize="xl"
+    //     icon={<RiAddLine />}
+    //     aria-label={intl.formatMessage({ id: "zoom-in-action" })}
+    //     onClick={handleZoomIn}
+    //   />
+    // </ButtonGroup>
+
+    <ButtonGroup
+      {...props}
+      isAttached
+      colorScheme="gray"
+      variant="zoom"
+      transform="rotate(90deg)"
+      transformOrigin="bottom"
+    >
       <IconButton
         size={size}
         isRound
-        color="#838383"
-        fontSize="xl"
-        icon={<RiSubtractLine />}
-        aria-label={intl.formatMessage({ id: "zoom-out-action" })}
-        onClick={handleZoomOut}
+        icon={<RiZoomInLine style={{ transform: "rotate(-90deg)" }} />}
+        aria-label={intl.formatMessage({ id: "zoom-in-action" })}
+        onClick={handleZoomIn}
       />
       <IconButton
         size={size}
         isRound
-        color="#838383"
-        fontSize="xl"
-        icon={<RiAddLine />}
-        aria-label={intl.formatMessage({ id: "zoom-in-action" })}
-        onClick={handleZoomIn}
+        borderLeft="1px"
+        borderLeftColor="gray.10"
+        icon={<RiZoomOutLine style={{ transform: "rotate(-90deg)" }} />}
+        aria-label={intl.formatMessage({ id: "zoom-out-action" })}
+        onClick={handleZoomOut}
       />
     </ButtonGroup>
   );

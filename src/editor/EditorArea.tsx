@@ -51,7 +51,7 @@ const EditorArea = ({
           filename={selection.file}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <ZoomControls display={["none", "none", "none", "flex"]} />
+        {/* <ZoomControls display={["none", "none", "none", "flex"]} /> */}
       </Flex>
       {/* Just for the line */}
       <Box
@@ -63,6 +63,13 @@ const EditorArea = ({
         borderColor="gray.200"
       />
       <Box position="relative" flex="1 1 auto" height={0}>
+        <ZoomControls
+          display={["none", "none", "none", "flex"]}
+          zIndex="1"
+          top={6}
+          right="1.5rem"
+          position="absolute"
+        />
         <EditorContainer selection={selection} />
       </Box>
     </Flex>
