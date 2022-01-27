@@ -419,6 +419,10 @@
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
   },
+  "search-documentation": {
+    "defaultMessage": "Documentation search",
+    "description": "Placeholder for search input"
+  },
   "search-open": {
     "defaultMessage": "Open search",
     "description": "Aria label for button opening the search dialog"

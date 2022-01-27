@@ -823,6 +823,12 @@
       "value": "Search"
     }
   ],
+  "search-documentation": [
+    {
+      "type": 0,
+      "value": "Documentation search"
+    }
+  ],
   "search-open": [
     {
       "type": 0,
