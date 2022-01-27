@@ -75,10 +75,11 @@ export class App {
     ]);
     this.url =
       baseUrl +
-      "/?" +
+      // We don't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
+      (process.env.E2E_PUBLIC_URL ?? "/") +
+      "?" +
       new URLSearchParams(Array.from(flags).map((f) => ["flag", f])) +
       (options.fragment ?? "");
-
     this.browser = puppeteer.launch();
     this.page = this.createPage();
   }
