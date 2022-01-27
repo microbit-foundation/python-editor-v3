@@ -77,9 +77,10 @@ const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
         fontSize="sm"
         spacing={3}
         p={5}
+        pb={3}
         pr={3}
         mt={1}
-        mb={kindToSpacing[kind]}
+        mb={1}
         {...props}
       >
         <ReferenceNodeSelf
