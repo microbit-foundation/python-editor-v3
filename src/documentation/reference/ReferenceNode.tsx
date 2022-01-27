@@ -81,8 +81,14 @@ const ReferenceNode = ({
         }}
         fontSize="sm"
         spacing={3}
-        pt={parentType !== "class" ? kindToSpacing[kind] : 2}
-        pb={parentType !== "class" ? kindToSpacing[kind] - 1 : 1}
+        pt={
+          parentType !== "class" ? kindToSpacing[kind] : kindToSpacing[kind] - 1
+        }
+        pb={
+          parentType !== "class"
+            ? kindToSpacing[kind] - 1
+            : kindToSpacing[kind] - 2
+        }
         pl={5}
         pr={3}
         mt={1}
