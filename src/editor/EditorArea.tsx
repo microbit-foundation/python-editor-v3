@@ -11,6 +11,7 @@ import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
 import ZoomControls from "../editor/ZoomControls";
+import UndoRedoControls from "./UndoRedoControls";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
@@ -51,7 +52,7 @@ const EditorArea = ({
           filename={selection.file}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        {/* <ZoomControls display={["none", "none", "none", "flex"]} /> */}
+        <ZoomControls display={["none", "none", "none", "flex"]} />
       </Flex>
       {/* Just for the line */}
       <Box
@@ -63,7 +64,7 @@ const EditorArea = ({
         borderColor="gray.200"
       />
       <Box position="relative" flex="1 1 auto" height={0}>
-        <ZoomControls
+        <UndoRedoControls
           display={["none", "none", "none", "flex"]}
           zIndex="1"
           top={6}
