@@ -68,7 +68,7 @@ const EditorArea = ({
           display={["none", "none", "none", "flex"]}
           zIndex="1"
           top={6}
-          right="1.5rem"
+          right={10}
           position="absolute"
         />
         <EditorContainer selection={selection} />

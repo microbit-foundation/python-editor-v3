@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ButtonGroup, IconButton } from "@chakra-ui/react";
-import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
+import { RiArrowGoForwardLine, RiArrowGoBackLine } from "react-icons/ri";
 
 const UndoRedoControls = ({ ...props }) => {
   return (
@@ -18,14 +18,14 @@ const UndoRedoControls = ({ ...props }) => {
     >
       <IconButton
         isRound
-        icon={<RiZoomInLine style={{ transform: "rotate(-90deg)" }} />}
+        icon={<RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label="Undo"
       />
       <IconButton
         isRound
         borderLeft="1px"
         borderLeftColor="gray.10"
-        icon={<RiZoomOutLine style={{ transform: "rotate(-90deg)" }} />}
+        icon={<RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label="Redo"
       />
     </ButtonGroup>

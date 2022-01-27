@@ -42,38 +42,17 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   }, [setSettings, settings]);
   const intl = useIntl();
   return (
-    // <ButtonGroup {...props} colorScheme="blackAlpha" variant="ghost">
-    //   <IconButton
-    //     size={size}
-    //     isRound
-    //     color="#838383"
-    //     fontSize="xl"
-    //     icon={<RiSubtractLine />}
-    //     aria-label={intl.formatMessage({ id: "zoom-out-action" })}
-    //     onClick={handleZoomOut}
-    //   />
-    //   <IconButton
-    //     size={size}
-    //     isRound
-    //     color="#838383"
-    //     fontSize="xl"
-    //     icon={<RiAddLine />}
-    //     aria-label={intl.formatMessage({ id: "zoom-in-action" })}
-    //     onClick={handleZoomIn}
-    //   />
-    // </ButtonGroup>
-
     <ButtonGroup {...props} isAttached colorScheme="gray" variant="zoom">
       <IconButton
         size={size}
         isRound
-        borderLeft="1px"
-        borderLeftColor="gray.10"
         icon={<RiZoomOutLine />}
         aria-label={intl.formatMessage({ id: "zoom-out-action" })}
         onClick={handleZoomOut}
       />
       <IconButton
+        borderLeft="1px"
+        borderLeftColor="gray.10"
         size={size}
         isRound
         icon={<RiZoomInLine />}
