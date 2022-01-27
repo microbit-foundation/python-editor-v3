@@ -4,19 +4,21 @@
  * SPDX-License-Identifier: MIT
  */
 import { Divider, Link, Stack, Text, TextProps } from "@chakra-ui/react";
-import { useRouterState } from "../../router-hooks";
+import { RouterState, toUrl } from "../../router-hooks";
 import { Extract, Result } from "./common";
 
 interface SearchResultListProps {
   title: string;
   results: Result[];
-  onClose: () => void;
+  viewedResults: string[];
+  onViewResult: (id: string, navigation: RouterState) => void;
 }
 
 const SearchResultList = ({
   title,
   results,
-  onClose,
+  viewedResults,
+  onViewResult,
 }: SearchResultListProps) => {
   return (
     <Stack spacing={2}>
@@ -24,7 +26,12 @@ const SearchResultList = ({
         {title}
       </Text>
       {results.map((result) => (
-        <SearchResultItem key={result.id} value={result} onClose={onClose} />
+        <SearchResultItem
+          key={result.id}
+          value={result}
+          viewedResults={viewedResults}
+          onViewResult={onViewResult}
+        />
       ))}
       {results.length === 0 && (
         <Text as="h2" fontSize="sm" px={8}>
@@ -37,38 +44,45 @@ const SearchResultList = ({
 
 interface SearchResultItemProps {
   value: Result;
-  onClose: () => void;
+  viewedResults: string[];
+  onViewResult: (id: string, navigation: RouterState) => void;
 }
 
 const SearchResultItem = ({
-  value: { extract, navigation, containerTitle, title },
-  onClose,
+  value: { extract, navigation, containerTitle, title, id },
+  viewedResults,
+  onViewResult,
 }: SearchResultItemProps) => {
-  const [, setState] = useRouterState();
+  const url = toUrl(navigation);
+
   return (
-    <Stack>
-      <Stack px={8} py={2} spacing={0}>
-        {title !== containerTitle && (
-          <Text fontSize="sm" color="gray.600" fontWeight="bold">
-            {containerTitle}
-          </Text>
-        )}
-        <Link
-          onClick={(e) => {
-            e.preventDefault();
-            onClose();
-            setState(navigation);
-          }}
-        >
+    <Stack pl="3px" pr="3px">
+      <Link
+        bgColor={viewedResults.includes(id) ? "#efedf5" : "unset"}
+        borderRadius="md"
+        href={url}
+        onClick={(e) => {
+          e.preventDefault();
+          onViewResult(id, navigation);
+        }}
+        _hover={{ textDecor: "none", bgColor: "brand.100" }}
+        _focus={{ bgColor: "brand.100" }}
+      >
+        <Stack px={8} py={2} spacing={0}>
+          {title !== containerTitle && (
+            <Text fontSize="sm" color="gray.600" fontWeight="bold">
+              {containerTitle}
+            </Text>
+          )}
           <ExtractText
             extract={extract.title}
             as="h3"
             fontWeight="semibold"
             fontSize="lg"
           />
-        </Link>
-        <ExtractText extract={extract.content} />
-      </Stack>
+          <ExtractText extract={extract.content} />
+        </Stack>
+      </Link>
       <Divider borderWidth="1px" color="gray.400" />
     </Stack>
   );

@@ -11,6 +11,7 @@ export interface Toolkit {
   name: string;
   description: string;
   contents?: ToolkitTopic[];
+  language: string;
 }
 
 type Product = "microbitV1" | "microbitV2";

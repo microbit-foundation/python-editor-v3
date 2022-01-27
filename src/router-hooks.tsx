@@ -80,6 +80,18 @@ export const useRouterState = (): RouterContextValue => {
   return value;
 };
 
+export const toUrl = (state: RouterState): string => {
+  const query = Object.entries(state)
+    .filter(([_, v]) => !!v)
+    .map(([k, v]) => {
+      return `${encodeURIComponent(k)}=${encodeURIComponent(
+        serializeValue(v)
+      )}`;
+    })
+    .join("&");
+  return window.location.toString().split("?")[0] + (query ? "?" + query : "");
+};
+
 const serializeValue = (value: Anchor | string) =>
   typeof value === "string" ? value : value.id;
 
@@ -99,16 +111,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   }, [setState]);
   const navigate = useCallback(
     (newState: RouterState) => {
-      const query = Object.entries(newState)
-        .filter(([_, v]) => !!v)
-        .map(([k, v]) => {
-          return `${encodeURIComponent(k)}=${encodeURIComponent(
-            serializeValue(v)
-          )}`;
-        })
-        .join("&");
-      const url =
-        window.location.toString().split("?")[0] + (query ? "?" + query : "");
+      const url = toUrl(newState);
       window.history.pushState(newState, "", url);
 
       setState(newState);

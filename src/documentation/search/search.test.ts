@@ -3,8 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { ApiDocsResponse } from "../../language-server/apidocs";
+import { Toolkit } from "../explore/model";
 import { IndexMessage } from "./common";
-import { SearchableContent, buildSearchIndex, SearchWorker } from "./search";
+import {
+  SearchableContent,
+  buildSearchIndex,
+  SearchWorker,
+  buildToolkitIndex,
+} from "./search";
 
 const searchableExploreContent: SearchableContent[] = [
   {
@@ -114,6 +121,39 @@ describe("Search", () => {
   });
 });
 
+describe("buildToolkitIndex", () => {
+  it("uses language from the toolkit for the Explore index", async () => {
+    const reference: ApiDocsResponse = {};
+    const toolkitEn: Toolkit = {
+      id: "explore",
+      description: "description",
+      language: "en",
+      name: "Explore",
+      contents: [
+        {
+          name: "that is a stopword (literally)",
+          compatibility: ["microbitV1", "microbitV2"],
+          slug: { _type: "slug", current: "topic" },
+          subtitle: "Topic subtitle",
+        },
+      ],
+    };
+    const toolkitFr: Toolkit = {
+      ...toolkitEn,
+      language: "fr",
+    };
+    const enIndex = await buildToolkitIndex(toolkitEn, reference);
+    expect(enIndex.search("topic").explore.length).toEqual(1);
+    // "that" is an English stopword
+    expect(enIndex.search("that").explore.length).toEqual(0);
+
+    const frIndex = await buildToolkitIndex(toolkitFr, reference);
+    expect(frIndex.search("topic").explore.length).toEqual(1);
+    // "that" is not a French stopword
+    expect(frIndex.search("that").explore.length).toEqual(1);
+  });
+});
+
 describe("SearchWorker", () => {
   it("blocks queries on initialization", async () => {
     const postMessage = jest.fn();
@@ -142,6 +182,7 @@ describe("SearchWorker", () => {
         description: "Explore stuff",
         name: "Explore",
         contents: [],
+        language: "en",
       },
       reference: {},
     };
@@ -172,6 +213,7 @@ describe("SearchWorker", () => {
         description: "Explore stuff",
         name: "Explore",
         contents: [],
+        language: "en",
       },
       reference: {},
     };
@@ -189,12 +231,13 @@ describe("SearchWorker", () => {
             compatibility: [],
           },
         ],
+        language: "en",
       },
       reference: {},
     };
 
     const queryHello = async () => {
-      ctx.onmessage!(
+      return ctx.onmessage!(
         new MessageEvent("message", {
           data: {
             kind: "query",
@@ -202,15 +245,14 @@ describe("SearchWorker", () => {
           },
         })
       );
-      await new Promise((resolve) => setTimeout(resolve, 0));
     };
-    ctx.onmessage!(
+    await ctx.onmessage!(
       new MessageEvent("message", {
         data: emptyIndex,
       })
     );
     await queryHello();
-    ctx.onmessage!(
+    await ctx.onmessage!(
       new MessageEvent("message", {
         data: fullIndex,
       })
