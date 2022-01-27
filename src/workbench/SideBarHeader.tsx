@@ -26,7 +26,6 @@ import { topBarHeight } from "../deployment/misc";
 import { SearchResults } from "../documentation/search/common";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
-import { flags } from "../flags";
 import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
@@ -118,39 +117,37 @@ const SideBarHeader = () => {
     <>
       {/* Empty box used to calculate width only. */}
       <Box ref={sidebarWidth}></Box>
-      {flags.search && (
-        <Modal
-          isOpen={searchModal.isOpen}
-          onClose={searchModal.onClose}
-          size="lg"
-        >
-          <ModalOverlay>
-            <ModalContent
-              mt={3.5}
-              ml={offset + "px"}
-              width={width}
-              containerProps={{
-                justifyContent: "flex-start",
-              }}
-              p={1}
-              borderRadius="20px"
-              maxWidth="unset"
-              maxHeight="unset"
-            >
-              <ModalBody p={0}>
-                <SearchDialog
-                  results={results}
-                  query={query}
-                  onQueryChange={handleQueryChange}
-                  onClear={handleClear}
-                  viewedResults={viewedResults}
-                  onViewResult={handleViewResult}
-                />
-              </ModalBody>
-            </ModalContent>
-          </ModalOverlay>
-        </Modal>
-      )}
+      <Modal
+        isOpen={searchModal.isOpen}
+        onClose={searchModal.onClose}
+        size="lg"
+      >
+        <ModalOverlay>
+          <ModalContent
+            mt={3.5}
+            ml={offset + "px"}
+            width={width}
+            containerProps={{
+              justifyContent: "flex-start",
+            }}
+            p={1}
+            borderRadius="20px"
+            maxWidth="unset"
+            maxHeight="unset"
+          >
+            <ModalBody p={0}>
+              <SearchDialog
+                results={results}
+                query={query}
+                onQueryChange={handleQueryChange}
+                onClear={handleClear}
+                viewedResults={viewedResults}
+                onViewResult={handleViewResult}
+              />
+            </ModalBody>
+          </ModalContent>
+        </ModalOverlay>
+      </Modal>
       <Flex
         ref={ref}
         backgroundColor="brand.500"
@@ -180,7 +177,7 @@ const SideBarHeader = () => {
             )}
           </HStack>
         </Link>
-        {flags.search && !query && (
+        {!query && (
           <Button
             aria-label={intl.formatMessage({ id: "search-open" })}
             onClick={searchModal.onOpen}
@@ -199,7 +196,7 @@ const SideBarHeader = () => {
             {intl.formatMessage({ id: "search" })}
           </Button>
         )}
-        {flags.search && query && (
+        {query && (
           <Flex
             backgroundColor="white"
             borderRadius="3xl"

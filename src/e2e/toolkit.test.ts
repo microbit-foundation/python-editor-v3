@@ -6,9 +6,7 @@
 import { App } from "./app";
 
 describe("Browser - toolkit tabs", () => {
-  const app = new App({
-    flags: ["search"],
-  });
+  const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
