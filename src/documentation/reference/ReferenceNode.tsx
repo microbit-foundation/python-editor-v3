@@ -81,14 +81,9 @@ const ReferenceNode = ({
         }}
         fontSize="sm"
         spacing={3}
-        pt={
-          parentType !== "class" ? kindToSpacing[kind] : kindToSpacing[kind] - 1
-        }
-        pb={
-          parentType !== "class"
-            ? kindToSpacing[kind] - 1
-            : kindToSpacing[kind] - 2
-        }
+        // Reduce padding inside a class.
+        pt={kindToSpacing[kind] - (parentType === "class" ? 1 : 0)}
+        pb={kindToSpacing[kind] - (parentType === "class" ? 2 : 1)}
         pl={5}
         pr={3}
         mt={1}
