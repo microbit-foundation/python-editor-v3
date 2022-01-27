@@ -80,44 +80,10 @@ describe("Search", () => {
     ]);
   });
 
-  it("ignores stop words", () => {
-    expect(search.search("infinite while")).toEqual([
-      {
-        title: "While loops: infinite",
-        containerTitle: "Loops",
-        id: "while-loops-infinite",
-        navigation: {
-          tab: "explore",
-          explore: { id: "while-loops-infinite" },
-        },
-        extract: {
-          title: [
-            {
-              extract: "While loops: ",
-              type: "text",
-            },
-            {
-              extract: "infinite",
-              type: "match",
-            },
-          ],
-          content: [
-            {
-              extract: "…often use ",
-              type: "text",
-            },
-            {
-              extract: "infinite",
-              type: "match",
-            },
-            {
-              extract: " loops to …",
-              type: "text",
-            },
-          ],
-        },
-      },
-    ]);
+  it("ignores stop words except Python ones", () => {
+    expect(search.search("which").length).toEqual(0);
+
+    expect(search.search("while").length).toEqual(2);
   });
 });
 

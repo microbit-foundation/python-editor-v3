@@ -22,6 +22,25 @@ import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 import stemmerSupport from "lunr-languages/lunr.stemmer.support";
 stemmerSupport(lunr);
 
+const ignoredPythonStopWords = new Set([
+  // Sorted.
+  "and",
+  "else",
+  "for",
+  "if",
+  "not",
+  "or",
+  "while",
+]);
+const originalStopWordFilter = lunr.stopWordFilter;
+lunr.stopWordFilter = (token) => {
+  if (ignoredPythonStopWords.has(token.toString())) {
+    return token;
+  }
+  return originalStopWordFilter(token);
+};
+lunr.Pipeline.registerFunction(lunr.stopWordFilter, "pythonStopWordFilter");
+
 interface Metadata {
   [match: string]: MatchMetadata;
 }
