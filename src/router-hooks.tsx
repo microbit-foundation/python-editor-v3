@@ -80,8 +80,8 @@ export const useRouterState = (): RouterContextValue => {
   return value;
 };
 
-export const getQueryString = (newState: RouterState): string => {
-  return Object.entries(newState)
+export const toUrl = (state: RouterState): string => {
+  const query = Object.entries(state)
     .filter(([_, v]) => !!v)
     .map(([k, v]) => {
       return `${encodeURIComponent(k)}=${encodeURIComponent(
@@ -89,9 +89,6 @@ export const getQueryString = (newState: RouterState): string => {
       )}`;
     })
     .join("&");
-};
-
-export const toUrl = (query: string, state: RouterState): string => {
   return window.location.toString().split("?")[0] + (query ? "?" + query : "");
 };
 
@@ -114,7 +111,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   }, [setState]);
   const navigate = useCallback(
     (newState: RouterState) => {
-      const url = toUrl(getQueryString(newState), newState);
+      const url = toUrl(newState);
       window.history.pushState(newState, "", url);
 
       setState(newState);
