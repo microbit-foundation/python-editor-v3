@@ -26,6 +26,7 @@ import { SearchResults } from "../documentation/search/common";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { flags } from "../flags";
+import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,8 +36,10 @@ const SideBarHeader = () => {
   const searchModal = useDisclosure();
   const search = useSearch();
   const [query, setQuery] = useState("");
+  const [, setRouterState] = useRouterState();
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
+  const [viewedResults, setViewedResults] = useState<string[]>([]);
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -72,13 +75,26 @@ const SideBarHeader = () => {
         } else {
           setResults(undefined);
         }
+        setViewedResults([]);
       },
       [search, isUnmounted]
     );
   const handleClear = useCallback(() => {
     setQuery("");
     setResults(undefined);
+    setViewedResults([]);
   }, [setQuery, setResults]);
+
+  const handleViewResult = useCallback(
+    (id: string, navigation: RouterState) => {
+      if (!viewedResults.includes(id)) {
+        setViewedResults([...viewedResults, id]);
+      }
+      searchModal.onClose();
+      setRouterState(navigation);
+    },
+    [setViewedResults, viewedResults, searchModal, setRouterState]
+  );
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const sidebarWidth = useRef<HTMLDivElement>(null);
   const offset = faceLogoRef.current
@@ -87,6 +103,7 @@ const SideBarHeader = () => {
   const width = sidebarWidth.current
     ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
     : undefined;
+
   return (
     <>
       {/* Empty box used to calculate width only. */}
@@ -112,11 +129,12 @@ const SideBarHeader = () => {
             >
               <ModalBody p={0}>
                 <SearchDialog
-                  onClose={searchModal.onClose}
                   results={results}
                   query={query}
                   onQueryChange={handleQueryChange}
                   onClear={handleClear}
+                  viewedResults={viewedResults}
+                  onViewResult={handleViewResult}
                 />
               </ModalBody>
             </ModalContent>

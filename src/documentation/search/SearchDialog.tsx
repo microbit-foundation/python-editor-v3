@@ -16,23 +16,26 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RouterState } from "../../router-hooks";
 import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
 
 interface SearchDialogProps {
-  onClose: () => void;
   results: SearchResults | undefined;
   query: string;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
   onClear: () => void;
+  viewedResults: string[];
+  onViewResult: (id: string, navigation: RouterState) => void;
 }
 
 const SearchDialog = ({
-  onClose,
   results,
   query,
   onQueryChange,
   onClear,
+  viewedResults,
+  onViewResult,
 }: SearchDialogProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const handleClear = useCallback(() => {
@@ -66,18 +69,20 @@ const SearchDialog = ({
               color: "gray.600",
             }}
           />
-          <InputRightElement>
-            <IconButton
-              fontSize="2xl"
-              isRound={false}
-              variant="ghost"
-              aria-label="Clear"
-              // Also used for Zoom, move to theme.
-              color="#838383"
-              icon={<RiCloseLine />}
-              onClick={handleClear}
-            />
-          </InputRightElement>
+          {query && (
+            <InputRightElement>
+              <IconButton
+                fontSize="2xl"
+                isRound={false}
+                variant="ghost"
+                aria-label="Clear"
+                // Also used for Zoom, move to theme.
+                color="#838383"
+                icon={<RiCloseLine />}
+                onClick={handleClear}
+              />
+            </InputRightElement>
+          )}
         </InputGroup>
       </Box>
       {results && (
@@ -97,12 +102,14 @@ const SearchDialog = ({
             <SearchResultList
               title="Explore"
               results={results.explore}
-              onClose={onClose}
+              viewedResults={viewedResults}
+              onViewResult={onViewResult}
             />
             <SearchResultList
               title="Reference"
               results={results.reference}
-              onClose={onClose}
+              viewedResults={viewedResults}
+              onViewResult={onViewResult}
             />
           </Stack>
         </Box>
