@@ -16,21 +16,20 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RouterState } from "../../router-hooks";
 import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
 
 interface SearchDialogProps {
-  onClose: () => void;
   results: SearchResults | undefined;
   query: string;
   onQueryChange: React.ChangeEventHandler<HTMLInputElement>;
   onClear: () => void;
   viewedResults: string[];
-  onViewResult: (id: string) => void;
+  onViewResult: (id: string, navigation: RouterState) => void;
 }
 
 const SearchDialog = ({
-  onClose,
   results,
   query,
   onQueryChange,
@@ -103,14 +102,12 @@ const SearchDialog = ({
             <SearchResultList
               title="Explore"
               results={results.explore}
-              onClose={onClose}
               viewedResults={viewedResults}
               onViewResult={onViewResult}
             />
             <SearchResultList
               title="Reference"
               results={results.reference}
-              onClose={onClose}
               viewedResults={viewedResults}
               onViewResult={onViewResult}
             />

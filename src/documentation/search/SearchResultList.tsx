@@ -4,21 +4,19 @@
  * SPDX-License-Identifier: MIT
  */
 import { Divider, Link, Stack, Text, TextProps } from "@chakra-ui/react";
-import { getQueryString, useRouterState } from "../../router-hooks";
+import { getQueryString, RouterState } from "../../router-hooks";
 import { Extract, Result } from "./common";
 
 interface SearchResultListProps {
   title: string;
   results: Result[];
-  onClose: () => void;
   viewedResults: string[];
-  onViewResult: (id: string) => void;
+  onViewResult: (id: string, navigation: RouterState) => void;
 }
 
 const SearchResultList = ({
   title,
   results,
-  onClose,
   viewedResults,
   onViewResult,
 }: SearchResultListProps) => {
@@ -31,7 +29,6 @@ const SearchResultList = ({
         <SearchResultItem
           key={result.id}
           value={result}
-          onClose={onClose}
           viewedResults={viewedResults}
           onViewResult={onViewResult}
         />
@@ -47,18 +44,15 @@ const SearchResultList = ({
 
 interface SearchResultItemProps {
   value: Result;
-  onClose: () => void;
   viewedResults: string[];
-  onViewResult: (id: string) => void;
+  onViewResult: (id: string, navigation: RouterState) => void;
 }
 
 const SearchResultItem = ({
   value: { extract, navigation, containerTitle, title, id },
-  onClose,
   viewedResults,
   onViewResult,
 }: SearchResultItemProps) => {
-  const [, setState] = useRouterState();
   const query = getQueryString(navigation);
   const url =
     window.location.toString().split("?")[0] + (query ? "?" + query : "");
@@ -71,9 +65,7 @@ const SearchResultItem = ({
         href={url}
         onClick={(e) => {
           e.preventDefault();
-          onClose();
-          setState(navigation);
-          onViewResult(id);
+          onViewResult(id, navigation);
         }}
         _hover={{ textDecor: "none", bgColor: "brand.100" }}
         _focus={{ bgColor: "brand.100" }}

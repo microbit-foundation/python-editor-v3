@@ -26,6 +26,7 @@ import { SearchResults } from "../documentation/search/common";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { flags } from "../flags";
+import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,6 +36,7 @@ const SideBarHeader = () => {
   const searchModal = useDisclosure();
   const search = useSearch();
   const [query, setQuery] = useState("");
+  const [, setRouterState] = useRouterState();
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
@@ -84,12 +86,14 @@ const SideBarHeader = () => {
   }, [setQuery, setResults]);
 
   const handleViewResult = useCallback(
-    (id: string) => {
+    (id: string, navigation: RouterState) => {
       if (!viewedResults.includes(id)) {
         setViewedResults([...viewedResults, id]);
       }
+      searchModal.onClose();
+      setRouterState(navigation);
     },
-    [setViewedResults, viewedResults]
+    [setViewedResults, viewedResults, searchModal, setRouterState]
   );
   // Width of the sidebar tabs. Perhaps we can restructure the DOM?
   const sidebarWidth = useRef<HTMLDivElement>(null);
@@ -125,7 +129,6 @@ const SideBarHeader = () => {
             >
               <ModalBody p={0}>
                 <SearchDialog
-                  onClose={searchModal.onClose}
                   results={results}
                   query={query}
                   onQueryChange={handleQueryChange}
