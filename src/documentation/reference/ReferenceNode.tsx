@@ -38,13 +38,6 @@ const kindToHeading: Record<string, any> = {
   function: "h4",
 };
 
-const kindToSpacing: Record<string, any> = {
-  module: 5,
-  class: 5,
-  variable: 3,
-  function: 3,
-};
-
 export const classToInstanceMap: Record<string, string> = {
   Button: "button_a",
   MicroBitDigitalPin: "pin0",
@@ -59,7 +52,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
 }
 
 const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
-  const { id, kind } = docs;
+  const { id } = docs;
 
   // Numeric suffixes are used for overrides but links may omit them when
   // a specific override is not known and we should match the first only.
@@ -77,7 +70,7 @@ const ReferenceNode = ({ anchor, docs, ...props }: ApiDocEntryNodeProps) => {
         fontSize="sm"
         spacing={3}
         p={5}
-        pb={3}
+        pb={4}
         pr={3}
         mt={1}
         mb={1}
