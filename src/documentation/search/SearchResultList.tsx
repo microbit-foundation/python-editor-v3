@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Divider, Link, Stack, Text, TextProps } from "@chakra-ui/react";
-import { getQueryString, RouterState } from "../../router-hooks";
+import { getQueryString, RouterState, toUrl } from "../../router-hooks";
 import { Extract, Result } from "./common";
 
 interface SearchResultListProps {
@@ -53,9 +53,7 @@ const SearchResultItem = ({
   viewedResults,
   onViewResult,
 }: SearchResultItemProps) => {
-  const query = getQueryString(navigation);
-  const url =
-    window.location.toString().split("?")[0] + (query ? "?" + query : "");
+  const url = toUrl(getQueryString(navigation), navigation);
 
   return (
     <Stack pl="3px" pr="3px">

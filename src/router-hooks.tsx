@@ -91,6 +91,10 @@ export const getQueryString = (newState: RouterState): string => {
     .join("&");
 };
 
+export const toUrl = (query: string, state: RouterState): string => {
+  return window.location.toString().split("?")[0] + (query ? "?" + query : "");
+};
+
 const serializeValue = (value: Anchor | string) =>
   typeof value === "string" ? value : value.id;
 
@@ -110,9 +114,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   }, [setState]);
   const navigate = useCallback(
     (newState: RouterState) => {
-      const query = getQueryString(newState);
-      const url =
-        window.location.toString().split("?")[0] + (query ? "?" + query : "");
+      const url = toUrl(getQueryString(newState), newState);
       window.history.pushState(newState, "", url);
 
       setState(newState);
