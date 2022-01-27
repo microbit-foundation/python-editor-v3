@@ -14,6 +14,9 @@ export interface Language {
   enName: string;
 }
 
+// When we add languages we need to update the toolkit search indexing,
+// which will require the dynamic import of a new language plugin for lunr.
+// See search.ts.
 export const supportedLanguages: Language[] = [
   {
     id: "en",
