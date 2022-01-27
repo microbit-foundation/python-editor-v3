@@ -168,7 +168,7 @@ const SideBarHeader = () => {
             pl={3}
             pr={20}
           >
-            Search
+            {intl.formatMessage({ id: "search" })}
           </Button>
         )}
         {flags.search && query && (
