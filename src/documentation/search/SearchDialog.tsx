@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import { RouterState } from "../../router-hooks";
 import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
@@ -37,6 +38,7 @@ const SearchDialog = ({
   viewedResults,
   onViewResult,
 }: SearchDialogProps) => {
+  const intl = useIntl();
   const ref = useRef<HTMLInputElement>(null);
   const handleClear = useCallback(() => {
     onClear();
@@ -54,14 +56,14 @@ const SearchDialog = ({
             children={<RiSearch2Line color="gray.800" />}
           />
           <Input
-            aria-label="Search"
+            aria-label={intl.formatMessage({ id: "search" })}
             ref={ref}
             value={query}
             onChange={onQueryChange}
             type="text"
             outline="none"
             border="none"
-            placeholder="Documentation search"
+            placeholder={intl.formatMessage({ id: "search-documentation" })}
             fontSize="lg"
             // Needs some thought, the default breaks the design.
             _focus={{}}
@@ -75,7 +77,7 @@ const SearchDialog = ({
                 fontSize="2xl"
                 isRound={false}
                 variant="ghost"
-                aria-label="Clear"
+                aria-label={intl.formatMessage({ id: "clear" })}
                 // Also used for Zoom, move to theme.
                 color="#838383"
                 icon={<RiCloseLine />}

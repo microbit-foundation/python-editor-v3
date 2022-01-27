@@ -95,6 +95,10 @@
     "defaultMessage": "Replace main code with {source}",
     "description": "Shown in load dialog to confirm actions"
   },
+  "clear": {
+    "defaultMessage": "Clear",
+    "description": "Aria label for the search input"
+  },
   "close-action": {
     "defaultMessage": "Close",
     "description": "Close button text"
@@ -410,6 +414,18 @@
   "replace-action-label": {
     "defaultMessage": "Replace",
     "description": "Action label for replacing project dialog"
+  },
+  "search": {
+    "defaultMessage": "Search",
+    "description": "Aria label for searching documentation"
+  },
+  "search-documentation": {
+    "defaultMessage": "Documentation search",
+    "description": "Placeholder for search input"
+  },
+  "search-open": {
+    "defaultMessage": "Open search",
+    "description": "Aria label for button opening the search dialog"
   },
   "serial-collapse": {
     "defaultMessage": "Hide serial",
