@@ -28,6 +28,7 @@ const ignoredPythonStopWords = new Set([
   "else",
   "for",
   "if",
+  "not",
   "or",
   "while",
 ]);
