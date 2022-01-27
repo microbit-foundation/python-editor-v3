@@ -48,10 +48,15 @@ _steps:
         libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
         libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
         fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+  serve-review: &serve
+    run:
+      name: Serve files for e2e tests (review)
+      command: mkdir /tmp/app && cp -r build /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app
+      background: true
   serve: &serve
     run:
       name: Serve files for e2e tests
-      command: mkdir /tmp/app && cp -r build /tmp/app${PUBLIC_URL:-/} && npx serve --no-clipboard -l 3000 /tmp/app
+      command: npm run serve
       background: true
   serve-wait: &serve-wait
     run:
@@ -112,7 +117,7 @@ jobs:
       - *deploy
       - *invalidate
       - *chrome-deps
-      - *serve
+      - *serve-review
       - *serve-wait
       - *e2e
       - *store_reports
