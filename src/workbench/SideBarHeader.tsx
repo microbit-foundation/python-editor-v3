@@ -154,7 +154,7 @@ const SideBarHeader = () => {
         </Link>
         {flags.search && !query && (
           <Button
-            aria-label="Open search"
+            aria-label={intl.formatMessage({ id: "search-open" })}
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"
@@ -196,7 +196,7 @@ const SideBarHeader = () => {
               {query}
             </Button>
             <IconButton
-              aria-label="Clear"
+              aria-label={intl.formatMessage({ id: "clear" })}
               backgroundColor="white"
               // Also used for Zoom, move to theme.
               color="#838383"
