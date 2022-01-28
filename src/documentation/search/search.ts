@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 import lunr from "lunr";
-import { blocksToText } from "./blocks-to-text";
+import stemmerSupport from "lunr-languages/lunr.stemmer.support";
 import type {
   ApiDocsEntry,
   ApiDocsResponse,
 } from "../../language-server/apidocs";
 import type { Toolkit, ToolkitTopic } from "../explore/model";
+import { blocksToText } from "./blocks-to-text";
 import {
   Extracts,
   IndexMessage,
@@ -19,7 +20,6 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
-import stemmerSupport from "lunr-languages/lunr.stemmer.support";
 stemmerSupport(lunr);
 
 const ignoredPythonStopWords = new Set([
@@ -143,28 +143,29 @@ const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
         id: t.slug.current,
         title: t.name,
         containerTitle: t.name,
-        content: t.subtitle + ".\n\n" + blocksToText(t.introduction),
+        content: t.subtitle + ". " + blocksToText(t.introduction),
       });
     }
     t.contents?.forEach((e) => {
-      const contentString = blocksToText(e.content);
-      const detailContentString = blocksToText(e.detailContent);
-      const alternativesLabel = "\n\n" + defaultString(e.alternativesLabel);
-      const alternatives =
-        "\n\n" + defaultString(e.alternatives?.map((a) => a.name).join(" "));
       content.push({
         id: e.slug.current,
         title: e.name,
         containerTitle: t.name,
-        content:
-          contentString +
-          alternativesLabel +
-          alternatives +
-          detailContentString,
+        content: [
+          blocksToText(e.content),
+          blocksToText(e.detailContent),
+          defaultString(e.alternativesLabel),
+          defaultString(e.alternatives?.map((a) => a.name).join(", ")),
+        ].join(" "),
       });
     });
   });
   return content;
+};
+
+const firstParagraph = (text: string): string => {
+  const parts = text.split(/\n{2,}/g);
+  return parts[0];
 };
 
 const referenceSearchableContent = (
@@ -180,7 +181,7 @@ const referenceSearchableContent = (
         id: c.id,
         title: c.fullName.substring(moduleName.length + 1),
         containerTitle: moduleName,
-        content: defaultString(c.docString),
+        content: firstParagraph(defaultString(c.docString)),
       });
       addNestedDocs(moduleName, c.children);
     });
@@ -190,7 +191,7 @@ const referenceSearchableContent = (
       id: module.id,
       title: module.fullName,
       containerTitle: module.fullName,
-      content: defaultString(module.docString),
+      content: firstParagraph(defaultString(module.docString)),
     });
     addNestedDocs(module.fullName, module.children);
   }

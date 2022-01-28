@@ -29,8 +29,8 @@ export interface Result {
 }
 
 export interface Extract {
-  extract: string;
   type: "text" | "match";
+  extract: string;
 }
 
 export interface Extracts {
