@@ -13,6 +13,7 @@ import React, {
   useContext,
   useState,
 } from "react";
+import { undo, redo } from "@codemirror/history";
 import { calculateChanges } from "./codemirror/edits";
 
 type ActiveEditorState = [
@@ -50,6 +51,12 @@ export class ActiveEditorActions {
   insertCode = (code: string): void => {
     this.view.dispatch(calculateChanges(this.view.state, code, "example"));
     this.view.focus();
+  };
+  undo = () => {
+    undo(this.view);
+  };
+  redo = () => {
+    redo(this.view);
   };
 }
 
