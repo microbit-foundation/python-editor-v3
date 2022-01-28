@@ -168,7 +168,7 @@ const Code = forwardRef<CodeProps, "pre">(
   ({ concise, full, highlightDragHandle, ...props }: CodeProps, ref) => {
     const dragImage = useMemo(() => {
       const img = new Image();
-      img.src = "/logo192.png";
+      img.src = "/python.svg";
       return img;
     }, []);
     const handleDragStart = useCallback(
@@ -180,7 +180,7 @@ const Code = forwardRef<CodeProps, "pre">(
           type: "example",
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
-        event.dataTransfer.setDragImage(dragImage, 0, 0);
+        event.dataTransfer.setDragImage(dragImage, -30, -20);
       },
       [full, dragImage]
     );

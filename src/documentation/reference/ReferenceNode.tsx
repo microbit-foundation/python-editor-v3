@@ -348,7 +348,7 @@ const DraggableSignature = ({
   const { fullName, kind, name } = docs;
   const dragImage = useMemo(() => {
     const img = new Image();
-    img.src = "/logo192.png";
+    img.src = "/python.svg";
     return img;
   }, []);
   const handleDragStart = useCallback(
@@ -358,7 +358,7 @@ const DraggableSignature = ({
       const context = getDragContext(fullName, kind);
       setDragContext(context);
       event.dataTransfer.setData(pythonSnippetMediaType, context.code);
-      event.dataTransfer.setDragImage(dragImage, 0, 0);
+      event.dataTransfer.setDragImage(dragImage, -30, -20);
     },
     [fullName, kind, dragImage]
   );
