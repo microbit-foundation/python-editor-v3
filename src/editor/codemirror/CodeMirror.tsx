@@ -13,7 +13,11 @@ import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { useRouterState } from "../../router-hooks";
 import { WorkbenchSelection } from "../../workbench/use-selection";
-import { ActiveEditorActions, useActiveEditor } from "../active-editor-hooks";
+import {
+  ActiveEditorActions,
+  useActiveEditorActionsState,
+  useActiveEditorInfoState,
+} from "../active-editor-hooks";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
 import { languageServer } from "./language-server/view";
@@ -23,7 +27,6 @@ import {
   structureHighlightingCompartment,
 } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
-import { useUndoRedo } from "../../editor/undo-redo-hooks";
 
 interface CodeMirrorProps {
   className?: string;
@@ -52,21 +55,21 @@ const CodeMirror = ({
   codeStructureSettings,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
-  const [, setActiveEditor] = useActiveEditor();
+  const [, setActiveEditor] = useActiveEditorActionsState();
   const uri = createUri(selection.file);
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const client = useLanguageServerClient();
   const intl = useIntl();
-  const [, setUndoRedo] = useUndoRedo();
+  const [, setEditorInfo] = useActiveEditorInfoState();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
-    setUndoRedo({
+    setEditorInfo({
       undo: 0,
       redo: 0,
     });
-  }, [setUndoRedo]);
+  }, [setEditorInfo]);
 
   // Group the option props together to keep configuration updates simple.
   const options = useMemo(
@@ -83,7 +86,7 @@ const CodeMirror = ({
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           onChange(update.state.sliceDoc(0));
-          setUndoRedo({
+          setEditorInfo({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
           });
@@ -122,7 +125,7 @@ const CodeMirror = ({
     setActiveEditor,
     uri,
     intl,
-    setUndoRedo,
+    setEditorInfo,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.

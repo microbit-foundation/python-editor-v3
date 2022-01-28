@@ -6,14 +6,15 @@
 import { ButtonGroup, IconButton } from "@chakra-ui/react";
 import { RiArrowGoForwardLine, RiArrowGoBackLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { useActiveEditorActions } from "../editor/active-editor-hooks";
-import { useUndoRedo } from "../editor/undo-redo-hooks";
+import {
+  useActiveEditorActions,
+  useActiveEditorInfo,
+} from "../editor/active-editor-hooks";
 
 const UndoRedoControls = ({ ...props }) => {
   const intl = useIntl();
   const actions = useActiveEditorActions();
-  const [undoRedo] = useUndoRedo();
-  console.log(undoRedo);
+  const editorInfo = useActiveEditorInfo();
 
   return (
     <ButtonGroup
@@ -29,7 +30,7 @@ const UndoRedoControls = ({ ...props }) => {
         icon={<RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "undo" })}
         onClick={actions?.undo}
-        disabled={undoRedo.undo ? false : true}
+        disabled={editorInfo.undo ? false : true}
       />
       <IconButton
         isRound
@@ -38,7 +39,7 @@ const UndoRedoControls = ({ ...props }) => {
         icon={<RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "redo" })}
         onClick={actions?.redo}
-        disabled={undoRedo.redo ? false : true}
+        disabled={editorInfo.redo ? false : true}
       />
     </ButtonGroup>
   );
