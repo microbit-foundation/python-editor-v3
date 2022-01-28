@@ -346,6 +346,11 @@ const DraggableSignature = ({
   ...props
 }: DraggableSignatureProps) => {
   const { fullName, kind, name } = docs;
+  const dragImage = useMemo(() => {
+    const img = new Image();
+    img.src = "/logo192.png";
+    return img;
+  }, []);
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
       dndDebug("dragstart");
@@ -353,8 +358,9 @@ const DraggableSignature = ({
       const context = getDragContext(fullName, kind);
       setDragContext(context);
       event.dataTransfer.setData(pythonSnippetMediaType, context.code);
+      event.dataTransfer.setDragImage(dragImage, 0, 0);
     },
-    [fullName, kind]
+    [fullName, kind, dragImage]
   );
 
   const handleDragEnd = useCallback((event: React.DragEvent) => {

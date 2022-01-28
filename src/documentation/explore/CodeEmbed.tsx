@@ -166,6 +166,11 @@ interface CodeProps extends BoxProps {
 
 const Code = forwardRef<CodeProps, "pre">(
   ({ concise, full, highlightDragHandle, ...props }: CodeProps, ref) => {
+    const dragImage = useMemo(() => {
+      const img = new Image();
+      img.src = "/logo192.png";
+      return img;
+    }, []);
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
@@ -175,8 +180,9 @@ const Code = forwardRef<CodeProps, "pre">(
           type: "example",
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
+        event.dataTransfer.setDragImage(dragImage, 0, 0);
       },
-      [full]
+      [full, dragImage]
     );
     const handleDragEnd = useCallback((event: React.DragEvent) => {
       dndDebug("dragend");
