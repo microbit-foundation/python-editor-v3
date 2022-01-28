@@ -17,9 +17,9 @@ import { undo, redo } from "@codemirror/history";
 import { calculateChanges } from "./codemirror/edits";
 
 /**
- * Actions that operate on the active editor.
+ * Actions that operate on a CM editor.
  */
-export class ActiveEditorActions {
+export class EditorActions {
   constructor(private view: EditorView) {}
 
   /**
@@ -42,8 +42,8 @@ export class ActiveEditorActions {
 }
 
 type UseActiveEditorReturn = [
-  ActiveEditorActions | undefined,
-  Dispatch<SetStateAction<ActiveEditorActions | undefined>>
+  EditorActions | undefined,
+  Dispatch<SetStateAction<EditorActions | undefined>>
 ];
 
 const ActiveEditorActionsContext = React.createContext<
@@ -90,7 +90,7 @@ interface ActiveEditorProviderProps {
 export const ActiveEditorProvider = ({
   children,
 }: ActiveEditorProviderProps) => {
-  const actions = useState<ActiveEditorActions>();
+  const actions = useState<EditorActions>();
   return (
     <ActiveEditorActionsContext.Provider value={actions}>
       <ActiveEditorStateProvider>{children}</ActiveEditorStateProvider>
@@ -132,6 +132,6 @@ export const useActiveEditorInfo = (): EditorInfo => {
 /**
  * Actions that affect the current editor.
  */
-export const useActiveEditorActions = (): ActiveEditorActions | undefined => {
+export const useActiveEditorActions = (): EditorActions | undefined => {
   return useActiveEditorActionsState()?.[0];
 };

@@ -14,7 +14,7 @@ import { useLanguageServerClient } from "../../language-server/language-server-h
 import { useRouterState } from "../../router-hooks";
 import { WorkbenchSelection } from "../../workbench/use-selection";
 import {
-  ActiveEditorActions,
+  EditorActions,
   useActiveEditorActionsState,
   useActiveEditorInfoState,
 } from "../active-editor-hooks";
@@ -115,7 +115,7 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
-      setActiveEditor(new ActiveEditorActions(view));
+      setActiveEditor(new EditorActions(view));
     }
   }, [
     options,
