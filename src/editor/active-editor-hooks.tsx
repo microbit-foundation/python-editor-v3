@@ -13,7 +13,7 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { undo, redo } from "@codemirror/history";
+import { undo, redo, undoDepth, redoDepth } from "@codemirror/history";
 import { calculateChanges } from "./codemirror/edits";
 
 type ActiveEditorState = [
@@ -52,11 +52,17 @@ export class ActiveEditorActions {
     this.view.dispatch(calculateChanges(this.view.state, code, "example"));
     this.view.focus();
   };
-  undo = () => {
+  undo = (): void => {
     undo(this.view);
   };
-  redo = () => {
+  getUndoEventNum = (): number => {
+    return undoDepth(this.view.state);
+  };
+  redo = (): void => {
     redo(this.view);
+  };
+  getRedoEventNum = (): number => {
+    return redoDepth(this.view.state);
   };
 }
 
