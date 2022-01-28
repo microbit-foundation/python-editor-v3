@@ -799,6 +799,12 @@
       "value": "Lire plus"
     }
   ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "Redo"
+    }
+  ],
   "reference-description": [
     {
       "type": 0,
@@ -1091,6 +1097,12 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "Undo"
     }
   ],
   "unexpected-error-description": [

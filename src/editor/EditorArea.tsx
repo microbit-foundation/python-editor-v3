@@ -11,6 +11,7 @@ import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
 import ZoomControls from "../editor/ZoomControls";
+import UndoRedoControls from "./UndoRedoControls";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
@@ -63,6 +64,13 @@ const EditorArea = ({
         borderColor="gray.200"
       />
       <Box position="relative" flex="1 1 auto" height={0}>
+        <UndoRedoControls
+          display={["none", "none", "none", "flex"]}
+          zIndex="1"
+          top={6}
+          right={10}
+          position="absolute"
+        />
         <EditorContainer selection={selection} />
       </Box>
     </Flex>

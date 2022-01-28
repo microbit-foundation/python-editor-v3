@@ -402,6 +402,10 @@
     "defaultMessage": "Реад море",
     "description": "Action text to expand a collapsed section"
   },
+  "redo": {
+    "defaultMessage": "Redo",
+    "description": "Aria label for the redo button"
+  },
   "reference-description": {
     "defaultMessage": "Референсе досюментатіон фор місро:біт МісроПутхон",
     "description": "Description at the top of the Reference tab"
@@ -533,6 +537,10 @@
   "toolkit-view-documentation": {
     "defaultMessage": "Віев {name} досюментатіон",
     "description": "Aria label for the toolkit topic right arrow"
+  },
+  "undo": {
+    "defaultMessage": "Undo",
+    "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
     "defaultMessage": "Плеасе тру аджаін ор <link>раісе а сюппорт реквюест</link>",

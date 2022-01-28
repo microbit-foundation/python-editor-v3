@@ -6,13 +6,18 @@
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
+import { undoDepth, redoDepth } from "@codemirror/history";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { useRouterState } from "../../router-hooks";
 import { WorkbenchSelection } from "../../workbench/use-selection";
-import { ActiveEditorActions, useActiveEditor } from "../active-editor-hooks";
+import {
+  EditorActions,
+  useActiveEditorActionsState,
+  useActiveEditorInfoState,
+} from "../active-editor-hooks";
 import "./CodeMirror.css";
 import { editorConfig, themeExtensionsCompartment } from "./config";
 import { languageServer } from "./language-server/view";
@@ -50,12 +55,21 @@ const CodeMirror = ({
   codeStructureSettings,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
-  const [, setActiveEditor] = useActiveEditor();
+  const [, setActiveEditor] = useActiveEditorActionsState();
   const uri = createUri(selection.file);
   const elementRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const client = useLanguageServerClient();
   const intl = useIntl();
+  const [, setEditorInfo] = useActiveEditorInfoState();
+
+  // Reset undo/redo events on file change.
+  useEffect(() => {
+    setEditorInfo({
+      undo: 0,
+      redo: 0,
+    });
+  }, [setEditorInfo]);
 
   // Group the option props together to keep configuration updates simple.
   const options = useMemo(
@@ -72,6 +86,10 @@ const CodeMirror = ({
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           onChange(update.state.sliceDoc(0));
+          setEditorInfo({
+            undo: undoDepth(view.state),
+            redo: redoDepth(view.state),
+          });
         }
       });
       const state = EditorState.create({
@@ -97,9 +115,18 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
-      setActiveEditor(new ActiveEditorActions(view));
+      setActiveEditor(new EditorActions(view));
     }
-  }, [options, defaultValue, onChange, client, setActiveEditor, uri, intl]);
+  }, [
+    options,
+    defaultValue,
+    onChange,
+    client,
+    setActiveEditor,
+    uri,
+    intl,
+    setEditorInfo,
+  ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {

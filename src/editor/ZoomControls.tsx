@@ -10,7 +10,7 @@ import {
   ThemeTypings,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { RiAddLine, RiSubtractLine } from "react-icons/ri";
+import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
   fontSizeStep,
@@ -42,22 +42,20 @@ const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
   }, [setSettings, settings]);
   const intl = useIntl();
   return (
-    <ButtonGroup {...props} colorScheme="blackAlpha" variant="ghost">
+    <ButtonGroup {...props} isAttached colorScheme="gray" variant="zoom">
       <IconButton
         size={size}
         isRound
-        color="#838383"
-        fontSize="xl"
-        icon={<RiSubtractLine />}
+        icon={<RiZoomOutLine />}
         aria-label={intl.formatMessage({ id: "zoom-out-action" })}
         onClick={handleZoomOut}
       />
       <IconButton
+        borderLeft="1px"
+        borderLeftColor="gray.10"
         size={size}
         isRound
-        color="#838383"
-        fontSize="xl"
-        icon={<RiAddLine />}
+        icon={<RiZoomInLine />}
         aria-label={intl.formatMessage({ id: "zoom-in-action" })}
         onClick={handleZoomIn}
       />
