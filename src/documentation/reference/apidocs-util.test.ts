@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ApiDocsResponse } from "../language-server/apidocs";
+import { ApiDocsResponse } from "../../language-server/apidocs";
 import { pullModulesToTop, resolveDottedName } from "./apidocs-util";
 
 describe("pullModulesToTop", () => {

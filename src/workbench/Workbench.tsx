@@ -115,7 +115,7 @@ const Workbench = () => {
             <ProjectActionBar
               as="section"
               aria-label={intl.formatMessage({ id: "project-actions" })}
-              borderTopWidth={1}
+              borderTopWidth={2}
               borderColor="gray.200"
             />
           </Flex>

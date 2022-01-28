@@ -58,6 +58,15 @@ describe("Browser - toolkit tabs", () => {
     const expected =
       "from microbit import *\n\n\ndisplay.scroll('score')    \ndisplay.scroll(23)\n#1\n#2\n#3\n";
 
-    expect(await app.findVisibleEditorContents(expected));
+    await app.findVisibleEditorContents(expected);
+  });
+
+  it("Searches and navigates to the first result", async () => {
+    await app.searchToolkits("loop");
+    await app.selectFirstSearchResult();
+    await app.findToolkitTopLevelHeading(
+      "Loops",
+      "Count and repeat sets of instructions"
+    );
   });
 });

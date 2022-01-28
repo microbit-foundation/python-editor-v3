@@ -11,18 +11,29 @@ import { stage } from "../environment";
 export interface Language {
   id: string;
   name: string;
+  enName: string;
 }
 
-export const supportedLanguages = [
+// When we add languages we need to update the toolkit search indexing,
+// which will require the dynamic import of a new language plugin for lunr.
+// See search.ts.
+export const supportedLanguages: Language[] = [
   {
     id: "en",
     name: "English",
+    enName: "English",
+  },
+  {
+    id: "fr",
+    name: "Français",
+    enName: "French",
   },
 ];
 if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
   supportedLanguages.push({
     id: "lol", // This has to be a valid locale value, so can't be e.g. "test".
     name: "Translation test",
+    enName: "Translation test",
   });
 }
 

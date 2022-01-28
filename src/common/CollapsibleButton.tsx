@@ -39,7 +39,13 @@ const CollapsableButton = React.forwardRef(
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     return mode === "icon" ? (
-      <IconButton ref={ref} icon={icon} aria-label={text} {...props} />
+      <IconButton
+        ref={ref}
+        icon={icon}
+        aria-label={text}
+        {...props}
+        fontSize="xl"
+      />
     ) : (
       <Button ref={ref} leftIcon={icon} minWidth={buttonWidth} {...props}>
         {text}

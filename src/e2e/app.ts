@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021 - 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -12,7 +12,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
-import { allowWrapAtPeriods } from "../documentation/common/wrap";
+import { Flag } from "../flags";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -27,7 +27,23 @@ export interface BrowserDownload {
 
 const defaultWaitForOptions = { timeout: 5_000 };
 
-export const defaultRootUrl = "http://localhost:3000?flag=*";
+const baseUrl = "http://localhost:3000";
+const reportsPath = "reports/e2e/";
+
+interface Options {
+  /**
+   * Flags.
+   *
+   * "none" and "noWelcome" are always added.
+   *
+   * Do not use "*", instead explicitly enable the set of flags your test requires.
+   */
+  flags?: Flag[];
+  /**
+   * URL fragment including the #.
+   */
+  fragment?: string;
+}
 
 /**
  * Model of the app to drive it for e2e testing.
@@ -40,6 +56,7 @@ export const defaultRootUrl = "http://localhost:3000?flag=*";
  * them to be true, than to read and return data from the DOM.
  */
 export class App {
+  private url: string;
   /**
    * Tracks dialogs observed by Pupeteer's dialog event.
    */
@@ -50,7 +67,19 @@ export class App {
     path.join(os.tmpdir(), "puppeteer-downloads-")
   );
 
-  constructor(private rootUrl: string = defaultRootUrl) {
+  constructor(options: Options = {}) {
+    const flags = new Set<string>([
+      "none",
+      "noWelcome",
+      ...(options.flags ?? []),
+    ]);
+    this.url =
+      baseUrl +
+      // We don't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
+      (process.env.E2E_PUBLIC_URL ?? "/") +
+      "?" +
+      new URLSearchParams(Array.from(flags).map((f) => ["flag", f])) +
+      (options.fragment ?? "");
     this.browser = puppeteer.launch();
     this.page = this.createPage();
   }
@@ -64,7 +93,7 @@ export class App {
       // See corresponding code in App.tsx.
       name: "mockDevice",
       value: "1",
-      url: this.rootUrl,
+      url: this.url,
     });
 
     const client = await page.target().createCDPSession();
@@ -78,6 +107,23 @@ export class App {
       this.dialogs.push(dialog.type());
       // Need to accept() so that reload() will complete.
       await dialog.accept();
+    });
+
+    const logsPath = reportsPath + expect.getState().currentTestName + ".txt";
+    // Clears previous output from local file.
+    fs.writeFile(logsPath, "", (err) => {
+      if (err) {
+        // Log file error.
+        console.error("Log file error: ", err.message);
+      }
+    });
+    page.on("console", (msg) => {
+      fs.appendFile(logsPath, msg.text() + "\n", (err) => {
+        if (err) {
+          // Log file error.
+          console.error("Log file error: ", err.message);
+        }
+      });
     });
 
     await page.evaluate(() => {
@@ -369,7 +415,10 @@ export class App {
    */
   async typeInEditor(text: string): Promise<void> {
     const content = await this.focusEditorContent();
-    return content.type(text);
+    // The short delay seems to improve reliability triggering autocomplete.
+    // Previously finding autocomplete options failed approx 1 in 30 times.
+    // https://github.com/microbit-foundation/python-editor-next/issues/419
+    return content.type(text, { delay: 10 });
   }
 
   /**
@@ -423,17 +472,24 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findToolkitBreadcrumbHeading(
-    context: string,
-    title: string
-  ): Promise<void> {
+  async findActiveToolkitEntry(text: string): Promise<void> {
+    // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
-    await document.findByRole("button", {
-      name: allowWrapAtPeriods(context),
-    });
-    await document.findByText(allowWrapAtPeriods(title), {
-      selector: "h2",
-    });
+    return waitFor(async () => {
+      const items = await document.$$("h4");
+      const h4s = await Promise.all(
+        items.map((e) =>
+          e.evaluate((node) => {
+            const text = (node as HTMLElement).innerText;
+            const rect = (node as HTMLElement).getBoundingClientRect();
+            const visible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+            return { text, visible };
+          })
+        )
+      );
+      const match = h4s.find((info) => info.visible && info.text === text);
+      expect(match).toBeDefined();
+    }, defaultWaitForOptions);
   }
 
   async findToolkitTopLevelHeading(
@@ -590,7 +646,7 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto(this.rootUrl);
+    await page.goto(this.url);
   }
 
   /**
@@ -651,7 +707,7 @@ export class App {
       },
       defaultWaitForOptions
     );
-    option.click();
+    await option.click();
   }
 
   /**
@@ -680,9 +736,18 @@ export class App {
       name,
       level: 3,
     });
-    const section = await (heading.getProperty("parentNode") as Promise<
-      ElementHandle<Element>
-    >);
+    const section = await heading.evaluateHandle<ElementHandle>(
+      (e: Element) => {
+        let node: Element | null = e;
+        while (node && node.tagName !== "LI") {
+          node = node.parentElement;
+        }
+        if (!node) {
+          throw new Error("Unexpected DOM structure");
+        }
+        return node;
+      }
+    );
     const draggable = (await section.$("[draggable]"))!;
     const lines = await document.$$("[data-testid='editor'] .cm-line");
     const line = lines[targetLine - 1];
@@ -707,7 +772,7 @@ export class App {
   async screenshot() {
     const page = await this.page;
     return page.screenshot({
-      path: "reports/screenshots/" + expect.getState().currentTestName + ".png",
+      path: reportsPath + expect.getState().currentTestName + ".png",
     });
   }
 
@@ -742,6 +807,27 @@ export class App {
       name: tabName,
     });
     return tab.click();
+  }
+
+  async searchToolkits(searchText: string): Promise<void> {
+    const document = await this.document();
+    const searchButton = await document.findByRole("button", {
+      name: "Open search",
+    });
+    await searchButton.click();
+    const searchField = await document.findByRole("textbox", {
+      name: "Search",
+    });
+    await searchField.type(searchText);
+  }
+
+  async selectFirstSearchResult(): Promise<void> {
+    const document = await this.document();
+    const modalDialog = await document.findByRole("dialog");
+    const result = await modalDialog.findAllByRole("heading", {
+      level: 3,
+    });
+    await result[0].click();
   }
 
   private async document(): Promise<puppeteer.ElementHandle<Element>> {

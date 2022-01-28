@@ -33,7 +33,7 @@ from microbit import *
 
 
 while True:
-    display.scroll('Hello, World!')
+    display.scroll('micro:bit')
     display.show(Image.HEART)
     sleep(2000)
 `,

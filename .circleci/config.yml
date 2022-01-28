@@ -30,7 +30,7 @@ _steps:
   install_dependencies: &install_dependencies
     run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
   install_theme: &install_theme
-    run: npm install --no-save --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/python-editor-next-microbit@0.1.0-dev.57
+    run: npm install --no-save --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/python-editor-next-microbit@0.1.0-dev.89
   update_version: &update_version
     run: npm run ci:update-version
   build: &build
@@ -48,6 +48,11 @@ _steps:
         libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
         libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
         fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+  serve-review: &serve-review
+    run:
+      name: Serve files for e2e tests (review)
+      command: mkdir /tmp/app && cp -r build /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app
+      background: true
   serve: &serve
     run:
       name: Serve files for e2e tests
@@ -99,13 +104,20 @@ jobs:
       - *install_theme
       - *update_version
       - *save_npm_cache
+      # Set PUBLIC_URL based on the bucket prefix. PUBLIC_URL is equivalent to CRA's package.json homepage setting https://create-react-app.dev/docs/advanced-configuration/
+      - run:
+          name: "Set PUBLIC_URL for review branch"
+          environment:
+            NODE_PATH: /usr/local/lib/node_modules
+          # Two env vars as PUBLIC_URL seems to be blank when running jest even if we set it.
+          command: URL=$(npm run --silent public-url); echo "export PUBLIC_URL=$URL && export E2E_PUBLIC_URL=$URL" >> $BASH_ENV
       - *build
       # Unlike other stages deploy, first so we still get deployments when e2e fails.
       - *queue_until_front_of_line
       - *deploy
       - *invalidate
       - *chrome-deps
-      - *serve
+      - *serve-review
       - *serve-wait
       - *e2e
       - *store_reports

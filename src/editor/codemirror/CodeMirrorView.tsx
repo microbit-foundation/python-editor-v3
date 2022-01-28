@@ -7,7 +7,7 @@ import { Box, BoxProps } from "@chakra-ui/layout";
 import { useToken } from "@chakra-ui/system";
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./CodeMirror.css";
 import { editorConfig } from "./config";
 import themeExtensions from "./themeExtensions";
@@ -34,6 +34,14 @@ const CodeMirrorView = ({ value, ...props }: CodeMirrorViewProps) => {
         EditorView.editable.of(false),
         editorConfig,
         themeExtensions(fontSize),
+        EditorView.theme({
+          ".cm-scroller": {
+            // Reduced from 1.4 to a value that gets integral line height on Safari with the 16px
+            // font size used in Explore to sidestep https://bugs.webkit.org/show_bug.cgi?id=225695
+            // See https://github.com/microbit-foundation/python-editor-next/issues/369
+            lineHeight: 1.375,
+          },
+        }),
       ],
     });
     const view = new EditorView({
@@ -54,4 +62,4 @@ const CodeMirrorView = ({ value, ...props }: CodeMirrorViewProps) => {
   return <Box {...props} ref={elementRef} />;
 };
 
-export default CodeMirrorView;
+export default React.memo(CodeMirrorView);

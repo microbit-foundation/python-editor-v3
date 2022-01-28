@@ -4,12 +4,21 @@
  * SPDX-License-Identifier: MIT
  */
 import DOMPurify from "dompurify";
-import render from "marked";
+import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
 import "./documentation.css";
 
-export const firstParagraph = (markup: string) => markup.split(/\n{2,}/g)[0];
+export const splitDocString = (
+  markup: string
+): [string, string | undefined] => {
+  const parts = markup.split(/\n{2,}/g);
+  const first = parts[0];
+  const remainder = parts.length > 1 ? parts.slice(1).join("\n\n") : undefined;
+  return [first, remainder];
+};
+
+export const firstParagraph = (markup: string) => splitDocString(markup)[0];
 
 export const renderDocumentation = (
   documentation: MarkupContent | string | undefined,
@@ -77,7 +86,7 @@ export const renderMarkdown = (
     markdown = firstParagraph(markdown);
   }
   const html = DOMPurify.sanitize(
-    render(fixupMarkdown(markdown), { gfm: true })
+    marked.parse(fixupMarkdown(markdown), { gfm: true })
   );
   return {
     __html: html,

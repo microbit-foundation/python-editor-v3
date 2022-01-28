@@ -5,7 +5,7 @@
  *
  * Preview features are not ready for general use.
  *
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021 - 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -13,11 +13,7 @@
 import { stage as stageFromEnvironment } from "./environment";
 
 // A union of the flag names.
-type Flag =
-  /**
-   * Enables experimental drag and drop features.
-   */
-  | "dnd"
+export type Flag =
   /**
    * Enables verbose debug logging to the console of drag events.
    */
@@ -32,7 +28,7 @@ type Flag =
    */
   | "noWelcome";
 
-const allFlags: Flag[] = ["dnd", "dndDebug", "noWelcome"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome"];
 
 type Flags = Record<Flag, boolean>;
 

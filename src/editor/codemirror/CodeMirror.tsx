@@ -152,7 +152,7 @@ const CodeMirror = ({
       setRouterState({
         ...routerState,
         tab: "reference",
-        reference: id,
+        reference: { id },
       });
       const view = viewRef.current!;
       // Put the focus back in the text editor so the docs are immediately useful.

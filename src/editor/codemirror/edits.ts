@@ -6,9 +6,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { python } from "@codemirror/lang-python";
-import { syntaxTree } from "@codemirror/language";
+import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
+import { CodeInsertType } from "./dnd";
 
 export interface RequiredImport {
   module: string;
@@ -51,86 +52,136 @@ class AliasesNotSupportedError extends Error {}
  *
  * @param state The editor state.
  * @param addition The new Python code.
+ * @param type The type of change.
  * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
  * @returns A CM transaction with the necessary changes.
  * @throws AliasesNotSupportedError If the additional code contains alias imports.
  */
 export const calculateChanges = (
   state: EditorState,
-  addition: string,
+  source: string,
+  type: CodeInsertType,
   line?: number
 ) => {
   const parser = python().language.parser;
-  const additionTree = parser.parse(addition);
-  const additionalImports = topLevelImports(additionTree, (from, to) =>
-    addition.slice(from, to)
+  const sourceTree = parser.parse(source);
+  const sourceImports = topLevelImports(sourceTree, (from, to) =>
+    source.slice(from, to)
   );
-  const endOfAdditionalImports =
-    additionalImports[additionalImports.length - 1]?.node?.to ?? 0;
-  addition = addition.slice(endOfAdditionalImports).trim();
-  const requiredImports = additionalImports.flatMap(
+  const sourceImportsTo =
+    sourceImports[sourceImports.length - 1]?.node?.to ?? 0;
+  const mainCode = source.slice(sourceImportsTo).trim();
+  const requiredImports = sourceImports.flatMap(
     convertImportNodeToRequiredImports
   );
   const allCurrentImports = currentImports(state);
 
   const importInsertPoint = defaultInsertPoint(state, allCurrentImports);
-  const changes = requiredImports.flatMap((required) =>
+  const importChanges = requiredImports.flatMap((required) =>
     calculateImportChangesInternal(
       importInsertPoint,
       allCurrentImports,
       required
     )
   );
-  if (changes.length > 0 && allCurrentImports.length === 0) {
+  if (importChanges.length > 0 && allCurrentImports.length === 0) {
     // Two blank lines separating the imports from everything else.
-    changes[changes.length - 1].insert += "\n\n";
+    importChanges[importChanges.length - 1].insert += "\n\n";
   }
-  let importLines = changes
+  const importLines = importChanges
     .map((c) => c.insert.split("\n").length - 1)
     .reduce((acc, cur) => acc + cur, 0);
 
-  let additionInsertPoint: number = -1;
-  if (addition) {
-    let additionPrefix = "";
+  let mainPreceedingWhitespace = "";
+  let mainChange: SimpleChangeSpec | undefined;
+  let mainIndent = "";
+  if (mainCode) {
+    let mainFrom: number;
     if (line !== undefined) {
       // Tweak so the addition preview is under the mouse even if we added imports.
       line = Math.max(1, line - importLines);
       const extraLines = line - state.doc.lines;
       if (extraLines > 0) {
-        additionInsertPoint = state.doc.length;
-        additionPrefix = "\n".repeat(extraLines);
+        mainFrom = state.doc.length;
+        mainPreceedingWhitespace = "\n".repeat(extraLines);
       } else {
-        additionInsertPoint = state.doc.line(line).from;
+        mainFrom = state.doc.line(line).from;
       }
     } else {
       // When no line is specified, insert before the code (not just after the imports).
-      additionInsertPoint = skipWhitespaceLines(
-        state.doc,
-        importInsertPoint.from
-      );
+      mainFrom = skipWhitespaceLines(state.doc, importInsertPoint.from);
     }
 
-    const insertLine = state.doc.lineAt(additionInsertPoint);
-    const indent = insertLine.text.match(/^(\s*)/);
-    changes.push({
-      from: additionInsertPoint,
-      insert:
-        additionPrefix + indentBy(addition, indent ? indent[0] : "") + "\n",
-    });
+    const insertLine = state.doc.lineAt(mainFrom);
+    mainIndent = insertLine.text.match(/^(\s*)/)?.[0] ?? "";
+    mainChange = {
+      from: mainFrom,
+      insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
+    };
   }
 
   if (importInsertPoint.used) {
-    changes[0].insert = importInsertPoint.prefix + changes[0].insert;
+    const firstChange = importChanges[0] ?? mainChange;
+    firstChange.insert = importInsertPoint.prefix + firstChange.insert;
   }
+  const selection = calculateNewSelection(
+    mainCode,
+    type,
+    importChanges,
+    mainChange,
+    mainPreceedingWhitespace,
+    mainIndent
+  );
   return state.update({
-    changes,
+    userEvent: `dnd.drop.${type}`,
+    changes: [...importChanges, ...(mainChange ? [mainChange] : [])],
     scrollIntoView: true,
-    selection: addition
-      ? {
-          anchor: additionInsertPoint,
-        }
-      : undefined,
+    selection,
   });
+};
+
+const calculateNewSelection = (
+  mainCode: string,
+  type: CodeInsertType,
+  importChanges: SimpleChangeSpec[],
+  mainChange: SimpleChangeSpec | undefined,
+  mainBlankLines: string,
+  mainIndent: string
+): { anchor: number } | undefined => {
+  if (!mainChange) {
+    return undefined;
+  }
+  const importLength = importChanges.flatMap((c) => c.insert).join("").length;
+  const mainLength = mainChange.insert.length;
+  const from = mainChange.from;
+  if (type === "call") {
+    // E.g. `foo(█)\n`
+    // with potential imports
+    const callableAdjustment = 2;
+    return {
+      anchor: from + importLength + mainLength - callableAdjustment,
+    };
+  }
+
+  // E.g.
+  // ```
+  // import foo
+  //
+  // # preexisting
+  // █foo()
+  // foo()
+  // ```
+
+  // If multiline then we move to the start of the new code, otherwise the end of the line.
+  if (mainCode.includes("\n")) {
+    return {
+      anchor: from + importLength + mainBlankLines.length + mainIndent.length,
+    };
+  }
+  const newlineAdjustment = 1;
+  return {
+    anchor: from + importLength + mainLength - newlineAdjustment,
+  };
 };
 
 /**
@@ -270,7 +321,10 @@ const defaultInsertPoint = (
 };
 
 const currentImports = (state: EditorState): ImportNode[] => {
-  const tree = syntaxTree(state);
+  const tree = ensureSyntaxTree(state, state.doc.length);
+  if (tree === null) {
+    throw new Error("No timeout set so tree should be non-null");
+  }
   return topLevelImports(tree, (from, to) => state.sliceDoc(from, to));
 };
 

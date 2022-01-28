@@ -44,7 +44,6 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         onClick={onEdit}
         variant="unstyled"
         fontSize="md"
-        fontWeight="normal"
         flexGrow={1}
         textAlign="left"
         overflowX="hidden"
@@ -56,9 +55,10 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         <MenuButton
           as={IconButton}
           aria-label={intl.formatMessage({ id: "file-actions" }, { name })}
-          size="md"
+          fontSize="xl"
           variant="ghost"
           icon={<MdMoreVert />}
+          color="grey.800"
         />
         <Portal>
           <MenuList>

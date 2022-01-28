@@ -8,13 +8,10 @@ import {
   BoxProps,
   Flex,
   HStack,
-  Icon,
-  Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useMemo } from "react";
@@ -24,7 +21,6 @@ import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
-import { useDeployment } from "../deployment";
 import ExploreArea from "../documentation/ExploreArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
@@ -34,6 +30,20 @@ import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
 import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
+import SideBarHeader from "./SideBarHeader";
+import SideBarTab from "./SideBarTab";
+
+export const cornerSize = 32;
+
+export interface Pane {
+  id: string;
+  icon: IconType;
+  title: string;
+  nav?: ReactNode;
+  contents: ReactNode;
+  color: string;
+  mb?: string;
+}
 
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
@@ -50,6 +60,7 @@ const SideBar = ({
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
+  const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
@@ -57,6 +68,7 @@ const SideBar = ({
         title: intl.formatMessage({ id: "explore-tab" }),
         icon: PythonLogo as IconType,
         contents: <ExploreArea />,
+        color: "gray.25",
       },
       {
         id: "reference",
@@ -65,6 +77,8 @@ const SideBar = ({
         // in documentation.ts (used for CM documentation tooltips).
         icon: VscLibrary,
         contents: <ReferenceArea />,
+        color: "gray.25",
+        mb: "auto",
       },
       {
         id: "files",
@@ -77,33 +91,11 @@ const SideBar = ({
             onSelectedFileChanged={onSelectedFileChanged}
           />
         ),
+        color: "gray.50",
       },
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  return <SideBarContents {...props} panes={panes} />;
-};
-
-interface Pane {
-  id: string;
-  icon: IconType;
-  title: string;
-  nav?: ReactNode;
-  contents: ReactNode;
-}
-
-interface SideBarContentsProps {
-  panes: Pane[];
-}
-
-const cornerSize = 32;
-
-/**
- * The contents of the left-hand area.
- */
-const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
-  const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
-
   const [{ tab }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
@@ -116,15 +108,17 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
     [panes, setParams]
   );
   const handleTabClick = useCallback(() => {
-    // The tab change itself is handled above.
+    // A click on a tab when it's already selected should
+    // reset any other parameters so we go back to the top
+    // level.
     setParams({
       tab,
     });
   }, [tab, setParams]);
-  const width = "5rem";
-  const brand = useDeployment();
+
   return (
-    <Flex height="100%" direction="column" {...props} backgroundColor="gray.50">
+    <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
+      <SideBarHeader />
       <Tabs
         orientation="vertical"
         size="lg"
@@ -134,65 +128,16 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
         index={index}
       >
         <TabList>
-          {/* Top margin aims to align with other logo. */}
-          <Box
-            width="3.75rem"
-            mt="1.2rem"
-            ml="auto"
-            mr="auto"
-            mb="max(11.5vh, 7.7rem)"
-          >
-            {brand.squareLogo}
-          </Box>
-          {panes.map((p, i) => (
-            <Tab
-              key={p.id}
-              color="white"
-              height={width}
-              width={width}
-              p={0}
-              position="relative"
-              className="sidebar-tab" // Used for custom outline below
-              onClick={handleTabClick}
-            >
-              <VStack spacing={0}>
-                {i === index && (
-                  <Corner
-                    id="bottom"
-                    position="absolute"
-                    bottom={-cornerSize + "px"}
-                    right={0}
-                  />
-                )}
-                {i === index && (
-                  <Corner
-                    id="top"
-                    position="absolute"
-                    top={-cornerSize + "px"}
-                    right={0}
-                    transform="rotate(90deg)"
-                  />
-                )}
-                <VStack spacing={1}>
-                  <Icon boxSize={6} as={p.icon} mt="3px" />
-                  <Text
-                    m={0}
-                    fontSize={13}
-                    borderBottom="3px solid transparent"
-                    sx={{
-                      ".sidebar-tab:focus &": {
-                        // To match the focus outline
-                        borderBottom: "3px solid rgba(66, 153, 225, 0.6)",
-                      },
-                    }}
-                  >
-                    {p.title}
-                  </Text>
-                </VStack>
-              </VStack>
-            </Tab>
+          <Box flex={1} maxHeight="8.9rem" minHeight={8}></Box>
+          {panes.map((pane, current) => (
+            <SideBarTab
+              key={pane.id}
+              handleTabClick={handleTabClick}
+              active={index === current}
+              {...pane}
+            />
           ))}
-          <VStack mt="auto" mb={1} spacing={0.5} color="white">
+          <VStack mt={4} mb={1} spacing={0.5} color="white">
             <SettingsMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>
@@ -202,9 +147,9 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
-                  <ReleaseNotice onDialogChange={setReleaseDialog} />
                   {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
+                  <ReleaseNotice onDialogChange={setReleaseDialog} />
                 </ErrorBoundary>
               </Flex>
             </TabPanel>
@@ -218,32 +163,5 @@ const SideBarContents = ({ panes, ...props }: SideBarContentsProps) => {
     </Flex>
   );
 };
-
-const Corner = ({ id, ...props }: BoxProps) => (
-  <Box {...props} pointerEvents="none" width="32px" height="32px">
-    <svg
-      width="100%"
-      height="100%"
-      viewBox="0 0 32 32"
-      overflow="visible"
-      fill="var(--chakra-colors-gray-50)"
-    >
-      <defs>
-        <mask id={id}>
-          <rect x="0" y="0" width="32" height="32" fill="#fff" />
-          <circle r="32" cx="0" cy="32" fill="#000" />
-        </mask>
-      </defs>
-      <rect
-        x="0"
-        y="0"
-        width="32"
-        height="32"
-        fill="var(--chakra-colors-gray-50)"
-        mask={`url(#${id})`}
-      />
-    </svg>
-  </Box>
-);
 
 export default SideBar;

@@ -20,7 +20,6 @@ import {
   KeyBinding,
   keymap,
 } from "@codemirror/view";
-import { flags } from "../../flags";
 import { dndSupport } from "./dnd";
 import highlightStyle from "./highlightStyle";
 
@@ -65,5 +64,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
-  flags.dnd ? dndSupport() : [],
+  dndSupport(),
 ];

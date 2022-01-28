@@ -9,7 +9,7 @@ This project is a web-based code editor that targets the [MicroPython](https://m
 Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
 
 <figure>
-  <img src="https://user-images.githubusercontent.com/44397098/124456486-a8a7fa80-dd82-11eb-93bf-292b86267d6d.png" alt="Screenshot of the Python editor showing the welcome message and code editing area" width="800px">
+  <img src="https://user-images.githubusercontent.com/44397098/150586399-bf75992e-9e9f-4126-a0e6-4805babdc824.png" alt="Screenshot of the Python editor showing the code editing area and documentation for the micro:bit display" width="100%">
   <figcaption>You can try out the micro:bit-branded deployment of the alpha at https://python.microbit.org/v/alpha</figcaption>  
 </figure>
 
@@ -36,6 +36,8 @@ The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation
 The `main` branch is deployed to https://stage-python-editor-next.microbit.org/ on each commit.
 
 Other branches (e.g. for PRs) are deployed to https://review-python-editor-next.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
+
+For custom deployments, note that the educational content in the sidebar is currently sourced live from our CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
 
 ## Building and running the editor
 
@@ -106,7 +108,8 @@ We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for tr
 
 Add strings to `lang/en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
-There are currently no translations while the app is in alpha.
+There is a French translation of the main user interface text and the "Explore" tab content.
+The Reference tab and code error messages shown in the editor are not currently translated.
 
 ## License
 

@@ -45,7 +45,8 @@ const ProjectNameEditable = () => {
         <IconButton
           size="md"
           icon={<RiEdit2Line />}
-          color="gray.500"
+          fontSize="xl"
+          color="brand.500"
           variant="ghost"
           onClick={handleEdit}
           aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
