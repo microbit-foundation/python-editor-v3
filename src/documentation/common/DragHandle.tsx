@@ -13,6 +13,7 @@ interface DragHandleProps extends BoxProps {
 const DragHandle = ({ highlight, ...props }: DragHandleProps) => {
   return (
     <HStack
+      cursor="grab"
       {...props}
       bgColor={highlight ? "blimpTeal.300" : "blimpTeal.50"}
       transition="background .2s"
