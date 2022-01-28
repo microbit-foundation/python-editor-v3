@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ChakraProvider } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
 import { useLocalStorage } from "./common/use-local-storage";
@@ -31,6 +31,11 @@ import {
   Settings,
   SettingsProvider,
 } from "./settings/settings";
+import {
+  UndoRedo,
+  UndoRedoProvider,
+  defaultUndoRedo,
+} from "./editor/undo-redo-hooks";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
@@ -74,6 +79,8 @@ const App = () => {
     defaultSettings
   );
 
+  const undoRedoValue = useState<UndoRedo>(defaultUndoRedo);
+
   const deployment = useDeployment();
   return (
     <>
@@ -92,9 +99,11 @@ const App = () => {
                           <SelectionProvider>
                             <RouterProvider>
                               <ProjectDropTarget>
-                                <ActiveEditorProvider>
-                                  <Workbench />
-                                </ActiveEditorProvider>
+                                <UndoRedoProvider value={undoRedoValue}>
+                                  <ActiveEditorProvider>
+                                    <Workbench />
+                                  </ActiveEditorProvider>
+                                </UndoRedoProvider>
                               </ProjectDropTarget>
                             </RouterProvider>
                           </SelectionProvider>

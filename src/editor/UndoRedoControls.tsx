@@ -4,22 +4,16 @@
  * SPDX-License-Identifier: MIT
  */
 import { ButtonGroup, IconButton } from "@chakra-ui/react";
-import { useMemo } from "react";
 import { RiArrowGoForwardLine, RiArrowGoBackLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useActiveEditorActions } from "../editor/active-editor-hooks";
+import { useUndoRedo } from "../editor/undo-redo-hooks";
 
 const UndoRedoControls = ({ ...props }) => {
   const intl = useIntl();
   const actions = useActiveEditorActions();
-
-  const redoDepth = useMemo(() => {
-    return actions?.getRedoEventNum();
-  }, [actions]);
-
-  const undoDepth = useMemo(() => {
-    return actions?.getUndoEventNum();
-  }, [actions]);
+  const [undoRedo] = useUndoRedo();
+  console.log(undoRedo);
 
   return (
     <ButtonGroup
@@ -35,7 +29,7 @@ const UndoRedoControls = ({ ...props }) => {
         icon={<RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "undo" })}
         onClick={actions?.undo}
-        disabled={undoDepth ? false : true}
+        disabled={undoRedo.undo ? false : true}
       />
       <IconButton
         isRound
@@ -44,7 +38,7 @@ const UndoRedoControls = ({ ...props }) => {
         icon={<RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "redo" })}
         onClick={actions?.redo}
-        disabled={redoDepth ? false : true}
+        disabled={undoRedo.redo ? false : true}
       />
     </ButtonGroup>
   );

@@ -6,6 +6,7 @@
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
+import { undoDepth, redoDepth } from "@codemirror/history";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { createUri } from "../../language-server/client";
@@ -22,6 +23,7 @@ import {
   structureHighlightingCompartment,
 } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
+import { useUndoRedo } from "../../editor/undo-redo-hooks";
 
 interface CodeMirrorProps {
   className?: string;
@@ -56,6 +58,15 @@ const CodeMirror = ({
   const viewRef = useRef<EditorView | null>(null);
   const client = useLanguageServerClient();
   const intl = useIntl();
+  const [, setUndoRedo] = useUndoRedo();
+
+  // Reset undo/redo events on file change.
+  useEffect(() => {
+    setUndoRedo({
+      undo: 0,
+      redo: 0,
+    });
+  }, [setUndoRedo]);
 
   // Group the option props together to keep configuration updates simple.
   const options = useMemo(
@@ -72,6 +83,10 @@ const CodeMirror = ({
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           onChange(update.state.sliceDoc(0));
+          setUndoRedo({
+            undo: undoDepth(view.state),
+            redo: redoDepth(view.state),
+          });
         }
       });
       const state = EditorState.create({
@@ -99,7 +114,16 @@ const CodeMirror = ({
       viewRef.current = view;
       setActiveEditor(new ActiveEditorActions(view));
     }
-  }, [options, defaultValue, onChange, client, setActiveEditor, uri, intl]);
+  }, [
+    options,
+    defaultValue,
+    onChange,
+    client,
+    setActiveEditor,
+    uri,
+    intl,
+    setUndoRedo,
+  ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
     return () => {
