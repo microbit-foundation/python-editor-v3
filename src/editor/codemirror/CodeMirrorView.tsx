@@ -34,6 +34,14 @@ const CodeMirrorView = ({ value, ...props }: CodeMirrorViewProps) => {
         EditorView.editable.of(false),
         editorConfig,
         themeExtensions(fontSize),
+        EditorView.theme({
+          ".cm-scroller": {
+            // Reduced from 1.4 to a value that gets integral line height on Safari with the 16px
+            // font size used in Explore to sidestep https://bugs.webkit.org/show_bug.cgi?id=225695
+            // See https://github.com/microbit-foundation/python-editor-next/issues/369
+            lineHeight: 1.375,
+          },
+        }),
       ],
     });
     const view = new EditorView({

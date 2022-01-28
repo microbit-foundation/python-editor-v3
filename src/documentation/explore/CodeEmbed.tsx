@@ -65,7 +65,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
 
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
-  const textHeight = lineCount * 1.3994140625 + "em";
+  const textHeight = lineCount * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const codePopUpHeight = `calc(${codeHeight} + 2px)`; // Account for border.
   const handleMouseEnter = useCallback(() => setState("raised"), [setState]);
