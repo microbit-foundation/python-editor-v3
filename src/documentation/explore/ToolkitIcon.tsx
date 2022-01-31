@@ -12,7 +12,6 @@ interface ToolkitIconProps {
 }
 
 const ToolkitIcon = ({ icon }: ToolkitIconProps) => {
-  console.log(icon);
   return (
     <Image
       src={imageUrlBuilder.image(icon.asset).url()}
