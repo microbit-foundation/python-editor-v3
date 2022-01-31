@@ -1,10 +1,10 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 import { ButtonGroup, IconButton } from "@chakra-ui/react";
-import { RiArrowGoForwardLine, RiArrowGoBackLine } from "react-icons/ri";
+import { RiArrowGoBackLine, RiArrowGoForwardLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
   useActiveEditorActions,

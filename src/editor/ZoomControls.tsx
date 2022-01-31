@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -12,6 +12,7 @@ import {
 import { useCallback } from "react";
 import { RiZoomInLine, RiZoomOutLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { useLogging } from "../logging/logging-hooks";
 import {
   fontSizeStep,
   maximumFontSize,
@@ -27,19 +28,22 @@ interface ZoomControlsProps extends StackProps {
  * Zoom in/out icon button pair.
  */
 const ZoomControls = ({ size, ...props }: ZoomControlsProps) => {
+  const logging = useLogging();
   const [settings, setSettings] = useSettings();
   const handleZoomIn = useCallback(() => {
     setSettings({
       ...settings,
       fontSize: Math.min(maximumFontSize, settings.fontSize + fontSizeStep),
     });
-  }, [setSettings, settings]);
+    logging.event({ type: "zoom-in" });
+  }, [setSettings, settings, logging]);
   const handleZoomOut = useCallback(() => {
     setSettings({
       ...settings,
       fontSize: Math.max(minimumFontSize, settings.fontSize - fontSizeStep),
     });
-  }, [setSettings, settings]);
+    logging.event({ type: "zoom-out" });
+  }, [setSettings, settings, logging]);
   const intl = useIntl();
   return (
     <ButtonGroup {...props} isAttached colorScheme="gray" variant="zoom">
