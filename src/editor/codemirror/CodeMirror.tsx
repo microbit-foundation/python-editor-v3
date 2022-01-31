@@ -1,16 +1,17 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
+import { redoDepth, undoDepth } from "@codemirror/history";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
-import { undoDepth, redoDepth } from "@codemirror/history";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
+import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
 import { WorkbenchSelection } from "../../workbench/use-selection";
 import {
@@ -62,6 +63,7 @@ const CodeMirror = ({
   const client = useLanguageServerClient();
   const intl = useIntl();
   const [, setEditorInfo] = useActiveEditorInfoState();
+  const logging = useLogging();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -115,7 +117,7 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
-      setActiveEditor(new EditorActions(view));
+      setActiveEditor(new EditorActions(view, logging));
     }
   }, [
     options,
@@ -126,6 +128,7 @@ const CodeMirror = ({
     uri,
     intl,
     setEditorInfo,
+    logging,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.

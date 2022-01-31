@@ -1,7 +1,7 @@
 /**
  * Hooks to perform actions on the current editor.
  *
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -15,12 +15,13 @@ import React, {
 } from "react";
 import { undo, redo } from "@codemirror/history";
 import { calculateChanges } from "./codemirror/edits";
+import { Logging } from "../logging/logging";
 
 /**
  * Actions that operate on a CM editor.
  */
 export class EditorActions {
-  constructor(private view: EditorView) {}
+  constructor(private view: EditorView, private logging: Logging) {}
 
   /**
    * A smart, import-aware code insert.
@@ -32,10 +33,16 @@ export class EditorActions {
     this.view.focus();
   };
   undo = (): void => {
+    this.logging.event({
+      type: "undo",
+    });
     undo(this.view);
     this.view.focus();
   };
   redo = (): void => {
+    this.logging.event({
+      type: "redo",
+    });
     redo(this.view);
     this.view.focus();
   };

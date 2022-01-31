@@ -10,13 +10,11 @@ import {
   useActiveEditorActions,
   useActiveEditorInfo,
 } from "../editor/active-editor-hooks";
-import { useLogging } from "../logging/logging-hooks";
 
 const UndoRedoControls = ({ ...props }) => {
   const intl = useIntl();
   const actions = useActiveEditorActions();
   const editorInfo = useActiveEditorInfo();
-  const logging = useLogging();
 
   return (
     <ButtonGroup
@@ -31,10 +29,7 @@ const UndoRedoControls = ({ ...props }) => {
         isRound
         icon={<RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "undo" })}
-        onClick={() => {
-          actions?.undo();
-          logging.event({ type: "undo" });
-        }}
+        onClick={actions?.undo}
         disabled={editorInfo.undo ? false : true}
       />
       <IconButton
@@ -43,10 +38,7 @@ const UndoRedoControls = ({ ...props }) => {
         borderLeftColor="gray.10"
         icon={<RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "redo" })}
-        onClick={() => {
-          actions?.redo();
-          logging.event({ type: "redo" });
-        }}
+        onClick={actions?.redo}
         disabled={editorInfo.redo ? false : true}
       />
     </ButtonGroup>
