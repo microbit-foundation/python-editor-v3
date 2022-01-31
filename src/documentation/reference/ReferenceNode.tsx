@@ -13,7 +13,7 @@ import {
   DragContext,
   setDragContext,
 } from "../../editor/codemirror/dnd";
-import { splitDocString } from "../../editor/codemirror/language-server/documentation";
+import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
