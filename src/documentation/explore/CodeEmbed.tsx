@@ -25,6 +25,7 @@ import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
+import { useCodeDragImage } from "../documentation-hooks";
 
 interface CodeEmbedProps {
   code: string;
@@ -166,6 +167,7 @@ interface CodeProps extends BoxProps {
 
 const Code = forwardRef<CodeProps, "pre">(
   ({ concise, full, highlightDragHandle, ...props }: CodeProps, ref) => {
+    const dragImage = useCodeDragImage();
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
         dndDebug("dragstart");
@@ -175,8 +177,11 @@ const Code = forwardRef<CodeProps, "pre">(
           type: "example",
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
+        if (dragImage.current) {
+          event.dataTransfer.setDragImage(dragImage.current, 0, 0);
+        }
       },
-      [full]
+      [full, dragImage]
     );
     const handleDragEnd = useCallback((event: React.DragEvent) => {
       dndDebug("dragend");

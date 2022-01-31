@@ -3,12 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
+import dragImage from "./drag-image.svg";
 import { fetchToolkit } from "./explore/api";
 import { Toolkit } from "./explore/model";
 import { pullModulesToTop } from "./reference/apidocs-util";
@@ -61,4 +62,35 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
     load();
   }, [client]);
   return apidocs;
+};
+
+let dragImageRefCount = 0;
+
+export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
+  const ref = useRef<HTMLImageElement>();
+  useEffect(() => {
+    const id = "code-drag-image";
+    let img = document.getElementById(id) as HTMLImageElement | null;
+    if (!img) {
+      img = new Image();
+      img.id = id;
+      img.alt = "";
+      img.src = dragImage;
+      // Seems to need to be in the DOM for Safari.
+      // Our layout means this will be offscreen.
+      document.body.appendChild(img);
+    }
+    ref.current = img;
+    dragImageRefCount++;
+    return () => {
+      if (!img) {
+        throw new Error();
+      }
+      dragImageRefCount--;
+      if (dragImageRefCount === 0) {
+        img.remove();
+      }
+    };
+  }, []);
+  return ref;
 };
