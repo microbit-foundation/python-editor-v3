@@ -6,7 +6,7 @@
 import { App } from "./app";
 
 const traceback = `Traceback (most recent call last):
-File "main.py", line 6
+  File "main.py", line 6
 SyntaxError: invalid syntax
 `; // Needs trailing newline!
 
