@@ -5,6 +5,7 @@
  */
 import lunr from "lunr";
 import stemmerSupport from "lunr-languages/lunr.stemmer.support";
+import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
 import type {
   ApiDocsEntry,
   ApiDocsResponse,
@@ -161,11 +162,6 @@ const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
     });
   });
   return content;
-};
-
-const firstParagraph = (text: string): string => {
-  const parts = text.split(/\n{2,}/g);
-  return parts[0];
 };
 
 const referenceSearchableContent = (

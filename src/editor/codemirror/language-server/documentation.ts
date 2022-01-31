@@ -7,18 +7,8 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
+import { firstParagraph } from "./docstrings";
 import "./documentation.css";
-
-export const splitDocString = (
-  markup: string
-): [string, string | undefined] => {
-  const parts = markup.split(/\n{2,}/g);
-  const first = parts[0];
-  const remainder = parts.length > 1 ? parts.slice(1).join("\n\n") : undefined;
-  return [first, remainder];
-};
-
-export const firstParagraph = (markup: string) => splitDocString(markup)[0];
 
 export const renderDocumentation = (
   documentation: MarkupContent | string | undefined,
