@@ -64,6 +64,8 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
   return apidocs;
 };
 
+let dragImageRefCount = 0;
+
 export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
   const ref = useRef<HTMLImageElement>();
   useEffect(() => {
@@ -78,23 +80,14 @@ export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
       // Our layout means this will be offscreen.
       document.body.appendChild(img);
     }
-
-    // Add at most one.
-    const refcount = "data-refcount";
-    img.setAttribute(
-      "data-refcount",
-      (parseInt(img.getAttribute(refcount) ?? "0", 10) + 1).toString()
-    );
     ref.current = img;
+    dragImageRefCount++;
     return () => {
       if (!img) {
         throw new Error();
       }
-      img.setAttribute(
-        refcount,
-        (parseInt(img.getAttribute(refcount)!, 10) - 1).toString()
-      );
-      if (img.getAttribute(refcount) === "0") {
+      dragImageRefCount--;
+      if (dragImageRefCount === 0) {
         img.remove();
       }
     };
