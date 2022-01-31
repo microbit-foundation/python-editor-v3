@@ -24,6 +24,7 @@ import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
+import { useCodeDragImage } from "../documentation-hooks";
 import Highlight from "../explore/Highlight";
 
 const kindToFontSize: Record<string, any> = {
@@ -346,11 +347,7 @@ const DraggableSignature = ({
   ...props
 }: DraggableSignatureProps) => {
   const { fullName, kind, name } = docs;
-  const dragImage = useMemo(() => {
-    const img = new Image();
-    img.src = "/python.svg";
-    return img;
-  }, []);
+  const dragImage = useCodeDragImage();
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
       dndDebug("dragstart");
@@ -358,7 +355,7 @@ const DraggableSignature = ({
       const context = getDragContext(fullName, kind);
       setDragContext(context);
       event.dataTransfer.setData(pythonSnippetMediaType, context.code);
-      event.dataTransfer.setDragImage(dragImage, -30, -20);
+      event.dataTransfer.setDragImage(...dragImage);
     },
     [fullName, kind, dragImage]
   );

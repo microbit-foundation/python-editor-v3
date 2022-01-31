@@ -9,6 +9,7 @@ import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
+import dragImage from "./drag-image.svg";
 import { fetchToolkit } from "./explore/api";
 import { Toolkit } from "./explore/model";
 import { pullModulesToTop } from "./reference/apidocs-util";
@@ -61,4 +62,10 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
     load();
   }, [client]);
   return apidocs;
+};
+
+export const useCodeDragImage = (): [HTMLImageElement, number, number] => {
+  const img = new Image();
+  img.src = dragImage;
+  return [img, -20, -25];
 };
