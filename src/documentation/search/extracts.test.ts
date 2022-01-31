@@ -85,7 +85,7 @@ describe("contextExtracts", () => {
       contextExtracts(
         [
           [0, 5], // Extract chosen based on this one
-          [6, 5], // Included due as inside
+          [6, 5], // Included as inside
           [13, 5], // Omitted
         ],
         "match match. match"
