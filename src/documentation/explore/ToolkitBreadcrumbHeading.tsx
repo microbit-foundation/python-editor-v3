@@ -1,14 +1,14 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
-import { HStack, VStack, Image } from "@chakra-ui/react";
+import { HStack, VStack } from "@chakra-ui/react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 import { ToolkitImage } from "./model";
-import { imageUrlBuilder } from "../../common/imageUrlBuilder";
+import ToolkitIcon from "./ToolkitIcon";
 
 interface BreadcrumbHeadingProps {
   title: string;
@@ -63,17 +63,8 @@ const ToolkitBreadcrumbHeading = ({
           </Text>
         </Text>
       </Button>
-      <HStack align="flex-start" spacing={4}>
-        {icon && (
-          <Image
-            src={imageUrlBuilder.image(icon.asset).url()}
-            alt=""
-            width="80px"
-            height="64px"
-            borderRadius="lg"
-            mt={1}
-          />
-        )}
+      <HStack align="center" spacing={4}>
+        {icon && <ToolkitIcon icon={icon} />}
         <VStack align="flex-start" spacing={1}>
           <Text
             as="h2"
