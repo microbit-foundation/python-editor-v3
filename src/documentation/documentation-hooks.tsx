@@ -67,5 +67,5 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
 export const useCodeDragImage = (): [HTMLImageElement, number, number] => {
   const img = new Image();
   img.src = dragImage;
-  return [img, -20, -25];
+  return [img, 0, 0];
 };
