@@ -177,7 +177,9 @@ const Code = forwardRef<CodeProps, "pre">(
           type: "example",
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
-        event.dataTransfer.setDragImage(...dragImage);
+        if (dragImage.current) {
+          event.dataTransfer.setDragImage(dragImage.current, 0, 0);
+        }
       },
       [full, dragImage]
     );

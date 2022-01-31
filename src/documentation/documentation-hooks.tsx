@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
@@ -64,8 +64,40 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
   return apidocs;
 };
 
-export const useCodeDragImage = (): [HTMLImageElement, number, number] => {
-  const img = new Image();
-  img.src = dragImage;
-  return [img, 0, 0];
+export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
+  const ref = useRef<HTMLImageElement>();
+  useEffect(() => {
+    const id = "code-drag-image";
+    let img = document.getElementById(id) as HTMLImageElement | null;
+    if (!img) {
+      img = new Image();
+      img.id = id;
+      img.alt = "";
+      img.src = dragImage;
+      // Seems to need to be in the DOM for Safari.
+      // Our layout means this will be offscreen.
+      document.body.appendChild(img);
+    }
+
+    // Add at most one.
+    const refcount = "data-refcount";
+    img.setAttribute(
+      "data-refcount",
+      (parseInt(img.getAttribute(refcount) ?? "0", 10) + 1).toString()
+    );
+    ref.current = img;
+    return () => {
+      if (!img) {
+        throw new Error();
+      }
+      img.setAttribute(
+        refcount,
+        (parseInt(img.getAttribute(refcount)!, 10) - 1).toString()
+      );
+      if (img.getAttribute(refcount) === "0") {
+        img.remove();
+      }
+    };
+  }, []);
+  return ref;
 };

@@ -355,7 +355,9 @@ const DraggableSignature = ({
       const context = getDragContext(fullName, kind);
       setDragContext(context);
       event.dataTransfer.setData(pythonSnippetMediaType, context.code);
-      event.dataTransfer.setDragImage(...dragImage);
+      if (dragImage.current) {
+        event.dataTransfer.setDragImage(dragImage.current, 0, 0);
+      }
     },
     [fullName, kind, dragImage]
   );
