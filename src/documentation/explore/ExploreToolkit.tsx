@@ -32,7 +32,10 @@ const ExploreToolkit = ({ toolkit }: ExploreToolkitProps) => {
   const topicOrEntryId = anchor?.id;
   const handleNavigate = useCallback(
     (topicOrEntryId: string | undefined) => {
-      setAnchor(topicOrEntryId ? { id: topicOrEntryId } : undefined);
+      setAnchor(
+        topicOrEntryId ? { id: topicOrEntryId } : undefined,
+        "toolkit-user"
+      );
     },
     [setAnchor]
   );

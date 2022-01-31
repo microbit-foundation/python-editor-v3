@@ -63,13 +63,16 @@ const ToolkitInternalLinkMark = (
       color="brand.600"
       onClick={(e) => {
         e.preventDefault();
-        setState({
-          ...state,
-          tab: "explore",
-          explore: {
-            id: props.mark.slug.current,
+        setState(
+          {
+            ...state,
+            tab: "explore",
+            explore: {
+              id: props.mark.slug.current,
+            },
           },
-        });
+          "toolkit-user"
+        );
       }}
     >
       {props.children}

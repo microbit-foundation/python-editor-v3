@@ -27,7 +27,7 @@ export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
   const handleNavigate = useCallback(
     (id: string | undefined) => {
-      setAnchor(id ? { id } : undefined);
+      setAnchor(id ? { id } : undefined, "toolkit-user");
     },
     [setAnchor]
   );
