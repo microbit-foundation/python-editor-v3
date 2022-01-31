@@ -3,67 +3,128 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { contextExtracts, sortByStart } from "./extracts";
+import {
+  backward,
+  contextExtracts,
+  forward,
+  Position,
+  sortByStart,
+} from "./extracts";
 
 describe("contextExtracts", () => {
-  it("gives leading trailing", () => {
-    expect(contextExtracts([[10, 5]], "0123456789match0123456789", 3)).toEqual([
-      { type: "text", extract: "…789" },
-      { type: "match", extract: "match" },
-      { type: "text", extract: "012…" },
+  it("walks forwards to end", () => {
+    expect(contextExtracts([[0, 5]], "match more text")).toEqual([
+      {
+        type: "match",
+        extract: "match",
+      },
+      {
+        type: "text",
+        extract: " more text",
+      },
     ]);
   });
-  it("gives trailing no leading", () => {
-    expect(contextExtracts([[0, 5]], "match0123456789", 3)).toEqual([
-      { type: "match", extract: "match" },
-      { type: "text", extract: "012…" },
+  it("walks backwards to start", () => {
+    expect(contextExtracts([[10, 5]], "more text match")).toEqual([
+      {
+        type: "text",
+        extract: "more text ",
+      },
+      {
+        type: "match",
+        extract: "match",
+      },
     ]);
   });
-  it("gives leading no trailing", () => {
-    expect(contextExtracts([[10, 5]], "0123456789match", 3)).toEqual([
-      { type: "text", extract: "…789" },
-      { type: "match", extract: "match" },
+  it("walks forwards to separator", () => {
+    expect(
+      contextExtracts([[0, 5]], "match more text. Even more text.")
+    ).toEqual([
+      {
+        type: "match",
+        extract: "match",
+      },
+      {
+        type: "text",
+        extract: " more text.",
+      },
     ]);
   });
-  it("match only", () => {
-    expect(contextExtracts([[0, 5]], "match", 3)).toEqual([
-      { type: "match", extract: "match" },
+  it("walks backwards to separator", () => {
+    expect(
+      contextExtracts([[26, 5]], "Even more text. More text match")
+    ).toEqual([
+      {
+        type: "text",
+        extract: " More text ",
+      },
+      {
+        type: "match",
+        extract: "match",
+      },
     ]);
   });
-  it("no match", () => {
-    expect(contextExtracts([], "match", 3)).toEqual([]);
+  it("special-cases micro:bit", () => {
+    expect(contextExtracts([[10, 5]], "micro:bit match micro:bit")).toEqual([
+      {
+        type: "text",
+        extract: "micro:bit ",
+      },
+      {
+        type: "match",
+        extract: "match",
+      },
+      {
+        type: "text",
+        extract: " micro:bit",
+      },
+    ]);
   });
-  it("splits text between matches", () => {
+  it("highlights all matches in returned text", () => {
     expect(
       contextExtracts(
         [
-          [0, 6],
-          [16, 6],
+          [0, 5], // Extract chosen based on this one
+          [6, 5], // Included as inside
+          [13, 5], // Omitted
         ],
-        "match10123456789match2",
-        3
+        "match match. match"
       )
     ).toEqual([
-      { type: "match", extract: "match1" },
-      { type: "text", extract: "012…789" },
-      { type: "match", extract: "match2" },
+      {
+        type: "match",
+        extract: "match",
+      },
+      {
+        type: "text",
+        extract: " ",
+      },
+      {
+        type: "match",
+        extract: "match",
+      },
+      {
+        type: "text",
+        extract: ".",
+      },
     ]);
   });
-  it("doesn't split text between matches when pointless", () => {
-    expect(
-      contextExtracts(
-        [
-          [0, 6],
-          [12, 6],
-        ],
-        "match1012345match2",
-        3
-      )
-    ).toEqual([
-      { type: "match", extract: "match1" },
-      // Ensure no pointless "…"
-      { type: "text", extract: "012345" },
-      { type: "match", extract: "match2" },
+  it("excluded match isn't returned", () => {
+    const text = `Integers are whole numbers.\n\nThis will create an integer variable called a:`;
+    const positions: Position[] = [
+      [0, 8],
+      [49, 7],
+    ];
+    expect(contextExtracts(positions, text)).toEqual([
+      {
+        type: "match",
+        extract: "Integers",
+      },
+      {
+        type: "text",
+        extract: " are whole numbers.",
+      },
+      // Previous bug was an empty match here.
     ]);
   });
 });
@@ -81,5 +142,23 @@ describe("sortByStart", () => {
       [5, 10],
       [99, 1],
     ]);
+  });
+});
+
+describe("forward", () => {
+  it("stops when expected", () => {
+    expect(forward("foo", 0)).toEqual(2);
+    expect(forward("foo.", 0)).toEqual(3);
+    expect(forward("", 0)).toEqual(0);
+    expect(forward(".", 0)).toEqual(0);
+  });
+});
+
+describe("backward", () => {
+  it("stops when expected", () => {
+    expect(backward("foo", 3)).toEqual(0);
+    expect(backward(".foo", 3)).toEqual(1);
+    expect(backward("", 0)).toEqual(0);
+    expect(backward(".", 1)).toEqual(1);
   });
 });

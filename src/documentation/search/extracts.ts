@@ -61,35 +61,67 @@ export const fullStringExtracts = (
  */
 export const contextExtracts = (
   positions: Position[],
-  text: string,
-  context: number = 10
+  text: string
 ): Extract[] => {
   if (positions.length === 0) {
     return [];
   }
-  const extracts = fullStringExtracts(positions, text);
-  return extracts.map((e, index) => {
-    const length = e.extract.length;
-    if (e.type === "text" && length > context) {
-      const first = index === 0;
-      const last = index === extracts.length - 1;
-      if (first) {
-        return {
-          type: "text",
-          extract: "…" + e.extract.substring(length - context),
-        };
-      } else if (last) {
-        return { type: "text", extract: e.extract.substring(0, context) + "…" };
-      } else if (length > context * 2) {
-        return {
-          type: "text",
-          extract:
-            e.extract.substring(0, context) +
-            "…" +
-            e.extract.substring(length - context),
-        };
-      }
+  // Find the text around the first match.
+  // Highlight all positions within it.
+  const p0 = positions[0];
+  const start = backward(text, p0[0]);
+  const end = forward(text, p0[0] + p0[1]);
+  return fullStringExtracts(
+    positions
+      .filter((p) => p[0] >= start && p[0] + p[1] <= end)
+      .map((p): Position => {
+        return [p[0] - start, p[1]];
+      }),
+    text.slice(start, end + 1)
+  );
+};
+
+const isSeparator = (c: string): boolean => {
+  switch (c) {
+    case ".":
+    case ":":
+    case ";":
+    case "!":
+      return true;
+    default:
+      return false;
+  }
+};
+
+const isMicrobitColon = (text: string, offset: number): boolean =>
+  text.slice(offset - 5, offset + 4) === "micro:bit";
+
+/**
+ * Returns the offset of the first character to include.
+ * We do not include the separator.
+ */
+export const backward = (text: string, offset: number) => {
+  while (offset > 0) {
+    const previous = text.charAt(offset - 1);
+    if (isSeparator(previous) && !isMicrobitColon(text, offset - 1)) {
+      break;
     }
-    return e;
-  });
+    offset--;
+  }
+  return offset;
+};
+
+/**
+ * Return the offset of the last character to include.
+ * We include the separator.
+ */
+export const forward = (text: string, offset: number) => {
+  while (offset < text.length - 1) {
+    const next = text.charAt(offset + 1);
+    if (isSeparator(next) && !isMicrobitColon(text, offset + 1)) {
+      return offset + 1;
+    }
+    offset++;
+  }
+  return offset;
 };

@@ -63,15 +63,8 @@ describe("Search", () => {
               type: "match",
             },
             {
-              extract: " uses inde…imes. The ",
-              type: "text",
-            },
-            {
-              extract: "'Python'",
-              type: "match",
-            },
-            {
-              extract: " line is n…",
+              extract:
+                " uses indentations, usually 4 spaces, to show which instructions are inside and outside a loop.",
               type: "text",
             },
           ],
