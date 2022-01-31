@@ -52,9 +52,11 @@ export interface RouterState {
   reference?: Anchor;
 }
 
+type NavigationSource = "toolkit-user" | "toolkit-search" | "toolkit-from-code";
+
 type RouterContextValue = [
   RouterState,
-  (state: RouterState, source?: string) => void
+  (state: RouterState, source?: NavigationSource) => void
 ];
 
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);
@@ -115,7 +117,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [setState]);
   const navigate = useCallback(
-    (newState: RouterState, source?: string) => {
+    (newState: RouterState, source?: NavigationSource) => {
       if (source) {
         logging.event({ type: source });
       }
@@ -143,10 +145,13 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
  */
 export const useRouterParam = <T,>(
   param: RouterParam<T>
-): [T | undefined, (param: T | undefined, source?: string) => void] => {
+): [
+  T | undefined,
+  (param: T | undefined, source?: NavigationSource) => void
+] => {
   const [state, setState] = useRouterState();
   const navigateParam = useCallback(
-    (value: T | undefined, source?: string) => {
+    (value: T | undefined, source?: NavigationSource) => {
       setState({ ...state, [param.id]: value }, source);
     },
     [param, setState, state]
