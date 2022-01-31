@@ -176,11 +176,14 @@ const CodeMirror = ({
   useEffect(() => {
     const listener = (event: Event) => {
       const id = (event as CustomEvent).detail.id;
-      setRouterState({
-        ...routerState,
-        tab: "reference",
-        reference: { id },
-      });
+      setRouterState(
+        {
+          ...routerState,
+          tab: "reference",
+          reference: { id },
+        },
+        "toolkit-from-code"
+      );
       const view = viewRef.current!;
       // Put the focus back in the text editor so the docs are immediately useful.
       view.focus();

@@ -100,7 +100,7 @@ const SideBarHeader = () => {
         setViewedResults([...viewedResults, id]);
       }
       searchModal.onClose();
-      setRouterState(navigation);
+      setRouterState(navigation, "toolkit-search");
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );

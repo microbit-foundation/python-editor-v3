@@ -19,6 +19,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useLogging } from "./logging/logging-hooks";
 
 /**
  * An anchor-like navigation used for scroll positions.
@@ -51,7 +52,10 @@ export interface RouterState {
   reference?: Anchor;
 }
 
-type RouterContextValue = [RouterState, (state: RouterState) => void];
+type RouterContextValue = [
+  RouterState,
+  (state: RouterState, source?: string) => void
+];
 
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);
 
@@ -96,6 +100,7 @@ const serializeValue = (value: Anchor | string) =>
   typeof value === "string" ? value : value.id;
 
 export const RouterProvider = ({ children }: { children: ReactNode }) => {
+  const logging = useLogging();
   const [state, setState] = useState(parse(window.location.search));
   useEffect(() => {
     // This detects browser navigation but not our programatic changes,
@@ -110,13 +115,16 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [setState]);
   const navigate = useCallback(
-    (newState: RouterState) => {
+    (newState: RouterState, source?: string) => {
+      if (source) {
+        logging.event({ type: source });
+      }
       const url = toUrl(newState);
       window.history.pushState(newState, "", url);
 
       setState(newState);
     },
-    [setState]
+    [logging, setState]
   );
   const value: RouterContextValue = useMemo(() => {
     return [state, navigate];
@@ -135,11 +143,11 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
  */
 export const useRouterParam = <T,>(
   param: RouterParam<T>
-): [T | undefined, (param: T | undefined) => void] => {
+): [T | undefined, (param: T | undefined, source?: string) => void] => {
   const [state, setState] = useRouterState();
   const navigateParam = useCallback(
-    (value: T | undefined) => {
-      setState({ ...state, [param.id]: value });
+    (value: T | undefined, source?: string) => {
+      setState({ ...state, [param.id]: value }, source);
     },
     [param, setState, state]
   );
