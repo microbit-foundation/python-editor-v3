@@ -30,7 +30,7 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.serialHide();
   });
 
-  it.only("shows summary of traceback from serial", async () => {
+  it("shows summary of traceback from serial", async () => {
     await app.connect();
 
     await app.mockSerialWrite(traceback);

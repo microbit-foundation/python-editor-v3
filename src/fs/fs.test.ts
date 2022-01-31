@@ -274,7 +274,7 @@ describe("fs - diff", () => {
   it("no changes when no changes", () => {
     expect(diff(other, other)).toEqual([]);
   });
-  it.only("detects create", () => {
+  it("detects create", () => {
     // We're empty on start-up
     expect(diff(empty, main1)).toEqual([{ name: "main.py", type: "create" }]);
     expect(diff(main1, other)).toEqual([{ name: "other.py", type: "create" }]);
