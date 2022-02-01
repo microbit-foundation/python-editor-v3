@@ -74,8 +74,8 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
   const handleMouseEnter = useCallback(() => setState("raised"), [setState]);
   const handleMouseLeave = useCallback(() => setState("default"), [setState]);
   const handleInsertCode = useCallback(
-    () => actions?.insertCode(codeWithImports),
-    [actions, codeWithImports]
+    () => actions?.insertCode(codeWithImports, parentSlug),
+    [actions, codeWithImports, parentSlug]
   );
 
   return (
@@ -195,6 +195,7 @@ const Code = forwardRef<CodeProps, "pre">(
         setDragContext({
           code: full,
           type: "example",
+          parentSlug,
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
         if (dragImage.current) {
@@ -203,18 +204,10 @@ const Code = forwardRef<CodeProps, "pre">(
       },
       [full, dragImage, parentSlug, logging]
     );
-    const handleDragEnd = useCallback(
-      (event: React.DragEvent) => {
-        // This does not indicate a successful drop where code is inserted.
-        logging.event({
-          type: "code-drag",
-          detail: parentSlug,
-        });
-        dndDebug("dragend");
-        setDragContext(undefined);
-      },
-      [parentSlug, logging]
-    );
+    const handleDragEnd = useCallback((event: React.DragEvent) => {
+      dndDebug("dragend");
+      setDragContext(undefined);
+    }, []);
 
     return (
       <HStack

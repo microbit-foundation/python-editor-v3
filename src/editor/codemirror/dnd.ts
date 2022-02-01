@@ -44,6 +44,7 @@ export type CodeInsertType =
 export interface DragContext {
   code: string;
   type: CodeInsertType;
+  parentSlug?: string;
 }
 
 let dragContext: DragContext | undefined;
