@@ -18,6 +18,7 @@ const ToolkitIcon = ({ icon, ...props }: ToolkitIconProps) => {
       src={imageUrlBuilder.image(icon.asset).url()}
       alt=""
       width="80px"
+      height="80px"
     />
   );
 };
