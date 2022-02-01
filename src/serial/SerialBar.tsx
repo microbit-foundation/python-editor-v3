@@ -10,11 +10,11 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
-import { useDeviceTraceback, Traceback } from "../device/device-hooks";
+import { useDeviceTraceback } from "../device/device-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { SerialHelpDialog } from "./SerialHelp";
 import SerialIndicators from "./SerialIndicators";
@@ -44,15 +44,6 @@ const SerialBar = ({
   const intl = useIntl();
   const helpDisclosure = useDisclosure();
   const traceback = useDeviceTraceback();
-  const [prevTraceback, setPrevTraceback] = useState<Traceback | undefined>();
-  useEffect(() => {
-    if (traceback && !prevTraceback) {
-      logging.event({
-        type: "serial-traceback",
-      });
-    }
-    setPrevTraceback(traceback);
-  }, [logging, traceback, prevTraceback, setPrevTraceback]);
   return (
     <>
       <SerialHelpDialog
