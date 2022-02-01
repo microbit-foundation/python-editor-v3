@@ -6,13 +6,14 @@
 import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { forwardRef } from "@chakra-ui/system";
-import { Ref, useCallback, useMemo, useRef, useState } from "react";
+import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
+import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
 
@@ -58,11 +59,11 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const textHeight = lineCount * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const [codeTop, setCodeTop] = useState<string | undefined>(undefined);
-  const handleMouseEnter = useCallback(() => {
+  const enterRaisedState = useCallback(() => {
     setState("raised");
     setCodeTop(codeRef.current!.getBoundingClientRect().top + "px");
   }, [setState]);
-  const handleMouseLeave = useCallback(() => {
+  const clearRaisedState = useCallback(() => {
     setState("default");
     setCodeTop(undefined);
   }, [setState]);
@@ -70,6 +71,16 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
     () => actions?.insertCode(codeWithImports),
     [actions, codeWithImports]
   );
+  const ancestor = useScrollablePanelAncestor();
+  useEffect(() => {
+    const target = ancestor.current!;
+    if (target) {
+      target.addEventListener("scroll", clearRaisedState);
+      return () => {
+        target.removeEventListener("scroll", clearRaisedState);
+      };
+    }
+  }, [ancestor, clearRaisedState]);
 
   return (
     <Box>
@@ -79,8 +90,8 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
         position={codeTop ? "static" : "relative"}
       >
         <Code
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={enterRaisedState}
+          onMouseLeave={clearRaisedState}
           concise={code}
           full={codeWithImports}
           position="absolute"

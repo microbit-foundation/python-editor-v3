@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, Stack, Text, Box } from "@chakra-ui/layout";
+import { Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
