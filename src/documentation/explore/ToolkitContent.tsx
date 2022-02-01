@@ -23,6 +23,7 @@ import { PortableText } from "../../common/sanity";
 
 interface ToolkitContentProps {
   content: PortableText;
+  parentSlug?: string;
 }
 
 const getAspectRatio = (imageRef: string): number | undefined => {
@@ -107,14 +108,18 @@ interface SerializerMarkProps<T> extends HasChildren {
   mark: T;
 }
 
-const ToolkitContent = ({ content, ...outerProps }: ToolkitContentProps) => {
+const ToolkitContent = ({
+  content,
+  parentSlug,
+  ...outerProps
+}: ToolkitContentProps) => {
   const serializers = {
     // This is a serializer for the wrapper element.
     // We use a fragment so we can use spacing from the context into which we render.
     container: (props: HasChildren) => <>{props.children}</>,
     types: {
       python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
-        <CodeEmbed code={main} {...outerProps} />
+        <CodeEmbed code={main} {...outerProps} parentSlug={parentSlug} />
       ),
       simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
         const ratio = getAspectRatio(props.node.asset._ref);
