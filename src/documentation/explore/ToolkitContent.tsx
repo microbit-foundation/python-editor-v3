@@ -36,14 +36,13 @@ const getAspectRatio = (imageRef: string): number | undefined => {
 };
 
 const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
-  const [state, setState] = useRouterState();
+  const [, setState] = useRouterState();
   return (
     <Link
       color="brand.600"
       onClick={(e) => {
         e.preventDefault();
         setState({
-          ...state,
           tab: "reference",
           reference: { id: props.mark.name },
         });
