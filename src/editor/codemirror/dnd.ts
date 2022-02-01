@@ -9,6 +9,7 @@ import { flags } from "../../flags";
 import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
+import { deployment } from "../../deployment";
 
 export const debug = (message: string, ...args: any) => {
   if (flags.dndDebug) {
@@ -173,6 +174,10 @@ const dndHandlers = () => {
         if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
+        deployment.logging.event({
+          type: "code-drop",
+          detail: dragContext.parentSlug,
+        });
         debug("  drop");
         clearSuppressChildDragEnterLeave(view);
         event.preventDefault();
