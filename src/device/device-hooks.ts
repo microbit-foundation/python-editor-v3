@@ -1,9 +1,10 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 import React, { useContext, useEffect, useState } from "react";
+import { useLogging } from "../logging/logging-hooks";
 import {
   DeviceConnection,
   EVENT_STATUS,
@@ -163,11 +164,20 @@ export const useDeviceTraceback = () => {
   const [runtimeError, setRuntimeError] = useState<Traceback | undefined>(
     undefined
   );
+  const logging = useLogging();
 
   useEffect(() => {
     const buffer = new TracebackScrollback();
     const dataListener = (data: string) => {
-      setRuntimeError(buffer.push(data));
+      const latest = buffer.push(data);
+      setRuntimeError((current) => {
+        if (!current && latest) {
+          logging.event({
+            type: "serial-traceback",
+          });
+        }
+        return latest;
+      });
     };
     const clearListener = () => {
       buffer.clear();
@@ -181,7 +191,7 @@ export const useDeviceTraceback = () => {
       device.removeListener(EVENT_SERIAL_RESET, clearListener);
       device.removeListener(EVENT_SERIAL_DATA, dataListener);
     };
-  }, [device, setRuntimeError]);
+  }, [device, setRuntimeError, logging]);
 
   return runtimeError;
 };

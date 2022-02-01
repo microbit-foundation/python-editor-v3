@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -15,6 +15,7 @@ import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useDeviceTraceback } from "../device/device-hooks";
+import { useLogging } from "../logging/logging-hooks";
 import { SerialHelpDialog } from "./SerialHelp";
 import SerialIndicators from "./SerialIndicators";
 import SerialMenu from "./SerialMenu";
@@ -33,9 +34,13 @@ const SerialBar = ({
   background,
   ...props
 }: SerialBarProps) => {
+  const logging = useLogging();
   const handleExpandCollapseClick = useCallback(() => {
+    logging.event({
+      type: compact ? "serial-expand" : "serial-collapse",
+    });
     onSizeChange(compact ? "open" : "compact");
-  }, [compact, onSizeChange]);
+  }, [compact, onSizeChange, logging]);
   const intl = useIntl();
   const helpDisclosure = useDisclosure();
   const traceback = useDeviceTraceback();
@@ -77,7 +82,10 @@ const SerialBar = ({
               isRound
               aria-label={intl.formatMessage({ id: "hints-and-tips" })}
               icon={<RiInformationLine />}
-              onClick={helpDisclosure.onOpen}
+              onClick={() => {
+                logging.event({ type: "serial-info" });
+                helpDisclosure.onOpen();
+              }}
             />
             <SerialMenu compact={compact} onSizeChange={onSizeChange} />
           </HStack>
