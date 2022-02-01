@@ -60,12 +60,12 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const [codeTop, setCodeTop] = useState<string | undefined>(undefined);
   const enterRaisedState = useCallback(() => {
-    setState("raised");
     setCodeTop(codeRef.current!.getBoundingClientRect().top + "px");
+    setState("raised");
   }, [setState]);
   const clearRaisedState = useCallback(() => {
-    setState("default");
     setCodeTop(undefined);
+    setState("default");
   }, [setState]);
   const handleInsertCode = useCallback(
     () => actions?.insertCode(codeWithImports),
@@ -87,7 +87,7 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
       <Box
         height={codeHeight}
         fontSize="md"
-        position={codeTop ? "static" : "relative"}
+        position={codeTop ? undefined : "relative"}
       >
         <Code
           onMouseEnter={enterRaisedState}
