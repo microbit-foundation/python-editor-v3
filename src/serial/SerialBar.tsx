@@ -91,7 +91,10 @@ const SerialBar = ({
               isRound
               aria-label={intl.formatMessage({ id: "hints-and-tips" })}
               icon={<RiInformationLine />}
-              onClick={helpDisclosure.onOpen}
+              onClick={() => {
+                logging.event({ type: "serial-info" });
+                helpDisclosure.onOpen();
+              }}
             />
             <SerialMenu compact={compact} onSizeChange={onSizeChange} />
           </HStack>

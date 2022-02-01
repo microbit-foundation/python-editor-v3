@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -12,6 +12,7 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm, defaultCodeFontSizePt } from "../deployment/misc";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
+import { useLogging } from "../logging/logging-hooks";
 import { useSelection } from "../workbench/use-selection";
 import { WebLinkProvider } from "./link-provider";
 import { SerialActions } from "./serial-actions";
@@ -26,9 +27,10 @@ export const useSerialActions = (
 ) => {
   const device = useDevice();
   const terminal = useTerminal();
+  const logging = useLogging();
   return useMemo(
-    () => new SerialActions(terminal, device, onSerialSizeChange),
-    [terminal, device, onSerialSizeChange]
+    () => new SerialActions(terminal, device, onSerialSizeChange, logging),
+    [terminal, device, onSerialSizeChange, logging]
   );
 };
 
