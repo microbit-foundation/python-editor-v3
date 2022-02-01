@@ -23,7 +23,7 @@ import SerialArea from "../serial/SerialArea";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
-const minimums: [number, number] = [380, 580];
+const minimums: [number, number] = [420, 580];
 
 /**
  * The main app layout with resizable panels.
