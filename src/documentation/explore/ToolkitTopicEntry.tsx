@@ -70,7 +70,7 @@ const ToolkitTopicEntry = ({
       >
         <ToolkitName name={entry.name} isV2Only={isV2Only(entry)}></ToolkitName>
 
-        <ToolkitContent content={content} />
+        <ToolkitContent content={content} parentSlug={entry.slug.current} />
         {alternatives && typeof alternativeIndex === "number" && (
           <>
             <Flex wrap="wrap" as="label">
@@ -91,7 +91,10 @@ const ToolkitTopicEntry = ({
               </Select>
             </Flex>
 
-            <ToolkitContent content={alternatives[alternativeIndex].content} />
+            <ToolkitContent
+              content={alternatives[alternativeIndex].content}
+              parentSlug={entry.slug.current}
+            />
           </>
         )}
         {hasDetail && (
@@ -99,7 +102,10 @@ const ToolkitTopicEntry = ({
             {/* Avoid Stack spacing here so the margin animates too. */}
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
               <Stack spacing={3} mt={3}>
-                <ToolkitContent content={detailContent} />
+                <ToolkitContent
+                  content={detailContent}
+                  parentSlug={entry.slug.current}
+                />
               </Stack>
             </Collapse>
             <ShowMoreButton

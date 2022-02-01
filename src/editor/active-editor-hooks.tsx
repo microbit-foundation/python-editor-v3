@@ -28,7 +28,11 @@ export class EditorActions {
    *
    * @param code The code with any required imports.
    */
-  insertCode = (code: string): void => {
+  insertCode = (code: string, id?: string): void => {
+    this.logging.event({
+      type: "code-insert",
+      detail: id,
+    });
     this.view.dispatch(calculateChanges(this.view.state, code, "example"));
     this.view.focus();
   };

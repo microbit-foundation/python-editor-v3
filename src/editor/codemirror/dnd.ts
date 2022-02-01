@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -9,6 +9,7 @@ import { flags } from "../../flags";
 import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
+import { deployment } from "../../deployment";
 
 export const debug = (message: string, ...args: any) => {
   if (flags.dndDebug) {
@@ -44,6 +45,7 @@ export type CodeInsertType =
 export interface DragContext {
   code: string;
   type: CodeInsertType;
+  id?: string;
 }
 
 let dragContext: DragContext | undefined;
@@ -172,6 +174,10 @@ const dndHandlers = () => {
         if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
+        deployment.logging.event({
+          type: "code-drop",
+          detail: dragContext.id,
+        });
         debug("  drop");
         clearSuppressChildDragEnterLeave(view);
         event.preventDefault();
