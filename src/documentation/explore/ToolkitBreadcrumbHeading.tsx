@@ -64,7 +64,7 @@ const ToolkitBreadcrumbHeading = ({
         </Text>
       </Button>
       <HStack align="center" spacing={4}>
-        {icon && <ToolkitIcon icon={icon} />}
+        {icon && <ToolkitIcon alignSelf="flex-start" icon={icon} />}
         <VStack align="flex-start" spacing={1}>
           <Text
             as="h2"

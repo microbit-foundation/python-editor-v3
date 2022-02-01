@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Image } from "@chakra-ui/react";
+import { Image, ImageProps } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { ToolkitImage } from "./model";
 
-interface ToolkitIconProps {
+interface ToolkitIconProps extends ImageProps {
   icon: ToolkitImage;
 }
 
-const ToolkitIcon = ({ icon }: ToolkitIconProps) => {
+const ToolkitIcon = ({ icon, ...props }: ToolkitIconProps) => {
   return (
     <Image
+      {...props}
       src={imageUrlBuilder.image(icon.asset).url()}
       alt=""
       width="80px"
-      borderRadius="lg"
     />
   );
 };
