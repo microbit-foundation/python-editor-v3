@@ -119,7 +119,10 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useCallback(
     (newState: RouterState, source?: NavigationSource) => {
       if (source) {
-        logging.event({ type: source });
+        logging.event({
+          type: source,
+          detail: newState.explore?.id || newState.reference?.id,
+        });
       }
       const url = toUrl(newState);
       window.history.pushState(newState, "", url);
