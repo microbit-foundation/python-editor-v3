@@ -45,7 +45,7 @@ export type CodeInsertType =
 export interface DragContext {
   code: string;
   type: CodeInsertType;
-  parentSlug?: string;
+  id?: string;
 }
 
 let dragContext: DragContext | undefined;
@@ -176,7 +176,7 @@ const dndHandlers = () => {
         }
         deployment.logging.event({
           type: "code-drop",
-          detail: dragContext.parentSlug,
+          detail: dragContext.id,
         });
         debug("  drop");
         clearSuppressChildDragEnterLeave(view);

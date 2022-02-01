@@ -334,7 +334,7 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
   return {
     code: full,
     type: kind === "function" ? "call" : "example",
-    parentSlug: fullName,
+    id: fullName,
   };
 };
 

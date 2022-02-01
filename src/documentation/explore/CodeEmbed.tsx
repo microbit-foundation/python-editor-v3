@@ -195,7 +195,7 @@ const Code = forwardRef<CodeProps, "pre">(
         setDragContext({
           code: full,
           type: "example",
-          parentSlug,
+          id: parentSlug,
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
         if (dragImage.current) {
