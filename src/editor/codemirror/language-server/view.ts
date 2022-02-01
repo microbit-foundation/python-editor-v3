@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -9,6 +9,7 @@ import { EditorView, ViewPlugin } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
+import { Logging } from "../../../logging/logging";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
@@ -76,13 +77,14 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
 export function languageServer(
   client: LanguageServerClient,
   uri: string,
-  intl: IntlShape
+  intl: IntlShape,
+  logging: Logging
 ) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
     signatureHelp(intl),
-    autocompletion(intl),
+    autocompletion(intl, logging),
   ];
 }

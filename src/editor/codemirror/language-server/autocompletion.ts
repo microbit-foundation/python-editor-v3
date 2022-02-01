@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -21,6 +21,7 @@ import {
   CompletionTriggerKind,
 } from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
+import { Logging } from "../../../logging/logging";
 import { clientFacet, uriFacet } from "./common";
 import {
   renderDocumentation,
@@ -36,7 +37,7 @@ const identifierLike = /[a-zA-Z0-9_\u{a1}-\u{10ffff}]+/u;
 
 type AugmentedCompletion = Completion & { item: CompletionItem };
 
-export const autocompletion = (intl: IntlShape) =>
+export const autocompletion = (intl: IntlShape, logging: Logging) =>
   cmAutocompletion({
     override: [
       async (context: CompletionContext): Promise<CompletionResult | null> => {
@@ -90,6 +91,7 @@ export const autocompletion = (intl: IntlShape) =>
                   // In practice we don't get textEdit fields back from Pyright so the label is used.
                   label: item.label,
                   apply: (view, completion, from, to) => {
+                    logging.event({ type: "autocomplete-accept" });
                     const transactions: TransactionSpec[] = [
                       { changes: { from, to, insert: item.label } },
                     ];
