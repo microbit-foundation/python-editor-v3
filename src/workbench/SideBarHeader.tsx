@@ -26,6 +26,7 @@ import { topBarHeight } from "../deployment/misc";
 import { SearchResults } from "../documentation/search/common";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
+import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
@@ -40,6 +41,7 @@ const SideBarHeader = () => {
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
+  const logging = useLogging();
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -66,16 +68,19 @@ const SideBarHeader = () => {
       debounce(async (newQuery: string) => {
         const trimmedQuery = newQuery.trim();
         if (trimmedQuery) {
-          const results = await search.search(trimmedQuery);
+          const newResults = await search.search(trimmedQuery);
           if (!isUnmounted()) {
-            setResults(results);
+            if (!results) {
+              logging.event({ type: "search" });
+            }
+            setResults(newResults);
           }
         } else {
           setResults(undefined);
         }
         setViewedResults([]);
       }, 300),
-    [search, setResults, setViewedResults, isUnmounted]
+    [search, setResults, setViewedResults, isUnmounted, logging, results]
   );
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
