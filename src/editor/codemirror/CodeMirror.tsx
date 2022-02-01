@@ -181,7 +181,6 @@ const CodeMirror = ({
       const id = (event as CustomEvent).detail.id;
       setRouterState(
         {
-          ...routerState,
           tab: "reference",
           reference: { id },
         },
