@@ -5,25 +5,14 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
-import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
-import {
-  Ref,
-  RefObject,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Ref, useCallback, useMemo, useRef, useState } from "react";
 import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
-import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
-import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
 
@@ -68,9 +57,15 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
-  const codePopUpHeight = `calc(${codeHeight} + 2px)`; // Account for border.
-  const handleMouseEnter = useCallback(() => setState("raised"), [setState]);
-  const handleMouseLeave = useCallback(() => setState("default"), [setState]);
+  const [codeTop, setCodeTop] = useState<string | undefined>(undefined);
+  const handleMouseEnter = useCallback(() => {
+    setState("raised");
+    setCodeTop(codeRef.current!.getBoundingClientRect().top + "px");
+  }, [setState]);
+  const handleMouseLeave = useCallback(() => {
+    setState("default");
+    setCodeTop(undefined);
+  }, [setState]);
   const handleInsertCode = useCallback(
     () => actions?.insertCode(codeWithImports),
     [actions, codeWithImports]
@@ -78,7 +73,11 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
 
   return (
     <Box>
-      <Box height={codeHeight} fontSize="md">
+      <Box
+        height={codeHeight}
+        fontSize="md"
+        position={codeTop ? "static" : "relative"}
+      >
         <Code
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -88,18 +87,9 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
           ref={codeRef}
           background={state === "default" ? "white" : "blimpTeal.50"}
           highlightDragHandle={state === "raised"}
+          zIndex={1}
+          top={codeTop}
         />
-        {state === "raised" && (
-          <CodePopUp
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            height={codePopUpHeight}
-            width={codeRef.current ? codeRef.current.offsetWidth : "unset"}
-            concise={code}
-            full={codeWithImports}
-            codeRef={codeRef}
-          />
-        )}
       </Box>
       <HStack spacing={3} mt="2px">
         <Button
@@ -121,40 +111,6 @@ const CodeEmbed = ({ code: codeWithImports }: CodeEmbedProps) => {
         </Button>
       </HStack>
     </Box>
-  );
-};
-
-interface CodePopUpProps extends BoxProps {
-  concise: string;
-  full: string;
-  codeRef: RefObject<HTMLDivElement | null>;
-}
-
-// We draw the same code over the top in a portal so we can draw it
-// above the scrollbar.
-const CodePopUp = ({ codeRef, concise, full, ...props }: CodePopUpProps) => {
-  // We need to re-render, we don't need the value.
-  useScrollTop();
-  useSplitViewContext();
-  if (!codeRef.current) {
-    return null;
-  }
-
-  return (
-    <Portal>
-      <Code
-        concise={concise}
-        full={full}
-        position="absolute"
-        top={codeRef.current.getBoundingClientRect().top + "px"}
-        left={codeRef.current.getBoundingClientRect().left + "px"}
-        // We're always "raised" as this is the pop-up.
-        background="blimpTeal.50"
-        boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
-        highlightDragHandle
-        {...props}
-      />
-    </Portal>
   );
 };
 
@@ -214,23 +170,5 @@ const Code = forwardRef<CodeProps, "pre">(
     );
   }
 );
-
-const useScrollTop = () => {
-  const scrollableRef = useScrollablePanelAncestor();
-  const [scrollTop, setScrollTop] = useState(0);
-  useLayoutEffect(() => {
-    const scrollable = scrollableRef.current;
-    if (!scrollable) {
-      throw new Error();
-    }
-    setScrollTop(scrollable.scrollTop);
-    const listener = () => setScrollTop(scrollable.scrollTop);
-    scrollable.addEventListener("scroll", listener);
-    return () => {
-      scrollable.removeEventListener("scroll", listener);
-    };
-  }, [scrollableRef]);
-  return scrollTop;
-};
 
 export default CodeEmbed;

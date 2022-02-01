@@ -33,14 +33,7 @@ const ScrollablePanel = ({ children }: ScrollablePanelProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Box
-      ref={ref}
-      flex="1 0 auto"
-      overflowY="auto"
-      overflowX="hidden"
-      height={0}
-      position="relative"
-    >
+    <Box ref={ref} flex="1 0 auto" overflowY="auto" height={0}>
       <ScrollablePanelContext.Provider value={ref}>
         {children}
       </ScrollablePanelContext.Provider>

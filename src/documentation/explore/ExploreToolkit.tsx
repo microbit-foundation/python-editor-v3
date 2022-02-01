@@ -89,6 +89,7 @@ const ActiveToolkitLevel = ({
             <ToolkitContent content={topic.introduction} />
           </Box>
         )}
+
         <List flex="1 1 auto">
           {topic.contents?.map((item) => (
             <ListItem key={item.name}>
@@ -98,6 +99,7 @@ const ActiveToolkitLevel = ({
                 anchor={anchor}
                 active={activeItem === item}
               />
+
               <Divider />
             </ListItem>
           ))}

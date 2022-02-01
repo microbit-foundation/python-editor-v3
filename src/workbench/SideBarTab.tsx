@@ -30,7 +30,6 @@ const SideBarTab = ({
       height={width}
       width={width}
       p={0}
-      position="relative"
       className="sidebar-tab" // Used for custom outline below
       onClick={handleTabClick}
       mb={mb ? mb : 0}
