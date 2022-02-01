@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -19,6 +19,7 @@ import {
   ApiDocsEntry,
   ApiDocsFunctionParameter,
 } from "../../language-server/apidocs";
+import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
@@ -333,6 +334,7 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
   return {
     code: full,
     type: kind === "function" ? "call" : "example",
+    parentSlug: fullName,
   };
 };
 
@@ -346,10 +348,15 @@ const DraggableSignature = ({
   docs,
   ...props
 }: DraggableSignatureProps) => {
-  const { fullName, kind, name } = docs;
+  const { fullName, kind, name, id } = docs;
+  const logging = useLogging();
   const dragImage = useCodeDragImage();
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
+      logging.event({
+        type: "code-drag",
+        detail: id,
+      });
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";
       const context = getDragContext(fullName, kind);
@@ -359,7 +366,7 @@ const DraggableSignature = ({
         event.dataTransfer.setDragImage(dragImage.current, 0, 0);
       }
     },
-    [fullName, kind, dragImage]
+    [fullName, kind, id, dragImage, logging]
   );
 
   const handleDragEnd = useCallback((event: React.DragEvent) => {
