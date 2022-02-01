@@ -1,22 +1,16 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 import { IconButton } from "@chakra-ui/button";
 import { Box, VStack } from "@chakra-ui/layout";
+import { Divider, HStack, ListItem, ListItemProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { ToolkitImage } from "./model";
-import {
-  HStack,
-  Image,
-  ListItemProps,
-  ListItem,
-  Divider,
-} from "@chakra-ui/react";
-import { imageUrlBuilder } from "../../common/imageUrlBuilder";
+import ToolkitIcon from "./ToolkitIcon";
 import ToolkitName from "./ToolkitName";
 
 interface ToolkitTopLevelListItemProps {
@@ -80,17 +74,8 @@ const ToolkitListItem = ({
 }: ToolkitListItemProps) => {
   return (
     <ListItem {...props}>
-      <HStack ml={showIcon && icon ? 3 : 5} mr={3} mt={5} mb={5} spacing={5}>
-        {showIcon && icon && (
-          <Image
-            src={imageUrlBuilder.image(icon.asset).url()}
-            alt=""
-            width="80px"
-            height="64px"
-            borderRadius="lg"
-            mt={1}
-          />
-        )}
+      <HStack m={5} mr={3} spacing={5}>
+        {showIcon && icon && <ToolkitIcon icon={icon} />}
         {children}
       </HStack>
       <Divider ml={3} borderWidth="1px" />
