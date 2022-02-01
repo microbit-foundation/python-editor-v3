@@ -63,7 +63,7 @@ const SearchDialog = ({
             type="text"
             outline="none"
             border="none"
-            placeholder={intl.formatMessage({ id: "search-documentation" })}
+            placeholder={intl.formatMessage({ id: "search" })}
             fontSize="lg"
             // Needs some thought, the default breaks the design.
             _focus={{}}
