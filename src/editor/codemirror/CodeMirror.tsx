@@ -103,7 +103,7 @@ const CodeMirror = ({
           lineNumbers(),
           highlightActiveLineGutter(),
           highlightActiveLine(),
-          client ? languageServer(client, uri, intl) : [],
+          client ? languageServer(client, uri, intl, logging) : [],
           // Extensions we enable/disable based on props.
           structureHighlightingCompartment.of(
             codeStructure(options.codeStructureSettings)
