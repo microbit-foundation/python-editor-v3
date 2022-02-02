@@ -121,7 +121,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       if (source) {
         logging.event({
           type: source,
-          detail: newState.explore?.id || newState.reference?.id,
+          message: newState.explore?.id || newState.reference?.id,
         });
       }
       const url = toUrl(newState);

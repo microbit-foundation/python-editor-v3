@@ -31,7 +31,7 @@ export class EditorActions {
   insertCode = (code: string, id?: string): void => {
     this.logging.event({
       type: "code-insert",
-      detail: id,
+      message: id,
     });
     this.view.dispatch(calculateChanges(this.view.state, code, "example"));
     this.view.focus();
