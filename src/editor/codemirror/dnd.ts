@@ -176,7 +176,7 @@ const dndHandlers = () => {
         }
         deployment.logging.event({
           type: "code-drop",
-          detail: dragContext.id,
+          message: dragContext.id,
         });
         debug("  drop");
         clearSuppressChildDragEnterLeave(view);

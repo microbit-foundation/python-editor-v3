@@ -188,7 +188,7 @@ const Code = forwardRef<CodeProps, "pre">(
       (event: React.DragEvent) => {
         logging.event({
           type: "code-drag",
-          detail: parentSlug,
+          message: parentSlug,
         });
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
