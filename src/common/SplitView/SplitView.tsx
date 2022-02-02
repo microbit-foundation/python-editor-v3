@@ -28,6 +28,7 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   compactSize?: number;
   initialSize?: number;
   minimums: [number, number];
+  setSidebarState?: React.Dispatch<React.SetStateAction<SizedMode>>;
 }
 
 /**
@@ -44,6 +45,7 @@ export const SplitView = ({
   minimums,
   mode = "open",
   compactSize = 0,
+  setSidebarState,
   ...props
 }: SplitViewProps) => {
   const sizedFirst = children[0].type === SplitViewSized;
@@ -84,7 +86,12 @@ export const SplitView = ({
             : rect.right;
         let size = Math.abs(relativeTo - clientPos);
         if (size < minimums[0]) {
-          size = minimums[0];
+          if (size < minimums[0] - 80) {
+            size = 86;
+            setSidebarState && setSidebarState("collapsed");
+          } else {
+            size = minimums[0];
+          }
         }
         // Check remaining space for other component vs its minimum
         const maximum =
@@ -94,10 +101,23 @@ export const SplitView = ({
         if (size > maximum) {
           size = maximum;
         }
+
+        if (size > 86) {
+          setSidebarState && setSidebarState("open");
+        }
+
         setSizedPaneSize(size);
       }
     },
-    [dragging, setSizedPaneSize, splitViewRef, minimums, direction, sizedFirst]
+    [
+      dragging,
+      setSizedPaneSize,
+      splitViewRef,
+      minimums,
+      direction,
+      sizedFirst,
+      setSidebarState,
+    ]
   );
 
   const handleMouseMove = useCallback(

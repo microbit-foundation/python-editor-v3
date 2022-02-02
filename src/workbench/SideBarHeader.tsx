@@ -20,6 +20,7 @@ import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { SizedMode } from "../common/SplitView/SplitView";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
@@ -29,7 +30,11 @@ import SearchDialog from "../documentation/search/SearchDialog";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
-const SideBarHeader = () => {
+interface SideBarHeaderProps {
+  sidebarState: SizedMode;
+}
+
+const SideBarHeader = ({ sidebarState }: SideBarHeaderProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const faceLogoRef = useRef<HTMLDivElement>(null);
   const intl = useIntl();
@@ -177,14 +182,14 @@ const SideBarHeader = () => {
             <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
               {brand.squareLogo}
             </Box>
-            {!query && (
+            {!query && sidebarState === "open" && (
               <Box width="9.098rem" role="img" color="white">
                 {brand.horizontalLogo}
               </Box>
             )}
           </HStack>
         </Link>
-        {!query && (
+        {!query && sidebarState === "open" && (
           <Button
             aria-label={intl.formatMessage({ id: "search-open" })}
             onClick={searchModal.onOpen}

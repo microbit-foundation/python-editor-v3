@@ -21,6 +21,7 @@ import { VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
+import { SizedMode } from "../common/SplitView/SplitView";
 import ExploreArea from "../documentation/ExploreArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
@@ -48,6 +49,8 @@ export interface Pane {
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (filename: string) => void;
+  sidebarState: SizedMode;
+  setSidebarState: React.Dispatch<React.SetStateAction<SizedMode>>;
 }
 
 /**
@@ -57,6 +60,8 @@ interface SideBarProps extends BoxProps {
 const SideBar = ({
   selectedFile,
   onSelectedFileChanged,
+  sidebarState,
+  setSidebarState,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -114,11 +119,12 @@ const SideBar = ({
     setParams({
       tab,
     });
-  }, [tab, setParams]);
+    setSidebarState("open");
+  }, [tab, setParams, setSidebarState]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
-      <SideBarHeader />
+      <SideBarHeader sidebarState={sidebarState} />
       <Tabs
         orientation="vertical"
         size="lg"
@@ -142,19 +148,23 @@ const SideBar = ({
             <HelpMenu size="lg" />
           </VStack>
         </TabList>
-        <TabPanels>
-          {panes.map((p) => (
-            <TabPanel key={p.id} p={0} height="100%">
-              <Flex height="100%" direction="column">
-                <ErrorBoundary>
-                  {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
-                  {p.contents}
-                  <ReleaseNotice onDialogChange={setReleaseDialog} />
-                </ErrorBoundary>
-              </Flex>
-            </TabPanel>
-          ))}
-        </TabPanels>
+        {sidebarState !== "collapsed" && (
+          <TabPanels>
+            {panes.map((p) => (
+              <TabPanel key={p.id} p={0} height="100%">
+                <Flex height="100%" direction="column">
+                  <ErrorBoundary>
+                    {p.nav && (
+                      <HStack justifyContent="flex-end">{p.nav}</HStack>
+                    )}
+                    {p.contents}
+                    <ReleaseNotice onDialogChange={setReleaseDialog} />
+                  </ErrorBoundary>
+                </Flex>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        )}
       </Tabs>
       <ReleaseDialogs
         onDialogChange={setReleaseDialog}

@@ -55,6 +55,7 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+  const [sidebarState, setSidebarState] = useState<SizedMode>("open");
   return (
     <Flex className="Workbench">
       <SplitView
@@ -65,6 +66,7 @@ const Workbench = () => {
           700,
           Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
         )}
+        setSidebarState={setSidebarState}
       >
         <SplitViewSized>
           <SideBar
@@ -73,6 +75,8 @@ const Workbench = () => {
             selectedFile={selection.file}
             onSelectedFileChanged={setSelectedFile}
             flex="1 1 100%"
+            sidebarState={sidebarState}
+            setSidebarState={setSidebarState}
           />
         </SplitViewSized>
         <SplitViewDivider />
