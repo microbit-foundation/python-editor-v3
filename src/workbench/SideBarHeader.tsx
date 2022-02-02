@@ -68,19 +68,21 @@ const SideBarHeader = () => {
       debounce(async (newQuery: string) => {
         const trimmedQuery = newQuery.trim();
         if (trimmedQuery) {
-          const newResults = await search.search(trimmedQuery);
+          const results = await search.search(trimmedQuery);
           if (!isUnmounted()) {
-            if (!results) {
-              logging.event({ type: "search" });
-            }
-            setResults(newResults);
+            setResults((prevResults) => {
+              if (!prevResults) {
+                logging.event({ type: "search" });
+              }
+              return results;
+            });
           }
         } else {
           setResults(undefined);
         }
         setViewedResults([]);
       }, 300),
-    [search, setResults, setViewedResults, isUnmounted, logging, results]
+    [search, setResults, setViewedResults, isUnmounted, logging]
   );
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
