@@ -389,10 +389,6 @@ export class ProjectActions {
    * Create a file, prompting the user for the name.
    */
   createFile = async () => {
-    this.logging.event({
-      type: "create-file",
-    });
-
     const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
@@ -406,6 +402,9 @@ export class ProjectActions {
     });
 
     if (filenameWithoutExtension) {
+      this.logging.event({
+        type: "create-file",
+      });
       try {
         const filename = ensurePythonExtension(filenameWithoutExtension);
         await this.fs.write(
