@@ -32,7 +32,7 @@ export const validateNewFilename = (
   if (filename.length === 0) {
     return intl.formatMessage({ id: "name-not-empty" });
   }
-  if (!filename.match(/^[\p{Ll}_]+$/u)) {
+  if (!filename.match(/^[\p{Ll}_0-9]+$/u)) {
     return intl.formatMessage({ id: "lowercase-no-space" });
   }
   if (exists(ensurePythonExtension(filename))) {

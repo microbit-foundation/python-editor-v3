@@ -34,5 +34,6 @@ describe("validateNewFilename", () => {
     expect(
       validateNewFilename("underscores_are_allowed", exists, intl)
     ).toBeUndefined();
+    expect(validateNewFilename("007digits", exists, intl)).toBeUndefined();
   });
 });
