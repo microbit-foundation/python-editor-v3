@@ -186,7 +186,6 @@ const SideBarHeader = () => {
         </Link>
         {!query && (
           <Button
-            aria-label={intl.formatMessage({ id: "search-open" })}
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"
