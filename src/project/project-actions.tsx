@@ -18,13 +18,7 @@ import {
   WebUSBError,
   WebUSBErrorCode,
 } from "../device/device";
-import {
-  DownloadData,
-  FileSystem,
-  MAIN_FILE,
-  Statistics,
-  VersionAction,
-} from "../fs/fs";
+import { FileSystem, MAIN_FILE, Statistics, VersionAction } from "../fs/fs";
 import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
@@ -47,6 +41,7 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import { LanguageServerClient } from "../language-server/client";
+import { DefaultedProject } from "./project-hooks";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -81,6 +76,10 @@ export class ProjectActions {
     private logging: Logging,
     private client: LanguageServerClient | undefined
   ) {}
+
+  private get project(): DefaultedProject {
+    return defaultedProject(this.fs, this.intl);
+  }
 
   /**
    * Connect to the device if possible, otherwise show feedback.
@@ -237,7 +236,7 @@ export class ProjectActions {
   }
 
   private findChanges(files: FileInput[]): FileChange[] {
-    const currentFiles = this.fs.project.files.map((f) => f.name);
+    const currentFiles = this.project.files.map((f) => f.name);
     const current = new Set(currentFiles);
     return files.map((f) => ({
       ...f,
@@ -259,7 +258,7 @@ export class ProjectActions {
       Body: (props: InputDialogBody<MainScriptChoice>) => (
         <ChooseMainScriptQuestion
           {...props}
-          currentFiles={new Set(this.fs.project.files.map((f) => f.name))}
+          currentFiles={new Set(this.project.files.map((f) => f.name))}
           inputs={inputs}
         />
       ),
@@ -336,7 +335,7 @@ export class ProjectActions {
       detail: await this.projectStats(),
     });
 
-    let download: DownloadData | undefined;
+    let download: string | undefined;
     try {
       download = await this.fs.toHexForDownload();
     } catch (e: any) {
@@ -347,10 +346,10 @@ export class ProjectActions {
       });
       return;
     }
-    const blob = new Blob([download.intelHex], {
+    const blob = new Blob([download], {
       type: "application/octet-stream",
     });
-    saveAs(blob, download.filename);
+    saveAs(blob, this.project.name + ".hex");
   };
 
   /**
@@ -390,7 +389,7 @@ export class ProjectActions {
       const blob = new Blob([content.data], {
         type: "application/octet-stream",
       });
-      const filename = `${this.fs.project.name}.py`;
+      const filename = `${this.project.name}.py`;
       saveAs(blob, filename);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
@@ -401,7 +400,7 @@ export class ProjectActions {
    * Create a file, prompting the user for the name.
    */
   createFile = async () => {
-    const preexistingFiles = new Set(this.fs.project.files.map((f) => f.name));
+    const preexistingFiles = new Set(this.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
     const filenameWithoutExtension = await this.dialogs.input<string>({
@@ -622,3 +621,14 @@ export class ProjectActions {
     );
   };
 }
+
+export const defaultedProject = (
+  fs: FileSystem,
+  intl: IntlShape
+): DefaultedProject => {
+  return {
+    ...fs.project,
+    // We do this here so the default changes when the language does.
+    name: fs.project.name ?? intl.formatMessage({ id: "untitled-project" }),
+  };
+};

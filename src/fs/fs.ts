@@ -74,8 +74,9 @@ export interface Project {
 
   /**
    * A user-defined name for the project.
+   * Undefined if not set by the user.
    */
-  name: string;
+  name: string | undefined;
 
   /**
    * The files in the project.
@@ -132,11 +133,6 @@ export const diff = (before: Project, after: Project): FileChange[] => {
 
 export const EVENT_PROJECT_UPDATED = "project_updated";
 export const MAIN_FILE = "main.py";
-
-export interface DownloadData {
-  intelHex: string;
-  filename: string;
-}
 
 /**
  * The MicroPython file system adapted for convienient use from the UI.
@@ -379,12 +375,9 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.emit(EVENT_PROJECT_UPDATED, this.project);
   }
 
-  async toHexForDownload(): Promise<DownloadData> {
+  async toHexForDownload(): Promise<string> {
     const fs = await this.initialize();
-    return {
-      filename: `${this.project.name}.hex`,
-      intelHex: fs.getUniversalHex(),
-    };
+    return fs.getUniversalHex();
   }
 
   async fullFlashData(boardId: BoardId): Promise<Uint8Array> {

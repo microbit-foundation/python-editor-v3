@@ -14,8 +14,11 @@ import { parseMigrationFromUrl } from "./migration";
 export interface InitialProject {
   /**
    * The project name.
+   *
+   * Defaulted in the UI if unset rather than at initialization time,
+   * so that it can change when the language changes.
    */
-  name: string;
+  name?: string;
   /**
    * The main.py source content.
    */
@@ -27,7 +30,6 @@ export interface InitialProject {
 }
 
 export const defaultInitialProject: InitialProject = {
-  name: "Untitled project",
   main: `# Add your Python code here. E.g.
 from microbit import *
 
