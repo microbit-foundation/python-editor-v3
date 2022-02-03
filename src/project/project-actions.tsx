@@ -40,6 +40,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import { LanguageServerClient } from "../language-server/client";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -67,7 +68,8 @@ export class ProjectActions {
     private dialogs: Dialogs,
     private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
-    private logging: Logging
+    private logging: Logging,
+    private client: LanguageServerClient | undefined
   ) {}
 
   /**
@@ -321,7 +323,10 @@ export class ProjectActions {
   download = async () => {
     this.logging.event({
       type: "download",
-      detail: await this.fs.statistics(),
+      detail: {
+        ...(await this.fs.statistics()),
+        errorCount: this.client?.errorCount() ?? 0,
+      },
     });
 
     let download: DownloadData | undefined;
