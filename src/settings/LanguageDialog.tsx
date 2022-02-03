@@ -98,6 +98,7 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
       onClick={() => onChooseLanguage(language.id)}
       height="auto"
       textAlign="left"
+      data-testid={language.id}
     >
       <HStack>
         <VStack alignItems="left">
