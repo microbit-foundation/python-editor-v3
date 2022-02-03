@@ -1,10 +1,10 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   SplitView,
@@ -23,7 +23,8 @@ import SerialArea from "../serial/SerialArea";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
-const minimums: [number, number] = [380, 580];
+const sidebarMinimums: [number, number] = [380, 580];
+const serialMinimums: [number, number] = [380, 580];
 
 /**
  * The main app layout with resizable panels.
@@ -56,16 +57,22 @@ const Workbench = () => {
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [sidebarState, setSidebarState] = useState<SizedMode>("open");
+  const initialSize = useMemo((): number => {
+    return Math.min(
+      700,
+      Math.max(sidebarMinimums[0], Math.floor(window.innerWidth * 0.35))
+    );
+  }, []);
+  const [sidebarSize, setSidebarSize] = useState<number>(initialSize);
+  const [serialSize, setSerialSize] = useState<number>(serialMinimums[0]);
   return (
     <Flex className="Workbench">
       <SplitView
         direction="row"
         width="100%"
-        minimums={minimums}
-        initialSize={Math.min(
-          700,
-          Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
-        )}
+        minimums={sidebarMinimums}
+        sizedPaneSize={sidebarSize}
+        setSizedPaneSize={setSidebarSize}
         setSidebarState={setSidebarState}
       >
         <SplitViewSized>
@@ -77,6 +84,8 @@ const Workbench = () => {
             flex="1 1 100%"
             sidebarState={sidebarState}
             setSidebarState={setSidebarState}
+            setSidebarSize={setSidebarSize}
+            minimums={sidebarMinimums}
           />
         </SplitViewSized>
         <SplitViewDivider />
@@ -90,10 +99,12 @@ const Workbench = () => {
           >
             <SplitView
               direction="column"
-              minimums={[248, 200]}
+              minimums={serialMinimums}
               compactSize={SerialArea.compactSize}
               height="100%"
               mode={serialSizedMode}
+              sizedPaneSize={serialSize}
+              setSizedPaneSize={setSerialSize}
             >
               <SplitViewRemainder>
                 <Box height="100%" as="section">

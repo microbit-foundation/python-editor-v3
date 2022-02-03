@@ -26,7 +26,8 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   children: [JSX.Element, JSX.Element, JSX.Element];
   direction: Direction;
   compactSize?: number;
-  initialSize?: number;
+  sizedPaneSize: number;
+  setSizedPaneSize: React.Dispatch<React.SetStateAction<number>>;
   minimums: [number, number];
   setSidebarState?: React.Dispatch<React.SetStateAction<SizedMode>>;
 }
@@ -41,17 +42,16 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
 export const SplitView = ({
   children,
   direction,
-  initialSize,
   minimums,
+  sizedPaneSize,
+  setSizedPaneSize,
   mode = "open",
   compactSize = 0,
   setSidebarState,
   ...props
 }: SplitViewProps) => {
+  const collapsedSidebarSize = 86;
   const sizedFirst = children[0].type === SplitViewSized;
-  const [sizedPaneSize, setSizedPaneSize] = useState<undefined | number>(
-    initialSize || minimums[0]
-  );
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);
 
@@ -87,7 +87,7 @@ export const SplitView = ({
         let size = Math.abs(relativeTo - clientPos);
         if (size < minimums[0]) {
           if (size < minimums[0] - 80) {
-            size = 86;
+            size = collapsedSidebarSize;
             setSidebarState && setSidebarState("collapsed");
           } else {
             size = minimums[0];
@@ -102,7 +102,7 @@ export const SplitView = ({
           size = maximum;
         }
 
-        if (size > 86) {
+        if (size > collapsedSidebarSize) {
           setSidebarState && setSidebarState("open");
         }
 

@@ -51,6 +51,8 @@ interface SideBarProps extends BoxProps {
   onSelectedFileChanged: (filename: string) => void;
   sidebarState: SizedMode;
   setSidebarState: React.Dispatch<React.SetStateAction<SizedMode>>;
+  setSidebarSize: React.Dispatch<React.SetStateAction<number>>;
+  minimums: [number, number];
 }
 
 /**
@@ -62,6 +64,8 @@ const SideBar = ({
   onSelectedFileChanged,
   sidebarState,
   setSidebarState,
+  setSidebarSize,
+  minimums,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -120,7 +124,8 @@ const SideBar = ({
       tab,
     });
     setSidebarState("open");
-  }, [tab, setParams, setSidebarState]);
+    setSidebarSize(minimums[0]);
+  }, [tab, setParams, setSidebarState, setSidebarSize, minimums]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
