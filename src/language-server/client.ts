@@ -9,6 +9,7 @@ import {
   CompletionParams,
   CompletionRequest,
   Diagnostic,
+  DiagnosticSeverity,
   DiagnosticTag,
   DidChangeTextDocumentNotification,
   DidCloseTextDocumentNotification,
@@ -69,6 +70,16 @@ export class LanguageServerClient extends EventEmitter {
 
   currentDiagnostics(uri: string): Diagnostic[] {
     return this.diagnostics.get(uri) ?? [];
+  }
+
+  allDiagnostics(): Diagnostic[] {
+    return Array.from(this.diagnostics.values()).flat();
+  }
+
+  errorCount(): number {
+    return this.allDiagnostics().filter(
+      (e) => e.severity === DiagnosticSeverity.Error
+    ).length;
   }
 
   private initializePromise: Promise<void> | undefined;

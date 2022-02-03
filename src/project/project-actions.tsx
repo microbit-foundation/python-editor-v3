@@ -321,15 +321,12 @@ export class ProjectActions {
    * Trigger a browser download with a universal hex file.
    */
   download = async () => {
-    let lintingErrors = 0;
-    const uriPrefix = "file:///src/";
-    this.fs.project.files.forEach((f) => {
-      const uri = uriPrefix + f.name;
-      lintingErrors += this.client?.currentDiagnostics(uri).length || 0;
-    });
     this.logging.event({
       type: "download",
-      detail: { ...(await this.fs.statistics()), lintingErrors },
+      detail: {
+        ...(await this.fs.statistics()),
+        errorCount: this.client?.errorCount() ?? 0,
+      },
     });
 
     let download: DownloadData | undefined;
