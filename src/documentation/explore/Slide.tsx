@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { motion, Spring, useReducedMotion } from "framer-motion";
-import { useRef } from "react";
 
 const transition: Spring = {
   type: "spring",
@@ -58,12 +57,10 @@ const Slide = ({
   children: JSX.Element;
 }) => {
   const reducedMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
   return reducedMotion ? (
     children
   ) : (
     <motion.div
-      ref={ref}
       initial={animations[direction].initial}
       animate={animations[direction].animate}
     >
