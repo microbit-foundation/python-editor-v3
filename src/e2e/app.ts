@@ -273,7 +273,7 @@ export class App {
   }
 
   async switchLanguage(locale: string): Promise<void> {
-    // All tests ids so they can be language invariant.
+    // All test ids so they can be language invariant.
     const document = await this.document();
     await (await document.findByTestId("settings")).click();
     await (await document.findByTestId("language")).click();
