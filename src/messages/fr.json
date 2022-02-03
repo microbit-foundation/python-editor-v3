@@ -242,7 +242,7 @@
   "clear": [
     {
       "type": 0,
-      "value": "Clear"
+      "value": "Effacer"
     }
   ],
   "close-action": [
@@ -802,7 +802,7 @@
   "redo": [
     {
       "type": 0,
-      "value": "Redo"
+      "value": "Refaire"
     }
   ],
   "reference-description": [
@@ -826,7 +826,7 @@
   "search": [
     {
       "type": 0,
-      "value": "Search"
+      "value": "Rechercher"
     }
   ],
   "search-open": [
@@ -1096,7 +1096,7 @@
   "undo": [
     {
       "type": 0,
-      "value": "Undo"
+      "value": "Annuler"
     }
   ],
   "unexpected-error-description": [
@@ -1134,7 +1134,7 @@
   "untitled-project": [
     {
       "type": 0,
-      "value": "Untitled project"
+      "value": "Projet sans titre"
     }
   ],
   "updated-change": [
