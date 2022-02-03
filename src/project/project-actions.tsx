@@ -18,7 +18,13 @@ import {
   WebUSBError,
   WebUSBErrorCode,
 } from "../device/device";
-import { DownloadData, FileSystem, MAIN_FILE, VersionAction } from "../fs/fs";
+import {
+  DownloadData,
+  FileSystem,
+  MAIN_FILE,
+  Statistics,
+  VersionAction,
+} from "../fs/fs";
 import {
   getLowercaseFileExtension,
   isPythonMicrobitModule,
@@ -49,6 +55,10 @@ export type LoadType = "drop-load" | "file-upload";
 
 export interface MainScriptChoice {
   main: string | undefined;
+}
+
+interface ProjectStatistics extends Statistics {
+  errorCount: number;
 }
 
 /**
@@ -278,7 +288,7 @@ export class ProjectActions {
   flash = async (): Promise<void> => {
     this.logging.event({
       type: "flash",
-      detail: await this.fs.statistics(),
+      detail: await this.projectStats(),
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
@@ -323,10 +333,7 @@ export class ProjectActions {
   download = async () => {
     this.logging.event({
       type: "download",
-      detail: {
-        ...(await this.fs.statistics()),
-        errorCount: this.client?.errorCount() ?? 0,
-      },
+      detail: await this.projectStats(),
     });
 
     let download: DownloadData | undefined;
@@ -576,6 +583,13 @@ export class ProjectActions {
       default:
         throw new Error("Unknown code");
     }
+  }
+
+  private async projectStats(): Promise<ProjectStatistics> {
+    return {
+      ...(await this.fs.statistics()),
+      errorCount: this.client?.errorCount() ?? 0,
+    };
   }
 
   summarizeChanges = (changes: FileChange[]) => {
