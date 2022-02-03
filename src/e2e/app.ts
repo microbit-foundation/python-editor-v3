@@ -812,7 +812,7 @@ export class App {
   async searchToolkits(searchText: string): Promise<void> {
     const document = await this.document();
     const searchButton = await document.findByRole("button", {
-      name: "Open search",
+      name: "Search",
     });
     await searchButton.click();
     const searchField = await document.findByRole("textbox", {
