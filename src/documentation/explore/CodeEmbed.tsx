@@ -7,19 +7,10 @@ import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { forwardRef } from "@chakra-ui/system";
-import {
-  Ref,
-  RefObject,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
-import { useSplitViewContext } from "../../common/SplitView/context";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
@@ -48,8 +39,41 @@ type CodeEmbedState =
   | "raised";
 
 const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
+  const [state, originalSetState] = useState<CodeEmbedState>("default");
+  // We want to debounce raising so that we don't raise very briefly during scroll.
+  // We don't ever want to delay other actions.
+  const setState = useMemo(() => {
+    let timeout: any;
+    return (
+      newState: CodeEmbedState | undefined,
+      immediate: boolean = true
+    ) => {
+      clearTimeout(timeout);
+      if (!newState) {
+        // Just clear the timeout.
+        return;
+      }
+      if (immediate) {
+        originalSetState(newState);
+      } else {
+        timeout = setTimeout(() => {
+          originalSetState(newState);
+        }, 25);
+      }
+    };
+  }, [originalSetState]);
+  const toRaised = useCallback(() => setState("raised", false), [setState]);
+  const toDefault = useCallback(() => setState("default"), [setState]);
+  const toHighlighted = useCallback(() => setState("highlighted"), [setState]);
+  const clearPending = useCallback(() => setState(undefined), [setState]);
+  useScrollableAncestorScroll(toDefault);
+
   const actions = useActiveEditorActions();
-  const [state, setState] = useState<CodeEmbedState>("default");
+  const handleInsertCode = useCallback(
+    () => actions?.insertCode(codeWithImports, parentSlug),
+    [actions, codeWithImports, parentSlug]
+  );
+
   const code = useMemo(
     () =>
       codeWithImports
@@ -65,25 +89,19 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
         .trim(),
     [codeWithImports]
   );
-
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const codePopUpHeight = `calc(${codeHeight} + 2px)`; // Account for border.
-  const handleMouseEnter = useCallback(() => setState("raised"), [setState]);
-  const handleMouseLeave = useCallback(() => setState("default"), [setState]);
-  const handleInsertCode = useCallback(
-    () => actions?.insertCode(codeWithImports, parentSlug),
-    [actions, codeWithImports, parentSlug]
-  );
 
   return (
     <Box>
       <Box height={codeHeight} fontSize="md">
         <Code
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={toRaised}
+          onMouseLeave={clearPending}
+          onCodeDragEnd={toDefault}
           concise={code}
           full={codeWithImports}
           position="absolute"
@@ -93,21 +111,22 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
         />
         {state === "raised" && (
           <CodePopUp
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseLeave={toDefault}
+            onCodeDragEnd={toDefault}
             height={codePopUpHeight}
-            width={codeRef.current ? codeRef.current.offsetWidth : "unset"}
+            top={codeRef.current!.getBoundingClientRect().top + "px"}
+            left={codeRef.current!.getBoundingClientRect().left + "px"}
+            width={codeRef.current!.offsetWidth}
             concise={code}
             full={codeWithImports}
-            codeRef={codeRef}
             parentSlug={parentSlug}
           />
         )}
       </Box>
       <HStack spacing={3} mt="2px">
         <Button
-          onMouseEnter={() => setState("highlighted")}
-          onMouseLeave={() => setState("default")}
+          onMouseEnter={toHighlighted}
+          onMouseLeave={toDefault}
           fontWeight="normal"
           color="gray.800"
           border="none"
@@ -130,34 +149,21 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
 interface CodePopUpProps extends BoxProps {
   concise: string;
   full: string;
-  codeRef: RefObject<HTMLDivElement | null>;
   parentSlug?: string;
+  onCodeDragEnd: () => void;
 }
 
 // We draw the same code over the top in a portal so we can draw it
-// above the scrollbar.
-const CodePopUp = ({
-  codeRef,
-  concise,
-  full,
-  parentSlug,
-  ...props
-}: CodePopUpProps) => {
-  // We need to re-render, we don't need the value.
-  useScrollTop();
-  useSplitViewContext();
-  if (!codeRef.current) {
-    return null;
-  }
-
+// above the scrollbar. You can achieve almost the same effect with
+// z-index, but Safari draws the scrollbars over the code that should
+// be above them.
+const CodePopUp = ({ concise, full, parentSlug, ...props }: CodePopUpProps) => {
   return (
     <Portal>
       <Code
         concise={concise}
         full={full}
         position="absolute"
-        top={codeRef.current.getBoundingClientRect().top + "px"}
-        left={codeRef.current.getBoundingClientRect().left + "px"}
         // We're always "raised" as this is the pop-up.
         background="blimpTeal.50"
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
@@ -175,11 +181,19 @@ interface CodeProps extends BoxProps {
   ref?: Ref<HTMLDivElement>;
   highlightDragHandle: boolean;
   parentSlug?: string;
+  onCodeDragEnd: () => void;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
   (
-    { concise, full, highlightDragHandle, parentSlug, ...props }: CodeProps,
+    {
+      concise,
+      full,
+      highlightDragHandle,
+      parentSlug,
+      onCodeDragEnd,
+      ...props
+    }: CodeProps,
     ref
   ) => {
     const logging = useLogging();
@@ -204,10 +218,14 @@ const Code = forwardRef<CodeProps, "pre">(
       },
       [full, dragImage, parentSlug, logging]
     );
-    const handleDragEnd = useCallback((event: React.DragEvent) => {
-      dndDebug("dragend");
-      setDragContext(undefined);
-    }, []);
+    const handleDragEnd = useCallback(
+      (event: React.DragEvent) => {
+        onCodeDragEnd();
+        dndDebug("dragend");
+        setDragContext(undefined);
+      },
+      [onCodeDragEnd]
+    );
 
     return (
       <HStack
@@ -222,6 +240,7 @@ const Code = forwardRef<CodeProps, "pre">(
         spacing={0}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        cursor="grab"
         {...props}
       >
         <DragHandle
@@ -230,28 +249,34 @@ const Code = forwardRef<CodeProps, "pre">(
           alignSelf="stretch"
           highlight={highlightDragHandle}
         />
-        <CodeMirrorView value={concise} p={5} pl={1} pt={2} pb={2} minW={40} />
+        <CodeMirrorView
+          // If we fix copy and deal with selection sync then we should probably remove this,
+          // though it'll make it harder to drag.
+          pointerEvents="none"
+          value={concise}
+          flex="1 0 auto"
+          p={5}
+          pl={1}
+          pt={2}
+          pb={2}
+          minW={40}
+        />
       </HStack>
     );
   }
 );
 
-const useScrollTop = () => {
-  const scrollableRef = useScrollablePanelAncestor();
-  const [scrollTop, setScrollTop] = useState(0);
-  useLayoutEffect(() => {
-    const scrollable = scrollableRef.current;
-    if (!scrollable) {
-      throw new Error();
+const useScrollableAncestorScroll = (callback: () => void) => {
+  const scrollable = useScrollablePanelAncestor();
+  useEffect(() => {
+    const target = scrollable.current;
+    if (target) {
+      target.addEventListener("scroll", callback);
+      return () => {
+        target.removeEventListener("scroll", callback);
+      };
     }
-    setScrollTop(scrollable.scrollTop);
-    const listener = () => setScrollTop(scrollable.scrollTop);
-    scrollable.addEventListener("scroll", listener);
-    return () => {
-      scrollable.removeEventListener("scroll", listener);
-    };
-  }, [scrollableRef]);
-  return scrollTop;
+  }, [scrollable, callback]);
 };
 
 export default CodeEmbed;
