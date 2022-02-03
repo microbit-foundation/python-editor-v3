@@ -423,10 +423,6 @@
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
   },
-  "search-open": {
-    "defaultMessage": "Open search",
-    "description": "Aria label for button opening the search dialog"
-  },
   "serial-collapse": {
     "defaultMessage": "Hide serial",
     "description": "Aria label for serial expand/collapse"
