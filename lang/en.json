@@ -547,6 +547,10 @@
     "defaultMessage": "Please try again or <link>raise a support request</link>",
     "description": "Progress dialog text telling user that code is being flashed"
   },
+  "untitled-project": {
+    "defaultMessage": "Untitled project",
+    "description": "Title for a new project"
+  },
   "updated-change": {
     "defaultMessage": "Updated file {changeName}",
     "description": "Change made to file"
