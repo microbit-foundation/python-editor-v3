@@ -96,7 +96,7 @@
     "description": "Shown in load dialog to confirm actions"
   },
   "clear": {
-    "defaultMessage": "Clear",
+    "defaultMessage": "Effacer",
     "description": "Aria label for the search input"
   },
   "close-action": {
@@ -403,7 +403,7 @@
     "description": "Action text to expand a collapsed section"
   },
   "redo": {
-    "defaultMessage": "Redo",
+    "defaultMessage": "Refaire",
     "description": "Aria label for the redo button"
   },
   "reference-description": {
@@ -419,7 +419,7 @@
     "description": "Action label for replacing project dialog"
   },
   "search": {
-    "defaultMessage": "Search",
+    "defaultMessage": "Rechercher",
     "description": "Aria label for searching documentation"
   },
   "search-open": {
@@ -535,7 +535,7 @@
     "description": "Aria label for the toolkit topic right arrow"
   },
   "undo": {
-    "defaultMessage": "Undo",
+    "defaultMessage": "Annuler",
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
@@ -547,7 +547,7 @@
     "description": "Progress dialog text telling user that code is being flashed"
   },
   "untitled-project": {
-    "defaultMessage": "Untitled project",
+    "defaultMessage": "Projet sans titre",
     "description": "Title for a new project"
   },
   "updated-change": {
