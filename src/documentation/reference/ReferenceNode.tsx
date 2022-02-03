@@ -389,6 +389,7 @@ const DraggableSignature = ({
       onMouseEnter={highlight.onOpen}
       onMouseLeave={highlight.onClose}
       {...props}
+      cursor="grab"
     >
       <DragHandle
         highlight={highlight.isOpen}
