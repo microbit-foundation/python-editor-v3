@@ -546,6 +546,10 @@
     "defaultMessage": "Плеасе тру аджаін ор <link>раісе а сюппорт реквюест</link>",
     "description": "Progress dialog text telling user that code is being flashed"
   },
+  "untitled-project": {
+    "defaultMessage": "Untitled project",
+    "description": "Title for a new project"
+  },
   "updated-change": {
     "defaultMessage": "Юпдатед філе {changeName}",
     "description": "Change made to file"

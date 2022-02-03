@@ -546,6 +546,10 @@
     "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d'assistance</link>",
     "description": "Progress dialog text telling user that code is being flashed"
   },
+  "untitled-project": {
+    "defaultMessage": "Untitled project",
+    "description": "Title for a new project"
+  },
   "updated-change": {
     "defaultMessage": "Le fichier {changeName} a été mis à jour",
     "description": "Change made to file"

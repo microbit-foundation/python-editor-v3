@@ -30,7 +30,7 @@ describe("Browser - open", () => {
     });
 
     await app.findAlertText("Updated file main.py");
-    await app.findProjectName("my program");
+    await app.findProjectName("Untitled project");
   });
 
   it("Loads a v1.0.1 hex file", async () => {

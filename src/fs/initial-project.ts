@@ -27,7 +27,7 @@ export interface InitialProject {
 }
 
 export const defaultInitialProject: InitialProject = {
-  name: "my program",
+  name: "Untitled project",
   main: `# Add your Python code here. E.g.
 from microbit import *
 
