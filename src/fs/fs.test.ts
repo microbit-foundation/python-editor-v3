@@ -213,8 +213,7 @@ describe("Filesystem", () => {
     await ufs.setProjectName("test project name");
     const data = await ufs.toHexForDownload();
 
-    expect(data.filename).toEqual("test project name.hex");
-    expect(typeof data.intelHex).toEqual("string");
+    expect(typeof data).toEqual("string");
   });
 
   it("creates board-specific data for flashing", async () => {
