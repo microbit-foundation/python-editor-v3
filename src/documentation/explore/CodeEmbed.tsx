@@ -254,6 +254,7 @@ const Code = forwardRef<CodeProps, "pre">(
           // though it'll make it harder to drag.
           pointerEvents="none"
           value={concise}
+          flex="1 0 auto"
           p={5}
           pl={1}
           pt={2}
