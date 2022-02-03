@@ -40,6 +40,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import { LanguageServerClient } from "../language-server/client";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -67,7 +68,8 @@ export class ProjectActions {
     private dialogs: Dialogs,
     private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
-    private logging: Logging
+    private logging: Logging,
+    private client: LanguageServerClient | undefined
   ) {}
 
   /**
@@ -319,9 +321,15 @@ export class ProjectActions {
    * Trigger a browser download with a universal hex file.
    */
   download = async () => {
+    let numErrors = 0;
+    const uriPrefix = "file:///src/";
+    this.fs.project.files.forEach((f) => {
+      const uri = uriPrefix + f.name;
+      numErrors += this.client?.currentDiagnostics(uri).length || 0;
+    });
     this.logging.event({
       type: "download",
-      detail: await this.fs.statistics(),
+      detail: { ...(await this.fs.statistics()), errors: numErrors },
     });
 
     let download: DownloadData | undefined;
