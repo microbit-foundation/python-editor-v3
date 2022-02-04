@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { RouterState } from "../../router-hooks";
 import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
@@ -99,16 +99,21 @@ const SearchDialog = ({
           <Stack spacing={5} pb={5}>
             <Divider />
             <Text px={3} fontSize="2xl">
-              {results.explore.length + results.reference.length} results
+              <FormattedMessage
+                id="results-count"
+                values={{
+                  count: results.explore.length + results.reference.length,
+                }}
+              />
             </Text>
             <SearchResultList
-              title="Explore"
+              title={intl.formatMessage({ id: "explore-tab" })}
               results={results.explore}
               viewedResults={viewedResults}
               onViewResult={onViewResult}
             />
             <SearchResultList
-              title="Reference"
+              title={intl.formatMessage({ id: "reference-tab" })}
               results={results.reference}
               viewedResults={viewedResults}
               onViewResult={onViewResult}

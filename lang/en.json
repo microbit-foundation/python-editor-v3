@@ -419,6 +419,10 @@
     "defaultMessage": "Replace",
     "description": "Action label for replacing project dialog"
   },
+  "results-count": {
+    "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "description": "Number of results from a search"
+  },
   "search": {
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"

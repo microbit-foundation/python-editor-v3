@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Divider, Link, Stack, Text, TextProps } from "@chakra-ui/react";
+import { FormattedMessage } from "react-intl";
 import { RouterState, toUrl } from "../../router-hooks";
 import { Extract, Result } from "./common";
 
@@ -34,8 +35,13 @@ const SearchResultList = ({
         />
       ))}
       {results.length === 0 && (
-        <Text as="h2" fontSize="sm" px={8}>
-          No results
+        <Text fontSize="sm" px={8}>
+          <FormattedMessage
+            id="results-count"
+            values={{
+              count: results.length,
+            }}
+          />
         </Text>
       )}
     </Stack>
