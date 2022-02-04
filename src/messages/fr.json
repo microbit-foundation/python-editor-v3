@@ -823,16 +823,50 @@
       "value": "Remplacer"
     }
   ],
+  "results-count": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Aucun résultat"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " résultat"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " résultats"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
   "search": [
     {
       "type": 0,
       "value": "Rechercher"
-    }
-  ],
-  "search-open": [
-    {
-      "type": 0,
-      "value": "Open search"
     }
   ],
   "serial-collapse": [
