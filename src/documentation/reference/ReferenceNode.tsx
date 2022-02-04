@@ -87,7 +87,7 @@ const ReferenceNode = ({
         pt={kindToSpacing[kind] - (parentType === "class" ? 1 : 0)}
         pb={kindToSpacing[kind] - (parentType === "class" ? 2 : 1)}
         pl={5}
-        pr={3}
+        pr={0}
         mt={1}
         mb={1}
         {...props}
@@ -131,7 +131,7 @@ const ReferenceNodeSelf = ({
     docStringRemainder && docStringRemainder.length > 0;
 
   return (
-    <VStack alignItems="stretch" spacing={3}>
+    <VStack alignItems="stretch" spacing={3} pr={3}>
       {kind === "function" || kind === "variable" ? (
         <DraggableSignature
           signature={signature}
