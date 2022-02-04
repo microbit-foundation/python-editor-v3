@@ -21,6 +21,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsableButton from "../common/CollapsibleButton";
+import { useSplitViewContext } from "../common/SplitView/context";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
@@ -117,10 +118,9 @@ const SideBarHeader = () => {
   const offset = faceLogoRef.current
     ? faceLogoRef.current.getBoundingClientRect().right + 14
     : 0;
-  const width = sidebarWidth.current
-    ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
-    : undefined;
-
+  const sps = useSplitViewContext().sizedPaneSize ?? 0;
+  const searchButtonMode = !sps || sps > 400 ? "button" : "icon";
+  const width = sps - offset - 14 + "px";
   return (
     <>
       {/* Empty box used to calculate width only. */}
@@ -198,8 +198,13 @@ const SideBarHeader = () => {
             border="unset"
             textAlign="left"
             p={3}
+            pr={
+              searchButtonMode === "button"
+                ? `min(${sps / 40}%, var(--chakra-space-20))`
+                : undefined
+            }
             text={intl.formatMessage({ id: "search" })}
-            mode={!width || parseInt(width) > 300 ? "button" : "icon"}
+            mode={searchButtonMode}
           />
         )}
         {query && (

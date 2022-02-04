@@ -11,6 +11,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import useRafState from "../use-raf-state";
 import {
   Direction,
   separatorPixels,
@@ -47,7 +48,7 @@ export const SplitView = ({
   ...props
 }: SplitViewProps) => {
   const sizedFirst = children[0].type === SplitViewSized;
-  const [sizedPaneSize, setSizedPaneSize] = useState<undefined | number>(
+  const [sizedPaneSize, setSizedPaneSize] = useRafState<undefined | number>(
     initialSize || minimums[0]
   );
   const [dragging, setDragging] = useState(false);
