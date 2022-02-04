@@ -161,6 +161,7 @@ const CodePopUp = ({ concise, full, parentSlug, ...props }: CodePopUpProps) => {
   return (
     <Portal>
       <Code
+        zIndex={2}
         concise={concise}
         full={full}
         position="absolute"

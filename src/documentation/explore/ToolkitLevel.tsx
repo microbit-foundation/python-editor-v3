@@ -23,13 +23,7 @@ const ToolkitLevel = ({
   <ScrollablePanel>
     <Slide direction={direction}>
       <VStack alignItems="stretch" spacing={0} {...props}>
-        <Box
-          bg="gray.25"
-          flex="0 0 auto"
-          position="sticky"
-          top="0"
-          zIndex={2} // Above code pop-up.
-        >
+        <Box bg="gray.25" flex="0 0 auto" position="sticky" top="0" zIndex={1}>
           {/* Use of header here is relied on to correctly offset the scrolling based on the actual height of the sticky header. See Highlight.tsx */}
           <Box as="header" p={5} pt={3}>
             {heading}
