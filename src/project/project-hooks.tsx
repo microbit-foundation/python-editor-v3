@@ -11,10 +11,10 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSelection } from "../workbench/use-selection";
-import { ProjectActions } from "./project-actions";
-import { useLanguageServerClient } from "../language-server/language-server-hooks";
+import { defaultedProject, ProjectActions } from "./project-actions";
 
 /**
  * Hook exposing the main UI actions.
@@ -45,26 +45,34 @@ export const useProjectActions = (): ProjectActions => {
   return actions;
 };
 
+export type DefaultedProject = Omit<Project, "name"> & {
+  name: string;
+};
+
 /**
  * Hook exposing the project state.
  *
  * This is quite coarse-grained and might need to be split in future.
  */
-export const useProject = (): Project => {
+export const useProject = (): DefaultedProject => {
   const fs = useFileSystem();
+  const intl = useIntl();
   const isUnmounted = useIsUnmounted();
-  const [state, setState] = useState<Project>(fs.project);
+  const [state, setState] = useState<DefaultedProject>(
+    defaultedProject(fs, intl)
+  );
   useEffect(() => {
-    const listener = (x: any) => {
+    setState(defaultedProject(fs, intl));
+    const listener = () => {
       if (!isUnmounted()) {
-        setState(x);
+        setState(defaultedProject(fs, intl));
       }
     };
     fs.on(EVENT_PROJECT_UPDATED, listener);
     return () => {
       fs.removeListener(EVENT_PROJECT_UPDATED, listener);
     };
-  }, [fs, isUnmounted]);
+  }, [fs, isUnmounted, intl]);
   return state;
 };
 

@@ -11,8 +11,11 @@ describe("Browser - settings", () => {
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
-  it("shows the settings dialog when the button is clicked", async () => {
-    await app.openSettingsDialog();
-    await app.closeSettingsDialog();
+  it("switches language", async () => {
+    // NOTE: the app methods generally won't still work after changing language.
+    await app.switchLanguage("fr");
+    await app.findProjectName("Projet sans titre");
+    await app.switchLanguage("en");
+    await app.findProjectName("Untitled project");
   });
 });

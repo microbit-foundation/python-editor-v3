@@ -5,7 +5,6 @@
  */
 import { fromByteArray, toByteArray } from "base64-js";
 import { Logging } from "../logging/logging";
-import { defaultInitialProject } from "./initial-project";
 
 /**
  * Backing storage for the file system.
@@ -21,7 +20,7 @@ export interface FSStorage {
   write(filename: string, content: Uint8Array): Promise<void>;
   remove(filename: string): Promise<void>;
   setProjectName(projectName: string): Promise<void>;
-  projectName(): Promise<string>;
+  projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
 }
 
@@ -29,11 +28,11 @@ export interface FSStorage {
  * Basic in-memory implementation.
  */
 export class InMemoryFSStorage implements FSStorage {
-  private _projectName: string;
+  private _projectName: string | undefined;
   private _data: Map<string, Uint8Array> = new Map();
 
-  constructor(private defaultProjectName: string) {
-    this._projectName = defaultProjectName;
+  constructor(projectName: string | undefined) {
+    this._projectName = projectName;
   }
 
   async ls() {
@@ -48,7 +47,7 @@ export class InMemoryFSStorage implements FSStorage {
     this._projectName = projectName;
   }
 
-  async projectName(): Promise<string> {
+  async projectName(): Promise<string | undefined> {
     return this._projectName;
   }
 
@@ -71,7 +70,7 @@ export class InMemoryFSStorage implements FSStorage {
   }
   async clear() {
     this._data.clear();
-    this._projectName = this.defaultProjectName;
+    this._projectName = undefined;
   }
 }
 
@@ -97,8 +96,8 @@ export class SessionStorageFSStorage implements FSStorage {
     this.storage.setItem("projectName", projectName);
   }
 
-  async projectName(): Promise<string> {
-    return this.storage.getItem("projectName") || defaultInitialProject.name;
+  async projectName(): Promise<string | undefined> {
+    return this.storage.getItem("projectName") || undefined;
   }
 
   async read(filename: string): Promise<Uint8Array> {
@@ -168,7 +167,7 @@ export class SplitStrategyStorage implements FSStorage {
     ]);
   }
 
-  async projectName(): Promise<string> {
+  async projectName(): Promise<string | undefined> {
     await this.initialized;
     return this.primary.projectName();
   }

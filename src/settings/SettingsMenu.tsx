@@ -44,6 +44,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
       <Menu {...props}>
         <MenuButton
           as={IconButton}
+          data-testid="settings"
           aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
           fontSize="xl"
@@ -54,7 +55,11 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
         />
         <Portal>
           <MenuList>
-            <MenuItem icon={<IoMdGlobe />} onClick={languageDisclosure.onOpen}>
+            <MenuItem
+              icon={<IoMdGlobe />}
+              onClick={languageDisclosure.onOpen}
+              data-testid="language"
+            >
               <FormattedMessage id="language" />
             </MenuItem>
             <MenuItem
