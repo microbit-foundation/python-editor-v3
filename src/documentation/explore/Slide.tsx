@@ -19,6 +19,11 @@ const animations = {
     animate: {
       x: 0,
       transition,
+      // Workaround. Avoid non-none transform remaining in the DOM which affects stacking contexts
+      // https://github.com/framer/motion/issues/823
+      transitionEnd: {
+        x: 0,
+      },
     },
   },
   forward: {
@@ -28,14 +33,18 @@ const animations = {
     animate: {
       x: 0,
       transition,
+      // See workaround note above.
+      transitionEnd: {
+        x: 0,
+      },
     },
   },
   none: {
     initial: {
-      x: 0,
+      x: "unset",
     },
     animate: {
-      x: 0,
+      x: "unset",
     },
   },
 };
