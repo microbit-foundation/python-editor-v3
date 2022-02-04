@@ -5,13 +5,8 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Link, List, ListItem, Stack, Text, VStack } from "@chakra-ui/layout";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-} from "@chakra-ui/modal";
+import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/modal";
+import ModalCloseButton from "../common/ModalCloseButton";
 
 interface InfoDialogProps {
   isOpen: boolean;
