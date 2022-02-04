@@ -20,6 +20,7 @@ import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import CollapsableButton from "../common/CollapsibleButton";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
@@ -185,22 +186,21 @@ const SideBarHeader = () => {
           </HStack>
         </Link>
         {!query && (
-          <Button
+          <CollapsableButton
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"
             color="#fffc"
-            leftIcon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
+            icon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
             fontSize="sm"
             _hover={{}}
             _active={{}}
             border="unset"
             textAlign="left"
-            pl={3}
-            pr={20}
-          >
-            {intl.formatMessage({ id: "search" })}
-          </Button>
+            p={3}
+            text={intl.formatMessage({ id: "search" })}
+            mode={!width || parseInt(width) > 300 ? "button" : "icon"}
+          />
         )}
         {query && (
           <Flex
