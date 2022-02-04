@@ -4,14 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, Text, VStack } from "@chakra-ui/layout";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-} from "@chakra-ui/modal";
+import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/modal";
 import { useEffect, useRef } from "react";
+import ModalCloseButton from "../common/ModalCloseButton";
 
 interface FeedbackFormProps {
   isOpen: boolean;

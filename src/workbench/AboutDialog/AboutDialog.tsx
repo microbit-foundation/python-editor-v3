@@ -19,7 +19,6 @@ import {
 import {
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalOverlay,
@@ -40,6 +39,7 @@ import { ReactNode } from "react";
 import { RiFileCopy2Line, RiGithubFill } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
+import ModalCloseButton from "../../common/ModalCloseButton";
 import { useDeployment } from "../../deployment";
 import { microPythonVersions } from "../../fs/micropython";
 import comicImage from "./comic.png";
