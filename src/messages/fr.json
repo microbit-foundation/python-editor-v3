@@ -831,7 +831,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No results"
+              "value": "Aucun résultat"
             }
           ]
         },
@@ -842,7 +842,7 @@
             },
             {
               "type": 0,
-              "value": " result"
+              "value": " résultat"
             }
           ]
         },
@@ -853,7 +853,7 @@
             },
             {
               "type": 0,
-              "value": " results"
+              "value": " résultats"
             }
           ]
         }
@@ -867,12 +867,6 @@
     {
       "type": 0,
       "value": "Rechercher"
-    }
-  ],
-  "search-open": [
-    {
-      "type": 0,
-      "value": "Open search"
     }
   ],
   "serial-collapse": [

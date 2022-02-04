@@ -419,16 +419,12 @@
     "description": "Action label for replacing project dialog"
   },
   "results-count": {
-    "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "defaultMessage": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
     "description": "Number of results from a search"
   },
   "search": {
     "defaultMessage": "Rechercher",
     "description": "Aria label for searching documentation"
-  },
-  "search-open": {
-    "defaultMessage": "Open search",
-    "description": "Aria label for button opening the search dialog"
   },
   "serial-collapse": {
     "defaultMessage": "Masquer le numéro de série",
