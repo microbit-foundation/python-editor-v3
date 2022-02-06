@@ -117,7 +117,7 @@ const SideBarHeader = () => {
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
   const searchButtonMode =
-    !contentWidth || contentWidth > 420 ? "button" : "icon";
+    !contentWidth || contentWidth > 405 ? "button" : "icon";
   const paddingX = 14;
   const modalOffset = faceLogoRef.current
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
@@ -199,7 +199,7 @@ const SideBarHeader = () => {
             border="unset"
             textAlign="left"
             p={3}
-            pr={`min(${contentWidth / 45}%, var(--chakra-space-20))`}
+            pr={`min(${contentWidth / 50}%, var(--chakra-space-20))`}
             _collapsed={{
               pr: 3,
             }}
