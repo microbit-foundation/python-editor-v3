@@ -6,7 +6,7 @@
 import { Tooltip } from "@chakra-ui/react";
 import { RiDownload2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import CollapsableButton, {
+import CollapsibleButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
 import { useProjectActions } from "./project-hooks";
@@ -33,7 +33,7 @@ const DownloadButton = (props: DownloadButtonProps) => {
         id: "download-hover",
       })}
     >
-      <CollapsableButton
+      <CollapsibleButton
         {...props}
         variant="solid"
         icon={<RiDownload2Line />}

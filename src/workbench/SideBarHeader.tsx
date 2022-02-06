@@ -20,9 +20,9 @@ import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import CollapsableButton from "../common/CollapsibleButton";
-import { useSplitViewContext } from "../common/SplitView/context";
+import CollapsibleButton from "../common/CollapsibleButton";
 import useIsUnmounted from "../common/use-is-unmounted";
+import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import { SearchResults } from "../documentation/search/common";
@@ -32,8 +32,6 @@ import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const faceLogoRef = useRef<HTMLDivElement>(null);
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
@@ -113,18 +111,21 @@ const SideBarHeader = () => {
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );
-  // Width of the sidebar tabs. Perhaps we can restructure the DOM?
-  const sidebarWidth = useRef<HTMLDivElement>(null);
-  const offset = faceLogoRef.current
-    ? faceLogoRef.current.getBoundingClientRect().right + 14
+
+  const ref = useRef<HTMLDivElement>(null);
+  const faceLogoRef = useRef<HTMLDivElement>(null);
+  const contentRect = useResizeObserverContentRect(ref);
+  const contentWidth = contentRect?.width ?? 0;
+  const searchButtonMode =
+    !contentWidth || contentWidth > 420 ? "button" : "icon";
+  const paddingX = 14;
+  const modalOffset = faceLogoRef.current
+    ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
-  const sps = useSplitViewContext().sizedPaneSize ?? 0;
-  const searchButtonMode = !sps || sps > 400 ? "button" : "icon";
-  const width = sps - offset - 14 + "px";
+  const modalWidth = contentWidth - modalOffset + "px";
+
   return (
     <>
-      {/* Empty box used to calculate width only. */}
-      <Box ref={sidebarWidth}></Box>
       <Modal
         isOpen={searchModal.isOpen}
         onClose={searchModal.onClose}
@@ -133,8 +134,8 @@ const SideBarHeader = () => {
         <ModalOverlay>
           <ModalContent
             mt={3.5}
-            ml={offset + "px"}
-            width={width}
+            ml={modalOffset + "px"}
+            width={modalWidth}
             containerProps={{
               justifyContent: "flex-start",
             }}
@@ -186,7 +187,7 @@ const SideBarHeader = () => {
           </HStack>
         </Link>
         {!query && (
-          <CollapsableButton
+          <CollapsibleButton
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"
@@ -198,11 +199,10 @@ const SideBarHeader = () => {
             border="unset"
             textAlign="left"
             p={3}
-            pr={
-              searchButtonMode === "button"
-                ? `min(${sps / 40}%, var(--chakra-space-20))`
-                : undefined
-            }
+            pr={`min(${contentWidth / 45}%, var(--chakra-space-20))`}
+            _collapsed={{
+              pr: 3,
+            }}
             text={intl.formatMessage({ id: "search" })}
             mode={searchButtonMode}
           />
@@ -211,7 +211,7 @@ const SideBarHeader = () => {
           <Flex
             backgroundColor="white"
             borderRadius="3xl"
-            width={`calc(100% - ${offset}px)`}
+            width={`calc(100% - ${modalOffset}px)`}
             position="relative"
           >
             <Button
