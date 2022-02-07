@@ -236,10 +236,10 @@ const initializeFromStorage = async (from: FSStorage, to: FSStorage) => {
   if (projectName) {
     await to.setProjectName(projectName);
   }
-  return Promise.all([
-    ...files.map(async (f) => {
+  return Promise.all(
+    files.map(async (f) => {
       const v = await from.read(f);
       return to.write(f, v);
-    }),
-  ]);
+    })
+  );
 };
