@@ -67,6 +67,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
             <MenuList zIndex={zIndexAboveTerminal}>
               {!connected && (
                 <MenuItem
+                  as="a"
                   target="_blank"
                   rel="noopener"
                   icon={<RiFlashlightFill />}
@@ -77,6 +78,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
               )}
               {connected && (
                 <MenuItem
+                  as="a"
                   target="_blank"
                   rel="noopener"
                   icon={<RiDownload2Line />}
@@ -86,6 +88,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
                 </MenuItem>
               )}
               <MenuItem
+                as="a"
                 target="_blank"
                 rel="noopener"
                 icon={<RiDownload2Line />}

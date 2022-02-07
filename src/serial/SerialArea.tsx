@@ -38,7 +38,6 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
           <Box
             alignItems="stretch"
             backgroundColor={backgroundColorTerm}
-            spacing={0}
             height="100%"
           >
             <SerialBar
