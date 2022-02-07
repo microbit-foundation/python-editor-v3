@@ -15,7 +15,7 @@
     "@codemirror/history": "~0",
     "@codemirror/lang-python": "~0",
     "@codemirror/language": "~0",
-    "@codemirror/lint": "~0",
+    "@codemirror/lint": "^0.19.3",
     "@codemirror/state": "^0.19.6",
     "@codemirror/view": "^0.19.42",
     "@emotion/react": "^11.4.1",
