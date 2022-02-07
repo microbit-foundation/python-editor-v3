@@ -1,6 +1,8 @@
 {
   "name": "python-editor",
   "version": "0.1.0-local",
+  "author": "Micro:bit Educational Foundation <package-help@microbit.org>",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.0.15",
@@ -71,6 +73,10 @@
     "source-map-explorer": "^2.5.2",
     "typescript": "^4.4.2",
     "webusb": "^2.2.0"
+  },
+  "engines": {
+    "node": ">=16.0",
+    "npm": ">=8.0"
   },
   "scripts": {
     "bundle-size-explorer": "source-map-explorer 'build/static/js/*.js'",

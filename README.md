@@ -41,7 +41,7 @@ For custom deployments, note that the educational content in the sidebar is curr
 
 ## Building and running the editor
 
-1. Ensure you have a working Node.js environment. We recommend using the LTS version of Node.
+1. Ensure you have a working Node.js environment. We recommend using the LTS version of Node and NPM 8+.
 2. Checkout this repository.
 3. Install the dependencies via `npm install`.
 4. Choose from the NPM scripts documented below.
