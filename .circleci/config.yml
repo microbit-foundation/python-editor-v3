@@ -5,7 +5,7 @@ orbs:
 _defaults: &defaults
   working_directory: ~/repo
 _docker_defaults: &docker_defaults
-  image: circleci/node:14
+  image: circleci/node:16
 _steps:
   queue_until_front_of_line: &queue_until_front_of_line
     # Ensures we don't deploy concurrently
@@ -28,9 +28,9 @@ _steps:
   install_aws_cli: &install_aws_cli
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
-    run: npm ci --cache .npm-cache && sudo npm i -g --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
+    run: npm ci --cache .npm-cache && sudo npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && sudo npm i -g @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
   install_theme: &install_theme
-    run: npm install --no-save --registry https://npm.pkg.github.com/microbit-foundation @microbit-foundation/python-editor-next-microbit@0.1.0-dev.101
+    run: npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && npm install --no-save @microbit-foundation/python-editor-next-microbit@0.1.0-dev.101
   update_version: &update_version
     run: npm run ci:update-version
   build: &build
@@ -43,11 +43,10 @@ _steps:
       name: Install Headless Chrome dependencies
       command: |
         sudo apt-get install -yq \
-        gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-        libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
-        libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
-        libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
-        fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+        ca-certificates fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6 \
+        libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 \
+        libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
+        libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
   serve-review: &serve-review
     run:
       name: Serve files for e2e tests (review)
