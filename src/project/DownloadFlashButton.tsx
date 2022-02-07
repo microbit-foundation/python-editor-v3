@@ -77,20 +77,11 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
                 </MenuItem>
               )}
               {connected && (
-                <MenuItem
-                  as="a"
-                  target="_blank"
-                  rel="noopener"
-                  icon={<RiDownload2Line />}
-                  onClick={actions.download}
-                >
+                <MenuItem icon={<RiDownload2Line />} onClick={actions.download}>
                   <FormattedMessage id="download-hex-action" />
                 </MenuItem>
               )}
               <MenuItem
-                as="a"
-                target="_blank"
-                rel="noopener"
                 icon={<RiDownload2Line />}
                 onClick={actions.downloadMainFile}
               >
