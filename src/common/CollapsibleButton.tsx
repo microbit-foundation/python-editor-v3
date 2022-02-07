@@ -5,6 +5,7 @@
  */
 import {
   Button,
+  CSSObject,
   HTMLChakraProps,
   IconButton,
   ThemingProps,
@@ -21,9 +22,13 @@ export interface CollapsibleButtonProps
    * Width used only in button mode.
    */
   buttonWidth?: number | string;
+  /**
+   * Styles used only when collapsed.
+   */
+  _collapsed?: CSSObject;
 }
 
-export type CollapsableButtonComposibleProps = Omit<
+export type CollapsibleButtonComposableProps = Omit<
   CollapsibleButtonProps,
   "onClick" | "text" | "icon"
 >;
@@ -33,9 +38,16 @@ export type CollapsableButtonComposibleProps = Omit<
  *
  * We'd like to do this at a lower-level so we can animate a transition.
  */
-const CollapsableButton = React.forwardRef(
+const CollapsibleButton = React.forwardRef(
   (
-    { mode, text, icon, buttonWidth, ...props }: CollapsibleButtonProps,
+    {
+      mode,
+      text,
+      icon,
+      buttonWidth,
+      _collapsed,
+      ...props
+    }: CollapsibleButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     return mode === "icon" ? (
@@ -44,6 +56,7 @@ const CollapsableButton = React.forwardRef(
         icon={icon}
         aria-label={text}
         {...props}
+        sx={_collapsed}
         fontSize="xl"
       />
     ) : (
@@ -54,4 +67,4 @@ const CollapsableButton = React.forwardRef(
   }
 );
 
-export default CollapsableButton;
+export default CollapsibleButton;

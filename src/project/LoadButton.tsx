@@ -6,11 +6,11 @@
 import React from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { CollapsableButtonComposibleProps } from "../common/CollapsibleButton";
+import { CollapsibleButtonComposableProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
 
-interface LoadButtonProps extends CollapsableButtonComposibleProps {}
+interface LoadButtonProps extends CollapsibleButtonComposableProps {}
 
 /**
  * Open HEX button, with an associated input field.
