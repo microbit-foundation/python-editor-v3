@@ -19,7 +19,7 @@ export interface FSStorage {
   read(filename: string): Promise<Uint8Array>;
   write(filename: string, content: Uint8Array): Promise<void>;
   remove(filename: string): Promise<void>;
-  setProjectName(projectName: string | undefined): Promise<void>;
+  setProjectName(projectName: string): Promise<void>;
   projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
 }
@@ -43,7 +43,7 @@ export class InMemoryFSStorage implements FSStorage {
     return this._data.has(filename);
   }
 
-  async setProjectName(projectName: string | undefined) {
+  async setProjectName(projectName: string) {
     this._projectName = projectName;
   }
 
@@ -93,7 +93,7 @@ export class SessionStorageFSStorage implements FSStorage {
     return this.storage.getItem(fsPrefix + filename) !== null;
   }
 
-  async setProjectName(projectName: string | undefined) {
+  async setProjectName(projectName: string) {
     if (projectName === undefined) {
       this.storage.removeItem(projectNameKey);
     } else {
@@ -147,7 +147,7 @@ export class SplitStrategyStorage implements FSStorage {
   ) {
     this.initialized = secondary
       ? this.secondaryErrorHandle(async () => {
-          await copy(secondary, primary);
+          await initializeFromStorage(secondary, primary);
         })
       : Promise.resolve();
   }
@@ -230,10 +230,13 @@ export class SplitStrategyStorage implements FSStorage {
   }
 }
 
-const copy = async (from: FSStorage, to: FSStorage) => {
+const initializeFromStorage = async (from: FSStorage, to: FSStorage) => {
   const files = await from.ls();
+  const projectName = await from.projectName();
+  if (projectName) {
+    await to.setProjectName(projectName);
+  }
   return Promise.all([
-    to.setProjectName(await from.projectName()),
     ...files.map(async (f) => {
       const v = await from.read(f);
       return to.write(f, v);
