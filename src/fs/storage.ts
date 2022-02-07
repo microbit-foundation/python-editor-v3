@@ -19,7 +19,7 @@ export interface FSStorage {
   read(filename: string): Promise<Uint8Array>;
   write(filename: string, content: Uint8Array): Promise<void>;
   remove(filename: string): Promise<void>;
-  setProjectName(projectName: string): Promise<void>;
+  setProjectName(projectName: string | undefined): Promise<void>;
   projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
 }
@@ -43,7 +43,7 @@ export class InMemoryFSStorage implements FSStorage {
     return this._data.has(filename);
   }
 
-  async setProjectName(projectName: string) {
+  async setProjectName(projectName: string | undefined) {
     this._projectName = projectName;
   }
 
@@ -75,6 +75,7 @@ export class InMemoryFSStorage implements FSStorage {
 }
 
 const fsPrefix = "fs/";
+const projectNameKey = "projectName";
 
 /**
  * Session storage version.
@@ -92,12 +93,16 @@ export class SessionStorageFSStorage implements FSStorage {
     return this.storage.getItem(fsPrefix + filename) !== null;
   }
 
-  async setProjectName(projectName: string) {
-    this.storage.setItem("projectName", projectName);
+  async setProjectName(projectName: string | undefined) {
+    if (projectName === undefined) {
+      this.storage.removeItem(projectNameKey);
+    } else {
+      this.storage.setItem(projectNameKey, projectName);
+    }
   }
 
   async projectName(): Promise<string | undefined> {
-    return this.storage.getItem("projectName") || undefined;
+    return this.storage.getItem(projectNameKey) || undefined;
   }
 
   async read(filename: string): Promise<Uint8Array> {
@@ -227,10 +232,11 @@ export class SplitStrategyStorage implements FSStorage {
 
 const copy = async (from: FSStorage, to: FSStorage) => {
   const files = await from.ls();
-  return Promise.all(
-    files.map(async (f) => {
+  return Promise.all([
+    to.setProjectName(await from.projectName()),
+    ...files.map(async (f) => {
       const v = await from.read(f);
       return to.write(f, v);
-    })
-  );
+    }),
+  ]);
 };
