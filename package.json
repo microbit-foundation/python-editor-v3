@@ -14,7 +14,7 @@
     "@codemirror/highlight": "^0.19.7",
     "@codemirror/history": "^0.19.2",
     "@codemirror/lang-python": "^0.19.4",
-    "@codemirror/language": "~0",
+    "@codemirror/language": "^0.19.7",
     "@codemirror/lint": "^0.19.3",
     "@codemirror/state": "^0.19.6",
     "@codemirror/view": "^0.19.42",
