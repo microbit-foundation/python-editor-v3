@@ -94,11 +94,7 @@ export class SessionStorageFSStorage implements FSStorage {
   }
 
   async setProjectName(projectName: string) {
-    if (projectName === undefined) {
-      this.storage.removeItem(projectNameKey);
-    } else {
-      this.storage.setItem(projectNameKey, projectName);
-    }
+    this.storage.setItem(projectNameKey, projectName);
   }
 
   async projectName(): Promise<string | undefined> {
