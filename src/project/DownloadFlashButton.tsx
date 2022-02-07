@@ -66,28 +66,16 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
           <Portal>
             <MenuList zIndex={zIndexAboveTerminal}>
               {!connected && (
-                <MenuItem
-                  target="_blank"
-                  rel="noopener"
-                  icon={<RiFlashlightFill />}
-                  onClick={actions.flash}
-                >
+                <MenuItem icon={<RiFlashlightFill />} onClick={actions.flash}>
                   <FormattedMessage id="flash-action" />
                 </MenuItem>
               )}
               {connected && (
-                <MenuItem
-                  target="_blank"
-                  rel="noopener"
-                  icon={<RiDownload2Line />}
-                  onClick={actions.download}
-                >
+                <MenuItem icon={<RiDownload2Line />} onClick={actions.download}>
                   <FormattedMessage id="download-hex-action" />
                 </MenuItem>
               )}
               <MenuItem
-                target="_blank"
-                rel="noopener"
                 icon={<RiDownload2Line />}
                 onClick={actions.downloadMainFile}
               >
