@@ -10,7 +10,7 @@
     "@codemirror/commands": "~0",
     "@codemirror/comment": "~0",
     "@codemirror/fold": "~0",
-    "@codemirror/gutter": "~0",
+    "@codemirror/gutter": "^0.19.9",
     "@codemirror/highlight": "^0.19.7",
     "@codemirror/history": "~0",
     "@codemirror/lang-python": "~0",
