@@ -75,6 +75,7 @@ export class InMemoryFSStorage implements FSStorage {
 }
 
 const fsPrefix = "fs/";
+const projectNameKey = "projectName";
 
 /**
  * Session storage version.
@@ -93,11 +94,11 @@ export class SessionStorageFSStorage implements FSStorage {
   }
 
   async setProjectName(projectName: string) {
-    this.storage.setItem("projectName", projectName);
+    this.storage.setItem(projectNameKey, projectName);
   }
 
   async projectName(): Promise<string | undefined> {
-    return this.storage.getItem("projectName") || undefined;
+    return this.storage.getItem(projectNameKey) || undefined;
   }
 
   async read(filename: string): Promise<Uint8Array> {
@@ -142,7 +143,7 @@ export class SplitStrategyStorage implements FSStorage {
   ) {
     this.initialized = secondary
       ? this.secondaryErrorHandle(async () => {
-          await copy(secondary, primary);
+          await initializeFromStorage(secondary, primary);
         })
       : Promise.resolve();
   }
@@ -225,8 +226,12 @@ export class SplitStrategyStorage implements FSStorage {
   }
 }
 
-const copy = async (from: FSStorage, to: FSStorage) => {
+const initializeFromStorage = async (from: FSStorage, to: FSStorage) => {
   const files = await from.ls();
+  const projectName = await from.projectName();
+  if (projectName) {
+    await to.setProjectName(projectName);
+  }
   return Promise.all(
     files.map(async (f) => {
       const v = await from.read(f);
