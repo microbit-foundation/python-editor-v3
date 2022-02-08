@@ -280,14 +280,14 @@ export class MicrobitWebUSBConnection
     if (navigator.usb) {
       navigator.usb.addEventListener("disconnect", this.handleDisconnect);
     }
-    if (window) {
+    if (typeof window !== "undefined") {
       window.addEventListener("beforeunload", this.beforeUnloadListener);
-    }
-    if (window && window.document) {
-      window.document.addEventListener(
-        "visibilitychange",
-        this.visibilityChangeListener
-      );
+      if (window.document) {
+        window.document.addEventListener(
+          "visibilitychange",
+          this.visibilityChangeListener
+        );
+      }
     }
   }
 
@@ -296,14 +296,14 @@ export class MicrobitWebUSBConnection
     if (navigator.usb) {
       navigator.usb.removeEventListener("disconnect", this.handleDisconnect);
     }
-    if (window) {
+    if (typeof window !== "undefined") {
       window.removeEventListener("beforeunload", this.beforeUnloadListener);
-    }
-    if (window && window.document) {
-      window.document.removeEventListener(
-        "visibilitychange",
-        this.visibilityChangeListener
-      );
+      if (window.document) {
+        window.document.removeEventListener(
+          "visibilitychange",
+          this.visibilityChangeListener
+        );
+      }
     }
   }
 

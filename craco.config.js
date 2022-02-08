@@ -10,18 +10,21 @@ const fs = require("fs");
 const theme = "@microbit-foundation/python-editor-next-microbit";
 const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
-const location = fs.existsSync(external) ? theme : internal;
 
 module.exports = {
   webpack: {
     alias: {
-      "@deployment": path.resolve(__dirname, location),
+      "@deployment/replaced-by-webpack": fs.existsSync(external)
+        ? theme
+        : path.resolve(__dirname, internal),
     },
   },
   jest: {
     configure: {
       moduleNameMapper: {
-        "^@deployment(.*)$": `<rootDir>/${location}$1`,
+        "^@deployment/replaced-by-webpack(.*)$": `<rootDir>/${
+          fs.existsSync(external) ? external : internal
+        }$1`,
         "\\.worker": "<rootDir>/src/mocks/worker.js",
       },
     },

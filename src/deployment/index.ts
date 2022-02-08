@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { Logging } from "../logging/logging";
 
 // This is configured via a webpack alias, defaulting to ./default
-import { default as d } from "@deployment";
+import { default as d } from "@deployment/replaced-by-webpack";
 export const deployment = d;
 
 export interface DeploymentConfig {
