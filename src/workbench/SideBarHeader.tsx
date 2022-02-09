@@ -16,32 +16,24 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import debounce from "lodash.debounce";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
-import useIsUnmounted from "../common/use-is-unmounted";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import { SearchResults } from "../documentation/search/common";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
-import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
-  const search = useSearch();
-  const [query, setQuery] = useState("");
+  const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
-  const [results, setResults] = useState<SearchResults | undefined>();
-  const isUnmounted = useIsUnmounted();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
-  const logging = useLogging();
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -63,43 +55,19 @@ const SideBarHeader = () => {
     };
   }, [searchModal]);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce(async (newQuery: string) => {
-        const trimmedQuery = newQuery.trim();
-        if (trimmedQuery) {
-          const results = await search.search(trimmedQuery);
-          if (!isUnmounted()) {
-            setResults((prevResults) => {
-              if (!prevResults) {
-                logging.event({ type: "search" });
-              }
-              return results;
-            });
-          }
-        } else {
-          setResults(undefined);
-        }
-        setViewedResults([]);
-      }, 300),
-    [search, setResults, setViewedResults, isUnmounted, logging]
-  );
-
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
         const newQuery = e.currentTarget.value;
         setQuery(newQuery);
-        debouncedSearch(newQuery);
       },
-      [debouncedSearch, setQuery]
+      [setQuery]
     );
 
   const handleClear = useCallback(() => {
     setQuery("");
-    setResults(undefined);
     setViewedResults([]);
-  }, [setQuery, setResults]);
+  }, [setQuery]);
 
   const handleViewResult = useCallback(
     (id: string, navigation: RouterState) => {
@@ -113,6 +81,10 @@ const SideBarHeader = () => {
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );
+
+  useEffect(() => {
+    setViewedResults([]);
+  }, [results]);
 
   const ref = useRef<HTMLDivElement>(null);
   const faceLogoRef = useRef<HTMLDivElement>(null);
