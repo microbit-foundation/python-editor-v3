@@ -23,10 +23,7 @@ import CollapsibleButton from "../common/CollapsibleButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import {
-  useSearch,
-  useSearchQuery,
-} from "../documentation/search/search-hooks";
+import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { RouterState, useRouterState } from "../router-hooks";
 
@@ -34,8 +31,7 @@ const SideBarHeader = () => {
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
-  const [results] = useSearch();
-  const [query, setQuery] = useSearchQuery();
+  const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
 

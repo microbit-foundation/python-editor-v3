@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { DebouncedFunc } from "lodash";
 import debounce from "lodash.debounce";
 import {
   createContext,
@@ -22,10 +21,11 @@ import { WorkerSearch } from "./search-client";
 
 const search: Search = new WorkerSearch();
 
-type UseSearch = [
-  SearchResults | undefined,
-  DebouncedFunc<(newQuery: string) => Promise<void>>
-];
+type UseSearch = {
+  results: SearchResults | undefined;
+  query: string;
+  setQuery: (newQuery: string) => void;
+};
 
 const SearchContext = createContext<UseSearch | undefined>(undefined);
 
@@ -39,7 +39,7 @@ export const useSearch = (): UseSearch => {
 
 const SearchProvider = ({ children }: { children: ReactNode }) => {
   const { exploreToolkit, referenceToolkit } = useToolkitState();
-  const [query] = useSearchQuery();
+  const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const logging = useLogging();
@@ -71,46 +71,22 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
     [setResults, isUnmounted, logging]
   );
 
+  const [{ languageId }] = useSettings();
   useEffect(() => {
-    const getSearchResults = async () => {
-      await debouncedSearch(query);
-    };
+    setQuery("");
+  }, [languageId]);
 
-    getSearchResults();
+  useEffect(() => {
+    debouncedSearch(query);
   }, [debouncedSearch, query]);
 
-  const value: UseSearch = [results, debouncedSearch];
+  const value: UseSearch = useMemo(
+    () => ({ results, query, setQuery }),
+    [results, query, setQuery]
+  );
   return (
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );
 };
 
-type SearchQuery = [string, React.Dispatch<React.SetStateAction<string>>];
-
-const SearchQueryContext = createContext<SearchQuery | undefined>(undefined);
-
-export const useSearchQuery = (): SearchQuery => {
-  const value = useContext(SearchQueryContext);
-  if (!value) {
-    throw new Error("Missing provider!");
-  }
-  return value;
-};
-
-const SearchQueryProvider = ({ children }: { children: ReactNode }) => {
-  const [query, setQuery] = useState<string>("");
-  const [{ languageId }] = useSettings();
-
-  useEffect(() => {
-    setQuery("");
-  }, [languageId]);
-
-  const value: SearchQuery = [query, setQuery];
-  return (
-    <SearchQueryContext.Provider value={value}>
-      <SearchProvider>{children}</SearchProvider>
-    </SearchQueryContext.Provider>
-  );
-};
-
-export default SearchQueryProvider;
+export default SearchProvider;
