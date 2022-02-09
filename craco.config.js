@@ -14,7 +14,7 @@ const internal = "src/deployment/default";
 module.exports = {
   webpack: {
     alias: {
-      "@deployment/replaced-by-webpack": fs.existsSync(external)
+      "theme-package": fs.existsSync(external)
         ? theme
         : path.resolve(__dirname, internal),
     },
@@ -22,7 +22,7 @@ module.exports = {
   jest: {
     configure: {
       moduleNameMapper: {
-        "^@deployment/replaced-by-webpack(.*)$": `<rootDir>/${
+        "^theme-package(.*)$": `<rootDir>/${
           fs.existsSync(external) ? external : internal
         }$1`,
         "\\.worker": "<rootDir>/src/mocks/worker.js",
@@ -30,3 +30,5 @@ module.exports = {
     },
   },
 };
+
+console.log(module.exports);

@@ -7,4 +7,4 @@
 /**
  * See craco.config.js.
  */
-declare module "@deployment/replaced-by-webpack";
+declare module "theme-package";
