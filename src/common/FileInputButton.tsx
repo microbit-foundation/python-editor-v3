@@ -5,7 +5,7 @@
  */
 import { Input, Tooltip } from "@chakra-ui/react";
 import React, { ForwardedRef, useCallback, useRef } from "react";
-import CollapsableButton, { CollapsibleButtonProps } from "./CollapsibleButton";
+import CollapsibleButton, { CollapsibleButtonProps } from "./CollapsibleButton";
 
 interface FileInputButtonProps extends CollapsibleButtonProps {
   onOpen: (file: File[]) => void;
@@ -57,14 +57,14 @@ const FileInputButton = React.forwardRef(
     return (
       <>
         <Tooltip hasArrow placement="top-start" label={tooltip}>
-          <CollapsableButton
+          <CollapsibleButton
             ref={ref}
             icon={icon}
             onClick={handleChooseFile}
             {...props}
           >
             {children}
-          </CollapsableButton>
+          </CollapsibleButton>
         </Tooltip>
         <Input
           data-testid={

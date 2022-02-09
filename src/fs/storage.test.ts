@@ -92,11 +92,13 @@ describe("SplitStrategyStorage", () => {
   it("initializes from session storage", async () => {
     const memory = new InMemoryFSStorage(projectName);
     const session = new SessionStorageFSStorage(sessionStorage);
-    session.write("test1.py", new Uint8Array([1]));
+    await session.setProjectName("foo");
+    await session.write("test1.py", new Uint8Array([1]));
 
     const split = new SplitStrategyStorage(memory, session, new NullLogging());
 
     expect(await split.ls()).toEqual(["test1.py"]);
+    expect(await split.projectName()).toEqual("foo");
   });
 
   it("clears and stops using session storage if we hit errors", async () => {

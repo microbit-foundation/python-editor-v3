@@ -6,7 +6,7 @@
 import { Tooltip } from "@chakra-ui/react";
 import { RiFlashlightFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import CollapsableButton, {
+import CollapsibleButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
 import { useProjectActions } from "./project-hooks";
@@ -28,7 +28,7 @@ const FlashButton = (
           id: "flash-hover",
         })}
       >
-        <CollapsableButton
+        <CollapsibleButton
           {...props}
           variant="solid"
           icon={<RiFlashlightFill />}

@@ -40,7 +40,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
     <HStack {...props} justify="space-between" lineHeight={2}>
       {/* Accessibility for edit is via the row actions */}
       <Text
-        component="span"
+        as="span"
         onClick={onEdit}
         variant="unstyled"
         fontSize="md"

@@ -6,12 +6,12 @@
 import { Tooltip } from "@chakra-ui/tooltip";
 import { RiFileAddLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import CollapsableButton, {
-  CollapsableButtonComposibleProps,
+import CollapsibleButton, {
+  CollapsibleButtonComposableProps,
 } from "../common/CollapsibleButton";
 import { useProjectActions } from "./project-hooks";
 
-interface NewButtonProps extends CollapsableButtonComposibleProps {}
+interface NewButtonProps extends CollapsibleButtonComposableProps {}
 
 /**
  * Upload button, with an associated input field.
@@ -28,7 +28,7 @@ const NewButton = (props: NewButtonProps) => {
         id: "create-python",
       })}
     >
-      <CollapsableButton
+      <CollapsibleButton
         {...props}
         text={intl.formatMessage({
           id: "create-file-action",
