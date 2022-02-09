@@ -23,7 +23,10 @@ import CollapsibleButton from "../common/CollapsibleButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import { useSearch } from "../documentation/search/search-hooks";
+import {
+  useSearch,
+  useSearchQuery,
+} from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { RouterState, useRouterState } from "../router-hooks";
 
@@ -31,8 +34,8 @@ const SideBarHeader = () => {
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
-  const [results, search] = useSearch();
-  const [query, setQuery] = useState("");
+  const [results] = useSearch();
+  const [query, setQuery] = useSearchQuery();
   const [, setRouterState] = useRouterState();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
 
@@ -61,16 +64,14 @@ const SideBarHeader = () => {
       (e) => {
         const newQuery = e.currentTarget.value;
         setQuery(newQuery);
-        search(newQuery);
       },
-      [search, setQuery]
+      [setQuery]
     );
 
   const handleClear = useCallback(() => {
     setQuery("");
-    search("");
     setViewedResults([]);
-  }, [setQuery, search]);
+  }, [setQuery]);
 
   const handleViewResult = useCallback(
     (id: string, navigation: RouterState) => {

@@ -15,6 +15,7 @@ import {
 } from "react";
 import useIsUnmounted from "../../common/use-is-unmounted";
 import { useLogging } from "../../logging/logging-hooks";
+import { useSettings } from "../../settings/settings";
 import { useToolkitState } from "../toolkit-hooks";
 import { Search, SearchResults } from "./common";
 import { WorkerSearch } from "./search-client";
@@ -38,6 +39,7 @@ export const useSearch = (): UseSearch => {
 
 const SearchProvider = ({ children }: { children: ReactNode }) => {
   const { exploreToolkit, referenceToolkit } = useToolkitState();
+  const [query] = useSearchQuery();
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const logging = useLogging();
@@ -69,10 +71,46 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
     [setResults, isUnmounted, logging]
   );
 
+  useEffect(() => {
+    const getSearchResults = async () => {
+      await debouncedSearch(query);
+    };
+
+    getSearchResults();
+  }, [debouncedSearch, query]);
+
   const value: UseSearch = [results, debouncedSearch];
   return (
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );
 };
 
-export default SearchProvider;
+type SearchQuery = [string, React.Dispatch<React.SetStateAction<string>>];
+
+const SearchQueryContext = createContext<SearchQuery | undefined>(undefined);
+
+export const useSearchQuery = (): SearchQuery => {
+  const value = useContext(SearchQueryContext);
+  if (!value) {
+    throw new Error("Missing provider!");
+  }
+  return value;
+};
+
+const SearchQueryProvider = ({ children }: { children: ReactNode }) => {
+  const [query, setQuery] = useState<string>("");
+  const [{ languageId }] = useSettings();
+
+  useEffect(() => {
+    setQuery("");
+  }, [languageId]);
+
+  const value: SearchQuery = [query, setQuery];
+  return (
+    <SearchQueryContext.Provider value={value}>
+      <SearchProvider>{children}</SearchProvider>
+    </SearchQueryContext.Provider>
+  );
+};
+
+export default SearchQueryProvider;
