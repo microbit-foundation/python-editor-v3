@@ -136,4 +136,23 @@ SomeError:
     traceback = tsb.push(toCrLf("0".repeat(5000)))!;
     expect(traceback).toBeUndefined();
   });
+
+  it("provides the correct main file name for V1 and V2 boards", () => {
+    const tsb = new TracebackScrollback();
+    // Entry/main file is __main__ for V1 boards
+    const tracebackV1 = tsb.push(
+      toCrLf(`Traceback (most recent call last):
+  File "__main__", line 6, in <module>
+NameError: name 'foo' is not defined`)
+    )!;
+    expect(tracebackV1.file).toBe("main.py");
+
+    // Entry/main file is main.py for V2 boards
+    const tracebackV2 = tsb.push(
+      toCrLf(`Traceback (most recent call last):
+  File "main.py", line 6, in <module>
+NameError: name 'foo' is not defined`)
+    )!;
+    expect(tracebackV2.file).toBe("main.py");
+  });
 });
