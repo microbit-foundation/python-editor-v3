@@ -140,12 +140,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                     />
                   </AspectRatio>
                 </Box>
-                <VStack
-                  alignItems="center"
-                  justifyContent="center"
-                  height="100%"
-                  spacing={4}
-                >
+                <VStack alignItems="center" justifyContent="center" spacing={4}>
                   <Table size="sm">
                     <Tbody>
                       {versionInfo.map((v) => (
