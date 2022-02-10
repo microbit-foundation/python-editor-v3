@@ -6,6 +6,7 @@
 import { useSettings } from "../settings/settings";
 import { IntlProvider, MessageFormatElement } from "react-intl";
 import { ReactNode, useEffect, useState } from "react";
+import { retryAsyncLoad } from "../common/chunk-util";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
@@ -33,7 +34,7 @@ const TranslationProvider = ({ children }: TranslationProviderProps) => {
   const [messages, setMessages] = useState<Messages | undefined>();
   useEffect(() => {
     const load = async () => {
-      setMessages(await loadLocaleData(languageId));
+      setMessages(await retryAsyncLoad(() => loadLocaleData(languageId)));
     };
     load();
   }, [languageId]);
