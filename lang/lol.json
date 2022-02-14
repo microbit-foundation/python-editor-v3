@@ -382,6 +382,14 @@
     "defaultMessage": "Проджест хеадер",
     "description": "Aria label for the project header area"
   },
+  "projects-tab": {
+    "defaultMessage": "Projects",
+    "description": "Projects tab button text"
+  },
+  "projects-tab-description": {
+    "defaultMessage": "Placeholder for projects with full working code examples",
+    "description": "Projects tab description text"
+  },
   "python-powered": {
     "defaultMessage": "Путхон поверед",
     "description": "Python powered logo alt text"
