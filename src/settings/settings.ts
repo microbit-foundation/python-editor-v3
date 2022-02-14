@@ -99,9 +99,9 @@ export const codeStructureSettings = (
       return {
         shape: "l-shape",
         background: "block",
-        borders: "none",
+        borders: "left-edge-only",
         cursorBackground: true,
-        cursorBorder: "left-edge-only",
+        cursorBorder: "none",
       };
   }
 };
