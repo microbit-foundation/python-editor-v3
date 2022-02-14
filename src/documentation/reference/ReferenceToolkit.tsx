@@ -110,5 +110,7 @@ const ActiveToolkitLevel = ({
 
 const ShortModuleDescription = ({ value }: { value: ApiDocsEntry }) =>
   value.docString ? (
-    <DocString value={firstParagraph(value.docString)} />
+    <DocString
+      value={firstParagraph(value.docString).trim().replace(/\.$/, "")}
+    />
   ) : null;
