@@ -7,7 +7,8 @@ import { List, ListItem, Divider } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
-import { ApiDocsResponse } from "../../language-server/apidocs";
+import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
+import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
@@ -68,6 +69,7 @@ const ActiveToolkitLevel = ({
             parent={referenceString}
             title={module.name}
             onBack={() => onNavigate(undefined)}
+            subtitle={<ShortModuleDescription value={module} />}
           />
         }
       >
@@ -97,9 +99,7 @@ const ActiveToolkitLevel = ({
           <ToolkitTopLevelListItem
             key={module.id}
             name={allowWrapAtPeriods(module.fullName)}
-            description={
-              module.docString && <DocString value={module.docString} />
-            }
+            description={<ShortModuleDescription value={module} />}
             onForward={() => onNavigate(module.id)}
           />
         ))}
@@ -107,3 +107,10 @@ const ActiveToolkitLevel = ({
     </ToolkitLevel>
   );
 };
+
+const ShortModuleDescription = ({ value }: { value: ApiDocsEntry }) =>
+  value.docString ? (
+    <DocString
+      value={firstParagraph(value.docString).trim().replace(/\.$/, "")}
+    />
+  ) : null;
