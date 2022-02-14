@@ -77,7 +77,6 @@ const SideBar = ({
         icon: RiLightbulbFlashLine,
         contents: <ProjectsArea />,
         color: "gray.25",
-        mb: "auto",
       },
       {
         id: "reference",
@@ -86,7 +85,8 @@ const SideBar = ({
         // in documentation.ts (used for CM documentation tooltips).
         icon: VscLibrary,
         contents: <ReferenceArea />,
-        color: "gray.50",
+        color: "gray.25",
+        mb: "auto",
       },
       {
         id: "files",
