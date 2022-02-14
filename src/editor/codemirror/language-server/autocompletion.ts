@@ -164,9 +164,10 @@ const boost = (item: LSP.CompletionItem): number | undefined => {
   if (item.label.startsWith("__")) {
     return -99;
   }
-  if (item.kind === CompletionItemKind.Class) {
-    // A bit of a hack, aimed at demoting display.Image.
-    return -1;
+  if (item.label.endsWith("=")) {
+    // Counteract a single case mismatch penalty to allow
+    // `Image` to rank over `image=` for "image" input
+    return -200;
   }
   return undefined;
 };
