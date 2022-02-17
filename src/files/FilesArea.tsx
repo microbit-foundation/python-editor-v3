@@ -26,13 +26,10 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
   return (
     <HeadedScrollablePanel
       heading={
-        <>
-          <AreaHeading
-            name={intl.formatMessage({ id: "files-tab" })}
-            description={intl.formatMessage({ id: "files-tab-description" })}
-          />
-          <FilesAreaNav mt={5} />
-        </>
+        <AreaHeading
+          name={intl.formatMessage({ id: "files-tab" })}
+          description={intl.formatMessage({ id: "files-tab-description" })}
+        />
       }
     >
       <List flexGrow={1} pl={1} pr={1.5} py={2}>
@@ -71,6 +68,7 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
           );
         })}
       </List>
+      <FilesAreaNav mt={8} />
     </HeadedScrollablePanel>
   );
 };
