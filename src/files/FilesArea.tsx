@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem } from "@chakra-ui/react";
+import { List, ListItem, Stack } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../common/AreaHeading";
 import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
@@ -32,43 +32,45 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
         />
       }
     >
-      <List flexGrow={1} pl={1} pr={1.5} py={2}>
-        {files.map((f) => {
-          const selected = selectedFile === f.name;
-          const select = () => {
-            if (isEditableFile(f.name)) {
-              onSelectedFileChanged(f.name);
-            }
-          };
-          return (
-            <ListItem
-              key={f.name}
-              fontWeight={selected ? "semibold" : undefined}
-              _hover={{
-                bgColor: "blimpTeal.100",
-              }}
-              pl={2}
-              pr={1}
-              cursor={isEditableFile(f.name) ? "pointer" : undefined}
-              borderRadius="md"
-            >
-              <FileRow
-                onClick={(e) => {
-                  // Clicks on buttons in the row shouldn't select the row.
-                  if (e.target === e.currentTarget) {
-                    select();
-                  }
+      <Stack spacing={5} pt={2}>
+        <List flexGrow={1} pl={1} pr={1.5}>
+          {files.map((f) => {
+            const selected = selectedFile === f.name;
+            const select = () => {
+              if (isEditableFile(f.name)) {
+                onSelectedFileChanged(f.name);
+              }
+            };
+            return (
+              <ListItem
+                key={f.name}
+                fontWeight={selected ? "semibold" : undefined}
+                _hover={{
+                  bgColor: "blimpTeal.100",
                 }}
-                height={12}
-                value={f}
-                projectName={projectName}
-                onEdit={select}
-              />
-            </ListItem>
-          );
-        })}
-      </List>
-      <FilesAreaNav mt={8} />
+                pl={2}
+                pr={1}
+                cursor={isEditableFile(f.name) ? "pointer" : undefined}
+                borderRadius="md"
+              >
+                <FileRow
+                  onClick={(e) => {
+                    // Clicks on buttons in the row shouldn't select the row.
+                    if (e.target === e.currentTarget) {
+                      select();
+                    }
+                  }}
+                  height={12}
+                  value={f}
+                  projectName={projectName}
+                  onEdit={select}
+                />
+              </ListItem>
+            );
+          })}
+        </List>
+        <FilesAreaNav />
+      </Stack>
     </HeadedScrollablePanel>
   );
 };
