@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { HStack, List, ListItem } from "@chakra-ui/react";
+import { List, ListItem } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../common/AreaHeading";
 import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
