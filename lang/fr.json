@@ -231,6 +231,10 @@
     "defaultMessage": "Fichiers",
     "description": "Files tab button text"
   },
+  "files-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your Python Editor project",
+    "description": "Files tab description"
+  },
   "flash-action": {
     "defaultMessage": "Flasher",
     "description": "Text for flash button"

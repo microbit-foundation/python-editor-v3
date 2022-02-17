@@ -467,6 +467,12 @@
       "value": "Філес"
     }
   ],
+  "files-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your Python Editor project"
+    }
+  ],
   "flash-action": [
     {
       "type": 0,

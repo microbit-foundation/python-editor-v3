@@ -231,6 +231,10 @@
     "defaultMessage": "Files",
     "description": "Files tab button text"
   },
+  "files-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your project",
+    "description": "Files tab description"
+  },
   "flash-action": {
     "defaultMessage": "Flash",
     "description": "Text for flash button"

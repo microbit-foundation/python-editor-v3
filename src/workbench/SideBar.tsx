@@ -7,7 +7,6 @@ import {
   Box,
   BoxProps,
   Flex,
-  HStack,
   TabList,
   TabPanel,
   TabPanels,
@@ -25,7 +24,6 @@ import ExploreArea from "../documentation/ExploreArea";
 import ProjectsArea from "../documentation/ProjectsArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
-import FilesAreaNav from "../files/FilesAreaNav";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
@@ -40,7 +38,6 @@ export interface Pane {
   id: string;
   icon: IconType;
   title: string;
-  nav?: ReactNode;
   contents: ReactNode;
   color: string;
   mb?: string;
@@ -92,7 +89,6 @@ const SideBar = ({
         id: "files",
         title: intl.formatMessage({ id: "files-tab" }),
         icon: VscFiles,
-        nav: <FilesAreaNav />,
         contents: (
           <FilesArea
             selectedFile={selectedFile}
@@ -155,7 +151,6 @@ const SideBar = ({
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
-                  {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
                   <ReleaseNotice onDialogChange={setReleaseDialog} />
                 </ErrorBoundary>
