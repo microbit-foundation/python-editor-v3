@@ -14,8 +14,8 @@ import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useAnimationDirection } from "../explore/toolkit-hooks";
 import ToolkitBreadcrumbHeading from "../explore/ToolkitBreadcrumbHeading";
-import ToolkitLevel from "../explore/ToolkitLevel";
-import ToolkitTopLevelHeading from "../explore/ToolkitTopLevelHeading";
+import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
+import AreaHeading from "../../common/AreaHeading";
 import ToolkitTopLevelListItem from "../explore/ToolkitTopLevelListItem";
 import { resolveModule } from "./apidocs-util";
 import ReferenceNode from "./ReferenceNode";
@@ -62,7 +62,7 @@ const ActiveToolkitLevel = ({
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;
   if (module) {
     return (
-      <ToolkitLevel
+      <HeadedScrollablePanel
         direction={direction}
         heading={
           <ToolkitBreadcrumbHeading
@@ -81,14 +81,14 @@ const ActiveToolkitLevel = ({
             </ListItem>
           ))}
         </List>
-      </ToolkitLevel>
+      </HeadedScrollablePanel>
     );
   }
   return (
-    <ToolkitLevel
+    <HeadedScrollablePanel
       direction={direction}
       heading={
-        <ToolkitTopLevelHeading
+        <AreaHeading
           name={referenceString}
           description={intl.formatMessage({ id: "reference-description" })}
         />
@@ -104,7 +104,7 @@ const ActiveToolkitLevel = ({
           />
         ))}
       </List>
-    </ToolkitLevel>
+    </HeadedScrollablePanel>
   );
 };
 

@@ -5,23 +5,22 @@
  */
 import { Box } from "@chakra-ui/layout";
 import { useIntl } from "react-intl";
-import ToolkitLevel from "./explore/ToolkitLevel";
-import ToolkitTopLevelHeading from "./explore/ToolkitTopLevelHeading";
+import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
+import AreaHeading from "../common/AreaHeading";
 
 const ProjectsArea = () => {
   const intl = useIntl();
   return (
-    <ToolkitLevel
-      direction="none"
+    <HeadedScrollablePanel
       heading={
-        <ToolkitTopLevelHeading
+        <AreaHeading
           name={intl.formatMessage({ id: "projects-tab" })}
           description={intl.formatMessage({ id: "projects-tab-description" })}
         />
       }
     >
       <Box height="100%" />
-    </ToolkitLevel>
+    </HeadedScrollablePanel>
   );
 };
 

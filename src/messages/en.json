@@ -467,6 +467,12 @@
       "value": "Files"
     }
   ],
+  "files-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your project"
+    }
+  ],
   "flash-action": [
     {
       "type": 0,

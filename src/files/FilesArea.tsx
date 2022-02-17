@@ -3,11 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem } from "@chakra-ui/react";
+import { HStack, List, ListItem } from "@chakra-ui/react";
+import { useIntl } from "react-intl";
+import AreaHeading from "../common/AreaHeading";
+import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
 import { useProject } from "../project/project-hooks";
 import { isEditableFile } from "../project/project-utils";
-import ScrollablePanel from "../workbench/ScrollablePanel";
 import FileRow from "./FileRow";
+import FilesAreaNav from "./FilesAreaNav";
 
 interface FilesProps {
   selectedFile: string | undefined;
@@ -19,9 +22,20 @@ interface FilesProps {
  */
 const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
   const { files, name: projectName } = useProject();
+  const intl = useIntl();
   return (
-    <ScrollablePanel>
-      <List flexGrow={1} pl={1} pr={1.5}>
+    <HeadedScrollablePanel
+      heading={
+        <>
+          <AreaHeading
+            name={intl.formatMessage({ id: "files-tab" })}
+            description={intl.formatMessage({ id: "files-tab-description" })}
+          />
+          <FilesAreaNav mt={5} />
+        </>
+      }
+    >
+      <List flexGrow={1} pl={1} pr={1.5} py={2}>
         {files.map((f) => {
           const selected = selectedFile === f.name;
           const select = () => {
@@ -57,7 +71,7 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
           );
         })}
       </List>
-    </ScrollablePanel>
+    </HeadedScrollablePanel>
   );
 };
 
