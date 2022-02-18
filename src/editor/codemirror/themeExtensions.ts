@@ -82,6 +82,9 @@ export const themeExtensions = (fontSize: string) => {
       height: "10rem",
       maxHeight: "10rem",
     },
+    ".cm-widgetBuffer": {
+      display: "inline",
+    },
   });
 };
 
