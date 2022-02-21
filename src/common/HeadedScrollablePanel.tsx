@@ -5,21 +5,21 @@
  */
 import { Box, BoxProps, VStack, Divider } from "@chakra-ui/layout";
 import { ReactNode } from "react";
-import ScrollablePanel from "../../workbench/ScrollablePanel";
+import ScrollablePanel from "./ScrollablePanel";
 import Slide from "./Slide";
 
-interface ToolkitLevelProps extends BoxProps {
-  direction: "forward" | "back" | "none";
+interface HeadedScrollablePanelProps extends BoxProps {
+  direction?: "forward" | "back" | "none";
   heading: ReactNode;
   children: ReactNode;
 }
 
-const ToolkitLevel = ({
-  direction,
+const HeadedScrollablePanel = ({
+  direction = "none",
   heading,
   children,
   ...props
-}: ToolkitLevelProps) => (
+}: HeadedScrollablePanelProps) => (
   <ScrollablePanel>
     <Slide direction={direction}>
       <VStack alignItems="stretch" spacing={0} {...props}>
@@ -30,11 +30,10 @@ const ToolkitLevel = ({
           </Box>
           <Divider borderWidth="1px" />
         </Box>
-
         {children}
       </VStack>
     </Slide>
   </ScrollablePanel>
 );
 
-export default ToolkitLevel;
+export default HeadedScrollablePanel;

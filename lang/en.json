@@ -231,6 +231,10 @@
     "defaultMessage": "Files",
     "description": "Files tab button text"
   },
+  "files-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your project",
+    "description": "Files tab description"
+  },
   "flash-action": {
     "defaultMessage": "Flash",
     "description": "Text for flash button"
@@ -382,6 +386,14 @@
   "project-header": {
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
+  },
+  "projects-tab": {
+    "defaultMessage": "Projects",
+    "description": "Projects tab button text"
+  },
+  "projects-tab-description": {
+    "defaultMessage": "Placeholder for projects with full working code examples",
+    "description": "Projects tab description text"
   },
   "python-powered": {
     "defaultMessage": "Python powered",

@@ -92,8 +92,12 @@ export const autocompletion = (intl: IntlShape, logging: Logging) =>
                   label: item.label,
                   apply: (view, completion, from, to) => {
                     logging.event({ type: "autocomplete-accept" });
+                    const insert = item.label;
                     const transactions: TransactionSpec[] = [
-                      { changes: { from, to, insert: item.label } },
+                      {
+                        changes: { from, to, insert },
+                        selection: { anchor: from + insert.length },
+                      },
                     ];
                     if (
                       // funcParensDisabled is set to true by Pyright for e.g. a function completion in an import
@@ -164,9 +168,10 @@ const boost = (item: LSP.CompletionItem): number | undefined => {
   if (item.label.startsWith("__")) {
     return -99;
   }
-  if (item.kind === CompletionItemKind.Class) {
-    // A bit of a hack, aimed at demoting display.Image.
-    return -1;
+  if (item.label.endsWith("=")) {
+    // Counteract a single case mismatch penalty to allow
+    // `Image` to rank over `image=` for "image" input
+    return -200;
   }
   return undefined;
 };

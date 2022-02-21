@@ -5,15 +5,12 @@
  */
 import { Text } from "@chakra-ui/layout";
 
-interface ToolkitTopLevelHeadingProps {
+interface AreaHeadingProps {
   name: string;
   description: string;
 }
 
-const ToolkitTopLevelHeading = ({
-  name,
-  description,
-}: ToolkitTopLevelHeadingProps) => (
+const AreaHeading = ({ name, description }: AreaHeadingProps) => (
   <>
     <Text as="h2" fontSize="3xl" fontWeight="semibold">
       {name}
@@ -22,4 +19,4 @@ const ToolkitTopLevelHeading = ({
   </>
 );
 
-export default ToolkitTopLevelHeading;
+export default AreaHeading;

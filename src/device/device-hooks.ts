@@ -70,7 +70,8 @@ export const parseTraceLine = (line: string): TraceLineParts => {
   // File "<stdin>", line 1, in <module>
   const match = /^File [<"]([^>"]+)[">], line (\d+)/.exec(line.trim());
   if (match) {
-    let file: string | undefined = match[1];
+    const file: string | undefined =
+      match[1] === "__main__" ? "main.py" : match[1];
     let line: number | undefined;
     const number = match[2];
     if (number) {

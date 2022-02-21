@@ -36,9 +36,9 @@ const FileDropTarget = ({
     [onFileDrop]
   );
   const handleDragOver = useCallback((event: React.DragEvent<HTMLElement>) => {
-    event.preventDefault();
     const hasFile = Array.from(event.dataTransfer.types).indexOf("Files") >= 0;
     if (hasFile) {
+      event.preventDefault();
       setDragOver(true);
       event.dataTransfer.dropEffect = "copy";
     }

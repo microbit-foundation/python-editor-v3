@@ -12,7 +12,7 @@ import {
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Anchor } from "../../router-hooks";
 import { useLogging } from "../../logging/logging-hooks";
-import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
+import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 
 interface HighlightProps extends BoxProps {
   anchor?: Anchor;

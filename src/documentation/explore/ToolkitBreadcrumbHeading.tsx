@@ -6,6 +6,7 @@
 import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
 import { HStack, VStack } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 import { ToolkitImage } from "./model";
 import ToolkitIcon from "./ToolkitIcon";
@@ -17,7 +18,7 @@ interface BreadcrumbHeadingProps {
   onBack: () => void;
   titleFontFamily?: "code";
   parentFontFamily?: "code";
-  subtitle?: string;
+  subtitle?: ReactNode;
   icon?: ToolkitImage;
 }
 

@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,7 +7,6 @@ import {
   Box,
   BoxProps,
   Flex,
-  HStack,
   TabList,
   TabPanel,
   TabPanels,
@@ -16,15 +15,15 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useMemo } from "react";
 import { IconType } from "react-icons";
-import { RiFolderFill } from "react-icons/ri";
-import { VscLibrary } from "react-icons/vsc";
+import { RiLightbulbFlashLine } from "react-icons/ri";
+import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ExploreArea from "../documentation/ExploreArea";
+import ProjectsArea from "../documentation/ProjectsArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
-import FilesAreaNav from "../files/FilesAreaNav";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
@@ -39,7 +38,6 @@ export interface Pane {
   id: string;
   icon: IconType;
   title: string;
-  nav?: ReactNode;
   contents: ReactNode;
   color: string;
   mb?: string;
@@ -71,6 +69,13 @@ const SideBar = ({
         color: "gray.25",
       },
       {
+        id: "projects",
+        title: intl.formatMessage({ id: "projects-tab" }),
+        icon: RiLightbulbFlashLine,
+        contents: <ProjectsArea />,
+        color: "gray.25",
+      },
+      {
         id: "reference",
         title: intl.formatMessage({ id: "reference-tab" }),
         // If you change this icon you also need to change the version embedded
@@ -83,8 +88,7 @@ const SideBar = ({
       {
         id: "files",
         title: intl.formatMessage({ id: "files-tab" }),
-        icon: RiFolderFill,
-        nav: <FilesAreaNav />,
+        icon: VscFiles,
         contents: (
           <FilesArea
             selectedFile={selectedFile}
@@ -147,7 +151,6 @@ const SideBar = ({
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
-                  {p.nav && <HStack justifyContent="flex-end">{p.nav}</HStack>}
                   {p.contents}
                   <ReleaseNotice onDialogChange={setReleaseDialog} />
                 </ErrorBoundary>
