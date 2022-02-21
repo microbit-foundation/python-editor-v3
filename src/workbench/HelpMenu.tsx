@@ -52,7 +52,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
           isRound
         />
         <Portal>
-          <MenuList>
+          <MenuList zIndex={3}>
             <MenuItem
               as="a"
               href="https://microbit-micropython.readthedocs.io/en/v2-docs/"

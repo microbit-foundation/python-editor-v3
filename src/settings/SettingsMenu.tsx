@@ -54,7 +54,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
           isRound
         />
         <Portal>
-          <MenuList>
+          <MenuList zIndex={3}>
             <MenuItem
               icon={<IoMdGlobe />}
               onClick={languageDisclosure.onOpen}
