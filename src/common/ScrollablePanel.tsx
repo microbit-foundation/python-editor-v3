@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box } from "@chakra-ui/react";
-import React, { ReactNode, RefObject, useContext, useRef } from "react";
+import { Box, BoxProps } from "@chakra-ui/react";
+import React, { RefObject, useContext, useRef } from "react";
 
 const ScrollablePanelContext =
   React.createContext<RefObject<HTMLDivElement> | null>(null);
@@ -22,14 +22,12 @@ export const useScrollablePanelAncestor = () => {
   return value;
 };
 
-interface ScrollablePanelProps {
-  children: ReactNode;
-}
+interface ScrollablePanelProps extends BoxProps {}
 
 /**
  * A wrapper for each area shown inside the left panel.
  */
-const ScrollablePanel = ({ children }: ScrollablePanelProps) => {
+const ScrollablePanel = ({ children, ...props }: ScrollablePanelProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
@@ -40,6 +38,7 @@ const ScrollablePanel = ({ children }: ScrollablePanelProps) => {
       overflowX="hidden"
       height={0}
       position="relative"
+      {...props}
     >
       <ScrollablePanelContext.Provider value={ref}>
         {children}
