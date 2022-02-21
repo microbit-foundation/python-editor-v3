@@ -62,9 +62,8 @@ export const themeExtensions = (fontSize: string) => {
       border: "1px solid var(--chakra-colors-gray-400)",
     },
     ".cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected]": {
-      // Matches the text selection colour from the default CM theme.
-      // We might like to change both if we add a lighter brand color.
       background: "#d7d4f0",
+      color: "var(--chakra-colors-gray-800)",
     },
     ".cm-tooltip.cm-completionInfo.cm-completionInfo-right": {
       borderLeft: "none",

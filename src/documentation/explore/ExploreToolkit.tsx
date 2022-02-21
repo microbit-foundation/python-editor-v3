@@ -11,9 +11,9 @@ import { isV2Only, Toolkit } from "./model";
 import { useAnimationDirection } from "./toolkit-hooks";
 import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
 import ToolkitContent from "./ToolkitContent";
-import ToolkitLevel from "./ToolkitLevel";
+import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import ToolkitTopicEntry from "./ToolkitTopicEntry";
-import ToolkitTopLevelHeading from "./ToolkitTopLevelHeading";
+import AreaHeading from "../../common/AreaHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
 
 interface ExploreToolkitProps {
@@ -69,7 +69,7 @@ const ActiveToolkitLevel = ({
 
   if (topic) {
     return (
-      <ToolkitLevel
+      <HeadedScrollablePanel
         // Key prop used to ensure scroll position top
         // after using internal link to toolkit topic.
         key={topic.name}
@@ -102,17 +102,14 @@ const ActiveToolkitLevel = ({
             </ListItem>
           ))}
         </List>
-      </ToolkitLevel>
+      </HeadedScrollablePanel>
     );
   }
   return (
-    <ToolkitLevel
+    <HeadedScrollablePanel
       direction={direction}
       heading={
-        <ToolkitTopLevelHeading
-          name={toolkit.name}
-          description={toolkit.description}
-        />
+        <AreaHeading name={toolkit.name} description={toolkit.description} />
       }
     >
       <List flex="1 1 auto" m={3}>
@@ -127,7 +124,7 @@ const ActiveToolkitLevel = ({
           />
         ))}
       </List>
-    </ToolkitLevel>
+    </HeadedScrollablePanel>
   );
 };
 

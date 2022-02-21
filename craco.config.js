@@ -7,21 +7,37 @@ const path = require("path");
 const fs = require("fs");
 
 // Support optionally pulling in external branding if the module is installed.
-const external =
-  "node_modules/@microbit-foundation/python-editor-next-microbit";
+const theme = "@microbit-foundation/python-editor-next-microbit";
+const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
-const location = fs.existsSync(external) ? external : internal;
 
 module.exports = {
   webpack: {
     alias: {
-      "@deployment": path.resolve(__dirname, location),
+      "theme-package": fs.existsSync(external)
+        ? theme
+        : path.resolve(__dirname, internal),
+    },
+    configure: {
+      ignoreWarnings: [
+        // Temporary version of https://github.com/facebook/create-react-app/pull/11752
+        function ignoreSourcemapsloaderWarnings(warning) {
+          return (
+            warning.module &&
+            warning.module.resource.includes("node_modules") &&
+            warning.details &&
+            warning.details.includes("source-map-loader")
+          );
+        },
+      ],
     },
   },
   jest: {
     configure: {
       moduleNameMapper: {
-        "^@deployment(.*)$": `<rootDir>/${location}$1`,
+        "^theme-package(.*)$": `<rootDir>/${
+          fs.existsSync(external) ? external : internal
+        }$1`,
         "\\.worker": "<rootDir>/src/mocks/worker.js",
       },
     },

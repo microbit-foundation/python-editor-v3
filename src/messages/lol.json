@@ -467,6 +467,12 @@
       "value": "Філес"
     }
   ],
+  "files-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your Python Editor project"
+    }
+  ],
   "flash-action": [
     {
       "type": 0,
@@ -767,6 +773,18 @@
     {
       "type": 0,
       "value": "Проджест хеадер"
+    }
+  ],
+  "projects-tab": [
+    {
+      "type": 0,
+      "value": "Projects"
+    }
+  ],
+  "projects-tab-description": [
+    {
+      "type": 0,
+      "value": "Placeholder for projects with full working code examples"
     }
   ],
   "python-powered": [

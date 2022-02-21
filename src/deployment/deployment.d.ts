@@ -7,4 +7,4 @@
 /**
  * See craco.config.js.
  */
-declare module "@deployment";
+declare module "theme-package";

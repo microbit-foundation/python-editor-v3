@@ -15,7 +15,7 @@ import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
-import { useScrollablePanelAncestor } from "../../workbench/ScrollablePanel";
+import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
 

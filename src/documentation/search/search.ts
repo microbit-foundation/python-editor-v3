@@ -5,6 +5,7 @@
  */
 import lunr from "lunr";
 import stemmerSupport from "lunr-languages/lunr.stemmer.support";
+import { retryAsyncLoad } from "../../common/chunk-util";
 import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
 import type {
   ApiDocsEntry,
@@ -219,7 +220,9 @@ export const buildToolkitIndex = async (
   referenceToolkit: ApiDocsResponse
 ): Promise<LunrSearch> => {
   const language = exploreToolkit.language;
-  const languageSupport = await loadLunrLanguageSupport(language);
+  const languageSupport = await retryAsyncLoad(() =>
+    loadLunrLanguageSupport(language)
+  );
   const plugins: lunr.Builder.Plugin[] = [];
   if (languageSupport) {
     // Loading plugin for fr makes lunr.fr available but we don't model this in the types.

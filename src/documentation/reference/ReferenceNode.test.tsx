@@ -7,7 +7,7 @@ import { render } from "@testing-library/react";
 import { ApiDocsEntry } from "../../language-server/apidocs";
 import NullLoggingProvider from "../../logging/NullLoggingProvider";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
-import ScrollablePanel from "../../workbench/ScrollablePanel";
+import ScrollablePanel from "../../common/ScrollablePanel";
 import ReferenceNode, {
   getDragContext,
   classToInstanceMap,

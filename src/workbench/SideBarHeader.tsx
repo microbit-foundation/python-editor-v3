@@ -16,32 +16,24 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import debounce from "lodash.debounce";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import useIsUnmounted from "../common/use-is-unmounted";
+import CollapsibleButton from "../common/CollapsibleButton";
+import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import { SearchResults } from "../documentation/search/common";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
-import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
 const SideBarHeader = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const faceLogoRef = useRef<HTMLDivElement>(null);
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
-  const search = useSearch();
-  const [query, setQuery] = useState("");
+  const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
-  const [results, setResults] = useState<SearchResults | undefined>();
-  const isUnmounted = useIsUnmounted();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
-  const logging = useLogging();
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -63,43 +55,19 @@ const SideBarHeader = () => {
     };
   }, [searchModal]);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce(async (newQuery: string) => {
-        const trimmedQuery = newQuery.trim();
-        if (trimmedQuery) {
-          const results = await search.search(trimmedQuery);
-          if (!isUnmounted()) {
-            setResults((prevResults) => {
-              if (!prevResults) {
-                logging.event({ type: "search" });
-              }
-              return results;
-            });
-          }
-        } else {
-          setResults(undefined);
-        }
-        setViewedResults([]);
-      }, 300),
-    [search, setResults, setViewedResults, isUnmounted, logging]
-  );
-
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
         const newQuery = e.currentTarget.value;
         setQuery(newQuery);
-        debouncedSearch(newQuery);
       },
-      [debouncedSearch, setQuery]
+      [setQuery]
     );
 
   const handleClear = useCallback(() => {
     setQuery("");
-    setResults(undefined);
     setViewedResults([]);
-  }, [setQuery, setResults]);
+  }, [setQuery]);
 
   const handleViewResult = useCallback(
     (id: string, navigation: RouterState) => {
@@ -113,19 +81,25 @@ const SideBarHeader = () => {
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );
-  // Width of the sidebar tabs. Perhaps we can restructure the DOM?
-  const sidebarWidth = useRef<HTMLDivElement>(null);
-  const offset = faceLogoRef.current
-    ? faceLogoRef.current.getBoundingClientRect().right + 14
+
+  useEffect(() => {
+    setViewedResults([]);
+  }, [results]);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const faceLogoRef = useRef<HTMLDivElement>(null);
+  const contentRect = useResizeObserverContentRect(ref);
+  const contentWidth = contentRect?.width ?? 0;
+  const searchButtonMode =
+    !contentWidth || contentWidth > 405 ? "button" : "icon";
+  const paddingX = 14;
+  const modalOffset = faceLogoRef.current
+    ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
-  const width = sidebarWidth.current
-    ? sidebarWidth.current!.clientWidth - offset - 14 + "px"
-    : undefined;
+  const modalWidth = contentWidth - modalOffset + "px";
 
   return (
     <>
-      {/* Empty box used to calculate width only. */}
-      <Box ref={sidebarWidth}></Box>
       <Modal
         isOpen={searchModal.isOpen}
         onClose={searchModal.onClose}
@@ -134,8 +108,8 @@ const SideBarHeader = () => {
         <ModalOverlay>
           <ModalContent
             mt={3.5}
-            ml={offset + "px"}
-            width={width}
+            ml={modalOffset + "px"}
+            width={modalWidth}
             containerProps={{
               justifyContent: "flex-start",
             }}
@@ -187,28 +161,31 @@ const SideBarHeader = () => {
           </HStack>
         </Link>
         {!query && (
-          <Button
+          <CollapsibleButton
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
             fontWeight="normal"
             color="#fffc"
-            leftIcon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
+            icon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
             fontSize="sm"
             _hover={{}}
             _active={{}}
             border="unset"
             textAlign="left"
-            pl={3}
-            pr={20}
-          >
-            {intl.formatMessage({ id: "search" })}
-          </Button>
+            p={3}
+            pr={`min(${contentWidth / 50}%, var(--chakra-space-20))`}
+            _collapsed={{
+              pr: 3,
+            }}
+            text={intl.formatMessage({ id: "search" })}
+            mode={searchButtonMode}
+          />
         )}
         {query && (
           <Flex
             backgroundColor="white"
             borderRadius="3xl"
-            width={`calc(100% - ${offset}px)`}
+            width={`calc(100% - ${modalOffset}px)`}
             position="relative"
           >
             <Button

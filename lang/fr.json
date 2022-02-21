@@ -231,6 +231,10 @@
     "defaultMessage": "Fichiers",
     "description": "Files tab button text"
   },
+  "files-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your Python Editor project",
+    "description": "Files tab description"
+  },
   "flash-action": {
     "defaultMessage": "Flasher",
     "description": "Text for flash button"
@@ -381,6 +385,14 @@
   "project-header": {
     "defaultMessage": "En-tête de projet",
     "description": "Aria label for the project header area"
+  },
+  "projects-tab": {
+    "defaultMessage": "Projets",
+    "description": "Projects tab button text"
+  },
+  "projects-tab-description": {
+    "defaultMessage": "Placeholder for projects with full working code examples",
+    "description": "Projects tab description text"
   },
   "python-powered": {
     "defaultMessage": "Développé par Python",

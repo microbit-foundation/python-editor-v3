@@ -7,14 +7,15 @@ import { List, ListItem, Divider } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
-import { ApiDocsResponse } from "../../language-server/apidocs";
+import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
+import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useAnimationDirection } from "../explore/toolkit-hooks";
 import ToolkitBreadcrumbHeading from "../explore/ToolkitBreadcrumbHeading";
-import ToolkitLevel from "../explore/ToolkitLevel";
-import ToolkitTopLevelHeading from "../explore/ToolkitTopLevelHeading";
+import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
+import AreaHeading from "../../common/AreaHeading";
 import ToolkitTopLevelListItem from "../explore/ToolkitTopLevelListItem";
 import { resolveModule } from "./apidocs-util";
 import ReferenceNode from "./ReferenceNode";
@@ -61,13 +62,14 @@ const ActiveToolkitLevel = ({
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;
   if (module) {
     return (
-      <ToolkitLevel
+      <HeadedScrollablePanel
         direction={direction}
         heading={
           <ToolkitBreadcrumbHeading
             parent={referenceString}
             title={module.name}
             onBack={() => onNavigate(undefined)}
+            subtitle={<ShortModuleDescription value={module} />}
           />
         }
       >
@@ -79,14 +81,14 @@ const ActiveToolkitLevel = ({
             </ListItem>
           ))}
         </List>
-      </ToolkitLevel>
+      </HeadedScrollablePanel>
     );
   }
   return (
-    <ToolkitLevel
+    <HeadedScrollablePanel
       direction={direction}
       heading={
-        <ToolkitTopLevelHeading
+        <AreaHeading
           name={referenceString}
           description={intl.formatMessage({ id: "reference-description" })}
         />
@@ -97,13 +99,18 @@ const ActiveToolkitLevel = ({
           <ToolkitTopLevelListItem
             key={module.id}
             name={allowWrapAtPeriods(module.fullName)}
-            description={
-              module.docString && <DocString value={module.docString} />
-            }
+            description={<ShortModuleDescription value={module} />}
             onForward={() => onNavigate(module.id)}
           />
         ))}
       </List>
-    </ToolkitLevel>
+    </HeadedScrollablePanel>
   );
 };
+
+const ShortModuleDescription = ({ value }: { value: ApiDocsEntry }) =>
+  value.docString ? (
+    <DocString
+      value={firstParagraph(value.docString).trim().replace(/\.$/, "")}
+    />
+  ) : null;

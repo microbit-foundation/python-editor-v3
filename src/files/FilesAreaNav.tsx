@@ -3,23 +3,22 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ButtonGroup } from "@chakra-ui/button";
 import NewButton from "../project/NewButton";
 import LoadButton from "../project/LoadButton";
+import { BoxProps, Flex } from "@chakra-ui/react";
 
-const FilesAreaNav = () => {
+const FilesAreaNav = (props: BoxProps) => {
   return (
-    <ButtonGroup
-      pl={1}
-      pr={1}
+    <Flex
+      px={2}
       spacing={0}
-      variant="ghost"
-      size="lg"
-      colorScheme="black"
+      flexWrap="wrap"
+      justifyContent="flex-end"
+      {...props}
     >
-      <NewButton mode="icon" />
-      <LoadButton mode="icon" />
-    </ButtonGroup>
+      <NewButton mode="button" my={1} mx={1} />
+      <LoadButton mode="button" my={1} mx={1} />
+    </Flex>
   );
 };
 
