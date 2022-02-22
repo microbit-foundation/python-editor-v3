@@ -84,6 +84,9 @@ export const themeExtensions = (fontSize: string) => {
     ".cm-widgetBuffer": {
       display: "inline",
     },
+    ".cm-line": {
+      transition: "none",
+    },
   });
 };
 
