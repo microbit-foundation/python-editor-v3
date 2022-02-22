@@ -28,6 +28,7 @@
 
 import { StateField, StateEffect, Extension } from "@codemirror/state";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
+import { pythonSnippetMediaType } from "../../common/mediaTypes";
 
 interface MeasureRequest<T> {
   /// Called in a DOM read phase to gather information that requires
@@ -136,7 +137,7 @@ const drawDropCursor = ViewPlugin.fromClass(
     eventHandlers: {
       dragover(event) {
         // Avoid setting drop position if dragged element is a code snippet/example.
-        if (!(event.target as HTMLElement).classList.contains("cm-content")) {
+        if (!event.dataTransfer?.types.includes(pythonSnippetMediaType)) {
           this.setDropPos(
             this.view.posAtCoords({ x: event.clientX, y: event.clientY })
           );
