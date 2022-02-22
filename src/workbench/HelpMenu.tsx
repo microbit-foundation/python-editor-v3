@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -20,9 +20,10 @@ import {
   RiInformationLine,
   RiQuestionLine,
 } from "react-icons/ri";
+import { FormattedMessage, useIntl } from "react-intl";
+import { zIndexAboveTerminal } from "../common/zIndex";
 import { deployment } from "../deployment";
 import AboutDialog from "./AboutDialog/AboutDialog";
-import { FormattedMessage, useIntl } from "react-intl";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -52,7 +53,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
           isRound
         />
         <Portal>
-          <MenuList zIndex={3}>
+          <MenuList zIndex={zIndexAboveTerminal}>
             <MenuItem
               as="a"
               href="https://microbit-micropython.readthedocs.io/en/v2-docs/"

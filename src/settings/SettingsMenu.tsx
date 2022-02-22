@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -17,6 +17,7 @@ import {
 import { IoMdGlobe } from "react-icons/io";
 import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { zIndexAboveTerminal } from "../common/zIndex";
 import { LanguageDialog } from "./LanguageDialog";
 import { SettingsDialog } from "./SettingsDialog";
 
@@ -54,7 +55,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
           isRound
         />
         <Portal>
-          <MenuList zIndex={3}>
+          <MenuList zIndex={zIndexAboveTerminal}>
             <MenuItem
               icon={<IoMdGlobe />}
               onClick={languageDisclosure.onOpen}
