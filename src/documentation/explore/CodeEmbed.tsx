@@ -11,11 +11,12 @@ import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
+import { zIndexCodePopUp } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
-import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
 
@@ -161,7 +162,7 @@ const CodePopUp = ({ concise, full, parentSlug, ...props }: CodePopUpProps) => {
   return (
     <Portal>
       <Code
-        zIndex={2}
+        zIndex={zIndexCodePopUp}
         concise={concise}
         full={full}
         position="absolute"
