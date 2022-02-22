@@ -21,6 +21,7 @@ import {
   keymap,
 } from "@codemirror/view";
 import { dndSupport } from "./dnd";
+import { dropCursor } from "./dropcursor";
 import highlightStyle from "./highlightStyle";
 
 const customTabBinding: KeyBinding = {
@@ -41,6 +42,7 @@ export const editorConfig: Extension = [
     // Disable Grammarly.
     "data-gramm": "false",
   }),
+  dropCursor(),
   highlightSpecialChars(),
   history(),
   drawSelection(),
