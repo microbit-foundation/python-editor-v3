@@ -441,7 +441,7 @@
   },
   "serial-collapse": {
     "defaultMessage": "Hide serial",
-    "description": "Aria label for serial expand/collapse"
+    "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
     "defaultMessage": "Send Ctrl-C for REPL",
@@ -457,7 +457,7 @@
   },
   "serial-expand": {
     "defaultMessage": "Show serial",
-    "description": "Aria label for serial expand/collapse"
+    "description": "Action label to expand the serial console/REPL area"
   },
   "serial-help-ctrl-c": {
     "defaultMessage": "Use the keyboard shortcut <kbd>Ctrl</kbd> + <kbd>C</kbd> to interrupt your program. Then you can type Python commands for MicroPython to run. It's a great way to experiment with something new.",
