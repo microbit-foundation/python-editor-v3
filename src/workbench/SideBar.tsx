@@ -100,7 +100,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab }, setParams] = useRouterState();
+  const [{ tab, explore, reference }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
@@ -115,10 +115,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    setParams({
-      tab,
-    });
-  }, [tab, setParams]);
+    if (explore || reference) {
+      setParams({
+        tab,
+      });
+    }
+  }, [explore, reference, tab, setParams]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
