@@ -91,7 +91,7 @@ const drawDropCursor = ViewPlugin.fromClass(
           this.cursor!.className = "cm-dropCursor";
         }
         if (
-          update.startState.field(dropCursorPos) != cursorPos ||
+          update.startState.field(dropCursorPos) !== cursorPos ||
           update.docChanged ||
           update.geometryChanged
         )
@@ -128,7 +128,7 @@ const drawDropCursor = ViewPlugin.fromClass(
     }
 
     setDropPos(pos: number | null) {
-      if (this.view.state.field(dropCursorPos) != pos)
+      if (this.view.state.field(dropCursorPos) !== pos)
         this.view.dispatch({ effects: setDropCursorPos.of(pos) });
     }
   },
@@ -144,7 +144,7 @@ const drawDropCursor = ViewPlugin.fromClass(
       },
       dragleave(event) {
         if (
-          event.target == this.view.contentDOM ||
+          event.target === this.view.contentDOM ||
           !this.view.contentDOM.contains(event.relatedTarget as HTMLElement)
         )
           this.setDropPos(null);
