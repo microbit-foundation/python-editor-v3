@@ -15,13 +15,13 @@ import { lintKeymap } from "@codemirror/lint";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
-  dropCursor,
   EditorView,
   highlightSpecialChars,
   KeyBinding,
   keymap,
 } from "@codemirror/view";
 import { dndSupport } from "./dnd";
+import { dropCursor } from "./dropcursor";
 import highlightStyle from "./highlightStyle";
 
 const customTabBinding: KeyBinding = {
