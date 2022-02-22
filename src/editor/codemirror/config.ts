@@ -15,6 +15,7 @@ import { lintKeymap } from "@codemirror/lint";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
+  dropCursor,
   EditorView,
   highlightSpecialChars,
   KeyBinding,
@@ -41,6 +42,7 @@ export const editorConfig: Extension = [
     // Disable Grammarly.
     "data-gramm": "false",
   }),
+  dropCursor(),
   highlightSpecialChars(),
   history(),
   drawSelection(),
