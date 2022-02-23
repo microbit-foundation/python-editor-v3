@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -17,7 +17,7 @@ import SearchProvider from "./documentation/search/search-hooks";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import {
-  editorIsEmbedded,
+  getControllerHost,
   initEmbeddingController,
 } from "./fs/embedding-controller";
 import { FileSystem } from "./fs/fs";
@@ -65,8 +65,9 @@ fs.initializeInBackground();
 
 // Temporary placement to test that this works at all.
 // Will have the problem of resetting the initial project rather than loading it once.
-if (editorIsEmbedded()) {
-  initEmbeddingController(fs);
+const controllerHost = getControllerHost();
+if (controllerHost) {
+  initEmbeddingController(fs, controllerHost);
 }
 
 const App = () => {
