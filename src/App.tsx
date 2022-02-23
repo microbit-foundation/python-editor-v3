@@ -16,6 +16,10 @@ import { MockDeviceConnection } from "./device/mock";
 import SearchProvider from "./documentation/search/search-hooks";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
+import {
+  editorIsEmbedded,
+  initEmbeddingController,
+} from "./fs/embedding-controller";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createInitialProject } from "./fs/initial-project";
@@ -58,6 +62,12 @@ client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
 fs.initializeInBackground();
+
+// Temporary placement to test that this works at all.
+// Will have the problem of resetting the initial project rather than loading it once.
+if (editorIsEmbedded()) {
+  initEmbeddingController(fs);
+}
 
 const App = () => {
   useEffect(() => {
