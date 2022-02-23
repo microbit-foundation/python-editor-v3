@@ -1,5 +1,10 @@
 import debounce from "lodash.debounce";
-import { FileSystem, VersionAction } from "../fs/fs";
+import {
+  FileSystem,
+  VersionAction,
+  EVENT_PROJECT_UPDATED,
+  EVENT_TEXT_EDIT,
+} from "../fs/fs";
 
 interface ControllerMessaging {
   type: string;
@@ -22,7 +27,7 @@ const CONTROLLER_MESSAGING: ControllerMessaging = {
 };
 
 interface EditorActions {
-  getCode: () => string;
+  getCode: () => Promise<string>;
   setCode: (project: string) => void;
   onCodeChange: (callback: () => void) => void;
   loadHex: (filename: string, filestring: string) => void;
@@ -32,19 +37,21 @@ interface EditorActions {
 
 // TODO: complete stubbed methods.
 const editorActions = (fs: FileSystem): EditorActions => ({
-  // Stub implementation.
-  getCode: () => {
-    // Need this from the change listener inside CodeMirror.tsx
-    // update.state.sliceDoc(0)
-    console.log("getting code");
-    return "Some code gotten from somewhere";
+  getCode: async () => {
+    // File hardcoded as main.py temporarily
+    const { data } = await fs.read("main.py");
+    const code = new TextDecoder().decode(data);
+    return code;
   },
   setCode: (code: string) => {
     // File hardcoded as main.py temporarily
     fs.write("main.py", code, VersionAction.INCREMENT);
   },
   // Stub implementation.
-  onCodeChange: (callback) => console.log("code changed"),
+  onCodeChange: (callback) => {
+    fs.addListener(EVENT_PROJECT_UPDATED, callback);
+    fs.addListener(EVENT_TEXT_EDIT, callback);
+  },
   // Stub implementation.
   loadHex: (filename: string, filestring: string) =>
     console.log("load hex: ", filename),
@@ -81,7 +88,8 @@ class EmbeddingController {
     // For classroom we clear the code in the editor
     this.editorActions.setCode(" ");
     // Send code to the controller in real time (with a 1s debounce)
-    const debounceCodeChange = debounce((code) => {
+    const debounceCodeChange = debounce(async () => {
+      const code = await this.editorActions.getCode();
       this.controllerHost.postMessage(
         {
           type: CONTROLLER_MESSAGING.type,
@@ -91,8 +99,8 @@ class EmbeddingController {
         "*"
       );
     }, 1000);
-    this.editorActions.onCodeChange(() => {
-      debounceCodeChange(this.editorActions.getCode());
+    this.editorActions.onCodeChange(async () => {
+      debounceCodeChange();
     });
   };
 

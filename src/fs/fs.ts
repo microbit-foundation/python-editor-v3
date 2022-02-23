@@ -132,6 +132,7 @@ export const diff = (before: Project, after: Project): FileChange[] => {
 };
 
 export const EVENT_PROJECT_UPDATED = "project_updated";
+export const EVENT_TEXT_EDIT = "file_text_updated";
 export const MAIN_FILE = "main.py";
 
 /**
@@ -287,6 +288,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       this.incrementFileVersion(filename);
       return this.notify();
     } else {
+      this.emit(EVENT_TEXT_EDIT);
       // Nothing can have changed, don't needlessly change the identity of our file objects.
       this._dirty = true;
     }
