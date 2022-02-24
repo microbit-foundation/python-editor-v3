@@ -20,11 +20,11 @@ describe("embedding-controller", () => {
 
     initializeEmbeddingController(new NullLogging(), fs);
 
-    const expectSendsMessageToParent = async (expected: any) => {
+    const spinEventLoop = async (check: () => void) => {
       let error: any;
       for (let i = 0; i < 100; ++i) {
         try {
-          expect(mockPostMessage.mock.calls).toContainEqual(expected);
+          check();
           return;
         } catch (e) {
           error = e;
@@ -34,19 +34,15 @@ describe("embedding-controller", () => {
       throw error;
     };
 
-    const expectCodeWrite = async (expected: any) => {
-      let error: any;
-      for (let i = 0; i < 100; ++i) {
-        try {
-          expect(mockWrite.mock.calls).toContainEqual(expected);
-          return;
-        } catch (e) {
-          error = e;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 0));
-      }
-      throw error;
-    };
+    const expectSendsMessageToParent = async (expected: any) =>
+      spinEventLoop(() =>
+        expect(mockPostMessage.mock.calls).toContainEqual(expected)
+      );
+
+    const expectCodeWrite = async (expected: any) =>
+      spinEventLoop(() =>
+        expect(mockWrite.mock.calls).toContainEqual(expected)
+      );
 
     await expectSendsMessageToParent([
       { action: "workspacesync", type: "pyeditor" },
