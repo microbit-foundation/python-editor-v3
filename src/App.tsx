@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -16,6 +16,7 @@ import { MockDeviceConnection } from "./device/mock";
 import SearchProvider from "./documentation/search/search-hooks";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
+import { initializeEmbeddingController } from "./fs/embedding-controller";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createInitialProject } from "./fs/initial-project";
@@ -54,6 +55,7 @@ const fs = new FileSystem(
   createInitialProject(window.location.href),
   fetchMicroPython
 );
+initializeEmbeddingController(logging, fs);
 client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
