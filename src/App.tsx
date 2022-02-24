@@ -16,10 +16,7 @@ import { MockDeviceConnection } from "./device/mock";
 import SearchProvider from "./documentation/search/search-hooks";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
-import {
-  getControllerHost,
-  initEmbeddingController,
-} from "./fs/embedding-controller";
+import { initializeEmbeddingController } from "./fs/embedding-controller";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createInitialProject } from "./fs/initial-project";
@@ -58,17 +55,11 @@ const fs = new FileSystem(
   createInitialProject(window.location.href),
   fetchMicroPython
 );
+initializeEmbeddingController(logging, fs);
 client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
 fs.initializeInBackground();
-
-// Temporary placement to test that this works at all.
-// Will have the problem of resetting the initial project rather than loading it once.
-const controllerHost = getControllerHost();
-if (controllerHost) {
-  initEmbeddingController(fs, controllerHost);
-}
 
 const App = () => {
   useEffect(() => {
