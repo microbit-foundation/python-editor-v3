@@ -232,7 +232,7 @@
     "description": "Files tab button text"
   },
   "files-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your Python Editor project",
+    "defaultMessage": "Afficher, créer, ajouter et modifier les fichiers de votre projet",
     "description": "Files tab description"
   },
   "flash-action": {
@@ -391,7 +391,7 @@
     "description": "Projects tab button text"
   },
   "projects-tab-description": {
-    "defaultMessage": "Placeholder for projects with full working code examples",
+    "defaultMessage": "Espace réservé pour les projets avec des exemples de code fonctionnels complets",
     "description": "Projects tab description text"
   },
   "python-powered": {
@@ -439,8 +439,8 @@
     "description": "Aria label for searching documentation"
   },
   "serial-collapse": {
-    "defaultMessage": "Masquer le numéro de série",
-    "description": "Aria label for serial expand/collapse"
+    "defaultMessage": "Masquer le terminal série",
+    "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
     "defaultMessage": "Envoyer Ctrl-C pour REPL",
@@ -455,8 +455,8 @@
     "description": "Button to enter serial paste mode"
   },
   "serial-expand": {
-    "defaultMessage": "Afficher le numéro de série",
-    "description": "Aria label for serial expand/collapse"
+    "defaultMessage": "Afficher le terminal série",
+    "description": "Action label to expand the serial console/REPL area"
   },
   "serial-help-ctrl-c": {
     "defaultMessage": "Utilisez le raccourci clavier <kbd>Ctrl</kbd> + <kbd>C</kbd> pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s'exécute. C'est un excellent moyen d'expérimenter.",
