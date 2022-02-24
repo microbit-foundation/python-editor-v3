@@ -470,7 +470,7 @@
   "files-tab-description": [
     {
       "type": 0,
-      "value": "View, create, add and edit the files in your Python Editor project"
+      "value": "Afficher, créer, ajouter et modifier les fichiers de votre projet"
     }
   ],
   "flash-action": [
@@ -784,7 +784,7 @@
   "projects-tab-description": [
     {
       "type": 0,
-      "value": "Placeholder for projects with full working code examples"
+      "value": "Espace réservé pour les projets avec des exemples de code complets"
     }
   ],
   "python-powered": [
@@ -890,7 +890,7 @@
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Masquer le numéro de série"
+      "value": "Masquer le terminal série"
     }
   ],
   "serial-ctrl-c-action": [
@@ -914,7 +914,7 @@
   "serial-expand": [
     {
       "type": 0,
-      "value": "Afficher le numéro de série"
+      "value": "Afficher le terminal série"
     }
   ],
   "serial-help-ctrl-c": [
