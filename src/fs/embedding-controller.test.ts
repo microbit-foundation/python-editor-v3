@@ -14,7 +14,7 @@ describe("embedding-controller", () => {
     const parentWindow = { postMessage: mockPostMessage } as any;
 
     delete (window as any).parent;
-    window.parent = parentWindow;
+    (window as any).parent = parentWindow;
     delete (window as any).location;
     window.location = new URL("https://localhost:3000?controller=1") as any;
 
