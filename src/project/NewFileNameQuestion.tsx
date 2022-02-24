@@ -43,6 +43,10 @@ const NewFileNameQuestion = ({
           setValue(value);
           setError(validate(value));
         }}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
       ></Input>
       <FormHelperText color="gray.700">
         <FormattedMessage
