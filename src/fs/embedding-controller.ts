@@ -25,7 +25,8 @@ const messages = {
 
 export const initializeEmbeddingController = (
   logging: Logging,
-  fs: FileSystem
+  fs: FileSystem,
+  debounceDelay: number = 1_000
 ) => {
   const host = getControllerHost(logging);
   if (!host) {
@@ -47,7 +48,7 @@ export const initializeEmbeddingController = (
 
   const debounceCodeChange = debounce(() => {
     notifyWorkspaceSave(fs, host);
-  }, 1000);
+  }, debounceDelay);
   fs.addListener(EVENT_PROJECT_UPDATED, debounceCodeChange);
   fs.addListener(EVENT_TEXT_EDIT, debounceCodeChange);
 };
