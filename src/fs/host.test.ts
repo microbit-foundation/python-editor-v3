@@ -1,9 +1,8 @@
 /**
  * @jest-environment ./src/testing/custom-browser-env
  */
-import { NullLogging } from "../deployment/default/logging";
-import { createHost, DefaultHost, IframeHost } from "./host";
 import { VersionAction } from "./fs";
+import { DefaultHost, IframeHost } from "./host";
 import { testMigrationUrl } from "./migration.test";
 
 describe("IframeHost", () => {
