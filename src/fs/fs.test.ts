@@ -48,12 +48,13 @@ const fsMicroPythonSource: MicroPythonSource = async () => {
 describe("Filesystem", () => {
   const logging = new NullLogging();
   const initialProject: InitialProject = defaultInitialProject;
-  let ufs = new FileSystem(logging, initialProject, fsMicroPythonSource);
+  const initialProjectSource = async () => initialProject;
+  let ufs = new FileSystem(logging, initialProjectSource, fsMicroPythonSource);
   let events: Project[] = [];
 
   beforeEach(() => {
     events = [];
-    ufs = new FileSystem(logging, initialProject, fsMicroPythonSource);
+    ufs = new FileSystem(logging, initialProjectSource, fsMicroPythonSource);
     ufs.addListener(EVENT_PROJECT_UPDATED, events.push.bind(events));
   });
 

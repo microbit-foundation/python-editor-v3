@@ -157,12 +157,12 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
 
   constructor(
     private logging: Logging,
-    private initialProject: InitialProject,
+    private initialProjectSource: () => Promise<InitialProject>,
     private microPythonSource: MicroPythonSource
   ) {
     super();
     this.storage = new SplitStrategyStorage(
-      new InMemoryFSStorage(initialProject.name),
+      new InMemoryFSStorage(undefined),
       typeof window !== "undefined" && window.sessionStorage
         ? new SessionStorageFSStorage(window.sessionStorage)
         : undefined,
@@ -171,7 +171,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.project = {
       files: [],
       id: generateId(),
-      name: initialProject.name,
+      name: undefined,
     };
   }
 
@@ -206,9 +206,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       this.initializing = (async () => {
         if (!(await this.exists(MAIN_FILE))) {
           // Do this ASAP to unblock the editor.
+          const initialProject = await this.initialProjectSource();
+          if (initialProject.name) {
+            await this.setProjectName(initialProject.name);
+          }
           await this.write(
             MAIN_FILE,
-            new TextEncoder().encode(this.initialProject.main),
+            new TextEncoder().encode(initialProject.main),
             VersionAction.INCREMENT
           );
         } else {
@@ -351,10 +355,10 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       files: fs.ls().length,
       storageUsed: fs.getStorageUsed(),
       lines:
-        this.initialProject.isDefault &&
-        currentMainFile === this.initialProject.main
+        /*this.initialProjectSource.isDefault &&
+        currentMainFile === this.initialProjectSource.main
           ? undefined
-          : currentMainFile.split(/\r\n|\r|\n/).length,
+          :*/ currentMainFile.split(/\r\n|\r|\n/).length,
     };
   }
 

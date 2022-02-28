@@ -52,7 +52,7 @@ const device = isMockDeviceMode()
 const client = pyright();
 const fs = new FileSystem(
   logging,
-  createInitialProject(window.location.href),
+  async () => createInitialProject(window.location.href),
   fetchMicroPython
 );
 initializeEmbeddingController(logging, fs);
