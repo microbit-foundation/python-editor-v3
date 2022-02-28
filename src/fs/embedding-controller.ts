@@ -13,7 +13,7 @@ import {
 } from "../fs/fs";
 import { Logging } from "../logging/logging";
 
-const messages = {
+export const messages = {
   type: "pyeditor",
   actions: {
     workspacesync: "workspacesync",
@@ -37,14 +37,11 @@ export const initializeEmbeddingController = (
       switch (event.data.action) {
         case messages.actions.importproject:
           return handleImportProject(fs, event.data);
-        case messages.actions.workspacesync:
-          return handleWorkspaceSync(fs, host, event.data);
         default:
           throw new Error(`Unsupported action: ${event.data.action}`);
       }
     }
   });
-  window.addEventListener("load", () => notifyWorkspaceSync(host));
 
   const debounceCodeChange = debounce(() => {
     notifyWorkspaceSave(fs, host);
@@ -53,18 +50,19 @@ export const initializeEmbeddingController = (
   fs.addListener(EVENT_TEXT_EDIT, debounceCodeChange);
 };
 
-const getControllerHost = (logging: Logging): Window | undefined => {
+export const getControllerHost = (logging?: Logging): Window | undefined => {
   const params = new URLSearchParams(window.location.search);
   const inIframe = window !== window.parent;
   const iframeControllerMode = inIframe && params.get("controller") === "1";
   if (iframeControllerMode) {
     if (window.parent) {
-      logging.log("In iframe embedded mode.");
+      logging && logging.log("In iframe embedded mode.");
       return window.parent;
     }
-    logging.error(
-      "Cannot detect valid host controller despite controller URL parameter."
-    );
+    logging &&
+      logging.error(
+        "Cannot detect valid host controller despite controller URL parameter."
+      );
   }
 };
 
@@ -75,15 +73,14 @@ const setMainCode = (fs: FileSystem, code: string): void => {
 /**
  * Host is initializing the code.
  */
-const handleWorkspaceSync = (fs: FileSystem, host: Window, data: any) => {
+export const handleWorkspaceSync = (data: any) => {
   if (!data.projects || !Array.isArray(data.projects)) {
     throw new Error("Invalid 'projects' data type. Array should be provided.");
   }
   if (data.projects.length < 1) {
     throw new Error("'projects' array should contain at least one item.");
   }
-  setMainCode(fs, data.projects[0]);
-  notifyWorkspaceLoaded(host);
+  return data.projects[0];
 };
 
 /**
@@ -100,7 +97,7 @@ const handleImportProject = (fs: FileSystem, data: any) => {
  * Notifies the host we're ready to sync.
  * The host will reply with a `workspacesync`.
  */
-const notifyWorkspaceSync = (host: Window) => {
+export const notifyWorkspaceSync = (host: Window) => {
   host.postMessage(
     {
       type: messages.type,
@@ -113,7 +110,7 @@ const notifyWorkspaceSync = (host: Window) => {
 /**
  * Notifies the host that 'workspacesync' was successful.
  */
-const notifyWorkspaceLoaded = (host: Window) => {
+export const notifyWorkspaceLoaded = (host: Window) => {
   host.postMessage(
     {
       type: messages.type,
