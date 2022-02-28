@@ -2,10 +2,11 @@
  * @jest-environment ./src/testing/custom-browser-env
  */
 import { NullLogging } from "../deployment/default/logging";
-import { initializeEmbeddingController } from "./embedding-controller";
+import { createHost, DefaultHost, IframeHost } from "./host";
 import { VersionAction } from "./fs";
+import { testMigrationUrl } from "./migration.test";
 
-describe("embedding-controller", () => {
+describe("IframeHost", () => {
   const mockWrite = jest.fn();
   const mockAddListener = jest.fn();
   const fs = {
@@ -44,11 +45,11 @@ describe("embedding-controller", () => {
   const expectCodeWrite = async (expected: any) =>
     spinEventLoop(() => expect(mockWrite.mock.calls).toContainEqual(expected));
 
-  beforeEach(() => {
-    initializeEmbeddingController(new NullLogging(), fs, 0);
-  });
-
   it("exchanges sync messages", async () => {
+    const host = new IframeHost(parentWindow, window);
+
+    const initialProjectPromise = host.createInitialProject();
+
     await expectSendsMessageToParent([
       { action: "workspacesync", type: "pyeditor" },
       "*",
@@ -62,16 +63,21 @@ describe("embedding-controller", () => {
         },
       })
     );
+
+    const project = await initialProjectPromise;
+    expect(project.main).toEqual("code1");
+    host.notifyReady(fs);
+
     await expectSendsMessageToParent([
       { action: "workspaceloaded", type: "pyeditor" },
       "*",
     ]);
-    expect(mockWrite.mock.calls).toEqual([
-      ["main.py", "code1", VersionAction.INCREMENT],
-    ]);
   });
 
   it("supports importproject", async () => {
+    const host = new IframeHost(parentWindow, window);
+    host.notifyReady(fs);
+
     window.dispatchEvent(
       new MessageEvent("message", {
         data: {
@@ -87,6 +93,9 @@ describe("embedding-controller", () => {
   });
 
   it("triggers code changes on first listener", async () => {
+    const host = new IframeHost(parentWindow, window, 0);
+    host.notifyReady(fs);
+
     expect(mockAddListener.mock.calls.length).toEqual(2);
     mockAddListener.mock.calls[0][1]();
 
@@ -97,6 +106,9 @@ describe("embedding-controller", () => {
   });
 
   it("triggers code changes on second listener", async () => {
+    const host = new IframeHost(parentWindow, window, 0);
+    host.notifyReady(fs);
+
     expect(mockAddListener.mock.calls.length).toEqual(2);
     mockAddListener.mock.calls[1][1]();
 
@@ -104,5 +116,22 @@ describe("embedding-controller", () => {
       { action: "workspacesave", project: "", type: "pyeditor" },
       "*",
     ]);
+  });
+});
+
+describe("DefaultHost", () => {
+  it("uses migration if available", async () => {
+    const project = await new DefaultHost(
+      testMigrationUrl
+    ).createInitialProject();
+    expect(project).toEqual({
+      isDefault: false,
+      name: "Hearts",
+      main: "from microbit import *\r\ndisplay.show(Image.HEART)",
+    });
+  });
+  it("otherwise uses defaults", async () => {
+    const project = await new DefaultHost("").createInitialProject();
+    expect(project.isDefault).toEqual(true);
   });
 });

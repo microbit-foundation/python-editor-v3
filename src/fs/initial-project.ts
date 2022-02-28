@@ -4,15 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import {
-  getControllerHost,
-  handleWorkspaceSync,
-  messages,
-  notifyWorkspaceLoaded,
-  notifyWorkspaceSync,
-} from "./embedding-controller";
-import { parseMigrationFromUrl } from "./migration";
-
 /**
  * For now we can only initialize the project name and main.py.
  * This is based on the format used to migrate between versions of the Python
@@ -47,33 +38,4 @@ while True:
     sleep(2000)
 `,
   isDefault: true,
-};
-
-export const createInitialProject = (url: string): InitialProject => {
-  const host = getControllerHost();
-  const migration = parseMigrationFromUrl(url);
-  if (migration) {
-    return {
-      name: migration.meta.name,
-      main: migration.source,
-      isDefault: false,
-    };
-  }
-  if (host) {
-    window.addEventListener("load", () => notifyWorkspaceSync(host));
-    window.addEventListener("message", (event) => {
-      if (
-        event?.data.type === messages.type &&
-        messages.actions.workspacesync
-      ) {
-        const initialProject = handleWorkspaceSync(event.data);
-        // TODO: Move the call for notifyWorkspaceLoaded to somewhere more sensible
-        // such as inside fs.ts when initialize() method is called?
-        // Note: this doesn't appear to trigger anything on the host?
-        notifyWorkspaceLoaded(host);
-        return initialProject;
-      }
-    });
-  }
-  return defaultInitialProject;
 };
