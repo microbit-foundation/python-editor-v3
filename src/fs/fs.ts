@@ -8,12 +8,13 @@ import {
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
 import EventEmitter from "events";
+import sortBy from "lodash.sortby";
 import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
+import { Host } from "./host";
 import { asciiToBytes, generateId } from "./fs-util";
 import { MicroPythonSource } from "./micropython";
-import sortBy from "lodash.sortby";
 import {
   FSStorage,
   InMemoryFSStorage,
@@ -157,12 +158,12 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
 
   constructor(
     private logging: Logging,
-    private initialProject: InitialProject,
+    private host: Host,
     private microPythonSource: MicroPythonSource
   ) {
     super();
     this.storage = new SplitStrategyStorage(
-      new InMemoryFSStorage(initialProject.name),
+      new InMemoryFSStorage(undefined),
       typeof window !== "undefined" && window.sessionStorage
         ? new SessionStorageFSStorage(window.sessionStorage)
         : undefined,
@@ -171,7 +172,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.project = {
       files: [],
       id: generateId(),
-      name: initialProject.name,
+      name: undefined,
     };
   }
 
@@ -198,6 +199,12 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     });
   }
 
+  /**
+   * We remember this so we can tell whether the user has edited
+   * the project since for stats generation.
+   */
+  private cachedInitialProject: InitialProject | undefined;
+
   async initialize(): Promise<MicropythonFsHex> {
     if (this.fs) {
       return this.fs;
@@ -206,11 +213,16 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       this.initializing = (async () => {
         if (!(await this.exists(MAIN_FILE))) {
           // Do this ASAP to unblock the editor.
+          this.cachedInitialProject = await this.host.createInitialProject();
+          if (this.cachedInitialProject.name) {
+            await this.setProjectName(this.cachedInitialProject.name);
+          }
           await this.write(
             MAIN_FILE,
-            new TextEncoder().encode(this.initialProject.main),
+            new TextEncoder().encode(this.cachedInitialProject.main),
             VersionAction.INCREMENT
           );
+          this.host.notifyReady(this);
         } else {
           await this.notify();
         }
@@ -351,8 +363,8 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       files: fs.ls().length,
       storageUsed: fs.getStorageUsed(),
       lines:
-        this.initialProject.isDefault &&
-        currentMainFile === this.initialProject.main
+        this.cachedInitialProject &&
+        this.cachedInitialProject.main === currentMainFile
           ? undefined
           : currentMainFile.split(/\r\n|\r|\n/).length,
     };

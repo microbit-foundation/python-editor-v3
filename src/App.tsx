@@ -16,10 +16,9 @@ import { MockDeviceConnection } from "./device/mock";
 import SearchProvider from "./documentation/search/search-hooks";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
-import { initializeEmbeddingController } from "./fs/embedding-controller";
+import { createHost } from "./fs/host";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
-import { createInitialProject } from "./fs/initial-project";
 import { fetchMicroPython } from "./fs/micropython";
 import { trackFsChanges } from "./language-server/client-fs";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
@@ -50,12 +49,8 @@ const device = isMockDeviceMode()
   : new MicrobitWebUSBConnection({ logging });
 
 const client = pyright();
-const fs = new FileSystem(
-  logging,
-  createInitialProject(window.location.href),
-  fetchMicroPython
-);
-initializeEmbeddingController(logging, fs);
+const host = createHost(logging);
+const fs = new FileSystem(logging, host, fetchMicroPython);
 client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
