@@ -20,7 +20,10 @@ import {
   VersionAction,
   VersionedData,
 } from "./fs";
-import { defaultInitialProject } from "./initial-project";
+import {
+  defaultInitialProject,
+  defaultMainFileContent,
+} from "./initial-project";
 import { MicroPythonSource } from "./micropython";
 
 const hexes = Promise.all([
@@ -233,8 +236,7 @@ describe("Filesystem", () => {
 
     await ufs.write(
       MAIN_FILE,
-      "from __future__ import hope\n" +
-        atob(defaultInitialProject.files[MAIN_FILE]),
+      "from __future__ import hope\n" + defaultMainFileContent,
       VersionAction.MAINTAIN
     );
     const data = new Uint8Array(512);

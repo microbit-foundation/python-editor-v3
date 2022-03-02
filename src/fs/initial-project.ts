@@ -29,7 +29,7 @@ export const projectFilesToBase64 = (project: PythonProject): PythonProject => {
   return project;
 };
 
-const main = `# Add your Python code here. E.g.
+export const defaultMainFileContent = `# Add your Python code here. E.g.
 from microbit import *
 
 
@@ -41,6 +41,6 @@ while True:
 
 export const defaultInitialProject = projectFilesToBase64({
   files: {
-    [MAIN_FILE]: main,
+    [MAIN_FILE]: defaultMainFileContent,
   },
 });
