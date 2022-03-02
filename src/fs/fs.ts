@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,6 +7,7 @@ import {
   getIntelHexAppendedScript,
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
+import { fromByteArray, toByteArray } from "base64-js";
 import EventEmitter from "events";
 import sortBy from "lodash.sortby";
 import { BoardId } from "../device/board-id";
@@ -218,11 +219,8 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
             await this.setProjectName(this.cachedInitialProject.projectName);
           }
           for (const key in this.cachedInitialProject.files) {
-            await this.write(
-              key,
-              this.cachedInitialProject.files[key],
-              VersionAction.INCREMENT
-            );
+            const content = toByteArray(this.cachedInitialProject.files[key]);
+            await this.write(key, content, VersionAction.INCREMENT);
           }
           this.host.notifyReady(this);
         } else {
@@ -330,8 +328,8 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     };
     for (const file of await this.storage.ls()) {
       const data = await this.storage.read(file);
-      const content = new TextDecoder().decode(data);
-      project.files[file] = content;
+      const contentAsBase64 = fromByteArray(data);
+      project.files[file] = contentAsBase64;
     }
     return project;
   }
@@ -399,7 +397,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       storageUsed: fs.getStorageUsed(),
       lines:
         this.cachedInitialProject &&
-        this.cachedInitialProject.files[MAIN_FILE] === currentMainFile
+        this.cachedInitialProject.files[MAIN_FILE] === btoa(currentMainFile)
           ? undefined
           : currentMainFile.split(/\r\n|\r|\n/).length,
     };

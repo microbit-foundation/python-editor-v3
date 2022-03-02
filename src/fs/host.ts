@@ -12,7 +12,11 @@ import {
   MAIN_FILE,
 } from "./fs";
 import { Logging } from "../logging/logging";
-import { defaultInitialProject, PythonProject } from "./initial-project";
+import {
+  defaultInitialProject,
+  PythonProject,
+  projectFilesToBase64,
+} from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
 
 const messages = {
@@ -36,12 +40,12 @@ export class DefaultHost implements Host {
   async createInitialProject(): Promise<PythonProject> {
     const migration = parseMigrationFromUrl(this.url);
     if (migration) {
-      return {
+      return projectFilesToBase64({
         files: {
           [MAIN_FILE]: migration.source,
         },
         projectName: migration.meta.name,
-      };
+      });
     }
     return defaultInitialProject;
   }
@@ -76,7 +80,11 @@ export class IframeHost implements Host {
             );
           }
           if (typeof data.projects[0] === "string") {
-            resolve({ files: { [MAIN_FILE]: data.projects[0] } });
+            resolve(
+              projectFilesToBase64({
+                files: { [MAIN_FILE]: data.projects[0] },
+              })
+            );
           }
           if (typeof data.projects[0] === "object") {
             resolve(data.projects[0]);

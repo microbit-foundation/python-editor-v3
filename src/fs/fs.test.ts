@@ -224,7 +224,7 @@ describe("Filesystem", () => {
     expect(partial.length).toBeLessThan(full.length);
   });
 
-  it.only("gives useful stats", async () => {
+  it("gives useful stats", async () => {
     expect(await ufs.statistics()).toEqual({
       files: 1,
       lines: undefined, // signifies initial program

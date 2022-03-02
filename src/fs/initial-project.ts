@@ -12,9 +12,22 @@ import { MAIN_FILE } from "./fs";
  * where only the main file content is initialized as a string.
  */
 export interface PythonProject {
-  files: { [key: string]: string };
+  // File content as base64.
+  files: Record<string, string>;
   projectName?: string;
 }
+
+/**
+ *
+ * @param project PythonProject.
+ * @returns PythonProject where all file content has been converted to base64.
+ */
+export const projectFilesToBase64 = (project: PythonProject): PythonProject => {
+  for (const file in project.files) {
+    project.files[file] = btoa(project.files[file]);
+  }
+  return project;
+};
 
 const main = `# Add your Python code here. E.g.
 from microbit import *
@@ -26,8 +39,8 @@ while True:
     sleep(2000)
 `;
 
-export const defaultInitialProject: PythonProject = {
+export const defaultInitialProject = projectFilesToBase64({
   files: {
     [MAIN_FILE]: main,
   },
-};
+});

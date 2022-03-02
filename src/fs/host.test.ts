@@ -66,7 +66,7 @@ describe("IframeHost", () => {
     );
 
     const project = await initialProjectPromise;
-    expect(project.files[MAIN_FILE]).toEqual("code1");
+    expect(project.files[MAIN_FILE]).toEqual(btoa("code1"));
     host.notifyReady(fs);
 
     await expectSendsMessageToParent([
@@ -127,7 +127,9 @@ describe("DefaultHost", () => {
     ).createInitialProject();
     expect(project).toEqual({
       files: {
-        [MAIN_FILE]: "from microbit import *\r\ndisplay.show(Image.HEART)",
+        [MAIN_FILE]: btoa(
+          "from microbit import *\r\ndisplay.show(Image.HEART)"
+        ),
       },
       projectName: "Hearts",
     });
