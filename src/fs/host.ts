@@ -12,11 +12,7 @@ import {
   MAIN_FILE,
 } from "./fs";
 import { Logging } from "../logging/logging";
-import {
-  defaultInitialProject,
-  InitialProject,
-  PythonProject,
-} from "./initial-project";
+import { defaultInitialProject, PythonProject } from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
 
 const messages = {
@@ -30,14 +26,14 @@ const messages = {
 };
 
 export interface Host {
-  createInitialProject(): Promise<InitialProject | PythonProject>;
+  createInitialProject(): Promise<PythonProject>;
   notifyReady(fs: FileSystem): void;
 }
 
 export class DefaultHost implements Host {
   constructor(private url: string = "") {}
 
-  async createInitialProject(): Promise<InitialProject> {
+  async createInitialProject(): Promise<PythonProject> {
     const migration = parseMigrationFromUrl(this.url);
     if (migration) {
       return {
@@ -45,7 +41,6 @@ export class DefaultHost implements Host {
           [MAIN_FILE]: migration.source,
         },
         projectName: migration.meta.name,
-        isDefault: false,
       };
     }
     return defaultInitialProject;

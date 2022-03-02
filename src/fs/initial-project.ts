@@ -7,18 +7,13 @@
 import { MAIN_FILE } from "./fs";
 
 /**
- * For now we can only initialize the project name and main.py.
- * This is based on the format used to migrate between versions of the Python
- * editor and link from microbit.org to a project.
+ * We can now initialize a project with multiple files.
+ * Handling is in place for backwards compatibility for V2 projects
+ * where only the main file content is initialized as a string.
  */
-
 export interface PythonProject {
   files: { [key: string]: string };
   projectName?: string;
-}
-
-export interface InitialProject extends PythonProject {
-  isDefault: boolean;
 }
 
 const main = `# Add your Python code here. E.g.
@@ -31,9 +26,8 @@ while True:
     sleep(2000)
 `;
 
-export const defaultInitialProject: InitialProject = {
+export const defaultInitialProject: PythonProject = {
   files: {
     [MAIN_FILE]: main,
   },
-  isDefault: true,
 };

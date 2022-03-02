@@ -3,6 +3,7 @@
  */
 import { VersionAction, MAIN_FILE } from "./fs";
 import { DefaultHost, IframeHost } from "./host";
+import { defaultInitialProject } from "./initial-project";
 import { testMigrationUrl } from "./migration.test";
 
 describe("IframeHost", () => {
@@ -129,11 +130,10 @@ describe("DefaultHost", () => {
         [MAIN_FILE]: "from microbit import *\r\ndisplay.show(Image.HEART)",
       },
       projectName: "Hearts",
-      isDefault: false,
     });
   });
   it("otherwise uses defaults", async () => {
     const project = await new DefaultHost("").createInitialProject();
-    expect(project.isDefault).toEqual(true);
+    expect(project).toEqual(defaultInitialProject);
   });
 });
