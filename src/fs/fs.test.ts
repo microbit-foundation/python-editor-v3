@@ -233,7 +233,8 @@ describe("Filesystem", () => {
 
     await ufs.write(
       MAIN_FILE,
-      "from __future__ import hope\n" + defaultInitialProject.files[MAIN_FILE],
+      "from __future__ import hope\n" +
+        atob(defaultInitialProject.files[MAIN_FILE]),
       VersionAction.MAINTAIN
     );
     const data = new Uint8Array(512);

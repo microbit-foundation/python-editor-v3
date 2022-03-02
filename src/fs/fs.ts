@@ -362,7 +362,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       fs.ls().forEach((f) => fs.remove(f));
       fs.write(MAIN_FILE, code);
     }
-    this.replaceCommon(projectName);
+    await this.replaceCommon(projectName);
   }
 
   async replaceCommon(projectName?: string): Promise<void> {
