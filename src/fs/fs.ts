@@ -341,16 +341,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     for (const key in project.files) {
       this.write(key, project.files[key], VersionAction.INCREMENT);
     }
-    this._dirty = false;
-    this.project = {
-      ...this.project,
-      id: generateId(),
-    };
-    if (project.projectName) {
-      await this.storage.setProjectName(project.projectName);
-    }
-    await this.overwriteStorageWithFs();
-    return this.notify();
+    this.replaceCommon(project.projectName);
   }
 
   async replaceWithHexContents(
@@ -371,12 +362,18 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       fs.ls().forEach((f) => fs.remove(f));
       fs.write(MAIN_FILE, code);
     }
+    this.replaceCommon(projectName);
+  }
+
+  async replaceCommon(projectName?: string): Promise<void> {
     this._dirty = false;
     this.project = {
       ...this.project,
       id: generateId(),
     };
-    await this.storage.setProjectName(projectName);
+    if (projectName) {
+      await this.storage.setProjectName(projectName);
+    }
     await this.overwriteStorageWithFs();
     return this.notify();
   }
