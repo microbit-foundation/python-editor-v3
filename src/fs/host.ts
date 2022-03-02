@@ -74,10 +74,12 @@ export class IframeHost implements Host {
               "'projects' array should contain at least one item."
             );
           }
-          if (typeof data.projects[0] !== "string") {
-            throw new Error("Expected string");
+          if (typeof data.projects[0] === "string") {
+            resolve({ isDefault: false, main: data.projects[0] });
           }
-          resolve({ isDefault: false, main: data.projects[0] });
+          if (typeof data.projects[0] === "object") {
+            resolve(data.projects[0]);
+          }
         }
       });
     });
@@ -127,18 +129,16 @@ const getControllerHost = (logging: Logging): Window | undefined => {
   }
 };
 
-const setMainCode = (fs: FileSystem, code: string): void => {
-  fs.write(MAIN_FILE, code, VersionAction.INCREMENT);
-};
-
 /**
  * Host is sending code to update editor.
  */
 const handleImportProject = (fs: FileSystem, data: any) => {
-  if (!data.project || typeof data.project !== "string") {
-    throw new Error("Invalid 'project' data type. String should be provided.");
+  if (!data.project || typeof data.project === "string") {
+    fs.write(MAIN_FILE, data.project, VersionAction.INCREMENT);
   }
-  setMainCode(fs, data.project);
+  if (!data.project || typeof data.project === "object") {
+    fs.replaceWithMultipleFiles(data.project);
+  }
 };
 
 /**
@@ -174,13 +174,12 @@ const notifyWorkspaceLoaded = (host: Window) => {
  * We do this periodically when the code changes.
  */
 const notifyWorkspaceSave = async (fs: FileSystem, host: Window) => {
-  const { data } = await fs.read(MAIN_FILE);
-  const code = new TextDecoder().decode(data);
+  const project = await fs.getMultiFilePythonProject();
   host.postMessage(
     {
       type: messages.type,
       action: messages.actions.workspacesave,
-      project: code,
+      project,
     },
     "*"
   );

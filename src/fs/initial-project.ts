@@ -9,7 +9,9 @@
  * This is based on the format used to migrate between versions of the Python
  * editor and link from microbit.org to a project.
  */
-export interface InitialProject {
+export type InitialProject = SimplePythonProject | MultiFilePythonProject;
+
+export interface SimplePythonProject {
   /**
    * The project name.
    *
@@ -26,6 +28,21 @@ export interface InitialProject {
    */
   isDefault: boolean;
 }
+
+export type MultiFilePythonProject = {
+  files: { [key: string]: string };
+  projectName?: string;
+};
+
+export const isSimplePythonProject = (
+  project: any
+): project is SimplePythonProject => {
+  return (
+    project &&
+    project.hasOwnProperty("main") &&
+    typeof project.main === "string"
+  );
+};
 
 export const defaultInitialProject: InitialProject = {
   main: `# Add your Python code here. E.g.

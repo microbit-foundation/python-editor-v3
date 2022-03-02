@@ -3,6 +3,7 @@
  */
 import { VersionAction } from "./fs";
 import { DefaultHost, IframeHost } from "./host";
+import { SimplePythonProject } from "./initial-project";
 import { testMigrationUrl } from "./migration.test";
 
 describe("IframeHost", () => {
@@ -64,7 +65,7 @@ describe("IframeHost", () => {
     );
 
     const project = await initialProjectPromise;
-    expect(project.main).toEqual("code1");
+    expect((project as SimplePythonProject).main).toEqual("code1");
     host.notifyReady(fs);
 
     await expectSendsMessageToParent([
@@ -131,6 +132,6 @@ describe("DefaultHost", () => {
   });
   it("otherwise uses defaults", async () => {
     const project = await new DefaultHost("").createInitialProject();
-    expect(project.isDefault).toEqual(true);
+    expect((project as SimplePythonProject).isDefault).toEqual(true);
   });
 });
