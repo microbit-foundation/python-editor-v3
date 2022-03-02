@@ -20,7 +20,7 @@ import {
   VersionAction,
   VersionedData,
 } from "./fs";
-import { defaultInitialProject, SimplePythonProject } from "./initial-project";
+import { defaultInitialProject } from "./initial-project";
 import { MicroPythonSource } from "./micropython";
 
 const hexes = Promise.all([
@@ -88,9 +88,7 @@ describe("Filesystem", () => {
 
   it("can manage the project name", async () => {
     expect(ufs.dirty).toEqual(false);
-    expect(ufs.project.name).toEqual(
-      (defaultInitialProject as SimplePythonProject).name
-    );
+    expect(ufs.project.name).toEqual(defaultInitialProject.projectName);
     await ufs.setProjectName("test 1");
     expect(ufs.dirty).toEqual(true);
     expect(ufs.project.name).toEqual("test 1");
@@ -226,7 +224,7 @@ describe("Filesystem", () => {
     expect(partial.length).toBeLessThan(full.length);
   });
 
-  it("gives useful stats", async () => {
+  it.only("gives useful stats", async () => {
     expect(await ufs.statistics()).toEqual({
       files: 1,
       lines: undefined, // signifies initial program
@@ -235,8 +233,7 @@ describe("Filesystem", () => {
 
     await ufs.write(
       MAIN_FILE,
-      "from __future__ import hope\n" +
-        (defaultInitialProject as SimplePythonProject).main,
+      "from __future__ import hope\n" + defaultInitialProject.files[MAIN_FILE],
       VersionAction.MAINTAIN
     );
     const data = new Uint8Array(512);

@@ -12,7 +12,11 @@ import {
   MAIN_FILE,
 } from "./fs";
 import { Logging } from "../logging/logging";
-import { defaultInitialProject, InitialProject } from "./initial-project";
+import {
+  defaultInitialProject,
+  InitialProject,
+  PythonProject,
+} from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
 
 const messages = {
@@ -26,7 +30,7 @@ const messages = {
 };
 
 export interface Host {
-  createInitialProject(): Promise<InitialProject>;
+  createInitialProject(): Promise<InitialProject | PythonProject>;
   notifyReady(fs: FileSystem): void;
 }
 
@@ -37,8 +41,10 @@ export class DefaultHost implements Host {
     const migration = parseMigrationFromUrl(this.url);
     if (migration) {
       return {
-        name: migration.meta.name,
-        main: migration.source,
+        files: {
+          [MAIN_FILE]: migration.source,
+        },
+        projectName: migration.meta.name,
         isDefault: false,
       };
     }
@@ -53,7 +59,7 @@ export class IframeHost implements Host {
     private window: Window,
     private debounceDelay: number = 1_000
   ) {}
-  createInitialProject(): Promise<InitialProject> {
+  createInitialProject(): Promise<PythonProject> {
     return new Promise((resolve) => {
       this.window.addEventListener("load", () =>
         notifyWorkspaceSync(this.parent)
@@ -75,7 +81,7 @@ export class IframeHost implements Host {
             );
           }
           if (typeof data.projects[0] === "string") {
-            resolve({ isDefault: false, main: data.projects[0] });
+            resolve({ files: { [MAIN_FILE]: data.projects[0] } });
           }
           if (typeof data.projects[0] === "object") {
             resolve(data.projects[0]);
@@ -174,7 +180,7 @@ const notifyWorkspaceLoaded = (host: Window) => {
  * We do this periodically when the code changes.
  */
 const notifyWorkspaceSave = async (fs: FileSystem, host: Window) => {
-  const project = await fs.getMultiFilePythonProject();
+  const project = await fs.getPythonProject();
   host.postMessage(
     {
       type: messages.type,

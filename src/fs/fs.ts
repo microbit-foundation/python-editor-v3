@@ -21,12 +21,7 @@ import {
   SessionStorageFSStorage,
   SplitStrategyStorage,
 } from "./storage";
-import {
-  InitialProject,
-  MultiFilePythonProject,
-  isSimplePythonProject,
-  SimplePythonProject,
-} from "./initial-project";
+import { PythonProject } from "./initial-project";
 
 const commonFsSize = 20 * 1024;
 
@@ -208,7 +203,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
    * We remember this so we can tell whether the user has edited
    * the project since for stats generation.
    */
-  private cachedInitialProject: InitialProject | undefined;
+  private cachedInitialProject: PythonProject | undefined;
 
   async initialize(): Promise<MicropythonFsHex> {
     if (this.fs) {
@@ -219,10 +214,15 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
         if (!(await this.exists(MAIN_FILE))) {
           // Do this ASAP to unblock the editor.
           this.cachedInitialProject = await this.host.createInitialProject();
-          if (isSimplePythonProject(this.cachedInitialProject)) {
-            this.initializeSimplePythonProject(this.cachedInitialProject);
-          } else {
-            this.initializeMultiFilePythonProject(this.cachedInitialProject);
+          if (this.cachedInitialProject.projectName) {
+            await this.setProjectName(this.cachedInitialProject.projectName);
+          }
+          for (const key in this.cachedInitialProject.files) {
+            await this.write(
+              key,
+              this.cachedInitialProject.files[key],
+              VersionAction.INCREMENT
+            );
           }
           this.host.notifyReady(this);
         } else {
@@ -239,30 +239,6 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     }
     await this.initializing;
     return this.fs!;
-  }
-
-  async initializeSimplePythonProject(
-    project: SimplePythonProject
-  ): Promise<void> {
-    if (project.name) {
-      await this.setProjectName(project.name);
-    }
-    await this.write(
-      MAIN_FILE,
-      new TextEncoder().encode(project.main),
-      VersionAction.INCREMENT
-    );
-  }
-
-  async initializeMultiFilePythonProject(
-    project: MultiFilePythonProject
-  ): Promise<void> {
-    if (project.projectName) {
-      await this.setProjectName(project.projectName);
-    }
-    for (const key in project.files) {
-      await this.write(key, project.files[key], VersionAction.INCREMENT);
-    }
   }
 
   /**
@@ -346,9 +322,9 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.fileVersions.set(filename, current === undefined ? 1 : current + 1);
   }
 
-  async getMultiFilePythonProject(): Promise<MultiFilePythonProject> {
+  async getPythonProject(): Promise<PythonProject> {
     const projectName = await this.storage.projectName();
-    const project: MultiFilePythonProject = {
+    const project: PythonProject = {
       files: {},
       projectName,
     };
@@ -360,9 +336,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     return project;
   }
 
-  async replaceWithMultipleFiles(
-    project: MultiFilePythonProject
-  ): Promise<void> {
+  async replaceWithMultipleFiles(project: PythonProject): Promise<void> {
     for (const file of await this.storage.ls()) {
       await this.remove(file);
     }
@@ -423,11 +397,9 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     return {
       files: fs.ls().length,
       storageUsed: fs.getStorageUsed(),
-      // TODO: Account for simple and multi-file projects here.
       lines:
         this.cachedInitialProject &&
-        isSimplePythonProject(this.cachedInitialProject) &&
-        this.cachedInitialProject.main === currentMainFile
+        this.cachedInitialProject.files[MAIN_FILE] === currentMainFile
           ? undefined
           : currentMainFile.split(/\r\n|\r|\n/).length,
     };
