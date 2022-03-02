@@ -352,8 +352,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       files: {},
       projectName,
     };
-    const fs = await this.initialize();
-    for (const file of await fs.ls()) {
+    for (const file of await this.storage.ls()) {
       const data = await this.storage.read(file);
       const content = new TextDecoder().decode(data);
       project.files[file] = content;
@@ -364,10 +363,11 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   async replaceWithMultipleFiles(
     project: MultiFilePythonProject
   ): Promise<void> {
-    const fs = await this.initialize();
-    fs.ls().forEach((f) => fs.remove(f));
+    for (const file of await this.storage.ls()) {
+      await this.remove(file);
+    }
     for (const key in project.files) {
-      fs.write(key, project.files[key]);
+      this.write(key, project.files[key], VersionAction.INCREMENT);
     }
     this._dirty = false;
     this.project = {

@@ -13,6 +13,7 @@ describe("IframeHost", () => {
     read: () => new TextEncoder().encode("Code read!"),
     write: mockWrite,
     addListener: mockAddListener,
+    getMultiFilePythonProject: () => "",
   } as any;
 
   const mockPostMessage = jest.fn();
