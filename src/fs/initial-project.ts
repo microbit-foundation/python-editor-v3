@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { fromByteArray } from "base64-js";
 import { MAIN_FILE } from "./fs";
 
 /**
@@ -22,11 +23,13 @@ export interface PythonProject {
  * @param project PythonProject.
  * @returns PythonProject where all file content has been converted to base64.
  */
-export const projectFilesToBase64 = (project: PythonProject): PythonProject => {
-  for (const file in project.files) {
-    project.files[file] = btoa(project.files[file]);
+export const projectFilesToBase64 = (
+  files: Record<string, string>
+): Record<string, string> => {
+  for (const file in files) {
+    files[file] = fromByteArray(new TextEncoder().encode(files[file]));
   }
-  return project;
+  return files;
 };
 
 export const defaultMainFileContent = `# Add your Python code here. E.g.
@@ -39,8 +42,8 @@ while True:
     sleep(2000)
 `;
 
-export const defaultInitialProject = projectFilesToBase64({
-  files: {
+export const defaultInitialProject: PythonProject = {
+  files: projectFilesToBase64({
     [MAIN_FILE]: defaultMainFileContent,
-  },
-});
+  }),
+};

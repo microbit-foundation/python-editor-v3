@@ -40,12 +40,12 @@ export class DefaultHost implements Host {
   async createInitialProject(): Promise<PythonProject> {
     const migration = parseMigrationFromUrl(this.url);
     if (migration) {
-      return projectFilesToBase64({
-        files: {
+      return {
+        files: projectFilesToBase64({
           [MAIN_FILE]: migration.source,
-        },
+        }),
         projectName: migration.meta.name,
-      });
+      };
     }
     return defaultInitialProject;
   }
@@ -80,11 +80,9 @@ export class IframeHost implements Host {
             );
           }
           if (typeof data.projects[0] === "string") {
-            resolve(
-              projectFilesToBase64({
-                files: { [MAIN_FILE]: data.projects[0] },
-              })
-            );
+            resolve({
+              files: projectFilesToBase64({ [MAIN_FILE]: data.projects[0] }),
+            });
           }
           if (typeof data.projects[0] === "object") {
             resolve(data.projects[0]);

@@ -1,6 +1,7 @@
 /**
  * @jest-environment ./src/testing/custom-browser-env
  */
+import { fromByteArray } from "base64-js";
 import { VersionAction, MAIN_FILE } from "./fs";
 import { DefaultHost, IframeHost } from "./host";
 import { defaultInitialProject } from "./initial-project";
@@ -66,7 +67,9 @@ describe("IframeHost", () => {
     );
 
     const project = await initialProjectPromise;
-    expect(project.files[MAIN_FILE]).toEqual(btoa("code1"));
+    expect(project.files[MAIN_FILE]).toEqual(
+      fromByteArray(new TextEncoder().encode("code1"))
+    );
     host.notifyReady(fs);
 
     await expectSendsMessageToParent([
@@ -127,8 +130,10 @@ describe("DefaultHost", () => {
     ).createInitialProject();
     expect(project).toEqual({
       files: {
-        [MAIN_FILE]: btoa(
-          "from microbit import *\r\ndisplay.show(Image.HEART)"
+        [MAIN_FILE]: fromByteArray(
+          new TextEncoder().encode(
+            "from microbit import *\r\ndisplay.show(Image.HEART)"
+          )
         ),
       },
       projectName: "Hearts",

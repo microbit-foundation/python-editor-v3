@@ -388,16 +388,31 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
 
   async statistics(): Promise<Statistics> {
     const fs = await this.initialize();
-    const currentMainFile = fs.read(MAIN_FILE);
+    const currentMainFile = fs.readBytes(MAIN_FILE);
     return {
       files: fs.ls().length,
       storageUsed: fs.getStorageUsed(),
       lines:
         this.cachedInitialProject &&
-        this.cachedInitialProject.files[MAIN_FILE] === btoa(currentMainFile)
+        this.cachedInitialProject.files[MAIN_FILE] ===
+          fromByteArray(currentMainFile)
           ? undefined
-          : currentMainFile.split(/\r\n|\r|\n/).length,
+          : this.lineNumFromUint8Array(currentMainFile),
     };
+  }
+
+  lineNumFromUint8Array(arr: Uint8Array): number {
+    let lineCount = 1;
+    let prevByte: number | undefined;
+    const LF = 10;
+    const CR = 13;
+    arr.forEach((byte) => {
+      if ((byte === LF && prevByte !== CR) || byte === CR) {
+        lineCount++;
+      }
+      prevByte = byte;
+    });
+    return lineCount;
   }
 
   private async notify() {
