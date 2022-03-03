@@ -1,5 +1,5 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,6 +7,7 @@ import {
   getIntelHexAppendedScript,
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
+import { fromByteArray, toByteArray } from "base64-js";
 import EventEmitter from "events";
 import sortBy from "lodash.sortby";
 import { BoardId } from "../device/board-id";
@@ -21,7 +22,7 @@ import {
   SessionStorageFSStorage,
   SplitStrategyStorage,
 } from "./storage";
-import { InitialProject } from "./initial-project";
+import { PythonProject } from "./initial-project";
 
 const commonFsSize = 20 * 1024;
 
@@ -132,6 +133,20 @@ export const diff = (before: Project, after: Project): FileChange[] => {
   return result;
 };
 
+export const lineNumFromUint8Array = (arr: Uint8Array): number => {
+  let lineCount = 1;
+  let prevByte: number | undefined;
+  const LF = 10;
+  const CR = 13;
+  arr.forEach((byte) => {
+    if ((byte === LF && prevByte !== CR) || byte === CR) {
+      lineCount++;
+    }
+    prevByte = byte;
+  });
+  return lineCount;
+};
+
 export const EVENT_PROJECT_UPDATED = "project_updated";
 export const EVENT_TEXT_EDIT = "file_text_updated";
 export const MAIN_FILE = "main.py";
@@ -203,7 +218,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
    * We remember this so we can tell whether the user has edited
    * the project since for stats generation.
    */
-  private cachedInitialProject: InitialProject | undefined;
+  private cachedInitialProject: PythonProject | undefined;
 
   async initialize(): Promise<MicropythonFsHex> {
     if (this.fs) {
@@ -214,14 +229,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
         if (!(await this.exists(MAIN_FILE))) {
           // Do this ASAP to unblock the editor.
           this.cachedInitialProject = await this.host.createInitialProject();
-          if (this.cachedInitialProject.name) {
-            await this.setProjectName(this.cachedInitialProject.name);
+          if (this.cachedInitialProject.projectName) {
+            await this.setProjectName(this.cachedInitialProject.projectName);
           }
-          await this.write(
-            MAIN_FILE,
-            new TextEncoder().encode(this.cachedInitialProject.main),
-            VersionAction.INCREMENT
-          );
+          for (const key in this.cachedInitialProject.files) {
+            const content = toByteArray(this.cachedInitialProject.files[key]);
+            await this.write(key, content, VersionAction.INCREMENT);
+          }
           this.host.notifyReady(this);
         } else {
           await this.notify();
@@ -320,6 +334,30 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.fileVersions.set(filename, current === undefined ? 1 : current + 1);
   }
 
+  async getPythonProject(): Promise<PythonProject> {
+    const projectName = await this.storage.projectName();
+    const project: PythonProject = {
+      files: {},
+      projectName,
+    };
+    for (const file of await this.storage.ls()) {
+      const data = await this.storage.read(file);
+      const contentAsBase64 = fromByteArray(data);
+      project.files[file] = contentAsBase64;
+    }
+    return project;
+  }
+
+  async replaceWithMultipleFiles(project: PythonProject): Promise<void> {
+    for (const file of await this.storage.ls()) {
+      await this.remove(file);
+    }
+    for (const key in project.files) {
+      this.write(key, project.files[key], VersionAction.INCREMENT);
+    }
+    this.replaceCommon(project.projectName);
+  }
+
   async replaceWithHexContents(
     projectName: string,
     hex: string
@@ -338,12 +376,18 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       fs.ls().forEach((f) => fs.remove(f));
       fs.write(MAIN_FILE, code);
     }
+    await this.replaceCommon(projectName);
+  }
+
+  async replaceCommon(projectName?: string): Promise<void> {
     this._dirty = false;
     this.project = {
       ...this.project,
       id: generateId(),
     };
-    await this.storage.setProjectName(projectName);
+    if (projectName) {
+      await this.storage.setProjectName(projectName);
+    }
     await this.overwriteStorageWithFs();
     return this.notify();
   }
@@ -358,15 +402,16 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
 
   async statistics(): Promise<Statistics> {
     const fs = await this.initialize();
-    const currentMainFile = fs.read(MAIN_FILE);
+    const currentMainFile = fs.readBytes(MAIN_FILE);
     return {
       files: fs.ls().length,
       storageUsed: fs.getStorageUsed(),
       lines:
         this.cachedInitialProject &&
-        this.cachedInitialProject.main === currentMainFile
+        this.cachedInitialProject.files[MAIN_FILE] ===
+          fromByteArray(currentMainFile)
           ? undefined
-          : currentMainFile.split(/\r\n|\r|\n/).length,
+          : lineNumFromUint8Array(currentMainFile),
     };
   }
 

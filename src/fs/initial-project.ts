@@ -4,31 +4,35 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { fromByteArray } from "base64-js";
+import { MAIN_FILE } from "./fs";
+
 /**
- * For now we can only initialize the project name and main.py.
- * This is based on the format used to migrate between versions of the Python
- * editor and link from microbit.org to a project.
+ * We can now initialize a project with multiple files.
+ * Handling is in place for backwards compatibility for V2 projects
+ * where only the main file content is initialized as a string.
  */
-export interface InitialProject {
-  /**
-   * The project name.
-   *
-   * Defaulted in the UI if unset rather than at initialization time,
-   * so that it can change when the language changes.
-   */
-  name?: string;
-  /**
-   * The main.py source content.
-   */
-  main: string;
-  /**
-   * Tracks if the main.py content is the built-in default content.
-   */
-  isDefault: boolean;
+export interface PythonProject {
+  // File content as base64.
+  files: Record<string, string>;
+  projectName?: string;
 }
 
-export const defaultInitialProject: InitialProject = {
-  main: `# Add your Python code here. E.g.
+/**
+ *
+ * @param project PythonProject.
+ * @returns PythonProject where all file content has been converted to base64.
+ */
+export const projectFilesToBase64 = (
+  files: Record<string, string>
+): Record<string, string> => {
+  for (const file in files) {
+    files[file] = fromByteArray(new TextEncoder().encode(files[file]));
+  }
+  return files;
+};
+
+export const defaultMainFileContent = `# Add your Python code here. E.g.
 from microbit import *
 
 
@@ -36,6 +40,10 @@ while True:
     display.scroll('micro:bit')
     display.show(Image.HEART)
     sleep(2000)
-`,
-  isDefault: true,
+`;
+
+export const defaultInitialProject: PythonProject = {
+  files: projectFilesToBase64({
+    [MAIN_FILE]: defaultMainFileContent,
+  }),
 };

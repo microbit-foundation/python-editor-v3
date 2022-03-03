@@ -1,8 +1,10 @@
 /**
  * @jest-environment ./src/testing/custom-browser-env
  */
-import { VersionAction } from "./fs";
+import { fromByteArray } from "base64-js";
+import { VersionAction, MAIN_FILE } from "./fs";
 import { DefaultHost, IframeHost } from "./host";
+import { defaultInitialProject } from "./initial-project";
 import { testMigrationUrl } from "./migration.test";
 
 describe("IframeHost", () => {
@@ -12,6 +14,7 @@ describe("IframeHost", () => {
     read: () => new TextEncoder().encode("Code read!"),
     write: mockWrite,
     addListener: mockAddListener,
+    getPythonProject: () => "",
   } as any;
 
   const mockPostMessage = jest.fn();
@@ -64,7 +67,9 @@ describe("IframeHost", () => {
     );
 
     const project = await initialProjectPromise;
-    expect(project.main).toEqual("code1");
+    expect(project.files[MAIN_FILE]).toEqual(
+      fromByteArray(new TextEncoder().encode("code1"))
+    );
     host.notifyReady(fs);
 
     await expectSendsMessageToParent([
@@ -88,7 +93,7 @@ describe("IframeHost", () => {
     );
 
     // There's nothing to wait for here except the write, as there's no confirmatory message.
-    await expectCodeWrite(["main.py", "code2", VersionAction.INCREMENT]);
+    await expectCodeWrite([MAIN_FILE, "code2", VersionAction.INCREMENT]);
   });
 
   it("triggers code changes on first listener", async () => {
@@ -124,13 +129,18 @@ describe("DefaultHost", () => {
       testMigrationUrl
     ).createInitialProject();
     expect(project).toEqual({
-      isDefault: false,
-      name: "Hearts",
-      main: "from microbit import *\r\ndisplay.show(Image.HEART)",
+      files: {
+        [MAIN_FILE]: fromByteArray(
+          new TextEncoder().encode(
+            "from microbit import *\r\ndisplay.show(Image.HEART)"
+          )
+        ),
+      },
+      projectName: "Hearts",
     });
   });
   it("otherwise uses defaults", async () => {
     const project = await new DefaultHost("").createInitialProject();
-    expect(project.isDefault).toEqual(true);
+    expect(project).toEqual(defaultInitialProject);
   });
 });

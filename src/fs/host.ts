@@ -12,7 +12,11 @@ import {
   MAIN_FILE,
 } from "./fs";
 import { Logging } from "../logging/logging";
-import { defaultInitialProject, InitialProject } from "./initial-project";
+import {
+  defaultInitialProject,
+  PythonProject,
+  projectFilesToBase64,
+} from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
 
 const messages = {
@@ -26,20 +30,21 @@ const messages = {
 };
 
 export interface Host {
-  createInitialProject(): Promise<InitialProject>;
+  createInitialProject(): Promise<PythonProject>;
   notifyReady(fs: FileSystem): void;
 }
 
 export class DefaultHost implements Host {
   constructor(private url: string = "") {}
 
-  async createInitialProject(): Promise<InitialProject> {
+  async createInitialProject(): Promise<PythonProject> {
     const migration = parseMigrationFromUrl(this.url);
     if (migration) {
       return {
-        name: migration.meta.name,
-        main: migration.source,
-        isDefault: false,
+        files: projectFilesToBase64({
+          [MAIN_FILE]: migration.source,
+        }),
+        projectName: migration.meta.name,
       };
     }
     return defaultInitialProject;
@@ -53,7 +58,7 @@ export class IframeHost implements Host {
     private window: Window,
     private debounceDelay: number = 1_000
   ) {}
-  createInitialProject(): Promise<InitialProject> {
+  createInitialProject(): Promise<PythonProject> {
     return new Promise((resolve) => {
       this.window.addEventListener("load", () =>
         notifyWorkspaceSync(this.parent)
@@ -74,10 +79,14 @@ export class IframeHost implements Host {
               "'projects' array should contain at least one item."
             );
           }
-          if (typeof data.projects[0] !== "string") {
-            throw new Error("Expected string");
+          if (typeof data.projects[0] === "string") {
+            resolve({
+              files: projectFilesToBase64({ [MAIN_FILE]: data.projects[0] }),
+            });
           }
-          resolve({ isDefault: false, main: data.projects[0] });
+          if (typeof data.projects[0] === "object") {
+            resolve(data.projects[0]);
+          }
         }
       });
     });
@@ -127,18 +136,16 @@ const getControllerHost = (logging: Logging): Window | undefined => {
   }
 };
 
-const setMainCode = (fs: FileSystem, code: string): void => {
-  fs.write(MAIN_FILE, code, VersionAction.INCREMENT);
-};
-
 /**
  * Host is sending code to update editor.
  */
 const handleImportProject = (fs: FileSystem, data: any) => {
-  if (!data.project || typeof data.project !== "string") {
-    throw new Error("Invalid 'project' data type. String should be provided.");
+  if (!data.project || typeof data.project === "string") {
+    fs.write(MAIN_FILE, data.project, VersionAction.INCREMENT);
   }
-  setMainCode(fs, data.project);
+  if (!data.project || typeof data.project === "object") {
+    fs.replaceWithMultipleFiles(data.project);
+  }
 };
 
 /**
@@ -174,13 +181,12 @@ const notifyWorkspaceLoaded = (host: Window) => {
  * We do this periodically when the code changes.
  */
 const notifyWorkspaceSave = async (fs: FileSystem, host: Window) => {
-  const { data } = await fs.read(MAIN_FILE);
-  const code = new TextDecoder().decode(data);
+  const project = await fs.getPythonProject();
   host.postMessage(
     {
       type: messages.type,
       action: messages.actions.workspacesave,
-      project: code,
+      project,
     },
     "*"
   );
