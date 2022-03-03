@@ -133,6 +133,20 @@ export const diff = (before: Project, after: Project): FileChange[] => {
   return result;
 };
 
+export const lineNumFromUint8Array = (arr: Uint8Array): number => {
+  let lineCount = 1;
+  let prevByte: number | undefined;
+  const LF = 10;
+  const CR = 13;
+  arr.forEach((byte) => {
+    if ((byte === LF && prevByte !== CR) || byte === CR) {
+      lineCount++;
+    }
+    prevByte = byte;
+  });
+  return lineCount;
+};
+
 export const EVENT_PROJECT_UPDATED = "project_updated";
 export const EVENT_TEXT_EDIT = "file_text_updated";
 export const MAIN_FILE = "main.py";
@@ -397,22 +411,8 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
         this.cachedInitialProject.files[MAIN_FILE] ===
           fromByteArray(currentMainFile)
           ? undefined
-          : this.lineNumFromUint8Array(currentMainFile),
+          : lineNumFromUint8Array(currentMainFile),
     };
-  }
-
-  lineNumFromUint8Array(arr: Uint8Array): number {
-    let lineCount = 1;
-    let prevByte: number | undefined;
-    const LF = 10;
-    const CR = 13;
-    arr.forEach((byte) => {
-      if ((byte === LF && prevByte !== CR) || byte === CR) {
-        lineCount++;
-      }
-      prevByte = byte;
-    });
-    return lineCount;
   }
 
   private async notify() {
