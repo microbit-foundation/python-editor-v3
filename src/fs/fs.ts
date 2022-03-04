@@ -349,13 +349,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   }
 
   async replaceWithMultipleFiles(project: PythonProject): Promise<void> {
-    for (const file of await this.storage.ls()) {
-      await this.remove(file);
-    }
+    const fs = await this.initialize();
+    fs.ls().forEach((f) => fs.remove(f));
     for (const key in project.files) {
-      this.write(key, project.files[key], VersionAction.INCREMENT);
+      const content = toByteArray(project.files[key]);
+      fs.write(key, content);
     }
-    this.replaceCommon(project.projectName);
+    await this.replaceCommon(project.projectName);
   }
 
   async replaceWithHexContents(
