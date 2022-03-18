@@ -237,7 +237,6 @@ const RangeSensor = ({
           textAlign="center"
           mt="-8"
           ml="-1.5ch"
-          w="3ch"
           fontSize="sm"
         >
           {value}
