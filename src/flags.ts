@@ -19,6 +19,10 @@ export type Flag =
    */
   | "dndDebug"
   /**
+   * Simulator. Implementation is very incomplete.
+   */
+  | "simulator"
+  /**
    * Disables the pop-up welcome dialog.
    * The dialog is still available from the alpha release notice UI.
    * Added to support user-testing.
@@ -28,7 +32,7 @@ export type Flag =
    */
   | "noWelcome";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome", "simulator"];
 
 type Flags = Record<Flag, boolean>;
 
