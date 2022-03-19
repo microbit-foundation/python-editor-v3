@@ -14,7 +14,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiPlayFill, RiStopFill, RiSunFill } from "react-icons/ri";
+import { IconType } from "react-icons";
+import {
+  RiPlayFill,
+  RiStopFill,
+  RiSunFill,
+  RiTempHotFill,
+} from "react-icons/ri";
 import { MAIN_FILE } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 
@@ -24,6 +30,7 @@ interface Sensor {
   min: number;
   max: number;
   value: number;
+  unit?: string;
 }
 
 const useSimulator = (ref: React.RefObject<HTMLIFrameElement>) => {
@@ -177,7 +184,7 @@ interface SensorsProps extends BoxProps {
 
 const Sensors = ({ value, onSensorChange, ...props }: SensorsProps) => {
   return (
-    <Stack {...props} height="100%" width="100%" p={5}>
+    <Stack {...props} height="100%" width="100%" p={5} spacing={3}>
       {value.map((sensor) => {
         switch (sensor.type) {
           case "range":
@@ -201,8 +208,13 @@ interface RangeSensorProps {
   onSensorChange: (id: string, value: number) => void;
 }
 
+const icons: Record<string, IconType> = {
+  temperature: RiTempHotFill,
+  lightLevel: RiSunFill,
+};
+
 const RangeSensor = ({
-  value: { id, min, max, value },
+  value: { id, min, max, value, unit },
   onSensorChange,
 }: RangeSensorProps) => {
   const handleChange = useCallback(
@@ -211,9 +223,10 @@ const RangeSensor = ({
     },
     [onSensorChange, id]
   );
+  const valueText = unit ? `${value} ${unit}` : value.toString();
   return (
-    <HStack>
-      <Icon as={RiSunFill} aria-label={id} color="blimpTeal.400" boxSize="6" />
+    <HStack pt={5}>
+      <Icon as={icons[id]} aria-label={id} color="blimpTeal.400" boxSize="6" />
       <Slider
         aria-label={id}
         value={value}
@@ -236,10 +249,10 @@ const RangeSensor = ({
           value={value}
           textAlign="center"
           mt="-8"
-          ml="-1.5ch"
+          ml={-valueText.length / 2 + "ch"}
           fontSize="sm"
         >
-          {value}
+          {valueText}
         </SliderMark>
       </Slider>
     </HStack>
