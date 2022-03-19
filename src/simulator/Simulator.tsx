@@ -17,6 +17,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import {
   RiPlayFill,
+  RiQuestionFill,
+  RiSensorFill,
   RiStopFill,
   RiSunFill,
   RiTempHotFill,
@@ -226,7 +228,12 @@ const RangeSensor = ({
   const valueText = unit ? `${value} ${unit}` : value.toString();
   return (
     <HStack pt={5}>
-      <Icon as={icons[id]} aria-label={id} color="blimpTeal.400" boxSize="6" />
+      <Icon
+        as={icons[id] || RiQuestionFill}
+        aria-label={id}
+        color="blimpTeal.400"
+        boxSize="6"
+      />
       <Slider
         aria-label={id}
         value={value}
@@ -250,7 +257,7 @@ const RangeSensor = ({
           textAlign="center"
           mt="-8"
           ml={-valueText.length / 2 + "ch"}
-          fontSize="sm"
+          fontSize="xs"
         >
           {valueText}
         </SliderMark>
