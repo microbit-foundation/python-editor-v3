@@ -18,7 +18,6 @@ import { IconType } from "react-icons";
 import {
   RiPlayFill,
   RiQuestionFill,
-  RiSensorFill,
   RiStopFill,
   RiSunFill,
   RiTempHotFill,
