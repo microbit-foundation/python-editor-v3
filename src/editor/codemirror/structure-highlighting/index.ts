@@ -7,11 +7,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { Compartment, Extension } from "@codemirror/state";
+import { Extension } from "@codemirror/state";
 import { baseTheme } from "./theme";
 import { codeStructureView } from "./view";
-
-export const structureHighlightingCompartment = new Compartment();
 
 export type CodeStructureShape = "l-shape" | "box";
 export type CodeStructureBackground = "block" | "none";

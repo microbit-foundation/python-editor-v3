@@ -20,6 +20,7 @@ import {
   codeStructureOptions,
   maximumFontSize,
   minimumFontSize,
+  signatureHelpOptions,
   useSettings,
 } from "./settings";
 
@@ -54,6 +55,11 @@ const SettingsArea = () => {
       codeStructure: createOptions(
         codeStructureOptions,
         "highlight-code-structure",
+        intl
+      ),
+      signatureHelp: createOptions(
+        signatureHelpOptions,
+        "function-parameter-help",
         intl
       ),
     }),
@@ -95,6 +101,18 @@ const SettingsArea = () => {
           setSettings({
             ...settings,
             codeStructureHighlight,
+          })
+        }
+      />
+      <SelectFormControl
+        id="signatureHelp"
+        label={intl.formatMessage({ id: "signature-help" })}
+        options={options.signatureHelp}
+        value={settings.signatureHelp}
+        onChange={(signatureHelp) =>
+          setSettings({
+            ...settings,
+            signatureHelp,
           })
         }
       />

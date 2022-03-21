@@ -26,6 +26,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
       onChange={onFileChange}
       fontSize={settings.fontSize}
       codeStructureSettings={codeStructureSettings(settings)}
+      signatureHelpOption={settings.signatureHelp}
     />
   );
 };
