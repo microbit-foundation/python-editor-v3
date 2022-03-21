@@ -287,6 +287,14 @@
     "defaultMessage": "Хінтс анд тіпс",
     "description": "Link/button for minor internal help"
   },
+  "ideas-tab": {
+    "defaultMessage": "Ideas",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Placeholder for full working code examples",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+  },
   "insert-code-action": {
     "defaultMessage": "Інсерт соде"
   },

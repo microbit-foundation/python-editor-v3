@@ -551,6 +551,18 @@
       "value": "Hints and tips"
     }
   ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "Ideas"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Placeholder for full working code examples"
+    }
+  ],
   "insert-code-action": [
     {
       "type": 0,
@@ -773,18 +785,6 @@
     {
       "type": 0,
       "value": "Project header"
-    }
-  ],
-  "projects-tab": [
-    {
-      "type": 0,
-      "value": "Projects"
-    }
-  ],
-  "projects-tab-description": [
-    {
-      "type": 0,
-      "value": "Placeholder for projects with full working code examples"
     }
   ],
   "python-powered": [

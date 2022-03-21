@@ -21,7 +21,7 @@ import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ExploreArea from "../documentation/ExploreArea";
-import ProjectsArea from "../documentation/ProjectsArea";
+import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import FilesArea from "../files/FilesArea";
 import { useRouterState } from "../router-hooks";
@@ -69,10 +69,10 @@ const SideBar = ({
         color: "gray.25",
       },
       {
-        id: "projects",
-        title: intl.formatMessage({ id: "projects-tab" }),
+        id: "ideas",
+        title: intl.formatMessage({ id: "ideas-tab" }),
         icon: RiLightbulbFlashLine,
-        contents: <ProjectsArea />,
+        contents: <IdeasArea />,
         color: "gray.25",
       },
       {
