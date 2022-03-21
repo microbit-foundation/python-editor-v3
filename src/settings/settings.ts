@@ -68,6 +68,9 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (codeStructureOptions.indexOf(object.codeStructureHighlight) === -1) {
     return false;
   }
+  if (parameterHelpOptions.indexOf(object.parameterHelp) === -1) {
+    return false;
+  }
   return true;
 };
 
