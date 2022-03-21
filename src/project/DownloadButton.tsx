@@ -35,7 +35,6 @@ const DownloadButton = (props: DownloadButtonProps) => {
     >
       <CollapsibleButton
         {...props}
-        variant="solid"
         icon={<RiDownload2Line />}
         onClick={actions.download}
         text={intl.formatMessage({

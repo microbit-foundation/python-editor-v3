@@ -30,7 +30,6 @@ const FlashButton = (
       >
         <CollapsibleButton
           {...props}
-          variant="solid"
           icon={<RiFlashlightFill />}
           onClick={actions.flash}
           text={intl.formatMessage({
