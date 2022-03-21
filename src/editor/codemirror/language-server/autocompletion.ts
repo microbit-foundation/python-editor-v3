@@ -170,8 +170,10 @@ const boost = (item: LSP.CompletionItem): number | undefined => {
   }
   if (item.label.endsWith("=")) {
     // Counteract a single case mismatch penalty to allow
-    // `Image` to rank over `image=` for "image" input
-    return -200;
+    // `Image` to rank over `image=` for "image" input.
+    // This is vulnerable to changes in the ranking algorithm in
+    // https://github.com/codemirror/autocomplete/blob/main/src/filter.ts
+    return -200 - "image=".length;
   }
   return undefined;
 };

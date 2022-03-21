@@ -29,6 +29,16 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findVisibleEditorContents("display.show()");
   });
 
+  it("ranks Image above image=", async () => {
+    // This particular case has been tweaked in a somewhat fragile way.
+    // See the boost code in autocompletion.ts
+
+    await app.selectAllInEditor();
+    await app.typeInEditor("from microbit import *\ndisplay.show(image");
+
+    await app.findCompletionOptions(["Image", "image="]);
+  });
+
   it("autocomplete can navigate to toolkit content", async () => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
