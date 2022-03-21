@@ -59,9 +59,12 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
               width={buttonWidth}
               mode={"button"}
               size={size}
+              borderRight="1px"
             />
           )}
           <MenuButton
+            // Avoid animating part of the primary action change.
+            key={variant}
             variant={variant}
             borderLeft="1px"
             borderRadius="button"
