@@ -50,21 +50,24 @@ const SettingsArea = () => {
     },
     [settings, setSettings]
   );
-  const options = useMemo(
-    () => ({
+  const options = useMemo(() => {
+    const isMac = /Mac/.test(navigator.platform);
+    return {
       codeStructure: createOptions(
         codeStructureOptions,
         "highlight-code-structure",
         intl
       ),
-      signatureHelp: createOptions(
+      parameterHints: createOptions(
         signatureHelpOptions,
-        "function-parameter-help",
-        intl
+        "parameter-hints",
+        intl,
+        {
+          shortcut: (isMac ? "Cmd" : "Ctrl") + "-Shift+Space",
+        }
       ),
-    }),
-    [intl]
-  );
+    };
+  }, [intl]);
   return (
     <VStack alignItems="flex-start" spacing={5}>
       <FormControl display="flex" alignItems="center">
@@ -106,8 +109,8 @@ const SettingsArea = () => {
       />
       <SelectFormControl
         id="signatureHelp"
-        label={intl.formatMessage({ id: "signature-help" })}
-        options={options.signatureHelp}
+        label={intl.formatMessage({ id: "parameter-hints" })}
+        options={options.parameterHints}
         value={settings.signatureHelp}
         onChange={(signatureHelp) =>
           setSettings({

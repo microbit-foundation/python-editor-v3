@@ -90,7 +90,7 @@ export function languageServer(
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    options.signatureHelp === "simple" ? signatureHelp(intl) : [],
+    signatureHelp(intl, options.signatureHelp),
     autocompletion(intl, logging),
   ];
 }

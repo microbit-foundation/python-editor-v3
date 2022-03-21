@@ -749,6 +749,32 @@
       "value": "Options"
     }
   ],
+  "parameter-hints": [
+    {
+      "type": 0,
+      "value": "Parameter hints"
+    }
+  ],
+  "parameter-hints-automatic": [
+    {
+      "type": 0,
+      "value": "Automatic"
+    }
+  ],
+  "parameter-hints-manual": [
+    {
+      "type": 0,
+      "value": "Manual ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
   "permanently-delete": [
     {
       "type": 0,

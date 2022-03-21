@@ -41,14 +41,17 @@ export const minimumFontSize = 4;
 export const maximumFontSize = 154;
 export const fontSizeStep = 3;
 
-export type SignatureHelpOption = "none" | "simple";
-export const signatureHelpOptions: SignatureHelpOption[] = ["none", "simple"];
+export type SignatureHelpOption = "automatic" | "manual";
+export const signatureHelpOptions: SignatureHelpOption[] = [
+  "automatic",
+  "manual",
+];
 
 export const defaultSettings: Settings = {
   languageId: supportedLanguages[0].id,
   fontSize: defaultCodeFontSizePt,
   codeStructureHighlight: "full",
-  signatureHelp: "simple",
+  signatureHelp: "automatic",
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {

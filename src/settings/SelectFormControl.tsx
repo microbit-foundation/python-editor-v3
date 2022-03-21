@@ -37,7 +37,7 @@ const SelectFormControl = <T extends string>({
         id={id}
         variant="outline"
         onChange={handleChange}
-        width="20ch"
+        width="28ch"
         value={value}
       >
         {options.map(({ value, label }) => (
@@ -61,11 +61,12 @@ const SelectFormControl = <T extends string>({
 export const createOptions = <T,>(
   values: T[],
   prefix: string,
-  intl: IntlShape
+  intl: IntlShape,
+  intlValues?: Record<string, any>
 ): SelectOptionValue<T>[] => {
   return values.map((value) => ({
     value,
-    label: intl.formatMessage({ id: `${prefix}-${value}` }),
+    label: intl.formatMessage({ id: `${prefix}-${value}` }, intlValues),
   }));
 };
 
