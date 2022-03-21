@@ -13,7 +13,7 @@ import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
-import { SignatureHelpOption } from "../../settings/settings";
+import { ParameterHelpOption } from "../../settings/settings";
 import { WorkbenchSelection } from "../../workbench/use-selection";
 import {
   EditorActions,
@@ -34,7 +34,7 @@ interface CodeMirrorProps {
   selection: WorkbenchSelection;
   fontSize: number;
   codeStructureSettings: CodeStructureSettings;
-  signatureHelpOption: SignatureHelpOption;
+  parameterHelpOption: ParameterHelpOption;
 }
 
 /**
@@ -52,7 +52,7 @@ const CodeMirror = ({
   selection,
   fontSize,
   codeStructureSettings,
-  signatureHelpOption,
+  parameterHelpOption,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
   const [, setActiveEditor] = useActiveEditorActionsState();
@@ -77,9 +77,9 @@ const CodeMirror = ({
     () => ({
       fontSize,
       codeStructureSettings,
-      signatureHelpOption,
+      parameterHelpOption,
     }),
-    [fontSize, codeStructureSettings, signatureHelpOption]
+    [fontSize, codeStructureSettings, parameterHelpOption]
   );
 
   useEffect(() => {
@@ -107,7 +107,9 @@ const CodeMirror = ({
           compartment.of([
             client
               ? languageServer(client, uri, intl, logging, {
-                  signatureHelp: signatureHelpOption,
+                  signatureHelp: {
+                    automatic: parameterHelpOption === "automatic",
+                  },
                 })
               : [],
             codeStructure(options.codeStructureSettings),
@@ -132,7 +134,7 @@ const CodeMirror = ({
     options,
     setActiveEditor,
     setEditorInfo,
-    signatureHelpOption,
+    parameterHelpOption,
     uri,
   ]);
   useEffect(() => {
@@ -152,7 +154,9 @@ const CodeMirror = ({
         compartment.reconfigure([
           client
             ? languageServer(client, uri, intl, logging, {
-                signatureHelp: signatureHelpOption,
+                signatureHelp: {
+                  automatic: parameterHelpOption === "automatic",
+                },
               })
             : [],
           codeStructure(options.codeStructureSettings),
@@ -160,7 +164,7 @@ const CodeMirror = ({
         ]),
       ],
     });
-  }, [options, signatureHelpOption, client, intl, logging, uri]);
+  }, [options, parameterHelpOption, client, intl, logging, uri]);
 
   const { location } = selection;
   useEffect(() => {

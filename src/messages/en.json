@@ -749,19 +749,19 @@
       "value": "Options"
     }
   ],
-  "parameter-hints": [
+  "parameter-help": [
     {
       "type": 0,
-      "value": "Parameter hints"
+      "value": "Parameter help"
     }
   ],
-  "parameter-hints-automatic": [
+  "parameter-help-automatic": [
     {
       "type": 0,
       "value": "Automatic"
     }
   ],
-  "parameter-hints-manual": [
+  "parameter-help-manual": [
     {
       "type": 0,
       "value": "Manual ("

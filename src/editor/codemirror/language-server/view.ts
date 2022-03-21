@@ -10,7 +10,6 @@ import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
-import { SignatureHelpOption } from "../../../settings/settings";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
@@ -67,7 +66,9 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
 }
 
 interface Options {
-  signatureHelp: SignatureHelpOption;
+  signatureHelp: {
+    automatic: boolean;
+  };
 }
 
 /**
@@ -90,7 +91,7 @@ export function languageServer(
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    signatureHelp(intl, options.signatureHelp),
+    signatureHelp(intl, options.signatureHelp.automatic),
     autocompletion(intl, logging),
   ];
 }

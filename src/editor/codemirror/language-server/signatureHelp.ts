@@ -26,7 +26,6 @@ import {
   SignatureHelpParams,
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
-import { SignatureHelpOption } from "../../../settings/settings";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
   renderDocumentation,
@@ -105,7 +104,7 @@ const signatureHelpKeymap: readonly KeyBinding[] = [
   { key: "Escape", run: closeSignatureHelp },
 ];
 
-export const signatureHelp = (intl: IntlShape, option: SignatureHelpOption) => {
+export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
     create: () => ({
       result: null,
@@ -250,9 +249,7 @@ export const signatureHelp = (intl: IntlShape, option: SignatureHelpOption) => {
 
   return [
     // View only handles automatic triggering.
-    ViewPlugin.define(
-      (view) => new SignatureHelpView(view, option === "automatic")
-    ),
+    ViewPlugin.define((view) => new SignatureHelpView(view, automatic)),
     signatureHelpTooltipField,
     signatureHelpToolTipBaseTheme,
     keymap.of(signatureHelpKeymap),

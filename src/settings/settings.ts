@@ -41,8 +41,8 @@ export const minimumFontSize = 4;
 export const maximumFontSize = 154;
 export const fontSizeStep = 3;
 
-export type SignatureHelpOption = "automatic" | "manual";
-export const signatureHelpOptions: SignatureHelpOption[] = [
+export type ParameterHelpOption = "automatic" | "manual";
+export const parameterHelpOptions: ParameterHelpOption[] = [
   "automatic",
   "manual",
 ];
@@ -51,7 +51,7 @@ export const defaultSettings: Settings = {
   languageId: supportedLanguages[0].id,
   fontSize: defaultCodeFontSizePt,
   codeStructureHighlight: "full",
-  signatureHelp: "automatic",
+  parameterHelp: "automatic",
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -117,7 +117,7 @@ export interface Settings {
   languageId: string;
   fontSize: number;
   codeStructureHighlight: CodeStructureOption;
-  signatureHelp: SignatureHelpOption;
+  parameterHelp: ParameterHelpOption;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];

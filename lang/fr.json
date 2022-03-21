@@ -374,6 +374,18 @@
     "defaultMessage": "Options",
     "description": "Label for an options menu"
   },
+  "parameter-help": {
+    "defaultMessage": "Parameter help",
+    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
+  },
+  "parameter-help-automatic": {
+    "defaultMessage": "Automatic",
+    "description": "Parameter help setting for when the parameter documentation is shown automatically"
+  },
+  "parameter-help-manual": {
+    "defaultMessage": "Manual ({shortcut})",
+    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
+  },
   "parameter-hints": {
     "defaultMessage": "Parameter hints",
     "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."

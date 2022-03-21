@@ -20,7 +20,7 @@ import {
   codeStructureOptions,
   maximumFontSize,
   minimumFontSize,
-  signatureHelpOptions,
+  parameterHelpOptions,
   useSettings,
 } from "./settings";
 
@@ -58,9 +58,9 @@ const SettingsArea = () => {
         "highlight-code-structure",
         intl
       ),
-      parameterHints: createOptions(
-        signatureHelpOptions,
-        "parameter-hints",
+      parameterHelp: createOptions(
+        parameterHelpOptions,
+        "parameter-help",
         intl,
         {
           shortcut: (isMac ? "Cmd" : "Ctrl") + "-Shift+Space",
@@ -108,14 +108,14 @@ const SettingsArea = () => {
         }
       />
       <SelectFormControl
-        id="signatureHelp"
-        label={intl.formatMessage({ id: "parameter-hints" })}
-        options={options.parameterHints}
-        value={settings.signatureHelp}
-        onChange={(signatureHelp) =>
+        id="parameterHelp"
+        label={intl.formatMessage({ id: "parameter-help" })}
+        options={options.parameterHelp}
+        value={settings.parameterHelp}
+        onChange={(parameterHelp) =>
           setSettings({
             ...settings,
-            signatureHelp,
+            parameterHelp,
           })
         }
       />

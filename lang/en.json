@@ -375,17 +375,17 @@
     "defaultMessage": "Options",
     "description": "Label for an options menu"
   },
-  "parameter-hints": {
-    "defaultMessage": "Parameter hints",
+  "parameter-help": {
+    "defaultMessage": "Parameter help",
     "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
   },
-  "parameter-hints-automatic": {
+  "parameter-help-automatic": {
     "defaultMessage": "Automatic",
-    "description": "Parameter hints setting for when the parameter documentation is shown automatically"
+    "description": "Parameter help setting for when the parameter documentation is shown automatically"
   },
-  "parameter-hints-manual": {
+  "parameter-help-manual": {
     "defaultMessage": "Manual ({shortcut})",
-    "description": "Parameter hints setting for when the user must press a key combination to open the parameter documentation"
+    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
     "defaultMessage": "Permanently delete {filename}?",
