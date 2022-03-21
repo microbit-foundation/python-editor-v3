@@ -11,12 +11,17 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   VStack,
 } from "@chakra-ui/react";
-import React, { ReactNode, useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { maximumFontSize, minimumFontSize, useSettings } from "./settings";
+import SelectFormControl, { createOptions } from "./SelectFormControl";
+import {
+  codeStructureOptions,
+  maximumFontSize,
+  minimumFontSize,
+  useSettings,
+} from "./settings";
 
 /**
  * The settings area.
@@ -44,7 +49,16 @@ const SettingsArea = () => {
     },
     [settings, setSettings]
   );
-
+  const options = useMemo(
+    () => ({
+      codeStructure: createOptions(
+        codeStructureOptions,
+        "highlight-code-structure",
+        intl
+      ),
+    }),
+    [intl]
+  );
   return (
     <VStack alignItems="flex-start" spacing={5}>
       <FormControl display="flex" alignItems="center">
@@ -75,22 +89,7 @@ const SettingsArea = () => {
       <SelectFormControl
         id="codeStructureHighlight"
         label={intl.formatMessage({ id: "highlight-code-structure" })}
-        options={[
-          {
-            value: "none",
-            label: intl.formatMessage({ id: "highlight-code-structure-none" }),
-          },
-          {
-            value: "full",
-            label: intl.formatMessage({ id: "highlight-code-structure-full" }),
-          },
-          {
-            value: "simple",
-            label: intl.formatMessage({
-              id: "highlight-code-structure-simple",
-            }),
-          },
-        ]}
+        options={options.codeStructure}
         value={settings.codeStructureHighlight}
         onChange={(codeStructureHighlight) =>
           setSettings({
@@ -100,49 +99,6 @@ const SettingsArea = () => {
         }
       />
     </VStack>
-  );
-};
-
-interface SelectFormControlProps<T> {
-  id: string;
-  options: { value: T; label: ReactNode }[];
-  label: ReactNode;
-  value: T;
-  onChange: (value: T) => void;
-}
-
-const SelectFormControl = <T extends string>({
-  id,
-  options,
-  label,
-  value,
-  onChange,
-}: SelectFormControlProps<T>) => {
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) =>
-      onChange(e.currentTarget!.value as T),
-    [onChange]
-  );
-
-  return (
-    <FormControl display="flex" alignItems="center">
-      <FormLabel htmlFor={id} mb="0" fontWeight="normal" flex="1 1 auto">
-        {label}
-      </FormLabel>
-      <Select
-        id={id}
-        variant="outline"
-        onChange={handleChange}
-        width="20ch"
-        value={value}
-      >
-        {options.map(({ value, label }) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </Select>
-    </FormControl>
   );
 };
 
