@@ -61,7 +61,6 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
 });
 
 const closeSignatureHelp: Command = (view: EditorView) => {
-  // TODO: check it's open, if not return false.
   view.dispatch({
     effects: setSignatureHelpEffect.of({
       pos: -1,
@@ -127,13 +126,16 @@ export const signatureHelp = (intl: IntlShape, option: SignatureHelpOption) => {
     extends BaseLanguageServerView
     implements PluginValue
   {
+    constructor(view: EditorView, private automatic: boolean) {
+      super(view);
+    }
     update({ docChanged, selectionSet, transactions }: ViewUpdate) {
       if (
         (docChanged || selectionSet) &&
         this.view.state.field(signatureHelpTooltipField).tooltip
       ) {
         triggerSignatureHelpRequest(this.view);
-      } else if (docChanged) {
+      } else if (this.automatic && docChanged) {
         const last = transactions[transactions.length - 1];
 
         // This needs to trigger for autocomplete adding function parens
@@ -248,9 +250,9 @@ export const signatureHelp = (intl: IntlShape, option: SignatureHelpOption) => {
 
   return [
     // View only handles automatic triggering.
-    option === "automatic"
-      ? ViewPlugin.define((view) => new SignatureHelpView(view))
-      : [],
+    ViewPlugin.define(
+      (view) => new SignatureHelpView(view, option === "automatic")
+    ),
     signatureHelpTooltipField,
     signatureHelpToolTipBaseTheme,
     keymap.of(signatureHelpKeymap),
