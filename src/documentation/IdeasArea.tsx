@@ -8,14 +8,14 @@ import { useIntl } from "react-intl";
 import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
 import AreaHeading from "../common/AreaHeading";
 
-const ProjectsArea = () => {
+const IdeasArea = () => {
   const intl = useIntl();
   return (
     <HeadedScrollablePanel
       heading={
         <AreaHeading
-          name={intl.formatMessage({ id: "projects-tab" })}
-          description={intl.formatMessage({ id: "projects-tab-description" })}
+          name={intl.formatMessage({ id: "ideas-tab" })}
+          description={intl.formatMessage({ id: "ideas-tab-description" })}
         />
       }
     >
@@ -24,4 +24,4 @@ const ProjectsArea = () => {
   );
 };
 
-export default ProjectsArea;
+export default IdeasArea;

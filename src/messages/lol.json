@@ -551,6 +551,18 @@
       "value": "Хінтс анд тіпс"
     }
   ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "Ideas"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Placeholder for full working code examples"
+    }
+  ],
   "insert-code-action": [
     {
       "type": 0,

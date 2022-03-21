@@ -287,6 +287,14 @@
     "defaultMessage": "Hints and tips",
     "description": "Link/button for minor internal help"
   },
+  "ideas-tab": {
+    "defaultMessage": "Ideas",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Placeholder for full working code examples",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+  },
   "insert-code-action": {
     "defaultMessage": "Insert code",
     "descrition": "Insert code action label"
@@ -386,14 +394,6 @@
   "project-header": {
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
-  },
-  "projects-tab": {
-    "defaultMessage": "Projects",
-    "description": "Projects tab button text"
-  },
-  "projects-tab-description": {
-    "defaultMessage": "Placeholder for projects with full working code examples",
-    "description": "Projects tab description text"
   },
   "python-powered": {
     "defaultMessage": "Python powered",

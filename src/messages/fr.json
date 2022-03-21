@@ -551,6 +551,18 @@
       "value": "Trucs et astuces"
     }
   ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "Idées"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Espace réservé pour les exemples de code complet"
+    }
+  ],
   "insert-code-action": [
     {
       "type": 0,
@@ -773,18 +785,6 @@
     {
       "type": 0,
       "value": "En-tête de projet"
-    }
-  ],
-  "projects-tab": [
-    {
-      "type": 0,
-      "value": "Projets"
-    }
-  ],
-  "projects-tab-description": [
-    {
-      "type": 0,
-      "value": "Espace réservé pour les projets avec des exemples de code complets"
     }
   ],
   "python-powered": [
