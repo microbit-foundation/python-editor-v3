@@ -63,7 +63,7 @@ const SettingsArea = () => {
         "parameter-help",
         intl,
         {
-          shortcut: (isMac ? "Cmd" : "Ctrl") + "-Shift+Space",
+          shortcut: (isMac ? "Cmd" : "Ctrl") + "+Shift+Space",
         }
       ),
     };
