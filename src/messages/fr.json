@@ -775,24 +775,6 @@
       "value": ")"
     }
   ],
-  "parameter-hints": [
-    {
-      "type": 0,
-      "value": "Parameter hints"
-    }
-  ],
-  "parameter-hints-automatic": [
-    {
-      "type": 0,
-      "value": "Parameter hints setting for when the parameter documentation is shown automatically"
-    }
-  ],
-  "parameter-hints-manual": [
-    {
-      "type": 0,
-      "value": "Parameter hints setting for when the user must press a key combination to open the parameter documentation"
-    }
-  ],
   "permanently-delete": [
     {
       "type": 0,

@@ -386,18 +386,6 @@
     "defaultMessage": "Manual ({shortcut})",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
-  "parameter-hints": {
-    "defaultMessage": "Parameter hints",
-    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
-  },
-  "parameter-hints-automatic": {
-    "defaultMessage": "Parameter hints setting for when the parameter documentation is shown automatically",
-    "description": "Automatic"
-  },
-  "parameter-hints-manual": {
-    "defaultMessage": "Parameter hints setting for when the user must press a key combination to open the parameter documentation",
-    "description": "Manual"
-  },
   "permanently-delete": {
     "defaultMessage": "Перманентлу делете {filename}?",
     "description": "Confirmation question to permanently delete file"
@@ -461,10 +449,6 @@
   "search": {
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
-  },
-  "search-open": {
-    "defaultMessage": "Open search",
-    "description": "Aria label for button opening the search dialog"
   },
   "serial-collapse": {
     "defaultMessage": "Хіде серіал",

@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 
 const en = JSON.parse(fs.readFileSync("lang/en.json"));
+const validKeys = new Set(Object.keys(en));
 
 fs.readdirSync("lang")
   .filter((f) => f.endsWith(".json"))
@@ -16,6 +17,11 @@ fs.readdirSync("lang")
       ...en,
       ...JSON.parse(fs.readFileSync(file)),
     };
+    Object.keys(data).forEach((k) => {
+      if (!validKeys.has(k)) {
+        delete data[k];
+      }
+    });
     const sortedKeys = Object.keys(data).sort();
     const result = Object.create(null);
     sortedKeys.forEach((k) => (result[k] = data[k]));

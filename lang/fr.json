@@ -386,18 +386,6 @@
     "defaultMessage": "Manual ({shortcut})",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
-  "parameter-hints": {
-    "defaultMessage": "Parameter hints",
-    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
-  },
-  "parameter-hints-automatic": {
-    "defaultMessage": "Parameter hints setting for when the parameter documentation is shown automatically",
-    "description": "Automatic"
-  },
-  "parameter-hints-manual": {
-    "defaultMessage": "Parameter hints setting for when the user must press a key combination to open the parameter documentation",
-    "description": "Manual"
-  },
   "permanently-delete": {
     "defaultMessage": "Supprimer {filename} définitivement ?",
     "description": "Confirmation question to permanently delete file"
