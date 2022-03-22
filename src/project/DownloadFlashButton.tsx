@@ -59,7 +59,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
               width={buttonWidth}
               mode={"button"}
               size={size}
-              borderRight="1px"
+              borderRight={variant ? "0px" : "1px"}
             />
           )}
           <MenuButton
