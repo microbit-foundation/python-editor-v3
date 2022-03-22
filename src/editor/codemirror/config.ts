@@ -30,7 +30,7 @@ const customTabBinding: KeyBinding = {
   shift: indentLess,
 };
 
-export const themeExtensionsCompartment = new Compartment();
+export const compartment = new Compartment();
 
 const indentSize = 4;
 export const editorConfig: Extension = [

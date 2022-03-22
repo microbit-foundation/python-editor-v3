@@ -65,6 +65,12 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   }
 }
 
+interface Options {
+  signatureHelp: {
+    automatic: boolean;
+  };
+}
+
 /**
  * Extensions that make use of a language server client.
  *
@@ -78,13 +84,14 @@ export function languageServer(
   client: LanguageServerClient,
   uri: string,
   intl: IntlShape,
-  logging: Logging
+  logging: Logging,
+  options: Options
 ) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    signatureHelp(intl),
+    signatureHelp(intl, options.signatureHelp.automatic),
     autocompletion(intl, logging),
   ];
 }

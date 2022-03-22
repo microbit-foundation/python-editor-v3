@@ -761,6 +761,32 @@
       "value": "Оптіонс"
     }
   ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "Parameter help"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "Automatic"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "Manual ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
   "permanently-delete": [
     {
       "type": 0,
@@ -897,12 +923,6 @@
     {
       "type": 0,
       "value": "Search"
-    }
-  ],
-  "search-open": [
-    {
-      "type": 0,
-      "value": "Open search"
     }
   ],
   "serial-collapse": [

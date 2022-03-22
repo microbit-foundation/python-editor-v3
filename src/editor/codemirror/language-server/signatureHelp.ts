@@ -10,7 +10,10 @@
 import { StateEffect, StateField } from "@codemirror/state";
 import { showTooltip, Tooltip } from "@codemirror/tooltip";
 import {
+  Command,
   EditorView,
+  KeyBinding,
+  keymap,
   logException,
   PluginValue,
   ViewPlugin,
@@ -23,10 +26,10 @@ import {
   SignatureHelpParams,
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
-import { BaseLanguageServerView } from "./common";
+import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
-  wrapWithDocumentationButton,
   renderDocumentation,
+  wrapWithDocumentationButton,
 } from "./documentation";
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
@@ -56,7 +59,52 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   },
 });
 
-export const signatureHelp = (intl: IntlShape) => {
+const closeSignatureHelp: Command = (view: EditorView) => {
+  view.dispatch({
+    effects: setSignatureHelpEffect.of({
+      pos: -1,
+      result: null,
+    }),
+  });
+  return true;
+};
+
+const triggerSignatureHelpRequest = async (view: EditorView): Promise<void> => {
+  const uri = view.state.facet(uriFacet)!;
+  const client = view.state.facet(clientFacet)!;
+  const pos = view.state.selection.main.from;
+  const params: SignatureHelpParams = {
+    textDocument: { uri },
+    position: offsetToPosition(view.state.doc, pos),
+  };
+  try {
+    const result = await client.connection.sendRequest(
+      SignatureHelpRequest.type,
+      params
+    );
+    view.dispatch({
+      effects: [setSignatureHelpEffect.of({ pos, result })],
+    });
+  } catch (e) {
+    logException(view.state, e, "signature-help");
+    view.dispatch({
+      effects: [setSignatureHelpEffect.of({ pos, result: null })],
+    });
+  }
+};
+
+const openSignatureHelp: Command = (view: EditorView) => {
+  triggerSignatureHelpRequest(view);
+  return true;
+};
+
+const signatureHelpKeymap: readonly KeyBinding[] = [
+  // This matches VS Code.
+  { key: "Mod-Shift-Space", run: openSignatureHelp },
+  { key: "Escape", run: closeSignatureHelp },
+];
+
+export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
     create: () => ({
       result: null,
@@ -77,17 +125,16 @@ export const signatureHelp = (intl: IntlShape) => {
     extends BaseLanguageServerView
     implements PluginValue
   {
-    constructor(view: EditorView, private intl: IntlShape) {
+    constructor(view: EditorView, private automatic: boolean) {
       super(view);
     }
-
     update({ docChanged, selectionSet, transactions }: ViewUpdate) {
       if (
         (docChanged || selectionSet) &&
         this.view.state.field(signatureHelpTooltipField).tooltip
       ) {
-        this.triggerSignatureHelpRequest();
-      } else if (docChanged) {
+        triggerSignatureHelpRequest(this.view);
+      } else if (this.automatic && docChanged) {
         const last = transactions[transactions.length - 1];
 
         // This needs to trigger for autocomplete adding function parens
@@ -96,32 +143,10 @@ export const signatureHelp = (intl: IntlShape) => {
         if (last.isUserEvent("input") || last.isUserEvent("dnd.drop.call")) {
           last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
             if (inserted.sliceString(0).trim().endsWith("()")) {
-              this.triggerSignatureHelpRequest();
+              triggerSignatureHelpRequest(this.view);
             }
           });
         }
-      }
-    }
-
-    async triggerSignatureHelpRequest() {
-      const pos = this.view.state.selection.main.from;
-      const params: SignatureHelpParams = {
-        textDocument: { uri: this.uri },
-        position: offsetToPosition(this.view.state.doc, pos),
-      };
-      try {
-        const result = await this.client.connection.sendRequest(
-          SignatureHelpRequest.type,
-          params
-        );
-        this.view.dispatch({
-          effects: [setSignatureHelpEffect.of({ pos, result })],
-        });
-      } catch (e) {
-        logException(this.view.state, e, "signature-help");
-        this.view.dispatch({
-          effects: [setSignatureHelpEffect.of({ pos, result: null })],
-        });
       }
     }
   }
@@ -223,8 +248,10 @@ export const signatureHelp = (intl: IntlShape) => {
   };
 
   return [
-    ViewPlugin.define((view) => new SignatureHelpView(view, intl)),
+    // View only handles automatic triggering.
+    ViewPlugin.define((view) => new SignatureHelpView(view, automatic)),
     signatureHelpTooltipField,
     signatureHelpToolTipBaseTheme,
+    keymap.of(signatureHelpKeymap),
   ];
 };
