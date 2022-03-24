@@ -23,12 +23,12 @@ interface SyncMessage {
 const syncMessages: SyncMessage[] = [
   {
     id: SyncStatus.OUT_OF_SYNC,
-    message: "Running code - out of sync with editor",
+    message: "micro:bit ready to flash",
     color: "yellow",
   },
   {
     id: SyncStatus.IN_SYNC,
-    message: "Running code - in sync with editor",
+    message: "micro:bit flashed",
     color: "lawngreen",
   },
 ];
