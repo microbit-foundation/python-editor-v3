@@ -194,6 +194,7 @@ export class ProjectActions {
                 { filename: file.name }
               ),
             });
+            this.setSyncStatus(SyncStatus.OUT_OF_SYNC);
           } catch (e: any) {
             this.actionFeedback.expectedError({
               title: errorTitle,
@@ -234,6 +235,7 @@ export class ProjectActions {
         await this.fs.write(change.name, data, VersionAction.INCREMENT);
       }
       this.actionFeedback.success(this.summarizeChanges(changes));
+      this.setSyncStatus(SyncStatus.OUT_OF_SYNC);
     } catch (e: any) {
       this.actionFeedback.unexpectedError(e);
     }
