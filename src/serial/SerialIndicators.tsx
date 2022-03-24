@@ -3,8 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
-import { RiErrorWarningLine, RiTerminalBoxLine } from "react-icons/ri";
+import { BoxProps, Flex, HStack, Icon, Text } from "@chakra-ui/react";
+import { IconType } from "react-icons";
+import {
+  RiCheckLine,
+  RiErrorWarningLine,
+  RiFlashlightFill,
+  RiTerminalBoxLine,
+} from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { SyncStatus, Traceback, useSyncStatus } from "../device/device-hooks";
 import MaybeTracebackLink from "./MaybeTracebackLink";
@@ -18,6 +24,7 @@ interface SyncMessage {
   id: SyncStatus;
   message: string;
   color: string;
+  icon?: IconType;
 }
 
 const syncMessages: SyncMessage[] = [
@@ -25,11 +32,13 @@ const syncMessages: SyncMessage[] = [
     id: SyncStatus.OUT_OF_SYNC,
     message: "micro:bit ready to flash",
     color: "yellow",
+    icon: RiFlashlightFill,
   },
   {
     id: SyncStatus.IN_SYNC,
     message: "micro:bit flashed",
     color: "lawngreen",
+    icon: RiCheckLine,
   },
 ];
 
@@ -57,7 +66,17 @@ const SerialIndicators = ({
         )}
         {!traceback && (
           <Text color={syncMessage?.color}>
-            <FormattedMessage id={syncMessage?.message} />
+            <Flex align="center">
+              <FormattedMessage id={syncMessage?.message} />
+              {syncMessage?.icon && (
+                <Icon
+                  ml={1}
+                  as={syncMessage?.icon}
+                  fill={syncMessage?.color}
+                  boxSize={5}
+                />
+              )}
+            </Flex>
           </Text>
         )}
       </HStack>
