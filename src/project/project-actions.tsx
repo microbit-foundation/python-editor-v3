@@ -99,6 +99,8 @@ export class ProjectActions {
     } else {
       try {
         await this.device.connect();
+        // Always assume that the code and device are out of sync on connect.
+        this.setSyncStatus(SyncStatus.OUT_OF_SYNC);
       } catch (e) {
         this.handleWebUSBError(e);
       }
