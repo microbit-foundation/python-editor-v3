@@ -6,13 +6,32 @@
 import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
 import { RiErrorWarningLine, RiTerminalBoxLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import { Traceback } from "../device/device-hooks";
+import { SyncStatus, Traceback, useSyncStatus } from "../device/device-hooks";
 import MaybeTracebackLink from "./MaybeTracebackLink";
 
 interface SerialIndicatorsProps extends BoxProps {
   compact?: boolean;
   traceback?: Traceback | undefined;
 }
+
+interface SyncMessage {
+  id: SyncStatus;
+  message: string;
+  color: string;
+}
+
+const syncMessages: SyncMessage[] = [
+  {
+    id: SyncStatus.OUT_OF_SYNC,
+    message: "Running code - out of sync with editor",
+    color: "yellow",
+  },
+  {
+    id: SyncStatus.IN_SYNC,
+    message: "Running code - in sync with editor",
+    color: "lawngreen",
+  },
+];
 
 /**
  * Icon and traceback status.
@@ -22,6 +41,8 @@ const SerialIndicators = ({
   traceback,
   ...props
 }: SerialIndicatorsProps) => {
+  const [syncStatus] = useSyncStatus();
+  const syncMessage = syncMessages.find((m) => m.id === syncStatus);
   return (
     <HStack {...props}>
       <Icon m={1} as={RiTerminalBoxLine} fill="white" boxSize={5} />
@@ -35,8 +56,8 @@ const SerialIndicators = ({
           </>
         )}
         {!traceback && (
-          <Text color="white">
-            <FormattedMessage id="serial-running" />
+          <Text color={syncMessage?.color}>
+            <FormattedMessage id={syncMessage?.message} />
           </Text>
         )}
       </HStack>

@@ -18,6 +18,7 @@ import {
   WebUSBError,
   WebUSBErrorCode,
 } from "../device/device";
+import { SyncStatus } from "../device/device-hooks";
 import { FileSystem, MAIN_FILE, Statistics, VersionAction } from "../fs/fs";
 import {
   getLowercaseFileExtension,
@@ -25,6 +26,7 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
+import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
@@ -35,13 +37,12 @@ import {
 } from "./changes";
 import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import NewFileNameQuestion from "./NewFileNameQuestion";
+import { DefaultedProject } from "./project-hooks";
 import {
   ensurePythonExtension,
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
-import { LanguageServerClient } from "../language-server/client";
-import { DefaultedProject } from "./project-hooks";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -74,7 +75,8 @@ export class ProjectActions {
     private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined
+    private client: LanguageServerClient | undefined,
+    private setSyncStatus: (syncStatus: SyncStatus) => void
   ) {}
 
   private get project(): DefaultedProject {
@@ -313,6 +315,7 @@ export class ProjectActions {
         });
       };
       await this.device.flash(this.fs, { partial: true, progress });
+      this.setSyncStatus(SyncStatus.IN_SYNC);
     } catch (e) {
       if (e instanceof HexGenerationError) {
         this.actionFeedback.expectedError({
@@ -427,6 +430,7 @@ export class ProjectActions {
         this.actionFeedback.success({
           title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });
+        this.setSyncStatus(SyncStatus.OUT_OF_SYNC);
       } catch (e) {
         this.actionFeedback.unexpectedError(e);
       }
@@ -457,6 +461,7 @@ export class ProjectActions {
         this.actionFeedback.success({
           title: this.intl.formatMessage({ id: "deleted-file" }, { filename }),
         });
+        this.setSyncStatus(SyncStatus.OUT_OF_SYNC);
       }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);

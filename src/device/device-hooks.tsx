@@ -3,15 +3,23 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useLogging } from "../logging/logging-hooks";
 import {
-  DeviceConnection,
-  EVENT_STATUS,
   ConnectionStatus,
+  DeviceConnection,
   EVENT_SERIAL_DATA,
-  EVENT_SERIAL_RESET,
   EVENT_SERIAL_ERROR,
+  EVENT_SERIAL_RESET,
+  EVENT_STATUS,
 } from "./device";
 
 const DeviceContext = React.createContext<undefined | DeviceConnection>(
@@ -195,4 +203,32 @@ export const useDeviceTraceback = () => {
   }, [device, setRuntimeError, logging]);
 
   return runtimeError;
+};
+
+export enum SyncStatus {
+  OUT_OF_SYNC = "OUT_OF_SYNC",
+  IN_SYNC = "IN_SYNC",
+}
+
+type UseSyncStatus = [SyncStatus, Dispatch<SetStateAction<SyncStatus>>];
+
+const SyncContext = React.createContext<undefined | UseSyncStatus>(undefined);
+
+export const useSyncStatus = (): UseSyncStatus => {
+  const value = useContext(SyncContext);
+  if (!value) {
+    throw new Error("Missing provider!");
+  }
+  return value;
+};
+
+export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(
+    SyncStatus.OUT_OF_SYNC
+  );
+  const value: UseSyncStatus = useMemo(
+    () => [syncStatus, setSyncStatus],
+    [syncStatus, setSyncStatus]
+  );
+  return <SyncContext.Provider value={value}>{children}</SyncContext.Provider>;
 };

@@ -9,6 +9,7 @@ import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
+import { SyncStatus, useSyncStatus } from "../../device/device-hooks";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { useLogging } from "../../logging/logging-hooks";
@@ -62,6 +63,7 @@ const CodeMirror = ({
   const client = useLanguageServerClient();
   const intl = useIntl();
   const [, setEditorInfo] = useActiveEditorInfoState();
+  const [, setSyncStatus] = useSyncStatus();
   const logging = useLogging();
 
   // Reset undo/redo events on file change.
@@ -92,6 +94,7 @@ const CodeMirror = ({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
           });
+          setSyncStatus(SyncStatus.OUT_OF_SYNC);
         }
       });
       const state = EditorState.create({
@@ -134,6 +137,7 @@ const CodeMirror = ({
     options,
     setActiveEditor,
     setEditorInfo,
+    setSyncStatus,
     parameterHelpOption,
     uri,
   ]);

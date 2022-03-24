@@ -11,14 +11,17 @@ import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
-import { DeviceContextProvider } from "./device/device-hooks";
+import {
+  DeviceContextProvider,
+  SyncStatusProvider,
+} from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import SearchProvider from "./documentation/search/search-hooks";
 import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
-import { createHost } from "./fs/host";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
+import { createHost } from "./fs/host";
 import { fetchMicroPython } from "./fs/micropython";
 import { trackFsChanges } from "./language-server/client-fs";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
@@ -83,20 +86,22 @@ const App = () => {
                 <DeviceContextProvider value={device}>
                   <FileSystemProvider value={fs}>
                     <LanguageServerClientProvider value={client}>
-                      <BeforeUnloadDirtyCheck />
-                      <ToolkitProvider>
-                        <SearchProvider>
-                          <SelectionProvider>
-                            <RouterProvider>
-                              <ProjectDropTarget>
-                                <ActiveEditorProvider>
-                                  <Workbench />
-                                </ActiveEditorProvider>
-                              </ProjectDropTarget>
-                            </RouterProvider>
-                          </SelectionProvider>
-                        </SearchProvider>
-                      </ToolkitProvider>
+                      <SyncStatusProvider>
+                        <BeforeUnloadDirtyCheck />
+                        <ToolkitProvider>
+                          <SearchProvider>
+                            <SelectionProvider>
+                              <RouterProvider>
+                                <ProjectDropTarget>
+                                  <ActiveEditorProvider>
+                                    <Workbench />
+                                  </ActiveEditorProvider>
+                                </ProjectDropTarget>
+                              </RouterProvider>
+                            </SelectionProvider>
+                          </SearchProvider>
+                        </ToolkitProvider>
+                      </SyncStatusProvider>
                     </LanguageServerClientProvider>
                   </FileSystemProvider>
                 </DeviceContextProvider>
