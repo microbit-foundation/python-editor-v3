@@ -5,6 +5,7 @@
  */
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { redoDepth, undoDepth } from "@codemirror/history";
+import { lintGutter } from "@codemirror/lint";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
@@ -100,6 +101,8 @@ const CodeMirror = ({
           notify,
           editorConfig,
           // Extensions only relevant for editing:
+          // Order of lintGutter and lineNumbers determines how they are displayed.
+          lintGutter(),
           lineNumbers(),
           highlightActiveLineGutter(),
           highlightActiveLine(),
