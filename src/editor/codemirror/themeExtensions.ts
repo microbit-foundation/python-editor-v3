@@ -24,9 +24,12 @@ export const themeExtensions = (fontSize: string) => {
       border: "unset",
       color: "var(--chakra-colors-gray-600)",
     },
-    // Half width to accomodate two gutters (lint and line numbers).
+    // Widths to accomodate two gutters (lint and line numbers).
+    ".cm-gutter.cm-gutter-lint": {
+      width: "auto",
+    },
     ".cm-gutter": {
-      width: "2.5rem",
+      width: "3.5rem",
     },
     // Don't show markers for diagnostics at info level.
     ".cm-lint-marker-info": {
