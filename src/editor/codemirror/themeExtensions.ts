@@ -26,10 +26,11 @@ export const themeExtensions = (fontSize: string) => {
     },
     // Widths to accomodate two gutters (lint and line numbers).
     ".cm-gutter.cm-gutter-lint": {
-      width: "auto",
+      width: "1.8rem",
+      minWidth: "unset",
     },
     ".cm-gutter": {
-      width: "3.5rem",
+      minWidth: "3.2rem",
     },
     // Don't show markers for diagnostics at info level.
     ".cm-lint-marker-info": {
