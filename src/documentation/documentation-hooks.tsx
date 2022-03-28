@@ -10,17 +10,17 @@ import { useLanguageServerClient } from "../language-server/language-server-hook
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
 import dragImage from "./drag-image.svg";
-import { fetchToolkit } from "./explore/api";
-import { Toolkit } from "./explore/model";
+import { fetchToolkit } from "./reference/api";
+import { Toolkit } from "./reference/model";
 import { pullModulesToTop } from "./api/apidocs-util";
 
-export type ExploreToolkitState =
+export type ReferenceToolkitState =
   | { status: "ok"; toolkit: Toolkit }
   | { status: "error" }
   | { status: "loading" };
 
-export const useExploreToolkit = (): ExploreToolkitState => {
-  const [state, setState] = useState<ExploreToolkitState>({
+export const useReferenceToolkit = (): ReferenceToolkitState => {
+  const [state, setState] = useState<ReferenceToolkitState>({
     status: "loading",
   });
   const logging = useLogging();

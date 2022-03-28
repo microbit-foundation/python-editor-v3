@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ApiDocsResponse } from "../../language-server/apidocs";
-import { Toolkit } from "../explore/model";
+import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
 import {
   SearchableContent,
@@ -13,7 +13,7 @@ import {
   buildToolkitIndex,
 } from "./search";
 
-const searchableExploreContent: SearchableContent[] = [
+const searchableReferenceContent: SearchableContent[] = [
   {
     id: "indentations",
     title: "Indentations",
@@ -38,7 +38,7 @@ const searchableExploreContent: SearchableContent[] = [
 ];
 
 describe("Search", () => {
-  const search = buildSearchIndex(searchableExploreContent, "explore");
+  const search = buildSearchIndex(searchableReferenceContent, "reference");
 
   it("finds stuff", () => {
     expect(search.search("python")).toEqual([
@@ -47,8 +47,8 @@ describe("Search", () => {
         containerTitle: "Loops",
         id: "indentations",
         navigation: {
-          tab: "explore",
-          explore: { id: "indentations" },
+          tab: "reference",
+          reference: { id: "indentations" },
         },
         extract: {
           title: [
@@ -81,13 +81,13 @@ describe("Search", () => {
 });
 
 describe("buildToolkitIndex", () => {
-  it("uses language from the toolkit for the Explore index", async () => {
+  it("uses language from the toolkit for the Reference index", async () => {
     const api: ApiDocsResponse = {};
     const toolkitEn: Toolkit = {
-      id: "explore",
+      id: "reference",
       description: "description",
       language: "en",
-      name: "Explore",
+      name: "Reference",
       contents: [
         {
           name: "that is a stopword (literally)",
@@ -102,14 +102,14 @@ describe("buildToolkitIndex", () => {
       language: "fr",
     };
     const enIndex = await buildToolkitIndex(toolkitEn, api);
-    expect(enIndex.search("topic").explore.length).toEqual(1);
+    expect(enIndex.search("topic").reference.length).toEqual(1);
     // "that" is an English stopword
-    expect(enIndex.search("that").explore.length).toEqual(0);
+    expect(enIndex.search("that").reference.length).toEqual(0);
 
     const frIndex = await buildToolkitIndex(toolkitFr, api);
-    expect(frIndex.search("topic").explore.length).toEqual(1);
+    expect(frIndex.search("topic").reference.length).toEqual(1);
     // "that" is not a French stopword
-    expect(frIndex.search("that").explore.length).toEqual(1);
+    expect(frIndex.search("that").reference.length).toEqual(1);
   });
 });
 
@@ -136,10 +136,10 @@ describe("SearchWorker", () => {
 
     const indexMessage: IndexMessage = {
       kind: "index",
-      explore: {
-        id: "explore",
-        description: "Explore stuff",
-        name: "Explore",
+      reference: {
+        id: "reference",
+        description: "Reference stuff",
+        name: "Reference",
         contents: [],
         language: "en",
       },
@@ -153,7 +153,7 @@ describe("SearchWorker", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(postMessage.mock.calls).toEqual([
-      [{ explore: [], api: [], kind: "queryResponse" }],
+      [{ reference: [], api: [], kind: "queryResponse" }],
     ]);
   });
 
@@ -167,10 +167,10 @@ describe("SearchWorker", () => {
 
     const emptyIndex: IndexMessage = {
       kind: "index",
-      explore: {
-        id: "explore",
-        description: "Explore stuff",
-        name: "Explore",
+      reference: {
+        id: "reference",
+        description: "Reference stuff",
+        name: "Reference",
         contents: [],
         language: "en",
       },
@@ -178,10 +178,10 @@ describe("SearchWorker", () => {
     };
     const fullIndex: IndexMessage = {
       kind: "index",
-      explore: {
-        id: "explore",
-        description: "Explore stuff",
-        name: "Explore",
+      reference: {
+        id: "reference",
+        description: "Reference stuff",
+        name: "Reference",
         contents: [
           {
             name: "Hello",
@@ -219,7 +219,7 @@ describe("SearchWorker", () => {
     await queryHello();
 
     expect(postMessage.mock.calls.length).toEqual(2);
-    expect(postMessage.mock.calls[0][0].explore.length).toEqual(0);
-    expect(postMessage.mock.calls[1][0].explore.length).toEqual(1);
+    expect(postMessage.mock.calls[0][0].reference.length).toEqual(0);
+    expect(postMessage.mock.calls[1][0].reference.length).toEqual(1);
   });
 });

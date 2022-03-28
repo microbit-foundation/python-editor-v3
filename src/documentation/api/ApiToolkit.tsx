@@ -12,11 +12,11 @@ import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
-import { useAnimationDirection } from "../explore/toolkit-hooks";
-import ToolkitBreadcrumbHeading from "../explore/ToolkitBreadcrumbHeading";
+import { useAnimationDirection } from "../reference/toolkit-hooks";
+import ToolkitBreadcrumbHeading from "../reference/ToolkitBreadcrumbHeading";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import AreaHeading from "../../common/AreaHeading";
-import ToolkitTopLevelListItem from "../explore/ToolkitTopLevelListItem";
+import ToolkitTopLevelListItem from "../reference/ToolkitTopLevelListItem";
 import { resolveModule } from "./apidocs-util";
 import ApiNode from "./ApiNode";
 

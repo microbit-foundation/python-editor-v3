@@ -8,15 +8,15 @@
  * SPDX-License-Identifier: MIT */
 import type { ApiDocsResponse } from "../../language-server/apidocs";
 import type { RouterState } from "../../router-hooks";
-import type { Toolkit } from "../explore/model";
+import type { Toolkit } from "../reference/model";
 
 export interface Search {
   search(text: string): Promise<SearchResults>;
-  index(explore: Toolkit, api: ApiDocsResponse): void;
+  index(reference: Toolkit, api: ApiDocsResponse): void;
 }
 
 export interface SearchResults {
-  explore: Result[];
+  reference: Result[];
   api: Result[];
 }
 
@@ -40,7 +40,7 @@ export interface Extracts {
 
 export interface IndexMessage {
   kind: "index";
-  explore: Toolkit;
+  reference: Toolkit;
   api: ApiDocsResponse;
 }
 

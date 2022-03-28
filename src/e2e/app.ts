@@ -794,7 +794,7 @@ export class App {
    * Prefer more specific navigation actions, but this is useful to check initial state
    * and that tab state is remembered.
    */
-  async switchTab(tabName: "Files" | "API" | "Explore") {
+  async switchTab(tabName: "Files" | "API" | "Reference") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,

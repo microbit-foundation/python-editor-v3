@@ -20,7 +20,7 @@ describe("Browser - toolkit tabs", () => {
   });
 
   it("Insert code", async () => {
-    await app.switchTab("Explore");
+    await app.switchTab("Reference");
     await app.selectToolkitSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -31,7 +31,7 @@ describe("Browser - toolkit tabs", () => {
   });
 
   it("Insert code after dropdown choice", async () => {
-    await app.switchTab("Explore");
+    await app.switchTab("Reference");
     await app.selectToolkitSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -49,7 +49,7 @@ describe("Browser - toolkit tabs", () => {
     await app.selectAllInEditor();
     await app.typeInEditor("#1\n#2\n#3\n");
     await app.findVisibleEditorContents("#2");
-    await app.switchTab("Explore");
+    await app.switchTab("Reference");
     await app.selectToolkitSection("Display");
 
     await app.dragDropToolkitCode("Scroll", 2);

@@ -36,7 +36,7 @@ const anchorForParam = (param: string | null): Anchor | undefined =>
 export class RouterParam<T> {
   static tab: RouterParam<string> = new RouterParam("tab");
   static api: RouterParam<Anchor> = new RouterParam("api");
-  static explore: RouterParam<Anchor> = new RouterParam("explore");
+  static reference: RouterParam<Anchor> = new RouterParam("reference");
 
   private constructor(public id: keyof RouterState) {}
 
@@ -48,7 +48,7 @@ export class RouterParam<T> {
 
 export interface RouterState {
   tab?: string;
-  explore?: Anchor;
+  reference?: Anchor;
   api?: Anchor;
 }
 
@@ -66,7 +66,7 @@ const parse = (search: string): RouterState => {
   return {
     tab: params.get("tab") ?? undefined,
     api: anchorForParam(params.get("api")),
-    explore: anchorForParam(params.get("explore")),
+    reference: anchorForParam(params.get("reference")),
   };
 };
 
@@ -121,7 +121,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       if (source) {
         logging.event({
           type: source,
-          message: newState.explore?.id || newState.api?.id,
+          message: newState.reference?.id || newState.api?.id,
         });
       }
       const url = toUrl(newState);

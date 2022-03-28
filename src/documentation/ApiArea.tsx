@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ApiToolkit } from "./api/ApiToolkit";
-import ToolkitSpinner from "./explore/ToolkitSpinner";
+import ToolkitSpinner from "./reference/ToolkitSpinner";
 import { useToolkitState } from "./toolkit-hooks";
 
 const ApiArea = () => {

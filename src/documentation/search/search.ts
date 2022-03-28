@@ -11,7 +11,7 @@ import type {
   ApiDocsEntry,
   ApiDocsResponse,
 } from "../../language-server/apidocs";
-import type { Toolkit, ToolkitTopic } from "../explore/model";
+import type { Toolkit, ToolkitTopic } from "../reference/model";
 import { blocksToText } from "./blocks-to-text";
 import {
   Extracts,
@@ -54,7 +54,7 @@ export class SearchIndex {
   constructor(
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
-    private tab: "explore" | "api"
+    private tab: "reference" | "api"
   ) {}
 
   search(text: string): Result[] {
@@ -113,11 +113,11 @@ const getExtracts = (
 };
 
 export class LunrSearch {
-  constructor(private explore: SearchIndex, private api: SearchIndex) {}
+  constructor(private reference: SearchIndex, private api: SearchIndex) {}
 
   search(text: string): SearchResults {
     return {
-      explore: this.explore.search(text),
+      reference: this.reference.search(text),
       api: this.api.search(text),
     };
   }
@@ -126,7 +126,7 @@ export class LunrSearch {
 export interface SearchableContent {
   id: string;
   /**
-   * The API module or Explore topic.
+   * The API module or Reference topic.
    */
   containerTitle: string;
   title: string;
@@ -137,7 +137,7 @@ const defaultString = (string: string | undefined): string => {
   return string || "";
 };
 
-const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
+const referenceSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
   const content: SearchableContent[] = [];
   toolkit.contents?.forEach((t) => {
     if (!isSingletonTopic(t)) {
@@ -197,7 +197,7 @@ const apiSearchableContent = (
 
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
-  tab: "explore" | "api",
+  tab: "reference" | "api",
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
   const index = lunr(function () {
@@ -216,10 +216,10 @@ export const buildSearchIndex = (
 
 // Exposed for testing.
 export const buildToolkitIndex = async (
-  exploreToolkit: Toolkit,
+  referenceToolkit: Toolkit,
   apiToolkit: ApiDocsResponse
 ): Promise<LunrSearch> => {
-  const language = exploreToolkit.language;
+  const language = referenceToolkit.language;
   const languageSupport = await retryAsyncLoad(() =>
     loadLunrLanguageSupport(language)
   );
@@ -235,8 +235,8 @@ export const buildToolkitIndex = async (
 
   return new LunrSearch(
     buildSearchIndex(
-      exploreSearchableContent(exploreToolkit),
-      "explore",
+      referenceSearchableContent(referenceToolkit),
+      "reference",
       ...plugins
     ),
     buildSearchIndex(apiSearchableContent(apiToolkit), "api")
@@ -281,7 +281,7 @@ export class SearchWorker {
   }
 
   private async index(message: IndexMessage) {
-    this.search = await buildToolkitIndex(message.explore, message.api);
+    this.search = await buildToolkitIndex(message.reference, message.api);
     this.recordInitialization!();
   }
 

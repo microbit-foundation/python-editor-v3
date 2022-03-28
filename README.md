@@ -108,7 +108,7 @@ We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for tr
 
 Add strings to `lang/en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
-There is a French translation of the main user interface text and the "Explore" tab content.
+There is a French translation of the main user interface text and the "Reference" tab content.
 The API tab and code error messages shown in the editor are not currently translated.
 
 ## License

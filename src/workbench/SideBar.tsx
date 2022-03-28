@@ -20,7 +20,7 @@ import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
-import ExploreArea from "../documentation/ExploreArea";
+import ReferenceArea from "../documentation/ReferenceArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ApiArea from "../documentation/ApiArea";
 import FilesArea from "../files/FilesArea";
@@ -65,7 +65,7 @@ const SideBar = ({
         id: "reference",
         title: intl.formatMessage({ id: "reference-tab" }),
         icon: VscLibrary,
-        contents: <ExploreArea />,
+        contents: <ReferenceArea />,
         color: "gray.25",
       },
       {
@@ -100,7 +100,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, explore, api }, setParams] = useRouterState();
+  const [{ tab, reference, api }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
@@ -115,12 +115,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (explore || api) {
+    if (reference || api) {
       setParams({
         tab,
       });
     }
-  }, [explore, api, tab, setParams]);
+  }, [reference, api, tab, setParams]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">

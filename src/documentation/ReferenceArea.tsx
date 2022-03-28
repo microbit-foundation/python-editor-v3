@@ -5,13 +5,13 @@
  */
 import { Text } from "@chakra-ui/layout";
 import { FormattedMessage } from "react-intl";
-import ExploreToolkit from "./explore/ExploreToolkit";
-import ToolkitSpinner from "./explore/ToolkitSpinner";
+import ReferenceToolkit from "./reference/ReferenceToolkit";
+import ToolkitSpinner from "./reference/ToolkitSpinner";
 import { useToolkitState } from "./toolkit-hooks";
 
-const ExploreArea = () => {
-  const { exploreToolkit } = useToolkitState();
-  switch (exploreToolkit.status) {
+const ReferenceArea = () => {
+  const { referenceToolkit } = useToolkitState();
+  switch (referenceToolkit.status) {
     case "loading":
       return <ToolkitSpinner />;
     case "error":
@@ -21,10 +21,10 @@ const ExploreArea = () => {
         </Text>
       );
     case "ok":
-      return <ExploreToolkit toolkit={exploreToolkit.toolkit} />;
+      return <ReferenceToolkit toolkit={referenceToolkit.toolkit} />;
     default:
       throw new Error();
   }
 };
 
-export default ExploreArea;
+export default ReferenceArea;

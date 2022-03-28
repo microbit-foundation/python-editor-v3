@@ -215,9 +215,9 @@
     "defaultMessage": "Edit project name",
     "description": "Text for user to edit the name of the project"
   },
-  "explore-tab": {
-    "defaultMessage": "Explore",
-    "description": "Explore tab button text"
+  "reference-tab": {
+    "defaultMessage": "Reference",
+    "description": "Reference tab button text"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
@@ -434,10 +434,6 @@
   "api-description": {
     "defaultMessage": "API documentation for micro:bit MicroPython",
     "description": "Description at the top of the API tab"
-  },
-  "reference-tab": {
-    "defaultMessage": "Reference",
-    "description": "Reference tab button text"
   },
   "replace-action-label": {
     "defaultMessage": "Replace",

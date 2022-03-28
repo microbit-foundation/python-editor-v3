@@ -102,13 +102,13 @@ const SearchDialog = ({
               <FormattedMessage
                 id="results-count"
                 values={{
-                  count: results.explore.length + results.api.length,
+                  count: results.reference.length + results.api.length,
                 }}
               />
             </Text>
             <SearchResultList
-              title={intl.formatMessage({ id: "explore-tab" })}
-              results={results.explore}
+              title={intl.formatMessage({ id: "reference-tab" })}
+              results={results.reference}
               viewedResults={viewedResults}
               onViewResult={onViewResult}
             />

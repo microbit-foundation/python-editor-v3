@@ -26,7 +26,7 @@ import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useCodeDragImage } from "../documentation-hooks";
-import Highlight from "../explore/Highlight";
+import Highlight from "../reference/Highlight";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",

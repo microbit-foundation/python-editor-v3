@@ -16,7 +16,7 @@ import ToolkitTopicEntry from "./ToolkitTopicEntry";
 import AreaHeading from "../../common/AreaHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
 
-interface ExploreToolkitProps {
+interface ReferenceToolkitProps {
   toolkit: Toolkit;
 }
 
@@ -26,8 +26,8 @@ interface ExploreToolkitProps {
  * The components used here are also used with the API data to
  * generate the API documentation.
  */
-const ExploreToolkit = ({ toolkit }: ExploreToolkitProps) => {
-  const [anchor, setAnchor] = useRouterParam(RouterParam.explore);
+const ReferenceToolkit = ({ toolkit }: ReferenceToolkitProps) => {
+  const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
   const direction = useAnimationDirection(anchor);
   const topicOrEntryId = anchor?.id;
   const handleNavigate = useCallback(
@@ -51,7 +51,7 @@ const ExploreToolkit = ({ toolkit }: ExploreToolkitProps) => {
   );
 };
 
-interface ActiveToolkitLevelProps extends ExploreToolkitProps {
+interface ActiveToolkitLevelProps extends ReferenceToolkitProps {
   anchor: Anchor | undefined;
   topicOrEntryId: string | undefined;
   onNavigate: (topicOrEntryId: string | undefined) => void;
@@ -128,4 +128,4 @@ const ActiveToolkitLevel = ({
   );
 };
 
-export default ExploreToolkit;
+export default ReferenceToolkit;

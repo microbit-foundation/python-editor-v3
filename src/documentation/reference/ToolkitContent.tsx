@@ -66,8 +66,8 @@ const ToolkitInternalLinkMark = (
         setState(
           {
             ...state,
-            tab: "explore",
-            explore: {
+            tab: "reference",
+            reference: {
               id: props.mark.slug.current,
             },
           },
