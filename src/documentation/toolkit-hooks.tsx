@@ -6,14 +6,14 @@
 import { createContext, ReactNode, useContext, useMemo } from "react";
 import { ApiDocsResponse } from "../language-server/apidocs";
 import {
-  ExploreToolkitState,
+  ReferenceToolkitState,
   useApiDocs,
-  useExploreToolkit,
+  useReferenceToolkit,
 } from "./documentation-hooks";
 
 export interface ToolkitContextValue {
-  exploreToolkit: ExploreToolkitState;
-  referenceToolkit: ApiDocsResponse | undefined;
+  referenceToolkit: ReferenceToolkitState;
+  apiToolkit: ApiDocsResponse | undefined;
 }
 
 const ToolkitContext = createContext<ToolkitContextValue | undefined>(
@@ -29,12 +29,12 @@ export const useToolkitState = (): ToolkitContextValue => {
 };
 
 const ToolkitProvider = ({ children }: { children: ReactNode }) => {
-  const exploreToolkit = useExploreToolkit();
-  const referenceToolkit = useApiDocs();
+  const referenceToolkit = useReferenceToolkit();
+  const apiToolkit = useApiDocs();
 
   const value: ToolkitContextValue = useMemo(() => {
-    return { exploreToolkit, referenceToolkit };
-  }, [exploreToolkit, referenceToolkit]);
+    return { referenceToolkit, apiToolkit };
+  }, [referenceToolkit, apiToolkit]);
   return (
     <ToolkitContext.Provider value={value}>{children}</ToolkitContext.Provider>
   );

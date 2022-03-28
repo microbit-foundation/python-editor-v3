@@ -31,6 +31,14 @@
     "defaultMessage": "Тхіс філе алреаду ексістс",
     "description": "File already exists notification text"
   },
+  "api-description": {
+    "defaultMessage": "API documentation for micro:bit MicroPython",
+    "description": "Description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
+  },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {басе сласс} other {басе слассес: }}",
     "description": "Prefix for a single base class or a list of base classes"
@@ -214,10 +222,6 @@
   "edit-project-name-action": {
     "defaultMessage": "Eдіт проджест наме",
     "description": "Text for user to edit the name of the project"
-  },
-  "explore-tab": {
-    "defaultMessage": "Eксплоре",
-    "description": "Explore tab button text"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Фаілед то бюілд тхе хекс філе",
@@ -406,14 +410,6 @@
     "defaultMessage": "Проджест хеадер",
     "description": "Aria label for the project header area"
   },
-  "projects-tab": {
-    "defaultMessage": "Projects",
-    "description": "Projects tab button text"
-  },
-  "projects-tab-description": {
-    "defaultMessage": "Placeholder for projects with full working code examples",
-    "description": "Projects tab description text"
-  },
   "python-powered": {
     "defaultMessage": "Путхон поверед",
     "description": "Python powered logo alt text"
@@ -437,10 +433,6 @@
   "redo": {
     "defaultMessage": "Redo",
     "description": "Aria label for the redo button"
-  },
-  "reference-description": {
-    "defaultMessage": "Референсе досюментатіон фор місро:біт МісроПутхон",
-    "description": "Description at the top of the Reference tab"
   },
   "reference-tab": {
     "defaultMessage": "Референсе",
@@ -514,6 +506,10 @@
     "defaultMessage": "Сеттінджс",
     "description": "Settings text"
   },
+  "show-api-documentation": {
+    "defaultMessage": "Show API documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+  },
   "show-less": {
     "defaultMessage": "Схов лесс",
     "description": "Show less for general progressive disclosure"
@@ -529,10 +525,6 @@
   "show-more-for": {
     "defaultMessage": "Схов море фор {item}",
     "description": "Show more with item usually for aria label"
-  },
-  "show-reference-documentation": {
-    "defaultMessage": "Схов референсе досюментатіон",
-    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
   },
   "sidebar": {
     "defaultMessage": "Сідебар",

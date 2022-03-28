@@ -26,7 +26,7 @@ import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useCodeDragImage } from "../documentation-hooks";
-import Highlight from "../explore/Highlight";
+import Highlight from "../reference/Highlight";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -61,7 +61,7 @@ interface ApiDocEntryNodeProps extends BoxProps {
   parentType?: string;
 }
 
-const ReferenceNode = ({
+const ApiNode = ({
   anchor,
   docs,
   parentType,
@@ -92,18 +92,18 @@ const ReferenceNode = ({
         mb={1}
         {...props}
       >
-        <ReferenceNodeSelf
+        <ApiNodeSelf
           docs={docs}
           showMore={disclosure.isOpen}
           onToggleShowMore={disclosure.onToggle}
         />
-        <ReferenceNodeChildren docs={docs} anchor={anchor} />
+        <ApiNodeChildren docs={docs} anchor={anchor} />
       </Stack>
     </Highlight>
   );
 };
 
-interface ReferenceNodeSelfProps {
+interface ApiNodeSelfProps {
   docs: ApiDocsEntry;
   showMore: boolean;
   onToggleShowMore: () => void;
@@ -112,11 +112,11 @@ interface ReferenceNodeSelfProps {
 /**
  * The current node's details, not its children.
  */
-const ReferenceNodeSelf = ({
+const ApiNodeSelf = ({
   docs,
   showMore,
   onToggleShowMore,
-}: ReferenceNodeSelfProps) => {
+}: ApiNodeSelfProps) => {
   const { name, fullName, kind, params, baseClasses, docString } = docs;
   const { signature, hasSignatureDetail } = buildSignature(
     kind,
@@ -174,15 +174,12 @@ const ReferenceNodeSelf = ({
   );
 };
 
-interface ReferenceNodeChildrenProps {
+interface ApiNodeChildrenProps {
   anchor: Anchor | undefined;
   docs: ApiDocsEntry;
 }
 
-const ReferenceNodeChildren = ({
-  docs,
-  anchor,
-}: ReferenceNodeChildrenProps) => {
+const ApiNodeChildren = ({ docs, anchor }: ApiNodeChildrenProps) => {
   const { kind, children } = docs;
   const intl = useIntl();
   const groupedChildren = useMemo(() => {
@@ -206,7 +203,7 @@ const ReferenceNodeChildren = ({
                   {groupHeading(intl, kind, childKind)}
                 </Text>
                 {groupedChildren?.get(childKind as any)?.map((c) => (
-                  <ReferenceNode
+                  <ApiNode
                     anchor={anchor}
                     key={c.id}
                     docs={c}
@@ -413,4 +410,4 @@ const DraggableSignature = ({
   );
 };
 
-export default ReferenceNode;
+export default ApiNode;

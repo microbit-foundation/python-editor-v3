@@ -12,7 +12,7 @@ const toolkitQuery = (languageId: string): string => {
     throw new Error("Invalid language id.");
   }
   return `
-  *[_type == "toolkit" && language == "${languageId}" && slug.current == "explore" && !(_id in path("drafts.**"))]{
+  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{
     id, name, description, language,
     contents[]->{
       name, slug, compatibility, subtitle, image,

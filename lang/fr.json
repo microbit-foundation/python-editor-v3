@@ -31,6 +31,14 @@
     "defaultMessage": "Ce fichier existe déjà",
     "description": "File already exists notification text"
   },
+  "api-description": {
+    "defaultMessage": "API documentation for micro:bit MicroPython",
+    "description": "Description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
+  },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
     "description": "Prefix for a single base class or a list of base classes"
@@ -214,10 +222,6 @@
   "edit-project-name-action": {
     "defaultMessage": "Modifier le nom du projet",
     "description": "Text for user to edit the name of the project"
-  },
-  "explore-tab": {
-    "defaultMessage": "Explorer",
-    "description": "Explore tab button text"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Impossible de créer le fichier hex",
@@ -430,10 +434,6 @@
     "defaultMessage": "Refaire",
     "description": "Aria label for the redo button"
   },
-  "reference-description": {
-    "defaultMessage": "Documentation de référence pour MicroPython de micro:bit",
-    "description": "Description at the top of the Reference tab"
-  },
   "reference-tab": {
     "defaultMessage": "Référence",
     "description": "Reference tab button text"
@@ -506,6 +506,10 @@
     "defaultMessage": "Paramètres",
     "description": "Settings text"
   },
+  "show-api-documentation": {
+    "defaultMessage": "Show API documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+  },
   "show-less": {
     "defaultMessage": "Afficher moins",
     "description": "Show less for general progressive disclosure"
@@ -521,10 +525,6 @@
   "show-more-for": {
     "defaultMessage": "Afficher plus pour {item}",
     "description": "Show more with item usually for aria label"
-  },
-  "show-reference-documentation": {
-    "defaultMessage": "Afficher la documentation de référence",
-    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
   },
   "sidebar": {
     "defaultMessage": "Barre latérale",

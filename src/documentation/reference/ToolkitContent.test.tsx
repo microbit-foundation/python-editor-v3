@@ -3,16 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { ImageProps } from "@chakra-ui/react";
+import { render } from "@testing-library/react";
+import { PortableText } from "../../common/sanity";
+import ToolkitContent from "./ToolkitContent";
+
 jest.mock("@chakra-ui/image", () => ({
   Image: ({ src, w, h }: ImageProps) => (
     <img src={src} width={w as string} height={h as string} />
   ),
 }));
-
-import { ImageProps } from "@chakra-ui/react";
-import { render } from "@testing-library/react";
-import { PortableText } from "../../common/sanity";
-import ToolkitContent from "./ToolkitContent";
 
 describe("ToolkitContent", () => {
   it("renders external links", () => {
