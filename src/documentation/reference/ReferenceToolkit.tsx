@@ -3,80 +3,103 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem, Divider } from "@chakra-ui/layout";
-import sortBy from "lodash.sortby";
+import { Box, Divider, List, ListItem } from "@chakra-ui/layout";
 import { useCallback } from "react";
-import { useIntl } from "react-intl";
-import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
-import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
-import DocString from "../common/DocString";
-import { allowWrapAtPeriods } from "../common/wrap";
-import { useAnimationDirection } from "../explore/toolkit-hooks";
-import ToolkitBreadcrumbHeading from "../explore/ToolkitBreadcrumbHeading";
+import { getTopicAndEntry } from "./api";
+import { isV2Only, Toolkit } from "./model";
+import { useAnimationDirection } from "./toolkit-hooks";
+import ToolkitBreadcrumbHeading from "./ToolkitBreadcrumbHeading";
+import ToolkitContent from "./ToolkitContent";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
+import ToolkitTopicEntry from "./ToolkitTopicEntry";
 import AreaHeading from "../../common/AreaHeading";
-import ToolkitTopLevelListItem from "../explore/ToolkitTopLevelListItem";
-import { resolveModule } from "./apidocs-util";
-import ReferenceNode from "./ReferenceNode";
+import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
+import { useIntl } from "react-intl";
 
 interface ReferenceToolkitProps {
-  docs: ApiDocsResponse;
+  toolkit: Toolkit;
 }
 
-export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
+/**
+ * A data-driven toolkit component.
+ *
+ * The components used here are also used with the API data to
+ * generate the API documentation.
+ */
+const ReferenceToolkit = ({ toolkit }: ReferenceToolkitProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
+  const direction = useAnimationDirection(anchor);
+  const topicOrEntryId = anchor?.id;
   const handleNavigate = useCallback(
-    (id: string | undefined) => {
-      setAnchor(id ? { id } : undefined, "toolkit-user");
+    (topicOrEntryId: string | undefined) => {
+      setAnchor(
+        topicOrEntryId ? { id: topicOrEntryId } : undefined,
+        "toolkit-user"
+      );
     },
     [setAnchor]
   );
-  const direction = useAnimationDirection(anchor);
   return (
     <ActiveToolkitLevel
       key={anchor ? 0 : 1}
       anchor={anchor}
+      topicOrEntryId={topicOrEntryId}
       onNavigate={handleNavigate}
-      docs={docs}
+      toolkit={toolkit}
       direction={direction}
     />
   );
 };
 
-interface ActiveToolkitLevelProps {
+interface ActiveToolkitLevelProps extends ReferenceToolkitProps {
   anchor: Anchor | undefined;
-  docs: ApiDocsResponse;
-  onNavigate: (state: string | undefined) => void;
+  topicOrEntryId: string | undefined;
+  onNavigate: (topicOrEntryId: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
 const ActiveToolkitLevel = ({
   anchor,
+  topicOrEntryId,
   onNavigate,
-  docs,
+  toolkit,
   direction,
 }: ActiveToolkitLevelProps) => {
+  const [topic, activeItem] = getTopicAndEntry(toolkit, topicOrEntryId);
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "reference-tab" });
-  const module = anchor ? resolveModule(docs, anchor.id) : undefined;
-  if (module) {
+  if (topic) {
     return (
       <HeadedScrollablePanel
+        // Key prop used to ensure scroll position top
+        // after using internal link to toolkit topic.
+        key={topic.name}
         direction={direction}
         heading={
           <ToolkitBreadcrumbHeading
             parent={referenceString}
-            title={module.name}
+            title={topic.name}
             onBack={() => onNavigate(undefined)}
-            subtitle={<ShortModuleDescription value={module} />}
+            subtitle={topic.subtitle}
+            icon={topic.image}
           />
         }
       >
+        {topic.introduction && (
+          <Box p={5} pb={1} fontSize="sm">
+            <ToolkitContent content={topic.introduction} />
+          </Box>
+        )}
         <List flex="1 1 auto">
-          {(module.children ?? []).map((child) => (
-            <ListItem key={child.id}>
-              <ReferenceNode docs={child} width="100%" anchor={anchor} />
+          {topic.contents?.map((item) => (
+            <ListItem key={item.name}>
+              <ToolkitTopicEntry
+                topic={topic}
+                entry={item}
+                anchor={anchor}
+                active={activeItem === item}
+              />
               <Divider />
             </ListItem>
           ))}
@@ -88,19 +111,18 @@ const ActiveToolkitLevel = ({
     <HeadedScrollablePanel
       direction={direction}
       heading={
-        <AreaHeading
-          name={referenceString}
-          description={intl.formatMessage({ id: "reference-description" })}
-        />
+        <AreaHeading name={referenceString} description={toolkit.description} />
       }
     >
       <List flex="1 1 auto" m={3}>
-        {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
+        {toolkit.contents?.map((topic) => (
           <ToolkitTopLevelListItem
-            key={module.id}
-            name={allowWrapAtPeriods(module.fullName)}
-            description={<ShortModuleDescription value={module} />}
-            onForward={() => onNavigate(module.id)}
+            key={topic.name}
+            name={topic.name}
+            isV2Only={isV2Only(topic)}
+            description={topic.subtitle}
+            icon={topic.image}
+            onForward={() => onNavigate(topic.slug.current)}
           />
         ))}
       </List>
@@ -108,9 +130,4 @@ const ActiveToolkitLevel = ({
   );
 };
 
-const ShortModuleDescription = ({ value }: { value: ApiDocsEntry }) =>
-  value.docString ? (
-    <DocString
-      value={firstParagraph(value.docString).trim().replace(/\.$/, "")}
-    />
-  ) : null;
+export default ReferenceToolkit;

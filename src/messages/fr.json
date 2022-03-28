@@ -75,6 +75,18 @@
       "value": "Ce fichier existe déjà"
     }
   ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "API documentation for micro:bit MicroPython"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
+    }
+  ],
   "apidocs-baseclass": [
     {
       "offset": 0,
@@ -437,12 +449,6 @@
     {
       "type": 0,
       "value": "Modifier le nom du projet"
-    }
-  ],
-  "explore-tab": [
-    {
-      "type": 0,
-      "value": "Explorer"
     }
   ],
   "failed-to-build-hex": [
@@ -849,12 +855,6 @@
       "value": "Refaire"
     }
   ],
-  "reference-description": [
-    {
-      "type": 0,
-      "value": "Documentation de référence pour MicroPython de micro:bit"
-    }
-  ],
   "reference-tab": [
     {
       "type": 0,
@@ -1081,6 +1081,12 @@
       "value": "Paramètres"
     }
   ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Show API documentation"
+    }
+  ],
   "show-less": [
     {
       "type": 0,
@@ -1111,12 +1117,6 @@
     {
       "type": 1,
       "value": "item"
-    }
-  ],
-  "show-reference-documentation": [
-    {
-      "type": 0,
-      "value": "Afficher la documentation de référence"
     }
   ],
   "sidebar": [

@@ -13,7 +13,7 @@ import {
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import { ApiDocsResponse } from "../../language-server/apidocs";
-import { Toolkit } from "../explore/model";
+import { Toolkit } from "../reference/model";
 
 export class WorkerSearch implements Search {
   private worker: Worker;
@@ -21,11 +21,11 @@ export class WorkerSearch implements Search {
   constructor() {
     this.worker = new Worker(new URL("./search.worker.ts", import.meta.url));
   }
-  index(explore: Toolkit, reference: ApiDocsResponse) {
+  index(reference: Toolkit, api: ApiDocsResponse) {
     const message: IndexMessage = {
       kind: "index",
-      explore,
       reference,
+      api,
     };
     this.worker.postMessage(message);
     this.worker.onmessage = (e) => {
