@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { Tooltip } from "@chakra-ui/react";
-import { RiFlashlightFill } from "react-icons/ri";
+import { RiCheckboxCircleLine, RiFlashlightFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
+import { SyncStatus, useSyncStatus } from "../device/device-hooks";
 import { useProjectActions } from "./project-hooks";
 
 /**
@@ -19,6 +20,7 @@ const FlashButton = (
 ) => {
   const actions = useProjectActions();
   const intl = useIntl();
+  const [syncStatus] = useSyncStatus();
   return (
     <>
       <Tooltip
@@ -30,7 +32,13 @@ const FlashButton = (
       >
         <CollapsibleButton
           {...props}
-          icon={<RiFlashlightFill />}
+          icon={
+            syncStatus === SyncStatus.IN_SYNC ? (
+              <RiCheckboxCircleLine />
+            ) : (
+              <RiFlashlightFill />
+            )
+          }
           onClick={actions.flash}
           text={intl.formatMessage({
             id: "flash-action",

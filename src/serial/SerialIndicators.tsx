@@ -23,21 +23,18 @@ interface SerialIndicatorsProps extends BoxProps {
 interface SyncMessage {
   id: SyncStatus;
   message: string;
-  color: string;
-  icon?: IconType;
+  icon: IconType;
 }
 
 const syncMessages: SyncMessage[] = [
   {
     id: SyncStatus.OUT_OF_SYNC,
     message: "micro:bit ready to flash",
-    color: "yellow",
     icon: RiFlashlightFill,
   },
   {
     id: SyncStatus.IN_SYNC,
     message: "micro:bit flashed",
-    color: "lawngreen",
     icon: RiCheckLine,
   },
 ];
@@ -56,7 +53,7 @@ const SerialIndicators = ({
     <HStack {...props}>
       <Icon m={1} as={RiTerminalBoxLine} fill="white" boxSize={5} />
       <HStack spacing={0}>
-        {compact && traceback && (
+        {compact && traceback && syncStatus === SyncStatus.IN_SYNC && (
           <>
             <Icon m={1} as={RiErrorWarningLine} fill="white" boxSize={5} />
             <Text color="white" whiteSpace="nowrap" data-testid="traceback">
@@ -64,17 +61,13 @@ const SerialIndicators = ({
             </Text>
           </>
         )}
-        {!traceback && (
-          <Text color={syncMessage?.color}>
+        {(!traceback ||
+          (traceback && syncStatus === SyncStatus.OUT_OF_SYNC)) && (
+          <Text color="white">
             <Flex align="center">
               <FormattedMessage id={syncMessage?.message} />
               {syncMessage?.icon && (
-                <Icon
-                  ml={1}
-                  as={syncMessage?.icon}
-                  fill={syncMessage?.color}
-                  boxSize={5}
-                />
+                <Icon ml={1} as={syncMessage?.icon} fill="white" boxSize={5} />
               )}
             </Flex>
           </Text>
