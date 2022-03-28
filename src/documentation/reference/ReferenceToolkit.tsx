@@ -15,6 +15,7 @@ import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import ToolkitTopicEntry from "./ToolkitTopicEntry";
 import AreaHeading from "../../common/AreaHeading";
 import ToolkitTopLevelListItem from "./ToolkitTopLevelListItem";
+import { useIntl } from "react-intl";
 
 interface ReferenceToolkitProps {
   toolkit: Toolkit;
@@ -66,7 +67,8 @@ const ActiveToolkitLevel = ({
   direction,
 }: ActiveToolkitLevelProps) => {
   const [topic, activeItem] = getTopicAndEntry(toolkit, topicOrEntryId);
-
+  const intl = useIntl();
+  const referenceString = intl.formatMessage({ id: "reference-tab" });
   if (topic) {
     return (
       <HeadedScrollablePanel
@@ -76,7 +78,7 @@ const ActiveToolkitLevel = ({
         direction={direction}
         heading={
           <ToolkitBreadcrumbHeading
-            parent={toolkit.name}
+            parent={referenceString}
             title={topic.name}
             onBack={() => onNavigate(undefined)}
             subtitle={topic.subtitle}
@@ -109,7 +111,7 @@ const ActiveToolkitLevel = ({
     <HeadedScrollablePanel
       direction={direction}
       heading={
-        <AreaHeading name={toolkit.name} description={toolkit.description} />
+        <AreaHeading name={referenceString} description={toolkit.description} />
       }
     >
       <List flex="1 1 auto" m={3}>
