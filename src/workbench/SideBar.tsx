@@ -22,7 +22,7 @@ import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ExploreArea from "../documentation/ExploreArea";
 import IdeasArea from "../documentation/IdeasArea";
-import ReferenceArea from "../documentation/ReferenceArea";
+import ApiArea from "../documentation/ApiArea";
 import FilesArea from "../files/FilesArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
@@ -62,9 +62,9 @@ const SideBar = ({
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
-        id: "explore",
-        title: intl.formatMessage({ id: "explore-tab" }),
-        icon: PythonLogo as IconType,
+        id: "reference",
+        title: intl.formatMessage({ id: "reference-tab" }),
+        icon: VscLibrary,
         contents: <ExploreArea />,
         color: "gray.25",
       },
@@ -76,12 +76,12 @@ const SideBar = ({
         color: "gray.25",
       },
       {
-        id: "reference",
-        title: intl.formatMessage({ id: "reference-tab" }),
+        id: "api",
+        title: "API",
         // If you change this icon you also need to change the version embedded
         // in documentation.ts (used for CM documentation tooltips).
-        icon: VscLibrary,
-        contents: <ReferenceArea />,
+        icon: PythonLogo as IconType,
+        contents: <ApiArea />,
         color: "gray.25",
         mb: "auto",
       },
@@ -100,7 +100,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, explore, reference }, setParams] = useRouterState();
+  const [{ tab, explore, api }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
@@ -115,12 +115,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (explore || reference) {
+    if (explore || api) {
       setParams({
         tab,
       });
     }
-  }, [explore, reference, tab, setParams]);
+  }, [explore, api, tab, setParams]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">

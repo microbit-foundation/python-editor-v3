@@ -37,19 +37,19 @@
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
-    "description": "Heading in Reference documentation for the classes in a Python module"
+    "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
     "defaultMessage": "Fields",
-    "description": "Heading in Reference documentation for the fields in a Python module"
+    "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
     "defaultMessage": "Functions",
-    "description": "Heading in Reference documentation for the functions in a Python module"
+    "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
     "defaultMessage": "Methods",
-    "description": "Heading in Reference documentation for the methods in a Python class"
+    "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-to-main": {
     "defaultMessage": "back to the main code",
@@ -431,9 +431,9 @@
     "defaultMessage": "Redo",
     "description": "Aria label for the redo button"
   },
-  "reference-description": {
-    "defaultMessage": "Reference documentation for micro:bit MicroPython",
-    "description": "Description at the top of the Reference tab"
+  "api-description": {
+    "defaultMessage": "API documentation for micro:bit MicroPython",
+    "description": "Description at the top of the API tab"
   },
   "reference-tab": {
     "defaultMessage": "Reference",
@@ -523,9 +523,9 @@
     "defaultMessage": "Show more for {item}",
     "description": "Show more with item usually for aria label"
   },
-  "show-reference-documentation": {
-    "defaultMessage": "Show reference documentation",
-    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
+  "show-api-documentation": {
+    "defaultMessage": "Show API documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
   },
   "sidebar": {
     "defaultMessage": "Sidebar",
@@ -630,5 +630,9 @@
   "zoom-out-action": {
     "defaultMessage": "Zoom out",
     "description": "Text label for zoom out button"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
   }
 }

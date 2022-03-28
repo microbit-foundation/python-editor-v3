@@ -21,11 +21,11 @@ export class WorkerSearch implements Search {
   constructor() {
     this.worker = new Worker(new URL("./search.worker.ts", import.meta.url));
   }
-  index(explore: Toolkit, reference: ApiDocsResponse) {
+  index(explore: Toolkit, api: ApiDocsResponse) {
     const message: IndexMessage = {
       kind: "index",
       explore,
-      reference,
+      api,
     };
     this.worker.postMessage(message);
     this.worker.onmessage = (e) => {

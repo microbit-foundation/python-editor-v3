@@ -13,7 +13,7 @@ import {
 
 export interface ToolkitContextValue {
   exploreToolkit: ExploreToolkitState;
-  referenceToolkit: ApiDocsResponse | undefined;
+  apiToolkit: ApiDocsResponse | undefined;
 }
 
 const ToolkitContext = createContext<ToolkitContextValue | undefined>(
@@ -30,11 +30,11 @@ export const useToolkitState = (): ToolkitContextValue => {
 
 const ToolkitProvider = ({ children }: { children: ReactNode }) => {
   const exploreToolkit = useExploreToolkit();
-  const referenceToolkit = useApiDocs();
+  const apiToolkit = useApiDocs();
 
   const value: ToolkitContextValue = useMemo(() => {
-    return { exploreToolkit, referenceToolkit };
-  }, [exploreToolkit, referenceToolkit]);
+    return { exploreToolkit, apiToolkit };
+  }, [exploreToolkit, apiToolkit]);
   return (
     <ToolkitContext.Provider value={value}>{children}</ToolkitContext.Provider>
   );

@@ -12,12 +12,12 @@ import type { Toolkit } from "../explore/model";
 
 export interface Search {
   search(text: string): Promise<SearchResults>;
-  index(explore: Toolkit, reference: ApiDocsResponse): void;
+  index(explore: Toolkit, api: ApiDocsResponse): void;
 }
 
 export interface SearchResults {
   explore: Result[];
-  reference: Result[];
+  api: Result[];
 }
 
 export interface Result {
@@ -41,7 +41,7 @@ export interface Extracts {
 export interface IndexMessage {
   kind: "index";
   explore: Toolkit;
-  reference: ApiDocsResponse;
+  api: ApiDocsResponse;
 }
 
 export interface QueryMessage {

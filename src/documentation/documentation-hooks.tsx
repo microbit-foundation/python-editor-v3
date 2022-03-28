@@ -12,7 +12,7 @@ import { useSettings } from "../settings/settings";
 import dragImage from "./drag-image.svg";
 import { fetchToolkit } from "./explore/api";
 import { Toolkit } from "./explore/model";
-import { pullModulesToTop } from "./reference/apidocs-util";
+import { pullModulesToTop } from "./api/apidocs-util";
 
 export type ExploreToolkitState =
   | { status: "ok"; toolkit: Toolkit }

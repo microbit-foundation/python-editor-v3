@@ -54,7 +54,7 @@ export class SearchIndex {
   constructor(
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
-    private tab: "explore" | "reference"
+    private tab: "explore" | "api"
   ) {}
 
   search(text: string): Result[] {
@@ -113,12 +113,12 @@ const getExtracts = (
 };
 
 export class LunrSearch {
-  constructor(private explore: SearchIndex, private reference: SearchIndex) {}
+  constructor(private explore: SearchIndex, private api: SearchIndex) {}
 
   search(text: string): SearchResults {
     return {
       explore: this.explore.search(text),
-      reference: this.reference.search(text),
+      api: this.api.search(text),
     };
   }
 }
@@ -126,7 +126,7 @@ export class LunrSearch {
 export interface SearchableContent {
   id: string;
   /**
-   * The Reference module or Explore topic.
+   * The API module or Explore topic.
    */
   containerTitle: string;
   title: string;
@@ -165,7 +165,7 @@ const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
   return content;
 };
 
-const referenceSearchableContent = (
+const apiSearchableContent = (
   toolkit: ApiDocsResponse
 ): SearchableContent[] => {
   const content: SearchableContent[] = [];
@@ -197,7 +197,7 @@ const referenceSearchableContent = (
 
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
-  tab: "explore" | "reference",
+  tab: "explore" | "api",
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
   const index = lunr(function () {
@@ -217,7 +217,7 @@ export const buildSearchIndex = (
 // Exposed for testing.
 export const buildToolkitIndex = async (
   exploreToolkit: Toolkit,
-  referenceToolkit: ApiDocsResponse
+  apiToolkit: ApiDocsResponse
 ): Promise<LunrSearch> => {
   const language = exploreToolkit.language;
   const languageSupport = await retryAsyncLoad(() =>
@@ -239,7 +239,7 @@ export const buildToolkitIndex = async (
       "explore",
       ...plugins
     ),
-    buildSearchIndex(referenceSearchableContent(referenceToolkit), "reference")
+    buildSearchIndex(apiSearchableContent(apiToolkit), "api")
   );
 };
 
@@ -281,7 +281,7 @@ export class SearchWorker {
   }
 
   private async index(message: IndexMessage) {
-    this.search = await buildToolkitIndex(message.explore, message.reference);
+    this.search = await buildToolkitIndex(message.explore, message.api);
     this.recordInitialization!();
   }
 

@@ -82,7 +82,7 @@ describe("Search", () => {
 
 describe("buildToolkitIndex", () => {
   it("uses language from the toolkit for the Explore index", async () => {
-    const reference: ApiDocsResponse = {};
+    const api: ApiDocsResponse = {};
     const toolkitEn: Toolkit = {
       id: "explore",
       description: "description",
@@ -101,12 +101,12 @@ describe("buildToolkitIndex", () => {
       ...toolkitEn,
       language: "fr",
     };
-    const enIndex = await buildToolkitIndex(toolkitEn, reference);
+    const enIndex = await buildToolkitIndex(toolkitEn, api);
     expect(enIndex.search("topic").explore.length).toEqual(1);
     // "that" is an English stopword
     expect(enIndex.search("that").explore.length).toEqual(0);
 
-    const frIndex = await buildToolkitIndex(toolkitFr, reference);
+    const frIndex = await buildToolkitIndex(toolkitFr, api);
     expect(frIndex.search("topic").explore.length).toEqual(1);
     // "that" is not a French stopword
     expect(frIndex.search("that").explore.length).toEqual(1);
@@ -143,7 +143,7 @@ describe("SearchWorker", () => {
         contents: [],
         language: "en",
       },
-      reference: {},
+      api: {},
     };
     ctx.onmessage!(
       new MessageEvent("message", {
@@ -153,7 +153,7 @@ describe("SearchWorker", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(postMessage.mock.calls).toEqual([
-      [{ explore: [], reference: [], kind: "queryResponse" }],
+      [{ explore: [], api: [], kind: "queryResponse" }],
     ]);
   });
 
@@ -174,7 +174,7 @@ describe("SearchWorker", () => {
         contents: [],
         language: "en",
       },
-      reference: {},
+      api: {},
     };
     const fullIndex: IndexMessage = {
       kind: "index",
@@ -192,7 +192,7 @@ describe("SearchWorker", () => {
         ],
         language: "en",
       },
-      reference: {},
+      api: {},
     };
 
     const queryHello = async () => {

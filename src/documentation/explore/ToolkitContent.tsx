@@ -44,8 +44,8 @@ const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
       onClick={(e) => {
         e.preventDefault();
         setState({
-          tab: "reference",
-          reference: { id: props.mark.name },
+          tab: "api",
+          api: { id: props.mark.name },
         });
       }}
     >

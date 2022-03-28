@@ -18,14 +18,14 @@ import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import AreaHeading from "../../common/AreaHeading";
 import ToolkitTopLevelListItem from "../explore/ToolkitTopLevelListItem";
 import { resolveModule } from "./apidocs-util";
-import ReferenceNode from "./ReferenceNode";
+import ApiNode from "./ApiNode";
 
-interface ReferenceToolkitProps {
+interface ApiToolkitProps {
   docs: ApiDocsResponse;
 }
 
-export const ReferenceToolkit = ({ docs }: ReferenceToolkitProps) => {
-  const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
+export const ApiToolkit = ({ docs }: ApiToolkitProps) => {
+  const [anchor, setAnchor] = useRouterParam(RouterParam.api);
   const handleNavigate = useCallback(
     (id: string | undefined) => {
       setAnchor(id ? { id } : undefined, "toolkit-user");
@@ -58,7 +58,7 @@ const ActiveToolkitLevel = ({
   direction,
 }: ActiveToolkitLevelProps) => {
   const intl = useIntl();
-  const referenceString = intl.formatMessage({ id: "reference-tab" });
+  const apiString = intl.formatMessage({ id: "api-tab" });
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;
   if (module) {
     return (
@@ -66,7 +66,7 @@ const ActiveToolkitLevel = ({
         direction={direction}
         heading={
           <ToolkitBreadcrumbHeading
-            parent={referenceString}
+            parent={apiString}
             title={module.name}
             onBack={() => onNavigate(undefined)}
             subtitle={<ShortModuleDescription value={module} />}
@@ -76,7 +76,7 @@ const ActiveToolkitLevel = ({
         <List flex="1 1 auto">
           {(module.children ?? []).map((child) => (
             <ListItem key={child.id}>
-              <ReferenceNode docs={child} width="100%" anchor={anchor} />
+              <ApiNode docs={child} width="100%" anchor={anchor} />
               <Divider />
             </ListItem>
           ))}
@@ -89,8 +89,8 @@ const ActiveToolkitLevel = ({
       direction={direction}
       heading={
         <AreaHeading
-          name={referenceString}
-          description={intl.formatMessage({ id: "reference-description" })}
+          name={apiString}
+          description={intl.formatMessage({ id: "api-description" })}
         />
       }
     >

@@ -8,12 +8,9 @@ import { ApiDocsEntry } from "../../language-server/apidocs";
 import NullLoggingProvider from "../../logging/NullLoggingProvider";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
 import ScrollablePanel from "../../common/ScrollablePanel";
-import ReferenceNode, {
-  getDragContext,
-  classToInstanceMap,
-} from "./ReferenceNode";
+import ApiNode, { getDragContext, classToInstanceMap } from "./ApiNode";
 
-describe("ReferenceNode", () => {
+describe("ApiNode", () => {
   const node: ApiDocsEntry = {
     fullName: "microbit.compass",
     id: "microbit.compass",
@@ -47,7 +44,7 @@ describe("ReferenceNode", () => {
       <FixedTranslationProvider>
         <NullLoggingProvider>
           <ScrollablePanel>
-            <ReferenceNode docs={node} />
+            <ApiNode docs={node} />
           </ScrollablePanel>
         </NullLoggingProvider>
       </FixedTranslationProvider>

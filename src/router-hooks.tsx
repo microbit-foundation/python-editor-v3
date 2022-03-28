@@ -35,7 +35,7 @@ const anchorForParam = (param: string | null): Anchor | undefined =>
 
 export class RouterParam<T> {
   static tab: RouterParam<string> = new RouterParam("tab");
-  static reference: RouterParam<Anchor> = new RouterParam("reference");
+  static api: RouterParam<Anchor> = new RouterParam("api");
   static explore: RouterParam<Anchor> = new RouterParam("explore");
 
   private constructor(public id: keyof RouterState) {}
@@ -49,7 +49,7 @@ export class RouterParam<T> {
 export interface RouterState {
   tab?: string;
   explore?: Anchor;
-  reference?: Anchor;
+  api?: Anchor;
 }
 
 type NavigationSource = "toolkit-user" | "toolkit-search" | "toolkit-from-code";
@@ -65,7 +65,7 @@ const parse = (search: string): RouterState => {
   const params = new URLSearchParams(search);
   return {
     tab: params.get("tab") ?? undefined,
-    reference: anchorForParam(params.get("reference")),
+    api: anchorForParam(params.get("api")),
     explore: anchorForParam(params.get("explore")),
   };
 };
@@ -121,7 +121,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       if (source) {
         logging.event({
           type: source,
-          message: newState.explore?.id || newState.reference?.id,
+          message: newState.explore?.id || newState.api?.id,
         });
       }
       const url = toUrl(newState);

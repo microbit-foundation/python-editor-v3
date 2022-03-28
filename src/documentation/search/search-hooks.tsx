@@ -38,17 +38,17 @@ export const useSearch = (): UseSearch => {
 };
 
 const SearchProvider = ({ children }: { children: ReactNode }) => {
-  const { exploreToolkit, referenceToolkit } = useToolkitState();
+  const { exploreToolkit, apiToolkit } = useToolkitState();
   const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const logging = useLogging();
   useEffect(() => {
     // Wait for both, no reason to index with just one then redo with both.
-    if (exploreToolkit.status === "ok" && referenceToolkit) {
-      search.index(exploreToolkit.toolkit, referenceToolkit);
+    if (exploreToolkit.status === "ok" && apiToolkit) {
+      search.index(exploreToolkit.toolkit, apiToolkit);
     }
-  }, [exploreToolkit, referenceToolkit]);
+  }, [exploreToolkit, apiToolkit]);
 
   const debouncedSearch = useMemo(
     () =>

@@ -24,7 +24,7 @@ interface ExploreToolkitProps {
  * A data-driven toolkit component.
  *
  * The components used here are also used with the API data to
- * generate the reference documentation.
+ * generate the API documentation.
  */
 const ExploreToolkit = ({ toolkit }: ExploreToolkitProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.explore);

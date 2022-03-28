@@ -11,11 +11,11 @@ describe("Browser - toolkit tabs", () => {
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
-  it("Reference toolkit navigation", async () => {
-    await app.switchTab("Reference");
+  it("API toolkit navigation", async () => {
+    await app.switchTab("API");
     await app.findToolkitTopLevelHeading(
-      "Reference",
-      "Reference documentation for micro:bit MicroPython"
+      "API",
+      "API documentation for micro:bit MicroPython"
     );
   });
 

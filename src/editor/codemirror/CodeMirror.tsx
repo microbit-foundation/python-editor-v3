@@ -193,8 +193,8 @@ const CodeMirror = ({
       const id = (event as CustomEvent).detail.id;
       setRouterState(
         {
-          tab: "reference",
-          reference: { id },
+          tab: "api",
+          api: { id },
         },
         "toolkit-from-code"
       );
