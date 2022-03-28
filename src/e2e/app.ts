@@ -607,6 +607,10 @@ export class App {
 
   async followSerialCompactTracebackLink(): Promise<void> {
     const document = await this.document();
+    // Changes syncStatus to IN_SYNC and shows the traceback when
+    // the serial area is collapsed.
+    const flash = await document.findByTestId("flash-button");
+    await flash.click();
     const link = await document.findByTestId("traceback-link");
     await link.click();
   }

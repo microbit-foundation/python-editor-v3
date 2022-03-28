@@ -43,6 +43,7 @@ const FlashButton = (
           text={intl.formatMessage({
             id: "flash-action",
           })}
+          data-testid="flash-button"
         />
       </Tooltip>
     </>
