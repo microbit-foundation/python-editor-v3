@@ -6,7 +6,6 @@
 import { BoxProps, Flex, HStack, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import {
-  RiCheckLine,
   RiErrorWarningLine,
   RiFlashlightFill,
   RiTerminalBoxLine,
@@ -14,6 +13,7 @@ import {
 import { FormattedMessage } from "react-intl";
 import { SyncStatus, Traceback, useSyncStatus } from "../device/device-hooks";
 import MaybeTracebackLink from "./MaybeTracebackLink";
+import { GoCheck } from "react-icons/go";
 
 interface SerialIndicatorsProps extends BoxProps {
   compact?: boolean;
@@ -35,7 +35,7 @@ const syncMessages: SyncMessage[] = [
   {
     id: SyncStatus.IN_SYNC,
     message: "micro:bit flashed",
-    icon: RiCheckLine,
+    icon: GoCheck,
   },
 ];
 

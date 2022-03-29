@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { Tooltip } from "@chakra-ui/react";
-import { RiCheckboxCircleLine, RiFlashlightFill } from "react-icons/ri";
+import { RiFlashlightFill } from "react-icons/ri";
+import { GoCheck } from "react-icons/go";
+
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
   CollapsibleButtonProps,
@@ -34,7 +36,7 @@ const FlashButton = (
           {...props}
           icon={
             syncStatus === SyncStatus.IN_SYNC ? (
-              <RiCheckboxCircleLine />
+              <GoCheck />
             ) : (
               <RiFlashlightFill />
             )
