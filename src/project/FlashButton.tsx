@@ -22,7 +22,7 @@ const FlashButton = (
 ) => {
   const actions = useProjectActions();
   const intl = useIntl();
-  const [syncStatus] = useSyncStatus();
+  const syncStatus = useSyncStatus();
   return (
     <>
       <Tooltip

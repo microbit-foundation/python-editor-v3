@@ -47,7 +47,7 @@ const SerialIndicators = ({
   traceback,
   ...props
 }: SerialIndicatorsProps) => {
-  const [syncStatus] = useSyncStatus();
+  const syncStatus = useSyncStatus();
   const syncMessage = syncMessages.find((m) => m.id === syncStatus);
   return (
     <HStack {...props}>

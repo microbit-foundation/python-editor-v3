@@ -48,7 +48,7 @@ const SerialBar = ({
   const intl = useIntl();
   const helpDisclosure = useDisclosure();
   const traceback = useDeviceTraceback();
-  const [syncStatus] = useSyncStatus();
+  const syncStatus = useSyncStatus();
   return (
     <>
       <SerialHelpDialog

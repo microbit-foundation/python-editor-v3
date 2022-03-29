@@ -8,7 +8,7 @@ import { useIntl } from "react-intl";
 import useActionFeedback from "../common/use-action-feedback";
 import { useDialogs } from "../common/use-dialogs";
 import useIsUnmounted from "../common/use-is-unmounted";
-import { useDevice, useSyncStatus } from "../device/device-hooks";
+import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
@@ -28,7 +28,6 @@ export const useProjectActions = (): ProjectActions => {
   const logging = useLogging();
   const intl = useIntl();
   const client = useLanguageServerClient();
-  const [, setSyncStatus] = useSyncStatus();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -40,7 +39,6 @@ export const useProjectActions = (): ProjectActions => {
         intl,
         logging,
         client,
-        setSyncStatus
       ),
     [
       fs,
@@ -51,7 +49,6 @@ export const useProjectActions = (): ProjectActions => {
       intl,
       logging,
       client,
-      setSyncStatus,
     ]
   );
   return actions;
