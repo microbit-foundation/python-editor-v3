@@ -243,6 +243,6 @@ export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
       device.removeListener(EVENT_STATUS, moveToOutOfSync);
       device.removeListener(EVENT_FLASH, moveToInSync);
     }
-  });
+  }, [fs, device, setSyncStatus]);
   return <SyncContext.Provider value={syncStatusState}>{children}</SyncContext.Provider>;
 };
