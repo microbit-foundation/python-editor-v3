@@ -471,6 +471,10 @@
     "defaultMessage": "Show serial",
     "description": "Action label to expand the serial console/REPL area"
   },
+  "serial-flashed": {
+    "defaultMessage": "micro:bit flashed",
+    "description": "Shown when your program is in sync with the micro:bit"
+  },
   "serial-help-ctrl-c": {
     "defaultMessage": "Use the keyboard shortcut <kbd>Ctrl</kbd> + <kbd>C</kbd> to interrupt your program. Then you can type Python commands for MicroPython to run. It's a great way to experiment with something new.",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
@@ -494,6 +498,10 @@
   "serial-menu": {
     "defaultMessage": "Serial menu",
     "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "micro:bit ready to flash",
+    "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
     "defaultMessage": "Running…",

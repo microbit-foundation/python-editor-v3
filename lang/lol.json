@@ -470,6 +470,10 @@
     "defaultMessage": "Схов серіал",
     "description": "Aria label for serial expand/collapse"
   },
+  "serial-flashed": {
+    "defaultMessage": "micro:bit flashed",
+    "description": "Shown when your program is in sync with the micro:bit"
+  },
   "serial-help-ctrl-c": {
     "defaultMessage": "Юсе тхе кеубоард схортсют <kbd>Cтрл</kbd> + <kbd>C</kbd> то інтеррюпт уоюр проджрам. Тхен уою сан тупе Путхон соммандс фор МісроПутхон то рюн. Іт'с а джреат вау то експерімент вітх сометхіндж нев.",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
@@ -493,6 +497,10 @@
   "serial-menu": {
     "defaultMessage": "Серіал меню",
     "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "micro:bit ready to flash",
+    "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
     "defaultMessage": "Рюнніндж…",

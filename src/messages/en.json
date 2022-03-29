@@ -943,6 +943,12 @@
       "value": "Show serial"
     }
   ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "micro:bit flashed"
+    }
+  ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
@@ -1061,6 +1067,12 @@
     {
       "type": 0,
       "value": "Serial menu"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "micro:bit ready to flash"
     }
   ],
   "serial-running": [
