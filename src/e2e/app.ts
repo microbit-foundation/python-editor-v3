@@ -605,6 +605,12 @@ export class App {
     await document.findByText(text);
   }
 
+  async flash() {
+    const document = await this.document();
+    const flash = await document.findByRole("button", { name: "Flash" });
+    return flash.click();
+  }
+
   async followSerialCompactTracebackLink(): Promise<void> {
     const document = await this.document();
     const link = await document.findByTestId("traceback-link");
