@@ -74,7 +74,7 @@ export class ProjectActions {
     private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined,
+    private client: LanguageServerClient | undefined
   ) {}
 
   private get project(): DefaultedProject {

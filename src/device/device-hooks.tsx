@@ -8,7 +8,8 @@ import React, {
   ReactNode,
   SetStateAction,
   useContext,
-  useEffect, useState
+  useEffect,
+  useState,
 } from "react";
 import { EVENT_PROJECT_UPDATED, EVENT_TEXT_EDIT } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
@@ -20,7 +21,7 @@ import {
   EVENT_SERIAL_DATA,
   EVENT_SERIAL_ERROR,
   EVENT_SERIAL_RESET,
-  EVENT_STATUS
+  EVENT_STATUS,
 } from "./device";
 
 const DeviceContext = React.createContext<undefined | DeviceConnection>(
@@ -224,10 +225,8 @@ export const useSyncStatus = (): SyncStatus => {
 };
 
 export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
-  const syncStatusState = useState<SyncStatus>(
-    SyncStatus.OUT_OF_SYNC
-  );
-  const [,setSyncStatus] = syncStatusState;
+  const syncStatusState = useState<SyncStatus>(SyncStatus.OUT_OF_SYNC);
+  const [, setSyncStatus] = syncStatusState;
   const fs = useFileSystem();
   const device = useDevice();
   useEffect(() => {
@@ -242,7 +241,11 @@ export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
       fs.removeListener(EVENT_PROJECT_UPDATED, moveToOutOfSync);
       device.removeListener(EVENT_STATUS, moveToOutOfSync);
       device.removeListener(EVENT_FLASH, moveToInSync);
-    }
+    };
   }, [fs, device, setSyncStatus]);
-  return <SyncContext.Provider value={syncStatusState}>{children}</SyncContext.Provider>;
+  return (
+    <SyncContext.Provider value={syncStatusState}>
+      {children}
+    </SyncContext.Provider>
+  );
 };

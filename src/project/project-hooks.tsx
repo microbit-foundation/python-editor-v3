@@ -38,18 +38,9 @@ export const useProjectActions = (): ProjectActions => {
         setSelection,
         intl,
         logging,
-        client,
+        client
       ),
-    [
-      fs,
-      device,
-      actionFeedback,
-      dialogs,
-      setSelection,
-      intl,
-      logging,
-      client,
-    ]
+    [fs, device, actionFeedback, dialogs, setSelection, intl, logging, client]
   );
   return actions;
 };

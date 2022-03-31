@@ -8,7 +8,7 @@ import { GoCheck } from "react-icons/go";
 import {
   RiErrorWarningLine,
   RiFlashlightFill,
-  RiTerminalBoxLine
+  RiTerminalBoxLine,
 } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { SyncStatus, Traceback, useSyncStatus } from "../device/device-hooks";
