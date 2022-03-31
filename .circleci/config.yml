@@ -24,7 +24,7 @@ _steps:
         - .npm-cache
       key: npm-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
   install_pip: &install_pip
-    run: sudo apt-get update && sudo apt-get install python-pip
+    run: sudo apt-get update && sudo apt-get install python-pip3
   install_aws_cli: &install_aws_cli
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
