@@ -389,12 +389,6 @@
       "value": "Діссоннест фром тхе місро:біт"
     }
   ],
-  "documentation": [
-    {
-      "type": 0,
-      "value": "Досюментатіон"
-    }
-  ],
   "download-action": [
     {
       "type": 0,
@@ -519,6 +513,12 @@
     {
       "type": 0,
       "value": "Хелп"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Help & support"
     }
   ],
   "help-translate": [
@@ -661,6 +661,12 @@
     {
       "type": 0,
       "value": "місро:біт боард вітх тхе 5 бу 5 ЛEД джрід сховіндж а хеарт"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "MicroPython Documentation"
     }
   ],
   "micropython-history": [

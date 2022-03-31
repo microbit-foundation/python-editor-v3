@@ -54,15 +54,6 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
         />
         <Portal>
           <MenuList zIndex={zIndexAboveTerminal}>
-            <MenuItem
-              as="a"
-              href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
-              target="_blank"
-              rel="noopener"
-              icon={<RiExternalLinkLine />}
-            >
-              <FormattedMessage id="documentation" />
-            </MenuItem>
             {deployment.supportLink && (
               <MenuItem
                 as="a"
@@ -71,9 +62,18 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 rel="noopener"
                 icon={<RiExternalLinkLine />}
               >
-                <FormattedMessage id="support" />
+                <FormattedMessage id="help-support" />
               </MenuItem>
             )}
+            <MenuItem
+              as="a"
+              href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
+            >
+              <FormattedMessage id="micropython-documentation" />
+            </MenuItem>
             {deployment.termsOfUseLink && (
               <MenuItem
                 as="a"
