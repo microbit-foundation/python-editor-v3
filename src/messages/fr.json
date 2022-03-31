@@ -389,12 +389,6 @@
       "value": "Se déconnecter du micro:bit"
     }
   ],
-  "documentation": [
-    {
-      "type": 0,
-      "value": "Documentation"
-    }
-  ],
   "download-action": [
     {
       "type": 0,
@@ -519,6 +513,12 @@
     {
       "type": 0,
       "value": "Aide"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Help & support"
     }
   ],
   "help-translate": [
@@ -661,6 +661,12 @@
     {
       "type": 0,
       "value": "Tableau du micro:bit avec la grille LED 5 par 5 montrant un cœur"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "MicroPython Documentation"
     }
   ],
   "micropython-history": [

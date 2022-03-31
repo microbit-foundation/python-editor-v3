@@ -187,10 +187,6 @@
     "defaultMessage": "Disconnect from the micro:bit",
     "description": "Disconnect button hover text"
   },
-  "documentation": {
-    "defaultMessage": "Documentation",
-    "description": "Documentation menu option text"
-  },
   "download-action": {
     "defaultMessage": "Download",
     "description": "Download button text"
@@ -267,6 +263,10 @@
     "defaultMessage": "Help",
     "description": "Help menu label"
   },
+  "help-support": {
+    "defaultMessage": "Help & support",
+    "description": "Menu item for link to support site"
+  },
   "help-translate": {
     "defaultMessage": "Help translate",
     "description": "Help translate  menu option text"
@@ -342,6 +342,10 @@
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit board with the 5 by 5 LED grid showing a heart",
     "description": "Alt text for micro:bit image in About dialog"
+  },
+  "micropython-documentation": {
+    "defaultMessage": "MicroPython documentation",
+    "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
     "defaultMessage": "Learn how MicroPython on the micro:bit came to be",
