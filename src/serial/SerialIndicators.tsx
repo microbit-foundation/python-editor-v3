@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, HStack, Icon, Text } from "@chakra-ui/react";
-import { IconType } from "react-icons";
+import { GoCheck } from "react-icons/go";
 import {
-  RiCheckLine,
   RiErrorWarningLine,
   RiFlashlightFill,
-  RiTerminalBoxLine,
+  RiTerminalBoxLine
 } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { SyncStatus, Traceback, useSyncStatus } from "../device/device-hooks";
@@ -20,24 +19,16 @@ interface SerialIndicatorsProps extends BoxProps {
   traceback?: Traceback | undefined;
 }
 
-interface SyncMessage {
-  id: SyncStatus;
-  message: string;
-  icon: IconType;
-}
-
-const syncMessages: SyncMessage[] = [
-  {
-    id: SyncStatus.OUT_OF_SYNC,
-    message: "micro:bit ready to flash",
+const syncMessages = {
+  [SyncStatus.OUT_OF_SYNC]: {
+    message: "serial-ready-to-flash",
     icon: RiFlashlightFill,
   },
-  {
-    id: SyncStatus.IN_SYNC,
-    message: "micro:bit flashed",
-    icon: RiCheckLine,
+  [SyncStatus.IN_SYNC]: {
+    message: "serial-flashed",
+    icon: GoCheck,
   },
-];
+};
 
 /**
  * Icon and traceback status.
@@ -47,8 +38,8 @@ const SerialIndicators = ({
   traceback,
   ...props
 }: SerialIndicatorsProps) => {
-  const [syncStatus] = useSyncStatus();
-  const syncMessage = syncMessages.find((m) => m.id === syncStatus);
+  const syncStatus = useSyncStatus();
+  const syncMessage = syncMessages[syncStatus];
   return (
     <HStack {...props}>
       <Icon m={1} as={RiTerminalBoxLine} fill="white" boxSize={5} />
