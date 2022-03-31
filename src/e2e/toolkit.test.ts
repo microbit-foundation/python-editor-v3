@@ -11,16 +11,16 @@ describe("Browser - toolkit tabs", () => {
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
 
-  it("Reference toolkit navigation", async () => {
-    await app.switchTab("Reference");
+  it("API toolkit navigation", async () => {
+    await app.switchTab("API");
     await app.findToolkitTopLevelHeading(
-      "Reference",
-      "Reference documentation for micro:bit MicroPython"
+      "API",
+      "API documentation for micro:bit MicroPython"
     );
   });
 
   it("Insert code", async () => {
-    await app.switchTab("Explore");
+    await app.switchTab("Reference");
     await app.selectToolkitSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -31,13 +31,13 @@ describe("Browser - toolkit tabs", () => {
   });
 
   it("Insert code after dropdown choice", async () => {
-    await app.switchTab("Explore");
+    await app.switchTab("Reference");
     await app.selectToolkitSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
 
     await app.selectToolkitDropDownOption(
-      "Use the dropdown to try different images:",
+      "Select image:",
       "9" // "Image.SILLY"
     );
     await app.insertToolkitCode("Images: built-in");
@@ -49,7 +49,7 @@ describe("Browser - toolkit tabs", () => {
     await app.selectAllInEditor();
     await app.typeInEditor("#1\n#2\n#3\n");
     await app.findVisibleEditorContents("#2");
-    await app.switchTab("Explore");
+    await app.switchTab("Reference");
     await app.selectToolkitSection("Display");
 
     await app.dragDropToolkitCode("Scroll", 2);

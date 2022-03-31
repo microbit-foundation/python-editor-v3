@@ -31,25 +31,33 @@
     "defaultMessage": "This file already exists",
     "description": "File already exists notification text"
   },
+  "api-description": {
+    "defaultMessage": "API documentation for micro:bit MicroPython",
+    "description": "Description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
+  },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
     "description": "Prefix for a single base class or a list of base classes"
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
-    "description": "Heading in Reference documentation for the classes in a Python module"
+    "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
     "defaultMessage": "Fields",
-    "description": "Heading in Reference documentation for the fields in a Python module"
+    "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
     "defaultMessage": "Functions",
-    "description": "Heading in Reference documentation for the functions in a Python module"
+    "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
     "defaultMessage": "Methods",
-    "description": "Heading in Reference documentation for the methods in a Python class"
+    "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-to-main": {
     "defaultMessage": "back to the main code",
@@ -214,10 +222,6 @@
   "edit-project-name-action": {
     "defaultMessage": "Edit project name",
     "description": "Text for user to edit the name of the project"
-  },
-  "explore-tab": {
-    "defaultMessage": "Explore",
-    "description": "Explore tab button text"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
@@ -431,10 +435,6 @@
     "defaultMessage": "Redo",
     "description": "Aria label for the redo button"
   },
-  "reference-description": {
-    "defaultMessage": "Reference documentation for micro:bit MicroPython",
-    "description": "Description at the top of the Reference tab"
-  },
   "reference-tab": {
     "defaultMessage": "Reference",
     "description": "Reference tab button text"
@@ -507,6 +507,10 @@
     "defaultMessage": "Settings",
     "description": "Settings text"
   },
+  "show-api-documentation": {
+    "defaultMessage": "Show API documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+  },
   "show-less": {
     "defaultMessage": "Show less",
     "description": "Show less for general progressive disclosure"
@@ -522,10 +526,6 @@
   "show-more-for": {
     "defaultMessage": "Show more for {item}",
     "description": "Show more with item usually for aria label"
-  },
-  "show-reference-documentation": {
-    "defaultMessage": "Show reference documentation",
-    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
   },
   "sidebar": {
     "defaultMessage": "Sidebar",

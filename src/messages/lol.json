@@ -75,6 +75,18 @@
       "value": "Тхіс філе алреаду ексістс"
     }
   ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "API documentation for micro:bit MicroPython"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
+    }
+  ],
   "apidocs-baseclass": [
     {
       "offset": 0,
@@ -437,12 +449,6 @@
     {
       "type": 0,
       "value": "Eдіт проджест наме"
-    }
-  ],
-  "explore-tab": [
-    {
-      "type": 0,
-      "value": "Eксплоре"
     }
   ],
   "failed-to-build-hex": [
@@ -813,18 +819,6 @@
       "value": "Проджест хеадер"
     }
   ],
-  "projects-tab": [
-    {
-      "type": 0,
-      "value": "Projects"
-    }
-  ],
-  "projects-tab-description": [
-    {
-      "type": 0,
-      "value": "Placeholder for projects with full working code examples"
-    }
-  ],
   "python-powered": [
     {
       "type": 0,
@@ -859,12 +853,6 @@
     {
       "type": 0,
       "value": "Redo"
-    }
-  ],
-  "reference-description": [
-    {
-      "type": 0,
-      "value": "Референсе досюментатіон фор місро:біт МісроПутхон"
     }
   ],
   "reference-tab": [
@@ -1093,6 +1081,12 @@
       "value": "Сеттінджс"
     }
   ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Show API documentation"
+    }
+  ],
   "show-less": [
     {
       "type": 0,
@@ -1123,12 +1117,6 @@
     {
       "type": 1,
       "value": "item"
-    }
-  ],
-  "show-reference-documentation": [
-    {
-      "type": 0,
-      "value": "Схов референсе досюментатіон"
     }
   ],
   "sidebar": [

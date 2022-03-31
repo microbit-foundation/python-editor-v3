@@ -51,7 +51,7 @@ const InfoDialog = ({
                   </ListItem>
                   <ListItem m={1}>
                     Drag and drop code examples from the{" "}
-                    <strong>Explore</strong> and <strong>Reference</strong>{" "}
+                    <strong>Reference</strong> and <strong>API</strong>{" "}
                     documentation tabs.
                   </ListItem>
                   <ListItem m={1}>A pre-release of Data logging.</ListItem>
