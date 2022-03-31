@@ -5,7 +5,7 @@ orbs:
 _defaults: &defaults
   working_directory: ~/repo
 _docker_defaults: &docker_defaults
-  image: circleci/node:16
+  image: cimg/node:16.14
 _steps:
   queue_until_front_of_line: &queue_until_front_of_line
     # Ensures we don't deploy concurrently
