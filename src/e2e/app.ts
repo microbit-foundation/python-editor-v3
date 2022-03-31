@@ -605,12 +605,14 @@ export class App {
     await document.findByText(text);
   }
 
+  async flash() {
+    const document = await this.document();
+    const flash = await document.findByRole("button", { name: "Flash" });
+    return flash.click();
+  }
+
   async followSerialCompactTracebackLink(): Promise<void> {
     const document = await this.document();
-    // Changes syncStatus to IN_SYNC and shows the traceback when
-    // the serial area is collapsed.
-    const flash = await document.findByTestId("flash-button");
-    await flash.click();
     const link = await document.findByTestId("traceback-link");
     await link.click();
   }
