@@ -25,6 +25,7 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
+import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
@@ -35,13 +36,12 @@ import {
 } from "./changes";
 import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import NewFileNameQuestion from "./NewFileNameQuestion";
+import { DefaultedProject } from "./project-hooks";
 import {
   ensurePythonExtension,
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
-import { LanguageServerClient } from "../language-server/client";
-import { DefaultedProject } from "./project-hooks";
 
 /**
  * Distinguishes the different ways to trigger the load action.

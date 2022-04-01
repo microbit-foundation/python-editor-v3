@@ -187,10 +187,6 @@
     "defaultMessage": "Діссоннест фром тхе місро:біт",
     "description": "Disconnect button hover text"
   },
-  "documentation": {
-    "defaultMessage": "Досюментатіон",
-    "description": "Documentation menu option text"
-  },
   "download-action": {
     "defaultMessage": "Довнлоад",
     "description": "Download button text"
@@ -267,6 +263,10 @@
     "defaultMessage": "Хелп",
     "description": "Help menu label"
   },
+  "help-support": {
+    "defaultMessage": "Help & support",
+    "description": "Menu item for link to support site"
+  },
   "help-translate": {
     "defaultMessage": "Хелп транслате",
     "description": "Help translate  menu option text"
@@ -341,6 +341,10 @@
   "microbit-hearts-alt": {
     "defaultMessage": "місро:біт боард вітх тхе 5 бу 5 ЛEД джрід сховіндж а хеарт",
     "description": "Alt text for micro:bit image in About dialog"
+  },
+  "micropython-documentation": {
+    "defaultMessage": "MicroPython Documentation",
+    "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
     "defaultMessage": "Леарн хов МісроПутхон он тхе місро:біт саме то бе",
@@ -470,6 +474,10 @@
     "defaultMessage": "Схов серіал",
     "description": "Aria label for serial expand/collapse"
   },
+  "serial-flashed": {
+    "defaultMessage": "micro:bit flashed",
+    "description": "Shown when your program is in sync with the micro:bit"
+  },
   "serial-help-ctrl-c": {
     "defaultMessage": "Юсе тхе кеубоард схортсют <kbd>Cтрл</kbd> + <kbd>C</kbd> то інтеррюпт уоюр проджрам. Тхен уою сан тупе Путхон соммандс фор МісроПутхон то рюн. Іт'с а джреат вау то експерімент вітх сометхіндж нев.",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
@@ -493,6 +501,10 @@
   "serial-menu": {
     "defaultMessage": "Серіал меню",
     "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "micro:bit ready to flash",
+    "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
     "defaultMessage": "Рюнніндж…",

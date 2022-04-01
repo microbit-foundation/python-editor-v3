@@ -3,15 +3,25 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { EVENT_PROJECT_UPDATED, EVENT_TEXT_EDIT } from "../fs/fs";
+import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import {
-  DeviceConnection,
-  EVENT_STATUS,
   ConnectionStatus,
+  DeviceConnection,
+  EVENT_FLASH,
   EVENT_SERIAL_DATA,
-  EVENT_SERIAL_RESET,
   EVENT_SERIAL_ERROR,
+  EVENT_SERIAL_RESET,
+  EVENT_STATUS,
 } from "./device";
 
 const DeviceContext = React.createContext<undefined | DeviceConnection>(
@@ -195,4 +205,47 @@ export const useDeviceTraceback = () => {
   }, [device, setRuntimeError, logging]);
 
   return runtimeError;
+};
+
+export enum SyncStatus {
+  OUT_OF_SYNC = "OUT_OF_SYNC",
+  IN_SYNC = "IN_SYNC",
+}
+
+type UseSyncStatus = [SyncStatus, Dispatch<SetStateAction<SyncStatus>>];
+
+const SyncContext = React.createContext<undefined | UseSyncStatus>(undefined);
+
+export const useSyncStatus = (): SyncStatus => {
+  const value = useContext(SyncContext);
+  if (!value) {
+    throw new Error("Missing provider!");
+  }
+  return value[0];
+};
+
+export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
+  const syncStatusState = useState<SyncStatus>(SyncStatus.OUT_OF_SYNC);
+  const [, setSyncStatus] = syncStatusState;
+  const fs = useFileSystem();
+  const device = useDevice();
+  useEffect(() => {
+    const moveToOutOfSync = () => setSyncStatus(SyncStatus.OUT_OF_SYNC);
+    const moveToInSync = () => setSyncStatus(SyncStatus.IN_SYNC);
+    fs.on(EVENT_TEXT_EDIT, moveToOutOfSync);
+    fs.on(EVENT_PROJECT_UPDATED, moveToOutOfSync);
+    device.on(EVENT_FLASH, moveToInSync);
+    device.on(EVENT_STATUS, moveToOutOfSync);
+    return () => {
+      fs.removeListener(EVENT_TEXT_EDIT, moveToOutOfSync);
+      fs.removeListener(EVENT_PROJECT_UPDATED, moveToOutOfSync);
+      device.removeListener(EVENT_STATUS, moveToOutOfSync);
+      device.removeListener(EVENT_FLASH, moveToInSync);
+    };
+  }, [fs, device, setSyncStatus]);
+  return (
+    <SyncContext.Provider value={syncStatusState}>
+      {children}
+    </SyncContext.Provider>
+  );
 };

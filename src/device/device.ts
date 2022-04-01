@@ -95,6 +95,7 @@ export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
+export const EVENT_FLASH = "flash";
 
 export class HexGenerationError extends Error {}
 
@@ -330,10 +331,10 @@ export class MicrobitWebUSBConnection
     this.flashing = true;
     try {
       const startTime = new Date().getTime();
-
       await this.withEnrichedErrors(() =>
         this.flashInternal(dataSource, options)
       );
+      this.emit(EVENT_FLASH);
 
       const flashTime = new Date().getTime() - startTime;
       this.logging.event({

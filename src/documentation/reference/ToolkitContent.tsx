@@ -122,7 +122,6 @@ const ToolkitContent = ({
         <CodeEmbed code={main} {...outerProps} parentSlug={parentSlug} />
       ),
       simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
-        const ratio = getAspectRatio(props.node.asset._ref);
         return (
           <Image
             src={imageUrlBuilder
@@ -131,8 +130,8 @@ const ToolkitContent = ({
               .fit("max")
               .url()}
             alt={props.node.alt}
-            w="300px"
-            h={ratio ? `${Math.round(300 / ratio)}px` : "auto"}
+            width={300}
+            sx={{ aspectRatio: getAspectRatio(props.node.asset._ref) }}
           />
         );
       },

@@ -6,6 +6,7 @@
 import {
   ConnectionStatus,
   DeviceConnection,
+  EVENT_FLASH,
   EVENT_SERIAL_DATA,
   EVENT_STATUS,
   FlashDataSource,
@@ -72,6 +73,7 @@ export class MockDeviceConnection
     options.progress(0.5);
     await new Promise((resolve) => setTimeout(resolve, 100));
     options.progress(undefined);
+    this.emit(EVENT_FLASH);
   }
 
   async disconnect(): Promise<void> {
