@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { setDiagnostics } from "@codemirror/lint";
+import { Diagnostic, setDiagnostics } from "@codemirror/lint";
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
+import debounce from "lodash.debounce";
 import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
@@ -23,14 +24,29 @@ import { signatureHelp } from "./signatureHelp";
 class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   private diagnosticsListener = (params: LSP.PublishDiagnosticsParams) => {
     if (params.uri === this.uri) {
+      this.activeLineNumber = this.view.state.doc.lineAt(
+        this.view.state.selection.main.from
+      ).number;
       const diagnostics = diagnosticsMapping(
         this.view.state.doc,
         params.diagnostics
       );
-      this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
+      const instantDiagnostics = diagnostics.filter(
+        (d) =>
+          this.view.state.doc.lineAt(d.from).number !== this.activeLineNumber
+      );
+      this.delayedDiagnostics = diagnostics;
+      this.view.dispatch(setDiagnostics(this.view.state, instantDiagnostics));
+      this.debouncedDiagnostics();
     }
   };
-
+  private delayedDiagnostics: Diagnostic[] = [];
+  private debouncedDiagnostics = debounce(() => {
+    this.view.dispatch(
+      setDiagnostics(this.view.state, this.delayedDiagnostics)
+    );
+  }, 2000);
+  private activeLineNumber: number | undefined;
   constructor(view: EditorView) {
     super(view);
 
@@ -49,8 +65,9 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     }, 0);
   }
 
-  update({ docChanged }: ViewUpdate) {
-    if (docChanged) {
+  update({ docChanged, selectionSet }: ViewUpdate) {
+    // We also need to refresh the diagnostics on selectionSet change triggered by mouse.
+    if (docChanged || selectionSet) {
       // We should do incremental updates here
       // See https://github.com/microbit-foundation/python-editor-next/issues/256
       this.client.didChangeTextDocument(this.uri, [
