@@ -65,9 +65,8 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     }, 0);
   }
 
-  update({ docChanged, selectionSet }: ViewUpdate) {
-    // We also need to refresh the diagnostics on selectionSet change triggered by mouse.
-    if (docChanged || selectionSet) {
+  update({ docChanged }: ViewUpdate) {
+    if (docChanged) {
       // We should do incremental updates here
       // See https://github.com/microbit-foundation/python-editor-next/issues/256
       this.client.didChangeTextDocument(this.uri, [
