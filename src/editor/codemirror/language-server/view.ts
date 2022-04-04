@@ -65,8 +65,13 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     }, 0);
   }
 
-  update({ docChanged }: ViewUpdate) {
-    if (docChanged) {
+  update({ docChanged, selectionSet }: ViewUpdate) {
+    // We also need to refresh the diagnostics when the active line is changed via mouse.
+    const activeLineChanged =
+      selectionSet &&
+      this.view.state.doc.lineAt(this.view.state.selection.main.from).number !==
+        this.activeLineNumber;
+    if (docChanged || activeLineChanged) {
       // We should do incremental updates here
       // See https://github.com/microbit-foundation/python-editor-next/issues/256
       this.client.didChangeTextDocument(this.uri, [
