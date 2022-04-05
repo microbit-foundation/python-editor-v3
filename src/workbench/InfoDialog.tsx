@@ -62,7 +62,7 @@ const InfoDialog = ({
                   </ListItem>
                   <ListItem m={1}>
                     Autocomplete and paramerer help. See the choices available
-                    to you as you type code.
+                    to you as you type.
                   </ListItem>
                   <ListItem m={1}>
                     Error checking in the code editor. Catch problems before
