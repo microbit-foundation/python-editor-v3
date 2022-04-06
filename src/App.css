@@ -37,5 +37,5 @@ body,
   height: var(--ios-vvh, var(--webkit-vvh, 100vh));
 }
 body {
-  overflow-y: hidden;
+  overflow: hidden;
 }

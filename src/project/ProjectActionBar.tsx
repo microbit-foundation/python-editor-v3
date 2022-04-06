@@ -23,7 +23,8 @@ const ProjectActionBar = (props: BoxProps) => {
         <DownloadFlashButton size={size} />
         <ConnectDisconnectButton />
       </HStack>
-      <LoadButton mode="button" size={size} />
+      {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
+      <LoadButton mode="button" size={size} minW="fit-content" />
     </HStack>
   );
 };
