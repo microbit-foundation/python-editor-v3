@@ -3,29 +3,28 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack } from "@chakra-ui/react";
+import { Box, BoxProps, HStack } from "@chakra-ui/react";
+import { useRef } from "react";
+import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import ConnectDisconnectButton from "./ConnectDisconnectButton";
 import DownloadFlashButton from "./DownloadFlashButton";
 import LoadButton from "./LoadButton";
 
 const ProjectActionBar = (props: BoxProps) => {
-  const size = "lg";
+  const ref = useRef<HTMLDivElement>(null);
+  const rect = useResizeObserverContentRect(ref);
+  const size = rect && rect.width < 620 ? "md" : "lg";
+  const loadMode = rect && rect.width < 500 ? "icon" : "button";
   return (
-    <HStack
-      {...props}
-      justifyContent="space-between"
-      pt={5}
-      pb={5}
-      pl={10}
-      pr={10}
-    >
-      <HStack spacing={2.5}>
-        <DownloadFlashButton size={size} />
-        <ConnectDisconnectButton />
+    <Box {...props} ref={ref}>
+      <HStack justifyContent="space-between" py={5} px={size === "md" ? 5 : 10}>
+        <HStack spacing={2.5}>
+          <DownloadFlashButton size={size} />
+          <ConnectDisconnectButton size={size} />
+        </HStack>
+        <LoadButton mode={loadMode} size={size} />
       </HStack>
-      {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
-      <LoadButton mode="button" size={size} minW="fit-content" />
-    </HStack>
+    </Box>
   );
 };
 

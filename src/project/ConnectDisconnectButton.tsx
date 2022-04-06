@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 import React, { useCallback } from "react";
-import { Button, Tooltip } from "@chakra-ui/react";
+import { Button, ButtonProps, Tooltip } from "@chakra-ui/react";
 import { RiUsbLine } from "react-icons/ri";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import { useProjectActions } from "./project-hooks";
 import { FormattedMessage, useIntl } from "react-intl";
 
-const ConnectDisconnectButton = () => {
+const ConnectDisconnectButton = (props: ButtonProps) => {
   const status = useConnectionStatus();
   const supported = status !== ConnectionStatus.NOT_SUPPORTED;
   const connected = status === ConnectionStatus.CONNECTED;
@@ -33,10 +33,10 @@ const ConnectDisconnectButton = () => {
   return (
     <Tooltip hasArrow placement="top-start" label={tooltip}>
       <Button
-        size="lg"
         variant={variant}
         leftIcon={<RiUsbLine />}
         onClick={handleToggleConnected}
+        {...props}
       >
         <FormattedMessage
           id={connected ? "disconnect-action" : "connect-action"}

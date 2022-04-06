@@ -10,6 +10,7 @@ export const useResizeObserverContentRect = (
     const resizeObserver = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.contentRect) {
+          // When Safari 15.4 is widespread we can move to fooBoxSize.
           setContentRect(entry.contentRect);
         }
       });

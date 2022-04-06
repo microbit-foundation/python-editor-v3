@@ -42,7 +42,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
   const variant = connected || downloadOnly ? "solid" : undefined;
 
   const actions = useProjectActions();
-  const buttonWidth = "10rem"; // 8.1 with md buttons
+  const buttonWidth = size === "md" ? "8.1md" : "10rem"; // 8.1 with md buttons
   return (
     <HStack>
       <Menu>
