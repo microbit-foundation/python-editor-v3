@@ -711,6 +711,12 @@
       "value": "Plus"
     }
   ],
+  "more-download-options": [
+    {
+      "type": 0,
+      "value": "More download options"
+    }
+  ],
   "name-not-blank": [
     {
       "type": 0,

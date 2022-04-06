@@ -358,6 +358,10 @@
     "defaultMessage": "Plus",
     "description": "More button text"
   },
+  "more-download-options": {
+    "defaultMessage": "More download options",
+    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  },
   "name-not-blank": {
     "defaultMessage": "Le nom du projet ne doit pas être laissé vide",
     "description": "Validation message for project name"

@@ -358,6 +358,10 @@
     "defaultMessage": "Море",
     "description": "More button text"
   },
+  "more-download-options": {
+    "defaultMessage": "More download options",
+    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  },
   "name-not-blank": {
     "defaultMessage": "Тхе проджест наме саннот бе бланк",
     "description": "Validation message for project name"
