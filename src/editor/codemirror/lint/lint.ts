@@ -731,12 +731,66 @@ const lintGutterExtension = gutter({
   markers: view => view.state.field(lintGutterMarkers),
 })
 
+
+
+const currentlyEditingLinePlugin = ViewPlugin.fromClass(class {
+  timeout: any
+
+  update(update: ViewUpdate) {
+    if (!update.docChanged && !update.selectionSet) {
+      return;
+    }
+    console.log("Here2");
+    const mainIndex = update.state.selection?.asSingle()?.ranges[0]?.from;
+    console.log(update.state.selection);
+    if (!mainIndex) {
+      return undefined;
+    }
+    console.log({mainIndex})
+    const doc = update.state.doc;
+    const selectionLine = doc.lineAt(mainIndex).number;
+    update.changes.iterChangedRanges((fromA, toA, fromB, toB) => {
+      if (doc.lineAt(toA).number === selectionLine) {
+        // Woohoo, we changed the line we're on.
+        clearTimeout(this.timeout);
+        setTimeout(() => {
+          update.view.dispatch({ effects: [setEditingLineEffect.of(selectionLine)]});
+        }, 0)
+        this.timeout = setTimeout(() => {
+          update.view.dispatch({ effects: [setEditingLineEffect.of(undefined)]});
+        }, 2000)
+      }
+    })
+  }
+
+  destroy() {
+    clearTimeout(this.timeout)
+  }
+})
+
+export const setEditingLineEffect = StateEffect.define<number|undefined>()
+
+const currentlyEditingLine = StateField.define<number | undefined>({
+  create() {
+    return undefined
+  },
+  update(line, tr) {
+    for (let effect of tr.effects) {
+      if (effect.is(setEditingLineEffect)) {
+        return effect.value;
+      }
+    }
+    return line
+  }
+})
+
 const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
   create() {
     return RangeSet.empty
   },
   update(markers, tr) {
     markers = markers.map(tr.changes)
+    console.log("So, are we editing the line?", tr.state.field(currentlyEditingLine))
     for (let effect of tr.effects) if (effect.is(setDiagnosticsEffect)) {
       markers = markersForDiagnostics(tr.state.doc, effect.value)
     }
@@ -789,5 +843,5 @@ const lintGutterConfig = Facet.define<LintGutterConfig, Required<LintGutterConfi
 /// each line that has diagnostics, which can be hovered over to see
 /// the diagnostics.
 export function lintGutter(config: LintGutterConfig = {}): Extension {
-  return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip]
+  return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip, currentlyEditingLine, currentlyEditingLinePlugin]
 }
