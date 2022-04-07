@@ -21,8 +21,8 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
       }
       update.changes.iterChangedRanges((fromA, toA, fromB, toB) => {
         if (
-          doc.lineAt(toA).number === selectionLine ||
-          doc.lineAt(toB).number === selectionLine
+          doc.lineAt(fromA).number === selectionLine ||
+          doc.lineAt(fromB).number === selectionLine
         ) {
           // Woohoo, we changed the line we're on.
           clearTimeout(this.timeout);
