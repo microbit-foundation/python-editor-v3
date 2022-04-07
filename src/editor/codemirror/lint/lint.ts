@@ -643,13 +643,19 @@ const baseTheme = EditorView.baseTheme({
 
 class LintGutterMarker extends GutterMarker {
   severity: "info" | "warning" | "error"
-  constructor(readonly diagnostics: readonly Diagnostic[], readonly currentlyEditingLine: boolean) {
+  constructor(public diagnostics: Diagnostic[], public currentlyEditingLine: boolean) {
     super()
     this.currentlyEditingLine = currentlyEditingLine
     this.severity = diagnostics.reduce((max, d) => {
       let s = d.severity
       return s == "error" || s == "warning" && max == "info" ? s : max
     }, "info" as "info" | "warning" | "error")
+  }
+
+  // Redundant from broken approach
+  fromCurrentlyEditingLine(currentlyEditingLine: number | undefined): LintGutterMarker {
+    this.currentlyEditingLine = false;
+    return this
   }
 
   toDOM(view: EditorView) {
@@ -746,9 +752,30 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
         markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(currentlyEditingLine))
       }
       if (effect.is(setEditingLineEffect)) {
-        if (!tr.state.field(currentlyEditingLine)) {
-          // Somehow re-render markers here?
+        const diagnostics: Diagnostic[] = []
+        const iter = markers.iter(0)
+        while (iter) {
+          if (!iter.value) {
+            break;
+          }
+          const marker = (iter.value as LintGutterMarker);
+          marker.diagnostics
+          diagnostics.push(...marker.diagnostics);
+          iter.next();
         }
+        markers = markersForDiagnostics(tr.state.doc, diagnostics, tr.state.field(currentlyEditingLine))
+
+        // It wasn't happy with this approach
+        // const newMarkers: Range<GutterMarker>[] = []
+        // while (iter) {
+        //   if (!iter.value) {
+        //     break;
+        //   }
+        //   const marker = (iter.value as LintGutterMarker);
+        //   newMarkers.push(marker.fromCurrentlyEditingLine(tr.state.field(currentlyEditingLine)).range(marker.diagnostics[0].from))
+        //   iter.next();
+        // }
+        // return RangeSet.of(newMarkers, true)
       }
     }
     return markers
