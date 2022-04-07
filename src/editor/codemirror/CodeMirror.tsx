@@ -5,7 +5,7 @@
  */
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { redoDepth, undoDepth } from "@codemirror/history";
-import { lintGutter } from "@codemirror/lint";
+import { lintGutter } from "./lint/lint";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";

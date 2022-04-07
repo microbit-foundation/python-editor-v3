@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Diagnostic, setDiagnostics } from "@codemirror/lint";
+import { Diagnostic, setDiagnostics } from "../lint/lint";
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
 import debounce from "lodash.debounce";
