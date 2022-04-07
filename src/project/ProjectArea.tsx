@@ -12,7 +12,7 @@ import { isEditableFile } from "./project-utils";
 import ProjectAreaNav from "./ProjectAreaNav";
 import ProjectNameEditable from "./ProjectNameEditable";
 
-interface FilesProps {
+interface ProjectAreaProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (name: string) => void;
 }
@@ -20,7 +20,10 @@ interface FilesProps {
 /**
  * The main files area, offering access to individual files.
  */
-const ProjectArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
+const ProjectArea = ({
+  selectedFile,
+  onSelectedFileChanged,
+}: ProjectAreaProps) => {
   const { files, name: projectName } = useProject();
   return (
     <HeadedScrollablePanel
