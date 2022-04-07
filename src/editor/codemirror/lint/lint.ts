@@ -747,7 +747,7 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
       }
       if (effect.is(setEditingLineEffect)) {
         if (!tr.state.field(currentlyEditingLine)) {
-          // Make markers care about this and update their classes.
+          // Somehow re-render markers here?
         }
       }
     }
@@ -785,6 +785,10 @@ const lintGutterTheme = EditorView.baseTheme({
   },
   ".cm-lint-marker-error:before": {
     content: svg(`<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>`)
+  },
+  // Temporary editing icon
+  ".cm-lint-marker-editing:before": {
+    content: svg(`<circle cx="20" cy="20" r="15" fill="#fff" stroke="#333" stroke-width="6"/>`)
   },
 })
 
