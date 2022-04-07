@@ -91,7 +91,7 @@ const SerialBar = ({
               variant="sidebar"
               color="white"
               isRound
-              aria-label={intl.formatMessage({ id: "hints-and-tips" })}
+              aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
               icon={<RiInformationLine />}
               onClick={() => {
                 logging.event({ type: "serial-info" });

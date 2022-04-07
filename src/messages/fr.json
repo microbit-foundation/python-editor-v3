@@ -551,12 +551,6 @@
       "value": "Simple"
     }
   ],
-  "hints-and-tips": [
-    {
-      "type": 0,
-      "value": "Trucs et astuces"
-    }
-  ],
   "ideas-tab": [
     {
       "type": 0,
@@ -1073,6 +1067,12 @@
     {
       "type": 0,
       "value": "Trucs et astuces concernant la série"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
     }
   ],
   "serial-menu": [
