@@ -470,10 +470,6 @@
     "defaultMessage": "Envoyer Ctrl-D pour réinitialiser",
     "description": "Button to reset the micro:bit from the serial area"
   },
-  "serial-ctrl-e-action": {
-    "defaultMessage": "Envoyer Ctrl-E pour le mode coller",
-    "description": "Button to enter serial paste mode"
-  },
   "serial-expand": {
     "defaultMessage": "Afficher le terminal série",
     "description": "Action label to expand the serial console/REPL area"

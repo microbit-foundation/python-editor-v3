@@ -470,10 +470,6 @@
     "defaultMessage": "Сенд Cтрл-Д то ресет",
     "description": "Button to reset the micro:bit from the serial area"
   },
-  "serial-ctrl-e-action": {
-    "defaultMessage": "Сенд Cтрл-E фор пасте моде",
-    "description": "Button to enter serial paste mode"
-  },
   "serial-expand": {
     "defaultMessage": "Схов серіал",
     "description": "Aria label for serial expand/collapse"

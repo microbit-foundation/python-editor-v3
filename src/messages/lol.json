@@ -943,12 +943,6 @@
       "value": "Сенд Cтрл-Д то ресет"
     }
   ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Сенд Cтрл-E фор пасте моде"
-    }
-  ],
   "serial-expand": [
     {
       "type": 0,

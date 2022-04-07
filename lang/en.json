@@ -464,16 +464,12 @@
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Send Ctrl-C for REPL",
+    "defaultMessage": "Send Ctrl+C for REPL",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Send Ctrl-D to reset",
+    "defaultMessage": "Send Ctrl+D to reset",
     "description": "Button to reset the micro:bit from the serial area"
-  },
-  "serial-ctrl-e-action": {
-    "defaultMessage": "Send Ctrl-E for paste mode",
-    "description": "Button to enter serial paste mode"
   },
   "serial-expand": {
     "defaultMessage": "Show serial",
