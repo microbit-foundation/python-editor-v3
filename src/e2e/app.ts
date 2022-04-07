@@ -178,25 +178,25 @@ export class App {
   }
 
   /**
-   * Create a new file using the files tab.
+   * Add a new file using the files tab.
    *
    * @param name The name to enter in the dialog.
    */
-  async createNewFile(name: string): Promise<void> {
+  async addNewFile(name: string): Promise<void> {
     await this.switchTab("Files");
     const document = await this.document();
-    const newButton = await document.findByRole("button", {
-      name: "Create new file",
+    const addFileButton = await document.findByRole("button", {
+      name: "Add file",
     });
-    await newButton.click();
+    await addFileButton.click();
     const nameField = await document.findByRole("textbox", {
       name: "Name",
     });
     await nameField.type(name);
-    const createButton = await document.findByRole("button", {
-      name: "Create",
+    const addButton = await document.findByRole("button", {
+      name: "Add",
     });
-    await createButton.click();
+    await addButton.click();
   }
 
   /**

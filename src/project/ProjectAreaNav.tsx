@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import NewButton from "../project/NewButton";
-import LoadButton from "../project/LoadButton";
+import NewButton from "./NewButton";
+import LoadButton from "./LoadButton";
 import { BoxProps, Flex } from "@chakra-ui/react";
 
-const FilesAreaNav = (props: BoxProps) => {
+const ProjectAreaNav = (props: BoxProps) => {
   return (
     <Flex
       px={2}
@@ -22,4 +22,4 @@ const FilesAreaNav = (props: BoxProps) => {
   );
 };
 
-export default FilesAreaNav;
+export default ProjectAreaNav;

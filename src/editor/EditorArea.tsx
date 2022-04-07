@@ -47,7 +47,13 @@ const EditorArea = ({
         pb={2}
         height={topBarHeight}
       >
-        <ProjectNameEditable />
+        <ProjectNameEditable
+          color="gray.700"
+          opacity="80%"
+          fontSize="xl"
+          data-testid="project-name"
+          clickToEdit
+        />
         <ActiveFileInfo
           filename={selection.file}
           onSelectedFileChanged={onSelectedFileChanged}
