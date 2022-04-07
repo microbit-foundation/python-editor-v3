@@ -4,30 +4,37 @@ import { ViewPlugin, ViewUpdate } from "@codemirror/view";
 export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
   class {
     timeout: any;
+    prevSelectionLine: number | undefined = undefined;
 
     update(update: ViewUpdate) {
       if (!update.docChanged && !update.selectionSet) {
         return;
       }
-      console.log("Here2");
       const mainIndex = update.state.selection?.asSingle()?.ranges[0]?.from;
-      console.log(update.state.selection);
       if (!mainIndex) {
         return undefined;
       }
-      console.log({ mainIndex });
       const doc = update.state.doc;
       const selectionLine = doc.lineAt(mainIndex).number;
+      // Don't update if currentlyEditingLine hasn't changed.
+      if (this.prevSelectionLine === selectionLine) {
+        return;
+      }
       update.changes.iterChangedRanges((fromA, toA, fromB, toB) => {
-        if (doc.lineAt(toA).number === selectionLine) {
+        if (
+          doc.lineAt(toA).number === selectionLine ||
+          doc.lineAt(toB).number === selectionLine
+        ) {
           // Woohoo, we changed the line we're on.
           clearTimeout(this.timeout);
           setTimeout(() => {
+            this.prevSelectionLine = selectionLine;
             update.view.dispatch({
               effects: [setEditingLineEffect.of(selectionLine)],
             });
           }, 0);
           this.timeout = setTimeout(() => {
+            this.prevSelectionLine = undefined;
             update.view.dispatch({
               effects: [setEditingLineEffect.of(undefined)],
             });

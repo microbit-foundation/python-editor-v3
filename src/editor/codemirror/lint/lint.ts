@@ -34,7 +34,7 @@ import {PanelConstructor, Panel, showPanel, getPanel} from "@codemirror/panel"
 import {gutter, GutterMarker} from "@codemirror/gutter"
 import {RangeSet, Range} from "@codemirror/rangeset"
 import elt from "crelt"
-import { currentlyEditingLine, currentlyEditingLinePlugin } from "./editingLine"
+import { currentlyEditingLine, currentlyEditingLinePlugin, setEditingLineEffect } from "./editingLine"
 
 /// Describes a problem or hint for a piece of code.
 export interface Diagnostic {
@@ -643,8 +643,9 @@ const baseTheme = EditorView.baseTheme({
 
 class LintGutterMarker extends GutterMarker {
   severity: "info" | "warning" | "error"
-  constructor(readonly diagnostics: readonly Diagnostic[]) {
+  constructor(readonly diagnostics: readonly Diagnostic[], readonly currentlyEditingLine: boolean) {
     super()
+    this.currentlyEditingLine = currentlyEditingLine
     this.severity = diagnostics.reduce((max, d) => {
       let s = d.severity
       return s == "error" || s == "warning" && max == "info" ? s : max
@@ -653,7 +654,7 @@ class LintGutterMarker extends GutterMarker {
 
   toDOM(view: EditorView) {
     let elt = document.createElement("div")
-    elt.className = "cm-lint-marker cm-lint-marker-" + this.severity
+    elt.className = `cm-lint-marker cm-lint-marker-${this.currentlyEditingLine ? "editing" : this.severity}`
     elt.onmouseover = () => gutterMarkerMouseOver(view, elt, this.diagnostics)
     return elt
   }
@@ -714,7 +715,7 @@ function gutterMarkerMouseOver(view: EditorView, marker: HTMLElement, diagnostic
   }
 }
 
-function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[]) {
+function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[], currentlyEditingLine: number | undefined) {
   let byLine: {[line: number]: Diagnostic[]} = Object.create(null)
   for (let diagnostic of diagnostics) {
     let line = doc.lineAt(diagnostic.from)
@@ -722,7 +723,9 @@ function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[]) {
   }
   let markers: Range<GutterMarker>[] = []
   for (let line in byLine) {
-    markers.push(new LintGutterMarker(byLine[line]).range(+line))
+    const lineNumber = doc.lineAt(Number(line)).number
+    const editing = lineNumber === currentlyEditingLine;
+    markers.push(new LintGutterMarker(byLine[line], editing).range(+line))
   }
   return RangeSet.of(markers, true)
 }
@@ -738,9 +741,15 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
   },
   update(markers, tr) {
     markers = markers.map(tr.changes)
-    console.log("So, are we editing the line?", tr.state.field(currentlyEditingLine))
-    for (let effect of tr.effects) if (effect.is(setDiagnosticsEffect)) {
-      markers = markersForDiagnostics(tr.state.doc, effect.value)
+    for (let effect of tr.effects) {
+      if (effect.is(setDiagnosticsEffect)) {
+        markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(currentlyEditingLine))
+      }
+      if (effect.is(setEditingLineEffect)) {
+        if (!tr.state.field(currentlyEditingLine)) {
+          // Make markers care about this and update their classes.
+        }
+      }
     }
     return markers
   }
