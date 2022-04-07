@@ -928,19 +928,13 @@
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Send Ctrl-C for REPL"
+      "value": "Send Ctrl+C for REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Send Ctrl-D to reset"
-    }
-  ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Send Ctrl-E for paste mode"
+      "value": "Send Ctrl+D to reset"
     }
   ],
   "serial-expand": [

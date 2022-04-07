@@ -937,12 +937,6 @@
       "value": "Envoyer Ctrl-D pour réinitialiser"
     }
   ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Envoyer Ctrl-E pour le mode coller"
-    }
-  ],
   "serial-expand": [
     {
       "type": 0,
