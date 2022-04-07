@@ -399,22 +399,22 @@ export class ProjectActions {
   /**
    * Create a file, prompting the user for the name.
    */
-  createFile = async () => {
+  addFile = async () => {
     const preexistingFiles = new Set(this.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
     const filenameWithoutExtension = await this.dialogs.input<string>({
-      header: this.intl.formatMessage({ id: "create-python" }),
+      header: this.intl.formatMessage({ id: "add-python" }),
       Body: NewFileNameQuestion,
       initialValue: "",
-      actionLabel: this.intl.formatMessage({ id: "create-action" }),
+      actionLabel: this.intl.formatMessage({ id: "add-action" }),
       validate,
       customFocus: true,
     });
 
     if (filenameWithoutExtension) {
       this.logging.event({
-        type: "create-file",
+        type: "add-file",
       });
       try {
         const filename = ensurePythonExtension(filenameWithoutExtension);
@@ -425,7 +425,7 @@ export class ProjectActions {
         );
         this.setSelection({ file: filename, location: { line: undefined } });
         this.actionFeedback.success({
-          title: this.intl.formatMessage({ id: "created-file" }, { filename }),
+          title: this.intl.formatMessage({ id: "added-file" }, { filename }),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);

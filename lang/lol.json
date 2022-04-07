@@ -23,9 +23,25 @@
     "defaultMessage": "Реад море абоют МісроПутхон",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
+  "add-action": {
+    "defaultMessage": "Add",
+    "description": "Add action label"
+  },
+  "add-file-action": {
+    "defaultMessage": "Add new file",
+    "description": "Add new file button text"
+  },
+  "add-python": {
+    "defaultMessage": "Add a new Python file to your project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
   "added-change": {
     "defaultMessage": "Аддед філе {changeName}",
     "description": "Change made to file"
+  },
+  "added-file": {
+    "defaultMessage": "Added {filename}",
+    "description": "Action feedback for creating a file"
   },
   "already-exists": {
     "defaultMessage": "Тхіс філе алреаду ексістс",
@@ -151,22 +167,6 @@
     "defaultMessage": "Cопу",
     "description": "Copy to clipboard action text"
   },
-  "create-action": {
-    "defaultMessage": "Cреате",
-    "description": "Create action label"
-  },
-  "create-file-action": {
-    "defaultMessage": "Cреате нев філе",
-    "description": "Create new file button text"
-  },
-  "create-python": {
-    "defaultMessage": "Cреате а нев Путхон філе",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
-  "created-file": {
-    "defaultMessage": "Cреатед {filename}",
-    "description": "Action feedback for creating a file"
-  },
   "delete-action": {
     "defaultMessage": "Делете",
     "description": "Button text for delete action"
@@ -226,14 +226,6 @@
   "file-actions": {
     "defaultMessage": "{name} філе астіонс",
     "description": "Header of file actions for file"
-  },
-  "files-tab": {
-    "defaultMessage": "Філес",
-    "description": "Files tab button text"
-  },
-  "files-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your Python Editor project",
-    "description": "Files tab description"
   },
   "flash-action": {
     "defaultMessage": "Фласх",
@@ -413,6 +405,18 @@
   "project-header": {
     "defaultMessage": "Проджест хеадер",
     "description": "Aria label for the project header area"
+  },
+  "project-name": {
+    "defaultMessage": "Project name",
+    "description": "Text used to indicate the project name"
+  },
+  "project-tab": {
+    "defaultMessage": "Project",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your project",
+    "description": "Project tab description"
   },
   "python-powered": {
     "defaultMessage": "Путхон поверед",

@@ -23,7 +23,7 @@ import PythonLogo from "../common/PythonLogo";
 import ReferenceArea from "../documentation/ReferenceArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ApiArea from "../documentation/ApiArea";
-import FilesArea from "../files/FilesArea";
+import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
@@ -86,11 +86,11 @@ const SideBar = ({
         mb: "auto",
       },
       {
-        id: "files",
-        title: intl.formatMessage({ id: "files-tab" }),
+        id: "project",
+        title: intl.formatMessage({ id: "project-tab" }),
         icon: VscFiles,
         contents: (
-          <FilesArea
+          <ProjectArea
             selectedFile={selectedFile}
             onSelectedFileChanged={onSelectedFileChanged}
           />

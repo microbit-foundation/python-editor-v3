@@ -18,8 +18,8 @@ import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
-import { useProjectActions } from "../project/project-hooks";
-import { isEditableFile } from "../project/project-utils";
+import { useProjectActions } from "./project-hooks";
+import { isEditableFile } from "./project-utils";
 
 interface FileRowProps extends BoxProps {
   projectName: string;
