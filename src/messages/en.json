@@ -551,12 +551,6 @@
       "value": "Simple"
     }
   ],
-  "hints-and-tips": [
-    {
-      "type": 0,
-      "value": "Hints and tips"
-    }
-  ],
   "ideas-tab": [
     {
       "type": 0,
@@ -1070,6 +1064,12 @@
     }
   ],
   "serial-help-title": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
+    }
+  ],
+  "serial-hints-and-tips": [
     {
       "type": 0,
       "value": "Serial hints and tips"

@@ -287,10 +287,6 @@
     "defaultMessage": "Simple",
     "description": "Highlight code structure option"
   },
-  "hints-and-tips": {
-    "defaultMessage": "Trucs et astuces",
-    "description": "Link/button for minor internal help"
-  },
   "ideas-tab": {
     "defaultMessage": "Idées",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
@@ -501,6 +497,10 @@
   "serial-help-title": {
     "defaultMessage": "Trucs et astuces concernant la série",
     "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-hints-and-tips": {
+    "defaultMessage": "Serial hints and tips",
+    "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
     "defaultMessage": "Menu série",

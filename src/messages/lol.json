@@ -551,12 +551,6 @@
       "value": "Сімпле"
     }
   ],
-  "hints-and-tips": [
-    {
-      "type": 0,
-      "value": "Хінтс анд тіпс"
-    }
-  ],
   "ideas-tab": [
     {
       "type": 0,
@@ -1073,6 +1067,12 @@
     {
       "type": 0,
       "value": "Серіал хінтс анд тіпс"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
     }
   ],
   "serial-menu": [
