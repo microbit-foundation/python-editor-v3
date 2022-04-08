@@ -6,32 +6,32 @@
 import { Idea } from "./model";
 
 // Temporarily fetch drafts
-const toolkitQuery = (languageId: string): string => {
-  if (!languageId.match(/^[a-z-]+$/g)) {
-    throw new Error("Invalid language id.");
-  }
-  return `
-  *[_type == "pythonIdea" && language == "${languageId}"]{
-    _id, name, language, compatibility, image, slug,
-    content[] {
-      ...,
-      markDefs[]{
-        ...,
-        _type == "toolkitInternalLink" => {
-            "slug": @.reference->slug,
-            "targetType": @.reference->_type
-        }
-      }
-    },
-  }`;
-};
+// const toolkitQuery = (languageId: string): string => {
+//   if (!languageId.match(/^[a-z-]+$/g)) {
+//     throw new Error("Invalid language id.");
+//   }
+//   return `
+//   *[_type == "pythonIdea" && language == "${languageId}"]{
+//     _id, name, language, compatibility, image, slug,
+//     content[] {
+//       ...,
+//       markDefs[]{
+//         ...,
+//         _type == "toolkitInternalLink" => {
+//             "slug": @.reference->slug,
+//             "targetType": @.reference->_type
+//         }
+//       }
+//     },
+//   }`;
+// };
 // No need to add a Sanity client dependency just for this.
-const toolkitQueryUrl = (languageId: string): string => {
-  return (
-    "https://ajwvhvgo.api.sanity.io/v1/data/query/apps?query=" +
-    encodeURIComponent(toolkitQuery(languageId))
-  );
-};
+// const toolkitQueryUrl = (languageId: string): string => {
+//   return (
+//     "https://ajwvhvgo.api.sanity.io/v1/data/query/apps?query=" +
+//     encodeURIComponent(toolkitQuery(languageId))
+//   );
+// };
 
 const hardCodedResults: Idea[] = [
   {
@@ -141,7 +141,6 @@ const fetchToolkitInternal = async (
   const response = await fetch("");
   if (response.ok) {
     const { result } = await response.json();
-    console.log(result);
     if (!result) {
       throw new Error("Unexpected response format");
     }
