@@ -9,6 +9,7 @@ import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
+import { flags } from "../../flags";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { isV2Only } from "../reference/model";
 import { useAnimationDirection } from "../reference/toolkit-hooks";
@@ -70,7 +71,7 @@ const ActiveToolkitLevel = ({
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
   const listItemMode = !contentWidth || contentWidth > 550 ? "half" : "full";
-  if (activeIdea) {
+  if (activeIdea && flags.ideas) {
     return (
       <HeadedScrollablePanel
         key={activeIdea.slug.current}
@@ -98,18 +99,20 @@ const ActiveToolkitLevel = ({
         <AreaHeading name={referenceString} description={descriptionString} />
       }
     >
-      <List display="flex" flex="1 1 auto" flexWrap="wrap" m={3} ref={ref}>
-        {toolkit.map((idea) => (
-          <IdeaTopLevelListItem
-            key={idea.name}
-            name={idea.name}
-            isV2Only={isV2Only(idea)}
-            image={idea.image}
-            onForward={() => onNavigate(idea.slug.current)}
-            listItemMode={listItemMode}
-          />
-        ))}
-      </List>
+      {flags.ideas && (
+        <List display="flex" flex="1 1 auto" flexWrap="wrap" m={3} ref={ref}>
+          {toolkit.map((idea) => (
+            <IdeaTopLevelListItem
+              key={idea.name}
+              name={idea.name}
+              isV2Only={isV2Only(idea)}
+              image={idea.image}
+              onForward={() => onNavigate(idea.slug.current)}
+              listItemMode={listItemMode}
+            />
+          ))}
+        </List>
+      )}
     </HeadedScrollablePanel>
   );
 };
