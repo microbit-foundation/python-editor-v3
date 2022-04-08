@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { List, Stack } from "@chakra-ui/layout";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
+import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { isV2Only } from "../reference/model";
 import { useAnimationDirection } from "../reference/toolkit-hooks";
@@ -65,6 +66,10 @@ const ActiveToolkitLevel = ({
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "ideas-tab" });
   const descriptionString = intl.formatMessage({ id: "ideas-tab-description" });
+  const ref = useRef<HTMLUListElement>(null);
+  const contentRect = useResizeObserverContentRect(ref);
+  const contentWidth = contentRect?.width ?? 0;
+  const listItemMode = !contentWidth || contentWidth > 550 ? "half" : "full";
   if (activeIdea) {
     return (
       <HeadedScrollablePanel
@@ -93,7 +98,7 @@ const ActiveToolkitLevel = ({
         <AreaHeading name={referenceString} description={descriptionString} />
       }
     >
-      <List flex="1 1 auto" m={3}>
+      <List display="flex" flex="1 1 auto" flexWrap="wrap" m={3} ref={ref}>
         {toolkit.map((idea) => (
           <IdeaTopLevelListItem
             key={idea.name}
@@ -101,6 +106,7 @@ const ActiveToolkitLevel = ({
             isV2Only={isV2Only(idea)}
             image={idea.image}
             onForward={() => onNavigate(idea.slug.current)}
+            listItemMode={listItemMode}
           />
         ))}
       </List>

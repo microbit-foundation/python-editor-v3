@@ -1,19 +1,19 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/layout";
-import { Tag, Flex } from "@chakra-ui/react";
+import { Text, TextProps } from "@chakra-ui/layout";
+import { Flex, Tag } from "@chakra-ui/react";
 
-interface ToolkitNameProps {
+interface ToolkitNameProps extends TextProps {
   name: string;
   isV2Only: boolean;
 }
 
-const ToolkitName = ({ name, isV2Only }: ToolkitNameProps) => {
+const ToolkitName = ({ name, isV2Only, ...props }: ToolkitNameProps) => {
   return (
-    <Text as="h3" fontSize="lg" fontWeight="semibold">
+    <Text as="h3" fontSize="lg" fontWeight="semibold" {...props}>
       {name}
       {isV2Only && (
         <Flex display="inline-flex">
