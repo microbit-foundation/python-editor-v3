@@ -136,22 +136,19 @@ const hardCodedResults: Idea[] = [
 
 const fetchToolkitInternal = async (
   languageId: string
-): Promise<Idea | undefined> => {
-  const response = await fetch(toolkitQueryUrl(languageId));
+): Promise<Idea[] | undefined> => {
+  // const response = await fetch(toolkitQueryUrl(languageId));
+  const response = await fetch("");
   if (response.ok) {
     const { result } = await response.json();
+    console.log(result);
     if (!result) {
       throw new Error("Unexpected response format");
     }
-    const toolkits = result as Idea[];
-    if (toolkits.length === 0) {
+    const toolkit = result as Idea[];
+    if (toolkit.length === 0) {
       return undefined;
     }
-    if (toolkits.length > 1) {
-      throw new Error("Unexpected results");
-    }
-    // Add topic entry parent for toolkit navigation.
-    const toolkit = toolkits[0];
     return toolkit;
   }
   throw new Error("Error fetching toolkit content: " + response.status);
@@ -165,9 +162,9 @@ export const fetchIdeasToolkit = async (
     // Use temporary hardcoded due to failure to fetch data here.
     return hardCodedResults;
   }
-  // const fallback = await fetchToolkitInternal("en");
-  // if (!fallback) {
-  //   throw new Error("English toolkit must exist");
-  // }
+  const fallback = await fetchToolkitInternal("en");
+  if (!fallback) {
+    throw new Error("English toolkit must exist");
+  }
   return [];
 };
