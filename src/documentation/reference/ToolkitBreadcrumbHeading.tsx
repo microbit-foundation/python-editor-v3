@@ -5,9 +5,11 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
-import { HStack, VStack } from "@chakra-ui/react";
+import { HStack, Image, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
+import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
+import { IdeaImage } from "../ideas/model";
 import { ToolkitImage } from "./model";
 import ToolkitIcon from "./ToolkitIcon";
 
@@ -20,6 +22,7 @@ interface BreadcrumbHeadingProps {
   parentFontFamily?: "code";
   subtitle?: ReactNode;
   icon?: ToolkitImage;
+  image?: IdeaImage;
 }
 
 const ToolkitBreadcrumbHeading = ({
@@ -31,6 +34,7 @@ const ToolkitBreadcrumbHeading = ({
   titleFontFamily,
   subtitle,
   icon,
+  image,
 }: BreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
@@ -76,6 +80,18 @@ const ToolkitBreadcrumbHeading = ({
             {title}
           </Text>
           {subtitle && <Text fontSize="md">{subtitle}</Text>}
+          {image && (
+            <Image
+              src={imageUrlBuilder
+                .image(image.asset)
+                .width(300)
+                .fit("max")
+                .url()}
+              alt=""
+              width={300}
+              sx={{ aspectRatio: getAspectRatio(image.asset._ref) }}
+            />
+          )}
         </VStack>
       </HStack>
     </Stack>
