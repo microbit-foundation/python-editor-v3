@@ -28,8 +28,13 @@ const IdeaTopLevelListItem = ({
     <ListItem
       onClick={onForward}
       cursor="pointer"
-      width={listItemMode === "half" ? "50%" : "100%"}
-      maxW={400}
+      width={
+        listItemMode === "third"
+          ? "calc(100% / 3)"
+          : listItemMode === "half"
+          ? "50%"
+          : "100%"
+      }
     >
       <HStack
         m={5}
@@ -37,6 +42,7 @@ const IdeaTopLevelListItem = ({
         background={"white"}
         padding={1}
         paddingBottom={2}
+        paddingTop={1.5}
         borderRadius={"lg"}
         overflow="hidden"
         boxShadow="4px 0px 24px #00000033"

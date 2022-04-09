@@ -18,23 +18,13 @@ import {
   ToolkitImage,
   ToolkitInternalLink,
 } from "./model";
-import { imageUrlBuilder } from "../../common/imageUrlBuilder";
+import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { PortableText } from "../../common/sanity";
 
 interface ToolkitContentProps {
   content: PortableText;
   parentSlug?: string;
 }
-
-const getAspectRatio = (imageRef: string): number | undefined => {
-  const dimensionsArr = imageRef.match(/\d+x\d+/g);
-  if (!dimensionsArr) {
-    return undefined;
-  }
-  const dimensions = dimensionsArr.join().split("x");
-  const [width, height] = dimensions.map((n: string) => Number(n));
-  return width / height;
-};
 
 const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
   const [, setState] = useRouterState();

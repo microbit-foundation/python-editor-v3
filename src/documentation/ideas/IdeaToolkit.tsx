@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { List, Stack } from "@chakra-ui/layout";
+import { Image } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
@@ -16,6 +17,7 @@ import { useAnimationDirection } from "../reference/toolkit-hooks";
 import ToolkitBreadcrumbHeading from "../reference/ToolkitBreadcrumbHeading";
 import ToolkitContent from "../reference/ToolkitContent";
 import IdeaTopLevelListItem from "./IdeaTopLevelListItem";
+import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { Idea } from "./model";
 
 interface IdeaToolkitProps {
@@ -70,7 +72,12 @@ const ActiveToolkitLevel = ({
   const ref = useRef<HTMLUListElement>(null);
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
-  const listItemMode = !contentWidth || contentWidth > 550 ? "half" : "full";
+  const listItemMode =
+    !contentWidth || contentWidth > 1100
+      ? "third"
+      : contentWidth > 550
+      ? "half"
+      : "full";
   if (activeIdea && flags.ideas) {
     return (
       <HeadedScrollablePanel
@@ -86,6 +93,16 @@ const ActiveToolkitLevel = ({
       >
         {activeIdea.content && (
           <Stack spacing={3} fontSize="sm" p={5} pr={3} mt={1} mb={1}>
+            <Image
+              src={imageUrlBuilder
+                .image(activeIdea.image.asset)
+                .width(300)
+                .fit("max")
+                .url()}
+              alt=""
+              width={300}
+              sx={{ aspectRatio: getAspectRatio(activeIdea.image.asset._ref) }}
+            />
             <ToolkitContent content={activeIdea.content} />
           </Stack>
         )}
