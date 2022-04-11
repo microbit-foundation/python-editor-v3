@@ -470,6 +470,10 @@
     "defaultMessage": "Envoyer Ctrl-D pour réinitialiser",
     "description": "Button to reset the micro:bit from the serial area"
   },
+  "serial-ctrl-shift-l-action": {
+    "defaultMessage": "Send Ctrl+Shift+L to clear output",
+    "description": "Action label to clear the serial output"
+  },
   "serial-expand": {
     "defaultMessage": "Afficher le terminal série",
     "description": "Action label to expand the serial console/REPL area"

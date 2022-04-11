@@ -80,7 +80,9 @@ const useNewTerminal = (): Terminal => {
     );
     const fitAddon = new FitAddon();
     terminal.loadAddon(fitAddon);
-    terminal.attachCustomKeyEventHandler(customKeyEventHandler);
+    terminal.attachCustomKeyEventHandler((e) =>
+      customKeyEventHandler(e, terminal)
+    );
 
     const serialListener = (data: string) => {
       if (!isUnmounted()) {

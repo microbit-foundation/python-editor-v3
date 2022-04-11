@@ -470,6 +470,10 @@
     "defaultMessage": "Сенд Cтрл-Д то ресет",
     "description": "Button to reset the micro:bit from the serial area"
   },
+  "serial-ctrl-shift-l-action": {
+    "defaultMessage": "Send Ctrl+Shift+L to clear output",
+    "description": "Action label to clear the serial output"
+  },
   "serial-expand": {
     "defaultMessage": "Схов серіал",
     "description": "Aria label for serial expand/collapse"

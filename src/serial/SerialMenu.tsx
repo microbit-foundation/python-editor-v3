@@ -11,11 +11,12 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { MdMoreVert } from "react-icons/md";
 import { RiKeyboardBoxLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
-import { useSerialActions } from "./serial-hooks";
+import { useSerialActions, useTerminal } from "./serial-hooks";
 
 interface SerialMenuProps {
   compact?: boolean;
@@ -28,6 +29,10 @@ interface SerialMenuProps {
 const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
   const intl = useIntl();
   const actions = useSerialActions(onSizeChange);
+  const terminal = useTerminal();
+  const handleClear = useCallback(() => {
+    terminal.clear();
+  }, [terminal]);
   return (
     <Menu placement={compact ? "top-start" : undefined}>
       <MenuButton
@@ -45,6 +50,9 @@ const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
           </MenuItem>
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.reset}>
             <FormattedMessage id="serial-ctrl-d-action" />
+          </MenuItem>
+          <MenuItem icon={<RiKeyboardBoxLine />} onClick={handleClear}>
+            <FormattedMessage id="serial-ctrl-shift-l-action" />
           </MenuItem>
         </MenuList>
       </Portal>

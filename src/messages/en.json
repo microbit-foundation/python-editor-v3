@@ -943,6 +943,12 @@
       "value": "Send Ctrl+D to reset"
     }
   ],
+  "serial-ctrl-shift-l-action": [
+    {
+      "type": 0,
+      "value": "Send Ctrl+Shift+L to clear output"
+    }
+  ],
   "serial-expand": [
     {
       "type": 0,
