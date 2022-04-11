@@ -15,7 +15,7 @@ const copyShortcut = (e: KeyboardEvent): boolean => {
 };
 
 const clearSerialShortcut = (e: KeyboardEvent, terminal: Terminal): boolean => {
-  if (e.ctrlKey && e.code === "KeyL") {
+  if (e.ctrlKey && e.shiftKey && e.code === "KeyL") {
     e.preventDefault();
     terminal.clear();
     return false;
