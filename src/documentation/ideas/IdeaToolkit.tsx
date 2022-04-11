@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, Stack } from "@chakra-ui/layout";
+import { Stack } from "@chakra-ui/layout";
+import { SimpleGrid } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
@@ -67,15 +68,11 @@ const ActiveToolkitLevel = ({
   const intl = useIntl();
   const referenceString = intl.formatMessage({ id: "ideas-tab" });
   const descriptionString = intl.formatMessage({ id: "ideas-tab-description" });
-  const ref = useRef<HTMLUListElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
-  const listItemMode =
-    !contentWidth || contentWidth > 1100
-      ? "third"
-      : contentWidth > 550
-      ? "half"
-      : "full";
+  const numCols =
+    !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1;
   if (activeIdea && flags.ideas) {
     return (
       <HeadedScrollablePanel
@@ -106,7 +103,7 @@ const ActiveToolkitLevel = ({
       }
     >
       {flags.ideas && (
-        <List display="flex" flex="1 1 auto" flexWrap="wrap" m={3} ref={ref}>
+        <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
           {toolkit.map((idea) => (
             <IdeaTopLevelListItem
               key={idea.name}
@@ -114,10 +111,9 @@ const ActiveToolkitLevel = ({
               isV2Only={isV2Only(idea)}
               image={idea.image}
               onForward={() => onNavigate(idea.slug.current)}
-              listItemMode={listItemMode}
             />
           ))}
-        </List>
+        </SimpleGrid>
       )}
     </HeadedScrollablePanel>
   );

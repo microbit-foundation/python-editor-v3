@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { VStack } from "@chakra-ui/layout";
-import { HStack, Image, ListItem } from "@chakra-ui/react";
+import { Box, HStack, Image } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 import ToolkitName from "../reference/ToolkitName";
 import { IdeaImage } from "./model";
@@ -14,7 +14,6 @@ interface IdeaTopLevelListItemProps {
   image: IdeaImage;
   isV2Only?: boolean;
   onForward: () => void;
-  listItemMode: string;
 }
 
 const IdeaTopLevelListItem = ({
@@ -22,22 +21,10 @@ const IdeaTopLevelListItem = ({
   image,
   isV2Only,
   onForward,
-  listItemMode,
 }: IdeaTopLevelListItemProps) => {
   return (
-    <ListItem
-      onClick={onForward}
-      cursor="pointer"
-      width={
-        listItemMode === "third"
-          ? "calc(100% / 3)"
-          : listItemMode === "half"
-          ? "50%"
-          : "100%"
-      }
-    >
+    <Box onClick={onForward} cursor="pointer">
       <HStack
-        m={5}
         spacing={5}
         background={"white"}
         padding={1}
@@ -46,6 +33,9 @@ const IdeaTopLevelListItem = ({
         borderRadius={"lg"}
         overflow="hidden"
         boxShadow="4px 0px 24px #00000033"
+        // Fill available height to keep grid items the same size.
+        height={"100%"}
+        alignItems={"flex-start"}
       >
         <VStack alignItems="center" spacing={2} flex="1 1 auto">
           <Image
@@ -65,7 +55,7 @@ const IdeaTopLevelListItem = ({
           ></ToolkitName>
         </VStack>
       </HStack>
-    </ListItem>
+    </Box>
   );
 };
 
