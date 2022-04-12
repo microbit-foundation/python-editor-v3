@@ -20,7 +20,7 @@ const MaybeTracebackLink = ({ traceback }: MaybeTracebackLinkProps) => {
   if (file === MAIN_FILE && line) {
     return (
       <TracebackLink traceback={traceback}>
-        <Text as={"span"} textDecoration="underline">
+        <Text as="span" textDecoration="underline">
           line {line}
         </Text>{" "}
         {traceback.error}
@@ -30,7 +30,7 @@ const MaybeTracebackLink = ({ traceback }: MaybeTracebackLinkProps) => {
   if (file && line) {
     return (
       <TracebackLink traceback={traceback}>
-        <Text as={"span"} textDecoration="underline">
+        <Text as="span" textDecoration="underline">
           {file} line {line}
         </Text>{" "}
         {traceback.error}
