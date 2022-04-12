@@ -6,12 +6,12 @@
 import { VStack } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
-import ToolkitName from "../reference/ToolkitName";
-import { IdeaImage } from "./model";
+import { SimpleImage } from "../../common/sanity";
+import DocumentationHeading from "../common/DocumentationHeading";
 
 interface IdeaCardProps {
   name: string;
-  image: IdeaImage;
+  image: SimpleImage;
   isV2Only?: boolean;
   onClick: () => void;
 }
@@ -41,7 +41,7 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
         src={imageUrlBuilder.image(image.asset).url()}
         alt=""
       />
-      <ToolkitName
+      <DocumentationHeading
         alignSelf="flex-start"
         px={2.5}
         pb={2}

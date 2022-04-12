@@ -13,62 +13,55 @@ import { imageUrlBuilder, getAspectRatio } from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import { flags } from "../../flags";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
-import { isV2Only } from "../reference/model";
-import { useAnimationDirection } from "../reference/toolkit-hooks";
-import ToolkitBreadcrumbHeading from "../reference/ToolkitBreadcrumbHeading";
-import ToolkitContent from "../reference/ToolkitContent";
+import { useAnimationDirection } from "../common/documentation-animation-hooks";
+import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
+import DocumentationContent from "../common/DocumentationContent";
+import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
 
-interface IdeaToolkitProps {
-  toolkit: Idea[];
+interface IdeasDocumentationProps {
+  ideas: Idea[];
 }
 
-/**
- * A data-driven toolkit component.
- *
- * The components used here are also used with the API data to
- * generate the API documentation.
- */
-const IdeasToolkit = ({ toolkit }: IdeaToolkitProps) => {
+const IdeasDocumentation = ({ ideas }: IdeasDocumentationProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.idea);
   const direction = useAnimationDirection(anchor);
   const ideaId = anchor?.id;
   const handleNavigate = useCallback(
     (ideaId: string | undefined) => {
-      setAnchor(ideaId ? { id: ideaId } : undefined, "toolkit-user");
+      setAnchor(ideaId ? { id: ideaId } : undefined, "documentation-user");
     },
     [setAnchor]
   );
   return (
-    <ActiveToolkitLevel
+    <ActiveLevel
       key={anchor ? 0 : 1}
       anchor={anchor}
       ideaId={ideaId}
       onNavigate={handleNavigate}
-      toolkit={toolkit}
+      ideas={ideas}
       direction={direction}
     />
   );
 };
 
-interface ActiveToolkitLevelProps extends IdeaToolkitProps {
+interface ActiveLevelProps extends IdeasDocumentationProps {
   anchor: Anchor | undefined;
   ideaId: string | undefined;
   onNavigate: (ideaId: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
-const ActiveToolkitLevel = ({
+const ActiveLevel = ({
   ideaId,
   onNavigate,
-  toolkit,
+  ideas,
   direction,
-}: ActiveToolkitLevelProps) => {
-  const activeIdea = toolkit.find((idea) => idea.slug.current === ideaId);
+}: ActiveLevelProps) => {
+  const activeIdea = ideas.find((idea) => idea.slug.current === ideaId);
   const intl = useIntl();
-  const referenceString = intl.formatMessage({ id: "ideas-tab" });
-  const descriptionString = intl.formatMessage({ id: "ideas-tab-description" });
+  const headingString = intl.formatMessage({ id: "ideas-tab" });
   const ref = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
@@ -80,8 +73,8 @@ const ActiveToolkitLevel = ({
         key={activeIdea.slug.current}
         direction={direction}
         heading={
-          <ToolkitBreadcrumbHeading
-            parent={referenceString}
+          <DocumentationBreadcrumbHeading
+            parent={headingString}
             title={activeIdea.name}
             onBack={() => onNavigate(undefined)}
           />
@@ -105,7 +98,7 @@ const ActiveToolkitLevel = ({
               />
             )}
 
-            <ToolkitContent content={activeIdea.content} />
+            <DocumentationContent content={activeIdea.content} />
           </Stack>
         )}
       </HeadedScrollablePanel>
@@ -115,12 +108,15 @@ const ActiveToolkitLevel = ({
     <HeadedScrollablePanel
       direction={direction}
       heading={
-        <AreaHeading name={referenceString} description={descriptionString} />
+        <AreaHeading
+          name={headingString}
+          description={intl.formatMessage({ id: "ideas-tab-description" })}
+        />
       }
     >
       {flags.ideas && (
         <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
-          {toolkit.map((idea) => (
+          {ideas.map((idea) => (
             <IdeaCard
               key={idea.name}
               name={idea.name}
@@ -135,4 +131,4 @@ const ActiveToolkitLevel = ({
   );
 };
 
-export default IdeasToolkit;
+export default IdeasDocumentation;

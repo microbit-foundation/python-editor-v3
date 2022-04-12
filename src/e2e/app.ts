@@ -472,7 +472,7 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findActiveToolkitEntry(text: string): Promise<void> {
+  async findActiveDocumentationEntry(text: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
     return waitFor(async () => {
@@ -492,7 +492,7 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findToolkitTopLevelHeading(
+  async findDocumentationTopLevelHeading(
     title: string,
     description: string
   ): Promise<void> {
@@ -503,7 +503,7 @@ export class App {
     await document.findByText(description);
   }
 
-  async selectToolkitSection(name: string): Promise<void> {
+  async selectDocumentationSection(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: `View ${name} documentation`,
@@ -735,7 +735,7 @@ export class App {
    * @param name The name of the section.
    * @param targetLine The target line (1-based).
    */
-  async dragDropToolkitCode(name: string, targetLine: number) {
+  async dragDropCodeEmbed(name: string, targetLine: number) {
     const page = await this.page;
     const document = await this.document();
     const heading = await document.findByRole("heading", {

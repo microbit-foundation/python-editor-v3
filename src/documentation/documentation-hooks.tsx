@@ -3,31 +3,37 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { RefObject, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  RefObject,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
 import dragImage from "./drag-image.svg";
-import { fetchToolkit } from "./reference/api";
-import { fetchIdeasToolkit } from "./ideas/ideas-api";
+import { fetchReferenceToolkit } from "./reference/content";
+import { fetchIdeas } from "./ideas/content";
 import { Toolkit } from "./reference/model";
 import { pullModulesToTop } from "./api/apidocs-util";
 import { Idea } from "./ideas/model";
 
-export type ReferenceToolkitState =
-  | { status: "ok"; toolkit: Toolkit }
+export type ContentState<T> =
+  | { status: "ok"; content: T }
   | { status: "error" }
   | { status: "loading" };
 
-export type IdeasToolkitState =
-  | { status: "ok"; toolkit: Idea[] }
-  | { status: "error" }
-  | { status: "loading" };
-
-export const useReferenceToolkit = (): ReferenceToolkitState => {
-  const [state, setState] = useState<ReferenceToolkitState>({
+const useContent = <T,>(
+  fetchContent: (languageId: string) => Promise<T>
+): ContentState<T> => {
+  const [state, setState] = useState<ContentState<T>>({
     status: "loading",
   });
   const logging = useLogging();
@@ -36,9 +42,9 @@ export const useReferenceToolkit = (): ReferenceToolkitState => {
   useEffect(() => {
     const load = async () => {
       try {
-        const toolkit = await fetchToolkit(languageId);
+        const content = await fetchContent(languageId);
         if (!isUnmounted()) {
-          setState({ status: "ok", toolkit });
+          setState({ status: "ok", content });
         }
       } catch (e) {
         logging.error(e);
@@ -50,39 +56,11 @@ export const useReferenceToolkit = (): ReferenceToolkitState => {
       }
     };
     load();
-  }, [setState, isUnmounted, logging, languageId]);
+  }, [setState, isUnmounted, logging, languageId, fetchContent]);
   return state;
 };
 
-export const useIdeasToolkit = (): IdeasToolkitState => {
-  const [state, setState] = useState<IdeasToolkitState>({
-    status: "loading",
-  });
-  const logging = useLogging();
-  const isUnmounted = useIsUnmounted();
-  const [{ languageId }] = useSettings();
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const toolkit = await fetchIdeasToolkit(languageId);
-        if (!isUnmounted()) {
-          setState({ status: "ok", toolkit });
-        }
-      } catch (e) {
-        logging.error(e);
-        if (!isUnmounted()) {
-          setState({
-            status: "error",
-          });
-        }
-      }
-    };
-    load();
-  }, [setState, isUnmounted, logging, languageId]);
-  return state;
-};
-
-export const useApiDocs = (): ApiDocsResponse | undefined => {
+const useApiDocumentation = (): ApiDocsResponse | undefined => {
   const client = useLanguageServerClient();
   const [apidocs, setApiDocs] = useState<ApiDocsResponse | undefined>();
   useEffect(() => {
@@ -98,6 +76,43 @@ export const useApiDocs = (): ApiDocsResponse | undefined => {
   }, [client]);
   return apidocs;
 };
+
+export interface DocumentationContextValue {
+  api: ApiDocsResponse | undefined;
+  ideas: ContentState<Idea[]>;
+  reference: ContentState<Toolkit>;
+}
+
+const DocumentationContext = createContext<
+  DocumentationContextValue | undefined
+>(undefined);
+
+/**
+ * Aggregated documentation.
+ */
+export const useDocumentation = (): DocumentationContextValue => {
+  const value = useContext(DocumentationContext);
+  if (!value) {
+    throw new Error("Missing provider!");
+  }
+  return value;
+};
+
+const DocumentationProvider = ({ children }: { children: ReactNode }) => {
+  const api = useApiDocumentation();
+  const ideas = useContent(fetchIdeas);
+  const reference = useContent(fetchReferenceToolkit);
+  const value: DocumentationContextValue = useMemo(() => {
+    return { reference, api, ideas };
+  }, [reference, api, ideas]);
+  return (
+    <DocumentationContext.Provider value={value}>
+      {children}
+    </DocumentationContext.Provider>
+  );
+};
+
+export default DocumentationProvider;
 
 let dragImageRefCount = 0;
 

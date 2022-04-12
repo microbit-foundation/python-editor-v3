@@ -4,21 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { PortableText } from "../../common/sanity";
-import { HasCompatibility, ToolkitSlug } from "../reference/model";
-
-export interface IdeaImage {
-  _type: "image";
-  alt?: string;
-  // The Sanity image asset.
-  asset: any;
-}
+import { PortableText, SimpleImage, Slug } from "../../common/sanity";
+import { HasCompatibility } from "../common/model";
 
 export interface Idea extends HasCompatibility {
   _id: string;
   name: string;
-  image: IdeaImage;
+  image: SimpleImage;
   content?: PortableText;
   language: string;
-  slug: ToolkitSlug;
+  slug: Slug;
 }

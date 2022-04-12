@@ -5,13 +5,13 @@
  */
 import { Image, ImageProps } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
-import { ToolkitImage } from "./model";
+import { SimpleImage } from "../../common/sanity";
 
-interface ToolkitIconProps extends ImageProps {
-  icon: ToolkitImage;
+interface DocumentationIconProps extends ImageProps {
+  icon: SimpleImage;
 }
 
-const ToolkitIcon = ({ icon, ...props }: ToolkitIconProps) => {
+const DocumentationIcon = ({ icon, ...props }: DocumentationIconProps) => {
   return (
     <Image
       {...props}
@@ -23,4 +23,4 @@ const ToolkitIcon = ({ icon, ...props }: ToolkitIconProps) => {
   );
 };
 
-export default ToolkitIcon;
+export default DocumentationIcon;

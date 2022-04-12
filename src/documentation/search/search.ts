@@ -137,9 +137,11 @@ const defaultString = (string: string | undefined): string => {
   return string || "";
 };
 
-const referenceSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
+const referenceSearchableContent = (
+  reference: Toolkit
+): SearchableContent[] => {
   const content: SearchableContent[] = [];
-  toolkit.contents?.forEach((t) => {
+  reference.contents?.forEach((t) => {
     if (!isSingletonTopic(t)) {
       content.push({
         id: t.slug.current,
@@ -215,11 +217,11 @@ export const buildSearchIndex = (
 };
 
 // Exposed for testing.
-export const buildToolkitIndex = async (
-  referenceToolkit: Toolkit,
-  apiToolkit: ApiDocsResponse
+export const buildReferenceIndex = async (
+  reference: Toolkit,
+  api: ApiDocsResponse
 ): Promise<LunrSearch> => {
-  const language = referenceToolkit.language;
+  const language = reference.language;
   const languageSupport = await retryAsyncLoad(() =>
     loadLunrLanguageSupport(language)
   );
@@ -235,11 +237,11 @@ export const buildToolkitIndex = async (
 
   return new LunrSearch(
     buildSearchIndex(
-      referenceSearchableContent(referenceToolkit),
+      referenceSearchableContent(reference),
       "reference",
       ...plugins
     ),
-    buildSearchIndex(apiSearchableContent(apiToolkit), "api")
+    buildSearchIndex(apiSearchableContent(api), "api")
   );
 };
 
@@ -281,7 +283,7 @@ export class SearchWorker {
   }
 
   private async index(message: IndexMessage) {
-    this.search = await buildToolkitIndex(message.reference, message.api);
+    this.search = await buildReferenceIndex(message.reference, message.api);
     this.recordInitialization!();
   }
 

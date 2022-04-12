@@ -11,12 +11,12 @@ import { Anchor } from "../../router-hooks";
 import ShowMoreButton from "../common/ShowMoreButton";
 import Highlight from "./Highlight";
 import {
-  isV2Only,
   ToolkitTopic,
   ToolkitTopicEntry as ToolkitTopicEntryModel,
 } from "./model";
-import ToolkitContent from "./ToolkitContent";
-import ToolkitName from "./ToolkitName";
+import DocumentationContent from "../common/DocumentationContent";
+import DocumentationHeading from "../common/DocumentationHeading";
+import { isV2Only } from "../common/model";
 
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
@@ -31,7 +31,7 @@ interface ToolkitTopicEntryProps {
  * We show a pop-up over the code on hover to reveal the full code, overlapping
  * the sidebar scroll area.
  */
-const ToolkitTopicEntry = ({
+const ReferenceTopicEntry = ({
   anchor,
   topic,
   entry,
@@ -68,9 +68,15 @@ const ToolkitTopicEntry = ({
           "& ul": { listStyleType: "disc", pl: 3 },
         }}
       >
-        <ToolkitName name={entry.name} isV2Only={isV2Only(entry)}></ToolkitName>
+        <DocumentationHeading
+          name={entry.name}
+          isV2Only={isV2Only(entry)}
+        ></DocumentationHeading>
 
-        <ToolkitContent content={content} parentSlug={entry.slug.current} />
+        <DocumentationContent
+          content={content}
+          parentSlug={entry.slug.current}
+        />
         {alternatives && typeof alternativeIndex === "number" && (
           <>
             <Flex wrap="wrap" as="label">
@@ -91,7 +97,7 @@ const ToolkitTopicEntry = ({
               </Select>
             </Flex>
 
-            <ToolkitContent
+            <DocumentationContent
               content={alternatives[alternativeIndex].content}
               parentSlug={entry.slug.current}
             />
@@ -102,7 +108,7 @@ const ToolkitTopicEntry = ({
             {/* Avoid Stack spacing here so the margin animates too. */}
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
               <Stack spacing={3} mt={3}>
-                <ToolkitContent
+                <DocumentationContent
                   content={detailContent}
                   parentSlug={entry.slug.current}
                 />
@@ -119,4 +125,4 @@ const ToolkitTopicEntry = ({
   );
 };
 
-export default ToolkitTopicEntry;
+export default ReferenceTopicEntry;

@@ -6,8 +6,9 @@
 import { fetchContent } from "../../common/sanity";
 import { Toolkit, ToolkitTopic, ToolkitTopicEntry } from "./model";
 
-export const fetchToolkit = async (languageId: string): Promise<Toolkit> =>
-  fetchContent(languageId, toolkitQuery, adaptContent);
+export const fetchReferenceToolkit = async (
+  languageId: string
+): Promise<Toolkit> => fetchContent(languageId, toolkitQuery, adaptContent);
 
 export const getTopicAndEntry = (
   toolkit: Toolkit,

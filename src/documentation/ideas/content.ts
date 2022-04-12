@@ -6,7 +6,7 @@
 import { fetchContent } from "../../common/sanity";
 import { Idea } from "./model";
 
-export const fetchIdeasToolkit = async (languageId: string): Promise<Idea[]> =>
+export const fetchIdeas = async (languageId: string): Promise<Idea[]> =>
   fetchContent(languageId, ideasQuery, adaptContent);
 
 const ideasQuery = (languageId: string): string => {
@@ -30,9 +30,9 @@ const ideasQuery = (languageId: string): string => {
 };
 
 const adaptContent = (result: any): Idea[] | undefined => {
-  const toolkit = result as Idea[];
-  if (toolkit.length === 0) {
+  const ideas = result as Idea[];
+  if (ideas.length === 0) {
     return undefined;
   }
-  return toolkit;
+  return ideas;
 };

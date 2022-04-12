@@ -12,29 +12,29 @@ import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { allowWrapAtPeriods } from "../common/wrap";
-import { useAnimationDirection } from "../reference/toolkit-hooks";
-import ToolkitBreadcrumbHeading from "../reference/ToolkitBreadcrumbHeading";
+import { useAnimationDirection } from "../common/documentation-animation-hooks";
+import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import AreaHeading from "../../common/AreaHeading";
-import ToolkitTopLevelListItem from "../reference/ToolkitTopLevelListItem";
+import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
 import { resolveModule } from "./apidocs-util";
 import ApiNode from "./ApiNode";
 
-interface ApiToolkitProps {
+interface ApiDocumentationProps {
   docs: ApiDocsResponse;
 }
 
-export const ApiToolkit = ({ docs }: ApiToolkitProps) => {
+export const ApiDocumentation = ({ docs }: ApiDocumentationProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.api);
   const handleNavigate = useCallback(
     (id: string | undefined) => {
-      setAnchor(id ? { id } : undefined, "toolkit-user");
+      setAnchor(id ? { id } : undefined, "documentation-user");
     },
     [setAnchor]
   );
   const direction = useAnimationDirection(anchor);
   return (
-    <ActiveToolkitLevel
+    <ActiveLevel
       key={anchor ? 0 : 1}
       anchor={anchor}
       onNavigate={handleNavigate}
@@ -44,19 +44,19 @@ export const ApiToolkit = ({ docs }: ApiToolkitProps) => {
   );
 };
 
-interface ActiveToolkitLevelProps {
+interface ActiveLevelProps {
   anchor: Anchor | undefined;
   docs: ApiDocsResponse;
   onNavigate: (state: string | undefined) => void;
   direction: "forward" | "back" | "none";
 }
 
-const ActiveToolkitLevel = ({
+const ActiveLevel = ({
   anchor,
   onNavigate,
   docs,
   direction,
-}: ActiveToolkitLevelProps) => {
+}: ActiveLevelProps) => {
   const intl = useIntl();
   const apiString = intl.formatMessage({ id: "api-tab" });
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;
@@ -65,7 +65,7 @@ const ActiveToolkitLevel = ({
       <HeadedScrollablePanel
         direction={direction}
         heading={
-          <ToolkitBreadcrumbHeading
+          <DocumentationBreadcrumbHeading
             parent={apiString}
             title={module.name}
             onBack={() => onNavigate(undefined)}
@@ -96,7 +96,7 @@ const ActiveToolkitLevel = ({
     >
       <List flex="1 1 auto" m={3}>
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
-          <ToolkitTopLevelListItem
+          <DocumentationTopLevelItem
             key={module.id}
             name={allowWrapAtPeriods(module.fullName)}
             description={<ShortModuleDescription value={module} />}

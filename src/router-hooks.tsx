@@ -54,7 +54,10 @@ export interface RouterState {
   idea?: Anchor;
 }
 
-type NavigationSource = "toolkit-user" | "toolkit-search" | "toolkit-from-code";
+type NavigationSource =
+  | "documentation-user"
+  | "documentation-search"
+  | "documentation-from-code";
 
 type RouterContextValue = [
   RouterState,

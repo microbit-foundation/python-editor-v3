@@ -5,15 +5,15 @@
  */
 import { Text } from "@chakra-ui/layout";
 import { FormattedMessage } from "react-intl";
-import IdeaToolkit from "./ideas/IdeaToolkit";
-import ToolkitSpinner from "./reference/ToolkitSpinner";
-import { useToolkitState } from "./toolkit-hooks";
+import IdeasDocumentation from "./ideas/IdeasDocumentation";
+import Spinner from "../common/Spinner";
+import { useDocumentation } from "./documentation-hooks";
 
 const IdeasArea = () => {
-  const { ideasToolkit } = useToolkitState();
-  switch (ideasToolkit.status) {
+  const { ideas } = useDocumentation();
+  switch (ideas.status) {
     case "loading":
-      return <ToolkitSpinner />;
+      return <Spinner />;
     case "error":
       return (
         <Text p={5} height="100%">
@@ -21,7 +21,7 @@ const IdeasArea = () => {
         </Text>
       );
     case "ok":
-      return <IdeaToolkit toolkit={ideasToolkit.toolkit} />;
+      return <IdeasDocumentation ideas={ideas.content} />;
     default:
       throw new Error();
   }

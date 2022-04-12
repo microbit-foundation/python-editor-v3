@@ -5,15 +5,13 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Stack, Text } from "@chakra-ui/layout";
-import { HStack, Image, VStack } from "@chakra-ui/react";
+import { HStack, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
-import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
-import { IdeaImage } from "../ideas/model";
-import { ToolkitImage } from "./model";
-import ToolkitIcon from "./ToolkitIcon";
+import { SimpleImage } from "../../common/sanity";
+import DocumentationIcon from "./DocumentationIcon";
 
-interface BreadcrumbHeadingProps {
+interface DocumentationBreadcrumbHeadingProps {
   title: string;
   parent: string;
   grandparent?: string;
@@ -21,11 +19,10 @@ interface BreadcrumbHeadingProps {
   titleFontFamily?: "code";
   parentFontFamily?: "code";
   subtitle?: ReactNode;
-  icon?: ToolkitImage;
-  image?: IdeaImage;
+  icon?: SimpleImage;
 }
 
-const ToolkitBreadcrumbHeading = ({
+const DocumentationBreadcrumbHeading = ({
   title,
   parent,
   grandparent,
@@ -34,8 +31,7 @@ const ToolkitBreadcrumbHeading = ({
   titleFontFamily,
   subtitle,
   icon,
-  image,
-}: BreadcrumbHeadingProps) => {
+}: DocumentationBreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
       <Button
@@ -69,7 +65,7 @@ const ToolkitBreadcrumbHeading = ({
         </Text>
       </Button>
       <HStack align="center" spacing={4}>
-        {icon && <ToolkitIcon alignSelf="flex-start" icon={icon} />}
+        {icon && <DocumentationIcon alignSelf="flex-start" icon={icon} />}
         <VStack align="flex-start" spacing={1}>
           <Text
             as="h2"
@@ -80,22 +76,10 @@ const ToolkitBreadcrumbHeading = ({
             {title}
           </Text>
           {subtitle && <Text fontSize="md">{subtitle}</Text>}
-          {image && (
-            <Image
-              src={imageUrlBuilder
-                .image(image.asset)
-                .width(300)
-                .fit("max")
-                .url()}
-              alt=""
-              width={300}
-              sx={{ aspectRatio: getAspectRatio(image.asset._ref) }}
-            />
-          )}
         </VStack>
       </HStack>
     </Stack>
   );
 };
 
-export default ToolkitBreadcrumbHeading;
+export default DocumentationBreadcrumbHeading;

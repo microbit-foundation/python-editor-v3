@@ -13,7 +13,7 @@ describe("Browser - toolkit tabs", () => {
 
   it("API toolkit navigation", async () => {
     await app.switchTab("API");
-    await app.findToolkitTopLevelHeading(
+    await app.findDocumentationTopLevelHeading(
       "API",
       "API documentation for micro:bit MicroPython"
     );
@@ -21,7 +21,7 @@ describe("Browser - toolkit tabs", () => {
 
   it("Insert code", async () => {
     await app.switchTab("Reference");
-    await app.selectToolkitSection("Display");
+    await app.selectDocumentationSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
 
@@ -32,7 +32,7 @@ describe("Browser - toolkit tabs", () => {
 
   it("Insert code after dropdown choice", async () => {
     await app.switchTab("Reference");
-    await app.selectToolkitSection("Display");
+    await app.selectDocumentationSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
 
@@ -50,9 +50,9 @@ describe("Browser - toolkit tabs", () => {
     await app.typeInEditor("#1\n#2\n#3\n");
     await app.findVisibleEditorContents("#2");
     await app.switchTab("Reference");
-    await app.selectToolkitSection("Display");
+    await app.selectDocumentationSection("Display");
 
-    await app.dragDropToolkitCode("Scroll", 2);
+    await app.dragDropCodeEmbed("Scroll", 2);
 
     // There's some weird trailing whitespace in this snippet that needs fixing in the content.
     const expected =
@@ -64,7 +64,7 @@ describe("Browser - toolkit tabs", () => {
   it("Searches and navigates to the first result", async () => {
     await app.searchToolkits("loop");
     await app.selectFirstSearchResult();
-    await app.findToolkitTopLevelHeading(
+    await app.findDocumentationTopLevelHeading(
       "Loops",
       "Count and repeat sets of instructions"
     );

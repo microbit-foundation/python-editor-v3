@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ApiToolkit } from "./api/ApiToolkit";
-import ToolkitSpinner from "./reference/ToolkitSpinner";
-import { useToolkitState } from "./toolkit-hooks";
+import { ApiDocumentation } from "./api/ApiDocumentation";
+import Spinner from "../common/Spinner";
+import { useDocumentation } from "./documentation-hooks";
 
 const ApiArea = () => {
-  const { apiToolkit } = useToolkitState();
-  return apiToolkit ? <ApiToolkit docs={apiToolkit} /> : <ToolkitSpinner />;
+  const { api } = useDocumentation();
+  return api ? <ApiDocumentation docs={api} /> : <Spinner />;
 };
 
 export default ApiArea;

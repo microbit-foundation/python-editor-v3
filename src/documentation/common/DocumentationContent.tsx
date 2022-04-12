@@ -15,18 +15,19 @@ import {
   ToolkitApiLink,
   ToolkitCode,
   ToolkitExternalLink,
-  ToolkitImage,
   ToolkitInternalLink,
-} from "./model";
+} from "../reference/model";
 import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
-import { PortableText } from "../../common/sanity";
+import { PortableText, SimpleImage } from "../../common/sanity";
 
-interface ToolkitContentProps {
+interface DocumentationContentProps {
   content: PortableText;
   parentSlug?: string;
 }
 
-const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
+const DocumentationApiLinkMark = (
+  props: SerializerMarkProps<ToolkitApiLink>
+) => {
   const [, setState] = useRouterState();
   return (
     <Link
@@ -44,7 +45,7 @@ const ToolkitApiLinkMark = (props: SerializerMarkProps<ToolkitApiLink>) => {
   );
 };
 
-const ToolkitInternalLinkMark = (
+const DocumentationInternalLinkMark = (
   props: SerializerMarkProps<ToolkitInternalLink>
 ) => {
   const [state, setState] = useRouterState();
@@ -61,7 +62,7 @@ const ToolkitInternalLinkMark = (
               id: props.mark.slug.current,
             },
           },
-          "toolkit-user"
+          "documentation-user"
         );
       }}
     >
@@ -70,7 +71,7 @@ const ToolkitInternalLinkMark = (
   );
 };
 
-const ToolkitExternalLinkMark = (
+const DocumentationExternalLinkMark = (
   props: SerializerMarkProps<ToolkitExternalLink>
 ) => {
   return (
@@ -98,11 +99,11 @@ interface SerializerMarkProps<T> extends HasChildren {
   mark: T;
 }
 
-const ToolkitContent = ({
+const DocumentationContent = ({
   content,
   parentSlug,
   ...outerProps
-}: ToolkitContentProps) => {
+}: DocumentationContentProps) => {
   const serializers = {
     // This is a serializer for the wrapper element.
     // We use a fragment so we can use spacing from the context into which we render.
@@ -111,7 +112,7 @@ const ToolkitContent = ({
       python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
         <CodeEmbed code={main} {...outerProps} parentSlug={parentSlug} />
       ),
-      simpleImage: (props: SerializerNodeProps<ToolkitImage>) => {
+      simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
         return (
           <Image
             src={imageUrlBuilder
@@ -127,12 +128,12 @@ const ToolkitContent = ({
       },
     },
     marks: {
-      toolkitInternalLink: ToolkitInternalLinkMark,
-      toolkitApiLink: ToolkitApiLinkMark,
-      link: ToolkitExternalLinkMark,
+      toolkitInternalLink: DocumentationInternalLinkMark,
+      toolkitApiLink: DocumentationApiLinkMark,
+      link: DocumentationExternalLinkMark,
     },
   };
   return <BlockContent blocks={content} serializers={serializers} />;
 };
 
-export default React.memo(ToolkitContent);
+export default React.memo(DocumentationContent);

@@ -6,12 +6,16 @@
 import { Text, TextProps } from "@chakra-ui/layout";
 import { Flex, Tag } from "@chakra-ui/react";
 
-interface ToolkitNameProps extends TextProps {
+interface DocumentationHeadingProps extends TextProps {
   name: string;
   isV2Only: boolean;
 }
 
-const ToolkitName = ({ name, isV2Only, ...props }: ToolkitNameProps) => {
+const DocumentationHeading = ({
+  name,
+  isV2Only,
+  ...props
+}: DocumentationHeadingProps) => {
   return (
     <Text as="h3" fontSize="lg" fontWeight="semibold" {...props}>
       {name}
@@ -37,4 +41,4 @@ const ToolkitName = ({ name, isV2Only, ...props }: ToolkitNameProps) => {
   );
 };
 
-export default ToolkitName;
+export default DocumentationHeading;

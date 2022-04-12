@@ -16,6 +16,24 @@ export type PortableText = Array<
 >;
 
 /**
+ * Common image type.
+ */
+export interface SimpleImage {
+  _type: "simpleImage";
+  alt?: string;
+  // The Sanity image asset.
+  asset: any;
+}
+
+/**
+ * Sanity's slug type.
+ */
+export interface Slug {
+  _type: "slug";
+  current: string;
+}
+
+/**
  * Query CMS content preferring the given language but
  * falling back to "en" if it is not present.
  *
