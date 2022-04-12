@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { VStack } from "@chakra-ui/layout";
-import { Box, HStack, Image, Text } from "@chakra-ui/react";
+import { Box, HStack, Image } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 import ToolkitName from "../reference/ToolkitName";
 import { IdeaImage } from "./model";
