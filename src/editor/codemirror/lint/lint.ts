@@ -754,28 +754,12 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
       if (effect.is(setEditingLineEffect)) {
         const diagnostics: Diagnostic[] = []
         const iter = markers.iter(0)
-        while (iter) {
-          if (!iter.value) {
-            break;
-          }
+        while (iter.value) {
           const marker = (iter.value as LintGutterMarker);
-          marker.diagnostics
           diagnostics.push(...marker.diagnostics);
           iter.next();
         }
         markers = markersForDiagnostics(tr.state.doc, diagnostics, tr.state.field(currentlyEditingLine))
-
-        // It wasn't happy with this approach
-        // const newMarkers: Range<GutterMarker>[] = []
-        // while (iter) {
-        //   if (!iter.value) {
-        //     break;
-        //   }
-        //   const marker = (iter.value as LintGutterMarker);
-        //   newMarkers.push(marker.fromCurrentlyEditingLine(tr.state.field(currentlyEditingLine)).range(marker.diagnostics[0].from))
-        //   iter.next();
-        // }
-        // return RangeSet.of(newMarkers, true)
       }
     }
     return markers

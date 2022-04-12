@@ -19,12 +19,10 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
       if (update.state.field(currentlyEditingLine) === selectionLine) {
         return;
       }
-      update.changes.iterChangedRanges((fromA, toA, fromB, toB) => {
-        if (
-          doc.lineAt(fromA).number === selectionLine ||
-          doc.lineAt(fromB).number === selectionLine
-        ) {
-          // Woohoo, we changed the line we're on.
+      let foundEditOnLine = false;
+      update.changes.iterChangedRanges((_fromA, _toA, fromB, _toB) => {
+        if (!foundEditOnLine && doc.lineAt(fromB).number === selectionLine) {
+          foundEditOnLine = true;
           clearTimeout(this.timeout);
           setTimeout(() => {
             update.view.dispatch({
@@ -35,9 +33,17 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
             update.view.dispatch({
               effects: [setEditingLineEffect.of(undefined)],
             });
-          }, 2000);
+          }, 2_000);
         }
       });
+      if (!foundEditOnLine) {
+        clearTimeout(this.timeout);
+        setTimeout(() => {
+          update.view.dispatch({
+            effects: [setEditingLineEffect.of(undefined)],
+          });
+        }, 0);
+      }
     }
 
     destroy() {
