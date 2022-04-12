@@ -15,10 +15,6 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
       }
       const doc = update.state.doc;
       const selectionLine = doc.lineAt(mainIndex).number;
-      // Don't update if currentlyEditingLine hasn't changed.
-      if (update.state.field(currentlyEditingLine) === selectionLine) {
-        return;
-      }
       let foundEditOnLine = false;
       update.changes.iterChangedRanges((_fromA, _toA, fromB, _toB) => {
         if (!foundEditOnLine && doc.lineAt(fromB).number === selectionLine) {
@@ -36,7 +32,10 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
           }, 2_000);
         }
       });
-      if (!foundEditOnLine) {
+      if (
+        !foundEditOnLine &&
+        update.state.field(currentlyEditingLine) !== selectionLine
+      ) {
         clearTimeout(this.timeout);
         setTimeout(() => {
           update.view.dispatch({
