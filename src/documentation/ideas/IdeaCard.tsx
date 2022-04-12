@@ -9,19 +9,14 @@ import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 import ToolkitName from "../reference/ToolkitName";
 import { IdeaImage } from "./model";
 
-interface IdeaTopLevelListItemProps {
+interface IdeaCardProps {
   name: string;
   image: IdeaImage;
   isV2Only?: boolean;
-  onForward: () => void;
+  onClick: () => void;
 }
 
-const IdeaTopLevelListItem = ({
-  name,
-  image,
-  isV2Only,
-  onForward,
-}: IdeaTopLevelListItemProps) => {
+const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
   const focusStyles = {
     outline: "none",
     boxShadow: "var(--chakra-shadows-outline)",
@@ -29,7 +24,7 @@ const IdeaTopLevelListItem = ({
   return (
     <VStack
       as="button"
-      onClick={onForward}
+      onClick={onClick}
       cursor="pointer"
       background="white"
       borderRadius="lg"
@@ -57,4 +52,4 @@ const IdeaTopLevelListItem = ({
   );
 };
 
-export default IdeaTopLevelListItem;
+export default IdeaCard;

@@ -17,7 +17,7 @@ import { isV2Only } from "../reference/model";
 import { useAnimationDirection } from "../reference/toolkit-hooks";
 import ToolkitBreadcrumbHeading from "../reference/ToolkitBreadcrumbHeading";
 import ToolkitContent from "../reference/ToolkitContent";
-import IdeaTopLevelListItem from "./IdeaTopLevelListItem";
+import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
 
 interface IdeaToolkitProps {
@@ -121,12 +121,12 @@ const ActiveToolkitLevel = ({
       {flags.ideas && (
         <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
           {toolkit.map((idea) => (
-            <IdeaTopLevelListItem
+            <IdeaCard
               key={idea.name}
               name={idea.name}
               isV2Only={isV2Only(idea)}
               image={idea.image}
-              onForward={() => onNavigate(idea.slug.current)}
+              onClick={() => onNavigate(idea.slug.current)}
             />
           ))}
         </SimpleGrid>
