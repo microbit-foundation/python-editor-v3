@@ -38,12 +38,11 @@ const IdeaTopLevelListItem = ({
       // Fill available height to keep grid items the same size.
       height="100%"
       spacing={2}
-      flex="1 1 auto"
       _focusVisible={focusStyles}
       _focus={focusStyles}
     >
       <Image
-        borderTopRadius={"lg"}
+        borderTopRadius="lg"
         src={imageUrlBuilder.image(image.asset).url()}
         alt=""
       />
