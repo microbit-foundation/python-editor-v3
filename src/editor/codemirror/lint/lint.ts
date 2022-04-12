@@ -741,7 +741,6 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
   },
   update(markers, tr) {
     markers = markers.map(tr.changes)
-    console.log(tr.changes)
     for (let effect of tr.effects) {
       if (effect.is(setDiagnosticsEffect)) {
         markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(currentlyEditingLine))
