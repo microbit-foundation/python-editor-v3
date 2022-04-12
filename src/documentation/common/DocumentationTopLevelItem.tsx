@@ -38,10 +38,7 @@ const DocumentationTopLevelItem = ({
     >
       <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
         <HStack justifyContent="space-between">
-          <DocumentationHeading
-            name={name}
-            isV2Only={!!isV2Only}
-          ></DocumentationHeading>
+          <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
             icon={<RiArrowRightLine />}
             aria-label={intl.formatMessage(

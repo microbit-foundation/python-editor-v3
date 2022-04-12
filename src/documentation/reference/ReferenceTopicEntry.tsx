@@ -68,10 +68,7 @@ const ReferenceTopicEntry = ({
           "& ul": { listStyleType: "disc", pl: 3 },
         }}
       >
-        <DocumentationHeading
-          name={entry.name}
-          isV2Only={isV2Only(entry)}
-        ></DocumentationHeading>
+        <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
 
         <DocumentationContent
           content={content}
