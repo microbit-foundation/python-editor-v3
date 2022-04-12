@@ -652,12 +652,6 @@ class LintGutterMarker extends GutterMarker {
     }, "info" as "info" | "warning" | "error")
   }
 
-  // Redundant from broken approach
-  fromCurrentlyEditingLine(currentlyEditingLine: number | undefined): LintGutterMarker {
-    this.currentlyEditingLine = false;
-    return this
-  }
-
   toDOM(view: EditorView) {
     let elt = document.createElement("div")
     elt.className = `cm-lint-marker cm-lint-marker-${this.currentlyEditingLine ? "editing" : this.severity}`
@@ -747,6 +741,7 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
   },
   update(markers, tr) {
     markers = markers.map(tr.changes)
+    console.log(tr.changes)
     for (let effect of tr.effects) {
       if (effect.is(setDiagnosticsEffect)) {
         markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(currentlyEditingLine))
