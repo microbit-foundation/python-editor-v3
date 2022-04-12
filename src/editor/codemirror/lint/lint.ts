@@ -750,7 +750,11 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
         const iter = markers.iter(0)
         while (iter.value) {
           const marker = (iter.value as LintGutterMarker);
-          diagnostics.push(...marker.diagnostics);
+          const mappedDiagnostics = marker.diagnostics.map(d => {
+            d.from = iter.from
+            return d;
+          })
+          diagnostics.push(...mappedDiagnostics);
           iter.next();
         }
         markers = markersForDiagnostics(tr.state.doc, diagnostics, tr.state.field(currentlyEditingLine))
