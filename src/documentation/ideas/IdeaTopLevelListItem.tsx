@@ -22,34 +22,39 @@ const IdeaTopLevelListItem = ({
   isV2Only,
   onForward,
 }: IdeaTopLevelListItemProps) => {
+  const focusStyles = {
+    outline: "none",
+    boxShadow: "var(--chakra-shadows-outline)",
+  };
   return (
-    <Box onClick={onForward} cursor="pointer">
-      <HStack
-        spacing={5}
-        background="white"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow="md"
-        // Fill available height to keep grid items the same size.
-        height="100%"
-        alignItems="flex-start"
-      >
-        <VStack alignItems="center" spacing={2} flex="1 1 auto">
-          <Image
-            borderTopRadius={"lg"}
-            src={imageUrlBuilder.image(image.asset).url()}
-            alt=""
-          />
-          <ToolkitName
-            alignSelf="flex-start"
-            px={2.5}
-            pb={2}
-            name={name}
-            isV2Only={!!isV2Only}
-          />
-        </VStack>
-      </HStack>
-    </Box>
+    <VStack
+      as="button"
+      onClick={onForward}
+      cursor="pointer"
+      background="white"
+      borderRadius="lg"
+      overflow="hidden"
+      boxShadow="md"
+      // Fill available height to keep grid items the same size.
+      height="100%"
+      spacing={2}
+      flex="1 1 auto"
+      _focusVisible={focusStyles}
+      _focus={focusStyles}
+    >
+      <Image
+        borderTopRadius={"lg"}
+        src={imageUrlBuilder.image(image.asset).url()}
+        alt=""
+      />
+      <ToolkitName
+        alignSelf="flex-start"
+        px={2.5}
+        pb={2}
+        name={name}
+        isV2Only={!!isV2Only}
+      />
+    </VStack>
   );
 };
 
