@@ -655,7 +655,12 @@ class LintGutterMarker extends GutterMarker {
 
   toDOM(view: EditorView) {
     let elt = document.createElement("div")
-    elt.className = `cm-lint-marker cm-lint-marker-${view.state.field(currentlyEditingLine) === view.state.doc.lineAt(this.diagnostics[0].from).number ? "editing" : this.severity}`
+    elt.className = `cm-lint-marker cm-lint-marker-${
+      view.state.field(currentlyEditingLine) ===
+      view.state.doc.lineAt(this.diagnostics[0].from).number
+        ? "editing"
+        : this.severity
+    }`;
     elt.onmouseover = () => gutterMarkerMouseOver(view, elt, this.diagnostics)
     return elt
   }
