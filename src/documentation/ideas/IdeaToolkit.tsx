@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { Stack } from "@chakra-ui/layout";
-import { SimpleGrid } from "@chakra-ui/react";
+import { Image, SimpleGrid } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
+import { imageUrlBuilder, getAspectRatio } from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import { flags } from "../../flags";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
@@ -83,12 +84,27 @@ const ActiveToolkitLevel = ({
             parent={referenceString}
             title={activeIdea.name}
             onBack={() => onNavigate(undefined)}
-            image={activeIdea.image}
           />
         }
       >
         {activeIdea.content && (
           <Stack spacing={3} fontSize="sm" p={5} pr={3} mt={1} mb={1}>
+            {activeIdea.image && (
+              <Image
+                borderRadius="lg"
+                src={imageUrlBuilder
+                  .image(activeIdea.image.asset)
+                  .width(300)
+                  .fit("max")
+                  .url()}
+                alt=""
+                width={300}
+                sx={{
+                  aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
+                }}
+              />
+            )}
+
             <ToolkitContent content={activeIdea.content} />
           </Stack>
         )}
