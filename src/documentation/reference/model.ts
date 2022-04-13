@@ -1,10 +1,11 @@
 /**
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
 
-import { PortableText } from "../../common/sanity";
+import { PortableText, SimpleImage, Slug } from "../../common/sanity";
+import { HasCompatibility } from "../common/model";
 
 export interface Toolkit {
   id: string;
@@ -12,12 +13,6 @@ export interface Toolkit {
   description: string;
   contents?: ToolkitTopic[];
   language: string;
-}
-
-type Product = "microbitV1" | "microbitV2";
-
-interface HasCompatibility {
-  compatibility: Product[];
 }
 
 export interface ToolkitTopic extends HasCompatibility {
@@ -32,8 +27,8 @@ export interface ToolkitTopic extends HasCompatibility {
    */
   introduction?: PortableText;
   contents?: ToolkitTopicEntry[];
-  slug: ToolkitSlug;
-  image?: ToolkitImage;
+  slug: Slug;
+  image?: SimpleImage;
 }
 
 export interface ToolkitCode {
@@ -41,21 +36,9 @@ export interface ToolkitCode {
   main: string;
 }
 
-export interface ToolkitImage {
-  _type: "simpleImage";
-  alt?: string;
-  // The Sanity image asset.
-  asset: any;
-}
-
 interface ToolkitAlternative {
   name: string;
   content: PortableText;
-}
-
-interface ToolkitSlug {
-  current: string;
-  _type: string;
 }
 
 export interface ToolkitTopicEntry extends HasCompatibility {
@@ -66,13 +49,13 @@ export interface ToolkitTopicEntry extends HasCompatibility {
   alternatives?: ToolkitAlternative[];
   detailContent?: PortableText;
   parent: ToolkitTopic;
-  slug: ToolkitSlug;
+  slug: Slug;
 }
 
 export interface ToolkitInternalLink {
   reference: ToolkitTopicEntry;
   targetType: string;
-  slug: ToolkitSlug;
+  slug: Slug;
 }
 
 export interface ToolkitExternalLink {
@@ -82,14 +65,3 @@ export interface ToolkitExternalLink {
 export interface ToolkitApiLink {
   name: string;
 }
-
-// Although the data model is more flexible, in the UI we just want to
-// show a V2 marker for newer board features.
-export const isV2Only = (compatible: HasCompatibility) => {
-  return (
-    // This will be defined everywhere shortly, but for now we need to cope before the migration.
-    compatible.compatibility &&
-    compatible.compatibility.length === 1 &&
-    compatible.compatibility[0] === "microbitV2"
-  );
-};

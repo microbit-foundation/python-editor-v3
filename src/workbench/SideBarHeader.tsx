@@ -77,7 +77,7 @@ const SideBarHeader = () => {
       searchModal.onClose();
       // Create new RouterState object to enforce navigation when clicking the same entry twice.
       const routerState: RouterState = JSON.parse(JSON.stringify(navigation));
-      setRouterState(routerState, "toolkit-search");
+      setRouterState(routerState, "documentation-search");
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );
@@ -100,37 +100,39 @@ const SideBarHeader = () => {
 
   return (
     <>
-      <Modal
-        isOpen={searchModal.isOpen}
-        onClose={searchModal.onClose}
-        size="lg"
-      >
-        <ModalOverlay>
-          <ModalContent
-            mt={3.5}
-            ml={modalOffset + "px"}
-            width={modalWidth}
-            containerProps={{
-              justifyContent: "flex-start",
-            }}
-            p={1}
-            borderRadius="20px"
-            maxWidth="unset"
-            maxHeight="unset"
-          >
-            <ModalBody p={0}>
-              <SearchDialog
-                results={results}
-                query={query}
-                onQueryChange={handleQueryChange}
-                onClear={handleClear}
-                viewedResults={viewedResults}
-                onViewResult={handleViewResult}
-              />
-            </ModalBody>
-          </ModalContent>
-        </ModalOverlay>
-      </Modal>
+      {searchModal.isOpen && (
+        <Modal
+          isOpen={searchModal.isOpen}
+          onClose={searchModal.onClose}
+          size="lg"
+        >
+          <ModalOverlay>
+            <ModalContent
+              mt={3.5}
+              ml={modalOffset + "px"}
+              width={modalWidth}
+              containerProps={{
+                justifyContent: "flex-start",
+              }}
+              p={1}
+              borderRadius="20px"
+              maxWidth="unset"
+              maxHeight="unset"
+            >
+              <ModalBody p={0}>
+                <SearchDialog
+                  results={results}
+                  query={query}
+                  onQueryChange={handleQueryChange}
+                  onClear={handleClear}
+                  viewedResults={viewedResults}
+                  onViewResult={handleViewResult}
+                />
+              </ModalBody>
+            </ModalContent>
+          </ModalOverlay>
+        </Modal>
+      )}
       <Flex
         ref={ref}
         backgroundColor="brand.500"

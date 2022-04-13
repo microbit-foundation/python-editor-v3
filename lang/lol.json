@@ -23,9 +23,25 @@
     "defaultMessage": "Реад море абоют МісроПутхон",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
+  "add-action": {
+    "defaultMessage": "Add",
+    "description": "Add action label"
+  },
+  "add-file-action": {
+    "defaultMessage": "Add new file",
+    "description": "Add new file button text"
+  },
+  "add-python": {
+    "defaultMessage": "Add a new Python file to your project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
   "added-change": {
     "defaultMessage": "Аддед філе {changeName}",
     "description": "Change made to file"
+  },
+  "added-file": {
+    "defaultMessage": "Added {filename}",
+    "description": "Action feedback for creating a file"
   },
   "already-exists": {
     "defaultMessage": "Тхіс філе алреаду ексістс",
@@ -151,22 +167,6 @@
     "defaultMessage": "Cопу",
     "description": "Copy to clipboard action text"
   },
-  "create-action": {
-    "defaultMessage": "Cреате",
-    "description": "Create action label"
-  },
-  "create-file-action": {
-    "defaultMessage": "Cреате нев філе",
-    "description": "Create new file button text"
-  },
-  "create-python": {
-    "defaultMessage": "Cреате а нев Путхон філе",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
-  "created-file": {
-    "defaultMessage": "Cреатед {filename}",
-    "description": "Action feedback for creating a file"
-  },
   "delete-action": {
     "defaultMessage": "Делете",
     "description": "Button text for delete action"
@@ -227,14 +227,6 @@
     "defaultMessage": "{name} філе астіонс",
     "description": "Header of file actions for file"
   },
-  "files-tab": {
-    "defaultMessage": "Філес",
-    "description": "Files tab button text"
-  },
-  "files-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your Python Editor project",
-    "description": "Files tab description"
-  },
   "flash-action": {
     "defaultMessage": "Фласх",
     "description": "Text for flash button"
@@ -286,10 +278,6 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Сімпле",
     "description": "Highlight code structure option"
-  },
-  "hints-and-tips": {
-    "defaultMessage": "Хінтс анд тіпс",
-    "description": "Link/button for minor internal help"
   },
   "ideas-tab": {
     "defaultMessage": "Ideas",
@@ -358,6 +346,10 @@
     "defaultMessage": "Море",
     "description": "More button text"
   },
+  "more-download-options": {
+    "defaultMessage": "More download options",
+    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  },
   "name-not-blank": {
     "defaultMessage": "Тхе проджест наме саннот бе бланк",
     "description": "Validation message for project name"
@@ -414,6 +406,18 @@
     "defaultMessage": "Проджест хеадер",
     "description": "Aria label for the project header area"
   },
+  "project-name": {
+    "defaultMessage": "Project name",
+    "description": "Text used to indicate the project name"
+  },
+  "project-tab": {
+    "defaultMessage": "Project",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your project",
+    "description": "Project tab description"
+  },
   "python-powered": {
     "defaultMessage": "Путхон поверед",
     "description": "Python powered logo alt text"
@@ -466,10 +470,6 @@
     "defaultMessage": "Сенд Cтрл-Д то ресет",
     "description": "Button to reset the micro:bit from the serial area"
   },
-  "serial-ctrl-e-action": {
-    "defaultMessage": "Сенд Cтрл-E фор пасте моде",
-    "description": "Button to enter serial paste mode"
-  },
   "serial-expand": {
     "defaultMessage": "Схов серіал",
     "description": "Aria label for serial expand/collapse"
@@ -497,6 +497,10 @@
   "serial-help-title": {
     "defaultMessage": "Серіал хінтс анд тіпс",
     "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-hints-and-tips": {
+    "defaultMessage": "Serial hints and tips",
+    "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
     "defaultMessage": "Серіал меню",

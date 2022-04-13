@@ -1,27 +1,30 @@
 /**
- * (c) 2022, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box } from "@chakra-ui/layout";
-import { useIntl } from "react-intl";
-import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
-import AreaHeading from "../common/AreaHeading";
+import { Text } from "@chakra-ui/layout";
+import { FormattedMessage } from "react-intl";
+import IdeasDocumentation from "./ideas/IdeasDocumentation";
+import Spinner from "../common/Spinner";
+import { useDocumentation } from "./documentation-hooks";
 
 const IdeasArea = () => {
-  const intl = useIntl();
-  return (
-    <HeadedScrollablePanel
-      heading={
-        <AreaHeading
-          name={intl.formatMessage({ id: "ideas-tab" })}
-          description={intl.formatMessage({ id: "ideas-tab-description" })}
-        />
-      }
-    >
-      <Box height="100%" />
-    </HeadedScrollablePanel>
-  );
+  const { ideas } = useDocumentation();
+  switch (ideas.status) {
+    case "loading":
+      return <Spinner />;
+    case "error":
+      return (
+        <Text p={5} height="100%">
+          <FormattedMessage id="toolkit-error-loading" />
+        </Text>
+      );
+    case "ok":
+      return <IdeasDocumentation ideas={ideas.content} />;
+    default:
+      throw new Error();
+  }
 };
 
 export default IdeasArea;

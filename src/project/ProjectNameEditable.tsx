@@ -3,7 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
+import * as CSS from "csstype";
+import {
+  HStack,
+  IconButton,
+  ResponsiveValue,
+  Text,
+  TextProps,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
@@ -11,10 +19,23 @@ import { useDialogs } from "../common/use-dialogs";
 import { useProject, useProjectActions } from "./project-hooks";
 import ProjectNameQuestion from "./ProjectNameQuestion";
 
+interface ProjectNameEditableProps extends TextProps {
+  button?: "before" | "after";
+  clickToEdit?: boolean;
+  justifyContent?: ResponsiveValue<CSS.Property.JustifyContent>;
+  alignItems?: ResponsiveValue<CSS.Property.AlignItems>;
+}
+
 /**
  * A control to enable editing of the project name.
  */
-const ProjectNameEditable = () => {
+const ProjectNameEditable = ({
+  button = "before",
+  justifyContent,
+  alignItems = "center",
+  clickToEdit = false,
+  ...props
+}: ProjectNameEditableProps) => {
   const project = useProject();
   const actions = useProjectActions();
   const dialogs = useDialogs();
@@ -35,33 +56,41 @@ const ProjectNameEditable = () => {
       actions.setProjectName(name);
     }
   }, [dialogs, actions, project, intl]);
-  return (
-    <HStack spacing={2.5}>
-      <Tooltip
-        hasArrow
-        label={intl.formatMessage({ id: "edit-name-project-hover" })}
-        placement="top-start"
-      >
-        <IconButton
-          size="md"
-          icon={<RiEdit2Line />}
-          fontSize="xl"
-          color="brand.500"
-          variant="ghost"
-          onClick={handleEdit}
-          aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
-        />
-      </Tooltip>
-      <Text
-        color="gray.700"
-        opacity="80%"
+  const editButton = (
+    <Tooltip
+      hasArrow
+      label={intl.formatMessage({ id: "edit-name-project-hover" })}
+      placement="top-start"
+      key="button"
+    >
+      <IconButton
+        size="md"
+        icon={<RiEdit2Line />}
         fontSize="xl"
-        cursor="pointer"
+        color="brand.500"
+        variant="ghost"
         onClick={handleEdit}
-        data-testid="project-name"
-      >
-        {project.name}
-      </Text>
+        aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
+      />
+    </Tooltip>
+  );
+  const text = (
+    <Text
+      key="text"
+      cursor={clickToEdit ? "pointer" : undefined}
+      onClick={clickToEdit ? handleEdit : undefined}
+      {...props}
+    >
+      {project.name}
+    </Text>
+  );
+  return (
+    <HStack
+      spacing={2.5}
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+    >
+      {button === "before" ? [editButton, text] : [text, editButton]}
     </HStack>
   );
 };

@@ -9,28 +9,28 @@ import { Divider, HStack, ListItem, ListItemProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { ToolkitImage } from "./model";
-import ToolkitIcon from "./ToolkitIcon";
-import ToolkitName from "./ToolkitName";
+import { SimpleImage } from "../../common/sanity";
+import DocumentationIcon from "./DocumentationIcon";
+import DocumentationHeading from "./DocumentationHeading";
 
-interface ToolkitTopLevelListItemProps {
+interface DocumentationTopLevelItemProps {
   name: string;
   description: ReactNode;
-  icon?: ToolkitImage;
+  icon?: SimpleImage;
   isV2Only?: boolean;
   onForward: () => void;
 }
 
-const ToolkitTopLevelListItem = ({
+const DocumentationTopLevelItem = ({
   name,
   description,
   icon,
   isV2Only,
   onForward,
-}: ToolkitTopLevelListItemProps) => {
+}: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
   return (
-    <ToolkitListItem
+    <DocumentationListItem
       onClick={onForward}
       cursor="pointer"
       showIcon={true}
@@ -38,7 +38,7 @@ const ToolkitTopLevelListItem = ({
     >
       <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
         <HStack justifyContent="space-between">
-          <ToolkitName name={name} isV2Only={!!isV2Only}></ToolkitName>
+          <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
             icon={<RiArrowRightLine />}
             aria-label={intl.formatMessage(
@@ -57,25 +57,25 @@ const ToolkitTopLevelListItem = ({
           {description}
         </Box>
       </VStack>
-    </ToolkitListItem>
+    </DocumentationListItem>
   );
 };
 
-interface ToolkitListItemProps extends ListItemProps {
+interface DocumentationListItemProps extends ListItemProps {
   showIcon: boolean;
-  icon?: ToolkitImage;
+  icon?: SimpleImage;
 }
 
-const ToolkitListItem = ({
+const DocumentationListItem = ({
   children,
   showIcon,
   icon,
   ...props
-}: ToolkitListItemProps) => {
+}: DocumentationListItemProps) => {
   return (
     <ListItem {...props}>
       <HStack m={5} mr={3} spacing={5}>
-        {showIcon && icon && <ToolkitIcon icon={icon} />}
+        {showIcon && icon && <DocumentationIcon icon={icon} />}
         {children}
       </HStack>
       <Divider ml={3} borderWidth="1px" />
@@ -83,4 +83,4 @@ const ToolkitListItem = ({
   );
 };
 
-export default ToolkitTopLevelListItem;
+export default DocumentationTopLevelItem;

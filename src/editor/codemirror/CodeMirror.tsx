@@ -199,7 +199,7 @@ const CodeMirror = ({
           tab: "api",
           api: { id },
         },
-        "toolkit-from-code"
+        "documentation-from-code"
       );
       const view = viewRef.current!;
       // Put the focus back in the text editor so the docs are immediately useful.

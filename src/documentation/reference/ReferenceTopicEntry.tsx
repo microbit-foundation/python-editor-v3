@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, Stack, Text } from "@chakra-ui/layout";
+import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
@@ -11,12 +11,13 @@ import { Anchor } from "../../router-hooks";
 import ShowMoreButton from "../common/ShowMoreButton";
 import Highlight from "./Highlight";
 import {
-  isV2Only,
   ToolkitTopic,
   ToolkitTopicEntry as ToolkitTopicEntryModel,
 } from "./model";
-import ToolkitContent from "./ToolkitContent";
-import ToolkitName from "./ToolkitName";
+import DocumentationContent from "../common/DocumentationContent";
+import DocumentationHeading from "../common/DocumentationHeading";
+import { isV2Only } from "../common/model";
+import { docStyles } from "../../common/documentation-styles";
 
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
@@ -31,7 +32,7 @@ interface ToolkitTopicEntryProps {
  * We show a pop-up over the code on hover to reveal the full code, overlapping
  * the sidebar scroll area.
  */
-const ToolkitTopicEntry = ({
+const ReferenceTopicEntry = ({
   anchor,
   topic,
   entry,
@@ -66,11 +67,15 @@ const ToolkitTopicEntry = ({
         listStylePos="inside"
         sx={{
           "& ul": { listStyleType: "disc", pl: 3 },
+          ...docStyles,
         }}
       >
-        <ToolkitName name={entry.name} isV2Only={isV2Only(entry)}></ToolkitName>
+        <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
 
-        <ToolkitContent content={content} parentSlug={entry.slug.current} />
+        <DocumentationContent
+          content={content}
+          parentSlug={entry.slug.current}
+        />
         {alternatives && typeof alternativeIndex === "number" && (
           <>
             <Flex wrap="wrap" as="label">
@@ -91,18 +96,30 @@ const ToolkitTopicEntry = ({
               </Select>
             </Flex>
 
-            <ToolkitContent
-              content={alternatives[alternativeIndex].content}
-              parentSlug={entry.slug.current}
-            />
+            <Box
+              sx={{
+                ...docStyles,
+              }}
+            >
+              <DocumentationContent
+                content={alternatives[alternativeIndex].content}
+                parentSlug={entry.slug.current}
+              />
+            </Box>
           </>
         )}
         {hasDetail && (
           <>
             {/* Avoid Stack spacing here so the margin animates too. */}
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-              <Stack spacing={3} mt={3}>
-                <ToolkitContent
+              <Stack
+                spacing={3}
+                mt={3}
+                sx={{
+                  ...docStyles,
+                }}
+              >
+                <DocumentationContent
                   content={detailContent}
                   parentSlug={entry.slug.current}
                 />
@@ -119,4 +136,4 @@ const ToolkitTopicEntry = ({
   );
 };
 
-export default ToolkitTopicEntry;
+export default ReferenceTopicEntry;

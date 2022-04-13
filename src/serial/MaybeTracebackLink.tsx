@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { Text } from "@chakra-ui/react";
 import { Traceback } from "../device/device-hooks";
 import { MAIN_FILE } from "../fs/fs";
 import TracebackLink from "./TracebackLink";
@@ -17,12 +18,22 @@ interface MaybeTracebackLinkProps {
 const MaybeTracebackLink = ({ traceback }: MaybeTracebackLinkProps) => {
   const { file, line } = traceback;
   if (file === MAIN_FILE && line) {
-    return <TracebackLink traceback={traceback}>line {line}</TracebackLink>;
+    return (
+      <TracebackLink traceback={traceback}>
+        <Text as="span" textDecoration="underline">
+          line {line}
+        </Text>{" "}
+        {traceback.error}
+      </TracebackLink>
+    );
   }
   if (file && line) {
     return (
       <TracebackLink traceback={traceback}>
-        {file} line {line}
+        <Text as="span" textDecoration="underline">
+          {file} line {line}
+        </Text>{" "}
+        {traceback.error}
       </TracebackLink>
     );
   }

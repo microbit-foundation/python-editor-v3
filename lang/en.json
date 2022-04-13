@@ -4,7 +4,7 @@
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like the BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of severs that run huge websites\". The background behind the snakes shows a server rack.",
+    "defaultMessage": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like your BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of servers that run huge websites\". The background behind the snakes shows a server rack.",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
@@ -23,9 +23,25 @@
     "defaultMessage": "Read more about MicroPython",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
+  "add-action": {
+    "defaultMessage": "Add",
+    "description": "Add action label"
+  },
+  "add-file-action": {
+    "defaultMessage": "Add file",
+    "description": "Button text for action that adds a new blank file"
+  },
+  "add-python": {
+    "defaultMessage": "Add a new Python file to your project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
+  },
+  "added-file": {
+    "defaultMessage": "Added {filename}",
+    "description": "Action feedback for creating a file"
   },
   "already-exists": {
     "defaultMessage": "This file already exists",
@@ -151,22 +167,6 @@
     "defaultMessage": "Copy",
     "description": "Copy to clipboard action text"
   },
-  "create-action": {
-    "defaultMessage": "Create",
-    "description": "Create action label"
-  },
-  "create-file-action": {
-    "defaultMessage": "Create new file",
-    "description": "Create new file button text"
-  },
-  "create-python": {
-    "defaultMessage": "Create a new Python file",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
-  "created-file": {
-    "defaultMessage": "Created {filename}",
-    "description": "Action feedback for creating a file"
-  },
   "delete-action": {
     "defaultMessage": "Delete",
     "description": "Button text for delete action"
@@ -227,14 +227,6 @@
     "defaultMessage": "{name} file actions",
     "description": "Header of file actions for file"
   },
-  "files-tab": {
-    "defaultMessage": "Files",
-    "description": "Files tab button text"
-  },
-  "files-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your project",
-    "description": "Files tab description"
-  },
   "flash-action": {
     "defaultMessage": "Flash",
     "description": "Text for flash button"
@@ -287,16 +279,12 @@
     "defaultMessage": "Simple",
     "description": "Highlight code structure option"
   },
-  "hints-and-tips": {
-    "defaultMessage": "Hints and tips",
-    "description": "Link/button for minor internal help"
-  },
   "ideas-tab": {
     "defaultMessage": "Ideas",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "Placeholder for full working code examples",
+    "defaultMessage": "Try out these projects, modify them and get inspired",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
@@ -359,6 +347,10 @@
     "defaultMessage": "More",
     "description": "More button text"
   },
+  "more-download-options": {
+    "defaultMessage": "More download options",
+    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  },
   "name-not-blank": {
     "defaultMessage": "The project name cannot be blank",
     "description": "Validation message for project name"
@@ -415,6 +407,18 @@
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
   },
+  "project-name": {
+    "defaultMessage": "Project name",
+    "description": "Text used to indicate the project name"
+  },
+  "project-tab": {
+    "defaultMessage": "Project",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your project",
+    "description": "Project tab description"
+  },
   "python-powered": {
     "defaultMessage": "Python powered",
     "description": "Python powered logo alt text"
@@ -460,16 +464,12 @@
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Send Ctrl-C for REPL",
+    "defaultMessage": "Send Ctrl+C for REPL",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Send Ctrl-D to reset",
+    "defaultMessage": "Send Ctrl+D to reset",
     "description": "Button to reset the micro:bit from the serial area"
-  },
-  "serial-ctrl-e-action": {
-    "defaultMessage": "Send Ctrl-E for paste mode",
-    "description": "Button to enter serial paste mode"
   },
   "serial-expand": {
     "defaultMessage": "Show serial",
@@ -498,6 +498,10 @@
   "serial-help-title": {
     "defaultMessage": "Serial hints and tips",
     "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-hints-and-tips": {
+    "defaultMessage": "Serial hints and tips",
+    "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
     "defaultMessage": "Serial menu",

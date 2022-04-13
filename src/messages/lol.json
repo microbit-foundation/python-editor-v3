@@ -59,6 +59,24 @@
       "value": "Реад море абоют МісроПутхон"
     }
   ],
+  "add-action": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
+  "add-file-action": [
+    {
+      "type": 0,
+      "value": "Add new file"
+    }
+  ],
+  "add-python": [
+    {
+      "type": 0,
+      "value": "Add a new Python file to your project"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -67,6 +85,16 @@
     {
       "type": 1,
       "value": "changeName"
+    }
+  ],
+  "added-file": [
+    {
+      "type": 0,
+      "value": "Added "
+    },
+    {
+      "type": 1,
+      "value": "filename"
     }
   ],
   "already-exists": [
@@ -323,34 +351,6 @@
       "value": "Cопу"
     }
   ],
-  "create-action": [
-    {
-      "type": 0,
-      "value": "Cреате"
-    }
-  ],
-  "create-file-action": [
-    {
-      "type": 0,
-      "value": "Cреате нев філе"
-    }
-  ],
-  "create-python": [
-    {
-      "type": 0,
-      "value": "Cреате а нев Путхон філе"
-    }
-  ],
-  "created-file": [
-    {
-      "type": 0,
-      "value": "Cреатед "
-    },
-    {
-      "type": 1,
-      "value": "filename"
-    }
-  ],
   "delete-action": [
     {
       "type": 0,
@@ -461,18 +461,6 @@
       "value": " філе астіонс"
     }
   ],
-  "files-tab": [
-    {
-      "type": 0,
-      "value": "Філес"
-    }
-  ],
-  "files-tab-description": [
-    {
-      "type": 0,
-      "value": "View, create, add and edit the files in your Python Editor project"
-    }
-  ],
   "flash-action": [
     {
       "type": 0,
@@ -549,12 +537,6 @@
     {
       "type": 0,
       "value": "Сімпле"
-    }
-  ],
-  "hints-and-tips": [
-    {
-      "type": 0,
-      "value": "Хінтс анд тіпс"
     }
   ],
   "ideas-tab": [
@@ -711,6 +693,12 @@
       "value": "Море"
     }
   ],
+  "more-download-options": [
+    {
+      "type": 0,
+      "value": "More download options"
+    }
+  ],
   "name-not-blank": [
     {
       "type": 0,
@@ -825,6 +813,24 @@
       "value": "Проджест хеадер"
     }
   ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "Project name"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "Project"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your project"
+    }
+  ],
   "python-powered": [
     {
       "type": 0,
@@ -935,12 +941,6 @@
     {
       "type": 0,
       "value": "Сенд Cтрл-Д то ресет"
-    }
-  ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Сенд Cтрл-E фор пасте моде"
     }
   ],
   "serial-expand": [
@@ -1067,6 +1067,12 @@
     {
       "type": 0,
       "value": "Серіал хінтс анд тіпс"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
     }
   ],
   "serial-menu": [

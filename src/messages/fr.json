@@ -59,6 +59,24 @@
       "value": "En savoir plus sur MicroPython"
     }
   ],
+  "add-action": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
+  "add-file-action": [
+    {
+      "type": 0,
+      "value": "Add new file"
+    }
+  ],
+  "add-python": [
+    {
+      "type": 0,
+      "value": "Add a new Python file to your project"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -67,6 +85,16 @@
     {
       "type": 1,
       "value": "changeName"
+    }
+  ],
+  "added-file": [
+    {
+      "type": 0,
+      "value": "Added "
+    },
+    {
+      "type": 1,
+      "value": "filename"
     }
   ],
   "already-exists": [
@@ -323,34 +351,6 @@
       "value": "Copier"
     }
   ],
-  "create-action": [
-    {
-      "type": 0,
-      "value": "Créer"
-    }
-  ],
-  "create-file-action": [
-    {
-      "type": 0,
-      "value": "Créer un nouveau fichier"
-    }
-  ],
-  "create-python": [
-    {
-      "type": 0,
-      "value": "Créer un nouveau fichier Python"
-    }
-  ],
-  "created-file": [
-    {
-      "type": 1,
-      "value": "filename"
-    },
-    {
-      "type": 0,
-      "value": " a été créé"
-    }
-  ],
   "delete-action": [
     {
       "type": 0,
@@ -461,18 +461,6 @@
       "value": "name"
     }
   ],
-  "files-tab": [
-    {
-      "type": 0,
-      "value": "Fichiers"
-    }
-  ],
-  "files-tab-description": [
-    {
-      "type": 0,
-      "value": "Afficher, créer, ajouter et modifier les fichiers de votre projet"
-    }
-  ],
   "flash-action": [
     {
       "type": 0,
@@ -549,12 +537,6 @@
     {
       "type": 0,
       "value": "Simple"
-    }
-  ],
-  "hints-and-tips": [
-    {
-      "type": 0,
-      "value": "Trucs et astuces"
     }
   ],
   "ideas-tab": [
@@ -711,6 +693,12 @@
       "value": "Plus"
     }
   ],
+  "more-download-options": [
+    {
+      "type": 0,
+      "value": "More download options"
+    }
+  ],
   "name-not-blank": [
     {
       "type": 0,
@@ -825,6 +813,24 @@
       "value": "En-tête de projet"
     }
   ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "Project name"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "Project"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your project"
+    }
+  ],
   "python-powered": [
     {
       "type": 0,
@@ -935,12 +941,6 @@
     {
       "type": 0,
       "value": "Envoyer Ctrl-D pour réinitialiser"
-    }
-  ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Envoyer Ctrl-E pour le mode coller"
     }
   ],
   "serial-expand": [
@@ -1067,6 +1067,12 @@
     {
       "type": 0,
       "value": "Trucs et astuces concernant la série"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
     }
   ],
   "serial-menu": [

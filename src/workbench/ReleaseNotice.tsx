@@ -63,6 +63,9 @@ const ReleaseNotice = ({ onDialogChange }: ReleaseNoticeProps) => {
       pl={3}
       pr={3}
       justifyContent="space-between"
+      as="section"
+      aria-label="Release information"
+      role="region"
     >
       <Text fontSize="sm" textAlign="center" fontWeight="semibold" p={1}>
         Alpha release

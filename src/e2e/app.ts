@@ -170,7 +170,7 @@ export class App {
     filePath: string,
     options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
-    await this.switchTab("Files");
+    await this.switchTab("Project");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
@@ -178,25 +178,25 @@ export class App {
   }
 
   /**
-   * Create a new file using the files tab.
+   * Add a new file using the files tab.
    *
    * @param name The name to enter in the dialog.
    */
-  async createNewFile(name: string): Promise<void> {
-    await this.switchTab("Files");
+  async addNewFile(name: string): Promise<void> {
+    await this.switchTab("Project");
     const document = await this.document();
-    const newButton = await document.findByRole("button", {
-      name: "Create new file",
+    const addFileButton = await document.findByRole("button", {
+      name: "Add file",
     });
-    await newButton.click();
+    await addFileButton.click();
     const nameField = await document.findByRole("textbox", {
       name: "Name",
     });
     await nameField.type(name);
-    const createButton = await document.findByRole("button", {
-      name: "Create",
+    const addButton = await document.findByRole("button", {
+      name: "Add",
     });
-    await createButton.click();
+    await addButton.click();
   }
 
   /**
@@ -472,7 +472,7 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findActiveToolkitEntry(text: string): Promise<void> {
+  async findActiveDocumentationEntry(text: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
     return waitFor(async () => {
@@ -492,7 +492,7 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findToolkitTopLevelHeading(
+  async findDocumentationTopLevelHeading(
     title: string,
     description: string
   ): Promise<void> {
@@ -503,7 +503,7 @@ export class App {
     await document.findByText(description);
   }
 
-  async selectToolkitSection(name: string): Promise<void> {
+  async selectDocumentationSection(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: `View ${name} documentation`,
@@ -735,7 +735,7 @@ export class App {
    * @param name The name of the section.
    * @param targetLine The target line (1-based).
    */
-  async dragDropToolkitCode(name: string, targetLine: number) {
+  async dragDropCodeEmbed(name: string, targetLine: number) {
     const page = await this.page;
     const document = await this.document();
     const heading = await document.findByRole("heading", {
@@ -800,7 +800,7 @@ export class App {
    * Prefer more specific navigation actions, but this is useful to check initial state
    * and that tab state is remembered.
    */
-  async switchTab(tabName: "Files" | "API" | "Reference") {
+  async switchTab(tabName: "Project" | "API" | "Reference") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,
@@ -866,7 +866,7 @@ export class App {
   }
 
   private async openFileActionsMenu(filename: string): Promise<void> {
-    await this.switchTab("Files");
+    await this.switchTab("Project");
     const document = await this.document();
     const actions = await document.findByRole("button", {
       name: `${filename} file actions`,

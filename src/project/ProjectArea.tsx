@@ -3,16 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem, Stack } from "@chakra-ui/react";
-import { useIntl } from "react-intl";
-import AreaHeading from "../common/AreaHeading";
+import { List, ListItem, Stack, Text } from "@chakra-ui/react";
+import { FormattedMessage } from "react-intl";
 import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
-import { useProject } from "../project/project-hooks";
-import { isEditableFile } from "../project/project-utils";
 import FileRow from "./FileRow";
-import FilesAreaNav from "./FilesAreaNav";
+import { useProject } from "./project-hooks";
+import { isEditableFile } from "./project-utils";
+import ProjectAreaNav from "./ProjectAreaNav";
+import ProjectNameEditable from "./ProjectNameEditable";
 
-interface FilesProps {
+interface ProjectAreaProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (name: string) => void;
 }
@@ -20,16 +20,30 @@ interface FilesProps {
 /**
  * The main files area, offering access to individual files.
  */
-const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
+const ProjectArea = ({
+  selectedFile,
+  onSelectedFileChanged,
+}: ProjectAreaProps) => {
   const { files, name: projectName } = useProject();
-  const intl = useIntl();
   return (
     <HeadedScrollablePanel
       heading={
-        <AreaHeading
-          name={intl.formatMessage({ id: "files-tab" })}
-          description={intl.formatMessage({ id: "files-tab-description" })}
-        />
+        <>
+          <Text fontSize="xs">
+            <FormattedMessage id="project-name" />
+          </Text>
+          <ProjectNameEditable
+            as="h2"
+            fontSize="3xl"
+            fontWeight="semibold"
+            color="grey.800"
+            button="after"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            lineHeight="1.3"
+            pt={0.5}
+          />
+        </>
       }
     >
       <Stack spacing={5} pt={2}>
@@ -69,10 +83,10 @@ const FilesArea = ({ selectedFile, onSelectedFileChanged }: FilesProps) => {
             );
           })}
         </List>
-        <FilesAreaNav />
+        <ProjectAreaNav />
       </Stack>
     </HeadedScrollablePanel>
   );
 };
 
-export default FilesArea;
+export default ProjectArea;

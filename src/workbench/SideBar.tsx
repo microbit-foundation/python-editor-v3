@@ -1,5 +1,5 @@
 /**
- * (c) 2022, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -23,7 +23,7 @@ import PythonLogo from "../common/PythonLogo";
 import ReferenceArea from "../documentation/ReferenceArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ApiArea from "../documentation/ApiArea";
-import FilesArea from "../files/FilesArea";
+import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
@@ -86,11 +86,11 @@ const SideBar = ({
         mb: "auto",
       },
       {
-        id: "files",
-        title: intl.formatMessage({ id: "files-tab" }),
+        id: "project",
+        title: intl.formatMessage({ id: "project-tab" }),
         icon: VscFiles,
         contents: (
-          <FilesArea
+          <ProjectArea
             selectedFile={selectedFile}
             onSelectedFileChanged={onSelectedFileChanged}
           />
@@ -100,7 +100,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, reference, api }, setParams] = useRouterState();
+  const [{ tab, reference, api, idea }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
@@ -115,12 +115,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (reference || api) {
+    if (reference || api || idea) {
       setParams({
         tab,
       });
     }
-  }, [reference, api, tab, setParams]);
+  }, [reference, api, idea, tab, setParams]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">

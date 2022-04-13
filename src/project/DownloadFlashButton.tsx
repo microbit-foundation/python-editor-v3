@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
 import { RiDownload2Line, RiFlashlightFill } from "react-icons/ri";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
@@ -35,6 +35,7 @@ interface DownloadFlashButtonProps {
  * flash (if WebUSB is supported) or otherwise just download a HEX.
  */
 const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
+  const intl = useIntl();
   const status = useConnectionStatus();
   const downloadOnly = status === ConnectionStatus.NOT_SUPPORTED;
   const connected = status === ConnectionStatus.CONNECTED;
@@ -63,6 +64,7 @@ const DownloadFlashButton = ({ size }: DownloadFlashButtonProps) => {
             />
           )}
           <MenuButton
+            aria-label={intl.formatMessage({ id: "more-download-options" })}
             // Avoid animating part of the primary action change.
             key={variant}
             variant={variant}
