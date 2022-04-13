@@ -825,7 +825,7 @@ const lintGutterTheme = EditorView.baseTheme({
     <ellipse cx="15" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
     <ellipse cx="27" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
     <ellipse cx="39" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
-    `, `viewBox="0 0 51 47"`) :  svg(`<circle cx="20" cy="20" r="15" fill="#fff" stroke="#333" stroke-width="6"/>`)
+    `, `viewBox="0 0 51 47"`) :  svg(`<circle cx="20" cy="20" r="15" fill="#fff" stroke="#a9aaa9" stroke-width="4"/>`)
   },
 })
 
