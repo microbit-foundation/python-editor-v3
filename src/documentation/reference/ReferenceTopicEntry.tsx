@@ -17,6 +17,7 @@ import {
 import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import { isV2Only } from "../common/model";
+import { docStyles } from "../../common/documentationStyles";
 
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
@@ -65,10 +66,8 @@ const ReferenceTopicEntry = ({
         mb={1}
         listStylePos="inside"
         sx={{
-          "p,img": {
-            maxWidth: "800px",
-          },
           "& ul": { listStyleType: "disc", pl: 3 },
+          ...docStyles,
         }}
       >
         <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
@@ -99,9 +98,7 @@ const ReferenceTopicEntry = ({
 
             <Box
               sx={{
-                "p,img": {
-                  maxWidth: "800px",
-                },
+                ...docStyles,
               }}
             >
               <DocumentationContent
@@ -119,9 +116,7 @@ const ReferenceTopicEntry = ({
                 spacing={3}
                 mt={3}
                 sx={{
-                  "p,img": {
-                    maxWidth: "800px",
-                  },
+                  ...docStyles,
                 }}
               >
                 <DocumentationContent

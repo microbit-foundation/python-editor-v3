@@ -19,6 +19,7 @@ import AreaHeading from "../../common/AreaHeading";
 import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
 import { resolveModule } from "./apidocs-util";
 import ApiNode from "./ApiNode";
+import { docStyles } from "../../common/documentationStyles";
 
 interface ApiDocumentationProps {
   docs: ApiDocsResponse;
@@ -81,9 +82,7 @@ const ActiveLevel = ({
                 width="100%"
                 anchor={anchor}
                 sx={{
-                  p: {
-                    maxWidth: "800px",
-                  },
+                  ...docStyles,
                 }}
               />
               <Divider />

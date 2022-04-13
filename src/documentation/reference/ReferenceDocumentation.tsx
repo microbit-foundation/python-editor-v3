@@ -17,6 +17,7 @@ import AreaHeading from "../../common/AreaHeading";
 import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
 import { useIntl } from "react-intl";
 import { isV2Only } from "../common/model";
+import { docStyles } from "../../common/documentationStyles";
 
 interface ReferenceDocumentationProps {
   toolkit: Toolkit;
@@ -93,9 +94,7 @@ const ActiveLevel = ({
             pb={1}
             fontSize="sm"
             sx={{
-              "p,img": {
-                maxWidth: "800px",
-              },
+              ...docStyles,
             }}
           >
             <DocumentationContent content={topic.introduction} />

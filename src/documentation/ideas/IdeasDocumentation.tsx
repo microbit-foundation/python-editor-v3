@@ -8,6 +8,7 @@ import { Image, SimpleGrid } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
+import { docStyles } from "../../common/documentationStyles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { imageUrlBuilder, getAspectRatio } from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
@@ -89,9 +90,7 @@ const ActiveLevel = ({
             mt={1}
             mb={1}
             sx={{
-              "p,img": {
-                maxWidth: "800px",
-              },
+              ...docStyles,
             }}
           >
             {activeIdea.image && (
