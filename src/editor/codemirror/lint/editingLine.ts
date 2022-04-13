@@ -5,7 +5,7 @@ import { ViewPlugin, ViewUpdate } from "@codemirror/view";
  * Delay after which we no longer count a line as being edited even if the
  * cursor is still on it.
  */
-const editingTimeout = 2_000;
+const editingTimeout = 5_000;
 
 /**
  * Plugin that maintains state tracking the line being edited.
