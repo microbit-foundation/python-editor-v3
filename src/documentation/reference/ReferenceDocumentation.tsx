@@ -17,7 +17,7 @@ import AreaHeading from "../../common/AreaHeading";
 import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
 import { useIntl } from "react-intl";
 import { isV2Only } from "../common/model";
-import { docStyles } from "../../common/documentationStyles";
+import { docStyles } from "../../common/documentation-styles";
 
 interface ReferenceDocumentationProps {
   toolkit: Toolkit;

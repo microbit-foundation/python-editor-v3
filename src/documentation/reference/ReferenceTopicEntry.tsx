@@ -17,7 +17,7 @@ import {
 import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import { isV2Only } from "../common/model";
-import { docStyles } from "../../common/documentationStyles";
+import { docStyles } from "../../common/documentation-styles";
 
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;

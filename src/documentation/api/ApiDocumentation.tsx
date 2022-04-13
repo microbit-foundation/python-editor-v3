@@ -19,7 +19,7 @@ import AreaHeading from "../../common/AreaHeading";
 import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
 import { resolveModule } from "./apidocs-util";
 import ApiNode from "./ApiNode";
-import { docStyles } from "../../common/documentationStyles";
+import { docStyles } from "../../common/documentation-styles";
 
 interface ApiDocumentationProps {
   docs: ApiDocsResponse;
