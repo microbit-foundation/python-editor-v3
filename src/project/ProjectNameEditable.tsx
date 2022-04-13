@@ -61,6 +61,7 @@ const ProjectNameEditable = ({
       hasArrow
       label={intl.formatMessage({ id: "edit-name-project-hover" })}
       placement="top-start"
+      key="button"
     >
       <IconButton
         size="md"
@@ -75,6 +76,7 @@ const ProjectNameEditable = ({
   );
   const text = (
     <Text
+      key="text"
       cursor={clickToEdit ? "pointer" : undefined}
       onClick={clickToEdit ? handleEdit : undefined}
       {...props}
