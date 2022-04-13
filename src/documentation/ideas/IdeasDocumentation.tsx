@@ -10,9 +10,8 @@ import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
-import { imageUrlBuilder, getAspectRatio } from "../../common/imageUrlBuilder";
+import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
-import { flags } from "../../flags";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
@@ -68,7 +67,7 @@ const ActiveLevel = ({
   const contentWidth = contentRect?.width ?? 0;
   const numCols =
     !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1;
-  if (activeIdea && flags.ideas) {
+  if (activeIdea) {
     return (
       <HeadedScrollablePanel
         key={activeIdea.slug.current}
@@ -124,19 +123,17 @@ const ActiveLevel = ({
         />
       }
     >
-      {flags.ideas && (
-        <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
-          {ideas.map((idea) => (
-            <IdeaCard
-              key={idea.name}
-              name={idea.name}
-              isV2Only={isV2Only(idea)}
-              image={idea.image}
-              onClick={() => onNavigate(idea.slug.current)}
-            />
-          ))}
-        </SimpleGrid>
-      )}
+      <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
+        {ideas.map((idea) => (
+          <IdeaCard
+            key={idea.name}
+            name={idea.name}
+            isV2Only={isV2Only(idea)}
+            image={idea.image}
+            onClick={() => onNavigate(idea.slug.current)}
+          />
+        ))}
+      </SimpleGrid>
     </HeadedScrollablePanel>
   );
 };

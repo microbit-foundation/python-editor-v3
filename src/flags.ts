@@ -26,14 +26,9 @@ export type Flag =
    * The flag has the nice side-effect of disabling the dialog for
    * local development so is worth keeping for that use alone.
    */
-  | "noWelcome"
-  /**
-   * Enables the ability to view content in the ideas tab while
-   * it is work in progress.
-   */
-  | "ideas";
+  | "noWelcome";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome", "ideas"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome"];
 
 type Flags = Record<Flag, boolean>;
 
