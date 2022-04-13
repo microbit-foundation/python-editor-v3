@@ -5,6 +5,6 @@
  */
 export const docStyles = {
   "p,img": {
-    maxWidth: "800px",
+    maxWidth: "600px",
   },
 };
