@@ -1,6 +1,19 @@
 /*
 Modified copy of the lint extension from CodeMirror.
 
+To aid comparison to the original, this file is not auto-formatted
+and we've disabled our eslint rules.
+
+Changes:
+- The gutter markers track whether they're on a line that's currently
+  being edited.
+- We show different UI in this case: a typing indicator.
+
+Changes are (c) 2022, Micro:bit Educational Foundation and contributors
+under the same MIT licence as the original.
+
+Original licence follows:
+
 MIT License
 
 Copyright (C) 2018-2021 by Marijn Haverbeke <marijnh@gmail.com> and others
@@ -795,9 +808,16 @@ const lintGutterTheme = EditorView.baseTheme({
   ".cm-lint-marker-error:before": {
     content: svg(`<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>`)
   },
-  // Temporary editing icon
+  // Custom icon. This is "editing.svg" alongside this file.
   ".cm-lint-marker-editing:before": {
-    content: svg(`<circle cx="20" cy="20" r="15" fill="#fff" stroke="#333" stroke-width="6"/>`)
+    content: svg(`<ellipse cx="14.5" cy="16.5" rx="14.5" ry="16.5" fill="#c9c9c9"/>
+    <ellipse cx="38.5" cy="16.5" rx="14.5" ry="16.5" fill="#c9c9c9"/>
+    <rect x="18" width="18" height="33" fill="#c9c9c9"/>
+    <path d="M18 47L27.5263 26.75H8.47372L18 47Z" fill="#c9c9c9"/>
+    <ellipse cx="15" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
+    <ellipse cx="27" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
+    <ellipse cx="39" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
+    `, `viewBox="0 0 51 47"`)
   },
 })
 
