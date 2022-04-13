@@ -21,7 +21,7 @@ import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { PortableText, SimpleImage } from "../../common/sanity";
 
 interface DocumentationContentProps {
-  content: PortableText;
+  content?: PortableText;
   parentSlug?: string;
 }
 
@@ -133,7 +133,9 @@ const DocumentationContent = ({
       link: DocumentationExternalLinkMark,
     },
   };
-  return <BlockContent blocks={content} serializers={serializers} />;
+  return content ? (
+    <BlockContent blocks={content} serializers={serializers} />
+  ) : null;
 };
 
 export default React.memo(DocumentationContent);

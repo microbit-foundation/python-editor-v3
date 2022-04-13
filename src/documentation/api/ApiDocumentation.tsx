@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem, Divider } from "@chakra-ui/layout";
+import { List, ListItem, Divider, BoxProps } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
@@ -70,7 +70,7 @@ const ActiveLevel = ({
             parent={apiString}
             title={module.name}
             onBack={() => onNavigate(undefined)}
-            subtitle={<ShortModuleDescription value={module} />}
+            subtitle={<ShortModuleDescription value={module} as="span" />}
           />
         }
       >
@@ -116,9 +116,17 @@ const ActiveLevel = ({
   );
 };
 
-const ShortModuleDescription = ({ value }: { value: ApiDocsEntry }) =>
+interface ShortModuleDescriptionProps extends BoxProps {
+  value: ApiDocsEntry;
+}
+
+const ShortModuleDescription = ({
+  value,
+  ...props
+}: ShortModuleDescriptionProps) =>
   value.docString ? (
     <DocString
       value={firstParagraph(value.docString).trim().replace(/\.$/, "")}
+      {...props}
     />
   ) : null;
