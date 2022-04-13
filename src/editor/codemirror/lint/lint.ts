@@ -48,6 +48,7 @@ import {gutter, GutterMarker} from "@codemirror/gutter"
 import {RangeSet, Range} from "@codemirror/rangeset"
 import elt from "crelt"
 import { editingLineState, editingLinePlugin, setEditingLineEffect } from "./editingLine"
+import { flags } from "../../../flags"
 
 /// Describes a problem or hint for a piece of code.
 export interface Diagnostic {
@@ -815,15 +816,15 @@ const lintGutterTheme = EditorView.baseTheme({
     content: svg(`<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>`)
   },
   // Custom icon. This is "editing.svg" alongside this file.
-  ".cm-lint-marker-editing:before": {
-    content: svg(`<ellipse cx="14.5" cy="16.5" rx="14.5" ry="16.5" fill="#c9c9c9"/>
+  ".cm-lint-marker-editing:before":  {
+    content: flags.iconTyping ? svg(`<ellipse cx="14.5" cy="16.5" rx="14.5" ry="16.5" fill="#c9c9c9"/>
     <ellipse cx="38.5" cy="16.5" rx="14.5" ry="16.5" fill="#c9c9c9"/>
     <rect x="18" width="18" height="33" fill="#c9c9c9"/>
     <path d="M18 47L27.5263 26.75H8.47372L18 47Z" fill="#c9c9c9"/>
     <ellipse cx="15" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
     <ellipse cx="27" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
     <ellipse cx="39" cy="16.5" rx="3" ry="3.5" fill="#262626"/>
-    `, `viewBox="0 0 51 47"`)
+    `, `viewBox="0 0 51 47"`) :  svg(`<circle cx="20" cy="20" r="15" fill="#fff" stroke="#333" stroke-width="6"/>`)
   },
 })
 
