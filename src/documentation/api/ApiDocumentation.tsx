@@ -76,7 +76,16 @@ const ActiveLevel = ({
         <List flex="1 1 auto">
           {(module.children ?? []).map((child) => (
             <ListItem key={child.id}>
-              <ApiNode docs={child} width="100%" anchor={anchor} />
+              <ApiNode
+                docs={child}
+                width="100%"
+                anchor={anchor}
+                sx={{
+                  p: {
+                    maxWidth: "800px",
+                  },
+                }}
+              />
               <Divider />
             </ListItem>
           ))}

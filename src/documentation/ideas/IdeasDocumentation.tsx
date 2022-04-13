@@ -81,7 +81,19 @@ const ActiveLevel = ({
         }
       >
         {activeIdea.content && (
-          <Stack spacing={3} fontSize="sm" p={5} pr={3} mt={1} mb={1}>
+          <Stack
+            spacing={3}
+            fontSize="sm"
+            p={5}
+            pr={3}
+            mt={1}
+            mb={1}
+            sx={{
+              "p,img": {
+                maxWidth: "800px",
+              },
+            }}
+          >
             {activeIdea.image && (
               <Image
                 borderRadius="lg"

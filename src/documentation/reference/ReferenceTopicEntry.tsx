@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, Stack, Text } from "@chakra-ui/layout";
+import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
@@ -65,6 +65,9 @@ const ReferenceTopicEntry = ({
         mb={1}
         listStylePos="inside"
         sx={{
+          "p,img": {
+            maxWidth: "800px",
+          },
           "& ul": { listStyleType: "disc", pl: 3 },
         }}
       >
@@ -94,17 +97,33 @@ const ReferenceTopicEntry = ({
               </Select>
             </Flex>
 
-            <DocumentationContent
-              content={alternatives[alternativeIndex].content}
-              parentSlug={entry.slug.current}
-            />
+            <Box
+              sx={{
+                "p,img": {
+                  maxWidth: "800px",
+                },
+              }}
+            >
+              <DocumentationContent
+                content={alternatives[alternativeIndex].content}
+                parentSlug={entry.slug.current}
+              />
+            </Box>
           </>
         )}
         {hasDetail && (
           <>
             {/* Avoid Stack spacing here so the margin animates too. */}
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-              <Stack spacing={3} mt={3}>
+              <Stack
+                spacing={3}
+                mt={3}
+                sx={{
+                  "p,img": {
+                    maxWidth: "800px",
+                  },
+                }}
+              >
                 <DocumentationContent
                   content={detailContent}
                   parentSlug={entry.slug.current}

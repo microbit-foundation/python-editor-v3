@@ -88,7 +88,16 @@ const ActiveLevel = ({
         }
       >
         {topic.introduction && (
-          <Box p={5} pb={1} fontSize="sm">
+          <Box
+            p={5}
+            pb={1}
+            fontSize="sm"
+            sx={{
+              "p,img": {
+                maxWidth: "800px",
+              },
+            }}
+          >
             <DocumentationContent content={topic.introduction} />
           </Box>
         )}
