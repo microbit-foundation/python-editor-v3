@@ -656,9 +656,10 @@ const baseTheme = EditorView.baseTheme({
 
 class LintGutterMarker extends GutterMarker {
   severity: "info" | "warning" | "error"
-  constructor(public diagnostics: Diagnostic[], public currentlyEditingLine: boolean) {
+  // Diagnostics stored here may have had their 'from' field values 
+  // changed in order to maintain the gutter markers in the correct position.
+  constructor(public diagnostics: Diagnostic[]) {
     super()
-    this.currentlyEditingLine = currentlyEditingLine
     this.severity = diagnostics.reduce((max, d) => {
       let s = d.severity
       return s == "error" || s == "warning" && max == "info" ? s : max
@@ -667,7 +668,12 @@ class LintGutterMarker extends GutterMarker {
 
   toDOM(view: EditorView) {
     let elt = document.createElement("div")
-    elt.className = `cm-lint-marker cm-lint-marker-${this.currentlyEditingLine ? "editing" : this.severity}`
+    elt.className = `cm-lint-marker cm-lint-marker-${
+      view.state.field(editingLineState) ===
+      view.state.doc.lineAt(this.diagnostics[0].from).number
+        ? "editing"
+        : this.severity
+    }`;
     elt.onmouseover = () => gutterMarkerMouseOver(view, elt, this.diagnostics)
     return elt
   }
@@ -728,7 +734,7 @@ function gutterMarkerMouseOver(view: EditorView, marker: HTMLElement, diagnostic
   }
 }
 
-function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[], currentlyEditingLine: number | undefined) {
+function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[]) {
   let byLine: {[line: number]: Diagnostic[]} = Object.create(null)
   for (let diagnostic of diagnostics) {
     let line = doc.lineAt(diagnostic.from)
@@ -736,9 +742,7 @@ function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[], cu
   }
   let markers: Range<GutterMarker>[] = []
   for (let line in byLine) {
-    const lineNumber = doc.lineAt(Number(line)).number
-    const editing = lineNumber === currentlyEditingLine;
-    markers.push(new LintGutterMarker(byLine[line], editing).range(+line))
+    markers.push(new LintGutterMarker(byLine[line]).range(+line))
   }
   return RangeSet.of(markers, true)
 }
@@ -756,21 +760,23 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
     markers = markers.map(tr.changes)
     for (let effect of tr.effects) {
       if (effect.is(setDiagnosticsEffect)) {
-        markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(editingLineState))
+        markers = markersForDiagnostics(tr.state.doc, effect.value)
       }
       if (effect.is(setEditingLineEffect)) {
         const diagnostics: Diagnostic[] = []
         const iter = markers.iter(0)
         while (iter.value) {
           const marker = (iter.value as LintGutterMarker);
-          const mappedDiagnostics = marker.diagnostics.map(d => {
-            d.from = iter.from
-            return d;
+          // Update the `from` field on diagnostics using changes mapped
+          // to markers above. We need to do this to ensure re-generated
+          // markers are in the correct position.
+          marker.diagnostics.forEach(d => {
+            d.from = iter.from;
+            diagnostics.push(d);
           })
-          diagnostics.push(...mappedDiagnostics);
           iter.next();
         }
-        markers = markersForDiagnostics(tr.state.doc, diagnostics, tr.state.field(editingLineState))
+        markers = markersForDiagnostics(tr.state.doc, diagnostics)
       }
     }
     return markers
