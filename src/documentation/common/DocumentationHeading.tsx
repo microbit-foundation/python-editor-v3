@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Text, TextProps } from "@chakra-ui/layout";
-import { Flex, Tag } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import V2Tag from "../common/V2Tag";
 
 interface DocumentationHeadingProps extends TextProps {
   name: string;
@@ -21,20 +22,7 @@ const DocumentationHeading = ({
       {name}
       {isV2Only && (
         <Flex display="inline-flex">
-          <Tag
-            fontWeight="semibold"
-            background="brand.500"
-            color="gray.25"
-            minH="unset"
-            pt="1px"
-            pb="1px"
-            pl={1.5}
-            pr={1.5}
-            ml={1.5}
-            borderRadius={4}
-          >
-            V2
-          </Tag>
+          <V2Tag />
         </Flex>
       )}
     </Text>

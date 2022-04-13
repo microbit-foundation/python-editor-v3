@@ -77,6 +77,7 @@ const ActiveLevel = ({
             parent={headingString}
             title={activeIdea.name}
             onBack={() => onNavigate(undefined)}
+            isV2Only={isV2Only(activeIdea)}
           />
         }
       >
