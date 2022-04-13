@@ -10,6 +10,7 @@ import { ReactNode } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 import { SimpleImage } from "../../common/sanity";
 import DocumentationIcon from "./DocumentationIcon";
+import V2Tag from "./V2Tag";
 
 interface DocumentationBreadcrumbHeadingProps {
   title: string;
@@ -20,6 +21,7 @@ interface DocumentationBreadcrumbHeadingProps {
   parentFontFamily?: "code";
   subtitle?: ReactNode;
   icon?: SimpleImage;
+  isV2Only?: boolean;
 }
 
 const DocumentationBreadcrumbHeading = ({
@@ -31,6 +33,7 @@ const DocumentationBreadcrumbHeading = ({
   titleFontFamily,
   subtitle,
   icon,
+  isV2Only,
 }: DocumentationBreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
@@ -72,8 +75,10 @@ const DocumentationBreadcrumbHeading = ({
             fontSize="2xl"
             fontWeight="semibold"
             fontFamily={titleFontFamily}
+            display="inline-flex"
+            alignItems="center"
           >
-            {title}
+            {title} {isV2Only && <V2Tag ml={2.5} />}
           </Text>
           {subtitle && <Text fontSize="md">{subtitle}</Text>}
         </VStack>
