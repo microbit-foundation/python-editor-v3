@@ -47,7 +47,7 @@ import {PanelConstructor, Panel, showPanel, getPanel} from "@codemirror/panel"
 import {gutter, GutterMarker} from "@codemirror/gutter"
 import {RangeSet, Range} from "@codemirror/rangeset"
 import elt from "crelt"
-import { currentlyEditingLine, currentlyEditingLinePlugin, setEditingLineEffect } from "./editingLine"
+import { editingLineState, editingLinePlugin, setEditingLineEffect } from "./editingLine"
 
 /// Describes a problem or hint for a piece of code.
 export interface Diagnostic {
@@ -756,7 +756,7 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
     markers = markers.map(tr.changes)
     for (let effect of tr.effects) {
       if (effect.is(setDiagnosticsEffect)) {
-        markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(currentlyEditingLine))
+        markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(editingLineState))
       }
       if (effect.is(setEditingLineEffect)) {
         const diagnostics: Diagnostic[] = []
@@ -770,7 +770,7 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
           diagnostics.push(...mappedDiagnostics);
           iter.next();
         }
-        markers = markersForDiagnostics(tr.state.doc, diagnostics, tr.state.field(currentlyEditingLine))
+        markers = markersForDiagnostics(tr.state.doc, diagnostics, tr.state.field(editingLineState))
       }
     }
     return markers
@@ -833,5 +833,5 @@ const lintGutterConfig = Facet.define<LintGutterConfig, Required<LintGutterConfi
 /// each line that has diagnostics, which can be hovered over to see
 /// the diagnostics.
 export function lintGutter(config: LintGutterConfig = {}): Extension {
-  return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip, currentlyEditingLine, currentlyEditingLinePlugin]
+  return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip, editingLineState, editingLinePlugin]
 }

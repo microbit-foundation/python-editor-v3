@@ -1,7 +1,16 @@
 import { StateEffect, StateField } from "@codemirror/state";
 import { ViewPlugin, ViewUpdate } from "@codemirror/view";
 
-export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
+/**
+ * Delay after which we no longer count a line as being edited even if the
+ * cursor is still on it.
+ */
+const editingTimeout = 2_000;
+
+/**
+ * Plugin that maintains state tracking the line being edited.
+ */
+export const editingLinePlugin = ViewPlugin.fromClass(
   class {
     timeout: any;
 
@@ -29,12 +38,12 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
             update.view.dispatch({
               effects: [setEditingLineEffect.of(undefined)],
             });
-          }, 2_000);
+          }, editingTimeout);
         }
       });
       if (
         !foundEditOnLine &&
-        update.state.field(currentlyEditingLine) !== selectionLine
+        update.state.field(editingLineState) !== selectionLine
       ) {
         clearTimeout(this.timeout);
         setTimeout(() => {
@@ -51,9 +60,15 @@ export const currentlyEditingLinePlugin = ViewPlugin.fromClass(
   }
 );
 
+/**
+ * Effect when the currently edited line is changed.
+ */
 export const setEditingLineEffect = StateEffect.define<number | undefined>();
 
-export const currentlyEditingLine = StateField.define<number | undefined>({
+/**
+ * State tracking currently edited line.
+ */
+export const editingLineState = StateField.define<number | undefined>({
   create() {
     return undefined;
   },
