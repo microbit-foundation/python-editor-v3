@@ -30,8 +30,6 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
       borderRadius="lg"
       overflow="hidden"
       boxShadow="md"
-      // Fill available height to keep grid items the same size.
-      height="100%"
       spacing={2}
       _focusVisible={focusStyles}
       _focus={focusStyles}
@@ -43,6 +41,7 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
       />
       <DocumentationHeading
         alignSelf="flex-start"
+        textAlign="left"
         px={2.5}
         pb={2}
         name={name}
