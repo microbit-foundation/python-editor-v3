@@ -69,4 +69,18 @@ describe("Browser - toolkit tabs", () => {
       "Count and repeat sets of instructions"
     );
   });
+
+  it("Ideas tab navigation", async () => {
+    await app.switchTab("Ideas");
+    await app.findDocumentationTopLevelHeading(
+      "Ideas",
+      "Try out these projects, modify them and get inspired"
+    );
+  });
+
+  it("Select an idea", async () => {
+    const ideaName = "Emotion badge";
+    await app.selectDocumentationIdea(ideaName);
+    await app.findDocumentationTopLevelHeading(ideaName);
+  });
 });

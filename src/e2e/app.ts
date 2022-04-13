@@ -494,13 +494,15 @@ export class App {
 
   async findDocumentationTopLevelHeading(
     title: string,
-    description: string
+    description?: string
   ): Promise<void> {
     const document = await this.document();
     await document.findByText(title, {
       selector: "h2",
     });
-    await document.findByText(description);
+    if (description) {
+      await document.findByText(description);
+    }
   }
 
   async selectDocumentationSection(name: string): Promise<void> {
@@ -509,6 +511,17 @@ export class App {
       name: `View ${name} documentation`,
     });
     return button.click();
+  }
+
+  async selectDocumentationIdea(name: string): Promise<void> {
+    const document = await this.document();
+    const heading = await document.findByText(name, {
+      selector: "h3",
+    });
+    const handle = heading.asElement();
+    await handle!.evaluate((element) => {
+      element.parentElement?.click();
+    });
   }
 
   async insertToolkitCode(name: string): Promise<void> {
@@ -800,7 +813,7 @@ export class App {
    * Prefer more specific navigation actions, but this is useful to check initial state
    * and that tab state is remembered.
    */
-  async switchTab(tabName: "Project" | "API" | "Reference") {
+  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,
