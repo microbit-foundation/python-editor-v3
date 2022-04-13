@@ -16,8 +16,8 @@ import {
   SyncStatusProvider,
 } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import DocumentationProvider from "./documentation/documentation-hooks";
 import SearchProvider from "./documentation/search/search-hooks";
-import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
@@ -88,7 +88,7 @@ const App = () => {
                     <LanguageServerClientProvider value={client}>
                       <SyncStatusProvider>
                         <BeforeUnloadDirtyCheck />
-                        <ToolkitProvider>
+                        <DocumentationProvider>
                           <SearchProvider>
                             <SelectionProvider>
                               <RouterProvider>
@@ -100,7 +100,7 @@ const App = () => {
                               </RouterProvider>
                             </SelectionProvider>
                           </SearchProvider>
-                        </ToolkitProvider>
+                        </DocumentationProvider>
                       </SyncStatusProvider>
                     </LanguageServerClientProvider>
                   </FileSystemProvider>

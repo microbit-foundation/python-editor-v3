@@ -77,7 +77,7 @@ const SideBarHeader = () => {
       searchModal.onClose();
       // Create new RouterState object to enforce navigation when clicking the same entry twice.
       const routerState: RouterState = JSON.parse(JSON.stringify(navigation));
-      setRouterState(routerState, "toolkit-search");
+      setRouterState(routerState, "documentation-search");
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );

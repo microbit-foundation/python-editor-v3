@@ -6,7 +6,7 @@
  * Which UI state is encoded into the URL might be subject to change in future
  * based on user feedback and discussion.
  *
- * (c) 2021, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -37,6 +37,7 @@ export class RouterParam<T> {
   static tab: RouterParam<string> = new RouterParam("tab");
   static api: RouterParam<Anchor> = new RouterParam("api");
   static reference: RouterParam<Anchor> = new RouterParam("reference");
+  static idea: RouterParam<Anchor> = new RouterParam("idea");
 
   private constructor(public id: keyof RouterState) {}
 
@@ -50,9 +51,13 @@ export interface RouterState {
   tab?: string;
   reference?: Anchor;
   api?: Anchor;
+  idea?: Anchor;
 }
 
-type NavigationSource = "toolkit-user" | "toolkit-search" | "toolkit-from-code";
+type NavigationSource =
+  | "documentation-user"
+  | "documentation-search"
+  | "documentation-from-code";
 
 type RouterContextValue = [
   RouterState,
@@ -67,6 +72,7 @@ const parse = (search: string): RouterState => {
     tab: params.get("tab") ?? undefined,
     api: anchorForParam(params.get("api")),
     reference: anchorForParam(params.get("reference")),
+    idea: anchorForParam(params.get("idea")),
   };
 };
 
@@ -121,7 +127,8 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       if (source) {
         logging.event({
           type: source,
-          message: newState.reference?.id || newState.api?.id,
+          message:
+            newState.reference?.id || newState.api?.id || newState.idea?.id,
         });
       }
       const url = toUrl(newState);

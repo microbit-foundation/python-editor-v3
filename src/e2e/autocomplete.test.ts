@@ -47,7 +47,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureDocumentionLink();
 
-    await app.findActiveToolkitEntry("show(image)");
+    await app.findActiveDocumentationEntry("show(image)");
   });
 
   it("shows signature help after autocomplete", async () => {
@@ -76,6 +76,6 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureDocumentionLink();
 
-    await app.findActiveToolkitEntry("clear()");
+    await app.findActiveDocumentationEntry("clear()");
   });
 });

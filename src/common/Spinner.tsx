@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/spinner";
+import { Spinner as ChakraSpinner } from "@chakra-ui/spinner";
 import { useIntl } from "react-intl";
 
-const ToolkitSpinner = () => {
+const Spinner = () => {
   const intl = useIntl();
   return (
     <Box height="100%">
-      <Spinner
+      <ChakraSpinner
         display="block"
         ml="auto"
         mr="auto"
@@ -22,4 +22,4 @@ const ToolkitSpinner = () => {
   );
 };
 
-export default ToolkitSpinner;
+export default Spinner;

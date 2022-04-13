@@ -10,7 +10,7 @@ import {
   SearchableContent,
   buildSearchIndex,
   SearchWorker,
-  buildToolkitIndex,
+  buildReferenceIndex,
 } from "./search";
 
 const searchableReferenceContent: SearchableContent[] = [
@@ -80,10 +80,10 @@ describe("Search", () => {
   });
 });
 
-describe("buildToolkitIndex", () => {
+describe("buildReferenceIndex", () => {
   it("uses language from the toolkit for the Reference index", async () => {
     const api: ApiDocsResponse = {};
-    const toolkitEn: Toolkit = {
+    const referenceEn: Toolkit = {
       id: "reference",
       description: "description",
       language: "en",
@@ -97,16 +97,16 @@ describe("buildToolkitIndex", () => {
         },
       ],
     };
-    const toolkitFr: Toolkit = {
-      ...toolkitEn,
+    const referenceFr: Toolkit = {
+      ...referenceEn,
       language: "fr",
     };
-    const enIndex = await buildToolkitIndex(toolkitEn, api);
+    const enIndex = await buildReferenceIndex(referenceEn, api);
     expect(enIndex.search("topic").reference.length).toEqual(1);
     // "that" is an English stopword
     expect(enIndex.search("that").reference.length).toEqual(0);
 
-    const frIndex = await buildToolkitIndex(toolkitFr, api);
+    const frIndex = await buildReferenceIndex(referenceFr, api);
     expect(frIndex.search("topic").reference.length).toEqual(1);
     // "that" is not a French stopword
     expect(frIndex.search("that").reference.length).toEqual(1);

@@ -1,5 +1,5 @@
 /**
- * (c) 2022, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -100,7 +100,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, reference, api }, setParams] = useRouterState();
+  const [{ tab, reference, api, idea }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
@@ -115,12 +115,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (reference || api) {
+    if (reference || api || idea) {
       setParams({
         tab,
       });
     }
-  }, [reference, api, tab, setParams]);
+  }, [reference, api, idea, tab, setParams]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">

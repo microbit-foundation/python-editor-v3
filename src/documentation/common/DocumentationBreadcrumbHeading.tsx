@@ -8,10 +8,10 @@ import { Stack, Text } from "@chakra-ui/layout";
 import { HStack, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
-import { ToolkitImage } from "./model";
-import ToolkitIcon from "./ToolkitIcon";
+import { SimpleImage } from "../../common/sanity";
+import DocumentationIcon from "./DocumentationIcon";
 
-interface BreadcrumbHeadingProps {
+interface DocumentationBreadcrumbHeadingProps {
   title: string;
   parent: string;
   grandparent?: string;
@@ -19,10 +19,10 @@ interface BreadcrumbHeadingProps {
   titleFontFamily?: "code";
   parentFontFamily?: "code";
   subtitle?: ReactNode;
-  icon?: ToolkitImage;
+  icon?: SimpleImage;
 }
 
-const ToolkitBreadcrumbHeading = ({
+const DocumentationBreadcrumbHeading = ({
   title,
   parent,
   grandparent,
@@ -31,7 +31,7 @@ const ToolkitBreadcrumbHeading = ({
   titleFontFamily,
   subtitle,
   icon,
-}: BreadcrumbHeadingProps) => {
+}: DocumentationBreadcrumbHeadingProps) => {
   return (
     <Stack spacing={0} position="sticky">
       <Button
@@ -65,7 +65,7 @@ const ToolkitBreadcrumbHeading = ({
         </Text>
       </Button>
       <HStack align="center" spacing={4}>
-        {icon && <ToolkitIcon alignSelf="flex-start" icon={icon} />}
+        {icon && <DocumentationIcon alignSelf="flex-start" icon={icon} />}
         <VStack align="flex-start" spacing={1}>
           <Text
             as="h2"
@@ -82,4 +82,4 @@ const ToolkitBreadcrumbHeading = ({
   );
 };
 
-export default ToolkitBreadcrumbHeading;
+export default DocumentationBreadcrumbHeading;
