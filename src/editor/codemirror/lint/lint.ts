@@ -745,7 +745,6 @@ function markersForDiagnostics(doc: Text, diagnostics: readonly Diagnostic[], ed
     const lineNumber = doc.lineAt(Number(line)).number
     const editing = lineNumber === editingLineState;
     markers.push(new LintGutterMarker(byLine[line], editing).range(+line))
-    // markers.push(new LintGutterMarker(byLine[line]).range(+line))
   }
   return RangeSet.of(markers, true)
 }
@@ -766,7 +765,6 @@ const lintGutterMarkers = StateField.define<RangeSet<GutterMarker>>({
         markers = markersForDiagnostics(tr.state.doc, effect.value, tr.state.field(editingLineState))
       }
       if (effect.is(setEditingLineEffect)) {
-        console.log(effect.value)
         const diagnostics: Diagnostic[] = []
         const iter = markers.iter(0)
         while (iter.value) {
