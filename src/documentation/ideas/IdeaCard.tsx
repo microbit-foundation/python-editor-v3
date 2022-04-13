@@ -38,7 +38,7 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
     >
       <Image
         borderTopRadius="lg"
-        src={imageUrlBuilder.image(image.asset).url()}
+        src={imageUrlBuilder.image(image.asset).width(550).url()}
         alt=""
       />
       <DocumentationHeading

@@ -87,11 +87,11 @@ const ActiveLevel = ({
                 borderRadius="lg"
                 src={imageUrlBuilder
                   .image(activeIdea.image.asset)
-                  .width(300)
                   .fit("max")
                   .url()}
                 alt=""
-                width={300}
+                maxWidth={800}
+                width="100%"
                 sx={{
                   aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
                 }}
