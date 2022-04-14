@@ -26,13 +26,9 @@ export type Flag =
    * The flag has the nice side-effect of disabling the dialog for
    * local development so is worth keeping for that use alone.
    */
-  | "noWelcome"
-  /**
-   * Temporary for gutter errors icon decision.
-   */
-  | "iconTyping";
+  | "noWelcome";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome", "iconTyping"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome"];
 
 type Flags = Record<Flag, boolean>;
 
