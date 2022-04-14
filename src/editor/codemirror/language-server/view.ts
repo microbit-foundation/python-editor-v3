@@ -9,7 +9,8 @@ import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
-import { setDiagnostics } from "../lint/lint";
+import { hints, setHintsEffect } from "../lint/hints";
+import { setDiagnostics, setDiagnosticsEffect } from "../lint/lint";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
@@ -23,11 +24,16 @@ import { signatureHelp } from "./signatureHelp";
 class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   private diagnosticsListener = (params: LSP.PublishDiagnosticsParams) => {
     if (params.uri === this.uri) {
-      const diagnostics = diagnosticsMapping(
+      const { diagnostics, hints } = diagnosticsMapping(
         this.view.state.doc,
         params.diagnostics
       );
-      this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
+      this.view.dispatch({
+        effects: [
+          setDiagnosticsEffect.of(diagnostics),
+          setHintsEffect.of(hints),
+        ],
+      });
     }
   };
   constructor(view: EditorView) {
@@ -38,13 +44,14 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
-      const initialDiagnostics = this.client.currentDiagnostics(this.uri);
-      view.dispatch(
-        setDiagnostics(
-          view.state,
-          diagnosticsMapping(this.view.state.doc, initialDiagnostics)
-        )
+      const { diagnostics, hints } = diagnosticsMapping(
+        view.state.doc,
+        this.client.currentDiagnostics(this.uri)
       );
+      this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
+      view.dispatch({
+        effects: [setHintsEffect.of(hints)],
+      });
     }, 0);
   }
 
@@ -92,5 +99,6 @@ export function languageServer(
     ViewPlugin.define((view) => new LanguageServerView(view)),
     signatureHelp(intl, options.signatureHelp.automatic),
     autocompletion(intl, logging),
+    hints(),
   ];
 }

@@ -50,7 +50,6 @@ import {gutter, GutterMarker} from "@codemirror/gutter"
 import {RangeSet, Range} from "@codemirror/rangeset"
 import elt from "crelt"
 import { editingLineState, editingLinePlugin, setEditingLineEffect } from "./editingLine"
-import { flags } from "../../../flags"
 
 /// Describes a problem or hint for a piece of code.
 export interface Diagnostic {
