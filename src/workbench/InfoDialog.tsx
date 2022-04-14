@@ -30,7 +30,7 @@ const InfoDialog = ({
   onClose,
   switchToInfoDialog,
 }: InfoDialogProps) => {
-  const { supportLink } = useDeployment();
+  const { guideLink } = useDeployment();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
       <ModalOverlay>
@@ -87,7 +87,7 @@ const InfoDialog = ({
                   variant="solid"
                   as={Link}
                   size="lg"
-                  href={supportLink}
+                  href={guideLink}
                   target="_blank"
                   rel="noopener"
                   sx={{
