@@ -21,7 +21,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     // Initial completions
     await app.findCompletionOptions(["scroll", "set_pixel", "show"]);
-    await app.findCompletionActiveOption("scroll(value)");
+    await app.findCompletionActiveOption("scroll(text)");
 
     // Further refinement
     await app.typeInEditor("h");
