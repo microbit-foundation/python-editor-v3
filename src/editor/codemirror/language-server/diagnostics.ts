@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Diagnostic } from "@codemirror/lint";
+import { Diagnostic } from "../lint/lint";
 import { Text } from "@codemirror/text";
 import * as LSP from "vscode-languageserver-protocol";
 import { positionToOffset } from "./positions";

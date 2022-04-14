@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { setDiagnostics } from "@codemirror/lint";
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
+import { setDiagnostics } from "../lint/lint";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
@@ -30,7 +30,6 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
       this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
     }
   };
-
   constructor(view: EditorView) {
     super(view);
 
