@@ -68,7 +68,7 @@ const ReleaseNotice = ({ onDialogChange }: ReleaseNoticeProps) => {
       role="region"
     >
       <Text fontSize="sm" textAlign="center" fontWeight="semibold" p={1}>
-        Alpha release
+        Beta release
       </Text>
       <HStack>
         <Button
