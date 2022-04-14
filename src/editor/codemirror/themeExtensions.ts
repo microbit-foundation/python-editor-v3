@@ -30,7 +30,7 @@ export const themeExtensions = (fontSize: string) => {
       minWidth: "unset",
     },
     ".cm-gutter": {
-      minWidth: "3.2rem",
+      minWidth: "2.2rem",
     },
     // Don't show markers for diagnostics at info level.
     ".cm-lint-marker-info": {

@@ -807,16 +807,16 @@ const lintGutterTheme = EditorView.baseTheme({
     width: "1em",
     height: "1em"
   },
+  // Customised stroke-widths. This could move to the theme.
   ".cm-lint-marker-info": {
-    content: svg(`<path fill="#aaf" stroke="#77e" stroke-width="6" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>`)
+    content: svg(`<path fill="#aaf" stroke="#77e" stroke-width="4" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>`)
   },
   ".cm-lint-marker-warning": {
-    content: svg(`<path fill="#fe8" stroke="#fd7" stroke-width="6" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>`),
+    content: svg(`<path fill="#fe8" stroke="#fd7" stroke-width="4" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>`),
   },
   ".cm-lint-marker-error:before": {
-    content: svg(`<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>`)
+    content: svg(`<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="4"/>`)
   },
-  // Custom icon. This is "editing.svg" alongside this file.
   ".cm-lint-marker-editing:before":  {
     content: svg(`<circle cx="20" cy="20" r="15" fill="#fff" stroke="#a9aaa9" stroke-width="4"/>`)
   },
