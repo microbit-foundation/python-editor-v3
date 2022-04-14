@@ -96,7 +96,7 @@ const InfoDialog = ({
                     },
                   }}
                 >
-                  Documentation
+                  Guidance
                 </Button>
               </Flex>
               <Text fontSize="sm" pt={8}>
