@@ -61,7 +61,7 @@ const InfoDialog = ({
                     Drag and drop them into your code.
                   </ListItem>
                   <ListItem m={1}>
-                    Autocomplete and paramerer help. See the choices available
+                    Autocomplete and parameter help. See the choices available
                     to you as you type.
                   </ListItem>
                   <ListItem m={1}>
