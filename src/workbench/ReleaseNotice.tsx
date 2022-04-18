@@ -13,7 +13,7 @@ import { flags } from "../flags";
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
 
 // Bump this to show the notice again.
-const currentVersion = 1;
+const currentVersion = 2;
 
 interface ReleaseNoticeStorage {
   version: number;
