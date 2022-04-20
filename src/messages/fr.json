@@ -548,7 +548,7 @@
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Espace réservé pour des exemples de code complètement fonctionnels"
+      "value": "Essayez ces projets, modifiez-les et laissez-vous inspirer"
     }
   ],
   "insert-code-action": [
@@ -952,7 +952,7 @@
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit qui clignote"
+      "value": "micro:bit flashé"
     }
   ],
   "serial-help-ctrl-c": [
