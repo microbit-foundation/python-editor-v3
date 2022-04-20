@@ -8,7 +8,7 @@
   "about-comic": [
     {
       "type": 0,
-      "value": "Bande dessinée intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent présente Damien en disant : « Voici Damien... C'est lui qui a créé MicroPython ! ». Deux serpents discutent de MicroPython. Le serpent jaune dit : « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme le micro:bit de BBC », répond le serpent violet. Le serpent jaune continue : « Mais Python peut fonctionner n'importe où ». Le serpent violet le confirme en disant : « Comme sur ce rack de serveurs qui gèrent d'énormes sites web ». L'arrière-plan derrière les serpents montre un rack de serveurs."
+      "value": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Le serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent violet. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent violet approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs."
     }
   ],
   "about-microbit": [
@@ -30,7 +30,7 @@
   "about-micropython": [
     {
       "type": 0,
-      "value": "L'éditeur dépend de "
+      "value": "L’éditeur dépend de "
     },
     {
       "children": [
@@ -62,19 +62,19 @@
   "add-action": [
     {
       "type": 0,
-      "value": "Add"
+      "value": "Ajouter"
     }
   ],
   "add-file-action": [
     {
       "type": 0,
-      "value": "Add new file"
+      "value": "Ajouter un fichier"
     }
   ],
   "add-python": [
     {
       "type": 0,
-      "value": "Add a new Python file to your project"
+      "value": "Ajouter un nouveau fichier Python à votre projet"
     }
   ],
   "added-change": [
@@ -89,12 +89,12 @@
   ],
   "added-file": [
     {
-      "type": 0,
-      "value": "Added "
-    },
-    {
       "type": 1,
       "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " ajouté "
     }
   ],
   "already-exists": [
@@ -106,7 +106,7 @@
   "api-description": [
     {
       "type": 0,
-      "value": "API documentation for micro:bit MicroPython"
+      "value": "Documentation d’API pour la carte micro:bit MicroPython"
     }
   ],
   "api-tab": [
@@ -312,7 +312,7 @@
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par ceux de l'hex ?"
+      "value": "Remplacer tous les fichiers par ceux de l’hex ?"
     }
   ],
   "confirm-replace-title": [
@@ -408,13 +408,13 @@
   "download-hex-action": [
     {
       "type": 0,
-      "value": "Télécharger l'hex du projet"
+      "value": "Télécharger l’hex du projet"
     }
   ],
   "download-hover": [
     {
       "type": 0,
-      "value": "Télécharger le fichier hex d'un projet"
+      "value": "Télécharger le fichier hex d’un projet"
     }
   ],
   "download-python-action": [
@@ -506,7 +506,7 @@
   "help-support": [
     {
       "type": 0,
-      "value": "Help & support"
+      "value": "Assistance et soutien"
     }
   ],
   "help-translate": [
@@ -548,7 +548,7 @@
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Espace réservé pour les exemples de code complet"
+      "value": "Espace réservé pour des exemples de code complètement fonctionnels"
     }
   ],
   "insert-code-action": [
@@ -578,7 +578,7 @@
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "Cette version de l'éditeur Python ne prend actuellement pas en charge l'ajout de fichiers .mpy."
+      "value": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy."
     }
   ],
   "load-error-title": [
@@ -614,7 +614,7 @@
   "load-hover": [
     {
       "type": 0,
-      "value": "Charger un fichier hex ou Python, ou ajouter d'autres fichiers"
+      "value": "Charger un fichier hex ou Python, ou ajouter d’autres fichiers"
     }
   ],
   "loaded-file-feedback": [
@@ -648,7 +648,7 @@
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "MicroPython Documentation"
+      "value": "Documentation de MicroPython"
     }
   ],
   "micropython-history": [
@@ -696,7 +696,7 @@
   "more-download-options": [
     {
       "type": 0,
-      "value": "More download options"
+      "value": "Plus d’options de téléchargement"
     }
   ],
   "name-not-blank": [
@@ -732,7 +732,7 @@
   "new-file-hint": [
     {
       "type": 0,
-      "value": "Nous ajouterons l'extension "
+      "value": "Nous ajouterons l’extension "
     },
     {
       "children": [
@@ -752,7 +752,7 @@
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "Ouvrir le fichier lorsqu'il est déposé"
+      "value": "Ouvrir le fichier lorsqu’il est déposé"
     }
   ],
   "options": [
@@ -764,19 +764,19 @@
   "parameter-help": [
     {
       "type": 0,
-      "value": "Parameter help"
+      "value": "Aide aux paramètres"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "Automatic"
+      "value": "Automatique"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "Manual ("
+      "value": "Manuel ("
     },
     {
       "type": 1,
@@ -816,19 +816,19 @@
   "project-name": [
     {
       "type": 0,
-      "value": "Project name"
+      "value": "Intitulé du projet"
     }
   ],
   "project-tab": [
     {
       "type": 0,
-      "value": "Project"
+      "value": "Projet"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "View, create, add and edit the files in your project"
+      "value": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
     }
   ],
   "python-powered": [
@@ -846,7 +846,7 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Certaines de vos modifications n'ont pas été sauvegardées. Quitter quand même ?"
+      "value": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?"
     }
   ],
   "read-less": [
@@ -934,13 +934,13 @@
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl-C pour REPL"
+      "value": "Envoyer Ctrl+C pour REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl-D pour réinitialiser"
+      "value": "Envoyer Ctrl+D pour réinitialiser"
     }
   ],
   "serial-expand": [
@@ -952,7 +952,7 @@
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit flashed"
+      "value": "micro:bit qui clignote"
     }
   ],
   "serial-help-ctrl-c": [
@@ -986,7 +986,7 @@
     },
     {
       "type": 0,
-      "value": " pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s'exécute. C'est un excellent moyen d'expérimenter."
+      "value": " pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter."
     }
   ],
   "serial-help-ctrl-d": [
@@ -1026,7 +1026,7 @@
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "Le terminal série affiche les erreurs et autres sorties du programme en cours d'exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie."
+      "value": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie."
     }
   ],
   "serial-help-print": [
@@ -1046,7 +1046,7 @@
     },
     {
       "type": 0,
-      "value": ". Essayez d'ajouter "
+      "value": ". Essayez d’ajouter "
     },
     {
       "children": [
@@ -1072,7 +1072,7 @@
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "Serial hints and tips"
+      "value": "Trucs et astuces concernant la série"
     }
   ],
   "serial-menu": [
@@ -1084,13 +1084,13 @@
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit ready to flash"
+      "value": "micro:bit prête à flasher"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "En cours d'exécution…"
+      "value": "En cours d’exécution…"
     }
   ],
   "serial-terminal": [
@@ -1108,7 +1108,7 @@
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "Show API documentation"
+      "value": "Afficher la documentation d’API"
     }
   ],
   "show-less": [
@@ -1164,7 +1164,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Conditions d'utilisation"
+      "value": "Conditions d’utilisation"
     }
   ],
   "timeout-error-description": [
@@ -1182,7 +1182,7 @@
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "Une erreur s'est produite lors du chargement de la boîte à outils."
+      "value": "Une erreur s’est produite lors du chargement de la boîte à outils."
     }
   ],
   "toolkit-view-documentation": [
@@ -1210,7 +1210,7 @@
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d'assistance"
+          "value": "soumettre une demande d’assistance"
         }
       ],
       "type": 8,
@@ -1226,7 +1226,7 @@
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d'assistance"
+          "value": "soumettre une demande d’assistance"
         }
       ],
       "type": 8,
@@ -1256,7 +1256,7 @@
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "visiter microbit.org (s'ouvre dans un nouvel onglet)"
+      "value": "visiter microbit.org (s’ouvre dans un nouvel onglet)"
     }
   ],
   "webusb-download-instead": [
@@ -1274,13 +1274,13 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Fermez tous les autres onglets susceptibles d'utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer."
+      "value": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Impossible de demander l'interface"
+      "value": "Impossible de demander l’interface"
     }
   ],
   "webusb-error-default-title": [
@@ -1324,13 +1324,13 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Malheureusement, WebUSB n'est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge."
+      "value": "Malheureusement, WebUSB n’est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge."
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l'éditeur en ligne."
+      "value": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne."
     }
   ],
   "zoom-in-action": [

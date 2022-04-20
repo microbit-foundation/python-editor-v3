@@ -4,7 +4,7 @@
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Bande dessinée intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent présente Damien en disant : « Voici Damien... C'est lui qui a créé MicroPython ! ». Deux serpents discutent de MicroPython. Le serpent jaune dit : « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme le micro:bit de BBC », répond le serpent violet. Le serpent jaune continue : « Mais Python peut fonctionner n'importe où ». Le serpent violet le confirme en disant : « Comme sur ce rack de serveurs qui gèrent d'énormes sites web ». L'arrière-plan derrière les serpents montre un rack de serveurs.",
+    "defaultMessage": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Le serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent violet. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent violet approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs.",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
@@ -12,7 +12,7 @@
     "description": "Text in about dialog"
   },
   "about-micropython": {
-    "defaultMessage": "L'éditeur dépend de <link>MicroPython</link> qui est créé par Damien George et une communauté de développeurs du monde entier.",
+    "defaultMessage": "L’éditeur dépend de <link>MicroPython</link> qui est créé par Damien George et une communauté de développeurs du monde entier.",
     "description": "Text in about dialog"
   },
   "about-read-less-micropython": {
@@ -24,15 +24,15 @@
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
   "add-action": {
-    "defaultMessage": "Add",
+    "defaultMessage": "Ajouter",
     "description": "Add action label"
   },
   "add-file-action": {
-    "defaultMessage": "Add new file",
-    "description": "Add new file button text"
+    "defaultMessage": "Ajouter un fichier",
+    "description": "Button text for action that adds a new blank file"
   },
   "add-python": {
-    "defaultMessage": "Add a new Python file to your project",
+    "defaultMessage": "Ajouter un nouveau fichier Python à votre projet",
     "description": "Hover and dialog title when creating a new Python file"
   },
   "added-change": {
@@ -40,7 +40,7 @@
     "description": "Change made to file"
   },
   "added-file": {
-    "defaultMessage": "Added {filename}",
+    "defaultMessage": "{filename} ajouté ",
     "description": "Action feedback for creating a file"
   },
   "already-exists": {
@@ -48,7 +48,7 @@
     "description": "File already exists notification text"
   },
   "api-description": {
-    "defaultMessage": "API documentation for micro:bit MicroPython",
+    "defaultMessage": "Documentation d’API pour la carte micro:bit MicroPython",
     "description": "Description at the top of the API tab"
   },
   "api-tab": {
@@ -61,19 +61,19 @@
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
-    "description": "Heading in Reference documentation for the classes in a Python module"
+    "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
     "defaultMessage": "Champs",
-    "description": "Heading in Reference documentation for the fields in a Python module"
+    "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
     "defaultMessage": "Fonctions",
-    "description": "Heading in Reference documentation for the functions in a Python module"
+    "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
     "defaultMessage": "Méthodes",
-    "description": "Heading in Reference documentation for the methods in a Python class"
+    "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-to-main": {
     "defaultMessage": "revenir au code principal",
@@ -140,7 +140,7 @@
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "Remplacer tous les fichiers par ceux de l'hex ?",
+    "defaultMessage": "Remplacer tous les fichiers par ceux de l’hex ?",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-title": {
@@ -196,11 +196,11 @@
     "description": "Menu option to download file"
   },
   "download-hex-action": {
-    "defaultMessage": "Télécharger l'hex du projet",
+    "defaultMessage": "Télécharger l’hex du projet",
     "description": "Text for menu item for downloading project hex file"
   },
   "download-hover": {
-    "defaultMessage": "Télécharger le fichier hex d'un projet",
+    "defaultMessage": "Télécharger le fichier hex d’un projet",
     "description": "Hover text over download button"
   },
   "download-python-action": {
@@ -256,7 +256,7 @@
     "description": "Help menu label"
   },
   "help-support": {
-    "defaultMessage": "Help & support",
+    "defaultMessage": "Assistance et soutien",
     "description": "Menu item for link to support site"
   },
   "help-translate": {
@@ -284,7 +284,7 @@
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "Espace réservé pour les exemples de code complet",
+    "defaultMessage": "Espace réservé pour des exemples de code complètement fonctionnels",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
@@ -303,7 +303,7 @@
     "description": "Load error message"
   },
   "load-error-mpy": {
-    "defaultMessage": "Cette version de l'éditeur Python ne prend actuellement pas en charge l'ajout de fichiers .mpy.",
+    "defaultMessage": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy.",
     "description": "Load error message"
   },
   "load-error-title": {
@@ -311,7 +311,7 @@
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "load-hover": {
-    "defaultMessage": "Charger un fichier hex ou Python, ou ajouter d'autres fichiers",
+    "defaultMessage": "Charger un fichier hex ou Python, ou ajouter d’autres fichiers",
     "description": "Hover text over load button"
   },
   "loaded-file-feedback": {
@@ -331,7 +331,7 @@
     "description": "Alt text for micro:bit image in About dialog"
   },
   "micropython-documentation": {
-    "defaultMessage": "MicroPython Documentation",
+    "defaultMessage": "Documentation de MicroPython",
     "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
@@ -347,7 +347,7 @@
     "description": "More button text"
   },
   "more-download-options": {
-    "defaultMessage": "More download options",
+    "defaultMessage": "Plus d’options de téléchargement",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
   },
   "name-not-blank": {
@@ -371,11 +371,11 @@
     "description": "Text under project name field"
   },
   "new-file-hint": {
-    "defaultMessage": "Nous ajouterons l'extension <code>.py</code> pour vous.",
+    "defaultMessage": "Nous ajouterons l’extension <code>.py</code> pour vous.",
     "description": "Hint shown in the new Python file dialog"
   },
   "open-file-dropped": {
-    "defaultMessage": "Ouvrir le fichier lorsqu'il est déposé",
+    "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé",
     "description": "Aria label for file drop target"
   },
   "options": {
@@ -383,15 +383,15 @@
     "description": "Label for an options menu"
   },
   "parameter-help": {
-    "defaultMessage": "Parameter help",
+    "defaultMessage": "Aide aux paramètres",
     "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
   },
   "parameter-help-automatic": {
-    "defaultMessage": "Automatic",
+    "defaultMessage": "Automatique",
     "description": "Parameter help setting for when the parameter documentation is shown automatically"
   },
   "parameter-help-manual": {
-    "defaultMessage": "Manual ({shortcut})",
+    "defaultMessage": "Manuel ({shortcut})",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
@@ -407,15 +407,15 @@
     "description": "Aria label for the project header area"
   },
   "project-name": {
-    "defaultMessage": "Project name",
+    "defaultMessage": "Intitulé du projet",
     "description": "Text used to indicate the project name"
   },
   "project-tab": {
-    "defaultMessage": "Project",
+    "defaultMessage": "Projet",
     "description": "Project tab button text"
   },
   "project-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your project",
+    "defaultMessage": "Visualiser, créer, ajouter et modifier les fichiers de votre projet",
     "description": "Project tab description"
   },
   "python-powered": {
@@ -427,7 +427,7 @@
     "description": "Python tab text"
   },
   "quit-anyway": {
-    "defaultMessage": "Certaines de vos modifications n'ont pas été sauvegardées. Quitter quand même ?",
+    "defaultMessage": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?",
     "description": "Quit anyway text"
   },
   "read-less": {
@@ -463,11 +463,11 @@
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Envoyer Ctrl-C pour REPL",
+    "defaultMessage": "Envoyer Ctrl+C pour REPL",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Envoyer Ctrl-D pour réinitialiser",
+    "defaultMessage": "Envoyer Ctrl+D pour réinitialiser",
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
@@ -475,11 +475,11 @@
     "description": "Action label to expand the serial console/REPL area"
   },
   "serial-flashed": {
-    "defaultMessage": "micro:bit flashed",
+    "defaultMessage": "micro:bit qui clignote",
     "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "Utilisez le raccourci clavier <kbd>Ctrl</kbd> + <kbd>C</kbd> pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s'exécute. C'est un excellent moyen d'expérimenter.",
+    "defaultMessage": "Utilisez le raccourci clavier <kbd>Ctrl</kbd> + <kbd>C</kbd> pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter.",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
@@ -487,11 +487,11 @@
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
-    "defaultMessage": "Le terminal série affiche les erreurs et autres sorties du programme en cours d'exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie.",
+    "defaultMessage": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie.",
     "description": "Text from the serial hints and tips dialog"
   },
   "serial-help-print": {
-    "defaultMessage": "Votre programme peut imprimer des messages en utilisant la fonction <code>print</code>. Essayez d'ajouter <code>print(« micro:bit est génial »)</code> à votre programme.",
+    "defaultMessage": "Votre programme peut imprimer des messages en utilisant la fonction <code>print</code>. Essayez d’ajouter <code>print(« micro:bit est génial »)</code> à votre programme.",
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
@@ -499,7 +499,7 @@
     "description": "Title for the serial hints and tips dialog"
   },
   "serial-hints-and-tips": {
-    "defaultMessage": "Serial hints and tips",
+    "defaultMessage": "Trucs et astuces concernant la série",
     "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
@@ -507,11 +507,11 @@
     "description": "Aria label for serial area menu"
   },
   "serial-ready-to-flash": {
-    "defaultMessage": "micro:bit ready to flash",
+    "defaultMessage": "micro:bit prête à flasher",
     "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
-    "defaultMessage": "En cours d'exécution…",
+    "defaultMessage": "En cours d’exécution…",
     "description": "Indicator text when the micro:bit is running a program"
   },
   "serial-terminal": {
@@ -523,7 +523,7 @@
     "description": "Settings text"
   },
   "show-api-documentation": {
-    "defaultMessage": "Show API documentation",
+    "defaultMessage": "Afficher la documentation d’API",
     "description": "Shown on link from editor autocomplete and signature help to the API docs."
   },
   "show-less": {
@@ -555,7 +555,7 @@
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Conditions d'utilisation",
+    "defaultMessage": "Conditions d’utilisation",
     "description": "Terms of use menu option text"
   },
   "timeout-error-description": {
@@ -567,7 +567,7 @@
     "description": "Title for error messages relating to WebUSB timeout"
   },
   "toolkit-error-loading": {
-    "defaultMessage": "Une erreur s'est produite lors du chargement de la boîte à outils.",
+    "defaultMessage": "Une erreur s’est produite lors du chargement de la boîte à outils.",
     "description": "Error shown if we failed to load toolkit content"
   },
   "toolkit-view-documentation": {
@@ -579,11 +579,11 @@
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d'assistance</link>",
+    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
     "description": "Progress dialog text telling user that code is being flashed"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d'assistance</link>",
+    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
     "description": "Progress dialog text telling user that code is being flashed"
   },
   "untitled-project": {
@@ -595,7 +595,7 @@
     "description": "Change made to file"
   },
   "visit-dot-org": {
-    "defaultMessage": "visiter microbit.org (s'ouvre dans un nouvel onglet)",
+    "defaultMessage": "visiter microbit.org (s’ouvre dans un nouvel onglet)",
     "description": "alt text for logo link to .org"
   },
   "webusb-download-instead": {
@@ -607,11 +607,11 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Fermez tous les autres onglets susceptibles d'utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer.",
+    "defaultMessage": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer.",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Impossible de demander l'interface",
+    "defaultMessage": "Impossible de demander l’interface",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -631,11 +631,11 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Malheureusement, WebUSB n'est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge.",
+    "defaultMessage": "Malheureusement, WebUSB n’est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l'éditeur en ligne.",
+    "defaultMessage": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne.",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "zoom-in-action": {
