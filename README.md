@@ -1,6 +1,6 @@
-# Alpha version of the micro:bit Python editor
+# Beta version of the micro:bit Python Editor
 
-_This project is an alpha version of the next major version of the editor. The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor._
+_This project is a beta version of the next major version of the editor. The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor._
 
 For more background about how this editor relates to the original Python Editor project, see [this explanation](https://github.com/bbcmicrobit/PythonEditor/issues/391).
 
@@ -10,7 +10,7 @@ Code written with this editor is expected to run on the [BBC micro:bit device](h
 
 <figure>
   <img src="https://user-images.githubusercontent.com/44397098/163186656-5581f75d-20b0-4e3f-8272-8c1aa76ba973.png" alt="Screenshot of the Python editor showing the code editing area and Reference documentation" width="100%">
-  <figcaption>You can try out the micro:bit-branded deployment of the alpha at https://python.microbit.org/v/alpha</figcaption>  
+  <figcaption>You can try out the micro:bit-branded deployment of the beta at https://python.microbit.org/v/beta</figcaption>  
 </figure>
 
 ## Developing the editor
