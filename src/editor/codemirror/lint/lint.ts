@@ -133,7 +133,7 @@ function maybeEnableLint(state: EditorState, effects: readonly StateEffect<unkno
         activeMark.range(selected.from, selected.to)
       ])
     }),
-    hoverTooltip(lintTooltip),
+    hoverTooltip(lintTooltip, {hideOnChange: true}),
     baseTheme
   ]))
 }
