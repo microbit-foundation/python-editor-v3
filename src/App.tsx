@@ -37,6 +37,7 @@ import {
   SettingsProvider,
 } from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
+import { ConnectDialogsProvider } from "./workbench/connect-dialogs/connect-dialogs-hooks";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
 
@@ -82,30 +83,32 @@ const App = () => {
         <LoggingProvider value={logging}>
           <SettingsProvider value={settings}>
             <TranslationProvider>
-              <DialogProvider>
-                <DeviceContextProvider value={device}>
-                  <FileSystemProvider value={fs}>
-                    <LanguageServerClientProvider value={client}>
-                      <SyncStatusProvider>
-                        <BeforeUnloadDirtyCheck />
-                        <DocumentationProvider>
-                          <SearchProvider>
-                            <SelectionProvider>
-                              <RouterProvider>
-                                <ProjectDropTarget>
-                                  <ActiveEditorProvider>
-                                    <Workbench />
-                                  </ActiveEditorProvider>
-                                </ProjectDropTarget>
-                              </RouterProvider>
-                            </SelectionProvider>
-                          </SearchProvider>
-                        </DocumentationProvider>
-                      </SyncStatusProvider>
-                    </LanguageServerClientProvider>
-                  </FileSystemProvider>
-                </DeviceContextProvider>
-              </DialogProvider>
+              <ConnectDialogsProvider>
+                <DialogProvider>
+                  <DeviceContextProvider value={device}>
+                    <FileSystemProvider value={fs}>
+                      <LanguageServerClientProvider value={client}>
+                        <SyncStatusProvider>
+                          <BeforeUnloadDirtyCheck />
+                          <DocumentationProvider>
+                            <SearchProvider>
+                              <SelectionProvider>
+                                <RouterProvider>
+                                  <ProjectDropTarget>
+                                    <ActiveEditorProvider>
+                                      <Workbench />
+                                    </ActiveEditorProvider>
+                                  </ProjectDropTarget>
+                                </RouterProvider>
+                              </SelectionProvider>
+                            </SearchProvider>
+                          </DocumentationProvider>
+                        </SyncStatusProvider>
+                      </LanguageServerClientProvider>
+                    </FileSystemProvider>
+                  </DeviceContextProvider>
+                </DialogProvider>
+              </ConnectDialogsProvider>
             </TranslationProvider>
           </SettingsProvider>
         </LoggingProvider>

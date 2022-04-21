@@ -1155,6 +1155,12 @@
       "value": "Versions logicielles"
     }
   ],
+  "start-action": [
+    {
+      "type": 0,
+      "value": "Start"
+    }
+  ],
   "support": [
     {
       "type": 0,
@@ -1193,6 +1199,12 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Try again"
     }
   ],
   "undo": [
@@ -1237,6 +1249,12 @@
     {
       "type": 0,
       "value": "Projet sans titre"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Update firmware"
     }
   ],
   "updated-change": [

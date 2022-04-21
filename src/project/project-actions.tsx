@@ -27,6 +27,7 @@ import {
 } from "../fs/fs-util";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
+import { ConnectDialogsValue } from "../workbench/connect-dialogs/connect-dialogs-hooks";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -74,7 +75,8 @@ export class ProjectActions {
     private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined
+    private client: LanguageServerClient | undefined,
+    private connectDialogs: ConnectDialogsValue
   ) {}
 
   private get project(): DefaultedProject {
@@ -480,7 +482,9 @@ export class ProjectActions {
     if (e instanceof WebUSBError) {
       switch (e.code) {
         case "no-device-selected": {
-          // User just cancelled the browser dialog so no further response needed.
+          // User just cancelled the browser dialog.
+          // Show 'NotFoundDialog'.
+          this.connectDialogs.notFoundDisclosure.onOpen();
           return;
         }
         case "device-disconnected": {
@@ -488,6 +492,9 @@ export class ProjectActions {
           return;
         }
         case "update-req":
+          // Show 'UpdateFirmwareDialog'.
+          this.connectDialogs.firmwareDisclosure.onOpen();
+          return;
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {

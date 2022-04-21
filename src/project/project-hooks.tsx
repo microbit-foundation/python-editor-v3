@@ -13,6 +13,7 @@ import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
+import { useConnectDialogs } from "../workbench/connect-dialogs/connect-dialogs-hooks";
 import { useSelection } from "../workbench/use-selection";
 import { defaultedProject, ProjectActions } from "./project-actions";
 
@@ -28,6 +29,7 @@ export const useProjectActions = (): ProjectActions => {
   const logging = useLogging();
   const intl = useIntl();
   const client = useLanguageServerClient();
+  const connectDialogs = useConnectDialogs();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -38,9 +40,20 @@ export const useProjectActions = (): ProjectActions => {
         setSelection,
         intl,
         logging,
-        client
+        client,
+        connectDialogs
       ),
-    [fs, device, actionFeedback, dialogs, setSelection, intl, logging, client]
+    [
+      fs,
+      device,
+      actionFeedback,
+      dialogs,
+      setSelection,
+      intl,
+      logging,
+      client,
+      connectDialogs,
+    ]
   );
   return actions;
 };

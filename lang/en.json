@@ -551,6 +551,10 @@
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"
   },
+  "start-action": {
+    "defaultMessage": "Start",
+    "description": "Start button text"
+  },
   "support": {
     "defaultMessage": "Support",
     "description": "Support menu option text"
@@ -575,6 +579,10 @@
     "defaultMessage": "View {name} documentation",
     "description": "Aria label for the toolkit topic right arrow"
   },
+  "try-again-action": {
+    "defaultMessage": "Try again",
+    "description": "Try again button text"
+  },
   "undo": {
     "defaultMessage": "Undo",
     "description": "Aria label for the undo button"
@@ -590,6 +598,10 @@
   "untitled-project": {
     "defaultMessage": "Untitled project",
     "description": "Title for a new project"
+  },
+  "update-firmware-action": {
+    "defaultMessage": "Update firmware",
+    "description": "Update firmware button text"
   },
   "updated-change": {
     "defaultMessage": "Updated file {changeName}",
