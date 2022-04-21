@@ -30,7 +30,7 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
   };
   const buttonWidth = "8.1rem";
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="3xl">
       <ModalOverlay>
         <ModalContent>
           <ModalCloseButton />
@@ -53,7 +53,7 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
                 program (“flash”) it directly, and see errors or output from the
                 micro:bit in the serial window.
               </Text>
-              <Image src={connectGif} alt="" />
+              <Image height="100%" src={connectGif} alt="" />
             </VStack>
           </ModalBody>
           <ModalFooter>

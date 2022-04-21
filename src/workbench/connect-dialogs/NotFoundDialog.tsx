@@ -11,10 +11,20 @@ import {
   ModalFooter,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  HStack,
+  Image,
+  Link,
+  ListItem,
+  OrderedList,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../../common/ModalCloseButton";
 import { useProjectActions } from "../../project/project-hooks";
+import { useConnectDialogs } from "./connect-dialogs-hooks";
+import notFound from "./not-found.png";
 
 interface NotFoundDialogProps {
   isOpen: boolean;
@@ -23,13 +33,18 @@ interface NotFoundDialogProps {
 
 const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
   const actions = useProjectActions();
+  const { connectHelpDisclosure } = useConnectDialogs();
   const handleTryAgain = () => {
     onClose();
     actions.connect();
   };
+  const handleReviewSelectDevice = () => {
+    onClose();
+    connectHelpDisclosure.onOpen();
+  };
   const buttonWidth = "8.1rem";
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="3xl">
       <ModalOverlay>
         <ModalContent>
           <ModalCloseButton />
@@ -51,6 +66,52 @@ const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
                 You didn’t select a micro:bit, or there was a problem connecting
                 to it.
               </Text>
+              <HStack spacing={8}>
+                <Image height={150} src={notFound} alt="" />
+                <VStack>
+                  <OrderedList
+                    spacing={5}
+                    sx={{
+                      li: { pl: 2 },
+                    }}
+                  >
+                    <ListItem>
+                      Review{" "}
+                      <Link
+                        color="brand.500"
+                        onClick={handleReviewSelectDevice}
+                        textDecoration="underline"
+                      >
+                        how to select the device
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      Check your micro:bit is plugged in and powered on
+                    </ListItem>
+                    <ListItem>
+                      If you have a micro:bit V1 you may need to{" "}
+                      <Link
+                        color="brand.500"
+                        textDecoration="underline"
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://microbit.org/firmware/"
+                      >
+                        update the firmware
+                      </Link>
+                    </ListItem>
+                  </OrderedList>
+                </VStack>
+              </HStack>
+              <Link
+                color="brand.500"
+                textDecoration="underline"
+                target="_blank"
+                rel="noreferrer"
+                href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
+              >
+                Troubleshoot problems with connecting to your micro:bit
+              </Link>
             </VStack>
           </ModalBody>
           <ModalFooter>
