@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Flex, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
+import { docStyles } from "../../common/documentation-styles";
 import { Anchor } from "../../router-hooks";
+import DocumentationContent from "../common/DocumentationContent";
+import DocumentationHeading from "../common/DocumentationHeading";
+import { isV2Only } from "../common/model";
 import ShowMoreButton from "../common/ShowMoreButton";
 import Highlight from "./Highlight";
 import {
   ToolkitTopic,
   ToolkitTopicEntry as ToolkitTopicEntryModel,
 } from "./model";
-import DocumentationContent from "../common/DocumentationContent";
-import DocumentationHeading from "../common/DocumentationHeading";
-import { isV2Only } from "../common/model";
-import { docStyles } from "../../common/documentation-styles";
 
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
@@ -96,16 +96,10 @@ const ReferenceTopicEntry = ({
               </Select>
             </Flex>
 
-            <Box
-              sx={{
-                ...docStyles,
-              }}
-            >
-              <DocumentationContent
-                content={alternatives[alternativeIndex].content}
-                parentSlug={entry.slug.current}
-              />
-            </Box>
+            <DocumentationContent
+              content={alternatives[alternativeIndex].content}
+              parentSlug={entry.slug.current}
+            />
           </>
         )}
         {hasDetail && (
