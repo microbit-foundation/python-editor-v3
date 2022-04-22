@@ -101,7 +101,7 @@ const ActiveLevel = ({
                   .fit("max")
                   .url()}
                 alt=""
-                width="100%"
+                width={600}
                 sx={{
                   aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
                 }}
