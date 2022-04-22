@@ -11,7 +11,15 @@ import {
   ModalFooter,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { Box, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Image,
+  Text,
+  useMediaQuery,
+  VStack,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../../common/ModalCloseButton";
@@ -30,17 +38,18 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
     await actions.connect();
   }, [actions, onClose]);
   const buttonWidth = "8.1rem";
+  const [isDesktop] = useMediaQuery("(min-width: 768px)");
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay>
-        <ModalContent>
+        <ModalContent minWidth="560px">
           <ModalCloseButton />
           <ModalBody>
             <VStack
               width="auto"
               ml="auto"
               mr="auto"
-              p={[0, 0, 8]}
+              p={8}
               pt={[5, 5, 10]}
               pb={0}
               spacing={5}
@@ -54,28 +63,49 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
                 program (“flash”) it directly, and see errors or output from the
                 micro:bit in the serial window.
               </Text>
-              <Box position="relative" width="100%">
-                <Image height="456px" src={connectGif} alt="" />
-                <VStack
-                  position="absolute"
-                  left="515px"
-                  top="57px"
-                  alignItems="flex-start"
-                >
-                  <Flex alignItems="center" height="72px">
-                    <Text fontSize="xl">Choose your micro:bit</Text>
-                  </Flex>
-                  <Flex alignItems="center" height="72px">
-                    <Text fontSize="xl">Select ‘Connect’</Text>
-                  </Flex>
-                </VStack>
+              <Box
+                position="relative"
+                width={isDesktop ? "100%" : "auto"}
+                alignSelf={isDesktop ? "" : "center"}
+              >
+                <Image
+                  height="456px"
+                  width="441px"
+                  src={connectGif}
+                  alt=""
+                  border="1px solid #262626"
+                />
+                {isDesktop && (
+                  <VStack
+                    position="absolute"
+                    left="515px"
+                    top="57px"
+                    alignItems="flex-start"
+                  >
+                    <Flex alignItems="center" height="72px">
+                      <Text fontSize="xl">Choose your micro:bit</Text>
+                    </Flex>
+                    <Flex alignItems="center" height="72px">
+                      <Text fontSize="xl">Select ‘Connect’</Text>
+                    </Flex>
+                  </VStack>
+                )}
+
                 <Box position="absolute" top="75px" left="201px">
-                  <ArrowOne />
+                  {isDesktop && <ArrowOne />}
+                  {!isDesktop && <Circle text={1} />}
                 </Box>
                 <Box position="absolute" bottom="50px" left="371px">
-                  <ArrowTwo />
+                  {isDesktop && <ArrowTwo />}
+                  {!isDesktop && <Circle text={2} />}
                 </Box>
               </Box>
+              {!isDesktop && (
+                <>
+                  <Text fontSize="xl">1. Choose your micro:bit</Text>
+                  <Text fontSize="xl">2. Select ‘Connect’</Text>
+                </>
+              )}
             </VStack>
           </ModalBody>
           <ModalFooter>
@@ -151,6 +181,36 @@ const ArrowTwo = () => {
         >
           <Text fontSize="2xl" color="white">
             2
+          </Text>
+        </Box>
+      </foreignObject>
+    </svg>
+  );
+};
+
+interface CircleProps {
+  text: number | string;
+}
+const Circle = ({ text }: CircleProps) => {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="20" cy="20" r="20" fill="#7BCDC2" />
+      <foreignObject x="0" y="0" width="40" height="40">
+        <Box
+          height="40px"
+          width="40px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Text fontSize="2xl" color="white">
+            {text}
           </Text>
         </Box>
       </foreignObject>
