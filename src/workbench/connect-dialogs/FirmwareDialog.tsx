@@ -12,6 +12,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../../common/ModalCloseButton";
 import { useProjectActions } from "../../project/project-hooks";
@@ -24,10 +25,10 @@ interface FirmwareDialogProps {
 
 const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
   const actions = useProjectActions();
-  const handleTryAgain = () => {
+  const handleTryAgain = useCallback(async () => {
     onClose();
-    actions.connect();
-  };
+    await actions.connect();
+  }, [actions, onClose]);
   const buttonWidth = "8.1rem";
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">

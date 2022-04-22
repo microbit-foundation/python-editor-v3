@@ -20,6 +20,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../../common/ModalCloseButton";
 import { useProjectActions } from "../../project/project-hooks";
@@ -34,14 +35,14 @@ interface NotFoundDialogProps {
 const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
   const actions = useProjectActions();
   const { connectHelpDisclosure } = useConnectDialogs();
-  const handleTryAgain = () => {
+  const handleTryAgain = useCallback(async () => {
     onClose();
-    actions.connect();
-  };
-  const handleReviewSelectDevice = () => {
+    await actions.connect();
+  }, [actions, onClose]);
+  const handleReviewSelectDevice = useCallback(() => {
     onClose();
     connectHelpDisclosure.onOpen();
-  };
+  }, [connectHelpDisclosure, onClose]);
   const buttonWidth = "8.1rem";
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">

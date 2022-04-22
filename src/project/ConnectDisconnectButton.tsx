@@ -3,13 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { useCallback } from "react";
 import { Button, Tooltip } from "@chakra-ui/react";
+import React, { useCallback } from "react";
 import { RiUsbLine } from "react-icons/ri";
+import { FormattedMessage, useIntl } from "react-intl";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
+import { useConnectDialogs } from "../workbench/connect-dialogs/connect-dialogs-hooks";
 import { useProjectActions } from "./project-hooks";
-import { FormattedMessage, useIntl } from "react-intl";
 
 const ConnectDisconnectButton = () => {
   const status = useConnectionStatus();
@@ -18,13 +19,14 @@ const ConnectDisconnectButton = () => {
   // Primary action
   const variant = !connected && supported ? "solid" : undefined;
   const actions = useProjectActions();
+  const { connectHelpDisclosure } = useConnectDialogs();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
       await actions.disconnect();
     } else {
-      await actions.connect();
+      connectHelpDisclosure.onOpen();
     }
-  }, [connected, actions]);
+  }, [connected, actions, connectHelpDisclosure]);
 
   const intl = useIntl();
   const tooltip = intl.formatMessage({
