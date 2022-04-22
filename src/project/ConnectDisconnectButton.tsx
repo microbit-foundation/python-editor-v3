@@ -23,10 +23,12 @@ const ConnectDisconnectButton = () => {
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
       await actions.disconnect();
-    } else {
+    } else if (supported) {
       connectHelpDisclosure.onOpen();
+    } else {
+      await actions.connect();
     }
-  }, [connected, actions, connectHelpDisclosure]);
+  }, [connected, actions, connectHelpDisclosure, supported]);
 
   const intl = useIntl();
   const tooltip = intl.formatMessage({
