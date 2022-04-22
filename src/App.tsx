@@ -61,7 +61,7 @@ fs.initializeInBackground();
 
 const App = () => {
   useEffect(() => {
-    logging.event({ action: "boot" });
+    logging.event({ type: "boot" });
     device.initialize();
     return () => {
       device.dispose();
