@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
 import { IntlShape } from "react-intl";
