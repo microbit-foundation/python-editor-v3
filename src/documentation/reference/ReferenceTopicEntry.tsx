@@ -8,7 +8,7 @@ import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { Anchor } from "../../router-hooks";
-import ShowMoreButton from "../common/ShowMoreButton";
+import ShowMoreLink from "../common/ShowMoreLink";
 import Highlight from "./Highlight";
 import {
   ToolkitTopic,
@@ -110,6 +110,10 @@ const ReferenceTopicEntry = ({
         )}
         {hasDetail && (
           <>
+            <ShowMoreLink
+              onClick={disclosure.onToggle}
+              isOpen={disclosure.isOpen}
+            />
             {/* Avoid Stack spacing here so the margin animates too. */}
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
               <Stack
@@ -125,10 +129,6 @@ const ReferenceTopicEntry = ({
                 />
               </Stack>
             </Collapse>
-            <ShowMoreButton
-              onClick={disclosure.onToggle}
-              isOpen={disclosure.isOpen}
-            />
           </>
         )}
       </Stack>
