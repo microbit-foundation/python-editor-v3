@@ -1,4 +1,4 @@
-/*
+/**
 Modified copy of the lint extension from CodeMirror 0.19.6
 git revision 084c4ad59be7562c739d2e8fff12c7852e106b15
 sha1 of source lint.ts facbdc305d2b5a318dbcb9bcd41f992073ecfff5
