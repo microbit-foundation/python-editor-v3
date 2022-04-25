@@ -53,7 +53,7 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
               ml="auto"
               mr="auto"
               p={8}
-              pt={[5, 5, 10]}
+              pt={[5, 5, 8]}
               pb={0}
               spacing={5}
               alignItems="flex-start"

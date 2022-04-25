@@ -41,7 +41,6 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
               ml="auto"
               mr="auto"
               p={8}
-              pt={10}
               pb={0}
               spacing={5}
               alignItems="flex-start"
