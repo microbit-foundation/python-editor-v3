@@ -18,6 +18,7 @@ import {
   Image,
   Text,
   useMediaQuery,
+  VisuallyHidden,
   VStack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
@@ -83,9 +84,15 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
                     alignItems="flex-start"
                   >
                     <Flex alignItems="center" height="72px">
+                      <VisuallyHidden>
+                        <Text fontSize="xl">1. </Text>
+                      </VisuallyHidden>
                       <Text fontSize="xl">Choose your micro:bit</Text>
                     </Flex>
                     <Flex alignItems="center" height="72px">
+                      <VisuallyHidden>
+                        <Text fontSize="xl">2. </Text>
+                      </VisuallyHidden>
                       <Text fontSize="xl">Select ‘Connect’</Text>
                     </Flex>
                   </VStack>
@@ -143,6 +150,7 @@ const ArrowOne = () => {
       <path d="M0 19.5L38.25 4.34455V34.6554L0 19.5Z" fill="#7BCDC2" />
       <foreignObject x="260" y="0" width="40" height="40">
         <Box
+          aria-hidden
           height="40px"
           width="40px"
           display="flex"
@@ -173,6 +181,7 @@ const ArrowTwo = () => {
       <path d="M17.5 262L2.34455 223.75H32.6554L17.5 262Z" fill="#7BCDC2" />
       <foreignObject x="90" y="10" width="40" height="40">
         <Box
+          aria-hidden
           height="40px"
           width="40px"
           display="flex"
@@ -203,6 +212,7 @@ const Circle = ({ text }: CircleProps) => {
       <circle cx="20" cy="20" r="20" fill="#7BCDC2" />
       <foreignObject x="0" y="0" width="40" height="40">
         <Box
+          aria-hidden
           height="40px"
           width="40px"
           display="flex"
