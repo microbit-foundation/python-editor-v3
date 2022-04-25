@@ -13,7 +13,10 @@ import {
   DragContext,
   setDragContext,
 } from "../../editor/codemirror/dnd";
-import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
+import {
+  DocParts,
+  splitDocString,
+} from "../../editor/codemirror/language-server/docstrings";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
@@ -123,12 +126,11 @@ const ApiNodeSelf = ({
     params,
     showMore
   );
-  const [docStringFirstParagraph, docStringRemainder] = useMemo(
-    () => (docString ? splitDocString(docString) : [undefined, undefined]),
+  const docParts = useMemo(
+    () => (docString ? splitDocString(docString) : ({} as Partial<DocParts>)),
     [docString]
   );
-  const hasDocStringDetail =
-    docStringRemainder && docStringRemainder.length > 0;
+  const hasRemainder = docParts.remainder && docParts.remainder.length > 0;
 
   return (
     <VStack alignItems="stretch" spacing={3} pr={3}>
@@ -152,18 +154,19 @@ const ApiNodeSelf = ({
       {baseClasses && baseClasses.length > 0 && (
         <BaseClasses value={baseClasses} />
       )}
-      {docStringFirstParagraph && (
-        <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      {docParts.summary && (
+        <DocString fontWeight="normal" value={docParts.summary ?? ""} />
       )}
-      {(hasDocStringDetail || hasSignatureDetail) && (
+      {docParts.example && <code>{docParts.example}</code>}
+      {(hasRemainder || hasSignatureDetail) && (
         <>
           <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
-          {hasDocStringDetail && (
+          {hasRemainder && (
             // Avoid VStack spacing here so the margin animates too.
             <Collapse in={showMore} style={{ marginTop: 0 }}>
               <DocString
                 fontWeight="normal"
-                value={docStringRemainder}
+                value={docParts.remainder!}
                 mt={3}
               />
             </Collapse>

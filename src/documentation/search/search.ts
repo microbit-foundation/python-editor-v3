@@ -6,7 +6,7 @@
 import lunr from "lunr";
 import stemmerSupport from "lunr-languages/lunr.stemmer.support";
 import { retryAsyncLoad } from "../../common/chunk-util";
-import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
+import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {
   ApiDocsEntry,
   ApiDocsResponse,
@@ -180,7 +180,7 @@ const apiSearchableContent = (
         id: c.id,
         title: c.fullName.substring(moduleName.length + 1),
         containerTitle: moduleName,
-        content: firstParagraph(defaultString(c.docString)),
+        content: splitDocString(defaultString(c.docString)).summary,
       });
       addNestedDocs(moduleName, c.children);
     });
@@ -190,7 +190,7 @@ const apiSearchableContent = (
       id: module.id,
       title: module.fullName,
       containerTitle: module.fullName,
-      content: firstParagraph(defaultString(module.docString)),
+      content: splitDocString(defaultString(module.docString)).summary,
     });
     addNestedDocs(module.fullName, module.children);
   }
