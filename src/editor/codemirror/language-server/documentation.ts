@@ -106,7 +106,7 @@ export const wrapWithDocumentationButton = (
     </svg>`;
   anchor.href = "";
   anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
-  anchor.style.color = "var(--chakra-colors-brand-500)";
+  anchor.style.color = "var(--chakra-colors-brand-600)";
   anchor.textContent = intl.formatMessage({ id: "show-api-documentation" });
   anchor.style.display = "block";
   anchor.style.margin = "0";
