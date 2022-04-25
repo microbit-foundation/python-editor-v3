@@ -115,10 +115,14 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
                 </Box>
               </Box>
               {!isDesktop && (
-                <>
-                  <Text fontSize="xl">1. Choose your micro:bit</Text>
-                  <Text fontSize="xl">2. Select ‘Connect’</Text>
-                </>
+                <List alignSelf="center">
+                  <ListItem>
+                    <Text fontSize="xl">1. Choose your micro:bit</Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="xl">2. Select ‘Connect’</Text>
+                  </ListItem>
+                </List>
               )}
             </VStack>
           </ModalBody>
