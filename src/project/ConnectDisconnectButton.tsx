@@ -9,7 +9,6 @@ import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
-import { useConnectDialogs } from "../workbench/connect-dialogs/connect-dialogs-hooks";
 import { useProjectActions } from "./project-hooks";
 
 const ConnectDisconnectButton = () => {
@@ -19,16 +18,13 @@ const ConnectDisconnectButton = () => {
   // Primary action
   const variant = !connected && supported ? "solid" : undefined;
   const actions = useProjectActions();
-  const { connectHelpDisclosure } = useConnectDialogs();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
       await actions.disconnect();
-    } else if (supported) {
-      connectHelpDisclosure.onOpen();
     } else {
-      await actions.connect();
+      await actions.startConnect();
     }
-  }, [connected, actions, connectHelpDisclosure, supported]);
+  }, [connected, actions]);
 
   const intl = useIntl();
   const tooltip = intl.formatMessage({

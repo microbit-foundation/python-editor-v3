@@ -5,10 +5,15 @@
  */
 import React, { ReactNode, useContext, useMemo, useState } from "react";
 import {
+  ConfirmDialog,
   ConfirmDialogParameters,
   ConfirmDialogParametersWithActions,
-  ConfirmDialog,
 } from "./ConfirmDialog";
+import {
+  GenericDialog,
+  GenericDialogParameters,
+  GenericDialogParametersWithActions,
+} from "./GenericDialog";
 import {
   InputDialog,
   InputDialogParameters,
@@ -33,15 +38,24 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
   const [progressDialogState, setProgressDialogState] = useRafState<
     ProgressDialogParameters | undefined
   >(undefined);
+  const [genericDialogState, setGenericDialogState] = useRafState<
+    GenericDialogParametersWithActions | undefined
+  >(undefined);
 
   const dialogs = useMemo(
     () =>
       new Dialogs(
         setConfirmDialogState,
         setInputDialogState,
-        setProgressDialogState
+        setProgressDialogState,
+        setGenericDialogState
       ),
-    [setConfirmDialogState, setInputDialogState, setProgressDialogState]
+    [
+      setConfirmDialogState,
+      setInputDialogState,
+      setProgressDialogState,
+      setGenericDialogState,
+    ]
   );
   return (
     <DialogContext.Provider value={dialogs}>
@@ -51,6 +65,7 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
         {progressDialogState && (
           <ProgressDialog isOpen {...progressDialogState} />
         )}
+        {genericDialogState && <GenericDialog isOpen {...genericDialogState} />}
         {children}
       </>
     </DialogContext.Provider>
@@ -67,6 +82,9 @@ export class Dialogs {
     ) => void,
     private progressDialogSetState: (
       options: ProgressDialogParameters | undefined
+    ) => void,
+    private genericDialogSetState: (
+      options: GenericDialogParametersWithActions | undefined
     ) => void
   ) {}
 
@@ -104,6 +122,19 @@ export class Dialogs {
     } else {
       this.progressDialogSetState(options);
     }
+  }
+
+  generic(options: GenericDialogParameters): Promise<boolean> {
+    return new Promise((_resolve) => {
+      const resolve = (result: boolean) => {
+        this.genericDialogSetState(undefined);
+        _resolve(result);
+      };
+      this.genericDialogSetState({
+        ...options,
+        onCancel: () => resolve(false),
+      });
+    });
   }
 }
 

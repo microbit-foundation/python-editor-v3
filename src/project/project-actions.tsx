@@ -12,6 +12,18 @@ import { InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
+  ConnectHelpDialogBody,
+  ConnectHelpDialogFooter,
+} from "../workbench/connect-dialogs/ConnectHelpDialog";
+import {
+  NotFoundDialogBody,
+  NotFoundDialogFooter,
+} from "../workbench/connect-dialogs/NotFoundDialog";
+import {
+  FirmwareDialogBody,
+  FirmwareDialogFooter,
+} from "../workbench/connect-dialogs/FirmwareDialog";
+import {
   ConnectionStatus,
   DeviceConnection,
   HexGenerationError,
@@ -27,7 +39,6 @@ import {
 } from "../fs/fs-util";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
-import { ConnectDialogsValue } from "../workbench/connect-dialogs/connect-dialogs-hooks";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -75,13 +86,27 @@ export class ProjectActions {
     private setSelection: (selection: WorkbenchSelection) => void,
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined,
-    private connectDialogs: ConnectDialogsValue
+    private client: LanguageServerClient | undefined
   ) {}
 
   private get project(): DefaultedProject {
     return defaultedProject(this.fs, this.intl);
   }
+
+  startConnect = async () => {
+    if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
+      this.actionFeedback.expectedError({
+        title: this.intl.formatMessage({ id: "webusb-not-supported" }),
+        description: this.intl.formatMessage({ id: "webusb-download-instead" }),
+      });
+    }
+
+    await this.dialogs.generic({
+      Body: ConnectHelpDialogBody,
+      Footer: ConnectHelpDialogFooter,
+      size: "4xl",
+    });
+  };
 
   /**
    * Connect to the device if possible, otherwise show feedback.
@@ -91,17 +116,10 @@ export class ProjectActions {
       type: "connect",
     });
 
-    if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.actionFeedback.expectedError({
-        title: this.intl.formatMessage({ id: "webusb-not-supported" }),
-        description: this.intl.formatMessage({ id: "webusb-download-instead" }),
-      });
-    } else {
-      try {
-        await this.device.connect();
-      } catch (e) {
-        this.handleWebUSBError(e);
-      }
+    try {
+      await this.device.connect();
+    } catch (e) {
+      this.handleWebUSBError(e);
     }
   };
 
@@ -478,13 +496,17 @@ export class ProjectActions {
     return this.fs.setProjectName(name);
   };
 
-  private handleWebUSBError(e: any) {
+  private async handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog.
           // Show 'NotFoundDialog'.
-          this.connectDialogs.notFoundDisclosure.onOpen();
+          await this.dialogs.generic({
+            Body: NotFoundDialogBody,
+            Footer: NotFoundDialogFooter,
+            size: "3xl",
+          });
           return;
         }
         case "device-disconnected": {
@@ -493,7 +515,11 @@ export class ProjectActions {
         }
         case "update-req":
           // Show 'UpdateFirmwareDialog'.
-          this.connectDialogs.firmwareDisclosure.onOpen();
+          await this.dialogs.generic({
+            Body: FirmwareDialogBody,
+            Footer: FirmwareDialogFooter,
+            size: "3xl",
+          });
           return;
         case "clear-connect":
         case "timeout-error":

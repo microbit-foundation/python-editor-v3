@@ -5,13 +5,6 @@
  */
 import { Button } from "@chakra-ui/button";
 import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
-} from "@chakra-ui/modal";
-import {
   Box,
   Flex,
   HStack,
@@ -25,125 +18,118 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
-import ModalCloseButton from "../../common/ModalCloseButton";
+import { GenericDialogComponent } from "../../common/GenericDialog";
 import { useProjectActions } from "../../project/project-hooks";
 import connectGif from "./connect.gif";
 
-interface ConnectDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+interface ConnectHelpDialogProps extends GenericDialogComponent {}
 
-const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
+export const ConnectHelpDialogBody = () => {
+  const [isDesktop] = useMediaQuery("(min-width: 768px)");
+  return (
+    <VStack
+      width="auto"
+      ml="auto"
+      mr="auto"
+      p={8}
+      pt={[5, 5, 8]}
+      pb={0}
+      spacing={5}
+      alignItems="flex-start"
+    >
+      <Text as="h2" fontSize="xl" fontWeight="semibold">
+        Connect your micro:bit
+      </Text>
+      <Text>
+        Once you have connected your micro:bit with the editor, you can program
+        (“flash”) it directly, and see errors or output from the micro:bit in
+        the serial window.
+      </Text>
+      <Box
+        position="relative"
+        width={isDesktop ? "100%" : "auto"}
+        alignSelf={isDesktop ? "" : "center"}
+      >
+        <Image
+          height="456px"
+          width="441px"
+          src={connectGif}
+          alt=""
+          border="1px solid #262626"
+        />
+        {isDesktop && (
+          <List
+            position="absolute"
+            left="515px"
+            top="57px"
+            alignItems="flex-start"
+            spacing={2}
+          >
+            <ListItem>
+              <Flex alignItems="center" height="72px">
+                <VisuallyHidden>
+                  <Text fontSize="xl">1. </Text>
+                </VisuallyHidden>
+                <Text fontSize="xl">Choose your micro:bit</Text>
+              </Flex>
+            </ListItem>
+            <ListItem>
+              <Flex alignItems="center" height="72px">
+                <VisuallyHidden>
+                  <Text fontSize="xl">2. </Text>
+                </VisuallyHidden>
+                <Text fontSize="xl">Select ‘Connect’</Text>
+              </Flex>
+            </ListItem>
+          </List>
+        )}
+
+        <Box position="absolute" top="75px" left="201px">
+          {isDesktop && <ArrowOne />}
+          {!isDesktop && <Circle text={1} />}
+        </Box>
+        <Box position="absolute" bottom="50px" left="371px">
+          {isDesktop && <ArrowTwo />}
+          {!isDesktop && <Circle text={2} />}
+        </Box>
+      </Box>
+      {!isDesktop && (
+        <List alignSelf="center">
+          <ListItem>
+            <Text fontSize="xl">1. Choose your micro:bit</Text>
+          </ListItem>
+          <ListItem>
+            <Text fontSize="xl">2. Select ‘Connect’</Text>
+          </ListItem>
+        </List>
+      )}
+    </VStack>
+  );
+};
+
+export const ConnectHelpDialogFooter = ({
+  onClose,
+}: ConnectHelpDialogProps) => {
   const actions = useProjectActions();
   const handleStart = useCallback(async () => {
     onClose();
     await actions.connect();
   }, [actions, onClose]);
   const buttonWidth = "8.1rem";
-  const [isDesktop] = useMediaQuery("(min-width: 768px)");
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
-      <ModalOverlay>
-        <ModalContent minWidth="560px">
-          <ModalCloseButton />
-          <ModalBody>
-            <VStack
-              width="auto"
-              ml="auto"
-              mr="auto"
-              p={8}
-              pt={[5, 5, 8]}
-              pb={0}
-              spacing={5}
-              alignItems="flex-start"
-            >
-              <Text as="h2" fontSize="xl" fontWeight="semibold">
-                Connect your micro:bit
-              </Text>
-              <Text>
-                Once you have connected your micro:bit with the editor, you can
-                program (“flash”) it directly, and see errors or output from the
-                micro:bit in the serial window.
-              </Text>
-              <Box
-                position="relative"
-                width={isDesktop ? "100%" : "auto"}
-                alignSelf={isDesktop ? "" : "center"}
-              >
-                <Image
-                  height="456px"
-                  width="441px"
-                  src={connectGif}
-                  alt=""
-                  border="1px solid #262626"
-                />
-                {isDesktop && (
-                  <List
-                    position="absolute"
-                    left="515px"
-                    top="57px"
-                    alignItems="flex-start"
-                    spacing={2}
-                  >
-                    <ListItem>
-                      <Flex alignItems="center" height="72px">
-                        <VisuallyHidden>
-                          <Text fontSize="xl">1. </Text>
-                        </VisuallyHidden>
-                        <Text fontSize="xl">Choose your micro:bit</Text>
-                      </Flex>
-                    </ListItem>
-                    <ListItem>
-                      <Flex alignItems="center" height="72px">
-                        <VisuallyHidden>
-                          <Text fontSize="xl">2. </Text>
-                        </VisuallyHidden>
-                        <Text fontSize="xl">Select ‘Connect’</Text>
-                      </Flex>
-                    </ListItem>
-                  </List>
-                )}
-
-                <Box position="absolute" top="75px" left="201px">
-                  {isDesktop && <ArrowOne />}
-                  {!isDesktop && <Circle text={1} />}
-                </Box>
-                <Box position="absolute" bottom="50px" left="371px">
-                  {isDesktop && <ArrowTwo />}
-                  {!isDesktop && <Circle text={2} />}
-                </Box>
-              </Box>
-              {!isDesktop && (
-                <List alignSelf="center">
-                  <ListItem>
-                    <Text fontSize="xl">1. Choose your micro:bit</Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="xl">2. Select ‘Connect’</Text>
-                  </ListItem>
-                </List>
-              )}
-            </VStack>
-          </ModalBody>
-          <ModalFooter>
-            <HStack spacing={2.5}>
-              <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
-                <FormattedMessage id="cancel-action" />
-              </Button>
-              <Button
-                onClick={handleStart}
-                variant="solid"
-                size="lg"
-                minWidth={buttonWidth}
-              >
-                <FormattedMessage id="start-action" />
-              </Button>
-            </HStack>
-          </ModalFooter>
-        </ModalContent>
-      </ModalOverlay>
-    </Modal>
+    <HStack spacing={2.5}>
+      <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
+        <FormattedMessage id="cancel-action" />
+      </Button>
+      <Button
+        onClick={handleStart}
+        variant="solid"
+        size="lg"
+        minWidth={buttonWidth}
+      >
+        <FormattedMessage id="start-action" />
+      </Button>
+    </HStack>
   );
 };
 
@@ -238,5 +224,3 @@ const Circle = ({ text }: CircleProps) => {
     </svg>
   );
 };
-
-export default ConnectDialog;
