@@ -15,7 +15,7 @@ const ShowMoreButton = ({ isOpen, ...props }: ShowMoreLinkProps) => (
   <Link
     {...props}
     as="button"
-    color="brand.500"
+    color="brand.600"
     textAlign="left"
     _hover={{
       textDecoration: "none",
