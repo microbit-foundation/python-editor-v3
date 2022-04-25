@@ -41,7 +41,6 @@ const InfoDialog = ({
               width="auto"
               ml="auto"
               mr="auto"
-              pt={10}
               p={8}
               spacing={5}
               alignItems="stretch"
