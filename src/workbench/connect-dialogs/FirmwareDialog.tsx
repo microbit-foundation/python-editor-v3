@@ -51,7 +51,7 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
               </Text>
               <Text>
                 Connecting to the micro:bit failed because the firmware on your
-                micro:bit is too old
+                micro:bit is too old.
               </Text>
               <HStack spacing={8}>
                 <Image height={150} src={firmwareUpgrade} alt="" />
@@ -63,7 +63,7 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
                       textDecoration="underline"
                       target="_blank"
                       rel="noreferrer"
-                      href="https://microbit.org/firmware/"
+                      href="https://microbit.org/get-started/user-guide/firmware/"
                     >
                       update your firmware
                     </Link>{" "}
@@ -100,7 +100,7 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
                 <Link
                   target="_blank"
                   rel="noreferrer"
-                  href="https://microbit.org/firmware/"
+                  href="https://microbit.org/get-started/user-guide/firmware/"
                 >
                   <FormattedMessage id="update-firmware-action" />
                 </Link>

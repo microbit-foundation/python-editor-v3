@@ -541,7 +541,7 @@ export class ProjectActions {
                     <Link
                       target="_blank"
                       rel="noreferrer"
-                      href="https://microbit.org/firmware/"
+                      href="https://microbit.org/get-started/user-guide/firmware/"
                       textDecoration="underline"
                     >
                       {chunks}

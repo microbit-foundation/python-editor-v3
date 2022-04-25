@@ -96,7 +96,7 @@ const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
                         textDecoration="underline"
                         target="_blank"
                         rel="noreferrer"
-                        href="https://microbit.org/firmware/"
+                        href="https://microbit.org/get-started/user-guide/firmware/"
                       >
                         update the firmware
                       </Link>
