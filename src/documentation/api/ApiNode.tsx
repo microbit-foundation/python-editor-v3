@@ -76,11 +76,6 @@ const ApiNode = ({
     <Highlight anchor={anchor} active={active} id={id} disclosure={disclosure}>
       <Stack
         wordBreak="break-word"
-        _hover={{
-          "& button": {
-            display: "flex",
-          },
-        }}
         fontSize="sm"
         spacing={3}
         // Reduce padding inside a class.
