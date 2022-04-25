@@ -43,6 +43,10 @@ interface Options {
    * URL fragment including the #.
    */
   fragment?: string;
+  /**
+   * Language parameter passed via URL.
+   */
+  language?: string;
 }
 
 /**
@@ -68,20 +72,36 @@ export class App {
   );
 
   constructor(options: Options = {}) {
+    this.url = this.optionsToURL(options);
+    this.browser = puppeteer.launch();
+    this.page = this.createPage();
+  }
+
+  setOptions(options: Options) {
+    this.url = this.optionsToURL(options);
+  }
+
+  private optionsToURL(options: Options): string {
     const flags = new Set<string>([
       "none",
       "noWelcome",
       ...(options.flags ?? []),
     ]);
-    this.url =
+    const params: Array<[string, string]> = Array.from(flags).map((f) => [
+      "flag",
+      f,
+    ]);
+    if (options.language) {
+      params.push(["l", options.language]);
+    }
+    return (
       baseUrl +
       // We don't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
       (process.env.E2E_PUBLIC_URL ?? "/") +
       "?" +
-      new URLSearchParams(Array.from(flags).map((f) => ["flag", f])) +
-      (options.fragment ?? "");
-    this.browser = puppeteer.launch();
-    this.page = this.createPage();
+      new URLSearchParams(params) +
+      (options.fragment ?? "")
+    );
   }
 
   async createPage() {

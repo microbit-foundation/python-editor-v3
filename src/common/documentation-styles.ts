@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 export const docStyles = {
-  "p,img": {
+  "p,h3": {
     maxWidth: "600px",
   },
 };

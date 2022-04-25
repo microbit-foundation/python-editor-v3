@@ -47,8 +47,15 @@ export const parameterHelpOptions: ParameterHelpOption[] = [
   "manual",
 ];
 
+export const getLanguageFromQuery = (): string => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const l = searchParams.get("l");
+  const supportedLanguage = supportedLanguages.find((x) => x.id === l);
+  return supportedLanguage?.id || supportedLanguages[0].id;
+};
+
 export const defaultSettings: Settings = {
-  languageId: supportedLanguages[0].id,
+  languageId: getLanguageFromQuery(),
   fontSize: defaultCodeFontSizePt,
   codeStructureHighlight: "full",
   parameterHelp: "automatic",

@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 declare module "lunr-languages/lunr.stemmer.support";
 
 declare module "lunr-languages/lunr.*" {
