@@ -16,6 +16,8 @@ import {
   Flex,
   HStack,
   Image,
+  List,
+  ListItem,
   Text,
   useMediaQuery,
   VisuallyHidden,
@@ -77,25 +79,30 @@ const ConnectDialog = ({ isOpen, onClose }: ConnectDialogProps) => {
                   border="1px solid #262626"
                 />
                 {isDesktop && (
-                  <VStack
+                  <List
                     position="absolute"
                     left="515px"
                     top="57px"
                     alignItems="flex-start"
+                    spacing={2}
                   >
-                    <Flex alignItems="center" height="72px">
-                      <VisuallyHidden>
-                        <Text fontSize="xl">1. </Text>
-                      </VisuallyHidden>
-                      <Text fontSize="xl">Choose your micro:bit</Text>
-                    </Flex>
-                    <Flex alignItems="center" height="72px">
-                      <VisuallyHidden>
-                        <Text fontSize="xl">2. </Text>
-                      </VisuallyHidden>
-                      <Text fontSize="xl">Select ‘Connect’</Text>
-                    </Flex>
-                  </VStack>
+                    <ListItem>
+                      <Flex alignItems="center" height="72px">
+                        <VisuallyHidden>
+                          <Text fontSize="xl">1. </Text>
+                        </VisuallyHidden>
+                        <Text fontSize="xl">Choose your micro:bit</Text>
+                      </Flex>
+                    </ListItem>
+                    <ListItem>
+                      <Flex alignItems="center" height="72px">
+                        <VisuallyHidden>
+                          <Text fontSize="xl">2. </Text>
+                        </VisuallyHidden>
+                        <Text fontSize="xl">Select ‘Connect’</Text>
+                      </Flex>
+                    </ListItem>
+                  </List>
                 )}
 
                 <Box position="absolute" top="75px" left="201px">
