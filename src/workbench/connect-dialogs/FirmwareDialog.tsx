@@ -11,7 +11,18 @@ import {
   ModalFooter,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  HStack,
+  Image,
+  Link,
+  Table,
+  TableCaption,
+  Tbody,
+  Td,
+  Text,
+  Tr,
+  VStack,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../../common/ModalCloseButton";
@@ -67,12 +78,26 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
                     </Link>{" "}
                     before you can connect to this micro:bit.
                   </Text>
-                  <VStack px={5} width="100%" alignItems="flex-start">
-                    <Text fontSize="sm">
-                      Your firmware version: 0241 (estimated)
-                    </Text>
-                    <Text fontSize="sm">You need at least: 0249</Text>
-                  </VStack>
+                  <Table size="sm" width="auto">
+                    <TableCaption
+                      color="gray.800"
+                      placement="top"
+                      mt={0}
+                      pt={0}
+                    >
+                      Firmware versions
+                    </TableCaption>
+                    <Tbody>
+                      <Tr>
+                        <Td>Your firmware version:</Td>
+                        <Td>0241 (estimated)</Td>
+                      </Tr>
+                      <Tr>
+                        <Td>Required firmware version:</Td>
+                        <Td>0249 (or higher)</Td>
+                      </Tr>
+                    </Tbody>
+                  </Table>
                 </VStack>
               </HStack>
               <Link
