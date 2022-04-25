@@ -8,7 +8,7 @@ import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { Anchor } from "../../router-hooks";
-import ShowMoreLink from "../common/ShowMoreLink";
+import ShowMoreButton from "../common/ShowMoreButton";
 import Highlight from "./Highlight";
 import {
   ToolkitTopic,
@@ -110,7 +110,7 @@ const ReferenceTopicEntry = ({
         )}
         {hasDetail && (
           <>
-            <ShowMoreLink
+            <ShowMoreButton
               onClick={disclosure.onToggle}
               isOpen={disclosure.isOpen}
             />

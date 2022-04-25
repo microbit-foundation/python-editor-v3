@@ -23,7 +23,7 @@ import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
-import ShowMoreLink from "../common/ShowMoreLink";
+import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useCodeDragImage } from "../documentation-hooks";
 import Highlight from "../reference/Highlight";
@@ -157,7 +157,7 @@ const ApiNodeSelf = ({
       )}
       {(hasDocStringDetail || hasSignatureDetail) && (
         <>
-          <ShowMoreLink onClick={onToggleShowMore} isOpen={showMore} />
+          <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
           {hasDocStringDetail && (
             // Avoid VStack spacing here so the margin animates too.
             <Collapse in={showMore} style={{ marginTop: 0 }}>

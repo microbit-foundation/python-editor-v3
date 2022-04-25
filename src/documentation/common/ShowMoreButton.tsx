@@ -10,10 +10,10 @@ interface ShowMoreLinkProps extends LinkProps {
   isOpen: boolean;
 }
 
-const ShowMoreLink = ({ isOpen, ...props }: ShowMoreLinkProps) => (
-  <Link {...props} color="brand.600">
+const ShowMoreButton = ({ isOpen, ...props }: ShowMoreLinkProps) => (
+  <Link {...props} as="button" color="brand.600">
     <FormattedMessage id={isOpen ? "show-less" : "show-more"} />
   </Link>
 );
 
-export default ShowMoreLink;
+export default ShowMoreButton;
