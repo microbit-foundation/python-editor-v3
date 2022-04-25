@@ -80,7 +80,6 @@ const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
                       <Link
                         color="brand.500"
                         onClick={handleReviewSelectDevice}
-                        textDecoration="underline"
                       >
                         how to select the device
                       </Link>
@@ -92,7 +91,6 @@ const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
                       If you have a micro:bit V1 you may need to{" "}
                       <Link
                         color="brand.500"
-                        textDecoration="underline"
                         target="_blank"
                         rel="noreferrer"
                         href="https://microbit.org/get-started/user-guide/firmware/"
@@ -105,7 +103,6 @@ const NotFoundDialog = ({ isOpen, onClose }: NotFoundDialogProps) => {
               </HStack>
               <Link
                 color="brand.500"
-                textDecoration="underline"
                 target="_blank"
                 rel="noreferrer"
                 href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"

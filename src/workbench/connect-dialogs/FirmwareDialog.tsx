@@ -59,7 +59,6 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
                     You must{" "}
                     <Link
                       color="brand.500"
-                      textDecoration="underline"
                       target="_blank"
                       rel="noreferrer"
                       href="https://microbit.org/get-started/user-guide/firmware/"
@@ -78,7 +77,6 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
               </HStack>
               <Link
                 color="brand.500"
-                textDecoration="underline"
                 target="_blank"
                 rel="noreferrer"
                 href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
@@ -100,6 +98,9 @@ const FirmwareDialog = ({ isOpen, onClose }: FirmwareDialogProps) => {
                   target="_blank"
                   rel="noreferrer"
                   href="https://microbit.org/get-started/user-guide/firmware/"
+                  _hover={{
+                    textDecoration: "none",
+                  }}
                 >
                   <FormattedMessage id="update-firmware-action" />
                 </Link>
