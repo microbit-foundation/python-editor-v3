@@ -157,6 +157,7 @@ const ApiNodeSelf = ({
       )}
       {(hasDocStringDetail || hasSignatureDetail) && (
         <>
+          <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
           {hasDocStringDetail && (
             // Avoid VStack spacing here so the margin animates too.
             <Collapse in={showMore} style={{ marginTop: 0 }}>
@@ -167,7 +168,6 @@ const ApiNodeSelf = ({
               />
             </Collapse>
           )}
-          <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
         </>
       )}
     </VStack>

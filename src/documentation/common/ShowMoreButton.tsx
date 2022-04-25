@@ -3,31 +3,27 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, ButtonProps } from "@chakra-ui/button";
+import { Link, LinkProps } from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
+import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 
-interface ShowMoreButtonProps extends ButtonProps {
+interface ShowMoreLinkProps extends LinkProps {
   isOpen: boolean;
 }
 
-const ShowMoreButton = ({ isOpen, ...props }: ShowMoreButtonProps) => (
-  <Button
-    // Design is medium but we don't have 500 weight.
-    fontWeight="semibold"
-    fontSize="14px"
-    variant="unstyled"
-    size="sm"
-    color="gray.800"
-    opacity="0.6"
-    textTransform="uppercase"
-    // These should be factored out if we reuse elsewhere
-    pl={3}
-    pr={3}
-    width="max-content"
+const ShowMoreButton = ({ isOpen, ...props }: ShowMoreLinkProps) => (
+  <Link
     {...props}
+    as="button"
+    color="brand.600"
+    textAlign="left"
+    _hover={{
+      textDecoration: "none",
+    }}
   >
     <FormattedMessage id={isOpen ? "show-less" : "show-more"} />
-  </Button>
+    <ExpandCollapseIcon open={isOpen} ml={1} />
+  </Link>
 );
 
 export default ShowMoreButton;

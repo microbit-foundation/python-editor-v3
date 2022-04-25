@@ -104,6 +104,10 @@ const ReferenceTopicEntry = ({
         )}
         {hasDetail && (
           <>
+            <ShowMoreButton
+              onClick={disclosure.onToggle}
+              isOpen={disclosure.isOpen}
+            />
             {/* Avoid Stack spacing here so the margin animates too. */}
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
               <Stack
@@ -119,10 +123,6 @@ const ReferenceTopicEntry = ({
                 />
               </Stack>
             </Collapse>
-            <ShowMoreButton
-              onClick={disclosure.onToggle}
-              isOpen={disclosure.isOpen}
-            />
           </>
         )}
       </Stack>
