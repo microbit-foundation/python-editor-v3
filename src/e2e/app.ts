@@ -563,6 +563,11 @@ export class App {
       name: "Connect",
     });
     await connectButton.click();
+    // Connects from the connect help dialog.
+    const startButton = await document.findByRole("button", {
+      name: "Start",
+    });
+    await startButton.click();
     await document.findByRole("button", {
       name: "Serial menu",
     });
