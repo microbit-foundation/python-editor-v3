@@ -25,7 +25,7 @@ export const NotFoundDialogBody = ({ onClose }: ConnectNotFoundDialogProps) => {
   const actions = useProjectActions();
   const handleReviewSelectDevice = useCallback(async () => {
     onClose();
-    await actions.startConnect();
+    await actions.startConnect(true);
   }, [actions, onClose]);
   return (
     <VStack

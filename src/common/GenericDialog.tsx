@@ -17,6 +17,7 @@ import ModalCloseButton from "./ModalCloseButton";
 
 export interface GenericDialogComponent {
   onClose: () => void;
+  ignoreLocalStorage?: boolean;
 }
 
 export interface GenericDialogParameters {
@@ -24,6 +25,7 @@ export interface GenericDialogParameters {
   Body: React.FC<GenericDialogComponent>;
   Footer: React.FC<GenericDialogComponent>;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
+  ignoreLocalStorage?: boolean;
 }
 
 export interface GenericDialogParametersWithActions
@@ -42,6 +44,7 @@ export const GenericDialog = ({
   isOpen,
   size,
   onCancel,
+  ignoreLocalStorage,
 }: GenericDialogProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onCancel} size={size}>
@@ -54,10 +57,16 @@ export const GenericDialog = ({
             </ModalHeader>
           )}
           <ModalBody>
-            <Body onClose={onCancel} />
+            <Body
+              onClose={onCancel}
+              ignoreLocalStorage={!!ignoreLocalStorage}
+            />
           </ModalBody>
           <ModalFooter>
-            <Footer onClose={onCancel} />
+            <Footer
+              onClose={onCancel}
+              ignoreLocalStorage={!!ignoreLocalStorage}
+            />
           </ModalFooter>
         </ModalContent>
       </ModalOverlay>

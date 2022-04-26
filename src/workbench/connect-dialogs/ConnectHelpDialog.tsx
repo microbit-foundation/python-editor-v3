@@ -123,6 +123,7 @@ const isConnectDialogStorage = (
 
 export const ConnectHelpDialogFooter = ({
   onClose,
+  ignoreLocalStorage,
 }: ConnectHelpDialogProps) => {
   const actions = useProjectActions();
   const handleStart = useCallback(async () => {
@@ -140,15 +141,17 @@ export const ConnectHelpDialogFooter = ({
     setDialogHidden({ hidden: true });
   };
   useEffect(() => {
-    if (dialogHidden.hidden) {
+    if (dialogHidden.hidden && !ignoreLocalStorage) {
       handleStart();
     }
-  }, [dialogHidden, handleStart]);
+  }, [dialogHidden, handleStart, ignoreLocalStorage]);
   return (
-    <HStack spacing={2.5} width="100%">
-      <Link onClick={hideDialog} as="button" color="brand.500" mr="auto">
-        Don't show this again
-      </Link>
+    <HStack spacing={2.5} width={!dialogHidden.hidden ? "100%" : "auto"}>
+      {!dialogHidden.hidden && (
+        <Link onClick={hideDialog} as="button" color="brand.500" mr="auto">
+          Don't show this again
+        </Link>
+      )}
       <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="cancel-action" />
       </Button>

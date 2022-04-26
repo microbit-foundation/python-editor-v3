@@ -93,7 +93,7 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  startConnect = async () => {
+  startConnect = async (ignoreLocalStorage = false) => {
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.actionFeedback.expectedError({
         title: this.intl.formatMessage({ id: "webusb-not-supported" }),
@@ -105,6 +105,7 @@ export class ProjectActions {
       Body: ConnectHelpDialogBody,
       Footer: ConnectHelpDialogFooter,
       size: "4xl",
+      ignoreLocalStorage,
     });
   };
 
