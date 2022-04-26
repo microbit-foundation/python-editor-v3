@@ -10,9 +10,16 @@ import { MarkupContent } from "vscode-languageserver-types";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
 
+export const enum DocSections {
+  Summary = 1 << 0,
+  Example = 1 << 1,
+  Remainder = 1 << 2,
+  All = Summary | Example | Remainder,
+}
+
 export const renderDocumentation = (
   documentation: MarkupContent | string | undefined,
-  brief: boolean = false
+  parts: DocSections = DocSections.All
 ): Element => {
   if (!documentation) {
     documentation = "No documentation";
@@ -21,7 +28,7 @@ export const renderDocumentation = (
   div.className = "docs-markdown";
   if (MarkupContent.is(documentation) && documentation.kind === "markdown") {
     try {
-      div.innerHTML = renderMarkdown(documentation.value, brief).__html;
+      div.innerHTML = renderMarkdown(documentation.value, parts).__html;
       return div;
     } catch (e) {
       // Fall through to simple text below.
@@ -30,9 +37,7 @@ export const renderDocumentation = (
   let fallbackContent = MarkupContent.is(documentation)
     ? documentation.value
     : documentation;
-  if (brief) {
-    fallbackContent = splitDocString(fallbackContent).summary;
-  }
+  fallbackContent = subsetMarkdown(fallbackContent, parts);
   const p = div.appendChild(document.createElement("p"));
   p.appendChild(new Text(fallbackContent));
   return div;
@@ -67,19 +72,29 @@ DOMPurify.addHook("afterSanitizeAttributes", function (node) {
 
 export const renderMarkdown = (
   markdown: string,
-  brief: boolean = false
+  parts: DocSections = DocSections.All
 ): SanitisedHtml => {
-  if (brief) {
-    const parts = splitDocString(markdown);
-    markdown =
-      parts.summary + (parts.example ? `\n\n\`${parts.example}\`` : "");
-  }
   const html = DOMPurify.sanitize(
-    marked.parse(fixupMarkdown(markdown), { gfm: true })
+    marked.parse(fixupMarkdown(subsetMarkdown(markdown, parts)), { gfm: true })
   );
   return {
     __html: html,
   };
+};
+
+export const subsetMarkdown = (markdown: string, parts: DocSections): string => {
+  const split = splitDocString(markdown);
+  let sections = [];
+  if (parts & DocSections.Summary && split.summary) {
+    sections.push(split.summary);
+  }
+  if (parts & DocSections.Example && split.example) {
+    sections.push("`" + split.example + "`");
+  }
+  if (parts & DocSections.Remainder && split.remainder) {
+    sections.push(split.remainder);
+  }
+  return sections.join("\n\n");
 };
 
 export const wrapWithDocumentationButton = (
@@ -107,7 +122,7 @@ export const wrapWithDocumentationButton = (
   anchor.href = "";
   anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
   anchor.style.color = "var(--chakra-colors-brand-600)";
-  anchor.textContent = intl.formatMessage({ id: "show-api-documentation" });
+  anchor.textContent = intl.formatMessage({ id: "help" });
   anchor.style.display = "block";
   anchor.style.margin = "0";
   anchor.style.marginRight = "-0.5rem";

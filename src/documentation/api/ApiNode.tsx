@@ -14,7 +14,7 @@ import {
   setDragContext,
 } from "../../editor/codemirror/dnd";
 import {
-  DocParts,
+  DocSectionsSplit,
   splitDocString,
 } from "../../editor/codemirror/language-server/docstrings";
 import {
@@ -127,7 +127,7 @@ const ApiNodeSelf = ({
     showMore
   );
   const docParts = useMemo(
-    () => (docString ? splitDocString(docString) : ({} as Partial<DocParts>)),
+    () => (docString ? splitDocString(docString) : ({} as Partial<DocSectionsSplit>)),
     [docString]
   );
   const hasRemainder = docParts.remainder && docParts.remainder.length > 0;
