@@ -18,6 +18,7 @@ import {
 import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
+import { useDevice } from "../../device/device-hooks";
 import { useProjectActions } from "../../project/project-hooks";
 import firmwareUpgrade from "./firmware-upgrade.png";
 
@@ -84,10 +85,12 @@ export const FirmwareDialogBody = () => {
 
 export const FirmwareDialogFooter = ({ onClose }: FirmwareDialogProps) => {
   const actions = useProjectActions();
+  const device = useDevice();
   const handleTryAgain = useCallback(async () => {
     onClose();
+    device.clearDevice();
     await actions.connect();
-  }, [actions, onClose]);
+  }, [actions, device, onClose]);
   const buttonWidth = "8.1rem";
   return (
     <HStack spacing={2.5}>

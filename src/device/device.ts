@@ -175,6 +175,11 @@ export interface DeviceConnection extends EventEmitter {
    * @returns A promise that resolves when the write is complete.
    */
   serialWrite(data: string): Promise<void>;
+
+  /**
+   * Clear device to enable chooseDevice.
+   */
+  clearDevice(): void;
 }
 
 /**
@@ -512,6 +517,12 @@ export class MicrobitWebUSBConnection
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
     }
   };
+
+  clearDevice(): void {
+    this.connection = undefined;
+    this.device = undefined;
+    this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
+  }
 
   private async connectInternal(serial: boolean): Promise<void> {
     if (!this.connection) {

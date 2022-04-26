@@ -89,4 +89,8 @@ export class MockDeviceConnection
     this.status = newStatus;
     this.emit(EVENT_STATUS, this.status);
   }
+
+  clearDevice(): void {
+    this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
+  }
 }
