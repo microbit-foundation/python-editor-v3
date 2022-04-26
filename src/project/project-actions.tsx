@@ -99,6 +99,8 @@ export class ProjectActions {
         title: this.intl.formatMessage({ id: "webusb-not-supported" }),
         description: this.intl.formatMessage({ id: "webusb-download-instead" }),
       });
+    } else if (this.device.status === ConnectionStatus.NOT_CONNECTED) {
+      await this.connect();
     } else {
       await this.dialogs.generic({
         Body: ConnectHelpDialogBody,
