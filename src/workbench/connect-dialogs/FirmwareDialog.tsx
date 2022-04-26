@@ -20,7 +20,7 @@ import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
 import { useDevice } from "../../device/device-hooks";
 import { useProjectActions } from "../../project/project-hooks";
-import firmwareUpgrade from "./firmware-upgrade.png";
+import firmwareUpgrade from "./firmware-upgrade.svg";
 
 interface FirmwareDialogProps extends GenericDialogComponent {}
 
