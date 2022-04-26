@@ -99,14 +99,14 @@ export class ProjectActions {
         title: this.intl.formatMessage({ id: "webusb-not-supported" }),
         description: this.intl.formatMessage({ id: "webusb-download-instead" }),
       });
+    } else {
+      await this.dialogs.generic({
+        Body: ConnectHelpDialogBody,
+        Footer: ConnectHelpDialogFooter,
+        size: "4xl",
+        ignoreLocalStorage,
+      });
     }
-
-    await this.dialogs.generic({
-      Body: ConnectHelpDialogBody,
-      Footer: ConnectHelpDialogFooter,
-      size: "4xl",
-      ignoreLocalStorage,
-    });
   };
 
   /**
