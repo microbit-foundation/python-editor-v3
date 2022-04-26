@@ -17,7 +17,7 @@ import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
 import { useProjectActions } from "../../project/project-hooks";
-import notFound from "./not-found.png";
+import notFound from "./not-found.svg";
 
 interface ConnectNotFoundDialogProps extends GenericDialogComponent {}
 
