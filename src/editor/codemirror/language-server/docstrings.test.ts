@@ -23,4 +23,11 @@ describe("splitDocString", () => {
     expect(summary).toEqual("");
     expect(remainder).toBeUndefined();
   });
+  it("captures examples", () => {
+    expect(splitDocString("Summary\n\nExample: `Foo`\n\nRemainder\n\nMore remainder")).toEqual({
+      summary: "Summary",
+      example: "Foo",
+      remainder: "Remainder\n\nMore remainder"
+    })
+  })
 });

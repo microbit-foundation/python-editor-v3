@@ -17,19 +17,20 @@ import {
   logException,
   PluginValue,
   ViewPlugin,
-  ViewUpdate,
+  ViewUpdate
 } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import {
   MarkupContent,
   SignatureHelp,
   SignatureHelpParams,
-  SignatureHelpRequest,
+  SignatureHelpRequest
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
+  DocSections,
   renderDocumentation,
-  wrapWithDocumentationButton,
+  wrapWithDocumentationButton
 } from "./documentation";
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
@@ -195,6 +196,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     const {
       label,
       parameters,
+      documentation: signatureDoc,
       activeParameter: activeParameterIndex,
     } = activeSignature;
     const activeParameter =
@@ -204,16 +206,19 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     const activeParameterLabel = activeParameter?.label;
     const activeParameterDoc =
       activeParameter?.documentation || activeSignature.documentation;
-    if (Array.isArray(activeParameterLabel)) {
-      const [from, to] = activeParameterLabel;
-      return formatHighlightedParameter(label, from, to, activeParameterDoc);
-    } else if (typeof activeParameterLabel === "string") {
+    if (typeof activeParameterLabel === "string") {
       throw new Error("Not supported");
+    }
+    let from = label.length;
+    let to = label.length;
+    if (Array.isArray(activeParameterLabel)) {
+      [from, to] = activeParameterLabel;
     }
     return formatHighlightedParameter(
       label,
-      label.length,
-      label.length,
+      from,
+      to,
+      signatureDoc,
       activeParameterDoc
     );
   };
@@ -222,6 +227,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     label: string,
     from: number,
     to: number,
+    signatureDoc: string | MarkupContent | undefined,
     activeParameterDoc: string | MarkupContent | undefined
   ): Node => {
     let before = label.substring(0, from);
@@ -241,8 +247,11 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     span.appendChild(document.createTextNode(parameter));
     code.appendChild(document.createTextNode(after));
 
-    const documentation = renderDocumentation(activeParameterDoc, true);
+    const documentation = renderDocumentation(activeParameterDoc, DocSections.All);
     parent.appendChild(documentation);
+
+    const example = renderDocumentation(signatureDoc || "", DocSections.Example);
+    parent.appendChild(example);
 
     return wrapWithDocumentationButton(intl, parent, id);
   };
