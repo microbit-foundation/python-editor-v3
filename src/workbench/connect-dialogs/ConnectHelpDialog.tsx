@@ -9,6 +9,7 @@ import {
   Flex,
   HStack,
   Image,
+  Link,
   List,
   ListItem,
   Text,
@@ -16,9 +17,10 @@ import {
   VisuallyHidden,
   VStack,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
+import { useLocalStorage } from "../../common/use-local-storage";
 import { useProjectActions } from "../../project/project-hooks";
 import connectGif from "./connect.gif";
 
@@ -107,6 +109,18 @@ export const ConnectHelpDialogBody = () => {
   );
 };
 
+interface ConnectDialogStorage {
+  hidden: boolean;
+}
+
+const isConnectDialogStorage = (
+  value: unknown
+): value is ConnectDialogStorage => {
+  return (
+    typeof value === "object" && typeof (value as any).hidden === "boolean"
+  );
+};
+
 export const ConnectHelpDialogFooter = ({
   onClose,
 }: ConnectHelpDialogProps) => {
@@ -116,8 +130,25 @@ export const ConnectHelpDialogFooter = ({
     await actions.connect();
   }, [actions, onClose]);
   const buttonWidth = "8.1rem";
+  const [dialogHidden, setDialogHidden] = useLocalStorage(
+    "connect-dialog",
+    isConnectDialogStorage,
+    { hidden: false }
+  );
+  const hideDialog = () => {
+    onClose();
+    setDialogHidden({ hidden: true });
+  };
+  useEffect(() => {
+    if (dialogHidden.hidden) {
+      handleStart();
+    }
+  }, [dialogHidden, handleStart]);
   return (
-    <HStack spacing={2.5}>
+    <HStack spacing={2.5} width="100%">
+      <Link onClick={hideDialog} as="button" color="brand.500" mr="auto">
+        Don't show this again
+      </Link>
       <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="cancel-action" />
       </Button>
