@@ -6,6 +6,7 @@
 import { render } from "@testing-library/react";
 import { ApiDocsEntry } from "../../language-server/apidocs";
 import NullLoggingProvider from "../../logging/NullLoggingProvider";
+import { ActiveEditorProvider } from "../../editor/active-editor-hooks";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
 import ScrollablePanel from "../../common/ScrollablePanel";
 import ApiNode, { getDragContext, classToInstanceMap } from "./ApiNode";
@@ -43,9 +44,11 @@ describe("ApiNode", () => {
     render(
       <FixedTranslationProvider>
         <NullLoggingProvider>
-          <ScrollablePanel>
-            <ApiNode docs={node} />
-          </ScrollablePanel>
+          <ActiveEditorProvider>
+            <ScrollablePanel>
+              <ApiNode docs={node} />
+            </ScrollablePanel>
+          </ActiveEditorProvider>
         </NullLoggingProvider>
       </FixedTranslationProvider>
     );
