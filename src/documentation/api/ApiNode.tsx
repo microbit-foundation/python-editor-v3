@@ -381,10 +381,10 @@ const DraggableSignature = ({
         e.preventDefault();
         handleInsertCode();
       }
-      if (e.key === "c" && (isMac ? e.metaKey : e.ctrlKey)) {
+      if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
         await navigator.clipboard.writeText(
-          `${formatName(kind, fullName, name)}${signature}`
+          `${formatName(kind, fullName, name)}${signature ? signature : ""}`
         );
       }
     },

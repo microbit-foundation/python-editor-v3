@@ -102,7 +102,7 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
         e.preventDefault();
         handleInsertCode();
       }
-      if (e.key === "c" && (isMac ? e.metaKey : e.ctrlKey)) {
+      if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
         await navigator.clipboard.writeText(code);
       }
