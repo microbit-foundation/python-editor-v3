@@ -755,8 +755,8 @@ export class App {
    */
   async followCompletionOrSignatureDocumentionLink(): Promise<void> {
     const document = await this.document();
-    const button = await document.findByRole("button", {
-      name: "Show API documentation",
+    const button = await document.findByRole("link", {
+      name: "Help",
     });
     return button.click();
   }
