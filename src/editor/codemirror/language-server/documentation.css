@@ -38,14 +38,14 @@
 pre {
   background-color: #fff;
   border-radius: var(--chakra-radii-md);
-  border-color: var(--chakra-colors-blimpTeal-300);
+  border-color: var(--chakra-colors-blimpTeal-100);
   border-style: solid;
   border-width: 1px;
 }
 
 .docs-code.docs-code-muted code,
 pre {
-  background-color: #fffc;
+  background-color: #fffb;
 }
 
 .docs-code code {
