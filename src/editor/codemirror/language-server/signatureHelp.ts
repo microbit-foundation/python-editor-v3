@@ -17,20 +17,20 @@ import {
   logException,
   PluginValue,
   ViewPlugin,
-  ViewUpdate
+  ViewUpdate,
 } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import {
   MarkupContent,
   SignatureHelp,
   SignatureHelpParams,
-  SignatureHelpRequest
+  SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
   DocSections,
   renderDocumentation,
-  wrapWithDocumentationButton
+  wrapWithDocumentationButton,
 } from "./documentation";
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
@@ -239,18 +239,26 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     before = removeFullyQualifiedName(before);
 
     const parent = document.createElement("div");
-    parent.className = "docs-markdown";
-    const code = parent.appendChild(document.createElement("code"));
-    code.appendChild(document.createTextNode(before));
-    const span = code.appendChild(document.createElement("span"));
+    parent.className = "docs-spacing";
+    const signature = parent.appendChild(document.createElement("code"));
+    signature.className = "cm-signature-signature";
+    signature.appendChild(document.createTextNode(before));
+    const span = signature.appendChild(document.createElement("span"));
     span.className = "cm-signature-activeParameter";
     span.appendChild(document.createTextNode(parameter));
-    code.appendChild(document.createTextNode(after));
+    signature.appendChild(document.createTextNode(after));
+    parent.appendChild(document.createElement("hr"));
 
-    const documentation = renderDocumentation(activeParameterDoc, DocSections.All);
+    const documentation = renderDocumentation(
+      activeParameterDoc,
+      DocSections.All
+    );
     parent.appendChild(documentation);
 
-    const example = renderDocumentation(signatureDoc || "", DocSections.Example);
+    const example = renderDocumentation(
+      signatureDoc || "",
+      DocSections.Example
+    );
     parent.appendChild(example);
 
     return wrapWithDocumentationButton(intl, parent, id);

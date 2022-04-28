@@ -3,35 +3,68 @@
  *
  * SPDX-License-Identifier: MIT
  */
-.docs-markdown pre,
-.docs-markdown code {
+.docs-spacing pre,
+.docs-spacing code {
   font-family: "Source Code Pro", monospace;
 }
-.docs-markdown * + * {
+.docs-spacing * + * {
   margin-top: var(--chakra-space-2);
 }
-.docs-markdown * + p {
+.docs-spacing * + p {
   margin-top: var(--chakra-space-3);
 }
-.docs-markdown * + code {
+.docs-spacing * + code {
   margin-top: var(--chakra-space-3);
 }
-.docs-markdown hr + *,
-.docs-markdown * + hr {
+.docs-spacing hr + *,
+.docs-spacing * + hr {
   margin-top: var(--chakra-space-1);
 }
-.docs-markdown code {
+.docs-spacing code {
   white-space: pre-wrap;
 }
-.docs-markdown ul,
-.docs-markdown ol {
+.docs-spacing ul,
+.docs-spacing ol {
   margin-left: var(--chakra-space-5);
 }
-.docs-markdown a {
+.docs-spacing a {
   color: var(--chakra-colors-brand-500);
 }
-.docs-markdown pre {
+.docs-spacing pre {
   padding: var(--chakra-space-1);
 }
 
-/* Eliminate some cruft */
+.docs-code code,
+pre {
+  background-color: #fff;
+  border-radius: var(--chakra-radii-md);
+  border-color: var(--chakra-colors-blimpTeal-300);
+  border-style: solid;
+  border-width: 1px;
+}
+
+.docs-code.docs-code-muted code,
+pre {
+  background-color: #fff8;
+}
+
+.docs-code code {
+  background-color: #fff;
+  padding: 0 var(--chakra-space-1-5);
+}
+
+.docs-code pre {
+  padding: 0;
+  width: fit-content;
+}
+
+.docs-code > pre > code {
+  border: none;
+  background-color: unset;
+}
+
+.docs-skip-signature > pre:first-of-type {
+  border: none;
+  padding: 0;
+  background-color: unset;
+}

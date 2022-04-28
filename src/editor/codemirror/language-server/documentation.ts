@@ -25,7 +25,7 @@ export const renderDocumentation = (
     documentation = "No documentation";
   }
   const div = document.createElement("div");
-  div.className = "docs-markdown";
+  div.className = "docs-spacing docs-code docs-code-muted";
   if (MarkupContent.is(documentation) && documentation.kind === "markdown") {
     try {
       div.innerHTML = renderMarkdown(documentation.value, parts).__html;
@@ -58,7 +58,7 @@ const fixupMarkdown = (input: string): string => {
     .replace(/\\\*args/, "*args")
     .replace(/\\\*kwargs/, "*kwargs")
     .replace(/\\\*\\\*/g, "**")
-    .replace(/:param ([^:]+):/g, "**`$1`**: ")
+    .replace(/:param ([^:]+):/g, "`$1`: ")
     .replace(/:return:/g, "**returns**: ");
 };
 
@@ -82,7 +82,10 @@ export const renderMarkdown = (
   };
 };
 
-export const subsetMarkdown = (markdown: string, parts: DocSections): string => {
+export const subsetMarkdown = (
+  markdown: string,
+  parts: DocSections
+): string => {
   const split = splitDocString(markdown);
   let sections = [];
   if (parts & DocSections.Summary && split.summary) {

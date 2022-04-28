@@ -164,7 +164,7 @@ const ApiNodeSelf = ({
             <Collapse in={showMore} style={{ marginTop: 0 }}>
               <VStack spacing={spacing} mt={3} alignItems="stretch">
                 {hasExample && (
-                  <Box>
+                  <Box className="docs-code">
                     Example: <code>{docParts.example}</code>
                   </Box>
                 )}

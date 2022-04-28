@@ -136,7 +136,11 @@ const createDocumentationResolver =
       CompletionResolveRequest.type,
       (completion as AugmentedCompletion).item
     );
-    const node = renderDocumentation(resolved.documentation, DocSections.Summary | DocSections.Example);
+    const node = renderDocumentation(
+      resolved.documentation,
+      DocSections.Summary | DocSections.Example
+    );
+    node.className += " docs-skip-signature";
     const code = node.querySelector("code");
     if (code) {
       const id = nameFromSignature(code.innerText);
