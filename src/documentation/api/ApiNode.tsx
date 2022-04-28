@@ -372,7 +372,7 @@ const DraggableSignature = ({
   const actions = useActiveEditorActions();
   const handleInsertCode = useCallback(() => {
     const { code, id } = getDragContext(fullName, kind);
-    actions?.insertCode(code, id);
+    actions?.insertCode(code, kind === "function" ? "call" : "example", id);
   }, [actions, fullName, kind]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(

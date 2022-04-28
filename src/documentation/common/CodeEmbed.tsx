@@ -71,7 +71,7 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
 
   const actions = useActiveEditorActions();
   const handleInsertCode = useCallback(
-    () => actions?.insertCode(codeWithImports, parentSlug),
+    () => actions?.insertCode(codeWithImports, "example", parentSlug),
     [actions, codeWithImports, parentSlug]
   );
 
