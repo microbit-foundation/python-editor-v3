@@ -14,7 +14,6 @@ import {
   diff,
   EVENT_PROJECT_UPDATED,
   FileSystem,
-  lineNumFromUint8Array,
   MAIN_FILE,
   Project,
   VersionAction,
@@ -289,24 +288,6 @@ describe("fs - diff", () => {
   it("detects edit", () => {
     expect(diff(main1, main2)).toEqual([{ name: "main.py", type: "edit" }]);
     expect(diff(main2, main1)).toEqual([{ name: "main.py", type: "edit" }]);
-  });
-});
-
-describe("lineNumFromUint8Array", () => {
-  it("correctly counts lines from Uint8Arrays with a mixture of CR and LF line endings", () => {
-    const textEncoder = new TextEncoder();
-    const newLinesAsLF = textEncoder.encode(
-      "# testcase\n\nwhile True:\n\tdisplay.scroll('micro:bit')\n\tdisplay.show(Image.HEART)\n\tsleep(2000)"
-    );
-    expect(lineNumFromUint8Array(newLinesAsLF)).toBe(6);
-    const newLinesAsCR = textEncoder.encode(
-      "# testcase\r\rwhile True:\r\tdisplay.scroll('micro:bit')\r\tdisplay.show(Image.HEART)\r\tsleep(2000)"
-    );
-    expect(lineNumFromUint8Array(newLinesAsCR)).toBe(6);
-    const newLinesAsCRLF = textEncoder.encode(
-      "# testcase\r\n\r\nwhile True:\r\n\tdisplay.scroll('micro:bit')\r\n\tdisplay.show(Image.HEART)\r\n\tsleep(2000)"
-    );
-    expect(lineNumFromUint8Array(newLinesAsCRLF)).toBe(6);
   });
 });
 

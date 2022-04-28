@@ -23,6 +23,7 @@ import { PortableText, SimpleImage } from "../../common/sanity";
 interface DocumentationContentProps {
   content?: PortableText;
   parentSlug?: string;
+  toolkitType?: string;
 }
 
 const DocumentationApiLinkMark = (
@@ -102,6 +103,7 @@ interface SerializerMarkProps<T> extends HasChildren {
 const DocumentationContent = ({
   content,
   parentSlug,
+  toolkitType,
   ...outerProps
 }: DocumentationContentProps) => {
   const serializers = {
@@ -110,7 +112,12 @@ const DocumentationContent = ({
     container: (props: HasChildren) => <>{props.children}</>,
     types: {
       python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
-        <CodeEmbed code={main} {...outerProps} parentSlug={parentSlug} />
+        <CodeEmbed
+          code={main}
+          {...outerProps}
+          parentSlug={parentSlug}
+          toolkitType={toolkitType}
+        />
       ),
       simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
         return (

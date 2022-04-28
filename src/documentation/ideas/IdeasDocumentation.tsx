@@ -108,7 +108,11 @@ const ActiveLevel = ({
               />
             )}
 
-            <DocumentationContent content={activeIdea.content} />
+            <DocumentationContent
+              content={activeIdea.content}
+              parentSlug={activeIdea.slug.current}
+              toolkitType="ideas"
+            />
           </Stack>
         )}
       </HeadedScrollablePanel>

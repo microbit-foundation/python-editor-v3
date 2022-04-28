@@ -5,13 +5,14 @@
  */
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { redoDepth, undoDepth } from "@codemirror/history";
-import { lintGutter } from "./lint/lint";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
-import { EditorView, highlightActiveLine } from "@codemirror/view";
+import { EditorView, highlightActiveLine, ViewUpdate } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
+import { lineNumFromUint8Array } from "../../common/text-util";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
+import { Logging } from "../../logging/logging";
 import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
 import { ParameterHelpOption } from "../../settings/settings";
@@ -24,6 +25,7 @@ import {
 import "./CodeMirror.css";
 import { compartment, editorConfig } from "./config";
 import { languageServer } from "./language-server/view";
+import { lintGutter } from "./lint/lint";
 import { codeStructure, CodeStructureSettings } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 
@@ -93,6 +95,7 @@ const CodeMirror = ({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
           });
+          logPastedLineCount(logging, update);
         }
       });
       const state = EditorState.create({
@@ -225,5 +228,24 @@ const CodeMirror = ({
 function themeExtensionsForOptions(options: { fontSize: number }): Extension {
   return themeExtensions(options.fontSize + "pt");
 }
+
+const logPastedLineCount = (logging: Logging, update: ViewUpdate) => {
+  update.transactions
+    .filter((transaction) => transaction.isUserEvent("input.paste"))
+    .forEach((transaction) =>
+      transaction.changes.iterChanges(
+        (_fromA, _toA, _fromB, _toB, inserted) => {
+          const lineCount = lineNumFromUint8Array(
+            // Ignore leading/trailing lines.
+            new TextEncoder().encode(inserted.toString().trim())
+          );
+          logging.event({
+            type: "paste",
+            value: lineCount,
+          });
+        }
+      )
+    );
+};
 
 export default CodeMirror;
