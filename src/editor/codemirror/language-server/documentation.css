@@ -45,7 +45,7 @@ pre {
 
 .docs-code.docs-code-muted code,
 pre {
-  background-color: #fff8;
+  background-color: #fffc;
 }
 
 .docs-code code {
@@ -58,7 +58,8 @@ pre {
   width: fit-content;
 }
 
-.docs-code > pre > code {
+.docs-code > pre > code,
+.docs-code.docs-code-muted > pre > code {
   border: none;
   background-color: unset;
 }
