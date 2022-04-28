@@ -50,6 +50,7 @@ const ReferenceTopicEntry = ({
     [setAlternativeIndex]
   );
   const disclosure = useDisclosure();
+  const toolkitType = "reference";
   return (
     <Highlight
       anchor={anchor}
@@ -75,6 +76,7 @@ const ReferenceTopicEntry = ({
         <DocumentationContent
           content={content}
           parentSlug={entry.slug.current}
+          toolkitType={toolkitType}
         />
         {alternatives && typeof alternativeIndex === "number" && (
           <>
@@ -99,6 +101,7 @@ const ReferenceTopicEntry = ({
             <DocumentationContent
               content={alternatives[alternativeIndex].content}
               parentSlug={entry.slug.current}
+              toolkitType={toolkitType}
             />
           </>
         )}
@@ -120,6 +123,7 @@ const ReferenceTopicEntry = ({
                 <DocumentationContent
                   content={detailContent}
                   parentSlug={entry.slug.current}
+                  toolkitType={toolkitType}
                 />
               </Stack>
             </Collapse>

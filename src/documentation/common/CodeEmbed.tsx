@@ -23,6 +23,7 @@ import { useCodeDragImage } from "../documentation-hooks";
 interface CodeEmbedProps {
   code: string;
   parentSlug?: string;
+  toolkitType?: string;
 }
 
 type CodeEmbedState =
@@ -39,7 +40,11 @@ type CodeEmbedState =
    */
   | "raised";
 
-const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
+const CodeEmbed = ({
+  code: codeWithImports,
+  toolkitType,
+  parentSlug,
+}: CodeEmbedProps) => {
   const [state, originalSetState] = useState<CodeEmbedState>("default");
   // We want to debounce raising so that we don't raise very briefly during scroll.
   // We don't ever want to delay other actions.
@@ -71,8 +76,8 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
 
   const actions = useActiveEditorActions();
   const handleInsertCode = useCallback(
-    () => actions?.insertCode(codeWithImports, parentSlug),
-    [actions, codeWithImports, parentSlug]
+    () => actions?.insertCode(codeWithImports, `${toolkitType}-${parentSlug}`),
+    [actions, codeWithImports, parentSlug, toolkitType]
   );
 
   const code = useMemo(
@@ -109,6 +114,7 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
           ref={codeRef}
           background={state === "default" ? "white" : "blimpTeal.50"}
           highlightDragHandle={state === "raised"}
+          toolkitType={toolkitType}
         />
         {state === "raised" && (
           <CodePopUp
@@ -120,6 +126,7 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
             width={codeRef.current!.offsetWidth}
             concise={code}
             full={codeWithImports}
+            toolkitType={toolkitType}
             parentSlug={parentSlug}
           />
         )}
@@ -150,6 +157,7 @@ const CodeEmbed = ({ code: codeWithImports, parentSlug }: CodeEmbedProps) => {
 interface CodePopUpProps extends BoxProps {
   concise: string;
   full: string;
+  toolkitType?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
 }
@@ -158,7 +166,13 @@ interface CodePopUpProps extends BoxProps {
 // above the scrollbar. You can achieve almost the same effect with
 // z-index, but Safari draws the scrollbars over the code that should
 // be above them.
-const CodePopUp = ({ concise, full, parentSlug, ...props }: CodePopUpProps) => {
+const CodePopUp = ({
+  concise,
+  full,
+  toolkitType,
+  parentSlug,
+  ...props
+}: CodePopUpProps) => {
   return (
     <Portal>
       <Code
@@ -170,6 +184,7 @@ const CodePopUp = ({ concise, full, parentSlug, ...props }: CodePopUpProps) => {
         background="blimpTeal.50"
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
         highlightDragHandle
+        toolkitType={toolkitType}
         parentSlug={parentSlug}
         {...props}
       />
@@ -182,6 +197,7 @@ interface CodeProps extends BoxProps {
   full: string;
   ref?: Ref<HTMLDivElement>;
   highlightDragHandle: boolean;
+  toolkitType?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
 }
@@ -192,6 +208,7 @@ const Code = forwardRef<CodeProps, "pre">(
       concise,
       full,
       highlightDragHandle,
+      toolkitType,
       parentSlug,
       onCodeDragEnd,
       ...props
@@ -204,21 +221,21 @@ const Code = forwardRef<CodeProps, "pre">(
       (event: React.DragEvent) => {
         logging.event({
           type: "code-drag",
-          message: parentSlug,
+          message: `${toolkitType}-${parentSlug}`,
         });
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
         setDragContext({
           code: full,
           type: "example",
-          id: parentSlug,
+          id: `${toolkitType}-${parentSlug}`,
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
         if (dragImage.current) {
           event.dataTransfer.setDragImage(dragImage.current, 0, 0);
         }
       },
-      [full, dragImage, parentSlug, logging]
+      [full, dragImage, parentSlug, toolkitType, logging]
     );
     const handleDragEnd = useCallback(
       (event: React.DragEvent) => {

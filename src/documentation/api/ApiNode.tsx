@@ -326,7 +326,7 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
   return {
     code: full,
     type: kind === "function" ? "call" : "example",
-    id: fullName,
+    id: `api-${fullName}`,
   };
 };
 
@@ -347,7 +347,7 @@ const DraggableSignature = ({
     (event: React.DragEvent) => {
       logging.event({
         type: "code-drag",
-        message: id,
+        message: `api-${id}`,
       });
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";
