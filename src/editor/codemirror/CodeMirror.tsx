@@ -5,11 +5,11 @@
  */
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { redoDepth, undoDepth } from "@codemirror/history";
-import { lintGutter } from "./lint/lint";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import { EditorView, highlightActiveLine } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
+import { lineNumFromUint8Array } from "../../fs/fs";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { useLogging } from "../../logging/logging-hooks";
@@ -24,6 +24,7 @@ import {
 import "./CodeMirror.css";
 import { compartment, editorConfig } from "./config";
 import { languageServer } from "./language-server/view";
+import { lintGutter } from "./lint/lint";
 import { codeStructure, CodeStructureSettings } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 
@@ -93,6 +94,19 @@ const CodeMirror = ({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
           });
+          // Log the number of lines pasted by the user. Do not count
+          // empty lines before and after the pasted content.
+          if (update.transactions[0].isUserEvent("input.paste")) {
+            update.changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
+              const pastedContent = update.state.sliceDoc(fromB, toB).trim();
+              logging.event({
+                type: "user-paste",
+                value: lineNumFromUint8Array(
+                  new TextEncoder().encode(pastedContent)
+                ),
+              });
+            });
+          }
         }
       });
       const state = EditorState.create({
