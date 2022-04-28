@@ -5,6 +5,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { redo, undo } from "@codemirror/history";
 import { EditorView } from "@codemirror/view";
 import React, {
   Dispatch,
@@ -13,9 +14,9 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { undo, redo } from "@codemirror/history";
-import { calculateChanges } from "./codemirror/edits";
 import { Logging } from "../logging/logging";
+import { CodeInsertType } from "./codemirror/dnd";
+import { calculateChanges } from "./codemirror/edits";
 
 /**
  * Actions that operate on a CM editor.
@@ -28,12 +29,12 @@ export class EditorActions {
    *
    * @param code The code with any required imports.
    */
-  insertCode = (code: string, id?: string): void => {
+  insertCode = (code: string, type: CodeInsertType, id?: string): void => {
     this.logging.event({
       type: "code-insert",
       message: id,
     });
-    this.view.dispatch(calculateChanges(this.view.state, code, "example"));
+    this.view.dispatch(calculateChanges(this.view.state, code, type));
     this.view.focus();
   };
   undo = (): void => {
