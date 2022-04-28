@@ -76,7 +76,12 @@ const CodeEmbed = ({
 
   const actions = useActiveEditorActions();
   const handleInsertCode = useCallback(
-    () => actions?.insertCode(codeWithImports, `${toolkitType}-${parentSlug}`),
+    () =>
+      actions?.insertCode(
+        codeWithImports,
+        "example",
+        `${toolkitType}-${parentSlug}`
+      ),
     [actions, codeWithImports, parentSlug, toolkitType]
   );
 
@@ -100,7 +105,20 @@ const CodeEmbed = ({
   const textHeight = lineCount * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const codePopUpHeight = `calc(${codeHeight} + 2px)`; // Account for border.
-
+  const isMac = /Mac/.test(navigator.platform);
+  const handleKeyDown = useCallback(
+    async (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleInsertCode();
+      }
+      if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
+        e.preventDefault();
+        await navigator.clipboard.writeText(code);
+      }
+    },
+    [code, handleInsertCode, isMac]
+  );
   return (
     <Box>
       <Box height={codeHeight} fontSize="md">
@@ -115,6 +133,15 @@ const CodeEmbed = ({
           background={state === "default" ? "white" : "blimpTeal.50"}
           highlightDragHandle={state === "raised"}
           toolkitType={toolkitType}
+          tabIndex={0}
+          _focus={{
+            boxShadow: "var(--chakra-shadows-outline);",
+          }}
+          _focusVisible={{
+            outline: "none",
+          }}
+          onKeyDown={handleKeyDown}
+          zIndex={1}
         />
         {state === "raised" && (
           <CodePopUp

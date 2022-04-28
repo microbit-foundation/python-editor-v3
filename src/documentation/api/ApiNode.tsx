@@ -8,6 +8,7 @@ import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import {
   debug as dndDebug,
   DragContext,
@@ -367,6 +368,28 @@ const DraggableSignature = ({
   }, []);
 
   const highlight = useDisclosure();
+
+  const actions = useActiveEditorActions();
+  const handleInsertCode = useCallback(() => {
+    const { code, id } = getDragContext(fullName, kind);
+    actions?.insertCode(code, kind === "function" ? "call" : "example", id);
+  }, [actions, fullName, kind]);
+  const isMac = /Mac/.test(navigator.platform);
+  const handleKeyDown = useCallback(
+    async (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleInsertCode();
+      }
+      if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
+        e.preventDefault();
+        await navigator.clipboard.writeText(
+          `${formatName(kind, fullName, name)}${signature ? signature : ""}`
+        );
+      }
+    },
+    [fullName, handleInsertCode, isMac, kind, name, signature]
+  );
   return (
     <HStack
       draggable
@@ -380,6 +403,14 @@ const DraggableSignature = ({
       borderRadius="lg"
       onMouseEnter={highlight.onOpen}
       onMouseLeave={highlight.onClose}
+      tabIndex={0}
+      _focus={{
+        boxShadow: "var(--chakra-shadows-outline);",
+      }}
+      _focusVisible={{
+        outline: "none",
+      }}
+      onKeyDown={handleKeyDown}
       {...props}
       cursor="grab"
     >
