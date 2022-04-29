@@ -297,6 +297,12 @@
       "value": "Cоде едітор"
     }
   ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Code example:"
+    }
+  ],
   "confirm-action": [
     {
       "type": 0,
