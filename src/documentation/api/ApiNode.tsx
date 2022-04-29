@@ -163,17 +163,17 @@ const ApiNodeSelf = ({
             // Avoid VStack spacing here so the margin animates too.
             <Collapse in={showMore} style={{ marginTop: 0 }}>
               <VStack spacing={spacing} mt={3} alignItems="stretch">
-                {hasExample && (
-                  <Box className="docs-code">
-                    Example: <code>{docParts.example}</code>
-                  </Box>
-                )}
                 {hasRemainder && (
                   <DocString
                     fontWeight="normal"
                     value={docParts.remainder!}
                     mt={3}
                   />
+                )}
+                {hasExample && (
+                  <Box className="docs-code">
+                    Example: <code>{docParts.example}</code>
+                  </Box>
                 )}
               </VStack>
             </Collapse>

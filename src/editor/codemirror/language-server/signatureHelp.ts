@@ -204,8 +204,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
         ? parameters[activeParameterIndex]
         : undefined;
     const activeParameterLabel = activeParameter?.label;
-    const activeParameterDoc =
-      activeParameter?.documentation || activeSignature.documentation;
+    const activeParameterDoc = activeParameter?.documentation;
     if (typeof activeParameterLabel === "string") {
       throw new Error("Not supported");
     }
@@ -249,17 +248,23 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     signature.appendChild(document.createTextNode(after));
     parent.appendChild(document.createElement("hr"));
 
-    const documentation = renderDocumentation(
-      activeParameterDoc,
-      DocSections.All
-    );
-    parent.appendChild(documentation);
+    if (activeParameterDoc) {
+      parent.appendChild(renderDocumentation(
+        activeParameterDoc,
+        DocSections.All
+      ));
+      parent.appendChild(renderDocumentation(
+        signatureDoc,
+        DocSections.Example
+      ));
+    } else {
+      // No params so show summary and example from the signature docstring.
+      parent.appendChild(renderDocumentation(
+        signatureDoc,
+        DocSections.Summary | DocSections.Example
+      ));
+    }
 
-    const example = renderDocumentation(
-      signatureDoc || "",
-      DocSections.Example
-    );
-    parent.appendChild(example);
 
     return wrapWithDocumentationButton(intl, parent, id);
   };
