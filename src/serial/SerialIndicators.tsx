@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, Flex, HStack, Icon, Text } from "@chakra-ui/react";
+import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
 import { GoCheck } from "react-icons/go";
 import {
   RiErrorWarningLine,
@@ -54,13 +54,11 @@ const SerialIndicators = ({
         )}
         {(!traceback ||
           (traceback && syncStatus === SyncStatus.OUT_OF_SYNC)) && (
-          <Text color="white">
-            <Flex align="center">
-              <FormattedMessage id={syncMessage?.message} />
-              {syncMessage?.icon && (
-                <Icon ml={1} as={syncMessage?.icon} fill="white" boxSize={5} />
-              )}
-            </Flex>
+          <Text color="white" display="inline-flex" alignItems="center">
+            <FormattedMessage id={syncMessage?.message} />
+            {syncMessage?.icon && (
+              <Icon ml={1} as={syncMessage?.icon} fill="white" boxSize={5} />
+            )}
           </Text>
         )}
       </HStack>
