@@ -78,8 +78,6 @@ const SideBar = ({
       {
         id: "api",
         title: "API",
-        // If you change this icon you also need to change the version embedded
-        // in documentation.ts (used for CM documentation tooltips).
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.25",
