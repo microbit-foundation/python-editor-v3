@@ -55,7 +55,7 @@ const SerialIndicators = ({
         {(!traceback ||
           (traceback && syncStatus === SyncStatus.OUT_OF_SYNC)) && (
           <Flex align="center">
-            <Text color="white">
+            <Text color="white" display="inline-flex" alignItems="center">
               <FormattedMessage id={syncMessage?.message} />
               {syncMessage?.icon && (
                 <Icon ml={1} as={syncMessage?.icon} fill="white" boxSize={5} />
