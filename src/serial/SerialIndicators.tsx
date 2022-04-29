@@ -54,14 +54,14 @@ const SerialIndicators = ({
         )}
         {(!traceback ||
           (traceback && syncStatus === SyncStatus.OUT_OF_SYNC)) && (
-          <Text color="white">
-            <Flex align="center">
+          <Flex align="center">
+            <Text color="white">
               <FormattedMessage id={syncMessage?.message} />
               {syncMessage?.icon && (
                 <Icon ml={1} as={syncMessage?.icon} fill="white" boxSize={5} />
               )}
-            </Flex>
-          </Text>
+            </Text>
+          </Flex>
         )}
       </HStack>
     </HStack>
