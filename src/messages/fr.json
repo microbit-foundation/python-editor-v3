@@ -297,6 +297,12 @@
       "value": "Éditeur de code"
     }
   ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Code example:"
+    }
+  ],
   "confirm-action": [
     {
       "type": 0,

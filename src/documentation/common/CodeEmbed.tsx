@@ -6,6 +6,7 @@
 import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
+import { VisuallyHidden } from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiDownloadFill } from "react-icons/ri";
@@ -289,6 +290,9 @@ const Code = forwardRef<CodeProps, "pre">(
         cursor="grab"
         {...props}
       >
+        <VisuallyHidden>
+          <FormattedMessage id="code-example" />
+        </VisuallyHidden>
         <DragHandle
           borderTopLeftRadius="lg"
           p={1}

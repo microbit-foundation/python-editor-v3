@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { Collapse, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
@@ -414,6 +414,9 @@ const DraggableSignature = ({
       {...props}
       cursor="grab"
     >
+      <VisuallyHidden>
+        <FormattedMessage id="code-example" />
+      </VisuallyHidden>
       <DragHandle
         highlight={highlight.isOpen}
         borderTopLeftRadius="lg"

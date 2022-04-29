@@ -131,6 +131,10 @@
     "defaultMessage": "Code editor",
     "description": "Aria label for the code editor"
   },
+  "code-example": {
+    "defaultMessage": "Code example:",
+    "description": "Visually hidden text to announce code examples in the toolkit documentation"
+  },
   "confirm-action": {
     "defaultMessage": "Confirm",
     "description": "Confirm action label"
