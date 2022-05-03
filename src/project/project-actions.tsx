@@ -104,9 +104,13 @@ export class ProjectActions {
     } else {
       await this.dialogs.generic({
         Body: ConnectHelpDialogBody,
-        Footer: ConnectHelpDialogFooter,
+        Footer: (props) => (
+          <ConnectHelpDialogFooter
+            {...props}
+            ignoreLocalStorage={ignoreLocalStorage}
+          />
+        ),
         size: "4xl",
-        ignoreLocalStorage,
       });
     }
   };

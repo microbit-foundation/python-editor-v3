@@ -24,7 +24,9 @@ import { useLocalStorage } from "../../common/use-local-storage";
 import { useProjectActions } from "../../project/project-hooks";
 import connectGif from "./connect.gif";
 
-interface ConnectHelpDialogProps extends GenericDialogComponent {}
+interface ConnectHelpDialogFooterProps extends GenericDialogComponent {
+  ignoreLocalStorage?: boolean;
+}
 
 export const ConnectHelpDialogBody = () => {
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
@@ -124,7 +126,7 @@ const isConnectDialogStorage = (
 export const ConnectHelpDialogFooter = ({
   onClose,
   ignoreLocalStorage,
-}: ConnectHelpDialogProps) => {
+}: ConnectHelpDialogFooterProps) => {
   const actions = useProjectActions();
   const handleStart = useCallback(async () => {
     onClose();
