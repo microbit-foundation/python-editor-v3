@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
+import Icon from "@chakra-ui/icon";
 import {
   HStack,
   Image,
@@ -14,6 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
+import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
 import { useProjectActions } from "../../project/project-hooks";
@@ -69,7 +71,7 @@ export const NotFoundDialogBody = ({ onClose }: ConnectNotFoundDialogProps) => {
                 rel="noreferrer"
                 href="https://microbit.org/get-started/user-guide/firmware/"
               >
-                update the firmware
+                update the firmware <Icon as={RiExternalLinkLine} />
               </Link>
             </ListItem>
           </OrderedList>
@@ -81,7 +83,8 @@ export const NotFoundDialogBody = ({ onClose }: ConnectNotFoundDialogProps) => {
         rel="noreferrer"
         href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
       >
-        Troubleshoot problems with connecting to your micro:bit
+        Troubleshoot problems with connecting to your micro:bit{" "}
+        <Icon as={RiExternalLinkLine} />
       </Link>
     </VStack>
   );

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
+import { Icon } from "@chakra-ui/icons";
 import {
   HStack,
   Image,
@@ -16,6 +17,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
+import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
 import { useDevice } from "../../device/device-hooks";
@@ -53,7 +55,7 @@ export const FirmwareDialogBody = () => {
               rel="noreferrer"
               href="https://microbit.org/get-started/user-guide/firmware/"
             >
-              update your firmware
+              update your firmware <Icon as={RiExternalLinkLine} />
             </Link>{" "}
             before you can connect to this micro:bit.
           </Text>
@@ -77,7 +79,8 @@ export const FirmwareDialogBody = () => {
         rel="noreferrer"
         href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
       >
-        Troubleshoot problems with connecting to your micro:bit
+        Troubleshoot problems with connecting to your micro:bit{" "}
+        <Icon as={RiExternalLinkLine} />
       </Link>
     </VStack>
   );
@@ -109,7 +112,8 @@ export const FirmwareDialogFooter = ({ onClose }: FirmwareDialogProps) => {
             textDecoration: "none",
           }}
         >
-          <FormattedMessage id="update-firmware-action" />
+          <FormattedMessage id="update-firmware-action" />{" "}
+          <Icon as={RiExternalLinkLine} />
         </Link>
       </Button>
     </HStack>
