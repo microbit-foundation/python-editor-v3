@@ -518,8 +518,8 @@ export class MicrobitWebUSBConnection
     }
   };
 
-  clearDevice(): void {
-    this.connection = undefined;
+  async clearDevice(): Promise<void> {
+    await this.disconnect();
     this.device = undefined;
     this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
   }
