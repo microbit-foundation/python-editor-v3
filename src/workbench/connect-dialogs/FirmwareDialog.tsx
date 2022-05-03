@@ -5,22 +5,11 @@
  */
 import { Button } from "@chakra-ui/button";
 import { Icon } from "@chakra-ui/icons";
-import {
-  HStack,
-  Image,
-  Link,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Tr,
-  VStack,
-} from "@chakra-ui/react";
+import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialogComponent } from "../../common/GenericDialog";
-import { useDevice } from "../../device/device-hooks";
 import { useProjectActions } from "../../project/project-hooks";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 
