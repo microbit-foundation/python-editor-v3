@@ -517,6 +517,7 @@ export class ProjectActions {
           return;
         }
         case "update-req":
+          this.device.clearDevice();
           // Show 'UpdateFirmwareDialog'.
           await this.dialogs.generic({
             Body: FirmwareDialogBody,

@@ -76,12 +76,10 @@ export const FirmwareDialogBody = () => {
 
 export const FirmwareDialogFooter = ({ onClose }: FirmwareDialogProps) => {
   const actions = useProjectActions();
-  const device = useDevice();
   const handleTryAgain = useCallback(async () => {
     onClose();
-    device.clearDevice();
     await actions.connect();
-  }, [actions, device, onClose]);
+  }, [actions, onClose]);
   const buttonWidth = "8.1rem";
   return (
     <HStack spacing={2.5}>
