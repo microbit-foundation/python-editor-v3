@@ -16,7 +16,7 @@ export const splitDocString = (markup: string): DocSectionsSplit => {
   const parts = markup.split(/\n{2,}/g);
   const summary = parts.shift()!;
   let example: string | undefined;
-  if (parts[0]?.startsWith("Example:")) {
+  if (parts[0]?.startsWith("Example: ")) {
     example = parts
       .shift()
       ?.replace(/^Example: /, "")

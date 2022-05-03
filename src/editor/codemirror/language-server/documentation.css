@@ -54,12 +54,13 @@ pre {
 }
 
 .docs-code pre {
-  padding: 0;
+  padding: var(--chakra-space-1-5) 0;
   width: fit-content;
 }
 
 .docs-code > pre > code,
 .docs-code.docs-code-muted > pre > code {
+  display: block;
   border: none;
   background-color: unset;
 }
