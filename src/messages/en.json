@@ -482,7 +482,7 @@
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Initial flash might take longer, subsequent flashes will be quicker."
+      "value": "Your code is being sent ('flashed') to your micro:bit. This can take a while the first time, sorry, but it will be quicker after that."
     }
   ],
   "flashing-micropython": [
