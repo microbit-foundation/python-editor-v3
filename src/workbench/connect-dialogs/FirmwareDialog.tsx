@@ -59,18 +59,6 @@ export const FirmwareDialogBody = () => {
             </Link>{" "}
             before you can connect to this micro:bit.
           </Text>
-          <Table size="sm" width="auto">
-            <Tbody>
-              <Tr>
-                <Td>Your firmware version:</Td>
-                <Td>0241 (estimated)</Td>
-              </Tr>
-              <Tr>
-                <Td>Required firmware version:</Td>
-                <Td>0249 (or higher)</Td>
-              </Tr>
-            </Tbody>
-          </Table>
         </VStack>
       </HStack>
       <Link
