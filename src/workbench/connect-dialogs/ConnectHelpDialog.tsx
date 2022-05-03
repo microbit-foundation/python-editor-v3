@@ -17,18 +17,43 @@ import {
   VisuallyHidden,
   VStack,
 } from "@chakra-ui/react";
-import { useCallback, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
-import { GenericDialogComponent } from "../../common/GenericDialog";
-import { useLocalStorage } from "../../common/use-local-storage";
-import { useProjectActions } from "../../project/project-hooks";
+import { GenericDialog } from "../../common/GenericDialog";
 import connectGif from "./connect.gif";
 
-interface ConnectHelpDialogFooterProps extends GenericDialogComponent {
-  ignoreLocalStorage?: boolean;
+export const enum ConnectHelpChoice {
+  Start,
+  StartDontShowAgain,
+  Cancel,
 }
 
-export const ConnectHelpDialogBody = () => {
+interface ConnectHelpDialogProps {
+  callback: (choice: ConnectHelpChoice) => void;
+  dialogNormallyHidden: boolean;
+}
+
+const ConnectHelpDialog = ({
+  callback,
+  dialogNormallyHidden,
+}: ConnectHelpDialogProps) => (
+  <GenericDialog
+    onClose={() => callback(ConnectHelpChoice.Cancel)}
+    body={<ConnectHelpDialogBody />}
+    footer={
+      <ConnectHelpDialogFooter
+        onClose={() => callback(ConnectHelpChoice.Cancel)}
+        onStart={() => callback(ConnectHelpChoice.Start)}
+        onStartDontShowAgain={() =>
+          callback(ConnectHelpChoice.StartDontShowAgain)
+        }
+        dialogNormallyHidden={dialogNormallyHidden}
+      />
+    }
+    size="3xl"
+  />
+);
+
+const ConnectHelpDialogBody = () => {
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
   return (
     <VStack
@@ -111,46 +136,29 @@ export const ConnectHelpDialogBody = () => {
   );
 };
 
-interface ConnectDialogStorage {
-  hidden: boolean;
+interface ConnectHelpDialogFooterProps {
+  onClose: () => void;
+  onStart: () => void;
+  onStartDontShowAgain: () => void;
+  dialogNormallyHidden: boolean;
 }
 
-const isConnectDialogStorage = (
-  value: unknown
-): value is ConnectDialogStorage => {
-  return (
-    typeof value === "object" && typeof (value as any).hidden === "boolean"
-  );
-};
-
-export const ConnectHelpDialogFooter = ({
+const ConnectHelpDialogFooter = ({
   onClose,
-  ignoreLocalStorage,
+  onStart,
+  onStartDontShowAgain,
+  dialogNormallyHidden,
 }: ConnectHelpDialogFooterProps) => {
-  const actions = useProjectActions();
-  const handleStart = useCallback(async () => {
-    onClose();
-    await actions.connect();
-  }, [actions, onClose]);
   const buttonWidth = "8.1rem";
-  const [dialogHidden, setDialogHidden] = useLocalStorage(
-    "connect-dialog",
-    isConnectDialogStorage,
-    { hidden: false }
-  );
-  const hideDialog = () => {
-    onClose();
-    setDialogHidden({ hidden: true });
-  };
-  useEffect(() => {
-    if (dialogHidden.hidden && !ignoreLocalStorage) {
-      handleStart();
-    }
-  }, [dialogHidden, handleStart, ignoreLocalStorage]);
   return (
-    <HStack spacing={2.5} width={!dialogHidden.hidden ? "100%" : "auto"}>
-      {!dialogHidden.hidden && (
-        <Link onClick={hideDialog} as="button" color="brand.500" mr="auto">
+    <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
+      {!dialogNormallyHidden && (
+        <Link
+          onClick={onStartDontShowAgain}
+          as="button"
+          color="brand.500"
+          mr="auto"
+        >
           Don't show this again
         </Link>
       )}
@@ -158,7 +166,7 @@ export const ConnectHelpDialogFooter = ({
         <FormattedMessage id="cancel-action" />
       </Button>
       <Button
-        onClick={handleStart}
+        onClick={onStart}
         variant="solid"
         size="lg"
         minWidth={buttonWidth}
@@ -260,3 +268,5 @@ const Circle = ({ text }: CircleProps) => {
     </svg>
   );
 };
+
+export default ConnectHelpDialog;

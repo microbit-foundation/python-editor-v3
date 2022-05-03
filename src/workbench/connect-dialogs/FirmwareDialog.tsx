@@ -9,13 +9,24 @@ import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import { GenericDialogComponent } from "../../common/GenericDialog";
+import { GenericDialog } from "../../common/GenericDialog";
 import { useProjectActions } from "../../project/project-hooks";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 
-interface FirmwareDialogProps extends GenericDialogComponent {}
+interface FirmwareDialogProps {
+  callback: () => void;
+}
 
-export const FirmwareDialogBody = () => {
+const FirmwareDialog = ({ callback }: FirmwareDialogProps) => (
+  <GenericDialog
+    body={<FirmwareDialogBody />}
+    footer={<FirmwareDialogFooter onClose={callback} />}
+    size="3xl"
+    onClose={callback}
+  />
+);
+
+const FirmwareDialogBody = () => {
   return (
     <VStack
       width="auto"
@@ -63,7 +74,11 @@ export const FirmwareDialogBody = () => {
   );
 };
 
-export const FirmwareDialogFooter = ({ onClose }: FirmwareDialogProps) => {
+interface FirmwareDialogFooterProps {
+  onClose: () => void;
+}
+
+const FirmwareDialogFooter = ({ onClose }: FirmwareDialogFooterProps) => {
   const actions = useProjectActions();
   const handleTryAgain = useCallback(async () => {
     onClose();
@@ -94,3 +109,5 @@ export const FirmwareDialogFooter = ({ onClose }: FirmwareDialogProps) => {
     </HStack>
   );
 };
+
+export default FirmwareDialog;

@@ -15,36 +15,23 @@ import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode } from "react";
 import ModalCloseButton from "./ModalCloseButton";
 
-export interface GenericDialogComponent {
-  onClose: () => void;
-}
-
-export interface GenericDialogParameters {
+export interface GenericDialogProps {
   header?: ReactNode;
-  Body: React.FC<GenericDialogComponent>;
-  Footer: React.FC<GenericDialogComponent>;
+  body: ReactNode;
+  footer: ReactNode;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
-}
-
-export interface GenericDialogParametersWithActions
-  extends GenericDialogParameters {
-  onCancel: () => void;
-}
-
-export interface GenericDialogProps extends GenericDialogParametersWithActions {
-  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const GenericDialog = ({
   header,
-  Body,
-  Footer,
-  isOpen,
+  body,
+  footer,
   size,
-  onCancel,
+  onClose,
 }: GenericDialogProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onCancel} size={size}>
+    <Modal isOpen onClose={onClose} size={size}>
       <ModalOverlay>
         <ModalContent minWidth="560px" my="auto">
           <ModalCloseButton />
@@ -53,12 +40,8 @@ export const GenericDialog = ({
               {header}
             </ModalHeader>
           )}
-          <ModalBody>
-            <Body onClose={onCancel} />
-          </ModalBody>
-          <ModalFooter>
-            <Footer onClose={onCancel} />
-          </ModalFooter>
+          <ModalBody>{body}</ModalBody>
+          <ModalFooter>{footer}</ModalFooter>
         </ModalContent>
       </ModalOverlay>
     </Modal>

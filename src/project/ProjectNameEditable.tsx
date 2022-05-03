@@ -18,6 +18,7 @@ import { useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
 import { useProject, useProjectActions } from "./project-hooks";
 import ProjectNameQuestion from "./ProjectNameQuestion";
+import { InputDialog } from "../common/InputDialog";
 
 interface ProjectNameEditableProps extends TextProps {
   button?: "before" | "after";
@@ -41,17 +42,21 @@ const ProjectNameEditable = ({
   const dialogs = useDialogs();
   const intl = useIntl();
   const handleEdit = useCallback(async () => {
-    const name = await dialogs.input<string>({
-      header: intl.formatMessage({ id: "name-project" }),
-      Body: ProjectNameQuestion,
-      initialValue: project.name,
-      actionLabel: intl.formatMessage({ id: "confirm-action" }),
-      customFocus: true,
-      validate: (name: string) =>
-        name.trim().length === 0
-          ? intl.formatMessage({ id: "name-not-blank" })
-          : undefined,
-    });
+    const name = await dialogs.show<string | undefined>((callback) => (
+      <InputDialog
+        callback={callback}
+        header={intl.formatMessage({ id: "name-project" })}
+        Body={ProjectNameQuestion}
+        initialValue={project.name}
+        actionLabel={intl.formatMessage({ id: "confirm-action" })}
+        customFocus
+        validate={(name: string) =>
+          name.trim().length === 0
+            ? intl.formatMessage({ id: "name-not-blank" })
+            : undefined
+        }
+      />
+    ));
     if (name) {
       actions.setProjectName(name);
     }
