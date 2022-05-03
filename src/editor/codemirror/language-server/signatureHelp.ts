@@ -28,6 +28,7 @@ import {
 } from "vscode-languageserver-protocol";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
+  DocSections,
   renderDocumentation,
   wrapWithDocumentationButton,
 } from "./documentation";
@@ -195,6 +196,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     const {
       label,
       parameters,
+      documentation: signatureDoc,
       activeParameter: activeParameterIndex,
     } = activeSignature;
     const activeParameter =
@@ -202,18 +204,20 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
         ? parameters[activeParameterIndex]
         : undefined;
     const activeParameterLabel = activeParameter?.label;
-    const activeParameterDoc =
-      activeParameter?.documentation || activeSignature.documentation;
-    if (Array.isArray(activeParameterLabel)) {
-      const [from, to] = activeParameterLabel;
-      return formatHighlightedParameter(label, from, to, activeParameterDoc);
-    } else if (typeof activeParameterLabel === "string") {
+    const activeParameterDoc = activeParameter?.documentation;
+    if (typeof activeParameterLabel === "string") {
       throw new Error("Not supported");
+    }
+    let from = label.length;
+    let to = label.length;
+    if (Array.isArray(activeParameterLabel)) {
+      [from, to] = activeParameterLabel;
     }
     return formatHighlightedParameter(
       label,
-      label.length,
-      label.length,
+      from,
+      to,
+      signatureDoc,
       activeParameterDoc
     );
   };
@@ -222,6 +226,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     label: string,
     from: number,
     to: number,
+    signatureDoc: string | MarkupContent | undefined,
     activeParameterDoc: string | MarkupContent | undefined
   ): Node => {
     let before = label.substring(0, from);
@@ -233,16 +238,33 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     before = removeFullyQualifiedName(before);
 
     const parent = document.createElement("div");
-    parent.className = "docs-markdown";
-    const code = parent.appendChild(document.createElement("code"));
-    code.appendChild(document.createTextNode(before));
-    const span = code.appendChild(document.createElement("span"));
+    parent.className = "docs-spacing";
+    const signature = parent.appendChild(document.createElement("code"));
+    signature.className = "cm-signature-signature";
+    signature.appendChild(document.createTextNode(before));
+    const span = signature.appendChild(document.createElement("span"));
     span.className = "cm-signature-activeParameter";
     span.appendChild(document.createTextNode(parameter));
-    code.appendChild(document.createTextNode(after));
+    signature.appendChild(document.createTextNode(after));
+    parent.appendChild(document.createElement("hr"));
 
-    const documentation = renderDocumentation(activeParameterDoc, true);
-    parent.appendChild(documentation);
+    if (activeParameterDoc) {
+      parent.appendChild(renderDocumentation(
+        activeParameterDoc,
+        DocSections.All
+      ));
+      parent.appendChild(renderDocumentation(
+        signatureDoc,
+        DocSections.Example
+      ));
+    } else {
+      // No params so show summary and example from the signature docstring.
+      parent.appendChild(renderDocumentation(
+        signatureDoc,
+        DocSections.Summary | DocSections.Example
+      ));
+    }
+
 
     return wrapWithDocumentationButton(intl, parent, id);
   };

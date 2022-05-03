@@ -24,6 +24,7 @@ import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
 import { clientFacet, uriFacet } from "./common";
 import {
+  DocSections,
   renderDocumentation,
   wrapWithDocumentationButton,
 } from "./documentation";
@@ -135,7 +136,11 @@ const createDocumentationResolver =
       CompletionResolveRequest.type,
       (completion as AugmentedCompletion).item
     );
-    const node = renderDocumentation(resolved.documentation, true);
+    const node = renderDocumentation(
+      resolved.documentation,
+      DocSections.Summary | DocSections.Example
+    );
+    node.className += " docs-skip-signature";
     const code = node.querySelector("code");
     if (code) {
       const id = nameFromSignature(code.innerText);

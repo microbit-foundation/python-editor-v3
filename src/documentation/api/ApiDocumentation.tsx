@@ -3,23 +3,23 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem, Divider, BoxProps } from "@chakra-ui/layout";
+import { BoxProps, Divider, List, ListItem } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
-import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
+import AreaHeading from "../../common/AreaHeading";
+import { docStyles } from "../../common/documentation-styles";
+import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
+import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import DocString from "../common/DocString";
-import { allowWrapAtPeriods } from "../common/wrap";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
-import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
-import AreaHeading from "../../common/AreaHeading";
 import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
+import { allowWrapAtPeriods } from "../common/wrap";
 import { resolveModule } from "./apidocs-util";
 import ApiNode from "./ApiNode";
-import { docStyles } from "../../common/documentation-styles";
 
 interface ApiDocumentationProps {
   docs: ApiDocsResponse;
@@ -126,7 +126,7 @@ const ShortModuleDescription = ({
 }: ShortModuleDescriptionProps) =>
   value.docString ? (
     <DocString
-      value={firstParagraph(value.docString).trim().replace(/\.$/, "")}
+      value={splitDocString(value.docString).summary.trim().replace(/\.$/, "")}
       {...props}
     />
   ) : null;

@@ -82,13 +82,13 @@ export const themeExtensions = (fontSize: string) => {
     },
     ".cm-tooltip.cm-completionInfo": {
       width: "20rem",
-      height: "10rem",
+      height: "10.5rem",
       top: "0 !important",
       overflowY: "auto",
     },
     ".cm-tooltip.cm-tooltip-autocomplete > ul": {
-      height: "10rem",
-      maxHeight: "10rem",
+      height: "10.5rem",
+      maxHeight: "10.5rem",
     },
     ".cm-widgetBuffer": {
       display: "inline",

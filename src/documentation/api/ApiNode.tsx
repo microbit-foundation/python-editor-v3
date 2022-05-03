@@ -14,7 +14,10 @@ import {
   DragContext,
   setDragContext,
 } from "../../editor/codemirror/dnd";
-import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
+import {
+  DocSectionsSplit,
+  splitDocString,
+} from "../../editor/codemirror/language-server/docstrings";
 import {
   ApiDocsBaseClass,
   ApiDocsEntry,
@@ -119,15 +122,18 @@ const ApiNodeSelf = ({
     params,
     showMore
   );
-  const [docStringFirstParagraph, docStringRemainder] = useMemo(
-    () => (docString ? splitDocString(docString) : [undefined, undefined]),
+  const docParts = useMemo(
+    () =>
+      docString ? splitDocString(docString) : ({} as Partial<DocSectionsSplit>),
     [docString]
   );
-  const hasDocStringDetail =
-    docStringRemainder && docStringRemainder.length > 0;
+  const hasExample = docParts.example && docParts.example.length > 0;
+  const hasRemainder = docParts.remainder && docParts.remainder.length > 0;
+  const hasShowMoreContent = hasRemainder || hasExample;
 
+  const spacing = 3;
   return (
-    <VStack alignItems="stretch" spacing={3} pr={3}>
+    <VStack alignItems="stretch" spacing={spacing} pr={3}>
       {kind === "function" || kind === "variable" ? (
         <DraggableSignature
           signature={signature}
@@ -148,20 +154,29 @@ const ApiNodeSelf = ({
       {baseClasses && baseClasses.length > 0 && (
         <BaseClasses value={baseClasses} />
       )}
-      {docStringFirstParagraph && (
-        <DocString fontWeight="normal" value={docStringFirstParagraph ?? ""} />
+      {docParts.summary && (
+        <DocString fontWeight="normal" value={docParts.summary ?? ""} />
       )}
-      {(hasDocStringDetail || hasSignatureDetail) && (
+      {(hasShowMoreContent || hasSignatureDetail) && (
         <>
           <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
-          {hasDocStringDetail && (
+          {hasShowMoreContent && (
             // Avoid VStack spacing here so the margin animates too.
             <Collapse in={showMore} style={{ marginTop: 0 }}>
-              <DocString
-                fontWeight="normal"
-                value={docStringRemainder}
-                mt={3}
-              />
+              <VStack spacing={spacing} mt={3} alignItems="stretch">
+                {hasRemainder && (
+                  <DocString
+                    fontWeight="normal"
+                    value={docParts.remainder!}
+                    mt={3}
+                  />
+                )}
+                {hasExample && (
+                  <Box className="docs-code">
+                    Example: <code>{docParts.example}</code>
+                  </Box>
+                )}
+              </VStack>
             </Collapse>
           )}
         </>

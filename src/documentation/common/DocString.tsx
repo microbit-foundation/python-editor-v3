@@ -14,7 +14,11 @@ export interface DocStringProps extends BoxProps {
 const DocString = React.memo(({ value, ...props }: DocStringProps) => {
   const html = renderMarkdown(value);
   return (
-    <Box className="docs-markdown" dangerouslySetInnerHTML={html} {...props} />
+    <Box
+      className="docs-spacing docs-code"
+      dangerouslySetInnerHTML={html}
+      {...props}
+    />
   );
 });
 
