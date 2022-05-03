@@ -114,7 +114,7 @@ export class ProjectActions {
   /**
    * Show connection help with options to connect or cancel.
    *
-   * @param force true to show the help even if the user previously requestede not to (used in error handling scenarios).
+   * @param force true to show the help even if the user previously requested not to (used in error handling scenarios).
    * @return true to continue to connect, false to cancel.
    */
   private async showConnectHelp(force: boolean): Promise<boolean> {
