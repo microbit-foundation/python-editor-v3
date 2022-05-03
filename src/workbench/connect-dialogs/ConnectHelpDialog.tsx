@@ -149,7 +149,6 @@ const ConnectHelpDialogFooter = ({
   onStartDontShowAgain,
   dialogNormallyHidden,
 }: ConnectHelpDialogFooterProps) => {
-  const buttonWidth = "8.1rem";
   return (
     <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
       {!dialogNormallyHidden && (
@@ -162,15 +161,10 @@ const ConnectHelpDialogFooter = ({
           Don't show this again
         </Link>
       )}
-      <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
+      <Button onClick={onClose} size="lg">
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button
-        onClick={onStart}
-        variant="solid"
-        size="lg"
-        minWidth={buttonWidth}
-      >
+      <Button onClick={onStart} variant="solid" size="lg">
         <FormattedMessage id="start-action" />
       </Button>
     </HStack>
