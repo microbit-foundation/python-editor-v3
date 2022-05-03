@@ -43,9 +43,9 @@ export const ConnectHelpDialogBody = () => {
         Connect your micro:bit
       </Text>
       <Text>
-        Once you have connected your micro:bit with the editor, you can program
-        (“flash”) it directly, and see errors or output from the micro:bit in
-        the serial window.
+        Connecting lets you send (flash) code directly to your micro:bit, and
+        see errors and outputs (expand the ‘serial’ area below your code to see
+        them).
       </Text>
       <Box
         position="relative"
