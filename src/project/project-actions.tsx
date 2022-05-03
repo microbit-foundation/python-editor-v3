@@ -185,7 +185,7 @@ export class ProjectActions {
    * updated.
    *
    * @param files the files from drag and drop or an input element.
-   * @param type the type of user event that triggered the load.
+   * @param the type of user event that triggered the load.
    */
   load = async (
     files: File[],
