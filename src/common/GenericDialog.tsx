@@ -46,7 +46,7 @@ export const GenericDialog = ({
   return (
     <Modal isOpen={isOpen} onClose={onCancel} size={size}>
       <ModalOverlay>
-        <ModalContent minWidth="560px">
+        <ModalContent minWidth="560px" my="auto">
           <ModalCloseButton />
           {header && (
             <ModalHeader fontSize="lg" fontWeight="bold">
