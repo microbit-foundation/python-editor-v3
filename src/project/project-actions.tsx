@@ -110,7 +110,7 @@ export class ProjectActions {
             ignoreLocalStorage={ignoreLocalStorage}
           />
         ),
-        size: "4xl",
+        size: "3xl",
       });
     }
   };

@@ -55,8 +55,8 @@ export const ConnectHelpDialogBody = () => {
         alignSelf={isDesktop ? "" : "center"}
       >
         <Image
-          height="456px"
-          width="441px"
+          height="375px"
+          width="362.72px"
           src={connectGif}
           alt=""
           border="1px solid #262626"
@@ -64,8 +64,8 @@ export const ConnectHelpDialogBody = () => {
         {isDesktop && (
           <List
             position="absolute"
-            left="515px"
-            top="57px"
+            left="490px"
+            top="42px"
             alignItems="flex-start"
             spacing={2}
           >
@@ -88,11 +88,11 @@ export const ConnectHelpDialogBody = () => {
           </List>
         )}
 
-        <Box position="absolute" top="75px" left="201px">
+        <Box position="absolute" top="59px" left="170px">
           {isDesktop && <ArrowOne />}
           {!isDesktop && <Circle text={1} />}
         </Box>
-        <Box position="absolute" bottom="50px" left="371px">
+        <Box position="absolute" bottom="43px" left="303px">
           {isDesktop && <ArrowTwo />}
           {!isDesktop && <Circle text={2} />}
         </Box>
@@ -202,17 +202,17 @@ const ArrowOne = () => {
 const ArrowTwo = () => {
   return (
     <svg
-      width="135"
-      height="262"
-      viewBox="0 0 135 262"
+      width="167"
+      height="202"
+      viewBox="0 0 167 202"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="13" y="25" width="89" height="10" fill="#7BCDC2" />
-      <rect x="13" y="25" width="10" height="209" fill="#7BCDC2" />
-      <circle cx="110" cy="30" r="20" fill="#7BCDC2" />
-      <path d="M17.5 262L2.34455 223.75H32.6554L17.5 262Z" fill="#7BCDC2" />
-      <foreignObject x="90" y="10" width="40" height="40">
+      <rect x="13" y="25" width="139" height="10" fill="#7BCDC2" />
+      <rect x="13" y="25" width="10" height="150" fill="#7BCDC2" />
+      <circle cx="147" cy="30" r="20" fill="#7BCDC2" />
+      <path d="M17.5 202L2.34455 163.75H32.6554L17.5 202Z" fill="#7BCDC2" />
+      <foreignObject x="127" y="10" width="40" height="40">
         <Box
           aria-hidden
           height="40px"
