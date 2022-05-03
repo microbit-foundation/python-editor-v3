@@ -22,7 +22,7 @@ const ConnectDisconnectButton = () => {
     if (connected) {
       await actions.disconnect();
     } else {
-      await actions.startConnect();
+      await actions.connect();
     }
   }, [connected, actions]);
 

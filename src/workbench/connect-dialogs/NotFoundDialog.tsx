@@ -17,18 +17,53 @@ import {
 import { useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import { GenericDialogComponent } from "../../common/GenericDialog";
-import { useProjectActions } from "../../project/project-hooks";
+import { GenericDialog } from "../../common/GenericDialog";
 import notFound from "./not-found.svg";
 
-interface ConnectNotFoundDialogProps extends GenericDialogComponent {}
+export const enum NotFoundChoice {
+  Retry,
+  ReviewDevice,
+  Cancel,
+}
 
-export const NotFoundDialogBody = ({ onClose }: ConnectNotFoundDialogProps) => {
-  const actions = useProjectActions();
-  const handleReviewSelectDevice = useCallback(async () => {
-    onClose();
-    await actions.startConnect(true);
-  }, [actions, onClose]);
+interface NotFoundDialogProps {
+  callback: (value: NotFoundChoice) => void;
+}
+
+export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
+  return (
+    <GenericDialog
+      onClose={() => callback(NotFoundChoice.Cancel)}
+      body={
+        <NotFoundDialogBody
+          onReviewDevice={() => callback(NotFoundChoice.ReviewDevice)}
+          onCancel={() => callback(NotFoundChoice.Cancel)}
+        />
+      }
+      footer={
+        <NotFoundDialogFooter
+          onRetry={() => callback(NotFoundChoice.Retry)}
+          onCancel={() => callback(NotFoundChoice.Cancel)}
+        />
+      }
+      size="3xl"
+    />
+  );
+};
+
+interface ConnectNotFoundDialogProps {
+  onCancel: () => void;
+  onReviewDevice: () => void;
+}
+
+const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
+  const handleReviewDevice = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      onReviewDevice();
+    },
+    [onReviewDevice]
+  );
   return (
     <VStack
       width="auto"
@@ -56,7 +91,7 @@ export const NotFoundDialogBody = ({ onClose }: ConnectNotFoundDialogProps) => {
           >
             <ListItem>
               Review{" "}
-              <Link color="brand.500" onClick={handleReviewSelectDevice}>
+              <Link color="brand.500" onClick={handleReviewDevice} href="">
                 how to select the device
               </Link>
             </ListItem>
@@ -90,28 +125,25 @@ export const NotFoundDialogBody = ({ onClose }: ConnectNotFoundDialogProps) => {
   );
 };
 
-export const NotFoundDialogFooter = ({
-  onClose,
-}: ConnectNotFoundDialogProps) => {
-  const actions = useProjectActions();
-  const handleTryAgain = useCallback(async () => {
-    onClose();
-    await actions.connect();
-  }, [actions, onClose]);
-  const buttonWidth = "8.1rem";
+interface NotFoundDialogFooterProps {
+  onCancel: () => void;
+  onRetry: () => void;
+}
+
+const NotFoundDialogFooter = ({
+  onCancel,
+  onRetry,
+}: NotFoundDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
-      <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
+      <Button onClick={onCancel} size="lg">
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button
-        onClick={handleTryAgain}
-        variant="solid"
-        size="lg"
-        minWidth={buttonWidth}
-      >
+      <Button onClick={onRetry} variant="solid" size="lg">
         <FormattedMessage id="try-again-action" />
       </Button>
     </HStack>
   );
 };
+
+export default NotFoundDialog;
