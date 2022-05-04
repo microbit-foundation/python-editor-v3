@@ -13,7 +13,7 @@ import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
-import { zIndexCodePopUp } from "../../common/zIndex";
+import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
@@ -142,7 +142,7 @@ const CodeEmbed = ({
             outline: "none",
           }}
           onKeyDown={handleKeyDown}
-          zIndex={1}
+          zIndex={zIndexCode}
         />
         {state === "raised" && (
           <CodePopUp

@@ -21,6 +21,7 @@ import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
+import { zIndexSidebarHeader } from "../common/zIndex";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import { useSearch } from "../documentation/search/search-hooks";
@@ -137,7 +138,7 @@ const SideBarHeader = () => {
         ref={ref}
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
-        zIndex={3}
+        zIndex={zIndexSidebarHeader}
         height={searchModal.isOpen ? "5.5rem" : topBarHeight}
         alignItems="center"
         justifyContent="space-between"
