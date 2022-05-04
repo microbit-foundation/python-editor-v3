@@ -50,8 +50,7 @@ export const codeStructureView = (option: "full" | "simple") =>
       }
 
       update(update: ViewUpdate) {
-        // We can probably limit this but we need to know when the language state has changed
-        // as parsing has occurred. We also need to be updated when hint state changes.
+        // We can probably limit this but we need to know when the language state has changed as parsing has occurred.
         this.view.requestMeasure(this.measureReq);
       }
 
