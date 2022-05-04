@@ -38,7 +38,7 @@ export interface Hint {
 
 export type HintTag = "unnecessary" | "deprecated";
 
-class HintState {
+export class HintState {
   constructor(readonly hints: DecorationSet) {}
 
   static init(hints: readonly Hint[]) {
@@ -62,7 +62,7 @@ class HintState {
 
 export const setHintsEffect = StateEffect.define<readonly Hint[]>();
 
-const hintState = StateField.define<HintState>({
+export const hintState = StateField.define<HintState>({
   create() {
     return new HintState(Decoration.none);
   },
@@ -113,7 +113,6 @@ function hintTooltip(view: EditorView, pos: number, side: -1 | 1) {
 }
 
 function hintsTooltip(hints: readonly Hint[]) {
-  console.log(hints);
   return elt(
     "ul",
     { class: "cm-tooltip-hint" },
