@@ -44,7 +44,7 @@ const FirmwareDialogBody = () => {
         <FormattedMessage id="firmware-update-message" />
       </Text>
       <HStack spacing={8}>
-        <Image height={150} src={firmwareUpgrade} alt="" />
+        <Image height={150} width={144} src={firmwareUpgrade} alt="" />
         <VStack spacing={5}>
           <Text>
             <FormattedMessage

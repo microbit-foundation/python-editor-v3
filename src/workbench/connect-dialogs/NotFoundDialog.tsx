@@ -81,7 +81,7 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
         <FormattedMessage id="not-found-message" />
       </Text>
       <HStack spacing={8}>
-        <Image height={150} src={notFound} alt="" />
+        <Image height={150} width={178} src={notFound} alt="" />
         <VStack>
           <OrderedList
             spacing={5}
