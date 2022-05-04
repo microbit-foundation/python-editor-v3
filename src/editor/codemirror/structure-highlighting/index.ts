@@ -8,30 +8,21 @@
  */
 
 import { Extension } from "@codemirror/state";
+import { CodeStructureOption } from "../../../settings/settings";
 import { baseTheme } from "./theme";
 import { codeStructureView } from "./view";
-
-export type CodeStructureShape = "l-shape" | "box";
-export type CodeStructureBackground = "block" | "none";
-export type CodeStructureBorders = "borders" | "none" | "left-edge-only";
-
-export interface CodeStructureSettings {
-  shape: CodeStructureShape;
-  background: CodeStructureBackground;
-  borders: CodeStructureBorders;
-
-  cursorBackground?: boolean;
-  cursorBorder?: CodeStructureBorders;
-}
 
 /**
  * Creates a CodeMirror extension that provides structural highlighting
  * based on the CodeMirror syntax tree. The intent is to aid code comprehension
  * and provide clues when indentation isn't correct.
  *
- * @param settings Settings for the code structure CodeMirror extension.
+ * @param option Option for the code structure CodeMirror extension.
  * @returns A appropriately configured extension.
  */
-export const codeStructure = (settings: CodeStructureSettings): Extension => {
-  return [codeStructureView(settings), baseTheme];
+export const codeStructure = (option: CodeStructureOption): Extension => {
+  if (option === "none") {
+    return [];
+  }
+  return [codeStructureView(option), baseTheme];
 };

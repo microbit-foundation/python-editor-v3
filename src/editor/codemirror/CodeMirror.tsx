@@ -15,7 +15,10 @@ import { useLanguageServerClient } from "../../language-server/language-server-h
 import { Logging } from "../../logging/logging";
 import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
-import { ParameterHelpOption } from "../../settings/settings";
+import {
+  CodeStructureOption,
+  ParameterHelpOption,
+} from "../../settings/settings";
 import { WorkbenchSelection } from "../../workbench/use-selection";
 import {
   EditorActions,
@@ -26,7 +29,7 @@ import "./CodeMirror.css";
 import { compartment, editorConfig } from "./config";
 import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
-import { codeStructure, CodeStructureSettings } from "./structure-highlighting";
+import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 
 interface CodeMirrorProps {
@@ -36,7 +39,7 @@ interface CodeMirrorProps {
 
   selection: WorkbenchSelection;
   fontSize: number;
-  codeStructureSettings: CodeStructureSettings;
+  codeStructureOption: CodeStructureOption;
   parameterHelpOption: ParameterHelpOption;
 }
 
@@ -54,7 +57,7 @@ const CodeMirror = ({
   onChange,
   selection,
   fontSize,
-  codeStructureSettings,
+  codeStructureOption,
   parameterHelpOption,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
@@ -79,10 +82,10 @@ const CodeMirror = ({
   const options = useMemo(
     () => ({
       fontSize,
-      codeStructureSettings,
+      codeStructureOption,
       parameterHelpOption,
     }),
-    [fontSize, codeStructureSettings, parameterHelpOption]
+    [fontSize, codeStructureOption, parameterHelpOption]
   );
 
   useEffect(() => {
@@ -118,7 +121,7 @@ const CodeMirror = ({
                   },
                 })
               : [],
-            codeStructure(options.codeStructureSettings),
+            codeStructure(options.codeStructureOption),
             themeExtensionsForOptions(options),
           ]),
         ],
@@ -165,7 +168,7 @@ const CodeMirror = ({
                 },
               })
             : [],
-          codeStructure(options.codeStructureSettings),
+          codeStructure(options.codeStructureOption),
           themeExtensionsForOptions(options),
         ]),
       ],
