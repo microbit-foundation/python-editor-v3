@@ -151,6 +151,22 @@
     "defaultMessage": "Cоннест",
     "description": "Connect button text"
   },
+  "connect-help-message": {
+    "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
+    "description": "Text in the connect help dialog"
+  },
+  "connect-help-one": {
+    "defaultMessage": "Choose your micro:bit",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-help-title": {
+    "defaultMessage": "Connect your micro:bit",
+    "description": "Title for the connect help dialog"
+  },
+  "connect-help-two": {
+    "defaultMessage": "Select ‘Connect’",
+    "description": "Legend text for the connect help dialog image"
+  },
   "connect-hover": {
     "defaultMessage": "Cоннест то уоюр місро:біт овер ВебЮСБ",
     "description": "Connect button hover text"
@@ -158,6 +174,10 @@
   "connect-microbit": {
     "defaultMessage": "Cоннест то уоюр місро:біт то сее серіал оютпют хере",
     "description": "Text in serial area"
+  },
+  "connect-troubleshoot": {
+    "defaultMessage": "Troubleshoot problems with connecting to your micro:bit",
+    "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "copied": {
     "defaultMessage": "Cопіед",
@@ -186,6 +206,10 @@
   "disconnect-hover": {
     "defaultMessage": "Діссоннест фром тхе місро:біт",
     "description": "Disconnect button hover text"
+  },
+  "dont-show-again": {
+    "defaultMessage": "Don't show this again",
+    "description": "Text to never show a dialog again"
   },
   "download-action": {
     "defaultMessage": "Довнлоад",
@@ -226,6 +250,18 @@
   "file-actions": {
     "defaultMessage": "{name} філе астіонс",
     "description": "Header of file actions for file"
+  },
+  "firmware-update-link": {
+    "defaultMessage": "You must <link>update your firmware before</link> you can connect to this micro:bit.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-message": {
+    "defaultMessage": "Connecting to the micro:bit failed because the firmware on your micro:bit is too old.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-title": {
+    "defaultMessage": "Firmware update required",
+    "description": "Title for the firmware update dialog"
   },
   "flash-action": {
     "defaultMessage": "Фласх",
@@ -373,6 +409,30 @@
   "new-file-hint": {
     "defaultMessage": "Ве'лл адд тхе <code>.пу</code> екстенсіон фор уою.",
     "description": "Hint shown in the new Python file dialog"
+  },
+  "not-found-checklist-one": {
+    "defaultMessage": "Review <link>how to select the device</link>",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-three": {
+    "defaultMessage": "If you have a micro:bit V1 you may need to <link>update the firmware</link>",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-two": {
+    "defaultMessage": "Check your micro:bit is plugged in and powered on",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-message": {
+    "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-title": {
+    "defaultMessage": "No micro:bit found",
+    "description": "Title for the micro:bit found dialog"
+  },
+  "not-found-update-link": {
+    "defaultMessage": "You must <link>update your firmware before</link> you can connect to this micro:bit.",
+    "description": "Text in the no micro:bit found dialog"
   },
   "open-file-dropped": {
     "defaultMessage": "Опен філе вхен дроппед",
@@ -653,9 +713,5 @@
   "zoom-in-action": {
     "defaultMessage": "Зоом ін",
     "description": "Text label for zoom in button"
-  },
-  "zoom-out-action": {
-    "defaultMessage": "Зоом оют",
-    "description": "Text label for zoom out button"
   }
 }

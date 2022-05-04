@@ -69,12 +69,10 @@ const ConnectHelpDialogBody = () => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        Connect your micro:bit
+        <FormattedMessage id="connect-help-title" />
       </Text>
       <Text>
-        Connecting lets you send (flash) code directly to your micro:bit, and
-        see errors and outputs (expand the ‘serial’ area below your code to see
-        them).
+        <FormattedMessage id="connect-help-message" />
       </Text>
       <Box
         position="relative"
@@ -102,7 +100,10 @@ const ConnectHelpDialogBody = () => {
                 <VisuallyHidden>
                   <Text fontSize="xl">1. </Text>
                 </VisuallyHidden>
-                <Text fontSize="xl">Choose your micro:bit</Text>
+                <Text fontSize="xl">
+                  {" "}
+                  <FormattedMessage id="connect-help-one" />
+                </Text>
               </Flex>
             </ListItem>
             <ListItem>
@@ -110,7 +111,9 @@ const ConnectHelpDialogBody = () => {
                 <VisuallyHidden>
                   <Text fontSize="xl">2. </Text>
                 </VisuallyHidden>
-                <Text fontSize="xl">Select ‘Connect’</Text>
+                <Text fontSize="xl">
+                  <FormattedMessage id="connect-help-two" />
+                </Text>
               </Flex>
             </ListItem>
           </List>
@@ -129,10 +132,14 @@ const ConnectHelpDialogBody = () => {
       {!isDesktop && (
         <List alignSelf="center">
           <ListItem>
-            <Text fontSize="xl">1. Choose your micro:bit</Text>
+            <Text fontSize="xl">
+              1. <FormattedMessage id="connect-help-one" />
+            </Text>
           </ListItem>
           <ListItem>
-            <Text fontSize="xl">2. Select ‘Connect’</Text>
+            <Text fontSize="xl">
+              2. <FormattedMessage id="connect-help-two" />
+            </Text>
           </ListItem>
         </List>
       )}
@@ -162,7 +169,7 @@ const ConnectHelpDialogFooter = ({
           color="brand.500"
           mr="auto"
         >
-          Don't show this again
+          <FormattedMessage id="dont-show-again" />
         </Link>
       )}
       <Button onClick={onClose} size="lg">

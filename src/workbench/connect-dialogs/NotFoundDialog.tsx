@@ -14,7 +14,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { ReactNode, useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
@@ -75,10 +75,10 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        No micro:bit found
+        <FormattedMessage id="not-found-title" />
       </Text>
       <Text>
-        You didn’t select a micro:bit, or there was a problem connecting to it.
+        <FormattedMessage id="not-found-message" />
       </Text>
       <HStack spacing={8}>
         <Image height={150} src={notFound} alt="" />
@@ -90,24 +90,40 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
             }}
           >
             <ListItem>
-              Review{" "}
-              <Link color="brand.500" onClick={handleReviewDevice} href="">
-                how to select the device
-              </Link>
+              <FormattedMessage
+                id="not-found-checklist-one"
+                values={{
+                  link: (chunks: ReactNode) => (
+                    <Link
+                      color="brand.500"
+                      onClick={handleReviewDevice}
+                      href=""
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                }}
+              />
             </ListItem>
             <ListItem>
-              Check your micro:bit is plugged in and powered on
+              <FormattedMessage id="not-found-checklist-two" />
             </ListItem>
             <ListItem>
-              If you have a micro:bit V1 you may need to{" "}
-              <Link
-                color="brand.500"
-                target="_blank"
-                rel="noreferrer"
-                href="https://microbit.org/get-started/user-guide/firmware/"
-              >
-                update the firmware <Icon as={RiExternalLinkLine} />
-              </Link>
+              <FormattedMessage
+                id="not-found-checklist-three"
+                values={{
+                  link: (chunks: ReactNode) => (
+                    <Link
+                      color="brand.500"
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://microbit.org/get-started/user-guide/firmware/"
+                    >
+                      {chunks} <Icon as={RiExternalLinkLine} />
+                    </Link>
+                  ),
+                }}
+              />
             </ListItem>
           </OrderedList>
         </VStack>
@@ -118,7 +134,7 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
         rel="noreferrer"
         href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
       >
-        Troubleshoot problems with connecting to your micro:bit{" "}
+        <FormattedMessage id="connect-troubleshoot" />{" "}
         <Icon as={RiExternalLinkLine} />
       </Link>
     </VStack>

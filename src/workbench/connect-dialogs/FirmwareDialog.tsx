@@ -6,7 +6,7 @@
 import { Button } from "@chakra-ui/button";
 import { Icon } from "@chakra-ui/icons";
 import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { ReactNode, useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
@@ -38,26 +38,30 @@ const FirmwareDialogBody = () => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        Firmware update required
+        <FormattedMessage id="firmware-update-title" />
       </Text>
       <Text>
-        Connecting to the micro:bit failed because the firmware on your
-        micro:bit is too old.
+        <FormattedMessage id="firmware-update-message" />
       </Text>
       <HStack spacing={8}>
         <Image height={150} src={firmwareUpgrade} alt="" />
         <VStack spacing={5}>
           <Text>
-            You must{" "}
-            <Link
-              color="brand.500"
-              target="_blank"
-              rel="noreferrer"
-              href="https://microbit.org/get-started/user-guide/firmware/"
-            >
-              update your firmware <Icon as={RiExternalLinkLine} />
-            </Link>{" "}
-            before you can connect to this micro:bit.
+            <FormattedMessage
+              id="firmware-update-link"
+              values={{
+                link: (chunks: ReactNode) => (
+                  <Link
+                    color="brand.500"
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://microbit.org/get-started/user-guide/firmware/"
+                  >
+                    {chunks} <Icon as={RiExternalLinkLine} />
+                  </Link>
+                ),
+              }}
+            />
           </Text>
         </VStack>
       </HStack>
@@ -67,7 +71,7 @@ const FirmwareDialogBody = () => {
         rel="noreferrer"
         href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
       >
-        Troubleshoot problems with connecting to your micro:bit{" "}
+        <FormattedMessage id="connect-troubleshoot" />{" "}
         <Icon as={RiExternalLinkLine} />
       </Link>
     </VStack>
