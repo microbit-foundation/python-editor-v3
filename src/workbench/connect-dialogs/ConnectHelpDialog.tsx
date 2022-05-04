@@ -19,7 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
-import connectGif from "./connect.gif";
+import connectGifMac from "./connect-mac.gif";
+import connectGifWin from "./connect-win.gif";
 
 export const enum ConnectHelpChoice {
   Start,
@@ -55,6 +56,7 @@ const ConnectHelpDialog = ({
 
 const ConnectHelpDialogBody = () => {
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
+  const isMac = /Mac/.test(navigator.platform);
   return (
     <VStack
       width="auto"
@@ -81,16 +83,17 @@ const ConnectHelpDialogBody = () => {
       >
         <Image
           height="375px"
-          width="362.72px"
-          src={connectGif}
+          width="389px"
+          src={isMac ? connectGifMac : connectGifWin}
           alt=""
-          border="1px solid #262626"
+          border="1px solid"
+          borderColor="gray.600"
         />
         {isDesktop && (
           <List
             position="absolute"
-            left="490px"
-            top="42px"
+            left="475px"
+            top="21px"
             alignItems="flex-start"
             spacing={2}
           >
@@ -113,12 +116,13 @@ const ConnectHelpDialogBody = () => {
           </List>
         )}
 
-        <Box position="absolute" top="59px" left="170px">
+        <Box position="absolute" top="38px" left="180px">
           {isDesktop && <ArrowOne />}
           {!isDesktop && <Circle text={1} />}
         </Box>
-        <Box position="absolute" bottom="43px" left="303px">
-          {isDesktop && <ArrowTwo />}
+        <Box position="absolute" bottom="45px" left={isMac ? "325px" : "250px"}>
+          {isDesktop && isMac && <ArrowTwoMac />}
+          {isDesktop && !isMac && <ArrowTwoWin />}
           {!isDesktop && <Circle text={2} />}
         </Box>
       </Box>
@@ -174,16 +178,16 @@ const ConnectHelpDialogFooter = ({
 const ArrowOne = () => {
   return (
     <svg
-      width="300"
+      width="280"
       height="40"
-      viewBox="0 0 300 40"
+      viewBox="0 0 280 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="35" y="15" width="230" height="10" fill="#7BCDC2" />
-      <circle cx="280" cy="20" r="20" fill="#7BCDC2" />
+      <rect x="35" y="15" width="210" height="10" fill="#7BCDC2" />
+      <circle cx="260" cy="20" r="20" fill="#7BCDC2" />
       <path d="M0 19.5L38.25 4.34455V34.6554L0 19.5Z" fill="#7BCDC2" />
-      <foreignObject x="260" y="0" width="40" height="40">
+      <foreignObject x="240" y="0" width="40" height="40">
         <Box
           aria-hidden
           height="40px"
@@ -201,20 +205,51 @@ const ArrowOne = () => {
   );
 };
 
-const ArrowTwo = () => {
+const ArrowTwoMac = () => {
   return (
     <svg
-      width="167"
-      height="202"
-      viewBox="0 0 167 202"
+      width="136"
+      height="222"
+      viewBox="0 0 136 222"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="13" y="25" width="139" height="10" fill="#7BCDC2" />
-      <rect x="13" y="25" width="10" height="150" fill="#7BCDC2" />
-      <circle cx="147" cy="30" r="20" fill="#7BCDC2" />
-      <path d="M17.5 202L2.34455 163.75H32.6554L17.5 202Z" fill="#7BCDC2" />
-      <foreignObject x="127" y="10" width="40" height="40">
+      <rect x="13" y="25" width="116" height="10" fill="#7BCDC2" />
+      <rect x="13" y="25" width="10" height="170" fill="#7BCDC2" />
+      <circle cx="116" cy="30" r="20" fill="#7BCDC2" />
+      <path d="M17.5 222L2.34455 183.75H32.6554L17.5 222Z" fill="#7BCDC2" />
+      <foreignObject x="96" y="10" width="40" height="40">
+        <Box
+          aria-hidden
+          height="40px"
+          width="40px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Text fontSize="2xl" color="white">
+            2
+          </Text>
+        </Box>
+      </foreignObject>
+    </svg>
+  );
+};
+
+const ArrowTwoWin = () => {
+  return (
+    <svg
+      width="211"
+      height="222"
+      viewBox="0 0 211 222"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="13" y="25" width="191" height="10" fill="#7BCDC2" />
+      <rect x="13" y="25" width="10" height="170" fill="#7BCDC2" />
+      <circle cx="191" cy="30" r="20" fill="#7BCDC2" />
+      <path d="M17.5 222L2.34455 183.75H32.6554L17.5 222Z" fill="#7BCDC2" />
+      <foreignObject x="171" y="10" width="40" height="40">
         <Box
           aria-hidden
           height="40px"
