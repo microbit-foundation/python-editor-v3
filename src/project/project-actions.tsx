@@ -121,6 +121,10 @@ export class ProjectActions {
    */
   private async showConnectHelp(force: boolean): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
+    // Temporary hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return true;
+    }
     if (
       !force &&
       (!showConnectHelpSetting ||
@@ -551,6 +555,10 @@ export class ProjectActions {
   };
 
   private async handleNotFound() {
+    // Temporary hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
     const choice = await this.dialogs.show<NotFoundChoice>((callback) => (
       <NotFoundDialog callback={callback} />
     ));
@@ -581,10 +589,15 @@ export class ProjectActions {
         }
         case "update-req":
           this.device.clearDevice();
-          await this.dialogs.show<void>((callback) => (
+          // Temporary hide for French language users.
+          if (this.settings.values.languageId !== "en") {
+            return this.actionFeedback.expectedError(
+              this.webusbErrorMessage(e.code)
+            );
+          }
+          return await this.dialogs.show<void>((callback) => (
             <FirmwareDialog callback={callback} />
           ));
-          return;
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {
