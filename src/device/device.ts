@@ -3,13 +3,42 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import EventEmitter from "events";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../deployment/default/logging";
 import { withTimeout, TimeoutError } from "./async-util";
 import { BoardId } from "./board-id";
 import { DAPWrapper } from "./dap-wrapper";
 import { PartialFlashing } from "./partial-flashing";
+
+export const EVENT_STATUS = "status";
+export const EVENT_SERIAL_DATA = "serial_data";
+export const EVENT_SERIAL_RESET = "serial_reset";
+export const EVENT_SERIAL_ERROR = "serial_error";
+export const EVENT_FLASH = "flash";
+
+export class DeviceEvent extends Event {
+  constructor(type: string) {
+    super(type);
+  }
+}
+
+export class DeviceStatusEvent extends DeviceEvent {
+  constructor(public readonly status: ConnectionStatus) {
+    super(EVENT_STATUS);
+  }
+}
+
+export class SerialDataEvent extends DeviceEvent {
+  constructor(public readonly data: string) {
+    super(EVENT_SERIAL_DATA);
+  }
+}
+
+export class SerialErrorEvent extends DeviceEvent {
+  constructor(public readonly error: unknown) {
+    super(EVENT_SERIAL_ERROR);
+  }
+}
 
 /**
  * Specific identified error types.
@@ -91,12 +120,6 @@ export enum ConnectionStatus {
   CONNECTED = "CONNECTED",
 }
 
-export const EVENT_STATUS = "status";
-export const EVENT_SERIAL_DATA = "serial_data";
-export const EVENT_SERIAL_RESET = "serial_reset";
-export const EVENT_SERIAL_ERROR = "serial_error";
-export const EVENT_FLASH = "flash";
-
 export class HexGenerationError extends Error {}
 
 export interface FlashDataSource {
@@ -117,7 +140,7 @@ export interface FlashDataSource {
   fullFlashData(boardId: BoardId): Promise<Uint8Array>;
 }
 
-export interface DeviceConnection extends EventEmitter {
+export interface DeviceConnection extends EventTarget {
   status: ConnectionStatus;
 
   /**
@@ -181,7 +204,7 @@ export interface DeviceConnection extends EventEmitter {
  * A WebUSB connection to a micro:bit device.
  */
 export class MicrobitWebUSBConnection
-  extends EventEmitter
+  extends EventTarget
   implements DeviceConnection
 {
   status: ConnectionStatus = navigator.usb
@@ -205,7 +228,7 @@ export class MicrobitWebUSBConnection
   private serialReadInProgress: Promise<void> | undefined;
 
   private serialListener = (data: string) => {
-    this.emit(EVENT_SERIAL_DATA, data);
+    this.dispatchEvent(new SerialDataEvent(data));
   };
 
   private flashing: boolean = false;
@@ -293,7 +316,6 @@ export class MicrobitWebUSBConnection
   }
 
   dispose() {
-    this.removeAllListeners();
     if (navigator.usb) {
       navigator.usb.removeEventListener("disconnect", this.handleDisconnect);
     }
@@ -334,7 +356,7 @@ export class MicrobitWebUSBConnection
       await this.withEnrichedErrors(() =>
         this.flashInternal(dataSource, options)
       );
-      this.emit(EVENT_FLASH);
+      this.dispatchEvent(new DeviceEvent(EVENT_FLASH));
 
       const flashTime = new Date().getTime() - startTime;
       this.logging.event({
@@ -410,7 +432,7 @@ export class MicrobitWebUSBConnection
       .startSerial(this.serialListener)
       .then(() => this.log("Finished listening for serial data"))
       .catch((e) => {
-        this.emit(EVENT_SERIAL_ERROR, e);
+        this.dispatchEvent(new SerialErrorEvent(e));
       });
   }
 
@@ -419,7 +441,7 @@ export class MicrobitWebUSBConnection
       this.connection.stopSerial(this.serialListener);
       await this.serialReadInProgress;
       this.serialReadInProgress = undefined;
-      this.emit(EVENT_SERIAL_RESET, {});
+      this.dispatchEvent(new DeviceEvent(EVENT_SERIAL_RESET));
     }
   }
 
@@ -451,7 +473,7 @@ export class MicrobitWebUSBConnection
     this.status = newStatus;
     this.visibilityReconnect = false;
     this.log("Device status " + newStatus);
-    this.emit(EVENT_STATUS, this.status);
+    this.dispatchEvent(new DeviceStatusEvent(this.status));
   }
 
   private async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {

@@ -10,7 +10,11 @@ import { FitAddon } from "xterm-addon-fit";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm, defaultCodeFontSizePt } from "../deployment/misc";
-import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
+import {
+  EVENT_SERIAL_DATA,
+  EVENT_SERIAL_RESET,
+  SerialDataEvent,
+} from "../device/device";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSelection } from "../workbench/use-selection";
@@ -82,9 +86,9 @@ const useNewTerminal = (): Terminal => {
     terminal.loadAddon(fitAddon);
     terminal.attachCustomKeyEventHandler(customKeyEventHandler);
 
-    const serialListener = (data: string) => {
+    const serialListener = (e: SerialDataEvent) => {
       if (!isUnmounted()) {
-        terminal.write(data);
+        terminal.write(e.data);
       }
     };
     const resetListener = () => {
@@ -92,8 +96,8 @@ const useNewTerminal = (): Terminal => {
         terminal.reset();
       }
     };
-    device.on(EVENT_SERIAL_DATA, serialListener);
-    device.on(EVENT_SERIAL_RESET, resetListener);
+    device.addEventListener(EVENT_SERIAL_DATA, serialListener);
+    device.addEventListener(EVENT_SERIAL_RESET, resetListener);
     terminal.onData((data: string) => {
       if (!isUnmounted()) {
         // Async for internal error handling, we don't need to wait.
@@ -152,8 +156,8 @@ const useNewTerminal = (): Terminal => {
     };
 
     return () => {
-      device.removeListener(EVENT_SERIAL_RESET, resetListener);
-      device.removeListener(EVENT_SERIAL_DATA, serialListener);
+      device.removeEventListener(EVENT_SERIAL_RESET, resetListener);
+      device.removeEventListener(EVENT_SERIAL_DATA, serialListener);
       resizeObserver.disconnect();
       terminal.dispose();
     };
