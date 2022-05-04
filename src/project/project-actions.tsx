@@ -33,6 +33,9 @@ import ConnectHelpDialog, {
   ConnectHelpChoice,
 } from "../workbench/connect-dialogs/ConnectHelpDialog";
 import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
+import WebUSBDialog, {
+  WebUSBErrorTrigger,
+} from "../workbench/connect-dialogs/WebUSBDialog";
 import NotFoundDialog, {
   NotFoundChoice,
 } from "../workbench/connect-dialogs/NotFoundDialog";
@@ -100,10 +103,9 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.actionFeedback.expectedError({
-        title: this.intl.formatMessage({ id: "webusb-not-supported" }),
-        description: this.intl.formatMessage({ id: "webusb-download-instead" }),
-      });
+      await this.dialogs.show<void>((callback) => (
+        <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
+      ));
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
         await this.connectInternal();
@@ -599,16 +601,10 @@ export class ProjectActions {
     }
   }
 
-  private webusbNotSupportedError(): void {
-    this.actionFeedback.expectedError({
-      title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-      description: (
-        <VStack alignItems="stretch" mt={1}>
-          <p>{this.intl.formatMessage({ id: "webusb-why-use" })}</p>
-          <p>{this.intl.formatMessage({ id: "webusb-not-supported" })}</p>
-        </VStack>
-      ),
-    });
+  private async webusbNotSupportedError(): Promise<void> {
+    await this.dialogs.show<void>((callback) => (
+      <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
+    ));
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
