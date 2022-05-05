@@ -121,7 +121,7 @@ export class ProjectActions {
    */
   private async showConnectHelp(force: boolean): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
-    // Temporary hide for French language users.
+    // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return true;
     }
@@ -555,7 +555,7 @@ export class ProjectActions {
   };
 
   private async handleNotFound() {
-    // Temporary hide for French language users.
+    // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
@@ -574,6 +574,19 @@ export class ProjectActions {
     }
   }
 
+  private async handleFirmwareUpdate(errorCode: WebUSBErrorCode) {
+    this.device.clearDevice();
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return this.actionFeedback.expectedError(
+        this.webusbErrorMessage(errorCode)
+      );
+    }
+    await this.dialogs.show<void>((callback) => (
+      <FirmwareDialog callback={callback} />
+    ));
+  }
+
   private async handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {
       switch (e.code) {
@@ -588,16 +601,8 @@ export class ProjectActions {
           return;
         }
         case "update-req":
-          this.device.clearDevice();
-          // Temporary hide for French language users.
-          if (this.settings.values.languageId !== "en") {
-            return this.actionFeedback.expectedError(
-              this.webusbErrorMessage(e.code)
-            );
-          }
-          return await this.dialogs.show<void>((callback) => (
-            <FirmwareDialog callback={callback} />
-          ));
+          await this.handleFirmwareUpdate(e.code);
+          return;
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {
