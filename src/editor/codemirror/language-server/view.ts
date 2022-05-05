@@ -27,9 +27,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
         this.view.state.doc,
         params.diagnostics
       );
-      this.view.dispatch({
-        effects: [setDiagnosticsEffect.of(diagnostics)],
-      });
+      this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
     }
   };
   constructor(view: EditorView) {
