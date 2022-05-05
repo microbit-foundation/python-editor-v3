@@ -47,4 +47,5 @@ describe("Browser - WebUSB (mocked)", () => {
 
     // No good options yet for asserting editor line.
   });
+  
 });

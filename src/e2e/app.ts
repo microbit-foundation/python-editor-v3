@@ -12,6 +12,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
+import { WebUSBErrorCode } from "../device/device";
 import { Flag } from "../flags";
 
 export enum LoadDialogType {
@@ -636,18 +637,17 @@ export class App {
   }
 
   async mockSerialWrite(data: string): Promise<void> {
-    const document = await this.document();
-    await document.evaluate(
-      (d, data) =>
-        d.dispatchEvent(
-          new CustomEvent("mockSerialWrite", {
-            detail: {
-              data,
-            },
-          })
-        ),
-      toCrLf(data)
-    );
+    const page = await this.page;
+    page.evaluate((data) => {
+      (window as any).mockDevice.mockSerialWrite(data);
+    }, toCrLf(data))
+  }
+
+  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
+    const page = await this.page;
+    page.evaluate((code) => {
+      (window as any).mockDevice.mockConnect(code);
+    }, code)
   }
 
   /**

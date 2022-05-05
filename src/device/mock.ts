@@ -10,6 +10,8 @@ import {
   EVENT_SERIAL_DATA,
   EVENT_STATUS,
   FlashDataSource,
+  WebUSBError,
+  WebUSBErrorCode,
 } from "./device";
 import EventEmitter from "events";
 
@@ -28,25 +30,35 @@ export class MockDeviceConnection
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
     : ConnectionStatus.NOT_SUPPORTED;
 
-  private mockSerialListener = (e: Event) => {
-    const { data } = (e as CustomEvent).detail;
-    if (!data) {
-      throw new Error("Unexpected custom event format");
-    }
+  private connectResults: WebUSBErrorCode[] = [];
+
+  constructor() {
+    super();
+    // Make globally available to allow e2e tests to configure interactions.
+    (window as any).mockDevice = this;    
+  }
+
+  mockSerialWrite(data: string) {
     this.emit(EVENT_SERIAL_DATA, data);
-  };
+  }
+
+  mockConnect(code: WebUSBErrorCode) {
+    this.connectResults.push(code);
+  }
 
   async initialize(): Promise<void> {}
 
   dispose() {
-    document.removeEventListener("mockSerialWrite", this.mockSerialListener);
-
     this.removeAllListeners();
   }
 
   async connect(): Promise<ConnectionStatus> {
+    const next = this.connectResults.shift();
+    if (next) {
+      throw new WebUSBError({ code: next, message: "Mocked failure"})
+    }
+
     this.setStatus(ConnectionStatus.CONNECTED);
-    document.addEventListener("mockSerialWrite", this.mockSerialListener);
     return this.status;
   }
 
@@ -77,7 +89,6 @@ export class MockDeviceConnection
   }
 
   async disconnect(): Promise<void> {
-    document.removeEventListener("mockSerialWrite", this.mockSerialListener);
     this.setStatus(ConnectionStatus.NOT_CONNECTED);
   }
 
