@@ -8,7 +8,8 @@
  */
 import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
-import { skipBodyTrailers } from "./doc-util";
+import { lintState } from "../lint/lint";
+import { overlapsUnnecessaryCode, skipBodyTrailers } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
@@ -55,6 +56,9 @@ export const codeStructureView = (option: "full" | "simple") =>
       }
 
       readBlocks(): Measure {
+        const view = this.view;
+        const { state } = view;
+
         let cursorFound = false;
 
         const positionsForNode = (
@@ -64,7 +68,7 @@ export const codeStructureView = (option: "full" | "simple") =>
           depth: number,
           body: boolean
         ) => {
-          const state = view.state;
+          const diagnostics = state.field(lintState).diagnostics;
           const leftEdge =
             view.contentDOM.getBoundingClientRect().left -
             view.scrollDOM.getBoundingClientRect().left;
@@ -80,10 +84,25 @@ export const codeStructureView = (option: "full" | "simple") =>
               return undefined;
             }
           }
-          const top = topLine.top;
-          const bottomLine = view.visualLineAt(
-            skipBodyTrailers(state, end - 1)
+
+          if (overlapsUnnecessaryCode(diagnostics, topLine.from, topLine.to)) {
+            return undefined;
+          }
+
+          const topLineNumber = state.doc.lineAt(topLine.from).number;
+          const bottomPos = skipBodyTrailers(
+            state,
+            diagnostics,
+            end - 1,
+            topLineNumber
           );
+          if (!bottomPos) {
+            // Not sure if this is possible in practice due to the grammar,
+            // but best to bail if we encounter it in error scenarios.
+            return undefined;
+          }
+          const bottomLine = view.visualLineAt(bottomPos);
+          const top = topLine.top;
           const bottom = bottomLine.bottom;
           const height = bottom - top;
           const leftIndent = depth * indentWidth;
@@ -98,9 +117,6 @@ export const codeStructureView = (option: "full" | "simple") =>
           }
           return new Positions(top, left, height, cursorActive);
         };
-
-        const view = this.view;
-        const { state } = view;
 
         const bodyPullBack = option === "full";
         const blocks: VisualBlock[] = [];
@@ -150,13 +166,15 @@ export const codeStructureView = (option: "full" | "simple") =>
                       depth + 1,
                       true
                     );
-                    blocks.push(
-                      new VisualBlock(
-                        bodyPullBack,
-                        parentPositions,
-                        bodyPositions
-                      )
-                    );
+                    if (parentPositions && bodyPositions) {
+                      blocks.push(
+                        new VisualBlock(
+                          bodyPullBack,
+                          parentPositions,
+                          bodyPositions
+                        )
+                      );
+                    }
                     runStart = i + 1;
                   }
                 }

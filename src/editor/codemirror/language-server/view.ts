@@ -38,13 +38,11 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
-      const initialDiagnostics = this.client.currentDiagnostics(this.uri);
-      view.dispatch(
-        setDiagnostics(
-          view.state,
-          diagnosticsMapping(this.view.state.doc, initialDiagnostics)
-        )
+      const diagnostics = diagnosticsMapping(
+        view.state.doc,
+        this.client.currentDiagnostics(this.uri)
       );
+      view.dispatch(setDiagnostics(view.state, diagnostics));
     }, 0);
   }
 
