@@ -333,6 +333,30 @@
       "value": "Connecter"
     }
   ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "Choose your micro:bit"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "Connect your micro:bit"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "Select ‘Connect’"
+    }
+  ],
   "connect-hover": [
     {
       "type": 0,
@@ -343,6 +367,12 @@
     {
       "type": 0,
       "value": "Connectez-vous à votre micro:bit pour voir la sortie série ici"
+    }
+  ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "Troubleshoot problems with connecting to your micro:bit"
     }
   ],
   "copied": [
@@ -393,6 +423,12 @@
     {
       "type": 0,
       "value": "Se déconnecter du micro:bit"
+    }
+  ],
+  "dont-show-again": [
+    {
+      "type": 0,
+      "value": "Don't show this again"
     }
   ],
   "download-action": [
@@ -465,6 +501,38 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "firmware-update-link": [
+    {
+      "type": 0,
+      "value": "You must "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " before you can connect to this micro:bit."
+    }
+  ],
+  "firmware-update-message": [
+    {
+      "type": 0,
+      "value": "Connecting to the micro:bit failed because the firmware on your micro:bit is too old."
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "Firmware update required"
     }
   ],
   "flash-action": [
@@ -753,6 +821,76 @@
     {
       "type": 0,
       "value": " pour vous."
+    }
+  ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "Review "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "how to select the device"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-checklist-three": [
+    {
+      "type": 0,
+      "value": "If you have a micro:bit V1 you may need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update the firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "Check your micro:bit is plugged in and powered on"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "You didn’t select a micro:bit, or there was a problem connecting to it."
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "No micro:bit found"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "You must "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware before"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " you can connect to this micro:bit."
     }
   ],
   "open-file-dropped": [
@@ -1161,6 +1299,12 @@
       "value": "Versions logicielles"
     }
   ],
+  "start-action": [
+    {
+      "type": 0,
+      "value": "Start"
+    }
+  ],
   "support": [
     {
       "type": 0,
@@ -1199,6 +1343,12 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Try again"
     }
   ],
   "undo": [
@@ -1243,6 +1393,12 @@
     {
       "type": 0,
       "value": "Projet sans titre"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Update firmware"
     }
   ],
   "updated-change": [
@@ -1343,12 +1499,6 @@
     {
       "type": 0,
       "value": "Zoom avant"
-    }
-  ],
-  "zoom-out-action": [
-    {
-      "type": 0,
-      "value": "Zoom arrière"
     }
   ]
 }

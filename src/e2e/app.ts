@@ -12,6 +12,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
+import { WebUSBErrorCode } from "../device/device";
 import { Flag } from "../flags";
 
 export enum LoadDialogType {
@@ -583,9 +584,55 @@ export class App {
       name: "Connect",
     });
     await connectButton.click();
+    await this.connectViaConnectHelp();
+  }
+
+  // Connects from the connect help dialog.
+  async connectViaConnectHelp(): Promise<void> {
+    const document = await this.document();
+    const startButton = await document.findByRole("button", {
+      name: "Start",
+    });
+    await startButton.click();
+  }
+
+  async confirmConnection(): Promise<void> {
+    const document = await this.document();
     await document.findByRole("button", {
       name: "Serial menu",
     });
+  }
+
+  async confirmNotFoundDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("No micro:bit found", {
+      selector: "h2",
+    });
+  }
+
+  // Launch 'connect help' dialog from 'not found' dialog.
+  async connectHelpFromNotFoundDialog(): Promise<void> {
+    const document = await this.document();
+    const reviewDeviceSelection = await document.findByRole("link", {
+      name: "how to select the device",
+    });
+    await reviewDeviceSelection.click();
+  }
+
+  async confirmFirmwareUpdateDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Firmware update required", {
+      selector: "h2",
+    });
+  }
+
+  // Retry micro:bit connection from error dialogs.
+  async connectTryAgain(): Promise<void> {
+    const document = await this.document();
+    const tryAgainButton = await document.findByRole("button", {
+      name: "Try again",
+    });
+    await tryAgainButton.click();
   }
 
   async disconnect(): Promise<void> {
@@ -651,18 +698,17 @@ export class App {
   }
 
   async mockSerialWrite(data: string): Promise<void> {
-    const document = await this.document();
-    await document.evaluate(
-      (d, data) =>
-        d.dispatchEvent(
-          new CustomEvent("mockSerialWrite", {
-            detail: {
-              data,
-            },
-          })
-        ),
-      toCrLf(data)
-    );
+    const page = await this.page;
+    page.evaluate((data) => {
+      (window as any).mockDevice.mockSerialWrite(data);
+    }, toCrLf(data));
+  }
+
+  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
+    const page = await this.page;
+    page.evaluate((code) => {
+      (window as any).mockDevice.mockConnect(code);
+    }, code);
   }
 
   /**

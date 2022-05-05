@@ -19,6 +19,7 @@ describe("Browser - WebUSB (mocked)", () => {
   it("shows serial when connected", async () => {
     // Connect and disconnect wait for serial to be shown/hidden
     await app.connect();
+    await app.confirmConnection();
     await app.disconnect();
   });
 
@@ -46,5 +47,31 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.followSerialCompactTracebackLink();
 
     // No good options yet for asserting editor line.
+  });
+
+  it("shows the micro:bit not found dialog and connects on try again", async () => {
+    await app.mockDeviceConnectFailure("no-device-selected");
+    await app.connect();
+    await app.confirmNotFoundDialog();
+    await app.connectTryAgain();
+    await app.confirmConnection();
+  });
+
+  it("shows the micro:bit not found dialog and connects after launching the connect help dialog", async () => {
+    await app.mockDeviceConnectFailure("no-device-selected");
+    await app.connect();
+    await app.confirmNotFoundDialog();
+    await app.connectHelpFromNotFoundDialog();
+    await app.connectViaConnectHelp();
+    await app.confirmConnection();
+  });
+
+  it("shows the update firmware dialog and connects on try again", async () => {
+    await app.mockDeviceConnectFailure("update-req");
+    await app.connect();
+    await app.confirmFirmwareUpdateDialog();
+    await app.connectTryAgain();
+    await app.connectViaConnectHelp();
+    await app.confirmConnection();
   });
 });

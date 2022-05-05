@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { useCallback } from "react";
 import { Button, Tooltip } from "@chakra-ui/react";
+import React, { useCallback } from "react";
 import { RiUsbLine } from "react-icons/ri";
+import { FormattedMessage, useIntl } from "react-intl";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import { useProjectActions } from "./project-hooks";
-import { FormattedMessage, useIntl } from "react-intl";
 
 const ConnectDisconnectButton = () => {
   const status = useConnectionStatus();

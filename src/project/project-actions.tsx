@@ -8,7 +8,8 @@ import { Text, VStack } from "@chakra-ui/react";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
-import { InputDialogBody } from "../common/InputDialog";
+import { ConfirmDialog } from "../common/ConfirmDialog";
+import { InputDialog, InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
@@ -27,6 +28,17 @@ import {
 } from "../fs/fs-util";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
+import { Settings } from "../settings/settings";
+import ConnectHelpDialog, {
+  ConnectHelpChoice,
+} from "../workbench/connect-dialogs/ConnectHelpDialog";
+import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
+import WebUSBDialog, {
+  WebUSBErrorTrigger,
+} from "../workbench/connect-dialogs/WebUSBDialog";
+import NotFoundDialog, {
+  NotFoundChoice,
+} from "../workbench/connect-dialogs/NotFoundDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -72,6 +84,10 @@ export class ProjectActions {
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
     private setSelection: (selection: WorkbenchSelection) => void,
+    private settings: {
+      values: Settings;
+      setValues: (v: Settings) => void;
+    },
     private intl: IntlShape,
     private logging: Logging,
     private client: LanguageServerClient | undefined
@@ -81,27 +97,72 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  /**
-   * Connect to the device if possible, otherwise show feedback.
-   */
-  connect = async () => {
+  connect = async (forceConnectHelp: boolean = false) => {
     this.logging.event({
       type: "connect",
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.actionFeedback.expectedError({
-        title: this.intl.formatMessage({ id: "webusb-not-supported" }),
-        description: this.intl.formatMessage({ id: "webusb-download-instead" }),
-      });
+      await this.dialogs.show<void>((callback) => (
+        <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
+      ));
     } else {
-      try {
-        await this.device.connect();
-      } catch (e) {
-        this.handleWebUSBError(e);
+      if (await this.showConnectHelp(forceConnectHelp)) {
+        await this.connectInternal();
       }
     }
   };
+
+  /**
+   * Show connection help with options to connect or cancel.
+   *
+   * @param force true to show the help even if the user previously requested not to (used in error handling scenarios).
+   * @return true to continue to connect, false to cancel.
+   */
+  private async showConnectHelp(force: boolean): Promise<boolean> {
+    const showConnectHelpSetting = this.settings.values.showConnectHelp;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return true;
+    }
+    if (
+      !force &&
+      (!showConnectHelpSetting ||
+        this.device.status === ConnectionStatus.NOT_CONNECTED)
+    ) {
+      return true;
+    }
+    const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
+      <ConnectHelpDialog
+        callback={callback}
+        dialogNormallyHidden={!showConnectHelpSetting}
+      />
+    ));
+    switch (choice) {
+      case ConnectHelpChoice.StartDontShowAgain: {
+        this.settings.setValues({
+          ...this.settings.values,
+          showConnectHelp: false,
+        });
+        return true;
+      }
+      case ConnectHelpChoice.Start:
+        return true;
+      case ConnectHelpChoice.Cancel:
+        return false;
+    }
+  }
+
+  /**
+   * Connect to the device if possible, otherwise show feedback.
+   */
+  private async connectInternal() {
+    try {
+      await this.device.connect();
+    } catch (e) {
+      this.handleWebUSBError(e);
+    }
+  }
 
   /**
    * Disconnect from the device.
@@ -129,7 +190,8 @@ export class ProjectActions {
    * of modules may be opened together. The existing project is
    * updated.
    *
-   * @param file the file from drag and drop or an input element.
+   * @param files the files from drag and drop or an input element.
+   * @param the type of user event that triggered the load.
    */
   load = async (
     files: File[],
@@ -171,13 +233,16 @@ export class ProjectActions {
       } else {
         // It'd be nice to suppress this (and similar) if it's just the default script.
         if (
-          await this.dialogs.confirm({
-            header: this.intl.formatMessage({ id: "confirm-replace-title" }),
-            body: this.intl.formatMessage({ id: "confirm-replace-body" }),
-            actionLabel: this.intl.formatMessage({
-              id: "replace-action-label",
-            }),
-          })
+          await this.dialogs.show((callback) => (
+            <ConfirmDialog
+              callback={callback}
+              header={this.intl.formatMessage({ id: "confirm-replace-title" })}
+              body={this.intl.formatMessage({ id: "confirm-replace-body" })}
+              actionLabel={this.intl.formatMessage({
+                id: "replace-action-label",
+              })}
+            />
+          ))
         ) {
           const file = files[0];
           const projectName = file.name.replace(/\.hex$/i, "");
@@ -250,21 +315,26 @@ export class ProjectActions {
     inputs: ClassifiedFileInput[]
   ): Promise<ClassifiedFileInput[] | undefined> {
     const defaultScript = inputs.find((x) => x.script);
-    const chosenScript = await this.dialogs.input<MainScriptChoice>({
-      header: this.intl.formatMessage({ id: "change-files" }),
-      initialValue: {
-        main: defaultScript ? defaultScript.name : undefined,
-      },
-      Body: (props: InputDialogBody<MainScriptChoice>) => (
-        <ChooseMainScriptQuestion
-          {...props}
-          currentFiles={new Set(this.project.files.map((f) => f.name))}
-          inputs={inputs}
+    const chosenScript = await this.dialogs.show<MainScriptChoice | undefined>(
+      (callback) => (
+        <InputDialog
+          callback={callback}
+          header={this.intl.formatMessage({ id: "change-files" })}
+          initialValue={{
+            main: defaultScript ? defaultScript.name : undefined,
+          }}
+          Body={(props: InputDialogBody<MainScriptChoice>) => (
+            <ChooseMainScriptQuestion
+              {...props}
+              currentFiles={new Set(this.project.files.map((f) => f.name))}
+              inputs={inputs}
+            />
+          )}
+          actionLabel={this.intl.formatMessage({ id: "confirm-action" })}
+          size="lg"
         />
-      ),
-      actionLabel: this.intl.formatMessage({ id: "confirm-action" }),
-      size: "lg",
-    });
+      )
+    );
     if (!chosenScript) {
       // User cancelled.
       return undefined;
@@ -403,14 +473,19 @@ export class ProjectActions {
     const preexistingFiles = new Set(this.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
-    const filenameWithoutExtension = await this.dialogs.input<string>({
-      header: this.intl.formatMessage({ id: "add-python" }),
-      Body: NewFileNameQuestion,
-      initialValue: "",
-      actionLabel: this.intl.formatMessage({ id: "add-action" }),
-      validate,
-      customFocus: true,
-    });
+    const filenameWithoutExtension = await this.dialogs.show<
+      string | undefined
+    >((callback) => (
+      <InputDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "add-python" })}
+        Body={NewFileNameQuestion}
+        initialValue=""
+        actionLabel={this.intl.formatMessage({ id: "add-action" })}
+        validate={validate}
+        customFocus
+      />
+    ));
 
     if (filenameWithoutExtension) {
       this.logging.event({
@@ -444,14 +519,17 @@ export class ProjectActions {
 
     try {
       if (
-        await this.dialogs.confirm({
-          header: this.intl.formatMessage({ id: "confirm-delete" }),
-          body: this.intl.formatMessage(
-            { id: "permanently-delete" },
-            { filename }
-          ),
-          actionLabel: this.intl.formatMessage({ id: "delete-action" }),
-        })
+        await this.dialogs.show((callback) => (
+          <ConfirmDialog
+            callback={callback}
+            header={this.intl.formatMessage({ id: "confirm-delete" })}
+            body={this.intl.formatMessage(
+              { id: "permanently-delete" },
+              { filename }
+            )}
+            actionLabel={this.intl.formatMessage({ id: "delete-action" })}
+          />
+        ))
       ) {
         await this.fs.remove(filename);
         this.actionFeedback.success({
@@ -476,11 +554,46 @@ export class ProjectActions {
     return this.fs.setProjectName(name);
   };
 
-  private handleWebUSBError(e: any) {
+  private async handleNotFound() {
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
+    const choice = await this.dialogs.show<NotFoundChoice>((callback) => (
+      <NotFoundDialog callback={callback} />
+    ));
+    switch (choice) {
+      case NotFoundChoice.Retry: {
+        this.connectInternal();
+        return;
+      }
+      case NotFoundChoice.ReviewDevice: {
+        this.connect(true);
+        return;
+      }
+    }
+  }
+
+  private async handleFirmwareUpdate(errorCode: WebUSBErrorCode) {
+    this.device.clearDevice();
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return this.actionFeedback.expectedError(
+        this.webusbErrorMessage(errorCode)
+      );
+    }
+    await this.dialogs.show<void>((callback) => (
+      <FirmwareDialog callback={callback} />
+    ));
+  }
+
+  private async handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {
       switch (e.code) {
         case "no-device-selected": {
-          // User just cancelled the browser dialog so no further response needed.
+          // User just cancelled the browser dialog, perhaps because there
+          // where no devices.
+          await this.handleNotFound();
           return;
         }
         case "device-disconnected": {
@@ -488,6 +601,8 @@ export class ProjectActions {
           return;
         }
         case "update-req":
+          await this.handleFirmwareUpdate(e.code);
+          return;
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {
@@ -504,16 +619,10 @@ export class ProjectActions {
     }
   }
 
-  private webusbNotSupportedError(): void {
-    this.actionFeedback.expectedError({
-      title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-      description: (
-        <VStack alignItems="stretch" mt={1}>
-          <p>{this.intl.formatMessage({ id: "webusb-why-use" })}</p>
-          <p>{this.intl.formatMessage({ id: "webusb-not-supported" })}</p>
-        </VStack>
-      ),
-    });
+  private async webusbNotSupportedError(): Promise<void> {
+    await this.dialogs.show<void>((callback) => (
+      <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
+    ));
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -534,7 +643,7 @@ export class ProjectActions {
                     <Link
                       target="_blank"
                       rel="noreferrer"
-                      href="https://microbit.org/firmware/"
+                      href="https://microbit.org/get-started/user-guide/firmware/"
                       textDecoration="underline"
                     >
                       {chunks}

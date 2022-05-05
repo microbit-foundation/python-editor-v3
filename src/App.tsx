@@ -82,15 +82,15 @@ const App = () => {
         <LoggingProvider value={logging}>
           <SettingsProvider value={settings}>
             <TranslationProvider>
-              <DialogProvider>
-                <DeviceContextProvider value={device}>
-                  <FileSystemProvider value={fs}>
-                    <LanguageServerClientProvider value={client}>
-                      <SyncStatusProvider>
-                        <BeforeUnloadDirtyCheck />
-                        <DocumentationProvider>
-                          <SearchProvider>
-                            <SelectionProvider>
+              <DeviceContextProvider value={device}>
+                <FileSystemProvider value={fs}>
+                  <LanguageServerClientProvider value={client}>
+                    <SyncStatusProvider>
+                      <BeforeUnloadDirtyCheck />
+                      <DocumentationProvider>
+                        <SearchProvider>
+                          <SelectionProvider>
+                            <DialogProvider>
                               <RouterProvider>
                                 <ProjectDropTarget>
                                   <ActiveEditorProvider>
@@ -98,14 +98,14 @@ const App = () => {
                                   </ActiveEditorProvider>
                                 </ProjectDropTarget>
                               </RouterProvider>
-                            </SelectionProvider>
-                          </SearchProvider>
-                        </DocumentationProvider>
-                      </SyncStatusProvider>
-                    </LanguageServerClientProvider>
-                  </FileSystemProvider>
-                </DeviceContextProvider>
-              </DialogProvider>
+                            </DialogProvider>
+                          </SelectionProvider>
+                        </SearchProvider>
+                      </DocumentationProvider>
+                    </SyncStatusProvider>
+                  </LanguageServerClientProvider>
+                </FileSystemProvider>
+              </DeviceContextProvider>
             </TranslationProvider>
           </SettingsProvider>
         </LoggingProvider>

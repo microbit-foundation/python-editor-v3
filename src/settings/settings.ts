@@ -58,6 +58,7 @@ export const defaultSettings: Settings = {
   fontSize: defaultCodeFontSizePt,
   codeStructureHighlight: "full",
   parameterHelp: "automatic",
+  showConnectHelp: true,
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -77,6 +78,9 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (parameterHelpOptions.indexOf(object.parameterHelp) === -1) {
     return false;
   }
+  if (typeof object.showConnectHelp !== "boolean") {
+    return false;
+  }
   return true;
 };
 
@@ -91,6 +95,7 @@ export interface Settings {
   fontSize: number;
   codeStructureHighlight: CodeStructureOption;
   parameterHelp: ParameterHelpOption;
+  showConnectHelp: boolean;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];

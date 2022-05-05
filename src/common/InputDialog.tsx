@@ -14,7 +14,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { ThemeTypings } from "@chakra-ui/styled-system";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 export interface InputDialogBody<T> {
@@ -25,7 +25,9 @@ export interface InputDialogBody<T> {
   validate: (value: T) => string | undefined;
 }
 
-export interface InputDialogParameters<T> {
+type ValueOrCancelled<T> = T | undefined;
+
+export interface InputDialogProps<T> {
   header: ReactNode;
   Body: React.FC<InputDialogBody<T>>;
   initialValue: T;
@@ -33,51 +35,38 @@ export interface InputDialogParameters<T> {
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   validate?: (input: T) => string | undefined;
   customFocus?: boolean;
-}
-
-export interface InputDialogParametersWithActions<T>
-  extends InputDialogParameters<T> {
-  onConfirm: (validValue: T) => void;
-  onCancel: () => void;
-}
-
-export interface InputDialogProps<T>
-  extends InputDialogParametersWithActions<T> {
-  isOpen: boolean;
+  callback: (value: ValueOrCancelled<T>) => void;
 }
 
 const noValidation = () => undefined;
 
 /**
  * General purpose input dialog.
- *
- * Generally not used directly. Prefer the useDialogs hook.
  */
-export const InputDialog = <T extends unknown>({
+export const InputDialog = <T,>({
   header,
   Body,
   actionLabel,
-  isOpen,
   initialValue,
   size,
   customFocus,
   validate = noValidation,
-  onConfirm,
-  onCancel,
+  callback,
 }: InputDialogProps<T>) => {
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | undefined>(undefined);
   const leastDestructiveRef = useRef<HTMLButtonElement>(null);
+  const onCancel = useCallback(() => callback(undefined), [callback]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!error) {
-      onConfirm(value);
+      callback(value);
     }
   };
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen
       onClose={onCancel}
       size={size}
       initialFocusRef={customFocus ? undefined : leastDestructiveRef}
@@ -106,7 +95,7 @@ export const InputDialog = <T extends unknown>({
             </Button>
             <Button
               variant="solid"
-              onClick={() => onConfirm(value)}
+              onClick={handleSubmit}
               ml={3}
               isDisabled={Boolean(error)}
             >
