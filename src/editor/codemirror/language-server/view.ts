@@ -42,7 +42,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
         view.state.doc,
         this.client.currentDiagnostics(this.uri)
       );
-      this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
+      view.dispatch(setDiagnostics(view.state, diagnostics));
     }, 0);
   }
 
