@@ -70,8 +70,8 @@ export interface Diagnostic {
   /// An optional array of actions that can be taken on this
   /// diagnostic.
   actions?: readonly Action[]
-  /// Tags that influence the display of the 
-  /// Currently supported tags include `"unnecessary"` and `"deprecated"`
+  /// Tags control alternative presentations for diagnostics.
+  /// Currently supported tags are `"unnecessary"` and `"deprecated"`
   /// which are formatted with opacity and strikethrough respectively.
   tags?: string[]
 }
