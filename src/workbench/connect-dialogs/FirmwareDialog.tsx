@@ -97,18 +97,17 @@ const FirmwareDialogFooter = ({ onClose }: FirmwareDialogFooterProps) => {
       <Button onClick={handleTryAgain} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="try-again-action" />
       </Button>
-      <Button variant="solid" size="lg" minWidth={buttonWidth}>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href="https://microbit.org/get-started/user-guide/firmware/"
-          _hover={{
-            textDecoration: "none",
-          }}
-        >
-          <FormattedMessage id="update-firmware-action" />{" "}
-          <Icon as={RiExternalLinkLine} />
-        </Link>
+      <Button
+        as="a"
+        variant="solid"
+        size="lg"
+        minWidth={buttonWidth}
+        rightIcon={<RiExternalLinkLine />}
+        target="_blank"
+        rel="noopener"
+        href="https://microbit.org/get-started/user-guide/firmware/"
+      >
+        <FormattedMessage id="update-firmware-action" />
       </Button>
     </HStack>
   );
