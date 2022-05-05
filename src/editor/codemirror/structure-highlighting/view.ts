@@ -94,6 +94,8 @@ export const codeStructureView = (option: "full" | "simple") =>
             topLineNumber
           );
           if (!bottomPos) {
+            // Not sure if this is possible in practice due to the grammar,
+            // but best to bail if we encounter it in error scenarios.
             return undefined;
           }
           const bottomLine = view.visualLineAt(bottomPos);
