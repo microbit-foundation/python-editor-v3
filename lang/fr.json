@@ -252,7 +252,7 @@
     "description": "Header of file actions for file"
   },
   "firmware-update-link": {
-    "defaultMessage": "You must <link>update your firmware before</link> you can connect to this micro:bit.",
+    "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-message": {

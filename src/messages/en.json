@@ -506,7 +506,7 @@
       "children": [
         {
           "type": 0,
-          "value": "update your firmware before"
+          "value": "update your firmware"
         }
       ],
       "type": 8,
@@ -514,7 +514,7 @@
     },
     {
       "type": 0,
-      "value": " you can connect to this micro:bit."
+      "value": " before you can connect to this micro:bit."
     }
   ],
   "firmware-update-message": [
