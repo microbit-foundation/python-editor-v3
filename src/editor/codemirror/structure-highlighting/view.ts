@@ -8,7 +8,7 @@
  */
 import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
-import { hintState } from "../lint/hints";
+import { lintState } from "../lint/lint";
 import { overlapsUnnecessaryCode, skipBodyTrailers } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
 
@@ -65,7 +65,7 @@ export const codeStructureView = (option: "full" | "simple") =>
           depth: number,
           body: boolean
         ) => {
-          const hints = view.state.field(hintState).hints;
+          const diagnostics = view.state.field(lintState).diagnostics;
           const leftEdge =
             view.contentDOM.getBoundingClientRect().left -
             view.scrollDOM.getBoundingClientRect().left;
@@ -82,14 +82,14 @@ export const codeStructureView = (option: "full" | "simple") =>
             }
           }
 
-          if (overlapsUnnecessaryCode(hints, topLine.from, topLine.to)) {
+          if (overlapsUnnecessaryCode(diagnostics, topLine.from, topLine.to)) {
             return undefined;
           }
 
           const topLineNumber = state.doc.lineAt(topLine.from).number;
           const bottomPos = skipBodyTrailers(
             state,
-            hints,
+            diagnostics,
             end - 1,
             topLineNumber
           );

@@ -60,7 +60,7 @@ export interface Diagnostic {
   to: number
   /// The severity of the problem. This will influence how it is
   /// displayed.
-  severity: "info" | "warning" | "error"
+  severity: "hint" | "info" | "warning" | "error"
   /// An optional source string indicating where the diagnostic is
   /// coming from. You can put the name of your linter here, if
   /// applicable.
@@ -70,6 +70,10 @@ export interface Diagnostic {
   /// An optional array of actions that can be taken on this
   /// diagnostic.
   actions?: readonly Action[]
+  /// Tags that influence the display of the 
+  /// Currently supported tags include `"unnecessary"` and `"deprecated"`
+  /// which are formatted with opacity and strikethrough respectively.
+  tags?: string[]
 }
 
 /// An action associated with a diagnostic.
@@ -91,7 +95,7 @@ class SelectedDiagnostic {
   constructor(readonly from: number, readonly to: number, readonly diagnostic: Diagnostic) {}
 }
 
-class LintState {
+export class LintState {
   constructor(readonly diagnostics: DecorationSet,
               readonly panel: PanelConstructor | null,
               readonly selected: SelectedDiagnostic | null) {}
@@ -105,7 +109,13 @@ class LintState {
           diagnostic: d
         }).range(d.from)
         : Decoration.mark({
-          attributes: {class: "cm-lintRange cm-lintRange-" + d.severity},
+          attributes: {
+            class: [
+              "cm-lintRange", 
+              ...(d.tags?.length ? 
+                d.tags.map(tag => "cm-lintRange-" + tag) : ["cm-lintRange-" + d.severity])
+            ].join(" ")
+          },
           diagnostic: d
         }).range(d.from, d.to)
     }), true)
@@ -154,7 +164,7 @@ const togglePanel = StateEffect.define<boolean>()
 
 const movePanelSelection = StateEffect.define<SelectedDiagnostic>()
 
-const lintState = StateField.define<LintState>({
+export const lintState = StateField.define<LintState>({
   create() {
     return new LintState(Decoration.none, null, null)
   },
@@ -570,7 +580,7 @@ const baseTheme = EditorView.baseTheme({
   },
   ".cm-diagnostic-error": { borderLeft: "5px solid #d11" },
   ".cm-diagnostic-warning": { borderLeft: "5px solid orange" },
-  ".cm-diagnostic-info": { borderLeft: "5px solid #999" },
+  ".cm-diagnostic-info, .cm-diagnostic-hint": { borderLeft: "5px solid #999" },
 
   ".cm-diagnosticAction": {
     font: "inherit",
@@ -596,6 +606,9 @@ const baseTheme = EditorView.baseTheme({
   ".cm-lintRange-error": { backgroundImage: underline("#d11") },
   ".cm-lintRange-warning": { backgroundImage: underline("orange") },
   ".cm-lintRange-info": { backgroundImage: underline("#999") },
+  // Nothing for .cm-lintRange-hint, they're styled based on tags only.
+  ".cm-lintRange-unnecessary": { opacity: 0.5 },
+  ".cm-lintRange-deprecated": { textDecoration: "line-through" },
   ".cm-lintRange-active": { backgroundColor: "#ffdd9980" },
 
   ".cm-tooltip-lint": {
@@ -620,7 +633,7 @@ const baseTheme = EditorView.baseTheme({
   ".cm-lintPoint-warning": {
     "&:after": { borderBottomColor: "orange" }
   },
-  ".cm-lintPoint-info": {
+  ".cm-lintPoint-info, .cm-lintPoint-hint": {
     "&:after": { borderBottomColor: "#999" }
   },
 
@@ -656,16 +669,29 @@ const baseTheme = EditorView.baseTheme({
   }
 })
 
+function severityRanking(severity: "hint" | "info" | "warning" | "error") {
+  switch (severity) {
+    case "hint":
+      return 0
+    case "info":
+      return 1
+    case "warning":
+      return 2
+    case "error":
+      return 3
+  }
+}
+
 class LintGutterMarker extends GutterMarker {
-  severity: "info" | "warning" | "error"
+  severity: "hint" | "info" | "warning" | "error"
   // Diagnostics stored here may have had their 'from' field values 
   // changed in order to maintain the gutter markers in the correct position.
   constructor(public diagnostics: Diagnostic[], readonly editingLine: boolean) {
     super()
     this.severity = diagnostics.reduce((max, d) => {
       let s = d.severity
-      return s == "error" || s == "warning" && max == "info" ? s : max
-    }, "info" as "info" | "warning" | "error")
+      return severityRanking(s) > severityRanking(max) ? s : max
+    }, "hint" as "hint" | "info" | "warning" | "error")
   }
 
   toDOM(view: EditorView) {
@@ -813,8 +839,8 @@ const lintGutterTheme = EditorView.baseTheme({
     height: "1em"
   },
   // Customised stroke-widths. This could move to the theme.
-  ".cm-lint-marker-info": {
-    content: svg(`<path fill="#aaf" stroke="#77e" stroke-width="4" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>`)
+  ".cm-lint-marker-info, .cm-lint-marker-hint": {
+    content: svg(`<path fill="#e3e3e3" stroke="#a9aaa9" stroke-width="4" stroke-linejoin="round" d="M5 5L35 5L35 35L5 35Z"/>`)
   },
   ".cm-lint-marker-warning": {
     content: svg(`<path fill="#fe8" stroke="#fd7" stroke-width="4" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>`),

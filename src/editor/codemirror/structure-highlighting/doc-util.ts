@@ -58,7 +58,7 @@ export const overlapsUnnecessaryCode = (
 ) => {
   let overlaps: boolean = false;
   d.between(from, to, (_from, _to, value) => {
-    if (value.spec.hint.tags.includes("unnecessary")) {
+    if (value.spec.diagnostic.tags?.includes("unnecessary")) {
       overlaps = true;
       return false;
     }
