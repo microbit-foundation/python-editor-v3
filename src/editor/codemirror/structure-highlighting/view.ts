@@ -56,6 +56,9 @@ export const codeStructureView = (option: "full" | "simple") =>
       }
 
       readBlocks(): Measure {
+        const view = this.view;
+        const { state } = view;
+
         let cursorFound = false;
 
         const positionsForNode = (
@@ -65,7 +68,7 @@ export const codeStructureView = (option: "full" | "simple") =>
           depth: number,
           body: boolean
         ) => {
-          const diagnostics = view.state.field(lintState).diagnostics;
+          const diagnostics = state.field(lintState).diagnostics;
           const leftEdge =
             view.contentDOM.getBoundingClientRect().left -
             view.scrollDOM.getBoundingClientRect().left;
@@ -114,9 +117,6 @@ export const codeStructureView = (option: "full" | "simple") =>
           }
           return new Positions(top, left, height, cursorActive);
         };
-
-        const view = this.view;
-        const { state } = view;
 
         const bodyPullBack = option === "full";
         const blocks: VisualBlock[] = [];
