@@ -119,7 +119,8 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
                       rel="noreferrer"
                       href="https://microbit.org/get-started/user-guide/firmware/"
                     >
-                      {chunks} <Icon as={RiExternalLinkLine} />
+                      {chunks}{" "}
+                      <Icon as={RiExternalLinkLine} verticalAlign="middle" />
                     </Link>
                   ),
                 }}
@@ -135,7 +136,7 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
         href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
       >
         <FormattedMessage id="connect-troubleshoot" />{" "}
-        <Icon as={RiExternalLinkLine} />
+        <Icon as={RiExternalLinkLine} verticalAlign="middle" />
       </Link>
     </VStack>
   );
