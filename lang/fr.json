@@ -717,5 +717,9 @@
   "zoom-in-action": {
     "defaultMessage": "Zoom avant",
     "description": "Text label for zoom in button"
+  },
+  "zoom-out-action": {
+    "defaultMessage": "Zoom arrière",
+    "description": "Text label for zoom out button"
   }
 }

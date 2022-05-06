@@ -1500,5 +1500,11 @@
       "type": 0,
       "value": "Zoom avant"
     }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "Zoom arrière"
+    }
   ]
 }
