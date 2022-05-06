@@ -717,5 +717,9 @@
   "zoom-in-action": {
     "defaultMessage": "Зоом ін",
     "description": "Text label for zoom in button"
+  },
+  "zoom-out-action": {
+    "defaultMessage": "Зоом оют",
+    "description": "Text label for zoom out button"
   }
 }

@@ -1500,5 +1500,11 @@
       "type": 0,
       "value": "Зоом ін"
     }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "Зоом оют"
+    }
   ]
 }
