@@ -68,7 +68,7 @@ export const codeStructureView = (option: "full" | "simple") =>
           depth: number,
           body: boolean
         ) => {
-          const diagnostics = state.field(lintState).diagnostics;
+          const diagnostics = state.field(lintState, false)?.diagnostics;
           const leftEdge =
             view.contentDOM.getBoundingClientRect().left -
             view.scrollDOM.getBoundingClientRect().left;

@@ -28,7 +28,7 @@ import { Line } from "@codemirror/text";
  */
 export const skipBodyTrailers = (
   state: EditorState,
-  hints: DecorationSet,
+  hints: DecorationSet | undefined,
   position: number,
   min: number = 0
 ): number | undefined => {
@@ -45,18 +45,21 @@ export const skipBodyTrailers = (
   return undefined;
 };
 
-const isSkipLine = (line: Line, hints: DecorationSet) =>
+const isSkipLine = (line: Line, hints: DecorationSet | undefined) =>
   line.length === 0 ||
   /^\s+$/.test(line.text) ||
   /^\s*#/.test(line.text) ||
   overlapsUnnecessaryCode(hints, line.from, line.to);
 
 export const overlapsUnnecessaryCode = (
-  d: DecorationSet,
+  d: DecorationSet | undefined,
   from: number,
   to: number
 ) => {
   let overlaps: boolean = false;
+  if (!d) {
+    return overlaps;
+  }
   d.between(from, to, (_from, _to, value) => {
     if (value.spec.diagnostic.tags?.includes("unnecessary")) {
       overlaps = true;
