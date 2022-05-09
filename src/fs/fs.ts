@@ -166,9 +166,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     super();
     this.storage = new SplitStrategyStorage(
       new InMemoryFSStorage(undefined),
-      typeof window !== "undefined" && window.sessionStorage
-        ? new SessionStorageFSStorage(window.sessionStorage)
-        : undefined,
+      SessionStorageFSStorage.create(),
       logging
     );
     this.project = {
