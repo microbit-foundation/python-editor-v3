@@ -24,8 +24,6 @@ interface XTermProps extends BoxProps {}
 
 /**
  * xterm.js-based terminal.
- *
- * Most the relevant code is in the useTerminal hook.
  */
 const XTerm = ({ ...props }: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
