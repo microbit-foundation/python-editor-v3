@@ -12,7 +12,7 @@ import { Logging } from "../logging/logging";
  */
 export class SerialActions {
   constructor(
-    private terminal: Terminal,
+    private terminal: React.RefObject<Terminal | undefined>,
     private device: DeviceConnection,
     private onSerialSizeChange: (size: "compact" | "open") => void,
     private logging: Logging
@@ -30,6 +30,6 @@ export class SerialActions {
   private sendCommand(data: string): void {
     this.onSerialSizeChange("open");
     this.device.serialWrite(data);
-    this.terminal.focus();
+    this.terminal.current?.focus();
   }
 }
