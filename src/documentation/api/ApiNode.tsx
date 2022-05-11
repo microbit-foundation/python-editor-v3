@@ -330,8 +330,8 @@ const classToInstanceMap: Record<string, string> = {
 
 export const getDragContext = (fullName: string, kind: string): DragContext => {
   let parts = fullName.split(".").filter((p) => p !== "__init__");
-  // Heuristic identification of e.g. Image.HEART
-  if (!parts[parts.length - 1].match(/^[A-Z]+$/)) {
+  // Heuristic identification of e.g. Image.HEART. Sufficient for MicroPython API.
+  if (!parts[parts.length - 1].match(/^[A-Z0-9_]+$/)) {
     parts = parts.map((p) => classToInstanceMap[p] ?? p);
   }
   const isMicrobit = parts[0] === "microbit";
