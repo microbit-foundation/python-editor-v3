@@ -9,7 +9,7 @@ import NullLoggingProvider from "../../logging/NullLoggingProvider";
 import { ActiveEditorProvider } from "../../editor/active-editor-hooks";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
 import ScrollablePanel from "../../common/ScrollablePanel";
-import ApiNode, { getDragContext, classToInstanceMap } from "./ApiNode";
+import ApiNode, { getDragContext } from "./ApiNode";
 
 describe("ApiNode", () => {
   const node: ApiDocsEntry = {
@@ -87,8 +87,13 @@ describe("getDragContext", () => {
   it("creates the correct dragContext with a micro:bit class", () => {
     const context = getDragContext("microbit.MicroBitTouchPin", "class");
     expect(context.type).toEqual("example");
-    const classInstance = classToInstanceMap["MicroBitTouchPin"];
-    expect(context.code).toEqual(`from microbit import *\n${classInstance}`);
+    expect(context.code).toEqual(`from microbit import *\npin0`);
+  });
+
+  it("creates the correct dragContext for os.uname", () => {
+    const context = getDragContext("os.uname_result.version", "variable");
+    expect(context.type).toEqual("example");
+    expect(context.code).toEqual(`import os\nos.uname().version`);
   });
 
   it("creates the correct dragContext with __init__", () => {

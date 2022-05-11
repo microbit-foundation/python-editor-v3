@@ -51,14 +51,6 @@ const kindToSpacing: Record<string, any> = {
   function: 4,
 };
 
-export const classToInstanceMap: Record<string, string> = {
-  Button: "button_a",
-  MicroBitDigitalPin: "pin0",
-  MicroBitTouchPin: "pin0",
-  MicroBitAnalogDigitalPin: "pin0",
-  Image: "Image.HEART",
-};
-
 interface ApiDocEntryNodeProps extends BoxProps {
   docs: ApiDocsEntry;
   anchor?: Anchor;
@@ -327,11 +319,21 @@ const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   );
 };
 
+const classToInstanceMap: Record<string, string> = {
+  Button: "button_a",
+  MicroBitDigitalPin: "pin0",
+  MicroBitTouchPin: "pin0",
+  MicroBitAnalogDigitalPin: "pin0",
+  Image: "Image.HEART",
+  uname_result: "uname()",
+};
+
 export const getDragContext = (fullName: string, kind: string): DragContext => {
-  const parts = fullName
-    .split(".")
-    .map((p) => (kind === "variable" ? p : classToInstanceMap[p] ?? p))
-    .filter((p) => p !== "__init__");
+  let parts = fullName.split(".").filter((p) => p !== "__init__");
+  // Heuristic identification of e.g. Image.HEART
+  if (!parts[parts.length - 1].match(/^[A-Z]+$/)) {
+    parts = parts.map((p) => classToInstanceMap[p] ?? p);
+  }
   const isMicrobit = parts[0] === "microbit";
   const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
   const code = nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
