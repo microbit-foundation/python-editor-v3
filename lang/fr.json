@@ -335,7 +335,7 @@
     "description": "Language option text"
   },
   "load-action": {
-    "defaultMessage": "Chargement…",
+    "defaultMessage": "Charger…",
     "description": "Load button text"
   },
   "load-error-mixed": {
