@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { RefObject, useEffect, useState } from "react";
 
 export const useResizeObserverContentRect = (

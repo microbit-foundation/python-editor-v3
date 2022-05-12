@@ -1,5 +1,5 @@
 /**
- * (c) 2022, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2022, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -20,10 +20,10 @@ import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
-import ExploreArea from "../documentation/ExploreArea";
-import ProjectsArea from "../documentation/ProjectsArea";
 import ReferenceArea from "../documentation/ReferenceArea";
-import FilesArea from "../files/FilesArea";
+import IdeasArea from "../documentation/IdeasArea";
+import ApiArea from "../documentation/ApiArea";
+import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
@@ -62,35 +62,33 @@ const SideBar = ({
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
-        id: "explore",
-        title: intl.formatMessage({ id: "explore-tab" }),
-        icon: PythonLogo as IconType,
-        contents: <ExploreArea />,
-        color: "gray.25",
-      },
-      {
-        id: "projects",
-        title: intl.formatMessage({ id: "projects-tab" }),
-        icon: RiLightbulbFlashLine,
-        contents: <ProjectsArea />,
-        color: "gray.25",
-      },
-      {
         id: "reference",
         title: intl.formatMessage({ id: "reference-tab" }),
-        // If you change this icon you also need to change the version embedded
-        // in documentation.ts (used for CM documentation tooltips).
         icon: VscLibrary,
         contents: <ReferenceArea />,
+        color: "gray.25",
+      },
+      {
+        id: "ideas",
+        title: intl.formatMessage({ id: "ideas-tab" }),
+        icon: RiLightbulbFlashLine,
+        contents: <IdeasArea />,
+        color: "gray.25",
+      },
+      {
+        id: "api",
+        title: "API",
+        icon: PythonLogo as IconType,
+        contents: <ApiArea />,
         color: "gray.25",
         mb: "auto",
       },
       {
-        id: "files",
-        title: intl.formatMessage({ id: "files-tab" }),
+        id: "project",
+        title: intl.formatMessage({ id: "project-tab" }),
         icon: VscFiles,
         contents: (
-          <FilesArea
+          <ProjectArea
             selectedFile={selectedFile}
             onSelectedFileChanged={onSelectedFileChanged}
           />
@@ -100,7 +98,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, explore, reference }, setParams] = useRouterState();
+  const [{ tab, reference, api, idea }, setParams] = useRouterState();
   const tabIndexOf = panes.findIndex((p) => p.id === tab);
   const index = tabIndexOf === -1 ? 0 : tabIndexOf;
   const handleTabChange = useCallback(
@@ -115,12 +113,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (explore || reference) {
+    if (reference || api || idea) {
       setParams({
         tab,
       });
     }
-  }, [explore, reference, tab, setParams]);
+  }, [reference, api, idea, tab, setParams]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">

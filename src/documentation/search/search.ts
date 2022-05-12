@@ -6,12 +6,12 @@
 import lunr from "lunr";
 import stemmerSupport from "lunr-languages/lunr.stemmer.support";
 import { retryAsyncLoad } from "../../common/chunk-util";
-import { firstParagraph } from "../../editor/codemirror/language-server/docstrings";
+import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {
   ApiDocsEntry,
   ApiDocsResponse,
 } from "../../language-server/apidocs";
-import type { Toolkit, ToolkitTopic } from "../explore/model";
+import type { Toolkit, ToolkitTopic } from "../reference/model";
 import { blocksToText } from "./blocks-to-text";
 import {
   Extracts,
@@ -54,7 +54,7 @@ export class SearchIndex {
   constructor(
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
-    private tab: "explore" | "reference"
+    private tab: "reference" | "api"
   ) {}
 
   search(text: string): Result[] {
@@ -113,12 +113,12 @@ const getExtracts = (
 };
 
 export class LunrSearch {
-  constructor(private explore: SearchIndex, private reference: SearchIndex) {}
+  constructor(private reference: SearchIndex, private api: SearchIndex) {}
 
   search(text: string): SearchResults {
     return {
-      explore: this.explore.search(text),
       reference: this.reference.search(text),
+      api: this.api.search(text),
     };
   }
 }
@@ -126,7 +126,7 @@ export class LunrSearch {
 export interface SearchableContent {
   id: string;
   /**
-   * The Reference module or Explore topic.
+   * The API module or Reference topic.
    */
   containerTitle: string;
   title: string;
@@ -137,9 +137,11 @@ const defaultString = (string: string | undefined): string => {
   return string || "";
 };
 
-const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
+const referenceSearchableContent = (
+  reference: Toolkit
+): SearchableContent[] => {
   const content: SearchableContent[] = [];
-  toolkit.contents?.forEach((t) => {
+  reference.contents?.forEach((t) => {
     if (!isSingletonTopic(t)) {
       content.push({
         id: t.slug.current,
@@ -165,7 +167,7 @@ const exploreSearchableContent = (toolkit: Toolkit): SearchableContent[] => {
   return content;
 };
 
-const referenceSearchableContent = (
+const apiSearchableContent = (
   toolkit: ApiDocsResponse
 ): SearchableContent[] => {
   const content: SearchableContent[] = [];
@@ -178,7 +180,7 @@ const referenceSearchableContent = (
         id: c.id,
         title: c.fullName.substring(moduleName.length + 1),
         containerTitle: moduleName,
-        content: firstParagraph(defaultString(c.docString)),
+        content: splitDocString(defaultString(c.docString)).summary,
       });
       addNestedDocs(moduleName, c.children);
     });
@@ -188,7 +190,7 @@ const referenceSearchableContent = (
       id: module.id,
       title: module.fullName,
       containerTitle: module.fullName,
-      content: firstParagraph(defaultString(module.docString)),
+      content: splitDocString(defaultString(module.docString)).summary,
     });
     addNestedDocs(module.fullName, module.children);
   }
@@ -197,7 +199,7 @@ const referenceSearchableContent = (
 
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
-  tab: "explore" | "reference",
+  tab: "reference" | "api",
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
   const index = lunr(function () {
@@ -215,11 +217,11 @@ export const buildSearchIndex = (
 };
 
 // Exposed for testing.
-export const buildToolkitIndex = async (
-  exploreToolkit: Toolkit,
-  referenceToolkit: ApiDocsResponse
+export const buildReferenceIndex = async (
+  reference: Toolkit,
+  api: ApiDocsResponse
 ): Promise<LunrSearch> => {
-  const language = exploreToolkit.language;
+  const language = reference.language;
   const languageSupport = await retryAsyncLoad(() =>
     loadLunrLanguageSupport(language)
   );
@@ -235,11 +237,11 @@ export const buildToolkitIndex = async (
 
   return new LunrSearch(
     buildSearchIndex(
-      exploreSearchableContent(exploreToolkit),
-      "explore",
+      referenceSearchableContent(reference),
+      "reference",
       ...plugins
     ),
-    buildSearchIndex(referenceSearchableContent(referenceToolkit), "reference")
+    buildSearchIndex(apiSearchableContent(api), "api")
   );
 };
 
@@ -281,7 +283,7 @@ export class SearchWorker {
   }
 
   private async index(message: IndexMessage) {
-    this.search = await buildToolkitIndex(message.explore, message.reference);
+    this.search = await buildReferenceIndex(message.reference, message.api);
     this.recordInitialization!();
   }
 

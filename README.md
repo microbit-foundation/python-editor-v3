@@ -1,6 +1,6 @@
-# Alpha version of the micro:bit Python editor
+# Beta version of the micro:bit Python Editor
 
-_This project is an alpha version of the next major version of the editor. The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor._
+_This project is a beta version of the next major version of the editor. The currently supported micro:bit Python editor is available at https://python.microbit.org/ and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor._
 
 For more background about how this editor relates to the original Python Editor project, see [this explanation](https://github.com/bbcmicrobit/PythonEditor/issues/391).
 
@@ -9,8 +9,8 @@ This project is a web-based code editor that targets the [MicroPython](https://m
 Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
 
 <figure>
-  <img src="https://user-images.githubusercontent.com/44397098/150586399-bf75992e-9e9f-4126-a0e6-4805babdc824.png" alt="Screenshot of the Python editor showing the code editing area and documentation for the micro:bit display" width="100%">
-  <figcaption>You can try out the micro:bit-branded deployment of the alpha at https://python.microbit.org/v/alpha</figcaption>  
+  <img src="https://user-images.githubusercontent.com/44397098/163186656-5581f75d-20b0-4e3f-8272-8c1aa76ba973.png" alt="Screenshot of the Python editor showing the code editing area and Reference documentation" width="100%">
+  <figcaption>You can try out the micro:bit-branded deployment of the beta at https://python.microbit.org/v/beta</figcaption>  
 </figure>
 
 ## Developing the editor
@@ -108,8 +108,8 @@ We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for tr
 
 Add strings to `lang/en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
-There is a French translation of the main user interface text and the "Explore" tab content.
-The Reference tab and code error messages shown in the editor are not currently translated.
+There is a French translation of the main user interface text and the "Reference" tab content.
+The API tab and code error messages shown in the editor are not currently translated.
 
 ## License
 

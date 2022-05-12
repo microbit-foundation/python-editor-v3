@@ -16,6 +16,9 @@ module.exports = {
   errorDocumentKey: "index.html",
   redirects: [],
   params: {
+    "**/**.html": {
+      CacheControl: "public, max-age=0, must-revalidate",
+    },
     "static/**": { CacheControl: "public, max-age=31536000, immutable" },
     "**/**/!(sw).js": { CacheControl: "public, max-age=31536000, immutable" },
     "**/**.css": { CacheControl: "public, max-age=31536000, immutable" },

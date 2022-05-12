@@ -3,9 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useSettings } from "../settings/settings";
-import { IntlProvider, MessageFormatElement } from "react-intl";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
+import { IntlProvider } from "react-intl";
 import en from "./en.json";
 
 interface FixedTranslationProviderProps {

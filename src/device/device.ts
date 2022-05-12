@@ -95,6 +95,7 @@ export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
+export const EVENT_FLASH = "flash";
 
 export class HexGenerationError extends Error {}
 
@@ -174,6 +175,11 @@ export interface DeviceConnection extends EventEmitter {
    * @returns A promise that resolves when the write is complete.
    */
   serialWrite(data: string): Promise<void>;
+
+  /**
+   * Clear device to enable chooseDevice.
+   */
+  clearDevice(): void;
 }
 
 /**
@@ -330,10 +336,10 @@ export class MicrobitWebUSBConnection
     this.flashing = true;
     try {
       const startTime = new Date().getTime();
-
       await this.withEnrichedErrors(() =>
         this.flashInternal(dataSource, options)
       );
+      this.emit(EVENT_FLASH);
 
       const flashTime = new Date().getTime() - startTime;
       this.logging.event({
@@ -511,6 +517,12 @@ export class MicrobitWebUSBConnection
       this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
     }
   };
+
+  async clearDevice(): Promise<void> {
+    await this.disconnect();
+    this.device = undefined;
+    this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
+  }
 
   private async connectInternal(serial: boolean): Promise<void> {
     if (!this.connection) {

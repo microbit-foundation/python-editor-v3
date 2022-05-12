@@ -5,6 +5,9 @@
  */
 import { App } from "./app";
 
+const showFullSignature =
+  "show(image, delay=400, wait=True, loop=False, clear=False)";
+
 describe("Browser - autocomplete and signature help tests", () => {
   // Enable flags to allow testing the toolkit interactions.
   const app = new App();
@@ -18,7 +21,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     // Initial completions
     await app.findCompletionOptions(["scroll", "set_pixel", "show"]);
-    await app.findCompletionActiveOption("scroll(value)");
+    await app.findCompletionActiveOption("scroll(text)");
 
     // Further refinement
     await app.typeInEditor("h");
@@ -29,6 +32,16 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findVisibleEditorContents("display.show()");
   });
 
+  it("ranks Image above image=", async () => {
+    // This particular case has been tweaked in a somewhat fragile way.
+    // See the boost code in autocompletion.ts
+
+    await app.selectAllInEditor();
+    await app.typeInEditor("from microbit import *\ndisplay.show(image");
+
+    await app.findCompletionOptions(["Image", "image="]);
+  });
+
   it("autocomplete can navigate to toolkit content", async () => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
@@ -37,7 +50,7 @@ describe("Browser - autocomplete and signature help tests", () => {
 
     await app.followCompletionOrSignatureDocumentionLink();
 
-    await app.findActiveToolkitEntry("show(image)");
+    await app.findActiveDocumentationEntry(showFullSignature);
   });
 
   it("shows signature help after autocomplete", async () => {
@@ -45,7 +58,7 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.typeInEditor("from microbit import *\ndisplay.sho");
     await app.acceptCompletion("show");
 
-    await app.findSignatureHelp("show(image)");
+    await app.findSignatureHelp(showFullSignature);
   });
 
   it("does not insert brackets for import completion", async () => {
@@ -62,10 +75,10 @@ describe("Browser - autocomplete and signature help tests", () => {
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
 
-    await app.findSignatureHelp("show(image)");
+    await app.findSignatureHelp(showFullSignature);
 
     await app.followCompletionOrSignatureDocumentionLink();
 
-    await app.findActiveToolkitEntry("clear()");
+    await app.findActiveDocumentationEntry("clear()");
   });
 });

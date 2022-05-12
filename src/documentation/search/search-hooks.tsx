@@ -15,7 +15,7 @@ import {
 import useIsUnmounted from "../../common/use-is-unmounted";
 import { useLogging } from "../../logging/logging-hooks";
 import { useSettings } from "../../settings/settings";
-import { useToolkitState } from "../toolkit-hooks";
+import { useDocumentation } from "../documentation-hooks";
 import { Search, SearchResults } from "./common";
 import { WorkerSearch } from "./search-client";
 
@@ -38,17 +38,17 @@ export const useSearch = (): UseSearch => {
 };
 
 const SearchProvider = ({ children }: { children: ReactNode }) => {
-  const { exploreToolkit, referenceToolkit } = useToolkitState();
+  const { reference, api } = useDocumentation();
   const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const logging = useLogging();
   useEffect(() => {
     // Wait for both, no reason to index with just one then redo with both.
-    if (exploreToolkit.status === "ok" && referenceToolkit) {
-      search.index(exploreToolkit.toolkit, referenceToolkit);
+    if (reference.status === "ok" && api) {
+      search.index(reference.content, api);
     }
-  }, [exploreToolkit, referenceToolkit]);
+  }, [reference, api]);
 
   const debouncedSearch = useMemo(
     () =>

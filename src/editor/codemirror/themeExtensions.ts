@@ -24,8 +24,17 @@ export const themeExtensions = (fontSize: string) => {
       border: "unset",
       color: "var(--chakra-colors-gray-600)",
     },
+    // Widths to accomodate two gutters (lint and line numbers).
+    ".cm-gutter.cm-gutter-lint": {
+      width: "1.8rem",
+      minWidth: "unset",
+    },
     ".cm-gutter": {
-      width: "5rem",
+      minWidth: "2.2rem",
+    },
+    // Don't show markers for diagnostics at info level.
+    ".cm-lint-marker-info": {
+      display: "none",
     },
     ".cm-activeLine": {
       // Can't use background colour for conflicting purposes.
@@ -73,13 +82,13 @@ export const themeExtensions = (fontSize: string) => {
     },
     ".cm-tooltip.cm-completionInfo": {
       width: "20rem",
-      height: "10rem",
+      height: "10.5rem",
       top: "0 !important",
       overflowY: "auto",
     },
     ".cm-tooltip.cm-tooltip-autocomplete > ul": {
-      height: "10rem",
-      maxHeight: "10rem",
+      height: "10.5rem",
+      maxHeight: "10.5rem",
     },
     ".cm-widgetBuffer": {
       display: "inline",

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { useProjectFileText } from "../project/project-hooks";
-import { codeStructureSettings, useSettings } from "../settings/settings";
+import { useSettings } from "../settings/settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import Editor from "./codemirror/CodeMirror";
 
@@ -25,7 +25,8 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
       selection={selection}
       onChange={onFileChange}
       fontSize={settings.fontSize}
-      codeStructureSettings={codeStructureSettings(settings)}
+      codeStructureOption={settings.codeStructureHighlight}
+      parameterHelpOption={settings.parameterHelp}
     />
   );
 };

@@ -11,7 +11,7 @@ import { defaultHighlightStyle } from "@codemirror/highlight";
 import { history, historyKeymap } from "@codemirror/history";
 import { python } from "@codemirror/lang-python";
 import { indentOnInput, indentUnit } from "@codemirror/language";
-import { lintKeymap } from "@codemirror/lint";
+import { lintKeymap } from "./lint/lint";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
@@ -30,7 +30,7 @@ const customTabBinding: KeyBinding = {
   shift: indentLess,
 };
 
-export const themeExtensionsCompartment = new Compartment();
+export const compartment = new Compartment();
 
 const indentSize = 4;
 export const editorConfig: Extension = [

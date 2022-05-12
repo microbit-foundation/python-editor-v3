@@ -5,7 +5,7 @@ orbs:
 _defaults: &defaults
   working_directory: ~/repo
 _docker_defaults: &docker_defaults
-  image: circleci/node:16
+  image: cimg/node:16.14
 _steps:
   queue_until_front_of_line: &queue_until_front_of_line
     # Ensures we don't deploy concurrently
@@ -24,13 +24,13 @@ _steps:
         - .npm-cache
       key: npm-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
   install_pip: &install_pip
-    run: sudo apt-get update && sudo apt-get install python-pip
+    run: sudo apt-get update && sudo apt-get install python3-pip
   install_aws_cli: &install_aws_cli
     run: sudo pip install awscli
   install_dependencies: &install_dependencies
-    run: npm ci --cache .npm-cache && sudo npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && sudo npm i -g @microbit-foundation/website-deploy-aws@0.2.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
+    run: npm ci --cache .npm-cache && sudo npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && sudo npm i -g @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
   install_theme: &install_theme
-    run: npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && npm install --no-save @microbit-foundation/python-editor-next-microbit@0.1.0-dev.109
+    run: npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && npm install --no-save @microbit-foundation/python-editor-next-microbit@0.1.0-dev.148
   update_version: &update_version
     run: npm run ci:update-version
   build: &build

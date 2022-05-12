@@ -14,7 +14,8 @@ export function useLocalStorage<T>(
   defaultValue: T
 ): [T, (value: T) => void] {
   const [state, setState] = useState<T>(() => {
-    const value = localStorage.getItem(key);
+    const storage = localStorageIfPossible();
+    const value = storage ? storage.getItem(key) : null;
     if (value !== null) {
       try {
         let parsed = JSON.parse(value);
@@ -42,10 +43,22 @@ export function useLocalStorage<T>(
   });
   const setAndSaveState = useCallback(
     (value: T) => {
-      localStorage.setItem(key, JSON.stringify(value));
+      const storage = localStorageIfPossible();
+      if (storage) {
+        storage.setItem(key, JSON.stringify(value));
+      }
       setState(value);
     },
     [setState, key]
   );
   return [state, setAndSaveState];
 }
+
+const localStorageIfPossible = () => {
+  try {
+    return window.localStorage;
+  } catch (e) {
+    // Handle possible SecurityError, absent window.
+    return undefined;
+  }
+};

@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { setDiagnostics } from "@codemirror/lint";
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
+import { setDiagnostics } from "../lint/lint";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
@@ -30,7 +30,6 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
       this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
     }
   };
-
   constructor(view: EditorView) {
     super(view);
 
@@ -39,13 +38,11 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
-      const initialDiagnostics = this.client.currentDiagnostics(this.uri);
-      view.dispatch(
-        setDiagnostics(
-          view.state,
-          diagnosticsMapping(this.view.state.doc, initialDiagnostics)
-        )
+      const diagnostics = diagnosticsMapping(
+        view.state.doc,
+        this.client.currentDiagnostics(this.uri)
       );
+      view.dispatch(setDiagnostics(view.state, diagnostics));
     }, 0);
   }
 
@@ -65,6 +62,12 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   }
 }
 
+interface Options {
+  signatureHelp: {
+    automatic: boolean;
+  };
+}
+
 /**
  * Extensions that make use of a language server client.
  *
@@ -78,13 +81,14 @@ export function languageServer(
   client: LanguageServerClient,
   uri: string,
   intl: IntlShape,
-  logging: Logging
+  logging: Logging,
+  options: Options
 ) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    signatureHelp(intl),
+    signatureHelp(intl, options.signatureHelp.automatic),
     autocompletion(intl, logging),
   ];
 }

@@ -4,7 +4,7 @@
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like the BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of severs that run huge websites\". The background behind the snakes shows a server rack.",
+    "defaultMessage": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like your BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of servers that run huge websites\". The background behind the snakes shows a server rack.",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
@@ -23,13 +23,37 @@
     "defaultMessage": "Read more about MicroPython",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
+  "add-action": {
+    "defaultMessage": "Add",
+    "description": "Add action label"
+  },
+  "add-file-action": {
+    "defaultMessage": "Add file",
+    "description": "Button text for action that adds a new blank file"
+  },
+  "add-python": {
+    "defaultMessage": "Add a new Python file to your project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
   },
+  "added-file": {
+    "defaultMessage": "Added {filename}",
+    "description": "Action feedback for creating a file"
+  },
   "already-exists": {
     "defaultMessage": "This file already exists",
     "description": "File already exists notification text"
+  },
+  "api-description": {
+    "defaultMessage": "API documentation for micro:bit MicroPython",
+    "description": "Description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
   },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
@@ -37,19 +61,19 @@
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
-    "description": "Heading in Reference documentation for the classes in a Python module"
+    "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
     "defaultMessage": "Fields",
-    "description": "Heading in Reference documentation for the fields in a Python module"
+    "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
     "defaultMessage": "Functions",
-    "description": "Heading in Reference documentation for the functions in a Python module"
+    "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
     "defaultMessage": "Methods",
-    "description": "Heading in Reference documentation for the methods in a Python class"
+    "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-to-main": {
     "defaultMessage": "back to the main code",
@@ -107,6 +131,10 @@
     "defaultMessage": "Code editor",
     "description": "Aria label for the code editor"
   },
+  "code-example": {
+    "defaultMessage": "Code example:",
+    "description": "Visually hidden text to announce code examples in the toolkit documentation"
+  },
   "confirm-action": {
     "defaultMessage": "Confirm",
     "description": "Confirm action label"
@@ -127,6 +155,22 @@
     "defaultMessage": "Connect",
     "description": "Connect button text"
   },
+  "connect-help-message": {
+    "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
+    "description": "Text in the connect help dialog"
+  },
+  "connect-help-one": {
+    "defaultMessage": "Choose your micro:bit",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-help-title": {
+    "defaultMessage": "Connect your micro:bit",
+    "description": "Title for the connect help dialog"
+  },
+  "connect-help-two": {
+    "defaultMessage": "Select ‘Connect’",
+    "description": "Legend text for the connect help dialog image"
+  },
   "connect-hover": {
     "defaultMessage": "Connect to your micro:bit over WebUSB",
     "description": "Connect button hover text"
@@ -135,6 +179,10 @@
     "defaultMessage": "Connect to your micro:bit to see serial output here",
     "description": "Text in serial area"
   },
+  "connect-troubleshoot": {
+    "defaultMessage": "Troubleshoot problems with connecting to your micro:bit",
+    "description": "Text in no the micro:bit found and firmware update dialogs"
+  },
   "copied": {
     "defaultMessage": "Copied",
     "description": "Text shown after copy to clipboard"
@@ -142,22 +190,6 @@
   "copy-action": {
     "defaultMessage": "Copy",
     "description": "Copy to clipboard action text"
-  },
-  "create-action": {
-    "defaultMessage": "Create",
-    "description": "Create action label"
-  },
-  "create-file-action": {
-    "defaultMessage": "Create new file",
-    "description": "Create new file button text"
-  },
-  "create-python": {
-    "defaultMessage": "Create a new Python file",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
-  "created-file": {
-    "defaultMessage": "Created {filename}",
-    "description": "Action feedback for creating a file"
   },
   "delete-action": {
     "defaultMessage": "Delete",
@@ -179,9 +211,9 @@
     "defaultMessage": "Disconnect from the micro:bit",
     "description": "Disconnect button hover text"
   },
-  "documentation": {
-    "defaultMessage": "Documentation",
-    "description": "Documentation menu option text"
+  "dont-show-again": {
+    "defaultMessage": "Don't show this again",
+    "description": "Text to never show a dialog again"
   },
   "download-action": {
     "defaultMessage": "Download",
@@ -215,10 +247,6 @@
     "defaultMessage": "Edit project name",
     "description": "Text for user to edit the name of the project"
   },
-  "explore-tab": {
-    "defaultMessage": "Explore",
-    "description": "Explore tab button text"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
@@ -227,13 +255,17 @@
     "defaultMessage": "{name} file actions",
     "description": "Header of file actions for file"
   },
-  "files-tab": {
-    "defaultMessage": "Files",
-    "description": "Files tab button text"
+  "firmware-update-link": {
+    "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
+    "description": "Text in the firmware update dialog"
   },
-  "files-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your project",
-    "description": "Files tab description"
+  "firmware-update-message": {
+    "defaultMessage": "Connecting to the micro:bit failed because the firmware on your micro:bit is too old.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-title": {
+    "defaultMessage": "Firmware update required",
+    "description": "Title for the firmware update dialog"
   },
   "flash-action": {
     "defaultMessage": "Flash",
@@ -248,7 +280,7 @@
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "Initial flash might take longer, subsequent flashes will be quicker.",
+    "defaultMessage": "Your code is being sent ('flashed') to your micro:bit. This can take a while the first time, sorry, but it will be quicker after that.",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
@@ -262,6 +294,10 @@
   "help": {
     "defaultMessage": "Help",
     "description": "Help menu label"
+  },
+  "help-support": {
+    "defaultMessage": "Help & support",
+    "description": "Menu item for link to support site"
   },
   "help-translate": {
     "defaultMessage": "Help translate",
@@ -283,9 +319,13 @@
     "defaultMessage": "Simple",
     "description": "Highlight code structure option"
   },
-  "hints-and-tips": {
-    "defaultMessage": "Hints and tips",
-    "description": "Link/button for minor internal help"
+  "ideas-tab": {
+    "defaultMessage": "Ideas",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Try out these projects, modify them and get inspired",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
     "defaultMessage": "Insert code",
@@ -331,6 +371,10 @@
     "defaultMessage": "micro:bit board with the 5 by 5 LED grid showing a heart",
     "description": "Alt text for micro:bit image in About dialog"
   },
+  "micropython-documentation": {
+    "defaultMessage": "MicroPython documentation",
+    "description": "MicroPython documentation menu option text"
+  },
   "micropython-history": {
     "defaultMessage": "Learn how MicroPython on the micro:bit came to be",
     "description": "Links to MicroPython history in the about dialog"
@@ -342,6 +386,10 @@
   "more-action": {
     "defaultMessage": "More",
     "description": "More button text"
+  },
+  "more-download-options": {
+    "defaultMessage": "More download options",
+    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
   },
   "name-not-blank": {
     "defaultMessage": "The project name cannot be blank",
@@ -367,6 +415,30 @@
     "defaultMessage": "We'll add the <code>.py</code> extension for you.",
     "description": "Hint shown in the new Python file dialog"
   },
+  "not-found-checklist-one": {
+    "defaultMessage": "Review <link>how to select the device</link>",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-three": {
+    "defaultMessage": "If you have a micro:bit V1 you may need to <link>update the firmware</link>",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-two": {
+    "defaultMessage": "Check your micro:bit is plugged in and powered on",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-message": {
+    "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-title": {
+    "defaultMessage": "No micro:bit found",
+    "description": "Title for the micro:bit found dialog"
+  },
+  "not-found-update-link": {
+    "defaultMessage": "You must <link>update your firmware before</link> you can connect to this micro:bit.",
+    "description": "Text in the no micro:bit found dialog"
+  },
   "open-file-dropped": {
     "defaultMessage": "Open file when dropped",
     "description": "Aria label for file drop target"
@@ -374,6 +446,18 @@
   "options": {
     "defaultMessage": "Options",
     "description": "Label for an options menu"
+  },
+  "parameter-help": {
+    "defaultMessage": "Parameter help",
+    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
+  },
+  "parameter-help-automatic": {
+    "defaultMessage": "Automatic",
+    "description": "Parameter help setting for when the parameter documentation is shown automatically"
+  },
+  "parameter-help-manual": {
+    "defaultMessage": "Manual ({shortcut})",
+    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
     "defaultMessage": "Permanently delete {filename}?",
@@ -387,13 +471,17 @@
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
   },
-  "projects-tab": {
-    "defaultMessage": "Projects",
-    "description": "Projects tab button text"
+  "project-name": {
+    "defaultMessage": "Project name",
+    "description": "Text used to indicate the project name"
   },
-  "projects-tab-description": {
-    "defaultMessage": "Placeholder for projects with full working code examples",
-    "description": "Projects tab description text"
+  "project-tab": {
+    "defaultMessage": "Project",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "View, create, add and edit the files in your project",
+    "description": "Project tab description"
   },
   "python-powered": {
     "defaultMessage": "Python powered",
@@ -419,10 +507,6 @@
     "defaultMessage": "Redo",
     "description": "Aria label for the redo button"
   },
-  "reference-description": {
-    "defaultMessage": "Reference documentation for micro:bit MicroPython",
-    "description": "Description at the top of the Reference tab"
-  },
   "reference-tab": {
     "defaultMessage": "Reference",
     "description": "Reference tab button text"
@@ -444,20 +528,20 @@
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Send Ctrl-C for REPL",
+    "defaultMessage": "Send Ctrl+C for REPL",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Send Ctrl-D to reset",
+    "defaultMessage": "Send Ctrl+D to reset",
     "description": "Button to reset the micro:bit from the serial area"
-  },
-  "serial-ctrl-e-action": {
-    "defaultMessage": "Send Ctrl-E for paste mode",
-    "description": "Button to enter serial paste mode"
   },
   "serial-expand": {
     "defaultMessage": "Show serial",
     "description": "Action label to expand the serial console/REPL area"
+  },
+  "serial-flashed": {
+    "defaultMessage": "micro:bit flashed",
+    "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
     "defaultMessage": "Use the keyboard shortcut <kbd>Ctrl</kbd> + <kbd>C</kbd> to interrupt your program. Then you can type Python commands for MicroPython to run. It's a great way to experiment with something new.",
@@ -479,9 +563,17 @@
     "defaultMessage": "Serial hints and tips",
     "description": "Title for the serial hints and tips dialog"
   },
+  "serial-hints-and-tips": {
+    "defaultMessage": "Serial hints and tips",
+    "description": "Link/button to open the serial hints and tips dialog"
+  },
   "serial-menu": {
     "defaultMessage": "Serial menu",
     "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "micro:bit ready to flash",
+    "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
     "defaultMessage": "Running…",
@@ -494,6 +586,10 @@
   "settings": {
     "defaultMessage": "Settings",
     "description": "Settings text"
+  },
+  "show-api-documentation": {
+    "defaultMessage": "Show API documentation",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
   },
   "show-less": {
     "defaultMessage": "Show less",
@@ -511,10 +607,6 @@
     "defaultMessage": "Show more for {item}",
     "description": "Show more with item usually for aria label"
   },
-  "show-reference-documentation": {
-    "defaultMessage": "Show reference documentation",
-    "description": "Shown on link from editor autocomplete and signature help to the reference docs."
-  },
   "sidebar": {
     "defaultMessage": "Sidebar",
     "description": "Aria label for the area on the left"
@@ -522,6 +614,10 @@
   "software-versions": {
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"
+  },
+  "start-action": {
+    "defaultMessage": "Start",
+    "description": "Start button text"
   },
   "support": {
     "defaultMessage": "Support",
@@ -547,6 +643,10 @@
     "defaultMessage": "View {name} documentation",
     "description": "Aria label for the toolkit topic right arrow"
   },
+  "try-again-action": {
+    "defaultMessage": "Try again",
+    "description": "Try again button text"
+  },
   "undo": {
     "defaultMessage": "Undo",
     "description": "Aria label for the undo button"
@@ -562,6 +662,10 @@
   "untitled-project": {
     "defaultMessage": "Untitled project",
     "description": "Title for a new project"
+  },
+  "update-firmware-action": {
+    "defaultMessage": "Update firmware",
+    "description": "Update firmware button text"
   },
   "updated-change": {
     "defaultMessage": "Updated file {changeName}",

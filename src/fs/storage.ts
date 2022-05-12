@@ -81,6 +81,27 @@ const projectNameKey = "projectName";
  * Session storage version.
  */
 export class SessionStorageFSStorage implements FSStorage {
+  /**
+   * Attempts to create the session storage using the window.
+   *
+   * Swallows errors accessing window.sessionStorage.
+   *
+   * @returns The storage if possible, otherwise undefined.
+   */
+  static create() {
+    const sessionStorageIfPossible = () => {
+      try {
+        return window.sessionStorage;
+      } catch (e) {
+        // We see SecurityError here in some scenarios
+        // https://github.com/microbit-foundation/python-editor-next/issues/736
+        return undefined;
+      }
+    };
+    const storage = sessionStorageIfPossible();
+    return storage ? new SessionStorageFSStorage(storage) : undefined;
+  }
+
   constructor(private storage: Storage) {}
 
   async ls() {

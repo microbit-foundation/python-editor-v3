@@ -8,8 +8,8 @@
  */
 import { indentUnit, syntaxTree } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
-import { CodeStructureSettings } from ".";
-import { skipBodyTrailers } from "./doc-util";
+import { lintState } from "../lint/lint";
+import { overlapsUnnecessaryCode, skipBodyTrailers } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
 
 // Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
@@ -29,13 +29,12 @@ interface Measure {
   blocks: VisualBlock[];
 }
 
-export const codeStructureView = (settings: CodeStructureSettings) =>
+export const codeStructureView = (option: "full" | "simple") =>
   ViewPlugin.fromClass(
     class {
       measureReq: { read: () => Measure; write: (value: Measure) => void };
       overlayLayer: HTMLElement;
       blocks: VisualBlock[] = [];
-      lShape = settings.shape === "l-shape";
 
       constructor(readonly view: EditorView) {
         this.measureReq = {
@@ -46,20 +45,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
           document.createElement("div")
         );
         this.overlayLayer.className = "cm-cs--layer";
-        // Add classes to activate CSS for the various settings.
-        this.overlayLayer.classList.add(
-          this.lShape ? "cm-cs--lshapes" : "cm-cs--boxes"
-        );
-        this.overlayLayer.classList.add(
-          "cm-cs--background-" + settings.background
-        );
-        if (settings.cursorBackground) {
-          this.overlayLayer.classList.add("cm-cs--cursor-background");
-        }
-        this.overlayLayer.classList.add("cm-cs--borders-" + settings.borders);
-        this.overlayLayer.classList.add(
-          "cm-cs--cursor-borders-" + settings.cursorBorder
-        );
+        this.overlayLayer.classList.add("cm-cs--mode-" + option);
         this.overlayLayer.setAttribute("aria-hidden", "true");
         view.requestMeasure(this.measureReq);
       }
@@ -70,6 +56,9 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
       }
 
       readBlocks(): Measure {
+        const view = this.view;
+        const { state } = view;
+
         let cursorFound = false;
 
         const positionsForNode = (
@@ -79,7 +68,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
           depth: number,
           body: boolean
         ) => {
-          const state = view.state;
+          const diagnostics = state.field(lintState, false)?.diagnostics;
           const leftEdge =
             view.contentDOM.getBoundingClientRect().left -
             view.scrollDOM.getBoundingClientRect().left;
@@ -95,10 +84,25 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
               return undefined;
             }
           }
-          const top = topLine.top;
-          const bottomLine = view.visualLineAt(
-            skipBodyTrailers(state, end - 1)
+
+          if (overlapsUnnecessaryCode(diagnostics, topLine.from, topLine.to)) {
+            return undefined;
+          }
+
+          const topLineNumber = state.doc.lineAt(topLine.from).number;
+          const bottomPos = skipBodyTrailers(
+            state,
+            diagnostics,
+            end - 1,
+            topLineNumber
           );
+          if (!bottomPos) {
+            // Not sure if this is possible in practice due to the grammar,
+            // but best to bail if we encounter it in error scenarios.
+            return undefined;
+          }
+          const bottomLine = view.visualLineAt(bottomPos);
+          const top = topLine.top;
           const bottom = bottomLine.bottom;
           const height = bottom - top;
           const leftIndent = depth * indentWidth;
@@ -114,10 +118,7 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
           return new Positions(top, left, height, cursorActive);
         };
 
-        const view = this.view;
-        const { state } = view;
-
-        const bodyPullBack = this.lShape && settings.background !== "none";
+        const bodyPullBack = option === "full";
         const blocks: VisualBlock[] = [];
         // We could throw away blocks if we tracked returning to the top-level or started from
         // the closest top-level node. Otherwise we need to render them because they overlap.
@@ -151,15 +152,13 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                     const startNode = children[runStart];
                     const bodyNode = children[i];
 
-                    const parentPositions = this.lShape
-                      ? positionsForNode(
-                          view,
-                          startNode.start,
-                          bodyNode.start,
-                          depth,
-                          false
-                        )
-                      : undefined;
+                    const parentPositions = positionsForNode(
+                      view,
+                      startNode.start,
+                      bodyNode.start,
+                      depth,
+                      false
+                    );
                     const bodyPositions = positionsForNode(
                       view,
                       bodyNode.start,
@@ -167,28 +166,17 @@ export const codeStructureView = (settings: CodeStructureSettings) =>
                       depth + 1,
                       true
                     );
-                    blocks.push(
-                      new VisualBlock(
-                        bodyPullBack,
-                        parentPositions,
-                        bodyPositions
-                      )
-                    );
+                    if (parentPositions && bodyPositions) {
+                      blocks.push(
+                        new VisualBlock(
+                          bodyPullBack,
+                          parentPositions,
+                          bodyPositions
+                        )
+                      );
+                    }
                     runStart = i + 1;
                   }
-                }
-                if (!this.lShape) {
-                  // Draw a box for the parent compound statement as a whole (may have multiple child Bodys)
-                  const parentPositions = positionsForNode(
-                    view,
-                    start,
-                    end,
-                    depth,
-                    false
-                  );
-                  blocks.push(
-                    new VisualBlock(bodyPullBack, parentPositions, undefined)
-                  );
                 }
               }
 

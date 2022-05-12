@@ -8,7 +8,7 @@
   "about-comic": [
     {
       "type": 0,
-      "value": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like the BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of severs that run huge websites\". The background behind the snakes shows a server rack."
+      "value": "Three panel comic titled \"MicroPython Rocks\" by Mike Rowbit. A cartoon snake introduces Damien, saying \"Meet Damien... He created MicroPython.\". Two snakes discuss MicroPython. The yellow snake says \"MicroPython is designed to work on very small computers.\" \"Like your BBC micro:bit\" the purple snake replies.\" The yellows snake continues \"But Python can run anywhere.\". The purple snake agrees, saying \"Like on this rack of servers that run huge websites\". The background behind the snakes shows a server rack."
     }
   ],
   "about-microbit": [
@@ -59,6 +59,24 @@
       "value": "Read more about MicroPython"
     }
   ],
+  "add-action": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
+  "add-file-action": [
+    {
+      "type": 0,
+      "value": "Add file"
+    }
+  ],
+  "add-python": [
+    {
+      "type": 0,
+      "value": "Add a new Python file to your project"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -69,10 +87,32 @@
       "value": "changeName"
     }
   ],
+  "added-file": [
+    {
+      "type": 0,
+      "value": "Added "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
   "already-exists": [
     {
       "type": 0,
       "value": "This file already exists"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "API documentation for micro:bit MicroPython"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
     }
   ],
   "apidocs-baseclass": [
@@ -257,6 +297,12 @@
       "value": "Code editor"
     }
   ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Code example:"
+    }
+  ],
   "confirm-action": [
     {
       "type": 0,
@@ -287,6 +333,30 @@
       "value": "Connect"
     }
   ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "Choose your micro:bit"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "Connect your micro:bit"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "Select ‘Connect’"
+    }
+  ],
   "connect-hover": [
     {
       "type": 0,
@@ -299,6 +369,12 @@
       "value": "Connect to your micro:bit to see serial output here"
     }
   ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "Troubleshoot problems with connecting to your micro:bit"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -309,34 +385,6 @@
     {
       "type": 0,
       "value": "Copy"
-    }
-  ],
-  "create-action": [
-    {
-      "type": 0,
-      "value": "Create"
-    }
-  ],
-  "create-file-action": [
-    {
-      "type": 0,
-      "value": "Create new file"
-    }
-  ],
-  "create-python": [
-    {
-      "type": 0,
-      "value": "Create a new Python file"
-    }
-  ],
-  "created-file": [
-    {
-      "type": 0,
-      "value": "Created "
-    },
-    {
-      "type": 1,
-      "value": "filename"
     }
   ],
   "delete-action": [
@@ -377,10 +425,10 @@
       "value": "Disconnect from the micro:bit"
     }
   ],
-  "documentation": [
+  "dont-show-again": [
     {
       "type": 0,
-      "value": "Documentation"
+      "value": "Don't show this again"
     }
   ],
   "download-action": [
@@ -439,12 +487,6 @@
       "value": "Edit project name"
     }
   ],
-  "explore-tab": [
-    {
-      "type": 0,
-      "value": "Explore"
-    }
-  ],
   "failed-to-build-hex": [
     {
       "type": 0,
@@ -461,16 +503,36 @@
       "value": " file actions"
     }
   ],
-  "files-tab": [
+  "firmware-update-link": [
     {
       "type": 0,
-      "value": "Files"
+      "value": "You must "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " before you can connect to this micro:bit."
     }
   ],
-  "files-tab-description": [
+  "firmware-update-message": [
     {
       "type": 0,
-      "value": "View, create, add and edit the files in your project"
+      "value": "Connecting to the micro:bit failed because the firmware on your micro:bit is too old."
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "Firmware update required"
     }
   ],
   "flash-action": [
@@ -494,7 +556,7 @@
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Initial flash might take longer, subsequent flashes will be quicker."
+      "value": "Your code is being sent ('flashed') to your micro:bit. This can take a while the first time, sorry, but it will be quicker after that."
     }
   ],
   "flashing-micropython": [
@@ -513,6 +575,12 @@
     {
       "type": 0,
       "value": "Help"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Help & support"
     }
   ],
   "help-translate": [
@@ -545,10 +613,16 @@
       "value": "Simple"
     }
   ],
-  "hints-and-tips": [
+  "ideas-tab": [
     {
       "type": 0,
-      "value": "Hints and tips"
+      "value": "Ideas"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Try out these projects, modify them and get inspired"
     }
   ],
   "insert-code-action": [
@@ -645,6 +719,12 @@
       "value": "micro:bit board with the 5 by 5 LED grid showing a heart"
     }
   ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "MicroPython documentation"
+    }
+  ],
   "micropython-history": [
     {
       "type": 0,
@@ -685,6 +765,12 @@
     {
       "type": 0,
       "value": "More"
+    }
+  ],
+  "more-download-options": [
+    {
+      "type": 0,
+      "value": "More download options"
     }
   ],
   "name-not-blank": [
@@ -737,6 +823,76 @@
       "value": " extension for you."
     }
   ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "Review "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "how to select the device"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-checklist-three": [
+    {
+      "type": 0,
+      "value": "If you have a micro:bit V1 you may need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update the firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "Check your micro:bit is plugged in and powered on"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "You didn’t select a micro:bit, or there was a problem connecting to it."
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "No micro:bit found"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "You must "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware before"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " you can connect to this micro:bit."
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,
@@ -747,6 +903,32 @@
     {
       "type": 0,
       "value": "Options"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "Parameter help"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "Automatic"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "Manual ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
     }
   ],
   "permanently-delete": [
@@ -775,16 +957,22 @@
       "value": "Project header"
     }
   ],
-  "projects-tab": [
+  "project-name": [
     {
       "type": 0,
-      "value": "Projects"
+      "value": "Project name"
     }
   ],
-  "projects-tab-description": [
+  "project-tab": [
     {
       "type": 0,
-      "value": "Placeholder for projects with full working code examples"
+      "value": "Project"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your project"
     }
   ],
   "python-powered": [
@@ -821,12 +1009,6 @@
     {
       "type": 0,
       "value": "Redo"
-    }
-  ],
-  "reference-description": [
-    {
-      "type": 0,
-      "value": "Reference documentation for micro:bit MicroPython"
     }
   ],
   "reference-tab": [
@@ -896,25 +1078,25 @@
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Send Ctrl-C for REPL"
+      "value": "Send Ctrl+C for REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Send Ctrl-D to reset"
-    }
-  ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Send Ctrl-E for paste mode"
+      "value": "Send Ctrl+D to reset"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
       "value": "Show serial"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "micro:bit flashed"
     }
   ],
   "serial-help-ctrl-c": [
@@ -1031,10 +1213,22 @@
       "value": "Serial hints and tips"
     }
   ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
+    }
+  ],
   "serial-menu": [
     {
       "type": 0,
       "value": "Serial menu"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "micro:bit ready to flash"
     }
   ],
   "serial-running": [
@@ -1053,6 +1247,12 @@
     {
       "type": 0,
       "value": "Settings"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Show API documentation"
     }
   ],
   "show-less": [
@@ -1087,12 +1287,6 @@
       "value": "item"
     }
   ],
-  "show-reference-documentation": [
-    {
-      "type": 0,
-      "value": "Show reference documentation"
-    }
-  ],
   "sidebar": [
     {
       "type": 0,
@@ -1103,6 +1297,12 @@
     {
       "type": 0,
       "value": "Software versions"
+    }
+  ],
+  "start-action": [
+    {
+      "type": 0,
+      "value": "Start"
     }
   ],
   "support": [
@@ -1149,6 +1349,12 @@
       "value": " documentation"
     }
   ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Try again"
+    }
+  ],
   "undo": [
     {
       "type": 0,
@@ -1191,6 +1397,12 @@
     {
       "type": 0,
       "value": "Untitled project"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Update firmware"
     }
   ],
   "updated-change": [

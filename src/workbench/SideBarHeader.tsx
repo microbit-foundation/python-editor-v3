@@ -21,6 +21,7 @@ import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
+import { zIndexSidebarHeader } from "../common/zIndex";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import { useSearch } from "../documentation/search/search-hooks";
@@ -77,7 +78,7 @@ const SideBarHeader = () => {
       searchModal.onClose();
       // Create new RouterState object to enforce navigation when clicking the same entry twice.
       const routerState: RouterState = JSON.parse(JSON.stringify(navigation));
-      setRouterState(routerState, "toolkit-search");
+      setRouterState(routerState, "documentation-search");
     },
     [setViewedResults, viewedResults, searchModal, setRouterState]
   );
@@ -100,42 +101,44 @@ const SideBarHeader = () => {
 
   return (
     <>
-      <Modal
-        isOpen={searchModal.isOpen}
-        onClose={searchModal.onClose}
-        size="lg"
-      >
-        <ModalOverlay>
-          <ModalContent
-            mt={3.5}
-            ml={modalOffset + "px"}
-            width={modalWidth}
-            containerProps={{
-              justifyContent: "flex-start",
-            }}
-            p={1}
-            borderRadius="20px"
-            maxWidth="unset"
-            maxHeight="unset"
-          >
-            <ModalBody p={0}>
-              <SearchDialog
-                results={results}
-                query={query}
-                onQueryChange={handleQueryChange}
-                onClear={handleClear}
-                viewedResults={viewedResults}
-                onViewResult={handleViewResult}
-              />
-            </ModalBody>
-          </ModalContent>
-        </ModalOverlay>
-      </Modal>
+      {searchModal.isOpen && (
+        <Modal
+          isOpen={searchModal.isOpen}
+          onClose={searchModal.onClose}
+          size="lg"
+        >
+          <ModalOverlay>
+            <ModalContent
+              mt={3.5}
+              ml={modalOffset + "px"}
+              width={modalWidth}
+              containerProps={{
+                justifyContent: "flex-start",
+              }}
+              p={1}
+              borderRadius="20px"
+              maxWidth="unset"
+              maxHeight="unset"
+            >
+              <ModalBody p={0}>
+                <SearchDialog
+                  results={results}
+                  query={query}
+                  onQueryChange={handleQueryChange}
+                  onClear={handleClear}
+                  viewedResults={viewedResults}
+                  onViewResult={handleViewResult}
+                />
+              </ModalBody>
+            </ModalContent>
+          </ModalOverlay>
+        </Modal>
+      )}
       <Flex
         ref={ref}
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
-        zIndex={3}
+        zIndex={zIndexSidebarHeader}
         height={searchModal.isOpen ? "5.5rem" : topBarHeight}
         alignItems="center"
         justifyContent="space-between"

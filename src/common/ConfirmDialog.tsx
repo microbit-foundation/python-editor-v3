@@ -15,45 +15,28 @@ import {
 import { ReactNode, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 
-export interface ConfirmDialogParameters {
-  header: ReactNode;
-  body: ReactNode;
-  // This could get a lot more flexible but let's start simple.
-  actionLabel: string;
-}
-
-export interface ConfirmDialogParametersWithActions
-  extends ConfirmDialogParameters {
+export interface ConfirmDialogProps {
   header: ReactNode;
   body: ReactNode;
   actionLabel: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-}
-
-export interface ConfirmDialogProps extends ConfirmDialogParametersWithActions {
-  isOpen: boolean;
+  callback: (value: boolean) => void;
 }
 
 /**
  * Confirmation dialog.
- *
- * Generally not used directly. Prefer the useDialogs hook.
  */
 export const ConfirmDialog = ({
   header,
   body,
   actionLabel,
-  isOpen,
-  onConfirm,
-  onCancel,
+  callback,
 }: ConfirmDialogProps) => {
   const leastDestructiveRef = useRef<HTMLButtonElement>(null);
   return (
     <AlertDialog
-      isOpen={isOpen}
+      isOpen
       leastDestructiveRef={leastDestructiveRef}
-      onClose={onCancel}
+      onClose={() => callback(false)}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
@@ -62,13 +45,13 @@ export const ConfirmDialog = ({
           </AlertDialogHeader>
           <AlertDialogBody>{body}</AlertDialogBody>
           <AlertDialogFooter>
-            <Button ref={leastDestructiveRef} onClick={onCancel}>
+            <Button ref={leastDestructiveRef} onClick={() => callback(false)}>
               <FormattedMessage id="cancel-action" />
             </Button>
             <Button
               variant="solid"
               colorScheme="red"
-              onClick={onConfirm}
+              onClick={() => callback(true)}
               ml={3}
             >
               {actionLabel}

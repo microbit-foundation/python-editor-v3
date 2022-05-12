@@ -88,12 +88,18 @@ export const SplitView = ({
           size = minimums[0];
         }
         // Check remaining space for other component vs its minimum
+        // The window can be too small for the sum of the minimums,
+        // we sacrifice the unsized component in this case.
         const maximum =
           (direction === "column" ? rect.height : rect.width) -
           separatorPixels -
           minimums[1];
         if (size > maximum) {
           size = maximum;
+        }
+        const minimum = minimums[0] - separatorPixels;
+        if (size < minimum) {
+          size = minimum;
         }
         setSizedPaneSize(size);
       }

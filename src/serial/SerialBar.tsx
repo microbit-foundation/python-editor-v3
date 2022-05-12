@@ -14,7 +14,11 @@ import { useCallback } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
-import { useDeviceTraceback } from "../device/device-hooks";
+import {
+  SyncStatus,
+  useDeviceTraceback,
+  useSyncStatus,
+} from "../device/device-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { SerialHelpDialog } from "./SerialHelp";
 import SerialIndicators from "./SerialIndicators";
@@ -44,6 +48,7 @@ const SerialBar = ({
   const intl = useIntl();
   const helpDisclosure = useDisclosure();
   const traceback = useDeviceTraceback();
+  const syncStatus = useSyncStatus();
   return (
     <>
       <SerialHelpDialog
@@ -53,7 +58,13 @@ const SerialBar = ({
       <HStack
         justifyContent="space-between"
         p={1}
-        backgroundColor={traceback && "code.error"}
+        backgroundColor={
+          traceback && syncStatus === SyncStatus.IN_SYNC
+            ? "code.error"
+            : syncStatus === SyncStatus.OUT_OF_SYNC
+            ? "gray.700"
+            : "inherit"
+        }
         {...props}
       >
         <SerialIndicators
@@ -80,7 +91,7 @@ const SerialBar = ({
               variant="sidebar"
               color="white"
               isRound
-              aria-label={intl.formatMessage({ id: "hints-and-tips" })}
+              aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
               icon={<RiInformationLine />}
               onClick={() => {
                 logging.event({ type: "serial-info" });

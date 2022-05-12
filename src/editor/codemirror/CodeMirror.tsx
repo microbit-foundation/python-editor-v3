@@ -6,13 +6,19 @@
 import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
 import { redoDepth, undoDepth } from "@codemirror/history";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
-import { EditorView, highlightActiveLine } from "@codemirror/view";
+import { EditorView, highlightActiveLine, ViewUpdate } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
+import { lineNumFromUint8Array } from "../../common/text-util";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
+import { Logging } from "../../logging/logging";
 import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
+import {
+  CodeStructureOption,
+  ParameterHelpOption,
+} from "../../settings/settings";
 import { WorkbenchSelection } from "../../workbench/use-selection";
 import {
   EditorActions,
@@ -20,13 +26,10 @@ import {
   useActiveEditorInfoState,
 } from "../active-editor-hooks";
 import "./CodeMirror.css";
-import { editorConfig, themeExtensionsCompartment } from "./config";
+import { compartment, editorConfig } from "./config";
 import { languageServer } from "./language-server/view";
-import {
-  codeStructure,
-  CodeStructureSettings,
-  structureHighlightingCompartment,
-} from "./structure-highlighting";
+import { lintGutter } from "./lint/lint";
+import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 
 interface CodeMirrorProps {
@@ -36,7 +39,8 @@ interface CodeMirrorProps {
 
   selection: WorkbenchSelection;
   fontSize: number;
-  codeStructureSettings: CodeStructureSettings;
+  codeStructureOption: CodeStructureOption;
+  parameterHelpOption: ParameterHelpOption;
 }
 
 /**
@@ -53,7 +57,8 @@ const CodeMirror = ({
   onChange,
   selection,
   fontSize,
-  codeStructureSettings,
+  codeStructureOption,
+  parameterHelpOption,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
   const [, setActiveEditor] = useActiveEditorActionsState();
@@ -77,9 +82,10 @@ const CodeMirror = ({
   const options = useMemo(
     () => ({
       fontSize,
-      codeStructureSettings,
+      codeStructureOption,
+      parameterHelpOption,
     }),
-    [fontSize, codeStructureSettings]
+    [fontSize, codeStructureOption, parameterHelpOption]
   );
 
   useEffect(() => {
@@ -92,6 +98,7 @@ const CodeMirror = ({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
           });
+          logPastedLineCount(logging, update);
         }
       });
       const state = EditorState.create({
@@ -100,15 +107,23 @@ const CodeMirror = ({
           notify,
           editorConfig,
           // Extensions only relevant for editing:
+          // Order of lintGutter and lineNumbers determines how they are displayed.
+          lintGutter(),
           lineNumbers(),
           highlightActiveLineGutter(),
           highlightActiveLine(),
-          client ? languageServer(client, uri, intl, logging) : [],
           // Extensions we enable/disable based on props.
-          structureHighlightingCompartment.of(
-            codeStructure(options.codeStructureSettings)
-          ),
-          themeExtensionsCompartment.of(themeExtensionsForOptions(options)),
+          compartment.of([
+            client
+              ? languageServer(client, uri, intl, logging, {
+                  signatureHelp: {
+                    automatic: parameterHelpOption === "automatic",
+                  },
+                })
+              : [],
+            codeStructure(options.codeStructureOption),
+            themeExtensionsForOptions(options),
+          ]),
         ],
       });
       const view = new EditorView({
@@ -120,15 +135,16 @@ const CodeMirror = ({
       setActiveEditor(new EditorActions(view, logging));
     }
   }, [
-    options,
-    defaultValue,
-    onChange,
     client,
-    setActiveEditor,
-    uri,
+    defaultValue,
     intl,
-    setEditorInfo,
     logging,
+    onChange,
+    options,
+    setActiveEditor,
+    setEditorInfo,
+    parameterHelpOption,
+    uri,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -144,15 +160,20 @@ const CodeMirror = ({
   useEffect(() => {
     viewRef.current!.dispatch({
       effects: [
-        themeExtensionsCompartment.reconfigure(
-          themeExtensionsForOptions(options)
-        ),
-        structureHighlightingCompartment.reconfigure(
-          codeStructure(options.codeStructureSettings)
-        ),
+        compartment.reconfigure([
+          client
+            ? languageServer(client, uri, intl, logging, {
+                signatureHelp: {
+                  automatic: parameterHelpOption === "automatic",
+                },
+              })
+            : [],
+          codeStructure(options.codeStructureOption),
+          themeExtensionsForOptions(options),
+        ]),
       ],
     });
-  }, [options]);
+  }, [options, parameterHelpOption, client, intl, logging, uri]);
 
   const { location } = selection;
   useEffect(() => {
@@ -181,10 +202,10 @@ const CodeMirror = ({
       const id = (event as CustomEvent).detail.id;
       setRouterState(
         {
-          tab: "reference",
-          reference: { id },
+          tab: "api",
+          api: { id },
         },
-        "toolkit-from-code"
+        "documentation-from-code"
       );
       const view = viewRef.current!;
       // Put the focus back in the text editor so the docs are immediately useful.
@@ -210,5 +231,24 @@ const CodeMirror = ({
 function themeExtensionsForOptions(options: { fontSize: number }): Extension {
   return themeExtensions(options.fontSize + "pt");
 }
+
+const logPastedLineCount = (logging: Logging, update: ViewUpdate) => {
+  update.transactions
+    .filter((transaction) => transaction.isUserEvent("input.paste"))
+    .forEach((transaction) =>
+      transaction.changes.iterChanges(
+        (_fromA, _toA, _fromB, _toB, inserted) => {
+          const lineCount = lineNumFromUint8Array(
+            // Ignore leading/trailing lines.
+            new TextEncoder().encode(inserted.toString().trim())
+          );
+          logging.event({
+            type: "paste",
+            value: lineCount,
+          });
+        }
+      )
+    );
+};
 
 export default CodeMirror;

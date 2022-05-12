@@ -59,6 +59,24 @@
       "value": "Реад море абоют МісроПутхон"
     }
   ],
+  "add-action": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
+  "add-file-action": [
+    {
+      "type": 0,
+      "value": "Add new file"
+    }
+  ],
+  "add-python": [
+    {
+      "type": 0,
+      "value": "Add a new Python file to your project"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -69,10 +87,32 @@
       "value": "changeName"
     }
   ],
+  "added-file": [
+    {
+      "type": 0,
+      "value": "Added "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
   "already-exists": [
     {
       "type": 0,
       "value": "Тхіс філе алреаду ексістс"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "API documentation for micro:bit MicroPython"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
     }
   ],
   "apidocs-baseclass": [
@@ -257,6 +297,12 @@
       "value": "Cоде едітор"
     }
   ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Code example:"
+    }
+  ],
   "confirm-action": [
     {
       "type": 0,
@@ -287,6 +333,30 @@
       "value": "Cоннест"
     }
   ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "Choose your micro:bit"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "Connect your micro:bit"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "Select ‘Connect’"
+    }
+  ],
   "connect-hover": [
     {
       "type": 0,
@@ -299,6 +369,12 @@
       "value": "Cоннест то уоюр місро:біт то сее серіал оютпют хере"
     }
   ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "Troubleshoot problems with connecting to your micro:bit"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -309,34 +385,6 @@
     {
       "type": 0,
       "value": "Cопу"
-    }
-  ],
-  "create-action": [
-    {
-      "type": 0,
-      "value": "Cреате"
-    }
-  ],
-  "create-file-action": [
-    {
-      "type": 0,
-      "value": "Cреате нев філе"
-    }
-  ],
-  "create-python": [
-    {
-      "type": 0,
-      "value": "Cреате а нев Путхон філе"
-    }
-  ],
-  "created-file": [
-    {
-      "type": 0,
-      "value": "Cреатед "
-    },
-    {
-      "type": 1,
-      "value": "filename"
     }
   ],
   "delete-action": [
@@ -377,10 +425,10 @@
       "value": "Діссоннест фром тхе місро:біт"
     }
   ],
-  "documentation": [
+  "dont-show-again": [
     {
       "type": 0,
-      "value": "Досюментатіон"
+      "value": "Don't show this again"
     }
   ],
   "download-action": [
@@ -439,12 +487,6 @@
       "value": "Eдіт проджест наме"
     }
   ],
-  "explore-tab": [
-    {
-      "type": 0,
-      "value": "Eксплоре"
-    }
-  ],
   "failed-to-build-hex": [
     {
       "type": 0,
@@ -461,16 +503,36 @@
       "value": " філе астіонс"
     }
   ],
-  "files-tab": [
+  "firmware-update-link": [
     {
       "type": 0,
-      "value": "Філес"
+      "value": "You must "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " before you can connect to this micro:bit."
     }
   ],
-  "files-tab-description": [
+  "firmware-update-message": [
     {
       "type": 0,
-      "value": "View, create, add and edit the files in your Python Editor project"
+      "value": "Connecting to the micro:bit failed because the firmware on your micro:bit is too old."
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "Firmware update required"
     }
   ],
   "flash-action": [
@@ -515,6 +577,12 @@
       "value": "Хелп"
     }
   ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Help & support"
+    }
+  ],
   "help-translate": [
     {
       "type": 0,
@@ -545,10 +613,16 @@
       "value": "Сімпле"
     }
   ],
-  "hints-and-tips": [
+  "ideas-tab": [
     {
       "type": 0,
-      "value": "Хінтс анд тіпс"
+      "value": "Ideas"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Placeholder for full working code examples"
     }
   ],
   "insert-code-action": [
@@ -645,6 +719,12 @@
       "value": "місро:біт боард вітх тхе 5 бу 5 ЛEД джрід сховіндж а хеарт"
     }
   ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "MicroPython Documentation"
+    }
+  ],
   "micropython-history": [
     {
       "type": 0,
@@ -685,6 +765,12 @@
     {
       "type": 0,
       "value": "Море"
+    }
+  ],
+  "more-download-options": [
+    {
+      "type": 0,
+      "value": "More download options"
     }
   ],
   "name-not-blank": [
@@ -737,6 +823,76 @@
       "value": " екстенсіон фор уою."
     }
   ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "Review "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "how to select the device"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-checklist-three": [
+    {
+      "type": 0,
+      "value": "If you have a micro:bit V1 you may need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update the firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "Check your micro:bit is plugged in and powered on"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "You didn’t select a micro:bit, or there was a problem connecting to it."
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "No micro:bit found"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "You must "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware before"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " you can connect to this micro:bit."
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,
@@ -747,6 +903,32 @@
     {
       "type": 0,
       "value": "Оптіонс"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "Parameter help"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "Automatic"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "Manual ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
     }
   ],
   "permanently-delete": [
@@ -775,16 +957,22 @@
       "value": "Проджест хеадер"
     }
   ],
-  "projects-tab": [
+  "project-name": [
     {
       "type": 0,
-      "value": "Projects"
+      "value": "Project name"
     }
   ],
-  "projects-tab-description": [
+  "project-tab": [
     {
       "type": 0,
-      "value": "Placeholder for projects with full working code examples"
+      "value": "Project"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "View, create, add and edit the files in your project"
     }
   ],
   "python-powered": [
@@ -821,12 +1009,6 @@
     {
       "type": 0,
       "value": "Redo"
-    }
-  ],
-  "reference-description": [
-    {
-      "type": 0,
-      "value": "Референсе досюментатіон фор місро:біт МісроПутхон"
     }
   ],
   "reference-tab": [
@@ -887,12 +1069,6 @@
       "value": "Search"
     }
   ],
-  "search-open": [
-    {
-      "type": 0,
-      "value": "Open search"
-    }
-  ],
   "serial-collapse": [
     {
       "type": 0,
@@ -911,16 +1087,16 @@
       "value": "Сенд Cтрл-Д то ресет"
     }
   ],
-  "serial-ctrl-e-action": [
-    {
-      "type": 0,
-      "value": "Сенд Cтрл-E фор пасте моде"
-    }
-  ],
   "serial-expand": [
     {
       "type": 0,
       "value": "Схов серіал"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "micro:bit flashed"
     }
   ],
   "serial-help-ctrl-c": [
@@ -1037,10 +1213,22 @@
       "value": "Серіал хінтс анд тіпс"
     }
   ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Serial hints and tips"
+    }
+  ],
   "serial-menu": [
     {
       "type": 0,
       "value": "Серіал меню"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "micro:bit ready to flash"
     }
   ],
   "serial-running": [
@@ -1059,6 +1247,12 @@
     {
       "type": 0,
       "value": "Сеттінджс"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Show API documentation"
     }
   ],
   "show-less": [
@@ -1093,12 +1287,6 @@
       "value": "item"
     }
   ],
-  "show-reference-documentation": [
-    {
-      "type": 0,
-      "value": "Схов референсе досюментатіон"
-    }
-  ],
   "sidebar": [
     {
       "type": 0,
@@ -1109,6 +1297,12 @@
     {
       "type": 0,
       "value": "Софтваре версіонс"
+    }
+  ],
+  "start-action": [
+    {
+      "type": 0,
+      "value": "Start"
     }
   ],
   "support": [
@@ -1155,6 +1349,12 @@
       "value": " досюментатіон"
     }
   ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Try again"
+    }
+  ],
   "undo": [
     {
       "type": 0,
@@ -1197,6 +1397,12 @@
     {
       "type": 0,
       "value": "Untitled project"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Update firmware"
     }
   ],
   "updated-change": [

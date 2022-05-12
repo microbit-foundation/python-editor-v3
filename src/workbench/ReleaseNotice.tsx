@@ -13,7 +13,7 @@ import { flags } from "../flags";
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
 
 // Bump this to show the notice again.
-const currentVersion = 1;
+const currentVersion = 2;
 
 interface ReleaseNoticeStorage {
   version: number;
@@ -63,9 +63,12 @@ const ReleaseNotice = ({ onDialogChange }: ReleaseNoticeProps) => {
       pl={3}
       pr={3}
       justifyContent="space-between"
+      as="section"
+      aria-label="Release information"
+      role="region"
     >
       <Text fontSize="sm" textAlign="center" fontWeight="semibold" p={1}>
-        Alpha release
+        Beta release
       </Text>
       <HStack>
         <Button

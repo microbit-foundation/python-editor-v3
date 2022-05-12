@@ -24,6 +24,7 @@ import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
 import { clientFacet, uriFacet } from "./common";
 import {
+  DocSections,
   renderDocumentation,
   wrapWithDocumentationButton,
 } from "./documentation";
@@ -135,7 +136,11 @@ const createDocumentationResolver =
       CompletionResolveRequest.type,
       (completion as AugmentedCompletion).item
     );
-    const node = renderDocumentation(resolved.documentation, true);
+    const node = renderDocumentation(
+      resolved.documentation,
+      DocSections.Summary | DocSections.Example
+    );
+    node.className += " docs-skip-signature";
     const code = node.querySelector("code");
     if (code) {
       const id = nameFromSignature(code.innerText);
@@ -170,8 +175,10 @@ const boost = (item: LSP.CompletionItem): number | undefined => {
   }
   if (item.label.endsWith("=")) {
     // Counteract a single case mismatch penalty to allow
-    // `Image` to rank over `image=` for "image" input
-    return -200;
+    // `Image` to rank over `image=` for "image" input.
+    // This is vulnerable to changes in the ranking algorithm in
+    // https://github.com/codemirror/autocomplete/blob/main/src/filter.ts
+    return -200 - "image=".length;
   }
   return undefined;
 };

@@ -5,10 +5,13 @@
  */
 import { Tooltip } from "@chakra-ui/react";
 import { RiFlashlightFill } from "react-icons/ri";
+import { GoCheck } from "react-icons/go";
+
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
+import { SyncStatus, useSyncStatus } from "../device/device-hooks";
 import { useProjectActions } from "./project-hooks";
 
 /**
@@ -19,6 +22,7 @@ const FlashButton = (
 ) => {
   const actions = useProjectActions();
   const intl = useIntl();
+  const syncStatus = useSyncStatus();
   return (
     <>
       <Tooltip
@@ -30,8 +34,13 @@ const FlashButton = (
       >
         <CollapsibleButton
           {...props}
-          variant="solid"
-          icon={<RiFlashlightFill />}
+          icon={
+            syncStatus === SyncStatus.IN_SYNC ? (
+              <GoCheck />
+            ) : (
+              <RiFlashlightFill />
+            )
+          }
           onClick={actions.flash}
           text={intl.formatMessage({
             id: "flash-action",

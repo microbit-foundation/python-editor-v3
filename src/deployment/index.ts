@@ -8,7 +8,7 @@ import { Logging } from "../logging/logging";
 
 // This is configured via a webpack alias, defaulting to ./default
 import { default as d } from "theme-package";
-export const deployment = d;
+export const deployment: DeploymentConfig = d;
 
 export interface DeploymentConfig {
   squareLogo?: ReactNode;
@@ -17,6 +17,7 @@ export interface DeploymentConfig {
   chakraTheme: any;
 
   supportLink?: string;
+  guideLink?: string;
   termsOfUseLink?: string;
   translationLink?: string;
 

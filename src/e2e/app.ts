@@ -12,6 +12,7 @@ import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
 import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
+import { WebUSBErrorCode } from "../device/device";
 import { Flag } from "../flags";
 
 export enum LoadDialogType {
@@ -43,6 +44,10 @@ interface Options {
    * URL fragment including the #.
    */
   fragment?: string;
+  /**
+   * Language parameter passed via URL.
+   */
+  language?: string;
 }
 
 /**
@@ -68,20 +73,36 @@ export class App {
   );
 
   constructor(options: Options = {}) {
+    this.url = this.optionsToURL(options);
+    this.browser = puppeteer.launch();
+    this.page = this.createPage();
+  }
+
+  setOptions(options: Options) {
+    this.url = this.optionsToURL(options);
+  }
+
+  private optionsToURL(options: Options): string {
     const flags = new Set<string>([
       "none",
       "noWelcome",
       ...(options.flags ?? []),
     ]);
-    this.url =
+    const params: Array<[string, string]> = Array.from(flags).map((f) => [
+      "flag",
+      f,
+    ]);
+    if (options.language) {
+      params.push(["l", options.language]);
+    }
+    return (
       baseUrl +
       // We don't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
       (process.env.E2E_PUBLIC_URL ?? "/") +
       "?" +
-      new URLSearchParams(Array.from(flags).map((f) => ["flag", f])) +
-      (options.fragment ?? "");
-    this.browser = puppeteer.launch();
-    this.page = this.createPage();
+      new URLSearchParams(params) +
+      (options.fragment ?? "")
+    );
   }
 
   async createPage() {
@@ -170,7 +191,7 @@ export class App {
     filePath: string,
     options: { acceptDialog: LoadDialogType }
   ): Promise<void> {
-    await this.switchTab("Files");
+    await this.switchTab("Project");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
@@ -178,25 +199,25 @@ export class App {
   }
 
   /**
-   * Create a new file using the files tab.
+   * Add a new file using the files tab.
    *
    * @param name The name to enter in the dialog.
    */
-  async createNewFile(name: string): Promise<void> {
-    await this.switchTab("Files");
+  async addNewFile(name: string): Promise<void> {
+    await this.switchTab("Project");
     const document = await this.document();
-    const newButton = await document.findByRole("button", {
-      name: "Create new file",
+    const addFileButton = await document.findByRole("button", {
+      name: "Add file",
     });
-    await newButton.click();
+    await addFileButton.click();
     const nameField = await document.findByRole("textbox", {
       name: "Name",
     });
     await nameField.type(name);
-    const createButton = await document.findByRole("button", {
-      name: "Create",
+    const addButton = await document.findByRole("button", {
+      name: "Add",
     });
-    await createButton.click();
+    await addButton.click();
   }
 
   /**
@@ -472,7 +493,7 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findActiveToolkitEntry(text: string): Promise<void> {
+  async findActiveDocumentationEntry(text: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
     return waitFor(async () => {
@@ -492,23 +513,36 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findToolkitTopLevelHeading(
+  async findDocumentationTopLevelHeading(
     title: string,
-    description: string
+    description?: string
   ): Promise<void> {
     const document = await this.document();
     await document.findByText(title, {
       selector: "h2",
     });
-    await document.findByText(description);
+    if (description) {
+      await document.findByText(description);
+    }
   }
 
-  async selectToolkitSection(name: string): Promise<void> {
+  async selectDocumentationSection(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: `View ${name} documentation`,
     });
     return button.click();
+  }
+
+  async selectDocumentationIdea(name: string): Promise<void> {
+    const document = await this.document();
+    const heading = await document.findByText(name, {
+      selector: "h3",
+    });
+    const handle = heading.asElement();
+    await handle!.evaluate((element) => {
+      element.parentElement?.click();
+    });
   }
 
   async insertToolkitCode(name: string): Promise<void> {
@@ -550,9 +584,55 @@ export class App {
       name: "Connect",
     });
     await connectButton.click();
+    await this.connectViaConnectHelp();
+  }
+
+  // Connects from the connect help dialog.
+  async connectViaConnectHelp(): Promise<void> {
+    const document = await this.document();
+    const startButton = await document.findByRole("button", {
+      name: "Start",
+    });
+    await startButton.click();
+  }
+
+  async confirmConnection(): Promise<void> {
+    const document = await this.document();
     await document.findByRole("button", {
       name: "Serial menu",
     });
+  }
+
+  async confirmNotFoundDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("No micro:bit found", {
+      selector: "h2",
+    });
+  }
+
+  // Launch 'connect help' dialog from 'not found' dialog.
+  async connectHelpFromNotFoundDialog(): Promise<void> {
+    const document = await this.document();
+    const reviewDeviceSelection = await document.findByRole("link", {
+      name: "how to select the device",
+    });
+    await reviewDeviceSelection.click();
+  }
+
+  async confirmFirmwareUpdateDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Firmware update required", {
+      selector: "h2",
+    });
+  }
+
+  // Retry micro:bit connection from error dialogs.
+  async connectTryAgain(): Promise<void> {
+    const document = await this.document();
+    const tryAgainButton = await document.findByRole("button", {
+      name: "Try again",
+    });
+    await tryAgainButton.click();
   }
 
   async disconnect(): Promise<void> {
@@ -605,6 +685,12 @@ export class App {
     await document.findByText(text);
   }
 
+  async flash() {
+    const document = await this.document();
+    const flash = await document.findByRole("button", { name: "Flash" });
+    return flash.click();
+  }
+
   async followSerialCompactTracebackLink(): Promise<void> {
     const document = await this.document();
     const link = await document.findByTestId("traceback-link");
@@ -612,18 +698,17 @@ export class App {
   }
 
   async mockSerialWrite(data: string): Promise<void> {
-    const document = await this.document();
-    await document.evaluate(
-      (d, data) =>
-        d.dispatchEvent(
-          new CustomEvent("mockSerialWrite", {
-            detail: {
-              data,
-            },
-          })
-        ),
-      toCrLf(data)
-    );
+    const page = await this.page;
+    page.evaluate((data) => {
+      (window as any).mockDevice.mockSerialWrite(data);
+    }, toCrLf(data));
+  }
+
+  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
+    const page = await this.page;
+    page.evaluate((code) => {
+      (window as any).mockDevice.mockConnect(code);
+    }, code);
   }
 
   /**
@@ -712,12 +797,12 @@ export class App {
 
   /**
    * Follow the documentation link shown in the signature help or autocomplete tooltips.
-   * This will update the "Reference" tab and switch to it.
+   * This will update the "API" tab and switch to it.
    */
   async followCompletionOrSignatureDocumentionLink(): Promise<void> {
     const document = await this.document();
-    const button = await document.findByRole("button", {
-      name: "Show reference documentation",
+    const button = await document.findByRole("link", {
+      name: "Help",
     });
     return button.click();
   }
@@ -729,7 +814,7 @@ export class App {
    * @param name The name of the section.
    * @param targetLine The target line (1-based).
    */
-  async dragDropToolkitCode(name: string, targetLine: number) {
+  async dragDropCodeEmbed(name: string, targetLine: number) {
     const page = await this.page;
     const document = await this.document();
     const heading = await document.findByRole("heading", {
@@ -794,7 +879,7 @@ export class App {
    * Prefer more specific navigation actions, but this is useful to check initial state
    * and that tab state is remembered.
    */
-  async switchTab(tabName: "Files" | "Reference" | "Explore") {
+  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,
@@ -860,7 +945,7 @@ export class App {
   }
 
   private async openFileActionsMenu(filename: string): Promise<void> {
-    await this.switchTab("Files");
+    await this.switchTab("Project");
     const document = await this.document();
     const actions = await document.findByRole("button", {
       name: `${filename} file actions`,

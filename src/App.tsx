@@ -11,14 +11,17 @@ import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
-import { DeviceContextProvider } from "./device/device-hooks";
+import {
+  DeviceContextProvider,
+  SyncStatusProvider,
+} from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import DocumentationProvider from "./documentation/documentation-hooks";
 import SearchProvider from "./documentation/search/search-hooks";
-import ToolkitProvider from "./documentation/toolkit-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
-import { createHost } from "./fs/host";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
+import { createHost } from "./fs/host";
 import { fetchMicroPython } from "./fs/micropython";
 import { trackFsChanges } from "./language-server/client-fs";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
@@ -58,7 +61,7 @@ fs.initializeInBackground();
 
 const App = () => {
   useEffect(() => {
-    logging.event({ action: "boot" });
+    logging.event({ type: "boot" });
     device.initialize();
     return () => {
       device.dispose();
@@ -79,28 +82,30 @@ const App = () => {
         <LoggingProvider value={logging}>
           <SettingsProvider value={settings}>
             <TranslationProvider>
-              <DialogProvider>
-                <DeviceContextProvider value={device}>
-                  <FileSystemProvider value={fs}>
-                    <LanguageServerClientProvider value={client}>
+              <DeviceContextProvider value={device}>
+                <FileSystemProvider value={fs}>
+                  <LanguageServerClientProvider value={client}>
+                    <SyncStatusProvider>
                       <BeforeUnloadDirtyCheck />
-                      <ToolkitProvider>
+                      <DocumentationProvider>
                         <SearchProvider>
                           <SelectionProvider>
-                            <RouterProvider>
-                              <ProjectDropTarget>
-                                <ActiveEditorProvider>
-                                  <Workbench />
-                                </ActiveEditorProvider>
-                              </ProjectDropTarget>
-                            </RouterProvider>
+                            <DialogProvider>
+                              <RouterProvider>
+                                <ProjectDropTarget>
+                                  <ActiveEditorProvider>
+                                    <Workbench />
+                                  </ActiveEditorProvider>
+                                </ProjectDropTarget>
+                              </RouterProvider>
+                            </DialogProvider>
                           </SelectionProvider>
                         </SearchProvider>
-                      </ToolkitProvider>
-                    </LanguageServerClientProvider>
-                  </FileSystemProvider>
-                </DeviceContextProvider>
-              </DialogProvider>
+                      </DocumentationProvider>
+                    </SyncStatusProvider>
+                  </LanguageServerClientProvider>
+                </FileSystemProvider>
+              </DeviceContextProvider>
             </TranslationProvider>
           </SettingsProvider>
         </LoggingProvider>
