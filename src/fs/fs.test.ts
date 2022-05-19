@@ -244,7 +244,7 @@ describe("Filesystem", () => {
     await ufs.write("other.dat", data, VersionAction.INCREMENT);
     expect(await ufs.statistics()).toEqual({
       files: 2,
-      lines: 10,
+      lines: 9,
       storageUsed: 896,
     });
   });
