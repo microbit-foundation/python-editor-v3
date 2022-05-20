@@ -236,7 +236,7 @@ describe("Filesystem", () => {
 
     await ufs.write(
       MAIN_FILE,
-      "from __future__ import hope\n" + defaultMainFileContent,
+      "from __future__ import hope\ndisplay.scroll('Hello, World')\n",
       VersionAction.MAINTAIN
     );
     const data = new Uint8Array(512);
@@ -244,8 +244,8 @@ describe("Filesystem", () => {
     await ufs.write("other.dat", data, VersionAction.INCREMENT);
     expect(await ufs.statistics()).toEqual({
       files: 2,
-      lines: 10,
-      storageUsed: 896,
+      lines: 3,
+      storageUsed: 768,
     });
   });
 });
