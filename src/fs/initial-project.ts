@@ -32,10 +32,11 @@ export const projectFilesToBase64 = (
   return files;
 };
 
-export const defaultMainFileContent = `# Add your Python code here. E.g.
+export const defaultMainFileContent = `# Imports go at the top
 from microbit import *
 
 
+# Code in a 'while True:' loop repeats forever
 while True:
     display.scroll('micro:bit')
     display.show(Image.HEART)
