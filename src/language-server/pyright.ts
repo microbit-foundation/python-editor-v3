@@ -12,7 +12,7 @@ import { retryAsyncLoad } from "../common/chunk-util";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-3479394f6c19a31698ff.worker.js";
+const workerScriptName = "pyright-c28f48689f29607de2f2.worker.js";
 
 /**
  * Creates Pyright workers and corresponding client.
