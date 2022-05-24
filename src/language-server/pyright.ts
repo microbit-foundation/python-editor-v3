@@ -12,7 +12,7 @@ import { retryAsyncLoad } from "../common/chunk-util";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-c28f48689f29607de2f2.worker.js";
+const workerScriptName = "pyright-0a92795ab41da83edcac.worker.js";
 
 /**
  * Creates Pyright workers and corresponding client.
@@ -69,6 +69,8 @@ export const pyright = (): LanguageServerClient | undefined => {
       const typeshed = await retryAsyncLoad(() => import("./typeshed.json"));
       return {
         files: typeshed,
+        // Custom option in our Pyright version
+        diagnosticStyle: "simplified",
       };
     },
   });

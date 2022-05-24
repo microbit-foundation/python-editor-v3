@@ -110,6 +110,7 @@ export class LanguageServerClient extends EventEmitter {
       });
 
       const initializeParams: InitializeParams = {
+        locale: "fr",
         capabilities: {
           textDocument: {
             moniker: {},
