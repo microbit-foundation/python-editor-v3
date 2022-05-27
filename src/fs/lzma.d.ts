@@ -4,3 +4,4 @@
  * SPDX-License-Identifier: MIT
  */
 declare module "lzma/src/lzma-d-min";
+declare module "lzma/src/lzma-c-min";

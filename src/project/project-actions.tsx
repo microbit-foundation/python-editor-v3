@@ -54,6 +54,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import { fromByteArray } from "base64-js";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -552,6 +553,31 @@ export class ProjectActions {
     });
 
     return this.fs.setProjectName(name);
+  };
+
+  copyShareUrl = async () => {
+    // We normally don't load the compression code.
+    const lzma = (await import("lzma/src/lzma-c-min")).default;
+    const json = {
+      meta: {
+        editor: "Python Editor V3",
+        cloudId: "microbit.org",
+        name: defaultedProject(this.fs, this.intl).name,
+        comment: "",
+      },
+      source: new TextDecoder().decode((await this.fs.read(MAIN_FILE)).data),
+    };
+    const dataBase64 = fromByteArray(
+      new Uint8Array(lzma.LZMA.compress(JSON.stringify(json)))
+    );
+    await navigator.clipboard.writeText(
+      // In real deployments we're currently in an iframe so can't
+      // access the correct base URL.
+      `https://python.microbit.org/v/beta#project:${dataBase64}`
+    );
+    this.actionFeedback.success({
+      title: "Copied sharing URL to clipboard",
+    });
   };
 
   private async handleNotFound() {

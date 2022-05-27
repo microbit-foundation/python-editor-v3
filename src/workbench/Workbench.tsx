@@ -17,7 +17,7 @@ import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
-import { useProject } from "../project/project-hooks";
+import { useProject, useProjectActions } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import SideBar from "./SideBar";
@@ -49,6 +49,22 @@ const Workbench = () => {
     }
   }, [selection, setSelectedFile, files]);
 
+  const actions = useProjectActions();
+  const handleGlobalShortcuts = useCallback(
+    async (e: React.KeyboardEvent<HTMLDivElement>) => {
+      const isMac = /Mac/.test(navigator.platform);
+      if (
+        (e.key === "s" || e.key === "S") &&
+        (isMac ? e.metaKey : e.ctrlKey) &&
+        e.shiftKey
+      ) {
+        e.preventDefault();
+        actions.copyShareUrl();
+      }
+    },
+    [actions]
+  );
+
   const fileVersion = files.find((f) => f.name === selection.file)?.version;
 
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
@@ -56,7 +72,7 @@ const Workbench = () => {
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   return (
-    <Flex className="Workbench">
+    <Flex className="Workbench" onKeyDown={handleGlobalShortcuts}>
       <SplitView
         direction="row"
         width="100%"
