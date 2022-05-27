@@ -25,8 +25,27 @@ const grammarInfo = {
   ]),
 };
 
-interface Measure {
-  blocks: VisualBlock[];
+class Measure {
+  constructor(
+    readonly width: number,
+    readonly left: number,
+    readonly blocks: VisualBlock[]
+  ) {}
+  eq(other: Measure) {
+    if (this.width !== other.width) {
+      return false;
+    }
+    if (this.left !== other.left) {
+      return false;
+    }
+    const blocksChanged =
+      other.blocks.length !== this.blocks.length ||
+      other.blocks.some((b, i) => !b.eq(this.blocks[i]));
+    if (blocksChanged) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export const codeStructureView = (option: "full" | "simple") =>
@@ -34,7 +53,7 @@ export const codeStructureView = (option: "full" | "simple") =>
     class {
       measureReq: { read: () => Measure; write: (value: Measure) => void };
       overlayLayer: HTMLElement;
-      blocks: VisualBlock[] = [];
+      lastMeasure: Measure = new Measure(0, 0, []);
 
       constructor(readonly view: EditorView) {
         this.measureReq = {
@@ -59,6 +78,12 @@ export const codeStructureView = (option: "full" | "simple") =>
         const view = this.view;
         const { state } = view;
 
+        const contentDOMRect = view.contentDOM.getBoundingClientRect();
+        // The gutter is awkward as its position fixed in the scroller.
+        const gutterWidth =
+          view.scrollDOM.firstElementChild!.getBoundingClientRect().width;
+        const width = contentDOMRect.width;
+
         let cursorFound = false;
 
         const positionsForNode = (
@@ -67,11 +92,8 @@ export const codeStructureView = (option: "full" | "simple") =>
           end: number,
           depth: number,
           body: boolean
-        ) => {
+        ): Positions | undefined => {
           const diagnostics = state.field(lintState, false)?.diagnostics;
-          const leftEdge =
-            view.contentDOM.getBoundingClientRect().left -
-            view.scrollDOM.getBoundingClientRect().left;
           const indentWidth =
             state.facet(indentUnit).length * view.defaultCharacterWidth;
 
@@ -106,7 +128,7 @@ export const codeStructureView = (option: "full" | "simple") =>
           const bottom = bottomLine.bottom;
           const height = bottom - top;
           const leftIndent = depth * indentWidth;
-          const left = leftEdge + leftIndent;
+          const left = leftIndent;
           const mainCursor = state.selection.main.head;
           const cursorActive =
             !cursorFound &&
@@ -170,6 +192,7 @@ export const codeStructureView = (option: "full" | "simple") =>
                       blocks.push(
                         new VisualBlock(
                           bodyPullBack,
+                          width,
                           parentPositions,
                           bodyPositions
                         )
@@ -191,15 +214,16 @@ export const codeStructureView = (option: "full" | "simple") =>
             },
           });
         }
-        return { blocks: blocks.reverse() };
+        return new Measure(width, gutterWidth, blocks.reverse());
       }
 
-      drawBlocks({ blocks }: Measure) {
-        const blocksChanged =
-          blocks.length !== this.blocks.length ||
-          blocks.some((b, i) => !b.eq(this.blocks[i]));
-        if (blocksChanged) {
-          this.blocks = blocks;
+      drawBlocks(measure: Measure) {
+        if (!measure.eq(this.lastMeasure)) {
+          this.lastMeasure = measure;
+          const { blocks, left, width } = measure;
+
+          this.overlayLayer.style.width = width + "px";
+          this.overlayLayer.style.left = left + "px";
 
           // Should be able to adjust old elements here if it's a performance win.
           this.overlayLayer.textContent = "";
