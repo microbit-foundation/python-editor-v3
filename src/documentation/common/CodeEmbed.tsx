@@ -3,19 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
 import { VisuallyHidden } from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { RiDownloadFill } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
-import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
-import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import useActionFeedback from "../../common/use-action-feedback";
+import { zIndexCodePopUp } from "../../common/zIndex";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
+import { setCopyContext } from "../../editor/codemirror/copypaste";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
 import DragHandle from "../common/DragHandle";
@@ -46,6 +45,7 @@ const CodeEmbed = ({
   toolkitType,
   parentSlug,
 }: CodeEmbedProps) => {
+  const actionFeedback = useActionFeedback();
   const [state, originalSetState] = useState<CodeEmbedState>("default");
   // We want to debounce raising so that we don't raise very briefly during scroll.
   // We don't ever want to delay other actions.
@@ -71,20 +71,17 @@ const CodeEmbed = ({
   }, [originalSetState]);
   const toRaised = useCallback(() => setState("raised", false), [setState]);
   const toDefault = useCallback(() => setState("default"), [setState]);
-  const toHighlighted = useCallback(() => setState("highlighted"), [setState]);
   const clearPending = useCallback(() => setState(undefined), [setState]);
   useScrollableAncestorScroll(toDefault);
 
-  const actions = useActiveEditorActions();
-  const handleInsertCode = useCallback(
-    () =>
-      actions?.insertCode(
-        codeWithImports,
-        "example",
-        `${toolkitType}-${parentSlug}`
-      ),
-    [actions, codeWithImports, parentSlug, toolkitType]
-  );
+  const handleCopyCode = useCallback(() => {
+    setCopyContext({
+      code: codeWithImports,
+      type: "example",
+      id: `${toolkitType}-${parentSlug}`,
+    });
+    actionFeedback.success({ title: "Code copied" });
+  }, [actionFeedback, codeWithImports, parentSlug, toolkitType]);
 
   const code = useMemo(
     () =>
@@ -111,14 +108,14 @@ const CodeEmbed = ({
     async (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        handleInsertCode();
+        handleCopyCode();
       }
       if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
-        await navigator.clipboard.writeText(code);
+        handleCopyCode();
       }
     },
-    [code, handleInsertCode, isMac]
+    [handleCopyCode, isMac]
   );
   return (
     <Box>
@@ -127,6 +124,7 @@ const CodeEmbed = ({
           onMouseEnter={toRaised}
           onMouseLeave={clearPending}
           onCodeDragEnd={toDefault}
+          onCopyCode={handleCopyCode}
           concise={code}
           full={codeWithImports}
           position="absolute"
@@ -142,12 +140,12 @@ const CodeEmbed = ({
             outline: "none",
           }}
           onKeyDown={handleKeyDown}
-          zIndex={zIndexCode}
         />
         {state === "raised" && (
           <CodePopUp
             onMouseLeave={toDefault}
             onCodeDragEnd={toDefault}
+            onCopyCode={handleCopyCode}
             height={codePopUpHeight}
             top={codeRef.current!.getBoundingClientRect().top + "px"}
             left={codeRef.current!.getBoundingClientRect().left + "px"}
@@ -159,25 +157,6 @@ const CodeEmbed = ({
           />
         )}
       </Box>
-      <HStack spacing={3} mt="2px">
-        <Button
-          onMouseEnter={toHighlighted}
-          onMouseLeave={toDefault}
-          fontWeight="normal"
-          color="gray.800"
-          border="none"
-          bgColor={state === "highlighted" ? "blimpTeal.300" : "blimpTeal.100"}
-          borderTopRadius="0"
-          borderBottomRadius="lg"
-          ml={5}
-          variant="ghost"
-          size="sm"
-          onClick={handleInsertCode}
-          rightIcon={<Box as={RiDownloadFill} transform="rotate(270deg)" />}
-        >
-          <FormattedMessage id="insert-code-action" />
-        </Button>
-      </HStack>
     </Box>
   );
 };
@@ -188,6 +167,7 @@ interface CodePopUpProps extends BoxProps {
   toolkitType?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
+  onCopyCode: () => void;
 }
 
 // We draw the same code over the top in a portal so we can draw it
@@ -228,6 +208,7 @@ interface CodeProps extends BoxProps {
   toolkitType?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
+  onCopyCode: () => void;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
@@ -239,6 +220,7 @@ const Code = forwardRef<CodeProps, "pre">(
       toolkitType,
       parentSlug,
       onCodeDragEnd,
+      onCopyCode,
       ...props
     }: CodeProps,
     ref
@@ -285,6 +267,7 @@ const Code = forwardRef<CodeProps, "pre">(
         overflow="hidden"
         ref={ref}
         spacing={0}
+        onClick={onCopyCode}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         cursor="grab"

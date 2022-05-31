@@ -15,28 +15,12 @@ import React, {
   useState,
 } from "react";
 import { Logging } from "../logging/logging";
-import { CodeInsertType } from "./codemirror/dnd";
-import { calculateChanges } from "./codemirror/edits";
 
 /**
  * Actions that operate on a CM editor.
  */
 export class EditorActions {
   constructor(private view: EditorView, private logging: Logging) {}
-
-  /**
-   * A smart, import-aware code insert.
-   *
-   * @param code The code with any required imports.
-   */
-  insertCode = (code: string, type: CodeInsertType, id?: string): void => {
-    this.logging.event({
-      type: "code-insert",
-      message: id,
-    });
-    this.view.dispatch(calculateChanges(this.view.state, code, type));
-    this.view.focus();
-  };
   undo = (): void => {
     this.logging.event({
       type: "undo",

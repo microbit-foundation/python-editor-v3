@@ -8,7 +8,8 @@ import { Collapse, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
-import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import useActionFeedback from "../../common/use-action-feedback";
+import { setCopyContext } from "../../editor/codemirror/copypaste";
 import {
   debug as dndDebug,
   DragContext,
@@ -361,6 +362,7 @@ const DraggableSignature = ({
   const { fullName, kind, name, id } = docs;
   const logging = useLogging();
   const dragImage = useCodeDragImage();
+  const actionFeedback = useActionFeedback();
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
       logging.event({
@@ -386,31 +388,34 @@ const DraggableSignature = ({
 
   const highlight = useDisclosure();
 
-  const actions = useActiveEditorActions();
-  const handleInsertCode = useCallback(() => {
+  const handleCopyCode = useCallback(() => {
     const { code, id } = getDragContext(fullName, kind);
-    actions?.insertCode(code, kind === "function" ? "call" : "example", id);
-  }, [actions, fullName, kind]);
+    setCopyContext({
+      code: code,
+      type: kind === "function" ? "call" : "example",
+      id: id,
+    });
+    actionFeedback.success({ title: "Code copied" });
+  }, [actionFeedback, fullName, kind]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        handleInsertCode();
+        handleCopyCode();
       }
       if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
-        await navigator.clipboard.writeText(
-          `${formatName(kind, fullName, name)}${signature ? signature : ""}`
-        );
+        handleCopyCode();
       }
     },
-    [fullName, handleInsertCode, isMac, kind, name, signature]
+    [handleCopyCode, isMac]
   );
   return (
     <HStack
       draggable
       spacing={0}
+      onClick={handleCopyCode}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       display="inline-flex"
