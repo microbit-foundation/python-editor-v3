@@ -33,7 +33,7 @@ export const LanguageServerClientProvider = ({
   const fs = useFileSystem();
   const [{ languageId }] = useSettings();
   useEffect(() => {
-    client?.initialize(languageId, true).then(() => trackFsChanges(client, fs));
+    client?.initialize(languageId).then(() => trackFsChanges(client, fs));
     return () => {
       removeTrackFsChangesListener(fs);
     };

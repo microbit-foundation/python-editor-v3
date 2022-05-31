@@ -49,6 +49,8 @@ export class LanguageServerClient extends EventEmitter {
   capabilities: ServerCapabilities | undefined;
   private versions: Map<string, number> = new Map();
   private diagnostics: Map<string, Diagnostic[]> = new Map();
+  private initializePromise: Promise<void> | undefined;
+  private languageId: string | undefined;
 
   constructor(
     public connection: MessageConnection,
@@ -82,18 +84,14 @@ export class LanguageServerClient extends EventEmitter {
     ).length;
   }
 
-  private initializePromise: Promise<void> | undefined;
-
   /**
    * Initialize or wait for in-progress initialization.
    */
-  async initialize(
-    languageId: string,
-    reinitOverride: boolean = false
-  ): Promise<void> {
-    if (this.initializePromise && !reinitOverride) {
+  async initialize(languageId: string): Promise<void> {
+    if (this.initializePromise && this.languageId === languageId) {
       return this.initializePromise;
     }
+    this.languageId = languageId;
     this.initializePromise = (async () => {
       this.connection.onNotification(LogMessageNotification.type, (params) =>
         console.log("[LS]", params.message)
