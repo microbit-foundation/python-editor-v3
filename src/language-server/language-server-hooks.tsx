@@ -3,18 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useSettings } from "../settings/settings";
 import { LanguageServerClient } from "./client";
 import { removeTrackFsChangesListener, trackFsChanges } from "./client-fs";
-import { pyright } from "./pyright";
 
 const LanguageServerClientContext = createContext<
   LanguageServerClient | undefined
@@ -28,12 +21,15 @@ export const useLanguageServerClient = (): LanguageServerClient => {
   return value;
 };
 
-export const LanguageServerClientProvider = ({
-  children,
-}: {
+interface LanguageServerClientProviderProps {
+  client: LanguageServerClient | undefined;
   children: ReactNode;
-}) => {
-  const [client] = useState<LanguageServerClient | undefined>(pyright());
+}
+
+export const LanguageServerClientProvider = ({
+  client,
+  children,
+}: LanguageServerClientProviderProps) => {
   const fs = useFileSystem();
   const [{ languageId }] = useSettings();
   useEffect(() => {
