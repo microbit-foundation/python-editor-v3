@@ -63,17 +63,18 @@ const useContent = <T,>(
 const useApiDocumentation = (): ApiDocsResponse | undefined => {
   const client = useLanguageServerClient();
   const [apidocs, setApiDocs] = useState<ApiDocsResponse | undefined>();
+  const [{ languageId }] = useSettings();
   useEffect(() => {
     const load = async () => {
       if (client) {
-        await client.initialize();
+        await client.initialize(languageId);
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
         setApiDocs(docs);
       }
     };
     load();
-  }, [client]);
+  }, [client, languageId]);
   return apidocs;
 };
 

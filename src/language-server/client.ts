@@ -87,8 +87,11 @@ export class LanguageServerClient extends EventEmitter {
   /**
    * Initialize or wait for in-progress initialization.
    */
-  async initialize(): Promise<void> {
-    if (this.initializePromise) {
+  async initialize(
+    languageId: string,
+    reinitOverride: boolean = false
+  ): Promise<void> {
+    if (this.initializePromise && !reinitOverride) {
       return this.initializePromise;
     }
     this.initializePromise = (async () => {
@@ -110,7 +113,7 @@ export class LanguageServerClient extends EventEmitter {
       });
 
       const initializeParams: InitializeParams = {
-        locale: "fr",
+        locale: languageId,
         capabilities: {
           textDocument: {
             moniker: {},
