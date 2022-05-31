@@ -8,7 +8,6 @@ import {
   BrowserMessageReader,
   BrowserMessageWriter,
 } from "vscode-jsonrpc/browser";
-import { retryAsyncLoad } from "../common/chunk-util";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
@@ -63,16 +62,6 @@ export const pyright = (): LanguageServerClient | undefined => {
   });
   connection.listen();
 
-  const client = new LanguageServerClient(connection, {
-    rootUri: createUri(""),
-    initializationOptions: async () => {
-      const typeshed = await retryAsyncLoad(() => import("./typeshed.json"));
-      return {
-        files: typeshed,
-        // Custom option in our Pyright version
-        diagnosticStyle: "simplified",
-      };
-    },
-  });
+  const client = new LanguageServerClient(connection, createUri(""));
   return client;
 };

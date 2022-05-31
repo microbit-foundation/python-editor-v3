@@ -58,7 +58,7 @@ export const apiDocs = (
 ): Promise<ApiDocsResponse> => {
   // This is a non-standard LSP call that we've added support for to Pyright.
   return client.connection.sendRequest(apiDocsRequestType, {
-    path: client.options.rootUri,
+    path: client.rootUri,
     documentationFormat: [MarkupKind.Markdown],
     modules: [
       // For now, this omits a lot of modules that aren't documented

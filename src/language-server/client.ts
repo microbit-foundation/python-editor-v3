@@ -27,6 +27,7 @@ import {
   TextDocumentContentChangeEvent,
   TextDocumentItem,
 } from "vscode-languageserver-protocol";
+import { retryAsyncLoad } from "../common/chunk-util";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -52,13 +53,7 @@ export class LanguageServerClient extends EventEmitter {
   private initializePromise: Promise<void> | undefined;
   private languageId: string | undefined;
 
-  constructor(
-    public connection: MessageConnection,
-    public options: {
-      rootUri: string;
-      initializationOptions: () => Promise<any>;
-    }
-  ) {
+  constructor(public connection: MessageConnection, public rootUri: string) {
     super();
   }
 
@@ -151,14 +146,14 @@ export class LanguageServerClient extends EventEmitter {
             configuration: true,
           },
         },
-        initializationOptions: await this.options.initializationOptions(),
+        initializationOptions: await this.getInitializationOptions(languageId),
         processId: null,
         // Do we need both of these?
-        rootUri: this.options.rootUri,
+        rootUri: this.rootUri,
         workspaceFolders: [
           {
             name: "src",
-            uri: this.options.rootUri,
+            uri: this.rootUri,
           },
         ],
       };
@@ -170,6 +165,17 @@ export class LanguageServerClient extends EventEmitter {
       this.connection.sendNotification(InitializedNotification.type, {});
     })();
     return this.initializePromise;
+  }
+
+  async getInitializationOptions(languageId: string | undefined): Promise<any> {
+    const typeshed = await retryAsyncLoad(
+      () => import(`./typeshed.${languageId}.json`)
+    );
+    return {
+      files: typeshed,
+      // Custom option in our Pyright version
+      diagnosticStyle: "simplified",
+    };
   }
 
   didOpenTextDocument(params: {
