@@ -333,6 +333,12 @@
       "value": "Connecter"
     }
   ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Connect cable"
+    }
+  ],
   "connect-help-message": [
     {
       "type": 0,
@@ -823,6 +829,12 @@
       "value": " pour vous."
     }
   ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Next"
+    }
+  ],
   "not-found-checklist-one": [
     {
       "type": 0,
@@ -1309,12 +1321,6 @@
     {
       "type": 0,
       "value": "Versions logicielles"
-    }
-  ],
-  "start-action": [
-    {
-      "type": 0,
-      "value": "Start"
     }
   ],
   "support": [

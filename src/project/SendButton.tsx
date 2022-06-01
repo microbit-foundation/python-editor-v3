@@ -32,7 +32,6 @@ interface SendButtonProps {
 const SendButton = ({ size }: SendButtonProps) => {
   const status = useConnectionStatus();
   const connected = status === ConnectionStatus.CONNECTED;
-  const supported = status !== ConnectionStatus.NOT_SUPPORTED;
   const actions = useProjectActions();
   const handleToggleConnected = useCallback(async () => {
     if (connected) {
@@ -45,14 +44,9 @@ const SendButton = ({ size }: SendButtonProps) => {
     if (connected) {
       await actions.flash();
     } else {
-      await actions.connect();
-      if (supported) {
-        // Not sure why this is needed at the moment.
-        await new Promise((resolve) => setTimeout(resolve, 50));
-        await actions.flash();
-      }
+      await actions.connect(false, true);
     }
-  }, [actions, connected, supported]);
+  }, [actions, connected]);
   const intl = useIntl();
 
   return (

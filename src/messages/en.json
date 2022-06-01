@@ -333,10 +333,16 @@
       "value": "Connect"
     }
   ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Connect cable"
+    }
+  ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+      "value": "In next popup:"
     }
   ],
   "connect-help-one": [
@@ -348,7 +354,7 @@
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Connect your micro:bit"
+      "value": "Select micro:bit"
     }
   ],
   "connect-help-two": [
@@ -821,6 +827,12 @@
     {
       "type": 0,
       "value": " extension for you."
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Next"
     }
   ],
   "not-found-checklist-one": [
@@ -1311,12 +1323,6 @@
       "value": "Software versions"
     }
   ],
-  "start-action": [
-    {
-      "type": 0,
-      "value": "Start"
-    }
-  ],
   "support": [
     {
       "type": 0,
@@ -1498,7 +1504,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit."
     }
   ],
   "webusb-why-use": [

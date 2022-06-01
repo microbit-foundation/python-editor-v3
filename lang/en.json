@@ -155,8 +155,12 @@
     "defaultMessage": "Connect",
     "description": "Connect button text"
   },
+  "connect-cable-title": {
+    "defaultMessage": "Connect cable",
+    "description": "Title for the connect cable dialog"
+  },
   "connect-help-message": {
-    "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
+    "defaultMessage": "In next popup:",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
@@ -164,7 +168,7 @@
     "description": "Legend text for the connect help dialog image"
   },
   "connect-help-title": {
-    "defaultMessage": "Connect your micro:bit",
+    "defaultMessage": "Select micro:bit",
     "description": "Title for the connect help dialog"
   },
   "connect-help-two": {
@@ -415,6 +419,10 @@
     "defaultMessage": "We'll add the <code>.py</code> extension for you.",
     "description": "Hint shown in the new Python file dialog"
   },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
+  },
   "not-found-checklist-one": {
     "defaultMessage": "Review <link>how to select the device</link>",
     "description": "Checklist text in the no micro:bit found dialog"
@@ -623,10 +631,6 @@
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"
   },
-  "start-action": {
-    "defaultMessage": "Start",
-    "description": "Start button text"
-  },
   "support": {
     "defaultMessage": "Support",
     "description": "Support menu option text"
@@ -716,7 +720,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {

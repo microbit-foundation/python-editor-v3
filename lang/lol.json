@@ -155,6 +155,10 @@
     "defaultMessage": "Cоннест",
     "description": "Connect button text"
   },
+  "connect-cable-title": {
+    "defaultMessage": "Connect cable",
+    "description": "Title for the connect cable dialog"
+  },
   "connect-help-message": {
     "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
     "description": "Text in the connect help dialog"
@@ -414,6 +418,10 @@
     "defaultMessage": "Ве'лл адд тхе <code>.пу</code> екстенсіон фор уою.",
     "description": "Hint shown in the new Python file dialog"
   },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
+  },
   "not-found-checklist-one": {
     "defaultMessage": "Review <link>how to select the device</link>",
     "description": "Checklist text in the no micro:bit found dialog"
@@ -621,10 +629,6 @@
   "software-versions": {
     "defaultMessage": "Софтваре версіонс",
     "description": "Heading for a table of software versions in the about dialog"
-  },
-  "start-action": {
-    "defaultMessage": "Start",
-    "description": "Start button text"
   },
   "support": {
     "defaultMessage": "Сюппорт",

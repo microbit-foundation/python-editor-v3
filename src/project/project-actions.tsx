@@ -29,16 +29,17 @@ import {
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { Settings } from "../settings/settings";
+import ConnectCableDialog from "../workbench/connect-dialogs/ConnectCableDialog";
 import ConnectHelpDialog, {
   ConnectHelpChoice,
 } from "../workbench/connect-dialogs/ConnectHelpDialog";
 import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
-import WebUSBDialog, {
-  WebUSBErrorTrigger,
-} from "../workbench/connect-dialogs/WebUSBDialog";
 import NotFoundDialog, {
   NotFoundChoice,
 } from "../workbench/connect-dialogs/NotFoundDialog";
+import WebUSBDialog, {
+  WebUSBErrorTrigger,
+} from "../workbench/connect-dialogs/WebUSBDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -97,7 +98,10 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  connect = async (forceConnectHelp: boolean = false) => {
+  connect = async (
+    forceConnectHelp: boolean = false,
+    flash: boolean = false
+  ) => {
     this.logging.event({
       type: "connect",
     });
@@ -108,11 +112,56 @@ export class ProjectActions {
         <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
       ));
     } else {
-      if (await this.showConnectHelp(forceConnectHelp)) {
-        await this.connectInternal();
+      if (await this.showConnectCable(forceConnectHelp)) {
+        const connected = await this.connectInternal();
+        if (flash && connected) {
+          // Not sure why this is needed at the moment.
+          await new Promise((resolve) => setTimeout(resolve, 50));
+          await this.flash();
+        }
       }
     }
   };
+
+  /**
+   * Show connection help with options to connect or cancel.
+   *
+   * @param force true to show the help even if the user previously requested not to (used in error handling scenarios).
+   * @return true to continue to connect, false to cancel.
+   */
+  private async showConnectCable(force: boolean): Promise<boolean> {
+    const showConnectHelpSetting = this.settings.values.showConnectHelp;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return true;
+    }
+    if (
+      !force &&
+      (!showConnectHelpSetting ||
+        this.device.status === ConnectionStatus.NOT_CONNECTED)
+    ) {
+      return true;
+    }
+    const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
+      <ConnectCableDialog
+        callback={callback}
+        dialogNormallyHidden={!showConnectHelpSetting}
+      />
+    ));
+    switch (choice) {
+      case ConnectHelpChoice.NextDontShowAgain: {
+        this.settings.setValues({
+          ...this.settings.values,
+          showConnectHelp: false,
+        });
+        return true;
+      }
+      case ConnectHelpChoice.Next:
+        return await this.showConnectHelp(force);
+      case ConnectHelpChoice.Cancel:
+        return false;
+    }
+  }
 
   /**
    * Show connection help with options to connect or cancel.
@@ -140,14 +189,14 @@ export class ProjectActions {
       />
     ));
     switch (choice) {
-      case ConnectHelpChoice.StartDontShowAgain: {
+      case ConnectHelpChoice.NextDontShowAgain: {
         this.settings.setValues({
           ...this.settings.values,
           showConnectHelp: false,
         });
         return true;
       }
-      case ConnectHelpChoice.Start:
+      case ConnectHelpChoice.Next:
         return true;
       case ConnectHelpChoice.Cancel:
         return false;
@@ -160,6 +209,7 @@ export class ProjectActions {
   private async connectInternal() {
     try {
       await this.device.connect();
+      return true;
     } catch (e) {
       this.handleWebUSBError(e);
     }
