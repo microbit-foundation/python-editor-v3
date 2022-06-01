@@ -46,20 +46,9 @@ const copyPasteHandlers = () => {
           value: lineCount,
         });
 
-        let lineNumber = 0;
-        const lineElement = event
-          .composedPath()
-          .find((e) => (e as HTMLElement).classList.contains("cm-line"));
-        const lineElements = document.querySelectorAll(
-          '[data-testid="editor"] .cm-line'
-        );
-        lineElements.forEach((e, i) => {
-          if (e === lineElement) {
-            // + 1 for current line (or above existing text).
-            // + 2 for for line below.
-            lineNumber = i + 1;
-          }
-        });
+        const lineNumber = view.state.doc.lineAt(
+          view.state.selection.ranges[0].from
+        ).number;
 
         view.dispatch(
           calculateChanges(
