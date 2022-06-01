@@ -557,6 +557,27 @@ export class App {
     });
   }
 
+  async copyToolkitCode(name: string): Promise<void> {
+    const document = await this.document();
+    const heading = await document.findByText(name, {
+      selector: "h3",
+    });
+    const handle = heading.asElement();
+    await handle!.evaluate((element) => {
+      const item = element.closest("li");
+      (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
+    });
+  }
+
+  async pasteToolkitCode(): Promise<void> {
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
+    await keyboard.press("v");
+    await keyboard.up(meta);
+  }
+
   async selectToolkitDropDownOption(
     label: string,
     option: string
@@ -856,7 +877,7 @@ export class App {
 
   private async focusEditorContent(): Promise<ElementHandle> {
     const document = await this.document();
-    const content = await document.$(".cm-content");
+    const content = await document.$("[data-testid='editor'] .cm-content");
     if (!content) {
       throw new Error("Missing editor area");
     }

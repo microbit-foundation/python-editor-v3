@@ -19,29 +19,27 @@ describe("Browser - toolkit tabs", () => {
     );
   });
 
-  it("Insert code", async () => {
+  it("Copy code and paste in editor", async () => {
     await app.switchTab("Reference");
     await app.selectDocumentationSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
-
-    await app.insertToolkitCode("Images: built-in");
-
+    await app.copyToolkitCode("Images: built-in");
+    await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.HEART)");
   });
 
-  it("Insert code after dropdown choice", async () => {
+  it("Copy code after dropdown choice and paste in editor", async () => {
     await app.switchTab("Reference");
     await app.selectDocumentationSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
-
     await app.selectToolkitDropDownOption(
       "Select image:",
       "9" // "Image.SILLY"
     );
-    await app.insertToolkitCode("Images: built-in");
-
+    await app.copyToolkitCode("Images: built-in");
+    await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.SILLY)");
   });
 
