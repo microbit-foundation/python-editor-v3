@@ -1069,6 +1069,18 @@
       "value": "Rechercher"
     }
   ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Send to micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Connect via WebUSB then flash code onto micro:bit"
+    }
+  ],
   "serial-collapse": [
     {
       "type": 0,

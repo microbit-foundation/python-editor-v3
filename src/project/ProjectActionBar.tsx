@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, HStack } from "@chakra-ui/react";
-import ConnectDisconnectButton from "./ConnectDisconnectButton";
-import DownloadFlashButton from "./DownloadFlashButton";
-import LoadButton from "./LoadButton";
+import SendButton from "./SendButton";
+import DownloadMenuButton from "./DownloadMenuButton";
+import OpenButton from "./OpenButton";
 
 const ProjectActionBar = (props: BoxProps) => {
   const size = "lg";
@@ -19,12 +19,12 @@ const ProjectActionBar = (props: BoxProps) => {
       pl={10}
       pr={10}
     >
+      <SendButton size={size} />
       <HStack spacing={2.5}>
-        <DownloadFlashButton size={size} />
-        <ConnectDisconnectButton />
+        <DownloadMenuButton size={size} />
+        {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
+        <OpenButton mode="button" size={size} minW="fit-content" />
       </HStack>
-      {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
-      <LoadButton mode="button" size={size} minW="fit-content" />
     </HStack>
   );
 };

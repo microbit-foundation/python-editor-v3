@@ -522,6 +522,14 @@
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
   },
+  "send-action": {
+    "defaultMessage": "Send to micro:bit",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Connect via WebUSB then flash code onto micro:bit",
+    "description": "Send button hover text"
+  },
   "serial-collapse": {
     "defaultMessage": "Хіде серіал",
     "description": "Aria label for serial expand/collapse"

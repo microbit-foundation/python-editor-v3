@@ -103,6 +103,7 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
+      this.downloadMainFile();
       await this.dialogs.show<void>((callback) => (
         <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
       ));

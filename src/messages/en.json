@@ -640,7 +640,7 @@
   "load-action": [
     {
       "type": 0,
-      "value": "Load…"
+      "value": "Open…"
     }
   ],
   "load-error-mixed": [
@@ -1067,6 +1067,18 @@
     {
       "type": 0,
       "value": "Search"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Send to micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Connect via WebUSB then flash code onto micro:bit"
     }
   ],
   "serial-collapse": [

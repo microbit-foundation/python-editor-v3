@@ -336,8 +336,8 @@
     "description": "Language option text"
   },
   "load-action": {
-    "defaultMessage": "Load…",
-    "description": "Load button text"
+    "defaultMessage": "Open…",
+    "description": "Open button text"
   },
   "load-error-mixed": {
     "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
@@ -522,6 +522,14 @@
   "search": {
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
+  },
+  "send-action": {
+    "defaultMessage": "Send to micro:bit",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Connect via WebUSB then flash code onto micro:bit",
+    "description": "Send button hover text"
   },
   "serial-collapse": {
     "defaultMessage": "Hide serial",
