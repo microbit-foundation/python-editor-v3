@@ -55,6 +55,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import ProjectNameQuestion from "./ProjectNameQuestion";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -107,10 +108,10 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.downloadMainFile();
       await this.dialogs.show<void>((callback) => (
         <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
       ));
+      await this.download();
     } else {
       if (await this.showConnectCable(forceConnectHelp)) {
         const connected = await this.connectInternal();
@@ -456,6 +457,10 @@ export class ProjectActions {
       detail: await this.projectStats(),
     });
 
+    if (this.isDefaultProjectName()) {
+      await this.editProjectName();
+    }
+
     let download: string | undefined;
     try {
       download = await this.fs.toHexForDownload();
@@ -504,6 +509,10 @@ export class ProjectActions {
     this.logging.event({
       type: "download-main-file",
     });
+
+    if (this.isDefaultProjectName()) {
+      await this.editProjectName();
+    }
 
     try {
       const content = await this.fs.read(MAIN_FILE);
@@ -589,6 +598,30 @@ export class ProjectActions {
       }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
+    }
+  };
+
+  isDefaultProjectName = (): boolean =>
+    this.project.name === this.intl.formatMessage({ id: "untitled-project" });
+
+  editProjectName = async () => {
+    const name = await this.dialogs.show<string | undefined>((callback) => (
+      <InputDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "name-project" })}
+        Body={ProjectNameQuestion}
+        initialValue={this.project.name}
+        actionLabel={this.intl.formatMessage({ id: "confirm-action" })}
+        customFocus
+        validate={(name: string) =>
+          name.trim().length === 0
+            ? this.intl.formatMessage({ id: "name-not-blank" })
+            : undefined
+        }
+      />
+    ));
+    if (name) {
+      await this.setProjectName(name);
     }
   };
 
