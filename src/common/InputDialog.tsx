@@ -36,6 +36,7 @@ export interface InputDialogProps<T> {
   validate?: (input: T) => string | undefined;
   customFocus?: boolean;
   callback: (value: ValueOrCancelled<T>) => void;
+  showCancelButton?: boolean;
 }
 
 const noValidation = () => undefined;
@@ -52,6 +53,7 @@ export const InputDialog = <T,>({
   customFocus,
   validate = noValidation,
   callback,
+  showCancelButton = true,
 }: InputDialogProps<T>) => {
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -90,9 +92,11 @@ export const InputDialog = <T,>({
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button ref={leastDestructiveRef} onClick={onCancel}>
-              <FormattedMessage id="cancel-action" />
-            </Button>
+            {showCancelButton && (
+              <Button ref={leastDestructiveRef} onClick={onCancel}>
+                <FormattedMessage id="cancel-action" />
+              </Button>
+            )}
             <Button
               variant="solid"
               onClick={handleSubmit}

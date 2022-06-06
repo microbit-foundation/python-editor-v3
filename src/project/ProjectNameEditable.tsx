@@ -49,7 +49,7 @@ const ProjectNameEditable = ({
         fontSize="xl"
         color="brand.500"
         variant="ghost"
-        onClick={actions.editProjectName}
+        onClick={() => actions.editProjectName()}
         aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
       />
     </Tooltip>
@@ -58,7 +58,7 @@ const ProjectNameEditable = ({
     <Text
       key="text"
       cursor={clickToEdit ? "pointer" : undefined}
-      onClick={clickToEdit ? actions.editProjectName : undefined}
+      onClick={() => (clickToEdit ? actions.editProjectName() : undefined)}
       {...props}
     >
       {project.name}

@@ -458,7 +458,7 @@ export class ProjectActions {
     });
 
     if (this.isDefaultProjectName()) {
-      await this.editProjectName();
+      await this.editProjectName(true);
     }
 
     let download: string | undefined;
@@ -511,7 +511,7 @@ export class ProjectActions {
     });
 
     if (this.isDefaultProjectName()) {
-      await this.editProjectName();
+      await this.editProjectName(true);
     }
 
     try {
@@ -604,20 +604,23 @@ export class ProjectActions {
   isDefaultProjectName = (): boolean =>
     this.project.name === this.intl.formatMessage({ id: "untitled-project" });
 
-  editProjectName = async () => {
+  editProjectName = async (isDownload: boolean = false) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
         callback={callback}
         header={this.intl.formatMessage({ id: "name-project" })}
         Body={ProjectNameQuestion}
         initialValue={this.project.name}
-        actionLabel={this.intl.formatMessage({ id: "confirm-action" })}
+        actionLabel={this.intl.formatMessage({
+          id: isDownload ? "download-action" : "confirm-action",
+        })}
         customFocus
         validate={(name: string) =>
           name.trim().length === 0
             ? this.intl.formatMessage({ id: "name-not-blank" })
             : undefined
         }
+        showCancelButton={isDownload ? false : true}
       />
     ));
     if (name) {
