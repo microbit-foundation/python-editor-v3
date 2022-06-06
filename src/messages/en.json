@@ -387,6 +387,12 @@
       "value": "Copy"
     }
   ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Copy code"
+    }
+  ],
   "delete-action": [
     {
       "type": 0,

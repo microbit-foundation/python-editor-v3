@@ -172,12 +172,19 @@ const calculateNewSelection = (
   // foo()
   // ```
 
-  // If multiline then we move to the start of the new code, otherwise the end of the line.
-  if (mainCode.includes("\n")) {
+  // If multiline and type is unknown, move to the end of the new code. Used for paste events.
+  if (type === "unknown") {
+    return {
+      anchor: from + importLength + mainCode.replace(/\r\n/g, "\n").length,
+    };
+  }
+  // If multiline then we move to the start of the new code.
+  if (mainCode.includes("\n") && type === "example") {
     return {
       anchor: from + importLength + mainBlankLines.length + mainIndent.length,
     };
   }
+  // Otherwise, move to the end of the line.
   const newlineAdjustment = 1;
   return {
     anchor: from + importLength + mainLength - newlineAdjustment,

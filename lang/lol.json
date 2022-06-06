@@ -191,6 +191,10 @@
     "defaultMessage": "Cопу",
     "description": "Copy to clipboard action text"
   },
+  "copy-code-action": {
+    "defaultMessage": "Copy code",
+    "description": "Copy code to clipboard action text"
+  },
   "delete-action": {
     "defaultMessage": "Делете",
     "description": "Button text for delete action"

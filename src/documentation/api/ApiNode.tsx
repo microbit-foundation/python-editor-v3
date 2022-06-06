@@ -9,7 +9,7 @@ import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import useActionFeedback from "../../common/use-action-feedback";
-import { setCopyContext } from "../../editor/codemirror/copypaste";
+import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import {
   debug as dndDebug,
   DragContext,
@@ -387,16 +387,13 @@ const DraggableSignature = ({
   }, []);
 
   const highlight = useDisclosure();
+  const actions = useActiveEditorActions();
 
   const handleCopyCode = useCallback(() => {
     const { code, id } = getDragContext(fullName, kind);
-    setCopyContext({
-      code: code,
-      type: kind === "function" ? "call" : "example",
-      id: id,
-    });
+    actions?.copyCode(code, id);
     actionFeedback.success({ title: "Code copied" });
-  }, [actionFeedback, fullName, kind]);
+  }, [actionFeedback, actions, fullName, kind]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {

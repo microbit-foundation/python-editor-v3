@@ -21,6 +21,14 @@ import { Logging } from "../logging/logging";
  */
 export class EditorActions {
   constructor(private view: EditorView, private logging: Logging) {}
+
+  copyCode = (code: string, id?: string): void => {
+    this.logging.event({
+      type: "code-copy",
+      message: id,
+    });
+    navigator.clipboard.writeText(code);
+  };
   undo = (): void => {
     this.logging.event({
       type: "undo",

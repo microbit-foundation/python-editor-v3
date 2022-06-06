@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+export const zIndexCode = 1;
 export const zIndexCodePopUp = 2;
 export const zIndexBreadcrumbContainer = 2;
 export const zIndexSidebarHeader = 3;

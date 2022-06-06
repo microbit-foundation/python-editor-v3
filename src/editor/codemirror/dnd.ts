@@ -40,7 +40,11 @@ export type CodeInsertType =
   /**
    * A function call.
    */
-  | "call";
+  | "call"
+  /**
+   * Context is unknown, used for paste events.
+   */
+  | "unknown";
 
 export interface DragContext {
   code: string;

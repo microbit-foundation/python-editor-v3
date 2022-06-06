@@ -387,6 +387,12 @@
       "value": "Cопу"
     }
   ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Copy code"
+    }
+  ],
   "delete-action": [
     {
       "type": 0,
