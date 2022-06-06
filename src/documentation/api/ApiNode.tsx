@@ -8,7 +8,6 @@ import { Collapse, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
-import useActionFeedback from "../../common/use-action-feedback";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import {
   debug as dndDebug,
@@ -362,7 +361,6 @@ const DraggableSignature = ({
   const { fullName, kind, name, id } = docs;
   const logging = useLogging();
   const dragImage = useCodeDragImage();
-  const actionFeedback = useActionFeedback();
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
       logging.event({
@@ -392,8 +390,7 @@ const DraggableSignature = ({
   const handleCopyCode = useCallback(() => {
     const { code, id } = getDragContext(fullName, kind);
     actions?.copyCode(code, id);
-    actionFeedback.success({ title: "Code copied" });
-  }, [actionFeedback, actions, fullName, kind]);
+  }, [actions, fullName, kind]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {

@@ -14,13 +14,18 @@ import React, {
   useContext,
   useState,
 } from "react";
+import { ActionFeedback } from "../common/use-action-feedback";
 import { Logging } from "../logging/logging";
 
 /**
  * Actions that operate on a CM editor.
  */
 export class EditorActions {
-  constructor(private view: EditorView, private logging: Logging) {}
+  constructor(
+    private view: EditorView,
+    private logging: Logging,
+    private actionFeedback: ActionFeedback
+  ) {}
 
   copyCode = (code: string, id?: string): void => {
     this.logging.event({
@@ -28,6 +33,9 @@ export class EditorActions {
       message: id,
     });
     navigator.clipboard.writeText(code);
+    this.actionFeedback.success({
+      title: "Code copied, use paste to insert it.",
+    });
   };
   undo = (): void => {
     this.logging.event({

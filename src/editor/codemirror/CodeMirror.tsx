@@ -10,6 +10,7 @@ import { EditorView, highlightActiveLine, ViewUpdate } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";
+import useActionFeedback from "../../common/use-action-feedback";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { Logging } from "../../logging/logging";
@@ -69,6 +70,7 @@ const CodeMirror = ({
   const intl = useIntl();
   const [, setEditorInfo] = useActiveEditorInfoState();
   const logging = useLogging();
+  const actionFeedback = useActionFeedback();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -132,9 +134,10 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
-      setActiveEditor(new EditorActions(view, logging));
+      setActiveEditor(new EditorActions(view, logging, actionFeedback));
     }
   }, [
+    actionFeedback,
     client,
     defaultValue,
     intl,

@@ -5,14 +5,18 @@
  */
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
-import { Button, VisuallyHidden } from "@chakra-ui/react";
+import {
+  Button,
+  Collapse,
+  useDisclosure,
+  VisuallyHidden,
+} from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
-import useActionFeedback from "../../common/use-action-feedback";
 import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
@@ -46,8 +50,7 @@ const CodeEmbed = ({
   toolkitType,
   parentSlug,
 }: CodeEmbedProps) => {
-  const actionFeedback = useActionFeedback();
-  const [showCopyButton, setShowCopyButton] = useState<boolean>(false);
+  const { isOpen, onToggle } = useDisclosure();
   const [state, originalSetState] = useState<CodeEmbedState>("default");
   // We want to debounce raising so that we don't raise very briefly during scroll.
   // We don't ever want to delay other actions.
@@ -80,8 +83,7 @@ const CodeEmbed = ({
   const actions = useActiveEditorActions();
   const handleCopyCode = useCallback(() => {
     actions?.copyCode(codeWithImports, `${toolkitType}-${parentSlug}`);
-    actionFeedback.success({ title: "Code copied" });
-  }, [actionFeedback, actions, codeWithImports, parentSlug, toolkitType]);
+  }, [actions, codeWithImports, parentSlug, toolkitType]);
 
   const code = useMemo(
     () =>
@@ -118,15 +120,15 @@ const CodeEmbed = ({
     [handleCopyCode, isMac]
   );
   return (
-    <Box>
+    <Box position="relative">
       <Box height={codeHeight} fontSize="md">
         <Code
           onMouseEnter={toRaised}
           onMouseLeave={clearPending}
           onCodeDragEnd={toDefault}
           onCopyCode={handleCopyCode}
-          showCopyButton={showCopyButton}
-          setShowCopyButton={setShowCopyButton}
+          isOpen={isOpen}
+          onToggle={onToggle}
           concise={code}
           full={codeWithImports}
           position="absolute"
@@ -149,8 +151,8 @@ const CodeEmbed = ({
             onMouseLeave={toDefault}
             onCodeDragEnd={toDefault}
             onCopyCode={handleCopyCode}
-            showCopyButton={showCopyButton}
-            setShowCopyButton={setShowCopyButton}
+            isOpen={isOpen}
+            onToggle={onToggle}
             height={codePopUpHeight}
             top={codeRef.current!.getBoundingClientRect().top + "px"}
             left={codeRef.current!.getBoundingClientRect().left + "px"}
@@ -162,7 +164,7 @@ const CodeEmbed = ({
           />
         )}
       </Box>
-      {showCopyButton && (
+      <Collapse in={isOpen} startingHeight={0}>
         <HStack spacing={3} mt="2px">
           <Button
             onMouseEnter={toHighlighted}
@@ -184,7 +186,7 @@ const CodeEmbed = ({
             <FormattedMessage id="copy-code-action" />
           </Button>
         </HStack>
-      )}
+      </Collapse>
     </Box>
   );
 };
@@ -196,8 +198,8 @@ interface CodePopUpProps extends BoxProps {
   parentSlug?: string;
   onCodeDragEnd: () => void;
   onCopyCode: () => void;
-  showCopyButton: boolean;
-  setShowCopyButton: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  onToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // We draw the same code over the top in a portal so we can draw it
@@ -239,8 +241,8 @@ interface CodeProps extends BoxProps {
   parentSlug?: string;
   onCodeDragEnd: () => void;
   onCopyCode: () => void;
-  showCopyButton: boolean;
-  setShowCopyButton: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  onToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
@@ -253,8 +255,8 @@ const Code = forwardRef<CodeProps, "pre">(
       parentSlug,
       onCodeDragEnd,
       onCopyCode,
-      showCopyButton,
-      setShowCopyButton,
+      isOpen,
+      onToggle,
       ...props
     }: CodeProps,
     ref
@@ -301,7 +303,7 @@ const Code = forwardRef<CodeProps, "pre">(
         overflow="hidden"
         ref={ref}
         spacing={0}
-        onClick={() => setShowCopyButton(!showCopyButton)}
+        onClick={() => onToggle(!isOpen)}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         cursor="grab"
