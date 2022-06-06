@@ -38,9 +38,9 @@ from microbit import *
 
 # Code in a 'while True:' loop repeats forever
 while True:
-    display.scroll('micro:bit')
     display.show(Image.HEART)
-    sleep(2000)
+    sleep(1000)
+    display.scroll('Hello')
 `;
 
 export const defaultInitialProject: PythonProject = {
