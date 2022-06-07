@@ -99,10 +99,7 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  connect = async (
-    forceConnectHelp: boolean = false,
-    flash: boolean = false
-  ) => {
+  connect = async (forceConnectHelp: boolean = false) => {
     this.logging.event({
       type: "connect",
     });
@@ -114,12 +111,7 @@ export class ProjectActions {
       await this.download();
     } else {
       if (await this.showConnectCable(forceConnectHelp)) {
-        const connected = await this.connectInternal();
-        if (flash && connected) {
-          // Not sure why this is needed at the moment.
-          await new Promise((resolve) => setTimeout(resolve, 50));
-          await this.flash();
-        }
+        await this.connectInternal();
       }
     }
   };
@@ -415,6 +407,12 @@ export class ProjectActions {
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.webusbNotSupportedError();
       return;
+    }
+
+    if (this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE) {
+      await this.connect();
+      // Not sure why this is needed at the moment.
+      await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
     try {

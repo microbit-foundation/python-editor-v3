@@ -41,12 +41,8 @@ const SendButton = ({ size }: SendButtonProps) => {
     }
   }, [connected, actions]);
   const handleSendToMicrobit = useCallback(async () => {
-    if (connected) {
-      await actions.flash();
-    } else {
-      await actions.connect(false, true);
-    }
-  }, [actions, connected]);
+    await actions.flash();
+  }, [actions]);
   const intl = useIntl();
 
   return (
