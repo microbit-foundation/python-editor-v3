@@ -18,7 +18,7 @@ const workerScriptName = "pyright-main-4c1fe7a1b366bfb47dd7.worker.js";
  *
  * These have the same lifetime as the app.
  */
-export const pyright = (): LanguageServerClient | undefined => {
+export const pyright = (language: string): LanguageServerClient | undefined => {
   // For jest.
   if (!window.Worker) {
     return undefined;
@@ -38,6 +38,11 @@ export const pyright = (): LanguageServerClient | undefined => {
     new BrowserMessageReader(foreground),
     new BrowserMessageWriter(foreground)
   );
+  const workers: Worker[] = [foreground];
+  connection.onDispose(() => {
+    workers.forEach((w) => w.terminate());
+  });
+
   let backgroundWorkerCount = 0;
   foreground.addEventListener("message", (e: MessageEvent) => {
     if (e.data && e.data.type === "browser/newWorker") {
@@ -49,6 +54,7 @@ export const pyright = (): LanguageServerClient | undefined => {
       const background = new Worker(workerScript, {
         name: `Pyright-background-${++backgroundWorkerCount}`,
       });
+      workers.push(background);
       background.postMessage(
         {
           type: "browser/boot",
@@ -62,6 +68,5 @@ export const pyright = (): LanguageServerClient | undefined => {
   });
   connection.listen();
 
-  const client = new LanguageServerClient(connection, createUri(""));
-  return client;
+  return new LanguageServerClient(connection, language, createUri(""));
 };

@@ -3,43 +3,59 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useSettings } from "../settings/settings";
 import { LanguageServerClient } from "./client";
-import { removeTrackFsChangesListener, trackFsChanges } from "./client-fs";
+import {
+  FsChangesListener,
+  removeTrackFsChangesListener,
+  trackFsChanges,
+} from "./client-fs";
+import { pyright } from "./pyright";
 
 const LanguageServerClientContext = createContext<
   LanguageServerClient | undefined
 >(undefined);
 
-export const useLanguageServerClient = (): LanguageServerClient => {
-  const value = useContext(LanguageServerClientContext);
-  if (!value) {
-    throw new Error("Missing provider!");
-  }
-  return value;
+export const useLanguageServerClient = (): LanguageServerClient | undefined => {
+  return useContext(LanguageServerClientContext);
 };
 
 interface LanguageServerClientProviderProps {
-  client: LanguageServerClient | undefined;
   children: ReactNode;
 }
 
 export const LanguageServerClientProvider = ({
-  client,
   children,
 }: LanguageServerClientProviderProps) => {
   const fs = useFileSystem();
   const [{ languageId }] = useSettings();
+  const [clientState, setClientState] = useState<
+    LanguageServerClient | undefined
+  >(undefined);
   useEffect(() => {
-    client?.initialize(languageId).then(() => trackFsChanges(client, fs));
+    const client = pyright(languageId);
+    setClientState(client);
+    let listener: FsChangesListener | undefined;
+    client?.initialize().then(() => {
+      listener = trackFsChanges(client, fs);
+    });
     return () => {
-      removeTrackFsChangesListener(fs);
+      if (listener) {
+        removeTrackFsChangesListener(fs, listener);
+      }
+      client?.dispose();
     };
-  }, [client, fs, languageId]);
+  }, [fs, languageId]);
   return (
-    <LanguageServerClientContext.Provider value={client}>
+    <LanguageServerClientContext.Provider value={clientState}>
       {children}
     </LanguageServerClientContext.Provider>
   );

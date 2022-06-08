@@ -51,9 +51,12 @@ export class LanguageServerClient extends EventEmitter {
   private versions: Map<string, number> = new Map();
   private diagnostics: Map<string, Diagnostic[]> = new Map();
   private initializePromise: Promise<void> | undefined;
-  private languageId: string | undefined;
 
-  constructor(public connection: MessageConnection, public rootUri: string) {
+  constructor(
+    public connection: MessageConnection,
+    private locale: string,
+    public rootUri: string
+  ) {
     super();
   }
 
@@ -82,11 +85,10 @@ export class LanguageServerClient extends EventEmitter {
   /**
    * Initialize or wait for in-progress initialization.
    */
-  async initialize(languageId: string): Promise<void> {
-    if (this.initializePromise && this.languageId === languageId) {
+  async initialize(): Promise<void> {
+    if (this.initializePromise) {
       return this.initializePromise;
     }
-    this.languageId = languageId;
     this.initializePromise = (async () => {
       this.connection.onNotification(LogMessageNotification.type, (params) =>
         console.log("[LS]", params.message)
@@ -106,7 +108,7 @@ export class LanguageServerClient extends EventEmitter {
       });
 
       const initializeParams: InitializeParams = {
-        locale: languageId,
+        locale: this.locale,
         capabilities: {
           textDocument: {
             moniker: {},
@@ -146,7 +148,7 @@ export class LanguageServerClient extends EventEmitter {
             configuration: true,
           },
         },
-        initializationOptions: await this.getInitializationOptions(languageId),
+        initializationOptions: await this.getInitializationOptions(),
         processId: null,
         // Do we need both of these?
         rootUri: this.rootUri,
@@ -167,9 +169,9 @@ export class LanguageServerClient extends EventEmitter {
     return this.initializePromise;
   }
 
-  async getInitializationOptions(languageId: string | undefined): Promise<any> {
+  async getInitializationOptions(): Promise<any> {
     const typeshed = await retryAsyncLoad(
-      () => import(`./typeshed.${languageId}.json`)
+      () => import(`./typeshed.${this.locale}.json`)
     );
     return {
       files: typeshed,
