@@ -170,9 +170,15 @@ export class LanguageServerClient extends EventEmitter {
   }
 
   async getInitializationOptions(): Promise<any> {
-    const typeshed = await retryAsyncLoad(
-      () => import(`./typeshed.${this.locale}.json`)
-    );
+    const typeshed = await retryAsyncLoad(() => {
+      switch (this.locale) {
+        case "fr":
+          // Temporary, for PR review only.
+          return import(`./typeshed.fr.json`);
+        default:
+          return import(`./typeshed.en.json`);
+      }
+    });
     return {
       files: typeshed,
       // Custom option in our Pyright version
