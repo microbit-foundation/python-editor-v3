@@ -77,11 +77,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
   }, [languageId]);
 
   useEffect(() => {
-    if (!query.trim()) {
-      setResults(undefined);
-    } else {
-      debouncedSearch(query);
-    }
+    debouncedSearch(query);
   }, [debouncedSearch, query]);
 
   const value: UseSearch = useMemo(

@@ -39,6 +39,7 @@ export class Positions {
 export class VisualBlock {
   constructor(
     readonly bodyPullBack: boolean,
+    readonly width: number,
     readonly parent?: Positions,
     readonly body?: Positions
   ) {}
@@ -73,7 +74,7 @@ export class VisualBlock {
       parent.style.left = this.parent.left + "px";
       parent.style.top = this.parent.top + "px";
       parent.style.height = this.parent.height + "px";
-      parent.style.width = `calc(100% - ${this.parent.left}px)`;
+      parent.style.width = this.width - this.parent.left + "px";
     }
 
     // Optionally allows nested compound statements some breathing space
@@ -82,7 +83,7 @@ export class VisualBlock {
       body.style.left = this.body.left - bodyPullBack + "px";
       body.style.top = this.body.top + "px";
       body.style.height = this.body.height + "px";
-      body.style.width = `calc(100% - ${this.body.left - bodyPullBack}px)`;
+      body.style.width = this.width - this.body.left + bodyPullBack + "px";
     }
 
     if (this.parent && parent && this.body && body && indent) {
@@ -95,7 +96,11 @@ export class VisualBlock {
   }
 
   eq(other: VisualBlock) {
-    return equals(this.body, other.body) && equals(this.parent, other.parent);
+    return (
+      equals(this.body, other.body) &&
+      equals(this.parent, other.parent) &&
+      this.width === other.width
+    );
   }
 }
 
