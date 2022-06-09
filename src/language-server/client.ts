@@ -172,9 +172,7 @@ export class LanguageServerClient extends EventEmitter {
   async getInitializationOptions(): Promise<any> {
     const typeshed = await retryAsyncLoad(() => {
       switch (this.locale) {
-        case "fr":
-          // Temporary, for PR review only.
-          return import(`./typeshed.fr.json`);
+        // New languages go here,
         default:
           return import(`./typeshed.en.json`);
       }
