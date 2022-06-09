@@ -3,13 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
 import {
   Box,
   Flex,
-  HStack,
   Image,
-  Link,
   List,
   ListItem,
   Text,
@@ -18,40 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
-import { GenericDialog } from "../../common/GenericDialog";
 import selectMicrobit from "./select-microbit.png";
-
-export const enum ConnectHelpChoice {
-  Next,
-  NextDontShowAgain,
-  Cancel,
-}
-
-interface ConnectHelpDialogProps {
-  callback: (choice: ConnectHelpChoice) => void;
-  dialogNormallyHidden: boolean;
-}
-
-const ConnectHelpDialog = ({
-  callback,
-  dialogNormallyHidden,
-}: ConnectHelpDialogProps) => (
-  <GenericDialog
-    onClose={() => callback(ConnectHelpChoice.Cancel)}
-    body={<ConnectHelpDialogBody />}
-    footer={
-      <ConnectHelpDialogFooter
-        onClose={() => callback(ConnectHelpChoice.Cancel)}
-        onNext={() => callback(ConnectHelpChoice.Next)}
-        onNextDontShowAgain={() =>
-          callback(ConnectHelpChoice.NextDontShowAgain)
-        }
-        dialogNormallyHidden={dialogNormallyHidden}
-      />
-    }
-    size="3xl"
-  />
-);
 
 const ConnectHelpDialogBody = () => {
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
@@ -143,41 +107,6 @@ const ConnectHelpDialogBody = () => {
         </List>
       )}
     </VStack>
-  );
-};
-
-interface ConnectHelpDialogFooterProps {
-  onClose: () => void;
-  onNext: () => void;
-  onNextDontShowAgain: () => void;
-  dialogNormallyHidden: boolean;
-}
-
-const ConnectHelpDialogFooter = ({
-  onClose,
-  onNext,
-  onNextDontShowAgain,
-  dialogNormallyHidden,
-}: ConnectHelpDialogFooterProps) => {
-  return (
-    <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
-      {!dialogNormallyHidden && (
-        <Link
-          onClick={onNextDontShowAgain}
-          as="button"
-          color="brand.500"
-          mr="auto"
-        >
-          <FormattedMessage id="dont-show-again" />
-        </Link>
-      )}
-      <Button onClick={onClose} size="lg">
-        <FormattedMessage id="cancel-action" />
-      </Button>
-      <Button onClick={onNext} variant="solid" size="lg">
-        <FormattedMessage id="next-action" />
-      </Button>
-    </HStack>
   );
 };
 
@@ -273,4 +202,4 @@ const Circle = ({ text }: CircleProps) => {
   );
 };
 
-export default ConnectHelpDialog;
+export default ConnectHelpDialogBody;

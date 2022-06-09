@@ -165,6 +165,12 @@
       "value": "Methods"
     }
   ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "Back"
+    }
+  ],
   "back-to-main": [
     {
       "type": 0,

@@ -75,6 +75,10 @@
     "defaultMessage": "Метходс",
     "description": "Heading in Reference documentation for the methods in a Python class"
   },
+  "back-action": {
+    "defaultMessage": "Back",
+    "description": "Back button text"
+  },
   "back-to-main": {
     "defaultMessage": "баск то тхе маін соде",
     "description": "Text button, takes back to main code"

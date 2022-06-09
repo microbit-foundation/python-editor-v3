@@ -75,6 +75,10 @@
     "defaultMessage": "Methods",
     "description": "Heading in API documentation for the methods in a Python class"
   },
+  "back-action": {
+    "defaultMessage": "Back",
+    "description": "Back button text"
+  },
   "back-to-main": {
     "defaultMessage": "back to the main code",
     "description": "Text button, takes back to main code"

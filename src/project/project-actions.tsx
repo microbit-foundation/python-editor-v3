@@ -30,9 +30,9 @@ import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { Settings } from "../settings/settings";
 import ConnectCableDialog from "../workbench/connect-dialogs/ConnectCableDialog";
-import ConnectHelpDialog, {
+import ConnectDialog, {
   ConnectHelpChoice,
-} from "../workbench/connect-dialogs/ConnectHelpDialog";
+} from "../workbench/connect-dialogs/ConnectDialog";
 import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
 import NotFoundDialog, {
   NotFoundChoice,
@@ -110,51 +110,11 @@ export class ProjectActions {
       ));
       await this.download();
     } else {
-      if (await this.showConnectCable(forceConnectHelp)) {
+      if (await this.showConnectHelp(forceConnectHelp)) {
         await this.connectInternal();
       }
     }
   };
-
-  /**
-   * Show connection help with options to connect or cancel.
-   *
-   * @param force true to show the help even if the user previously requested not to (used in error handling scenarios).
-   * @return true to continue to connect, false to cancel.
-   */
-  private async showConnectCable(force: boolean): Promise<boolean> {
-    const showConnectHelpSetting = this.settings.values.showConnectHelp;
-    // Temporarily hide for French language users.
-    if (this.settings.values.languageId !== "en") {
-      return true;
-    }
-    if (
-      !force &&
-      (!showConnectHelpSetting ||
-        this.device.status === ConnectionStatus.NOT_CONNECTED)
-    ) {
-      return true;
-    }
-    const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
-      <ConnectCableDialog
-        callback={callback}
-        dialogNormallyHidden={!showConnectHelpSetting}
-      />
-    ));
-    switch (choice) {
-      case ConnectHelpChoice.NextDontShowAgain: {
-        this.settings.setValues({
-          ...this.settings.values,
-          showConnectHelp: false,
-        });
-        return true;
-      }
-      case ConnectHelpChoice.Next:
-        return await this.showConnectHelp(force);
-      case ConnectHelpChoice.Cancel:
-        return false;
-    }
-  }
 
   /**
    * Show connection help with options to connect or cancel.
@@ -176,7 +136,7 @@ export class ProjectActions {
       return true;
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
-      <ConnectHelpDialog
+      <ConnectDialog
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}
       />
