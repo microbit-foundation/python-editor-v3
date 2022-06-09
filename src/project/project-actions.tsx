@@ -15,7 +15,6 @@ import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
   DeviceConnection,
-  EVENT_END_USB_SELECT,
   HexGenerationError,
   WebUSBError,
   WebUSBErrorCode,
