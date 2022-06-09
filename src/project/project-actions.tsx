@@ -29,7 +29,6 @@ import {
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { Settings } from "../settings/settings";
-import ConnectCableDialog from "../workbench/connect-dialogs/ConnectCableDialog";
 import ConnectDialog, {
   ConnectHelpChoice,
 } from "../workbench/connect-dialogs/ConnectDialog";
@@ -162,7 +161,6 @@ export class ProjectActions {
   private async connectInternal() {
     try {
       await this.device.connect();
-      return true;
     } catch (e) {
       this.handleWebUSBError(e);
     }
@@ -605,10 +603,6 @@ export class ProjectActions {
       <NotFoundDialog callback={callback} />
     ));
     switch (choice) {
-      case NotFoundChoice.Retry: {
-        this.connectInternal();
-        return;
-      }
       case NotFoundChoice.ReviewDevice: {
         this.connect(true);
         return;

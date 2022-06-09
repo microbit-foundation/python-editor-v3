@@ -21,7 +21,6 @@ import { GenericDialog } from "../../common/GenericDialog";
 import notFound from "./not-found.svg";
 
 export const enum NotFoundChoice {
-  Retry,
   ReviewDevice,
   Cancel,
 }
@@ -42,7 +41,7 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
       }
       footer={
         <NotFoundDialogFooter
-          onRetry={() => callback(NotFoundChoice.Retry)}
+          onReviewDevice={() => callback(NotFoundChoice.ReviewDevice)}
           onCancel={() => callback(NotFoundChoice.Cancel)}
         />
       }
@@ -144,19 +143,19 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
 
 interface NotFoundDialogFooterProps {
   onCancel: () => void;
-  onRetry: () => void;
+  onReviewDevice: () => void;
 }
 
 const NotFoundDialogFooter = ({
   onCancel,
-  onRetry,
+  onReviewDevice,
 }: NotFoundDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
       <Button onClick={onCancel} size="lg">
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={onRetry} variant="solid" size="lg">
+      <Button onClick={onReviewDevice} variant="solid" size="lg">
         <FormattedMessage id="try-again-action" />
       </Button>
     </HStack>
