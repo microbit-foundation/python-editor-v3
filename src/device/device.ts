@@ -96,6 +96,8 @@ export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
 export const EVENT_FLASH = "flash";
+export const EVENT_START_USB_SELECT = "start_usb_select";
+export const EVENT_END_USB_SELECT = "end_usb_select";
 
 export class HexGenerationError extends Error {}
 
@@ -540,6 +542,7 @@ export class MicrobitWebUSBConnection
     if (this.device) {
       return this.device;
     }
+    this.emit(EVENT_START_USB_SELECT);
     this.device = await navigator.usb.requestDevice({
       filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
     });

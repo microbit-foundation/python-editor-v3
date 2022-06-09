@@ -13,13 +13,18 @@ import {
   SplitViewSized,
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
-import { ConnectionStatus } from "../device/device";
-import { useConnectionStatus } from "../device/device-hooks";
+import {
+  ConnectionStatus,
+  EVENT_END_USB_SELECT,
+  EVENT_START_USB_SELECT,
+} from "../device/device";
+import { useConnectionStatus, useDevice } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
+import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
@@ -55,73 +60,94 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+  const [selectingDevice, setSelectingDevice] = useState<boolean>(false);
+  const device = useDevice();
+  const showOverlay = useCallback(() => {
+    setSelectingDevice(true);
+    console.log("TRUE");
+  }, [setSelectingDevice]);
+  const hideOverlay = useCallback(() => {
+    setSelectingDevice(false);
+    console.log("FALSE");
+  }, [setSelectingDevice]);
+  useEffect(() => {
+    device.on(EVENT_START_USB_SELECT, showOverlay);
+    device.on(EVENT_END_USB_SELECT, hideOverlay);
+    return () => {
+      device.removeListener(EVENT_START_USB_SELECT, showOverlay);
+      device.removeListener(EVENT_END_USB_SELECT, hideOverlay);
+    };
+  }, [device, showOverlay, hideOverlay]);
   return (
-    <Flex className="Workbench">
-      <SplitView
-        direction="row"
-        width="100%"
-        minimums={minimums}
-        initialSize={Math.min(
-          700,
-          Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
-        )}
-      >
-        <SplitViewSized>
-          <SideBar
-            as="section"
-            aria-label={intl.formatMessage({ id: "sidebar" })}
-            selectedFile={selection.file}
-            onSelectedFileChanged={setSelectedFile}
-            flex="1 1 100%"
-          />
-        </SplitViewSized>
-        <SplitViewDivider />
-        <SplitViewRemainder>
-          <Flex
-            as="main"
-            flex="1 1 100%"
-            flexDirection="column"
-            height="100%"
-            boxShadow="4px 0px 24px #00000033"
-          >
-            <SplitView
-              direction="column"
-              minimums={[248, 200]}
-              compactSize={SerialArea.compactSize}
-              height="100%"
-              mode={serialSizedMode}
-            >
-              <SplitViewRemainder>
-                <Box height="100%" as="section">
-                  {selection && fileVersion !== undefined && (
-                    <EditorArea
-                      key={selection.file + "/" + fileVersion}
-                      selection={selection}
-                      onSelectedFileChanged={setSelectedFile}
-                    />
-                  )}
-                </Box>
-              </SplitViewRemainder>
-              <SplitViewDivider />
-              <SplitViewSized>
-                <SerialArea
-                  as="section"
-                  compact={serialSizedMode === "compact"}
-                  onSizeChange={setSerialStateWhenOpen}
-                  aria-label={intl.formatMessage({ id: "serial-terminal" })}
-                />
-              </SplitViewSized>
-            </SplitView>
-            <ProjectActionBar
+    <>
+      {selectingDevice && <Overlay />}
+      <Flex className="Workbench">
+        <SplitView
+          direction="row"
+          width="100%"
+          minimums={minimums}
+          initialSize={Math.min(
+            700,
+            Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
+          )}
+        >
+          <SplitViewSized>
+            <SideBar
               as="section"
-              aria-label={intl.formatMessage({ id: "project-actions" })}
-              borderTopWidth={2}
-              borderColor="gray.200"
+              aria-label={intl.formatMessage({ id: "sidebar" })}
+              selectedFile={selection.file}
+              onSelectedFileChanged={setSelectedFile}
+              flex="1 1 100%"
             />
-          </Flex>
-        </SplitViewRemainder>
-      </SplitView>
-    </Flex>
+          </SplitViewSized>
+          <SplitViewDivider />
+          <SplitViewRemainder>
+            <Flex
+              as="main"
+              flex="1 1 100%"
+              flexDirection="column"
+              height="100%"
+              boxShadow="4px 0px 24px #00000033"
+            >
+              <SplitView
+                direction="column"
+                minimums={[248, 200]}
+                compactSize={SerialArea.compactSize}
+                height="100%"
+                mode={serialSizedMode}
+              >
+                <SplitViewRemainder>
+                  <Box height="100%" as="section">
+                    {selection && fileVersion !== undefined && (
+                      <EditorArea
+                        key={selection.file + "/" + fileVersion}
+                        selection={selection}
+                        onSelectedFileChanged={setSelectedFile}
+                      />
+                    )}
+                  </Box>
+                </SplitViewRemainder>
+                <SplitViewDivider />
+                <SplitViewSized>
+                  <SerialArea
+                    as="section"
+                    compact={serialSizedMode === "compact"}
+                    onSizeChange={setSerialStateWhenOpen}
+                    aria-label={intl.formatMessage({ id: "serial-terminal" })}
+                  />
+                </SplitViewSized>
+              </SplitView>
+              <ProjectActionBar
+                as="section"
+                aria-label={intl.formatMessage({ id: "project-actions" })}
+                borderTopWidth={2}
+                borderColor="gray.200"
+              />
+            </Flex>
+          </SplitViewRemainder>
+        </SplitView>
+      </Flex>
+    </>
   );
 };
 

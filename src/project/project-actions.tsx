@@ -15,6 +15,7 @@ import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
   DeviceConnection,
+  EVENT_END_USB_SELECT,
   HexGenerationError,
   WebUSBError,
   WebUSBErrorCode,
@@ -110,7 +111,7 @@ export class ProjectActions {
       await this.download();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
-        await this.connectInternal();
+        return await this.connectInternal();
       }
     }
   };
@@ -159,10 +160,15 @@ export class ProjectActions {
    * Connect to the device if possible, otherwise show feedback.
    */
   private async connectInternal() {
+    let success = false;
     try {
       await this.device.connect();
+      success = true;
     } catch (e) {
       this.handleWebUSBError(e);
+    } finally {
+      this.device.emit(EVENT_END_USB_SELECT);
+      return success;
     }
   }
 
@@ -368,7 +374,10 @@ export class ProjectActions {
     }
 
     if (this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE) {
-      await this.connect();
+      const connected = await this.connect();
+      if (!connected) {
+        return;
+      }
       // Not sure why this is needed at the moment.
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
