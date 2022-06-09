@@ -377,9 +377,6 @@ export class ProjectActions {
 
     try {
       const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
-      const flashingMicroPython = this.intl.formatMessage({
-        id: "flashing-micropython",
-      });
       const firstFlashNotice = (
         <Text fontSize="lg">
           <FormattedMessage id="flashing-full-flash-detail" />
@@ -387,7 +384,7 @@ export class ProjectActions {
       );
       const progress = (value: number | undefined, partial: boolean) => {
         this.dialogs.progress({
-          header: partial ? flashingCode : flashingMicroPython,
+          header: flashingCode,
           body: partial ? undefined : firstFlashNotice,
           progress: value,
         });

@@ -284,11 +284,11 @@
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "Flashing code",
+    "defaultMessage": "Sending code (flashing)",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "Your code is being sent ('flashed') to your micro:bit. This can take a while the first time, sorry, but it will be quicker after that.",
+    "defaultMessage": "Your code is being sent (flashed) to your micro:bit. This can take a while the first time but it will be quicker after that.",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
@@ -360,7 +360,7 @@
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "load-hover": {
-    "defaultMessage": "Load a hex or Python file or add other files",
+    "defaultMessage": "Open a hex or Python file or add other files",
     "description": "Hover text over load button"
   },
   "loaded-file-feedback": {
