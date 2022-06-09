@@ -411,7 +411,10 @@ export class ProjectActions {
     });
 
     if (this.isDefaultProjectName()) {
-      await this.editProjectName(true);
+      const cancelDownload = !(await this.editProjectName(true));
+      if (cancelDownload) {
+        return;
+      }
     }
 
     let download: string | undefined;
@@ -565,7 +568,7 @@ export class ProjectActions {
         Body={ProjectNameQuestion}
         initialValue={this.project.name}
         actionLabel={this.intl.formatMessage({
-          id: isDownload ? "download-action" : "confirm-action",
+          id: isDownload ? "confirm-download-action" : "confirm-action",
         })}
         customFocus
         validate={(name: string) =>
@@ -573,12 +576,13 @@ export class ProjectActions {
             ? this.intl.formatMessage({ id: "name-not-blank" })
             : undefined
         }
-        showCancelButton={isDownload ? false : true}
       />
     ));
     if (name) {
       await this.setProjectName(name);
+      return true;
     }
+    return false;
   };
 
   /**

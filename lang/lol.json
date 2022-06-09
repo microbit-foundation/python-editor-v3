@@ -147,6 +147,10 @@
     "defaultMessage": "Cонфірм делете",
     "description": "Confirmation header of deletion of a file"
   },
+  "confirm-download-action": {
+    "defaultMessage": "Confirm and download",
+    "description": "Confirm and download action label"
+  },
   "confirm-replace-body": {
     "defaultMessage": "Репласе алл філес вітх тхосе ін тхе хекс?",
     "description": "Confirmation message body for replacing project dialog"

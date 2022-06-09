@@ -321,6 +321,12 @@
       "value": "Confirm delete"
     }
   ],
+  "confirm-download-action": [
+    {
+      "type": 0,
+      "value": "Confirm and download"
+    }
+  ],
   "confirm-replace-body": [
     {
       "type": 0,

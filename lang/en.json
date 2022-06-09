@@ -147,6 +147,10 @@
     "defaultMessage": "Confirm delete",
     "description": "Confirmation header of deletion of a file"
   },
+  "confirm-download-action": {
+    "defaultMessage": "Confirm and download",
+    "description": "Confirm and download action label"
+  },
   "confirm-replace-body": {
     "defaultMessage": "Replace all files with those in the hex?",
     "description": "Confirmation message body for replacing project dialog"
