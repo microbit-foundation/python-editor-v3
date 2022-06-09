@@ -66,6 +66,7 @@ const useApiDocumentation = (): ApiDocsResponse | undefined => {
   useEffect(() => {
     const load = async () => {
       if (client) {
+        // Initialized triggered elsewhere but we need to wait for it.
         await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);

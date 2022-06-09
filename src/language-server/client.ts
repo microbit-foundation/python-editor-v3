@@ -27,6 +27,7 @@ import {
   TextDocumentContentChangeEvent,
   TextDocumentItem,
 } from "vscode-languageserver-protocol";
+import { retryAsyncLoad } from "../common/chunk-util";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -49,13 +50,12 @@ export class LanguageServerClient extends EventEmitter {
   capabilities: ServerCapabilities | undefined;
   private versions: Map<string, number> = new Map();
   private diagnostics: Map<string, Diagnostic[]> = new Map();
+  private initializePromise: Promise<void> | undefined;
 
   constructor(
     public connection: MessageConnection,
-    public options: {
-      rootUri: string;
-      initializationOptions: () => Promise<any>;
-    }
+    private locale: string,
+    public rootUri: string
   ) {
     super();
   }
@@ -81,8 +81,6 @@ export class LanguageServerClient extends EventEmitter {
       (e) => e.severity === DiagnosticSeverity.Error
     ).length;
   }
-
-  private initializePromise: Promise<void> | undefined;
 
   /**
    * Initialize or wait for in-progress initialization.
@@ -110,6 +108,7 @@ export class LanguageServerClient extends EventEmitter {
       });
 
       const initializeParams: InitializeParams = {
+        locale: this.locale,
         capabilities: {
           textDocument: {
             moniker: {},
@@ -149,14 +148,14 @@ export class LanguageServerClient extends EventEmitter {
             configuration: true,
           },
         },
-        initializationOptions: await this.options.initializationOptions(),
+        initializationOptions: await this.getInitializationOptions(),
         processId: null,
         // Do we need both of these?
-        rootUri: this.options.rootUri,
+        rootUri: this.rootUri,
         workspaceFolders: [
           {
             name: "src",
-            uri: this.options.rootUri,
+            uri: this.rootUri,
           },
         ],
       };
@@ -168,6 +167,21 @@ export class LanguageServerClient extends EventEmitter {
       this.connection.sendNotification(InitializedNotification.type, {});
     })();
     return this.initializePromise;
+  }
+
+  private async getInitializationOptions(): Promise<any> {
+    const typeshed = await retryAsyncLoad(() => {
+      switch (this.locale) {
+        // New languages go here.
+        default:
+          return import(`./typeshed.en.json`);
+      }
+    });
+    return {
+      files: typeshed,
+      // Custom option in our Pyright version
+      diagnosticStyle: "simplified",
+    };
   }
 
   didOpenTextDocument(params: {
