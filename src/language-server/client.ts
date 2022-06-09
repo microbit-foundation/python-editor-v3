@@ -169,7 +169,7 @@ export class LanguageServerClient extends EventEmitter {
     return this.initializePromise;
   }
 
-  async getInitializationOptions(): Promise<any> {
+  private async getInitializationOptions(): Promise<any> {
     const typeshed = await retryAsyncLoad(() => {
       switch (this.locale) {
         // New languages go here.
