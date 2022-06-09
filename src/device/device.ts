@@ -492,6 +492,8 @@ export class MicrobitWebUSBConnection
         message: e.code + "/" + errorMessage,
       });
       throw enriched;
+    } finally {
+      this.emit(EVENT_END_USB_SELECT);
     }
   }
 
@@ -546,6 +548,7 @@ export class MicrobitWebUSBConnection
     this.device = await navigator.usb.requestDevice({
       filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
     });
+    this.emit(EVENT_END_USB_SELECT);
     return this.device;
   }
 }

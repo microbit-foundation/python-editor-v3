@@ -64,11 +64,9 @@ const Workbench = () => {
   const device = useDevice();
   const showOverlay = useCallback(() => {
     setSelectingDevice(true);
-    console.log("TRUE");
   }, [setSelectingDevice]);
   const hideOverlay = useCallback(() => {
     setSelectingDevice(false);
-    console.log("FALSE");
   }, [setSelectingDevice]);
   useEffect(() => {
     device.on(EVENT_START_USB_SELECT, showOverlay);

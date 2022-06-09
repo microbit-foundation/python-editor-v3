@@ -167,7 +167,6 @@ export class ProjectActions {
     } catch (e) {
       this.handleWebUSBError(e);
     } finally {
-      this.device.emit(EVENT_END_USB_SELECT);
       return success;
     }
   }
