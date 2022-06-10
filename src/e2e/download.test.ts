@@ -20,10 +20,11 @@ describe("Browser - download", () => {
   });
 
   it("Shows an error when trying to download a hex file if the Python code is too large", async () => {
+    // Set the project name to avoid calling the edit project name input dialog.
+    await app.setProjectName("not default name");
     await app.loadFiles("testData/too-large.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-
     await app.findVisibleEditorContents(/# Filler/);
     await app.download();
 

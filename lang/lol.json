@@ -398,6 +398,10 @@
     "defaultMessage": "Море",
     "description": "More button text"
   },
+  "more-connect-options": {
+    "defaultMessage": "More connect options",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
   "more-download-options": {
     "defaultMessage": "More download options",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"

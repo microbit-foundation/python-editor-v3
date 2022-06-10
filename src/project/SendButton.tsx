@@ -67,7 +67,8 @@ const SendButton = ({ size }: SendButtonProps) => {
           </Tooltip>
           <MenuButton
             variant="solid"
-            aria-label={intl.formatMessage({ id: "more-download-options" })}
+            aria-label={intl.formatMessage({ id: "more-connect-options" })}
+            data-testid="more-connect-options"
             // Avoid animating part of the primary action change.
             borderLeft="1px"
             borderRadius="button"

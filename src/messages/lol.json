@@ -785,6 +785,12 @@
       "value": "Море"
     }
   ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "More connect options"
+    }
+  ],
   "more-download-options": [
     {
       "type": 0,
