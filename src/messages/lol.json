@@ -899,6 +899,12 @@
       "value": " you can connect to this micro:bit."
     }
   ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,

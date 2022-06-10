@@ -26,7 +26,7 @@ import {
 } from "../../language-server/apidocs";
 import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
-import CopyCodeButton from "../common/CopyCodeButton";
+import CodeActionButton from "../common/CodeActionButton";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -457,12 +457,13 @@ const DraggableSignature = ({
           {signature}
         </Text>
       </HStack>
-      <CopyCodeButton
+      <CodeActionButton
         isOpen={copyCodeButton.isOpen}
         toHighlighted={highlight.onOpen}
         toDefault={highlight.onClose}
-        handleCopyCode={handleCopyCode}
+        codeAction={handleCopyCode}
         borderAdjustment={false}
+        toolkitType={"api"}
       />
     </Box>
   );

@@ -1,23 +1,25 @@
 import { Box, Button, Collapse, HStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { RiFileCopy2Line } from "react-icons/ri";
+import { RiFileCopy2Line, RiFileTransferLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 
-interface CopyCodeButtonProps {
+interface CodeActionButtonProps {
   isOpen: boolean;
   toHighlighted: () => void;
   toDefault: () => void;
-  handleCopyCode: () => void;
+  codeAction: () => void;
   borderAdjustment: boolean;
+  toolkitType?: string;
 }
 
-const CopyCodeButton = ({
+const CodeActionButton = ({
   isOpen,
   toHighlighted,
   toDefault,
-  handleCopyCode,
+  codeAction,
   borderAdjustment,
-}: CopyCodeButtonProps) => {
+  toolkitType,
+}: CodeActionButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   return (
     <Collapse in={isOpen} startingHeight={0}>
@@ -40,14 +42,22 @@ const CopyCodeButton = ({
           ml={5}
           variant="ghost"
           size="sm"
-          onClick={handleCopyCode}
-          rightIcon={<Box as={RiFileCopy2Line} />}
+          onClick={codeAction}
+          rightIcon={
+            <Box
+              as={
+                toolkitType === "ideas" ? RiFileTransferLine : RiFileCopy2Line
+              }
+            />
+          }
         >
-          <FormattedMessage id="copy-code-action" />
+          <FormattedMessage
+            id={toolkitType === "ideas" ? "open-action" : "copy-code-action"}
+          />
         </Button>
       </HStack>
     </Collapse>
   );
 };
 
-export default CopyCodeButton;
+export default CodeActionButton;

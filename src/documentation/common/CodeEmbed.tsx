@@ -16,9 +16,10 @@ import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
+import { useProjectActions } from "../../project/project-hooks";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
-import CopyCodeButton from "./CopyCodeButton";
+import CodeActionButton from "./CodeActionButton";
 
 interface CodeEmbedProps {
   code: string;
@@ -83,7 +84,14 @@ const CodeEmbed = ({
       `${toolkitType}-${parentSlug}`
     );
   }, [actions, codeWithImports, parentSlug, toolkitType]);
-
+  const projectActions = useProjectActions();
+  const handleOpenIdea = useCallback(async () => {
+    const content = new TextEncoder().encode(codeWithImports).buffer;
+    const file = new File([content], `${parentSlug?.replaceAll("-", "_")}.py`, {
+      type: "text/plain",
+    });
+    await projectActions.load([file]);
+  }, [codeWithImports, projectActions, parentSlug]);
   const code = useMemo(
     () =>
       codeWithImports
@@ -163,12 +171,13 @@ const CodeEmbed = ({
           />
         )}
       </Box>
-      <CopyCodeButton
+      <CodeActionButton
         isOpen={copyCodeButton.isOpen}
         toHighlighted={toHighlighted}
         toDefault={toDefault}
-        handleCopyCode={handleCopyCode}
+        codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}
         borderAdjustment={true}
+        toolkitType={toolkitType}
       />
     </Box>
   );
