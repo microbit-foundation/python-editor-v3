@@ -58,7 +58,6 @@ const Workbench = () => {
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   return (
     <>
-      <Overlay />
       <Flex className="Workbench">
         <SplitView
           direction="row"
@@ -125,6 +124,7 @@ const Workbench = () => {
           </SplitViewRemainder>
         </SplitView>
       </Flex>
+      <Overlay />
     </>
   );
 };
