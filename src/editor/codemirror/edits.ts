@@ -61,7 +61,8 @@ export const calculateChanges = (
   state: EditorState,
   source: string,
   type: CodeInsertType,
-  line?: number
+  line?: number,
+  paste?: boolean
 ) => {
   const parser = python().language.parser;
   const sourceTree = parser.parse(source);
@@ -101,7 +102,9 @@ export const calculateChanges = (
       // Tweak so the addition preview is under the mouse even if we added imports.
       line = Math.max(1, line - importLines);
       const extraLines = line - state.doc.lines;
-      if (extraLines > 0) {
+      if (paste) {
+        mainFrom = state.doc.line(line + importLines).from;
+      } else if (extraLines > 0) {
         mainFrom = state.doc.length;
         mainPreceedingWhitespace = "\n".repeat(extraLines);
       } else {

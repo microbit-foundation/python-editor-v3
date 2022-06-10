@@ -65,7 +65,8 @@ const copyPasteHandlers = () => {
             view.state,
             pasteContext.code,
             pasteContext.type,
-            lineNumber
+            lineNumber,
+            true
           )
         );
         view.focus();
