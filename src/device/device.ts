@@ -492,8 +492,6 @@ export class MicrobitWebUSBConnection
         message: e.code + "/" + errorMessage,
       });
       throw enriched;
-    } finally {
-      this.emit(EVENT_END_USB_SELECT);
     }
   }
 

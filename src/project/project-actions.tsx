@@ -15,6 +15,7 @@ import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
   DeviceConnection,
+  EVENT_END_USB_SELECT,
   HexGenerationError,
   WebUSBError,
   WebUSBErrorCode,
@@ -636,6 +637,7 @@ export class ProjectActions {
 
   private async handleWebUSBError(e: any) {
     if (e instanceof WebUSBError) {
+      this.device.emit(EVENT_END_USB_SELECT);
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
