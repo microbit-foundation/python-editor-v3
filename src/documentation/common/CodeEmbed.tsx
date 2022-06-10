@@ -82,7 +82,11 @@ const CodeEmbed = ({
 
   const actions = useActiveEditorActions();
   const handleCopyCode = useCallback(() => {
-    actions?.copyCode(codeWithImports, `${toolkitType}-${parentSlug}`);
+    actions?.copyCode(
+      codeWithImports,
+      "example",
+      `${toolkitType}-${parentSlug}`
+    );
   }, [actions, codeWithImports, parentSlug, toolkitType]);
 
   const code = useMemo(

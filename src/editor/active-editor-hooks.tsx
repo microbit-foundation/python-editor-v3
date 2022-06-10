@@ -16,6 +16,7 @@ import React, {
 } from "react";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Logging } from "../logging/logging";
+import { CodeInsertType } from "./codemirror/dnd";
 
 /**
  * Actions that operate on a CM editor.
@@ -27,12 +28,23 @@ export class EditorActions {
     private actionFeedback: ActionFeedback
   ) {}
 
-  copyCode = (code: string, id?: string): void => {
+  copyCode = async (
+    code: string,
+    type: CodeInsertType,
+    id?: string
+  ): Promise<void> => {
     this.logging.event({
       type: "code-copy",
       message: id,
     });
-    navigator.clipboard.writeText(code);
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        // @ts-ignore
+        "text/html": new Blob([`<code data-type="${type}">${code}</code>`], {
+          type: "text/html",
+        }),
+      }),
+    ]);
     this.actionFeedback.success({
       title: "Code copied, use paste to insert it.",
     });
