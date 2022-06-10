@@ -8,6 +8,7 @@ import { Collapse, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import { zIndexCode } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import {
   debug as dndDebug,
@@ -25,6 +26,7 @@ import {
 } from "../../language-server/apidocs";
 import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
+import CopyCodeButton from "../common/CopyCodeButton";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -385,6 +387,7 @@ const DraggableSignature = ({
   }, []);
 
   const highlight = useDisclosure();
+  const copyCodeButton = useDisclosure();
   const actions = useActiveEditorActions();
 
   const handleCopyCode = useCallback(() => {
@@ -406,52 +409,62 @@ const DraggableSignature = ({
     [handleCopyCode, isMac]
   );
   return (
-    <HStack
-      draggable
-      spacing={0}
-      onClick={handleCopyCode}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      display="inline-flex"
-      overflow="hidden"
-      borderWidth="1px"
-      borderColor="blimpTeal.300"
-      borderRadius="lg"
-      onMouseEnter={highlight.onOpen}
-      onMouseLeave={highlight.onClose}
-      tabIndex={0}
-      _focus={{
-        boxShadow: "var(--chakra-shadows-outline);",
-      }}
-      _focusVisible={{
-        outline: "none",
-      }}
-      onKeyDown={handleKeyDown}
-      {...props}
-      cursor="grab"
-    >
-      <VisuallyHidden>
-        <FormattedMessage id="code-example" />
-      </VisuallyHidden>
-      <DragHandle
-        highlight={highlight.isOpen}
-        borderTopLeftRadius="lg"
-        borderBottomLeftRadius="lg"
-        p={1}
-        alignSelf="stretch"
-      />
-      <Text
-        background={highlight.isOpen ? "blimpTeal.50" : "white"}
-        transition="background .2s"
-        p={2}
-        fontFamily="code"
-        fontSize={kindToFontSize[kind] || "md"}
-        as={kindToHeading[kind]}
+    <Box position="relative">
+      <HStack
+        draggable
+        spacing={0}
+        onClick={copyCodeButton.onToggle}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        display="inline-flex"
+        overflow="hidden"
+        borderWidth="1px"
+        borderColor="blimpTeal.300"
+        borderRadius="lg"
+        onMouseEnter={highlight.onOpen}
+        onMouseLeave={highlight.onClose}
+        tabIndex={0}
+        position="relative"
+        zIndex={zIndexCode}
+        _focusVisible={{
+          boxShadow: "var(--chakra-shadows-outline);",
+          outline: "none",
+        }}
+        onKeyDown={handleKeyDown}
+        {...props}
+        cursor="grab"
       >
-        <Text as="span">{formatName(kind, fullName, name)}</Text>
-        {signature}
-      </Text>
-    </HStack>
+        <VisuallyHidden>
+          <FormattedMessage id="code-example" />
+        </VisuallyHidden>
+        <DragHandle
+          highlight={highlight.isOpen}
+          borderTopLeftRadius="lg"
+          borderBottomLeftRadius="lg"
+          p={1}
+          alignSelf="stretch"
+        />
+        <Text
+          minW={40}
+          background={highlight.isOpen ? "blimpTeal.50" : "white"}
+          transition="background .2s"
+          p={2}
+          fontFamily="code"
+          fontSize={kindToFontSize[kind] || "md"}
+          as={kindToHeading[kind]}
+        >
+          <Text as="span">{formatName(kind, fullName, name)}</Text>
+          {signature}
+        </Text>
+      </HStack>
+      <CopyCodeButton
+        isOpen={copyCodeButton.isOpen}
+        toHighlighted={highlight.onOpen}
+        toDefault={highlight.onClose}
+        handleCopyCode={handleCopyCode}
+        borderAdjustment={false}
+      />
+    </Box>
   );
 };
 

@@ -5,15 +5,9 @@
  */
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
-import {
-  Button,
-  Collapse,
-  useDisclosure,
-  VisuallyHidden,
-} from "@chakra-ui/react";
+import { useDisclosure, VisuallyHidden } from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { RiFileCopy2Line } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
@@ -24,6 +18,7 @@ import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
+import CopyCodeButton from "./CopyCodeButton";
 
 interface CodeEmbedProps {
   code: string;
@@ -50,7 +45,7 @@ const CodeEmbed = ({
   toolkitType,
   parentSlug,
 }: CodeEmbedProps) => {
-  const { isOpen, onToggle } = useDisclosure();
+  const copyCodeButton = useDisclosure();
   const [state, originalSetState] = useState<CodeEmbedState>("default");
   // We want to debounce raising so that we don't raise very briefly during scroll.
   // We don't ever want to delay other actions.
@@ -131,8 +126,8 @@ const CodeEmbed = ({
           onMouseLeave={clearPending}
           onCodeDragEnd={toDefault}
           onCopyCode={handleCopyCode}
-          isOpen={isOpen}
-          onToggle={onToggle}
+          isOpen={copyCodeButton.isOpen}
+          onToggle={copyCodeButton.onToggle}
           concise={code}
           full={codeWithImports}
           position="absolute"
@@ -155,8 +150,8 @@ const CodeEmbed = ({
             onMouseLeave={toDefault}
             onCodeDragEnd={toDefault}
             onCopyCode={handleCopyCode}
-            isOpen={isOpen}
-            onToggle={onToggle}
+            isOpen={copyCodeButton.isOpen}
+            onToggle={copyCodeButton.onToggle}
             height={codePopUpHeight}
             top={codeRef.current!.getBoundingClientRect().top + "px"}
             left={codeRef.current!.getBoundingClientRect().left + "px"}
@@ -168,29 +163,13 @@ const CodeEmbed = ({
           />
         )}
       </Box>
-      <Collapse in={isOpen} startingHeight={0}>
-        <HStack spacing={3} mt="2px">
-          <Button
-            onMouseEnter={toHighlighted}
-            onMouseLeave={toDefault}
-            fontWeight="normal"
-            color="gray.800"
-            border="none"
-            bgColor={
-              state === "highlighted" ? "blimpTeal.300" : "blimpTeal.100"
-            }
-            borderTopRadius="0"
-            borderBottomRadius="lg"
-            ml={5}
-            variant="ghost"
-            size="sm"
-            onClick={handleCopyCode}
-            rightIcon={<Box as={RiFileCopy2Line} />}
-          >
-            <FormattedMessage id="copy-code-action" />
-          </Button>
-        </HStack>
-      </Collapse>
+      <CopyCodeButton
+        isOpen={copyCodeButton.isOpen}
+        toHighlighted={toHighlighted}
+        toDefault={toDefault}
+        handleCopyCode={handleCopyCode}
+        borderAdjustment={true}
+      />
     </Box>
   );
 };
