@@ -13,12 +13,8 @@ import {
   SplitViewSized,
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
-import {
-  ConnectionStatus,
-  EVENT_END_USB_SELECT,
-  EVENT_START_USB_SELECT,
-} from "../device/device";
-import { useConnectionStatus, useDevice } from "../device/device-hooks";
+import { ConnectionStatus } from "../device/device";
+import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
@@ -60,25 +56,9 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
-  const [selectingDevice, setSelectingDevice] = useState<boolean>(false);
-  const device = useDevice();
-  const showOverlay = useCallback(() => {
-    setSelectingDevice(true);
-  }, [setSelectingDevice]);
-  const hideOverlay = useCallback(() => {
-    setSelectingDevice(false);
-  }, [setSelectingDevice]);
-  useEffect(() => {
-    device.on(EVENT_START_USB_SELECT, showOverlay);
-    device.on(EVENT_END_USB_SELECT, hideOverlay);
-    return () => {
-      device.removeListener(EVENT_START_USB_SELECT, showOverlay);
-      device.removeListener(EVENT_END_USB_SELECT, hideOverlay);
-    };
-  }, [device, showOverlay, hideOverlay]);
   return (
     <>
-      {selectingDevice && <Overlay />}
+      <Overlay />
       <Flex className="Workbench">
         <SplitView
           direction="row"
