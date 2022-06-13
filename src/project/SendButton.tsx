@@ -18,7 +18,7 @@ import { useCallback } from "react";
 import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
-import { ConnectionStatus } from "../device/device";
+import { ConnectionAction, ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
@@ -35,7 +35,7 @@ const SendButton = ({ size }: SendButtonProps) => {
     if (connected) {
       await actions.disconnect();
     } else {
-      await actions.connect();
+      await actions.connect(false, ConnectionAction.CONNECT);
     }
   }, [connected, actions]);
   const intl = useIntl();

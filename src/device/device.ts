@@ -91,6 +91,15 @@ export enum ConnectionStatus {
   CONNECTED = "CONNECTED",
 }
 
+/**
+ * Tracks user connection action.
+ */
+export enum ConnectionAction {
+  FLASH = "FLASH",
+  CONNECT = "CONNECT",
+  DISCONNECT = "DISCONNECT",
+}
+
 export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_RESET = "serial_reset";

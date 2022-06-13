@@ -18,31 +18,27 @@ import { ReactNode, useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
+import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
 
-export const enum NotFoundChoice {
-  ReviewDevice,
-  Cancel,
-}
-
 interface NotFoundDialogProps {
-  callback: (value: NotFoundChoice) => void;
+  callback: (value: ConnectErrorChoice) => void;
 }
 
 export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
   return (
     <GenericDialog
-      onClose={() => callback(NotFoundChoice.Cancel)}
+      onClose={() => callback(ConnectErrorChoice.Cancel)}
       body={
         <NotFoundDialogBody
-          onReviewDevice={() => callback(NotFoundChoice.ReviewDevice)}
-          onCancel={() => callback(NotFoundChoice.Cancel)}
+          onReviewDevice={() => callback(ConnectErrorChoice.TryAgain)}
+          onCancel={() => callback(ConnectErrorChoice.Cancel)}
         />
       }
       footer={
         <NotFoundDialogFooter
-          onReviewDevice={() => callback(NotFoundChoice.ReviewDevice)}
-          onCancel={() => callback(NotFoundChoice.Cancel)}
+          onReviewDevice={() => callback(ConnectErrorChoice.TryAgain)}
+          onCancel={() => callback(ConnectErrorChoice.Cancel)}
         />
       }
       size="3xl"

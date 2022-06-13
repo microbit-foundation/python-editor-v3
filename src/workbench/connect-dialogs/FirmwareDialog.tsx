@@ -6,23 +6,32 @@
 import { Button } from "@chakra-ui/button";
 import { Icon } from "@chakra-ui/icons";
 import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
-import { ReactNode, useCallback } from "react";
+import { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
-import { useProjectActions } from "../../project/project-hooks";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 
+export const enum ConnectErrorChoice {
+  TryAgain,
+  Cancel,
+}
+
 interface FirmwareDialogProps {
-  callback: () => void;
+  callback: (choice: ConnectErrorChoice) => void;
 }
 
 const FirmwareDialog = ({ callback }: FirmwareDialogProps) => (
   <GenericDialog
     body={<FirmwareDialogBody />}
-    footer={<FirmwareDialogFooter onClose={callback} />}
+    footer={
+      <FirmwareDialogFooter
+        onClose={() => callback(ConnectErrorChoice.Cancel)}
+        onTryAgain={() => callback(ConnectErrorChoice.TryAgain)}
+      />
+    }
     size="3xl"
-    onClose={callback}
+    onClose={() => callback(ConnectErrorChoice.Cancel)}
   />
 );
 
@@ -81,21 +90,20 @@ const FirmwareDialogBody = () => {
 
 interface FirmwareDialogFooterProps {
   onClose: () => void;
+  onTryAgain: () => void;
 }
 
-const FirmwareDialogFooter = ({ onClose }: FirmwareDialogFooterProps) => {
-  const actions = useProjectActions();
-  const handleTryAgain = useCallback(async () => {
-    onClose();
-    await actions.connect();
-  }, [actions, onClose]);
+const FirmwareDialogFooter = ({
+  onClose,
+  onTryAgain,
+}: FirmwareDialogFooterProps) => {
   const buttonWidth = "8.1rem";
   return (
     <HStack spacing={2.5}>
       <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={handleTryAgain} size="lg" minWidth={buttonWidth}>
+      <Button onClick={onTryAgain} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="try-again-action" />
       </Button>
       <Button

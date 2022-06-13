@@ -13,6 +13,7 @@ import { InputDialog, InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
+  ConnectionAction,
   ConnectionStatus,
   DeviceConnection,
   EVENT_END_USB_SELECT,
@@ -33,10 +34,10 @@ import { Settings } from "../settings/settings";
 import ConnectDialog, {
   ConnectHelpChoice,
 } from "../workbench/connect-dialogs/ConnectDialog";
-import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
-import NotFoundDialog, {
-  NotFoundChoice,
-} from "../workbench/connect-dialogs/NotFoundDialog";
+import FirmwareDialog, {
+  ConnectErrorChoice,
+} from "../workbench/connect-dialogs/FirmwareDialog";
+import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
 import WebUSBDialog, {
   WebUSBErrorTrigger,
 } from "../workbench/connect-dialogs/WebUSBDialog";
@@ -100,7 +101,8 @@ export class ProjectActions {
   }
 
   connect = async (
-    forceConnectHelp: boolean = false
+    forceConnectHelp: boolean,
+    userAction: ConnectionAction
   ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
@@ -113,7 +115,7 @@ export class ProjectActions {
       await this.download();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
-        return this.connectInternal();
+        return this.connectInternal(userAction);
       }
     }
   };
@@ -161,13 +163,13 @@ export class ProjectActions {
   /**
    * Connect to the device if possible, otherwise show feedback.
    */
-  private async connectInternal() {
+  private async connectInternal(userAction: ConnectionAction) {
     let success = false;
     try {
       await this.device.connect();
       success = true;
     } catch (e) {
-      this.handleWebUSBError(e);
+      this.handleWebUSBError(e, userAction);
     } finally {
       return success;
     }
@@ -184,7 +186,7 @@ export class ProjectActions {
     try {
       await this.device.disconnect();
     } catch (e) {
-      this.handleWebUSBError(e);
+      this.handleWebUSBError(e, ConnectionAction.DISCONNECT);
     }
   };
 
@@ -375,7 +377,7 @@ export class ProjectActions {
     }
 
     if (this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE) {
-      const connected = await this.connect();
+      const connected = await this.connect(false, ConnectionAction.FLASH);
       if (!connected) {
         return;
       }
@@ -406,7 +408,7 @@ export class ProjectActions {
           description: e.message,
         });
       } else {
-        this.handleWebUSBError(e);
+        this.handleWebUSBError(e, ConnectionAction.FLASH);
       }
     }
   };
@@ -612,23 +614,35 @@ export class ProjectActions {
     return this.fs.setProjectName(name);
   };
 
-  private async handleNotFound() {
+  private handleConnectErrorChoice = (
+    choice: ConnectErrorChoice,
+    userAction: ConnectionAction
+  ) => {
+    if (choice !== ConnectErrorChoice.TryAgain) {
+      return;
+    }
+    if (userAction === ConnectionAction.CONNECT) {
+      this.connect(true, userAction);
+    } else if (userAction === ConnectionAction.FLASH) {
+      this.flash();
+    }
+  };
+
+  private async handleNotFound(userAction: ConnectionAction) {
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
-    const choice = await this.dialogs.show<NotFoundChoice>((callback) => (
+    const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <NotFoundDialog callback={callback} />
     ));
-    switch (choice) {
-      case NotFoundChoice.ReviewDevice: {
-        this.connect(true);
-        return;
-      }
-    }
+    this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleFirmwareUpdate(errorCode: WebUSBErrorCode) {
+  private async handleFirmwareUpdate(
+    errorCode: WebUSBErrorCode,
+    userAction: ConnectionAction
+  ) {
     this.device.clearDevice();
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -636,19 +650,20 @@ export class ProjectActions {
         this.webusbErrorMessage(errorCode)
       );
     }
-    await this.dialogs.show<void>((callback) => (
+    const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <FirmwareDialog callback={callback} />
     ));
+    this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleWebUSBError(e: any) {
+  private async handleWebUSBError(e: any, userAction: ConnectionAction) {
     if (e instanceof WebUSBError) {
       this.device.emit(EVENT_END_USB_SELECT);
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
           // where no devices.
-          await this.handleNotFound();
+          await this.handleNotFound(userAction);
           return;
         }
         case "device-disconnected": {
@@ -656,7 +671,7 @@ export class ProjectActions {
           return;
         }
         case "update-req":
-          await this.handleFirmwareUpdate(e.code);
+          await this.handleFirmwareUpdate(e.code, userAction);
           return;
         case "clear-connect":
         case "timeout-error":
