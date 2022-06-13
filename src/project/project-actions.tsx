@@ -422,7 +422,7 @@ export class ProjectActions {
       detail: await this.projectStats(),
     });
 
-    if (await this.ensureProjectName()) {
+    if (!(await this.ensureProjectName())) {
       return;
     }
 
@@ -475,7 +475,7 @@ export class ProjectActions {
       type: "download-main-file",
     });
 
-    if (await this.ensureProjectName()) {
+    if (!(await this.ensureProjectName())) {
       return;
     }
 
@@ -568,12 +568,11 @@ export class ProjectActions {
 
   isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
 
-  ensureProjectName = async (): Promise<boolean> => {
-    let cancelDownload = false;
+  ensureProjectName = async (): Promise<boolean | undefined> => {
     if (this.isDefaultProjectName()) {
-      cancelDownload = !(await this.editProjectName(true));
+      return await this.editProjectName(true);
     }
-    return cancelDownload;
+    return true;
   };
 
   editProjectName = async (isDownload: boolean = false) => {
