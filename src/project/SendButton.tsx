@@ -7,22 +7,20 @@ import {
   Button,
   ButtonGroup,
   HStack,
-  IconButton,
   Menu,
-  MenuButton,
   MenuItem,
   MenuList,
   Portal,
   ThemeTypings,
   Tooltip,
 } from "@chakra-ui/react";
-import React, { useCallback } from "react";
-import { MdMoreVert } from "react-icons/md";
+import { useCallback } from "react";
 import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
+import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
 
 interface SendButtonProps {
@@ -62,21 +60,10 @@ const SendButton = ({ size }: SendButtonProps) => {
               <FormattedMessage id="send-action" />
             </Button>
           </Tooltip>
-          <MenuButton
+          <MoreMenuButton
             variant="solid"
             aria-label={intl.formatMessage({ id: "more-connect-options" })}
             data-testid="more-connect-options"
-            // Avoid animating part of the primary action change.
-            borderLeft="1px"
-            borderRadius="button"
-            as={IconButton}
-            icon={
-              <MdMoreVert
-                style={{
-                  marginLeft: "calc(-0.15 * var(--chakra-radii-button))",
-                }}
-              />
-            }
             size={size}
           />
           <Portal>
