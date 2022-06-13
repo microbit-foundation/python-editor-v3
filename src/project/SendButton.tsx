@@ -40,9 +40,6 @@ const SendButton = ({ size }: SendButtonProps) => {
       await actions.connect();
     }
   }, [connected, actions]);
-  const handleSendToMicrobit = useCallback(async () => {
-    await actions.flash();
-  }, [actions]);
   const intl = useIntl();
 
   return (
@@ -60,7 +57,7 @@ const SendButton = ({ size }: SendButtonProps) => {
               size="lg"
               variant="solid"
               leftIcon={<RiUsbLine />}
-              onClick={handleSendToMicrobit}
+              onClick={actions.flash}
             >
               <FormattedMessage id="send-action" />
             </Button>

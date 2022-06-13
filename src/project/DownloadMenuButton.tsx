@@ -41,13 +41,12 @@ const DownloadMenuButton = ({ size }: DownloadMenuButtonProps) => {
         <ButtonGroup isAttached>
           <DownloadButton
             width={buttonWidth}
-            mode={"button"}
+            mode="button"
             size={size}
             borderRight="1px"
           />
           <MenuButton
             aria-label={intl.formatMessage({ id: "more-download-options" })}
-            // Avoid animating part of the primary action change.
             borderLeft="1px"
             borderRadius="button"
             as={IconButton}
