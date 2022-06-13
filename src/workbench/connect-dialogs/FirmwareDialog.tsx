@@ -6,7 +6,7 @@
 import { Button } from "@chakra-ui/button";
 import { Icon } from "@chakra-ui/icons";
 import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
@@ -21,19 +21,27 @@ interface FirmwareDialogProps {
   callback: (choice: ConnectErrorChoice) => void;
 }
 
-const FirmwareDialog = ({ callback }: FirmwareDialogProps) => (
-  <GenericDialog
-    body={<FirmwareDialogBody />}
-    footer={
-      <FirmwareDialogFooter
-        onClose={() => callback(ConnectErrorChoice.Cancel)}
-        onTryAgain={() => callback(ConnectErrorChoice.TryAgain)}
-      />
-    }
-    size="3xl"
-    onClose={() => callback(ConnectErrorChoice.Cancel)}
-  />
-);
+const FirmwareDialog = ({ callback }: FirmwareDialogProps) => {
+  const [returnFocus, setReturnFocus] = useState<boolean>(true);
+  const onTryAgain = useCallback(() => {
+    setReturnFocus(false);
+    callback(ConnectErrorChoice.TryAgain);
+  }, [callback, setReturnFocus]);
+  return (
+    <GenericDialog
+      returnFocusOnClose={returnFocus}
+      body={<FirmwareDialogBody />}
+      footer={
+        <FirmwareDialogFooter
+          onClose={() => callback(ConnectErrorChoice.Cancel)}
+          onTryAgain={onTryAgain}
+        />
+      }
+      size="3xl"
+      onClose={() => callback(ConnectErrorChoice.Cancel)}
+    />
+  );
+};
 
 const FirmwareDialogBody = () => {
   return (
