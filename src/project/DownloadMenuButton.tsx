@@ -34,17 +34,11 @@ interface DownloadMenuButtonProps {
 const DownloadMenuButton = ({ size }: DownloadMenuButtonProps) => {
   const intl = useIntl();
   const actions = useProjectActions();
-  const buttonWidth = "10rem"; // 8.1 with md buttons
   return (
     <HStack>
       <Menu>
         <ButtonGroup isAttached>
-          <DownloadButton
-            width={buttonWidth}
-            mode="button"
-            size={size}
-            borderRight="1px"
-          />
+          <DownloadButton mode="button" size={size} borderRight="1px" />
           <MenuButton
             aria-label={intl.formatMessage({ id: "more-download-options" })}
             borderLeft="1px"
