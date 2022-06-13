@@ -99,7 +99,9 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  connect = async (forceConnectHelp: boolean = false) => {
+  connect = async (
+    forceConnectHelp: boolean = false
+  ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
     });
