@@ -14,10 +14,11 @@ import {
   VisuallyHidden,
   VStack,
 } from "@chakra-ui/react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import selectMicrobit from "./select-microbit.png";
 
 const ConnectHelpDialogBody = () => {
+  const intl = useIntl();
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
   return (
     <VStack
@@ -38,7 +39,12 @@ const ConnectHelpDialogBody = () => {
         width={isDesktop ? "100%" : "auto"}
         alignSelf={isDesktop ? "" : "center"}
       >
-        <Image height={375} width={418} src={selectMicrobit} alt="" />
+        <Image
+          height={375}
+          width={418}
+          src={selectMicrobit}
+          alt={intl.formatMessage({ id: "connect-help-alt" })}
+        />
         {isDesktop && (
           <>
             <Text

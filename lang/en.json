@@ -167,6 +167,10 @@
     "defaultMessage": "Connect cable",
     "description": "Title for the connect cable dialog"
   },
+  "connect-help-alt": {
+    "defaultMessage": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2",
+    "description": "Alt text for image in connect help dialog"
+  },
   "connect-help-message": {
     "defaultMessage": "In next popup:",
     "description": "Text in the connect help dialog"

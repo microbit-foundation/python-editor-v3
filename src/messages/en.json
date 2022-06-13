@@ -351,6 +351,12 @@
       "value": "Connect cable"
     }
   ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2"
+    }
+  ],
   "connect-help-message": [
     {
       "type": 0,
