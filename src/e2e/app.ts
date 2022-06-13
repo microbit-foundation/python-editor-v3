@@ -557,7 +557,7 @@ export class App {
     });
   }
 
-  async copyToolkitCode(name: string): Promise<void> {
+  async toggleCodeActionButton(name: string): Promise<void> {
     const document = await this.document();
     const heading = await document.findByText(name, {
       selector: "h3",
@@ -567,6 +567,14 @@ export class App {
       const item = element.closest("li");
       (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
     });
+  }
+
+  async copyCode(): Promise<void> {
+    const document = await this.document();
+    const copyCodeButton = await document.findByRole("button", {
+      name: "Copy code",
+    });
+    await copyCodeButton.click();
   }
 
   async pasteToolkitCode(): Promise<void> {

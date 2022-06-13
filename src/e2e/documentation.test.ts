@@ -24,7 +24,8 @@ describe("Browser - toolkit tabs", () => {
     await app.selectDocumentationSection("Display");
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
-    await app.copyToolkitCode("Images: built-in");
+    await app.toggleCodeActionButton("Images: built-in");
+    await app.copyCode();
     await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.HEART)");
   });
@@ -38,7 +39,8 @@ describe("Browser - toolkit tabs", () => {
       "Select image:",
       "9" // "Image.SILLY"
     );
-    await app.copyToolkitCode("Images: built-in");
+    await app.toggleCodeActionButton("Images: built-in");
+    await app.copyCode();
     await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.SILLY)");
   });

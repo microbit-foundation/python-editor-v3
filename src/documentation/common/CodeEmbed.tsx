@@ -77,8 +77,8 @@ const CodeEmbed = ({
   useScrollableAncestorScroll(toDefault);
 
   const actions = useActiveEditorActions();
-  const handleCopyCode = useCallback(() => {
-    actions?.copyCode(
+  const handleCopyCode = useCallback(async () => {
+    await actions?.copyCode(
       codeWithImports,
       "example",
       `${toolkitType}-${parentSlug}`
