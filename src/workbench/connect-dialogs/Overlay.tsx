@@ -1,5 +1,5 @@
-import { Box } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { Box, useDisclosure } from "@chakra-ui/react";
+import { useCallback, useEffect } from "react";
 import { zIndexOverlay } from "../../common/zIndex";
 import {
   EVENT_END_USB_SELECT,
@@ -8,14 +8,14 @@ import {
 import { useDevice } from "../../device/device-hooks";
 
 const Overlay = () => {
-  const [selectingDevice, setSelectingDevice] = useState<boolean>(false);
+  const selectingDevice = useDisclosure();
   const device = useDevice();
   const showOverlay = useCallback(() => {
-    setSelectingDevice(true);
-  }, [setSelectingDevice]);
+    selectingDevice.onOpen();
+  }, [selectingDevice]);
   const hideOverlay = useCallback(() => {
-    setSelectingDevice(false);
-  }, [setSelectingDevice]);
+    selectingDevice.onClose();
+  }, [selectingDevice]);
   useEffect(() => {
     device.on(EVENT_START_USB_SELECT, showOverlay);
     device.on(EVENT_END_USB_SELECT, hideOverlay);
@@ -26,7 +26,7 @@ const Overlay = () => {
   }, [device, showOverlay, hideOverlay]);
   return (
     <Box
-      display={selectingDevice ? "block" : "none"}
+      display={selectingDevice.isOpen ? "block" : "none"}
       width="100vw"
       height="100vh"
       background="var(--chakra-colors-blackAlpha-600)"
