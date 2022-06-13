@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import * as CSS from "csstype";
+import { useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { useProject, useProjectActions } from "./project-hooks";
@@ -36,6 +37,9 @@ const ProjectNameEditable = ({
   const project = useProject();
   const actions = useProjectActions();
   const intl = useIntl();
+  const handleClick = useCallback(() => {
+    actions.editProjectName();
+  }, [actions]);
   const editButton = (
     <Tooltip
       hasArrow
@@ -49,7 +53,7 @@ const ProjectNameEditable = ({
         fontSize="xl"
         color="brand.500"
         variant="ghost"
-        onClick={() => actions.editProjectName()}
+        onClick={handleClick}
         aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
       />
     </Tooltip>
@@ -58,7 +62,7 @@ const ProjectNameEditable = ({
     <Text
       key="text"
       cursor={clickToEdit ? "pointer" : undefined}
-      onClick={() => (clickToEdit ? actions.editProjectName() : undefined)}
+      onClick={clickToEdit ? handleClick : undefined}
       {...props}
     >
       {project.name}
