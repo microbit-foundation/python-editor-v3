@@ -111,7 +111,7 @@ export class ProjectActions {
       await this.download();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
-        return await this.connectInternal();
+        return this.connectInternal();
       }
     }
   };
