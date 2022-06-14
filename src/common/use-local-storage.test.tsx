@@ -5,7 +5,7 @@
  */
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
-import { useLocalStorage } from "./use-local-storage";
+import { useStorage } from "./use-storage";
 
 interface TestState {
   x: number;
@@ -16,11 +16,16 @@ interface TestState {
 const validate = (o: unknown): o is TestState => true;
 
 const Test = () => {
-  const [state, setState] = useLocalStorage<TestState>("key", validate, {
-    x: 1,
-    y: 1,
-    z: 1,
-  });
+  const [state, setState] = useStorage<TestState>(
+    "local",
+    "key",
+    {
+      x: 1,
+      y: 1,
+      z: 1,
+    },
+    validate
+  );
   return (
     <div>
       <p data-testid="value">{state.x}</p>

@@ -16,6 +16,7 @@ import { useLanguageServerClient } from "../../language-server/language-server-h
 import { Logging } from "../../logging/logging";
 import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
+import { useSessionSettings } from "../../settings/session-settings";
 import {
   CodeStructureOption,
   ParameterHelpOption,
@@ -28,6 +29,7 @@ import {
 } from "../active-editor-hooks";
 import "./CodeMirror.css";
 import { compartment, editorConfig } from "./config";
+import { dndSupport } from "./dnd";
 import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
@@ -71,6 +73,7 @@ const CodeMirror = ({
   const [, setEditorInfo] = useActiveEditorInfoState();
   const logging = useLogging();
   const actionFeedback = useActionFeedback();
+  const [sessionSettings, setSessionSettings] = useSessionSettings();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -126,6 +129,8 @@ const CodeMirror = ({
             codeStructure(options.codeStructureOption),
             themeExtensionsForOptions(options),
           ]),
+          // Extension requires external state.
+          dndSupport({ sessionSettings, setSessionSettings }),
         ],
       });
       const view = new EditorView({
@@ -146,6 +151,8 @@ const CodeMirror = ({
     options,
     setActiveEditor,
     setEditorInfo,
+    sessionSettings,
+    setSessionSettings,
     parameterHelpOption,
     uri,
   ]);

@@ -31,6 +31,7 @@ import {
 } from "../../language-server/apidocs";
 import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
+import { useSessionSettings } from "../../settings/session-settings";
 import CodeActionButton from "../common/CodeActionButton";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
@@ -414,6 +415,7 @@ const DraggableSignature = ({
     [handleCopyCode, isMac]
   );
   const intl = useIntl();
+  const [{ dragDropSuccess }] = useSessionSettings();
   return (
     <Box position="relative">
       <Tooltip
@@ -421,6 +423,7 @@ const DraggableSignature = ({
         placement="top-start"
         label={intl.formatMessage({ id: "drag-hover" })}
         closeOnClick={false}
+        isDisabled={dragDropSuccess}
       >
         <HStack
           draggable

@@ -5,16 +5,22 @@
  */
 import { useCallback, useState } from "react";
 
+type storageType = "local" | "session";
+
 /**
- * Local storage-backed state (via JSON serialization).
+ * Local and session storage-backed state (via JSON serialization).
  */
-export function useLocalStorage<T>(
+export function useStorage<T>(
+  storageType: storageType,
   key: string,
-  validate: (x: unknown) => x is T,
-  defaultValue: T
+  defaultValue: T,
+  validate?: (x: unknown) => x is T
 ): [T, (value: T) => void] {
   const [state, setState] = useState<T>(() => {
-    const storage = localStorageIfPossible();
+    const storage =
+      storageType === "local"
+        ? localStorageIfPossible()
+        : sessionStorageIfPossible();
     const value = storage ? storage.getItem(key) : null;
     if (value !== null) {
       try {
@@ -29,8 +35,8 @@ export function useLocalStorage<T>(
         Object.keys(defaultValue).forEach((k) => unknownKeys.delete(k));
         unknownKeys.forEach((k) => delete parsed[k]);
 
-        if (!validate(parsed)) {
-          throw new Error("Invalid data stored in local storage");
+        if (validate && !validate(parsed)) {
+          throw new Error(`Invalid data stored in ${storageType} storage`);
         }
 
         return parsed;
@@ -43,13 +49,16 @@ export function useLocalStorage<T>(
   });
   const setAndSaveState = useCallback(
     (value: T) => {
-      const storage = localStorageIfPossible();
+      const storage =
+        storageType === "local"
+          ? localStorageIfPossible()
+          : sessionStorageIfPossible();
       if (storage) {
         storage.setItem(key, JSON.stringify(value));
       }
       setState(value);
     },
-    [setState, key]
+    [setState, key, storageType]
   );
   return [state, setAndSaveState];
 }
@@ -57,6 +66,15 @@ export function useLocalStorage<T>(
 const localStorageIfPossible = () => {
   try {
     return window.localStorage;
+  } catch (e) {
+    // Handle possible SecurityError, absent window.
+    return undefined;
+  }
+};
+
+const sessionStorageIfPossible = () => {
+  try {
+    return window.sessionStorage;
   } catch (e) {
     // Handle possible SecurityError, absent window.
     return undefined;

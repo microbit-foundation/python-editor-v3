@@ -17,6 +17,7 @@ import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
 import { useProjectActions } from "../../project/project-hooks";
+import { useSessionSettings } from "../../settings/session-settings";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
 import CodeActionButton from "./CodeActionButton";
@@ -284,12 +285,14 @@ const Code = forwardRef<CodeProps, "pre">(
       [onCodeDragEnd]
     );
     const intl = useIntl();
+    const [{ dragDropSuccess }] = useSessionSettings();
     return (
       <Tooltip
         hasArrow
         placement="top-start"
         label={intl.formatMessage({ id: "drag-hover" })}
         closeOnClick={false}
+        isDisabled={dragDropSuccess}
       >
         <HStack
           draggable

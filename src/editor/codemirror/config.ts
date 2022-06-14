@@ -20,7 +20,6 @@ import {
   keymap,
 } from "@codemirror/view";
 import { copyPasteSupport } from "./copypaste";
-import { dndSupport } from "./dnd";
 import { dropCursor } from "./dropcursor";
 import highlightStyle from "./highlightStyle";
 import { lintKeymap } from "./lint/lint";
@@ -67,6 +66,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
-  dndSupport(),
   copyPasteSupport(),
 ];
