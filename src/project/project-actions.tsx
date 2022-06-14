@@ -15,6 +15,7 @@ import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionAction,
   ConnectionStatus,
+  ConnectOptions,
   DeviceConnection,
   EVENT_END_USB_SELECT,
   HexGenerationError,
@@ -115,7 +116,10 @@ export class ProjectActions {
       await this.download();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
-        return this.connectInternal(userAction);
+        return this.connectInternal(
+          { serial: userAction !== ConnectionAction.FLASH },
+          userAction
+        );
       }
     }
   };
@@ -163,15 +167,16 @@ export class ProjectActions {
   /**
    * Connect to the device if possible, otherwise show feedback.
    */
-  private async connectInternal(userAction: ConnectionAction) {
-    let success = false;
+  private async connectInternal(
+    options: ConnectOptions,
+    userAction: ConnectionAction
+  ) {
     try {
-      await this.device.connect();
-      success = true;
+      await this.device.connect(options);
+      return true;
     } catch (e) {
       this.handleWebUSBError(e, userAction);
-    } finally {
-      return success;
+      return false;
     }
   }
 
@@ -381,8 +386,6 @@ export class ProjectActions {
       if (!connected) {
         return;
       }
-      // Not sure why this is needed at the moment.
-      await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
     try {
