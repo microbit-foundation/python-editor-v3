@@ -105,7 +105,7 @@ const DocumentationContent = ({
   content,
   parentSlug,
   toolkitType,
-  title,
+  title = "",
   ...outerProps
 }: DocumentationContentProps) => {
   const serializers = {
