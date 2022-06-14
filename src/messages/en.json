@@ -471,6 +471,12 @@
       "value": "Download Python script"
     }
   ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "Drag and drop"
+    }
+  ],
   "edit-file-action": [
     {
       "type": 0,

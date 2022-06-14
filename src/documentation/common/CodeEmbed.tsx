@@ -5,10 +5,10 @@
  */
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
-import { useDisclosure, VisuallyHidden } from "@chakra-ui/react";
+import { Tooltip, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
@@ -283,46 +283,53 @@ const Code = forwardRef<CodeProps, "pre">(
       },
       [onCodeDragEnd]
     );
-
+    const intl = useIntl();
     return (
-      <HStack
-        draggable
-        transition="background .2s, box-shadow .2s"
-        borderWidth="1px"
-        borderColor="blimpTeal.300"
-        borderRadius="lg"
-        fontFamily="code"
-        overflow="hidden"
-        ref={ref}
-        spacing={0}
-        onClick={() => onToggle(!isOpen)}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        cursor="grab"
-        {...props}
+      <Tooltip
+        hasArrow
+        placement="top-start"
+        label={intl.formatMessage({ id: "drag-hover" })}
+        closeOnClick={false}
       >
-        <VisuallyHidden>
-          <FormattedMessage id="code-example" />
-        </VisuallyHidden>
-        <DragHandle
-          borderTopLeftRadius="lg"
-          p={1}
-          alignSelf="stretch"
-          highlight={highlightDragHandle}
-        />
-        <CodeMirrorView
-          // If we fix copy and deal with selection sync then we should probably remove this,
-          // though it'll make it harder to drag.
-          pointerEvents="none"
-          value={concise}
-          flex="1 0 auto"
-          p={5}
-          pl={1}
-          pt={2}
-          pb={2}
-          minW={40}
-        />
-      </HStack>
+        <HStack
+          draggable
+          transition="background .2s, box-shadow .2s"
+          borderWidth="1px"
+          borderColor="blimpTeal.300"
+          borderRadius="lg"
+          fontFamily="code"
+          overflow="hidden"
+          ref={ref}
+          spacing={0}
+          onClick={() => onToggle(!isOpen)}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          cursor="grab"
+          {...props}
+        >
+          <VisuallyHidden>
+            <FormattedMessage id="code-example" />
+          </VisuallyHidden>
+          <DragHandle
+            borderTopLeftRadius="lg"
+            p={1}
+            alignSelf="stretch"
+            highlight={highlightDragHandle}
+          />
+          <CodeMirrorView
+            // If we fix copy and deal with selection sync then we should probably remove this,
+            // though it'll make it harder to drag.
+            pointerEvents="none"
+            value={concise}
+            flex="1 0 auto"
+            p={5}
+            pl={1}
+            pt={2}
+            pb={2}
+            minW={40}
+          />
+        </HStack>
+      </Tooltip>
     );
   }
 );

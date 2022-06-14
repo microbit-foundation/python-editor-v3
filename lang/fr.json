@@ -239,6 +239,10 @@
     "defaultMessage": "Télécharger le script Python",
     "description": "Download button menu option for downloading Python script"
   },
+  "drag-hover": {
+    "defaultMessage": "Drag and drop",
+    "description": "Draggable code hover text"
+  },
   "edit-file-action": {
     "defaultMessage": "Modifier {name}",
     "description": "Menu option to edit file"

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
-import { Collapse, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
+import {
+  Collapse,
+  Tooltip,
+  useDisclosure,
+  VisuallyHidden,
+} from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
@@ -408,55 +413,63 @@ const DraggableSignature = ({
     },
     [handleCopyCode, isMac]
   );
+  const intl = useIntl();
   return (
     <Box position="relative">
-      <HStack
-        draggable
-        spacing={0}
-        onClick={copyCodeButton.onToggle}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        display="inline-flex"
-        overflow="hidden"
-        borderWidth="1px"
-        borderColor="blimpTeal.300"
-        borderRadius="lg"
-        onMouseEnter={highlight.onOpen}
-        onMouseLeave={highlight.onClose}
-        tabIndex={0}
-        position="relative"
-        zIndex={zIndexCode}
-        _focusVisible={{
-          boxShadow: "var(--chakra-shadows-outline);",
-          outline: "none",
-        }}
-        onKeyDown={handleKeyDown}
-        {...props}
-        cursor="grab"
+      <Tooltip
+        hasArrow
+        placement="top-start"
+        label={intl.formatMessage({ id: "drag-hover" })}
+        closeOnClick={false}
       >
-        <VisuallyHidden>
-          <FormattedMessage id="code-example" />
-        </VisuallyHidden>
-        <DragHandle
-          highlight={highlight.isOpen}
-          borderTopLeftRadius="lg"
-          borderBottomLeftRadius="lg"
-          p={1}
-          alignSelf="stretch"
-        />
-        <Text
-          minW={40}
-          background={highlight.isOpen ? "blimpTeal.50" : "white"}
-          transition="background .2s"
-          p={2}
-          fontFamily="code"
-          fontSize={kindToFontSize[kind] || "md"}
-          as={kindToHeading[kind]}
+        <HStack
+          draggable
+          spacing={0}
+          onClick={copyCodeButton.onToggle}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          display="inline-flex"
+          overflow="hidden"
+          borderWidth="1px"
+          borderColor="blimpTeal.300"
+          borderRadius="lg"
+          onMouseEnter={highlight.onOpen}
+          onMouseLeave={highlight.onClose}
+          tabIndex={0}
+          position="relative"
+          zIndex={zIndexCode}
+          _focusVisible={{
+            boxShadow: "var(--chakra-shadows-outline);",
+            outline: "none",
+          }}
+          onKeyDown={handleKeyDown}
+          {...props}
+          cursor="grab"
         >
-          <Text as="span">{formatName(kind, fullName, name)}</Text>
-          {signature}
-        </Text>
-      </HStack>
+          <VisuallyHidden>
+            <FormattedMessage id="code-example" />
+          </VisuallyHidden>
+          <DragHandle
+            highlight={highlight.isOpen}
+            borderTopLeftRadius="lg"
+            borderBottomLeftRadius="lg"
+            p={1}
+            alignSelf="stretch"
+          />
+          <Text
+            minW={40}
+            background={highlight.isOpen ? "blimpTeal.50" : "white"}
+            transition="background .2s"
+            p={2}
+            fontFamily="code"
+            fontSize={kindToFontSize[kind] || "md"}
+            as={kindToHeading[kind]}
+          >
+            <Text as="span">{formatName(kind, fullName, name)}</Text>
+            {signature}
+          </Text>
+        </HStack>
+      </Tooltip>
       <CodeActionButton
         isOpen={copyCodeButton.isOpen}
         toHighlighted={highlight.onOpen}

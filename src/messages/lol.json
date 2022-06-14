@@ -471,6 +471,12 @@
       "value": "Довнлоад Путхон ссріпт"
     }
   ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "Drag and drop"
+    }
+  ],
   "edit-file-action": [
     {
       "type": 0,
