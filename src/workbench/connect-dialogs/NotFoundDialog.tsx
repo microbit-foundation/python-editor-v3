@@ -70,7 +70,7 @@ const NotFoundDialogBody = ({ onTryAgain }: ConnectNotFoundDialogProps) => {
       width="auto"
       ml="auto"
       mr="auto"
-      p={8}
+      p={5}
       pb={0}
       spacing={5}
       alignItems="flex-start"
