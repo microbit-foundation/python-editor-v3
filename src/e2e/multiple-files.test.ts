@@ -25,7 +25,7 @@ describe("Browser - multiple and missing file cases", () => {
   });
 
   it("Add a new file", async () => {
-    await app.addNewFile("test");
+    await app.createNewFile("test");
 
     await app.findVisibleEditorContents(/Your new file/);
   });

@@ -59,24 +59,6 @@
       "value": "En savoir plus sur MicroPython"
     }
   ],
-  "add-action": [
-    {
-      "type": 0,
-      "value": "Ajouter"
-    }
-  ],
-  "add-file-action": [
-    {
-      "type": 0,
-      "value": "Ajouter un fichier"
-    }
-  ],
-  "add-python": [
-    {
-      "type": 0,
-      "value": "Ajouter un nouveau fichier Python à votre projet"
-    }
-  ],
   "added-change": [
     {
       "type": 0,
@@ -85,16 +67,6 @@
     {
       "type": 1,
       "value": "changeName"
-    }
-  ],
-  "added-file": [
-    {
-      "type": 1,
-      "value": "filename"
-    },
-    {
-      "type": 0,
-      "value": " ajouté "
     }
   ],
   "already-exists": [
@@ -385,6 +357,34 @@
     {
       "type": 0,
       "value": "Copier"
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "Create file"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Create a new Python file in this project"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Created "
+    },
+    {
+      "type": 1,
+      "value": "filename"
     }
   ],
   "delete-action": [

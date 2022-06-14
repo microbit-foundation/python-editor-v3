@@ -478,10 +478,10 @@ export class ProjectActions {
     >((callback) => (
       <InputDialog
         callback={callback}
-        header={this.intl.formatMessage({ id: "add-python" })}
+        header={this.intl.formatMessage({ id: "create-python" })}
         Body={NewFileNameQuestion}
         initialValue=""
-        actionLabel={this.intl.formatMessage({ id: "add-action" })}
+        actionLabel={this.intl.formatMessage({ id: "create-action" })}
         validate={validate}
         customFocus
       />
@@ -500,7 +500,7 @@ export class ProjectActions {
         );
         this.setSelection({ file: filename, location: { line: undefined } });
         this.actionFeedback.success({
-          title: this.intl.formatMessage({ id: "added-file" }, { filename }),
+          title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);
