@@ -14,7 +14,7 @@ import {
   ThemeTypings,
   Tooltip,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
@@ -39,7 +39,40 @@ const SendButton = ({ size }: SendButtonProps) => {
     }
   }, [connected, actions]);
   const intl = useIntl();
-
+  const flashing = useRef<{ flashing: boolean; lastCompleteFlash: number }>({
+    flashing: false,
+    lastCompleteFlash: 0,
+  });
+  const handleSendToMicrobit = useCallback(async () => {
+    if (flashing.current.flashing) {
+      // Ignore repeated clicks.
+      return;
+    }
+    flashing.current = {
+      flashing: true,
+      lastCompleteFlash: flashing.current.lastCompleteFlash,
+    };
+    try {
+      await actions.flash();
+    } finally {
+      flashing.current = {
+        flashing: false,
+        lastCompleteFlash: new Date().getTime(),
+      };
+    }
+  }, [flashing, actions]);
+  const handleFocus = useCallback(
+    (e) => {
+      const inProgress = flashing.current.flashing;
+      const delta = new Date().getTime() - flashing.current.lastCompleteFlash;
+      if (inProgress || delta < 200) {
+        // Avoid the tooltip obscuring the "micro:bit flashed" text just above the button.
+        // This does not prevent focus, just the Tooltip's handler running.
+        e.preventDefault();
+      }
+    },
+    [flashing]
+  );
   return (
     <HStack>
       <Menu>
@@ -52,10 +85,11 @@ const SendButton = ({ size }: SendButtonProps) => {
             })}
           >
             <Button
+              onFocus={handleFocus}
               size="lg"
               variant="solid"
               leftIcon={<RiUsbLine />}
-              onClick={actions.flash}
+              onClick={handleSendToMicrobit}
             >
               <FormattedMessage id="send-action" />
             </Button>
