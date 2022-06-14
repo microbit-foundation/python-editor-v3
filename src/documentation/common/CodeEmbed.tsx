@@ -15,6 +15,8 @@ import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
+import { MAIN_FILE } from "../../fs/fs";
+import { projectFilesToBase64, PythonProject } from "../../fs/initial-project";
 import { useLogging } from "../../logging/logging-hooks";
 import { useProjectActions } from "../../project/project-hooks";
 import { useSessionSettings } from "../../settings/session-settings";
@@ -26,6 +28,7 @@ interface CodeEmbedProps {
   code: string;
   parentSlug?: string;
   toolkitType?: string;
+  title?: string;
 }
 
 type CodeEmbedState =
@@ -46,6 +49,7 @@ const CodeEmbed = ({
   code: codeWithImports,
   toolkitType,
   parentSlug,
+  title,
 }: CodeEmbedProps) => {
   const copyCodeButton = useDisclosure();
   const [state, originalSetState] = useState<CodeEmbedState>("default");
@@ -87,12 +91,14 @@ const CodeEmbed = ({
   }, [actions, codeWithImports, parentSlug, toolkitType]);
   const projectActions = useProjectActions();
   const handleOpenIdea = useCallback(async () => {
-    const content = new TextEncoder().encode(codeWithImports).buffer;
-    const file = new File([content], `${parentSlug?.replaceAll("-", "_")}.py`, {
-      type: "text/plain",
-    });
-    await projectActions.load([file]);
-  }, [codeWithImports, projectActions, parentSlug]);
+    const pythonProject: PythonProject = {
+      files: projectFilesToBase64({
+        [MAIN_FILE]: codeWithImports,
+      }),
+      projectName: title,
+    };
+    await projectActions.openIdea(pythonProject);
+  }, [codeWithImports, projectActions, title]);
   const code = useMemo(
     () =>
       codeWithImports
@@ -173,7 +179,7 @@ const CodeEmbed = ({
         )}
       </Box>
       <CodeActionButton
-        isOpen={copyCodeButton.isOpen}
+        isOpen={toolkitType === "ideas" ? true : copyCodeButton.isOpen}
         toHighlighted={toHighlighted}
         toDefault={toDefault}
         codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}
@@ -292,10 +298,10 @@ const Code = forwardRef<CodeProps, "pre">(
         placement="top-start"
         label={intl.formatMessage({ id: "drag-hover" })}
         closeOnClick={false}
-        isDisabled={dragDropSuccess}
+        isDisabled={toolkitType === "ideas" ? true : dragDropSuccess}
       >
         <HStack
-          draggable
+          draggable={toolkitType === "ideas" ? false : true}
           transition="background .2s, box-shadow .2s"
           borderWidth="1px"
           borderColor="blimpTeal.300"
@@ -305,20 +311,23 @@ const Code = forwardRef<CodeProps, "pre">(
           ref={ref}
           spacing={0}
           onClick={() => onToggle(!isOpen)}
-          onDragStart={handleDragStart}
+          onDragStart={toolkitType === "ideas" ? () => {} : handleDragStart}
           onDragEnd={handleDragEnd}
-          cursor="grab"
+          cursor={toolkitType === "ideas" ? "default" : "grab"}
           {...props}
         >
           <VisuallyHidden>
             <FormattedMessage id="code-example" />
           </VisuallyHidden>
-          <DragHandle
-            borderTopLeftRadius="lg"
-            p={1}
-            alignSelf="stretch"
-            highlight={highlightDragHandle}
-          />
+          {toolkitType !== "ideas" && (
+            <DragHandle
+              borderTopLeftRadius="lg"
+              p={1}
+              alignSelf="stretch"
+              highlight={highlightDragHandle}
+            />
+          )}
+
           <CodeMirrorView
             // If we fix copy and deal with selection sync then we should probably remove this,
             // though it'll make it harder to drag.

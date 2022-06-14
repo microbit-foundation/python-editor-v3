@@ -327,6 +327,20 @@
       "value": "Confirm replace project"
     }
   ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "Replace all files with "
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
   "connect-action": [
     {
       "type": 0,

@@ -26,6 +26,7 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
+import { PythonProject } from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { Settings } from "../settings/settings";
@@ -33,12 +34,12 @@ import ConnectHelpDialog, {
   ConnectHelpChoice,
 } from "../workbench/connect-dialogs/ConnectHelpDialog";
 import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
-import WebUSBDialog, {
-  WebUSBErrorTrigger,
-} from "../workbench/connect-dialogs/WebUSBDialog";
 import NotFoundDialog, {
   NotFoundChoice,
 } from "../workbench/connect-dialogs/NotFoundDialog";
+import WebUSBDialog, {
+  WebUSBErrorTrigger,
+} from "../workbench/connect-dialogs/WebUSBDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -179,6 +180,26 @@ export class ProjectActions {
     }
   };
 
+  private async confirmReplace(ideaName?: string) {
+    return this.dialogs.show((callback) => (
+      <ConfirmDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "confirm-replace-title" })}
+        body={
+          ideaName
+            ? this.intl.formatMessage(
+                { id: "confirm-replace-with-idea" },
+                { ideaName }
+              )
+            : this.intl.formatMessage({ id: "confirm-replace-body" })
+        }
+        actionLabel={this.intl.formatMessage({
+          id: "replace-action-label",
+        })}
+      />
+    ));
+  }
+
   /**
    * Loads files
    *
@@ -232,18 +253,7 @@ export class ProjectActions {
         });
       } else {
         // It'd be nice to suppress this (and similar) if it's just the default script.
-        if (
-          await this.dialogs.show((callback) => (
-            <ConfirmDialog
-              callback={callback}
-              header={this.intl.formatMessage({ id: "confirm-replace-title" })}
-              body={this.intl.formatMessage({ id: "confirm-replace-body" })}
-              actionLabel={this.intl.formatMessage({
-                id: "replace-action-label",
-              })}
-            />
-          ))
-        ) {
+        if (await this.confirmReplace()) {
           const file = files[0];
           const projectName = file.name.replace(/\.hex$/i, "");
           const hex = await readFileAsText(file);
@@ -284,6 +294,12 @@ export class ProjectActions {
       if (inputs) {
         return this.uploadInternal(inputs);
       }
+    }
+  };
+
+  openIdea = async (idea: PythonProject) => {
+    if (await this.confirmReplace(idea.projectName)) {
+      await this.fs.replaceWithMultipleFiles(idea);
     }
   };
 

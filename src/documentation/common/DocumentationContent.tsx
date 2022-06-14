@@ -24,6 +24,7 @@ interface DocumentationContentProps {
   content?: PortableText;
   parentSlug?: string;
   toolkitType?: string;
+  title?: string;
 }
 
 const DocumentationApiLinkMark = (
@@ -104,6 +105,7 @@ const DocumentationContent = ({
   content,
   parentSlug,
   toolkitType,
+  title,
   ...outerProps
 }: DocumentationContentProps) => {
   const serializers = {
@@ -117,6 +119,7 @@ const DocumentationContent = ({
           {...outerProps}
           parentSlug={parentSlug}
           toolkitType={toolkitType}
+          title={title}
         />
       ),
       simpleImage: (props: SerializerNodeProps<SimpleImage>) => {

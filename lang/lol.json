@@ -151,6 +151,10 @@
     "defaultMessage": "Cонфірм репласе проджест",
     "description": "Confirmation message title for replacing project dialog"
   },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Replace all files with {ideaName}?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
   "connect-action": {
     "defaultMessage": "Cоннест",
     "description": "Connect button text"
