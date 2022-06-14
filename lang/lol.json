@@ -27,10 +27,6 @@
     "defaultMessage": "Аддед філе {changeName}",
     "description": "Change made to file"
   },
-  "already-exists": {
-    "defaultMessage": "Тхіс філе алреаду ексістс",
-    "description": "File already exists notification text"
-  },
   "api-description": {
     "defaultMessage": "API documentation for micro:bit MicroPython",
     "description": "Description at the top of the API tab"
@@ -255,6 +251,38 @@
     "defaultMessage": "{name} філе астіонс",
     "description": "Header of file actions for file"
   },
+  "file-already-exists": {
+    "defaultMessage": "This file already exists",
+    "description": "File already exists notification text"
+  },
+  "file-name-invalid-character": {
+    "defaultMessage": "The name contains an invalid character: {invalid}",
+    "description": "Warning text for new Python file name with an invalid character"
+  },
+  "file-name-length": {
+    "defaultMessage": "The name is too long",
+    "description": "Warning text for overly long file names (file system limitation)"
+  },
+  "file-name-lowercase-only": {
+    "defaultMessage": "The name should be all lowercase",
+    "description": "Warning text for new Python file with uppercase"
+  },
+  "file-name-not-blank": {
+    "defaultMessage": "The project name cannot be blank",
+    "description": "Validation message for project name"
+  },
+  "file-name-not-empty": {
+    "defaultMessage": "The name cannot be empty",
+    "description": "Warning text for new Python file with empty name"
+  },
+  "file-name-start-number": {
+    "defaultMessage": "The name cannot start with a number",
+    "description": "Warning text for new Python file names starting with a number"
+  },
+  "file-name-whitespace": {
+    "defaultMessage": "The name cannot contain spaces",
+    "description": "Warning text for new Python file name with whitespace"
+  },
   "firmware-update-link": {
     "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
     "description": "Text in the firmware update dialog"
@@ -362,10 +390,6 @@
     "defaultMessage": "Лоадіндж…",
     "description": "Shown on loading indicators"
   },
-  "lowercase-no-space": {
-    "defaultMessage": "Путхон філес схоюлд хаве ловерсасе намес вітх но спасес",
-    "description": "Warning text for uppercase Pyton file name or space"
-  },
   "microbit-hearts-alt": {
     "defaultMessage": "місро:біт боард вітх тхе 5 бу 5 ЛEД джрід сховіндж а хеарт",
     "description": "Alt text for micro:bit image in About dialog"
@@ -389,14 +413,6 @@
   "more-download-options": {
     "defaultMessage": "More download options",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
-  },
-  "name-not-blank": {
-    "defaultMessage": "Тхе проджест наме саннот бе бланк",
-    "description": "Validation message for project name"
-  },
-  "name-not-empty": {
-    "defaultMessage": "Тхе наме саннот бе емпту",
-    "description": "Warning text for new Pyton file with empty name"
   },
   "name-project": {
     "defaultMessage": "Наме уоюр проджест",

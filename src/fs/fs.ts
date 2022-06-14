@@ -138,6 +138,10 @@ export const EVENT_PROJECT_UPDATED = "project_updated";
 export const EVENT_TEXT_EDIT = "file_text_updated";
 export const MAIN_FILE = "main.py";
 
+export const isNameLengthValid = (filename: string): boolean =>
+  // This length is enforced by the underlying FS so we check it in the UI ahead of time.
+  new TextEncoder().encode(filename).length <= 120;
+
 /**
  * The MicroPython file system adapted for convienient use from the UI.
  *

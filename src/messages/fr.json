@@ -69,12 +69,6 @@
       "value": "changeName"
     }
   ],
-  "already-exists": [
-    {
-      "type": 0,
-      "value": "Ce fichier existe déjà"
-    }
-  ],
   "api-description": [
     {
       "type": 0,
@@ -503,6 +497,58 @@
       "value": "name"
     }
   ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "This file already exists"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "The name contains an invalid character: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "The name is too long"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "The name should be all lowercase"
+    }
+  ],
+  "file-name-not-blank": [
+    {
+      "type": 0,
+      "value": "The project name cannot be blank"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The name cannot be empty"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "The name cannot start with a number"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "The name cannot contain spaces"
+    }
+  ],
   "firmware-update-link": [
     {
       "type": 0,
@@ -707,12 +753,6 @@
       "value": "Chargement…"
     }
   ],
-  "lowercase-no-space": [
-    {
-      "type": 0,
-      "value": "Les fichiers Python doivent avoir des noms en minuscules et sans espaces"
-    }
-  ],
   "microbit-hearts-alt": [
     {
       "type": 0,
@@ -771,18 +811,6 @@
     {
       "type": 0,
       "value": "Plus d’options de téléchargement"
-    }
-  ],
-  "name-not-blank": [
-    {
-      "type": 0,
-      "value": "Le nom du projet ne doit pas être laissé vide"
-    }
-  ],
-  "name-not-empty": [
-    {
-      "type": 0,
-      "value": "Le nom ne doit pas être vide"
     }
   ],
   "name-project": [
