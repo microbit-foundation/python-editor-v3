@@ -12,6 +12,15 @@ import { ActiveEditorProvider } from "../../editor/active-editor-hooks";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
 import ScrollablePanel from "../../common/ScrollablePanel";
 import ApiNode, { getDragContext } from "./ApiNode";
+import {
+  SessionSettings,
+  SessionSettingsProvider,
+} from "../../settings/session-settings";
+
+const sessionSettings: [SessionSettings, (value: SessionSettings) => void] = [
+  { dragDropSuccess: false },
+  () => {},
+];
 
 describe("ApiNode", () => {
   const node: ApiDocsEntry = {
@@ -46,11 +55,13 @@ describe("ApiNode", () => {
     render(
       <FixedTranslationProvider>
         <NullLoggingProvider>
-          <ActiveEditorProvider>
-            <ScrollablePanel>
-              <ApiNode docs={node} />
-            </ScrollablePanel>
-          </ActiveEditorProvider>
+          <SessionSettingsProvider value={sessionSettings}>
+            <ActiveEditorProvider>
+              <ScrollablePanel>
+                <ApiNode docs={node} />
+              </ScrollablePanel>
+            </ActiveEditorProvider>
+          </SessionSettingsProvider>
         </NullLoggingProvider>
       </FixedTranslationProvider>
     );
