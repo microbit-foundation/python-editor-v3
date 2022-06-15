@@ -469,7 +469,7 @@ export class ProjectActions {
   /**
    * Create a file, prompting the user for the name.
    */
-  addFile = async () => {
+  createFile = async () => {
     const preexistingFiles = new Set(this.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
@@ -489,7 +489,7 @@ export class ProjectActions {
 
     if (filenameWithoutExtension) {
       this.logging.event({
-        type: "add-file",
+        type: "create-file",
       });
       try {
         const filename = ensurePythonExtension(filenameWithoutExtension);

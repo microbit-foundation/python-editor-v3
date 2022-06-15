@@ -33,7 +33,7 @@ const NewButton = (props: NewButtonProps) => {
         text={intl.formatMessage({
           id: "create-file-action",
         })}
-        onClick={actions.addFile}
+        onClick={actions.createFile}
         icon={<RiFileAddLine />}
       />
     </Tooltip>
