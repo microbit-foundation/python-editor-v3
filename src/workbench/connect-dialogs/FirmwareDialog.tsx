@@ -13,8 +13,8 @@ import { GenericDialog } from "../../common/GenericDialog";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 
 export const enum ConnectErrorChoice {
-  TryAgain,
-  Cancel,
+  TRY_AGAIN = "TRY_AGAIN",
+  CANCEL = "CANCEL",
 }
 
 interface FirmwareDialogProps {
@@ -25,7 +25,7 @@ const FirmwareDialog = ({ callback }: FirmwareDialogProps) => {
   const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {
     setReturnFocus(false);
-    callback(ConnectErrorChoice.TryAgain);
+    callback(ConnectErrorChoice.TRY_AGAIN);
   }, [callback, setReturnFocus]);
   return (
     <GenericDialog
@@ -33,12 +33,12 @@ const FirmwareDialog = ({ callback }: FirmwareDialogProps) => {
       body={<FirmwareDialogBody />}
       footer={
         <FirmwareDialogFooter
-          onClose={() => callback(ConnectErrorChoice.Cancel)}
+          onClose={() => callback(ConnectErrorChoice.CANCEL)}
           onTryAgain={onTryAgain}
         />
       }
       size="3xl"
-      onClose={() => callback(ConnectErrorChoice.Cancel)}
+      onClose={() => callback(ConnectErrorChoice.CANCEL)}
     />
   );
 };

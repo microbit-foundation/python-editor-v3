@@ -370,7 +370,7 @@ export class ProjectActions {
   /**
    * Flash the device, reporting progress via a dialog.
    */
-  flash = async (): Promise<void> => {
+  flash = async (tryAgain?: boolean): Promise<void> => {
     this.logging.event({
       type: "flash",
       detail: await this.projectStats(),
@@ -381,8 +381,14 @@ export class ProjectActions {
       return;
     }
 
-    if (this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE) {
-      const connected = await this.connect(false, ConnectionAction.FLASH);
+    if (
+      this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE ||
+      this.device.status === ConnectionStatus.NOT_CONNECTED
+    ) {
+      const connected = await this.connect(
+        tryAgain || false,
+        ConnectionAction.FLASH
+      );
       if (!connected) {
         return;
       }
@@ -620,13 +626,13 @@ export class ProjectActions {
     choice: ConnectErrorChoice,
     userAction: ConnectionAction
   ) => {
-    if (choice !== ConnectErrorChoice.TryAgain) {
+    if (choice !== ConnectErrorChoice.TRY_AGAIN) {
       return;
     }
     if (userAction === ConnectionAction.CONNECT) {
       this.connect(true, userAction);
     } else if (userAction === ConnectionAction.FLASH) {
-      this.flash();
+      this.flash(true);
     }
   };
 

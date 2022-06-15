@@ -29,22 +29,22 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
   const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {
     setReturnFocus(false);
-    callback(ConnectErrorChoice.TryAgain);
+    callback(ConnectErrorChoice.TRY_AGAIN);
   }, [callback, setReturnFocus]);
   return (
     <GenericDialog
       returnFocusOnClose={returnFocus}
-      onClose={() => callback(ConnectErrorChoice.Cancel)}
+      onClose={() => callback(ConnectErrorChoice.CANCEL)}
       body={
         <NotFoundDialogBody
           onTryAgain={onTryAgain}
-          onCancel={() => callback(ConnectErrorChoice.Cancel)}
+          onCancel={() => callback(ConnectErrorChoice.CANCEL)}
         />
       }
       footer={
         <NotFoundDialogFooter
           onTryAgain={onTryAgain}
-          onCancel={() => callback(ConnectErrorChoice.Cancel)}
+          onCancel={() => callback(ConnectErrorChoice.CANCEL)}
         />
       }
       size="3xl"
