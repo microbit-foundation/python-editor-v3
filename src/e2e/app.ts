@@ -613,20 +613,28 @@ export class App {
 
   async connect(): Promise<void> {
     const document = await this.document();
-    const connectButton = await document.findByRole("button", {
+    const moreConnectOptions = await document.findByTestId(
+      "more-connect-options"
+    );
+    await moreConnectOptions.click();
+    const connectButton = await document.findByRole("menuitem", {
       name: "Connect",
     });
     await connectButton.click();
     await this.connectViaConnectHelp();
   }
 
-  // Connects from the connect help dialog.
+  // Connects from the connect dialog/wizard.
   async connectViaConnectHelp(): Promise<void> {
     const document = await this.document();
-    const startButton = await document.findByRole("button", {
-      name: "Start",
+    const nextButtonOne = await document.findByRole("button", {
+      name: "Next",
     });
-    await startButton.click();
+    await nextButtonOne.click();
+    const nextButtonTwo = await document.findByRole("button", {
+      name: "Next",
+    });
+    await nextButtonTwo.click();
   }
 
   async confirmConnection(): Promise<void> {
@@ -660,7 +668,7 @@ export class App {
   }
 
   // Retry micro:bit connection from error dialogs.
-  async connectTryAgain(): Promise<void> {
+  async connectViaTryAgain(): Promise<void> {
     const document = await this.document();
     const tryAgainButton = await document.findByRole("button", {
       name: "Try again",
@@ -670,7 +678,11 @@ export class App {
 
   async disconnect(): Promise<void> {
     const document = await this.document();
-    const disconnectButton = await document.findByRole("button", {
+    const moreConnectOptions = await document.findByTestId(
+      "more-connect-options"
+    );
+    await moreConnectOptions.click();
+    const disconnectButton = await document.findByRole("menuitem", {
       name: "Disconnect",
     });
     await disconnectButton.click();
@@ -720,7 +732,9 @@ export class App {
 
   async flash() {
     const document = await this.document();
-    const flash = await document.findByRole("button", { name: "Flash" });
+    const flash = await document.findByRole("button", {
+      name: "Send to micro:bit",
+    });
     return flash.click();
   }
 

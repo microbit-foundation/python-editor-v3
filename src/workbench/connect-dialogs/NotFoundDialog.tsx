@@ -14,36 +14,37 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
+import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
 
-export const enum NotFoundChoice {
-  Retry,
-  ReviewDevice,
-  Cancel,
-}
-
 interface NotFoundDialogProps {
-  callback: (value: NotFoundChoice) => void;
+  callback: (value: ConnectErrorChoice) => void;
 }
 
 export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
+  const [returnFocus, setReturnFocus] = useState<boolean>(true);
+  const onTryAgain = useCallback(() => {
+    setReturnFocus(false);
+    callback(ConnectErrorChoice.TRY_AGAIN);
+  }, [callback, setReturnFocus]);
   return (
     <GenericDialog
-      onClose={() => callback(NotFoundChoice.Cancel)}
+      returnFocusOnClose={returnFocus}
+      onClose={() => callback(ConnectErrorChoice.CANCEL)}
       body={
         <NotFoundDialogBody
-          onReviewDevice={() => callback(NotFoundChoice.ReviewDevice)}
-          onCancel={() => callback(NotFoundChoice.Cancel)}
+          onTryAgain={onTryAgain}
+          onCancel={() => callback(ConnectErrorChoice.CANCEL)}
         />
       }
       footer={
         <NotFoundDialogFooter
-          onRetry={() => callback(NotFoundChoice.Retry)}
-          onCancel={() => callback(NotFoundChoice.Cancel)}
+          onTryAgain={onTryAgain}
+          onCancel={() => callback(ConnectErrorChoice.CANCEL)}
         />
       }
       size="3xl"
@@ -53,23 +54,23 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
 
 interface ConnectNotFoundDialogProps {
   onCancel: () => void;
-  onReviewDevice: () => void;
+  onTryAgain: () => void;
 }
 
-const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
+const NotFoundDialogBody = ({ onTryAgain }: ConnectNotFoundDialogProps) => {
   const handleReviewDevice = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
-      onReviewDevice();
+      onTryAgain();
     },
-    [onReviewDevice]
+    [onTryAgain]
   );
   return (
     <VStack
       width="auto"
       ml="auto"
       mr="auto"
-      p={8}
+      p={5}
       pb={0}
       spacing={5}
       alignItems="flex-start"
@@ -144,19 +145,19 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
 
 interface NotFoundDialogFooterProps {
   onCancel: () => void;
-  onRetry: () => void;
+  onTryAgain: () => void;
 }
 
 const NotFoundDialogFooter = ({
   onCancel,
-  onRetry,
+  onTryAgain,
 }: NotFoundDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
       <Button onClick={onCancel} size="lg">
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={onRetry} variant="solid" size="lg">
+      <Button onClick={onTryAgain} variant="solid" size="lg">
         <FormattedMessage id="try-again-action" />
       </Button>
     </HStack>

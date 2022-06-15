@@ -131,6 +131,12 @@
       "value": "Methods"
     }
   ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "Back"
+    }
+  ],
   "back-to-main": [
     {
       "type": 0,
@@ -281,6 +287,12 @@
       "value": "Confirm delete"
     }
   ],
+  "confirm-download-action": [
+    {
+      "type": 0,
+      "value": "Confirm and download"
+    }
+  ],
   "confirm-replace-body": [
     {
       "type": 0,
@@ -313,10 +325,22 @@
       "value": "Connect"
     }
   ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Connect cable"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2"
+    }
+  ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+      "value": "In next popup:"
     }
   ],
   "connect-help-one": [
@@ -328,7 +352,7 @@
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Connect your micro:bit"
+      "value": "Select micro:bit"
     }
   ],
   "connect-help-two": [
@@ -622,13 +646,13 @@
   "flashing-code": [
     {
       "type": 0,
-      "value": "Flashing code"
+      "value": "Sending code (flashing)"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Your code is being sent ('flashed') to your micro:bit. This can take a while the first time, sorry, but it will be quicker after that."
+      "value": "Your code is being sent (flashed) to your micro:bit. This can take a while the first time but it will be quicker after that."
     }
   ],
   "flashing-micropython": [
@@ -712,7 +736,7 @@
   "load-action": [
     {
       "type": 0,
-      "value": "Load…"
+      "value": "Open…"
     }
   ],
   "load-error-mixed": [
@@ -760,7 +784,7 @@
   "load-hover": [
     {
       "type": 0,
-      "value": "Load a hex or Python file or add other files"
+      "value": "Open a hex or Python file or add other files"
     }
   ],
   "loaded-file-feedback": [
@@ -833,6 +857,12 @@
       "value": "More"
     }
   ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "More connect options"
+    }
+  ],
   "more-download-options": [
     {
       "type": 0,
@@ -875,6 +905,12 @@
     {
       "type": 0,
       "value": " extension for you."
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Next"
     }
   ],
   "not-found-checklist-one": [
@@ -1129,6 +1165,18 @@
       "value": "Search"
     }
   ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Send to micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Connect via WebUSB then flash code onto micro:bit"
+    }
+  ],
   "serial-collapse": [
     {
       "type": 0,
@@ -1359,12 +1407,6 @@
       "value": "Software versions"
     }
   ],
-  "start-action": [
-    {
-      "type": 0,
-      "value": "Start"
-    }
-  ],
   "support": [
     {
       "type": 0,
@@ -1546,7 +1588,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit."
     }
   ],
   "webusb-why-use": [
