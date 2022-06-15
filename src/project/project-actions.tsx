@@ -469,7 +469,7 @@ export class ProjectActions {
   /**
    * Create a file, prompting the user for the name.
    */
-  addFile = async () => {
+  createFile = async () => {
     const preexistingFiles = new Set(this.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
@@ -478,10 +478,10 @@ export class ProjectActions {
     >((callback) => (
       <InputDialog
         callback={callback}
-        header={this.intl.formatMessage({ id: "add-python" })}
+        header={this.intl.formatMessage({ id: "create-python" })}
         Body={NewFileNameQuestion}
         initialValue=""
-        actionLabel={this.intl.formatMessage({ id: "add-action" })}
+        actionLabel={this.intl.formatMessage({ id: "create-action" })}
         validate={validate}
         customFocus
       />
@@ -489,7 +489,7 @@ export class ProjectActions {
 
     if (filenameWithoutExtension) {
       this.logging.event({
-        type: "add-file",
+        type: "create-file",
       });
       try {
         const filename = ensurePythonExtension(filenameWithoutExtension);
@@ -500,7 +500,7 @@ export class ProjectActions {
         );
         this.setSelection({ file: filename, location: { line: undefined } });
         this.actionFeedback.success({
-          title: this.intl.formatMessage({ id: "added-file" }, { filename }),
+          title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);

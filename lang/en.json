@@ -23,25 +23,9 @@
     "defaultMessage": "Read more about MicroPython",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
-  "add-action": {
-    "defaultMessage": "Add",
-    "description": "Add action label"
-  },
-  "add-file-action": {
-    "defaultMessage": "Add file",
-    "description": "Button text for action that adds a new blank file"
-  },
-  "add-python": {
-    "defaultMessage": "Add a new Python file to your project",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
-  },
-  "added-file": {
-    "defaultMessage": "Added {filename}",
-    "description": "Action feedback for creating a file"
   },
   "already-exists": {
     "defaultMessage": "This file already exists",
@@ -190,6 +174,22 @@
   "copy-action": {
     "defaultMessage": "Copy",
     "description": "Copy to clipboard action text"
+  },
+  "create-action": {
+    "defaultMessage": "Create",
+    "description": "Create action label (e.g. in create file dialog)"
+  },
+  "create-file-action": {
+    "defaultMessage": "Create file",
+    "description": "Button text for action that creates a new blank Python file in the current project"
+  },
+  "create-python": {
+    "defaultMessage": "Create a new Python file in this project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
+  "created-file": {
+    "defaultMessage": "Created {filename}",
+    "description": "Action feedback for creating a file"
   },
   "delete-action": {
     "defaultMessage": "Delete",
