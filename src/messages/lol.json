@@ -69,12 +69,6 @@
       "value": "changeName"
     }
   ],
-  "already-exists": [
-    {
-      "type": 0,
-      "value": "Тхіс філе алреаду ексістс"
-    }
-  ],
   "api-description": [
     {
       "type": 0,
@@ -503,6 +497,58 @@
       "value": " філе астіонс"
     }
   ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "This file already exists"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "The name contains an invalid character: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "The name is too long"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "The name should be all lowercase"
+    }
+  ],
+  "file-name-not-blank": [
+    {
+      "type": 0,
+      "value": "The project name cannot be blank"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The name cannot be empty"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "The name cannot start with a number"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "The name cannot contain spaces"
+    }
+  ],
   "firmware-update-link": [
     {
       "type": 0,
@@ -707,12 +753,6 @@
       "value": "Лоадіндж…"
     }
   ],
-  "lowercase-no-space": [
-    {
-      "type": 0,
-      "value": "Путхон філес схоюлд хаве ловерсасе намес вітх но спасес"
-    }
-  ],
   "microbit-hearts-alt": [
     {
       "type": 0,
@@ -771,18 +811,6 @@
     {
       "type": 0,
       "value": "More download options"
-    }
-  ],
-  "name-not-blank": [
-    {
-      "type": 0,
-      "value": "Тхе проджест наме саннот бе бланк"
-    }
-  ],
-  "name-not-empty": [
-    {
-      "type": 0,
-      "value": "Тхе наме саннот бе емпту"
     }
   ],
   "name-project": [
