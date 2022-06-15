@@ -59,24 +59,6 @@
       "value": "Read more about MicroPython"
     }
   ],
-  "add-action": [
-    {
-      "type": 0,
-      "value": "Add"
-    }
-  ],
-  "add-file-action": [
-    {
-      "type": 0,
-      "value": "Add file"
-    }
-  ],
-  "add-python": [
-    {
-      "type": 0,
-      "value": "Add a new Python file to your project"
-    }
-  ],
   "added-change": [
     {
       "type": 0,
@@ -85,22 +67,6 @@
     {
       "type": 1,
       "value": "changeName"
-    }
-  ],
-  "added-file": [
-    {
-      "type": 0,
-      "value": "Added "
-    },
-    {
-      "type": 1,
-      "value": "filename"
-    }
-  ],
-  "already-exists": [
-    {
-      "type": 0,
-      "value": "This file already exists"
     }
   ],
   "api-description": [
@@ -407,6 +373,34 @@
       "value": "Copy code"
     }
   ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "Create file"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Create a new Python file in this project"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Created "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
   "delete-action": [
     {
       "type": 0,
@@ -527,6 +521,58 @@
     {
       "type": 0,
       "value": " file actions"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "This file already exists"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "The name contains an invalid character: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "The name is too long"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "The name should be all lowercase"
+    }
+  ],
+  "file-name-not-blank": [
+    {
+      "type": 0,
+      "value": "The project name cannot be blank"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The name cannot be empty"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "The name cannot start with a number"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "The name cannot contain spaces"
     }
   ],
   "firmware-update-link": [
@@ -733,12 +779,6 @@
       "value": "Loading…"
     }
   ],
-  "lowercase-no-space": [
-    {
-      "type": 0,
-      "value": "Python files should have lowercase names with no spaces"
-    }
-  ],
   "microbit-hearts-alt": [
     {
       "type": 0,
@@ -797,18 +837,6 @@
     {
       "type": 0,
       "value": "More download options"
-    }
-  ],
-  "name-not-blank": [
-    {
-      "type": 0,
-      "value": "The project name cannot be blank"
-    }
-  ],
-  "name-not-empty": [
-    {
-      "type": 0,
-      "value": "The name cannot be empty"
     }
   ],
   "name-project": [

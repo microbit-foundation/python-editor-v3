@@ -23,29 +23,9 @@
     "defaultMessage": "En savoir plus sur MicroPython",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
-  "add-action": {
-    "defaultMessage": "Ajouter",
-    "description": "Add action label"
-  },
-  "add-file-action": {
-    "defaultMessage": "Ajouter un fichier",
-    "description": "Button text for action that adds a new blank file"
-  },
-  "add-python": {
-    "defaultMessage": "Ajouter un nouveau fichier Python à votre projet",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
   "added-change": {
     "defaultMessage": "Fichier ajouté {changeName}",
     "description": "Change made to file"
-  },
-  "added-file": {
-    "defaultMessage": "{filename} ajouté ",
-    "description": "Action feedback for creating a file"
-  },
-  "already-exists": {
-    "defaultMessage": "Ce fichier existe déjà",
-    "description": "File already exists notification text"
   },
   "api-description": {
     "defaultMessage": "Documentation d’API pour la carte micro:bit MicroPython",
@@ -199,6 +179,22 @@
     "defaultMessage": "Copy code",
     "description": "Copy code to clipboard action text"
   },
+  "create-action": {
+    "defaultMessage": "Create",
+    "description": "Create action label (e.g. in create file dialog)"
+  },
+  "create-file-action": {
+    "defaultMessage": "Create file",
+    "description": "Button text for action that creates a new blank Python file in the current project"
+  },
+  "create-python": {
+    "defaultMessage": "Create a new Python file in this project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
+  "created-file": {
+    "defaultMessage": "Created {filename}",
+    "description": "Action feedback for creating a file"
+  },
   "delete-action": {
     "defaultMessage": "Supprimer",
     "description": "Button text for delete action"
@@ -266,6 +262,38 @@
   "file-actions": {
     "defaultMessage": "Actions sur le fichier {name}",
     "description": "Header of file actions for file"
+  },
+  "file-already-exists": {
+    "defaultMessage": "This file already exists",
+    "description": "File already exists notification text"
+  },
+  "file-name-invalid-character": {
+    "defaultMessage": "The name contains an invalid character: {invalid}",
+    "description": "Warning text for new Python file name with an invalid character"
+  },
+  "file-name-length": {
+    "defaultMessage": "The name is too long",
+    "description": "Warning text for overly long file names (file system limitation)"
+  },
+  "file-name-lowercase-only": {
+    "defaultMessage": "The name should be all lowercase",
+    "description": "Warning text for new Python file with uppercase"
+  },
+  "file-name-not-blank": {
+    "defaultMessage": "The project name cannot be blank",
+    "description": "Validation message for project name"
+  },
+  "file-name-not-empty": {
+    "defaultMessage": "The name cannot be empty",
+    "description": "Warning text for new Python file with empty name"
+  },
+  "file-name-start-number": {
+    "defaultMessage": "The name cannot start with a number",
+    "description": "Warning text for new Python file names starting with a number"
+  },
+  "file-name-whitespace": {
+    "defaultMessage": "The name cannot contain spaces",
+    "description": "Warning text for new Python file name with whitespace"
   },
   "firmware-update-link": {
     "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
@@ -374,10 +402,6 @@
     "defaultMessage": "Chargement…",
     "description": "Shown on loading indicators"
   },
-  "lowercase-no-space": {
-    "defaultMessage": "Les fichiers Python doivent avoir des noms en minuscules et sans espaces",
-    "description": "Warning text for uppercase Pyton file name or space"
-  },
   "microbit-hearts-alt": {
     "defaultMessage": "Tableau du micro:bit avec la grille LED 5 par 5 montrant un cœur",
     "description": "Alt text for micro:bit image in About dialog"
@@ -401,14 +425,6 @@
   "more-download-options": {
     "defaultMessage": "Plus d’options de téléchargement",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
-  },
-  "name-not-blank": {
-    "defaultMessage": "Le nom du projet ne doit pas être laissé vide",
-    "description": "Validation message for project name"
-  },
-  "name-not-empty": {
-    "defaultMessage": "Le nom ne doit pas être vide",
-    "description": "Warning text for new Pyton file with empty name"
   },
   "name-project": {
     "defaultMessage": "Donnez un nom à votre projet",

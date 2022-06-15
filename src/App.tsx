@@ -23,9 +23,7 @@ import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createHost } from "./fs/host";
 import { fetchMicroPython } from "./fs/micropython";
-import { trackFsChanges } from "./language-server/client-fs";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
-import { pyright } from "./language-server/pyright";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
@@ -56,10 +54,8 @@ const device = isMockDeviceMode()
   ? new MockDeviceConnection()
   : new MicrobitWebUSBConnection({ logging });
 
-const client = pyright();
 const host = createHost(logging);
 const fs = new FileSystem(logging, host, fetchMicroPython);
-client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
 fs.initializeInBackground();
@@ -97,7 +93,7 @@ const App = () => {
               <TranslationProvider>
                 <DeviceContextProvider value={device}>
                   <FileSystemProvider value={fs}>
-                    <LanguageServerClientProvider value={client}>
+                    <LanguageServerClientProvider>
                       <SyncStatusProvider>
                         <BeforeUnloadDirtyCheck />
                         <DocumentationProvider>

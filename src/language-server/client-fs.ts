@@ -8,6 +8,8 @@ import { diff, EVENT_PROJECT_UPDATED, FileSystem, Project } from "../fs/fs";
 import { isPythonFile } from "../project/project-utils";
 import { createUri, LanguageServerClient } from "./client";
 
+export type FsChangesListener = (current: Project) => any;
+
 /**
  * Updates the language server open files as the file system
  * changes.
@@ -18,7 +20,7 @@ import { createUri, LanguageServerClient } from "./client";
 export const trackFsChanges = (
   client: LanguageServerClient,
   fs: FileSystem
-) => {
+): FsChangesListener => {
   let previous: Project = {
     ...fs.project,
     // Start with no files for the diff, regardless of where the file
@@ -79,4 +81,12 @@ export const trackFsChanges = (
   };
   fs.addListener(EVENT_PROJECT_UPDATED, diffAndUpdateClient);
   diffAndUpdateClient(fs.project);
+  return diffAndUpdateClient;
+};
+
+export const removeTrackFsChangesListener = (
+  fs: FileSystem,
+  listener: FsChangesListener
+): void => {
+  fs.removeListener(EVENT_PROJECT_UPDATED, listener);
 };
