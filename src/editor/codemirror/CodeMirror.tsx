@@ -111,6 +111,8 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
+          // Extension requires external state.
+          dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
           // Order of lintGutter and lineNumbers determines how they are displayed.
           lintGutter(),
@@ -129,8 +131,6 @@ const CodeMirror = ({
             codeStructure(options.codeStructureOption),
             themeExtensionsForOptions(options),
           ]),
-          // Extension requires external state.
-          dndSupport({ sessionSettings, setSessionSettings }),
         ],
       });
       const view = new EditorView({
