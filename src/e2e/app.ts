@@ -107,7 +107,11 @@ export class App {
 
   async createPage() {
     const browser = await this.browser;
-
+    const context = browser.defaultBrowserContext();
+    await context.overridePermissions(this.url, [
+      "clipboard-read",
+      "clipboard-write",
+    ]);
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 800 });
     await page.setCookie({
