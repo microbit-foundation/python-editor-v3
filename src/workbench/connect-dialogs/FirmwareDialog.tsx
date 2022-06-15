@@ -6,25 +6,42 @@
 import { Button } from "@chakra-ui/button";
 import { Icon } from "@chakra-ui/icons";
 import { HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
-import { ReactNode, useCallback } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
-import { useProjectActions } from "../../project/project-hooks";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 
-interface FirmwareDialogProps {
-  callback: () => void;
+export const enum ConnectErrorChoice {
+  TRY_AGAIN = "TRY_AGAIN",
+  CANCEL = "CANCEL",
 }
 
-const FirmwareDialog = ({ callback }: FirmwareDialogProps) => (
-  <GenericDialog
-    body={<FirmwareDialogBody />}
-    footer={<FirmwareDialogFooter onClose={callback} />}
-    size="3xl"
-    onClose={callback}
-  />
-);
+interface FirmwareDialogProps {
+  callback: (choice: ConnectErrorChoice) => void;
+}
+
+const FirmwareDialog = ({ callback }: FirmwareDialogProps) => {
+  const [returnFocus, setReturnFocus] = useState<boolean>(true);
+  const onTryAgain = useCallback(() => {
+    setReturnFocus(false);
+    callback(ConnectErrorChoice.TRY_AGAIN);
+  }, [callback, setReturnFocus]);
+  return (
+    <GenericDialog
+      returnFocusOnClose={returnFocus}
+      body={<FirmwareDialogBody />}
+      footer={
+        <FirmwareDialogFooter
+          onClose={() => callback(ConnectErrorChoice.CANCEL)}
+          onTryAgain={onTryAgain}
+        />
+      }
+      size="3xl"
+      onClose={() => callback(ConnectErrorChoice.CANCEL)}
+    />
+  );
+};
 
 const FirmwareDialogBody = () => {
   return (
@@ -32,7 +49,7 @@ const FirmwareDialogBody = () => {
       width="auto"
       ml="auto"
       mr="auto"
-      p={8}
+      p={5}
       pb={0}
       spacing={5}
       alignItems="flex-start"
@@ -81,21 +98,20 @@ const FirmwareDialogBody = () => {
 
 interface FirmwareDialogFooterProps {
   onClose: () => void;
+  onTryAgain: () => void;
 }
 
-const FirmwareDialogFooter = ({ onClose }: FirmwareDialogFooterProps) => {
-  const actions = useProjectActions();
-  const handleTryAgain = useCallback(async () => {
-    onClose();
-    await actions.connect();
-  }, [actions, onClose]);
+const FirmwareDialogFooter = ({
+  onClose,
+  onTryAgain,
+}: FirmwareDialogFooterProps) => {
   const buttonWidth = "8.1rem";
   return (
     <HStack spacing={2.5}>
       <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={handleTryAgain} size="lg" minWidth={buttonWidth}>
+      <Button onClick={onTryAgain} size="lg" minWidth={buttonWidth}>
         <FormattedMessage id="try-again-action" />
       </Button>
       <Button

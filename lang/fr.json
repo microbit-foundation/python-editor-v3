@@ -55,6 +55,10 @@
     "defaultMessage": "Méthodes",
     "description": "Heading in API documentation for the methods in a Python class"
   },
+  "back-action": {
+    "defaultMessage": "Back",
+    "description": "Back button text"
+  },
   "back-to-main": {
     "defaultMessage": "revenir au code principal",
     "description": "Text button, takes back to main code"
@@ -123,6 +127,10 @@
     "defaultMessage": "Confirmer la suppression",
     "description": "Confirmation header of deletion of a file"
   },
+  "confirm-download-action": {
+    "defaultMessage": "Confirm and download",
+    "description": "Confirm and download action label"
+  },
   "confirm-replace-body": {
     "defaultMessage": "Remplacer tous les fichiers par ceux de l’hex ?",
     "description": "Confirmation message body for replacing project dialog"
@@ -134,6 +142,14 @@
   "connect-action": {
     "defaultMessage": "Connecter",
     "description": "Connect button text"
+  },
+  "connect-cable-title": {
+    "defaultMessage": "Connect cable",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2",
+    "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
     "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
@@ -410,6 +426,10 @@
     "defaultMessage": "Plus",
     "description": "More button text"
   },
+  "more-connect-options": {
+    "defaultMessage": "More connect options",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
   "more-download-options": {
     "defaultMessage": "Plus d’options de téléchargement",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
@@ -429,6 +449,10 @@
   "new-file-hint": {
     "defaultMessage": "Nous ajouterons l’extension <code>.py</code> pour vous.",
     "description": "Hint shown in the new Python file dialog"
+  },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
   },
   "not-found-checklist-one": {
     "defaultMessage": "Review <link>how to select the device</link>",
@@ -538,6 +562,14 @@
     "defaultMessage": "Rechercher",
     "description": "Aria label for searching documentation"
   },
+  "send-action": {
+    "defaultMessage": "Send to micro:bit",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Connect via WebUSB then flash code onto micro:bit",
+    "description": "Send button hover text"
+  },
   "serial-collapse": {
     "defaultMessage": "Masquer le terminal série",
     "description": "Action label to collapse the serial console/REPL area"
@@ -629,10 +661,6 @@
   "software-versions": {
     "defaultMessage": "Versions logicielles",
     "description": "Heading for a table of software versions in the about dialog"
-  },
-  "start-action": {
-    "defaultMessage": "Start",
-    "description": "Start button text"
   },
   "support": {
     "defaultMessage": "Assistance",

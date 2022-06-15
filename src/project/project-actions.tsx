@@ -13,8 +13,11 @@ import { InputDialog, InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
+  ConnectionAction,
   ConnectionStatus,
+  ConnectOptions,
   DeviceConnection,
+  EVENT_END_USB_SELECT,
   HexGenerationError,
   WebUSBError,
   WebUSBErrorCode,
@@ -29,16 +32,16 @@ import {
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { Settings } from "../settings/settings";
-import ConnectHelpDialog, {
+import ConnectDialog, {
   ConnectHelpChoice,
-} from "../workbench/connect-dialogs/ConnectHelpDialog";
-import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
+} from "../workbench/connect-dialogs/ConnectDialog";
+import FirmwareDialog, {
+  ConnectErrorChoice,
+} from "../workbench/connect-dialogs/FirmwareDialog";
+import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
 import WebUSBDialog, {
   WebUSBErrorTrigger,
 } from "../workbench/connect-dialogs/WebUSBDialog";
-import NotFoundDialog, {
-  NotFoundChoice,
-} from "../workbench/connect-dialogs/NotFoundDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -54,6 +57,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import ProjectNameQuestion from "./ProjectNameQuestion";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -97,7 +101,10 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  connect = async (forceConnectHelp: boolean = false) => {
+  connect = async (
+    forceConnectHelp: boolean,
+    userAction: ConnectionAction
+  ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
     });
@@ -106,9 +113,13 @@ export class ProjectActions {
       await this.dialogs.show<void>((callback) => (
         <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
       ));
+      await this.download();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
-        await this.connectInternal();
+        return this.connectInternal(
+          { serial: userAction !== ConnectionAction.FLASH },
+          userAction
+        );
       }
     }
   };
@@ -133,20 +144,20 @@ export class ProjectActions {
       return true;
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
-      <ConnectHelpDialog
+      <ConnectDialog
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}
       />
     ));
     switch (choice) {
-      case ConnectHelpChoice.StartDontShowAgain: {
+      case ConnectHelpChoice.NextDontShowAgain: {
         this.settings.setValues({
           ...this.settings.values,
           showConnectHelp: false,
         });
         return true;
       }
-      case ConnectHelpChoice.Start:
+      case ConnectHelpChoice.Next:
         return true;
       case ConnectHelpChoice.Cancel:
         return false;
@@ -156,11 +167,16 @@ export class ProjectActions {
   /**
    * Connect to the device if possible, otherwise show feedback.
    */
-  private async connectInternal() {
+  private async connectInternal(
+    options: ConnectOptions,
+    userAction: ConnectionAction
+  ) {
     try {
-      await this.device.connect();
+      await this.device.connect(options);
+      return true;
     } catch (e) {
-      this.handleWebUSBError(e);
+      this.handleWebUSBError(e, userAction);
+      return false;
     }
   }
 
@@ -175,7 +191,7 @@ export class ProjectActions {
     try {
       await this.device.disconnect();
     } catch (e) {
-      this.handleWebUSBError(e);
+      this.handleWebUSBError(e, ConnectionAction.DISCONNECT);
     }
   };
 
@@ -354,7 +370,7 @@ export class ProjectActions {
   /**
    * Flash the device, reporting progress via a dialog.
    */
-  flash = async (): Promise<void> => {
+  flash = async (tryAgain?: boolean): Promise<void> => {
     this.logging.event({
       type: "flash",
       detail: await this.projectStats(),
@@ -365,11 +381,21 @@ export class ProjectActions {
       return;
     }
 
+    if (
+      this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE ||
+      this.device.status === ConnectionStatus.NOT_CONNECTED
+    ) {
+      const connected = await this.connect(
+        tryAgain || false,
+        ConnectionAction.FLASH
+      );
+      if (!connected) {
+        return;
+      }
+    }
+
     try {
       const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
-      const flashingMicroPython = this.intl.formatMessage({
-        id: "flashing-micropython",
-      });
       const firstFlashNotice = (
         <Text fontSize="lg">
           <FormattedMessage id="flashing-full-flash-detail" />
@@ -377,7 +403,7 @@ export class ProjectActions {
       );
       const progress = (value: number | undefined, partial: boolean) => {
         this.dialogs.progress({
-          header: partial ? flashingCode : flashingMicroPython,
+          header: flashingCode,
           body: partial ? undefined : firstFlashNotice,
           progress: value,
         });
@@ -391,7 +417,7 @@ export class ProjectActions {
           description: e.message,
         });
       } else {
-        this.handleWebUSBError(e);
+        this.handleWebUSBError(e, ConnectionAction.FLASH);
       }
     }
   };
@@ -404,6 +430,10 @@ export class ProjectActions {
       type: "download",
       detail: await this.projectStats(),
     });
+
+    if (!(await this.ensureProjectName())) {
+      return;
+    }
 
     let download: string | undefined;
     try {
@@ -453,6 +483,10 @@ export class ProjectActions {
     this.logging.event({
       type: "download-main-file",
     });
+
+    if (!(await this.ensureProjectName())) {
+      return;
+    }
 
     try {
       const content = await this.fs.read(MAIN_FILE);
@@ -541,6 +575,40 @@ export class ProjectActions {
     }
   };
 
+  isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
+
+  ensureProjectName = async (): Promise<boolean | undefined> => {
+    if (this.isDefaultProjectName()) {
+      return await this.editProjectName(true);
+    }
+    return true;
+  };
+
+  editProjectName = async (isDownload: boolean = false) => {
+    const name = await this.dialogs.show<string | undefined>((callback) => (
+      <InputDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "name-project" })}
+        Body={ProjectNameQuestion}
+        initialValue={this.project.name}
+        actionLabel={this.intl.formatMessage({
+          id: isDownload ? "confirm-download-action" : "confirm-action",
+        })}
+        customFocus
+        validate={(name: string) =>
+          name.trim().length === 0
+            ? this.intl.formatMessage({ id: "name-not-blank" })
+            : undefined
+        }
+      />
+    ));
+    if (name) {
+      await this.setProjectName(name);
+      return true;
+    }
+    return false;
+  };
+
   /**
    * Set the project name.
    *
@@ -554,27 +622,35 @@ export class ProjectActions {
     return this.fs.setProjectName(name);
   };
 
-  private async handleNotFound() {
+  private handleConnectErrorChoice = (
+    choice: ConnectErrorChoice,
+    userAction: ConnectionAction
+  ) => {
+    if (choice !== ConnectErrorChoice.TRY_AGAIN) {
+      return;
+    }
+    if (userAction === ConnectionAction.CONNECT) {
+      this.connect(true, userAction);
+    } else if (userAction === ConnectionAction.FLASH) {
+      this.flash(true);
+    }
+  };
+
+  private async handleNotFound(userAction: ConnectionAction) {
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
-    const choice = await this.dialogs.show<NotFoundChoice>((callback) => (
+    const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <NotFoundDialog callback={callback} />
     ));
-    switch (choice) {
-      case NotFoundChoice.Retry: {
-        this.connectInternal();
-        return;
-      }
-      case NotFoundChoice.ReviewDevice: {
-        this.connect(true);
-        return;
-      }
-    }
+    this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleFirmwareUpdate(errorCode: WebUSBErrorCode) {
+  private async handleFirmwareUpdate(
+    errorCode: WebUSBErrorCode,
+    userAction: ConnectionAction
+  ) {
     this.device.clearDevice();
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -582,18 +658,20 @@ export class ProjectActions {
         this.webusbErrorMessage(errorCode)
       );
     }
-    await this.dialogs.show<void>((callback) => (
+    const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <FirmwareDialog callback={callback} />
     ));
+    this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleWebUSBError(e: any) {
+  private async handleWebUSBError(e: any, userAction: ConnectionAction) {
     if (e instanceof WebUSBError) {
+      this.device.emit(EVENT_END_USB_SELECT);
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
           // where no devices.
-          await this.handleNotFound();
+          await this.handleNotFound(userAction);
           return;
         }
         case "device-disconnected": {
@@ -601,7 +679,7 @@ export class ProjectActions {
           return;
         }
         case "update-req":
-          await this.handleFirmwareUpdate(e.code);
+          await this.handleFirmwareUpdate(e.code, userAction);
           return;
         case "clear-connect":
         case "timeout-error":

@@ -91,11 +91,22 @@ export enum ConnectionStatus {
   CONNECTED = "CONNECTED",
 }
 
+/**
+ * Tracks user connection action.
+ */
+export enum ConnectionAction {
+  FLASH = "FLASH",
+  CONNECT = "CONNECT",
+  DISCONNECT = "DISCONNECT",
+}
+
 export const EVENT_STATUS = "status";
 export const EVENT_SERIAL_DATA = "serial_data";
 export const EVENT_SERIAL_RESET = "serial_reset";
 export const EVENT_SERIAL_ERROR = "serial_error";
 export const EVENT_FLASH = "flash";
+export const EVENT_START_USB_SELECT = "start_usb_select";
+export const EVENT_END_USB_SELECT = "end_usb_select";
 
 export class HexGenerationError extends Error {}
 
@@ -117,6 +128,10 @@ export interface FlashDataSource {
   fullFlashData(boardId: BoardId): Promise<Uint8Array>;
 }
 
+export interface ConnectOptions {
+  serial?: boolean;
+}
+
 export interface DeviceConnection extends EventEmitter {
   status: ConnectionStatus;
 
@@ -135,7 +150,7 @@ export interface DeviceConnection extends EventEmitter {
    *
    * @returns the final connection status.
    */
-  connect(): Promise<ConnectionStatus>;
+  connect(options?: ConnectOptions): Promise<ConnectionStatus>;
 
   /**
    * Flash the micro:bit.
@@ -313,9 +328,9 @@ export class MicrobitWebUSBConnection
     }
   }
 
-  async connect(): Promise<ConnectionStatus> {
+  async connect(options: ConnectOptions = {}): Promise<ConnectionStatus> {
     return this.withEnrichedErrors(async () => {
-      await this.connectInternal(true);
+      await this.connectInternal(options);
       return this.status;
     });
   }
@@ -364,7 +379,9 @@ export class MicrobitWebUSBConnection
     this.log("Stopping serial before flash");
     await this.stopSerialInternal();
     this.log("Reconnecting before flash");
-    await this.connectInternal(false);
+    await this.connectInternal({
+      serial: false,
+    });
     if (!this.connection) {
       throw new Error("Must be connected now");
     }
@@ -524,13 +541,13 @@ export class MicrobitWebUSBConnection
     this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
   }
 
-  private async connectInternal(serial: boolean): Promise<void> {
+  private async connectInternal(options: ConnectOptions): Promise<void> {
     if (!this.connection) {
       const device = await this.chooseDevice();
       this.connection = new DAPWrapper(device, this.logging);
     }
     await withTimeout(this.connection.reconnectAsync(), 10_000);
-    if (serial) {
+    if (options.serial === undefined || options.serial) {
       this.startSerialInternal();
     }
     this.setStatus(ConnectionStatus.CONNECTED);
@@ -540,9 +557,11 @@ export class MicrobitWebUSBConnection
     if (this.device) {
       return this.device;
     }
+    this.emit(EVENT_START_USB_SELECT);
     this.device = await navigator.usb.requestDevice({
       filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
     });
+    this.emit(EVENT_END_USB_SELECT);
     return this.device;
   }
 }

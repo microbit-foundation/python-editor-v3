@@ -21,6 +21,7 @@ export interface GenericDialogProps {
   footer: ReactNode;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   onClose: () => void;
+  returnFocusOnClose?: boolean;
 }
 
 export const GenericDialog = ({
@@ -29,9 +30,15 @@ export const GenericDialog = ({
   footer,
   size,
   onClose,
+  returnFocusOnClose = true,
 }: GenericDialogProps) => {
   return (
-    <Modal isOpen onClose={onClose} size={size}>
+    <Modal
+      isOpen
+      onClose={onClose}
+      size={size}
+      returnFocusOnClose={returnFocusOnClose}
+    >
       <ModalOverlay>
         <ModalContent minWidth="560px" my="auto">
           <ModalCloseButton />

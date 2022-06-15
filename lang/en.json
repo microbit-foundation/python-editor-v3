@@ -55,6 +55,10 @@
     "defaultMessage": "Methods",
     "description": "Heading in API documentation for the methods in a Python class"
   },
+  "back-action": {
+    "defaultMessage": "Back",
+    "description": "Back button text"
+  },
   "back-to-main": {
     "defaultMessage": "back to the main code",
     "description": "Text button, takes back to main code"
@@ -123,6 +127,10 @@
     "defaultMessage": "Confirm delete",
     "description": "Confirmation header of deletion of a file"
   },
+  "confirm-download-action": {
+    "defaultMessage": "Confirm and download",
+    "description": "Confirm and download action label"
+  },
   "confirm-replace-body": {
     "defaultMessage": "Replace all files with those in the hex?",
     "description": "Confirmation message body for replacing project dialog"
@@ -135,8 +143,16 @@
     "defaultMessage": "Connect",
     "description": "Connect button text"
   },
+  "connect-cable-title": {
+    "defaultMessage": "Connect cable",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2",
+    "description": "Alt text for image in connect help dialog"
+  },
   "connect-help-message": {
-    "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
+    "defaultMessage": "In next popup:",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
@@ -144,7 +160,7 @@
     "description": "Legend text for the connect help dialog image"
   },
   "connect-help-title": {
-    "defaultMessage": "Connect your micro:bit",
+    "defaultMessage": "Select micro:bit",
     "description": "Title for the connect help dialog"
   },
   "connect-help-two": {
@@ -304,11 +320,11 @@
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "Flashing code",
+    "defaultMessage": "Sending code (flashing)",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "Your code is being sent ('flashed') to your micro:bit. This can take a while the first time, sorry, but it will be quicker after that.",
+    "defaultMessage": "Your code is being sent (flashed) to your micro:bit. This can take a while the first time but it will be quicker after that.",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
@@ -364,8 +380,8 @@
     "description": "Language option text"
   },
   "load-action": {
-    "defaultMessage": "Load…",
-    "description": "Load button text"
+    "defaultMessage": "Open…",
+    "description": "Open button text"
   },
   "load-error-mixed": {
     "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
@@ -380,7 +396,7 @@
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "load-hover": {
-    "defaultMessage": "Load a hex or Python file or add other files",
+    "defaultMessage": "Open a hex or Python file or add other files",
     "description": "Hover text over load button"
   },
   "loaded-file-feedback": {
@@ -411,6 +427,10 @@
     "defaultMessage": "More",
     "description": "More button text"
   },
+  "more-connect-options": {
+    "defaultMessage": "More connect options",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
   "more-download-options": {
     "defaultMessage": "More download options",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
@@ -430,6 +450,10 @@
   "new-file-hint": {
     "defaultMessage": "We'll add the <code>.py</code> extension for you.",
     "description": "Hint shown in the new Python file dialog"
+  },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
   },
   "not-found-checklist-one": {
     "defaultMessage": "Review <link>how to select the device</link>",
@@ -539,6 +563,14 @@
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
   },
+  "send-action": {
+    "defaultMessage": "Send to micro:bit",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Connect via WebUSB then flash code onto micro:bit",
+    "description": "Send button hover text"
+  },
   "serial-collapse": {
     "defaultMessage": "Hide serial",
     "description": "Action label to collapse the serial console/REPL area"
@@ -631,10 +663,6 @@
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"
   },
-  "start-action": {
-    "defaultMessage": "Start",
-    "description": "Start button text"
-  },
   "support": {
     "defaultMessage": "Support",
     "description": "Support menu option text"
@@ -724,7 +752,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
