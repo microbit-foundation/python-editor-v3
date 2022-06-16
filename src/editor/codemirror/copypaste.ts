@@ -17,12 +17,13 @@ const getCodeFromHtml = (
     return;
   }
   const docFromHTML = new DOMParser().parseFromString(stringHTML, "text/html");
-  return {
-    code: docFromHTML.querySelector("code")?.textContent || "",
-    type: docFromHTML
-      .querySelector("code")
-      ?.getAttribute("data-type") as CodeInsertType,
-  };
+  const code = docFromHTML.querySelector("code")?.textContent || "";
+  const type = docFromHTML
+    .querySelector("code")
+    ?.getAttribute("data-type") as CodeInsertType;
+  if (code && type) {
+    return { code, type };
+  }
 };
 
 const copyPasteHandlers = () => {
