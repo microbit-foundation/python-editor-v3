@@ -108,11 +108,13 @@ export class App {
   async createPage() {
     const browser = await this.browser;
     const context = browser.defaultBrowserContext();
-    await context.overridePermissions(this.url, [
+    const { origin } = new URL(this.url);
+    await context.overridePermissions(origin, [
       "clipboard-read",
       "clipboard-write",
     ]);
-    const page = await browser.newPage();
+
+    const page = await context.newPage();
     await page.setViewport({ width: 1200, height: 800 });
     await page.setCookie({
       // See corresponding code in App.tsx.
@@ -574,7 +576,9 @@ export class App {
   }
 
   async copyCode(): Promise<void> {
+    const page = await this.page;
     const document = await this.document();
+    await page.bringToFront();
     const copyCodeButton = await document.findByRole("button", {
       name: "Copy code",
     });
@@ -582,12 +586,13 @@ export class App {
   }
 
   async pasteToolkitCode(): Promise<void> {
-    await this.focusEditorContent();
-    const keyboard = (await this.page).keyboard;
-    const meta = process.platform === "darwin" ? "Meta" : "Control";
-    await keyboard.down(meta);
-    await keyboard.press("v");
-    await keyboard.up(meta);
+    (await this.page).bringToFront();
+    const content = await this.focusEditorContent();
+    await content.evaluate(async (c) => {
+      // See createPage for fake clipboard implementation.
+      const event = await (navigator.clipboard as any).toPasteEvent();
+      c.dispatchEvent(event);
+    });
   }
 
   async selectToolkitDropDownOption(
@@ -765,6 +770,55 @@ export class App {
     this.page = this.createPage();
     page = await this.page;
     await page.goto(this.url);
+
+    // Install fake clipboard due to problems with pupeteer's native clipboad support.
+    await page.evaluate(async () => {
+      class FakeClipboard extends EventTarget implements Clipboard {
+        private state: ClipboardItems = [];
+
+        read(): Promise<ClipboardItems> {
+          throw new Error("Method not implemented.");
+        }
+        readText(): Promise<string> {
+          throw new Error("Method not implemented.");
+        }
+        async write(data: ClipboardItems): Promise<void> {
+          this.state = data;
+        }
+        writeText(data: string): Promise<void> {
+          throw new Error("Method not implemented.");
+        }
+        async toPasteEvent(): Promise<Event | undefined> {
+          const state = this.state;
+          if (!state) {
+            throw new Error("Requested paste event with no prior copy");
+          }
+
+          const data = new Map(
+            await Promise.all(
+              this.state.flatMap((item) =>
+                item.types.map(
+                  async (t): Promise<[string, string]> => [
+                    t,
+                    await (await item.getType(t)).text(),
+                  ]
+                )
+              )
+            )
+          );
+          const event = new Event("paste");
+          (event as any).clipboardData = {
+            // Partial implementation. If we fill this out we can use ClipboardEvent itself.
+            getData: (type: string) => data.get(type) || "",
+          } as Partial<DataTransfer> as any;
+          return event;
+        }
+      }
+      Object.defineProperty(navigator, "clipboard", {
+        writable: true,
+        value: new FakeClipboard(),
+      });
+    });
   }
 
   /**
