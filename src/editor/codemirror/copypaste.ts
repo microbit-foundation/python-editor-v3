@@ -36,13 +36,13 @@ const copyPasteHandlers = () => {
         ) {
           return;
         }
-        event.preventDefault();
         const pasteContext = getCodeFromHtml(
           event.clipboardData?.getData("text/html")
         );
         if (!pasteContext) {
           return;
         }
+        event.preventDefault();
         // Should we use lineCount here, or follow the dnd logging?
         // If we use lineCount, should we ignore imports and empty lines?
         const lineCount = lineNumFromUint8Array(
