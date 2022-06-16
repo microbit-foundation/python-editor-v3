@@ -782,7 +782,7 @@ export class App {
     page = await this.page;
     await page.goto(this.url);
 
-    // Install fake clipboard due to problems with pupeteer's native clipboad support.
+    // Install fake clipboard due to problems with puppeteer's native clipboard support.
     await page.evaluate(async () => {
       class FakeClipboard extends EventTarget implements Clipboard {
         private state: ClipboardItems = [];
