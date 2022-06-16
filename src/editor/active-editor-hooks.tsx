@@ -40,6 +40,7 @@ export class EditorActions {
     const codeElement = document.createElement("code");
     codeElement.textContent = code;
     codeElement.setAttribute("data-type", type);
+    id && codeElement.setAttribute("data-id", id);
     await navigator.clipboard.write([
       new ClipboardItem({
         // @ts-ignore
