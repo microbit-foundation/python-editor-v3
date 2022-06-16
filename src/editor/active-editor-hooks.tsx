@@ -37,10 +37,13 @@ export class EditorActions {
       type: "code-copy",
       message: id,
     });
+    const codeElement = document.createElement("code");
+    codeElement.innerHTML = code;
+    codeElement.setAttribute("data-type", type);
     await navigator.clipboard.write([
       new ClipboardItem({
         // @ts-ignore
-        "text/html": new Blob([`<code data-type="${type}">${code}</code>`], {
+        "text/html": new Blob([codeElement.outerHTML], {
           type: "text/html",
         }),
       }),
