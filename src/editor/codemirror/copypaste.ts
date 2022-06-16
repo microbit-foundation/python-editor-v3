@@ -10,38 +10,31 @@ interface PasteContext {
   id?: string;
 }
 
-const getCodeFromHtml = (
-  stringHTML: string | undefined
-): PasteContext | undefined => {
-  if (!stringHTML) {
-    return;
-  }
-  const docFromHTML = new DOMParser().parseFromString(stringHTML, "text/html");
-  const code = docFromHTML.querySelector("code")?.textContent || "";
-  const type = docFromHTML
-    .querySelector("code")
-    ?.getAttribute("data-type") as CodeInsertType;
-  const id = docFromHTML
-    .querySelector("code")
-    ?.getAttribute("data-id") as CodeInsertType;
-  if (code && type) {
-    return { code, type, id };
-  }
+let pasteContext: PasteContext | undefined;
+
+/**
+ * Set the copied code snippet.
+ *
+ * We can't represent it on the clipboard as FF doesn't yet support ClipboardItem.
+ */
+export const copyCodeSnippet = (context: PasteContext | undefined) => {
+  pasteContext = context;
+  // So it feels like the system clipboard even though we can't put it there.
+  navigator.clipboard.writeText("");
 };
 
 const copyPasteHandlers = () => [
   EditorView.domEventHandlers({
     paste(event, view) {
-      if (
-        !view.state.facet(EditorView.editable) ||
-        event.clipboardData?.getData("text")
-      ) {
+      if (!view.state.facet(EditorView.editable)) {
         return;
       }
-      const pasteContext = getCodeFromHtml(
-        event.clipboardData?.getData("text/html")
-      );
       if (!pasteContext) {
+        return;
+      }
+      if (event.clipboardData?.getData("text")) {
+        // Must have happened since the code snippet copy.
+        pasteContext = undefined;
         return;
       }
       event.preventDefault();

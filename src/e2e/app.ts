@@ -584,12 +584,12 @@ export class App {
   }
 
   async pasteToolkitCode(): Promise<void> {
-    const content = await this.focusEditorContent();
-    await content.evaluate(async (c) => {
-      // See reset() for fake clipboard implementation.
-      const event = await (navigator.clipboard as any).toPasteEvent();
-      c.dispatchEvent(event);
-    });
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
+    await keyboard.press("v");
+    await keyboard.up(meta);
   }
 
   async selectToolkitDropDownOption(

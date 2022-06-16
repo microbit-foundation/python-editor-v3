@@ -16,6 +16,7 @@ import React, {
 } from "react";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Logging } from "../logging/logging";
+import { copyCodeSnippet } from "./codemirror/copypaste";
 import { CodeInsertType } from "./codemirror/dnd";
 
 /**
@@ -37,18 +38,11 @@ export class EditorActions {
       type: "code-copy",
       message: id,
     });
-    const codeElement = document.createElement("code");
-    codeElement.textContent = code;
-    codeElement.setAttribute("data-type", type);
-    id && codeElement.setAttribute("data-id", id);
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        // @ts-ignore
-        "text/html": new Blob([codeElement.outerHTML], {
-          type: "text/html",
-        }),
-      }),
-    ]);
+    copyCodeSnippet({
+      code,
+      type,
+      id,
+    });
     this.actionFeedback.success({
       title: "Code copied, use paste to insert it.",
     });
