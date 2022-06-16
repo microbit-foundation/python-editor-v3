@@ -38,7 +38,7 @@ export class EditorActions {
       message: id,
     });
     const codeElement = document.createElement("code");
-    codeElement.innerHTML = code;
+    codeElement.textContent = code;
     codeElement.setAttribute("data-type", type);
     await navigator.clipboard.write([
       new ClipboardItem({
