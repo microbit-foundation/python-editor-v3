@@ -131,6 +131,12 @@
       "value": "Метходс"
     }
   ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "Back"
+    }
+  ],
   "back-to-main": [
     {
       "type": 0,
@@ -281,6 +287,12 @@
       "value": "Cонфірм делете"
     }
   ],
+  "confirm-download-action": [
+    {
+      "type": 0,
+      "value": "Confirm and download"
+    }
+  ],
   "confirm-replace-body": [
     {
       "type": 0,
@@ -311,6 +323,18 @@
     {
       "type": 0,
       "value": "Cоннест"
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Connect cable"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2"
     }
   ],
   "connect-help-message": [
@@ -709,12 +733,6 @@
       "value": "Ланджюадже"
     }
   ],
-  "load-action": [
-    {
-      "type": 0,
-      "value": "Лоад…"
-    }
-  ],
   "load-error-mixed": [
     {
       "type": 0,
@@ -755,12 +773,6 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "fileCount"
-    }
-  ],
-  "load-hover": [
-    {
-      "type": 0,
-      "value": "Лоад а хекс ор Путхон філе ор адд отхер філес"
     }
   ],
   "loaded-file-feedback": [
@@ -833,6 +845,12 @@
       "value": "Море"
     }
   ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "More connect options"
+    }
+  ],
   "more-download-options": [
     {
       "type": 0,
@@ -875,6 +893,12 @@
     {
       "type": 0,
       "value": " екстенсіон фор уою."
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Next"
     }
   ],
   "not-found-checklist-one": [
@@ -953,10 +977,22 @@
       "value": "Open"
     }
   ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,
       "value": "Опен філе вхен дроппед"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Open a hex or Python file or add other files"
     }
   ],
   "options": [
@@ -1127,6 +1163,18 @@
     {
       "type": 0,
       "value": "Search"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Send to micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Connect via WebUSB then flash code onto micro:bit"
     }
   ],
   "serial-collapse": [
@@ -1357,12 +1405,6 @@
     {
       "type": 0,
       "value": "Софтваре версіонс"
-    }
-  ],
-  "start-action": [
-    {
-      "type": 0,
-      "value": "Start"
     }
   ],
   "support": [

@@ -55,6 +55,10 @@
     "defaultMessage": "Метходс",
     "description": "Heading in Reference documentation for the methods in a Python class"
   },
+  "back-action": {
+    "defaultMessage": "Back",
+    "description": "Back button text"
+  },
   "back-to-main": {
     "defaultMessage": "баск то тхе маін соде",
     "description": "Text button, takes back to main code"
@@ -123,6 +127,10 @@
     "defaultMessage": "Cонфірм делете",
     "description": "Confirmation header of deletion of a file"
   },
+  "confirm-download-action": {
+    "defaultMessage": "Confirm and download",
+    "description": "Confirm and download action label"
+  },
   "confirm-replace-body": {
     "defaultMessage": "Репласе алл філес вітх тхосе ін тхе хекс?",
     "description": "Confirmation message body for replacing project dialog"
@@ -138,6 +146,14 @@
   "connect-action": {
     "defaultMessage": "Cоннест",
     "description": "Connect button text"
+  },
+  "connect-cable-title": {
+    "defaultMessage": "Connect cable",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2",
+    "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
     "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
@@ -374,10 +390,6 @@
     "defaultMessage": "Ланджюадже",
     "description": "Language option text"
   },
-  "load-action": {
-    "defaultMessage": "Лоад…",
-    "description": "Load button text"
-  },
   "load-error-mixed": {
     "defaultMessage": "А хекс філе сан онлу бе лоадед он ітс овн. Іт репласес алл філес ін тхе проджест.",
     "description": "Load error message"
@@ -389,10 +401,6 @@
   "load-error-title": {
     "defaultMessage": "Cаннот лоад {fileCount, plural, one {філе} other {філес}}",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
-  },
-  "load-hover": {
-    "defaultMessage": "Лоад а хекс ор Путхон філе ор адд отхер філес",
-    "description": "Hover text over load button"
   },
   "loaded-file-feedback": {
     "defaultMessage": "Лоадед {filename}",
@@ -422,6 +430,10 @@
     "defaultMessage": "Море",
     "description": "More button text"
   },
+  "more-connect-options": {
+    "defaultMessage": "More connect options",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
   "more-download-options": {
     "defaultMessage": "More download options",
     "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
@@ -441,6 +453,10 @@
   "new-file-hint": {
     "defaultMessage": "Ве'лл адд тхе <code>.пу</code> екстенсіон фор уою.",
     "description": "Hint shown in the new Python file dialog"
+  },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
   },
   "not-found-checklist-one": {
     "defaultMessage": "Review <link>how to select the device</link>",
@@ -470,9 +486,17 @@
     "defaultMessage": "Open",
     "description": "Open button text"
   },
+  "open-file-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
+  },
   "open-file-dropped": {
     "defaultMessage": "Опен філе вхен дроппед",
     "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "Open a hex or Python file or add other files",
+    "description": "Hover text over load button"
   },
   "options": {
     "defaultMessage": "Оптіонс",
@@ -553,6 +577,14 @@
   "search": {
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
+  },
+  "send-action": {
+    "defaultMessage": "Send to micro:bit",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Connect via WebUSB then flash code onto micro:bit",
+    "description": "Send button hover text"
   },
   "serial-collapse": {
     "defaultMessage": "Хіде серіал",
@@ -645,10 +677,6 @@
   "software-versions": {
     "defaultMessage": "Софтваре версіонс",
     "description": "Heading for a table of software versions in the about dialog"
-  },
-  "start-action": {
-    "defaultMessage": "Start",
-    "description": "Start button text"
   },
   "support": {
     "defaultMessage": "Сюппорт",

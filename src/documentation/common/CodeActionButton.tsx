@@ -1,6 +1,6 @@
 import { Box, Button, Collapse, HStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { RiFileCopy2Line, RiFileTransferLine } from "react-icons/ri";
+import { RiFileCopy2Line, RiFolderOpenLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 
 interface CodeActionButtonProps {
@@ -43,12 +43,11 @@ const CodeActionButton = ({
           variant="ghost"
           size="sm"
           onClick={codeAction}
+          leftIcon={
+            toolkitType === "ideas" ? <Box as={RiFolderOpenLine} /> : undefined
+          }
           rightIcon={
-            <Box
-              as={
-                toolkitType === "ideas" ? RiFileTransferLine : RiFileCopy2Line
-              }
-            />
+            toolkitType !== "ideas" ? <Box as={RiFileCopy2Line} /> : undefined
           }
         >
           <FormattedMessage

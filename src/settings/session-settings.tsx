@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
+import { useStorage } from "../common/use-storage";
 
 export interface SessionSettings {
   dragDropSuccess: boolean;
@@ -22,8 +23,6 @@ const SessionSettingsContext = createContext<
   SessionSettingsContextValue | undefined
 >(undefined);
 
-export const SessionSettingsProvider = SessionSettingsContext.Provider;
-
 export const useSessionSettings = (): SessionSettingsContextValue => {
   const sessionSettings = useContext(SessionSettingsContext);
   if (!sessionSettings) {
@@ -31,3 +30,18 @@ export const useSessionSettings = (): SessionSettingsContextValue => {
   }
   return sessionSettings;
 };
+
+const SessionSettingsProvider = ({ children }: { children: ReactNode }) => {
+  const sessionSettings = useStorage<SessionSettings>(
+    "session",
+    "sessionSettings",
+    defaultSessionSettings
+  );
+  return (
+    <SessionSettingsContext.Provider value={sessionSettings}>
+      {children}
+    </SessionSettingsContext.Provider>
+  );
+};
+
+export default SessionSettingsProvider;

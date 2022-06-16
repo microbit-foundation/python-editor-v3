@@ -10,29 +10,29 @@ import { CollapsibleButtonComposableProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
 
-interface LoadButtonProps extends CollapsibleButtonComposableProps {}
+interface OpenButtonProps extends CollapsibleButtonComposableProps {}
 
 /**
  * Open HEX button, with an associated input field.
  */
-const LoadButton = ({ children, ...props }: LoadButtonProps) => {
+const OpenButton = ({ children, ...props }: OpenButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   return (
     <FileInputButton
       {...props}
       text={intl.formatMessage({
-        id: "load-action",
+        id: "open-file-action",
       })}
       onOpen={actions.load}
       data-testid="open"
       multiple
       icon={<RiFolderOpenLine />}
       tooltip={intl.formatMessage({
-        id: "load-hover",
+        id: "open-hover",
       })}
     />
   );
 };
 
-export default LoadButton;
+export default OpenButton;

@@ -133,6 +133,15 @@ const CodeEmbed = ({
     },
     [handleCopyCode, isMac]
   );
+  const determineBackground = () => {
+    if (
+      (toolkitType === "ideas" && state === "highlighted") ||
+      (toolkitType !== "ideas" && state !== "default")
+    ) {
+      return "blimpTeal.50";
+    }
+    return "white";
+  };
   return (
     <Box position="relative">
       <Box height={codeHeight} fontSize="md">
@@ -147,7 +156,7 @@ const CodeEmbed = ({
           full={codeWithImports}
           position="absolute"
           ref={codeRef}
-          background={state === "default" ? "white" : "blimpTeal.50"}
+          background={determineBackground()}
           highlightDragHandle={state === "raised"}
           toolkitType={toolkitType}
           tabIndex={0}
@@ -220,7 +229,7 @@ const CodePopUp = ({
         full={full}
         position="absolute"
         // We're always "raised" as this is the pop-up.
-        background="blimpTeal.50"
+        background={toolkitType === "ideas" ? "white" : "blimpTeal.50"}
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
         highlightDragHandle
         toolkitType={toolkitType}
