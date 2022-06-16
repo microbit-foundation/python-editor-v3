@@ -479,7 +479,7 @@ const DraggableSignature = ({
         toDefault={highlight.onClose}
         codeAction={handleCopyCode}
         borderAdjustment={false}
-        toolkitType={"api"}
+        toolkitType="api"
       />
     </Box>
   );
