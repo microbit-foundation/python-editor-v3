@@ -781,55 +781,6 @@ export class App {
     this.page = this.createPage();
     page = await this.page;
     await page.goto(this.url);
-
-    // Install fake clipboard due to problems with puppeteer's native clipboard support.
-    await page.evaluate(async () => {
-      class FakeClipboard extends EventTarget implements Clipboard {
-        private state: ClipboardItems = [];
-
-        read(): Promise<ClipboardItems> {
-          throw new Error("Method not implemented.");
-        }
-        readText(): Promise<string> {
-          throw new Error("Method not implemented.");
-        }
-        async write(data: ClipboardItems): Promise<void> {
-          this.state = data;
-        }
-        writeText(data: string): Promise<void> {
-          throw new Error("Method not implemented.");
-        }
-        async toPasteEvent(): Promise<Event | undefined> {
-          const state = this.state;
-          if (!state) {
-            throw new Error("Requested paste event with no prior copy");
-          }
-
-          const data = new Map(
-            await Promise.all(
-              this.state.flatMap((item) =>
-                item.types.map(
-                  async (t): Promise<[string, string]> => [
-                    t,
-                    await (await item.getType(t)).text(),
-                  ]
-                )
-              )
-            )
-          );
-          const event = new Event("paste");
-          (event as any).clipboardData = {
-            // Partial implementation. If we fill this out we can use ClipboardEvent itself.
-            getData: (type: string) => data.get(type) || "",
-          } as Partial<DataTransfer> as any;
-          return event;
-        }
-      }
-      Object.defineProperty(navigator, "clipboard", {
-        writable: true,
-        value: new FakeClipboard(),
-      });
-    });
   }
 
   /**
