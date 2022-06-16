@@ -733,12 +733,6 @@
       "value": "Langue"
     }
   ],
-  "load-action": [
-    {
-      "type": 0,
-      "value": "Charger…"
-    }
-  ],
   "load-error-mixed": [
     {
       "type": 0,
@@ -779,12 +773,6 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "fileCount"
-    }
-  ],
-  "load-hover": [
-    {
-      "type": 0,
-      "value": "Charger un fichier hex ou Python, ou ajouter d’autres fichiers"
     }
   ],
   "loaded-file-feedback": [
@@ -989,10 +977,22 @@
       "value": "Open"
     }
   ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,
       "value": "Ouvrir le fichier lorsqu’il est déposé"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Open a hex or Python file or add other files"
     }
   ],
   "options": [

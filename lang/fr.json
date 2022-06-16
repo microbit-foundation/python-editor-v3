@@ -390,10 +390,6 @@
     "defaultMessage": "Langue",
     "description": "Language option text"
   },
-  "load-action": {
-    "defaultMessage": "Charger…",
-    "description": "Load button text"
-  },
   "load-error-mixed": {
     "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
     "description": "Load error message"
@@ -405,10 +401,6 @@
   "load-error-title": {
     "defaultMessage": "Impossible de charger {fileCount, plural, one {file} other {files}}",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
-  },
-  "load-hover": {
-    "defaultMessage": "Charger un fichier hex ou Python, ou ajouter d’autres fichiers",
-    "description": "Hover text over load button"
   },
   "loaded-file-feedback": {
     "defaultMessage": "{filename} a été chargé",
@@ -494,9 +486,17 @@
     "defaultMessage": "Open",
     "description": "Open button text"
   },
+  "open-file-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
+  },
   "open-file-dropped": {
     "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé",
     "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "Open a hex or Python file or add other files",
+    "description": "Hover text over load button"
   },
   "options": {
     "defaultMessage": "Options",
