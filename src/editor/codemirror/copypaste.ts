@@ -20,10 +20,9 @@ const getCodeFromHtml = (
   parent.innerHTML = innerHTML;
   return {
     code: (parent as HTMLElement).querySelector("code")?.textContent || "",
-    type:
-      ((parent as HTMLElement)
-        .querySelector("code")
-        ?.getAttribute("data-type") as CodeInsertType) || "unknown",
+    type: (parent as HTMLElement)
+      .querySelector("code")
+      ?.getAttribute("data-type") as CodeInsertType,
   };
 };
 
