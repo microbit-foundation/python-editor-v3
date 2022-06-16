@@ -11,16 +11,15 @@ interface PasteContext {
 }
 
 const getCodeFromHtml = (
-  innerHTML: string | undefined
+  stringHTML: string | undefined
 ): PasteContext | undefined => {
-  if (!innerHTML) {
+  if (!stringHTML) {
     return;
   }
-  const parent: HTMLElement = document.createElement("html");
-  parent.innerHTML = innerHTML;
+  const docFromHTML = new DOMParser().parseFromString(stringHTML, "text/html");
   return {
-    code: (parent as HTMLElement).querySelector("code")?.textContent || "",
-    type: (parent as HTMLElement)
+    code: docFromHTML.querySelector("code")?.textContent || "",
+    type: docFromHTML
       .querySelector("code")
       ?.getAttribute("data-type") as CodeInsertType,
   };
