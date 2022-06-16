@@ -107,8 +107,14 @@ export class App {
 
   async createPage() {
     const browser = await this.browser;
+    const context = browser.defaultBrowserContext();
+    const { origin } = new URL(this.url);
+    await context.overridePermissions(origin, [
+      "clipboard-read",
+      "clipboard-write",
+    ]);
 
-    const page = await browser.newPage();
+    const page = await context.newPage();
     await page.setViewport({ width: 1200, height: 800 });
     await page.setCookie({
       // See corresponding code in App.tsx.
@@ -557,6 +563,35 @@ export class App {
     });
   }
 
+  async toggleCodeActionButton(name: string): Promise<void> {
+    const document = await this.document();
+    const heading = await document.findByText(name, {
+      selector: "h3",
+    });
+    const handle = heading.asElement();
+    await handle!.evaluate((element) => {
+      const item = element.closest("li");
+      (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
+    });
+  }
+
+  async copyCode(): Promise<void> {
+    const document = await this.document();
+    const copyCodeButton = await document.findByRole("button", {
+      name: "Copy code",
+    });
+    await copyCodeButton.click();
+  }
+
+  async pasteToolkitCode(): Promise<void> {
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
+    await keyboard.press("v");
+    await keyboard.up(meta);
+  }
+
   async selectToolkitDropDownOption(
     label: string,
     option: string
@@ -870,7 +905,7 @@ export class App {
 
   private async focusEditorContent(): Promise<ElementHandle> {
     const document = await this.document();
-    const content = await document.$(".cm-content");
+    const content = await document.$("[data-testid='editor'] .cm-content");
     if (!content) {
       throw new Error("Missing editor area");
     }

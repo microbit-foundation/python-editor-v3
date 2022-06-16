@@ -10,11 +10,13 @@ import { EditorView, highlightActiveLine, ViewUpdate } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";
+import useActionFeedback from "../../common/use-action-feedback";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { Logging } from "../../logging/logging";
 import { useLogging } from "../../logging/logging-hooks";
 import { useRouterState } from "../../router-hooks";
+import { useSessionSettings } from "../../settings/session-settings";
 import {
   CodeStructureOption,
   ParameterHelpOption,
@@ -27,6 +29,7 @@ import {
 } from "../active-editor-hooks";
 import "./CodeMirror.css";
 import { compartment, editorConfig } from "./config";
+import { dndSupport } from "./dnd";
 import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
@@ -69,6 +72,8 @@ const CodeMirror = ({
   const intl = useIntl();
   const [, setEditorInfo] = useActiveEditorInfoState();
   const logging = useLogging();
+  const actionFeedback = useActionFeedback();
+  const [sessionSettings, setSessionSettings] = useSessionSettings();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -106,6 +111,8 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
+          // Extension requires external state.
+          dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
           // Order of lintGutter and lineNumbers determines how they are displayed.
           lintGutter(),
@@ -132,9 +139,10 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
-      setActiveEditor(new EditorActions(view, logging));
+      setActiveEditor(new EditorActions(view, logging, actionFeedback));
     }
   }, [
+    actionFeedback,
     client,
     defaultValue,
     intl,
@@ -143,6 +151,8 @@ const CodeMirror = ({
     options,
     setActiveEditor,
     setEditorInfo,
+    sessionSettings,
+    setSessionSettings,
     parameterHelpOption,
     uri,
   ]);

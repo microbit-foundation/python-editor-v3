@@ -5,11 +5,12 @@
  */
 import { ChangeSet, Extension, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
+import { deployment } from "../../deployment";
 import { flags } from "../../flags";
+import { SessionSettings } from "../../settings/session-settings";
 import { dndDecorations } from "./dnd-decorations";
 import "./dnd.css";
 import { calculateChanges } from "./edits";
-import { deployment } from "../../deployment";
 
 export const debug = (message: string, ...args: any) => {
   if (flags.dndDebug) {
@@ -84,7 +85,7 @@ const clearSuppressChildDragEnterLeave = (view: EditorView) => {
   findWrappingSection(view).classList.remove("cm-drag-in-progress");
 };
 
-const dndHandlers = () => {
+const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
   let lastDragPos: LastDragPos | undefined;
 
   const revertPreview = (view: EditorView) => {
@@ -178,6 +179,12 @@ const dndHandlers = () => {
           type: "code-drop",
           message: dragContext.id,
         });
+        if (!sessionSettings.dragDropSuccess) {
+          setSessionSettings({
+            ...sessionSettings,
+            dragDropSuccess: true,
+          });
+        }
         debug("  drop");
         clearSuppressChildDragEnterLeave(view);
         event.preventDefault();
@@ -200,9 +207,17 @@ const dndHandlers = () => {
   ];
 };
 
+interface DragTracker {
+  sessionSettings: SessionSettings;
+  setSessionSettings: (sessionSettings: SessionSettings) => void;
+}
+
 /**
  * Support for dropping code snippets.
  *
  * Note this requires coordination from the drag end via {@link setDraggedCode}.
  */
-export const dndSupport = (): Extension => [dndHandlers(), dndDecorations()];
+export const dndSupport = (dragTracker: DragTracker): Extension => [
+  dndHandlers(dragTracker),
+  dndDecorations(),
+];

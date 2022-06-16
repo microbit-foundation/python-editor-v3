@@ -139,6 +139,10 @@
     "defaultMessage": "Confirmer le projet de remplacement",
     "description": "Confirmation message title for replacing project dialog"
   },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Replace all files with {ideaName}?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
   "connect-action": {
     "defaultMessage": "Connecter",
     "description": "Connect button text"
@@ -186,6 +190,10 @@
   "copy-action": {
     "defaultMessage": "Copier",
     "description": "Copy to clipboard action text"
+  },
+  "copy-code-action": {
+    "defaultMessage": "Copy code",
+    "description": "Copy code to clipboard action text"
   },
   "create-action": {
     "defaultMessage": "Create",
@@ -246,6 +254,10 @@
   "download-python-action": {
     "defaultMessage": "Télécharger le script Python",
     "description": "Download button menu option for downloading Python script"
+  },
+  "drag-hover": {
+    "defaultMessage": "Drag and drop",
+    "description": "Draggable code hover text"
   },
   "edit-file-action": {
     "defaultMessage": "Modifier {name}",
@@ -378,10 +390,6 @@
     "defaultMessage": "Langue",
     "description": "Language option text"
   },
-  "load-action": {
-    "defaultMessage": "Charger…",
-    "description": "Load button text"
-  },
   "load-error-mixed": {
     "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
     "description": "Load error message"
@@ -393,10 +401,6 @@
   "load-error-title": {
     "defaultMessage": "Impossible de charger {fileCount, plural, one {file} other {files}}",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
-  },
-  "load-hover": {
-    "defaultMessage": "Charger un fichier hex ou Python, ou ajouter d’autres fichiers",
-    "description": "Hover text over load button"
   },
   "loaded-file-feedback": {
     "defaultMessage": "{filename} a été chargé",
@@ -478,9 +482,21 @@
     "defaultMessage": "You must <link>update your firmware before</link> you can connect to this micro:bit.",
     "description": "Text in the no micro:bit found dialog"
   },
+  "open-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
+  },
+  "open-file-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
+  },
   "open-file-dropped": {
     "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé",
     "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "Open a hex or Python file or add other files",
+    "description": "Hover text over load button"
   },
   "options": {
     "defaultMessage": "Options",

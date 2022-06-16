@@ -7,7 +7,7 @@ import { Button } from "@chakra-ui/button";
 import { Flex, HStack, Text } from "@chakra-ui/layout";
 import { useCallback, useEffect, useState } from "react";
 import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
-import { useLocalStorage } from "../common/use-local-storage";
+import { useStorage } from "../common/use-storage";
 import { flags } from "../flags";
 
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
@@ -31,10 +31,11 @@ export const useReleaseDialogState = (): [
   ReleaseNoticeState,
   React.Dispatch<React.SetStateAction<ReleaseNoticeState>>
 ] => {
-  const [storedNotice, setStoredNotice] = useLocalStorage(
+  const [storedNotice, setStoredNotice] = useStorage(
+    "local",
     "release-notice",
-    isReleaseNoticeStorage,
-    { version: 0 }
+    { version: 0 },
+    isReleaseNoticeStorage
   );
   const [releaseDialog, setReleaseDialog] =
     useState<ReleaseNoticeState>("closed");

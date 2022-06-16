@@ -22,14 +22,14 @@ const OpenButton = ({ children, ...props }: OpenButtonProps) => {
     <FileInputButton
       {...props}
       text={intl.formatMessage({
-        id: "load-action",
+        id: "open-file-action",
       })}
       onOpen={actions.load}
       data-testid="open"
       multiple
       icon={<RiFolderOpenLine />}
       tooltip={intl.formatMessage({
-        id: "load-hover",
+        id: "open-hover",
       })}
     />
   );

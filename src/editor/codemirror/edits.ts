@@ -61,7 +61,8 @@ export const calculateChanges = (
   state: EditorState,
   source: string,
   type: CodeInsertType,
-  line?: number
+  line?: number,
+  paste?: boolean
 ) => {
   const parser = python().language.parser;
   const sourceTree = parser.parse(source);
@@ -98,14 +99,18 @@ export const calculateChanges = (
   if (mainCode) {
     let mainFrom: number;
     if (line !== undefined) {
-      // Tweak so the addition preview is under the mouse even if we added imports.
-      line = Math.max(1, line - importLines);
-      const extraLines = line - state.doc.lines;
-      if (extraLines > 0) {
-        mainFrom = state.doc.length;
-        mainPreceedingWhitespace = "\n".repeat(extraLines);
-      } else {
+      if (paste) {
         mainFrom = state.doc.line(line).from;
+      } else {
+        // Tweak so the addition preview is under the mouse even if we added imports.
+        line = Math.max(1, line - importLines);
+        const extraLines = line - state.doc.lines;
+        if (extraLines > 0) {
+          mainFrom = state.doc.length;
+          mainPreceedingWhitespace = "\n".repeat(extraLines);
+        } else {
+          mainFrom = state.doc.line(line).from;
+        }
       }
     } else {
       // When no line is specified, insert before the code (not just after the imports).

@@ -112,6 +112,7 @@ const ActiveLevel = ({
               content={activeIdea.content}
               parentSlug={activeIdea.slug.current}
               toolkitType="ideas"
+              title={activeIdea.name}
             />
           </Stack>
         )}

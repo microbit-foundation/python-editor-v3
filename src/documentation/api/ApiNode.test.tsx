@@ -6,11 +6,12 @@
  * @jest-environment ./src/testing/custom-browser-env
  */
 import { render } from "@testing-library/react";
+import ScrollablePanel from "../../common/ScrollablePanel";
+import { ActiveEditorProvider } from "../../editor/active-editor-hooks";
 import { ApiDocsEntry } from "../../language-server/apidocs";
 import NullLoggingProvider from "../../logging/NullLoggingProvider";
-import { ActiveEditorProvider } from "../../editor/active-editor-hooks";
 import FixedTranslationProvider from "../../messages/FixedTranslationProvider";
-import ScrollablePanel from "../../common/ScrollablePanel";
+import SessionSettingsProvider from "../../settings/session-settings";
 import ApiNode, { getDragContext } from "./ApiNode";
 
 describe("ApiNode", () => {
@@ -46,11 +47,13 @@ describe("ApiNode", () => {
     render(
       <FixedTranslationProvider>
         <NullLoggingProvider>
-          <ActiveEditorProvider>
-            <ScrollablePanel>
-              <ApiNode docs={node} />
-            </ScrollablePanel>
-          </ActiveEditorProvider>
+          <SessionSettingsProvider>
+            <ActiveEditorProvider>
+              <ScrollablePanel>
+                <ApiNode docs={node} />
+              </ScrollablePanel>
+            </ActiveEditorProvider>
+          </SessionSettingsProvider>
         </NullLoggingProvider>
       </FixedTranslationProvider>
     );

@@ -305,6 +305,20 @@
       "value": "Confirm replace project"
     }
   ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "Replace all files with "
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
   "connect-action": [
     {
       "type": 0,
@@ -375,6 +389,12 @@
     {
       "type": 0,
       "value": "Copy"
+    }
+  ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Copy code"
     }
   ],
   "create-action": [
@@ -481,6 +501,12 @@
     {
       "type": 0,
       "value": "Download Python script"
+    }
+  ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "Drag and drop"
     }
   ],
   "edit-file-action": [
@@ -707,12 +733,6 @@
       "value": "Language"
     }
   ],
-  "load-action": [
-    {
-      "type": 0,
-      "value": "Open…"
-    }
-  ],
   "load-error-mixed": [
     {
       "type": 0,
@@ -753,12 +773,6 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "fileCount"
-    }
-  ],
-  "load-hover": [
-    {
-      "type": 0,
-      "value": "Open a hex or Python file or add other files"
     }
   ],
   "loaded-file-feedback": [
@@ -957,10 +971,28 @@
       "value": " you can connect to this micro:bit."
     }
   ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Open…"
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,
       "value": "Open file when dropped"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Open a hex or Python file or add other files"
     }
   ],
   "options": [
