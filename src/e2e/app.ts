@@ -576,9 +576,7 @@ export class App {
   }
 
   async copyCode(): Promise<void> {
-    const page = await this.page;
     const document = await this.document();
-    await page.bringToFront();
     const copyCodeButton = await document.findByRole("button", {
       name: "Copy code",
     });
@@ -586,10 +584,9 @@ export class App {
   }
 
   async pasteToolkitCode(): Promise<void> {
-    (await this.page).bringToFront();
     const content = await this.focusEditorContent();
     await content.evaluate(async (c) => {
-      // See createPage for fake clipboard implementation.
+      // See reset() for fake clipboard implementation.
       const event = await (navigator.clipboard as any).toPasteEvent();
       c.dispatchEvent(event);
     });
