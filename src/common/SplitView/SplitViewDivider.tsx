@@ -3,12 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { Box, Flex } from "@chakra-ui/react";
+import { splitViewDivider } from "../zIndex";
 import {
   dimensionProps,
   separatorPixels,
   useSplitViewContext,
 } from "./context";
-import { Box, Flex } from "@chakra-ui/react";
 
 const SplitViewDivider = () => {
   const {
@@ -27,11 +28,12 @@ const SplitViewDivider = () => {
       cursor={cursor}
       alignSelf="stretch"
       alignItems="center"
+      zIndex={splitViewDivider}
     >
       <Box
         height="100%"
         {...dimensionProps(direction, `${separatorPixels}px`)}
-        backgroundColor="gray.50"
+        backgroundColor="#eaecf1"
       />
     </Flex>
   );
