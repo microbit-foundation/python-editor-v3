@@ -14,10 +14,11 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiDownloadLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
@@ -28,7 +29,15 @@ import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { RouterState, useRouterState } from "../router-hooks";
 
-const SideBarHeader = () => {
+interface SideBarHeaderProps {
+  sidebarShown: boolean;
+  onSidebarToggled: () => void;
+}
+
+const SideBarHeader = ({
+  sidebarShown,
+  onSidebarToggled,
+}: SideBarHeaderProps) => {
   const intl = useIntl();
   const brand = useDeployment();
   const searchModal = useDisclosure();
@@ -48,13 +57,16 @@ const SideBarHeader = () => {
         !e.repeat
       ) {
         searchModal.onOpen();
+        if (!sidebarShown) {
+          onSidebarToggled();
+        }
       }
     };
     document.addEventListener("keydown", keydown);
     return () => {
       document.removeEventListener("keydown", keydown);
     };
-  }, [searchModal]);
+  }, [onSidebarToggled, searchModal, sidebarShown]);
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -98,7 +110,8 @@ const SideBarHeader = () => {
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
   const modalWidth = contentWidth - modalOffset + "px";
-
+  const collapseSidebarLabel = intl.formatMessage({ id: "sidebar-collapse" });
+  const expandSidebarLabel = intl.formatMessage({ id: "sidebar-expand" });
   return (
     <>
       {searchModal.isOpen && (
@@ -144,6 +157,7 @@ const SideBarHeader = () => {
         justifyContent="space-between"
         pr={4}
         transition="height .2s"
+        position="relative"
       >
         <Link
           display="block"
@@ -156,14 +170,14 @@ const SideBarHeader = () => {
             <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
               {brand.squareLogo}
             </Box>
-            {!query && (
+            {!query && sidebarShown && (
               <Box width="9.098rem" role="img" color="white">
                 {brand.horizontalLogo}
               </Box>
             )}
           </HStack>
         </Link>
-        {!query && (
+        {!query && sidebarShown && (
           <CollapsibleButton
             onClick={searchModal.onOpen}
             backgroundColor="#5c40a6"
@@ -182,6 +196,7 @@ const SideBarHeader = () => {
             }}
             text={intl.formatMessage({ id: "search" })}
             mode={searchButtonMode}
+            mr="2rem"
           />
         )}
         {query && (
@@ -225,6 +240,34 @@ const SideBarHeader = () => {
             />
           </Flex>
         )}
+        <Tooltip
+          hasArrow
+          placement="bottom-start"
+          label={sidebarShown ? collapseSidebarLabel : expandSidebarLabel}
+        >
+          <IconButton
+            aria-label={
+              sidebarShown ? collapseSidebarLabel : expandSidebarLabel
+            }
+            fontSize="xl"
+            icon={<RiDownloadLine />}
+            transform={sidebarShown ? "rotate(90deg)" : "rotate(270deg)"}
+            transition="none"
+            onClick={onSidebarToggled}
+            right={sidebarShown ? "-6px" : "-36px"}
+            position="absolute"
+            borderTopLeftRadius={0}
+            borderTopRightRadius={0}
+            borderBottomRightRadius={6}
+            borderBottomLeftRadius={6}
+            py={3}
+            borderColor="#eaecf1"
+            size="md"
+            height="20px"
+            colorScheme="gray"
+            background="#eaecf1"
+          />
+        </Tooltip>
       </Flex>
     </>
   );

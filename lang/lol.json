@@ -674,6 +674,14 @@
     "defaultMessage": "Сідебар",
     "description": "Aria label for the area on the left"
   },
+  "sidebar-collapse": {
+    "defaultMessage": "Collapse sidebar",
+    "description": "Aria label for the collapse sidebar button"
+  },
+  "sidebar-expand": {
+    "defaultMessage": "Expand sidebar",
+    "description": "Aria label for the expand sidebar button"
+  },
   "software-versions": {
     "defaultMessage": "Софтваре версіонс",
     "description": "Heading for a table of software versions in the about dialog"

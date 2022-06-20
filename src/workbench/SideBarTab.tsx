@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, Icon, Tab, Text, VStack } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 import { cornerSize, Pane } from "./SideBar";
 
 interface SideBarTabProps extends Pane {
   color: string;
   mb?: string;
-  handleTabClick: () => void;
+  handleTabClick: (id: string) => void;
   active: boolean;
+  tabIndex: number;
 }
 
 const SideBarTab = ({
@@ -21,10 +23,17 @@ const SideBarTab = ({
   mb,
   handleTabClick,
   active,
+  tabIndex,
 }: SideBarTabProps) => {
   const width = "5rem";
+  const ref = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    // Override tabindex.
+    ref.current!.setAttribute("tabindex", "0");
+  }, [tabIndex]);
   return (
     <Tab
+      ref={ref}
       key={id}
       color={color}
       height={width}
@@ -32,8 +41,9 @@ const SideBarTab = ({
       p={0}
       position="relative"
       className="sidebar-tab" // Used for custom outline below
-      onClick={handleTabClick}
+      onClick={() => handleTabClick(id)}
       mb={mb ? mb : 0}
+      aria-expanded={active ? "true" : "false"}
     >
       <VStack spacing={0}>
         {active && (
