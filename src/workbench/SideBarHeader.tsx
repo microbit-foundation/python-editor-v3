@@ -6,6 +6,7 @@
 import {
   Box,
   Button,
+  Fade,
   Flex,
   HStack,
   IconButton,
@@ -14,7 +15,6 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
-  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -44,6 +44,17 @@ const SideBarHeader = ({
   const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
+  const [showCollapseBtn, setShowCollapseBtn] = useState<boolean>(true);
+
+  const handleModalOpened = useCallback(() => {
+    setShowCollapseBtn(false);
+    searchModal.onOpen();
+  }, [searchModal, setShowCollapseBtn]);
+
+  const handleModalClosed = useCallback(() => {
+    setShowCollapseBtn(true);
+    searchModal.onClose();
+  }, [searchModal, setShowCollapseBtn]);
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -56,7 +67,7 @@ const SideBarHeader = ({
         e.shiftKey &&
         !e.repeat
       ) {
-        searchModal.onOpen();
+        handleModalOpened();
         if (!sidebarShown) {
           onSidebarToggled();
         }
@@ -66,7 +77,7 @@ const SideBarHeader = ({
     return () => {
       document.removeEventListener("keydown", keydown);
     };
-  }, [onSidebarToggled, searchModal, sidebarShown]);
+  }, [onSidebarToggled, searchModal, sidebarShown, handleModalOpened]);
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -87,12 +98,12 @@ const SideBarHeader = ({
       if (!viewedResults.includes(id)) {
         setViewedResults([...viewedResults, id]);
       }
-      searchModal.onClose();
+      handleModalClosed();
       // Create new RouterState object to enforce navigation when clicking the same entry twice.
       const routerState: RouterState = JSON.parse(JSON.stringify(navigation));
       setRouterState(routerState, "documentation-search");
     },
-    [setViewedResults, viewedResults, searchModal, setRouterState]
+    [setViewedResults, viewedResults, setRouterState, handleModalClosed]
   );
 
   useEffect(() => {
@@ -110,14 +121,12 @@ const SideBarHeader = ({
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
   const modalWidth = contentWidth - modalOffset + "px";
-  const collapseSidebarLabel = intl.formatMessage({ id: "sidebar-collapse" });
-  const expandSidebarLabel = intl.formatMessage({ id: "sidebar-expand" });
   return (
     <>
       {searchModal.isOpen && (
         <Modal
           isOpen={searchModal.isOpen}
-          onClose={searchModal.onClose}
+          onClose={handleModalClosed}
           size="lg"
         >
           <ModalOverlay>
@@ -179,7 +188,7 @@ const SideBarHeader = ({
         </Link>
         {!query && sidebarShown && (
           <CollapsibleButton
-            onClick={searchModal.onOpen}
+            onClick={handleModalOpened}
             backgroundColor="#5c40a6"
             fontWeight="normal"
             color="#fffc"
@@ -199,11 +208,12 @@ const SideBarHeader = ({
             mr="2rem"
           />
         )}
-        {query && (
+        {query && sidebarShown && (
           <Flex
             backgroundColor="white"
             borderRadius="3xl"
-            width={`calc(100% - ${modalOffset}px)`}
+            width={`calc(100% - ${modalOffset}px - 28px)`}
+            marginRight="28px"
             position="relative"
           >
             <Button
@@ -218,7 +228,7 @@ const SideBarHeader = ({
               leftIcon={
                 <Box as={RiSearch2Line} fontSize="lg" color="#838383" />
               }
-              onClick={searchModal.onOpen}
+              onClick={handleModalOpened}
               overflow="hidden"
             >
               {query}
@@ -240,34 +250,39 @@ const SideBarHeader = ({
             />
           </Flex>
         )}
-        <Tooltip
-          hasArrow
-          placement="bottom-start"
-          label={sidebarShown ? collapseSidebarLabel : expandSidebarLabel}
+        <Flex
+          height="100%"
+          alignItems="center"
+          position="absolute"
+          width="28px"
+          right={sidebarShown ? "4px" : "-20px"}
         >
-          <IconButton
-            aria-label={
-              sidebarShown ? collapseSidebarLabel : expandSidebarLabel
-            }
-            fontSize="xl"
-            icon={<RiDownloadLine />}
-            transform={sidebarShown ? "rotate(90deg)" : "rotate(270deg)"}
-            transition="none"
-            onClick={onSidebarToggled}
-            right={sidebarShown ? "-6px" : "-36px"}
-            position="absolute"
-            borderTopLeftRadius={0}
-            borderTopRightRadius={0}
-            borderBottomRightRadius={6}
-            borderBottomLeftRadius={6}
-            py={3}
-            borderColor="#eaecf1"
-            size="md"
-            height="20px"
-            colorScheme="gray"
-            background="#eaecf1"
-          />
-        </Tooltip>
+          <Fade in={showCollapseBtn}>
+            <IconButton
+              aria-label={
+                sidebarShown
+                  ? intl.formatMessage({ id: "sidebar-collapse" })
+                  : intl.formatMessage({ id: "sidebar-expand" })
+              }
+              fontSize="xl"
+              icon={<RiDownloadLine />}
+              transform={sidebarShown ? "rotate(90deg)" : "rotate(270deg)"}
+              transition="none"
+              onClick={onSidebarToggled}
+              borderTopLeftRadius={0}
+              borderTopRightRadius={0}
+              borderBottomRightRadius={6}
+              borderBottomLeftRadius={6}
+              py={3}
+              borderColor="black"
+              size="md"
+              height="20px"
+              background="#eaecf1"
+              color="brand.500"
+              variant="ghost"
+            />
+          </Fade>
+        </Flex>
       </Flex>
     </>
   );
