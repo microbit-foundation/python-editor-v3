@@ -71,8 +71,11 @@ const SideBarTab = ({
             borderBottom="3px solid transparent"
             sx={{
               ".sidebar-tab:focus &": {
-                // To match the focus outline
-                borderBottom: "3px solid rgba(66, 153, 225, 0.6)",
+                borderBottom: "3px solid",
+                // To match the active/inactive colour.
+                borderColor: active
+                  ? "var(--chakra-colors-brand-300)"
+                  : "var(--chakra-colors-gray-25)",
               },
             }}
           >
