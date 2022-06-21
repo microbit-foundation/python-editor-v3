@@ -10,7 +10,7 @@ import { cornerSize, Pane } from "./SideBar";
 interface SideBarTabProps extends Pane {
   color: string;
   mb?: string;
-  handleTabClick: (id: string) => void;
+  handleTabClick: () => void;
   active: boolean;
   tabIndex: number;
 }
@@ -41,7 +41,7 @@ const SideBarTab = ({
       p={0}
       position="relative"
       className="sidebar-tab" // Used for custom outline below
-      onClick={() => handleTabClick(id)}
+      onClick={handleTabClick}
       mb={mb ? mb : 0}
       aria-expanded={active ? "true" : "false"}
     >
