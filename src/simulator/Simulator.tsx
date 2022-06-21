@@ -22,7 +22,6 @@ import {
   RiSunFill,
   RiTempHotFill,
 } from "react-icons/ri";
-import { MAIN_FILE } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 
 interface Sensor {
@@ -91,26 +90,19 @@ const useSimulator = (ref: React.RefObject<HTMLIFrameElement>) => {
   );
 
   const play = useCallback(async () => {
-    // Temporary approach until we have simulator filesystem support.
-    const main = new TextDecoder().decode((await fs.read(MAIN_FILE)).data);
+    const filesystem: Record<string, Uint8Array> = Object.fromEntries(
+      await Promise.all(
+        fs.project.files.map(async (f) => [
+          f.name,
+          (await fs.read(f.name)).data,
+        ])
+      )
+    );
     const simulator = ref.current!.contentWindow!;
     simulator.postMessage(
       {
-        kind: "serial_input",
-        // Ctrl-C to interrupt, Ctrl-D to reboot (straight to REPL as no program)
-        data: `\x03\x04`,
-      },
-      "*"
-    );
-
-    // Wait for the ready message after the reboot.
-    await new Promise<void>((resolve) => readyCallbacks.current.push(resolve));
-
-    simulator.postMessage(
-      {
-        kind: "serial_input",
-        // Ctrl-E to enter paste mode and Ctrl-D to finish
-        data: `\x05${main}\x04`.replace(/\n/g, "\r"),
+        kind: "flash",
+        filesystem,
       },
       "*"
     );
@@ -122,7 +114,8 @@ const useSimulator = (ref: React.RefObject<HTMLIFrameElement>) => {
       {
         kind: "serial_input",
         // Ctrl-C to interrupt.
-        data: `\x03\x04`,
+        // A specific message would be useful as probably best to clear display etc. here.
+        data: `\x03`,
       },
       "*"
     );
