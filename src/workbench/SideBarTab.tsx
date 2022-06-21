@@ -70,7 +70,7 @@ const SideBarTab = ({
             fontSize={13}
             borderBottom="3px solid transparent"
             sx={{
-              ".sidebar-tab:focus &": {
+              ".sidebar-tab:focus-visible &": {
                 borderBottom: "3px solid",
                 // To match the active/inactive colour.
                 borderColor: active

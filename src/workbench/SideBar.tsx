@@ -129,6 +129,12 @@ const SideBar = ({
     }
   }, [setSidebarShown, panes, setTabIndex, tab, api, reference, idea]);
 
+  useEffect(() => {
+    if (sidebarShown && !api && !reference && !idea) {
+      setPanelFocus();
+    }
+  }, [sidebarShown, api, reference, idea]);
+
   const handleTabChange = useCallback(
     (index: number) => {
       setTabIndex(index);
@@ -145,8 +151,6 @@ const SideBar = ({
       setParams({
         tab,
       });
-    } else {
-      setPanelFocus();
     }
   }, [reference, api, idea, tab, setParams]);
 
