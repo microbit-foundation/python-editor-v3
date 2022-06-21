@@ -37,10 +37,15 @@ const SplitViewDivider = () => {
         backgroundColor="#eaecf1"
         alignItems="center"
         justifyContent="center"
+        flex={1}
       >
-        {direction === "row" && (
-          <Icon as={RiMore2Fill} color="brand.500" h={6} w={6} />
-        )}
+        <Icon
+          as={RiMore2Fill}
+          color="brand.500"
+          h={6}
+          w={6}
+          transform={direction === "row" ? "" : "rotate(90deg)"}
+        />
       </Flex>
     </Flex>
   );
