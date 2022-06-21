@@ -13,7 +13,14 @@ import {
   Tabs,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
@@ -104,11 +111,24 @@ const SideBar = ({
   }, [onSelectedFileChanged, selectedFile, intl]);
   const [{ tab, api, reference, idea }, setParams] = useRouterState();
   const [tabIndex, setTabIndex] = useState<number>(0);
+
+  const tabPanelsRef = useRef<HTMLDivElement>(null);
+  const setPanelFocus = () => {
+    const activePanel = tabPanelsRef.current!.querySelector(
+      "[role='tabpanel']:not([hidden])"
+    );
+    activePanel?.querySelector("button")?.focus();
+  };
+
   useEffect(() => {
     const tabIndexOf = panes.findIndex((p) => p.id === tab);
     setTabIndex(tabIndexOf === -1 ? 0 : tabIndexOf);
     setSidebarShown(true);
+    if (!api && !reference && !idea) {
+      setPanelFocus();
+    }
   }, [setSidebarShown, panes, setTabIndex, tab, api, reference, idea]);
+
   const handleTabChange = useCallback(
     (index: number) => {
       setTabIndex(index);
@@ -170,7 +190,7 @@ const SideBar = ({
             <HelpMenu size="lg" />
           </VStack>
         </TabList>
-        <TabPanels>
+        <TabPanels ref={tabPanelsRef}>
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
