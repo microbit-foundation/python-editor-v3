@@ -6,7 +6,7 @@
 import { createContext, useContext } from "react";
 import { SizedMode } from "./SplitView";
 
-export const separatorPixels = 5;
+export const separatorPixels = 10;
 
 /**
  * The simple subset of flex direction.

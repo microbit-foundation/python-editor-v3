@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
+import { RiMore2Fill } from "react-icons/ri";
 import { splitViewDivider } from "../zIndex";
 import {
   dimensionProps,
@@ -30,11 +31,17 @@ const SplitViewDivider = () => {
       alignItems="center"
       zIndex={splitViewDivider}
     >
-      <Box
+      <Flex
         height="100%"
         {...dimensionProps(direction, `${separatorPixels}px`)}
         backgroundColor="#eaecf1"
-      />
+        alignItems="center"
+        justifyContent="center"
+      >
+        {direction === "row" && (
+          <Icon as={RiMore2Fill} color="brand.500" h={6} w={6} />
+        )}
+      </Flex>
     </Flex>
   );
 };
