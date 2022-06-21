@@ -117,7 +117,7 @@ const SideBar = ({
     const activePanel = tabPanelsRef.current!.querySelector(
       "[role='tabpanel']:not([hidden])"
     );
-    activePanel?.querySelector("button")?.focus();
+    (activePanel as HTMLElement).focus();
   };
 
   useEffect(() => {
@@ -145,6 +145,8 @@ const SideBar = ({
       setParams({
         tab,
       });
+    } else {
+      setPanelFocus();
     }
   }, [reference, api, idea, tab, setParams]);
 
