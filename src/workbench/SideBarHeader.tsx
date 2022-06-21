@@ -257,7 +257,7 @@ const SideBarHeader = ({
           width="28px"
           right={sidebarShown ? "4px" : "-20px"}
         >
-          <Fade in={showCollapseBtn}>
+          <Fade in={showCollapseBtn} initial={{ opacity: 1 }}>
             <IconButton
               aria-label={
                 sidebarShown
