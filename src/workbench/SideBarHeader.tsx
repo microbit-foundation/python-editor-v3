@@ -27,6 +27,7 @@ import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
+import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
 interface SideBarHeaderProps {
@@ -39,22 +40,31 @@ const SideBarHeader = ({
   onSidebarToggled,
 }: SideBarHeaderProps) => {
   const intl = useIntl();
+  const logging = useLogging();
   const brand = useDeployment();
   const searchModal = useDisclosure();
   const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
-  const [showCollapseBtn, setShowCollapseBtn] = useState<boolean>(true);
+  const collapseBtn = useDisclosure({ defaultIsOpen: true });
 
   const handleModalOpened = useCallback(() => {
-    setShowCollapseBtn(false);
+    collapseBtn.onClose();
     searchModal.onOpen();
-  }, [searchModal, setShowCollapseBtn]);
+  }, [collapseBtn, searchModal]);
 
   const handleModalClosed = useCallback(() => {
-    setShowCollapseBtn(true);
+    collapseBtn.onOpen();
     searchModal.onClose();
-  }, [searchModal, setShowCollapseBtn]);
+  }, [collapseBtn, searchModal]);
+
+  const handleCollapseBtnClick = useCallback(() => {
+    logging.event({
+      type: "sidebar-toggle",
+      message: !sidebarShown ? "opened" : "closed",
+    });
+    onSidebarToggled();
+  }, [logging, onSidebarToggled, sidebarShown]);
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -257,7 +267,7 @@ const SideBarHeader = ({
           width="28px"
           right={sidebarShown ? "4px" : "-20px"}
         >
-          <Fade in={showCollapseBtn} initial={{ opacity: 1 }}>
+          <Fade in={collapseBtn.isOpen} initial={{ opacity: 1 }}>
             <IconButton
               aria-label={
                 sidebarShown
@@ -268,7 +278,7 @@ const SideBarHeader = ({
               icon={<RiDownloadLine />}
               transform={sidebarShown ? "rotate(90deg)" : "rotate(270deg)"}
               transition="none"
-              onClick={onSidebarToggled}
+              onClick={handleCollapseBtnClick}
               borderTopLeftRadius={0}
               borderTopRightRadius={0}
               borderBottomRightRadius={6}
