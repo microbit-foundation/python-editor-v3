@@ -61,7 +61,7 @@ const SideBarHeader = ({
   const handleCollapseBtnClick = useCallback(() => {
     logging.event({
       type: "sidebar-toggle",
-      message: !sidebarShown ? "opened" : "closed",
+      message: !sidebarShown ? "open" : "close",
     });
     onSidebarToggled();
   }, [logging, onSidebarToggled, sidebarShown]);
