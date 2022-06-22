@@ -165,6 +165,14 @@ const SideBar = ({
     }
   };
 
+  // Load with sidebar collapsed for smaller screen widths.
+  useEffect(() => {
+    if (window.innerWidth <= 1110) {
+      setTabIndex(-1);
+      setSidebarShown(false);
+    }
+  }, [setSidebarShown]);
+
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
       <SideBarHeader
