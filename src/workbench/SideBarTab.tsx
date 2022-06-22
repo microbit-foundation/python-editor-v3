@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, Icon, Tab, Text, VStack } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 import { cornerSize, Pane } from "./SideBar";
 
 interface SideBarTabProps extends Pane {
@@ -11,6 +12,7 @@ interface SideBarTabProps extends Pane {
   mb?: string;
   handleTabClick: () => void;
   active: boolean;
+  tabIndex: number;
 }
 
 const SideBarTab = ({
@@ -21,10 +23,17 @@ const SideBarTab = ({
   mb,
   handleTabClick,
   active,
+  tabIndex,
 }: SideBarTabProps) => {
   const width = "5rem";
+  const ref = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    // Override tabindex.
+    ref.current!.setAttribute("tabindex", "0");
+  }, [tabIndex]);
   return (
     <Tab
+      ref={ref}
       key={id}
       color={color}
       height={width}
@@ -34,6 +43,7 @@ const SideBarTab = ({
       className="sidebar-tab" // Used for custom outline below
       onClick={handleTabClick}
       mb={mb ? mb : 0}
+      aria-expanded={active ? "true" : "false"}
     >
       <VStack spacing={0}>
         {active && (
@@ -60,9 +70,12 @@ const SideBarTab = ({
             fontSize={13}
             borderBottom="3px solid transparent"
             sx={{
-              ".sidebar-tab:focus &": {
-                // To match the focus outline
-                borderBottom: "3px solid rgba(66, 153, 225, 0.6)",
+              ".sidebar-tab:focus-visible &": {
+                borderBottom: "3px solid",
+                // To match the active/inactive colour.
+                borderColor: active
+                  ? "var(--chakra-colors-brand-300)"
+                  : "var(--chakra-colors-gray-25)",
               },
             }}
           >

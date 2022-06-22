@@ -1401,6 +1401,18 @@
       "value": "Сідебар"
     }
   ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "Collapse sidebar"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "Expand sidebar"
+    }
+  ],
   "software-versions": [
     {
       "type": 0,

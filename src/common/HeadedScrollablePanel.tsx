@@ -23,7 +23,7 @@ const HeadedScrollablePanel = ({
 }: HeadedScrollablePanelProps) => (
   <ScrollablePanel>
     <Slide direction={direction}>
-      <VStack alignItems="stretch" spacing={0} {...props}>
+      <VStack alignItems="stretch" spacing={0} {...props} role="document">
         <Box
           bg="gray.25"
           flex="0 0 auto"

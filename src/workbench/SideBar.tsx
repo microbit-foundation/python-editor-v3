@@ -13,16 +13,23 @@ import {
   Tabs,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useMemo } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
-import ReferenceArea from "../documentation/ReferenceArea";
-import IdeasArea from "../documentation/IdeasArea";
 import ApiArea from "../documentation/ApiArea";
+import IdeasArea from "../documentation/IdeasArea";
+import ReferenceArea from "../documentation/ReferenceArea";
 import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
@@ -46,6 +53,8 @@ export interface Pane {
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (filename: string) => void;
+  setSidebarShown: React.Dispatch<React.SetStateAction<boolean>>;
+  sidebarShown: boolean;
 }
 
 /**
@@ -55,6 +64,8 @@ interface SideBarProps extends BoxProps {
 const SideBar = ({
   selectedFile,
   onSelectedFileChanged,
+  setSidebarShown,
+  sidebarShown,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -98,16 +109,39 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, reference, api, idea }, setParams] = useRouterState();
-  const tabIndexOf = panes.findIndex((p) => p.id === tab);
-  const index = tabIndexOf === -1 ? 0 : tabIndexOf;
+  const [{ tab, api, reference, idea }, setParams] = useRouterState();
+  const [tabIndex, setTabIndex] = useState<number>(0);
+
+  const tabPanelsRef = useRef<HTMLDivElement>(null);
+  const setPanelFocus = () => {
+    const activePanel = tabPanelsRef.current!.querySelector(
+      "[role='tabpanel']:not([hidden])"
+    );
+    (activePanel as HTMLElement).focus();
+  };
+
+  useEffect(() => {
+    const tabIndexOf = panes.findIndex((p) => p.id === tab);
+    setTabIndex(tabIndexOf === -1 ? 0 : tabIndexOf);
+    setSidebarShown(true);
+    if (!api && !reference && !idea) {
+      setPanelFocus();
+    }
+  }, [setSidebarShown, panes, setTabIndex, tab, api, reference, idea]);
+
+  useEffect(() => {
+    if (sidebarShown && !api && !reference && !idea) {
+      setPanelFocus();
+    }
+  }, [sidebarShown, api, reference, idea]);
+
   const handleTabChange = useCallback(
     (index: number) => {
-      setParams({
-        tab: panes[index].id,
-      });
+      setTabIndex(index);
+      setParams({ tab: panes[index]?.id });
+      setSidebarShown(true);
     },
-    [panes, setParams]
+    [setSidebarShown, setTabIndex, panes, setParams]
   );
   const handleTabClick = useCallback(() => {
     // A click on a tab when it's already selected should
@@ -120,16 +154,39 @@ const SideBar = ({
     }
   }, [reference, api, idea, tab, setParams]);
 
+  const handleSidebarToggled = () => {
+    if (tabIndex === -1) {
+      const index = panes.findIndex((p) => p.id === tab);
+      setTabIndex(index !== -1 ? index : 0);
+      setSidebarShown(true);
+    } else {
+      setTabIndex(-1);
+      setSidebarShown(false);
+    }
+  };
+
+  // Load with sidebar collapsed for smaller screen widths.
+  useEffect(() => {
+    if (window.innerWidth <= 1110) {
+      setTabIndex(-1);
+      setSidebarShown(false);
+    }
+  }, [setSidebarShown]);
+
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
-      <SideBarHeader />
+      <SideBarHeader
+        sidebarShown={sidebarShown}
+        onSidebarToggled={handleSidebarToggled}
+      />
       <Tabs
         orientation="vertical"
         size="lg"
         variant="sidebar"
         flex="1 0 auto"
         onChange={handleTabChange}
-        index={index}
+        index={tabIndex}
+        isManual={true}
       >
         <TabList>
           <Box flex={1} maxHeight="8.9rem" minHeight={8}></Box>
@@ -137,7 +194,8 @@ const SideBar = ({
             <SideBarTab
               key={pane.id}
               handleTabClick={handleTabClick}
-              active={index === current}
+              active={tabIndex === current}
+              tabIndex={tabIndex}
               {...pane}
             />
           ))}
@@ -146,7 +204,7 @@ const SideBar = ({
             <HelpMenu size="lg" />
           </VStack>
         </TabList>
-        <TabPanels>
+        <TabPanels ref={tabPanelsRef}>
           {panes.map((p) => (
             <TabPanel key={p.id} p={0} height="100%">
               <Flex height="100%" direction="column">
