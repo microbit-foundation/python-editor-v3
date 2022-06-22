@@ -31,6 +31,7 @@ export class EditorActions {
 
   copyCode = async (
     code: string,
+    codeWithImports: string,
     type: CodeInsertType,
     id?: string
   ): Promise<void> => {
@@ -38,8 +39,10 @@ export class EditorActions {
       type: "code-copy",
       message: id,
     });
+    navigator.clipboard.writeText(code);
     copyCodeSnippet({
       code,
+      codeWithImports,
       type,
       id,
     });

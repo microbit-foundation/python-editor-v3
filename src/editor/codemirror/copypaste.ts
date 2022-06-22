@@ -4,8 +4,9 @@ import { deployment } from "../../deployment";
 import { CodeInsertType } from "./dnd";
 import { calculateChanges } from "./edits";
 
-interface PasteContext {
+export interface PasteContext {
   code: string;
+  codeWithImports: string;
   type: CodeInsertType;
   id?: string;
 }
@@ -19,8 +20,6 @@ let pasteContext: PasteContext | undefined;
  */
 export const copyCodeSnippet = (context: PasteContext | undefined) => {
   pasteContext = context;
-  // So it feels like the system clipboard even though we can't put it there.
-  navigator.clipboard.writeText("");
 };
 
 const copyPasteHandlers = () => [
@@ -32,7 +31,11 @@ const copyPasteHandlers = () => [
       if (!pasteContext) {
         return;
       }
-      if (event.clipboardData?.getData("text")) {
+
+      if (
+        event.clipboardData?.getData("text").replace(/\r\n/g, "\n") !==
+        pasteContext.code
+      ) {
         // Must have happened since the code snippet copy.
         pasteContext = undefined;
         return;
@@ -50,7 +53,7 @@ const copyPasteHandlers = () => [
       view.dispatch(
         calculateChanges(
           view.state,
-          pasteContext.code,
+          pasteContext.codeWithImports,
           pasteContext.type,
           lineNumber,
           true

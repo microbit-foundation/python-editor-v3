@@ -82,28 +82,6 @@ const CodeEmbed = ({
   useScrollableAncestorScroll(toDefault);
 
   const actions = useActiveEditorActions();
-  const handleCopyCode = useCallback(async () => {
-    await actions?.copyCode(
-      codeWithImports,
-      "example",
-      `${toolkitType}-${parentSlug}`
-    );
-  }, [actions, codeWithImports, parentSlug, toolkitType]);
-  const logging = useLogging();
-  const projectActions = useProjectActions();
-  const handleOpenIdea = useCallback(async () => {
-    logging.event({
-      type: "idea-open",
-      message: parentSlug,
-    });
-    const pythonProject: PythonProject = {
-      files: projectFilesToBase64({
-        [MAIN_FILE]: codeWithImports,
-      }),
-      projectName: title,
-    };
-    await projectActions.openIdea(pythonProject);
-  }, [codeWithImports, logging, parentSlug, projectActions, title]);
   const code = useMemo(
     () =>
       codeWithImports
@@ -119,6 +97,29 @@ const CodeEmbed = ({
         .trim(),
     [codeWithImports]
   );
+  const handleCopyCode = useCallback(async () => {
+    await actions?.copyCode(
+      code,
+      codeWithImports,
+      "example",
+      `${toolkitType}-${parentSlug}`
+    );
+  }, [actions, code, codeWithImports, parentSlug, toolkitType]);
+  const logging = useLogging();
+  const projectActions = useProjectActions();
+  const handleOpenIdea = useCallback(async () => {
+    logging.event({
+      type: "idea-open",
+      message: parentSlug,
+    });
+    const pythonProject: PythonProject = {
+      files: projectFilesToBase64({
+        [MAIN_FILE]: codeWithImports,
+      }),
+      projectName: title,
+    };
+    await projectActions.openIdea(pythonProject);
+  }, [codeWithImports, logging, parentSlug, projectActions, title]);
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";
