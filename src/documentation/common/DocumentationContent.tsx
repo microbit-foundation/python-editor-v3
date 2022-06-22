@@ -25,6 +25,7 @@ interface DocumentationContentProps {
   parentSlug?: string;
   toolkitType?: string;
   title?: string;
+  codeOnly?: boolean;
 }
 
 const DocumentationApiLinkMark = (
@@ -103,11 +104,15 @@ interface SerializerMarkProps<T> extends HasChildren {
 
 const DocumentationContent = ({
   content,
+  codeOnly,
   parentSlug,
   toolkitType,
   title = "",
   ...outerProps
 }: DocumentationContentProps) => {
+  if (codeOnly) {
+    content = content?.filter((b) => b._type === "python");
+  }
   const serializers = {
     // This is a serializer for the wrapper element.
     // We use a fragment so we can use spacing from the context into which we render.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Flex, Stack, Text } from "@chakra-ui/layout";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
@@ -73,9 +73,15 @@ const ReferenceTopicEntry = ({
         }}
       >
         <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
+        <ShowMoreButton
+          alignSelf="flex-end"
+          onClick={disclosure.onToggle}
+          isOpen={disclosure.isOpen}
+        />
 
         <DocumentationContent
           content={content}
+          codeOnly={!disclosure.isOpen}
           parentSlug={entry.slug.current}
           toolkitType={toolkitType}
         />
@@ -100,35 +106,27 @@ const ReferenceTopicEntry = ({
             </Flex>
 
             <DocumentationContent
+              codeOnly={!disclosure.isOpen}
               content={alternatives[alternativeIndex].content}
               parentSlug={entry.slug.current}
               toolkitType={toolkitType}
             />
           </>
         )}
-        {hasDetail && (
-          <>
-            <ShowMoreButton
-              onClick={disclosure.onToggle}
-              isOpen={disclosure.isOpen}
+        {hasDetail && disclosure.isOpen && (
+          <Stack
+            spacing={3}
+            mt={3}
+            sx={{
+              ...docStyles,
+            }}
+          >
+            <DocumentationContent
+              content={detailContent}
+              parentSlug={entry.slug.current}
+              toolkitType={toolkitType}
             />
-            {/* Avoid Stack spacing here so the margin animates too. */}
-            <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-              <Stack
-                spacing={3}
-                mt={3}
-                sx={{
-                  ...docStyles,
-                }}
-              >
-                <DocumentationContent
-                  content={detailContent}
-                  parentSlug={entry.slug.current}
-                  toolkitType={toolkitType}
-                />
-              </Stack>
-            </Collapse>
-          </>
+          </Stack>
         )}
       </Stack>
     </Highlight>
