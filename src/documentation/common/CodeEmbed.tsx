@@ -93,7 +93,7 @@ const CodeEmbed = ({
   const projectActions = useProjectActions();
   const handleOpenIdea = useCallback(async () => {
     logging.event({
-      type: "idea-opened",
+      type: "idea-open",
       message: parentSlug,
     });
     const pythonProject: PythonProject = {
