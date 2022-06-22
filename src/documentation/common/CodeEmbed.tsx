@@ -200,6 +200,7 @@ const CodeEmbed = ({
         codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}
         borderAdjustment={true}
         toolkitType={toolkitType}
+        codeToCopy={toolkitType === "ideas" ? "" : code}
       />
     </Box>
   );

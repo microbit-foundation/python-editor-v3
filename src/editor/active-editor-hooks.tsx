@@ -39,7 +39,6 @@ export class EditorActions {
       type: "code-copy",
       message: id,
     });
-    navigator.clipboard.writeText(code);
     copyCodeSnippet({
       code,
       codeWithImports,

@@ -411,10 +411,10 @@ const DraggableSignature = ({
   const copyCodeButton = useDisclosure();
   const actions = useActiveEditorActions();
 
+  const { code, codeWithImports, type } = getPasteContext(fullName, kind);
   const handleCopyCode = useCallback(async () => {
-    const { code, codeWithImports, type, id } = getPasteContext(fullName, kind);
     await actions?.copyCode(code, codeWithImports, type, id);
-  }, [actions, fullName, kind]);
+  }, [actions, code, codeWithImports, type, id]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -495,6 +495,7 @@ const DraggableSignature = ({
         codeAction={handleCopyCode}
         borderAdjustment={false}
         toolkitType="api"
+        codeToCopy={code}
       />
     </Box>
   );
