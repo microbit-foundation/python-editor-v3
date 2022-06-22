@@ -89,8 +89,13 @@ const CodeEmbed = ({
       `${toolkitType}-${parentSlug}`
     );
   }, [actions, codeWithImports, parentSlug, toolkitType]);
+  const logging = useLogging();
   const projectActions = useProjectActions();
   const handleOpenIdea = useCallback(async () => {
+    logging.event({
+      type: "idea-open",
+      message: parentSlug,
+    });
     const pythonProject: PythonProject = {
       files: projectFilesToBase64({
         [MAIN_FILE]: codeWithImports,
@@ -98,7 +103,7 @@ const CodeEmbed = ({
       projectName: title,
     };
     await projectActions.openIdea(pythonProject);
-  }, [codeWithImports, projectActions, title]);
+  }, [codeWithImports, logging, parentSlug, projectActions, title]);
   const code = useMemo(
     () =>
       codeWithImports
