@@ -83,7 +83,7 @@ const ReferenceTopicEntry = ({
         {!disclosure.isOpen && (
           <Text noOfLines={1} as="div">
             <DocumentationContent
-              content={content.length > 0 ? [content[0]] : []}
+              content={content && content.length > 0 ? [content[0]] : []}
               parentSlug={entry.slug.current}
               toolkitType={toolkitType}
             />
