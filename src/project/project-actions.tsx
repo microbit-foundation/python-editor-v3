@@ -111,10 +111,7 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      await this.dialogs.show<void>((callback) => (
-        <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
-      ));
-      await this.download();
+      this.webusbNotSupportedError();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
         return this.connectInternal(
@@ -717,6 +714,7 @@ export class ProjectActions {
     await this.dialogs.show<void>((callback) => (
       <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
     ));
+    this.download();
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
