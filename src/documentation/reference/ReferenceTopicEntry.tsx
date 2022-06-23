@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { HStack, Flex, Stack, Text } from "@chakra-ui/layout";
+import { Flex, HStack, Stack, Text } from "@chakra-ui/layout";
 import { useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
@@ -11,9 +11,8 @@ import { docStyles } from "../../common/documentation-styles";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
-import { isV2Only } from "../common/model";
-import ShowMoreButton from "../common/ShowMoreButton";
 import ExpandCollapseButton from "../common/ExpandCollapseButton";
+import { isV2Only } from "../common/model";
 import Highlight from "./Highlight";
 import {
   ToolkitTopic,

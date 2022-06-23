@@ -6,11 +6,14 @@
 import { Link, LinkProps } from "@chakra-ui/react";
 import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 
-interface ExpandCollapseButton extends LinkProps {
+interface ExpandCollapseButtonProps extends LinkProps {
   isOpen: boolean;
 }
 
-const ExpandCollapseButton = ({ isOpen, ...props }: ExpandCollapseButton) => (
+const ExpandCollapseButton = ({
+  isOpen,
+  ...props
+}: ExpandCollapseButtonProps) => (
   <Link
     {...props}
     as="button"
