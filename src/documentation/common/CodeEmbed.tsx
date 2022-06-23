@@ -5,7 +5,12 @@
  */
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
-import { Tooltip, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
+import {
+  Tooltip,
+  useClipboard,
+  useDisclosure,
+  VisuallyHidden,
+} from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -97,14 +102,16 @@ const CodeEmbed = ({
         .trim(),
     [codeWithImports]
   );
+  const { onCopy } = useClipboard(code);
   const handleCopyCode = useCallback(async () => {
+    onCopy();
     await actions?.copyCode(
       code,
       codeWithImports,
       "example",
       `${toolkitType}-${parentSlug}`
     );
-  }, [actions, code, codeWithImports, parentSlug, toolkitType]);
+  }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
   const logging = useLogging();
   const projectActions = useProjectActions();
   const handleOpenIdea = useCallback(async () => {
@@ -200,7 +207,6 @@ const CodeEmbed = ({
         codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}
         borderAdjustment={true}
         toolkitType={toolkitType}
-        codeToCopy={toolkitType === "ideas" ? "" : code}
       />
     </Box>
   );

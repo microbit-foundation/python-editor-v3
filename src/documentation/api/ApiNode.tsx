@@ -7,6 +7,7 @@ import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
 import {
   Collapse,
   Tooltip,
+  useClipboard,
   useDisclosure,
   VisuallyHidden,
 } from "@chakra-ui/react";
@@ -412,9 +413,11 @@ const DraggableSignature = ({
   const actions = useActiveEditorActions();
 
   const { code, codeWithImports, type } = getPasteContext(fullName, kind);
+  const { onCopy } = useClipboard(code);
   const handleCopyCode = useCallback(async () => {
+    onCopy();
     await actions?.copyCode(code, codeWithImports, type, id);
-  }, [actions, code, codeWithImports, type, id]);
+  }, [actions, code, codeWithImports, onCopy, type, id]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -495,7 +498,6 @@ const DraggableSignature = ({
         codeAction={handleCopyCode}
         borderAdjustment={false}
         toolkitType="api"
-        codeToCopy={code}
       />
     </Box>
   );
