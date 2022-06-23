@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, Stack, Text } from "@chakra-ui/layout";
+import { HStack, Flex, Stack, Text } from "@chakra-ui/layout";
 import { useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
@@ -13,6 +13,7 @@ import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import { isV2Only } from "../common/model";
 import ShowMoreButton from "../common/ShowMoreButton";
+import ExpandCollapseButton from "../common/ExpandCollapseButton";
 import Highlight from "./Highlight";
 import {
   ToolkitTopic,
@@ -72,13 +73,23 @@ const ReferenceTopicEntry = ({
           ...docStyles,
         }}
       >
-        <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
-        <ShowMoreButton
-          alignSelf="flex-end"
-          onClick={disclosure.onToggle}
-          isOpen={disclosure.isOpen}
-        />
+        <HStack justifyContent="space-between" flexWrap="nowrap">
+          <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
+          <ExpandCollapseButton
+            onClick={disclosure.onToggle}
+            isOpen={disclosure.isOpen}
+          />
+        </HStack>
 
+        {!disclosure.isOpen && (
+          <Text noOfLines={1} as="div">
+            <DocumentationContent
+              content={content.length > 0 ? [content[0]] : []}
+              parentSlug={entry.slug.current}
+              toolkitType={toolkitType}
+            />
+          </Text>
+        )}
         <DocumentationContent
           content={content}
           codeOnly={!disclosure.isOpen}
