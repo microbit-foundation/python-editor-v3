@@ -109,7 +109,7 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
         if (dragContext) {
           event.preventDefault();
 
-          const visualLine = view.visualLineAtHeight(event.y);
+          const visualLine = view.visualLineAtHeight(event.y || event.clientY);
           const line = view.state.doc.lineAt(visualLine.from);
 
           if (line.number !== lastDragPos?.line) {
@@ -189,7 +189,7 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
         clearSuppressChildDragEnterLeave(view);
         event.preventDefault();
 
-        const visualLine = view.visualLineAtHeight(event.y);
+        const visualLine = view.visualLineAtHeight(event.y || event.clientY);
         const line = view.state.doc.lineAt(visualLine.from);
 
         revertPreview(view);
