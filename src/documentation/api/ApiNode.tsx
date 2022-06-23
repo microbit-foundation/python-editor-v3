@@ -7,6 +7,7 @@ import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
 import {
   Collapse,
   Tooltip,
+  useClipboard,
   useDisclosure,
   VisuallyHidden,
 } from "@chakra-ui/react";
@@ -15,6 +16,7 @@ import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { zIndexCode } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import { PasteContext } from "../../editor/codemirror/copypaste";
 import {
   debug as dndDebug,
   DragContext,
@@ -336,7 +338,7 @@ const classToInstanceMap: Record<string, string> = {
   uname_result: "uname()",
 };
 
-export const getDragContext = (fullName: string, kind: string): DragContext => {
+const getDragPasteData = (fullName: string, kind: string): PasteContext => {
   let parts = fullName.split(".").filter((p) => p !== "__init__");
   // Heuristic identification of e.g. Image.HEART. Sufficient for MicroPython API.
   if (!parts[parts.length - 1].match(/^[A-Z0-9_]+$/)) {
@@ -350,9 +352,23 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
     : `import ${parts[0]}`;
   const full = `${requiredImport}\n${code}`;
   return {
-    code: full,
+    code,
+    codeWithImports: full,
     type: kind === "function" ? "call" : "example",
     id: `api-${fullName}`,
+  };
+};
+
+const getPasteContext = (fullName: string, kind: string): PasteContext => {
+  return getDragPasteData(fullName, kind);
+};
+
+export const getDragContext = (fullName: string, kind: string): DragContext => {
+  const { codeWithImports: code, type, id } = getDragPasteData(fullName, kind);
+  return {
+    code,
+    type,
+    id,
   };
 };
 
@@ -396,10 +412,12 @@ const DraggableSignature = ({
   const copyCodeButton = useDisclosure();
   const actions = useActiveEditorActions();
 
+  const { code, codeWithImports, type } = getPasteContext(fullName, kind);
+  const { onCopy } = useClipboard(code);
   const handleCopyCode = useCallback(async () => {
-    const { code, id } = getDragContext(fullName, kind);
-    await actions?.copyCode(code, kind === "function" ? "call" : "example", id);
-  }, [actions, fullName, kind]);
+    onCopy();
+    await actions?.copyCode(code, codeWithImports, type, id);
+  }, [actions, code, codeWithImports, onCopy, type, id]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {

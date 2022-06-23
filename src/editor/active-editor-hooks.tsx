@@ -31,6 +31,7 @@ export class EditorActions {
 
   copyCode = async (
     code: string,
+    codeWithImports: string,
     type: CodeInsertType,
     id?: string
   ): Promise<void> => {
@@ -40,6 +41,7 @@ export class EditorActions {
     });
     copyCodeSnippet({
       code,
+      codeWithImports,
       type,
       id,
     });
