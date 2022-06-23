@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { ChakraProvider } from "@chakra-ui/react";
+import { polyfill } from "mobile-drag-drop";
+import { scrollBehaviourDragImageTranslateOverride } from "mobile-drag-drop/scroll-behaviour";
 import { useEffect } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
@@ -58,6 +60,11 @@ const App = () => {
       device.dispose();
     };
   }, []);
+
+  polyfill({
+    dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride,
+    forceApply: true,
+  });
 
   const deployment = useDeployment();
   return (
