@@ -70,7 +70,7 @@ const DocumentationBreadcrumbHeading = ({
   const parentRect = useResizeObserverContentRect(parentRef);
   const width = parentRect?.width;
   useEffect(() => {
-    setSubtitleHeight(paragraphRef.current!.clientHeight);
+    setSubtitleHeight(paragraphRef.current?.clientHeight || 0);
   }, [width]);
   return (
     <Box
