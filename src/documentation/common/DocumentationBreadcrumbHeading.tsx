@@ -38,13 +38,24 @@ const DocumentationBreadcrumbHeading = ({
 }: DocumentationBreadcrumbHeadingProps) => {
   const scrollable = useScrollablePanelAncestor();
   const [reduced, setReduced] = useState<boolean>(false);
+  const [animating, setAnimating] = useState<boolean>(false);
+  const setAnimatingAsync = useCallback(async () => {
+    setAnimating(true);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    setAnimating(false);
+  }, [setAnimating]);
   const onScroll = useCallback(() => {
+    if (animating) {
+      return;
+    }
     if (scrollable.current?.scrollTop === 0) {
+      setAnimatingAsync();
       setReduced(false);
     } else if (!reduced) {
+      setAnimatingAsync();
       setReduced(true);
     }
-  }, [reduced, scrollable, setReduced]);
+  }, [animating, reduced, scrollable, setAnimatingAsync, setReduced]);
   useEffect(() => {
     const scrollContainer = scrollable.current;
     scrollContainer?.addEventListener("scroll", onScroll);
