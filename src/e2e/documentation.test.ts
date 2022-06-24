@@ -22,6 +22,7 @@ describe("Browser - toolkit tabs", () => {
   it("Copy code and paste in editor", async () => {
     await app.switchTab("Reference");
     await app.selectDocumentationSection("Display");
+    await app.awaitAnimation();
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
     await app.toggleCodeActionButton("Images: built-in");
@@ -33,6 +34,7 @@ describe("Browser - toolkit tabs", () => {
   it("Copy code after dropdown choice and paste in editor", async () => {
     await app.switchTab("Reference");
     await app.selectDocumentationSection("Display");
+    await app.awaitAnimation();
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
     await app.selectToolkitDropDownOption(
