@@ -9,16 +9,23 @@ import { SimpleImage } from "../../common/sanity";
 
 interface DocumentationIconProps extends ImageProps {
   icon: SimpleImage;
+  reduced: boolean;
 }
 
-const DocumentationIcon = ({ icon, ...props }: DocumentationIconProps) => {
+const DocumentationIcon = ({
+  icon,
+  reduced,
+  ...props
+}: DocumentationIconProps) => {
+  const size = reduced ? "50px" : "80px";
   return (
     <Image
       {...props}
       src={imageUrlBuilder.image(icon.asset).url()}
       alt=""
-      width="80px"
-      height="80px"
+      transition="all .2s"
+      width={size}
+      height={size}
     />
   );
 };

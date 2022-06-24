@@ -75,7 +75,7 @@ const DocumentationListItem = ({
   return (
     <ListItem {...props}>
       <HStack m={5} mr={3} spacing={5}>
-        {showIcon && icon && <DocumentationIcon icon={icon} />}
+        {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
       </HStack>
       <Divider ml={3} borderWidth="1px" />
