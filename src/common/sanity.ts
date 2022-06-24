@@ -75,3 +75,10 @@ const queryUrl = (query: string): string => {
     encodeURIComponent(query)
   );
 };
+
+export const toFirstBlockIfBlock = (content?: PortableText): PortableText => {
+  if (!content || content.length === 0 || content[0]._type !== "block") {
+    return [];
+  }
+  return [content[0]];
+};

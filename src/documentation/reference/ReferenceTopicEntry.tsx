@@ -8,6 +8,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
+import { toFirstBlockIfBlock } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
@@ -51,6 +52,7 @@ const ReferenceTopicEntry = ({
   );
   const disclosure = useDisclosure();
   const toolkitType = "reference";
+  const firstContentBlock = toFirstBlockIfBlock(content);
   return (
     <Highlight
       anchor={anchor}
@@ -81,10 +83,10 @@ const ReferenceTopicEntry = ({
           />
         </HStack>
 
-        {!disclosure.isOpen && (
+        {!disclosure.isOpen && firstContentBlock.length > 0 && (
           <Text noOfLines={1} as="div">
             <DocumentationContent
-              content={content && content.length > 0 ? [content[0]] : []}
+              content={firstContentBlock}
               parentSlug={entry.slug.current}
               toolkitType={toolkitType}
             />
