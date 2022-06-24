@@ -537,7 +537,13 @@ export class App {
     const button = await document.findByRole("button", {
       name: `View ${name} documentation`,
     });
-    return button.click();
+    await button.click();
+    await this.awaitAnimation();
+  }
+
+  async awaitAnimation(): Promise<void> {
+    const page = await this.page;
+    await page.waitForTimeout(300);
   }
 
   async selectDocumentationIdea(name: string): Promise<void> {
@@ -561,6 +567,21 @@ export class App {
       const item = element.closest("li");
       item!.querySelector("button")!.click();
     });
+  }
+
+  async triggerScroll(tabName: string): Promise<void> {
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: tabName,
+    });
+    const handle = button.asElement();
+    await handle!.evaluate((element) => {
+      const scrollablePanel = element.closest(
+        "[data-testid='scrollable-panel']"
+      );
+      scrollablePanel?.scrollTo({ top: 10 });
+    });
+    await this.awaitAnimation();
   }
 
   async toggleCodeActionButton(name: string): Promise<void> {
