@@ -11,7 +11,6 @@ import { docStyles } from "../../common/documentation-styles";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
-import ExpandCollapseButton from "../common/ExpandCollapseButton";
 import { isV2Only } from "../common/model";
 import ShowMoreButton from "../common/ShowMoreButton";
 import Highlight from "./Highlight";
