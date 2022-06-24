@@ -6,7 +6,7 @@
 import { Button } from "@chakra-ui/button";
 import { Box, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, HStack, VStack } from "@chakra-ui/react";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 import { SimpleImage } from "../../common/sanity";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
@@ -63,6 +63,7 @@ const DocumentationBreadcrumbHeading = ({
       scrollContainer?.removeEventListener("scroll", onScroll);
     };
   }, [scrollable, onScroll]);
+  const ref = useRef<HTMLParagraphElement>(null);
   return (
     <Box p={5} pt={3} pb={reduced ? 3 : 5} transition="padding .2s">
       <Stack spacing={0} position="sticky">
@@ -116,8 +117,12 @@ const DocumentationBreadcrumbHeading = ({
               {title} {isV2Only && <V2Tag ml={2.5} />}
             </Text>
             {subtitle && (
-              <Collapse in={!reduced} unmountOnExit={true}>
-                <Text fontSize="md" mt={1}>
+              <Collapse
+                in={!reduced}
+                unmountOnExit={true}
+                endingHeight={ref.current?.clientHeight}
+              >
+                <Text fontSize="md" pt={1} ref={ref}>
                   {subtitle}
                 </Text>
               </Collapse>
