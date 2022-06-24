@@ -76,6 +76,7 @@ const ReferenceTopicEntry = ({
         <HStack justifyContent="space-between" flexWrap="nowrap">
           <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
           <ShowMoreButton
+            isBrief
             onClick={disclosure.onToggle}
             isOpen={disclosure.isOpen}
           />

@@ -391,6 +391,10 @@
     "defaultMessage": "Language",
     "description": "Language option text"
   },
+  "less-action": {
+    "defaultMessage": "Less",
+    "description": "Less button text (showing less content)"
+  },
   "load-error-mixed": {
     "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
     "description": "Load error message"
@@ -429,7 +433,7 @@
   },
   "more-action": {
     "defaultMessage": "More",
-    "description": "More button text"
+    "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
     "defaultMessage": "More connect options",

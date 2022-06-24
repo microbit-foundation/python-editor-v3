@@ -733,6 +733,12 @@
       "value": "Ланджюадже"
     }
   ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "Less"
+    }
+  ],
   "load-error-mixed": [
     {
       "type": 0,
