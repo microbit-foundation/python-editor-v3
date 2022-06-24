@@ -10,6 +10,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 import { SimpleImage } from "../../common/sanity";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
+import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import DocumentationIcon from "./DocumentationIcon";
 import V2Tag from "./V2Tag";
 
@@ -39,6 +40,7 @@ const DocumentationBreadcrumbHeading = ({
   const scrollable = useScrollablePanelAncestor();
   const [reduced, setReduced] = useState<boolean>(false);
   const [animating, setAnimating] = useState<boolean>(false);
+  const [subtitleHeight, setSubtitleHeight] = useState<number>(0);
   const setAnimatingAsync = useCallback(async () => {
     setAnimating(true);
     await new Promise((resolve) => setTimeout(resolve, 200));
@@ -63,9 +65,21 @@ const DocumentationBreadcrumbHeading = ({
       scrollContainer?.removeEventListener("scroll", onScroll);
     };
   }, [scrollable, onScroll]);
-  const ref = useRef<HTMLParagraphElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const parentRect = useResizeObserverContentRect(parentRef);
+  const width = parentRect?.width;
+  useEffect(() => {
+    setSubtitleHeight(paragraphRef.current!.clientHeight);
+  }, [width]);
   return (
-    <Box p={5} pt={3} pb={reduced ? 3 : 5} transition="padding .2s">
+    <Box
+      p={5}
+      pt={3}
+      pb={reduced ? 3 : 5}
+      transition="padding .2s"
+      ref={parentRef}
+    >
       <Stack spacing={0} position="sticky">
         <Button
           // Button is full width so put content at the start.
@@ -120,9 +134,9 @@ const DocumentationBreadcrumbHeading = ({
               <Collapse
                 in={!reduced}
                 unmountOnExit={true}
-                endingHeight={ref.current?.clientHeight}
+                endingHeight={subtitleHeight}
               >
-                <Text fontSize="md" pt={1} ref={ref}>
+                <Text fontSize="md" pt={1} ref={paragraphRef}>
                   {subtitle}
                 </Text>
               </Collapse>
