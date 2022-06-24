@@ -38,6 +38,7 @@ const ScrollablePanel = ({ children, ...props }: ScrollablePanelProps) => {
       overflowX="hidden"
       height={0}
       position="relative"
+      data-testid="scrollable-panel"
       {...props}
     >
       <ScrollablePanelContext.Provider value={ref}>

@@ -49,7 +49,6 @@ const DocumentationTopLevelItem = ({
             color="brand.200"
             variant="ghost"
             fontSize="2xl"
-            onClick={onForward}
           />
         </HStack>
         {/*Content problem! We need all descriptions to be short, or two sets.*/}
