@@ -97,7 +97,7 @@ const DocumentationBreadcrumbHeading = ({
             </Text>
           </Text>
         </Button>
-        <HStack align="center" spacing={4} onClick={() => setReduced(!reduced)}>
+        <HStack align="center" spacing={4}>
           {icon && (
             <DocumentationIcon
               alignSelf="flex-start"
