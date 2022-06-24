@@ -7,7 +7,6 @@ import { Stack } from "@chakra-ui/layout";
 import { Image, SimpleGrid } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import { useIntl } from "react-intl";
-import AreaHeading from "../../common/AreaHeading";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
@@ -120,15 +119,7 @@ const ActiveLevel = ({
     );
   }
   return (
-    <HeadedScrollablePanel
-      direction={direction}
-      heading={
-        <AreaHeading
-          name={headingString}
-          description={intl.formatMessage({ id: "ideas-tab-description" })}
-        />
-      }
-    >
+    <HeadedScrollablePanel direction={direction}>
       <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
         {ideas.map((idea) => (
           <IdeaCard

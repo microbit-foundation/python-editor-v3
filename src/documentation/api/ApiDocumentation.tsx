@@ -7,7 +7,6 @@ import { BoxProps, Divider, List, ListItem } from "@chakra-ui/layout";
 import sortBy from "lodash.sortby";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
-import AreaHeading from "../../common/AreaHeading";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
@@ -93,15 +92,7 @@ const ActiveLevel = ({
     );
   }
   return (
-    <HeadedScrollablePanel
-      direction={direction}
-      heading={
-        <AreaHeading
-          name={apiString}
-          description={intl.formatMessage({ id: "api-description" })}
-        />
-      }
-    >
+    <HeadedScrollablePanel direction={direction}>
       <List flex="1 1 auto" m={3}>
         {sortBy(Object.values(docs), (m) => m.fullName).map((module) => (
           <DocumentationTopLevelItem
