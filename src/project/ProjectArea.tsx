@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { List, ListItem, Stack, Text } from "@chakra-ui/react";
+import { Box, List, ListItem, Stack, Text } from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
 import HeadedScrollablePanel from "../common/HeadedScrollablePanel";
 import FileRow from "./FileRow";
@@ -28,7 +28,7 @@ const ProjectArea = ({
   return (
     <HeadedScrollablePanel
       heading={
-        <>
+        <Box p={5} pt={3}>
           <Text fontSize="xs">
             <FormattedMessage id="project-name" />
           </Text>
@@ -43,7 +43,7 @@ const ProjectArea = ({
             lineHeight="1.3"
             pt={0.5}
           />
-        </>
+        </Box>
       }
     >
       <Stack spacing={5} pt={2}>

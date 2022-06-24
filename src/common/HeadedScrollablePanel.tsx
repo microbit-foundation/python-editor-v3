@@ -32,9 +32,7 @@ const HeadedScrollablePanel = ({
           zIndex={zIndexBreadcrumbContainer}
         >
           {/* Use of header here is relied on to correctly offset the scrolling based on the actual height of the sticky header. See Highlight.tsx */}
-          <Box as="header" p={5} pt={3}>
-            {heading}
-          </Box>
+          <Box as="header">{heading}</Box>
           <Divider borderWidth="1px" />
         </Box>
         {children}
