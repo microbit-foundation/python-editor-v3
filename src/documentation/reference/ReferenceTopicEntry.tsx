@@ -13,6 +13,7 @@ import DocumentationContent from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import ExpandCollapseButton from "../common/ExpandCollapseButton";
 import { isV2Only } from "../common/model";
+import ShowMoreButton from "../common/ShowMoreButton";
 import Highlight from "./Highlight";
 import {
   ToolkitTopic,
@@ -74,7 +75,7 @@ const ReferenceTopicEntry = ({
       >
         <HStack justifyContent="space-between" flexWrap="nowrap">
           <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
-          <ExpandCollapseButton
+          <ShowMoreButton
             onClick={disclosure.onToggle}
             isOpen={disclosure.isOpen}
           />

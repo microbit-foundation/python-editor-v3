@@ -21,7 +21,7 @@ const ShowMoreButton = ({ isOpen, ...props }: ShowMoreLinkProps) => (
       textDecoration: "none",
     }}
   >
-    <FormattedMessage id={isOpen ? "show-less" : "show-more"} />
+    <FormattedMessage id={isOpen ? "Less" : "More"} />
     <ExpandCollapseIcon open={isOpen} ml={1} />
   </Link>
 );
