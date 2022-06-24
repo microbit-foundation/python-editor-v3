@@ -117,7 +117,7 @@ const ActiveLevel = ({
   }
   return (
     <HeadedScrollablePanel direction={direction}>
-      <List flex="1 1 auto" m={3}>
+      <List flex="1 1 auto" mx={3} mb={3} mt={0}>
         {toolkit.contents?.map((topic) => (
           <DocumentationTopLevelItem
             key={topic.name}
