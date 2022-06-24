@@ -588,12 +588,12 @@ export class App {
   }
 
   async pasteToolkitCode(): Promise<void> {
-    const content = await this.focusEditorContent();
-    await content.evaluate(async (c) => {
-      // See createPage for fake clipboard hack.
-      const event = await (window as any).copyHackPasteEvent();
-      c.dispatchEvent(event);
-    });
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
+    await keyboard.press("v");
+    await keyboard.up(meta);
   }
 
   async selectToolkitDropDownOption(
@@ -785,40 +785,6 @@ export class App {
     this.page = this.createPage();
     page = await this.page;
     await page.goto(this.url);
-
-    // Fake clipboard handling due to problems with pupeteer's native clipboad support.
-    // We use npm's copy-to-clipboard which bottoms out on document.execCommand("copy").
-    await page.evaluate(async () => {
-      const originalExecCommand = document.execCommand;
-      let clipboardContents: string = "";
-      const copyHack = () => {
-        clipboardContents = document.getSelection()?.toString() || "";
-      };
-      const execCommand = (command: string) => {
-        if (command === "copy") {
-          copyHack();
-        } else {
-          originalExecCommand("command");
-        }
-      };
-      (window as any).copyHackPasteEvent = (): Event | undefined => {
-        if (!clipboardContents) {
-          throw new Error("Requested paste event with no prior copy");
-        }
-
-        const event = new Event("paste");
-        (event as any).clipboardData = {
-          // Partial implementation. If we fill this out we can use ClipboardEvent itself.
-          getData: (type: string) => clipboardContents,
-        } as Partial<DataTransfer> as any;
-        return event;
-      };
-
-      Object.defineProperty(document, "execCommand", {
-        writable: true,
-        value: execCommand,
-      });
-    });
   }
 
   /**
