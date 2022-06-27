@@ -466,6 +466,10 @@
     "defaultMessage": "Check your micro:bit is plugged in and powered on",
     "description": "Checklist text in the no micro:bit found dialog"
   },
+  "not-found-download-message": {
+    "defaultMessage": "Alternative method: choose Download",
+    "description": "Download text prompt in the no micro:bit found dialog"
+  },
   "not-found-message": {
     "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
     "description": "Text in the no micro:bit found dialog"

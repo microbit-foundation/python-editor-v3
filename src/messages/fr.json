@@ -923,6 +923,12 @@
       "value": "Check your micro:bit is plugged in and powered on"
     }
   ],
+  "not-found-download-message": [
+    {
+      "type": 0,
+      "value": "Alternative method: choose Download"
+    }
+  ],
   "not-found-message": [
     {
       "type": 0,

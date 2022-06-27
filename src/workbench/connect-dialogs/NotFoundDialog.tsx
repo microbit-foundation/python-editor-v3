@@ -148,7 +148,7 @@ const NotFoundDialogBody = ({
       >
         <Icon as={RiDownload2Line} color="brand.500" h={6} w={6} mr={5} />
         <Text fontWeight="semibold" mr="auto">
-          Alternative method: choose Download
+          <FormattedMessage id="not-found-download-message" />
         </Text>
         <Box onClick={onDownload}>
           <DownloadButton mode="button" />
