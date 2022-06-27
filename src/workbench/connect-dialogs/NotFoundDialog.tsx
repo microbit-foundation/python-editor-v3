@@ -5,19 +5,12 @@
  */
 import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
-import {
-  HStack,
-  Image,
-  Link,
-  ListItem,
-  OrderedList,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
-import { RiExternalLinkLine } from "react-icons/ri";
+import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
+import DownloadButton from "../../project/DownloadButton";
 import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
 
@@ -57,7 +50,10 @@ interface ConnectNotFoundDialogProps {
   onTryAgain: () => void;
 }
 
-const NotFoundDialogBody = ({ onTryAgain }: ConnectNotFoundDialogProps) => {
+const NotFoundDialogBody = ({
+  onCancel,
+  onTryAgain,
+}: ConnectNotFoundDialogProps) => {
   const handleReviewDevice = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
@@ -83,14 +79,9 @@ const NotFoundDialogBody = ({ onTryAgain }: ConnectNotFoundDialogProps) => {
       </Text>
       <HStack spacing={8}>
         <Image height={150} width={178} src={notFound} alt="" />
-        <VStack>
-          <OrderedList
-            spacing={5}
-            sx={{
-              li: { pl: 2 },
-            }}
-          >
-            <ListItem>
+        <VStack alignItems="flex-start" spacing={5}>
+          <VStack alignItems="flex-start">
+            <Text>
               <FormattedMessage
                 id="not-found-checklist-one"
                 values={{
@@ -103,15 +94,17 @@ const NotFoundDialogBody = ({ onTryAgain }: ConnectNotFoundDialogProps) => {
                       {chunks}
                     </Link>
                   ),
+                  strong: (chunks: ReactNode) => (
+                    <Text as="span" fontWeight="semibold">
+                      {chunks}
+                    </Text>
+                  ),
                 }}
               />
-            </ListItem>
-            <ListItem>
-              <FormattedMessage id="not-found-checklist-two" />
-            </ListItem>
-            <ListItem>
+            </Text>
+            <Text>
               <FormattedMessage
-                id="not-found-checklist-three"
+                id="not-found-checklist-two"
                 values={{
                   link: (chunks: ReactNode) => (
                     <Link
@@ -124,21 +117,42 @@ const NotFoundDialogBody = ({ onTryAgain }: ConnectNotFoundDialogProps) => {
                       <Icon as={RiExternalLinkLine} verticalAlign="middle" />
                     </Link>
                   ),
+                  strong: (chunks: ReactNode) => (
+                    <Text as="span" fontWeight="semibold">
+                      {chunks}
+                    </Text>
+                  ),
                 }}
               />
-            </ListItem>
-          </OrderedList>
+            </Text>
+          </VStack>
+          <Link
+            color="brand.500"
+            target="_blank"
+            rel="noreferrer"
+            href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
+          >
+            <FormattedMessage id="connect-troubleshoot" />{" "}
+            <Icon as={RiExternalLinkLine} verticalAlign="middle" />
+          </Link>
         </VStack>
       </HStack>
-      <Link
-        color="brand.500"
-        target="_blank"
-        rel="noreferrer"
-        href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
+      <Flex
+        width="100%"
+        background="blimpTeal.50"
+        alignItems="center"
+        py={3}
+        px={5}
+        borderRadius="xl"
       >
-        <FormattedMessage id="connect-troubleshoot" />{" "}
-        <Icon as={RiExternalLinkLine} verticalAlign="middle" />
-      </Link>
+        <Icon as={RiDownload2Line} color="brand.500" h={6} w={6} mr={5} />
+        <Text fontWeight="semibold" mr="auto">
+          Alternative method: choose Download
+        </Text>
+        <Box onClick={onCancel}>
+          <DownloadButton mode="button" />
+        </Box>
+      </Flex>
     </VStack>
   );
 };

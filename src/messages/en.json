@@ -904,23 +904,55 @@
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "Review "
+      "value": "Is your "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "how to select the device"
+          "value": "micro:bit plugged in"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Did you "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
         }
       ],
       "type": 8,
       "value": "link"
-    }
-  ],
-  "not-found-checklist-three": [
+    },
     {
       "type": 0,
-      "value": "If you have a micro:bit V1 you may need to "
+      "value": "?"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "If you have a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " you may need to "
     },
     {
       "children": [
@@ -931,12 +963,6 @@
       ],
       "type": 8,
       "value": "link"
-    }
-  ],
-  "not-found-checklist-two": [
-    {
-      "type": 0,
-      "value": "Check your micro:bit is plugged in and powered on"
     }
   ],
   "not-found-message": [
@@ -1461,6 +1487,62 @@
     {
       "type": 0,
       "value": " documentation"
+    }
+  ],
+  "transfer-hex-message": [
+    {
+      "type": 0,
+      "value": "Drag the hex file from your "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Downloads folder"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " to the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit drive"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "transfer-hex-support-message": [
+    {
+      "type": 0,
+      "value": "For more support, see the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Python Editor Guide"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Transfer downloaded hex file to micro:bit"
     }
   ],
   "try-again-action": [

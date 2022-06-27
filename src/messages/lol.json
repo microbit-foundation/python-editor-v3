@@ -917,22 +917,6 @@
       "value": "link"
     }
   ],
-  "not-found-checklist-three": [
-    {
-      "type": 0,
-      "value": "If you have a micro:bit V1 you may need to "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update the firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    }
-  ],
   "not-found-checklist-two": [
     {
       "type": 0,
@@ -1461,6 +1445,34 @@
     {
       "type": 0,
       "value": " досюментатіон"
+    }
+  ],
+  "transfer-hex-message": [
+    {
+      "type": 0,
+      "value": "Drag the hex file from your Downloads folder to the micro:bit drive."
+    }
+  ],
+  "transfer-hex-support-message": [
+    {
+      "type": 0,
+      "value": "For more support, see the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Python Editor Guide"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Transfer downloaded hex file to micro:bit"
     }
   ],
   "try-again-action": [
