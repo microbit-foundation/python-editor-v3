@@ -5,6 +5,7 @@
  */
 export const zIndexCode = 1;
 export const zIndexBreadcrumbContainer = 2;
+export const zIndexProjectAreaMenu = 3;
 export const zIndexCodePopUp = 3;
 export const zIndexSidebarHeader = 3;
 export const splitViewDivider = 3;

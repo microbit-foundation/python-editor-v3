@@ -5,7 +5,6 @@
  */
 import { ChakraProvider } from "@chakra-ui/react";
 import { polyfill } from "mobile-drag-drop";
-import { scrollBehaviourDragImageTranslateOverride } from "mobile-drag-drop/scroll-behaviour";
 import { useEffect } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
@@ -62,7 +61,6 @@ const App = () => {
   }, []);
 
   polyfill({
-    dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride,
     forceApply: true,
   });
 

@@ -49,7 +49,6 @@ const DocumentationTopLevelItem = ({
             color="brand.200"
             variant="ghost"
             fontSize="2xl"
-            onClick={onForward}
           />
         </HStack>
         {/*Content problem! We need all descriptions to be short, or two sets.*/}
@@ -75,7 +74,7 @@ const DocumentationListItem = ({
   return (
     <ListItem {...props}>
       <HStack m={5} mr={3} spacing={5}>
-        {showIcon && icon && <DocumentationIcon icon={icon} />}
+        {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
       </HStack>
       <Divider ml={3} borderWidth="1px" />
