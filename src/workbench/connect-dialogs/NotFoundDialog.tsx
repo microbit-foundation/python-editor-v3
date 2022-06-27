@@ -24,15 +24,16 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
     setReturnFocus(false);
     callback(ConnectErrorChoice.TRY_AGAIN);
   }, [callback, setReturnFocus]);
+  const onDownload = useCallback(() => {
+    setReturnFocus(false);
+    callback(ConnectErrorChoice.CANCEL);
+  }, [callback, setReturnFocus]);
   return (
     <GenericDialog
       returnFocusOnClose={returnFocus}
       onClose={() => callback(ConnectErrorChoice.CANCEL)}
       body={
-        <NotFoundDialogBody
-          onTryAgain={onTryAgain}
-          onCancel={() => callback(ConnectErrorChoice.CANCEL)}
-        />
+        <NotFoundDialogBody onDownload={onDownload} onTryAgain={onTryAgain} />
       }
       footer={
         <NotFoundDialogFooter
@@ -46,12 +47,12 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
 };
 
 interface ConnectNotFoundDialogProps {
-  onCancel: () => void;
+  onDownload: () => void;
   onTryAgain: () => void;
 }
 
 const NotFoundDialogBody = ({
-  onCancel,
+  onDownload,
   onTryAgain,
 }: ConnectNotFoundDialogProps) => {
   const handleReviewDevice = useCallback(
@@ -149,7 +150,7 @@ const NotFoundDialogBody = ({
         <Text fontWeight="semibold" mr="auto">
           Alternative method: choose Download
         </Text>
-        <Box onClick={onCancel}>
+        <Box onClick={onDownload}>
           <DownloadButton mode="button" />
         </Box>
       </Flex>
