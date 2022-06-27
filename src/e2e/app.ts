@@ -678,7 +678,7 @@ export class App {
   async connectHelpFromNotFoundDialog(): Promise<void> {
     const document = await this.document();
     const reviewDeviceSelection = await document.findByRole("link", {
-      name: "how to select the device",
+      name: "follow these steps",
     });
     await reviewDeviceSelection.click();
   }
