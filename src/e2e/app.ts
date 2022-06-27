@@ -690,6 +690,20 @@ export class App {
     });
   }
 
+  async confirmNameYourProjectDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Name your project", {
+      selector: "header",
+    });
+  }
+
+  async confirmTransferHexHelpDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Transfer downloaded hex file to micro:bit", {
+      selector: "h2",
+    });
+  }
+
   // Retry micro:bit connection from error dialogs.
   async connectViaTryAgain(): Promise<void> {
     const document = await this.document();

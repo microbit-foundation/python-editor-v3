@@ -33,4 +33,15 @@ describe("Browser - download", () => {
       "There is no storage space left."
     );
   });
+
+  it("Shows the name your project dialog if the project name is the default", async () => {
+    await app.download();
+    await app.confirmNameYourProjectDialog();
+  });
+
+  it("Shows the transfer hex help dialog after hex download", async () => {
+    await app.setProjectName("not default name");
+    await app.download();
+    await app.confirmTransferHexHelpDialog();
+  });
 });
