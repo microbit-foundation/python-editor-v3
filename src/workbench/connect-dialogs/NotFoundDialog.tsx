@@ -78,7 +78,7 @@ const NotFoundDialogBody = ({
       <Text>
         <FormattedMessage id="not-found-message" />
       </Text>
-      <HStack spacing={8}>
+      <HStack spacing={6}>
         <Image height={150} width={178} src={notFound} alt="" />
         <VStack alignItems="flex-start" spacing={5}>
           <VStack alignItems="flex-start">
