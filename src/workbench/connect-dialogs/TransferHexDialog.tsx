@@ -19,6 +19,7 @@ import transferHexWin from "./transfer-hex-win.gif";
 import transferHexMac from "./transfer-hex-mac.gif";
 import { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
+import { useDeployment } from "../../deployment";
 
 export const enum TransferHexChoice {
   CancelDontShowAgain,
@@ -54,6 +55,7 @@ export const TransferHexDialog = ({
 
 const TransferHexDialogBody = () => {
   const isMac = /Mac/.test(navigator.platform);
+  const { guideLink } = useDeployment();
   return (
     <VStack
       width="auto"
@@ -89,7 +91,7 @@ const TransferHexDialogBody = () => {
                   color="brand.500"
                   target="_blank"
                   rel="noreferrer"
-                  href="https://support.microbit.org/support/solutions/articles/19000135210-python-editor-guide"
+                  href={guideLink}
                 >
                   {chunks}{" "}
                   <Icon as={RiExternalLinkLine} verticalAlign="middle" />
