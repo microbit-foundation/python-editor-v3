@@ -47,7 +47,7 @@ const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
       }
       // Ready to use languageId here if the alt field is made translatable.
       return `
-        *[_type == "pythonEditorConfig"]{
+        *[_id == "pythonEditorConfig"]{
           welcomeVideo
         }`;
     };
