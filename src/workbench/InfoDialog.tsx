@@ -4,33 +4,64 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
+import { HStack, Link, Stack, Text, VStack } from "@chakra-ui/layout";
 import {
-  Flex,
-  Link,
-  List,
-  ListItem,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/layout";
-import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/modal";
-import { RiExternalLinkLine, RiFeedbackLine } from "react-icons/ri";
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalOverlay,
+} from "@chakra-ui/modal";
+import { Icon } from "@chakra-ui/react";
+import { ReactNode, useEffect, useState } from "react";
+import { RiExternalLinkLine } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../common/ModalCloseButton";
+import { queryUrl } from "../common/sanity";
+import YoutubeVideoEmbed, { YoutubeVideo } from "../common/YouTubeVideo";
 import { useDeployment } from "../deployment";
+import { useLogging } from "../logging/logging-hooks";
 
 interface InfoDialogProps {
   isOpen: boolean;
   info?: boolean;
   onClose: () => void;
-  switchToInfoDialog: () => void;
 }
 
-const InfoDialog = ({
-  isOpen,
-  onClose,
-  switchToInfoDialog,
-}: InfoDialogProps) => {
+const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
   const { guideLink } = useDeployment();
+  const [welcomeVideo, setWelcomeVideo] = useState<YoutubeVideo | undefined>();
+  const [loadError, setLoadError] = useState<boolean>(false);
+  const logging = useLogging();
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    const fetchWelcomeVideo = async () => {
+      const query = `*[_type == "pythonEditorConfig"]{
+        welcomeVideo
+       }`;
+      try {
+        const response = await fetch(queryUrl(query), { signal });
+        if (response.ok) {
+          const { result } = await response.json();
+          if (!result) {
+            throw new Error("Unexpected response format");
+          }
+          if (result.length === 1 && result[0].welcomeVideo) {
+            setWelcomeVideo(result[0].welcomeVideo as YoutubeVideo);
+          } else {
+            throw new Error("Unexpected results");
+          }
+        } else {
+          throw new Error("Error fetching welcome video: " + response.status);
+        }
+      } catch (e) {
+        logging.error(e);
+        setLoadError(true);
+      }
+    };
+    fetchWelcomeVideo();
+  }, [logging]);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
       <ModalOverlay>
@@ -41,71 +72,50 @@ const InfoDialog = ({
               width="auto"
               ml="auto"
               mr="auto"
-              p={8}
+              p={5}
+              pb={0}
               spacing={5}
               alignItems="stretch"
             >
               <Stack spacing={3}>
                 <Text as="h2" fontSize="xl" fontWeight="semibold">
-                  Python Editor V3 beta release
+                  <FormattedMessage id="welcome-title" />
                 </Text>
-                <Text>
-                  The editor has been redesigned to improve support for teaching
-                  Python with the micro:bit. We’d love to hear your feedback.
-                </Text>
-                <Text>Highlights:</Text>
-                <List listStyleType="disc" listStylePos="outside" pl={8}>
-                  <ListItem m={1}>
-                    Working code examples in the <strong>Reference</strong> tab.
-                    Drag and drop them into your code.
-                  </ListItem>
-                  <ListItem m={1}>
-                    Autocomplete and parameter help. See the choices available
-                    to you as you type.
-                  </ListItem>
-                  <ListItem m={1}>
-                    Error checking in the code editor. Catch problems before
-                    running your program.
-                  </ListItem>
-                </List>
-                <Text>
-                  To get started, plug in your micro:bit and click{" "}
-                  <strong>Connect</strong>.
-                </Text>
+                {loadError ? (
+                  <Text>
+                    <FormattedMessage id="content-load-error" />
+                  </Text>
+                ) : (
+                  <YoutubeVideoEmbed youTubeVideo={welcomeVideo} />
+                )}
               </Stack>
-              <Flex flexWrap="wrap" gap={3} justifyContent={["center"]}>
-                <Button
-                  size="lg"
-                  onClick={switchToInfoDialog}
-                  leftIcon={<RiFeedbackLine />}
-                >
-                  Feedback
-                </Button>
-                <Button
-                  leftIcon={<RiExternalLinkLine />}
-                  variant="solid"
-                  as={Link}
-                  size="lg"
-                  href={guideLink}
-                  target="_blank"
-                  rel="noopener"
-                  sx={{
-                    "&:hover": {
-                      textDecoration: "none",
-                    },
+              <Text>
+                <FormattedMessage
+                  id="guide-link"
+                  values={{
+                    link: (chunks: ReactNode) => (
+                      <Link
+                        color="brand.500"
+                        target="_blank"
+                        rel="noreferrer"
+                        href={guideLink}
+                      >
+                        {chunks}{" "}
+                        <Icon as={RiExternalLinkLine} verticalAlign="middle" />
+                      </Link>
+                    ),
                   }}
-                >
-                  Guidance
-                </Button>
-              </Flex>
-              <Text fontSize="sm" pt={8}>
-                <Link href="https://python.microbit.org/v/2" color="brand.600">
-                  Python Editor V2
-                </Link>{" "}
-                is still supported and will continue to be available.
+                />
               </Text>
             </VStack>
           </ModalBody>
+          <ModalFooter>
+            <HStack spacing={2.5}>
+              <Button size="lg" variant="solid" onClick={onClose}>
+                <FormattedMessage id="get-started-action" />
+              </Button>
+            </HStack>
+          </ModalFooter>
         </ModalContent>
       </ModalOverlay>
     </Modal>

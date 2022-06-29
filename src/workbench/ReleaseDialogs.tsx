@@ -14,9 +14,6 @@ interface ReleaseDialogsProps {
 }
 
 const ReleaseDialogs = ({ dialog, onDialogChange }: ReleaseDialogsProps) => {
-  const openFeedbackDialog = useCallback(() => {
-    onDialogChange("feedback");
-  }, [onDialogChange]);
   const closeDialog = useCallback(() => {
     onDialogChange("closed");
   }, [onDialogChange]);
@@ -26,12 +23,7 @@ const ReleaseDialogs = ({ dialog, onDialogChange }: ReleaseDialogsProps) => {
         <FeedbackForm isOpen={dialog === "feedback"} onClose={closeDialog} />
       )}
       {dialog === "info" && (
-        <InfoDialog
-          switchToInfoDialog={openFeedbackDialog}
-          isOpen={dialog === "info"}
-          info
-          onClose={closeDialog}
-        />
+        <InfoDialog isOpen={dialog === "info"} info onClose={closeDialog} />
       )}
     </>
   );

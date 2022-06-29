@@ -183,6 +183,10 @@
     "defaultMessage": "Troubleshoot problems with connecting to your micro:bit",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
+  "content-load-error": {
+    "defaultMessage": "Something went wrong. Download your hex file for safe keeping, then refresh the page to reload.",
+    "description": "Text displayed when content fails to load"
+  },
   "copied": {
     "defaultMessage": "Cопіед",
     "description": "Text shown after copy to clipboard"
@@ -346,6 +350,14 @@
   "font-size": {
     "defaultMessage": "Фонт сізе",
     "description": "Font size option text"
+  },
+  "get-started-action": {
+    "defaultMessage": "Get started",
+    "description": "Get started button text"
+  },
+  "guide-link": {
+    "defaultMessage": "For more support, see the <link>Python Editor Guide</link>",
+    "description": "Text with link to the Python Editor Guide"
   },
   "help": {
     "defaultMessage": "Хелп",
@@ -781,6 +793,10 @@
   "webusb-why-use": {
     "defaultMessage": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор.",
     "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "welcome-title": {
+    "defaultMessage": "Welcome!",
+    "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {
     "defaultMessage": "Зоом ін",

@@ -379,6 +379,12 @@
       "value": "Troubleshoot problems with connecting to your micro:bit"
     }
   ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "Something went wrong. Download your hex file for safe keeping, then refresh the page to reload."
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -665,6 +671,28 @@
     {
       "type": 0,
       "value": "Font size"
+    }
+  ],
+  "get-started-action": [
+    {
+      "type": 0,
+      "value": "Get started"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "For more support, see the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Python Editor Guide"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "help": [
@@ -1607,6 +1635,12 @@
     {
       "type": 0,
       "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "Welcome!"
     }
   ],
   "zoom-in-action": [

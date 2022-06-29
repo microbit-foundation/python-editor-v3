@@ -69,7 +69,7 @@ const fetchContentInternal = async (query: string): Promise<any> => {
   throw new Error("Error fetching content: " + response.status);
 };
 
-const queryUrl = (query: string): string => {
+export const queryUrl = (query: string): string => {
   return (
     "https://ajwvhvgo.api.sanity.io/v1/data/query/apps?query=" +
     encodeURIComponent(query)
