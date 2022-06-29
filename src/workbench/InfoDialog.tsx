@@ -17,10 +17,11 @@ import { ReactNode, useEffect, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../common/ModalCloseButton";
-import { queryUrl } from "../common/sanity";
+import { fetchContent } from "../common/sanity";
 import YoutubeVideoEmbed, { YoutubeVideo } from "../common/YouTubeVideo";
 import { useDeployment } from "../deployment";
 import { useLogging } from "../logging/logging-hooks";
+import { useSettings } from "../settings/settings";
 
 interface InfoDialogProps {
   isOpen: boolean;
@@ -32,36 +33,34 @@ const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
   const { guideLink } = useDeployment();
   const [welcomeVideo, setWelcomeVideo] = useState<YoutubeVideo | undefined>();
   const [loadError, setLoadError] = useState<boolean>(false);
+  const [{ languageId }] = useSettings();
   const logging = useLogging();
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
+    const adaptContent = (result: any): YoutubeVideo | undefined => {
+      if (result.length === 1 && result[0].welcomeVideo) {
+        return result[0].welcomeVideo;
+      }
+    };
+    const query = (languageId: string): string => {
+      if (!languageId.match(/^[a-z-]+$/g)) {
+        throw new Error("Invalid language id.");
+      }
+      // Ready to use languageId here if the alt field is made translatable.
+      return `
+        *[_type == "pythonEditorConfig"]{
+          welcomeVideo
+        }`;
+    };
     const fetchWelcomeVideo = async () => {
-      const query = `*[_type == "pythonEditorConfig"]{
-        welcomeVideo
-       }`;
       try {
-        const response = await fetch(queryUrl(query), { signal });
-        if (response.ok) {
-          const { result } = await response.json();
-          if (!result) {
-            throw new Error("Unexpected response format");
-          }
-          if (result.length === 1 && result[0].welcomeVideo) {
-            setWelcomeVideo(result[0].welcomeVideo as YoutubeVideo);
-          } else {
-            throw new Error("Unexpected results");
-          }
-        } else {
-          throw new Error("Error fetching welcome video: " + response.status);
-        }
+        setWelcomeVideo(await fetchContent(languageId, query, adaptContent));
       } catch (e) {
         logging.error(e);
         setLoadError(true);
       }
     };
     fetchWelcomeVideo();
-  }, [logging]);
+  }, [languageId, logging]);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
       <ModalOverlay>
