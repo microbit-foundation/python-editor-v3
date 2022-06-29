@@ -1456,7 +1456,35 @@
   "transfer-hex-message": [
     {
       "type": 0,
-      "value": "Drag the hex file from your Downloads folder to the micro:bit drive."
+      "value": "Drag the hex file from your "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Downloads folder"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " to the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MICROBIT drive"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
     }
   ],
   "transfer-hex-support-message": [

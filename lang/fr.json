@@ -711,7 +711,7 @@
     "description": "Aria label for the toolkit topic right arrow"
   },
   "transfer-hex-message": {
-    "defaultMessage": "Drag the hex file from your Downloads folder to the micro:bit drive.",
+    "defaultMessage": "Drag the hex file from your <strong>Downloads folder</strong> to the <strong>MICROBIT drive</strong>.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-support-message": {
