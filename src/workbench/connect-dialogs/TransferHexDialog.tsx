@@ -102,11 +102,12 @@ const TransferHexDialogBody = () => {
         </Text>
       </VStack>
       <Flex justifyContent="center" width="100%">
-        {isMac ? (
-          <Image width="100%" height="100%" src={transferHexMac} alt="" />
-        ) : (
-          <Image width="100%" height="100%" src={transferHexWin} alt="" />
-        )}
+        <Image
+          width="100%"
+          height="100%"
+          src={isMac ? transferHexMac : transferHexWin}
+          alt=""
+        />
       </Flex>
     </VStack>
   );
