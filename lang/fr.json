@@ -710,12 +710,12 @@
     "defaultMessage": "Afficher la documentation {name}",
     "description": "Aria label for the toolkit topic right arrow"
   },
-  "transfer-hex-message": {
+  "transfer-hex-message-one": {
     "defaultMessage": "Drag the hex file from your <strong>Downloads folder</strong> to the <strong>MICROBIT drive</strong>.",
     "description": "Text in the transfer hex dialog"
   },
-  "transfer-hex-support-message": {
-    "defaultMessage": "For more support, see the <link>Python Editor Guide</link>",
+  "transfer-hex-message-two": {
+    "defaultMessage": "Note: You can also <strong>Open</strong> the hex file later to continue editing.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {

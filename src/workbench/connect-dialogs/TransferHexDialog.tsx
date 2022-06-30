@@ -4,22 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import {
-  Flex,
-  HStack,
-  Icon,
-  Image,
-  Link,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Flex, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
-import transferHexWin from "./transfer-hex-win.gif";
 import transferHexMac from "./transfer-hex-mac.gif";
-import { ReactNode } from "react";
-import { RiExternalLinkLine } from "react-icons/ri";
-import { useDeployment } from "../../deployment";
+import transferHexWin from "./transfer-hex-win.gif";
 
 export const enum TransferHexChoice {
   CancelDontShowAgain,
@@ -55,7 +45,6 @@ export const TransferHexDialog = ({
 
 const TransferHexDialogBody = () => {
   const isMac = /Mac/.test(navigator.platform);
-  const { guideLink } = useDeployment();
   return (
     <VStack
       width="auto"
@@ -72,7 +61,7 @@ const TransferHexDialogBody = () => {
         </Text>
         <Text>
           <FormattedMessage
-            id="transfer-hex-message"
+            id="transfer-hex-message-one"
             values={{
               strong: (chunks: ReactNode) => (
                 <Text as="span" fontWeight="semibold">
@@ -82,20 +71,14 @@ const TransferHexDialogBody = () => {
             }}
           />
         </Text>
-        <Text>
+        <Text fontStyle="italic">
           <FormattedMessage
-            id="transfer-hex-support-message"
+            id="transfer-hex-message-two"
             values={{
-              link: (chunks: ReactNode) => (
-                <Link
-                  color="brand.500"
-                  target="_blank"
-                  rel="noreferrer"
-                  href={guideLink}
-                >
-                  {chunks}{" "}
-                  <Icon as={RiExternalLinkLine} verticalAlign="middle" />
-                </Link>
+              strong: (chunks: ReactNode) => (
+                <Text as="span" fontWeight="semibold">
+                  {chunks}
+                </Text>
               ),
             }}
           />

@@ -1495,7 +1495,7 @@
       "value": " documentation"
     }
   ],
-  "transfer-hex-message": [
+  "transfer-hex-message-one": [
     {
       "type": 0,
       "value": "Drag the hex file from your "
@@ -1529,20 +1529,24 @@
       "value": "."
     }
   ],
-  "transfer-hex-support-message": [
+  "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "For more support, see the "
+      "value": "Note: You can also "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Python Editor Guide"
+          "value": "Open"
         }
       ],
       "type": 8,
-      "value": "link"
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " the hex file later to continue editing."
     }
   ],
   "transfer-hex-title": [
