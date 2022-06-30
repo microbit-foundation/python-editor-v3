@@ -110,12 +110,14 @@ const NotFoundDialogBody = ({
                   link: (chunks: ReactNode) => (
                     <Link
                       color="brand.500"
+                      display="inline-flex"
+                      alignItems="center"
                       target="_blank"
                       rel="noreferrer"
                       href="https://microbit.org/get-started/user-guide/firmware/"
                     >
-                      {chunks}{" "}
-                      <Icon as={RiExternalLinkLine} verticalAlign="middle" />
+                      {chunks}
+                      <Icon as={RiExternalLinkLine} ml={1} />
                     </Link>
                   ),
                   strong: (chunks: ReactNode) => (
@@ -129,12 +131,14 @@ const NotFoundDialogBody = ({
           </VStack>
           <Link
             color="brand.500"
+            display="inline-flex"
+            alignItems="center"
             target="_blank"
             rel="noreferrer"
             href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
           >
-            <FormattedMessage id="connect-troubleshoot" />{" "}
-            <Icon as={RiExternalLinkLine} verticalAlign="middle" />
+            <FormattedMessage id="connect-troubleshoot" />
+            <Icon as={RiExternalLinkLine} ml={1} />
           </Link>
         </VStack>
       </HStack>
