@@ -6,7 +6,7 @@
 import { Flex, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
-import React, { ChangeEvent, useCallback, useContext, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
 import { PortableText } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
@@ -29,11 +29,6 @@ interface ToolkitTopicEntryProps {
   active?: boolean;
   anchor?: Anchor;
 }
-
-const IsExpandedContext = React.createContext(false);
-export const useIsExpanded = (): boolean => {
-  return useContext(IsExpandedContext);
-};
 
 /**
  * A toolkit topic entry. Can be displayed with and without detail.
