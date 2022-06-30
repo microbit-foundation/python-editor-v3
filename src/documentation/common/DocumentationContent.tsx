@@ -173,10 +173,20 @@ const withCollapseNodes = (content: PortableText | undefined): PortableText => {
   if (!content || content.length === 0) {
     return [];
   }
+  // Collapsing empty paragraphs looks odd but is easy to do by accident in the CMS.
+  content = content.filter(
+    (b) =>
+      b._type !== "block" ||
+      (b.children as []).reduce(
+        (prev, curr) => prev + (curr as any).text?.length,
+        0
+      ) > 0
+  );
+
   let result: PortableText = [];
   let currentRun: PortableText = [];
   content.forEach((block, index) => {
-    const isLast = index === content.length - 1;
+    const isLast = index === (content as PortableText).length - 1;
     const isCode = block._type === "python";
     if (!isCode) {
       currentRun.push(block);
