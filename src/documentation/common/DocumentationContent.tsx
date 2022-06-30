@@ -6,26 +6,33 @@
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Link } from "@chakra-ui/layout";
+import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
+import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
+import { PortableText, SimpleImage } from "../../common/sanity";
 import { useRouterState } from "../../router-hooks";
-import CodeEmbed from "./CodeEmbed";
 import {
   ToolkitApiLink,
   ToolkitCode,
   ToolkitExternalLink,
   ToolkitInternalLink,
 } from "../reference/model";
-import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
-import { PortableText, SimpleImage } from "../../common/sanity";
+import CodeEmbed from "./CodeEmbed";
+
+export const enum DocumentationDetails {
+  AlwaysShown,
+  ExpandCollapse,
+}
 
 interface DocumentationContentProps {
   content?: PortableText;
   parentSlug?: string;
   toolkitType?: string;
   title?: string;
-  codeOnly?: boolean;
+  details?: DocumentationDetails;
+  isExpanded?: boolean;
 }
 
 const DocumentationApiLinkMark = (
@@ -104,24 +111,33 @@ interface SerializerMarkProps<T> extends HasChildren {
 
 const DocumentationContent = ({
   content,
-  codeOnly,
+  details = DocumentationDetails.AlwaysShown,
+  isExpanded,
   parentSlug,
   toolkitType,
   title = "",
-  ...outerProps
 }: DocumentationContentProps) => {
-  if (codeOnly) {
-    content = content?.filter((b) => b._type === "python");
-  }
+  // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
+  content = useMemo(() => {
+    return details === DocumentationDetails.ExpandCollapse
+      ? withCollapseNodes(content)
+      : content;
+  }, [details, content]);
   const serializers = {
     // This is a serializer for the wrapper element.
     // We use a fragment so we can use spacing from the context into which we render.
-    container: (props: HasChildren) => <>{props.children}</>,
+    container: ({ children }: HasChildren) => <>{children}</>,
     types: {
+      collapse: ({
+        node: { children },
+      }: SerializerNodeProps<{ children: PortableText }>) => (
+        <Collapse in={isExpanded}>
+          <BlockContent blocks={children} serializers={serializers} />
+        </Collapse>
+      ),
       python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
         <CodeEmbed
           code={main}
-          {...outerProps}
           parentSlug={parentSlug}
           toolkitType={toolkitType}
           title={title}
@@ -151,6 +167,34 @@ const DocumentationContent = ({
   return content ? (
     <BlockContent blocks={content} serializers={serializers} />
   ) : null;
+};
+
+const withCollapseNodes = (content: PortableText | undefined): PortableText => {
+  if (!content || content.length === 0) {
+    return [];
+  }
+  let result: PortableText = [];
+  let currentRun: PortableText = [];
+  content.forEach((block, index) => {
+    const isLast = index === content.length - 1;
+    const isCode = block._type === "python";
+    if (!isCode) {
+      currentRun.push(block);
+    }
+    if (isLast || isCode) {
+      if (currentRun.length > 0) {
+        result.push({
+          _type: "collapse",
+          children: currentRun,
+        });
+        currentRun = [];
+      }
+    }
+    if (isCode) {
+      result.push(block);
+    }
+  });
+  return result;
 };
 
 export default React.memo(DocumentationContent);

@@ -12,7 +12,14 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
-import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  Ref,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
@@ -381,4 +388,4 @@ const useScrollableAncestorScroll = (callback: () => void) => {
   }, [scrollable, callback]);
 };
 
-export default CodeEmbed;
+export default React.memo(CodeEmbed);

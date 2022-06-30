@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 import { Flex, HStack, Stack, Text } from "@chakra-ui/layout";
-import { useDisclosure } from "@chakra-ui/react";
+import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
-import { toFirstBlockIfBlock } from "../../common/sanity";
+import { PortableText, toFirstBlockIfBlock } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
-import DocumentationContent from "../common/DocumentationContent";
+import DocumentationContent, {
+  DocumentationDetails,
+} from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import { isV2Only } from "../common/model";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -40,10 +42,23 @@ const ReferenceTopicEntry = ({
   active,
 }: ToolkitTopicEntryProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = entry;
-  const hasDetail = !!detailContent;
+
   const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
     alternatives && alternatives.length > 0 ? 0 : undefined
   );
+
+  const hasCode =
+    contentHasCode(content) ||
+    (alternatives &&
+      contentHasCode(alternatives[alternativeIndex as number].content));
+
+  const hasMore =
+    hasCode &&
+    (detailContent ||
+      contentHasNonCode(content) ||
+      (alternatives &&
+        contentHasNonCode(alternatives[alternativeIndex as number].content)));
+
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       setAlternativeIndex(parseInt(e.currentTarget.value, 10));
@@ -76,14 +91,16 @@ const ReferenceTopicEntry = ({
       >
         <HStack justifyContent="space-between" flexWrap="nowrap">
           <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
-          <ShowMoreButton
-            isBrief
-            onClick={disclosure.onToggle}
-            isOpen={disclosure.isOpen}
-          />
+          {hasMore && (
+            <ShowMoreButton
+              isBrief
+              onClick={disclosure.onToggle}
+              isOpen={disclosure.isOpen}
+            />
+          )}
         </HStack>
 
-        {!disclosure.isOpen && firstContentBlock.length > 0 && (
+        {hasMore && !disclosure.isOpen && firstContentBlock.length > 0 && (
           <Text noOfLines={1} as="div">
             <DocumentationContent
               content={firstContentBlock}
@@ -94,7 +111,8 @@ const ReferenceTopicEntry = ({
         )}
         <DocumentationContent
           content={content}
-          codeOnly={!disclosure.isOpen}
+          details={DocumentationDetails.ExpandCollapse}
+          isExpanded={!hasMore || disclosure.isOpen}
           parentSlug={entry.slug.current}
           toolkitType={toolkitType}
         />
@@ -119,31 +137,34 @@ const ReferenceTopicEntry = ({
             </Flex>
 
             <DocumentationContent
-              codeOnly={!disclosure.isOpen}
+              details={DocumentationDetails.ExpandCollapse}
+              isExpanded={disclosure.isOpen}
               content={alternatives[alternativeIndex].content}
               parentSlug={entry.slug.current}
               toolkitType={toolkitType}
             />
           </>
         )}
-        {hasDetail && disclosure.isOpen && (
-          <Stack
-            spacing={3}
-            mt={3}
-            sx={{
-              ...docStyles,
-            }}
-          >
-            <DocumentationContent
-              content={detailContent}
-              parentSlug={entry.slug.current}
-              toolkitType={toolkitType}
-            />
-          </Stack>
+        {detailContent && (
+          <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+            <Stack spacing={3} mt={3}>
+              <DocumentationContent
+                content={detailContent}
+                parentSlug={entry.slug.current}
+                toolkitType={toolkitType}
+              />
+            </Stack>
+          </Collapse>
         )}
       </Stack>
     </Highlight>
   );
 };
+
+const contentHasNonCode = (content: PortableText | undefined) =>
+  content && content.some((x) => x._type !== "python");
+
+const contentHasCode = (content: PortableText | undefined) =>
+  content && content.some((x) => x._type === "python");
 
 export default ReferenceTopicEntry;
