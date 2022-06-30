@@ -5,7 +5,7 @@
  */
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Link, Stack, Text, Box } from "@chakra-ui/layout";
+import { Box, Link, Stack } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
@@ -216,14 +216,19 @@ const DocumentationContent = ({
   // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
   content = useMemo(() => {
     if (details === DocumentationCollapseMode.ShowAll) {
-      return content;
+      return content || [];
     }
     return decorateWithCollapseNodes(content, details);
   }, [details, content]);
 
-  return content ? (
-    <BlockContent blocks={content} serializers={serializers} />
-  ) : null;
+  const rendered = <BlockContent blocks={content} serializers={serializers} />;
+  return details === DocumentationCollapseMode.ShowAll ? (
+    <Stack spacing={3} mt={3}>
+      {rendered}
+    </Stack>
+  ) : (
+    rendered
+  );
 };
 
 export default React.memo(DocumentationContent);

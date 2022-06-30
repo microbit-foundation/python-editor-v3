@@ -111,7 +111,9 @@ const ReferenceTopicEntry = ({
           <DocumentationContent
             content={content}
             details={
-              DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
+              hasMore
+                ? DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
+                : DocumentationCollapseMode.ShowAll
             }
           />
           {alternatives && typeof alternativeIndex === "number" && (

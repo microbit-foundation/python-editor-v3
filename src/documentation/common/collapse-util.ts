@@ -46,7 +46,9 @@ export const decorateWithCollapseNodes = (
 
   // Only variation now is the treatment of the first run.
   const collapseToFirstLine =
-    mode === DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine;
+    mode === DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine &&
+    content.length > 0 &&
+    content[0]._type === "block";
 
   let result: PortableText = [];
   let run: PortableText = [];
