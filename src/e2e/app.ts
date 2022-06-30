@@ -678,7 +678,7 @@ export class App {
   async connectHelpFromNotFoundDialog(): Promise<void> {
     const document = await this.document();
     const reviewDeviceSelection = await document.findByRole("link", {
-      name: "how to select the device",
+      name: "follow these steps",
     });
     await reviewDeviceSelection.click();
   }
@@ -686,6 +686,20 @@ export class App {
   async confirmFirmwareUpdateDialog(): Promise<void> {
     const document = await this.document();
     await document.findByText("Firmware update required", {
+      selector: "h2",
+    });
+  }
+
+  async confirmNameYourProjectDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Name your project", {
+      selector: "header",
+    });
+  }
+
+  async confirmTransferHexHelpDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Transfer downloaded hex file to micro:bit", {
       selector: "h2",
     });
   }

@@ -462,13 +462,13 @@
     "defaultMessage": "Review <link>how to select the device</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
-  "not-found-checklist-three": {
-    "defaultMessage": "If you have a micro:bit V1 you may need to <link>update the firmware</link>",
-    "description": "Checklist text in the no micro:bit found dialog"
-  },
   "not-found-checklist-two": {
     "defaultMessage": "Check your micro:bit is plugged in and powered on",
     "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-download-message": {
+    "defaultMessage": "Alternative method: choose Download",
+    "description": "Download text prompt in the no micro:bit found dialog"
   },
   "not-found-message": {
     "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
@@ -709,6 +709,18 @@
   "toolkit-view-documentation": {
     "defaultMessage": "Afficher la documentation {name}",
     "description": "Aria label for the toolkit topic right arrow"
+  },
+  "transfer-hex-message-one": {
+    "defaultMessage": "Drag the hex file from your <strong>Downloads folder</strong> to the <strong>MICROBIT drive</strong>.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-message-two": {
+    "defaultMessage": "You can also <strong>Open</strong> the hex file later to continue editing.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-title": {
+    "defaultMessage": "Transfer downloaded hex file to micro:bit",
+    "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
     "defaultMessage": "Try again",
