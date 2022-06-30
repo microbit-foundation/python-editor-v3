@@ -14,7 +14,7 @@ interface ShowMoreLinkProps extends LinkProps {
 
 const ShowMoreButton = ({ isOpen, isBrief, ...props }: ShowMoreLinkProps) => {
   const more = isBrief ? "more-action" : "show-more";
-  const less = isBrief ? "less-action" : "less-more";
+  const less = isBrief ? "less-action" : "show-less";
   return (
     <Link
       {...props}
