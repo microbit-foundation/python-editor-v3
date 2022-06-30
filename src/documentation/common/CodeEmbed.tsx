@@ -388,4 +388,4 @@ const useScrollableAncestorScroll = (callback: () => void) => {
   }, [scrollable, callback]);
 };
 
-export default React.memo(CodeEmbed);
+export default CodeEmbed;

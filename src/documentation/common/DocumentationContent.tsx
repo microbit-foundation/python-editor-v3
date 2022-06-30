@@ -244,12 +244,13 @@ const withCollapseNodes = (
   let result: PortableText = [];
   let run: PortableText = [];
   let runStart: number = -1;
-  content.forEach((block, index) => {
-    const isLast = index === (content as PortableText).length - 1;
+  for (let i = 0; i < content.length; ++i) {
+    const block = content[i];
+    const isLast = i === content.length - 1;
     const isCode = block._type === "python";
     if (!isCode) {
       if (run.length === 0) {
-        runStart = index;
+        runStart = i;
       }
       run.push(block);
     }
@@ -267,7 +268,7 @@ const withCollapseNodes = (
     if (isCode) {
       result.push(block);
     }
-  });
+  }
   return result;
 };
 
