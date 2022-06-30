@@ -113,7 +113,7 @@ interface SerializerMarkProps<T> extends HasChildren {
 const ContextualCollapse = ({ children }: { children: PortableText }) => {
   const isExpanded = useIsExpanded();
   return (
-    <Collapse in={isExpanded}>
+    <Collapse in={isExpanded} animateOpacity={false}>
       <BlockContent blocks={children} serializers={serializers} />
     </Collapse>
   );
