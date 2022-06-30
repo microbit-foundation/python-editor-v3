@@ -18,7 +18,7 @@ import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "../common/ModalCloseButton";
 import { fetchContent } from "../common/sanity";
-import YoutubeVideoEmbed, { YoutubeVideo } from "../common/YouTubeVideo";
+import YoutubeVideoEmbed, { YoutubeVideo } from "../common/YoutubeVideoEmbed";
 import { useDeployment } from "../deployment";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
