@@ -8,7 +8,7 @@ import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import React, { ChangeEvent, useCallback, useContext, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
-import { PortableText, toFirstBlockIfBlock } from "../../common/sanity";
+import { PortableText } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent, {
   DocumentationDetails,
@@ -72,7 +72,6 @@ const ReferenceTopicEntry = ({
   );
   const disclosure = useDisclosure();
   const toolkitType = "reference";
-  const firstContentBlock = toFirstBlockIfBlock(content);
   return (
     <IsExpandedContext.Provider value={disclosure.isOpen}>
       <Highlight
@@ -109,18 +108,9 @@ const ReferenceTopicEntry = ({
             )}
           </HStack>
 
-          {hasMore && !disclosure.isOpen && firstContentBlock.length > 0 && (
-            <Text noOfLines={1} as="div">
-              <DocumentationContent
-                content={firstContentBlock}
-                parentSlug={entry.slug.current}
-                toolkitType={toolkitType}
-              />
-            </Text>
-          )}
           <DocumentationContent
             content={content}
-            details={DocumentationDetails.ExpandCollapse}
+            details={DocumentationDetails.FirstLineExpandCollapse}
             isExpanded={!hasMore || disclosure.isOpen}
             parentSlug={entry.slug.current}
             toolkitType={toolkitType}

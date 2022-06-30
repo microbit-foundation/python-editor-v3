@@ -5,7 +5,7 @@
  */
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Link } from "@chakra-ui/layout";
+import { Link, Text } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useMemo } from "react";
@@ -25,6 +25,7 @@ import CodeEmbed from "./CodeEmbed";
 export const enum DocumentationDetails {
   AlwaysShown,
   ExpandCollapse,
+  FirstLineExpandCollapse,
 }
 
 interface DocumentationContentProps {
@@ -110,11 +111,23 @@ interface SerializerMarkProps<T> extends HasChildren {
   mark: T;
 }
 
-const ContextualCollapse = ({ children }: { children: PortableText }) => {
+const ContextualCollapse = ({
+  children,
+  collapseToFirstLine,
+}: {
+  children: PortableText;
+  collapseToFirstLine: boolean;
+}) => {
   const isExpanded = useIsExpanded();
+  const justFirstLine = collapseToFirstLine && !isExpanded;
   return (
-    <Collapse in={isExpanded} animateOpacity={false}>
-      <BlockContent blocks={children} serializers={serializers} />
+    <Collapse
+      in={isExpanded}
+      startingHeight={collapseToFirstLine ? "1.375rem" : undefined}
+    >
+      <Text as="div" noOfLines={justFirstLine ? 1 : undefined}>
+        <BlockContent blocks={children} serializers={serializers} />
+      </Text>
     </Collapse>
   );
 };
@@ -125,10 +138,11 @@ const serializers = {
   container: ({ children }: HasChildren) => <>{children}</>,
   types: {
     collapse: ({
-      node: { children },
-    }: SerializerNodeProps<{ children: PortableText }>) => (
-      <ContextualCollapse children={children} />
-    ),
+      node,
+    }: SerializerNodeProps<{
+      children: PortableText;
+      collapseToFirstLine: boolean;
+    }>) => <ContextualCollapse {...node} />,
     python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
       <CodeEmbed
         code={main}
@@ -169,9 +183,14 @@ const DocumentationContent = ({
 }: DocumentationContentProps) => {
   // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
   content = useMemo(() => {
-    return details === DocumentationDetails.ExpandCollapse
-      ? withCollapseNodes(content)
-      : content;
+    switch (details) {
+      case DocumentationDetails.ExpandCollapse:
+        return withCollapseNodes(content, false);
+      case DocumentationDetails.FirstLineExpandCollapse:
+        return withCollapseNodes(content, true);
+      default:
+        return content;
+    }
   }, [details, content]);
 
   return content ? (
@@ -179,7 +198,10 @@ const DocumentationContent = ({
   ) : null;
 };
 
-const withCollapseNodes = (content: PortableText | undefined): PortableText => {
+const withCollapseNodes = (
+  content: PortableText | undefined,
+  collapseToFirstLine: boolean
+): PortableText => {
   if (!content || content.length === 0) {
     return [];
   }
@@ -194,20 +216,26 @@ const withCollapseNodes = (content: PortableText | undefined): PortableText => {
   );
 
   let result: PortableText = [];
-  let currentRun: PortableText = [];
+  let run: PortableText = [];
+  let runStart: number = -1;
   content.forEach((block, index) => {
     const isLast = index === (content as PortableText).length - 1;
     const isCode = block._type === "python";
     if (!isCode) {
-      currentRun.push(block);
+      if (run.length === 0) {
+        runStart = index;
+      }
+      run.push(block);
     }
     if (isLast || isCode) {
-      if (currentRun.length > 0) {
+      if (run.length > 0) {
         result.push({
           _type: "collapse",
-          children: currentRun,
+          children: run,
+          collapseToFirstLine: collapseToFirstLine && runStart === 0,
         });
-        currentRun = [];
+        run = [];
+        runStart = -1;
       }
     }
     if (isCode) {
