@@ -25,7 +25,7 @@ const YoutubeVideoEmbed = ({ youTubeVideo }: YoutubeVideoProps) => {
               // but we'll need to check our codes match theirs.
               title="welcome video"
               src={`https://www.youtube-nocookie.com/embed/${
-                youtubeId ? youtubeId.trim() : ""
+                youtubeId ? encodeURIComponent(youtubeId.trim()) : ""
               }?rel=0&cc_load_policy=1`}
               allow="encrypted-media"
               frameBorder="0"
