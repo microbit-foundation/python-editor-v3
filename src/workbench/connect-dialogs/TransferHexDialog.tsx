@@ -4,8 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Flex, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Icon,
+  Image,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
 import transferHexMac from "./transfer-hex-mac.gif";
@@ -71,18 +80,21 @@ const TransferHexDialogBody = () => {
             }}
           />
         </Text>
-        <Text fontStyle="italic">
-          <FormattedMessage
-            id="transfer-hex-message-two"
-            values={{
-              strong: (chunks: ReactNode) => (
-                <Text as="span" fontWeight="semibold">
-                  {chunks}
-                </Text>
-              ),
-            }}
-          />
-        </Text>
+        <HStack spacing={1}>
+          <Icon as={RiInformationLine} />
+          <Text>
+            <FormattedMessage
+              id="transfer-hex-message-two"
+              values={{
+                strong: (chunks: ReactNode) => (
+                  <Text as="span" fontWeight="semibold">
+                    {chunks}
+                  </Text>
+                ),
+              }}
+            />
+          </Text>
+        </HStack>
       </VStack>
       <Flex justifyContent="center" width="100%">
         <Image

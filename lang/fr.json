@@ -715,7 +715,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "Note: You can also <strong>Open</strong> the hex file later to continue editing.",
+    "defaultMessage": "You can also <strong>Open</strong> the hex file later to continue editing.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
