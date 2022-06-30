@@ -20,6 +20,7 @@ import {
   ToolkitInternalLink,
 } from "../reference/model";
 import CodeEmbed from "./CodeEmbed";
+import { decorateWithCollapseNodes } from "./collapse-util";
 
 export const enum DocumentationDetails {
   AlwaysShown,
@@ -211,9 +212,9 @@ const DocumentationContent = ({
   content = useMemo(() => {
     switch (details) {
       case DocumentationDetails.ExpandCollapse:
-        return withCollapseNodes(content, false);
+        return decorateWithCollapseNodes(content, false);
       case DocumentationDetails.FirstLineExpandCollapse:
-        return withCollapseNodes(content, true);
+        return decorateWithCollapseNodes(content, true);
       default:
         return content;
     }
@@ -222,54 +223,6 @@ const DocumentationContent = ({
   return content ? (
     <BlockContent blocks={content} serializers={serializers} />
   ) : null;
-};
-
-const withCollapseNodes = (
-  content: PortableText | undefined,
-  collapseToFirstLine: boolean
-): PortableText => {
-  if (!content || content.length === 0) {
-    return [];
-  }
-  // Collapsing empty paragraphs looks odd but is easy to do by accident in the CMS.
-  content = content.filter(
-    (b) =>
-      b._type !== "block" ||
-      (b.children as []).reduce(
-        (prev, curr) => prev + (curr as any).text?.length,
-        0
-      ) > 0
-  );
-
-  let result: PortableText = [];
-  let run: PortableText = [];
-  let runStart: number = -1;
-  for (let i = 0; i < content.length; ++i) {
-    const block = content[i];
-    const isLast = i === content.length - 1;
-    const isCode = block._type === "python";
-    if (!isCode) {
-      if (run.length === 0) {
-        runStart = i;
-      }
-      run.push(block);
-    }
-    if (isLast || isCode) {
-      if (run.length > 0) {
-        result.push({
-          _type: "collapse",
-          children: run,
-          collapseToFirstLine: collapseToFirstLine && runStart === 0,
-        });
-        run = [];
-        runStart = -1;
-      }
-    }
-    if (isCode) {
-      result.push(block);
-    }
-  }
-  return result;
 };
 
 export default React.memo(DocumentationContent);
