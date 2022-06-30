@@ -8,7 +8,7 @@ import { Image } from "@chakra-ui/image";
 import { Link, Text } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode, useContext, useMemo } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { PortableText, SimpleImage } from "../../common/sanity";
@@ -19,7 +19,6 @@ import {
   ToolkitExternalLink,
   ToolkitInternalLink,
 } from "../reference/model";
-import { useIsExpanded } from "../reference/ReferenceTopicEntry";
 import CodeEmbed from "./CodeEmbed";
 
 export const enum DocumentationDetails {
@@ -30,12 +29,37 @@ export const enum DocumentationDetails {
 
 interface DocumentationContentProps {
   content?: PortableText;
+  details?: DocumentationDetails;
+}
+
+interface DocumentationContextValue {
+  isExpanded?: boolean;
   parentSlug?: string;
   toolkitType?: string;
   title?: string;
-  details?: DocumentationDetails;
-  isExpanded?: boolean;
 }
+
+const DocumentationContext = React.createContext<DocumentationContextValue>({});
+
+export const DocumentationContextProvider = ({
+  children,
+  ...other
+}: DocumentationContextValue & { children: ReactNode }) => {
+  return (
+    <DocumentationContext.Provider value={other}>
+      {children}
+    </DocumentationContext.Provider>
+  );
+};
+
+const useIsExpanded = () => {
+  return useContext(DocumentationContext).isExpanded;
+};
+
+const useCodeEmbedContext = () => {
+  const { parentSlug, toolkitType, title } = useContext(DocumentationContext);
+  return { parentSlug, toolkitType, title };
+};
 
 const DocumentationApiLinkMark = (
   props: SerializerMarkProps<ToolkitApiLink>
@@ -132,6 +156,14 @@ const ContextualCollapse = ({
   );
 };
 
+const ContextualCodeEmbed = ({ code }: { code: string }) => {
+  const context = useCodeEmbedContext();
+  return <CodeEmbed {...context} code={code} />;
+};
+
+// We use context for information that would otherwise
+// require us to recreate serializers to avoid elements
+// being recreated that would break animations.
 const serializers = {
   // This is a serializer for the wrapper element.
   // We use a fragment so we can use spacing from the context into which we render.
@@ -144,12 +176,7 @@ const serializers = {
       collapseToFirstLine: boolean;
     }>) => <ContextualCollapse {...node} />,
     python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
-      <CodeEmbed
-        code={main}
-        parentSlug={"doo"}
-        toolkitType={undefined}
-        title=""
-      />
+      <ContextualCodeEmbed code={main} />
     ),
     simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
       return (
@@ -173,13 +200,12 @@ const serializers = {
   },
 };
 
+/**
+ * Wrap with DocumentationContextProvider for linking and other contextual behaviours.
+ */
 const DocumentationContent = ({
   content,
   details = DocumentationDetails.AlwaysShown,
-  isExpanded,
-  parentSlug,
-  toolkitType,
-  title = "",
 }: DocumentationContentProps) => {
   // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
   content = useMemo(() => {

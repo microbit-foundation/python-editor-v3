@@ -11,6 +11,7 @@ import { docStyles } from "../../common/documentation-styles";
 import { PortableText } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent, {
+  DocumentationContextProvider,
   DocumentationDetails,
 } from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
@@ -73,7 +74,12 @@ const ReferenceTopicEntry = ({
   const disclosure = useDisclosure();
   const toolkitType = "reference";
   return (
-    <IsExpandedContext.Provider value={disclosure.isOpen}>
+    <DocumentationContextProvider
+      parentSlug={entry.slug.current}
+      toolkitType={toolkitType}
+      isExpanded={disclosure.isOpen}
+      title={topic.name}
+    >
       <Highlight
         anchor={anchor}
         id={topic.name}
@@ -111,9 +117,6 @@ const ReferenceTopicEntry = ({
           <DocumentationContent
             content={content}
             details={DocumentationDetails.FirstLineExpandCollapse}
-            isExpanded={!hasMore || disclosure.isOpen}
-            parentSlug={entry.slug.current}
-            toolkitType={toolkitType}
           />
           {alternatives && typeof alternativeIndex === "number" && (
             <>
@@ -137,27 +140,20 @@ const ReferenceTopicEntry = ({
 
               <DocumentationContent
                 details={DocumentationDetails.ExpandCollapse}
-                isExpanded={disclosure.isOpen}
                 content={alternatives[alternativeIndex].content}
-                parentSlug={entry.slug.current}
-                toolkitType={toolkitType}
               />
             </>
           )}
           {detailContent && (
             <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
               <Stack spacing={3} mt={3}>
-                <DocumentationContent
-                  content={detailContent}
-                  parentSlug={entry.slug.current}
-                  toolkitType={toolkitType}
-                />
+                <DocumentationContent content={detailContent} />
               </Stack>
             </Collapse>
           )}
         </Stack>
       </Highlight>
-    </IsExpandedContext.Provider>
+    </DocumentationContextProvider>
   );
 };
 
