@@ -5,7 +5,7 @@
  */
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Link, Text } from "@chakra-ui/layout";
+import { Link, Stack, Text, Box } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
@@ -22,15 +22,16 @@ import {
 import CodeEmbed from "./CodeEmbed";
 import { decorateWithCollapseNodes } from "./collapse-util";
 
-export const enum DocumentationDetails {
-  AlwaysShown,
-  ExpandCollapse,
-  FirstLineExpandCollapse,
+export const enum DocumentationCollapseMode {
+  ShowAll,
+  ExpandCollapseAll,
+  ExpandCollapseExceptCode,
+  ExpandCollapseExceptCodeAndFirstLine,
 }
 
 interface DocumentationContentProps {
   content?: PortableText;
-  details?: DocumentationDetails;
+  details?: DocumentationCollapseMode;
 }
 
 interface DocumentationContextValue {
@@ -148,18 +149,22 @@ const ContextualCollapse = ({
   return (
     <Collapse
       in={isExpanded}
-      startingHeight={collapseToFirstLine ? "1.3125rem" : undefined}
+      startingHeight={collapseToFirstLine ? "2.0625rem" : undefined}
     >
-      <Text as="div" noOfLines={justFirstLine ? 1 : undefined}>
+      <Stack spacing={3} mt={3} noOfLines={justFirstLine ? 1 : undefined}>
         <BlockContent blocks={children} serializers={serializers} />
-      </Text>
+      </Stack>
     </Collapse>
   );
 };
 
 const ContextualCodeEmbed = ({ code }: { code: string }) => {
   const context = useCodeEmbedContext();
-  return <CodeEmbed {...context} code={code} />;
+  return (
+    <Box mt={3}>
+      <CodeEmbed {...context} code={code} />
+    </Box>
+  );
 };
 
 // We use context for information that would otherwise
@@ -206,18 +211,14 @@ const serializers = {
  */
 const DocumentationContent = ({
   content,
-  details = DocumentationDetails.AlwaysShown,
+  details = DocumentationCollapseMode.ShowAll,
 }: DocumentationContentProps) => {
   // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
   content = useMemo(() => {
-    switch (details) {
-      case DocumentationDetails.ExpandCollapse:
-        return decorateWithCollapseNodes(content, false);
-      case DocumentationDetails.FirstLineExpandCollapse:
-        return decorateWithCollapseNodes(content, true);
-      default:
-        return content;
+    if (details === DocumentationCollapseMode.ShowAll) {
+      return content;
     }
+    return decorateWithCollapseNodes(content, details);
   }, [details, content]);
 
   return content ? (

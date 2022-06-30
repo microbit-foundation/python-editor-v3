@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, HStack, Stack, Text } from "@chakra-ui/layout";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text } from "@chakra-ui/layout";
+import { useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
 import { ChangeEvent, useCallback, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
@@ -12,7 +12,7 @@ import { PortableText } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent, {
   DocumentationContextProvider,
-  DocumentationDetails,
+  DocumentationCollapseMode,
 } from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import { isV2Only } from "../common/model";
@@ -81,8 +81,7 @@ const ReferenceTopicEntry = ({
         active={active}
         disclosure={disclosure}
       >
-        <Stack
-          spacing={3}
+        <Box
           fontSize="sm"
           p={5}
           pr={3}
@@ -111,11 +110,13 @@ const ReferenceTopicEntry = ({
 
           <DocumentationContent
             content={content}
-            details={DocumentationDetails.FirstLineExpandCollapse}
+            details={
+              DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
+            }
           />
           {alternatives && typeof alternativeIndex === "number" && (
             <>
-              <Flex wrap="wrap" as="label">
+              <Flex wrap="wrap" as="label" mt={3}>
                 <Text alignSelf="center" mr={2} as="span">
                   {alternativesLabel}
                 </Text>
@@ -134,19 +135,16 @@ const ReferenceTopicEntry = ({
               </Flex>
 
               <DocumentationContent
-                details={DocumentationDetails.ExpandCollapse}
+                details={DocumentationCollapseMode.ExpandCollapseExceptCode}
                 content={alternatives[alternativeIndex].content}
               />
             </>
           )}
-          {detailContent && (
-            <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-              <Stack spacing={3} mt={3}>
-                <DocumentationContent content={detailContent} />
-              </Stack>
-            </Collapse>
-          )}
-        </Stack>
+          <DocumentationContent
+            details={DocumentationCollapseMode.ExpandCollapseAll}
+            content={detailContent}
+          />
+        </Box>
       </Highlight>
     </DocumentationContextProvider>
   );

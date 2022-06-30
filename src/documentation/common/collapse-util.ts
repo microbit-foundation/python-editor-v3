@@ -1,22 +1,24 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { PortableText } from "../../common/sanity";
+import { DocumentationCollapseMode } from "./DocumentationContent";
 
 /**
- * Inserts collapse nodes around runs of non-code blocks.
- *
- * If collapseToFirstLine is enabled then tags the run containing
- * the first line (assuming it's not code) with the collapseToFirstLine
- * prop.
+ * Inserts collapse nodes around all content or runs of non-code blocks.
  *
  * The intention is you can then add a serializer that handles nodes
  * with _type == "collapse".
  *
  * @param content The content.
- * @param collapseToFirstLine Flag to show first line when collapsed.
+ * @param mode Collapse mode.
  * @returns The updated portable text content.
  */
 export const decorateWithCollapseNodes = (
   content: PortableText | undefined,
-  collapseToFirstLine: boolean
+  mode: DocumentationCollapseMode
 ): PortableText => {
   if (!content || content.length === 0) {
     return [];
@@ -30,6 +32,21 @@ export const decorateWithCollapseNodes = (
         0
       ) > 0
   );
+
+  // If we're expand/collapsing everything then we don't need to track runs.
+  if (mode === DocumentationCollapseMode.ExpandCollapseAll) {
+    return [
+      {
+        _type: "collapse",
+        children: content,
+        collapseToFirstLine: false,
+      },
+    ];
+  }
+
+  // Only variation now is the treatment of the first run.
+  const collapseToFirstLine =
+    mode === DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine;
 
   let result: PortableText = [];
   let run: PortableText = [];

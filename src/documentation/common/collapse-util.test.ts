@@ -1,14 +1,37 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * @jest-environment ./src/testing/custom-browser-env
+ */
 import { PortableText } from "../../common/sanity";
 import { decorateWithCollapseNodes } from "./collapse-util";
+import { DocumentationCollapseMode } from "./DocumentationContent";
 
 describe("decorateWithCollapseNodes", () => {
   it("copes with empty inputs", () => {
-    expect(decorateWithCollapseNodes(undefined, false)).toEqual([]);
-    expect(decorateWithCollapseNodes([], false)).toEqual([]);
+    expect(
+      decorateWithCollapseNodes(
+        undefined,
+        DocumentationCollapseMode.ExpandCollapseExceptCode
+      )
+    ).toEqual([]);
+    expect(
+      decorateWithCollapseNodes(
+        [],
+        DocumentationCollapseMode.ExpandCollapseExceptCode
+      )
+    ).toEqual([]);
   });
   it("A", () => {
     const content: PortableText = [blockA];
-    expect(decorateWithCollapseNodes(content, false)).toEqual([
+    expect(
+      decorateWithCollapseNodes(
+        content,
+        DocumentationCollapseMode.ExpandCollapseExceptCode
+      )
+    ).toEqual([
       {
         _type: "collapse",
         children: [blockA],
@@ -18,7 +41,12 @@ describe("decorateWithCollapseNodes", () => {
   });
   it("A (collapseFirst)", () => {
     const content: PortableText = [blockA];
-    expect(decorateWithCollapseNodes(content, true)).toEqual([
+    expect(
+      decorateWithCollapseNodes(
+        content,
+        DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
+      )
+    ).toEqual([
       {
         _type: "collapse",
         children: [blockA],
@@ -28,7 +56,12 @@ describe("decorateWithCollapseNodes", () => {
   });
   it("A, B (collapseFirst)", () => {
     const content: PortableText = [blockA, blockB];
-    expect(decorateWithCollapseNodes(content, true)).toEqual([
+    expect(
+      decorateWithCollapseNodes(
+        content,
+        DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
+      )
+    ).toEqual([
       {
         _type: "collapse",
         children: [blockA, blockB],
@@ -38,7 +71,12 @@ describe("decorateWithCollapseNodes", () => {
   });
   it("A, python", () => {
     const content: PortableText = [blockA, python];
-    expect(decorateWithCollapseNodes(content, false)).toEqual([
+    expect(
+      decorateWithCollapseNodes(
+        content,
+        DocumentationCollapseMode.ExpandCollapseExceptCode
+      )
+    ).toEqual([
       {
         _type: "collapse",
         children: [blockA],
@@ -49,7 +87,12 @@ describe("decorateWithCollapseNodes", () => {
   });
   it("python, B (collapseFirst)", () => {
     const content: PortableText = [python, blockB];
-    expect(decorateWithCollapseNodes(content, true)).toEqual([
+    expect(
+      decorateWithCollapseNodes(
+        content,
+        DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
+      )
+    ).toEqual([
       python,
       {
         _type: "collapse",
