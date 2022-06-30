@@ -19,6 +19,7 @@ import {
   ToolkitExternalLink,
   ToolkitInternalLink,
 } from "../reference/model";
+import { useIsExpanded } from "../reference/ReferenceTopicEntry";
 import CodeEmbed from "./CodeEmbed";
 
 export const enum DocumentationDetails {
@@ -109,6 +110,55 @@ interface SerializerMarkProps<T> extends HasChildren {
   mark: T;
 }
 
+const ContextualCollapse = ({ children }: { children: PortableText }) => {
+  const isExpanded = useIsExpanded();
+  return (
+    <Collapse in={isExpanded}>
+      <BlockContent blocks={children} serializers={serializers} />
+    </Collapse>
+  );
+};
+
+const serializers = {
+  // This is a serializer for the wrapper element.
+  // We use a fragment so we can use spacing from the context into which we render.
+  container: ({ children }: HasChildren) => <>{children}</>,
+  types: {
+    collapse: ({
+      node: { children },
+    }: SerializerNodeProps<{ children: PortableText }>) => (
+      <ContextualCollapse children={children} />
+    ),
+    python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
+      <CodeEmbed
+        code={main}
+        parentSlug={"doo"}
+        toolkitType={undefined}
+        title=""
+      />
+    ),
+    simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
+      return (
+        <Image
+          src={imageUrlBuilder
+            .image(props.node.asset)
+            .width(300)
+            .fit("max")
+            .url()}
+          alt={props.node.alt}
+          width={300}
+          sx={{ aspectRatio: getAspectRatio(props.node.asset._ref) }}
+        />
+      );
+    },
+  },
+  marks: {
+    toolkitInternalLink: DocumentationInternalLinkMark,
+    toolkitApiLink: DocumentationApiLinkMark,
+    link: DocumentationExternalLinkMark,
+  },
+};
+
 const DocumentationContent = ({
   content,
   details = DocumentationDetails.AlwaysShown,
@@ -123,47 +173,7 @@ const DocumentationContent = ({
       ? withCollapseNodes(content)
       : content;
   }, [details, content]);
-  const serializers = {
-    // This is a serializer for the wrapper element.
-    // We use a fragment so we can use spacing from the context into which we render.
-    container: ({ children }: HasChildren) => <>{children}</>,
-    types: {
-      collapse: ({
-        node: { children },
-      }: SerializerNodeProps<{ children: PortableText }>) => (
-        <Collapse in={isExpanded}>
-          <BlockContent blocks={children} serializers={serializers} />
-        </Collapse>
-      ),
-      python: ({ node: { main } }: SerializerNodeProps<ToolkitCode>) => (
-        <CodeEmbed
-          code={main}
-          parentSlug={parentSlug}
-          toolkitType={toolkitType}
-          title={title}
-        />
-      ),
-      simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
-        return (
-          <Image
-            src={imageUrlBuilder
-              .image(props.node.asset)
-              .width(300)
-              .fit("max")
-              .url()}
-            alt={props.node.alt}
-            width={300}
-            sx={{ aspectRatio: getAspectRatio(props.node.asset._ref) }}
-          />
-        );
-      },
-    },
-    marks: {
-      toolkitInternalLink: DocumentationInternalLinkMark,
-      toolkitApiLink: DocumentationApiLinkMark,
-      link: DocumentationExternalLinkMark,
-    },
-  };
+
   return content ? (
     <BlockContent blocks={content} serializers={serializers} />
   ) : null;

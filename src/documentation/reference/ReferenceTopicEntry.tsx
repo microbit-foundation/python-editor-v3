@@ -6,7 +6,7 @@
 import { Flex, HStack, Stack, Text } from "@chakra-ui/layout";
 import { Collapse, useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
-import { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useContext, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
 import { PortableText, toFirstBlockIfBlock } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
@@ -28,6 +28,11 @@ interface ToolkitTopicEntryProps {
   active?: boolean;
   anchor?: Anchor;
 }
+
+const IsExpandedContext = React.createContext(false);
+export const useIsExpanded = (): boolean => {
+  return useContext(IsExpandedContext);
+};
 
 /**
  * A toolkit topic entry. Can be displayed with and without detail.
@@ -69,95 +74,100 @@ const ReferenceTopicEntry = ({
   const toolkitType = "reference";
   const firstContentBlock = toFirstBlockIfBlock(content);
   return (
-    <Highlight
-      anchor={anchor}
-      id={topic.name}
-      active={active}
-      disclosure={disclosure}
-    >
-      <Stack
-        spacing={3}
-        fontSize="sm"
-        p={5}
-        pr={3}
-        mt={1}
-        mb={1}
-        listStylePos="inside"
-        className="docs-code"
-        sx={{
-          "& ul": { listStyleType: "disc", pl: 3 },
-          ...docStyles,
-        }}
+    <IsExpandedContext.Provider value={disclosure.isOpen}>
+      <Highlight
+        anchor={anchor}
+        id={topic.name}
+        active={active}
+        disclosure={disclosure}
       >
-        <HStack justifyContent="space-between" flexWrap="nowrap">
-          <DocumentationHeading name={entry.name} isV2Only={isV2Only(entry)} />
-          {hasMore && (
-            <ShowMoreButton
-              isBrief
-              onClick={disclosure.onToggle}
-              isOpen={disclosure.isOpen}
+        <Stack
+          spacing={3}
+          fontSize="sm"
+          p={5}
+          pr={3}
+          mt={1}
+          mb={1}
+          listStylePos="inside"
+          className="docs-code"
+          sx={{
+            "& ul": { listStyleType: "disc", pl: 3 },
+            ...docStyles,
+          }}
+        >
+          <HStack justifyContent="space-between" flexWrap="nowrap">
+            <DocumentationHeading
+              name={entry.name}
+              isV2Only={isV2Only(entry)}
             />
-          )}
-        </HStack>
+            {hasMore && (
+              <ShowMoreButton
+                isBrief
+                onClick={disclosure.onToggle}
+                isOpen={disclosure.isOpen}
+              />
+            )}
+          </HStack>
 
-        {hasMore && !disclosure.isOpen && firstContentBlock.length > 0 && (
-          <Text noOfLines={1} as="div">
-            <DocumentationContent
-              content={firstContentBlock}
-              parentSlug={entry.slug.current}
-              toolkitType={toolkitType}
-            />
-          </Text>
-        )}
-        <DocumentationContent
-          content={content}
-          details={DocumentationDetails.ExpandCollapse}
-          isExpanded={!hasMore || disclosure.isOpen}
-          parentSlug={entry.slug.current}
-          toolkitType={toolkitType}
-        />
-        {alternatives && typeof alternativeIndex === "number" && (
-          <>
-            <Flex wrap="wrap" as="label">
-              <Text alignSelf="center" mr={2} as="span">
-                {alternativesLabel}
-              </Text>
-              <Select
-                w="fit-content"
-                onChange={handleSelectChange}
-                value={alternativeIndex}
-                size="sm"
-              >
-                {alternatives.map((alterative, index) => (
-                  <option key={alterative.name} value={index}>
-                    {alterative.name}
-                  </option>
-                ))}
-              </Select>
-            </Flex>
-
-            <DocumentationContent
-              details={DocumentationDetails.ExpandCollapse}
-              isExpanded={disclosure.isOpen}
-              content={alternatives[alternativeIndex].content}
-              parentSlug={entry.slug.current}
-              toolkitType={toolkitType}
-            />
-          </>
-        )}
-        {detailContent && (
-          <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
-            <Stack spacing={3} mt={3}>
+          {hasMore && !disclosure.isOpen && firstContentBlock.length > 0 && (
+            <Text noOfLines={1} as="div">
               <DocumentationContent
-                content={detailContent}
+                content={firstContentBlock}
                 parentSlug={entry.slug.current}
                 toolkitType={toolkitType}
               />
-            </Stack>
-          </Collapse>
-        )}
-      </Stack>
-    </Highlight>
+            </Text>
+          )}
+          <DocumentationContent
+            content={content}
+            details={DocumentationDetails.ExpandCollapse}
+            isExpanded={!hasMore || disclosure.isOpen}
+            parentSlug={entry.slug.current}
+            toolkitType={toolkitType}
+          />
+          {alternatives && typeof alternativeIndex === "number" && (
+            <>
+              <Flex wrap="wrap" as="label">
+                <Text alignSelf="center" mr={2} as="span">
+                  {alternativesLabel}
+                </Text>
+                <Select
+                  w="fit-content"
+                  onChange={handleSelectChange}
+                  value={alternativeIndex}
+                  size="sm"
+                >
+                  {alternatives.map((alterative, index) => (
+                    <option key={alterative.name} value={index}>
+                      {alterative.name}
+                    </option>
+                  ))}
+                </Select>
+              </Flex>
+
+              <DocumentationContent
+                details={DocumentationDetails.ExpandCollapse}
+                isExpanded={disclosure.isOpen}
+                content={alternatives[alternativeIndex].content}
+                parentSlug={entry.slug.current}
+                toolkitType={toolkitType}
+              />
+            </>
+          )}
+          {detailContent && (
+            <Collapse in={disclosure.isOpen} style={{ marginTop: 0 }}>
+              <Stack spacing={3} mt={3}>
+                <DocumentationContent
+                  content={detailContent}
+                  parentSlug={entry.slug.current}
+                  toolkitType={toolkitType}
+                />
+              </Stack>
+            </Collapse>
+          )}
+        </Stack>
+      </Highlight>
+    </IsExpandedContext.Provider>
   );
 };
 
