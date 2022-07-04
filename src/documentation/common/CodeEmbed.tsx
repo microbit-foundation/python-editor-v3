@@ -69,28 +69,34 @@ const CodeEmbed = ({
   // We don't ever want to delay other actions.
   const setState = useMemo(() => {
     let timeout: any;
-    return (
-      newState: CodeEmbedState | undefined,
-      immediate: boolean = true
-    ) => {
+    return (newState: CodeEmbedState, immediate: boolean = true) => {
       clearTimeout(timeout);
-      if (!newState) {
-        // Just clear the timeout.
-        return;
-      }
       if (immediate) {
         originalSetState(newState);
       } else {
         timeout = setTimeout(() => {
           originalSetState(newState);
-        }, 25);
+        }, 30);
       }
     };
   }, [originalSetState]);
   const toRaised = useCallback(() => setState("raised", false), [setState]);
   const toDefault = useCallback(() => setState("default"), [setState]);
   const toHighlighted = useCallback(() => setState("highlighted"), [setState]);
-  const clearPending = useCallback(() => setState(undefined), [setState]);
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (!codeRef.current) {
+        return;
+      }
+      const overElements = document.elementsFromPoint(e.clientX, e.clientY);
+      if (!overElements.includes(codeRef.current)) {
+        toDefault();
+      } else {
+        // The mouse hasn't really left, it's just now over the pop-up.
+      }
+    },
+    [toDefault]
+  );
   useScrollableAncestorScroll(toDefault);
 
   const actions = useActiveEditorActions();
@@ -167,7 +173,7 @@ const CodeEmbed = ({
       <Box height={codeHeight} fontSize="md">
         <Code
           onMouseEnter={toRaised}
-          onMouseLeave={clearPending}
+          onMouseLeave={handleMouseLeave}
           onCodeDragEnd={toDefault}
           onCopyCode={handleCopyCode}
           isOpen={copyCodeButton.isOpen}
