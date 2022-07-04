@@ -15,7 +15,9 @@ import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
-import DocumentationContent from "../common/DocumentationContent";
+import DocumentationContent, {
+  DocumentationContextProvider,
+} from "../common/DocumentationContent";
 import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
@@ -108,12 +110,13 @@ const ActiveLevel = ({
               />
             )}
 
-            <DocumentationContent
-              content={activeIdea.content}
+            <DocumentationContextProvider
               parentSlug={activeIdea.slug.current}
               toolkitType="ideas"
               title={activeIdea.name}
-            />
+            >
+              <DocumentationContent content={activeIdea.content} />
+            </DocumentationContextProvider>
           </Stack>
         )}
       </HeadedScrollablePanel>

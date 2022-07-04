@@ -390,6 +390,10 @@
     "defaultMessage": "Ланджюадже",
     "description": "Language option text"
   },
+  "less-action": {
+    "defaultMessage": "Less",
+    "description": "Less button text (showing less content)"
+  },
   "load-error-mixed": {
     "defaultMessage": "А хекс філе сан онлу бе лоадед он ітс овн. Іт репласес алл філес ін тхе проджест.",
     "description": "Load error message"

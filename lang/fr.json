@@ -390,6 +390,10 @@
     "defaultMessage": "Langue",
     "description": "Language option text"
   },
+  "less-action": {
+    "defaultMessage": "Less",
+    "description": "Less button text (showing less content)"
+  },
   "load-error-mixed": {
     "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
     "description": "Load error message"
