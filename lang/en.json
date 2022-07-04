@@ -351,10 +351,6 @@
     "defaultMessage": "Font size",
     "description": "Font size option text"
   },
-  "get-started-action": {
-    "defaultMessage": "Get started",
-    "description": "Get started button text"
-  },
   "guide-link": {
     "defaultMessage": "For more support, see the <link>Python Editor Guide</link>",
     "description": "Text with link to the Python Editor Guide"
@@ -699,6 +695,10 @@
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"
   },
+  "start-coding-action": {
+    "defaultMessage": "Start coding",
+    "description": "Start coding button text"
+  },
   "support": {
     "defaultMessage": "Support",
     "description": "Support menu option text"
@@ -795,8 +795,12 @@
     "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
+  "welcome-message": {
+    "defaultMessage": "Check out all the features in the video, or get coding right away.",
+    "description": "Text in the welcome dialogn"
+  },
   "welcome-title": {
-    "defaultMessage": "Welcome!",
+    "defaultMessage": "Welcome to the micro:bit Python Editor",
     "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {

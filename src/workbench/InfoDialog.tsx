@@ -89,6 +89,9 @@ const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
                 )}
               </Stack>
               <Text>
+                <FormattedMessage id="welcome-message" />
+              </Text>
+              <Text>
                 <FormattedMessage
                   id="guide-link"
                   values={{
@@ -111,7 +114,7 @@ const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
           <ModalFooter>
             <HStack spacing={2.5}>
               <Button size="lg" variant="solid" onClick={onClose}>
-                <FormattedMessage id="get-started-action" />
+                <FormattedMessage id="start-coding-action" />
               </Button>
             </HStack>
           </ModalFooter>

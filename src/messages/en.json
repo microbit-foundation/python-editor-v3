@@ -673,12 +673,6 @@
       "value": "Font size"
     }
   ],
-  "get-started-action": [
-    {
-      "type": 0,
-      "value": "Get started"
-    }
-  ],
   "guide-link": [
     {
       "type": 0,
@@ -1447,6 +1441,12 @@
       "value": "Software versions"
     }
   ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "Start coding"
+    }
+  ],
   "support": [
     {
       "type": 0,
@@ -1637,10 +1637,16 @@
       "value": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor."
     }
   ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "Check out all the features in the video, or get coding right away."
+    }
+  ],
   "welcome-title": [
     {
       "type": 0,
-      "value": "Welcome!"
+      "value": "Welcome to the micro:bit Python Editor"
     }
   ],
   "zoom-in-action": [
