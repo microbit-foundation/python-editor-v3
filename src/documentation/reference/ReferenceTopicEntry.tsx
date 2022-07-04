@@ -56,9 +56,11 @@ const ReferenceTopicEntry = ({
   const hasMore =
     hasCode &&
     (detailContent ||
-      contentHasNonCode(content) ||
+      contentHasSomeNonCode(content) ||
       (alternatives &&
-        contentHasNonCode(alternatives[alternativeIndex as number].content)));
+        contentHasSomeNonCode(
+          alternatives[alternativeIndex as number].content
+        )));
 
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -152,7 +154,7 @@ const ReferenceTopicEntry = ({
   );
 };
 
-const contentHasNonCode = (content: PortableText | undefined) =>
+const contentHasSomeNonCode = (content: PortableText | undefined) =>
   content && content.some((x) => x._type !== "python");
 
 const contentHasCode = (content: PortableText | undefined) =>
