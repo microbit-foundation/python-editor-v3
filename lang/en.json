@@ -127,10 +127,6 @@
     "defaultMessage": "Confirm delete",
     "description": "Confirmation header of deletion of a file"
   },
-  "confirm-download-action": {
-    "defaultMessage": "Confirm and download",
-    "description": "Confirm and download action label"
-  },
   "confirm-replace-body": {
     "defaultMessage": "Replace all files with those in the hex?",
     "description": "Confirmation message body for replacing project dialog"
@@ -142,6 +138,10 @@
   "confirm-replace-with-idea": {
     "defaultMessage": "Replace all files with {ideaName}?",
     "description": "Confirmation message body for replacing project dialog with an idea"
+  },
+  "confirm-save-action": {
+    "defaultMessage": "Confirm and save",
+    "description": "Confirm and save action label"
   },
   "connect-action": {
     "defaultMessage": "Connect",
@@ -234,26 +234,6 @@
   "dont-show-again": {
     "defaultMessage": "Don't show this again",
     "description": "Text to never show a dialog again"
-  },
-  "download-action": {
-    "defaultMessage": "Download",
-    "description": "Download button text"
-  },
-  "download-file-action": {
-    "defaultMessage": "Download {name}",
-    "description": "Menu option to download file"
-  },
-  "download-hex-action": {
-    "defaultMessage": "Download project hex",
-    "description": "Text for menu item for downloading project hex file"
-  },
-  "download-hover": {
-    "defaultMessage": "Download a project hex file",
-    "description": "Hover text over download button"
-  },
-  "download-python-action": {
-    "defaultMessage": "Download Python script",
-    "description": "Download button menu option for downloading Python script"
   },
   "drag-hover": {
     "defaultMessage": "Drag and drop",
@@ -439,9 +419,9 @@
     "defaultMessage": "More connect options",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
-  "more-download-options": {
-    "defaultMessage": "More download options",
-    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  "more-save-options": {
+    "defaultMessage": "More save options",
+    "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "name-project": {
     "defaultMessage": "Name your project",
@@ -452,7 +432,7 @@
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "The name is used when you download a hex file.",
+    "defaultMessage": "The name is used when you save a hex file.",
     "description": "Text under project name field"
   },
   "new-file-hint": {
@@ -471,13 +451,13 @@
     "defaultMessage": "If you have a <strong>micro:bit V1</strong> you may need to <link>update the firmware</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
-  "not-found-download-message": {
-    "defaultMessage": "Alternative method: choose Download",
-    "description": "Download text prompt in the no micro:bit found dialog"
-  },
   "not-found-message": {
     "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
     "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-save-message": {
+    "defaultMessage": "Alternative method: choose Save then follow steps to transfer",
+    "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
     "defaultMessage": "No micro:bit found",
@@ -578,6 +558,26 @@
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "description": "Number of results from a search"
+  },
+  "save-action": {
+    "defaultMessage": "Save",
+    "description": "Save button text"
+  },
+  "save-file-action": {
+    "defaultMessage": "Save {name}",
+    "description": "Menu option to save a file"
+  },
+  "save-hex-action": {
+    "defaultMessage": "Save project hex",
+    "description": "Text for menu item for saving a project hex file"
+  },
+  "save-hover": {
+    "defaultMessage": "Save the project hex file to your computer",
+    "description": "Hover text over save button"
+  },
+  "save-python-action": {
+    "defaultMessage": "Save Python script",
+    "description": "Save button menu option to save the Python script"
   },
   "search": {
     "defaultMessage": "Search",
@@ -724,7 +724,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "Transfer downloaded hex file to micro:bit",
+    "defaultMessage": "Transfer saved hex file to micro:bit",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
@@ -759,10 +759,6 @@
     "defaultMessage": "visit microbit.org (opens in a new tab)",
     "description": "alt text for logo link to .org"
   },
-  "webusb-download-instead": {
-    "defaultMessage": "Download the hex file or try Chrome or Microsoft Edge.",
-    "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
-  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Another process is connected to this device.",
     "description": "Part of WebUSB error message"
@@ -792,7 +788,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be saved instead. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {

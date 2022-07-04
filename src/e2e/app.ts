@@ -623,15 +623,15 @@ export class App {
   }
 
   /**
-   * Trigger a download but don't wait for it to complete.
+   * Trigger a save but don't wait for it to complete.
    *
    * Useful when the action is expected to fail.
-   * Otherwise see waitForDownload.
+   * Otherwise see waitForSave.
    */
-  async download(): Promise<void> {
+  async save(): Promise<void> {
     const document = await this.document();
-    const downloadButton = await document.getByText("Download");
-    return downloadButton.click();
+    const saveButton = await document.getByText("Save");
+    return saveButton.click();
   }
 
   async connect(): Promise<void> {
@@ -699,7 +699,7 @@ export class App {
 
   async confirmTransferHexHelpDialog(): Promise<void> {
     const document = await this.document();
-    await document.findByText("Transfer downloaded hex file to micro:bit", {
+    await document.findByText("Transfer saved hex file to micro:bit", {
       selector: "h2",
     });
   }
@@ -796,12 +796,12 @@ export class App {
   }
 
   /**
-   * Trigger a download and wait for it to complete.
+   * Trigger a hex file save and wait for the download to complete.
    *
    * @returns Download details.
    */
-  async waitForDownload(): Promise<BrowserDownload> {
-    return this.waitForDownloadOnDisk(() => this.download());
+  async waitForSave(): Promise<BrowserDownload> {
+    return this.waitForDownloadOnDisk(() => this.save());
   }
 
   /**

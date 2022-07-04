@@ -10,7 +10,7 @@ import { ReactNode, useCallback, useState } from "react";
 import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
-import DownloadButton from "../../project/DownloadButton";
+import SaveButton from "../../project/SaveButton";
 import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
 
@@ -24,7 +24,7 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
     setReturnFocus(false);
     callback(ConnectErrorChoice.TRY_AGAIN);
   }, [callback, setReturnFocus]);
-  const onDownload = useCallback(() => {
+  const onSave = useCallback(() => {
     setReturnFocus(false);
     callback(ConnectErrorChoice.CANCEL);
   }, [callback, setReturnFocus]);
@@ -32,9 +32,7 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
     <GenericDialog
       returnFocusOnClose={returnFocus}
       onClose={() => callback(ConnectErrorChoice.CANCEL)}
-      body={
-        <NotFoundDialogBody onDownload={onDownload} onTryAgain={onTryAgain} />
-      }
+      body={<NotFoundDialogBody onSave={onSave} onTryAgain={onTryAgain} />}
       footer={
         <NotFoundDialogFooter
           onTryAgain={onTryAgain}
@@ -47,12 +45,12 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
 };
 
 interface ConnectNotFoundDialogProps {
-  onDownload: () => void;
+  onSave: () => void;
   onTryAgain: () => void;
 }
 
 const NotFoundDialogBody = ({
-  onDownload,
+  onSave,
   onTryAgain,
 }: ConnectNotFoundDialogProps) => {
   const handleReviewDevice = useCallback(
@@ -152,10 +150,10 @@ const NotFoundDialogBody = ({
       >
         <Icon as={RiDownload2Line} color="brand.500" h={6} w={6} mr={5} />
         <Text fontWeight="semibold" mr="auto">
-          <FormattedMessage id="not-found-download-message" />
+          <FormattedMessage id="not-found-save-message" />
         </Text>
-        <Box onClick={onDownload}>
-          <DownloadButton mode="button" />
+        <Box onClick={onSave}>
+          <SaveButton mode="button" />
         </Box>
       </Flex>
     </VStack>
