@@ -40,6 +40,9 @@ import FirmwareDialog, {
   ConnectErrorChoice,
 } from "../workbench/connect-dialogs/FirmwareDialog";
 import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
+import TransferHexDialog, {
+  TransferHexChoice,
+} from "../workbench/connect-dialogs/TransferHexDialog";
 import WebUSBDialog, {
   WebUSBErrorTrigger,
 } from "../workbench/connect-dialogs/WebUSBDialog";
@@ -463,6 +466,7 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
+    this.handleTransferHexDialog();
   };
 
   /**
@@ -782,6 +786,29 @@ export class ProjectActions {
         };
       default:
         throw new Error("Unknown code");
+    }
+  }
+
+  private async handleTransferHexDialog() {
+    const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
+    if (!showTransferHexHelpSetting) {
+      return;
+    }
+    const choice = await this.dialogs.show<TransferHexChoice>((callback) => (
+      <TransferHexDialog
+        callback={callback}
+        dialogNormallyHidden={!showTransferHexHelpSetting}
+      />
+    ));
+    if (choice === TransferHexChoice.CancelDontShowAgain) {
+      this.settings.setValues({
+        ...this.settings.values,
+        showTransferHexHelp: false,
+      });
     }
   }
 

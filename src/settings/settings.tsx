@@ -60,6 +60,7 @@ export const defaultSettings: Settings = {
   codeStructureHighlight: "full",
   parameterHelp: "automatic",
   showConnectHelp: true,
+  showTransferHexHelp: true,
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -97,6 +98,7 @@ export interface Settings {
   codeStructureHighlight: CodeStructureOption;
   parameterHelp: ParameterHelpOption;
   showConnectHelp: boolean;
+  showTransferHexHelp: boolean;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];
