@@ -10,6 +10,7 @@ import { ensureSyntaxTree } from "@codemirror/language";
 import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
 import { CodeInsertType } from "./dnd";
+import { indentBy, removeCommonIndent } from "./indent";
 
 export interface RequiredImport {
   module: string;
@@ -71,7 +72,7 @@ export const calculateChanges = (
   );
   const sourceImportsTo =
     sourceImports[sourceImports.length - 1]?.node?.to ?? 0;
-  const mainCode = source.slice(sourceImportsTo).trim();
+  let mainCode = source.slice(sourceImportsTo).trim();
   const requiredImports = sourceImports.flatMap(
     convertImportNodeToRequiredImports
   );
@@ -118,6 +119,13 @@ export const calculateChanges = (
     }
 
     const insertLine = state.doc.lineAt(mainFrom);
+    const whileTrueLine = "while True:\n";
+    if (
+      mainCode.startsWith(whileTrueLine) &&
+      isInWhileTrueTree(state, mainFrom)
+    ) {
+      mainCode = removeCommonIndent(mainCode.slice(whileTrueLine.length));
+    }
     mainIndent = insertLine.text.match(/^(\s*)/)?.[0] ?? "";
     mainChange = {
       from: mainFrom,
@@ -204,16 +212,6 @@ const skipWhitespaceLines = (doc: Text, pos: number): number => {
     }
   }
   return line.number === original.number ? pos : line.from;
-};
-
-const indentBy = (text: string, indent: string) => {
-  if (indent === "") {
-    return text;
-  }
-  return text
-    .split("\n")
-    .map((p) => indent + p)
-    .join("\n");
 };
 
 const calculateImportChangesInternal = (
@@ -327,10 +325,30 @@ const defaultInsertPoint = (
 
 const currentImports = (state: EditorState): ImportNode[] => {
   const tree = ensureSyntaxTree(state, state.doc.length);
-  if (tree === null) {
-    throw new Error("No timeout set so tree should be non-null");
+  if (!tree) {
+    return [];
   }
   return topLevelImports(tree, (from, to) => state.sliceDoc(from, to));
+};
+
+const isInWhileTrueTree = (state: EditorState, pos: number): boolean => {
+  const tree = ensureSyntaxTree(state, state.doc.length);
+  if (!tree) {
+    return false;
+  }
+  let done = false;
+  for (const cursor = tree.cursor(pos, 0); !done; done = !cursor.parent()) {
+    if (cursor.type.name === "WhileStatement") {
+      const maybeTrueNode = cursor.node.firstChild?.nextSibling;
+      if (
+        maybeTrueNode?.type.name === "Boolean" &&
+        state.sliceDoc(maybeTrueNode.from, maybeTrueNode.to) === "True"
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
 };
 
 const topLevelImports = (
