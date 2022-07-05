@@ -287,12 +287,6 @@
       "value": "Confirm delete"
     }
   ],
-  "confirm-download-action": [
-    {
-      "type": 0,
-      "value": "Confirm and download"
-    }
-  ],
   "confirm-replace-body": [
     {
       "type": 0,
@@ -317,6 +311,12 @@
     {
       "type": 0,
       "value": "?"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "Confirm and save"
     }
   ],
   "connect-action": [
@@ -467,40 +467,6 @@
     {
       "type": 0,
       "value": "Don't show this again"
-    }
-  ],
-  "download-action": [
-    {
-      "type": 0,
-      "value": "Download"
-    }
-  ],
-  "download-file-action": [
-    {
-      "type": 0,
-      "value": "Download "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    }
-  ],
-  "download-hex-action": [
-    {
-      "type": 0,
-      "value": "Download project hex"
-    }
-  ],
-  "download-hover": [
-    {
-      "type": 0,
-      "value": "Download a project hex file"
-    }
-  ],
-  "download-python-action": [
-    {
-      "type": 0,
-      "value": "Download Python script"
     }
   ],
   "drag-hover": [
@@ -857,10 +823,10 @@
       "value": "More connect options"
     }
   ],
-  "more-download-options": [
+  "more-save-options": [
     {
       "type": 0,
-      "value": "More download options"
+      "value": "More save options"
     }
   ],
   "name-project": [
@@ -878,7 +844,7 @@
   "name-used-when": [
     {
       "type": 0,
-      "value": "The name is used when you download a hex file."
+      "value": "The name is used when you save a hex file."
     }
   ],
   "new-file-hint": [
@@ -971,16 +937,16 @@
       "value": "link"
     }
   ],
-  "not-found-download-message": [
-    {
-      "type": 0,
-      "value": "Alternative method: choose Download"
-    }
-  ],
   "not-found-message": [
     {
       "type": 0,
       "value": "You didn’t select a micro:bit, or there was a problem connecting to it."
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "Alternative method: choose Save then follow steps to transfer"
     }
   ],
   "not-found-title": [
@@ -1195,6 +1161,40 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "count"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "Save"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 0,
+      "value": "Save "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "Save project hex"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "Save the project hex file to your computer"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Save Python script"
     }
   ],
   "search": [
@@ -1558,7 +1558,7 @@
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transfer downloaded hex file to micro:bit"
+      "value": "Transfer saved hex file to micro:bit"
     }
   ],
   "try-again-action": [
@@ -1633,12 +1633,6 @@
       "value": "visit microbit.org (opens in a new tab)"
     }
   ],
-  "webusb-download-instead": [
-    {
-      "type": 0,
-      "value": "Download the hex file or try Chrome or Microsoft Edge."
-    }
-  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -1698,7 +1692,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be saved instead. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit."
     }
   ],
   "webusb-why-use": [

@@ -441,9 +441,9 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  download = async () => {
+  save = async () => {
     this.logging.event({
-      type: "download",
+      type: "save",
       detail: await this.projectStats(),
     });
 
@@ -453,7 +453,7 @@ export class ProjectActions {
 
     let download: string | undefined;
     try {
-      download = await this.fs.toHexForDownload();
+      download = await this.fs.toHexForSave();
     } catch (e: any) {
       this.actionFeedback.expectedError({
         title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
@@ -470,13 +470,13 @@ export class ProjectActions {
   };
 
   /**
-   * Download an individual file.
+   * Save an individual file.
    *
-   * @param filename the file to download.
+   * @param filename the file to save.
    */
-  downloadFile = async (filename: string) => {
+  saveFile = async (filename: string) => {
     this.logging.event({
-      type: "download-file",
+      type: "save-file",
     });
 
     try {
@@ -491,14 +491,14 @@ export class ProjectActions {
   };
 
   /**
-   * Download the main file renamed to match the project.
+   * Save the main file (renamed to match the project).
    *
    * There's some debate as to whether this action is more confusing than helpful
    * but leaving it around for a bit so we can try out different UI arrangements.
    */
-  downloadMainFile = async () => {
+  saveMainFile = async () => {
     this.logging.event({
-      type: "download-main-file",
+      type: "save-main-file",
     });
 
     if (!(await this.ensureProjectName())) {
@@ -601,7 +601,7 @@ export class ProjectActions {
     return true;
   };
 
-  editProjectName = async (isDownload: boolean = false) => {
+  editProjectName = async (isSave: boolean = false) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
         callback={callback}
@@ -609,7 +609,7 @@ export class ProjectActions {
         Body={ProjectNameQuestion}
         initialValue={this.project.name}
         actionLabel={this.intl.formatMessage({
-          id: isDownload ? "confirm-download-action" : "confirm-action",
+          id: isSave ? "confirm-save-action" : "confirm-action",
         })}
         customFocus
         validate={(name: string) =>
@@ -718,7 +718,7 @@ export class ProjectActions {
     await this.dialogs.show<void>((callback) => (
       <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
     ));
-    this.download();
+    this.save();
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {

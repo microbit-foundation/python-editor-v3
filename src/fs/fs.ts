@@ -423,7 +423,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     this.emit(EVENT_PROJECT_UPDATED, this.project);
   }
 
-  async toHexForDownload(): Promise<string> {
+  async toHexForSave(): Promise<string> {
     const fs = await this.initialize();
     return fs.getUniversalHex();
   }
