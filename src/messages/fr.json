@@ -1653,6 +1653,12 @@
       "value": "Malheureusement, WebUSB n’est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge."
     }
   ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "This browser does not support WebUSB"
+    }
+  ],
   "webusb-why-use": [
     {
       "type": 0,

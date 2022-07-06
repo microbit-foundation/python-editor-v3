@@ -1692,7 +1692,13 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be saved instead. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "This browser does not support WebUSB"
     }
   ],
   "webusb-why-use": [

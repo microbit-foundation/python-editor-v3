@@ -790,6 +790,10 @@
     "defaultMessage": "Юнфортюнателу, ВебЮСБ іс нот сюппортед ін тхіс бровсер. Ве ресомменд Cхроме ор Місрософт Eддже со уою сан соннест дірестлу то уоюр місро:біт.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
+  "webusb-not-supported-title": {
+    "defaultMessage": "This browser does not support WebUSB",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
+  },
   "webusb-why-use": {
     "defaultMessage": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор.",
     "description": "Shown to encourage use of browser that supports WebUSB"
