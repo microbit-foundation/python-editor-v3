@@ -4,7 +4,7 @@ orbs:
 
 _default_workflow: &default_workflow
   context:
-    - "GitHub Token"
+    - "GitHub Packages Read"
     - "CircleCI API"
     - "AWS Web"
 _defaults: &defaults
