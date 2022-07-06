@@ -3,6 +3,10 @@ orbs:
   queue: eddiewebb/queue@1.6.2
 
 _defaults: &defaults
+  context:
+    - "GitHub Token"
+    - "CircleCI API"
+    - "AWS Web"
   working_directory: ~/repo
 _docker_defaults: &docker_defaults
   image: cimg/node:16.14
