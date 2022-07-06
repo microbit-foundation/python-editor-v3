@@ -2,11 +2,12 @@ version: 2.1
 orbs:
   queue: eddiewebb/queue@1.6.2
 
-_defaults: &defaults
+_default_workflow: &default_workflow
   context:
     - "GitHub Token"
     - "CircleCI API"
     - "AWS Web"
+_defaults: &defaults
   working_directory: ~/repo
 _docker_defaults: &docker_defaults
   image: cimg/node:16.14
@@ -180,18 +181,21 @@ workflows:
   review:
     jobs:
       - review:
+          <<: *default_workflow
           filters:
             branches:
               ignore: main
   staging:
     jobs:
       - staging:
+          <<: *default_workflow
           filters:
             branches:
               only: main
   production:
     jobs:
       - production:
+          <<: *default_workflow
           filters:
             tags:
               only: /^v.*/
