@@ -823,18 +823,6 @@
       "value": "More connect options"
     }
   ],
-  "more-ideas": [
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "More ideas"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    }
-  ],
   "more-save-options": [
     {
       "type": 0,

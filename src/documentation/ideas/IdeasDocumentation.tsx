@@ -3,10 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, Stack, Text } from "@chakra-ui/layout";
+import { Stack } from "@chakra-ui/layout";
 import { Image, SimpleGrid } from "@chakra-ui/react";
-import { ReactNode, useCallback, useRef } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useCallback, useRef } from "react";
+import { useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
@@ -143,23 +143,6 @@ const ActiveLevel = ({
           />
         ))}
       </SimpleGrid>
-      <Text pb={8} px={5}>
-        <FormattedMessage
-          id="more-ideas"
-          values={{
-            link: (chunks: ReactNode) => (
-              <Link
-                color="brand.500"
-                href="https://microbit.org/projects/make-it-code-it/?filters=python"
-                target="_blank"
-                rel="noopener"
-              >
-                {chunks}
-              </Link>
-            ),
-          }}
-        />
-      </Text>
     </HeadedScrollablePanel>
   );
 };

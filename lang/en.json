@@ -419,10 +419,6 @@
     "defaultMessage": "More connect options",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
-  "more-ideas": {
-    "defaultMessage": "<link>More ideas</link>",
-    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
-  },
   "more-save-options": {
     "defaultMessage": "More save options",
     "description": "Aria label for the additional actions menu to the right of the Save button"
