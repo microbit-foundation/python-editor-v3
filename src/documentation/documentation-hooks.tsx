@@ -24,6 +24,7 @@ import { fetchIdeas } from "./ideas/content";
 import { Toolkit } from "./reference/model";
 import { pullModulesToTop } from "./api/apidocs-util";
 import { Idea } from "./ideas/model";
+import { fetchMappingData } from "./mapping/content";
 
 export type ContentState<T> =
   | { status: "ok"; content: T }
@@ -103,9 +104,10 @@ const DocumentationProvider = ({ children }: { children: ReactNode }) => {
   const api = useApiDocumentation();
   const ideas = useContent(fetchIdeas);
   const reference = useContent(fetchReferenceToolkit);
+  const apiReferenceMap = useContent(fetchMappingData);
   const value: DocumentationContextValue = useMemo(() => {
-    return { reference, api, ideas };
-  }, [reference, api, ideas]);
+    return { reference, api, ideas, apiReferenceMap };
+  }, [reference, api, ideas, apiReferenceMap]);
   return (
     <DocumentationContext.Provider value={value}>
       {children}
