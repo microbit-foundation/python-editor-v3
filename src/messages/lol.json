@@ -1653,6 +1653,12 @@
       "value": "Юнфортюнателу, ВебЮСБ іс нот сюппортед ін тхіс бровсер. Ве ресомменд Cхроме ор Місрософт Eддже со уою сан соннест дірестлу то уоюр місро:біт."
     }
   ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "This browser does not support WebUSB"
+    }
+  ],
   "webusb-why-use": [
     {
       "type": 0,

@@ -790,6 +790,10 @@
     "defaultMessage": "Malheureusement, WebUSB n’est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge.",
     "description": "Shown when user's browser doesn't support WebUSB"
   },
+  "webusb-not-supported-title": {
+    "defaultMessage": "This browser does not support WebUSB",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
+  },
   "webusb-why-use": {
     "defaultMessage": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne.",
     "description": "Shown to encourage use of browser that supports WebUSB"

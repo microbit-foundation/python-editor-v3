@@ -788,8 +788,12 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be saved instead. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
-    "description": "Shown when user's browser doesn't support WebUSB"
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
+    "description": "Explantion shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-not-supported-title": {
+    "defaultMessage": "This browser does not support WebUSB",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
     "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
