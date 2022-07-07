@@ -26,9 +26,11 @@ import {
   SignatureHelpParams,
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
+import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
   DocSections,
+  getLinkToReference,
   renderDocumentation,
   wrapWithDocumentationButton,
 } from "./documentation";
@@ -105,7 +107,11 @@ const signatureHelpKeymap: readonly KeyBinding[] = [
   { key: "Escape", run: closeSignatureHelp },
 ];
 
-export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
+export const signatureHelp = (
+  intl: IntlShape,
+  automatic: boolean,
+  apiReferenceMap: ApiReferenceMap
+) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
     create: () => ({
       result: null,
@@ -114,7 +120,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     update(state, tr) {
       for (const effect of tr.effects) {
         if (effect.is(setSignatureHelpEffect)) {
-          return reduceSignatureHelpState(state, effect.value);
+          return reduceSignatureHelpState(state, effect.value, apiReferenceMap);
         }
       }
       return state;
@@ -154,7 +160,8 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
 
   const reduceSignatureHelpState = (
     state: SignatureHelpState,
-    effect: SignatureChangeEffect
+    effect: SignatureChangeEffect,
+    apiReferenceMap: ApiReferenceMap
   ): SignatureHelpState => {
     if (state.tooltip && !effect.result) {
       return {
@@ -177,7 +184,7 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
           create: () => {
             const dom = document.createElement("div");
             dom.className = "cm-signature-tooltip";
-            dom.appendChild(formatSignatureHelp(result));
+            dom.appendChild(formatSignatureHelp(result, apiReferenceMap));
             return { dom };
           },
         },
@@ -186,7 +193,10 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     return state;
   };
 
-  const formatSignatureHelp = (help: SignatureHelp): Node => {
+  const formatSignatureHelp = (
+    help: SignatureHelp,
+    apiReferenceMap: ApiReferenceMap
+  ): Node => {
     const { activeSignature: activeSignatureIndex, signatures } = help;
     // We intentionally do something minimal here to minimise distraction.
     const activeSignature =
@@ -218,7 +228,8 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
       from,
       to,
       signatureDoc,
-      activeParameterDoc
+      activeParameterDoc,
+      apiReferenceMap
     );
   };
 
@@ -227,7 +238,8 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     from: number,
     to: number,
     signatureDoc: string | MarkupContent | undefined,
-    activeParameterDoc: string | MarkupContent | undefined
+    activeParameterDoc: string | MarkupContent | undefined,
+    apiReferenceMap: ApiReferenceMap
   ): Node => {
     let before = label.substring(0, from);
     const id = nameFromSignature(before);
@@ -249,24 +261,23 @@ export const signatureHelp = (intl: IntlShape, automatic: boolean) => {
     parent.appendChild(document.createElement("hr"));
 
     if (activeParameterDoc) {
-      parent.appendChild(renderDocumentation(
-        activeParameterDoc,
-        DocSections.All
-      ));
-      parent.appendChild(renderDocumentation(
-        signatureDoc,
-        DocSections.Example
-      ));
+      parent.appendChild(
+        renderDocumentation(activeParameterDoc, DocSections.All)
+      );
+      parent.appendChild(
+        renderDocumentation(signatureDoc, DocSections.Example)
+      );
     } else {
       // No params so show summary and example from the signature docstring.
-      parent.appendChild(renderDocumentation(
-        signatureDoc,
-        DocSections.Summary | DocSections.Example
-      ));
+      parent.appendChild(
+        renderDocumentation(
+          signatureDoc,
+          DocSections.Summary | DocSections.Example
+        )
+      );
     }
-
-
-    return wrapWithDocumentationButton(intl, parent, id);
+    const referenceLink = getLinkToReference(id, apiReferenceMap);
+    return wrapWithDocumentationButton(intl, parent, id, referenceLink);
   };
 
   return [

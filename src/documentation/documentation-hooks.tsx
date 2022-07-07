@@ -18,13 +18,13 @@ import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
-import dragImage from "./drag-image.svg";
-import { fetchReferenceToolkit } from "./reference/content";
-import { fetchIdeas } from "./ideas/content";
-import { Toolkit } from "./reference/model";
 import { pullModulesToTop } from "./api/apidocs-util";
+import dragImage from "./drag-image.svg";
+import { fetchIdeas } from "./ideas/content";
 import { Idea } from "./ideas/model";
-import { fetchMappingData } from "./mapping/content";
+import { ApiReferenceMap, fetchMappingData } from "./mapping/content";
+import { fetchReferenceToolkit } from "./reference/content";
+import { Toolkit } from "./reference/model";
 
 export type ContentState<T> =
   | { status: "ok"; content: T }
@@ -83,6 +83,7 @@ export interface DocumentationContextValue {
   api: ApiDocsResponse | undefined;
   ideas: ContentState<Idea[]>;
   reference: ContentState<Toolkit>;
+  apiReferenceMap: ContentState<ApiReferenceMap>;
 }
 
 const DocumentationContext = createContext<

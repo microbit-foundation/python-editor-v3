@@ -7,6 +7,7 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
+import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
 
@@ -100,10 +101,24 @@ export const subsetMarkdown = (
   return sections.join("\n\n");
 };
 
+const createStyledAnchorElement = (): HTMLAnchorElement => {
+  const anchor = document.createElement("a");
+  anchor.href = "";
+  anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
+  anchor.style.color = "var(--chakra-colors-brand-600)";
+  anchor.style.display = "block";
+  anchor.style.margin = "0";
+  anchor.style.marginRight = "-0.5rem";
+  anchor.style.padding = "0.5rem";
+  anchor.style.alignSelf = "flex-end";
+  return anchor;
+};
+
 export const wrapWithDocumentationButton = (
   intl: IntlShape,
   child: Element,
-  id: string
+  id: string,
+  referenceLink: string | undefined
 ): Element => {
   const docsAndActions = document.createElement("div");
   docsAndActions.style.display = "flex";
@@ -112,25 +127,54 @@ export const wrapWithDocumentationButton = (
   docsAndActions.style.justifyContent = "space-between";
   docsAndActions.appendChild(child);
 
-  const anchor = docsAndActions.appendChild(document.createElement("a"));
-  anchor.href = "";
-  anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
-  anchor.style.color = "var(--chakra-colors-brand-600)";
-  anchor.textContent = intl.formatMessage({ id: "help" });
-  anchor.style.display = "block";
-  anchor.style.margin = "0";
-  anchor.style.marginRight = "-0.5rem";
-  anchor.style.padding = "0.5rem";
-  anchor.style.alignSelf = "flex-end";
-  anchor.onclick = (e) => {
+  const actionsContainer = docsAndActions.appendChild(
+    document.createElement("div")
+  );
+  actionsContainer.style.display = "flex";
+  actionsContainer.style.justifyContent = "flex-end";
+  const apiAnchor = createStyledAnchorElement();
+  apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
+  apiAnchor.onclick = (e) => {
     e.preventDefault();
     document.dispatchEvent(
       new CustomEvent("cm/openDocs", {
         detail: {
+          tab: "api",
           id,
         },
       })
     );
   };
+  if (referenceLink) {
+    const refAnchor = createStyledAnchorElement();
+    refAnchor.style.marginRight = "0.5rem";
+    refAnchor.textContent = intl.formatMessage({ id: "help" });
+    refAnchor.onclick = (e) => {
+      e.preventDefault();
+      document.dispatchEvent(
+        new CustomEvent("cm/openDocs", {
+          detail: {
+            tab: "reference",
+            id: referenceLink,
+          },
+        })
+      );
+    };
+    actionsContainer.appendChild(refAnchor);
+  }
+  actionsContainer.appendChild(apiAnchor);
   return docsAndActions;
+};
+
+export const getLinkToReference = (
+  id: string,
+  apiReferenceMap: ApiReferenceMap
+): string | undefined => {
+  const idSegments = id.split(".");
+  const pythonModuleName = idSegments[0];
+  const apiId = idSegments.slice(1).join(".");
+  if (!pythonModuleName && !apiId) {
+    return;
+  }
+  return apiReferenceMap[pythonModuleName]?.[apiId]?.referenceLink;
 };

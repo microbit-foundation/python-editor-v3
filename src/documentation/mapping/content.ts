@@ -25,7 +25,10 @@ const mappingQuery = (): string => {
   }`;
 };
 
-type ApiReferenceMap = Record<string, Record<string, ReferenceLinkDetail>>;
+export type ApiReferenceMap = Record<
+  string,
+  Record<string, ReferenceLinkDetail>
+>;
 
 interface ReferenceLinkDetail {
   referenceLink?: string;
