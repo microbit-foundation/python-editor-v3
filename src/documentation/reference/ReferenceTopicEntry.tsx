@@ -43,15 +43,18 @@ const ReferenceTopicEntry = ({
   active,
 }: ToolkitTopicEntryProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = entry;
-
-  const [alternativeIndex, setAlternativeIndex] = useState<number | undefined>(
-    alternatives && alternatives.length > 0 ? 0 : undefined
+  const [alternativeSlug, setAlternativeSlug] = useState<string | undefined>(
+    alternatives && alternatives.length > 0
+      ? alternatives[0].slug.current
+      : undefined
   );
 
   const hasCode =
     contentHasCode(content) ||
     (alternatives &&
-      contentHasCode(alternatives[alternativeIndex as number].content));
+      contentHasCode(
+        alternatives.find((a) => a.slug.current === alternativeSlug)?.content
+      ));
 
   const hasMore =
     hasCode &&
@@ -59,14 +62,14 @@ const ReferenceTopicEntry = ({
       contentHasSomeNonCode(content) ||
       (alternatives &&
         contentHasSomeNonCode(
-          alternatives[alternativeIndex as number].content
+          alternatives.find((a) => a.slug.current === alternativeSlug)?.content
         )));
 
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
-      setAlternativeIndex(parseInt(e.currentTarget.value, 10));
+      setAlternativeSlug(e.currentTarget.value);
     },
-    [setAlternativeIndex]
+    [setAlternativeSlug]
   );
   const disclosure = useDisclosure();
   const toolkitType = "reference";
@@ -118,7 +121,7 @@ const ReferenceTopicEntry = ({
                 : DocumentationCollapseMode.ShowAll
             }
           />
-          {alternatives && typeof alternativeIndex === "number" && (
+          {alternatives && typeof alternativeSlug === "string" && (
             <>
               <Flex wrap="wrap" as="label" mt={3}>
                 <Text alignSelf="center" mr={2} as="span">
@@ -127,11 +130,14 @@ const ReferenceTopicEntry = ({
                 <Select
                   w="fit-content"
                   onChange={handleSelectChange}
-                  value={alternativeIndex}
+                  value={alternativeSlug}
                   size="sm"
                 >
-                  {alternatives.map((alterative, index) => (
-                    <option key={alterative.name} value={index}>
+                  {alternatives.map((alterative) => (
+                    <option
+                      key={alterative.slug.current}
+                      value={alterative.slug.current}
+                    >
                       {alterative.name}
                     </option>
                   ))}
@@ -140,7 +146,10 @@ const ReferenceTopicEntry = ({
 
               <DocumentationContent
                 details={DocumentationCollapseMode.ExpandCollapseExceptCode}
-                content={alternatives[alternativeIndex].content}
+                content={
+                  alternatives.find((a) => a.slug.current === alternativeSlug)
+                    ?.content
+                }
               />
             </>
           )}
