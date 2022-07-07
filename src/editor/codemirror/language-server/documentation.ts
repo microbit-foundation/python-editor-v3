@@ -176,5 +176,10 @@ export const getLinkToReference = (
   if (!pythonModuleName && !apiId) {
     return;
   }
-  return apiReferenceMap[pythonModuleName]?.[apiId]?.referenceLink;
+  let referenceLink = apiReferenceMap[pythonModuleName]?.[apiId]?.referenceLink;
+  const alternative = apiReferenceMap[pythonModuleName]?.[apiId]?.alternative;
+  if (referenceLink && alternative) {
+    referenceLink += `/${alternative}`;
+  }
+  return referenceLink;
 };

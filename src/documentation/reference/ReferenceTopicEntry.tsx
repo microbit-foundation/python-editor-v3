@@ -6,13 +6,13 @@
 import { Box, Flex, HStack, Text } from "@chakra-ui/layout";
 import { useDisclosure } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/select";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
 import { PortableText } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent, {
-  DocumentationContextProvider,
   DocumentationCollapseMode,
+  DocumentationContextProvider,
 } from "../common/DocumentationContent";
 import DocumentationHeading from "../common/DocumentationHeading";
 import { isV2Only } from "../common/model";
@@ -26,6 +26,7 @@ import {
 interface ToolkitTopicEntryProps {
   topic: ToolkitTopic;
   entry: ToolkitTopicEntryModel;
+  alternative?: string;
   active?: boolean;
   anchor?: Anchor;
 }
@@ -43,11 +44,20 @@ const ReferenceTopicEntry = ({
   active,
 }: ToolkitTopicEntryProps) => {
   const { content, detailContent, alternatives, alternativesLabel } = entry;
+  const activeAlterative = anchor?.id.split("/")[1];
   const [alternativeSlug, setAlternativeSlug] = useState<string | undefined>(
     alternatives && alternatives.length > 0
-      ? alternatives[0].slug.current
+      ? activeAlterative && active
+        ? activeAlterative
+        : alternatives[0].slug.current
       : undefined
   );
+
+  useEffect(() => {
+    if (activeAlterative && active) {
+      setAlternativeSlug(activeAlterative);
+    }
+  }, [active, activeAlterative]);
 
   const hasCode =
     contentHasCode(content) ||

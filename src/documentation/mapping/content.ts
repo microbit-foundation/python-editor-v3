@@ -30,9 +30,9 @@ export type ApiReferenceMap = Record<
   Record<string, ReferenceLinkDetail>
 >;
 
-interface ReferenceLinkDetail {
+export interface ReferenceLinkDetail {
   referenceLink?: string;
-  dropdown?: string;
+  alternative?: string;
 }
 
 const adaptContent = (result: any): ApiReferenceMap | undefined => {
@@ -47,7 +47,7 @@ const adaptContent = (result: any): ApiReferenceMap | undefined => {
         ...map[module.pythonModuleName],
         [moduleItem.pythonApiEntry]: {
           referenceLink: moduleItem.referenceLink?.slug.current || "",
-          dropdown: moduleItem.pythonAlternativeContentLink || "",
+          alternative: moduleItem.pythonAlternativeContentLink || "",
         },
       };
     }
