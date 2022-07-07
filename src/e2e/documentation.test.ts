@@ -41,7 +41,7 @@ describe("Browser - toolkit tabs", () => {
     await app.triggerScroll(tab);
     await app.selectToolkitDropDownOption(
       "Select image:",
-      "9" // "Image.SILLY"
+      "silly" // "Image.SILLY"
     );
     await app.toggleCodeActionButton("Images: built-in");
     await app.copyCode();
