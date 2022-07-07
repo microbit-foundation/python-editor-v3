@@ -132,19 +132,6 @@ export const wrapWithDocumentationButton = (
   );
   actionsContainer.style.display = "flex";
   actionsContainer.style.justifyContent = "flex-end";
-  const apiAnchor = createStyledAnchorElement();
-  apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
-  apiAnchor.onclick = (e) => {
-    e.preventDefault();
-    document.dispatchEvent(
-      new CustomEvent("cm/openDocs", {
-        detail: {
-          tab: "api",
-          id,
-        },
-      })
-    );
-  };
   if (referenceLink) {
     const refAnchor = createStyledAnchorElement();
     refAnchor.style.marginRight = "0.5rem";
@@ -162,7 +149,24 @@ export const wrapWithDocumentationButton = (
     };
     actionsContainer.appendChild(refAnchor);
   }
-  actionsContainer.appendChild(apiAnchor);
+  // We don't have documentation for builtins yet,
+  // so there is nothing to link to.
+  if (id.split(".")[0] !== "builtins") {
+    const apiAnchor = createStyledAnchorElement();
+    apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
+    apiAnchor.onclick = (e) => {
+      e.preventDefault();
+      document.dispatchEvent(
+        new CustomEvent("cm/openDocs", {
+          detail: {
+            tab: "api",
+            id,
+          },
+        })
+      );
+    };
+    actionsContainer.appendChild(apiAnchor);
+  }
   return docsAndActions;
 };
 
