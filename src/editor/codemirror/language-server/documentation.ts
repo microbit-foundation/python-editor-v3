@@ -188,7 +188,9 @@ export const getLinkToReference = (
   let referenceLink = apiReferenceMap[pythonModuleName]?.[apiId]?.referenceLink;
   const alternative = apiReferenceMap[pythonModuleName]?.[apiId]?.alternative;
   if (referenceLink && alternative) {
-    referenceLink += `/${alternative}`;
+    referenceLink = `${encodeURIComponent(referenceLink)}/${encodeURIComponent(
+      alternative
+    )}`;
   }
   return referenceLink;
 };
