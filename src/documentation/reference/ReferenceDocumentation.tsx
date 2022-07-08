@@ -123,7 +123,7 @@ const ActiveLevel = ({
         <AreaHeading name={referenceString} description={toolkit.description} />
       }
     >
-      <List flex="1 1 auto" m={3}>
+      <List flex="1 1 auto">
         {toolkit.contents?.map((topic) => (
           <DocumentationTopLevelItem
             key={topic.name}
@@ -132,6 +132,8 @@ const ActiveLevel = ({
             description={topic.subtitle}
             icon={topic.image}
             onForward={() => onNavigate(topic.slug.current)}
+            spacing={0}
+            type="reference"
           />
         ))}
       </List>

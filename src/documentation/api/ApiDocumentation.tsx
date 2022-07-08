@@ -109,6 +109,7 @@ const ActiveLevel = ({
             name={allowWrapAtPeriods(module.fullName)}
             description={<ShortModuleDescription value={module} />}
             onForward={() => onNavigate(module.id)}
+            type="api"
           />
         ))}
       </List>

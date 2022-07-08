@@ -13,12 +13,16 @@ import { SimpleImage } from "../../common/sanity";
 import DocumentationIcon from "./DocumentationIcon";
 import DocumentationHeading from "./DocumentationHeading";
 
+type DocType = "reference" | "api";
+
 interface DocumentationTopLevelItemProps {
   name: string;
   description: ReactNode;
   icon?: SimpleImage;
   isV2Only?: boolean;
   onForward: () => void;
+  spacing?: number;
+  type: DocType;
 }
 
 const DocumentationTopLevelItem = ({
@@ -27,6 +31,8 @@ const DocumentationTopLevelItem = ({
   icon,
   isV2Only,
   onForward,
+  spacing = 1,
+  type,
 }: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
   return (
@@ -35,8 +41,9 @@ const DocumentationTopLevelItem = ({
       cursor="pointer"
       showIcon={true}
       icon={icon}
+      type={type}
     >
-      <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
+      <VStack alignItems="stretch" spacing={spacing} flex="1 1 auto">
         <HStack justifyContent="space-between">
           <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
@@ -63,17 +70,24 @@ const DocumentationTopLevelItem = ({
 interface DocumentationListItemProps extends ListItemProps {
   showIcon: boolean;
   icon?: SimpleImage;
+  type: DocType;
 }
 
 const DocumentationListItem = ({
   children,
   showIcon,
   icon,
+  type,
   ...props
 }: DocumentationListItemProps) => {
   return (
     <ListItem {...props}>
-      <HStack m={5} mr={3} spacing={5}>
+      <HStack
+        my={type === "reference" ? 2 : 5}
+        mx={type === "reference" ? 3 : 5}
+        mr={3}
+        spacing={3}
+      >
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
       </HStack>
