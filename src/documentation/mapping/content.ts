@@ -31,7 +31,7 @@ export type ApiReferenceMap = Record<
 >;
 
 export interface ReferenceLinkDetail {
-  referenceLink?: string;
+  referenceLink: string;
   alternative?: string;
 }
 
@@ -43,13 +43,17 @@ const adaptContent = (result: any): ApiReferenceMap | undefined => {
   const map: ApiReferenceMap = {};
   for (const module of mappingData) {
     for (const moduleItem of module.pythonModuleItem) {
-      map[module.pythonModuleName] = {
-        ...map[module.pythonModuleName],
-        [moduleItem.pythonApiEntry]: {
-          referenceLink: moduleItem.referenceLink?.slug.current || "",
-          alternative: moduleItem.pythonAlternativeContentLink || "",
-        },
-      };
+      const referenceLink = moduleItem.referenceLink?.slug.current;
+      const alternative = moduleItem.pythonAlternativeContentLink;
+      if (referenceLink) {
+        map[module.pythonModuleName] = {
+          ...map[module.pythonModuleName],
+          [moduleItem.pythonApiEntry]: {
+            referenceLink,
+            alternative,
+          },
+        };
+      }
     }
   }
   return map;
