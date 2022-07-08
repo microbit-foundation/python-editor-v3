@@ -52,6 +52,9 @@ const ReferenceTopicEntry = ({
         : alternatives[0].slug.current
       : undefined
   );
+  const activeAlterativeContent = alternatives?.find(
+    (a) => a.slug.current === alternativeSlug
+  )?.content;
 
   useEffect(() => {
     if (activeAlterative && active) {
@@ -61,19 +64,13 @@ const ReferenceTopicEntry = ({
 
   const hasCode =
     contentHasCode(content) ||
-    (alternatives &&
-      contentHasCode(
-        alternatives.find((a) => a.slug.current === alternativeSlug)?.content
-      ));
+    (alternatives && contentHasCode(activeAlterativeContent));
 
   const hasMore =
     hasCode &&
     (detailContent ||
       contentHasSomeNonCode(content) ||
-      (alternatives &&
-        contentHasSomeNonCode(
-          alternatives.find((a) => a.slug.current === alternativeSlug)?.content
-        )));
+      (alternatives && contentHasSomeNonCode(activeAlterativeContent)));
 
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -156,10 +153,7 @@ const ReferenceTopicEntry = ({
 
               <DocumentationContent
                 details={DocumentationCollapseMode.ExpandCollapseExceptCode}
-                content={
-                  alternatives.find((a) => a.slug.current === alternativeSlug)
-                    ?.content
-                }
+                content={activeAlterativeContent}
               />
             </>
           )}
