@@ -11,7 +11,7 @@ import { widthXl } from "../common/media-queries";
 
 const ProjectActionBar = (props: BoxProps) => {
   const [isWideScreen] = useMediaQuery(widthXl);
-  const size = isWideScreen ? "lg" : "md";
+  const size = "lg";
   return (
     <HStack
       {...props}

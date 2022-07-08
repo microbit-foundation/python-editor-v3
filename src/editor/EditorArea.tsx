@@ -43,7 +43,8 @@ const EditorArea = ({
         width="100%"
         alignItems="center"
         justifyContent="space-between"
-        px={isWideScreen ? 10 : 5}
+        pr={isWideScreen ? 10 : 5}
+        pl={isWideScreen ? "3rem" : "2rem"}
         py={2}
         height={topBarHeight}
       >
@@ -62,10 +63,10 @@ const EditorArea = ({
       </Flex>
       {/* Just for the line */}
       <Box
-        ml="6rem"
-        mr="2.5rem"
+        ml={isWideScreen ? "6rem" : "5rem"}
+        mr={isWideScreen ? "2.5rem" : "1.25rem"}
         mb={5}
-        width="calc(100% - 8.5rem)"
+        width={isWideScreen ? "calc(100% - 8.5rem)" : "calc(100% - 6.25rem)"}
         borderBottomWidth={2}
         borderColor="gray.200"
       />
