@@ -41,10 +41,8 @@ const EditorArea = ({
         width="100%"
         alignItems="center"
         justifyContent="space-between"
-        pl="3rem"
-        pr={10}
-        pt={2}
-        pb={2}
+        px={[5, 5, 5, 5, 10]}
+        py={2}
         height={topBarHeight}
       >
         <ProjectNameEditable
@@ -74,7 +72,7 @@ const EditorArea = ({
           display={["none", "none", "none", "flex"]}
           zIndex="1"
           top={6}
-          right={10}
+          right={[5, 5, 5, 5, 10]}
           position="absolute"
         />
         <EditorContainer selection={selection} />

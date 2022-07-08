@@ -132,7 +132,6 @@ const ActiveLevel = ({
             description={topic.subtitle}
             icon={topic.image}
             onForward={() => onNavigate(topic.slug.current)}
-            spacing={0}
             type="reference"
           />
         ))}

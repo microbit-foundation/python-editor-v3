@@ -31,7 +31,6 @@ const DocumentationTopLevelItem = ({
   icon,
   isV2Only,
   onForward,
-  spacing = 1,
   type,
 }: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
@@ -43,7 +42,7 @@ const DocumentationTopLevelItem = ({
       icon={icon}
       type={type}
     >
-      <VStack alignItems="stretch" spacing={spacing} flex="1 1 auto">
+      <VStack alignItems="stretch" spacing={[0, 0, 0, 0, 1]} flex="1 1 auto">
         <HStack justifyContent="space-between">
           <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
@@ -83,10 +82,10 @@ const DocumentationListItem = ({
   return (
     <ListItem {...props}>
       <HStack
-        my={type === "reference" ? 2 : 5}
-        mx={type === "reference" ? 3 : 5}
-        mr={3}
-        spacing={3}
+        my={type === "reference" ? [2, 2, 2, 2, 5] : [3, 3, 3, 3, 5]}
+        mx={3}
+        ml={type === "reference" ? 3 : 5}
+        spacing={[3, 3, 3, 3, 5]}
       >
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
