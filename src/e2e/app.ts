@@ -499,12 +499,12 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findActiveDocumentationEntry(text: string): Promise<void> {
+  async findActiveApiEntry(text: string, headingLevel: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
     return waitFor(async () => {
-      const items = await document.$$("h4");
-      const h4s = await Promise.all(
+      const items = await document.$$(headingLevel);
+      const headings = await Promise.all(
         items.map((e) =>
           e.evaluate((node) => {
             const text = (node as HTMLElement).innerText;
@@ -514,7 +514,7 @@ export class App {
           })
         )
       );
-      const match = h4s.find((info) => info.visible && info.text === text);
+      const match = headings.find((info) => info.visible && info.text === text);
       expect(match).toBeDefined();
     }, defaultWaitForOptions);
   }
@@ -883,10 +883,12 @@ export class App {
    * Follow the documentation link shown in the signature help or autocomplete tooltips.
    * This will update the "API" tab and switch to it.
    */
-  async followCompletionOrSignatureDocumentionLink(): Promise<void> {
+  async followCompletionOrSignatureDocumentionLink(
+    linkName: string
+  ): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("link", {
-      name: "API",
+      name: linkName,
     });
     return button.click();
   }
