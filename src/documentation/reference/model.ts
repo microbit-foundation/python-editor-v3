@@ -39,6 +39,7 @@ export interface ToolkitCode {
 interface ToolkitAlternative {
   name: string;
   content: PortableText;
+  slug: Slug;
 }
 
 export interface ToolkitTopicEntry extends HasCompatibility {

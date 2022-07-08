@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";
 import useActionFeedback from "../../common/use-action-feedback";
+import { useDocumentation } from "../../documentation/documentation-hooks";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { Logging } from "../../logging/logging";
@@ -74,6 +75,7 @@ const CodeMirror = ({
   const logging = useLogging();
   const actionFeedback = useActionFeedback();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
+  const { apiReferenceMap } = useDocumentation();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -122,11 +124,20 @@ const CodeMirror = ({
           // Extensions we enable/disable based on props.
           compartment.of([
             client
-              ? languageServer(client, uri, intl, logging, {
-                  signatureHelp: {
-                    automatic: parameterHelpOption === "automatic",
-                  },
-                })
+              ? languageServer(
+                  client,
+                  uri,
+                  intl,
+                  logging,
+                  apiReferenceMap.status === "ok"
+                    ? apiReferenceMap.content
+                    : {},
+                  {
+                    signatureHelp: {
+                      automatic: parameterHelpOption === "automatic",
+                    },
+                  }
+                )
               : [],
             codeStructure(options.codeStructureOption),
             themeExtensionsForOptions(options),
@@ -155,6 +166,7 @@ const CodeMirror = ({
     setSessionSettings,
     parameterHelpOption,
     uri,
+    apiReferenceMap,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -172,18 +184,33 @@ const CodeMirror = ({
       effects: [
         compartment.reconfigure([
           client
-            ? languageServer(client, uri, intl, logging, {
-                signatureHelp: {
-                  automatic: parameterHelpOption === "automatic",
-                },
-              })
+            ? languageServer(
+                client,
+                uri,
+                intl,
+                logging,
+                apiReferenceMap.status === "ok" ? apiReferenceMap.content : {},
+                {
+                  signatureHelp: {
+                    automatic: parameterHelpOption === "automatic",
+                  },
+                }
+              )
             : [],
           codeStructure(options.codeStructureOption),
           themeExtensionsForOptions(options),
         ]),
       ],
     });
-  }, [options, parameterHelpOption, client, intl, logging, uri]);
+  }, [
+    options,
+    parameterHelpOption,
+    client,
+    intl,
+    logging,
+    uri,
+    apiReferenceMap,
+  ]);
 
   const { location } = selection;
   useEffect(() => {
@@ -209,11 +236,11 @@ const CodeMirror = ({
   const [routerState, setRouterState] = useRouterState();
   useEffect(() => {
     const listener = (event: Event) => {
-      const id = (event as CustomEvent).detail.id;
+      const { id, tab } = (event as CustomEvent).detail;
       setRouterState(
         {
-          tab: "api",
-          api: { id },
+          tab,
+          [tab]: { id },
         },
         "documentation-from-code"
       );

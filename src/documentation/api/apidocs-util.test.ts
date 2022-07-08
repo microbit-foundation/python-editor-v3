@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { ApiDocsResponse } from "../../language-server/apidocs";
-import { pullModulesToTop, resolveDottedName } from "./apidocs-util";
+import {
+  moduleAndApiFromId,
+  pullModulesToTop,
+  resolveDottedName,
+} from "./apidocs-util";
 
 describe("pullModulesToTop", () => {
   it("pulls modules up", () => {
@@ -127,5 +131,26 @@ describe("resolveDottedName", () => {
     expect(
       resolveDottedName(docs, "microbit.Button.is_pressed")?.fullName
     ).toEqual("microbit.Button.is_pressed");
+  });
+});
+
+describe("moduleAndApiFromId", () => {
+  it("correctly splits module and apiId from id with three segments", () => {
+    const id = "microbit.display.scroll";
+    const { pythonModuleName, apiId } = moduleAndApiFromId(id);
+    expect(pythonModuleName).toEqual("microbit");
+    expect(apiId).toEqual("display.scroll");
+  });
+  it("correctly splits module and apiId from id with two segments", () => {
+    const id = "log.add";
+    const { pythonModuleName, apiId } = moduleAndApiFromId(id);
+    expect(pythonModuleName).toEqual("log");
+    expect(apiId).toEqual("add");
+  });
+  it("correctly splits module and apiId from id with one segment", () => {
+    const id = "gc";
+    const { pythonModuleName, apiId } = moduleAndApiFromId(id);
+    expect(pythonModuleName).toEqual("gc");
+    expect(apiId).toEqual("");
   });
 });
