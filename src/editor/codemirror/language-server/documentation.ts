@@ -134,6 +134,7 @@ export const wrapWithDocumentationButton = (
   actionsContainer.style.alignItems = "center";
   actionsContainer.style.justifyContent = "flex-end";
   actionsContainer.style.gap = "0.25rem";
+  actionsContainer.style.marginRight = "-0.5rem";
   if (referenceLink) {
     const refAnchor = createStyledAnchorElement();
     refAnchor.textContent = intl.formatMessage({ id: "help" });
@@ -168,9 +169,11 @@ export const wrapWithDocumentationButton = (
       );
     };
     if (referenceLink) {
-      const pipe = document.createElement("p");
-      pipe.textContent = "|";
-      actionsContainer.appendChild(pipe);
+      const verticalDivider = document.createElement("hr");
+      verticalDivider.style.height = "1rem";
+      verticalDivider.style.borderRight = "1px solid #2C2C2C";
+      verticalDivider.setAttribute("aria-orientation", "vertical");
+      actionsContainer.appendChild(verticalDivider);
     }
     actionsContainer.appendChild(apiAnchor);
   }
