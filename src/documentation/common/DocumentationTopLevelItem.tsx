@@ -5,13 +5,20 @@
  */
 import { IconButton } from "@chakra-ui/button";
 import { Box, VStack } from "@chakra-ui/layout";
-import { Divider, HStack, ListItem, ListItemProps } from "@chakra-ui/react";
+import {
+  Divider,
+  HStack,
+  ListItem,
+  ListItemProps,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { SimpleImage } from "../../common/sanity";
 import DocumentationIcon from "./DocumentationIcon";
 import DocumentationHeading from "./DocumentationHeading";
+import { heightMd, widthXl } from "../../common/media-queries";
 
 type DocType = "reference" | "api";
 
@@ -34,6 +41,8 @@ const DocumentationTopLevelItem = ({
   type,
 }: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
+  const [isShortWindow] = useMediaQuery(heightMd);
+  const [isWideScreen] = useMediaQuery(widthXl);
   return (
     <DocumentationListItem
       onClick={onForward}
@@ -42,7 +51,11 @@ const DocumentationTopLevelItem = ({
       icon={icon}
       type={type}
     >
-      <VStack alignItems="stretch" spacing={[0, 0, 0, 0, 1]} flex="1 1 auto">
+      <VStack
+        alignItems="stretch"
+        spacing={isShortWindow || !isWideScreen ? 0 : 1}
+        flex="1 1 auto"
+      >
         <HStack justifyContent="space-between">
           <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
@@ -79,13 +92,23 @@ const DocumentationListItem = ({
   type,
   ...props
 }: DocumentationListItemProps) => {
+  const [isShortWindow] = useMediaQuery(heightMd);
+  const [isWideScreen] = useMediaQuery(widthXl);
+  const my =
+    type === "reference"
+      ? isShortWindow || !isWideScreen
+        ? 2
+        : 5
+      : isShortWindow || !isWideScreen
+      ? 3
+      : 5;
   return (
     <ListItem {...props}>
       <HStack
-        my={type === "reference" ? [2, 2, 2, 2, 5] : [3, 3, 3, 3, 5]}
+        my={my}
         mx={3}
         ml={type === "reference" ? 3 : 5}
-        spacing={[3, 3, 3, 3, 5]}
+        spacing={isShortWindow || !isWideScreen ? 3 : 5}
       >
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useMediaQuery } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import { topBarHeight } from "../deployment/misc";
 import ProjectNameEditable from "../project/ProjectNameEditable";
@@ -12,6 +12,7 @@ import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
 import ZoomControls from "../editor/ZoomControls";
 import UndoRedoControls from "./UndoRedoControls";
+import { widthXl } from "../common/media-queries";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
@@ -28,6 +29,7 @@ const EditorArea = ({
   ...props
 }: EditorAreaProps) => {
   const intl = useIntl();
+  const [isWideScreen] = useMediaQuery(widthXl);
   return (
     <Flex
       height="100%"
@@ -41,7 +43,7 @@ const EditorArea = ({
         width="100%"
         alignItems="center"
         justifyContent="space-between"
-        px={[5, 5, 5, 5, 10]}
+        px={isWideScreen ? 10 : 5}
         py={2}
         height={topBarHeight}
       >
@@ -72,7 +74,7 @@ const EditorArea = ({
           display={["none", "none", "none", "flex"]}
           zIndex="1"
           top={6}
-          right={[5, 5, 5, 5, 10]}
+          right={isWideScreen ? 10 : 5}
           position="absolute"
         />
         <EditorContainer selection={selection} />
