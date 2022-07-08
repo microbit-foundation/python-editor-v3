@@ -7,6 +7,7 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
+import { moduleAndApiFromId } from "../../../documentation/api/apidocs-util";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
@@ -151,7 +152,8 @@ export const wrapWithDocumentationButton = (
   }
   // We don't have documentation for builtins yet,
   // so there is nothing to link to.
-  if (id.split(".")[0] !== "builtins") {
+  const { pythonModuleName } = moduleAndApiFromId(id);
+  if (pythonModuleName !== "builtins") {
     const apiAnchor = createStyledAnchorElement();
     apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
     apiAnchor.onclick = (e) => {
@@ -174,9 +176,7 @@ export const getLinkToReference = (
   id: string,
   apiReferenceMap: ApiReferenceMap
 ): string | undefined => {
-  const idSegments = id.split(".");
-  const pythonModuleName = idSegments[0];
-  const apiId = idSegments.slice(1).join(".");
+  const { pythonModuleName, apiId } = moduleAndApiFromId(id);
   if (!pythonModuleName && !apiId) {
     return;
   }
