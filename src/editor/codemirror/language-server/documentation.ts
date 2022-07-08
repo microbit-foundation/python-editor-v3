@@ -109,7 +109,6 @@ const createStyledAnchorElement = (): HTMLAnchorElement => {
   anchor.style.color = "var(--chakra-colors-brand-600)";
   anchor.style.display = "block";
   anchor.style.margin = "0";
-  anchor.style.marginRight = "-0.5rem";
   anchor.style.padding = "0.5rem";
   anchor.style.alignSelf = "flex-end";
   return anchor;
@@ -132,10 +131,11 @@ export const wrapWithDocumentationButton = (
     document.createElement("div")
   );
   actionsContainer.style.display = "flex";
+  actionsContainer.style.alignItems = "center";
   actionsContainer.style.justifyContent = "flex-end";
+  actionsContainer.style.gap = "0.25rem";
   if (referenceLink) {
     const refAnchor = createStyledAnchorElement();
-    refAnchor.style.marginRight = "0.5rem";
     refAnchor.textContent = intl.formatMessage({ id: "help" });
     refAnchor.onclick = (e) => {
       e.preventDefault();
@@ -167,6 +167,11 @@ export const wrapWithDocumentationButton = (
         })
       );
     };
+    if (referenceLink) {
+      const pipe = document.createElement("p");
+      pipe.textContent = "|";
+      actionsContainer.appendChild(pipe);
+    }
     actionsContainer.appendChild(apiAnchor);
   }
   return docsAndActions;
