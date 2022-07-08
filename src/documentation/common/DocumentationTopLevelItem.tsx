@@ -106,8 +106,8 @@ const DocumentationListItem = ({
     <ListItem {...props}>
       <HStack
         my={my}
-        mx={3}
-        ml={type === "reference" ? 3 : 5}
+        mr={3}
+        ml={type === "reference" ? 5 : 3}
         spacing={isShortWindow || !isWideScreen ? 3 : 5}
       >
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
