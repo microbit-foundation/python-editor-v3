@@ -215,6 +215,24 @@ describe("edits", () => {
       expected: "import radio\n\n\npass\nradio.off()\n",
     });
   });
+  it("while True inside while True is a special case", () => {
+    check({
+      line: 2,
+      initial: "while True:\n    a = 1\n",
+      additional: "while True:\n    b = 2\n",
+      expected: "while True:\n    b = 2\n    a = 1\n",
+      type: "example",
+    });
+  });
+  it("inside while False is not a special case", () => {
+    check({
+      line: 2,
+      initial: "while False:\n    a = 1\n",
+      additional: "while True:\n    b = 2\n",
+      expected: "while False:\n    while True:\n        b = 2\n    a = 1\n",
+      type: "example",
+    });
+  });
 
   it("moves selection into function brackets of callable code with empty editor at line 0", () => {
     check({
