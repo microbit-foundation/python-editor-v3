@@ -26,10 +26,9 @@ export type Flag =
    * The flag has the nice side-effect of disabling the dialog for
    * local development so is worth keeping for that use alone.
    */
-  | "noWelcome"
-  | "showAreaHeading";
+  | "noWelcome";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome", "showAreaHeading"];
+const allFlags: Flag[] = ["dndDebug", "noWelcome"];
 
 type Flags = Record<Flag, boolean>;
 
