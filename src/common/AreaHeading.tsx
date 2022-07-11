@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Text } from "@chakra-ui/layout";
+import { ReactNode } from "react";
 
 interface AreaHeadingProps {
   name: string;
-  description: string;
+  description: string | ReactNode;
 }
 
 const AreaHeading = ({ name, description }: AreaHeadingProps) => (
@@ -15,7 +16,7 @@ const AreaHeading = ({ name, description }: AreaHeadingProps) => (
     <Text as="h2" fontSize="3xl" fontWeight="semibold">
       {name}
     </Text>
-    <Text fontSize="md">{description} </Text>
+    <Text fontSize="md">{description}</Text>
   </Box>
 );
 
