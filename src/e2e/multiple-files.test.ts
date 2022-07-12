@@ -14,7 +14,7 @@ describe("Browser - multiple and missing file cases", () => {
   it("Copes with hex with no Python files", async () => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.
-    await app.loadFiles("src/fs/microbit-micropython-v2.hex", {
+    await app.loadFiles("src/micropython/main/microbit-micropython-v2.hex", {
       acceptDialog: LoadDialogType.REPLACE,
     });
 
