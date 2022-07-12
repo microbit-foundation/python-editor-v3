@@ -107,9 +107,9 @@ const ActiveLevel = ({
           name={apiString}
           description={
             <>
-              <Text fontSize="md">
+              {/* <Text fontSize="md">
                 <FormattedMessage id="api-description" />
-              </Text>
+              </Text> */}
               <Text>
                 <FormattedMessage
                   id="api-description-link"
