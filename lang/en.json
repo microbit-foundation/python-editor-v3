@@ -28,8 +28,12 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "API documentation for micro:bit MicroPython. For usage and examples, see <link>Reference</link>.",
+    "defaultMessage": "Detailed information for the micro:bit MicroPython API",
     "description": "Description at the top of the API tab"
+  },
+  "api-description-link": {
+    "defaultMessage": "For usage and examples, see <link>Reference</link>",
+    "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
     "defaultMessage": "API",

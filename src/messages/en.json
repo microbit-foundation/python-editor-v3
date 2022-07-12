@@ -72,7 +72,13 @@
   "api-description": [
     {
       "type": 0,
-      "value": "API documentation for micro:bit MicroPython. For usage and examples, see "
+      "value": "Detailed information for the micro:bit MicroPython API"
+    }
+  ],
+  "api-description-link": [
+    {
+      "type": 0,
+      "value": "For usage and examples, see "
     },
     {
       "children": [
@@ -83,10 +89,6 @@
       ],
       "type": 8,
       "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "."
     }
   ],
   "api-tab": [
