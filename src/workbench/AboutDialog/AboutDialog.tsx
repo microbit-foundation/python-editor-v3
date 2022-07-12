@@ -41,7 +41,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 import ModalCloseButton from "../../common/ModalCloseButton";
 import { useDeployment } from "../../deployment";
-import { microPythonVersions } from "../../fs/micropython";
+import { microPythonConfig } from "../../micropython/micropython";
 import comicImage from "./comic.png";
 import microbitHeartImage from "./microbit-heart.png";
 import micropythonLogo from "./micropython.jpeg";
@@ -53,7 +53,7 @@ const versionInfo = [
     value: process.env.REACT_APP_VERSION,
     href: "https://github.com/microbit-foundation/python-editor-next",
   },
-  ...microPythonVersions.map((mpy) => ({
+  ...microPythonConfig.versions.map((mpy) => ({
     name: mpy.name,
     value: mpy.version,
     href: mpy.web,

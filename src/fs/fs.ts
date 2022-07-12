@@ -15,7 +15,6 @@ import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
 import { Host } from "./host";
 import { asciiToBytes, generateId } from "./fs-util";
-import { MicroPythonSource } from "./micropython";
 import {
   FSStorage,
   InMemoryFSStorage,
@@ -24,6 +23,7 @@ import {
 } from "./storage";
 import { PythonProject } from "./initial-project";
 import { lineNumFromUint8Array } from "../common/text-util";
+import { MicroPythonSource } from "../micropython/micropython";
 
 const commonFsSize = 20 * 1024;
 

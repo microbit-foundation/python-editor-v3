@@ -20,11 +20,8 @@ import {
   VersionedData,
 } from "./fs";
 import { DefaultHost } from "./host";
-import {
-  defaultInitialProject,
-  defaultMainFileContent,
-} from "./initial-project";
-import { MicroPythonSource } from "./micropython";
+import { defaultInitialProject } from "./initial-project";
+import { MicroPythonSource } from "../micropython/micropython";
 
 const hexes = Promise.all([
   fs.readFileSync("src/fs/microbit-micropython-v1.hex", {
