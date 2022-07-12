@@ -24,10 +24,10 @@ import { defaultInitialProject } from "./initial-project";
 import { MicroPythonSource } from "../micropython/micropython";
 
 const hexes = Promise.all([
-  fs.readFileSync("src/fs/microbit-micropython-v1.hex", {
+  fs.readFileSync("src/micropython/microbit-micropython-v1.hex", {
     encoding: "ascii",
   }),
-  fs.readFileSync("src/fs/microbit-micropython-v2.hex", {
+  fs.readFileSync("src/micropython/main/microbit-micropython-v2.hex", {
     encoding: "ascii",
   }),
 ]);
