@@ -7,7 +7,7 @@
 set -euxo pipefail
 cd ../micropython-microbit-stubs
 python3 scripts/browser-package.py
-cd -
 branch=$(git rev-parse --abbrev-ref HEAD)
+cd -
 mkdir -p "src/micropython/${branch}/"
 cp ../micropython-microbit-stubs/typeshed.*.json "src/micropython/${branch}/"
