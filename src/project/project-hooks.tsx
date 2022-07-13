@@ -95,17 +95,21 @@ export const useProject = (): DefaultedProject => {
  */
 export const useProjectFileText = (
   filename: string
-): [string | undefined, (text: string) => void] => {
+): [string | undefined, (text: string) => void, boolean] => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const [initialValue, setInitialValue] = useState<string | undefined>();
   const isUnmounted = useIsUnmounted();
+  const [isModule, setIsModule] = useState<boolean>(false);
   useEffect(() => {
     const loadData = async () => {
       try {
         if (await fs.exists(filename)) {
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
+          if (text.includes("# microbit-module:")) {
+            setIsModule(true);
+          }
           if (!isUnmounted()) {
             setInitialValue(text);
           }
@@ -129,5 +133,5 @@ export const useProjectFileText = (
     [fs, filename, actionFeedback]
   );
 
-  return [initialValue, handleChange];
+  return [initialValue, handleChange, isModule];
 };
