@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useMediaQuery } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import { topBarHeight } from "../deployment/misc";
 import ProjectNameEditable from "../project/ProjectNameEditable";
@@ -12,6 +12,7 @@ import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
 import ZoomControls from "../editor/ZoomControls";
 import UndoRedoControls from "./UndoRedoControls";
+import { widthXl } from "../common/media-queries";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
@@ -28,6 +29,7 @@ const EditorArea = ({
   ...props
 }: EditorAreaProps) => {
   const intl = useIntl();
+  const [isWideScreen] = useMediaQuery(widthXl);
   return (
     <Flex
       height="100%"
@@ -41,10 +43,9 @@ const EditorArea = ({
         width="100%"
         alignItems="center"
         justifyContent="space-between"
-        pl="3rem"
-        pr={10}
-        pt={2}
-        pb={2}
+        pr={isWideScreen ? 10 : 5}
+        pl={isWideScreen ? "3rem" : "2rem"}
+        py={2}
         height={topBarHeight}
       >
         <ProjectNameEditable
@@ -62,10 +63,10 @@ const EditorArea = ({
       </Flex>
       {/* Just for the line */}
       <Box
-        ml="6rem"
-        mr="2.5rem"
+        ml={isWideScreen ? "6rem" : "5rem"}
+        mr={isWideScreen ? "2.5rem" : "1.25rem"}
         mb={5}
-        width="calc(100% - 8.5rem)"
+        width={isWideScreen ? "calc(100% - 8.5rem)" : "calc(100% - 6.25rem)"}
         borderBottomWidth={2}
         borderColor="gray.200"
       />
@@ -74,7 +75,7 @@ const EditorArea = ({
           display={["none", "none", "none", "flex"]}
           zIndex="1"
           top={6}
-          right={10}
+          right={isWideScreen ? 10 : 5}
           position="absolute"
         />
         <EditorContainer selection={selection} />
