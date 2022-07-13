@@ -68,6 +68,13 @@ const ActiveLevel = ({
   const apiString = intl.formatMessage({ id: "api-tab" });
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;
   const [, setParams] = useRouterState();
+  const handleReferenceLink = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setParams({ tab: "reference" });
+    },
+    [setParams]
+  );
   if (module) {
     return (
       <HeadedScrollablePanel
@@ -110,14 +117,7 @@ const ActiveLevel = ({
               id="api-description"
               values={{
                 link: (chunks: ReactNode) => (
-                  <Link
-                    color="brand.500"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setParams({ tab: "reference" });
-                    }}
-                    href=""
-                  >
+                  <Link color="brand.500" onClick={handleReferenceLink} href="">
                     {chunks}
                   </Link>
                 ),
