@@ -134,7 +134,6 @@ export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
       img.style.top = "0";
       img.style.zIndex = "-1";
       // Seems to need to be in the DOM for Safari.
-      // Our layout means this will be offscreen.
       document.body.appendChild(img);
     }
     ref.current = img;
