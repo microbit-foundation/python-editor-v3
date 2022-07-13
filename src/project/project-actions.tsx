@@ -282,9 +282,14 @@ export class ProjectActions {
               ),
             });
           } catch (e: any) {
+            const isMakeCodeHex =
+              e.message ===
+              "Invalid record type 0x0A at record 2 (should be between 0x00 and 0x05)";
             this.actionFeedback.expectedError({
               title: errorTitle,
-              description: e.message,
+              description: isMakeCodeHex
+                ? this.intl.formatMessage({ id: "load-error-makecode" })
+                : e.message,
               error: e,
             });
           }

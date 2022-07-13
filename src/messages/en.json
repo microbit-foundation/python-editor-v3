@@ -715,6 +715,12 @@
       "value": "Less"
     }
   ],
+  "load-error-makecode": [
+    {
+      "type": 0,
+      "value": "This hex file is incompatible with the Python Editor. Hex files created with MakeCode cannot be loaded here."
+    }
+  ],
   "load-error-mixed": [
     {
       "type": 0,

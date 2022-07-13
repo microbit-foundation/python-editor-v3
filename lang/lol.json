@@ -374,6 +374,10 @@
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
   },
+  "load-error-makecode": {
+    "defaultMessage": "This hex file is incompatible with the Python Editor. Hex files created with MakeCode cannot be loaded here.",
+    "description": "Load error message"
+  },
   "load-error-mixed": {
     "defaultMessage": "А хекс філе сан онлу бе лоадед он ітс овн. Іт репласес алл філес ін тхе проджест.",
     "description": "Load error message"
