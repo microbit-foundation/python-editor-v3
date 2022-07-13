@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 
 interface AreaHeadingProps {
   name: string;
-  description: string | ReactNode;
+  description: ReactNode;
 }
 
 const AreaHeading = ({ name, description }: AreaHeadingProps) => (
