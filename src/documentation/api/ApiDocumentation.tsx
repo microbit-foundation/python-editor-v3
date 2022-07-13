@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Divider, List, ListItem } from "@chakra-ui/layout";
-import { Link, Text } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/react";
 import sortBy from "lodash.sortby";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -106,30 +106,23 @@ const ActiveLevel = ({
         <AreaHeading
           name={apiString}
           description={
-            <>
-              {/* <Text fontSize="md">
-                <FormattedMessage id="api-description" />
-              </Text> */}
-              <Text>
-                <FormattedMessage
-                  id="api-description-link"
-                  values={{
-                    link: (chunks: ReactNode) => (
-                      <Link
-                        color="brand.500"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setParams({ tab: "reference" });
-                        }}
-                        href=""
-                      >
-                        {chunks}
-                      </Link>
-                    ),
-                  }}
-                />
-              </Text>
-            </>
+            <FormattedMessage
+              id="api-description"
+              values={{
+                link: (chunks: ReactNode) => (
+                  <Link
+                    color="brand.500"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setParams({ tab: "reference" });
+                    }}
+                    href=""
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              }}
+            />
           }
         />
       }

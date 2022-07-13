@@ -72,12 +72,6 @@
   "api-description": [
     {
       "type": 0,
-      "value": "Detailed information for the micro:bit MicroPython API"
-    }
-  ],
-  "api-description-link": [
-    {
-      "type": 0,
       "value": "For usage and examples, see "
     },
     {

@@ -15,7 +15,7 @@ describe("Browser - toolkit tabs", () => {
     await app.switchTab("API");
     await app.findDocumentationTopLevelHeading(
       "API",
-      "For usage and examples, see Reference"
+      "For usage and examples, see"
     );
   });
 

@@ -75,26 +75,6 @@
       "value": "Documentation d’API pour la carte micro:bit MicroPython"
     }
   ],
-  "api-description-link": [
-    {
-      "type": 0,
-      "value": "For usage and examples, see "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "Reference"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "."
-    }
-  ],
   "api-tab": [
     {
       "type": 0,
