@@ -11,6 +11,7 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { isPythonMicrobitModule } from "../fs/fs-util";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
@@ -107,7 +108,7 @@ export const useProjectFileText = (
         if (await fs.exists(filename)) {
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
-          if (text.includes("# microbit-module:")) {
+          if (isPythonMicrobitModule(text)) {
             setIsModule(true);
           }
           if (!isUnmounted()) {
