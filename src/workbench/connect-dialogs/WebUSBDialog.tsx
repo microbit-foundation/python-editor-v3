@@ -49,21 +49,14 @@ const WebUSBDialogBody = ({ action }: WebUSBDialogBodyProps) => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        <FormattedMessage id="webusb-error-default-title" />
+        <FormattedMessage id="webusb-not-supported-title" />
       </Text>
       <Text>
         <FormattedMessage id="webusb-not-supported" />
       </Text>
-      {action === WebUSBErrorTrigger.Connect && (
-        <Text>
-          <FormattedMessage id="webusb-download-instead" />
-        </Text>
-      )}
-      {action === WebUSBErrorTrigger.Flash && (
-        <Text>
-          <FormattedMessage id="webusb-why-use" />
-        </Text>
-      )}
+      <Text>
+        <FormattedMessage id="webusb-why-use" />
+      </Text>
     </VStack>
   );
 };

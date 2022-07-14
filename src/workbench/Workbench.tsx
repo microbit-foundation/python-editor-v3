@@ -22,6 +22,7 @@ import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import Simulator from "../simulator/Simulator";
+import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
@@ -57,6 +58,7 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+  const [sidebarShown, setSidebarShown] = useState<boolean>(true);
   const editor = (
     <Box height="100%" as="section">
       {selection && fileVersion !== undefined && (
@@ -70,78 +72,85 @@ const Workbench = () => {
   );
 
   return (
-    <Flex className="Workbench">
-      <SplitView
-        direction="row"
-        width="100%"
-        minimums={minimums}
-        initialSize={Math.min(
-          700,
-          Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
-        )}
-      >
-        <SplitViewSized>
-          <SideBar
-            as="section"
-            aria-label={intl.formatMessage({ id: "sidebar" })}
-            selectedFile={selection.file}
-            onSelectedFileChanged={setSelectedFile}
-            flex="1 1 100%"
-          />
-        </SplitViewSized>
-        <SplitViewDivider />
-        <SplitViewRemainder>
-          <Flex
-            as="main"
-            flex="1 1 100%"
-            flexDirection="column"
-            height="100%"
-            boxShadow="4px 0px 24px #00000033"
-          >
-            <SplitView
-              direction="column"
-              minimums={[248, 200]}
-              compactSize={SerialArea.compactSize}
-              height="100%"
-              mode={serialSizedMode}
-            >
-              <SplitViewRemainder>
-                {flags.simulator ? (
-                  <SplitView
-                    direction="row"
-                    minimums={[300, 300]}
-                    height="100%"
-                  >
-                    <SplitViewRemainder>{editor}</SplitViewRemainder>
-                    <SplitViewDivider />
-                    <SplitViewSized>
-                      <Simulator />
-                    </SplitViewSized>
-                  </SplitView>
-                ) : (
-                  editor
-                )}
-              </SplitViewRemainder>
-              <SplitViewDivider />
-              <SplitViewSized>
-                <SerialArea
-                  as="section"
-                  compact={serialSizedMode === "compact"}
-                  onSizeChange={setSerialStateWhenOpen}
-                  aria-label={intl.formatMessage({ id: "serial-terminal" })}
-                />
-              </SplitViewSized>
-            </SplitView>
-            <ProjectActionBar
+    <>
+      <Flex className="Workbench">
+        <SplitView
+          direction="row"
+          width="100%"
+          minimums={minimums}
+          initialSize={Math.min(
+            700,
+            Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
+          )}
+          compactSize={86}
+          mode={sidebarShown ? "open" : "compact"}
+        >
+          <SplitViewSized>
+            <SideBar
               as="section"
-              aria-label={intl.formatMessage({ id: "project-actions" })}
-              borderTopWidth={2}
-              borderColor="gray.200"
+              aria-label={intl.formatMessage({ id: "sidebar" })}
+              selectedFile={selection.file}
+              onSelectedFileChanged={setSelectedFile}
+              flex="1 1 100%"
+              setSidebarShown={setSidebarShown}
+              sidebarShown={sidebarShown}
             />
-          </Flex>
-        </SplitViewRemainder>
-      </SplitView>
-    </Flex>
+          </SplitViewSized>
+          <SplitViewDivider />
+          <SplitViewRemainder>
+            <Flex
+              as="main"
+              flex="1 1 100%"
+              flexDirection="column"
+              height="100%"
+              boxShadow="4px 0px 24px #00000033"
+            >
+              <SplitView
+                direction="column"
+                minimums={[248, 200]}
+                compactSize={SerialArea.compactSize}
+                height="100%"
+                mode={serialSizedMode}
+              >
+                <SplitViewRemainder>
+                  {flags.simulator ? (
+                    <SplitView
+                      direction="row"
+                      minimums={[300, 300]}
+                      height="100%"
+                    >
+                      <SplitViewRemainder>{editor}</SplitViewRemainder>
+                      <SplitViewDivider />
+                      <SplitViewSized>
+                        <Simulator />
+                      </SplitViewSized>
+                    </SplitView>
+                  ) : (
+                    editor
+                  )}
+                </SplitViewRemainder>
+                <SplitViewDivider />
+                <SplitViewSized>
+                  <SerialArea
+                    as="section"
+                    compact={serialSizedMode === "compact"}
+                    onSizeChange={setSerialStateWhenOpen}
+                    aria-label={intl.formatMessage({ id: "serial-terminal" })}
+                  />
+                </SplitViewSized>
+              </SplitView>
+              <ProjectActionBar
+                as="section"
+                aria-label={intl.formatMessage({ id: "project-actions" })}
+                borderTopWidth={2}
+                borderColor="gray.200"
+              />
+            </Flex>
+          </SplitViewRemainder>
+        </SplitView>
+      </Flex>
+      <Overlay />
+    </>
   );
 };
 

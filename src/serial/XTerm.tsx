@@ -114,6 +114,14 @@ const useManagedTermimal = (ref: React.RefObject<HTMLDivElement>): void => {
       }
       try {
         fitAddon.fit();
+        // Fix for scrollbar not being draggable.
+        // https://github.com/xtermjs/xterm.js/issues/2757
+        const xtermScreenEl = parent.querySelector(".xterm-screen");
+        const xtermAccessibilityEl = parent.querySelector(
+          ".xterm-accessibility"
+        );
+        (xtermAccessibilityEl as HTMLElement).style.width =
+          (xtermScreenEl as HTMLElement).offsetWidth + "px";
       } catch (e) {
         // It throws if you resize it when not visible but it does no harm.
       }

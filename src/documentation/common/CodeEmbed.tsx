@@ -3,28 +3,44 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
 import { Box, BoxProps, HStack } from "@chakra-ui/layout";
 import { Portal } from "@chakra-ui/portal";
-import { VisuallyHidden } from "@chakra-ui/react";
+import {
+  Tooltip,
+  useClipboard,
+  useDisclosure,
+  VisuallyHidden,
+} from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
-import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { RiDownloadFill } from "react-icons/ri";
-import { FormattedMessage } from "react-intl";
+import React, {
+  Ref,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
+import { MAIN_FILE } from "../../fs/fs";
+import { projectFilesToBase64, PythonProject } from "../../fs/initial-project";
 import { useLogging } from "../../logging/logging-hooks";
+import { useProjectActions } from "../../project/project-hooks";
+import { useSessionSettings } from "../../settings/session-settings";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
+import CodeActionButton from "./CodeActionButton";
 
 interface CodeEmbedProps {
   code: string;
   parentSlug?: string;
   toolkitType?: string;
+  title?: string;
 }
 
 type CodeEmbedState =
@@ -33,7 +49,7 @@ type CodeEmbedState =
    */
   | "default"
   /**
-   * Highlighted state when hovering "Insert code".
+   * Highlighted state when hovering "Copy code".
    */
   | "highlighted"
   /**
@@ -45,47 +61,45 @@ const CodeEmbed = ({
   code: codeWithImports,
   toolkitType,
   parentSlug,
+  title,
 }: CodeEmbedProps) => {
+  const copyCodeButton = useDisclosure();
   const [state, originalSetState] = useState<CodeEmbedState>("default");
   // We want to debounce raising so that we don't raise very briefly during scroll.
   // We don't ever want to delay other actions.
   const setState = useMemo(() => {
     let timeout: any;
-    return (
-      newState: CodeEmbedState | undefined,
-      immediate: boolean = true
-    ) => {
+    return (newState: CodeEmbedState, immediate: boolean = true) => {
       clearTimeout(timeout);
-      if (!newState) {
-        // Just clear the timeout.
-        return;
-      }
       if (immediate) {
         originalSetState(newState);
       } else {
         timeout = setTimeout(() => {
           originalSetState(newState);
-        }, 25);
+        }, 30);
       }
     };
   }, [originalSetState]);
   const toRaised = useCallback(() => setState("raised", false), [setState]);
   const toDefault = useCallback(() => setState("default"), [setState]);
   const toHighlighted = useCallback(() => setState("highlighted"), [setState]);
-  const clearPending = useCallback(() => setState(undefined), [setState]);
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (!codeRef.current) {
+        return;
+      }
+      const overElements = document.elementsFromPoint(e.clientX, e.clientY);
+      if (!overElements.includes(codeRef.current)) {
+        toDefault();
+      } else {
+        // The mouse hasn't really left, it's just now over the pop-up.
+      }
+    },
+    [toDefault]
+  );
   useScrollableAncestorScroll(toDefault);
 
   const actions = useActiveEditorActions();
-  const handleInsertCode = useCallback(
-    () =>
-      actions?.insertCode(
-        codeWithImports,
-        "example",
-        `${toolkitType}-${parentSlug}`
-      ),
-    [actions, codeWithImports, parentSlug, toolkitType]
-  );
-
   const code = useMemo(
     () =>
       codeWithImports
@@ -101,6 +115,31 @@ const CodeEmbed = ({
         .trim(),
     [codeWithImports]
   );
+  const { onCopy } = useClipboard(code);
+  const handleCopyCode = useCallback(async () => {
+    onCopy();
+    await actions?.copyCode(
+      code,
+      codeWithImports,
+      "example",
+      `${toolkitType}-${parentSlug}`
+    );
+  }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
+  const logging = useLogging();
+  const projectActions = useProjectActions();
+  const handleOpenIdea = useCallback(async () => {
+    logging.event({
+      type: "idea-open",
+      message: parentSlug,
+    });
+    const pythonProject: PythonProject = {
+      files: projectFilesToBase64({
+        [MAIN_FILE]: codeWithImports,
+      }),
+      projectName: title,
+    };
+    await projectActions.openIdea(pythonProject);
+  }, [codeWithImports, logging, parentSlug, projectActions, title]);
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";
@@ -111,27 +150,39 @@ const CodeEmbed = ({
     async (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        handleInsertCode();
+        handleCopyCode();
       }
       if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
-        await navigator.clipboard.writeText(code);
+        handleCopyCode();
       }
     },
-    [code, handleInsertCode, isMac]
+    [handleCopyCode, isMac]
   );
+  const determineBackground = () => {
+    if (
+      (toolkitType === "ideas" && state === "highlighted") ||
+      (toolkitType !== "ideas" && state !== "default")
+    ) {
+      return "blimpTeal.50";
+    }
+    return "white";
+  };
   return (
-    <Box>
+    <Box position="relative">
       <Box height={codeHeight} fontSize="md">
         <Code
           onMouseEnter={toRaised}
-          onMouseLeave={clearPending}
+          onMouseLeave={handleMouseLeave}
           onCodeDragEnd={toDefault}
+          onCopyCode={handleCopyCode}
+          isOpen={copyCodeButton.isOpen}
+          onToggle={copyCodeButton.onToggle}
           concise={code}
           full={codeWithImports}
           position="absolute"
           ref={codeRef}
-          background={state === "default" ? "white" : "blimpTeal.50"}
+          background={determineBackground()}
           highlightDragHandle={state === "raised"}
           toolkitType={toolkitType}
           tabIndex={0}
@@ -148,6 +199,9 @@ const CodeEmbed = ({
           <CodePopUp
             onMouseLeave={toDefault}
             onCodeDragEnd={toDefault}
+            onCopyCode={handleCopyCode}
+            isOpen={copyCodeButton.isOpen}
+            onToggle={copyCodeButton.onToggle}
             height={codePopUpHeight}
             top={codeRef.current!.getBoundingClientRect().top + "px"}
             left={codeRef.current!.getBoundingClientRect().left + "px"}
@@ -159,25 +213,14 @@ const CodeEmbed = ({
           />
         )}
       </Box>
-      <HStack spacing={3} mt="2px">
-        <Button
-          onMouseEnter={toHighlighted}
-          onMouseLeave={toDefault}
-          fontWeight="normal"
-          color="gray.800"
-          border="none"
-          bgColor={state === "highlighted" ? "blimpTeal.300" : "blimpTeal.100"}
-          borderTopRadius="0"
-          borderBottomRadius="lg"
-          ml={5}
-          variant="ghost"
-          size="sm"
-          onClick={handleInsertCode}
-          rightIcon={<Box as={RiDownloadFill} transform="rotate(270deg)" />}
-        >
-          <FormattedMessage id="insert-code-action" />
-        </Button>
-      </HStack>
+      <CodeActionButton
+        isOpen={toolkitType === "ideas" ? true : copyCodeButton.isOpen}
+        toHighlighted={toHighlighted}
+        toDefault={toDefault}
+        codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}
+        borderAdjustment={true}
+        toolkitType={toolkitType}
+      />
     </Box>
   );
 };
@@ -188,6 +231,9 @@ interface CodePopUpProps extends BoxProps {
   toolkitType?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
+  onCopyCode: () => void;
+  isOpen: boolean;
+  onToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // We draw the same code over the top in a portal so we can draw it
@@ -209,7 +255,7 @@ const CodePopUp = ({
         full={full}
         position="absolute"
         // We're always "raised" as this is the pop-up.
-        background="blimpTeal.50"
+        background={toolkitType === "ideas" ? "white" : "blimpTeal.50"}
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
         highlightDragHandle
         toolkitType={toolkitType}
@@ -228,6 +274,9 @@ interface CodeProps extends BoxProps {
   toolkitType?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
+  onCopyCode: () => void;
+  isOpen: boolean;
+  onToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Code = forwardRef<CodeProps, "pre">(
@@ -239,6 +288,9 @@ const Code = forwardRef<CodeProps, "pre">(
       toolkitType,
       parentSlug,
       onCodeDragEnd,
+      onCopyCode,
+      isOpen,
+      onToggle,
       ...props
     }: CodeProps,
     ref
@@ -273,45 +325,58 @@ const Code = forwardRef<CodeProps, "pre">(
       },
       [onCodeDragEnd]
     );
-
+    const intl = useIntl();
+    const [{ dragDropSuccess }] = useSessionSettings();
     return (
-      <HStack
-        draggable
-        transition="background .2s, box-shadow .2s"
-        borderWidth="1px"
-        borderColor="blimpTeal.300"
-        borderRadius="lg"
-        fontFamily="code"
-        overflow="hidden"
-        ref={ref}
-        spacing={0}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        cursor="grab"
-        {...props}
+      <Tooltip
+        hasArrow
+        placement="top-start"
+        label={intl.formatMessage({ id: "drag-hover" })}
+        closeOnClick={false}
+        isDisabled={toolkitType === "ideas" ? true : dragDropSuccess}
       >
-        <VisuallyHidden>
-          <FormattedMessage id="code-example" />
-        </VisuallyHidden>
-        <DragHandle
-          borderTopLeftRadius="lg"
-          p={1}
-          alignSelf="stretch"
-          highlight={highlightDragHandle}
-        />
-        <CodeMirrorView
-          // If we fix copy and deal with selection sync then we should probably remove this,
-          // though it'll make it harder to drag.
-          pointerEvents="none"
-          value={concise}
-          flex="1 0 auto"
-          p={5}
-          pl={1}
-          pt={2}
-          pb={2}
-          minW={40}
-        />
-      </HStack>
+        <HStack
+          draggable={toolkitType === "ideas" ? false : true}
+          transition="background .2s, box-shadow .2s"
+          borderWidth="1px"
+          borderColor="blimpTeal.300"
+          borderRadius="lg"
+          fontFamily="code"
+          overflow="hidden"
+          ref={ref}
+          spacing={0}
+          onClick={() => onToggle(!isOpen)}
+          onDragStart={toolkitType === "ideas" ? () => {} : handleDragStart}
+          onDragEnd={handleDragEnd}
+          cursor={toolkitType === "ideas" ? "default" : "grab"}
+          {...props}
+        >
+          <VisuallyHidden>
+            <FormattedMessage id="code-example" />
+          </VisuallyHidden>
+          {toolkitType !== "ideas" && (
+            <DragHandle
+              borderTopLeftRadius="lg"
+              p={1}
+              alignSelf="stretch"
+              highlight={highlightDragHandle}
+            />
+          )}
+
+          <CodeMirrorView
+            // If we fix copy and deal with selection sync then we should probably remove this,
+            // though it'll make it harder to drag.
+            pointerEvents="none"
+            value={concise}
+            flex="1 0 auto"
+            p={5}
+            pl={1}
+            pt={2}
+            pb={2}
+            minW={40}
+          />
+        </HStack>
+      </Tooltip>
     );
   }
 );

@@ -23,7 +23,7 @@ const HeadedScrollablePanel = ({
 }: HeadedScrollablePanelProps) => (
   <ScrollablePanel>
     <Slide direction={direction}>
-      <VStack alignItems="stretch" spacing={0} {...props}>
+      <VStack alignItems="stretch" spacing={0} {...props} role="document">
         <Box
           bg="gray.25"
           flex="0 0 auto"
@@ -32,9 +32,7 @@ const HeadedScrollablePanel = ({
           zIndex={zIndexBreadcrumbContainer}
         >
           {/* Use of header here is relied on to correctly offset the scrolling based on the actual height of the sticky header. See Highlight.tsx */}
-          <Box as="header" p={5} pt={3}>
-            {heading}
-          </Box>
+          <Box as="header">{heading}</Box>
           <Divider borderWidth="1px" />
         </Box>
         {children}

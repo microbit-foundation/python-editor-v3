@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { ChakraProvider } from "@chakra-ui/react";
+import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
-import { useLocalStorage } from "./common/use-local-storage";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/device";
@@ -23,19 +23,13 @@ import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createHost } from "./fs/host";
 import { fetchMicroPython } from "./fs/micropython";
-import { trackFsChanges } from "./language-server/client-fs";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
-import { pyright } from "./language-server/pyright";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import { RouterProvider } from "./router-hooks";
-import {
-  defaultSettings,
-  isValidSettingsObject,
-  Settings,
-  SettingsProvider,
-} from "./settings/settings";
+import SessionSettingsProvider from "./settings/session-settings";
+import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
@@ -51,10 +45,8 @@ const device = isMockDeviceMode()
   ? new MockDeviceConnection()
   : new MicrobitWebUSBConnection({ logging });
 
-const client = pyright();
 const host = createHost(logging);
 const fs = new FileSystem(logging, host, fetchMicroPython);
-client?.initialize().then(() => trackFsChanges(client, fs));
 
 // If this fails then we retry on access.
 fs.initializeInBackground();
@@ -68,11 +60,9 @@ const App = () => {
     };
   }, []);
 
-  const settings = useLocalStorage<Settings>(
-    "settings",
-    isValidSettingsObject,
-    defaultSettings
-  );
+  polyfill({
+    forceApply: true,
+  });
 
   const deployment = useDeployment();
   return (
@@ -80,33 +70,35 @@ const App = () => {
       <VisualViewPortCSSVariables />
       <ChakraProvider theme={deployment.chakraTheme}>
         <LoggingProvider value={logging}>
-          <SettingsProvider value={settings}>
-            <TranslationProvider>
-              <DeviceContextProvider value={device}>
-                <FileSystemProvider value={fs}>
-                  <LanguageServerClientProvider value={client}>
-                    <SyncStatusProvider>
-                      <BeforeUnloadDirtyCheck />
-                      <DocumentationProvider>
-                        <SearchProvider>
-                          <SelectionProvider>
-                            <DialogProvider>
-                              <RouterProvider>
-                                <ProjectDropTarget>
-                                  <ActiveEditorProvider>
-                                    <Workbench />
-                                  </ActiveEditorProvider>
-                                </ProjectDropTarget>
-                              </RouterProvider>
-                            </DialogProvider>
-                          </SelectionProvider>
-                        </SearchProvider>
-                      </DocumentationProvider>
-                    </SyncStatusProvider>
-                  </LanguageServerClientProvider>
-                </FileSystemProvider>
-              </DeviceContextProvider>
-            </TranslationProvider>
+          <SettingsProvider>
+            <SessionSettingsProvider>
+              <TranslationProvider>
+                <DeviceContextProvider value={device}>
+                  <FileSystemProvider value={fs}>
+                    <LanguageServerClientProvider>
+                      <SyncStatusProvider>
+                        <BeforeUnloadDirtyCheck />
+                        <DocumentationProvider>
+                          <SearchProvider>
+                            <SelectionProvider>
+                              <DialogProvider>
+                                <RouterProvider>
+                                  <ProjectDropTarget>
+                                    <ActiveEditorProvider>
+                                      <Workbench />
+                                    </ActiveEditorProvider>
+                                  </ProjectDropTarget>
+                                </RouterProvider>
+                              </DialogProvider>
+                            </SelectionProvider>
+                          </SearchProvider>
+                        </DocumentationProvider>
+                      </SyncStatusProvider>
+                    </LanguageServerClientProvider>
+                  </FileSystemProvider>
+                </DeviceContextProvider>
+              </TranslationProvider>
+            </SessionSettingsProvider>
           </SettingsProvider>
         </LoggingProvider>
       </ChakraProvider>

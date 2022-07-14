@@ -107,8 +107,14 @@ export class App {
 
   async createPage() {
     const browser = await this.browser;
+    const context = browser.defaultBrowserContext();
+    const { origin } = new URL(this.url);
+    await context.overridePermissions(origin, [
+      "clipboard-read",
+      "clipboard-write",
+    ]);
 
-    const page = await browser.newPage();
+    const page = await context.newPage();
     await page.setViewport({ width: 1200, height: 800 });
     await page.setCookie({
       // See corresponding code in App.tsx.
@@ -203,21 +209,21 @@ export class App {
    *
    * @param name The name to enter in the dialog.
    */
-  async addNewFile(name: string): Promise<void> {
+  async createNewFile(name: string): Promise<void> {
     await this.switchTab("Project");
     const document = await this.document();
-    const addFileButton = await document.findByRole("button", {
-      name: "Add file",
+    const createFileButton = await document.findByRole("button", {
+      name: "Create file",
     });
-    await addFileButton.click();
+    await createFileButton.click();
     const nameField = await document.findByRole("textbox", {
       name: "Name",
     });
     await nameField.type(name);
-    const addButton = await document.findByRole("button", {
-      name: "Add",
+    const createButton = await document.findByRole("button", {
+      name: "Create",
     });
-    await addButton.click();
+    await createButton.click();
   }
 
   /**
@@ -493,12 +499,12 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findActiveDocumentationEntry(text: string): Promise<void> {
+  async findActiveApiEntry(text: string, headingLevel: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
     return waitFor(async () => {
-      const items = await document.$$("h4");
-      const h4s = await Promise.all(
+      const items = await document.$$(headingLevel);
+      const headings = await Promise.all(
         items.map((e) =>
           e.evaluate((node) => {
             const text = (node as HTMLElement).innerText;
@@ -508,7 +514,7 @@ export class App {
           })
         )
       );
-      const match = h4s.find((info) => info.visible && info.text === text);
+      const match = headings.find((info) => info.visible && info.text === text);
       expect(match).toBeDefined();
     }, defaultWaitForOptions);
   }
@@ -531,7 +537,13 @@ export class App {
     const button = await document.findByRole("button", {
       name: `View ${name} documentation`,
     });
-    return button.click();
+    await button.click();
+    await this.awaitAnimation();
+  }
+
+  async awaitAnimation(): Promise<void> {
+    const page = await this.page;
+    await page.waitForTimeout(300);
   }
 
   async selectDocumentationIdea(name: string): Promise<void> {
@@ -557,6 +569,50 @@ export class App {
     });
   }
 
+  async triggerScroll(tabName: string): Promise<void> {
+    const document = await this.document();
+    const button = await document.findByRole("button", {
+      name: tabName,
+    });
+    const handle = button.asElement();
+    await handle!.evaluate((element) => {
+      const scrollablePanel = element.closest(
+        "[data-testid='scrollable-panel']"
+      );
+      scrollablePanel?.scrollTo({ top: 10 });
+    });
+    await this.awaitAnimation();
+  }
+
+  async toggleCodeActionButton(name: string): Promise<void> {
+    const document = await this.document();
+    const heading = await document.findByText(name, {
+      selector: "h3",
+    });
+    const handle = heading.asElement();
+    await handle!.evaluate((element) => {
+      const item = element.closest("li");
+      (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
+    });
+  }
+
+  async copyCode(): Promise<void> {
+    const document = await this.document();
+    const copyCodeButton = await document.findByRole("button", {
+      name: "Copy code",
+    });
+    await copyCodeButton.click();
+  }
+
+  async pasteToolkitCode(): Promise<void> {
+    await this.focusEditorContent();
+    const keyboard = (await this.page).keyboard;
+    const meta = process.platform === "darwin" ? "Meta" : "Control";
+    await keyboard.down(meta);
+    await keyboard.press("v");
+    await keyboard.up(meta);
+  }
+
   async selectToolkitDropDownOption(
     label: string,
     option: string
@@ -567,33 +623,41 @@ export class App {
   }
 
   /**
-   * Trigger a download but don't wait for it to complete.
+   * Trigger a save but don't wait for it to complete.
    *
    * Useful when the action is expected to fail.
-   * Otherwise see waitForDownload.
+   * Otherwise see waitForSave.
    */
-  async download(): Promise<void> {
+  async save(): Promise<void> {
     const document = await this.document();
-    const downloadButton = await document.getByText("Download");
-    return downloadButton.click();
+    const saveButton = await document.getByText("Save");
+    return saveButton.click();
   }
 
   async connect(): Promise<void> {
     const document = await this.document();
-    const connectButton = await document.findByRole("button", {
+    const moreConnectOptions = await document.findByTestId(
+      "more-connect-options"
+    );
+    await moreConnectOptions.click();
+    const connectButton = await document.findByRole("menuitem", {
       name: "Connect",
     });
     await connectButton.click();
     await this.connectViaConnectHelp();
   }
 
-  // Connects from the connect help dialog.
+  // Connects from the connect dialog/wizard.
   async connectViaConnectHelp(): Promise<void> {
     const document = await this.document();
-    const startButton = await document.findByRole("button", {
-      name: "Start",
+    const nextButtonOne = await document.findByRole("button", {
+      name: "Next",
     });
-    await startButton.click();
+    await nextButtonOne.click();
+    const nextButtonTwo = await document.findByRole("button", {
+      name: "Next",
+    });
+    await nextButtonTwo.click();
   }
 
   async confirmConnection(): Promise<void> {
@@ -614,7 +678,7 @@ export class App {
   async connectHelpFromNotFoundDialog(): Promise<void> {
     const document = await this.document();
     const reviewDeviceSelection = await document.findByRole("link", {
-      name: "how to select the device",
+      name: "follow these steps",
     });
     await reviewDeviceSelection.click();
   }
@@ -626,8 +690,22 @@ export class App {
     });
   }
 
+  async confirmNameYourProjectDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Name your project", {
+      selector: "header",
+    });
+  }
+
+  async confirmTransferHexHelpDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Transfer saved hex file to micro:bit", {
+      selector: "h2",
+    });
+  }
+
   // Retry micro:bit connection from error dialogs.
-  async connectTryAgain(): Promise<void> {
+  async connectViaTryAgain(): Promise<void> {
     const document = await this.document();
     const tryAgainButton = await document.findByRole("button", {
       name: "Try again",
@@ -637,7 +715,11 @@ export class App {
 
   async disconnect(): Promise<void> {
     const document = await this.document();
-    const disconnectButton = await document.findByRole("button", {
+    const moreConnectOptions = await document.findByTestId(
+      "more-connect-options"
+    );
+    await moreConnectOptions.click();
+    const disconnectButton = await document.findByRole("menuitem", {
       name: "Disconnect",
     });
     await disconnectButton.click();
@@ -687,7 +769,9 @@ export class App {
 
   async flash() {
     const document = await this.document();
-    const flash = await document.findByRole("button", { name: "Flash" });
+    const flash = await document.findByRole("button", {
+      name: "Send to micro:bit",
+    });
     return flash.click();
   }
 
@@ -712,12 +796,12 @@ export class App {
   }
 
   /**
-   * Trigger a download and wait for it to complete.
+   * Trigger a hex file save and wait for the download to complete.
    *
    * @returns Download details.
    */
-  async waitForDownload(): Promise<BrowserDownload> {
-    return this.waitForDownloadOnDisk(() => this.download());
+  async waitForSave(): Promise<BrowserDownload> {
+    return this.waitForDownloadOnDisk(() => this.save());
   }
 
   /**
@@ -799,10 +883,12 @@ export class App {
    * Follow the documentation link shown in the signature help or autocomplete tooltips.
    * This will update the "API" tab and switch to it.
    */
-  async followCompletionOrSignatureDocumentionLink(): Promise<void> {
+  async followCompletionOrSignatureDocumentionLink(
+    linkName: string
+  ): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("link", {
-      name: "Help",
+      name: linkName,
     });
     return button.click();
   }
@@ -856,7 +942,7 @@ export class App {
 
   private async focusEditorContent(): Promise<ElementHandle> {
     const document = await this.document();
-    const content = await document.$(".cm-content");
+    const content = await document.$("[data-testid='editor'] .cm-content");
     if (!content) {
       throw new Error("Missing editor area");
     }

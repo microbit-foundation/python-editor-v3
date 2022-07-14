@@ -4,11 +4,19 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
-import { Collapse, useDisclosure, VisuallyHidden } from "@chakra-ui/react";
+import {
+  Collapse,
+  Tooltip,
+  useClipboard,
+  useDisclosure,
+  VisuallyHidden,
+} from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
+import { zIndexCode } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
+import { PasteContext } from "../../editor/codemirror/copypaste";
 import {
   debug as dndDebug,
   DragContext,
@@ -25,6 +33,8 @@ import {
 } from "../../language-server/apidocs";
 import { useLogging } from "../../logging/logging-hooks";
 import { Anchor } from "../../router-hooks";
+import { useSessionSettings } from "../../settings/session-settings";
+import CodeActionButton from "../common/CodeActionButton";
 import DocString from "../common/DocString";
 import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
@@ -328,7 +338,7 @@ const classToInstanceMap: Record<string, string> = {
   uname_result: "uname()",
 };
 
-export const getDragContext = (fullName: string, kind: string): DragContext => {
+const getDragPasteData = (fullName: string, kind: string): PasteContext => {
   let parts = fullName.split(".").filter((p) => p !== "__init__");
   // Heuristic identification of e.g. Image.HEART. Sufficient for MicroPython API.
   if (!parts[parts.length - 1].match(/^[A-Z0-9_]+$/)) {
@@ -342,9 +352,23 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
     : `import ${parts[0]}`;
   const full = `${requiredImport}\n${code}`;
   return {
-    code: full,
+    code,
+    codeWithImports: full,
     type: kind === "function" ? "call" : "example",
     id: `api-${fullName}`,
+  };
+};
+
+const getPasteContext = (fullName: string, kind: string): PasteContext => {
+  return getDragPasteData(fullName, kind);
+};
+
+export const getDragContext = (fullName: string, kind: string): DragContext => {
+  const { codeWithImports: code, type, id } = getDragPasteData(fullName, kind);
+  return {
+    code,
+    type,
+    id,
   };
 };
 
@@ -385,74 +409,97 @@ const DraggableSignature = ({
   }, []);
 
   const highlight = useDisclosure();
-
+  const copyCodeButton = useDisclosure();
   const actions = useActiveEditorActions();
-  const handleInsertCode = useCallback(() => {
-    const { code, id } = getDragContext(fullName, kind);
-    actions?.insertCode(code, kind === "function" ? "call" : "example", id);
-  }, [actions, fullName, kind]);
+
+  const { code, codeWithImports, type } = getPasteContext(fullName, kind);
+  const { onCopy } = useClipboard(code);
+  const handleCopyCode = useCallback(async () => {
+    onCopy();
+    await actions?.copyCode(code, codeWithImports, type, id);
+  }, [actions, code, codeWithImports, onCopy, type, id]);
   const isMac = /Mac/.test(navigator.platform);
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        handleInsertCode();
+        handleCopyCode();
       }
       if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
-        await navigator.clipboard.writeText(
-          `${formatName(kind, fullName, name)}${signature ? signature : ""}`
-        );
+        handleCopyCode();
       }
     },
-    [fullName, handleInsertCode, isMac, kind, name, signature]
+    [handleCopyCode, isMac]
   );
+  const intl = useIntl();
+  const [{ dragDropSuccess }] = useSessionSettings();
   return (
-    <HStack
-      draggable
-      spacing={0}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      display="inline-flex"
-      overflow="hidden"
-      borderWidth="1px"
-      borderColor="blimpTeal.300"
-      borderRadius="lg"
-      onMouseEnter={highlight.onOpen}
-      onMouseLeave={highlight.onClose}
-      tabIndex={0}
-      _focus={{
-        boxShadow: "var(--chakra-shadows-outline);",
-      }}
-      _focusVisible={{
-        outline: "none",
-      }}
-      onKeyDown={handleKeyDown}
-      {...props}
-      cursor="grab"
-    >
-      <VisuallyHidden>
-        <FormattedMessage id="code-example" />
-      </VisuallyHidden>
-      <DragHandle
-        highlight={highlight.isOpen}
-        borderTopLeftRadius="lg"
-        borderBottomLeftRadius="lg"
-        p={1}
-        alignSelf="stretch"
-      />
-      <Text
-        background={highlight.isOpen ? "blimpTeal.50" : "white"}
-        transition="background .2s"
-        p={2}
-        fontFamily="code"
-        fontSize={kindToFontSize[kind] || "md"}
-        as={kindToHeading[kind]}
+    <Box position="relative">
+      <Tooltip
+        hasArrow
+        placement="top-start"
+        label={intl.formatMessage({ id: "drag-hover" })}
+        closeOnClick={false}
+        isDisabled={dragDropSuccess}
       >
-        <Text as="span">{formatName(kind, fullName, name)}</Text>
-        {signature}
-      </Text>
-    </HStack>
+        <HStack
+          draggable
+          spacing={0}
+          onClick={copyCodeButton.onToggle}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          display="inline-flex"
+          overflow="hidden"
+          borderWidth="1px"
+          borderColor="blimpTeal.300"
+          borderRadius="lg"
+          onMouseEnter={highlight.onOpen}
+          onMouseLeave={highlight.onClose}
+          tabIndex={0}
+          position="relative"
+          zIndex={zIndexCode}
+          _focusVisible={{
+            boxShadow: "var(--chakra-shadows-outline);",
+            outline: "none",
+          }}
+          onKeyDown={handleKeyDown}
+          {...props}
+          cursor="grab"
+        >
+          <VisuallyHidden>
+            <FormattedMessage id="code-example" />
+          </VisuallyHidden>
+          <DragHandle
+            highlight={highlight.isOpen}
+            borderTopLeftRadius="lg"
+            borderBottomLeftRadius="lg"
+            p={1}
+            alignSelf="stretch"
+          />
+          <Text
+            minW={40}
+            background={highlight.isOpen ? "blimpTeal.50" : "white"}
+            transition="background .2s"
+            p={2}
+            fontFamily="code"
+            fontSize={kindToFontSize[kind] || "md"}
+            as={kindToHeading[kind]}
+          >
+            <Text as="span">{formatName(kind, fullName, name)}</Text>
+            {signature}
+          </Text>
+        </HStack>
+      </Tooltip>
+      <CodeActionButton
+        isOpen={copyCodeButton.isOpen}
+        toHighlighted={highlight.onOpen}
+        toDefault={highlight.onClose}
+        codeAction={handleCopyCode}
+        borderAdjustment={false}
+        toolkitType="api"
+      />
+    </Box>
   );
 };
 

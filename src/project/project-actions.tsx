@@ -13,8 +13,11 @@ import { InputDialog, InputDialogBody } from "../common/InputDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
+  ConnectionAction,
   ConnectionStatus,
+  ConnectOptions,
   DeviceConnection,
+  EVENT_END_USB_SELECT,
   HexGenerationError,
   WebUSBError,
   WebUSBErrorCode,
@@ -26,19 +29,23 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
+import { PythonProject } from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { Settings } from "../settings/settings";
-import ConnectHelpDialog, {
+import ConnectDialog, {
   ConnectHelpChoice,
-} from "../workbench/connect-dialogs/ConnectHelpDialog";
-import FirmwareDialog from "../workbench/connect-dialogs/FirmwareDialog";
+} from "../workbench/connect-dialogs/ConnectDialog";
+import FirmwareDialog, {
+  ConnectErrorChoice,
+} from "../workbench/connect-dialogs/FirmwareDialog";
+import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
+import TransferHexDialog, {
+  TransferHexChoice,
+} from "../workbench/connect-dialogs/TransferHexDialog";
 import WebUSBDialog, {
   WebUSBErrorTrigger,
 } from "../workbench/connect-dialogs/WebUSBDialog";
-import NotFoundDialog, {
-  NotFoundChoice,
-} from "../workbench/connect-dialogs/NotFoundDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -54,6 +61,7 @@ import {
   isPythonFile,
   validateNewFilename,
 } from "./project-utils";
+import ProjectNameQuestion from "./ProjectNameQuestion";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -97,18 +105,22 @@ export class ProjectActions {
     return defaultedProject(this.fs, this.intl);
   }
 
-  connect = async (forceConnectHelp: boolean = false) => {
+  connect = async (
+    forceConnectHelp: boolean,
+    userAction: ConnectionAction
+  ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      await this.dialogs.show<void>((callback) => (
-        <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Connect} />
-      ));
+      this.webusbNotSupportedError();
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
-        await this.connectInternal();
+        return this.connectInternal(
+          { serial: userAction !== ConnectionAction.FLASH },
+          userAction
+        );
       }
     }
   };
@@ -133,20 +145,20 @@ export class ProjectActions {
       return true;
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
-      <ConnectHelpDialog
+      <ConnectDialog
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}
       />
     ));
     switch (choice) {
-      case ConnectHelpChoice.StartDontShowAgain: {
+      case ConnectHelpChoice.NextDontShowAgain: {
         this.settings.setValues({
           ...this.settings.values,
           showConnectHelp: false,
         });
         return true;
       }
-      case ConnectHelpChoice.Start:
+      case ConnectHelpChoice.Next:
         return true;
       case ConnectHelpChoice.Cancel:
         return false;
@@ -156,11 +168,16 @@ export class ProjectActions {
   /**
    * Connect to the device if possible, otherwise show feedback.
    */
-  private async connectInternal() {
+  private async connectInternal(
+    options: ConnectOptions,
+    userAction: ConnectionAction
+  ) {
     try {
-      await this.device.connect();
+      await this.device.connect(options);
+      return true;
     } catch (e) {
-      this.handleWebUSBError(e);
+      this.handleWebUSBError(e, userAction);
+      return false;
     }
   }
 
@@ -175,9 +192,29 @@ export class ProjectActions {
     try {
       await this.device.disconnect();
     } catch (e) {
-      this.handleWebUSBError(e);
+      this.handleWebUSBError(e, ConnectionAction.DISCONNECT);
     }
   };
+
+  private async confirmReplace(ideaName?: string) {
+    return this.dialogs.show((callback) => (
+      <ConfirmDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "confirm-replace-title" })}
+        body={
+          ideaName
+            ? this.intl.formatMessage(
+                { id: "confirm-replace-with-idea" },
+                { ideaName }
+              )
+            : this.intl.formatMessage({ id: "confirm-replace-body" })
+        }
+        actionLabel={this.intl.formatMessage({
+          id: "replace-action-label",
+        })}
+      />
+    ));
+  }
 
   /**
    * Loads files
@@ -232,18 +269,7 @@ export class ProjectActions {
         });
       } else {
         // It'd be nice to suppress this (and similar) if it's just the default script.
-        if (
-          await this.dialogs.show((callback) => (
-            <ConfirmDialog
-              callback={callback}
-              header={this.intl.formatMessage({ id: "confirm-replace-title" })}
-              body={this.intl.formatMessage({ id: "confirm-replace-body" })}
-              actionLabel={this.intl.formatMessage({
-                id: "replace-action-label",
-              })}
-            />
-          ))
-        ) {
+        if (await this.confirmReplace()) {
           const file = files[0];
           const projectName = file.name.replace(/\.hex$/i, "");
           const hex = await readFileAsText(file);
@@ -284,6 +310,12 @@ export class ProjectActions {
       if (inputs) {
         return this.uploadInternal(inputs);
       }
+    }
+  };
+
+  openIdea = async (idea: PythonProject) => {
+    if (await this.confirmReplace(idea.projectName)) {
+      await this.fs.replaceWithMultipleFiles(idea);
     }
   };
 
@@ -354,7 +386,7 @@ export class ProjectActions {
   /**
    * Flash the device, reporting progress via a dialog.
    */
-  flash = async (): Promise<void> => {
+  flash = async (tryAgain?: boolean): Promise<void> => {
     this.logging.event({
       type: "flash",
       detail: await this.projectStats(),
@@ -365,11 +397,21 @@ export class ProjectActions {
       return;
     }
 
+    if (
+      this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE ||
+      this.device.status === ConnectionStatus.NOT_CONNECTED
+    ) {
+      const connected = await this.connect(
+        tryAgain || false,
+        ConnectionAction.FLASH
+      );
+      if (!connected) {
+        return;
+      }
+    }
+
     try {
       const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
-      const flashingMicroPython = this.intl.formatMessage({
-        id: "flashing-micropython",
-      });
       const firstFlashNotice = (
         <Text fontSize="lg">
           <FormattedMessage id="flashing-full-flash-detail" />
@@ -377,7 +419,7 @@ export class ProjectActions {
       );
       const progress = (value: number | undefined, partial: boolean) => {
         this.dialogs.progress({
-          header: partial ? flashingCode : flashingMicroPython,
+          header: flashingCode,
           body: partial ? undefined : firstFlashNotice,
           progress: value,
         });
@@ -391,7 +433,7 @@ export class ProjectActions {
           description: e.message,
         });
       } else {
-        this.handleWebUSBError(e);
+        this.handleWebUSBError(e, ConnectionAction.FLASH);
       }
     }
   };
@@ -399,15 +441,19 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  download = async () => {
+  save = async () => {
     this.logging.event({
-      type: "download",
+      type: "save",
       detail: await this.projectStats(),
     });
 
+    if (!(await this.ensureProjectName())) {
+      return;
+    }
+
     let download: string | undefined;
     try {
-      download = await this.fs.toHexForDownload();
+      download = await this.fs.toHexForSave();
     } catch (e: any) {
       this.actionFeedback.expectedError({
         title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
@@ -420,16 +466,17 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
+    this.handleTransferHexDialog();
   };
 
   /**
-   * Download an individual file.
+   * Save an individual file.
    *
-   * @param filename the file to download.
+   * @param filename the file to save.
    */
-  downloadFile = async (filename: string) => {
+  saveFile = async (filename: string) => {
     this.logging.event({
-      type: "download-file",
+      type: "save-file",
     });
 
     try {
@@ -444,15 +491,19 @@ export class ProjectActions {
   };
 
   /**
-   * Download the main file renamed to match the project.
+   * Save the main file (renamed to match the project).
    *
    * There's some debate as to whether this action is more confusing than helpful
    * but leaving it around for a bit so we can try out different UI arrangements.
    */
-  downloadMainFile = async () => {
+  saveMainFile = async () => {
     this.logging.event({
-      type: "download-main-file",
+      type: "save-main-file",
     });
+
+    if (!(await this.ensureProjectName())) {
+      return;
+    }
 
     try {
       const content = await this.fs.read(MAIN_FILE);
@@ -469,7 +520,7 @@ export class ProjectActions {
   /**
    * Create a file, prompting the user for the name.
    */
-  addFile = async () => {
+  createFile = async () => {
     const preexistingFiles = new Set(this.project.files.map((f) => f.name));
     const validate = (filename: string) =>
       validateNewFilename(filename, (f) => preexistingFiles.has(f), this.intl);
@@ -478,10 +529,10 @@ export class ProjectActions {
     >((callback) => (
       <InputDialog
         callback={callback}
-        header={this.intl.formatMessage({ id: "add-python" })}
+        header={this.intl.formatMessage({ id: "create-python" })}
         Body={NewFileNameQuestion}
         initialValue=""
-        actionLabel={this.intl.formatMessage({ id: "add-action" })}
+        actionLabel={this.intl.formatMessage({ id: "create-action" })}
         validate={validate}
         customFocus
       />
@@ -489,7 +540,7 @@ export class ProjectActions {
 
     if (filenameWithoutExtension) {
       this.logging.event({
-        type: "add-file",
+        type: "create-file",
       });
       try {
         const filename = ensurePythonExtension(filenameWithoutExtension);
@@ -500,7 +551,7 @@ export class ProjectActions {
         );
         this.setSelection({ file: filename, location: { line: undefined } });
         this.actionFeedback.success({
-          title: this.intl.formatMessage({ id: "added-file" }, { filename }),
+          title: this.intl.formatMessage({ id: "created-file" }, { filename }),
         });
       } catch (e) {
         this.actionFeedback.unexpectedError(e);
@@ -541,6 +592,40 @@ export class ProjectActions {
     }
   };
 
+  isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
+
+  ensureProjectName = async (): Promise<boolean | undefined> => {
+    if (this.isDefaultProjectName()) {
+      return await this.editProjectName(true);
+    }
+    return true;
+  };
+
+  editProjectName = async (isSave: boolean = false) => {
+    const name = await this.dialogs.show<string | undefined>((callback) => (
+      <InputDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "name-project" })}
+        Body={ProjectNameQuestion}
+        initialValue={this.project.name}
+        actionLabel={this.intl.formatMessage({
+          id: isSave ? "confirm-save-action" : "confirm-action",
+        })}
+        customFocus
+        validate={(name: string) =>
+          name.trim().length === 0
+            ? this.intl.formatMessage({ id: "name-not-blank" })
+            : undefined
+        }
+      />
+    ));
+    if (name) {
+      await this.setProjectName(name);
+      return true;
+    }
+    return false;
+  };
+
   /**
    * Set the project name.
    *
@@ -554,27 +639,35 @@ export class ProjectActions {
     return this.fs.setProjectName(name);
   };
 
-  private async handleNotFound() {
+  private handleConnectErrorChoice = (
+    choice: ConnectErrorChoice,
+    userAction: ConnectionAction
+  ) => {
+    if (choice !== ConnectErrorChoice.TRY_AGAIN) {
+      return;
+    }
+    if (userAction === ConnectionAction.CONNECT) {
+      this.connect(true, userAction);
+    } else if (userAction === ConnectionAction.FLASH) {
+      this.flash(true);
+    }
+  };
+
+  private async handleNotFound(userAction: ConnectionAction) {
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
-    const choice = await this.dialogs.show<NotFoundChoice>((callback) => (
+    const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <NotFoundDialog callback={callback} />
     ));
-    switch (choice) {
-      case NotFoundChoice.Retry: {
-        this.connectInternal();
-        return;
-      }
-      case NotFoundChoice.ReviewDevice: {
-        this.connect(true);
-        return;
-      }
-    }
+    this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleFirmwareUpdate(errorCode: WebUSBErrorCode) {
+  private async handleFirmwareUpdate(
+    errorCode: WebUSBErrorCode,
+    userAction: ConnectionAction
+  ) {
     this.device.clearDevice();
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -582,18 +675,20 @@ export class ProjectActions {
         this.webusbErrorMessage(errorCode)
       );
     }
-    await this.dialogs.show<void>((callback) => (
+    const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <FirmwareDialog callback={callback} />
     ));
+    this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleWebUSBError(e: any) {
+  private async handleWebUSBError(e: any, userAction: ConnectionAction) {
     if (e instanceof WebUSBError) {
+      this.device.emit(EVENT_END_USB_SELECT);
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
           // where no devices.
-          await this.handleNotFound();
+          await this.handleNotFound(userAction);
           return;
         }
         case "device-disconnected": {
@@ -601,7 +696,7 @@ export class ProjectActions {
           return;
         }
         case "update-req":
-          await this.handleFirmwareUpdate(e.code);
+          await this.handleFirmwareUpdate(e.code, userAction);
           return;
         case "clear-connect":
         case "timeout-error":
@@ -623,6 +718,7 @@ export class ProjectActions {
     await this.dialogs.show<void>((callback) => (
       <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
     ));
+    this.save();
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -690,6 +786,29 @@ export class ProjectActions {
         };
       default:
         throw new Error("Unknown code");
+    }
+  }
+
+  private async handleTransferHexDialog() {
+    const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
+    if (!showTransferHexHelpSetting) {
+      return;
+    }
+    const choice = await this.dialogs.show<TransferHexChoice>((callback) => (
+      <TransferHexDialog
+        callback={callback}
+        dialogNormallyHidden={!showTransferHexHelpSetting}
+      />
+    ));
+    if (choice === TransferHexChoice.CancelDontShowAgain) {
+      this.settings.setValues({
+        ...this.settings.values,
+        showTransferHexHelp: false,
+      });
     }
   }
 

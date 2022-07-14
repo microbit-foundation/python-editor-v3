@@ -8,18 +8,17 @@ import {
   BrowserMessageReader,
   BrowserMessageWriter,
 } from "vscode-jsonrpc/browser";
-import { retryAsyncLoad } from "../common/chunk-util";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-717ab95a99938c8ee21a.worker.js";
+const workerScriptName = "pyright-main-8fe8afc1823da211c82b.worker.js";
 
 /**
  * Creates Pyright workers and corresponding client.
  *
  * These have the same lifetime as the app.
  */
-export const pyright = (): LanguageServerClient | undefined => {
+export const pyright = (language: string): LanguageServerClient | undefined => {
   // For jest.
   if (!window.Worker) {
     return undefined;
@@ -39,6 +38,11 @@ export const pyright = (): LanguageServerClient | undefined => {
     new BrowserMessageReader(foreground),
     new BrowserMessageWriter(foreground)
   );
+  const workers: Worker[] = [foreground];
+  connection.onDispose(() => {
+    workers.forEach((w) => w.terminate());
+  });
+
   let backgroundWorkerCount = 0;
   foreground.addEventListener("message", (e: MessageEvent) => {
     if (e.data && e.data.type === "browser/newWorker") {
@@ -50,6 +54,7 @@ export const pyright = (): LanguageServerClient | undefined => {
       const background = new Worker(workerScript, {
         name: `Pyright-background-${++backgroundWorkerCount}`,
       });
+      workers.push(background);
       background.postMessage(
         {
           type: "browser/boot",
@@ -63,14 +68,5 @@ export const pyright = (): LanguageServerClient | undefined => {
   });
   connection.listen();
 
-  const client = new LanguageServerClient(connection, {
-    rootUri: createUri(""),
-    initializationOptions: async () => {
-      const typeshed = await retryAsyncLoad(() => import("./typeshed.json"));
-      return {
-        files: typeshed,
-      };
-    },
-  });
-  return client;
+  return new LanguageServerClient(connection, language, createUri(""));
 };

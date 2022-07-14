@@ -11,7 +11,6 @@ import { defaultHighlightStyle } from "@codemirror/highlight";
 import { history, historyKeymap } from "@codemirror/history";
 import { python } from "@codemirror/lang-python";
 import { indentOnInput, indentUnit } from "@codemirror/language";
-import { lintKeymap } from "./lint/lint";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
@@ -20,9 +19,10 @@ import {
   KeyBinding,
   keymap,
 } from "@codemirror/view";
-import { dndSupport } from "./dnd";
+import { copyPasteSupport } from "./copypaste";
 import { dropCursor } from "./dropcursor";
 import highlightStyle from "./highlightStyle";
+import { lintKeymap } from "./lint/lint";
 
 const customTabBinding: KeyBinding = {
   key: "Tab",
@@ -66,5 +66,5 @@ export const editorConfig: Extension = [
   EditorState.tabSize.of(indentSize), // But hopefully not used!
   indentUnit.of(" ".repeat(indentSize)),
   python(),
-  dndSupport(),
+  copyPasteSupport(),
 ];

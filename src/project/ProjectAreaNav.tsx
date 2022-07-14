@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import NewButton from "./NewButton";
-import LoadButton from "./LoadButton";
+import OpenButton from "./OpenButton";
 import { BoxProps, Flex } from "@chakra-ui/react";
 
 const ProjectAreaNav = (props: BoxProps) => {
@@ -17,7 +17,7 @@ const ProjectAreaNav = (props: BoxProps) => {
       {...props}
     >
       <NewButton mode="button" my={1} mx={1} />
-      <LoadButton mode="button" my={1} mx={1} />
+      <OpenButton mode="button" my={1} mx={1} />
     </Flex>
   );
 };

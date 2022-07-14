@@ -23,29 +23,9 @@
     "defaultMessage": "Реад море абоют МісроПутхон",
     "description": "Arial label to expand a collapsed section about MicroPython"
   },
-  "add-action": {
-    "defaultMessage": "Add",
-    "description": "Add action label"
-  },
-  "add-file-action": {
-    "defaultMessage": "Add new file",
-    "description": "Add new file button text"
-  },
-  "add-python": {
-    "defaultMessage": "Add a new Python file to your project",
-    "description": "Hover and dialog title when creating a new Python file"
-  },
   "added-change": {
     "defaultMessage": "Аддед філе {changeName}",
     "description": "Change made to file"
-  },
-  "added-file": {
-    "defaultMessage": "Added {filename}",
-    "description": "Action feedback for creating a file"
-  },
-  "already-exists": {
-    "defaultMessage": "Тхіс філе алреаду ексістс",
-    "description": "File already exists notification text"
   },
   "api-description": {
     "defaultMessage": "API documentation for micro:bit MicroPython",
@@ -74,6 +54,10 @@
   "apidocs-methods": {
     "defaultMessage": "Метходс",
     "description": "Heading in Reference documentation for the methods in a Python class"
+  },
+  "back-action": {
+    "defaultMessage": "Back",
+    "description": "Back button text"
   },
   "back-to-main": {
     "defaultMessage": "баск то тхе маін соде",
@@ -151,9 +135,25 @@
     "defaultMessage": "Cонфірм репласе проджест",
     "description": "Confirmation message title for replacing project dialog"
   },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Replace all files with {ideaName}?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
+  "confirm-save-action": {
+    "defaultMessage": "Confirm and save",
+    "description": "Confirm and save action label"
+  },
   "connect-action": {
     "defaultMessage": "Cоннест",
     "description": "Connect button text"
+  },
+  "connect-cable-title": {
+    "defaultMessage": "Connect cable",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2",
+    "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
     "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
@@ -191,6 +191,26 @@
     "defaultMessage": "Cопу",
     "description": "Copy to clipboard action text"
   },
+  "copy-code-action": {
+    "defaultMessage": "Copy code",
+    "description": "Copy code to clipboard action text"
+  },
+  "create-action": {
+    "defaultMessage": "Create",
+    "description": "Create action label (e.g. in create file dialog)"
+  },
+  "create-file-action": {
+    "defaultMessage": "Create file",
+    "description": "Button text for action that creates a new blank Python file in the current project"
+  },
+  "create-python": {
+    "defaultMessage": "Create a new Python file in this project",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
+  "created-file": {
+    "defaultMessage": "Created {filename}",
+    "description": "Action feedback for creating a file"
+  },
   "delete-action": {
     "defaultMessage": "Делете",
     "description": "Button text for delete action"
@@ -215,25 +235,9 @@
     "defaultMessage": "Don't show this again",
     "description": "Text to never show a dialog again"
   },
-  "download-action": {
-    "defaultMessage": "Довнлоад",
-    "description": "Download button text"
-  },
-  "download-file-action": {
-    "defaultMessage": "Довнлоад {name}",
-    "description": "Menu option to download file"
-  },
-  "download-hex-action": {
-    "defaultMessage": "Довнлоад проджест хекс",
-    "description": "Text for menu item for downloading project hex file"
-  },
-  "download-hover": {
-    "defaultMessage": "Довнлоад а проджест хекс філе",
-    "description": "Hover text over download button"
-  },
-  "download-python-action": {
-    "defaultMessage": "Довнлоад Путхон ссріпт",
-    "description": "Download button menu option for downloading Python script"
+  "drag-hover": {
+    "defaultMessage": "Drag and drop",
+    "description": "Draggable code hover text"
   },
   "edit-file-action": {
     "defaultMessage": "Eдіт {name}",
@@ -254,6 +258,38 @@
   "file-actions": {
     "defaultMessage": "{name} філе астіонс",
     "description": "Header of file actions for file"
+  },
+  "file-already-exists": {
+    "defaultMessage": "This file already exists",
+    "description": "File already exists notification text"
+  },
+  "file-name-invalid-character": {
+    "defaultMessage": "The name contains an invalid character: {invalid}",
+    "description": "Warning text for new Python file name with an invalid character"
+  },
+  "file-name-length": {
+    "defaultMessage": "The name is too long",
+    "description": "Warning text for overly long file names (file system limitation)"
+  },
+  "file-name-lowercase-only": {
+    "defaultMessage": "The name should be all lowercase",
+    "description": "Warning text for new Python file with uppercase"
+  },
+  "file-name-not-blank": {
+    "defaultMessage": "The project name cannot be blank",
+    "description": "Validation message for project name"
+  },
+  "file-name-not-empty": {
+    "defaultMessage": "The name cannot be empty",
+    "description": "Warning text for new Python file with empty name"
+  },
+  "file-name-start-number": {
+    "defaultMessage": "The name cannot start with a number",
+    "description": "Warning text for new Python file names starting with a number"
+  },
+  "file-name-whitespace": {
+    "defaultMessage": "The name cannot contain spaces",
+    "description": "Warning text for new Python file name with whitespace"
   },
   "firmware-update-link": {
     "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
@@ -334,9 +370,9 @@
     "defaultMessage": "Ланджюадже",
     "description": "Language option text"
   },
-  "load-action": {
-    "defaultMessage": "Лоад…",
-    "description": "Load button text"
+  "less-action": {
+    "defaultMessage": "Less",
+    "description": "Less button text (showing less content)"
   },
   "load-error-mixed": {
     "defaultMessage": "А хекс філе сан онлу бе лоадед он ітс овн. Іт репласес алл філес ін тхе проджест.",
@@ -350,10 +386,6 @@
     "defaultMessage": "Cаннот лоад {fileCount, plural, one {філе} other {філес}}",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
-  "load-hover": {
-    "defaultMessage": "Лоад а хекс ор Путхон філе ор адд отхер філес",
-    "description": "Hover text over load button"
-  },
   "loaded-file-feedback": {
     "defaultMessage": "Лоадед {filename}",
     "description": "Success feedback for loading file"
@@ -361,10 +393,6 @@
   "loading": {
     "defaultMessage": "Лоадіндж…",
     "description": "Shown on loading indicators"
-  },
-  "lowercase-no-space": {
-    "defaultMessage": "Путхон філес схоюлд хаве ловерсасе намес вітх но спасес",
-    "description": "Warning text for uppercase Pyton file name or space"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "місро:біт боард вітх тхе 5 бу 5 ЛEД джрід сховіндж а хеарт",
@@ -386,17 +414,17 @@
     "defaultMessage": "Море",
     "description": "More button text"
   },
-  "more-download-options": {
-    "defaultMessage": "More download options",
-    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  "more-connect-options": {
+    "defaultMessage": "More connect options",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
-  "name-not-blank": {
-    "defaultMessage": "Тхе проджест наме саннот бе бланк",
-    "description": "Validation message for project name"
+  "more-ideas": {
+    "defaultMessage": "<link>More ideas</link>",
+    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
-  "name-not-empty": {
-    "defaultMessage": "Тхе наме саннот бе емпту",
-    "description": "Warning text for new Pyton file with empty name"
+  "more-save-options": {
+    "defaultMessage": "More save options",
+    "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "name-project": {
     "defaultMessage": "Наме уоюр проджест",
@@ -414,12 +442,12 @@
     "defaultMessage": "Ве'лл адд тхе <code>.пу</code> екстенсіон фор уою.",
     "description": "Hint shown in the new Python file dialog"
   },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
+  },
   "not-found-checklist-one": {
     "defaultMessage": "Review <link>how to select the device</link>",
-    "description": "Checklist text in the no micro:bit found dialog"
-  },
-  "not-found-checklist-three": {
-    "defaultMessage": "If you have a micro:bit V1 you may need to <link>update the firmware</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
@@ -430,6 +458,10 @@
     "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
     "description": "Text in the no micro:bit found dialog"
   },
+  "not-found-save-message": {
+    "defaultMessage": "Alternative method: choose Save",
+    "description": "Save prompt in the no micro:bit found dialog"
+  },
   "not-found-title": {
     "defaultMessage": "No micro:bit found",
     "description": "Title for the micro:bit found dialog"
@@ -438,9 +470,21 @@
     "defaultMessage": "You must <link>update your firmware before</link> you can connect to this micro:bit.",
     "description": "Text in the no micro:bit found dialog"
   },
+  "open-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
+  },
+  "open-file-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
+  },
   "open-file-dropped": {
     "defaultMessage": "Опен філе вхен дроппед",
     "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "Open a hex or Python file or add other files",
+    "description": "Hover text over load button"
   },
   "options": {
     "defaultMessage": "Оптіонс",
@@ -518,9 +562,37 @@
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "description": "Number of results from a search"
   },
+  "save-action": {
+    "defaultMessage": "Save",
+    "description": "Save button text"
+  },
+  "save-file-action": {
+    "defaultMessage": "Save {name}",
+    "description": "Menu option to save a file"
+  },
+  "save-hex-action": {
+    "defaultMessage": "Save project hex",
+    "description": "Text for menu item for saving a project hex file"
+  },
+  "save-hover": {
+    "defaultMessage": "Save a project hex file to your computer",
+    "description": "Hover text over save button"
+  },
+  "save-python-action": {
+    "defaultMessage": "Save Python script to your computer",
+    "description": "Save button menu option to save a Python script"
+  },
   "search": {
     "defaultMessage": "Search",
     "description": "Aria label for searching documentation"
+  },
+  "send-action": {
+    "defaultMessage": "Send to micro:bit",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Connect via WebUSB then flash code onto micro:bit",
+    "description": "Send button hover text"
   },
   "serial-collapse": {
     "defaultMessage": "Хіде серіал",
@@ -610,13 +682,17 @@
     "defaultMessage": "Сідебар",
     "description": "Aria label for the area on the left"
   },
+  "sidebar-collapse": {
+    "defaultMessage": "Collapse sidebar",
+    "description": "Aria label for the collapse sidebar button"
+  },
+  "sidebar-expand": {
+    "defaultMessage": "Expand sidebar",
+    "description": "Aria label for the expand sidebar button"
+  },
   "software-versions": {
     "defaultMessage": "Софтваре версіонс",
     "description": "Heading for a table of software versions in the about dialog"
-  },
-  "start-action": {
-    "defaultMessage": "Start",
-    "description": "Start button text"
   },
   "support": {
     "defaultMessage": "Сюппорт",
@@ -641,6 +717,18 @@
   "toolkit-view-documentation": {
     "defaultMessage": "Віев {name} досюментатіон",
     "description": "Aria label for the toolkit topic right arrow"
+  },
+  "transfer-hex-message-one": {
+    "defaultMessage": "Drag the hex file from your <strong>Downloads folder</strong> to the <strong>MICROBIT drive</strong>.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-message-two": {
+    "defaultMessage": "You can also <strong>Open</strong> the hex file later to continue editing.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-title": {
+    "defaultMessage": "Transfer downloaded hex file to micro:bit",
+    "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
     "defaultMessage": "Try again",
@@ -674,10 +762,6 @@
     "defaultMessage": "вісіт місробіт.ордж (опенс ін а нев таб)",
     "description": "alt text for logo link to .org"
   },
-  "webusb-download-instead": {
-    "defaultMessage": "Довнлоад тхе хекс філе ор тру Cхроме ор Місрософт Eддже.",
-    "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
-  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Анотхер просесс іс соннестед то тхіс девісе.",
     "description": "Part of WebUSB error message"
@@ -709,6 +793,10 @@
   "webusb-not-supported": {
     "defaultMessage": "Юнфортюнателу, ВебЮСБ іс нот сюппортед ін тхіс бровсер. Ве ресомменд Cхроме ор Місрософт Eддже со уою сан соннест дірестлу то уоюр місро:біт.",
     "description": "Shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-not-supported-title": {
+    "defaultMessage": "This browser does not support WebUSB",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
     "defaultMessage": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор.",

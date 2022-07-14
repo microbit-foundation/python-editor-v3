@@ -25,7 +25,7 @@ describe("Browser - multiple and missing file cases", () => {
   });
 
   it("Add a new file", async () => {
-    await app.addNewFile("test");
+    await app.createNewFile("test");
 
     await app.findVisibleEditorContents(/Your new file/);
   });
@@ -57,7 +57,7 @@ describe("Browser - multiple and missing file cases", () => {
 
     await app.deleteFile("module.py");
 
-    await app.findVisibleEditorContents(/micro:bit/);
+    await app.findVisibleEditorContents(/Hello/);
   });
 
   it("Muddles through if given non-UTF-8 main.py", async () => {

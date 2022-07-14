@@ -25,15 +25,15 @@ const NewButton = (props: NewButtonProps) => {
     <Tooltip
       hasArrow
       label={intl.formatMessage({
-        id: "add-python",
+        id: "create-python",
       })}
     >
       <CollapsibleButton
         {...props}
         text={intl.formatMessage({
-          id: "add-file-action",
+          id: "create-file-action",
         })}
-        onClick={actions.addFile}
+        onClick={actions.createFile}
         icon={<RiFileAddLine />}
       />
     </Tooltip>

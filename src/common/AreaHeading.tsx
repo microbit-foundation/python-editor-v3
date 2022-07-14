@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/layout";
+import { Box, Text } from "@chakra-ui/layout";
 
 interface AreaHeadingProps {
   name: string;
@@ -11,12 +11,12 @@ interface AreaHeadingProps {
 }
 
 const AreaHeading = ({ name, description }: AreaHeadingProps) => (
-  <>
+  <Box p={5} pt={3}>
     <Text as="h2" fontSize="3xl" fontWeight="semibold">
       {name}
     </Text>
     <Text fontSize="md">{description} </Text>
-  </>
+  </Box>
 );
 
 export default AreaHeading;

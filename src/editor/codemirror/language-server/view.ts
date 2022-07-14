@@ -7,6 +7,7 @@ import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
+import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
 import { setDiagnostics } from "../lint/lint";
@@ -82,13 +83,14 @@ export function languageServer(
   uri: string,
   intl: IntlShape,
   logging: Logging,
+  apiReferenceMap: ApiReferenceMap,
   options: Options
 ) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    signatureHelp(intl, options.signatureHelp.automatic),
-    autocompletion(intl, logging),
+    signatureHelp(intl, options.signatureHelp.automatic, apiReferenceMap),
+    autocompletion(intl, logging, apiReferenceMap),
   ];
 }

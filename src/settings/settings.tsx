@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
+import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
 import { stage } from "../environment";
 
@@ -59,6 +60,7 @@ export const defaultSettings: Settings = {
   codeStructureHighlight: "full",
   parameterHelp: "automatic",
   showConnectHelp: true,
+  showTransferHexHelp: true,
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -96,6 +98,7 @@ export interface Settings {
   codeStructureHighlight: CodeStructureOption;
   parameterHelp: ParameterHelpOption;
   showConnectHelp: boolean;
+  showTransferHexHelp: boolean;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];
@@ -104,8 +107,6 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(
   undefined
 );
 
-export const SettingsProvider = SettingsContext.Provider;
-
 export const useSettings = (): SettingsContextValue => {
   const settings = useContext(SettingsContext);
   if (!settings) {
@@ -113,3 +114,19 @@ export const useSettings = (): SettingsContextValue => {
   }
   return settings;
 };
+
+const SettingsProvider = ({ children }: { children: ReactNode }) => {
+  const settings = useStorage<Settings>(
+    "local",
+    "settings",
+    defaultSettings,
+    isValidSettingsObject
+  );
+  return (
+    <SettingsContext.Provider value={settings}>
+      {children}
+    </SettingsContext.Provider>
+  );
+};
+
+export default SettingsProvider;

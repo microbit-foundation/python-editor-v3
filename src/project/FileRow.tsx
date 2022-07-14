@@ -17,6 +17,7 @@ import {
 import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { zIndexProjectAreaMenu } from "../common/zIndex";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProjectActions } from "./project-hooks";
 import { isEditableFile } from "./project-utils";
@@ -61,7 +62,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
           color="grey.800"
         />
         <Portal>
-          <MenuList>
+          <MenuList zIndex={zIndexProjectAreaMenu}>
             <MenuItem
               icon={<RiEdit2Line />}
               isDisabled={!isEditableFile(name)}
@@ -71,9 +72,9 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
             </MenuItem>
             <MenuItem
               icon={<RiDownload2Line />}
-              onClick={() => actions.downloadFile(name)}
+              onClick={() => actions.saveFile(name)}
             >
-              <FormattedMessage id="download-file-action" values={{ name }} />
+              <FormattedMessage id="save-file-action" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDeleteBin2Line />}

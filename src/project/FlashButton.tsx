@@ -41,7 +41,7 @@ const FlashButton = (
               <RiFlashlightFill />
             )
           }
-          onClick={actions.flash}
+          onClick={() => actions.flash()}
           text={intl.formatMessage({
             id: "flash-action",
           })}

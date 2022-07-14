@@ -2,6 +2,11 @@ version: 2.1
 orbs:
   queue: eddiewebb/queue@1.6.2
 
+_default_workflow: &default_workflow
+  context:
+    - "GitHub Packages Read"
+    - "CircleCI API"
+    - "AWS Web"
 _defaults: &defaults
   working_directory: ~/repo
 _docker_defaults: &docker_defaults
@@ -30,7 +35,7 @@ _steps:
   install_dependencies: &install_dependencies
     run: npm ci --cache .npm-cache && sudo npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && sudo npm i -g @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
   install_theme: &install_theme
-    run: npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && npm install --no-save @microbit-foundation/python-editor-next-microbit@0.1.0-dev.148
+    run: npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && npm install --no-save @microbit-foundation/python-editor-next-microbit@0.1.0-dev.154
   update_version: &update_version
     run: npm run ci:update-version
   build: &build
@@ -176,18 +181,21 @@ workflows:
   review:
     jobs:
       - review:
+          <<: *default_workflow
           filters:
             branches:
               ignore: main
   staging:
     jobs:
       - staging:
+          <<: *default_workflow
           filters:
             branches:
               only: main
   production:
     jobs:
       - production:
+          <<: *default_workflow
           filters:
             tags:
               only: /^v.*/

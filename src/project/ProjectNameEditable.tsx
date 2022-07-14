@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import * as CSS from "csstype";
 import {
   HStack,
   IconButton,
@@ -12,13 +11,11 @@ import {
   TextProps,
   Tooltip,
 } from "@chakra-ui/react";
+import * as CSS from "csstype";
 import { useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { useDialogs } from "../common/use-dialogs";
 import { useProject, useProjectActions } from "./project-hooks";
-import ProjectNameQuestion from "./ProjectNameQuestion";
-import { InputDialog } from "../common/InputDialog";
 
 interface ProjectNameEditableProps extends TextProps {
   button?: "before" | "after";
@@ -39,28 +36,10 @@ const ProjectNameEditable = ({
 }: ProjectNameEditableProps) => {
   const project = useProject();
   const actions = useProjectActions();
-  const dialogs = useDialogs();
   const intl = useIntl();
-  const handleEdit = useCallback(async () => {
-    const name = await dialogs.show<string | undefined>((callback) => (
-      <InputDialog
-        callback={callback}
-        header={intl.formatMessage({ id: "name-project" })}
-        Body={ProjectNameQuestion}
-        initialValue={project.name}
-        actionLabel={intl.formatMessage({ id: "confirm-action" })}
-        customFocus
-        validate={(name: string) =>
-          name.trim().length === 0
-            ? intl.formatMessage({ id: "name-not-blank" })
-            : undefined
-        }
-      />
-    ));
-    if (name) {
-      actions.setProjectName(name);
-    }
-  }, [dialogs, actions, project, intl]);
+  const handleClick = useCallback(() => {
+    actions.editProjectName();
+  }, [actions]);
   const editButton = (
     <Tooltip
       hasArrow
@@ -74,7 +53,7 @@ const ProjectNameEditable = ({
         fontSize="xl"
         color="brand.500"
         variant="ghost"
-        onClick={handleEdit}
+        onClick={handleClick}
         aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
       />
     </Tooltip>
@@ -83,7 +62,7 @@ const ProjectNameEditable = ({
     <Text
       key="text"
       cursor={clickToEdit ? "pointer" : undefined}
-      onClick={clickToEdit ? handleEdit : undefined}
+      onClick={clickToEdit ? handleClick : undefined}
       {...props}
     >
       {project.name}

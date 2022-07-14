@@ -5,45 +5,38 @@
  */
 import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
-import {
-  HStack,
-  Image,
-  Link,
-  ListItem,
-  OrderedList,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { ReactNode, useCallback } from "react";
-import { RiExternalLinkLine } from "react-icons/ri";
+import { Box, Flex, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
+import { ReactNode, useCallback, useState } from "react";
+import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
+import SaveButton from "../../project/SaveButton";
+import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
 
-export const enum NotFoundChoice {
-  Retry,
-  ReviewDevice,
-  Cancel,
-}
-
 interface NotFoundDialogProps {
-  callback: (value: NotFoundChoice) => void;
+  callback: (value: ConnectErrorChoice) => void;
 }
 
 export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
+  const [returnFocus, setReturnFocus] = useState<boolean>(true);
+  const onTryAgain = useCallback(() => {
+    setReturnFocus(false);
+    callback(ConnectErrorChoice.TRY_AGAIN);
+  }, [callback, setReturnFocus]);
+  const onSave = useCallback(() => {
+    setReturnFocus(false);
+    callback(ConnectErrorChoice.CANCEL);
+  }, [callback, setReturnFocus]);
   return (
     <GenericDialog
-      onClose={() => callback(NotFoundChoice.Cancel)}
-      body={
-        <NotFoundDialogBody
-          onReviewDevice={() => callback(NotFoundChoice.ReviewDevice)}
-          onCancel={() => callback(NotFoundChoice.Cancel)}
-        />
-      }
+      returnFocusOnClose={returnFocus}
+      onClose={() => callback(ConnectErrorChoice.CANCEL)}
+      body={<NotFoundDialogBody onSave={onSave} onTryAgain={onTryAgain} />}
       footer={
         <NotFoundDialogFooter
-          onRetry={() => callback(NotFoundChoice.Retry)}
-          onCancel={() => callback(NotFoundChoice.Cancel)}
+          onTryAgain={onTryAgain}
+          onCancel={() => callback(ConnectErrorChoice.CANCEL)}
         />
       }
       size="3xl"
@@ -52,24 +45,27 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
 };
 
 interface ConnectNotFoundDialogProps {
-  onCancel: () => void;
-  onReviewDevice: () => void;
+  onSave: () => void;
+  onTryAgain: () => void;
 }
 
-const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
+const NotFoundDialogBody = ({
+  onSave,
+  onTryAgain,
+}: ConnectNotFoundDialogProps) => {
   const handleReviewDevice = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
-      onReviewDevice();
+      onTryAgain();
     },
-    [onReviewDevice]
+    [onTryAgain]
   );
   return (
     <VStack
       width="auto"
       ml="auto"
       mr="auto"
-      p={8}
+      p={5}
       pb={0}
       spacing={5}
       alignItems="flex-start"
@@ -80,16 +76,11 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
       <Text>
         <FormattedMessage id="not-found-message" />
       </Text>
-      <HStack spacing={8}>
+      <HStack spacing={6}>
         <Image height={150} width={178} src={notFound} alt="" />
-        <VStack>
-          <OrderedList
-            spacing={5}
-            sx={{
-              li: { pl: 2 },
-            }}
-          >
-            <ListItem>
+        <VStack alignItems="flex-start" spacing={5}>
+          <VStack alignItems="flex-start">
+            <Text>
               <FormattedMessage
                 id="not-found-checklist-one"
                 values={{
@@ -102,61 +93,88 @@ const NotFoundDialogBody = ({ onReviewDevice }: ConnectNotFoundDialogProps) => {
                       {chunks}
                     </Link>
                   ),
+                  strong: (chunks: ReactNode) => (
+                    <Text as="span" fontWeight="semibold">
+                      {chunks}
+                    </Text>
+                  ),
                 }}
               />
-            </ListItem>
-            <ListItem>
-              <FormattedMessage id="not-found-checklist-two" />
-            </ListItem>
-            <ListItem>
+            </Text>
+            <Text>
               <FormattedMessage
-                id="not-found-checklist-three"
+                id="not-found-checklist-two"
                 values={{
                   link: (chunks: ReactNode) => (
                     <Link
                       color="brand.500"
+                      display="inline-flex"
+                      alignItems="center"
                       target="_blank"
                       rel="noreferrer"
                       href="https://microbit.org/get-started/user-guide/firmware/"
                     >
-                      {chunks}{" "}
-                      <Icon as={RiExternalLinkLine} verticalAlign="middle" />
+                      {chunks}
+                      <Icon as={RiExternalLinkLine} ml={1} />
                     </Link>
+                  ),
+                  strong: (chunks: ReactNode) => (
+                    <Text as="span" fontWeight="semibold">
+                      {chunks}
+                    </Text>
                   ),
                 }}
               />
-            </ListItem>
-          </OrderedList>
+            </Text>
+          </VStack>
+          <Link
+            color="brand.500"
+            display="inline-flex"
+            alignItems="center"
+            target="_blank"
+            rel="noreferrer"
+            href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
+          >
+            <FormattedMessage id="connect-troubleshoot" />
+            <Icon as={RiExternalLinkLine} ml={1} />
+          </Link>
         </VStack>
       </HStack>
-      <Link
-        color="brand.500"
-        target="_blank"
-        rel="noreferrer"
-        href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
+      <Flex
+        width="100%"
+        background="blimpTeal.50"
+        alignItems="center"
+        py={3}
+        px={5}
+        borderRadius="xl"
       >
-        <FormattedMessage id="connect-troubleshoot" />{" "}
-        <Icon as={RiExternalLinkLine} verticalAlign="middle" />
-      </Link>
+        <Icon as={RiDownload2Line} color="brand.500" h={6} w={6} mr={5} />
+        <Text fontWeight="semibold" mr="auto">
+          <FormattedMessage id="not-found-save-message" />
+        </Text>
+        <Box onClick={onSave}>
+          <SaveButton mode="button" />
+        </Box>
+      </Flex>
     </VStack>
   );
 };
 
 interface NotFoundDialogFooterProps {
   onCancel: () => void;
-  onRetry: () => void;
+  onTryAgain: () => void;
 }
 
 const NotFoundDialogFooter = ({
   onCancel,
-  onRetry,
+  onTryAgain,
 }: NotFoundDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
       <Button onClick={onCancel} size="lg">
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={onRetry} variant="solid" size="lg">
+      <Button onClick={onTryAgain} variant="solid" size="lg">
         <FormattedMessage id="try-again-action" />
       </Button>
     </HStack>

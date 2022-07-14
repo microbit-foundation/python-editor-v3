@@ -59,24 +59,6 @@
       "value": "Реад море абоют МісроПутхон"
     }
   ],
-  "add-action": [
-    {
-      "type": 0,
-      "value": "Add"
-    }
-  ],
-  "add-file-action": [
-    {
-      "type": 0,
-      "value": "Add new file"
-    }
-  ],
-  "add-python": [
-    {
-      "type": 0,
-      "value": "Add a new Python file to your project"
-    }
-  ],
   "added-change": [
     {
       "type": 0,
@@ -85,22 +67,6 @@
     {
       "type": 1,
       "value": "changeName"
-    }
-  ],
-  "added-file": [
-    {
-      "type": 0,
-      "value": "Added "
-    },
-    {
-      "type": 1,
-      "value": "filename"
-    }
-  ],
-  "already-exists": [
-    {
-      "type": 0,
-      "value": "Тхіс філе алреаду ексістс"
     }
   ],
   "api-description": [
@@ -163,6 +129,12 @@
     {
       "type": 0,
       "value": "Метходс"
+    }
+  ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "Back"
     }
   ],
   "back-to-main": [
@@ -327,10 +299,42 @@
       "value": "Cонфірм репласе проджест"
     }
   ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "Replace all files with "
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "Confirm and save"
+    }
+  ],
   "connect-action": [
     {
       "type": 0,
       "value": "Cоннест"
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Connect cable"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "WebUSB connection dialog with BBC micro:bit entry labelled 1 and Connect button labelled 2"
     }
   ],
   "connect-help-message": [
@@ -387,6 +391,40 @@
       "value": "Cопу"
     }
   ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Copy code"
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "Create file"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Create a new Python file in this project"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Created "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
   "delete-action": [
     {
       "type": 0,
@@ -431,38 +469,10 @@
       "value": "Don't show this again"
     }
   ],
-  "download-action": [
+  "drag-hover": [
     {
       "type": 0,
-      "value": "Довнлоад"
-    }
-  ],
-  "download-file-action": [
-    {
-      "type": 0,
-      "value": "Довнлоад "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    }
-  ],
-  "download-hex-action": [
-    {
-      "type": 0,
-      "value": "Довнлоад проджест хекс"
-    }
-  ],
-  "download-hover": [
-    {
-      "type": 0,
-      "value": "Довнлоад а проджест хекс філе"
-    }
-  ],
-  "download-python-action": [
-    {
-      "type": 0,
-      "value": "Довнлоад Путхон ссріпт"
+      "value": "Drag and drop"
     }
   ],
   "edit-file-action": [
@@ -501,6 +511,58 @@
     {
       "type": 0,
       "value": " філе астіонс"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "This file already exists"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "The name contains an invalid character: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "The name is too long"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "The name should be all lowercase"
+    }
+  ],
+  "file-name-not-blank": [
+    {
+      "type": 0,
+      "value": "The project name cannot be blank"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The name cannot be empty"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "The name cannot start with a number"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "The name cannot contain spaces"
     }
   ],
   "firmware-update-link": [
@@ -637,10 +699,10 @@
       "value": "Ланджюадже"
     }
   ],
-  "load-action": [
+  "less-action": [
     {
       "type": 0,
-      "value": "Лоад…"
+      "value": "Less"
     }
   ],
   "load-error-mixed": [
@@ -685,12 +747,6 @@
       "value": "fileCount"
     }
   ],
-  "load-hover": [
-    {
-      "type": 0,
-      "value": "Лоад а хекс ор Путхон філе ор адд отхер філес"
-    }
-  ],
   "loaded-file-feedback": [
     {
       "type": 0,
@@ -705,12 +761,6 @@
     {
       "type": 0,
       "value": "Лоадіндж…"
-    }
-  ],
-  "lowercase-no-space": [
-    {
-      "type": 0,
-      "value": "Путхон філес схоюлд хаве ловерсасе намес вітх но спасес"
     }
   ],
   "microbit-hearts-alt": [
@@ -767,22 +817,28 @@
       "value": "Море"
     }
   ],
-  "more-download-options": [
+  "more-connect-options": [
     {
       "type": 0,
-      "value": "More download options"
+      "value": "More connect options"
     }
   ],
-  "name-not-blank": [
+  "more-ideas": [
     {
-      "type": 0,
-      "value": "Тхе проджест наме саннот бе бланк"
+      "children": [
+        {
+          "type": 0,
+          "value": "More ideas"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
-  "name-not-empty": [
+  "more-save-options": [
     {
       "type": 0,
-      "value": "Тхе наме саннот бе емпту"
+      "value": "More save options"
     }
   ],
   "name-project": [
@@ -823,6 +879,12 @@
       "value": " екстенсіон фор уою."
     }
   ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Next"
+    }
+  ],
   "not-found-checklist-one": [
     {
       "type": 0,
@@ -839,22 +901,6 @@
       "value": "link"
     }
   ],
-  "not-found-checklist-three": [
-    {
-      "type": 0,
-      "value": "If you have a micro:bit V1 you may need to "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update the firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    }
-  ],
   "not-found-checklist-two": [
     {
       "type": 0,
@@ -865,6 +911,12 @@
     {
       "type": 0,
       "value": "You didn’t select a micro:bit, or there was a problem connecting to it."
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "Alternative method: choose Save"
     }
   ],
   "not-found-title": [
@@ -893,10 +945,28 @@
       "value": " you can connect to this micro:bit."
     }
   ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
   "open-file-dropped": [
     {
       "type": 0,
       "value": "Опен філе вхен дроппед"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Open a hex or Python file or add other files"
     }
   ],
   "options": [
@@ -1063,10 +1133,56 @@
       "value": "count"
     }
   ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "Save"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 0,
+      "value": "Save "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "Save project hex"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "Save a project hex file to your computer"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Save Python script to your computer"
+    }
+  ],
   "search": [
     {
       "type": 0,
       "value": "Search"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Send to micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Connect via WebUSB then flash code onto micro:bit"
     }
   ],
   "serial-collapse": [
@@ -1293,16 +1409,22 @@
       "value": "Сідебар"
     }
   ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "Collapse sidebar"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "Expand sidebar"
+    }
+  ],
   "software-versions": [
     {
       "type": 0,
       "value": "Софтваре версіонс"
-    }
-  ],
-  "start-action": [
-    {
-      "type": 0,
-      "value": "Start"
     }
   ],
   "support": [
@@ -1347,6 +1469,66 @@
     {
       "type": 0,
       "value": " досюментатіон"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "Drag the hex file from your "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Downloads folder"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " to the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MICROBIT drive"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "You can also "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Open"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " the hex file later to continue editing."
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Transfer downloaded hex file to micro:bit"
     }
   ],
   "try-again-action": [
@@ -1421,12 +1603,6 @@
       "value": "вісіт місробіт.ордж (опенс ін а нев таб)"
     }
   ],
-  "webusb-download-instead": [
-    {
-      "type": 0,
-      "value": "Довнлоад тхе хекс філе ор тру Cхроме ор Місрософт Eддже."
-    }
-  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -1487,6 +1663,12 @@
     {
       "type": 0,
       "value": "Юнфортюнателу, ВебЮСБ іс нот сюппортед ін тхіс бровсер. Ве ресомменд Cхроме ор Місрософт Eддже со уою сан соннест дірестлу то уоюр місро:біт."
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "This browser does not support WebUSB"
     }
   ],
   "webusb-why-use": [

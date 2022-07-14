@@ -39,11 +39,13 @@ export interface ToolkitCode {
 interface ToolkitAlternative {
   name: string;
   content: PortableText;
+  slug: Slug;
 }
 
 export interface ToolkitTopicEntry extends HasCompatibility {
   name: string;
-  content: PortableText;
+  // Can be missing for alternatives-only entries.
+  content?: PortableText;
   // Should be co-present with alternatives.
   alternativesLabel?: string;
   alternatives?: ToolkitAlternative[];

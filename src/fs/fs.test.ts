@@ -196,7 +196,7 @@ describe("Filesystem", () => {
     await ufs.write("big.dat", data, VersionAction.INCREMENT);
 
     // But not if you ask for the hex.
-    await expect(() => ufs.toHexForDownload()).rejects.toThrow(
+    await expect(() => ufs.toHexForSave()).rejects.toThrow(
       /There is no storage space left./
     );
   });
@@ -208,14 +208,14 @@ describe("Filesystem", () => {
     await ufs.write(MAIN_FILE, data, VersionAction.MAINTAIN);
 
     // But not if you ask for the hex.
-    await expect(() => ufs.toHexForDownload()).rejects.toThrow(
+    await expect(() => ufs.toHexForSave()).rejects.toThrow(
       /There is no storage space left./
     );
   });
 
-  it("creates a universal hex for download", async () => {
+  it("creates a universal hex for save", async () => {
     await ufs.setProjectName("test project name");
-    const data = await ufs.toHexForDownload();
+    const data = await ufs.toHexForSave();
 
     expect(typeof data).toEqual("string");
   });

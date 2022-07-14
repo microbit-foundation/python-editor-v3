@@ -5,5 +5,5 @@
 # Assumes it is run from the root of the editor project and the stubs project is a sibling checkout.
 #
 set -euxo pipefail
-(cd ../micropython-microbit-stubs && python3 browser-package.py)
-cp ../micropython-microbit-stubs/typeshed.json src/language-server/typeshed.json
+(cd ../micropython-microbit-stubs && python3 scripts/browser-package.py)
+cp ../micropython-microbit-stubs/typeshed.*.json src/language-server/

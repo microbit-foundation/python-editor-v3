@@ -32,7 +32,7 @@ interface ReferenceDocumentationProps {
 const ReferenceToolkit = ({ toolkit }: ReferenceDocumentationProps) => {
   const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
   const direction = useAnimationDirection(anchor);
-  const topicOrEntryId = anchor?.id;
+  const topicOrEntryId = anchor?.id.split("/")[0];
   const handleNavigate = useCallback(
     (topicOrEntryId: string | undefined) => {
       setAnchor(

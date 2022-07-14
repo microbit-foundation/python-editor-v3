@@ -13,7 +13,7 @@ export const baseTheme = EditorView.baseTheme({
     position: "absolute",
     top: 0,
     height: "100%",
-    width: "100%",
+    // Width is set in code.
     zIndex: -1,
   },
   ".cm-cs--block, .cm-cs--indent": {

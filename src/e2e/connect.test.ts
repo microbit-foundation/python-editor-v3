@@ -53,7 +53,8 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.mockDeviceConnectFailure("no-device-selected");
     await app.connect();
     await app.confirmNotFoundDialog();
-    await app.connectTryAgain();
+    await app.connectViaTryAgain();
+    await app.connectViaConnectHelp();
     await app.confirmConnection();
   });
 
@@ -70,7 +71,7 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.mockDeviceConnectFailure("update-req");
     await app.connect();
     await app.confirmFirmwareUpdateDialog();
-    await app.connectTryAgain();
+    await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
   });

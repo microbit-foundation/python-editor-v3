@@ -19,29 +19,33 @@ describe("Browser - toolkit tabs", () => {
     );
   });
 
-  it("Insert code", async () => {
-    await app.switchTab("Reference");
-    await app.selectDocumentationSection("Display");
+  it("Copy code and paste in editor", async () => {
+    const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
-
-    await app.insertToolkitCode("Images: built-in");
-
+    await app.switchTab(tab);
+    await app.selectDocumentationSection("Display");
+    await app.triggerScroll(tab);
+    await app.toggleCodeActionButton("Images: built-in");
+    await app.copyCode();
+    await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.HEART)");
   });
 
-  it("Insert code after dropdown choice", async () => {
-    await app.switchTab("Reference");
-    await app.selectDocumentationSection("Display");
+  it("Copy code after dropdown choice and paste in editor", async () => {
+    const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
-
+    await app.switchTab(tab);
+    await app.selectDocumentationSection("Display");
+    await app.triggerScroll(tab);
     await app.selectToolkitDropDownOption(
       "Select image:",
-      "9" // "Image.SILLY"
+      "silly" // "Image.SILLY"
     );
-    await app.insertToolkitCode("Images: built-in");
-
+    await app.toggleCodeActionButton("Images: built-in");
+    await app.copyCode();
+    await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.SILLY)");
   });
 
@@ -80,6 +84,7 @@ describe("Browser - toolkit tabs", () => {
 
   it("Select an idea", async () => {
     const ideaName = "Emotion badge";
+    await app.switchTab("Ideas");
     await app.selectDocumentationIdea(ideaName);
     await app.findDocumentationTopLevelHeading(ideaName);
   });

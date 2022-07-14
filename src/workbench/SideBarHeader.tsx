@@ -6,6 +6,7 @@
 import {
   Box,
   Button,
+  Fade,
   Flex,
   HStack,
   IconButton,
@@ -17,7 +18,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiDownloadLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
@@ -26,15 +27,44 @@ import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
+import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 
-const SideBarHeader = () => {
+interface SideBarHeaderProps {
+  sidebarShown: boolean;
+  onSidebarToggled: () => void;
+}
+
+const SideBarHeader = ({
+  sidebarShown,
+  onSidebarToggled,
+}: SideBarHeaderProps) => {
   const intl = useIntl();
+  const logging = useLogging();
   const brand = useDeployment();
   const searchModal = useDisclosure();
   const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
   const [viewedResults, setViewedResults] = useState<string[]>([]);
+  const collapseBtn = useDisclosure({ defaultIsOpen: true });
+
+  const handleModalOpened = useCallback(() => {
+    collapseBtn.onClose();
+    searchModal.onOpen();
+  }, [collapseBtn, searchModal]);
+
+  const handleModalClosed = useCallback(() => {
+    collapseBtn.onOpen();
+    searchModal.onClose();
+  }, [collapseBtn, searchModal]);
+
+  const handleCollapseBtnClick = useCallback(() => {
+    logging.event({
+      type: "sidebar-toggle",
+      message: !sidebarShown ? "open" : "close",
+    });
+    onSidebarToggled();
+  }, [logging, onSidebarToggled, sidebarShown]);
 
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
@@ -47,14 +77,17 @@ const SideBarHeader = () => {
         e.shiftKey &&
         !e.repeat
       ) {
-        searchModal.onOpen();
+        handleModalOpened();
+        if (!sidebarShown) {
+          onSidebarToggled();
+        }
       }
     };
     document.addEventListener("keydown", keydown);
     return () => {
       document.removeEventListener("keydown", keydown);
     };
-  }, [searchModal]);
+  }, [onSidebarToggled, searchModal, sidebarShown, handleModalOpened]);
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -75,12 +108,12 @@ const SideBarHeader = () => {
       if (!viewedResults.includes(id)) {
         setViewedResults([...viewedResults, id]);
       }
-      searchModal.onClose();
+      handleModalClosed();
       // Create new RouterState object to enforce navigation when clicking the same entry twice.
       const routerState: RouterState = JSON.parse(JSON.stringify(navigation));
       setRouterState(routerState, "documentation-search");
     },
-    [setViewedResults, viewedResults, searchModal, setRouterState]
+    [setViewedResults, viewedResults, setRouterState, handleModalClosed]
   );
 
   useEffect(() => {
@@ -98,13 +131,12 @@ const SideBarHeader = () => {
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
   const modalWidth = contentWidth - modalOffset + "px";
-
   return (
     <>
       {searchModal.isOpen && (
         <Modal
           isOpen={searchModal.isOpen}
-          onClose={searchModal.onClose}
+          onClose={handleModalClosed}
           size="lg"
         >
           <ModalOverlay>
@@ -144,6 +176,7 @@ const SideBarHeader = () => {
         justifyContent="space-between"
         pr={4}
         transition="height .2s"
+        position="relative"
       >
         <Link
           display="block"
@@ -156,16 +189,16 @@ const SideBarHeader = () => {
             <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
               {brand.squareLogo}
             </Box>
-            {!query && (
+            {!query && sidebarShown && (
               <Box width="9.098rem" role="img" color="white">
                 {brand.horizontalLogo}
               </Box>
             )}
           </HStack>
         </Link>
-        {!query && (
+        {!query && sidebarShown && (
           <CollapsibleButton
-            onClick={searchModal.onOpen}
+            onClick={handleModalOpened}
             backgroundColor="#5c40a6"
             fontWeight="normal"
             color="#fffc"
@@ -182,13 +215,15 @@ const SideBarHeader = () => {
             }}
             text={intl.formatMessage({ id: "search" })}
             mode={searchButtonMode}
+            mr="2rem"
           />
         )}
-        {query && (
+        {query && sidebarShown && (
           <Flex
             backgroundColor="white"
             borderRadius="3xl"
-            width={`calc(100% - ${modalOffset}px)`}
+            width={`calc(100% - ${modalOffset}px - 28px)`}
+            marginRight="28px"
             position="relative"
           >
             <Button
@@ -203,7 +238,7 @@ const SideBarHeader = () => {
               leftIcon={
                 <Box as={RiSearch2Line} fontSize="lg" color="#838383" />
               }
-              onClick={searchModal.onOpen}
+              onClick={handleModalOpened}
               overflow="hidden"
             >
               {query}
@@ -225,6 +260,39 @@ const SideBarHeader = () => {
             />
           </Flex>
         )}
+        <Flex
+          height="100%"
+          alignItems="center"
+          position="absolute"
+          width="28px"
+          right={sidebarShown ? "4px" : "-20px"}
+        >
+          <Fade in={collapseBtn.isOpen} initial={{ opacity: 1 }}>
+            <IconButton
+              aria-label={
+                sidebarShown
+                  ? intl.formatMessage({ id: "sidebar-collapse" })
+                  : intl.formatMessage({ id: "sidebar-expand" })
+              }
+              fontSize="xl"
+              icon={<RiDownloadLine />}
+              transform={sidebarShown ? "rotate(90deg)" : "rotate(270deg)"}
+              transition="none"
+              onClick={handleCollapseBtnClick}
+              borderTopLeftRadius={0}
+              borderTopRightRadius={0}
+              borderBottomRightRadius={6}
+              borderBottomLeftRadius={6}
+              py={3}
+              borderColor="black"
+              size="md"
+              height="20px"
+              background="#eaecf1"
+              color="brand.500"
+              variant="ghost"
+            />
+          </Fade>
+        </Flex>
       </Flex>
     </>
   );

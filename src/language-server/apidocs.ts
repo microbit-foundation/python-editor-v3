@@ -58,15 +58,13 @@ export const apiDocs = (
 ): Promise<ApiDocsResponse> => {
   // This is a non-standard LSP call that we've added support for to Pyright.
   return client.connection.sendRequest(apiDocsRequestType, {
-    path: client.options.rootUri,
+    path: client.rootUri,
     documentationFormat: [MarkupKind.Markdown],
     modules: [
-      // For now, this omits a lot of modules that aren't documented
-      // in the readthedocs documentation. We could add them, but I
-      // think we'd need some progressive disclosure UX.
-      // Need to consider e.g. urandom vs random and perhaps move
-      // the stubs to the primary file.
-      // "audio" is covered under micro:bit.
+      // For now, this omits a lot of modules that have stubs
+      // derived from typeshed with no docs.
+      // Note: "audio" is covered under micro:bit.
+      "gc",
       "log",
       "machine",
       "math",
@@ -76,9 +74,11 @@ export const apiDocs = (
       "neopixel",
       "os",
       "radio",
+      "random",
       "speech",
-      "urandom",
-      "utime",
+      "struct",
+      "sys",
+      "time",
     ],
   });
 };
