@@ -15,20 +15,20 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiDownloadLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
+import {
+  ShortcutNames,
+  useKeyboardShortcuts
+} from "../common/keyboard-hooks";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { zIndexSidebarHeader } from "../common/zIndex";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
-import {
-  ShortcutNames,
-  useKeyboardShortcuts,
-} from "../documentation/common/keyboard-hooks";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { useLogging } from "../logging/logging-hooks";

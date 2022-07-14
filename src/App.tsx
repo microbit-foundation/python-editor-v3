@@ -7,6 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
 import "./App.css";
+import KeyboardShortcutsProvider from "./common/keyboard-hooks";
 import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
@@ -22,10 +23,10 @@ import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createHost } from "./fs/host";
-import { fetchMicroPython } from "./micropython/micropython";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
+import { fetchMicroPython } from "./micropython/micropython";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import { RouterProvider } from "./router-hooks";
 import SessionSettingsProvider from "./settings/session-settings";
@@ -33,7 +34,6 @@ import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
-import KeyboardShortcutsProvider from "./documentation/common/keyboard-hooks";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.

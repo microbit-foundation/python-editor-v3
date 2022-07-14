@@ -9,15 +9,29 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
+import { useProjectActions } from "../project/project-hooks";
 
 export enum ShortcutNames {
   SEARCH = "SEARCH",
+  SAVE = "SAVE",
+  OPEN = "OPEN",
+  SEND = "SEND",
 }
 
 const isMac = () => /Mac/.test(navigator.platform);
+
+const isCtrlKeyPressed = (e: KeyboardEvent) => {
+  if (isMac()) {
+    return e.metaKey;
+  } else {
+    return e.ctrlKey;
+  }
+};
+
 const keysPressed = (
   e: KeyboardEvent,
   keys: string[],
@@ -30,9 +44,11 @@ const keysPressed = (
       keysPressed = false;
     }
   }
-  const ctrlKeyPressed =
-    (ctrlKey && isMac() && e.metaKey) || (ctrlKey && !isMac() && e.ctrlKey);
-  return keysPressed && ctrlKeyPressed && shiftKey && e.shiftKey && !e.repeat;
+  const ctrlKeyPressed = ctrlKey
+    ? isCtrlKeyPressed(e)
+    : !e.ctrlKey && !e.metaKey;
+  const shiftKeyPressed = shiftKey ? e.shiftKey : !e.shiftKey;
+  return keysPressed && ctrlKeyPressed && shiftKeyPressed && !e.repeat;
 };
 
 export interface KeyboardShortcut {
@@ -48,6 +64,21 @@ export type KeyboardShortcuts = Record<ShortcutNames, KeyboardShortcut>;
 export const defaultKeyboardShortcuts: KeyboardShortcuts = {
   [ShortcutNames.SEARCH]: {
     keys: ["f"],
+    ctrlKey: true,
+    shiftKey: true,
+  },
+  [ShortcutNames.SAVE]: {
+    keys: ["s"],
+    ctrlKey: true,
+    shiftKey: false,
+  },
+  [ShortcutNames.OPEN]: {
+    keys: ["o"],
+    ctrlKey: true,
+    shiftKey: false,
+  },
+  [ShortcutNames.SEND]: {
+    keys: ["s"],
     ctrlKey: true,
     shiftKey: true,
   },
@@ -86,6 +117,7 @@ const KeyboardShortcutsProvider = ({ children }: { children: ReactNode }) => {
         keysPressed(e, shortcut.keys, shortcut.ctrlKey, shortcut.shiftKey) &&
         shortcut.handler
       ) {
+        e.preventDefault();
         shortcut.handler();
       }
     };
@@ -104,6 +136,44 @@ const KeyboardShortcutsProvider = ({ children }: { children: ReactNode }) => {
     },
     [getShortcut, keyboardShortcuts, setKeyboardShortcuts]
   );
+
+  // Add global shortcut handlers here.
+  const actions = useProjectActions();
+  useEffect(() => {
+    const saveShortcut = getShortcut(ShortcutNames.SAVE);
+    if (!saveShortcut.handler) {
+      setHandler(ShortcutNames.SAVE, () => {
+        actions.save();
+      });
+    }
+    const openShortcut = getShortcut(ShortcutNames.OPEN);
+    if (!openShortcut.handler) {
+      setHandler(ShortcutNames.OPEN, () => {
+        (document.querySelector("[data-testid='open']") as HTMLElement).click();
+      });
+    }
+    const sendShortcut = getShortcut(ShortcutNames.SEND);
+    if (!sendShortcut.handler) {
+      setHandler(ShortcutNames.SEND, () => {
+        actions.flash();
+      });
+    }
+    saveShortcut.keydown &&
+      document.addEventListener("keydown", saveShortcut.keydown);
+    openShortcut.keydown &&
+      document.addEventListener("keydown", openShortcut.keydown);
+    sendShortcut.keydown &&
+      document.addEventListener("keydown", sendShortcut.keydown);
+    return () => {
+      saveShortcut.keydown &&
+        document.removeEventListener("keydown", saveShortcut.keydown);
+      openShortcut.keydown &&
+        document.removeEventListener("keydown", openShortcut.keydown);
+      sendShortcut.keydown &&
+        document.removeEventListener("keydown", sendShortcut.keydown);
+    };
+  }, [actions, getShortcut, setHandler]);
+
   const value: KeyboardShortcutsContextValue = useMemo(
     () => ({ getShortcut, setHandler }),
     [getShortcut, setHandler]
