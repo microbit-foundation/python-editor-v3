@@ -33,6 +33,7 @@ import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
+import KeyboardShortcutsProvider from "./documentation/common/keyboard-hooks";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -84,9 +85,11 @@ const App = () => {
                               <DialogProvider>
                                 <RouterProvider>
                                   <ProjectDropTarget>
-                                    <ActiveEditorProvider>
-                                      <Workbench />
-                                    </ActiveEditorProvider>
+                                    <KeyboardShortcutsProvider>
+                                      <ActiveEditorProvider>
+                                        <Workbench />
+                                      </ActiveEditorProvider>
+                                    </KeyboardShortcutsProvider>
                                   </ProjectDropTarget>
                                 </RouterProvider>
                               </DialogProvider>

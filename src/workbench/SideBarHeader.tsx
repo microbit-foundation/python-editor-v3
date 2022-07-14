@@ -25,6 +25,10 @@ import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { zIndexSidebarHeader } from "../common/zIndex";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
+import {
+  ShortcutNames,
+  useKeyboardShortcuts,
+} from "../documentation/common/keyboard-hooks";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { useLogging } from "../logging/logging-hooks";
@@ -66,28 +70,31 @@ const SideBarHeader = ({
     onSidebarToggled();
   }, [logging, onSidebarToggled, sidebarShown]);
 
-  // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
-  // available actions and their shortcuts, with a hook used here to register a handler for the action.
+  const { getShortcut, setHandler } = useKeyboardShortcuts();
+
   useEffect(() => {
-    const isMac = /Mac/.test(navigator.platform);
-    const keydown = (e: KeyboardEvent) => {
-      if (
-        (e.key === "F" || e.key === "f") &&
-        (isMac ? e.metaKey : e.ctrlKey) &&
-        e.shiftKey &&
-        !e.repeat
-      ) {
+    const shortcut = getShortcut(ShortcutNames.SEARCH);
+    if (!shortcut.handler) {
+      setHandler(ShortcutNames.SEARCH, () => {
         handleModalOpened();
         if (!sidebarShown) {
           onSidebarToggled();
         }
-      }
-    };
-    document.addEventListener("keydown", keydown);
+      });
+    }
+
+    shortcut.keydown && document.addEventListener("keydown", shortcut.keydown);
     return () => {
-      document.removeEventListener("keydown", keydown);
+      shortcut.keydown &&
+        document.removeEventListener("keydown", shortcut.keydown);
     };
-  }, [onSidebarToggled, searchModal, sidebarShown, handleModalOpened]);
+  }, [
+    getShortcut,
+    handleModalOpened,
+    sidebarShown,
+    onSidebarToggled,
+    setHandler,
+  ]);
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
