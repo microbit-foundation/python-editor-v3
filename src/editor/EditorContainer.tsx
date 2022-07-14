@@ -12,19 +12,15 @@ import ModuleOverlay from "./ModuleOverlay";
 
 interface EditorContainerProps {
   selection: WorkbenchSelection;
-  onSelectedFileChanged: (filename: string) => void;
 }
 
 /**
  * Container for the editor that integrates it with the app settings
  * and wires it to the currently open file.
  */
-const EditorContainer = ({
-  selection,
-  onSelectedFileChanged,
-}: EditorContainerProps) => {
+const EditorContainer = ({ selection }: EditorContainerProps) => {
   const [settings] = useSettings();
-  const [defaultValue, onFileChange, isModule] = useProjectFileText(
+  const [defaultValue, onFileChange, isModule, moduleData] = useProjectFileText(
     selection.file
   );
   const [sessionSettings, setSessionSettings] = useSessionSettings();
@@ -37,7 +33,7 @@ const EditorContainer = ({
       selection={selection}
       sessionSettings={sessionSettings}
       setSessionSettings={setSessionSettings}
-      onSelectedFileChanged={onSelectedFileChanged}
+      moduleData={moduleData}
     />
   ) : (
     <Editor

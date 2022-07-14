@@ -78,10 +78,7 @@ const EditorArea = ({
           right={isWideScreen ? 10 : 5}
           position="absolute"
         />
-        <EditorContainer
-          selection={selection}
-          onSelectedFileChanged={onSelectedFileChanged}
-        />
+        <EditorContainer selection={selection} />
       </Box>
     </Flex>
   );

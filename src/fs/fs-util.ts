@@ -67,6 +67,14 @@ export const asciiToBytes = (str: string): Uint8Array => {
   return bytes;
 };
 
+const magicModuleComment = "# microbit-module:";
+
+const findMagicModuleComment = (code: string): string | undefined => {
+  const codeLines = code.split(/\r?\n/);
+  const firstThreeLines = codeLines.slice(0, 3);
+  return firstThreeLines.find((line) => line.indexOf(magicModuleComment) === 0);
+};
+
 /**
  * Detect a module using the magic comment.
  */
@@ -74,11 +82,24 @@ export const isPythonMicrobitModule = (code: string | Uint8Array) => {
   if (code instanceof Uint8Array) {
     code = new TextDecoder().decode(code);
   }
-  const codeLines = code.split(/\r?\n/);
-  const firstThreeLines = codeLines.slice(0, 3);
-  return Boolean(
-    firstThreeLines.find((line) => line.indexOf("# microbit-module:") === 0)
-  );
+  return Boolean(findMagicModuleComment(code));
+};
+
+export interface ModuleData {
+  name: string;
+  version: string;
+}
+
+export const extractModuleData = (code: string): ModuleData | undefined => {
+  const line = findMagicModuleComment(code);
+  if (!line) {
+    return;
+  }
+  const nameAndVersion = line.replace(magicModuleComment, "").trim().split("@");
+  return {
+    name: nameAndVersion[0],
+    version: nameAndVersion[1],
+  };
 };
 
 export const generateId = () =>

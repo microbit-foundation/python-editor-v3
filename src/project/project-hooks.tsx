@@ -11,7 +11,11 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
-import { isPythonMicrobitModule } from "../fs/fs-util";
+import {
+  extractModuleData,
+  isPythonMicrobitModule,
+  ModuleData,
+} from "../fs/fs-util";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
@@ -96,12 +100,18 @@ export const useProject = (): DefaultedProject => {
  */
 export const useProjectFileText = (
   filename: string
-): [string | undefined, (text: string) => void, boolean] => {
+): [
+  string | undefined,
+  (text: string) => void,
+  boolean,
+  ModuleData | undefined
+] => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
   const [initialValue, setInitialValue] = useState<string | undefined>();
   const isUnmounted = useIsUnmounted();
   const [isModule, setIsModule] = useState<boolean>(false);
+  const [moduleData, setModuleData] = useState<ModuleData | undefined>();
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -110,6 +120,7 @@ export const useProjectFileText = (
           const text = new TextDecoder().decode(data);
           if (isPythonMicrobitModule(text)) {
             setIsModule(true);
+            setModuleData(extractModuleData(text));
           }
           if (!isUnmounted()) {
             setInitialValue(text);
@@ -134,5 +145,5 @@ export const useProjectFileText = (
     [fs, filename, actionFeedback]
   );
 
-  return [initialValue, handleChange, isModule];
+  return [initialValue, handleChange, isModule, moduleData];
 };
