@@ -86,7 +86,7 @@ const SendButton = ({ size }: SendButtonProps) => {
           >
             <Button
               onFocus={handleFocus}
-              size="lg"
+              size={size}
               variant="solid"
               leftIcon={<RiUsbLine />}
               onClick={handleSendToMicrobit}

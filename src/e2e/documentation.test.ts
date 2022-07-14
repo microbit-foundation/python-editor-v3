@@ -15,7 +15,7 @@ describe("Browser - toolkit tabs", () => {
     await app.switchTab("API");
     await app.findDocumentationTopLevelHeading(
       "API",
-      "API documentation for micro:bit MicroPython"
+      "For usage and examples, see"
     );
   });
 

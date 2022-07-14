@@ -25,9 +25,10 @@ import {
   RegistrationRequest,
   ServerCapabilities,
   TextDocumentContentChangeEvent,
-  TextDocumentItem,
+  TextDocumentItem
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
+import { microPythonConfig } from "../micropython/micropython";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -170,12 +171,9 @@ export class LanguageServerClient extends EventEmitter {
   }
 
   private async getInitializationOptions(): Promise<any> {
+    const branch = microPythonConfig.stubs;
     const typeshed = await retryAsyncLoad(() => {
-      switch (this.locale) {
-        // New languages go here.
-        default:
-          return import(`./typeshed.en.json`);
-      }
+      return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
     });
     return {
       files: typeshed,

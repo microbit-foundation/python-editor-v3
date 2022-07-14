@@ -22,7 +22,7 @@ import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createHost } from "./fs/host";
-import { fetchMicroPython } from "./fs/micropython";
+import { fetchMicroPython } from "./micropython/micropython";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";

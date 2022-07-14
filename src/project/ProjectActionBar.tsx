@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack } from "@chakra-ui/react";
+import { BoxProps, HStack, useMediaQuery } from "@chakra-ui/react";
 import SendButton from "./SendButton";
 import SaveMenuButton from "./SaveMenuButton";
 import OpenButton from "./OpenButton";
+import { widthXl } from "../common/media-queries";
 
 const ProjectActionBar = (props: BoxProps) => {
+  const [isWideScreen] = useMediaQuery(widthXl);
   const size = "lg";
   return (
     <HStack
       {...props}
       justifyContent="space-between"
-      pt={5}
-      pb={5}
-      pl={10}
-      pr={10}
+      py={5}
+      px={isWideScreen ? 10 : 5}
     >
       <SendButton size={size} />
       <HStack spacing={2.5}>

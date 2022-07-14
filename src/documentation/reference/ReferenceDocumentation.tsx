@@ -5,19 +5,18 @@
  */
 import { Box, Divider, List, ListItem } from "@chakra-ui/layout";
 import { useCallback } from "react";
+import { useIntl } from "react-intl";
+import { docStyles } from "../../common/documentation-styles";
+import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
-import { getTopicAndEntry } from "./content";
-import { Toolkit } from "./model";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
 import DocumentationContent from "../common/DocumentationContent";
-import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
-import ReferenceTopicEntry from "./ReferenceTopicEntry";
-import AreaHeading from "../../common/AreaHeading";
 import DocumentationTopLevelItem from "../common/DocumentationTopLevelItem";
-import { useIntl } from "react-intl";
 import { isV2Only } from "../common/model";
-import { docStyles } from "../../common/documentation-styles";
+import { getTopicAndEntry } from "./content";
+import { Toolkit } from "./model";
+import ReferenceTopicEntry from "./ReferenceTopicEntry";
 
 interface ReferenceDocumentationProps {
   toolkit: Toolkit;
@@ -117,13 +116,8 @@ const ActiveLevel = ({
     );
   }
   return (
-    <HeadedScrollablePanel
-      direction={direction}
-      heading={
-        <AreaHeading name={referenceString} description={toolkit.description} />
-      }
-    >
-      <List flex="1 1 auto" m={3}>
+    <HeadedScrollablePanel direction={direction}>
+      <List flex="1 1 auto">
         {toolkit.contents?.map((topic) => (
           <DocumentationTopLevelItem
             key={topic.name}
@@ -132,6 +126,7 @@ const ActiveLevel = ({
             description={topic.subtitle}
             icon={topic.image}
             onForward={() => onNavigate(topic.slug.current)}
+            type="reference"
           />
         ))}
       </List>

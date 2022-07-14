@@ -23,6 +23,10 @@ export type Flag =
    */
   | "simulator"
   /**
+   * Enables a preview of SoundEffects via the audio-sound-effect MicroPython branch.
+   */
+  | "audioSoundEffect"
+  /**
    * Disables the pop-up welcome dialog.
    * The dialog is still available from the alpha release notice UI.
    * Added to support user-testing.
@@ -32,7 +36,13 @@ export type Flag =
    */
   | "noWelcome";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome", "simulator"];
+const allFlags: Flag[] = [
+  // One per line for easy merges
+  "dndDebug",
+  "noWelcome",
+  "simulator",
+  "audioSoundEffect",
+];
 
 type Flags = Record<Flag, boolean>;
 
