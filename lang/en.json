@@ -21,7 +21,7 @@
   },
   "about-read-more-micropython": {
     "defaultMessage": "Read more about MicroPython",
-    "description": "Arial label to expand a collapsed section about MicroPython"
+    "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
