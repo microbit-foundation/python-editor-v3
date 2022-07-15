@@ -137,40 +137,40 @@ const KeyboardShortcutsProvider = ({ children }: { children: ReactNode }) => {
     [getShortcut, keyboardShortcuts, setKeyboardShortcuts]
   );
 
-  // Add global shortcut handlers here.
   const actions = useProjectActions();
   useEffect(() => {
+    // Add global shortcut handlers here.
+    const globalShortcuts: KeyboardShortcut[] = [];
     const saveShortcut = getShortcut(ShortcutNames.SAVE);
     if (!saveShortcut.handler) {
       setHandler(ShortcutNames.SAVE, () => {
         actions.save();
       });
     }
+    globalShortcuts.push(saveShortcut);
     const openShortcut = getShortcut(ShortcutNames.OPEN);
     if (!openShortcut.handler) {
       setHandler(ShortcutNames.OPEN, () => {
         (document.querySelector("[data-testid='open']") as HTMLElement).click();
       });
     }
+    globalShortcuts.push(openShortcut);
     const sendShortcut = getShortcut(ShortcutNames.SEND);
     if (!sendShortcut.handler) {
       setHandler(ShortcutNames.SEND, () => {
         actions.flash();
       });
     }
-    saveShortcut.keydown &&
-      document.addEventListener("keydown", saveShortcut.keydown);
-    openShortcut.keydown &&
-      document.addEventListener("keydown", openShortcut.keydown);
-    sendShortcut.keydown &&
-      document.addEventListener("keydown", sendShortcut.keydown);
+    globalShortcuts.push(sendShortcut);
+    for (const globalShortcut of globalShortcuts) {
+      globalShortcut.keydown &&
+        document.addEventListener("keydown", globalShortcut.keydown);
+    }
     return () => {
-      saveShortcut.keydown &&
-        document.removeEventListener("keydown", saveShortcut.keydown);
-      openShortcut.keydown &&
-        document.removeEventListener("keydown", openShortcut.keydown);
-      sendShortcut.keydown &&
-        document.removeEventListener("keydown", sendShortcut.keydown);
+      for (const globalShortcut of globalShortcuts) {
+        globalShortcut.keydown &&
+          document.removeEventListener("keydown", globalShortcut.keydown);
+      }
     };
   }, [actions, getShortcut, setHandler]);
 
