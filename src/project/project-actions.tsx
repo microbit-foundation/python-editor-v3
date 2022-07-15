@@ -46,9 +46,7 @@ import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
 import TransferHexDialog, {
   TransferHexChoice,
 } from "../workbench/connect-dialogs/TransferHexDialog";
-import WebUSBDialog, {
-  WebUSBErrorTrigger,
-} from "../workbench/connect-dialogs/WebUSBDialog";
+import WebUSBDialog from "../workbench/connect-dialogs/WebUSBDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -733,7 +731,7 @@ export class ProjectActions {
   private async webusbNotSupportedError(): Promise<void> {
     if (this.sessionSettings.values.showWebUsbNotSupported) {
       await this.dialogs.show<void>((callback) => (
-        <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
+        <WebUSBDialog callback={callback} />
       ));
       this.sessionSettings.setValues({
         ...this.sessionSettings.values,

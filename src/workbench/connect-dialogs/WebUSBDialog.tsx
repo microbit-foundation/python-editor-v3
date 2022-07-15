@@ -9,35 +9,25 @@ import { useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
 
-export const enum WebUSBErrorTrigger {
-  Connect,
-  Flash,
-}
-
 interface WebUSBDialogProps {
   callback: () => void;
-  action: WebUSBErrorTrigger;
 }
 
-export const WebUSBDialog = ({ callback, action }: WebUSBDialogProps) => {
+export const WebUSBDialog = ({ callback }: WebUSBDialogProps) => {
   const handleClose = useCallback(() => {
     callback();
   }, [callback]);
   return (
     <GenericDialog
       onClose={handleClose}
-      body={<WebUSBDialogBody action={action} />}
+      body={<WebUSBDialogBody />}
       footer={<WebUSBDialogFooter onCancel={handleClose} />}
       size="3xl"
     />
   );
 };
 
-interface WebUSBDialogBodyProps {
-  action: WebUSBErrorTrigger;
-}
-
-const WebUSBDialogBody = ({ action }: WebUSBDialogBodyProps) => {
+const WebUSBDialogBody = () => {
   return (
     <VStack
       width="auto"

@@ -25,14 +25,11 @@ export const PostSaveDialog = ({
   callback,
   dialogNormallyHidden,
 }: PostSaveDialogProps) => {
-  const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onShowTransferHexHelp = useCallback(() => {
-    setReturnFocus(false);
     callback(PostSaveChoice.ShowTransferHexHelp);
-  }, [callback, setReturnFocus]);
+  }, [callback]);
   return (
     <GenericDialog
-      returnFocusOnClose={returnFocus}
       onClose={() => callback(PostSaveChoice.Close)}
       body={
         <PostSaveDialogBody onShowTransferHexHelp={onShowTransferHexHelp} />
