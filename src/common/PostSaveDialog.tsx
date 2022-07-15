@@ -43,7 +43,7 @@ export const PostSaveDialog = ({
           }
         />
       }
-      size="xl"
+      size="2xl"
     />
   );
 };
@@ -156,7 +156,7 @@ const PostSaveDialogFooter = ({
           <FormattedMessage id="dont-show-again" />
         </Link>
       )}
-      <Button onClick={onClose} variant="solid" size="md">
+      <Button onClick={onClose} variant="solid" size="lg">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>

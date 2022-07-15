@@ -18,7 +18,7 @@ export const MultipleFilesDialog = ({ callback }: MultipleFilesDialogProps) => {
       onClose={() => callback()}
       body={<MultipleFilesDialogBody />}
       footer={<MultipleFilesDialogFooter onClose={() => callback()} />}
-      size="xl"
+      size="2xl"
     />
   );
 };
@@ -38,7 +38,10 @@ const MultipleFilesDialogBody = () => {
         <FormattedMessage id="multiple-files-title" />
       </Text>
       <Text>
-        <FormattedMessage id="multiple-files-message" />
+        <FormattedMessage id="multiple-files-message-one" />
+      </Text>
+      <Text>
+        <FormattedMessage id="multiple-files-message-two" />
       </Text>
     </VStack>
   );
@@ -53,7 +56,7 @@ const MultipleFilesDialogFooter = ({
 }: MultipleFilesDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
-      <Button onClick={onClose} size="md">
+      <Button onClick={onClose} size="lg">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>

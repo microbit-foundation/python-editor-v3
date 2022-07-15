@@ -851,10 +851,16 @@
       "value": "More save options"
     }
   ],
-  "multiple-files-message": [
+  "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "This project contains multiple files and only main.py has been downloaded. To download all files, save a hex file using the Save button or use the Project tab to download individual files."
+      "value": "This project contains multiple files and only main.py has been downloaded."
+    }
+  ],
+  "multiple-files-message-two": [
+    {
+      "type": 0,
+      "value": "To download all files, save a hex file using the Save button or use the Project tab to download individual files."
     }
   ],
   "multiple-files-title": [
