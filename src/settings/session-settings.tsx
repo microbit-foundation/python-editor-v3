@@ -6,20 +6,12 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useStorage } from "../common/use-storage";
 
-export interface ModulePermissions {
-  writePermission: boolean;
-}
-
-export type ModulesPermissions = Record<string, ModulePermissions>;
-
 export interface SessionSettings {
   dragDropSuccess: boolean;
-  modulesPermissions: ModulesPermissions;
 }
 
 export const defaultSessionSettings: SessionSettings = {
   dragDropSuccess: false,
-  modulesPermissions: {},
 };
 
 export type SessionSettingsContextValue = [

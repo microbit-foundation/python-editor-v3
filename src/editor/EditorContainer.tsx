@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { useProjectFileText } from "../project/project-hooks";
-import { useSessionSettings } from "../settings/session-settings";
 import { useSettings } from "../settings/settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import Editor from "./codemirror/CodeMirror";
@@ -20,21 +19,14 @@ interface EditorContainerProps {
  */
 const EditorContainer = ({ selection }: EditorContainerProps) => {
   const [settings] = useSettings();
-  const [defaultValue, onFileChange, isModule, moduleData] = useProjectFileText(
-    selection.file
-  );
-  const [sessionSettings, setSessionSettings] = useSessionSettings();
-  const moduleIsWritable = (filename: string): boolean | undefined => {
-    return sessionSettings.modulesPermissions[filename]?.writePermission;
-  };
-  return typeof defaultValue === "undefined" ? null : isModule &&
-    !moduleIsWritable(selection.file) ? (
-    <ModuleOverlay
-      selection={selection}
-      sessionSettings={sessionSettings}
-      setSessionSettings={setSessionSettings}
-      moduleData={moduleData}
-    />
+  const [defaultValue, onFileChange, isThirdPartyModule, moduleData] =
+    useProjectFileText(selection.file);
+  if (defaultValue === undefined) {
+    return null;
+  }
+
+  return isThirdPartyModule && !settings.allowEditingThirdPartyModules ? (
+    <ModuleOverlay moduleData={moduleData} />
   ) : (
     <Editor
       defaultValue={defaultValue}

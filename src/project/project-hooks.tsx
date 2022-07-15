@@ -110,7 +110,7 @@ export const useProjectFileText = (
   const actionFeedback = useActionFeedback();
   const [initialValue, setInitialValue] = useState<string | undefined>();
   const isUnmounted = useIsUnmounted();
-  const [isModule, setIsModule] = useState<boolean>(false);
+  const [isThirdPartyModule, setIsThirdPartyModule] = useState<boolean>(false);
   const [moduleData, setModuleData] = useState<ModuleData | undefined>();
   useEffect(() => {
     const loadData = async () => {
@@ -119,7 +119,7 @@ export const useProjectFileText = (
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
           if (isPythonMicrobitModule(text)) {
-            setIsModule(true);
+            setIsThirdPartyModule(true);
             setModuleData(extractModuleData(text));
           }
           if (!isUnmounted()) {
@@ -145,5 +145,5 @@ export const useProjectFileText = (
     [fs, filename, actionFeedback]
   );
 
-  return [initialValue, handleChange, isModule, moduleData];
+  return [initialValue, handleChange, isThirdPartyModule, moduleData];
 };

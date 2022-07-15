@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  Checkbox,
   FormControl,
   FormLabel,
   NumberDecrementStepper,
@@ -119,6 +120,26 @@ const SettingsArea = () => {
           })
         }
       />
+      <FormControl display="flex" gap={3}>
+        <Checkbox
+          id="allow-editing"
+          isChecked={settings.allowEditingThirdPartyModules}
+          onChange={(event) => {
+            setSettings({
+              ...settings,
+              allowEditingThirdPartyModules: event.currentTarget.checked,
+            });
+          }}
+        />
+        <FormLabel
+          htmlFor="allow-editing"
+          mb="0"
+          fontWeight="normal"
+          flex="1 1 auto"
+        >
+          <FormattedMessage id="setting-allow-editing-third-party" />
+        </FormLabel>
+      </FormControl>
     </VStack>
   );
 };

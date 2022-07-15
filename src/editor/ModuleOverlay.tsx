@@ -9,23 +9,23 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
+import { ReactNode, useCallback } from "react";
+import { FormattedMessage } from "react-intl";
+import { useDialogs } from "../common/use-dialogs";
 import { ModuleData } from "../fs/fs-util";
-import { SessionSettings } from "../settings/session-settings";
-import { WorkbenchSelection } from "../workbench/use-selection";
+import { SettingsDialog } from "../settings/SettingsDialog";
 
 interface ModuleOverlayProps {
-  selection: WorkbenchSelection;
-  sessionSettings: SessionSettings;
-  setSessionSettings: (sessionSettings: SessionSettings) => void;
   moduleData: ModuleData | undefined;
 }
 
-const ModuleOverlay = ({
-  selection,
-  sessionSettings,
-  setSessionSettings,
-  moduleData,
-}: ModuleOverlayProps) => {
+const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
+  const dialogs = useDialogs();
+  const handleShowSettings = useCallback(() => {
+    dialogs.show((callback) => (
+      <SettingsDialog isOpen onClose={() => callback(undefined)} />
+    ));
+  }, [dialogs]);
   return (
     <Box height="100%" p={5} pt={0}>
       <VStack
@@ -36,7 +36,7 @@ const ModuleOverlay = ({
         spacing={5}
       >
         <Text textAlign="center">
-          This file is a third-party module and is not intended to be edited.
+          <FormattedMessage id="third-party-module-explanation" />
         </Text>
         {moduleData && (
           <Table width="auto">
@@ -52,25 +52,22 @@ const ModuleOverlay = ({
             </Tbody>
           </Table>
         )}
-        <Link
-          p={3}
-          display="block"
-          onClick={() =>
-            setSessionSettings({
-              ...sessionSettings,
-              modulesPermissions: {
-                ...sessionSettings.modulesPermissions,
-                [selection.file]: {
-                  writePermission: true,
-                },
-              },
-            })
-          }
-          as="button"
-          color="brand.500"
-        >
-          Edit anyway
-        </Link>
+        <Text py={3}>
+          <FormattedMessage
+            id="third-party-module-how-to"
+            values={{
+              link: (chunks: ReactNode) => (
+                <Link
+                  color="brand.500"
+                  as="button"
+                  onClick={handleShowSettings}
+                >
+                  {chunks}
+                </Link>
+              ),
+            }}
+          />
+        </Text>
       </VStack>
     </Box>
   );
