@@ -141,6 +141,7 @@ export const useProjectFileText = (
         if (value?.isThirdPartyModule) {
           setValue({
             ...value,
+            initialValue: content,
             moduleData: extractModuleData(content),
           });
         }
