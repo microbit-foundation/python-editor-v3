@@ -514,6 +514,26 @@
     "defaultMessage": "Supprimer {filename} définitivement ?",
     "description": "Confirmation question to permanently delete file"
   },
+  "post-save-message-files": {
+    "defaultMessage": "This contains all files in this project (including any additional files, e.g. to run accessories, listed in the Project section).",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-one": {
+    "defaultMessage": "You will find your hex file in your <strong>Downloads</strong> folder.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-two": {
+    "defaultMessage": "You can move it to another folder for storage and use <strong>Open</strong> to continue editing later.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-title": {
+    "defaultMessage": "Project saved",
+    "description": "Title of dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-transfer-hex": {
+    "defaultMessage": "To transfer your hex file to run on your micro:bit <link>follow these steps</link>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
   "project-actions": {
     "defaultMessage": "Actions du projet",
     "description": "Aria label for the bar with project actions"

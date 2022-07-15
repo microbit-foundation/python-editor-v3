@@ -1027,6 +1027,78 @@
       "value": "?"
     }
   ],
+  "post-save-message-files": [
+    {
+      "type": 0,
+      "value": "This contains all files in this project (including any additional files, e.g. to run accessories, listed in the Project section)."
+    }
+  ],
+  "post-save-message-one": [
+    {
+      "type": 0,
+      "value": "You will find your hex file in your "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Downloads"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " folder."
+    }
+  ],
+  "post-save-message-two": [
+    {
+      "type": 0,
+      "value": "You can move it to another folder for storage and use "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Open"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " to continue editing later."
+    }
+  ],
+  "post-save-title": [
+    {
+      "type": 0,
+      "value": "Project saved"
+    }
+  ],
+  "post-save-transfer-hex": [
+    {
+      "type": 0,
+      "value": "To transfer your hex file to run on your micro:bit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
   "project-actions": [
     {
       "type": 0,

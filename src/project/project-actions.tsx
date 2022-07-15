@@ -11,6 +11,7 @@ import { FormattedMessage, IntlShape } from "react-intl";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { InputDialog, InputDialogBody } from "../common/InputDialog";
 import MultipleFilesDialog from "../common/MultipleFilesDialog";
+import PostSaveDialog, { PostSaveChoice } from "../common/PostSaveDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
@@ -447,7 +448,7 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  save = async () => {
+  save = async (saveViaWebUsbNotSupported?: boolean) => {
     this.logging.event({
       type: "save",
       detail: await this.projectStats(),
@@ -472,7 +473,11 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
-    this.handleTransferHexDialog();
+    if (saveViaWebUsbNotSupported) {
+      this.handleTransferHexDialog(false);
+    } else {
+      this.handlePostSaveDialog();
+    }
   };
 
   /**
@@ -735,7 +740,7 @@ export class ProjectActions {
         showWebUsbNotSupported: false,
       });
     }
-    this.save();
+    this.save(true);
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -806,13 +811,40 @@ export class ProjectActions {
     }
   }
 
-  private async handleTransferHexDialog() {
+  private async handlePostSaveDialog() {
+    const showPostSaveHelpSetting =
+      this.settings.values.showPostSaveHelpSetting;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
+    if (!showPostSaveHelpSetting) {
+      return;
+    }
+    const choice = await this.dialogs.show<PostSaveChoice>((callback) => (
+      <PostSaveDialog
+        callback={callback}
+        dialogNormallyHidden={!showPostSaveHelpSetting}
+      />
+    ));
+    if (choice === PostSaveChoice.CloseDontShowAgain) {
+      this.settings.setValues({
+        ...this.settings.values,
+        showPostSaveHelpSetting: false,
+      });
+    }
+    if (choice === PostSaveChoice.ShowTransferHexHelp) {
+      this.handleTransferHexDialog(true);
+    }
+  }
+
+  private async handleTransferHexDialog(forceTransferHexHelp: boolean) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
-    if (!showTransferHexHelpSetting) {
+    if (!forceTransferHexHelp && !showTransferHexHelpSetting) {
       return;
     }
     const choice = await this.dialogs.show<TransferHexChoice>((callback) => (

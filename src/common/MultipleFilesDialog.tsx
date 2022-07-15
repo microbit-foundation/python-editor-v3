@@ -53,7 +53,7 @@ const MultipleFilesDialogFooter = ({
 }: MultipleFilesDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
-      <Button onClick={onClose} size="lg">
+      <Button onClick={onClose} size="md">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>

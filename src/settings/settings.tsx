@@ -61,6 +61,7 @@ export const defaultSettings: Settings = {
   parameterHelp: "automatic",
   showConnectHelp: true,
   showTransferHexHelp: true,
+  showPostSaveHelpSetting: true,
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -99,6 +100,7 @@ export interface Settings {
   parameterHelp: ParameterHelpOption;
   showConnectHelp: boolean;
   showTransferHexHelp: boolean;
+  showPostSaveHelpSetting: boolean;
 }
 
 type SettingsContextValue = [Settings, (settings: Settings) => void];
