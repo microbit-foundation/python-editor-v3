@@ -3,7 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text, VStack } from "@chakra-ui/react";
+import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
 
@@ -55,6 +57,21 @@ const MultipleFilesDialogBody = () => {
       <Text>
         <FormattedMessage id="multiple-files-message-two" />
       </Text>
+      <HStack spacing={1}>
+        <Icon as={RiInformationLine} />
+        <Text>
+          <FormattedMessage
+            id="transfer-hex-message-two"
+            values={{
+              strong: (chunks: ReactNode) => (
+                <Text as="span" fontWeight="semibold">
+                  {chunks}
+                </Text>
+              ),
+            }}
+          />
+        </Text>
+      </HStack>
     </VStack>
   );
 };
