@@ -375,7 +375,7 @@
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode": {
-    "defaultMessage": "This hex file is incompatible with the Python Editor. Hex files created with MakeCode cannot be loaded here.",
+    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
     "description": "Load error message"
   },
   "load-error-mixed": {

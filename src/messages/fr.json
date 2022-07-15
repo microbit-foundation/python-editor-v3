@@ -708,7 +708,7 @@
   "load-error-makecode": [
     {
       "type": 0,
-      "value": "This hex file is incompatible with the Python Editor. Hex files created with MakeCode cannot be loaded here."
+      "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
     }
   ],
   "load-error-mixed": [
