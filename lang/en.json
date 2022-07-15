@@ -275,10 +275,6 @@
     "defaultMessage": "The name should be all lowercase",
     "description": "Warning text for new Python file with uppercase"
   },
-  "file-name-not-blank": {
-    "defaultMessage": "The project name cannot be blank",
-    "description": "Validation message for project name"
-  },
   "file-name-not-empty": {
     "defaultMessage": "The name cannot be empty",
     "description": "Warning text for new Python file with empty name"
@@ -518,6 +514,10 @@
   "project-name": {
     "defaultMessage": "Project name",
     "description": "Text used to indicate the project name"
+  },
+  "project-name-not-empty": {
+    "defaultMessage": "The project name cannot be empty",
+    "description": "Validation message for project name"
   },
   "project-tab": {
     "defaultMessage": "Project",
