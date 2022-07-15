@@ -521,7 +521,11 @@ export class ProjectActions {
       });
       const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
-      if ((await this.fs.statistics()).files > 1) {
+      // Temporarily hide for French language users.
+      if (
+        (await this.fs.statistics()).files > 1 &&
+        this.settings.values.languageId === "en"
+      ) {
         await this.dialogs.show<void>((callback) => (
           <MultipleFilesDialog callback={callback} />
         ));
