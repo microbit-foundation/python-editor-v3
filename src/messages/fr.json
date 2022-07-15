@@ -541,12 +541,6 @@
       "value": "The name should be all lowercase"
     }
   ],
-  "file-name-not-blank": [
-    {
-      "type": 0,
-      "value": "The project name cannot be blank"
-    }
-  ],
   "file-name-not-empty": [
     {
       "type": 0,
@@ -1031,6 +1025,12 @@
     {
       "type": 0,
       "value": "Intitulé du projet"
+    }
+  ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The project name cannot be empty"
     }
   ],
   "project-tab": [

@@ -614,7 +614,7 @@ export class ProjectActions {
         customFocus
         validate={(name: string) =>
           name.trim().length === 0
-            ? this.intl.formatMessage({ id: "name-not-blank" })
+            ? this.intl.formatMessage({ id: "project-name-not-empty" })
             : undefined
         }
       />
