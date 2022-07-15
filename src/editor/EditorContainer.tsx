@@ -19,17 +19,18 @@ interface EditorContainerProps {
  */
 const EditorContainer = ({ selection }: EditorContainerProps) => {
   const [settings] = useSettings();
-  const [defaultValue, onFileChange, isThirdPartyModule, moduleData] =
-    useProjectFileText(selection.file);
-  if (defaultValue === undefined) {
+  // Note fileInfo is not updated for ordinary text edits.
+  const [fileInfo, onFileChange] = useProjectFileText(selection.file);
+  if (fileInfo === undefined) {
     return null;
   }
 
-  return isThirdPartyModule && !settings.allowEditingThirdPartyModules ? (
-    <ModuleOverlay moduleData={moduleData} />
+  return fileInfo.isThirdPartyModule &&
+    !settings.allowEditingThirdPartyModules ? (
+    <ModuleOverlay moduleData={fileInfo.moduleData} />
   ) : (
     <Editor
-      defaultValue={defaultValue}
+      defaultValue={fileInfo.initialValue}
       selection={selection}
       onChange={onFileChange}
       fontSize={settings.fontSize}

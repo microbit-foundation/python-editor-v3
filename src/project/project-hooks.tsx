@@ -95,35 +95,36 @@ export const useProject = (): DefaultedProject => {
   return state;
 };
 
+interface ProjectTextFileInfo {
+  isThirdPartyModule: boolean;
+  initialValue: string;
+  moduleData: ModuleData | undefined;
+}
+
 /**
  * Reads an initial value from the project file system and synchronises back to it.
  */
 export const useProjectFileText = (
   filename: string
-): [
-  string | undefined,
-  (text: string) => void,
-  boolean,
-  ModuleData | undefined
-] => {
+): [ProjectTextFileInfo | undefined, (text: string) => void] => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
-  const [initialValue, setInitialValue] = useState<string | undefined>();
+  const [value, setValue] = useState<ProjectTextFileInfo | undefined>();
   const isUnmounted = useIsUnmounted();
-  const [isThirdPartyModule, setIsThirdPartyModule] = useState<boolean>(false);
-  const [moduleData, setModuleData] = useState<ModuleData | undefined>();
   useEffect(() => {
     const loadData = async () => {
       try {
         if (await fs.exists(filename)) {
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
-          if (isPythonMicrobitModule(text)) {
-            setIsThirdPartyModule(true);
-            setModuleData(extractModuleData(text));
-          }
           if (!isUnmounted()) {
-            setInitialValue(text);
+            setValue({
+              initialValue: text,
+              // We don't change this value if the text is edited to become a module
+              // as that would abruptly prevent it being edited further.
+              isThirdPartyModule: isPythonMicrobitModule(text),
+              moduleData: extractModuleData(text),
+            });
           }
         }
       } catch (e) {
@@ -137,13 +138,20 @@ export const useProjectFileText = (
   const handleChange = useCallback(
     (content: string) => {
       try {
+        if (value?.isThirdPartyModule) {
+          setValue({
+            ...value,
+            moduleData: extractModuleData(content),
+          });
+        }
+        // We just write back to the filesystem without updating React state.
         fs.write(filename, content, VersionAction.MAINTAIN);
       } catch (e) {
         actionFeedback.unexpectedError(e);
       }
     },
-    [fs, filename, actionFeedback]
+    [fs, filename, actionFeedback, value]
   );
 
-  return [initialValue, handleChange, isThirdPartyModule, moduleData];
+  return [value, handleChange];
 };
