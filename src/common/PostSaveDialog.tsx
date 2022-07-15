@@ -3,11 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { Link, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { GenericDialog } from "../common/GenericDialog";
+import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
 import { useFileSystem } from "../fs/fs-hooks";
 
 export const enum PostSaveChoice {
@@ -35,7 +34,7 @@ export const PostSaveDialog = ({
         <PostSaveDialogBody onShowTransferHexHelp={onShowTransferHexHelp} />
       }
       footer={
-        <PostSaveDialogFooter
+        <GenericDialogFooter
           dialogNormallyHidden={dialogNormallyHidden}
           onClose={() => callback(PostSaveChoice.Close)}
           onCloseDontShowAgain={() =>
@@ -130,36 +129,6 @@ const PostSaveDialogBody = ({
         />
       </Text>
     </VStack>
-  );
-};
-
-interface PostSaveDialogFooterProps {
-  dialogNormallyHidden: boolean;
-  onClose: () => void;
-  onCloseDontShowAgain: () => void;
-}
-
-const PostSaveDialogFooter = ({
-  dialogNormallyHidden,
-  onClose,
-  onCloseDontShowAgain,
-}: PostSaveDialogFooterProps) => {
-  return (
-    <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
-      {!dialogNormallyHidden && (
-        <Link
-          onClick={onCloseDontShowAgain}
-          as="button"
-          color="brand.500"
-          mr="auto"
-        >
-          <FormattedMessage id="dont-show-again" />
-        </Link>
-      )}
-      <Button onClick={onClose} variant="solid" size="lg">
-        <FormattedMessage id="close-action" />
-      </Button>
-    </HStack>
   );
 };
 

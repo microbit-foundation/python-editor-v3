@@ -3,26 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import {
-  Flex,
-  HStack,
-  Icon,
-  Image,
-  Link,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Flex, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import { GenericDialog } from "../../common/GenericDialog";
+import { GenericDialog, GenericDialogFooter } from "../../common/GenericDialog";
 import transferHexMac from "./transfer-hex-mac.gif";
 import transferHexWin from "./transfer-hex-win.gif";
 
 export const enum TransferHexChoice {
-  CancelDontShowAgain,
-  Cancel,
+  CloseDontShowAgain,
+  Close,
 }
 
 interface TransferHexDialogProps {
@@ -36,14 +27,14 @@ export const TransferHexDialog = ({
 }: TransferHexDialogProps) => {
   return (
     <GenericDialog
-      onClose={() => callback(TransferHexChoice.Cancel)}
+      onClose={() => callback(TransferHexChoice.Close)}
       body={<TransferHexDialogBody />}
       footer={
-        <TransferHexDialogFooter
+        <GenericDialogFooter
           dialogNormallyHidden={dialogNormallyHidden}
-          onCancel={() => callback(TransferHexChoice.Cancel)}
-          onCancelDontShowAgain={() =>
-            callback(TransferHexChoice.CancelDontShowAgain)
+          onClose={() => callback(TransferHexChoice.Close)}
+          onCloseDontShowAgain={() =>
+            callback(TransferHexChoice.CloseDontShowAgain)
           }
         />
       }
@@ -105,36 +96,6 @@ const TransferHexDialogBody = () => {
         />
       </Flex>
     </VStack>
-  );
-};
-
-interface TransferHexDialogFooterProps {
-  onCancel: () => void;
-  onCancelDontShowAgain: () => void;
-  dialogNormallyHidden: boolean;
-}
-
-const TransferHexDialogFooter = ({
-  onCancel,
-  onCancelDontShowAgain,
-  dialogNormallyHidden,
-}: TransferHexDialogFooterProps) => {
-  return (
-    <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
-      {!dialogNormallyHidden && (
-        <Link
-          onClick={onCancelDontShowAgain}
-          as="button"
-          color="brand.500"
-          mr="auto"
-        >
-          <FormattedMessage id="dont-show-again" />
-        </Link>
-      )}
-      <Button onClick={onCancel} variant="solid" size="lg">
-        <FormattedMessage id="close-action" />
-      </Button>
-    </HStack>
   );
 };
 

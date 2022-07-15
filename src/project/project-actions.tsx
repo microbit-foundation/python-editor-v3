@@ -10,7 +10,9 @@ import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { InputDialog, InputDialogBody } from "../common/InputDialog";
-import MultipleFilesDialog from "../common/MultipleFilesDialog";
+import MultipleFilesDialog, {
+  MultipleFilesChoice,
+} from "../common/MultipleFilesDialog";
 import PostSaveDialog, { PostSaveChoice } from "../common/PostSaveDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
@@ -524,11 +526,18 @@ export class ProjectActions {
       // Temporarily hide for French language users.
       if (
         (await this.fs.statistics()).files > 1 &&
+        this.settings.values.showMultipleFilesHelp &&
         this.settings.values.languageId === "en"
       ) {
-        await this.dialogs.show<void>((callback) => (
-          <MultipleFilesDialog callback={callback} />
-        ));
+        const choice = await this.dialogs.show<MultipleFilesChoice>(
+          (callback) => <MultipleFilesDialog callback={callback} />
+        );
+        if (choice === MultipleFilesChoice.CloseDontShowAgain) {
+          this.settings.setValues({
+            ...this.settings.values,
+            showMultipleFilesHelp: false,
+          });
+        }
       }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
@@ -814,8 +823,7 @@ export class ProjectActions {
   }
 
   private async handlePostSaveDialog() {
-    const showPostSaveHelpSetting =
-      this.settings.values.showPostSaveHelpSetting;
+    const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
@@ -832,7 +840,7 @@ export class ProjectActions {
     if (choice === PostSaveChoice.CloseDontShowAgain) {
       this.settings.setValues({
         ...this.settings.values,
-        showPostSaveHelpSetting: false,
+        showPostSaveHelp: false,
       });
     }
     if (choice === PostSaveChoice.ShowTransferHexHelp) {
@@ -855,7 +863,7 @@ export class ProjectActions {
         dialogNormallyHidden={!showTransferHexHelpSetting}
       />
     ));
-    if (choice === TransferHexChoice.CancelDontShowAgain) {
+    if (choice === TransferHexChoice.CloseDontShowAgain) {
       this.settings.setValues({
         ...this.settings.values,
         showTransferHexHelp: false,
