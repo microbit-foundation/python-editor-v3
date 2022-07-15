@@ -10,6 +10,7 @@ import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { InputDialog, InputDialogBody } from "../common/InputDialog";
+import MultipleFilesDialog from "../common/MultipleFilesDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
@@ -517,6 +518,11 @@ export class ProjectActions {
       });
       const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
+      if ((await this.fs.statistics()).files > 1) {
+        await this.dialogs.show<void>((callback) => (
+          <MultipleFilesDialog callback={callback} />
+        ));
+      }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }

@@ -851,6 +851,18 @@
       "value": "More save options"
     }
   ],
+  "multiple-files-message": [
+    {
+      "type": 0,
+      "value": "This project contains multiple Python files and only 'main.py' has been downloaded. To download other Python files, use the 'Project' tab."
+    }
+  ],
+  "multiple-files-title": [
+    {
+      "type": 0,
+      "value": "Multiple Python files"
+    }
+  ],
   "name-project": [
     {
       "type": 0,
