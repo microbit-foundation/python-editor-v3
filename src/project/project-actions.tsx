@@ -5,6 +5,7 @@
  */
 import { Link, List, ListItem } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
+import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
@@ -282,9 +283,7 @@ export class ProjectActions {
               ),
             });
           } catch (e: any) {
-            const isMakeCodeHex =
-              e.message ===
-              "Invalid record type 0x0A at record 2 (should be between 0x00 and 0x05)";
+            const isMakeCodeHex = isMakeCodeForV1Hex(hex);
             this.actionFeedback.expectedError({
               title: errorTitle,
               description: isMakeCodeHex
