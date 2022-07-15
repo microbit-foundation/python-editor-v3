@@ -1,4 +1,14 @@
-import { Box, Flex, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Link,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Tr,
+  VStack,
+} from "@chakra-ui/react";
 import { ModuleData } from "../fs/fs-util";
 import { SessionSettings } from "../settings/session-settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
@@ -18,38 +28,50 @@ const ModuleOverlay = ({
 }: ModuleOverlayProps) => {
   return (
     <Box height="100%" p={5} pt={0}>
-      <Flex background="gray.10" alignItems="center" height="100%">
-        <VStack width="auto" ml="auto" mr="auto" spacing={5} maxWidth="560px">
-          {moduleData && (
-            <VStack>
-              <Text textAlign="center">
-                Module name: {moduleData.name}; Version: {moduleData.version}
-              </Text>
-            </VStack>
-          )}
-          <Text textAlign="center">
-            The code in this file should not be edited. Doing so will likely
-            cause errors when using this extension.
-          </Text>
-          <Link
-            onClick={() =>
-              setSessionSettings({
-                ...sessionSettings,
-                modulesPermissions: {
-                  ...sessionSettings.modulesPermissions,
-                  [selection.file]: {
-                    writePermission: true,
-                  },
+      <VStack
+        background="gray.10"
+        alignItems="center"
+        justifyContent="center"
+        height="100%"
+        spacing={5}
+      >
+        <Text textAlign="center">
+          This file is a third-party module and is not intended to be edited.
+        </Text>
+        {moduleData && (
+          <Table width="auto">
+            <Tbody>
+              <Tr>
+                <Th color="grey.800">Module name</Th>
+                <Td>{moduleData.name}</Td>
+              </Tr>
+              <Tr>
+                <Th color="grey.800">Module version</Th>
+                <Td>{moduleData.version}</Td>
+              </Tr>
+            </Tbody>
+          </Table>
+        )}
+        <Link
+          p={3}
+          display="block"
+          onClick={() =>
+            setSessionSettings({
+              ...sessionSettings,
+              modulesPermissions: {
+                ...sessionSettings.modulesPermissions,
+                [selection.file]: {
+                  writePermission: true,
                 },
-              })
-            }
-            as="button"
-            color="brand.500"
-          >
-            Continue anyway
-          </Link>
-        </VStack>
-      </Flex>
+              },
+            })
+          }
+          as="button"
+          color="brand.500"
+        >
+          Edit anyway
+        </Link>
+      </VStack>
     </Box>
   );
 };
