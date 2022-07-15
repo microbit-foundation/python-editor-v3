@@ -515,7 +515,7 @@ export class ProjectActions {
       const blob = new Blob([content.data], {
         type: "application/octet-stream",
       });
-      const filename = `${this.project.name}.py`;
+      const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
