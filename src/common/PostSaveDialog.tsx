@@ -95,7 +95,13 @@ const PostSaveDialogBody = ({
             ),
           }}
         />
-        {multipleFiles && <FormattedMessage id="post-save-message-files" />}
+      </Text>
+      {multipleFiles && (
+        <Text>
+          <FormattedMessage id="post-save-message-files" />
+        </Text>
+      )}
+      <Text>
         <FormattedMessage
           id="post-save-message-two"
           values={{

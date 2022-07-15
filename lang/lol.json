@@ -427,12 +427,12 @@
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message": {
-    "defaultMessage": "This project contains multiple Python files and only 'main.py' has been downloaded. To download other Python files, use the 'Project' tab.",
-    "description": "Message in dialog shown when multiple Python files are available for download"
+    "defaultMessage": "This project contains multiple files and only main.py has been downloaded. To download all files, save a hex file using the Save button or use the Project tab to download individual files.",
+    "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Multiple Python files",
-    "description": "Title of dialog shown when multiple Python files are available for download"
+    "defaultMessage": "Multiple files",
+    "description": "Title of dialog shown when multiple files are available for download"
   },
   "name-project": {
     "defaultMessage": "Наме уоюр проджест",
