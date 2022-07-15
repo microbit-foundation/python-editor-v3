@@ -32,6 +32,7 @@ import {
 import { PythonProject } from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
+import { SessionSettings } from "../settings/session-settings";
 import { Settings } from "../settings/settings";
 import ConnectDialog, {
   ConnectHelpChoice,
@@ -95,6 +96,10 @@ export class ProjectActions {
     private settings: {
       values: Settings;
       setValues: (v: Settings) => void;
+    },
+    private sessionSettings: {
+      values: SessionSettings;
+      setValues: (v: SessionSettings) => void;
     },
     private intl: IntlShape,
     private logging: Logging,
@@ -715,9 +720,15 @@ export class ProjectActions {
   }
 
   private async webusbNotSupportedError(): Promise<void> {
-    await this.dialogs.show<void>((callback) => (
-      <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
-    ));
+    if (this.sessionSettings.values.showWebUsbNotSupported) {
+      await this.dialogs.show<void>((callback) => (
+        <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
+      ));
+      this.sessionSettings.setValues({
+        ...this.sessionSettings.values,
+        showWebUsbNotSupported: false,
+      });
+    }
     this.save();
   }
 

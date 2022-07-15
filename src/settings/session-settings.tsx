@@ -8,10 +8,12 @@ import { useStorage } from "../common/use-storage";
 
 export interface SessionSettings {
   dragDropSuccess: boolean;
+  showWebUsbNotSupported: boolean;
 }
 
 export const defaultSessionSettings: SessionSettings = {
   dragDropSuccess: false,
+  showWebUsbNotSupported: true,
 };
 
 export type SessionSettingsContextValue = [
