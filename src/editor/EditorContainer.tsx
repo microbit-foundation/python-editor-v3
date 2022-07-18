@@ -7,6 +7,7 @@ import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import Editor from "./codemirror/CodeMirror";
+import ModuleOverlay from "./ModuleOverlay";
 
 interface EditorContainerProps {
   selection: WorkbenchSelection;
@@ -18,10 +19,18 @@ interface EditorContainerProps {
  */
 const EditorContainer = ({ selection }: EditorContainerProps) => {
   const [settings] = useSettings();
-  const [defaultValue, onFileChange] = useProjectFileText(selection.file);
-  return typeof defaultValue === "undefined" ? null : (
+  // Note fileInfo is not updated for ordinary text edits.
+  const [fileInfo, onFileChange] = useProjectFileText(selection.file);
+  if (fileInfo === undefined) {
+    return null;
+  }
+
+  return fileInfo.isThirdPartyModule &&
+    !settings.allowEditingThirdPartyModules ? (
+    <ModuleOverlay moduleData={fileInfo.moduleData} />
+  ) : (
     <Editor
-      defaultValue={defaultValue}
+      defaultValue={fileInfo.initialValue}
       selection={selection}
       onChange={onFileChange}
       fontSize={settings.fontSize}

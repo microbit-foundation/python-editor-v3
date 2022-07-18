@@ -63,6 +63,7 @@ export const defaultSettings: Settings = {
   showTransferHexHelp: true,
   showPostSaveHelp: true,
   showMultipleFilesHelp: true,
+  allowEditingThirdPartyModules: false,
 };
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
@@ -85,6 +86,18 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (typeof object.showConnectHelp !== "boolean") {
     return false;
   }
+  if (typeof object.showTransferHexHelp !== "boolean") {
+    return false;
+  }
+  if (typeof object.showPostSaveHelp !== "boolean") {
+    return false;
+  }
+  if (typeof object.showMultipleFilesHelp !== "boolean") {
+    return false;
+  }
+  if (typeof object.allowEditingThirdPartyModules !== "boolean") {
+    return false;
+  }
   return true;
 };
 
@@ -99,6 +112,7 @@ export interface Settings {
   fontSize: number;
   codeStructureHighlight: CodeStructureOption;
   parameterHelp: ParameterHelpOption;
+  allowEditingThirdPartyModules: boolean;
   showConnectHelp: boolean;
   showTransferHexHelp: boolean;
   showPostSaveHelp: boolean;

@@ -551,12 +551,6 @@
       "value": "The name should be all lowercase"
     }
   ],
-  "file-name-not-blank": [
-    {
-      "type": 0,
-      "value": "The project name cannot be blank"
-    }
-  ],
   "file-name-not-empty": [
     {
       "type": 0,
@@ -713,6 +707,12 @@
     {
       "type": 0,
       "value": "Less"
+    }
+  ],
+  "load-error-makecode": [
+    {
+      "type": 0,
+      "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
     }
   ],
   "load-error-mixed": [
@@ -1175,6 +1175,12 @@
       "value": "Project name"
     }
   ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The project name cannot be empty"
+    }
+  ],
   "project-tab": [
     {
       "type": 0,
@@ -1501,6 +1507,12 @@
       "value": "Serial terminal"
     }
   ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "Allow editing third-party modules"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -1579,6 +1591,32 @@
     {
       "type": 0,
       "value": "Terms of use"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "This file is a third-party module and is not intended to be edited."
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "Allow editing third-party modules in "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Settings"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to modify this module."
     }
   ],
   "timeout-error-description": [

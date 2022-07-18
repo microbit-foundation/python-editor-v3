@@ -275,10 +275,6 @@
     "defaultMessage": "The name should be all lowercase",
     "description": "Warning text for new Python file with uppercase"
   },
-  "file-name-not-blank": {
-    "defaultMessage": "The project name cannot be blank",
-    "description": "Validation message for project name"
-  },
   "file-name-not-empty": {
     "defaultMessage": "The name cannot be empty",
     "description": "Warning text for new Python file with empty name"
@@ -373,6 +369,10 @@
   "less-action": {
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
+  },
+  "load-error-makecode": {
+    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "description": "Load error message"
   },
   "load-error-mixed": {
     "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
@@ -550,6 +550,10 @@
     "defaultMessage": "Intitulé du projet",
     "description": "Text used to indicate the project name"
   },
+  "project-name-not-empty": {
+    "defaultMessage": "The project name cannot be empty",
+    "description": "Validation message for project name"
+  },
   "project-tab": {
     "defaultMessage": "Projet",
     "description": "Project tab button text"
@@ -686,6 +690,10 @@
     "defaultMessage": "Terminal série",
     "description": "Aria label for the serial terminal"
   },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "Allow editing third-party modules",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Paramètres",
     "description": "Settings text"
@@ -733,6 +741,14 @@
   "terms-of-use": {
     "defaultMessage": "Conditions d’utilisation",
     "description": "Terms of use menu option text"
+  },
+  "third-party-module-explanation": {
+    "defaultMessage": "This file is a third-party module and is not intended to be edited.",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "Allow editing third-party modules in <link>Settings</link> to modify this module.",
+    "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
     "defaultMessage": "Impossible de se connecter au micro:bit",

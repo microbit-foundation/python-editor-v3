@@ -18,6 +18,7 @@ import { Flag } from "../flags";
 export enum LoadDialogType {
   CONFIRM,
   REPLACE,
+  CONFIRM_BUT_LOAD_AS_MODULE,
   NONE,
 }
 
@@ -289,6 +290,15 @@ export class App {
     if (dialogType === LoadDialogType.REPLACE) {
       return this.findAndClickButton("Replace");
     }
+    if (dialogType === LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE) {
+      // Use the Option menu to change how we load the file.
+      await this.findAndClickButton("Options");
+      const document = await this.document();
+      const menuItem = await document.findByText(/^(Add|Replace) file .+\.py$/);
+      await menuItem.click();
+
+      return this.findAndClickButton("Confirm");
+    }
   }
 
   private async findAndClickButton(name: string): Promise<void> {
@@ -302,9 +312,43 @@ export class App {
   async switchLanguage(locale: string): Promise<void> {
     // All test ids so they can be language invariant.
     const document = await this.document();
-    await (await document.findByTestId("settings")).click();
+    await this.clickSettingsMenu();
     await (await document.findByTestId("language")).click();
     await (await document.findByTestId(locale)).click();
+  }
+
+  private async clickSettingsMenu(): Promise<void> {
+    // All test ids for the sake of language-related tests.
+    const document = await this.document();
+    return (await document.findByTestId("settings")).click();
+  }
+
+  async findThirdPartyModuleWarning(
+    expectedName: string,
+    expectedVersion: string
+  ): Promise<void> {
+    const document = await this.document();
+    await document.findByRole("gridcell", {
+      name: expectedName,
+    });
+    await document.findByRole("gridcell", {
+      name: expectedVersion,
+    });
+  }
+
+  async toggleSettingThirdPartyModuleEditing(): Promise<void> {
+    await this.clickSettingsMenu();
+    const document = await this.document();
+    const settings = await document.findByRole("menuitem", {
+      name: "Settings",
+    });
+    await settings.click();
+    const checkbox = await document.findByRole("checkbox", {
+      name: "Allow editing third-party modules",
+    });
+    // Regular click() doesn't work here.
+    await checkbox.evaluate((e) => (e as any).click());
+    await this.findAndClickButton("Close");
   }
 
   /**
