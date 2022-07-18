@@ -18,12 +18,13 @@ import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
-import dragImage from "./drag-image.svg";
-import { fetchReferenceToolkit } from "./reference/content";
-import { fetchIdeas } from "./ideas/content";
-import { Toolkit } from "./reference/model";
 import { pullModulesToTop } from "./api/apidocs-util";
+import dragImage from "./drag-image.svg";
+import { fetchIdeas } from "./ideas/content";
 import { Idea } from "./ideas/model";
+import { ApiReferenceMap, fetchMappingData } from "./mapping/content";
+import { fetchReferenceToolkit } from "./reference/content";
+import { Toolkit } from "./reference/model";
 
 export type ContentState<T> =
   | { status: "ok"; content: T }
@@ -82,6 +83,7 @@ export interface DocumentationContextValue {
   api: ApiDocsResponse | undefined;
   ideas: ContentState<Idea[]>;
   reference: ContentState<Toolkit>;
+  apiReferenceMap: ContentState<ApiReferenceMap>;
 }
 
 const DocumentationContext = createContext<
@@ -103,9 +105,10 @@ const DocumentationProvider = ({ children }: { children: ReactNode }) => {
   const api = useApiDocumentation();
   const ideas = useContent(fetchIdeas);
   const reference = useContent(fetchReferenceToolkit);
+  const apiReferenceMap = useContent(fetchMappingData);
   const value: DocumentationContextValue = useMemo(() => {
-    return { reference, api, ideas };
-  }, [reference, api, ideas]);
+    return { reference, api, ideas, apiReferenceMap };
+  }, [reference, api, ideas, apiReferenceMap]);
   return (
     <DocumentationContext.Provider value={value}>
       {children}
@@ -127,8 +130,10 @@ export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
       img.id = id;
       img.alt = "";
       img.src = dragImage;
+      img.style.position = "absolute";
+      img.style.top = "0";
+      img.style.zIndex = "-1";
       // Seems to need to be in the DOM for Safari.
-      // Our layout means this will be offscreen.
       document.body.appendChild(img);
     }
     ref.current = img;

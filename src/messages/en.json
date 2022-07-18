@@ -72,7 +72,17 @@
   "api-description": [
     {
       "type": 0,
-      "value": "API documentation for micro:bit MicroPython"
+      "value": "For usage and examples, see "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Reference"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "api-tab": [
@@ -287,12 +297,6 @@
       "value": "Confirm delete"
     }
   ],
-  "confirm-download-action": [
-    {
-      "type": 0,
-      "value": "Confirm and download"
-    }
-  ],
   "confirm-replace-body": [
     {
       "type": 0,
@@ -317,6 +321,12 @@
     {
       "type": 0,
       "value": "?"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "Confirm and save"
     }
   ],
   "connect-action": [
@@ -475,40 +485,6 @@
       "value": "Don't show this again"
     }
   ],
-  "download-action": [
-    {
-      "type": 0,
-      "value": "Download"
-    }
-  ],
-  "download-file-action": [
-    {
-      "type": 0,
-      "value": "Download "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    }
-  ],
-  "download-hex-action": [
-    {
-      "type": 0,
-      "value": "Download project hex"
-    }
-  ],
-  "download-hover": [
-    {
-      "type": 0,
-      "value": "Download a project hex file"
-    }
-  ],
-  "download-python-action": [
-    {
-      "type": 0,
-      "value": "Download Python script"
-    }
-  ],
   "drag-hover": [
     {
       "type": 0,
@@ -579,12 +555,6 @@
     {
       "type": 0,
       "value": "The name should be all lowercase"
-    }
-  ],
-  "file-name-not-blank": [
-    {
-      "type": 0,
-      "value": "The project name cannot be blank"
     }
   ],
   "file-name-not-empty": [
@@ -755,6 +725,18 @@
       "value": "Language"
     }
   ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "Less"
+    }
+  ],
+  "load-error-makecode": [
+    {
+      "type": 0,
+      "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
+    }
+  ],
   "load-error-mixed": [
     {
       "type": 0,
@@ -873,10 +855,22 @@
       "value": "More connect options"
     }
   ],
-  "more-download-options": [
+  "more-ideas": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "More ideas"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "more-save-options": [
     {
       "type": 0,
-      "value": "More download options"
+      "value": "More save options"
     }
   ],
   "name-project": [
@@ -894,7 +888,7 @@
   "name-used-when": [
     {
       "type": 0,
-      "value": "The name is used when you download a hex file."
+      "value": "The name is used when you save a hex file."
     }
   ],
   "new-file-hint": [
@@ -926,23 +920,55 @@
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "Review "
+      "value": "Is your "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "how to select the device"
+          "value": "micro:bit plugged in"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Did you "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
         }
       ],
       "type": 8,
       "value": "link"
-    }
-  ],
-  "not-found-checklist-three": [
+    },
     {
       "type": 0,
-      "value": "If you have a micro:bit V1 you may need to "
+      "value": "?"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "If you have a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " you may need to "
     },
     {
       "children": [
@@ -955,16 +981,16 @@
       "value": "link"
     }
   ],
-  "not-found-checklist-two": [
-    {
-      "type": 0,
-      "value": "Check your micro:bit is plugged in and powered on"
-    }
-  ],
   "not-found-message": [
     {
       "type": 0,
       "value": "You didn’t select a micro:bit, or there was a problem connecting to it."
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "Alternative method: choose Save then follow steps to transfer"
     }
   ],
   "not-found-title": [
@@ -1081,6 +1107,12 @@
       "value": "Project name"
     }
   ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "The project name cannot be empty"
+    }
+  ],
   "project-tab": [
     {
       "type": 0,
@@ -1179,6 +1211,40 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "count"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "Save"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 0,
+      "value": "Save "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "Save project hex"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "Save the project hex file to your computer"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Save Python script"
     }
   ],
   "search": [
@@ -1373,6 +1439,12 @@
       "value": "Serial terminal"
     }
   ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "Allow editing third-party modules"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -1459,6 +1531,32 @@
       "value": "Terms of use"
     }
   ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "This file is a third-party module and is not intended to be edited."
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "Allow editing third-party modules in "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Settings"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to modify this module."
+    }
+  ],
   "timeout-error-description": [
     {
       "type": 0,
@@ -1489,6 +1587,66 @@
     {
       "type": 0,
       "value": " documentation"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "Drag the hex file from your "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Downloads folder"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " to the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MICROBIT drive"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "You can also "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Open"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " the hex file later to continue editing."
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Transfer saved hex file to micro:bit"
     }
   ],
   "try-again-action": [
@@ -1563,12 +1721,6 @@
       "value": "visit microbit.org (opens in a new tab)"
     }
   ],
-  "webusb-download-instead": [
-    {
-      "type": 0,
-      "value": "Download the hex file or try Chrome or Microsoft Edge."
-    }
-  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -1628,7 +1780,13 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be downloaded instead. We recommend Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit."
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "This browser does not support WebUSB"
     }
   ],
   "webusb-why-use": [

@@ -127,10 +127,6 @@
     "defaultMessage": "Cонфірм делете",
     "description": "Confirmation header of deletion of a file"
   },
-  "confirm-download-action": {
-    "defaultMessage": "Confirm and download",
-    "description": "Confirm and download action label"
-  },
   "confirm-replace-body": {
     "defaultMessage": "Репласе алл філес вітх тхосе ін тхе хекс?",
     "description": "Confirmation message body for replacing project dialog"
@@ -142,6 +138,10 @@
   "confirm-replace-with-idea": {
     "defaultMessage": "Replace all files with {ideaName}?",
     "description": "Confirmation message body for replacing project dialog with an idea"
+  },
+  "confirm-save-action": {
+    "defaultMessage": "Confirm and save",
+    "description": "Confirm and save action label"
   },
   "connect-action": {
     "defaultMessage": "Cоннест",
@@ -239,26 +239,6 @@
     "defaultMessage": "Don't show this again",
     "description": "Text to never show a dialog again"
   },
-  "download-action": {
-    "defaultMessage": "Довнлоад",
-    "description": "Download button text"
-  },
-  "download-file-action": {
-    "defaultMessage": "Довнлоад {name}",
-    "description": "Menu option to download file"
-  },
-  "download-hex-action": {
-    "defaultMessage": "Довнлоад проджест хекс",
-    "description": "Text for menu item for downloading project hex file"
-  },
-  "download-hover": {
-    "defaultMessage": "Довнлоад а проджест хекс філе",
-    "description": "Hover text over download button"
-  },
-  "download-python-action": {
-    "defaultMessage": "Довнлоад Путхон ссріпт",
-    "description": "Download button menu option for downloading Python script"
-  },
   "drag-hover": {
     "defaultMessage": "Drag and drop",
     "description": "Draggable code hover text"
@@ -298,10 +278,6 @@
   "file-name-lowercase-only": {
     "defaultMessage": "The name should be all lowercase",
     "description": "Warning text for new Python file with uppercase"
-  },
-  "file-name-not-blank": {
-    "defaultMessage": "The project name cannot be blank",
-    "description": "Validation message for project name"
   },
   "file-name-not-empty": {
     "defaultMessage": "The name cannot be empty",
@@ -398,6 +374,14 @@
     "defaultMessage": "Ланджюадже",
     "description": "Language option text"
   },
+  "less-action": {
+    "defaultMessage": "Less",
+    "description": "Less button text (showing less content)"
+  },
+  "load-error-makecode": {
+    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "description": "Load error message"
+  },
   "load-error-mixed": {
     "defaultMessage": "А хекс філе сан онлу бе лоадед он ітс овн. Іт репласес алл філес ін тхе проджест.",
     "description": "Load error message"
@@ -442,9 +426,13 @@
     "defaultMessage": "More connect options",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
-  "more-download-options": {
-    "defaultMessage": "More download options",
-    "description": "Aria label for the additional actions menu to the right of the Download/Flash button"
+  "more-ideas": {
+    "defaultMessage": "<link>More ideas</link>",
+    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
+  },
+  "more-save-options": {
+    "defaultMessage": "More save options",
+    "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "name-project": {
     "defaultMessage": "Наме уоюр проджест",
@@ -470,10 +458,6 @@
     "defaultMessage": "Review <link>how to select the device</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
-  "not-found-checklist-three": {
-    "defaultMessage": "If you have a micro:bit V1 you may need to <link>update the firmware</link>",
-    "description": "Checklist text in the no micro:bit found dialog"
-  },
   "not-found-checklist-two": {
     "defaultMessage": "Check your micro:bit is plugged in and powered on",
     "description": "Checklist text in the no micro:bit found dialog"
@@ -481,6 +465,10 @@
   "not-found-message": {
     "defaultMessage": "You didn’t select a micro:bit, or there was a problem connecting to it.",
     "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-save-message": {
+    "defaultMessage": "Alternative method: choose Save",
+    "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
     "defaultMessage": "No micro:bit found",
@@ -538,6 +526,10 @@
     "defaultMessage": "Project name",
     "description": "Text used to indicate the project name"
   },
+  "project-name-not-empty": {
+    "defaultMessage": "The project name cannot be empty",
+    "description": "Validation message for project name"
+  },
   "project-tab": {
     "defaultMessage": "Project",
     "description": "Project tab button text"
@@ -581,6 +573,26 @@
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "description": "Number of results from a search"
+  },
+  "save-action": {
+    "defaultMessage": "Save",
+    "description": "Save button text"
+  },
+  "save-file-action": {
+    "defaultMessage": "Save {name}",
+    "description": "Menu option to save a file"
+  },
+  "save-hex-action": {
+    "defaultMessage": "Save project hex",
+    "description": "Text for menu item for saving a project hex file"
+  },
+  "save-hover": {
+    "defaultMessage": "Save a project hex file to your computer",
+    "description": "Hover text over save button"
+  },
+  "save-python-action": {
+    "defaultMessage": "Save Python script to your computer",
+    "description": "Save button menu option to save a Python script"
   },
   "search": {
     "defaultMessage": "Search",
@@ -654,6 +666,10 @@
     "defaultMessage": "Серіал термінал",
     "description": "Aria label for the serial terminal"
   },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "Allow editing third-party modules",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Сеттінджс",
     "description": "Settings text"
@@ -706,6 +722,14 @@
     "defaultMessage": "Термс оф юсе",
     "description": "Terms of use menu option text"
   },
+  "third-party-module-explanation": {
+    "defaultMessage": "This file is a third-party module and is not intended to be edited.",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "Allow editing third-party modules in <link>Settings</link> to modify this module.",
+    "description": "Explanation of how to allow editing for third-party modules."
+  },
   "timeout-error-description": {
     "defaultMessage": "Юнабле то соннест то тхе місро:біт",
     "description": "Description for error messages relating to WebUSB timeout"
@@ -721,6 +745,18 @@
   "toolkit-view-documentation": {
     "defaultMessage": "Віев {name} досюментатіон",
     "description": "Aria label for the toolkit topic right arrow"
+  },
+  "transfer-hex-message-one": {
+    "defaultMessage": "Drag the hex file from your <strong>Downloads folder</strong> to the <strong>MICROBIT drive</strong>.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-message-two": {
+    "defaultMessage": "You can also <strong>Open</strong> the hex file later to continue editing.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-title": {
+    "defaultMessage": "Transfer downloaded hex file to micro:bit",
+    "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
     "defaultMessage": "Try again",
@@ -754,10 +790,6 @@
     "defaultMessage": "вісіт місробіт.ордж (опенс ін а нев таб)",
     "description": "alt text for logo link to .org"
   },
-  "webusb-download-instead": {
-    "defaultMessage": "Довнлоад тхе хекс філе ор тру Cхроме ор Місрософт Eддже.",
-    "description": "Shown from the connect action when the user's browser doesn't support WebUSB."
-  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Анотхер просесс іс соннестед то тхіс девісе.",
     "description": "Part of WebUSB error message"
@@ -789,6 +821,10 @@
   "webusb-not-supported": {
     "defaultMessage": "Юнфортюнателу, ВебЮСБ іс нот сюппортед ін тхіс бровсер. Ве ресомменд Cхроме ор Місрософт Eддже со уою сан соннест дірестлу то уоюр місро:біт.",
     "description": "Shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-not-supported-title": {
+    "defaultMessage": "This browser does not support WebUSB",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
     "defaultMessage": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор.",

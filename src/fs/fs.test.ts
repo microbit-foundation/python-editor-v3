@@ -20,17 +20,14 @@ import {
   VersionedData,
 } from "./fs";
 import { DefaultHost } from "./host";
-import {
-  defaultInitialProject,
-  defaultMainFileContent,
-} from "./initial-project";
-import { MicroPythonSource } from "./micropython";
+import { defaultInitialProject } from "./initial-project";
+import { MicroPythonSource } from "../micropython/micropython";
 
 const hexes = Promise.all([
-  fs.readFileSync("src/fs/microbit-micropython-v1.hex", {
+  fs.readFileSync("src/micropython/microbit-micropython-v1.hex", {
     encoding: "ascii",
   }),
-  fs.readFileSync("src/fs/microbit-micropython-v2.hex", {
+  fs.readFileSync("src/micropython/main/microbit-micropython-v2.hex", {
     encoding: "ascii",
   }),
 ]);
@@ -196,7 +193,7 @@ describe("Filesystem", () => {
     await ufs.write("big.dat", data, VersionAction.INCREMENT);
 
     // But not if you ask for the hex.
-    await expect(() => ufs.toHexForDownload()).rejects.toThrow(
+    await expect(() => ufs.toHexForSave()).rejects.toThrow(
       /There is no storage space left./
     );
   });
@@ -208,14 +205,14 @@ describe("Filesystem", () => {
     await ufs.write(MAIN_FILE, data, VersionAction.MAINTAIN);
 
     // But not if you ask for the hex.
-    await expect(() => ufs.toHexForDownload()).rejects.toThrow(
+    await expect(() => ufs.toHexForSave()).rejects.toThrow(
       /There is no storage space left./
     );
   });
 
-  it("creates a universal hex for download", async () => {
+  it("creates a universal hex for save", async () => {
     await ufs.setProjectName("test project name");
-    const data = await ufs.toHexForDownload();
+    const data = await ufs.toHexForSave();
 
     expect(typeof data).toEqual("string");
   });

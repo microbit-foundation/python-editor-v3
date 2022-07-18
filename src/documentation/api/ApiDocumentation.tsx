@@ -4,15 +4,21 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Divider, List, ListItem } from "@chakra-ui/layout";
+import { Link } from "@chakra-ui/react";
 import sortBy from "lodash.sortby";
-import { useCallback } from "react";
-import { useIntl } from "react-intl";
+import { ReactNode, useCallback } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
-import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
+import {
+  Anchor,
+  RouterParam,
+  useRouterParam,
+  useRouterState,
+} from "../../router-hooks";
 import DocString from "../common/DocString";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
@@ -61,6 +67,14 @@ const ActiveLevel = ({
   const intl = useIntl();
   const apiString = intl.formatMessage({ id: "api-tab" });
   const module = anchor ? resolveModule(docs, anchor.id) : undefined;
+  const [, setParams] = useRouterState();
+  const handleReferenceLink = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setParams({ tab: "reference" });
+    },
+    [setParams]
+  );
   if (module) {
     return (
       <HeadedScrollablePanel
@@ -98,7 +112,18 @@ const ActiveLevel = ({
       heading={
         <AreaHeading
           name={apiString}
-          description={intl.formatMessage({ id: "api-description" })}
+          description={
+            <FormattedMessage
+              id="api-description"
+              values={{
+                link: (chunks: ReactNode) => (
+                  <Link color="brand.500" onClick={handleReferenceLink} href="">
+                    {chunks}
+                  </Link>
+                ),
+              }}
+            />
+          }
         />
       }
     >
@@ -109,6 +134,7 @@ const ActiveLevel = ({
             name={allowWrapAtPeriods(module.fullName)}
             description={<ShortModuleDescription value={module} />}
             onForward={() => onNavigate(module.id)}
+            type="api"
           />
         ))}
       </List>

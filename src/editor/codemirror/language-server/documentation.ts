@@ -7,6 +7,8 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
+import { moduleAndApiFromId } from "../../../documentation/api/apidocs-util";
+import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
 
@@ -100,10 +102,23 @@ export const subsetMarkdown = (
   return sections.join("\n\n");
 };
 
+const createStyledAnchorElement = (): HTMLAnchorElement => {
+  const anchor = document.createElement("a");
+  anchor.href = "";
+  anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
+  anchor.style.color = "var(--chakra-colors-brand-600)";
+  anchor.style.display = "block";
+  anchor.style.margin = "0";
+  anchor.style.padding = "0.5rem";
+  anchor.style.alignSelf = "flex-end";
+  return anchor;
+};
+
 export const wrapWithDocumentationButton = (
   intl: IntlShape,
   child: Element,
-  id: string
+  id: string,
+  referenceLink: string | undefined
 ): Element => {
   const docsAndActions = document.createElement("div");
   docsAndActions.style.display = "flex";
@@ -112,25 +127,73 @@ export const wrapWithDocumentationButton = (
   docsAndActions.style.justifyContent = "space-between";
   docsAndActions.appendChild(child);
 
-  const anchor = docsAndActions.appendChild(document.createElement("a"));
-  anchor.href = "";
-  anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
-  anchor.style.color = "var(--chakra-colors-brand-600)";
-  anchor.textContent = intl.formatMessage({ id: "help" });
-  anchor.style.display = "block";
-  anchor.style.margin = "0";
-  anchor.style.marginRight = "-0.5rem";
-  anchor.style.padding = "0.5rem";
-  anchor.style.alignSelf = "flex-end";
-  anchor.onclick = (e) => {
-    e.preventDefault();
-    document.dispatchEvent(
-      new CustomEvent("cm/openDocs", {
-        detail: {
-          id,
-        },
-      })
-    );
-  };
+  const actionsContainer = docsAndActions.appendChild(
+    document.createElement("div")
+  );
+  actionsContainer.style.display = "flex";
+  actionsContainer.style.alignItems = "center";
+  actionsContainer.style.justifyContent = "flex-end";
+  actionsContainer.style.gap = "0.25rem";
+  actionsContainer.style.marginRight = "-0.5rem";
+  if (referenceLink) {
+    const refAnchor = createStyledAnchorElement();
+    refAnchor.textContent = intl.formatMessage({ id: "help" });
+    refAnchor.onclick = (e) => {
+      e.preventDefault();
+      document.dispatchEvent(
+        new CustomEvent("cm/openDocs", {
+          detail: {
+            tab: "reference",
+            id: referenceLink,
+          },
+        })
+      );
+    };
+    actionsContainer.appendChild(refAnchor);
+  }
+  // We don't have documentation for builtins yet,
+  // so there is nothing to link to.
+  const { pythonModuleName } = moduleAndApiFromId(id);
+  if (pythonModuleName !== "builtins") {
+    const apiAnchor = createStyledAnchorElement();
+    apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
+    apiAnchor.onclick = (e) => {
+      e.preventDefault();
+      document.dispatchEvent(
+        new CustomEvent("cm/openDocs", {
+          detail: {
+            tab: "api",
+            id,
+          },
+        })
+      );
+    };
+    if (referenceLink) {
+      const verticalDivider = document.createElement("hr");
+      verticalDivider.style.height = "1rem";
+      verticalDivider.style.borderRight = "1px solid #2C2C2C";
+      verticalDivider.setAttribute("aria-orientation", "vertical");
+      actionsContainer.appendChild(verticalDivider);
+    }
+    actionsContainer.appendChild(apiAnchor);
+  }
   return docsAndActions;
+};
+
+export const getLinkToReference = (
+  id: string,
+  apiReferenceMap: ApiReferenceMap
+): string | undefined => {
+  const { pythonModuleName, apiId } = moduleAndApiFromId(id);
+  if (!pythonModuleName && !apiId) {
+    return;
+  }
+  let referenceLink = apiReferenceMap[pythonModuleName]?.[apiId]?.referenceLink;
+  const alternative = apiReferenceMap[pythonModuleName]?.[apiId]?.alternative;
+  if (referenceLink && alternative) {
+    referenceLink = `${encodeURIComponent(referenceLink)}/${encodeURIComponent(
+      alternative
+    )}`;
+  }
+  return referenceLink;
 };

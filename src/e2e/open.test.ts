@@ -20,7 +20,7 @@ describe("Browser - open", () => {
     // v2 adds some special case translatable text.
     await app.findAlertText(
       "Cannot load file",
-      "There is data after an EOF record at record 14004"
+      "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
     );
   });
 

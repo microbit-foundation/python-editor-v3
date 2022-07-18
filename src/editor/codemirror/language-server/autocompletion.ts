@@ -20,11 +20,13 @@ import {
   CompletionResolveRequest,
   CompletionTriggerKind,
 } from "vscode-languageserver-protocol";
+import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
 import { clientFacet, uriFacet } from "./common";
 import {
   DocSections,
+  getLinkToReference,
   renderDocumentation,
   wrapWithDocumentationButton,
 } from "./documentation";
@@ -38,7 +40,11 @@ const identifierLike = /[a-zA-Z0-9_\u{a1}-\u{10ffff}]+/u;
 
 type AugmentedCompletion = Completion & { item: CompletionItem };
 
-export const autocompletion = (intl: IntlShape, logging: Logging) =>
+export const autocompletion = (
+  intl: IntlShape,
+  logging: Logging,
+  apiReferenceMap: ApiReferenceMap
+) =>
   cmAutocompletion({
     override: [
       async (context: CompletionContext): Promise<CompletionResult | null> => {
@@ -66,7 +72,11 @@ export const autocompletion = (intl: IntlShape, logging: Logging) =>
           }
         }
 
-        const documentationResolver = createDocumentationResolver(client, intl);
+        const documentationResolver = createDocumentationResolver(
+          client,
+          intl,
+          apiReferenceMap
+        );
         const results = await client.completionRequest({
           textDocument: {
             uri,
@@ -130,7 +140,11 @@ export const autocompletion = (intl: IntlShape, logging: Logging) =>
   });
 
 const createDocumentationResolver =
-  (client: LanguageServerClient, intl: IntlShape) =>
+  (
+    client: LanguageServerClient,
+    intl: IntlShape,
+    apiReferenceMap: ApiReferenceMap
+  ) =>
   async (completion: Completion): Promise<Node> => {
     const resolved = await client.connection.sendRequest(
       CompletionResolveRequest.type,
@@ -145,8 +159,9 @@ const createDocumentationResolver =
     if (code) {
       const id = nameFromSignature(code.innerText);
       if (id) {
+        const referenceLink = getLinkToReference(id, apiReferenceMap);
         code.innerText = removeFullyQualifiedName(code.innerText);
-        return wrapWithDocumentationButton(intl, node, id);
+        return wrapWithDocumentationButton(intl, node, id, referenceLink);
       }
     }
     return node;

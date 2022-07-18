@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box, Button, Collapse, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { RiFileCopy2Line, RiFolderOpenLine } from "react-icons/ri";

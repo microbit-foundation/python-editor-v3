@@ -56,3 +56,13 @@ export const resolveDottedName = (docs: ApiDocsResponse, name: string) => {
   }
   return entry;
 };
+
+export const moduleAndApiFromId = (id: string) => {
+  const idSegments = id.split(".");
+  const pythonModuleName = idSegments[0];
+  const apiId = idSegments.slice(1).join(".");
+  return {
+    pythonModuleName,
+    apiId,
+  };
+};

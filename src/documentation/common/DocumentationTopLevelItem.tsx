@@ -5,13 +5,22 @@
  */
 import { IconButton } from "@chakra-ui/button";
 import { Box, VStack } from "@chakra-ui/layout";
-import { Divider, HStack, ListItem, ListItemProps } from "@chakra-ui/react";
+import {
+  Divider,
+  HStack,
+  ListItem,
+  ListItemProps,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { SimpleImage } from "../../common/sanity";
 import DocumentationIcon from "./DocumentationIcon";
 import DocumentationHeading from "./DocumentationHeading";
+import { heightMd, widthXl } from "../../common/media-queries";
+
+type DocType = "reference" | "api";
 
 interface DocumentationTopLevelItemProps {
   name: string;
@@ -19,6 +28,8 @@ interface DocumentationTopLevelItemProps {
   icon?: SimpleImage;
   isV2Only?: boolean;
   onForward: () => void;
+  spacing?: number;
+  type: DocType;
 }
 
 const DocumentationTopLevelItem = ({
@@ -27,16 +38,24 @@ const DocumentationTopLevelItem = ({
   icon,
   isV2Only,
   onForward,
+  type,
 }: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
+  const [isShortWindow] = useMediaQuery(heightMd);
+  const [isWideScreen] = useMediaQuery(widthXl);
   return (
     <DocumentationListItem
       onClick={onForward}
       cursor="pointer"
       showIcon={true}
       icon={icon}
+      type={type}
     >
-      <VStack alignItems="stretch" spacing={1} flex="1 1 auto">
+      <VStack
+        alignItems="stretch"
+        spacing={isShortWindow || !isWideScreen ? 0 : 1}
+        flex="1 1 auto"
+      >
         <HStack justifyContent="space-between">
           <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
@@ -63,17 +82,34 @@ const DocumentationTopLevelItem = ({
 interface DocumentationListItemProps extends ListItemProps {
   showIcon: boolean;
   icon?: SimpleImage;
+  type: DocType;
 }
 
 const DocumentationListItem = ({
   children,
   showIcon,
   icon,
+  type,
   ...props
 }: DocumentationListItemProps) => {
+  const [isShortWindow] = useMediaQuery(heightMd);
+  const [isWideScreen] = useMediaQuery(widthXl);
+  const my =
+    type === "reference"
+      ? isShortWindow || !isWideScreen
+        ? 2
+        : 5
+      : isShortWindow || !isWideScreen
+      ? 3
+      : 5;
   return (
     <ListItem {...props}>
-      <HStack m={5} mr={3} spacing={5}>
+      <HStack
+        my={my}
+        mr={3}
+        ml={type === "reference" ? (isShortWindow || !isWideScreen ? 3 : 5) : 5}
+        spacing={isShortWindow || !isWideScreen ? 3 : 5}
+      >
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
       </HStack>

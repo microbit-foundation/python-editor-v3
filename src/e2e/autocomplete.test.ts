@@ -42,15 +42,23 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findCompletionOptions(["Image", "image="]);
   });
 
-  it("autocomplete can navigate to toolkit content", async () => {
+  it("autocomplete can navigate to API toolkit content", async () => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
 
     await app.findCompletionActiveOption("show(image)");
 
-    await app.followCompletionOrSignatureDocumentionLink();
+    await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.findActiveDocumentationEntry(showFullSignature);
+    await app.findActiveApiEntry(showFullSignature, "h4");
+  });
+
+  it("autocomplete can navigate to Reference toolkit content", async () => {
+    await app.selectAllInEditor();
+    await app.typeInEditor("from microbit import *\ndisplay.sho");
+    await app.findCompletionActiveOption("show(image)");
+    await app.followCompletionOrSignatureDocumentionLink("Help");
+    await app.findActiveApiEntry("Show", "h3");
   });
 
   it("shows signature help after autocomplete", async () => {
@@ -70,15 +78,24 @@ describe("Browser - autocomplete and signature help tests", () => {
     await app.findVisibleEditorContents(/is_playing$/);
   });
 
-  it("signature can navigate to toolkit content", async () => {
+  it("signature can navigate to API toolkit content", async () => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
 
     await app.findSignatureHelp(showFullSignature);
 
-    await app.followCompletionOrSignatureDocumentionLink();
+    await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.findActiveDocumentationEntry("clear()");
+    await app.findActiveApiEntry(showFullSignature, "h4");
+  });
+
+  it("signature can navigate to Reference toolkit content", async () => {
+    await app.selectAllInEditor();
+    // The closing bracket is autoinserted.
+    await app.typeInEditor("from microbit import *\ndisplay.show(");
+    await app.findSignatureHelp(showFullSignature);
+    await app.followCompletionOrSignatureDocumentionLink("Help");
+    await app.findActiveApiEntry("Show", "h3");
   });
 });

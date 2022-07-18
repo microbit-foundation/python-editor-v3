@@ -3,10 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Stack } from "@chakra-ui/layout";
+import { Link, Stack, Text } from "@chakra-ui/layout";
 import { Image, SimpleGrid } from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
-import { useIntl } from "react-intl";
+import { ReactNode, useCallback, useRef } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
@@ -15,7 +15,9 @@ import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
-import DocumentationContent from "../common/DocumentationContent";
+import DocumentationContent, {
+  DocumentationContextProvider,
+} from "../common/DocumentationContent";
 import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
@@ -108,12 +110,13 @@ const ActiveLevel = ({
               />
             )}
 
-            <DocumentationContent
-              content={activeIdea.content}
+            <DocumentationContextProvider
               parentSlug={activeIdea.slug.current}
               toolkitType="ideas"
               title={activeIdea.name}
-            />
+            >
+              <DocumentationContent content={activeIdea.content} />
+            </DocumentationContextProvider>
           </Stack>
         )}
       </HeadedScrollablePanel>
@@ -140,6 +143,23 @@ const ActiveLevel = ({
           />
         ))}
       </SimpleGrid>
+      <Text pb={8} px={5}>
+        <FormattedMessage
+          id="more-ideas"
+          values={{
+            link: (chunks: ReactNode) => (
+              <Link
+                color="brand.500"
+                href="https://microbit.org/projects/make-it-code-it/?filters=python"
+                target="_blank"
+                rel="noopener"
+              >
+                {chunks}
+              </Link>
+            ),
+          }}
+        />
+      </Text>
     </HeadedScrollablePanel>
   );
 };

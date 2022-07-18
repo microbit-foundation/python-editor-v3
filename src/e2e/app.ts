@@ -18,6 +18,7 @@ import { Flag } from "../flags";
 export enum LoadDialogType {
   CONFIRM,
   REPLACE,
+  CONFIRM_BUT_LOAD_AS_MODULE,
   NONE,
 }
 
@@ -289,6 +290,15 @@ export class App {
     if (dialogType === LoadDialogType.REPLACE) {
       return this.findAndClickButton("Replace");
     }
+    if (dialogType === LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE) {
+      // Use the Option menu to change how we load the file.
+      await this.findAndClickButton("Options");
+      const document = await this.document();
+      const menuItem = await document.findByText(/^(Add|Replace) file .+\.py$/);
+      await menuItem.click();
+
+      return this.findAndClickButton("Confirm");
+    }
   }
 
   private async findAndClickButton(name: string): Promise<void> {
@@ -302,9 +312,43 @@ export class App {
   async switchLanguage(locale: string): Promise<void> {
     // All test ids so they can be language invariant.
     const document = await this.document();
-    await (await document.findByTestId("settings")).click();
+    await this.clickSettingsMenu();
     await (await document.findByTestId("language")).click();
     await (await document.findByTestId(locale)).click();
+  }
+
+  private async clickSettingsMenu(): Promise<void> {
+    // All test ids for the sake of language-related tests.
+    const document = await this.document();
+    return (await document.findByTestId("settings")).click();
+  }
+
+  async findThirdPartyModuleWarning(
+    expectedName: string,
+    expectedVersion: string
+  ): Promise<void> {
+    const document = await this.document();
+    await document.findByRole("gridcell", {
+      name: expectedName,
+    });
+    await document.findByRole("gridcell", {
+      name: expectedVersion,
+    });
+  }
+
+  async toggleSettingThirdPartyModuleEditing(): Promise<void> {
+    await this.clickSettingsMenu();
+    const document = await this.document();
+    const settings = await document.findByRole("menuitem", {
+      name: "Settings",
+    });
+    await settings.click();
+    const checkbox = await document.findByRole("checkbox", {
+      name: "Allow editing third-party modules",
+    });
+    // Regular click() doesn't work here.
+    await checkbox.evaluate((e) => (e as any).click());
+    await this.findAndClickButton("Close");
   }
 
   /**
@@ -499,12 +543,12 @@ export class App {
     }, defaultWaitForOptions);
   }
 
-  async findActiveDocumentationEntry(text: string): Promise<void> {
+  async findActiveApiEntry(text: string, headingLevel: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     const document = await this.document();
     return waitFor(async () => {
-      const items = await document.$$("h4");
-      const h4s = await Promise.all(
+      const items = await document.$$(headingLevel);
+      const headings = await Promise.all(
         items.map((e) =>
           e.evaluate((node) => {
             const text = (node as HTMLElement).innerText;
@@ -514,7 +558,7 @@ export class App {
           })
         )
       );
-      const match = h4s.find((info) => info.visible && info.text === text);
+      const match = headings.find((info) => info.visible && info.text === text);
       expect(match).toBeDefined();
     }, defaultWaitForOptions);
   }
@@ -623,15 +667,15 @@ export class App {
   }
 
   /**
-   * Trigger a download but don't wait for it to complete.
+   * Trigger a save but don't wait for it to complete.
    *
    * Useful when the action is expected to fail.
-   * Otherwise see waitForDownload.
+   * Otherwise see waitForSave.
    */
-  async download(): Promise<void> {
+  async save(): Promise<void> {
     const document = await this.document();
-    const downloadButton = await document.getByText("Download");
-    return downloadButton.click();
+    const saveButton = await document.getByText("Save");
+    return saveButton.click();
   }
 
   async connect(): Promise<void> {
@@ -678,7 +722,7 @@ export class App {
   async connectHelpFromNotFoundDialog(): Promise<void> {
     const document = await this.document();
     const reviewDeviceSelection = await document.findByRole("link", {
-      name: "how to select the device",
+      name: "follow these steps",
     });
     await reviewDeviceSelection.click();
   }
@@ -686,6 +730,20 @@ export class App {
   async confirmFirmwareUpdateDialog(): Promise<void> {
     const document = await this.document();
     await document.findByText("Firmware update required", {
+      selector: "h2",
+    });
+  }
+
+  async confirmNameYourProjectDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Name your project", {
+      selector: "header",
+    });
+  }
+
+  async confirmTransferHexHelpDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Transfer saved hex file to micro:bit", {
       selector: "h2",
     });
   }
@@ -782,12 +840,12 @@ export class App {
   }
 
   /**
-   * Trigger a download and wait for it to complete.
+   * Trigger a hex file save and wait for the download to complete.
    *
    * @returns Download details.
    */
-  async waitForDownload(): Promise<BrowserDownload> {
-    return this.waitForDownloadOnDisk(() => this.download());
+  async waitForSave(): Promise<BrowserDownload> {
+    return this.waitForDownloadOnDisk(() => this.save());
   }
 
   /**
@@ -869,10 +927,12 @@ export class App {
    * Follow the documentation link shown in the signature help or autocomplete tooltips.
    * This will update the "API" tab and switch to it.
    */
-  async followCompletionOrSignatureDocumentionLink(): Promise<void> {
+  async followCompletionOrSignatureDocumentionLink(
+    linkName: string
+  ): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("link", {
-      name: "Help",
+      name: linkName,
     });
     return button.click();
   }

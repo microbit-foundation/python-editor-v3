@@ -5,6 +5,7 @@
  */
 import { Link, List, ListItem } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
+import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
@@ -40,6 +41,9 @@ import FirmwareDialog, {
   ConnectErrorChoice,
 } from "../workbench/connect-dialogs/FirmwareDialog";
 import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
+import TransferHexDialog, {
+  TransferHexChoice,
+} from "../workbench/connect-dialogs/TransferHexDialog";
 import WebUSBDialog, {
   WebUSBErrorTrigger,
 } from "../workbench/connect-dialogs/WebUSBDialog";
@@ -279,9 +283,12 @@ export class ProjectActions {
               ),
             });
           } catch (e: any) {
+            const isMakeCodeHex = isMakeCodeForV1Hex(hex);
             this.actionFeedback.expectedError({
               title: errorTitle,
-              description: e.message,
+              description: isMakeCodeHex
+                ? this.intl.formatMessage({ id: "load-error-makecode" })
+                : e.message,
               error: e,
             });
           }
@@ -438,9 +445,9 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  download = async () => {
+  save = async () => {
     this.logging.event({
-      type: "download",
+      type: "save",
       detail: await this.projectStats(),
     });
 
@@ -450,7 +457,7 @@ export class ProjectActions {
 
     let download: string | undefined;
     try {
-      download = await this.fs.toHexForDownload();
+      download = await this.fs.toHexForSave();
     } catch (e: any) {
       this.actionFeedback.expectedError({
         title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
@@ -463,16 +470,17 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
+    this.handleTransferHexDialog();
   };
 
   /**
-   * Download an individual file.
+   * Save an individual file.
    *
-   * @param filename the file to download.
+   * @param filename the file to save.
    */
-  downloadFile = async (filename: string) => {
+  saveFile = async (filename: string) => {
     this.logging.event({
-      type: "download-file",
+      type: "save-file",
     });
 
     try {
@@ -487,14 +495,14 @@ export class ProjectActions {
   };
 
   /**
-   * Download the main file renamed to match the project.
+   * Save the main file (renamed to match the project).
    *
    * There's some debate as to whether this action is more confusing than helpful
    * but leaving it around for a bit so we can try out different UI arrangements.
    */
-  downloadMainFile = async () => {
+  saveMainFile = async () => {
     this.logging.event({
-      type: "download-main-file",
+      type: "save-main-file",
     });
 
     if (!(await this.ensureProjectName())) {
@@ -597,7 +605,7 @@ export class ProjectActions {
     return true;
   };
 
-  editProjectName = async (isDownload: boolean = false) => {
+  editProjectName = async (isSave: boolean = false) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
         callback={callback}
@@ -605,12 +613,12 @@ export class ProjectActions {
         Body={ProjectNameQuestion}
         initialValue={this.project.name}
         actionLabel={this.intl.formatMessage({
-          id: isDownload ? "confirm-download-action" : "confirm-action",
+          id: isSave ? "confirm-save-action" : "confirm-action",
         })}
         customFocus
         validate={(name: string) =>
           name.trim().length === 0
-            ? this.intl.formatMessage({ id: "name-not-blank" })
+            ? this.intl.formatMessage({ id: "project-name-not-empty" })
             : undefined
         }
       />
@@ -714,7 +722,7 @@ export class ProjectActions {
     await this.dialogs.show<void>((callback) => (
       <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
     ));
-    this.download();
+    this.save();
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -782,6 +790,29 @@ export class ProjectActions {
         };
       default:
         throw new Error("Unknown code");
+    }
+  }
+
+  private async handleTransferHexDialog() {
+    const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
+    if (!showTransferHexHelpSetting) {
+      return;
+    }
+    const choice = await this.dialogs.show<TransferHexChoice>((callback) => (
+      <TransferHexDialog
+        callback={callback}
+        dialogNormallyHidden={!showTransferHexHelpSetting}
+      />
+    ));
+    if (choice === TransferHexChoice.CancelDontShowAgain) {
+      this.settings.setValues({
+        ...this.settings.values,
+        showTransferHexHelp: false,
+      });
     }
   }
 

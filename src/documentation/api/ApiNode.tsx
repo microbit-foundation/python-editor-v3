@@ -266,6 +266,10 @@ const buildSignature = (
       params
         .filter(
           (parameter, index) =>
+            // This happens for * separating positional and keyword-only arguments.
+            // For now we always omit it.
+            parameter.name &&
+            // Self parameter
             !(index === 0 && parameter.name === "self") &&
             (detailed || parameter.defaultValue === undefined)
         )

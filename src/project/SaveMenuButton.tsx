@@ -15,11 +15,11 @@ import {
 import { RiDownload2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
-import DownloadButton from "./DownloadButton";
+import SaveButton from "./SaveButton";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
 
-interface DownloadMenuButtonProps {
+interface SaveMenuButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
 }
 
@@ -27,27 +27,27 @@ interface DownloadMenuButtonProps {
  * The device connection area.
  *
  * It shows the current connection status and allows the user to
- * flash (if WebUSB is supported) or otherwise just download a HEX.
+ * flash (if WebUSB is supported) or otherwise just save a HEX.
  */
-const DownloadMenuButton = ({ size }: DownloadMenuButtonProps) => {
+const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
   const intl = useIntl();
   const actions = useProjectActions();
   return (
     <HStack>
       <Menu>
         <ButtonGroup isAttached>
-          <DownloadButton mode="button" size={size} borderRight="1px" />
+          <SaveButton mode="button" size={size} borderRight="1px" />
           <MoreMenuButton
-            aria-label={intl.formatMessage({ id: "more-download-options" })}
+            aria-label={intl.formatMessage({ id: "more-save-options" })}
             size={size}
           />
           <Portal>
             <MenuList zIndex={zIndexAboveTerminal}>
               <MenuItem
                 icon={<RiDownload2Line />}
-                onClick={actions.downloadMainFile}
+                onClick={actions.saveMainFile}
               >
-                <FormattedMessage id="download-python-action" />
+                <FormattedMessage id="save-python-action" />
               </MenuItem>
             </MenuList>
           </Portal>
@@ -57,4 +57,4 @@ const DownloadMenuButton = ({ size }: DownloadMenuButtonProps) => {
   );
 };
 
-export default DownloadMenuButton;
+export default SaveMenuButton;

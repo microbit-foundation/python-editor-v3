@@ -72,9 +72,9 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
             </MenuItem>
             <MenuItem
               icon={<RiDownload2Line />}
-              onClick={() => actions.downloadFile(name)}
+              onClick={() => actions.saveFile(name)}
             >
-              <FormattedMessage id="download-file-action" values={{ name }} />
+              <FormattedMessage id="save-file-action" values={{ name }} />
             </MenuItem>
             <MenuItem
               icon={<RiDeleteBin2Line />}
