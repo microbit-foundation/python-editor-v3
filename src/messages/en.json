@@ -1417,6 +1417,12 @@
       "value": "Serial terminal"
     }
   ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "Allow editing third-party modules"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -1495,6 +1501,32 @@
     {
       "type": 0,
       "value": "Terms of use"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "This file is a third-party module and is not intended to be edited."
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "Allow editing third-party modules in "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Settings"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to modify this module."
     }
   ],
   "timeout-error-description": [

@@ -11,6 +11,11 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { useDevice } from "../device/device-hooks";
 import { EVENT_PROJECT_UPDATED, Project, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import {
+  extractModuleData,
+  isPythonMicrobitModule,
+  ModuleData,
+} from "../fs/fs-util";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
@@ -90,15 +95,21 @@ export const useProject = (): DefaultedProject => {
   return state;
 };
 
+interface ProjectTextFileInfo {
+  isThirdPartyModule: boolean;
+  initialValue: string;
+  moduleData: ModuleData | undefined;
+}
+
 /**
  * Reads an initial value from the project file system and synchronises back to it.
  */
 export const useProjectFileText = (
   filename: string
-): [string | undefined, (text: string) => void] => {
+): [ProjectTextFileInfo | undefined, (text: string) => void] => {
   const fs = useFileSystem();
   const actionFeedback = useActionFeedback();
-  const [initialValue, setInitialValue] = useState<string | undefined>();
+  const [value, setValue] = useState<ProjectTextFileInfo | undefined>();
   const isUnmounted = useIsUnmounted();
   useEffect(() => {
     const loadData = async () => {
@@ -107,7 +118,13 @@ export const useProjectFileText = (
           const { data } = await fs.read(filename);
           const text = new TextDecoder().decode(data);
           if (!isUnmounted()) {
-            setInitialValue(text);
+            setValue({
+              initialValue: text,
+              // We don't change this value if the text is edited to become a module
+              // as that would abruptly prevent it being edited further.
+              isThirdPartyModule: isPythonMicrobitModule(text),
+              moduleData: extractModuleData(text),
+            });
           }
         }
       } catch (e) {
@@ -121,13 +138,21 @@ export const useProjectFileText = (
   const handleChange = useCallback(
     (content: string) => {
       try {
+        if (value?.isThirdPartyModule) {
+          setValue({
+            ...value,
+            initialValue: content,
+            moduleData: extractModuleData(content),
+          });
+        }
+        // We just write back to the filesystem without updating React state.
         fs.write(filename, content, VersionAction.MAINTAIN);
       } catch (e) {
         actionFeedback.unexpectedError(e);
       }
     },
-    [fs, filename, actionFeedback]
+    [fs, filename, actionFeedback, value]
   );
 
-  return [initialValue, handleChange];
+  return [value, handleChange];
 };

@@ -659,6 +659,10 @@
     "defaultMessage": "Serial terminal",
     "description": "Aria label for the serial terminal"
   },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "Allow editing third-party modules",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Settings",
     "description": "Settings text"
@@ -706,6 +710,14 @@
   "terms-of-use": {
     "defaultMessage": "Terms of use",
     "description": "Terms of use menu option text"
+  },
+  "third-party-module-explanation": {
+    "defaultMessage": "This file is a third-party module and is not intended to be edited.",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "Allow editing third-party modules in <link>Settings</link> to modify this module.",
+    "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
     "defaultMessage": "Unable to connect to the micro:bit",
