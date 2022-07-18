@@ -9,7 +9,7 @@ This project is a web-based code editor that targets the [MicroPython](https://m
 Code written with this editor is expected to run on the [BBC micro:bit device](https://microbit.org).
 
 <figure>
-  <img src="https://user-images.githubusercontent.com/44397098/163186656-5581f75d-20b0-4e3f-8272-8c1aa76ba973.png" alt="Screenshot of the Python editor showing the code editing area and Reference documentation" width="100%">
+  <img src="https://user-images.githubusercontent.com/44397098/179552397-f4f5c862-3f5d-49ae-9e7a-70695eccf5c3.png" alt="Screenshot of the Python editor showing the code editing area and Reference documentation" width="100%">
   <figcaption>You can try out the micro:bit-branded deployment of the beta at https://python.microbit.org/v/beta</figcaption>  
 </figure>
 
