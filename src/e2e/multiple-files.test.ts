@@ -34,19 +34,38 @@ describe("Browser - multiple and missing file cases", () => {
     expect(await app.canDeleteFile("main.py")).toEqual(false);
   });
 
-  it("Copes with currently open file being updated (module)", async () => {
+  it("Copes with non-main file being updated", async () => {
+    await app.loadFiles("testData/usermodule.py", {
+      acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
+    });
+    await app.switchToEditing("usermodule.py");
+    await app.findVisibleEditorContents(/b_works/);
+
+    await app.loadFiles("testData/updated/usermodule.py", {
+      acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
+    });
+
+    await app.findVisibleEditorContents(/c_works/);
+  });
+
+  it.only("Shows warning for third-party module", async () => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.switchToEditing("module.py");
-    await app.findVisibleEditorContents(/1.0.0/);
+    await app.findThirdPartyModuleWarning("a", "1.0.0");
+
+    await app.toggleSettingThirdPartyModuleEditing();
+    try {
+      await app.findVisibleEditorContents(/a_works/);
+    } finally {
+      await app.toggleSettingThirdPartyModuleEditing();
+    }
 
     await app.loadFiles("testData/updated/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-
-    await app.findVisibleEditorContents(/1.1.0/);
-    await app.findVisibleEditorContents(/Now with documentation/);
+    await app.findThirdPartyModuleWarning("a", "1.1.0");
   });
 
   it("Copes with currently open file being deleted", async () => {

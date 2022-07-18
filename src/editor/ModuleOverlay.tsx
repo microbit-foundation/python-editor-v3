@@ -42,11 +42,15 @@ const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
           <Table width="auto">
             <Tbody>
               <Tr>
-                <Th color="grey.800">Module name</Th>
+                <Th color="grey.800" scope="row">
+                  Module name
+                </Th>
                 <Td>{moduleData.name}</Td>
               </Tr>
               <Tr>
-                <Th color="grey.800">Module version</Th>
+                <Th color="grey.800" scope="row">
+                  Module version
+                </Th>
                 <Td>{moduleData.version}</Td>
               </Tr>
             </Tbody>
