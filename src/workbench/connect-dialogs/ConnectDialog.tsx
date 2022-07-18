@@ -55,7 +55,9 @@ const ConnectDialog = ({
           onBack={() => setStage(Stage.ConnectCable)}
           onClose={() => callback(ConnectHelpChoice.Cancel)}
           onNext={handleNext}
-          onNextDontShowAgain={() => callback(ConnectHelpChoice.Next)}
+          onNextDontShowAgain={() =>
+            callback(ConnectHelpChoice.NextDontShowAgain)
+          }
           dialogNormallyHidden={dialogNormallyHidden}
         />
       }
