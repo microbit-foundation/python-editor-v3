@@ -370,6 +370,10 @@
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
   },
+  "load-error-makecode": {
+    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "description": "Load error message"
+  },
   "load-error-mixed": {
     "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
     "description": "Load error message"

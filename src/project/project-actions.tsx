@@ -5,6 +5,7 @@
  */
 import { Link, List, ListItem } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
+import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
@@ -282,9 +283,12 @@ export class ProjectActions {
               ),
             });
           } catch (e: any) {
+            const isMakeCodeHex = isMakeCodeForV1Hex(hex);
             this.actionFeedback.expectedError({
               title: errorTitle,
-              description: e.message,
+              description: isMakeCodeHex
+                ? this.intl.formatMessage({ id: "load-error-makecode" })
+                : e.message,
               error: e,
             });
           }
