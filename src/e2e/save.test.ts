@@ -39,9 +39,9 @@ describe("Browser - save", () => {
     await app.confirmNameYourProjectDialog();
   });
 
-  it("Shows the transfer hex help dialog after hex save", async () => {
+  it("Shows the post-save dialog after hex save", async () => {
     await app.setProjectName("not default name");
     await app.save();
-    await app.confirmTransferHexHelpDialog();
+    await app.confirmPostSaveDialog();
   });
 });

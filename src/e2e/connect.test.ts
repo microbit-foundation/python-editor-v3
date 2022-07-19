@@ -75,4 +75,13 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.connectViaConnectHelp();
     await app.confirmConnection();
   });
+
+  it("Shows the transfer hex help dialog after send to micro:bit where WebUSB is not supported", async () => {
+    await app.mockWebUsbNotSupported();
+    await app.setProjectName("not default name");
+    await app.flash();
+    await app.confirmWebUsbNotSupportedDialog();
+    await app.closeWebUsbNotSupportedDialog();
+    await app.confirmTransferHexHelpDialog();
+  });
 });

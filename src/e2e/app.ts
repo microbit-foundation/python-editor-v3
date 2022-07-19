@@ -748,6 +748,30 @@ export class App {
     });
   }
 
+  async confirmPostSaveDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("Project saved", {
+      selector: "h2",
+    });
+  }
+
+  async confirmWebUsbNotSupportedDialog(): Promise<void> {
+    const document = await this.document();
+    await document.findByText("This browser does not support WebUSB", {
+      selector: "h2",
+    });
+  }
+
+  async closeWebUsbNotSupportedDialog(): Promise<void> {
+    const document = await this.document();
+    // This finds the "X" button in the top right of the dialog
+    // and the footer button.
+    const closeButton = await document.findAllByRole("button", {
+      name: "Close",
+    });
+    await closeButton[0].click();
+  }
+
   // Retry micro:bit connection from error dialogs.
   async connectViaTryAgain(): Promise<void> {
     const document = await this.document();
@@ -837,6 +861,13 @@ export class App {
     page.evaluate((code) => {
       (window as any).mockDevice.mockConnect(code);
     }, code);
+  }
+
+  async mockWebUsbNotSupported() {
+    const page = await this.page;
+    page.evaluate(() => {
+      (window as any).mockDevice.mockWebUsbNotSupported();
+    });
   }
 
   /**
