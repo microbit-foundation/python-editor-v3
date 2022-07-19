@@ -97,7 +97,16 @@ const PostSaveDialogBody = ({
       </Text>
       {multipleFiles && (
         <Text>
-          <FormattedMessage id="post-save-message-files" />
+          <FormattedMessage
+            id="post-save-message-files"
+            values={{
+              strong: (chunks: ReactNode) => (
+                <Text as="span" fontWeight="semibold">
+                  {chunks}
+                </Text>
+              ),
+            }}
+          />
         </Text>
       )}
       <Text>

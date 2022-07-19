@@ -52,10 +52,28 @@ const MultipleFilesDialogBody = () => {
         <FormattedMessage id="multiple-files-title" />
       </Text>
       <Text>
-        <FormattedMessage id="multiple-files-message-one" />
+        <FormattedMessage
+          id="multiple-files-message-one"
+          values={{
+            strong: (chunks: ReactNode) => (
+              <Text as="span" fontWeight="semibold">
+                {chunks}
+              </Text>
+            ),
+          }}
+        />
       </Text>
       <Text>
-        <FormattedMessage id="multiple-files-message-two" />
+        <FormattedMessage
+          id="multiple-files-message-two"
+          values={{
+            strong: (chunks: ReactNode) => (
+              <Text as="span" fontWeight="semibold">
+                {chunks}
+              </Text>
+            ),
+          }}
+        />
       </Text>
       <HStack spacing={1}>
         <Icon as={RiInformationLine} />

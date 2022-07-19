@@ -844,13 +844,55 @@
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "This project contains multiple files and only main.py has been downloaded."
+      "value": "This project contains multiple files and only "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "main.py"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " has been downloaded."
     }
   ],
   "multiple-files-message-two": [
     {
       "type": 0,
-      "value": "To download all files, save a hex file using the Save button or use the Project tab to download individual files."
+      "value": "To download all files, save a hex file using the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Save"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " button or use the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Project"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " tab to download individual files."
     }
   ],
   "multiple-files-title": [
@@ -1036,7 +1078,21 @@
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "This contains all files in this project (including any additional files, e.g. to run accessories, listed in the Project section)."
+      "value": "This contains all files in this project (including any additional files, e.g. to run accessories, listed in the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Project"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " tab)."
     }
   ],
   "post-save-message-one": [
