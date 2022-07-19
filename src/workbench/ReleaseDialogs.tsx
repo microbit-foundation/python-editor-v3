@@ -5,8 +5,10 @@
  */
 import { useCallback } from "react";
 import FeedbackForm from "./FeedbackForm";
-import InfoDialog from "./InfoDialog";
-import { ReleaseNoticeState } from "./ReleaseNotice";
+import WelcomeDialog from "./WelcomeDialog";
+import { ReleaseNoticeState } from "./PreReleaseNotice";
+import { flags } from "../flags";
+import PreReleaseDialog from "./PreReleaseDialog";
 
 interface ReleaseDialogsProps {
   dialog: ReleaseNoticeState;
@@ -14,19 +16,30 @@ interface ReleaseDialogsProps {
 }
 
 const ReleaseDialogs = ({ dialog, onDialogChange }: ReleaseDialogsProps) => {
-  const closeDialog = useCallback(() => {
+  const handleClose = useCallback(() => {
     onDialogChange("closed");
   }, [onDialogChange]);
-  return (
-    <>
-      {dialog === "feedback" && (
-        <FeedbackForm isOpen={dialog === "feedback"} onClose={closeDialog} />
-      )}
-      {dialog === "info" && (
-        <InfoDialog isOpen={dialog === "info"} info onClose={closeDialog} />
-      )}
-    </>
-  );
+  const handleFeedback = useCallback(() => {
+    onDialogChange("feedback");
+  }, [onDialogChange]);
+
+  if (dialog === "feedback") {
+    return <FeedbackForm isOpen onClose={handleClose} />;
+  }
+  if (dialog === "info") {
+    if (flags.livePreview) {
+      return <WelcomeDialog isOpen onClose={handleClose} />;
+    } else {
+      return (
+        <PreReleaseDialog
+          isOpen
+          onClose={handleClose}
+          onFeedback={handleFeedback}
+        />
+      );
+    }
+  }
+  return null;
 };
 
 export default ReleaseDialogs;

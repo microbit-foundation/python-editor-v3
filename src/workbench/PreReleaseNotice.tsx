@@ -13,7 +13,7 @@ import { flags } from "../flags";
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
 
 // Bump this to show the notice again.
-const currentVersion = 3;
+const currentVersion = 2;
 
 interface ReleaseNoticeStorage {
   version: number;
@@ -23,7 +23,7 @@ const isReleaseNoticeStorage = (v: unknown): v is ReleaseNoticeStorage => {
   return typeof v === "object" && Number.isInteger((v as any).version);
 };
 
-interface ReleaseNoticeProps {
+interface PreReleaseNoticeProps {
   onDialogChange: (state: ReleaseNoticeState) => void;
 }
 
@@ -41,6 +41,7 @@ export const useReleaseDialogState = (): [
     useState<ReleaseNoticeState>("closed");
   // Show the dialog on start-up once per user.
   useEffect(() => {
+    console.log(flags.noWelcome, storedNotice.version, currentVersion);
     if (!flags.noWelcome && storedNotice.version < currentVersion) {
       setReleaseDialog("info");
       setStoredNotice({ version: currentVersion });
@@ -49,7 +50,7 @@ export const useReleaseDialogState = (): [
   return [releaseDialog, setReleaseDialog];
 };
 
-const ReleaseNotice = ({ onDialogChange }: ReleaseNoticeProps) => {
+const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
   const openInfoDialog = useCallback(() => {
     onDialogChange("info");
   }, [onDialogChange]);
@@ -99,4 +100,4 @@ const ReleaseNotice = ({ onDialogChange }: ReleaseNoticeProps) => {
   );
 };
 
-export default ReleaseNotice;
+export default PreReleaseNotice;

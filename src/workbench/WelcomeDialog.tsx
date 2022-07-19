@@ -23,13 +23,12 @@ import { useDeployment } from "../deployment";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
 
-interface InfoDialogProps {
+interface WelcomeDialogProps {
   isOpen: boolean;
-  info?: boolean;
   onClose: () => void;
 }
 
-const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
+const WelcomeDialog = ({ isOpen, onClose }: WelcomeDialogProps) => {
   const { guideLink } = useDeployment();
   const [welcomeVideo, setWelcomeVideo] = useState<YoutubeVideo | undefined>();
   const [loadError, setLoadError] = useState<boolean>(false);
@@ -124,4 +123,4 @@ const InfoDialog = ({ isOpen, onClose }: InfoDialogProps) => {
   );
 };
 
-export default InfoDialog;
+export default WelcomeDialog;

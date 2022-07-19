@@ -12,27 +12,42 @@
 
 import { stage as stageFromEnvironment } from "./environment";
 
-// A union of the flag names.
+/**
+ * A union of the flag names (alphabetical order).
+ */
 export type Flag =
-  /**
-   * Enables verbose debug logging to the console of drag events.
-   */
-  | "dndDebug"
   /**
    * Enables a preview of SoundEffects via the audio-sound-effect MicroPython branch.
    */
   | "audioSoundEffect"
+
+  /**
+   * Enables verbose debug logging to the console of drag events.
+   */
+  | "dndDebug"
+
+  /**
+   * Flag to enable live-only features and hide beta only ones.
+   *
+   * We'll remove this when we go live.
+   */
+  | "livePreview"
+
   /**
    * Disables the pop-up welcome dialog.
-   * The dialog is still available from the alpha release notice UI.
-   * Added to support user-testing.
    *
-   * The flag has the nice side-effect of disabling the dialog for
-   * local development so is worth keeping for that use alone.
+   * Added to support user-testing and has the nice side-effect of disabling
+   * the dialog for local development so is worth keeping for that use alone.
    */
   | "noWelcome";
 
-const allFlags: Flag[] = ["dndDebug", "noWelcome", "audioSoundEffect"];
+const allFlags: Flag[] = [
+  // Alphabetical order.
+  "audioSoundEffect",
+  "dndDebug",
+  "livePreview",
+  "noWelcome",
+];
 
 type Flags = Record<Flag, boolean>;
 
@@ -52,5 +67,7 @@ export const flagsForParams = (stage: string, params: URLSearchParams) => {
 
 export const flags: Flags = (() => {
   const params = new URLSearchParams(window.location.search);
-  return flagsForParams(stageFromEnvironment, params);
+  const flags = flagsForParams(stageFromEnvironment, params);
+  console.log(flags);
+  return flags;
 })();
