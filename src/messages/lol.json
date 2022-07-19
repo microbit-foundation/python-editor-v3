@@ -509,6 +509,12 @@
       "value": "Фаілед то бюілд тхе хекс філе"
     }
   ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Feedback"
+    }
+  ],
   "file-actions": [
     {
       "type": 1,

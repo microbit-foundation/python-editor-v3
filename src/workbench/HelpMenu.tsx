@@ -15,15 +15,19 @@ import {
   ThemingProps,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import {
   RiExternalLinkLine,
+  RiFeedbackLine,
   RiInformationLine,
   RiQuestionLine,
 } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useDialogs } from "../common/use-dialogs";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { deployment } from "../deployment";
 import AboutDialog from "./AboutDialog/AboutDialog";
+import FeedbackForm from "./FeedbackForm";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -35,6 +39,12 @@ interface HelpMenuProps extends ThemingProps<"Menu"> {
 const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   const aboutDialogDisclosure = useDisclosure();
   const intl = useIntl();
+  const dialogs = useDialogs();
+  const handleFeedback = useCallback(() => {
+    dialogs.show((callback) => (
+      <FeedbackForm isOpen onClose={() => callback(undefined)} />
+    ));
+  }, [dialogs]);
   return (
     <>
       <AboutDialog
@@ -74,6 +84,10 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
             >
               <FormattedMessage id="micropython-documentation" />
             </MenuItem>
+            <MenuItem icon={<RiFeedbackLine />} onClick={handleFeedback}>
+              <FormattedMessage id="feedback" />
+            </MenuItem>
+            <MenuDivider />
             {deployment.termsOfUseLink && (
               <MenuItem
                 as="a"

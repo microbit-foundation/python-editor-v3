@@ -509,6 +509,12 @@
       "value": "Impossible de créer le fichier hex"
     }
   ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Feedback"
+    }
+  ],
   "file-actions": [
     {
       "type": 0,

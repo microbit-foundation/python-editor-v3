@@ -259,6 +259,10 @@
     "defaultMessage": "Фаілед то бюілд тхе хекс філе",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
+  "feedback": {
+    "defaultMessage": "Feedback",
+    "description": "Feedback action"
+  },
   "file-actions": {
     "defaultMessage": "{name} філе астіонс",
     "description": "Header of file actions for file"

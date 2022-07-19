@@ -519,6 +519,12 @@
       "value": "Failed to build the hex file"
     }
   ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Feedback"
+    }
+  ],
   "file-actions": [
     {
       "type": 1,
