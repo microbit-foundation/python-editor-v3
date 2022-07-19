@@ -67,7 +67,5 @@ export const flagsForParams = (stage: string, params: URLSearchParams) => {
 
 export const flags: Flags = (() => {
   const params = new URLSearchParams(window.location.search);
-  const flags = flagsForParams(stageFromEnvironment, params);
-  console.log(flags);
-  return flags;
+  return flagsForParams(stageFromEnvironment, params);
 })();
