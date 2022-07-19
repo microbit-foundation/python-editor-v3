@@ -36,12 +36,21 @@ describe("Browser - save", () => {
 
   it("Shows the name your project dialog if the project name is the default", async () => {
     await app.save();
-    await app.confirmNameYourProjectDialog();
+    await app.confirmInputDialog("Name your project");
   });
 
   it("Shows the post-save dialog after hex save", async () => {
     await app.setProjectName("not default name");
     await app.save();
-    await app.confirmPostSaveDialog();
+    await app.confirmGenericDialog("Project saved");
+  });
+
+  it("Shows the multiple files dialog after main.py save if there are multiple files in the project", async () => {
+    await app.setProjectName("not default name");
+    await app.loadFiles("testData/module.py", {
+      acceptDialog: LoadDialogType.CONFIRM,
+    });
+    await app.saveMain();
+    await app.confirmGenericDialog("Multiple files");
   });
 });

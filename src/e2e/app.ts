@@ -678,6 +678,16 @@ export class App {
     return saveButton.click();
   }
 
+  async saveMain(): Promise<void> {
+    const document = await this.document();
+    const moreSaveOptions = await document.findByTestId("more-save-options");
+    await moreSaveOptions.click();
+    const saveMainButton = await document.findByRole("menuitem", {
+      name: "Save Python script",
+    });
+    await saveMainButton.click();
+  }
+
   async connect(): Promise<void> {
     const document = await this.document();
     const moreConnectOptions = await document.findByTestId(
@@ -711,10 +721,17 @@ export class App {
     });
   }
 
-  async confirmNotFoundDialog(): Promise<void> {
+  async confirmGenericDialog(title: string): Promise<void> {
     const document = await this.document();
-    await document.findByText("No micro:bit found", {
+    await document.findByText(title, {
       selector: "h2",
+    });
+  }
+
+  async confirmInputDialog(title: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(title, {
+      selector: "header",
     });
   }
 
@@ -725,41 +742,6 @@ export class App {
       name: "follow these steps",
     });
     await reviewDeviceSelection.click();
-  }
-
-  async confirmFirmwareUpdateDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("Firmware update required", {
-      selector: "h2",
-    });
-  }
-
-  async confirmNameYourProjectDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("Name your project", {
-      selector: "header",
-    });
-  }
-
-  async confirmTransferHexHelpDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("Transfer saved hex file to micro:bit", {
-      selector: "h2",
-    });
-  }
-
-  async confirmPostSaveDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("Project saved", {
-      selector: "h2",
-    });
-  }
-
-  async confirmWebUsbNotSupportedDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("This browser does not support WebUSB", {
-      selector: "h2",
-    });
   }
 
   async closeWebUsbNotSupportedDialog(): Promise<void> {
