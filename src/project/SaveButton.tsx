@@ -36,7 +36,7 @@ const SaveButton = (props: SaveButtonProps) => {
       <CollapsibleButton
         {...props}
         icon={<RiDownload2Line />}
-        onClick={actions.save}
+        onClick={() => actions.save()}
         text={intl.formatMessage({
           id: "save-action",
         })}

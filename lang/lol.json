@@ -426,6 +426,18 @@
     "defaultMessage": "More save options",
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
+  "multiple-files-message-one": {
+    "defaultMessage": "This project contains multiple files. Only <strong>main.py</strong> has been downloaded.",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-message-two": {
+    "defaultMessage": "Use the <strong>Save</strong> button to download your whole project as a hex file. You can <strong>Open</strong> the hex file to restore your project. If you prefer to download individual Python files, use the <strong>Project</strong> tab.",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-title": {
+    "defaultMessage": "Multiple files",
+    "description": "Title of dialog shown when multiple files are available for download"
+  },
   "name-project": {
     "defaultMessage": "Наме уоюр проджест",
     "description": "Name your project header"
@@ -505,6 +517,26 @@
   "permanently-delete": {
     "defaultMessage": "Перманентлу делете {filename}?",
     "description": "Confirmation question to permanently delete file"
+  },
+  "post-save-message-files": {
+    "defaultMessage": "This contains all files in this project (including any additional files, e.g. to run accessories, listed in the <strong>Project</strong> tab).",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-one": {
+    "defaultMessage": "You will find your hex file in your <strong>Downloads</strong> folder.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-two": {
+    "defaultMessage": "You can move it to another folder for storage and use <strong>Open</strong> to continue editing later.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-title": {
+    "defaultMessage": "Project saved",
+    "description": "Title of dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-transfer-hex": {
+    "defaultMessage": "To transfer your hex file to run on your micro:bit <link>follow these steps</link>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
     "defaultMessage": "Проджест астіонс",
@@ -739,7 +771,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "You can also <strong>Open</strong> the hex file later to continue editing.",
+    "defaultMessage": "You can <strong>Open</strong> the hex file later to continue editing.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {

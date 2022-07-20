@@ -40,6 +40,7 @@ const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
           <MoreMenuButton
             aria-label={intl.formatMessage({ id: "more-save-options" })}
             size={size}
+            data-testid="more-save-options"
           />
           <Portal>
             <MenuList zIndex={zIndexAboveTerminal}>

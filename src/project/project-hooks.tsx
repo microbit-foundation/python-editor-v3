@@ -18,6 +18,7 @@ import {
 } from "../fs/fs-util";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
+import { useSessionSettings } from "../settings/session-settings";
 import { useSettings } from "../settings/settings";
 import { useSelection } from "../workbench/use-selection";
 import { defaultedProject, ProjectActions } from "./project-actions";
@@ -35,6 +36,7 @@ export const useProjectActions = (): ProjectActions => {
   const intl = useIntl();
   const client = useLanguageServerClient();
   const [settings, setSettings] = useSettings();
+  const [sessionSettings, setSessionSettings] = useSessionSettings();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -44,6 +46,7 @@ export const useProjectActions = (): ProjectActions => {
         dialogs,
         setSelection,
         { values: settings, setValues: setSettings },
+        { values: sessionSettings, setValues: setSessionSettings },
         intl,
         logging,
         client
@@ -59,6 +62,8 @@ export const useProjectActions = (): ProjectActions => {
       client,
       settings,
       setSettings,
+      sessionSettings,
+      setSessionSettings,
     ]
   );
   return actions;

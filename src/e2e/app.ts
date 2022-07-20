@@ -678,6 +678,16 @@ export class App {
     return saveButton.click();
   }
 
+  async saveMain(): Promise<void> {
+    const document = await this.document();
+    const moreSaveOptions = await document.findByTestId("more-save-options");
+    await moreSaveOptions.click();
+    const saveMainButton = await document.findByRole("menuitem", {
+      name: "Save Python script",
+    });
+    await saveMainButton.click();
+  }
+
   async connect(): Promise<void> {
     const document = await this.document();
     const moreConnectOptions = await document.findByTestId(
@@ -711,10 +721,17 @@ export class App {
     });
   }
 
-  async confirmNotFoundDialog(): Promise<void> {
+  async confirmGenericDialog(title: string): Promise<void> {
     const document = await this.document();
-    await document.findByText("No micro:bit found", {
+    await document.findByText(title, {
       selector: "h2",
+    });
+  }
+
+  async confirmInputDialog(title: string): Promise<void> {
+    const document = await this.document();
+    await document.findByText(title, {
+      selector: "header",
     });
   }
 
@@ -727,25 +744,14 @@ export class App {
     await reviewDeviceSelection.click();
   }
 
-  async confirmFirmwareUpdateDialog(): Promise<void> {
+  async closeWebUsbNotSupportedDialog(): Promise<void> {
     const document = await this.document();
-    await document.findByText("Firmware update required", {
-      selector: "h2",
+    // This finds the "X" button in the top right of the dialog
+    // and the footer button.
+    const closeButton = await document.findAllByRole("button", {
+      name: "Close",
     });
-  }
-
-  async confirmNameYourProjectDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("Name your project", {
-      selector: "header",
-    });
-  }
-
-  async confirmTransferHexHelpDialog(): Promise<void> {
-    const document = await this.document();
-    await document.findByText("Transfer saved hex file to micro:bit", {
-      selector: "h2",
-    });
+    await closeButton[0].click();
   }
 
   // Retry micro:bit connection from error dialogs.
@@ -837,6 +843,13 @@ export class App {
     page.evaluate((code) => {
       (window as any).mockDevice.mockConnect(code);
     }, code);
+  }
+
+  async mockWebUsbNotSupported() {
+    const page = await this.page;
+    page.evaluate(() => {
+      (window as any).mockDevice.mockWebUsbNotSupported();
+    });
   }
 
   /**
