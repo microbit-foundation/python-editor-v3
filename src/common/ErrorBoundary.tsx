@@ -5,6 +5,7 @@
  */
 import { Text } from "@chakra-ui/layout";
 import React, { ErrorInfo } from "react";
+import { FormattedMessage } from "react-intl";
 import { LoggingContext } from "../logging/logging-hooks";
 
 interface State {
@@ -31,8 +32,7 @@ class ErrorBoundary extends React.Component<{}, State> {
     if (this.state.hasError) {
       return (
         <Text p={5}>
-          Something went wrong. Download your hex file for safe keeping, then
-          refresh the page to reload.
+          <FormattedMessage id="content-load-error" />
         </Text>
       );
     }

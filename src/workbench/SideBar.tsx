@@ -30,12 +30,13 @@ import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
+import { flags } from "../flags";
 import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import ReleaseDialogs from "./ReleaseDialogs";
-import ReleaseNotice, { useReleaseDialogState } from "./ReleaseNotice";
+import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
 
@@ -210,7 +211,9 @@ const SideBar = ({
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
                   {p.contents}
-                  <ReleaseNotice onDialogChange={setReleaseDialog} />
+                  {!flags.livePreview && (
+                    <PreReleaseNotice onDialogChange={setReleaseDialog} />
+                  )}
                 </ErrorBoundary>
               </Flex>
             </TabPanel>

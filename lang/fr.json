@@ -183,6 +183,10 @@
     "defaultMessage": "Troubleshoot problems with connecting to your micro:bit",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
+  "content-load-error": {
+    "defaultMessage": "Something went wrong. Download your hex file for safe keeping, then refresh the page to reload.",
+    "description": "Text displayed when content fails to load"
+  },
   "copied": {
     "defaultMessage": "Copié",
     "description": "Text shown after copy to clipboard"
@@ -255,6 +259,10 @@
     "defaultMessage": "Impossible de créer le fichier hex",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
+  "feedback": {
+    "defaultMessage": "Feedback",
+    "description": "Feedback action"
+  },
   "file-actions": {
     "defaultMessage": "Actions sur le fichier {name}",
     "description": "Header of file actions for file"
@@ -322,6 +330,10 @@
   "font-size": {
     "defaultMessage": "Taille de police",
     "description": "Font size option text"
+  },
+  "guide-link": {
+    "defaultMessage": "For more support, see the <link>Python Editor Guide</link>",
+    "description": "Text with link to the Python Editor Guide"
   },
   "help": {
     "defaultMessage": "Aide",
@@ -734,6 +746,10 @@
     "defaultMessage": "Versions logicielles",
     "description": "Heading for a table of software versions in the about dialog"
   },
+  "start-coding-action": {
+    "defaultMessage": "Start coding",
+    "description": "Start coding button text"
+  },
   "support": {
     "defaultMessage": "Assistance",
     "description": "Support menu option text"
@@ -849,6 +865,14 @@
   "webusb-why-use": {
     "defaultMessage": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne.",
     "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "welcome-message": {
+    "defaultMessage": "Check out all the features in the video, or get coding right away.",
+    "description": "Text in the welcome dialogn"
+  },
+  "welcome-title": {
+    "defaultMessage": "Welcome to the micro:bit Python Editor",
+    "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {
     "defaultMessage": "Zoom avant",

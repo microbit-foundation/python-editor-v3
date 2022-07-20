@@ -379,6 +379,12 @@
       "value": "Troubleshoot problems with connecting to your micro:bit"
     }
   ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "Something went wrong. Download your hex file for safe keeping, then refresh the page to reload."
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -503,6 +509,12 @@
       "value": "Фаілед то бюілд тхе хекс філе"
     }
   ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Feedback"
+    }
+  ],
   "file-actions": [
     {
       "type": 1,
@@ -625,6 +637,22 @@
     {
       "type": 0,
       "value": "Фонт сізе"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "For more support, see the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Python Editor Guide"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "help": [
@@ -1599,6 +1627,12 @@
       "value": "Софтваре версіонс"
     }
   ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "Start coding"
+    }
+  ],
   "support": [
     {
       "type": 0,
@@ -1873,6 +1907,18 @@
     {
       "type": 0,
       "value": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор."
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "Check out all the features in the video, or get coding right away."
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "Welcome to the micro:bit Python Editor"
     }
   ],
   "zoom-in-action": [
