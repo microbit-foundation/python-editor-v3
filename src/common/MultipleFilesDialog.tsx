@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { Text, VStack } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
+import { useFileSystem } from "../fs/fs-hooks";
 
 export const enum MultipleFilesChoice {
   CloseDontShowAgain,
@@ -37,6 +38,15 @@ export const MultipleFilesDialog = ({ callback }: MultipleFilesDialogProps) => {
 };
 
 const MultipleFilesDialogBody = () => {
+  const fs = useFileSystem();
+  const [numFiles, setNumFiles] = useState<number>(1);
+  useEffect(() => {
+    const getNumFiles = async () => {
+      const result = (await fs.statistics()).files;
+      setNumFiles(result);
+    };
+    getNumFiles();
+  }, [fs, setNumFiles]);
   return (
     <VStack
       width="auto"
@@ -48,7 +58,12 @@ const MultipleFilesDialogBody = () => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        <FormattedMessage id="multiple-files-title" />
+        <FormattedMessage
+          id="multiple-files-title"
+          values={{
+            numFiles,
+          }}
+        />
       </Text>
       <Text>
         <FormattedMessage

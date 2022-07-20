@@ -950,7 +950,15 @@
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Multiple files"
+      "value": "Downloaded 1 of "
+    },
+    {
+      "type": 1,
+      "value": "numFiles"
+    },
+    {
+      "type": 0,
+      "value": " files"
     }
   ],
   "name-project": [

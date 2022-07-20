@@ -448,7 +448,7 @@
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Multiple files",
+    "defaultMessage": "Downloaded 1 of {numFiles} files",
     "description": "Title of dialog shown when multiple files are available for download"
   },
   "name-project": {
