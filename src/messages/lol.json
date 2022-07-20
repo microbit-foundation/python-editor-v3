@@ -943,12 +943,24 @@
       "value": "Downloaded 1 of "
     },
     {
-      "type": 1,
-      "value": "numFiles"
-    },
-    {
-      "type": 0,
-      "value": " files"
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
     }
   ],
   "name-project": [

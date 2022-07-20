@@ -39,14 +39,14 @@ export const MultipleFilesDialog = ({ callback }: MultipleFilesDialogProps) => {
 
 const MultipleFilesDialogBody = () => {
   const fs = useFileSystem();
-  const [numFiles, setNumFiles] = useState<number>(1);
+  const [fileCount, setFileCount] = useState<number>(1);
   useEffect(() => {
     const getNumFiles = async () => {
       const result = (await fs.statistics()).files;
-      setNumFiles(result);
+      setFileCount(result);
     };
     getNumFiles();
-  }, [fs, setNumFiles]);
+  }, [fs, setFileCount]);
   return (
     <VStack
       width="auto"
@@ -61,7 +61,7 @@ const MultipleFilesDialogBody = () => {
         <FormattedMessage
           id="multiple-files-title"
           values={{
-            numFiles,
+            fileCount,
           }}
         />
       </Text>

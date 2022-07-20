@@ -37,7 +37,7 @@
   },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
-    "description": "Prefix for a single base class or a list of base classes"
+    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
@@ -448,8 +448,8 @@
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Downloaded 1 of {numFiles} files",
-    "description": "Title of dialog shown when multiple files are available for download"
+    "defaultMessage": "Downloaded 1 of {fileCount, plural, other {{fileCount} files}}",
+    "description": "Title of dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be plural."
   },
   "name-project": {
     "defaultMessage": "Name your project",
@@ -609,7 +609,7 @@
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
-    "description": "Number of results from a search"
+    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
     "defaultMessage": "Save",
