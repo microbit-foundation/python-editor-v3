@@ -3,9 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
 
