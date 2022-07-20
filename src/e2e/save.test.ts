@@ -51,6 +51,6 @@ describe("Browser - save", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.saveMain();
-    await app.confirmGenericDialog("Multiple files");
+    await app.confirmGenericDialog("Downloaded 1 of 2 files");
   });
 });
