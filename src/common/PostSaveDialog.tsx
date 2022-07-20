@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, Text, VStack } from "@chakra-ui/react";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
-import { useFileSystem } from "../fs/fs-hooks";
+import { useProject } from "../project/project-hooks";
 
 export const enum PostSaveChoice {
   ShowTransferHexHelp,
@@ -54,15 +54,7 @@ interface PostSaveDialogBodyProps {
 const PostSaveDialogBody = ({
   onShowTransferHexHelp,
 }: PostSaveDialogBodyProps) => {
-  const fs = useFileSystem();
-  const [multipleFiles, setMultipleFiles] = useState<boolean>(false);
-  useEffect(() => {
-    const areMultipleFiles = async () => {
-      const result = (await fs.statistics()).files > 1;
-      setMultipleFiles(result);
-    };
-    areMultipleFiles();
-  }, [fs, setMultipleFiles]);
+  const project = useProject();
   const handleShowTransferHexHelp = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
@@ -95,7 +87,7 @@ const PostSaveDialogBody = ({
           }}
         />
       </Text>
-      {multipleFiles && (
+      {project.files.length > 1 && (
         <Text>
           <FormattedMessage
             id="post-save-message-files"
