@@ -447,8 +447,8 @@
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Multiple files",
-    "description": "Title of dialog shown when multiple files are available for download"
+    "defaultMessage": "Downloaded 1 of {fileCount, plural, other {{fileCount} files}}",
+    "description": "Title of dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be plural."
   },
   "name-project": {
     "defaultMessage": "Donnez un nom à votre projet",

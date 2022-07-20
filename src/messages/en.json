@@ -950,7 +950,27 @@
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Multiple files"
+      "value": "Downloaded 1 of "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
     }
   ],
   "name-project": [

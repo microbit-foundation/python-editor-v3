@@ -7,6 +7,7 @@ import { Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
+import { useProject } from "../project/project-hooks";
 
 export const enum MultipleFilesChoice {
   CloseDontShowAgain,
@@ -37,6 +38,7 @@ export const MultipleFilesDialog = ({ callback }: MultipleFilesDialogProps) => {
 };
 
 const MultipleFilesDialogBody = () => {
+  const project = useProject();
   return (
     <VStack
       width="auto"
@@ -48,7 +50,12 @@ const MultipleFilesDialogBody = () => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        <FormattedMessage id="multiple-files-title" />
+        <FormattedMessage
+          id="multiple-files-title"
+          values={{
+            fileCount: project.files.length,
+          }}
+        />
       </Text>
       <Text>
         <FormattedMessage
