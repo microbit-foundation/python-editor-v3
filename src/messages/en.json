@@ -854,7 +854,7 @@
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "This project contains multiple files and only "
+      "value": "This project contains multiple files. Only "
     },
     {
       "children": [
@@ -874,7 +874,7 @@
   "multiple-files-message-two": [
     {
       "type": 0,
-      "value": "To download all files, save a hex file using the "
+      "value": "Use the "
     },
     {
       "children": [
@@ -888,7 +888,21 @@
     },
     {
       "type": 0,
-      "value": " button or use the "
+      "value": " button to download your whole project as a hex file. You can "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Open"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " the hex file to restore your project. If you prefer to download individual Python files, use the "
     },
     {
       "children": [
@@ -902,7 +916,7 @@
     },
     {
       "type": 0,
-      "value": " tab to download individual files."
+      "value": " tab."
     }
   ],
   "multiple-files-title": [

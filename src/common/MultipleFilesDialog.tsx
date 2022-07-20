@@ -75,21 +75,6 @@ const MultipleFilesDialogBody = () => {
           }}
         />
       </Text>
-      <HStack spacing={1}>
-        <Icon as={RiInformationLine} />
-        <Text>
-          <FormattedMessage
-            id="transfer-hex-message-two"
-            values={{
-              strong: (chunks: ReactNode) => (
-                <Text as="span" fontWeight="semibold">
-                  {chunks}
-                </Text>
-              ),
-            }}
-          />
-        </Text>
-      </HStack>
     </VStack>
   );
 };

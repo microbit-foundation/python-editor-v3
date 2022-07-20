@@ -428,11 +428,11 @@
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "This project contains multiple files and only <strong>main.py</strong> has been downloaded.",
+    "defaultMessage": "This project contains multiple files. Only <strong>main.py</strong> has been downloaded.",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-message-two": {
-    "defaultMessage": "To download all files, save a hex file using the <strong>Save</strong> button or use the <strong>Project</strong> tab to download individual files.",
+    "defaultMessage": "Use the <strong>Save</strong> button to download your whole project as a hex file. You can <strong>Open</strong> the hex file to restore your project. If you prefer to download individual Python files, use the <strong>Project</strong> tab.",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
