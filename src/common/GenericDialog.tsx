@@ -61,16 +61,21 @@ interface GenericDialogFooterProps {
   dialogNormallyHidden: boolean;
   onClose: () => void;
   onCloseDontShowAgain: () => void;
+  shownByRequest?: boolean;
 }
 
 export const GenericDialogFooter = ({
   dialogNormallyHidden,
   onClose,
   onCloseDontShowAgain,
+  shownByRequest = false,
 }: GenericDialogFooterProps) => {
   return (
-    <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
-      {!dialogNormallyHidden && (
+    <HStack
+      spacing={2.5}
+      width={dialogNormallyHidden || shownByRequest ? "auto" : "100%"}
+    >
+      {!dialogNormallyHidden && !shownByRequest && (
         <Link
           onClick={onCloseDontShowAgain}
           as="button"

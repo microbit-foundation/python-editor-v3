@@ -154,6 +154,7 @@ export class ProjectActions {
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
       <ConnectDialog
+        shownByRequest={force}
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}
       />
@@ -863,6 +864,7 @@ export class ProjectActions {
     }
     const choice = await this.dialogs.show<TransferHexChoice>((callback) => (
       <TransferHexDialog
+        shownByRequest={forceTransferHexHelp}
         callback={callback}
         dialogNormallyHidden={!showTransferHexHelpSetting}
       />

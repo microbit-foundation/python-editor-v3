@@ -20,6 +20,7 @@ export const enum ConnectHelpChoice {
 interface ConnectHelpDialogProps {
   callback: (choice: ConnectHelpChoice) => void;
   dialogNormallyHidden: boolean;
+  shownByRequest: boolean;
 }
 
 const enum Stage {
@@ -30,6 +31,7 @@ const enum Stage {
 const ConnectDialog = ({
   callback,
   dialogNormallyHidden,
+  shownByRequest,
 }: ConnectHelpDialogProps) => {
   const [stage, setStage] = useState<Stage>(Stage.ConnectCable);
   const handleNext = useCallback(() => {
@@ -59,6 +61,7 @@ const ConnectDialog = ({
             callback(ConnectHelpChoice.NextDontShowAgain)
           }
           dialogNormallyHidden={dialogNormallyHidden}
+          shownByRequest={shownByRequest}
         />
       }
       size="3xl"
@@ -73,6 +76,7 @@ interface ConnectDialogFooterProps {
   onNext: () => void;
   onNextDontShowAgain: () => void;
   dialogNormallyHidden: boolean;
+  shownByRequest: boolean;
 }
 
 const ConnectDialogFooter = ({
@@ -82,10 +86,14 @@ const ConnectDialogFooter = ({
   onNext,
   onNextDontShowAgain,
   dialogNormallyHidden,
+  shownByRequest,
 }: ConnectDialogFooterProps) => {
   return (
-    <HStack spacing={2.5} width={dialogNormallyHidden ? "auto" : "100%"}>
-      {!dialogNormallyHidden && (
+    <HStack
+      spacing={2.5}
+      width={dialogNormallyHidden || shownByRequest ? "auto" : "100%"}
+    >
+      {!dialogNormallyHidden && !shownByRequest && (
         <Link
           onClick={onNextDontShowAgain}
           as="button"

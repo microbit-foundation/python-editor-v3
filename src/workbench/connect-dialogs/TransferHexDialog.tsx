@@ -19,11 +19,13 @@ export const enum TransferHexChoice {
 interface TransferHexDialogProps {
   callback: (value: TransferHexChoice) => void;
   dialogNormallyHidden: boolean;
+  shownByRequest: boolean;
 }
 
 export const TransferHexDialog = ({
   callback,
   dialogNormallyHidden,
+  shownByRequest,
 }: TransferHexDialogProps) => {
   return (
     <GenericDialog
@@ -31,6 +33,7 @@ export const TransferHexDialog = ({
       body={<TransferHexDialogBody />}
       footer={
         <GenericDialogFooter
+          shownByRequest={shownByRequest}
           dialogNormallyHidden={dialogNormallyHidden}
           onClose={() => callback(TransferHexChoice.Close)}
           onCloseDontShowAgain={() =>
