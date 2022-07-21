@@ -140,7 +140,7 @@ const Simulator = () => {
             ref={ref}
             as="iframe"
             // Very much a temporary / unsupported deployment!
-            src="https://distracted-dubinsky-fd8a42.netlify.app/simulator.html"
+            src="https://stage-python-simulator.microbit.org/simulator.html"
             title="Simulator"
             frameBorder="no"
             scrolling="no"
