@@ -50,8 +50,8 @@ const allFlags: FlagMetadata[] = [
   // Alphabetical order.
   { name: "audioSoundEffect", defaultOnStages: [] },
   { name: "dndDebug", defaultOnStages: [] },
-  { name: "livePreview", defaultOnStages: ["REVIEW"] },
-  { name: "noWelcome", defaultOnStages: ["REVIEW"] },
+  { name: "livePreview", defaultOnStages: ["local", "REVIEW"] },
+  { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
 ];
 
 type Flags = Record<Flag, boolean>;
