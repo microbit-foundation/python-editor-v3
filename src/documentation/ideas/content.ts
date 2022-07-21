@@ -14,23 +14,28 @@ const ideasQuery = (languageId: string): string => {
     throw new Error("Invalid language id.");
   }
   return `
-    *[_type == "pythonIdea" && language == "${languageId}" && !(_id in path("drafts.**"))]{
-      _id, name, language, compatibility, image, slug,
-      content[] {
-        ...,
-        markDefs[]{
+    *[_type == "pythonIdeasConfig" && language == "${languageId}" && !(_id in path("drafts.**"))][0]{
+      pythonIdeasOrder[]->{
+        _id, name, language, compatibility, image, slug,
+        content[] {
           ...,
-          _type == "toolkitInternalLink" => {
-              "slug": @.reference->slug,
-              "targetType": @.reference->_type
+          markDefs[]{
+            ...,
+            _type == "toolkitInternalLink" => {
+                "slug": @.reference->slug,
+                "targetType": @.reference->_type
+            }
           }
-        }
-      },
+        },
+      }
     }`;
 };
 
 const adaptContent = (result: any): Idea[] | undefined => {
-  const ideas = result as Idea[];
+  const ideas = result?.pythonIdeasOrder as Idea[];
+  if (!ideas) {
+    return undefined;
+  }
   if (ideas.length === 0) {
     return undefined;
   }
