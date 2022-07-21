@@ -92,7 +92,6 @@ const ActiveLevel = ({
             mt={1}
             mb={1}
             sx={{
-              "& ol": { pl: 4 },
               ...docStyles,
             }}
           >
