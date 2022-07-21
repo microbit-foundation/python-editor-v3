@@ -5,7 +5,7 @@
  */
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Box, Heading, Link, Stack } from "@chakra-ui/layout";
+import { Box, Link, Stack, Text } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
@@ -185,9 +185,9 @@ const serializers = {
       if (/^h\d/.test(style)) {
         return (
           // For the moment we only support a h3 in ideas.
-          <Heading as={style as any} size="lg">
+          <Text as={style as any} fontSize="lg" fontWeight="semibold">
             {props.children}
-          </Heading>
+          </Text>
         );
       }
       return BlockContent.defaultSerializers.types.block(props);
