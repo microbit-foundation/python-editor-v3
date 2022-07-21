@@ -41,7 +41,6 @@ export const useReleaseDialogState = (): [
     useState<ReleaseNoticeState>("closed");
   // Show the dialog on start-up once per user.
   useEffect(() => {
-    console.log(flags.noWelcome, storedNotice.version, currentVersion);
     if (!flags.noWelcome && storedNotice.version < currentVersion) {
       setReleaseDialog("info");
       setStoredNotice({ version: currentVersion });
