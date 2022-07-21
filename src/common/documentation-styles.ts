@@ -7,7 +7,7 @@ export const docStyles = {
   "p,h3": {
     maxWidth: "600px",
   },
-  "list-style-position": "inside",
+  listStylePosition: "inside",
   ol: {
     pl: 3,
   },
