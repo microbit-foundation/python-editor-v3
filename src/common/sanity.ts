@@ -58,7 +58,7 @@ export const fetchContent = async <T>(
 };
 
 const fetchContentInternal = async (query: string): Promise<any> => {
-  const response = await fetch(queryUrl(query));
+  const response = await fetch(queryUrl(query), { credentials: "include" });
   if (response.ok) {
     const { result } = await response.json();
     if (!result) {

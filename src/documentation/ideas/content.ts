@@ -14,7 +14,7 @@ const ideasQuery = (languageId: string): string => {
     throw new Error("Invalid language id.");
   }
   return `
-    *[_type == "pythonIdea" && language == "${languageId}" && !(_id in path("drafts.**"))]{
+    *[_type == "pythonIdea" && language == "${languageId}" ]{
       _id, name, language, compatibility, image, slug,
       content[] {
         ...,

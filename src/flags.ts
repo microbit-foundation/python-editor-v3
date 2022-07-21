@@ -41,26 +41,34 @@ export type Flag =
    */
   | "noWelcome";
 
-const allFlags: Flag[] = [
+interface FlagMetadata {
+  defaultOnStages: string[];
+  name: Flag;
+}
+
+const allFlags: FlagMetadata[] = [
   // Alphabetical order.
-  "audioSoundEffect",
-  "dndDebug",
-  "livePreview",
-  "noWelcome",
+  { name: "audioSoundEffect", defaultOnStages: [] },
+  { name: "dndDebug", defaultOnStages: [] },
+  { name: "livePreview", defaultOnStages: ["REVIEW"] },
+  { name: "noWelcome", defaultOnStages: ["REVIEW"] },
 ];
 
 type Flags = Record<Flag, boolean>;
 
 // Exposed for testing.
 export const flagsForParams = (stage: string, params: URLSearchParams) => {
-  const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
   const enableFlags = new Set(params.getAll("flag"));
-  const allFlagsEnabled =
-    (enableFlags.has("*") || isPreviewStage) && !enableFlags.has("none");
+  const allFlagsDisabledByDefault = enableFlags.has("none");
+  const allFlagsEnabledByDefault =
+    !allFlagsDisabledByDefault && enableFlags.has("*");
   return Object.fromEntries(
     allFlags.map((f) => {
-      const enabled = allFlagsEnabled || enableFlags.has(f);
-      return [f, enabled];
+      const explicitlyEnabled = enableFlags.has(f.name);
+      const enabled =
+        explicitlyEnabled ||
+        (!allFlagsEnabledByDefault && f.defaultOnStages.includes(stage));
+      return [f.name, enabled];
     })
   ) as Flags;
 };

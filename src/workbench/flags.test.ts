@@ -6,15 +6,16 @@
 import { flagsForParams } from "../flags";
 
 describe("flags", () => {
-  it("enables everything in REVIEW", () => {
+  it("enables opt-in flags for REVIEW stage", () => {
     const params = new URLSearchParams([]);
 
     const flags = flagsForParams("REVIEW", params);
-
-    expect(Object.values(flags).every((x) => x)).toEqual(true);
+    expect(flags.noWelcome).toEqual(true);
+    expect(flags.dndDebug).toEqual(false);
   });
 
   for (const stage of ["STAGING", "PRODUCTION"]) {
+    // This might change in future if we opt in to flags on staging once we have production.
     it("enables nothing in " + stage, () => {
       const params = new URLSearchParams([]);
 
