@@ -10,12 +10,12 @@ import ResetButton from "./ResetButton";
 
 const ProjectAreaNav = (props: BoxProps) => {
   return (
-    <Flex {...props} direction="column" alignItems="center">
+    <Flex {...props} direction="column" alignItems="center" p={5} pb={6}>
       <VStack alignItems="stretch" spacing={3}>
         <NewButton mode="button" />
         <OpenButton mode="button" />
         <Box>
-          <ResetButton mode="button" mt={8} color="#ae1f1f" />
+          <ResetButton mode="button" mt={5} color="#ae1f1f" />
         </Box>
       </VStack>
     </Flex>
