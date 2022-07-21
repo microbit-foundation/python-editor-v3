@@ -127,6 +127,7 @@ const CodeEmbed = ({
   }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
   const logging = useLogging();
   const projectActions = useProjectActions();
+  const intl = useIntl();
   const handleOpenIdea = useCallback(async () => {
     logging.event({
       type: "idea-open",
@@ -138,8 +139,12 @@ const CodeEmbed = ({
       }),
       projectName: title,
     };
-    await projectActions.openIdea(pythonProject);
-  }, [codeWithImports, logging, parentSlug, projectActions, title]);
+    const confirmPrompt = intl.formatMessage(
+      { id: "confirm-replace-with-idea" },
+      { ideaName: pythonProject.projectName }
+    );
+    await projectActions.openProject(pythonProject, confirmPrompt);
+  }, [codeWithImports, intl, logging, parentSlug, projectActions, title]);
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";

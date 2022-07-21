@@ -131,6 +131,10 @@
     "defaultMessage": "Репласе алл філес вітх тхосе ін тхе хекс?",
     "description": "Confirmation message body for replacing project dialog"
   },
+  "confirm-replace-reset": {
+    "defaultMessage": "Replace all files with the initial project?",
+    "description": "Confirmation message for the reset action"
+  },
   "confirm-replace-title": {
     "defaultMessage": "Cонфірм репласе проджест",
     "description": "Confirmation message title for replacing project dialog"
@@ -605,6 +609,14 @@
   "replace-action-label": {
     "defaultMessage": "Репласе",
     "description": "Action label for replacing project dialog"
+  },
+  "reset-project-action": {
+    "defaultMessage": "Reset project",
+    "description": "Action to reset the project to its default state"
+  },
+  "reset-project-hover": {
+    "defaultMessage": "Resets the project to the initial code, discarding your work",
+    "description": "Reset action hover text"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",

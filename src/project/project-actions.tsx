@@ -34,7 +34,7 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
-import { PythonProject } from "../fs/initial-project";
+import { defaultInitialProject, PythonProject } from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { SessionSettings } from "../settings/session-settings";
@@ -205,18 +205,14 @@ export class ProjectActions {
     }
   };
 
-  private async confirmReplace(ideaName?: string) {
+  private async confirmReplace(customConfirmPrompt?: string) {
     return this.dialogs.show((callback) => (
       <ConfirmDialog
         callback={callback}
         header={this.intl.formatMessage({ id: "confirm-replace-title" })}
         body={
-          ideaName
-            ? this.intl.formatMessage(
-                { id: "confirm-replace-with-idea" },
-                { ideaName }
-              )
-            : this.intl.formatMessage({ id: "confirm-replace-body" })
+          customConfirmPrompt ??
+          this.intl.formatMessage({ id: "confirm-replace-body" })
         }
         actionLabel={this.intl.formatMessage({
           id: "replace-action-label",
@@ -325,10 +321,19 @@ export class ProjectActions {
     }
   };
 
-  openIdea = async (idea: PythonProject) => {
-    if (await this.confirmReplace(idea.projectName)) {
-      await this.fs.replaceWithMultipleFiles(idea);
+  openProject = async (project: PythonProject, confirmPrompt?: string) => {
+    if (await this.confirmReplace(confirmPrompt)) {
+      await this.fs.replaceWithMultipleFiles(project);
     }
+  };
+
+  reset = async () => {
+    this.logging.event({
+      type: "reset-project"
+    })
+    return this.openProject(defaultInitialProject, this.intl.formatMessage({
+      id: "confirm-replace-reset",
+    }));
   };
 
   private async uploadInternal(inputs: ClassifiedFileInput[]) {
