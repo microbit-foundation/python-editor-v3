@@ -139,7 +139,7 @@ const Simulator = () => {
           <Box
             ref={ref}
             as="iframe"
-            // Very much a temporary / unsupported deployment!
+            // This needs changing before we remove the flag.
             src="https://stage-python-simulator.microbit.org/simulator.html"
             title="Simulator"
             frameBorder="no"
