@@ -180,7 +180,7 @@ const serializers = {
       if (/^h\d/.test(style)) {
         return (
           // For the moment we only support a h3 in ideas.
-          <Text as={style as any} fontSize="lg" fontWeight="bold">
+          <Text as={style as any} fontSize="lg" fontWeight="semibold">
             {props.children}
           </Text>
         );
