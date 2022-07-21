@@ -7,8 +7,9 @@ export const docStyles = {
   "p,h3": {
     maxWidth: "600px",
   },
+  "list-style-position": "inside",
   ol: {
-    pl: 4,
+    pl: 3,
   },
   ul: { listStyleType: "disc", pl: 3 },
 };

@@ -99,7 +99,6 @@ const ReferenceTopicEntry = ({
           pr={3}
           mt={1}
           mb={1}
-          listStylePos="inside"
           className="docs-code"
           sx={{
             ...docStyles,
