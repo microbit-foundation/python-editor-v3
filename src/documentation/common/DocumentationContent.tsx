@@ -5,7 +5,7 @@
  */
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Box, Link, Stack } from "@chakra-ui/layout";
+import { Box, Heading, Link, Stack } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
@@ -175,6 +175,18 @@ const serializers = {
   // We use a fragment so we can use spacing from the context into which we render.
   container: ({ children }: HasChildren) => <>{children}</>,
   types: {
+    block: (props: { node: { style: string }; children: any }) => {
+      let style = props.node.style;
+      if (/^h\d/.test(style)) {
+        return (
+          // For the moment we only support a h3 in ideas.
+          <Heading as={style as any} size="lg">
+            {props.children}
+          </Heading>
+        );
+      }
+      return BlockContent.defaultSerializers.types.block(props);
+    },
     collapse: ({
       node,
     }: SerializerNodeProps<{
