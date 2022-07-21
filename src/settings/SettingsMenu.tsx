@@ -14,9 +14,11 @@ import {
   ThemingProps,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { IoMdGlobe } from "react-icons/io";
 import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useDialogs } from "../common/use-dialogs";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { LanguageDialog } from "./LanguageDialog";
 import { SettingsDialog } from "./SettingsDialog";
@@ -29,15 +31,16 @@ interface SettingsMenuProps extends ThemingProps<"Menu"> {
  * The settings button triggers a menu with main and other settings.
  */
 const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
-  const settingsDisclosure = useDisclosure();
   const languageDisclosure = useDisclosure();
   const intl = useIntl();
+  const dialogs = useDialogs();
+  const handleShowSettings = useCallback(() => {
+    dialogs.show((callback) => (
+      <SettingsDialog isOpen onClose={() => callback(undefined)} />
+    ));
+  }, [dialogs]);
   return (
     <>
-      <SettingsDialog
-        isOpen={settingsDisclosure.isOpen}
-        onClose={settingsDisclosure.onClose}
-      />
       <LanguageDialog
         isOpen={languageDisclosure.isOpen}
         onClose={languageDisclosure.onClose}
@@ -65,7 +68,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
             </MenuItem>
             <MenuItem
               icon={<RiListSettingsLine />}
-              onClick={settingsDisclosure.onOpen}
+              onClick={handleShowSettings}
             >
               <FormattedMessage id="settings" />
             </MenuItem>

@@ -11,8 +11,10 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { Button, HStack, Link } from "@chakra-ui/react";
 import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode } from "react";
+import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "./ModalCloseButton";
 
 export interface GenericDialogProps {
@@ -52,5 +54,40 @@ export const GenericDialog = ({
         </ModalContent>
       </ModalOverlay>
     </Modal>
+  );
+};
+
+interface GenericDialogFooterProps {
+  dialogNormallyHidden: boolean;
+  onClose: () => void;
+  onCloseDontShowAgain: () => void;
+  shownByRequest?: boolean;
+}
+
+export const GenericDialogFooter = ({
+  dialogNormallyHidden,
+  onClose,
+  onCloseDontShowAgain,
+  shownByRequest = false,
+}: GenericDialogFooterProps) => {
+  return (
+    <HStack
+      spacing={2.5}
+      width={dialogNormallyHidden || shownByRequest ? "auto" : "100%"}
+    >
+      {!dialogNormallyHidden && !shownByRequest && (
+        <Link
+          onClick={onCloseDontShowAgain}
+          as="button"
+          color="brand.500"
+          mr="auto"
+        >
+          <FormattedMessage id="dont-show-again" />
+        </Link>
+      )}
+      <Button onClick={onClose} variant="solid" size="lg">
+        <FormattedMessage id="close-action" />
+      </Button>
+    </HStack>
   );
 };

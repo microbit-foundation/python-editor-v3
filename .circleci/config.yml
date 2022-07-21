@@ -28,10 +28,8 @@ _steps:
       paths:
         - .npm-cache
       key: npm-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-  install_pip: &install_pip
-    run: sudo apt-get update && sudo apt-get install python3-pip
   install_aws_cli: &install_aws_cli
-    run: sudo pip install awscli
+    run: sudo apt-get update && sudo apt-get install awscli
   install_dependencies: &install_dependencies
     run: npm ci --cache .npm-cache && sudo npm config set @microbit-foundation:registry https://npm.pkg.github.com/microbit-foundation && sudo npm i -g @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.4.2 @microbit-foundation/circleci-npm-package-versioner@1
   install_theme: &install_theme
@@ -102,7 +100,6 @@ jobs:
       - checkout
       - *restore_npm_cache
       - *configure_registry_auth
-      - *install_pip
       - *install_aws_cli
       - *install_dependencies
       - *install_theme
@@ -137,7 +134,6 @@ jobs:
       - checkout
       - *restore_npm_cache
       - *configure_registry_auth
-      - *install_pip
       - *install_aws_cli
       - *install_dependencies
       - *install_theme
@@ -164,7 +160,6 @@ jobs:
       - checkout
       - *restore_npm_cache
       - *configure_registry_auth
-      - *install_pip
       - *install_aws_cli
       - *install_dependencies
       - *install_theme

@@ -52,7 +52,7 @@ describe("Browser - WebUSB (mocked)", () => {
   it("shows the micro:bit not found dialog and connects on try again", async () => {
     await app.mockDeviceConnectFailure("no-device-selected");
     await app.connect();
-    await app.confirmNotFoundDialog();
+    await app.confirmGenericDialog("No micro:bit found");
     await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
@@ -61,7 +61,7 @@ describe("Browser - WebUSB (mocked)", () => {
   it("shows the micro:bit not found dialog and connects after launching the connect help dialog", async () => {
     await app.mockDeviceConnectFailure("no-device-selected");
     await app.connect();
-    await app.confirmNotFoundDialog();
+    await app.confirmGenericDialog("No micro:bit found");
     await app.connectHelpFromNotFoundDialog();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
@@ -70,9 +70,18 @@ describe("Browser - WebUSB (mocked)", () => {
   it("shows the update firmware dialog and connects on try again", async () => {
     await app.mockDeviceConnectFailure("update-req");
     await app.connect();
-    await app.confirmFirmwareUpdateDialog();
+    await app.confirmGenericDialog("Firmware update required");
     await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
+  });
+
+  it("Shows the transfer hex help dialog after send to micro:bit where WebUSB is not supported", async () => {
+    await app.mockWebUsbNotSupported();
+    await app.setProjectName("not default name");
+    await app.flash();
+    await app.confirmGenericDialog("This browser does not support WebUSB");
+    await app.closeWebUsbNotSupportedDialog();
+    await app.confirmGenericDialog("Transfer saved hex file to micro:bit");
   });
 });

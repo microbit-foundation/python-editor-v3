@@ -35,7 +35,7 @@ export class MockDeviceConnection
   constructor() {
     super();
     // Make globally available to allow e2e tests to configure interactions.
-    (window as any).mockDevice = this;    
+    (window as any).mockDevice = this;
   }
 
   mockSerialWrite(data: string) {
@@ -55,7 +55,7 @@ export class MockDeviceConnection
   async connect(): Promise<ConnectionStatus> {
     const next = this.connectResults.shift();
     if (next) {
-      throw new WebUSBError({ code: next, message: "Mocked failure"})
+      throw new WebUSBError({ code: next, message: "Mocked failure" });
     }
 
     this.setStatus(ConnectionStatus.CONNECTED);
@@ -103,5 +103,9 @@ export class MockDeviceConnection
 
   clearDevice(): void {
     this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
+  }
+
+  mockWebUsbNotSupported(): void {
+    this.setStatus(ConnectionStatus.NOT_SUPPORTED);
   }
 }

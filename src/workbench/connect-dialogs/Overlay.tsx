@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import { Box, useDisclosure } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
 import { zIndexOverlay } from "../../common/zIndex";

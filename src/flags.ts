@@ -12,52 +12,84 @@
 
 import { stage as stageFromEnvironment } from "./environment";
 
-// A union of the flag names.
+/**
+ * A union of the flag names (alphabetical order).
+ */
 export type Flag =
-  /**
-   * Enables verbose debug logging to the console of drag events.
-   */
-  | "dndDebug"
-  /**
-   * Simulator. Implementation is very incomplete.
-   */
-  | "simulator"
   /**
    * Enables a preview of SoundEffects via the audio-sound-effect MicroPython branch.
    */
   | "audioSoundEffect"
+
+  /**
+   * Enables verbose debug logging to the console of drag events.
+   */
+  | "dndDebug"
+
+  /**
+   * Flag to enable live-only features and hide beta only ones.
+   *
+   * We'll remove this when we go live.
+   */
+  | "livePreview"
+
   /**
    * Disables the pop-up welcome dialog.
-   * The dialog is still available from the alpha release notice UI.
-   * Added to support user-testing.
    *
-   * The flag has the nice side-effect of disabling the dialog for
-   * local development so is worth keeping for that use alone.
+   * Added to support user-testing and has the nice side-effect of disabling
+   * the dialog for local development so is worth keeping for that use alone.
    */
-  | "noWelcome";
+  | "noWelcome"
+  /**
+   * Simulator. Implementation is very incomplete.
+   */
+  | "simulator";
 
-const allFlags: Flag[] = [
-  // One per line for easy merges
-  "dndDebug",
-  "noWelcome",
-  "simulator",
-  "audioSoundEffect",
+interface FlagMetadata {
+  defaultOnStages: string[];
+  name: Flag;
+}
+
+const allFlags: FlagMetadata[] = [
+  // Alphabetical order.
+  { name: "audioSoundEffect", defaultOnStages: [] },
+  { name: "dndDebug", defaultOnStages: [] },
+  { name: "livePreview", defaultOnStages: ["local", "REVIEW"] },
+  { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
+  { name: "simulator", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;
 
 // Exposed for testing.
 export const flagsForParams = (stage: string, params: URLSearchParams) => {
-  const isPreviewStage = !(stage === "STAGING" || stage === "PRODUCTION");
   const enableFlags = new Set(params.getAll("flag"));
-  const allFlagsEnabled =
-    (enableFlags.has("*") || isPreviewStage) && !enableFlags.has("none");
+  const allFlagsDefault = enableFlags.has("none")
+    ? false
+    : enableFlags.has("*")
+    ? true
+    : undefined;
   return Object.fromEntries(
-    allFlags.map((f) => {
-      const enabled = allFlagsEnabled || enableFlags.has(f);
-      return [f, enabled];
-    })
+    allFlags.map((f) => [
+      f.name,
+      isEnabled(f, stage, allFlagsDefault, enableFlags.has(f.name)),
+    ])
   ) as Flags;
+};
+
+const isEnabled = (
+  f: FlagMetadata,
+  stage: string,
+  allFlagsDefault: boolean | undefined,
+  thisFlagOn: boolean
+): boolean => {
+  if (thisFlagOn) {
+    return true;
+  }
+  if (allFlagsDefault !== undefined) {
+    return allFlagsDefault;
+  }
+  return f.defaultOnStages.includes(stage);
 };
 
 export const flags: Flags = (() => {

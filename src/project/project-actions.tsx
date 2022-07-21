@@ -5,11 +5,16 @@
  */
 import { Link, List, ListItem } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
+import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { InputDialog, InputDialogBody } from "../common/InputDialog";
+import MultipleFilesDialog, {
+  MultipleFilesChoice,
+} from "../common/MultipleFilesDialog";
+import PostSaveDialog, { PostSaveChoice } from "../common/PostSaveDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
@@ -32,6 +37,7 @@ import {
 import { PythonProject } from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
+import { SessionSettings } from "../settings/session-settings";
 import { Settings } from "../settings/settings";
 import ConnectDialog, {
   ConnectHelpChoice,
@@ -43,9 +49,7 @@ import NotFoundDialog from "../workbench/connect-dialogs/NotFoundDialog";
 import TransferHexDialog, {
   TransferHexChoice,
 } from "../workbench/connect-dialogs/TransferHexDialog";
-import WebUSBDialog, {
-  WebUSBErrorTrigger,
-} from "../workbench/connect-dialogs/WebUSBDialog";
+import WebUSBDialog from "../workbench/connect-dialogs/WebUSBDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import {
   ClassifiedFileInput,
@@ -95,6 +99,10 @@ export class ProjectActions {
     private settings: {
       values: Settings;
       setValues: (v: Settings) => void;
+    },
+    private sessionSettings: {
+      values: SessionSettings;
+      setValues: (v: SessionSettings) => void;
     },
     private intl: IntlShape,
     private logging: Logging,
@@ -146,6 +154,7 @@ export class ProjectActions {
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
       <ConnectDialog
+        shownByRequest={force}
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}
       />
@@ -282,9 +291,12 @@ export class ProjectActions {
               ),
             });
           } catch (e: any) {
+            const isMakeCodeHex = isMakeCodeForV1Hex(hex);
             this.actionFeedback.expectedError({
               title: errorTitle,
-              description: e.message,
+              description: isMakeCodeHex
+                ? this.intl.formatMessage({ id: "load-error-makecode" })
+                : e.message,
               error: e,
             });
           }
@@ -441,7 +453,7 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  save = async () => {
+  save = async (saveViaWebUsbNotSupported?: boolean) => {
     this.logging.event({
       type: "save",
       detail: await this.projectStats(),
@@ -466,7 +478,11 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
-    this.handleTransferHexDialog();
+    if (saveViaWebUsbNotSupported) {
+      this.handleTransferHexDialog(false);
+    } else {
+      this.handlePostSaveDialog();
+    }
   };
 
   /**
@@ -510,8 +526,24 @@ export class ProjectActions {
       const blob = new Blob([content.data], {
         type: "application/octet-stream",
       });
-      const filename = `${this.project.name}.py`;
+      const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
+      // Temporarily hide for French language users.
+      if (
+        (await this.fs.statistics()).files > 1 &&
+        this.settings.values.showMultipleFilesHelp &&
+        this.settings.values.languageId === "en"
+      ) {
+        const choice = await this.dialogs.show<MultipleFilesChoice>(
+          (callback) => <MultipleFilesDialog callback={callback} />
+        );
+        if (choice === MultipleFilesChoice.CloseDontShowAgain) {
+          this.settings.setValues({
+            ...this.settings.values,
+            showMultipleFilesHelp: false,
+          });
+        }
+      }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
@@ -614,7 +646,7 @@ export class ProjectActions {
         customFocus
         validate={(name: string) =>
           name.trim().length === 0
-            ? this.intl.formatMessage({ id: "name-not-blank" })
+            ? this.intl.formatMessage({ id: "project-name-not-empty" })
             : undefined
         }
       />
@@ -715,10 +747,16 @@ export class ProjectActions {
   }
 
   private async webusbNotSupportedError(): Promise<void> {
-    await this.dialogs.show<void>((callback) => (
-      <WebUSBDialog callback={callback} action={WebUSBErrorTrigger.Flash} />
-    ));
-    this.save();
+    if (this.sessionSettings.values.showWebUsbNotSupported) {
+      await this.dialogs.show<void>((callback) => (
+        <WebUSBDialog callback={callback} />
+      ));
+      this.sessionSettings.setValues({
+        ...this.sessionSettings.values,
+        showWebUsbNotSupported: false,
+      });
+    }
+    this.save(true);
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -789,22 +827,49 @@ export class ProjectActions {
     }
   }
 
-  private async handleTransferHexDialog() {
+  private async handlePostSaveDialog() {
+    const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
+    // Temporarily hide for French language users.
+    if (this.settings.values.languageId !== "en") {
+      return;
+    }
+    if (!showPostSaveHelpSetting) {
+      return;
+    }
+    const choice = await this.dialogs.show<PostSaveChoice>((callback) => (
+      <PostSaveDialog
+        callback={callback}
+        dialogNormallyHidden={!showPostSaveHelpSetting}
+      />
+    ));
+    if (choice === PostSaveChoice.CloseDontShowAgain) {
+      this.settings.setValues({
+        ...this.settings.values,
+        showPostSaveHelp: false,
+      });
+    }
+    if (choice === PostSaveChoice.ShowTransferHexHelp) {
+      this.handleTransferHexDialog(true);
+    }
+  }
+
+  private async handleTransferHexDialog(forceTransferHexHelp: boolean) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
-    if (!showTransferHexHelpSetting) {
+    if (!forceTransferHexHelp && !showTransferHexHelpSetting) {
       return;
     }
     const choice = await this.dialogs.show<TransferHexChoice>((callback) => (
       <TransferHexDialog
+        shownByRequest={forceTransferHexHelp}
         callback={callback}
         dialogNormallyHidden={!showTransferHexHelpSetting}
       />
     ));
-    if (choice === TransferHexChoice.CancelDontShowAgain) {
+    if (choice === TransferHexChoice.CloseDontShowAgain) {
       this.settings.setValues({
         ...this.settings.values,
         showTransferHexHelp: false,

@@ -18,18 +18,22 @@ import { RiExternalLinkLine, RiFeedbackLine } from "react-icons/ri";
 import ModalCloseButton from "../common/ModalCloseButton";
 import { useDeployment } from "../deployment";
 
-interface InfoDialogProps {
+interface PreReleaseDialogProps {
   isOpen: boolean;
-  info?: boolean;
   onClose: () => void;
-  switchToInfoDialog: () => void;
+  onFeedback: () => void;
 }
 
-const InfoDialog = ({
+/**
+ * This component will not be used for live.
+ *
+ * It is intentionally not translated.
+ */
+const PreReleaseDialog = ({
   isOpen,
   onClose,
-  switchToInfoDialog,
-}: InfoDialogProps) => {
+  onFeedback,
+}: PreReleaseDialogProps) => {
   const { guideLink } = useDeployment();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
@@ -76,7 +80,7 @@ const InfoDialog = ({
               <Flex flexWrap="wrap" gap={3} justifyContent={["center"]}>
                 <Button
                   size="lg"
-                  onClick={switchToInfoDialog}
+                  onClick={onFeedback}
                   leftIcon={<RiFeedbackLine />}
                 >
                   Feedback
@@ -112,4 +116,4 @@ const InfoDialog = ({
   );
 };
 
-export default InfoDialog;
+export default PreReleaseDialog;

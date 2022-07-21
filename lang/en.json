@@ -21,7 +21,7 @@
   },
   "about-read-more-micropython": {
     "defaultMessage": "Read more about MicroPython",
-    "description": "Arial label to expand a collapsed section about MicroPython"
+    "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
@@ -37,7 +37,7 @@
   },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
-    "description": "Prefix for a single base class or a list of base classes"
+    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
@@ -183,6 +183,10 @@
     "defaultMessage": "Troubleshoot problems with connecting to your micro:bit",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
+  "content-load-error": {
+    "defaultMessage": "Something went wrong. Download your hex file for safe keeping, then refresh the page to reload.",
+    "description": "Text displayed when content fails to load"
+  },
   "copied": {
     "defaultMessage": "Copied",
     "description": "Text shown after copy to clipboard"
@@ -255,6 +259,10 @@
     "defaultMessage": "Failed to build the hex file",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
+  "feedback": {
+    "defaultMessage": "Feedback",
+    "description": "Feedback action"
+  },
   "file-actions": {
     "defaultMessage": "{name} file actions",
     "description": "Header of file actions for file"
@@ -274,10 +282,6 @@
   "file-name-lowercase-only": {
     "defaultMessage": "The name should be all lowercase",
     "description": "Warning text for new Python file with uppercase"
-  },
-  "file-name-not-blank": {
-    "defaultMessage": "The project name cannot be blank",
-    "description": "Validation message for project name"
   },
   "file-name-not-empty": {
     "defaultMessage": "The name cannot be empty",
@@ -327,6 +331,10 @@
     "defaultMessage": "Font size",
     "description": "Font size option text"
   },
+  "guide-link": {
+    "defaultMessage": "For more support, see the <link>Python Editor Guide</link>",
+    "description": "Text with link to the Python Editor Guide"
+  },
   "help": {
     "defaultMessage": "Help",
     "description": "Help menu label"
@@ -374,6 +382,10 @@
   "less-action": {
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
+  },
+  "load-error-makecode": {
+    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "description": "Load error message"
   },
   "load-error-mixed": {
     "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
@@ -426,6 +438,18 @@
   "more-save-options": {
     "defaultMessage": "More save options",
     "description": "Aria label for the additional actions menu to the right of the Save button"
+  },
+  "multiple-files-message-one": {
+    "defaultMessage": "This project contains multiple files. Only <strong>main.py</strong> has been downloaded.",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-message-two": {
+    "defaultMessage": "Use the <strong>Save</strong> button to download your whole project as a hex file. You can <strong>Open</strong> the hex file to restore your project. If you prefer to download individual Python files, use the <strong>Project</strong> tab.",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-title": {
+    "defaultMessage": "Downloaded 1 of {fileCount, plural, other {{fileCount} files}}",
+    "description": "Title of dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be plural."
   },
   "name-project": {
     "defaultMessage": "Name your project",
@@ -507,6 +531,26 @@
     "defaultMessage": "Permanently delete {filename}?",
     "description": "Confirmation question to permanently delete file"
   },
+  "post-save-message-files": {
+    "defaultMessage": "This contains all files in this project (including any additional files, e.g. to run accessories, listed in the <strong>Project</strong> tab).",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-one": {
+    "defaultMessage": "You will find your hex file in your <strong>Downloads</strong> folder.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-two": {
+    "defaultMessage": "You can move it to another folder for storage and use <strong>Open</strong> to continue editing later.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-title": {
+    "defaultMessage": "Project saved",
+    "description": "Title of dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-transfer-hex": {
+    "defaultMessage": "To transfer your hex file to run on your micro:bit <link>follow these steps</link>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
   "project-actions": {
     "defaultMessage": "Project actions",
     "description": "Aria label for the bar with project actions"
@@ -518,6 +562,10 @@
   "project-name": {
     "defaultMessage": "Project name",
     "description": "Text used to indicate the project name"
+  },
+  "project-name-not-empty": {
+    "defaultMessage": "The project name cannot be empty",
+    "description": "Validation message for project name"
   },
   "project-tab": {
     "defaultMessage": "Project",
@@ -561,7 +609,7 @@
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
-    "description": "Number of results from a search"
+    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
     "defaultMessage": "Save",
@@ -655,6 +703,10 @@
     "defaultMessage": "Serial terminal",
     "description": "Aria label for the serial terminal"
   },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "Allow editing third-party modules",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Settings",
     "description": "Settings text"
@@ -695,6 +747,10 @@
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"
   },
+  "start-coding-action": {
+    "defaultMessage": "Start coding",
+    "description": "Start coding button text"
+  },
   "support": {
     "defaultMessage": "Support",
     "description": "Support menu option text"
@@ -702,6 +758,14 @@
   "terms-of-use": {
     "defaultMessage": "Terms of use",
     "description": "Terms of use menu option text"
+  },
+  "third-party-module-explanation": {
+    "defaultMessage": "This file is a third-party module and is not intended to be edited.",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "Allow editing third-party modules in <link>Settings</link> to modify this module.",
+    "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
     "defaultMessage": "Unable to connect to the micro:bit",
@@ -724,7 +788,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "You can also <strong>Open</strong> the hex file later to continue editing.",
+    "defaultMessage": "You can <strong>Open</strong> the hex file later to continue editing.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
@@ -802,6 +866,14 @@
   "webusb-why-use": {
     "defaultMessage": "With WebUSB you can program your micro:bit and connect to the serial console directly from the online editor.",
     "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "welcome-message": {
+    "defaultMessage": "Check out all the features in the video, or get coding right away.",
+    "description": "Text in the welcome dialogn"
+  },
+  "welcome-title": {
+    "defaultMessage": "Welcome to the micro:bit Python Editor",
+    "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {
     "defaultMessage": "Zoom in",
