@@ -59,18 +59,32 @@ type Flags = Record<Flag, boolean>;
 // Exposed for testing.
 export const flagsForParams = (stage: string, params: URLSearchParams) => {
   const enableFlags = new Set(params.getAll("flag"));
-  const allFlagsDisabledByDefault = enableFlags.has("none");
-  const allFlagsEnabledByDefault =
-    !allFlagsDisabledByDefault && enableFlags.has("*");
+  const allFlagsDefault = enableFlags.has("none")
+    ? false
+    : enableFlags.has("*")
+    ? true
+    : undefined;
   return Object.fromEntries(
-    allFlags.map((f) => {
-      const explicitlyEnabled = enableFlags.has(f.name);
-      const enabled =
-        explicitlyEnabled ||
-        (!allFlagsEnabledByDefault && f.defaultOnStages.includes(stage));
-      return [f.name, enabled];
-    })
+    allFlags.map((f) => [
+      f.name,
+      isEnabled(f, stage, allFlagsDefault, enableFlags.has(f.name)),
+    ])
   ) as Flags;
+};
+
+const isEnabled = (
+  f: FlagMetadata,
+  stage: string,
+  allFlagsDefault: boolean | undefined,
+  thisFlagOn: boolean
+): boolean => {
+  if (thisFlagOn) {
+    return true;
+  }
+  if (allFlagsDefault !== undefined) {
+    return allFlagsDefault;
+  }
+  return f.defaultOnStages.includes(stage);
 };
 
 export const flags: Flags = (() => {

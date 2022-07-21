@@ -37,6 +37,18 @@ describe("flags", () => {
     ).toEqual(true);
   });
 
+  it("enable everything", () => {
+    const params = new URLSearchParams([["flag", "*"]]);
+    const flags = flagsForParams("PRODUCTION", params);
+    expect(Object.values(flags).every((x) => x)).toEqual(true);
+  });
+
+  it("enable nothing", () => {
+    const params = new URLSearchParams([["flag", "none"]]);
+    const flags = flagsForParams("REVIEW", params);
+    expect(Object.values(flags).every((x) => !x)).toEqual(true);
+  });
+
   it("can combine none with specific enabled flags in REVIEW", () => {
     const params = new URLSearchParams([
       ["flag", "none"],
