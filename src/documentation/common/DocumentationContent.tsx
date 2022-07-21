@@ -5,7 +5,7 @@
  */
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Box, Heading, Link, Stack } from "@chakra-ui/layout";
+import { Box, Link, Stack } from "@chakra-ui/layout";
 import { Collapse } from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
