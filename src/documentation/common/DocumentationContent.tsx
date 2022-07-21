@@ -120,7 +120,12 @@ const DocumentationExternalLinkMark = (
       rel="nofollow noopener"
     >
       {props.children}
-      <Icon mb={1 / 3 + "em"} ml={1} as={RiExternalLinkLine} />
+      <Icon
+        mb={1 / 3 + "em"}
+        ml={1}
+        verticalAlign="middle"
+        as={RiExternalLinkLine}
+      />
     </Link>
   );
 };
