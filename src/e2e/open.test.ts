@@ -16,7 +16,7 @@ describe("Browser - open", () => {
 
     await app.findAlertText(
       "Cannot load file",
-      "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
+      "This hex file cannot be loaded in the Python editor. The Python editor cannot open hex files created with Microsoft MakeCode."
     );
   });
 
@@ -57,7 +57,7 @@ describe("Browser - open", () => {
 
     await app.findAlertText(
       "Cannot load file",
-      "This version of the Python Editor doesn't currently support adding .mpy files."
+      "This version of the Python editor doesn't currently support adding .mpy files."
     );
   });
 
