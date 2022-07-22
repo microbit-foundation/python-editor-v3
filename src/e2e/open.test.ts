@@ -12,12 +12,8 @@ describe("Browser - open", () => {
   afterAll(app.dispose.bind(app));
 
   it("Shows an alert when loading a MakeCode hex", async () => {
-    await app.loadFiles("testData/makecode.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
+    await app.loadFiles("testData/makecode.hex");
 
-    // We should improve this and reference MakeCode.
-    // v2 adds some special case translatable text.
     await app.findAlertText(
       "Cannot load file",
       "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
@@ -34,27 +30,21 @@ describe("Browser - open", () => {
   });
 
   it("Loads a v1.0.1 hex file", async () => {
-    await app.loadFiles("testData/1.0.1.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
+    await app.loadFiles("testData/1.0.1.hex");
 
     await app.findVisibleEditorContents(/PASS1/);
     await app.findProjectName("1.0.1");
   });
 
   it("Loads a v0.9 hex file", async () => {
-    await app.loadFiles("testData/0.9.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
+    await app.loadFiles("testData/0.9.hex");
 
     await app.findVisibleEditorContents(/PASS2/);
     await app.findProjectName("0.9");
   });
 
   it("Loads via drag and drop", async () => {
-    await app.dropFile("testData/1.0.1.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
+    await app.dropFile("testData/1.0.1.hex");
 
     await app.findVisibleEditorContents(/PASS1/);
     await app.findProjectName("1.0.1");
@@ -90,5 +80,14 @@ describe("Browser - open", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.findAlertText("Updated file module.py");
+  });
+
+  it("Warns before load if you have changes", async () => {
+    await app.typeInEditor("# Different text");
+    await app.loadFiles("testData/1.0.1.hex", {
+      acceptDialog: LoadDialogType.REPLACE,
+    });
+    await app.findVisibleEditorContents(/PASS1/);
+    await app.findProjectName("1.0.1");
   });
 });
