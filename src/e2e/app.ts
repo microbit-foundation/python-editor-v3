@@ -196,13 +196,15 @@ export class App {
    */
   async loadFiles(
     filePath: string,
-    options: { acceptDialog: LoadDialogType }
+    options: { acceptDialog?: LoadDialogType } = {}
   ): Promise<void> {
     await this.switchTab("Project");
     const document = await this.document();
     const openInput = await document.getAllByTestId("open-input");
     await openInput[0].uploadFile(filePath);
-    await this.findAndAcceptLoadDialog(options.acceptDialog);
+    if (options.acceptDialog !== undefined) {
+      await this.findAndAcceptLoadDialog(options.acceptDialog);
+    }
   }
 
   /**
@@ -237,7 +239,7 @@ export class App {
    */
   async dropFile(
     filePath: string,
-    options: { acceptDialog: LoadDialogType }
+    options: { acceptDialog?: LoadDialogType } = {}
   ): Promise<void> {
     const page = await this.page;
     // Puppeteer doesn't have file drop support but we can use an input
@@ -280,7 +282,9 @@ export class App {
     }, inputId);
     const fileInput = await page.$(`#${inputId}`);
     await fileInput!.uploadFile(filePath);
-    await this.findAndAcceptLoadDialog(options.acceptDialog);
+    if (options.acceptDialog !== undefined) {
+      await this.findAndAcceptLoadDialog(options.acceptDialog);
+    }
   }
 
   private async findAndAcceptLoadDialog(dialogType: LoadDialogType) {
@@ -744,8 +748,13 @@ export class App {
     await reviewDeviceSelection.click();
   }
 
-  async closeWebUsbNotSupportedDialog(): Promise<void> {
+  async closeDialog(title?: string): Promise<void> {
     const document = await this.document();
+    if (title) {
+      await document.findByText(title, {
+        selector: "h2",
+      });
+    }
     // This finds the "X" button in the top right of the dialog
     // and the footer button.
     const closeButton = await document.findAllByRole("button", {
@@ -986,6 +995,27 @@ export class App {
     await draggable.dragAndDrop(line);
   }
 
+  async resetProject(): Promise<void> {
+    await this.switchTab("Project");
+    await this.findAndClickButton("Reset project");
+    await this.findAndClickButton("Replace");
+  }
+
+  async findProjectFiles(expected: string[]): Promise<void> {
+    const tab = await this.switchTab("Project");
+    const items = async () => {
+      const items = await tab.findAllByRole("listitem");
+      const text = await Promise.all(
+        items.map((i) => i.evaluate((e) => e.textContent))
+      );
+      return text;
+    };
+    return waitFor(async () => {
+      const actual = await items();
+      expect(actual).toEqual(expected);
+    }, defaultWaitForOptions);
+  }
+
   /**
    * Take a screenshot named after the running test case and store it in the reports folder.
    * The folder is published in CI.
@@ -1022,12 +1052,15 @@ export class App {
    * Prefer more specific navigation actions, but this is useful to check initial state
    * and that tab state is remembered.
    */
-  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
+  async switchTab(
+    tabName: "Project" | "API" | "Reference" | "Ideas"
+  ): Promise<ElementHandle<Element>> {
     const document = await this.document();
     const tab = await document.getByRole("tab", {
       name: tabName,
     });
-    return tab.click();
+    await tab.click();
+    return document.findByRole("tabpanel");
   }
 
   async searchToolkits(searchText: string): Promise<void> {

@@ -303,6 +303,12 @@
       "value": "Replace all files with those in the hex?"
     }
   ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "Replace all files with the default starter code?"
+    }
+  ],
   "confirm-replace-title": [
     {
       "type": 0,
@@ -327,6 +333,12 @@
     {
       "type": 0,
       "value": "Confirm and save"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "Cancel then use Save to keep a copy of your project."
     }
   ],
   "connect-action": [
@@ -1357,6 +1369,24 @@
     {
       "type": 0,
       "value": "Replace"
+    }
+  ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "Reset project"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "Project reset to the default starter code"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "Resets the project to the default starter code, discarding your work"
     }
   ],
   "results-count": [

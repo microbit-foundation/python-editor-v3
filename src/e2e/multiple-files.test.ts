@@ -28,6 +28,7 @@ describe("Browser - multiple and missing file cases", () => {
     await app.createNewFile("test");
 
     await app.findVisibleEditorContents(/Your new file/);
+    await app.findProjectFiles(["main.py", "test.py"]);
   });
 
   it("Prevents deleting main.py", async () => {

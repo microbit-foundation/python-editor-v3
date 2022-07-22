@@ -27,8 +27,6 @@ import { zIndexCode, zIndexCodePopUp } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
-import { MAIN_FILE } from "../../fs/fs";
-import { projectFilesToBase64, PythonProject } from "../../fs/initial-project";
 import { useLogging } from "../../logging/logging-hooks";
 import { useProjectActions } from "../../project/project-hooks";
 import { useSessionSettings } from "../../settings/session-settings";
@@ -125,21 +123,10 @@ const CodeEmbed = ({
       `${toolkitType}-${parentSlug}`
     );
   }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
-  const logging = useLogging();
   const projectActions = useProjectActions();
   const handleOpenIdea = useCallback(async () => {
-    logging.event({
-      type: "idea-open",
-      message: parentSlug,
-    });
-    const pythonProject: PythonProject = {
-      files: projectFilesToBase64({
-        [MAIN_FILE]: codeWithImports,
-      }),
-      projectName: title,
-    };
-    await projectActions.openIdea(pythonProject);
-  }, [codeWithImports, logging, parentSlug, projectActions, title]);
+    projectActions.openIdea(parentSlug, codeWithImports, title!);
+  }, [codeWithImports, parentSlug, projectActions, title]);
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";
