@@ -615,7 +615,7 @@
     "description": "Action to reset the project to its default state"
   },
   "reset-project-feedback": {
-    "defaultMessage": "Project reset to the default code",
+    "defaultMessage": "Project reset to the default starter code",
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {

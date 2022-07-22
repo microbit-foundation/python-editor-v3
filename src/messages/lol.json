@@ -1322,7 +1322,7 @@
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "Project reset to the default code"
+      "value": "Project reset to the default starter code"
     }
   ],
   "reset-project-hover": [

@@ -1374,13 +1374,13 @@
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "Project reset to the default code"
+      "value": "Project reset to the default starter code"
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Resets the project to the default code, discarding your work"
+      "value": "Resets the project to the default starter code, discarding your work"
     }
   ],
   "results-count": [
