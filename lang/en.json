@@ -340,8 +340,8 @@
     "description": "Font size option text"
   },
   "guide-link": {
-    "defaultMessage": "For more support, see the <link>Python Editor Guide</link>",
-    "description": "Text with link to the Python Editor Guide"
+    "defaultMessage": "For more support, see the <link>Python Editor guide</link>",
+    "description": "Text with an external link to support/help content"
   },
   "help": {
     "defaultMessage": "Help",
@@ -888,7 +888,7 @@
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {
-    "defaultMessage": "Check out all the features in the video, or get coding right away.",
+    "defaultMessage": "Watch our short guide to some of the key features, or get coding right away.",
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {
