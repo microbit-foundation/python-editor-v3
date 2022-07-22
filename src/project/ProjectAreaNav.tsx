@@ -15,7 +15,7 @@ const ProjectAreaNav = (props: BoxProps) => {
         <NewButton mode="button" />
         <OpenButton mode="button" />
         <Box>
-          <ResetButton mode="button" mt={5} colorScheme="red" />
+          <ResetButton mode="button" mt={5} color="#ae1f1f" />
         </Box>
       </VStack>
     </Flex>
