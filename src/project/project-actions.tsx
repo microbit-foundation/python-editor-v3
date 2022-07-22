@@ -590,8 +590,9 @@ export class ProjectActions {
       });
       const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
+      const multipleFiles = this.project.files.length > 1;
       if (
-        this.project.files.length > 1 &&
+        multipleFiles &&
         this.settings.values.showMultipleFilesHelp &&
         // Temporarily hide for French language users.
         this.settings.values.languageId === "en"
@@ -605,10 +606,10 @@ export class ProjectActions {
             showMultipleFilesHelp: false,
           });
         }
-        if (this.project.files.length === 1) {
-          // Saving the main file is an OK way to reset the dirty flag if there are no other files.
-          await this.fs.clearDirty();
-        }
+      }
+      if (!multipleFiles) {
+        // Saving the main file is an OK way to reset the dirty flag if there are no other files.
+        await this.fs.clearDirty();
       }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
