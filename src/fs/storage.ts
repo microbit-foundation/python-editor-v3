@@ -51,7 +51,7 @@ export class InMemoryFSStorage implements FSStorage {
     return this._data.has(filename);
   }
 
-  async setProjectName(projectName: string | string) {
+  async setProjectName(projectName: string | undefined) {
     this._projectName = projectName;
   }
 

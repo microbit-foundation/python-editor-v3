@@ -434,7 +434,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
 
   async clearDirty(): Promise<void> {
     this._dirty = false;
-    this.storage.clearDirty();
+    return this.storage.clearDirty();
   }
 
   async fullFlashData(boardId: BoardId): Promise<Uint8Array> {
