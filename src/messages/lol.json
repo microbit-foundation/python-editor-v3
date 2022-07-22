@@ -660,7 +660,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Python Editor Guide"
+          "value": "Python Editor guide"
         }
       ],
       "type": 8,
@@ -1962,7 +1962,7 @@
   "welcome-message": [
     {
       "type": 0,
-      "value": "Check out all the features in the video, or get coding right away."
+      "value": "Watch our short guide to some of the key features, or get coding right away."
     }
   ],
   "welcome-title": [
