@@ -340,7 +340,7 @@
     "description": "Font size option text"
   },
   "guide-link": {
-    "defaultMessage": "For more support, see the <link>Python Editor guide</link>",
+    "defaultMessage": "For more support, see the <link>Python editor guide</link>",
     "description": "Text with an external link to support/help content"
   },
   "help": {
@@ -392,7 +392,7 @@
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode": {
-    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "defaultMessage": "This hex file cannot be loaded in the Python editor. The Python editor cannot open hex files created with Microsoft MakeCode.",
     "description": "Load error message"
   },
   "load-error-mixed": {
@@ -400,7 +400,7 @@
     "description": "Load error message"
   },
   "load-error-mpy": {
-    "defaultMessage": "This version of the Python Editor doesn't currently support adding .mpy files.",
+    "defaultMessage": "This version of the Python editor doesn't currently support adding .mpy files.",
     "description": "Load error message"
   },
   "load-error-title": {
@@ -852,7 +852,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
+    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python editor), or unplug and replug the micro:bit before trying again.",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
@@ -892,7 +892,7 @@
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {
-    "defaultMessage": "Welcome to the micro:bit Python Editor",
+    "defaultMessage": "Welcome to the micro:bit Python editor",
     "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {

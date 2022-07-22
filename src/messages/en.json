@@ -670,7 +670,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Python Editor guide"
+          "value": "Python editor guide"
         }
       ],
       "type": 8,
@@ -752,7 +752,7 @@
   "load-error-makecode": [
     {
       "type": 0,
-      "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
+      "value": "This hex file cannot be loaded in the Python editor. The Python editor cannot open hex files created with Microsoft MakeCode."
     }
   ],
   "load-error-mixed": [
@@ -764,7 +764,7 @@
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "This version of the Python Editor doesn't currently support adding .mpy files."
+      "value": "This version of the Python editor doesn't currently support adding .mpy files."
     }
   ],
   "load-error-title": [
@@ -1946,7 +1946,7 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
+      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python editor), or unplug and replug the micro:bit before trying again."
     }
   ],
   "webusb-error-clear-connect-title": [
@@ -2020,7 +2020,7 @@
   "welcome-title": [
     {
       "type": 0,
-      "value": "Welcome to the micro:bit Python Editor"
+      "value": "Welcome to the micro:bit Python editor"
     }
   ],
   "zoom-in-action": [
