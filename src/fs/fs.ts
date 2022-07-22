@@ -250,7 +250,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
    */
   async setProjectName(projectName: string) {
     await this.storage.setProjectName(projectName);
-    this.markDirty();
+    await this.markDirty();
     return this.notify();
   }
 
