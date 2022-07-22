@@ -335,6 +335,26 @@
       "value": "Confirm and save"
     }
   ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "Cancel then use "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Save"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " to keep a copy of your project."
+    }
+  ],
   "connect-action": [
     {
       "type": 0,

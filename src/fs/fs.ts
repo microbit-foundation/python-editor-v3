@@ -428,6 +428,10 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     return fs.getUniversalHex();
   }
 
+  async clearDirtyFlag(): Promise<void> {
+    this._dirty = true;
+  }
+
   async fullFlashData(boardId: BoardId): Promise<Uint8Array> {
     try {
       const fs = await this.initialize();

@@ -147,6 +147,10 @@
     "defaultMessage": "Confirm and save",
     "description": "Confirm and save action label"
   },
+  "confirm-save-hint": {
+    "defaultMessage": "Cancel then use <strong>Save</strong> to keep a copy of your project.",
+    "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
+  },
   "connect-action": {
     "defaultMessage": "Connect",
     "description": "Connect button text"

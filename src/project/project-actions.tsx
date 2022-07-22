@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, List, ListItem } from "@chakra-ui/layout";
+import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
 import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
@@ -209,14 +209,30 @@ export class ProjectActions {
     }
   };
 
-  private async confirmReplace(customConfirmPrompt?: string) {
+  private async confirmReplace(customConfirmPrompt?: string): Promise<boolean> {
+    if (!this.fs.dirty) {
+      // No need to ask.
+      return true;
+    }
     return this.dialogs.show((callback) => (
       <ConfirmDialog
         callback={callback}
         header={this.intl.formatMessage({ id: "confirm-replace-title" })}
         body={
-          customConfirmPrompt ??
-          this.intl.formatMessage({ id: "confirm-replace-body" })
+          <Stack>
+            <Text>
+              {customConfirmPrompt ??
+                this.intl.formatMessage({ id: "confirm-replace-body" })}
+            </Text>
+            <Text>
+              <FormattedMessage
+                id="confirm-save-hint"
+                values={{
+                  strong: (chunks: ReactNode) => <strong>{chunks}</strong>,
+                }}
+              />
+            </Text>
+          </Stack>
         }
         actionLabel={this.intl.formatMessage({
           id: "replace-action-label",
@@ -277,7 +293,6 @@ export class ProjectActions {
           description: this.intl.formatMessage({ id: "load-error-mixed" }),
         });
       } else {
-        // It'd be nice to suppress this (and similar) if it's just the default script.
         if (await this.confirmReplace()) {
           const file = files[0];
           const projectName = file.name.replace(/\.hex$/i, "");
@@ -520,6 +535,7 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
+    await this.fs.clearDirtyFlag();
     if (saveViaWebUsbNotSupported) {
       this.handleTransferHexDialog(false);
     } else {
@@ -570,10 +586,10 @@ export class ProjectActions {
       });
       const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
-      // Temporarily hide for French language users.
       if (
-        (await this.fs.statistics()).files > 1 &&
+        this.project.files.length > 1 &&
         this.settings.values.showMultipleFilesHelp &&
+        // Temporarily hide for French language users.
         this.settings.values.languageId === "en"
       ) {
         const choice = await this.dialogs.show<MultipleFilesChoice>(
@@ -584,6 +600,10 @@ export class ProjectActions {
             ...this.settings.values,
             showMultipleFilesHelp: false,
           });
+        }
+        if (this.project.files.length === 1) {
+          // Saving the main file is an OK way to reset the dirty flag if there are no other files.
+          await this.fs.clearDirtyFlag();
         }
       }
     } catch (e) {
