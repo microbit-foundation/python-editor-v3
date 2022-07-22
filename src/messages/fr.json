@@ -328,21 +328,7 @@
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "Cancel then use "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "Save"
-        }
-      ],
-      "type": 8,
-      "value": "strong"
-    },
-    {
-      "type": 0,
-      "value": " to keep a copy of your project."
+      "value": "Cancel then use Save to keep a copy of your project."
     }
   ],
   "connect-action": [

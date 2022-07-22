@@ -374,9 +374,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       ...this.project,
       id: generateId(),
     };
-    if (projectName) {
-      await this.storage.setProjectName(projectName);
-    }
+    await this.storage.setProjectName(projectName);
     await this.overwriteStorageWithFs();
     return this.notify();
   }

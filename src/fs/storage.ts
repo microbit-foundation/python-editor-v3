@@ -19,7 +19,7 @@ export interface FSStorage {
   read(filename: string): Promise<Uint8Array>;
   write(filename: string, content: Uint8Array): Promise<void>;
   remove(filename: string): Promise<void>;
-  setProjectName(projectName: string): Promise<void>;
+  setProjectName(projectName: string | undefined): Promise<void>;
   projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
 }
@@ -43,7 +43,7 @@ export class InMemoryFSStorage implements FSStorage {
     return this._data.has(filename);
   }
 
-  async setProjectName(projectName: string) {
+  async setProjectName(projectName: string | string) {
     this._projectName = projectName;
   }
 
@@ -114,8 +114,12 @@ export class SessionStorageFSStorage implements FSStorage {
     return this.storage.getItem(fsPrefix + filename) !== null;
   }
 
-  async setProjectName(projectName: string) {
-    this.storage.setItem(projectNameKey, projectName);
+  async setProjectName(projectName: string | undefined) {
+    if (projectName === undefined) {
+      this.storage.removeItem(projectNameKey);
+    } else {
+      this.storage.setItem(projectNameKey, projectName);
+    }
   }
 
   async projectName(): Promise<string | undefined> {

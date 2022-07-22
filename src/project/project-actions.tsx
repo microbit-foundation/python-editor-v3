@@ -225,12 +225,7 @@ export class ProjectActions {
                 this.intl.formatMessage({ id: "confirm-replace-body" })}
             </Text>
             <Text>
-              <FormattedMessage
-                id="confirm-save-hint"
-                values={{
-                  strong: (chunks: ReactNode) => <strong>{chunks}</strong>,
-                }}
-              />
+              <FormattedMessage id="confirm-save-hint" />
             </Text>
           </Stack>
         }
