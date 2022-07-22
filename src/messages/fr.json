@@ -296,7 +296,7 @@
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "Replace all files with the default project?"
+      "value": "Replace all files with the default starter code?"
     }
   ],
   "confirm-replace-title": [
