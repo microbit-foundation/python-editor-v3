@@ -530,7 +530,7 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
-    await this.fs.clearDirtyFlag();
+    await this.fs.clearDirty();
     if (saveViaWebUsbNotSupported) {
       this.handleTransferHexDialog(false);
     } else {
@@ -598,7 +598,7 @@ export class ProjectActions {
         }
         if (this.project.files.length === 1) {
           // Saving the main file is an OK way to reset the dirty flag if there are no other files.
-          await this.fs.clearDirtyFlag();
+          await this.fs.clearDirty();
         }
       }
     } catch (e) {

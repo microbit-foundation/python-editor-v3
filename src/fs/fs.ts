@@ -215,6 +215,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     }
     if (!this.initializing) {
       this.initializing = (async () => {
+        this._dirty = await this.storage.isDirty();
         if (!(await this.exists(MAIN_FILE))) {
           // Do this ASAP to unblock the editor.
           this.cachedInitialProject = await this.host.createInitialProject();
@@ -249,8 +250,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
    */
   async setProjectName(projectName: string) {
     await this.storage.setProjectName(projectName);
-    this._dirty = true;
+    this.markDirty();
     return this.notify();
+  }
+
+  private async markDirty(): Promise<void> {
+    this._dirty = true;
+    return this.storage.markDirty();
   }
 
   /**
@@ -305,7 +311,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     } else {
       this.emit(EVENT_TEXT_EDIT);
       // Nothing can have changed, don't needlessly change the identity of our file objects.
-      this._dirty = true;
+      return this.markDirty();
     }
   }
 
@@ -369,13 +375,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   }
 
   async replaceCommon(projectName?: string): Promise<void> {
-    this._dirty = false;
     this.project = {
       ...this.project,
       id: generateId(),
     };
     await this.storage.setProjectName(projectName);
     await this.overwriteStorageWithFs();
+    await this.clearDirty();
     return this.notify();
   }
 
@@ -426,8 +432,9 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     return fs.getUniversalHex();
   }
 
-  async clearDirtyFlag(): Promise<void> {
-    this._dirty = true;
+  async clearDirty(): Promise<void> {
+    this._dirty = false;
+    this.storage.clearDirty();
   }
 
   async fullFlashData(boardId: BoardId): Promise<Uint8Array> {

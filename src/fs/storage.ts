@@ -22,6 +22,13 @@ export interface FSStorage {
   setProjectName(projectName: string | undefined): Promise<void>;
   projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
+  /**
+   * We persist the dirty flag so that we know whether the user
+   * had previously made changes after a restore from storage.
+   */
+  markDirty(): Promise<void>;
+  clearDirty(): Promise<void>;
+  isDirty(): Promise<boolean>;
 }
 
 /**
@@ -30,6 +37,7 @@ export interface FSStorage {
 export class InMemoryFSStorage implements FSStorage {
   private _projectName: string | undefined;
   private _data: Map<string, Uint8Array> = new Map();
+  private _dirty: boolean = false;
 
   constructor(projectName: string | undefined) {
     this._projectName = projectName;
@@ -72,10 +80,21 @@ export class InMemoryFSStorage implements FSStorage {
     this._data.clear();
     this._projectName = undefined;
   }
+  async markDirty(): Promise<void> {
+    this._dirty = true;
+  }
+  async clearDirty(): Promise<void> {
+    this._dirty = false;
+  }
+  async isDirty(): Promise<boolean> {
+    return this._dirty;
+  }
 }
 
-const fsPrefix = "fs/";
-const projectNameKey = "projectName";
+const fsFilesPrefix = "fs/files/";
+const fsMetadataPrefix = "fs/meta/";
+const projectNameKey = fsMetadataPrefix + "projectName";
+const dirtyKey = fsMetadataPrefix + "dirty";
 
 /**
  * Session storage version.
@@ -106,12 +125,12 @@ export class SessionStorageFSStorage implements FSStorage {
 
   async ls() {
     return Object.keys(this.storage)
-      .filter((k) => k.startsWith(fsPrefix))
-      .map((k) => k.substring(fsPrefix.length));
+      .filter((k) => k.startsWith(fsFilesPrefix))
+      .map((k) => k.substring(fsFilesPrefix.length));
   }
 
   async exists(filename: string) {
-    return this.storage.getItem(fsPrefix + filename) !== null;
+    return this.storage.getItem(fsFilesPrefix + filename) !== null;
   }
 
   async setProjectName(projectName: string | undefined) {
@@ -127,7 +146,7 @@ export class SessionStorageFSStorage implements FSStorage {
   }
 
   async read(filename: string): Promise<Uint8Array> {
-    const value = this.storage.getItem(fsPrefix + filename);
+    const value = this.storage.getItem(fsFilesPrefix + filename);
     if (value === null) {
       throw new Error(`No such file ${filename}`);
     }
@@ -136,18 +155,28 @@ export class SessionStorageFSStorage implements FSStorage {
 
   async write(name: string, content: Uint8Array): Promise<void> {
     const base64 = fromByteArray(content);
-    this.storage.setItem(fsPrefix + name, base64);
+    this.storage.setItem(fsFilesPrefix + name, base64);
   }
 
   async remove(name: string): Promise<void> {
     if (!this.exists(name)) {
       throw new Error(`No such file ${name}`);
     }
-    this.storage.removeItem(fsPrefix + name);
+    this.storage.removeItem(fsFilesPrefix + name);
   }
 
   async clear(): Promise<void> {
     this.storage.clear();
+  }
+
+  async markDirty(): Promise<void> {
+    this.storage.setItem(dirtyKey, "true");
+  }
+  async clearDirty(): Promise<void> {
+    this.storage.removeItem(dirtyKey);
+  }
+  async isDirty(): Promise<boolean> {
+    return this.storage.getItem(dirtyKey) === "true";
   }
 }
 
@@ -249,13 +278,35 @@ export class SplitStrategyStorage implements FSStorage {
       this.secondary = undefined;
     }
   }
+
+  async markDirty(): Promise<void> {
+    await this.initialized;
+    await Promise.all([
+      this.primary.markDirty(),
+      this.secondaryErrorHandle((secondary) => secondary.markDirty()),
+    ]);
+  }
+  async clearDirty(): Promise<void> {
+    await this.initialized;
+    await Promise.all([
+      this.primary.clearDirty(),
+      this.secondaryErrorHandle((secondary) => secondary.clearDirty()),
+    ]);
+  }
+  async isDirty(): Promise<boolean> {
+    await this.initialized;
+    return this.primary.isDirty();
+  }
 }
 
 const initializeFromStorage = async (from: FSStorage, to: FSStorage) => {
   const files = await from.ls();
   const projectName = await from.projectName();
-  if (projectName) {
-    await to.setProjectName(projectName);
+  await to.setProjectName(projectName);
+  if (await from.isDirty()) {
+    await to.markDirty();
+  } else {
+    await to.clearDirty();
   }
   return Promise.all(
     files.map(async (f) => {
