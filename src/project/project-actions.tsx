@@ -335,13 +335,22 @@ export class ProjectActions {
     }
   };
 
+  /**
+   * Open a project, asking for confirmation if required.
+   *
+   * @param project The project.
+   * @param confirmPrompt Optional custom confirmation prompt.
+   * @returns True if we opened the project, false if the user cancelled.
+   */
   private openProject = async (
     project: PythonProject,
     confirmPrompt?: string
-  ) => {
-    if (await this.confirmReplace(confirmPrompt)) {
+  ): Promise<boolean> => {
+    const confirmed = await this.confirmReplace(confirmPrompt);
+    if (confirmed) {
       await this.fs.replaceWithMultipleFiles(project);
     }
+    return confirmed;
   };
 
   openIdea = async (slug: string | undefined, code: string, title: string) => {
@@ -359,28 +368,28 @@ export class ProjectActions {
       { id: "confirm-replace-with-idea" },
       { ideaName: pythonProject.projectName }
     );
-    await this.openProject(pythonProject, confirmPrompt);
-    this.actionFeedback.success({
-      title: this.intl.formatMessage(
-        { id: "loaded-file-feedback" },
-        { filename: title }
-      ),
-    });
+    if (await this.openProject(pythonProject, confirmPrompt)) {
+      this.actionFeedback.success({
+        title: this.intl.formatMessage(
+          { id: "loaded-file-feedback" },
+          { filename: title }
+        ),
+      });
+    }
   };
 
   reset = async () => {
     this.logging.event({
       type: "reset-project",
     });
-    await this.openProject(
-      defaultInitialProject,
-      this.intl.formatMessage({
-        id: "confirm-replace-reset",
-      })
-    );
-    this.actionFeedback.success({
-      title: this.intl.formatMessage({ id: "reset-project-feedback" }),
+    const confirmPrompt = this.intl.formatMessage({
+      id: "confirm-replace-reset",
     });
+    if (await this.openProject(defaultInitialProject, confirmPrompt)) {
+      this.actionFeedback.success({
+        title: this.intl.formatMessage({ id: "reset-project-feedback" }),
+      });
+    }
   };
 
   private async uploadInternal(inputs: ClassifiedFileInput[]) {
