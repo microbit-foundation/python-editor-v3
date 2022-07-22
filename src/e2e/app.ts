@@ -748,8 +748,13 @@ export class App {
     await reviewDeviceSelection.click();
   }
 
-  async closeWebUsbNotSupportedDialog(): Promise<void> {
+  async closeDialog(title?: string): Promise<void> {
     const document = await this.document();
+    if (title) {
+      await document.findByText(title, {
+        selector: "h2",
+      });
+    }
     // This finds the "X" button in the top right of the dialog
     // and the footer button.
     const closeButton = await document.findAllByRole("button", {

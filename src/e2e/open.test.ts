@@ -90,4 +90,38 @@ describe("Browser - open", () => {
     await app.findVisibleEditorContents(/PASS1/);
     await app.findProjectName("1.0.1");
   });
+
+  it("No warn before load if you save hex", async () => {
+    await app.setProjectName("Avoid dialog");
+    await app.typeInEditor("# Different text");
+    await app.save();
+    await app.closeDialog("Project saved");
+
+    // No dialog accepted
+    await app.loadFiles("testData/1.0.1.hex");
+    await app.findVisibleEditorContents(/PASS1/);
+  });
+
+  it("No warn before load if you save main file", async () => {
+    await app.setProjectName("Avoid dialog");
+    await app.typeInEditor("# Different text");
+    await app.saveMain();
+
+    // No dialog accepted
+    await app.loadFiles("testData/1.0.1.hex");
+    await app.findVisibleEditorContents(/PASS1/);
+  });
+
+  it("Warn before load if you save main file only and you have others", async () => {
+    await app.setProjectName("Avoid dialog");
+    await app.typeInEditor("# Different text");
+    await app.createNewFile("another");
+    await app.saveMain();
+    await app.closeDialog("Downloaded 1 of 2 files");
+
+    await app.loadFiles("testData/1.0.1.hex", {
+      acceptDialog: LoadDialogType.REPLACE,
+    });
+    await app.findVisibleEditorContents(/PASS1/);
+  });
 });
