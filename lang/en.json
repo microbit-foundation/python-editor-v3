@@ -132,7 +132,7 @@
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
-    "defaultMessage": "Replace all files with the initial project?",
+    "defaultMessage": "Replace all files with the default project?",
     "description": "Confirmation message for the reset action"
   },
   "confirm-replace-title": {
@@ -616,7 +616,7 @@
     "description": "Action to reset the project to its default state"
   },
   "reset-project-hover": {
-    "defaultMessage": "Resets the project to the initial code, discarding your work",
+    "defaultMessage": "Resets the project to the default code, discarding your work",
     "description": "Reset action hover text"
   },
   "results-count": {

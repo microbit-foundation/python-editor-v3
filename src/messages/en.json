@@ -306,7 +306,7 @@
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "Replace all files with the initial project?"
+      "value": "Replace all files with the default project?"
     }
   ],
   "confirm-replace-title": [
@@ -1374,7 +1374,7 @@
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Resets the project to the initial code, discarding your work"
+      "value": "Resets the project to the default code, discarding your work"
     }
   ],
   "results-count": [
