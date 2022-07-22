@@ -34,7 +34,11 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
-import { defaultInitialProject, PythonProject } from "../fs/initial-project";
+import {
+  defaultInitialProject,
+  projectFilesToBase64,
+  PythonProject,
+} from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { SessionSettings } from "../settings/session-settings";
@@ -321,19 +325,52 @@ export class ProjectActions {
     }
   };
 
-  openProject = async (project: PythonProject, confirmPrompt?: string) => {
+  private openProject = async (
+    project: PythonProject,
+    confirmPrompt?: string
+  ) => {
     if (await this.confirmReplace(confirmPrompt)) {
       await this.fs.replaceWithMultipleFiles(project);
     }
   };
 
+  openIdea = async (slug: string | undefined, code: string, title: string) => {
+    this.logging.event({
+      type: "idea-open",
+      message: slug,
+    });
+    const pythonProject: PythonProject = {
+      files: projectFilesToBase64({
+        [MAIN_FILE]: code,
+      }),
+      projectName: title,
+    };
+    const confirmPrompt = this.intl.formatMessage(
+      { id: "confirm-replace-with-idea" },
+      { ideaName: pythonProject.projectName }
+    );
+    await this.openProject(pythonProject, confirmPrompt);
+    this.actionFeedback.success({
+      title: this.intl.formatMessage(
+        { id: "loaded-file-feedback" },
+        { filename: title }
+      ),
+    });
+  };
+
   reset = async () => {
     this.logging.event({
-      type: "reset-project"
-    })
-    return this.openProject(defaultInitialProject, this.intl.formatMessage({
-      id: "confirm-replace-reset",
-    }));
+      type: "reset-project",
+    });
+    await this.openProject(
+      defaultInitialProject,
+      this.intl.formatMessage({
+        id: "confirm-replace-reset",
+      })
+    );
+    this.actionFeedback.success({
+      title: this.intl.formatMessage({ id: "reset-project-feedback" }),
+    });
   };
 
   private async uploadInternal(inputs: ClassifiedFileInput[]) {
