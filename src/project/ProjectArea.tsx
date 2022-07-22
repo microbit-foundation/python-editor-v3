@@ -23,11 +23,10 @@ const ProjectArea = ({
   selectedFile,
   onSelectedFileChanged,
 }: ProjectAreaProps) => {
-  let { files, name: projectName } = useProject();
-  //files = Array(20).fill(files[0]);
+  const { files, name: projectName } = useProject();
   return (
     <VStack spacing={5} pt={2} flex="1 0 auto" height={0} alignItems="stretch">
-      <Box flex="0 0 auto" p={5} pt={3}>
+      <Box flex="0 0 auto" px={5} pt={3}>
         <Text fontSize="xs">
           <FormattedMessage id="project-name" />
         </Text>
