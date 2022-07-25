@@ -390,7 +390,11 @@
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
   },
-  "load-error-makecode": {
+  "load-error-makecode-info": {
+    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "description": "Load error message"
+  },
+  "load-error-makecode-link": {
     "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
     "description": "Load error message"
   },
@@ -726,6 +730,10 @@
     "defaultMessage": "Allow editing third-party modules",
     "description": "Checkbox setting label"
   },
+  "setting-allow-editing-third-party-info": {
+    "defaultMessage": "Changing third-party modules may mean they don’t work as intended",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Paramètres",
     "description": "Settings text"
@@ -793,6 +801,10 @@
   "timeout-error-title": {
     "defaultMessage": "La connexion a expiré",
     "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "title": {
+    "defaultMessage": "Python Editor for micro:bit",
+    "description": "Application title"
   },
   "toolkit-error-loading": {
     "defaultMessage": "Une erreur s’est produite lors du chargement de la boîte à outils.",

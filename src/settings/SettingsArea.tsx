@@ -6,6 +6,7 @@
 import {
   Checkbox,
   FormControl,
+  FormHelperText,
   FormLabel,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -120,18 +121,23 @@ const SettingsArea = () => {
           })
         }
       />
-      <Checkbox
-        id="allow-editing"
-        isChecked={settings.allowEditingThirdPartyModules}
-        onChange={(event) => {
-          setSettings({
-            ...settings,
-            allowEditingThirdPartyModules: event.currentTarget.checked,
-          });
-        }}
-      >
-        <FormattedMessage id="setting-allow-editing-third-party" />
-      </Checkbox>
+      <FormControl>
+        <Checkbox
+          id="allow-editing"
+          isChecked={settings.allowEditingThirdPartyModules}
+          onChange={(event) => {
+            setSettings({
+              ...settings,
+              allowEditingThirdPartyModules: event.currentTarget.checked,
+            });
+          }}
+        >
+          <FormattedMessage id="setting-allow-editing-third-party" />
+        </Checkbox>
+        <FormHelperText>
+          <FormattedMessage id="setting-allow-editing-third-party-info" />
+        </FormHelperText>
+      </FormControl>
     </VStack>
   );
 };
