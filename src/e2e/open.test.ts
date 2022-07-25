@@ -117,7 +117,7 @@ describe("Browser - open", () => {
     await app.typeInEditor("# Different text");
     await app.createNewFile("another");
     await app.saveMain();
-    await app.closeDialog("Downloaded 1 of 2 files");
+    await app.closeDialog("Warning: Only main.py downloaded");
 
     await app.loadFiles("testData/1.0.1.hex", {
       acceptDialog: LoadDialogType.REPLACE,

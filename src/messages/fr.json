@@ -739,10 +739,30 @@
       "value": "Less"
     }
   ],
-  "load-error-makecode": [
+  "load-error-makecode-info": [
     {
       "type": 0,
       "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "Please visit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to use this hex file."
     }
   ],
   "load-error-mixed": [
@@ -1609,6 +1629,12 @@
       "value": "Allow editing third-party modules"
     }
   ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "Changing third-party modules may mean they don’t work as intended"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -1731,6 +1757,12 @@
     {
       "type": 0,
       "value": "La connexion a expiré"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "Python Editor for micro:bit"
     }
   ],
   "toolkit-error-loading": [

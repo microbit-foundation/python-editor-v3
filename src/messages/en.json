@@ -749,10 +749,30 @@
       "value": "Less"
     }
   ],
-  "load-error-makecode": [
+  "load-error-makecode-info": [
     {
       "type": 0,
       "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "Please visit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to use this hex file."
     }
   ],
   "load-error-mixed": [
@@ -894,7 +914,31 @@
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "This project contains multiple files. Only "
+      "value": "This project contains "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " but only "
     },
     {
       "children": [
@@ -962,27 +1006,7 @@
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Downloaded 1 of "
-    },
-    {
-      "offset": 0,
-      "options": {
-        "other": {
-          "value": [
-            {
-              "type": 1,
-              "value": "fileCount"
-            },
-            {
-              "type": 0,
-              "value": " files"
-            }
-          ]
-        }
-      },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "value": "Warning: Only main.py downloaded"
     }
   ],
   "name-project": [
@@ -1224,7 +1248,7 @@
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "You will find your hex file in your "
+      "value": "You will find your hex file in this computer’s "
     },
     {
       "children": [
@@ -1270,7 +1294,7 @@
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "To transfer your hex file to run on your micro:bit "
+      "value": "To run this hex file on your micro:bit "
     },
     {
       "children": [
@@ -1661,6 +1685,12 @@
       "value": "Allow editing third-party modules"
     }
   ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "Changing third-party modules may mean they don’t work as intended."
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -1783,6 +1813,12 @@
     {
       "type": 0,
       "value": "Connection timed out"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "Python Editor for micro:bit"
     }
   ],
   "toolkit-error-loading": [

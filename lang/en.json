@@ -391,8 +391,12 @@
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
   },
-  "load-error-makecode": {
+  "load-error-makecode-info": {
     "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "description": "Load error message"
+  },
+  "load-error-makecode-link": {
+    "defaultMessage": "Please visit <link>https://makecode.microbit.org/</link> to use this hex file.",
     "description": "Load error message"
   },
   "load-error-mixed": {
@@ -448,16 +452,16 @@
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "This project contains multiple files. Only <strong>main.py</strong> has been downloaded.",
-    "description": "Message in dialog shown when multiple files are available for download"
+    "defaultMessage": "This project contains {fileCount, plural, other {{fileCount} files}} but only <strong>main.py</strong> has been downloaded.",
+    "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
     "defaultMessage": "Use the <strong>Save</strong> button to download your whole project as a hex file. You can <strong>Open</strong> the hex file to restore your project. If you prefer to download individual Python files, use the <strong>Project</strong> tab.",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Downloaded 1 of {fileCount, plural, other {{fileCount} files}}",
-    "description": "Title of dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be plural."
+    "defaultMessage": "Warning: Only main.py downloaded",
+    "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "name-project": {
     "defaultMessage": "Name your project",
@@ -544,7 +548,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "You will find your hex file in your <strong>Downloads</strong> folder.",
+    "defaultMessage": "You will find your hex file in this computer’s <strong>Downloads</strong> folder.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
@@ -556,7 +560,7 @@
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "To transfer your hex file to run on your micro:bit <link>follow these steps</link>.",
+    "defaultMessage": "To run this hex file on your micro:bit <link>follow these steps</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
@@ -727,6 +731,10 @@
     "defaultMessage": "Allow editing third-party modules",
     "description": "Checkbox setting label"
   },
+  "setting-allow-editing-third-party-info": {
+    "defaultMessage": "Changing third-party modules may mean they don’t work as intended.",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Settings",
     "description": "Settings text"
@@ -795,6 +803,10 @@
     "defaultMessage": "Connection timed out",
     "description": "Title for error messages relating to WebUSB timeout"
   },
+  "title": {
+    "defaultMessage": "Python Editor for micro:bit",
+    "description": "Application title"
+  },
   "toolkit-error-loading": {
     "defaultMessage": "An error occurred loading the toolkit.",
     "description": "Error shown if we failed to load toolkit content"
@@ -825,11 +837,11 @@
   },
   "unexpected-error-description": {
     "defaultMessage": "Please try again or <link>raise a support request</link>",
-    "description": "Progress dialog text telling user that code is being flashed"
+    "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
     "defaultMessage": "Please try again or <link>raise a support request</link>",
-    "description": "Progress dialog text telling user that code is being flashed"
+    "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
     "defaultMessage": "Untitled project",

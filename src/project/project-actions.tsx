@@ -302,11 +302,36 @@ export class ProjectActions {
             });
           } catch (e: any) {
             const isMakeCodeHex = isMakeCodeForV1Hex(hex);
+            // Ideally we'd make FormattedMessage work in toasts, but it does not so using intl.
             this.actionFeedback.expectedError({
               title: errorTitle,
-              description: isMakeCodeHex
-                ? this.intl.formatMessage({ id: "load-error-makecode" })
-                : e.message,
+              description: isMakeCodeHex ? (
+                <Stack spacing={0.5}>
+                  <Text>
+                    {this.intl.formatMessage({
+                      id: "load-error-makecode-info",
+                    })}
+                  </Text>
+                  <Text>
+                    {this.intl.formatMessage(
+                      { id: "load-error-makecode-link" },
+                      {
+                        link: (chunks: ReactNode) => (
+                          <Link
+                            target="_blank"
+                            rel="noopener"
+                            href="https://makecode.microbit.org/"
+                          >
+                            {chunks}
+                          </Link>
+                        ),
+                      }
+                    )}
+                  </Text>
+                </Stack>
+              ) : (
+                e.message
+              ),
               error: e,
             });
           }
