@@ -106,7 +106,7 @@ They can be disabled with the special flag `none`.
 
 We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.
 
-Add strings to `lang/en.json` and run `npm run i18n:compile` to update the strings used by the app.
+Add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
 The UI strings are translated via Crowdin. Run `npm run i18n:convert` and upload `crowdin/en.json`
 to Crowdin.
