@@ -5,7 +5,7 @@
  */
 import { ReactNode } from "react";
 import { IntlProvider } from "react-intl";
-import en from "./en.json";
+import en from "./ui.en.json";
 
 interface FixedTranslationProviderProps {
   children: ReactNode;
