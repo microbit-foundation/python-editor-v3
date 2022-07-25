@@ -72,7 +72,17 @@
   "api-description": [
     {
       "type": 0,
-      "value": "Documentation d’API pour la carte micro:bit MicroPython"
+      "value": "For usage and examples, see "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Reference"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "api-tab": [
@@ -352,7 +362,7 @@
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+      "value": "In next popup:"
     }
   ],
   "connect-help-one": [
@@ -364,7 +374,7 @@
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Connect your micro:bit"
+      "value": "Select micro:bit"
     }
   ],
   "connect-help-two": [
@@ -630,13 +640,13 @@
   "flashing-code": [
     {
       "type": 0,
-      "value": "Code du flash"
+      "value": "Sending code (flashing)"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Le flash initial peut prendre plus de temps, ceux qui suivront seront plus rapides."
+      "value": "Your code is being sent (flashed) to your micro:bit. This can take a while the first time but it will be quicker after that."
     }
   ],
   "flashing-micropython": [
@@ -904,7 +914,31 @@
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "This project contains multiple files. Only "
+      "value": "This project contains "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " but only "
     },
     {
       "children": [
@@ -972,27 +1006,7 @@
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Downloaded 1 of "
-    },
-    {
-      "offset": 0,
-      "options": {
-        "other": {
-          "value": [
-            {
-              "type": 1,
-              "value": "fileCount"
-            },
-            {
-              "type": 0,
-              "value": " files"
-            }
-          ]
-        }
-      },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "value": "Warning: Only main.py downloaded"
     }
   ],
   "name-project": [
@@ -1010,7 +1024,7 @@
   "name-used-when": [
     {
       "type": 0,
-      "value": "Le nom est utilisé lorsque vous téléchargez un fichier hex."
+      "value": "The name is used when you save a hex file."
     }
   ],
   "new-file-hint": [
@@ -1042,23 +1056,65 @@
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "Review "
+      "value": "Is your "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "how to select the device"
+          "value": "micro:bit plugged in"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Did you "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "?"
     }
   ],
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "Check your micro:bit is plugged in and powered on"
+      "value": "If you have a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " you may need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update the firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "not-found-message": [
@@ -1070,7 +1126,7 @@
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "Alternative method: choose Save"
+      "value": "Alternative method: choose Save then follow steps to transfer"
     }
   ],
   "not-found-title": [
@@ -1108,7 +1164,7 @@
   "open-file-action": [
     {
       "type": 0,
-      "value": "Open"
+      "value": "Open…"
     }
   ],
   "open-file-dropped": [
@@ -1192,7 +1248,7 @@
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "You will find your hex file in your "
+      "value": "You will find your hex file in this computer’s "
     },
     {
       "children": [
@@ -1238,7 +1294,7 @@
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "To transfer your hex file to run on your micro:bit "
+      "value": "To run this hex file on your micro:bit "
     },
     {
       "children": [
@@ -1354,7 +1410,7 @@
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Resets the project to the initial code, discarding your work"
+      "value": "Resets the project to the default starter code, discarding your work"
     }
   ],
   "results-count": [
@@ -1422,13 +1478,13 @@
   "save-hover": [
     {
       "type": 0,
-      "value": "Save a project hex file to your computer"
+      "value": "Save the project hex file to your computer"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "Save Python script to your computer"
+      "value": "Save Python script"
     }
   ],
   "search": [
@@ -1632,7 +1688,7 @@
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "Changing third-party modules may mean they don’t work as intended"
+      "value": "Changing third-party modules may mean they don’t work as intended."
     }
   ],
   "settings": [
@@ -1838,7 +1894,7 @@
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transfer downloaded hex file to micro:bit"
+      "value": "Transfer saved hex file to micro:bit"
     }
   ],
   "try-again-action": [
@@ -1976,7 +2032,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Malheureusement, WebUSB n’est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit."
     }
   ],
   "webusb-not-supported-title": [

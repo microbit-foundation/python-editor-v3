@@ -21,15 +21,15 @@
   },
   "about-read-more-micropython": {
     "defaultMessage": "En savoir plus sur MicroPython",
-    "description": "Arial label to expand a collapsed section about MicroPython"
+    "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "added-change": {
     "defaultMessage": "Fichier ajouté {changeName}",
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Documentation d’API pour la carte micro:bit MicroPython",
-    "description": "Description at the top of the API tab"
+    "defaultMessage": "For usage and examples, see <link>Reference</link>",
+    "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
     "defaultMessage": "API",
@@ -37,7 +37,7 @@
   },
   "apidocs-baseclass": {
     "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
-    "description": "Prefix for a single base class or a list of base classes"
+    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
     "defaultMessage": "Classes",
@@ -164,7 +164,7 @@
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
-    "defaultMessage": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them).",
+    "defaultMessage": "In next popup:",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
@@ -172,7 +172,7 @@
     "description": "Legend text for the connect help dialog image"
   },
   "connect-help-title": {
-    "defaultMessage": "Connect your micro:bit",
+    "defaultMessage": "Select micro:bit",
     "description": "Title for the connect help dialog"
   },
   "connect-help-two": {
@@ -324,11 +324,11 @@
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "Code du flash",
+    "defaultMessage": "Sending code (flashing)",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "Le flash initial peut prendre plus de temps, ceux qui suivront seront plus rapides.",
+    "defaultMessage": "Your code is being sent (flashed) to your micro:bit. This can take a while the first time but it will be quicker after that.",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
@@ -436,7 +436,7 @@
   },
   "more-action": {
     "defaultMessage": "Plus",
-    "description": "More button text"
+    "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
     "defaultMessage": "More connect options",
@@ -451,16 +451,16 @@
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "This project contains multiple files. Only <strong>main.py</strong> has been downloaded.",
-    "description": "Message in dialog shown when multiple files are available for download"
+    "defaultMessage": "This project contains {fileCount, plural, other {{fileCount} files}} but only <strong>main.py</strong> has been downloaded.",
+    "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
     "defaultMessage": "Use the <strong>Save</strong> button to download your whole project as a hex file. You can <strong>Open</strong> the hex file to restore your project. If you prefer to download individual Python files, use the <strong>Project</strong> tab.",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Downloaded 1 of {fileCount, plural, other {{fileCount} files}}",
-    "description": "Title of dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be plural."
+    "defaultMessage": "Warning: Only main.py downloaded",
+    "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "name-project": {
     "defaultMessage": "Donnez un nom à votre projet",
@@ -471,7 +471,7 @@
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "Le nom est utilisé lorsque vous téléchargez un fichier hex.",
+    "defaultMessage": "The name is used when you save a hex file.",
     "description": "Text under project name field"
   },
   "new-file-hint": {
@@ -483,11 +483,11 @@
     "description": "Next button text"
   },
   "not-found-checklist-one": {
-    "defaultMessage": "Review <link>how to select the device</link>",
+    "defaultMessage": "Is your <strong>micro:bit plugged in</strong>? Did you <link>follow these steps</link>?",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "Check your micro:bit is plugged in and powered on",
+    "defaultMessage": "If you have a <strong>micro:bit V1</strong> you may need to <link>update the firmware</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
@@ -495,7 +495,7 @@
     "description": "Text in the no micro:bit found dialog"
   },
   "not-found-save-message": {
-    "defaultMessage": "Alternative method: choose Save",
+    "defaultMessage": "Alternative method: choose Save then follow steps to transfer",
     "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
@@ -511,8 +511,8 @@
     "description": "Open button text"
   },
   "open-file-action": {
-    "defaultMessage": "Open",
-    "description": "Open button text"
+    "defaultMessage": "Open…",
+    "description": "Open file button text"
   },
   "open-file-dropped": {
     "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé",
@@ -547,7 +547,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "You will find your hex file in your <strong>Downloads</strong> folder.",
+    "defaultMessage": "You will find your hex file in this computer’s <strong>Downloads</strong> folder.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
@@ -559,7 +559,7 @@
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "To transfer your hex file to run on your micro:bit <link>follow these steps</link>.",
+    "defaultMessage": "To run this hex file on your micro:bit <link>follow these steps</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
@@ -627,12 +627,12 @@
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Resets the project to the initial code, discarding your work",
+    "defaultMessage": "Resets the project to the default starter code, discarding your work",
     "description": "Reset action hover text"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
-    "description": "Number of results from a search"
+    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
     "defaultMessage": "Save",
@@ -647,12 +647,12 @@
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "Save a project hex file to your computer",
+    "defaultMessage": "Save the project hex file to your computer",
     "description": "Hover text over save button"
   },
   "save-python-action": {
-    "defaultMessage": "Save Python script to your computer",
-    "description": "Save button menu option to save a Python script"
+    "defaultMessage": "Save Python script",
+    "description": "Save button menu option to save the Python script"
   },
   "search": {
     "defaultMessage": "Rechercher",
@@ -731,7 +731,7 @@
     "description": "Checkbox setting label"
   },
   "setting-allow-editing-third-party-info": {
-    "defaultMessage": "Changing third-party modules may mean they don’t work as intended",
+    "defaultMessage": "Changing third-party modules may mean they don’t work as intended.",
     "description": "Checkbox setting label"
   },
   "settings": {
@@ -823,7 +823,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "Transfer downloaded hex file to micro:bit",
+    "defaultMessage": "Transfer saved hex file to micro:bit",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
@@ -836,11 +836,11 @@
   },
   "unexpected-error-description": {
     "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
-    "description": "Progress dialog text telling user that code is being flashed"
+    "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
     "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
-    "description": "Progress dialog text telling user that code is being flashed"
+    "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
     "defaultMessage": "Projet sans titre",
@@ -887,8 +887,8 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Malheureusement, WebUSB n’est pas pris en charge par ce navigateur. Pour vous connecter directement à votre micro:bit, nous vous recommandons Chrome ou Microsoft Edge.",
-    "description": "Shown when user's browser doesn't support WebUSB"
+    "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit.",
+    "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
     "defaultMessage": "This browser does not support WebUSB",
