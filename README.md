@@ -108,8 +108,17 @@ We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for tr
 
 Add strings to `lang/en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
-There is a French translation of the main user interface text and the "Reference" tab content.
-The API tab and code error messages shown in the editor are not currently translated.
+The UI strings are translated via Crowdin. Run `npm run i18n:convert` and upload `crowdin/en.json`
+to Crowdin.
+
+Place translated files from Crowdin in `crowdin/translated/` and run `npm run i18n:convert`. The
+files in `lang/` will be updated. Then run `npm run i18n:compile` to update the compiled versions.
+
+The translations for other content are managed separately, though they are also translated via Crowdin.
+
+- API documentation is managed in the type stubs repository
+- Reference and Ideas content is managed in the Foundation's content management system
+- Common Pyright error messages are managed [in the Foundation's Pyright fork](https://github.com/microbit-foundation/pyright/blob/microbit/packages/pyright-internal/src/localization/simplified.nls.en-us.json).
 
 ## License
 
