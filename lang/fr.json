@@ -395,7 +395,7 @@
     "description": "Load error message"
   },
   "load-error-makecode-link": {
-    "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
+    "defaultMessage": "Please visit <link>https://makecode.microbit.org/</link> to use this hex file.",
     "description": "Load error message"
   },
   "load-error-mixed": {
