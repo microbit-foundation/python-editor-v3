@@ -134,7 +134,7 @@ const SettingsArea = () => {
         >
           <FormattedMessage id="setting-allow-editing-third-party" />
         </Checkbox>
-        <FormHelperText>
+        <FormHelperText color="gray.700">
           <FormattedMessage id="setting-allow-editing-third-party-info" />
         </FormHelperText>
       </FormControl>
