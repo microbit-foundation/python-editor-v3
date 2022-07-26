@@ -10,7 +10,7 @@ const Simulator = () => {
   return (
     <VStack spacing={5}>
       <Box width="100%">
-        <AspectRatio ratio={400 / 321} width="100%">
+        <AspectRatio ratio={191.27 / 155.77} width="100%">
           <Box
             ref={ref}
             as="iframe"
@@ -21,8 +21,7 @@ const Simulator = () => {
             scrolling="no"
           />
         </AspectRatio>
-        {/* Margin hack until we remove space from iframe */}
-        <HStack justifyContent="center" mt={-2}>
+        <HStack justifyContent="center">
           <IconButton
             variant="solid"
             onClick={play}
