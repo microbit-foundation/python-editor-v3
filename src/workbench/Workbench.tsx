@@ -16,10 +16,12 @@ import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
+import { flags } from "../flags";
 import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
+import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
@@ -57,6 +59,18 @@ const Workbench = () => {
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [sidebarShown, setSidebarShown] = useState<boolean>(true);
+  const editor = (
+    <Box height="100%" as="section">
+      {selection && fileVersion !== undefined && (
+        <EditorArea
+          key={selection.file + "/" + fileVersion}
+          selection={selection}
+          onSelectedFileChanged={setSelectedFile}
+        />
+      )}
+    </Box>
+  );
+
   return (
     <>
       <Flex className="Workbench">
@@ -99,15 +113,21 @@ const Workbench = () => {
                 mode={serialSizedMode}
               >
                 <SplitViewRemainder>
-                  <Box height="100%" as="section">
-                    {selection && fileVersion !== undefined && (
-                      <EditorArea
-                        key={selection.file + "/" + fileVersion}
-                        selection={selection}
-                        onSelectedFileChanged={setSelectedFile}
-                      />
-                    )}
-                  </Box>
+                  {flags.simulator ? (
+                    <SplitView
+                      direction="row"
+                      minimums={[300, 300]}
+                      height="100%"
+                    >
+                      <SplitViewRemainder>{editor}</SplitViewRemainder>
+                      <SplitViewDivider />
+                      <SplitViewSized>
+                        <Simulator />
+                      </SplitViewSized>
+                    </SplitView>
+                  ) : (
+                    editor
+                  )}
                 </SplitViewRemainder>
                 <SplitViewDivider />
                 <SplitViewSized>
