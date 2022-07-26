@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFileSystem } from "../fs/fs-hooks";
+import { Sensor } from "./model";
 
 export const useSimulator = (ref: React.RefObject<HTMLIFrameElement>) => {
   const fs = useFileSystem();
