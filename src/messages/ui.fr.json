@@ -2,25 +2,25 @@
   "about": [
     {
       "type": 0,
-      "value": "Абоют"
+      "value": "À propos"
     }
   ],
   "about-comic": [
     {
       "type": 0,
-      "value": "Тхрее панел соміс тітлед \"МісроПутхон Роскс\" бу Міке Ровбіт. А сартоон снаке інтродюсес Даміен, сауіндж \"Меет Даміен... Хе среатед МісроПутхон.\". Тво снакес діссюсс МісроПутхон. Тхе уеллов снаке саус \"МісроПутхон іс десіджнед то ворк он веру смалл сомпютерс.\" \"Ліке тхе ББC місро:біт\" тхе пюрпле снаке репліес.\" Тхе уелловс снаке сонтінюес \"Бют Путхон сан рюн анувхере.\". Тхе пюрпле снаке аджреес, сауіндж \"Ліке он тхіс раск оф северс тхат рюн хюдже вебсітес\". Тхе баскджроюнд бехінд тхе снакес сховс а сервер раск."
+      "value": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Le serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent violet. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent violet approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs."
     }
   ],
   "about-microbit": [
     {
       "type": 0,
-      "value": "Маде вітх лове бу тхе "
+      "value": "Réalisée avec amour par la "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Місро:біт Eдюсатіонал Фоюндатіон анд сонтрібюторс"
+          "value": "Micro:bit Educational Foundation et ses contributeurs"
         }
       ],
       "type": 8,
@@ -30,13 +30,13 @@
   "about-micropython": [
     {
       "type": 0,
-      "value": "Тхе едітор депендс он "
+      "value": "L’éditeur dépend de "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "МісроПутхон"
+          "value": "MicroPython"
         }
       ],
       "type": 8,
@@ -44,25 +44,25 @@
     },
     {
       "type": 0,
-      "value": " вхісх іс маде бу Даміен Геордже анд а соммюніту оф девелоперс ароюнд тхе ворлд."
+      "value": " qui est créé par Damien George et une communauté de développeurs du monde entier."
     }
   ],
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "Реад лесс абоют МісроПутхон"
+      "value": "En savoir moins sur MicroPython"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "Реад море абоют МісроПутхон"
+      "value": "En savoir plus sur MicroPython"
     }
   ],
   "added-change": [
     {
       "type": 0,
-      "value": "Аддед філе "
+      "value": "Fichier ajouté "
     },
     {
       "type": 1,
@@ -72,7 +72,17 @@
   "api-description": [
     {
       "type": 0,
-      "value": "API documentation for micro:bit MicroPython"
+      "value": "For usage and examples, see "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Reference"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "api-tab": [
@@ -89,7 +99,7 @@
           "value": [
             {
               "type": 0,
-              "value": "басе сласс"
+              "value": "base class"
             }
           ]
         },
@@ -97,7 +107,7 @@
           "value": [
             {
               "type": 0,
-              "value": "басе слассес: "
+              "value": "base classes: "
             }
           ]
         }
@@ -110,25 +120,25 @@
   "apidocs-classes": [
     {
       "type": 0,
-      "value": "Cлассес"
+      "value": "Classes"
     }
   ],
   "apidocs-fields": [
     {
       "type": 0,
-      "value": "Фіелдс"
+      "value": "Champs"
     }
   ],
   "apidocs-functions": [
     {
       "type": 0,
-      "value": "Фюнстіонс"
+      "value": "Fonctions"
     }
   ],
   "apidocs-methods": [
     {
       "type": 0,
-      "value": "Метходс"
+      "value": "Méthodes"
     }
   ],
   "back-action": [
@@ -140,25 +150,25 @@
   "back-to-main": [
     {
       "type": 0,
-      "value": "баск то тхе маін соде"
+      "value": "revenir au code principal"
     }
   ],
   "cancel-action": [
     {
       "type": 0,
-      "value": "Cансел"
+      "value": "Annuler"
     }
   ],
   "change-files": [
     {
       "type": 0,
-      "value": "Cхандже філес?"
+      "value": "Changer de fichiers ?"
     }
   ],
   "choose-main-add-file": [
     {
       "type": 0,
-      "value": "Адд філе "
+      "value": "Ajouter le fichier "
     },
     {
       "type": 1,
@@ -168,7 +178,7 @@
   "choose-main-add-module": [
     {
       "type": 0,
-      "value": "Адд модюле "
+      "value": "Ajouter le module "
     },
     {
       "type": 1,
@@ -178,7 +188,7 @@
   "choose-main-replace-file": [
     {
       "type": 0,
-      "value": "Репласе філе "
+      "value": "Remplacer le fichier "
     },
     {
       "type": 1,
@@ -188,7 +198,7 @@
   "choose-main-replace-module": [
     {
       "type": 0,
-      "value": "Репласе модюле "
+      "value": "Remplacer le module "
     },
     {
       "type": 1,
@@ -198,7 +208,7 @@
   "choose-main-source-add-file": [
     {
       "type": 0,
-      "value": "Адд філе "
+      "value": "Ajouter le fichier "
     },
     {
       "type": 1,
@@ -206,7 +216,7 @@
     },
     {
       "type": 0,
-      "value": " фром "
+      "value": " depuis "
     },
     {
       "type": 1,
@@ -216,7 +226,7 @@
   "choose-main-source-add-main-code": [
     {
       "type": 0,
-      "value": "Адд маін соде фром "
+      "value": "Ajouter le code principal depuis "
     },
     {
       "type": 1,
@@ -226,7 +236,7 @@
   "choose-main-source-replace-file": [
     {
       "type": 0,
-      "value": "Репласе філе "
+      "value": "Remplacer le fichier "
     },
     {
       "type": 1,
@@ -234,7 +244,7 @@
     },
     {
       "type": 0,
-      "value": " вітх "
+      "value": " par "
     },
     {
       "type": 1,
@@ -244,7 +254,7 @@
   "choose-main-source-replace-main-code": [
     {
       "type": 0,
-      "value": "Репласе маін соде вітх "
+      "value": "Remplacer le code principal par "
     },
     {
       "type": 1,
@@ -254,19 +264,19 @@
   "clear": [
     {
       "type": 0,
-      "value": "Clear"
+      "value": "Effacer"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "Cлосе"
+      "value": "Fermer"
     }
   ],
   "code-editor": [
     {
       "type": 0,
-      "value": "Cоде едітор"
+      "value": "Éditeur de code"
     }
   ],
   "code-example": [
@@ -278,19 +288,19 @@
   "confirm-action": [
     {
       "type": 0,
-      "value": "Cонфірм"
+      "value": "Confirmer"
     }
   ],
   "confirm-delete": [
     {
       "type": 0,
-      "value": "Cонфірм делете"
+      "value": "Confirmer la suppression"
     }
   ],
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "Репласе алл філес вітх тхосе ін тхе хекс?"
+      "value": "Remplacer tous les fichiers par ceux de l’hex ?"
     }
   ],
   "confirm-replace-reset": [
@@ -302,7 +312,7 @@
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "Cонфірм репласе проджест"
+      "value": "Confirmer le projet de remplacement"
     }
   ],
   "confirm-replace-with-idea": [
@@ -334,7 +344,7 @@
   "connect-action": [
     {
       "type": 0,
-      "value": "Cоннест"
+      "value": "Connecter"
     }
   ],
   "connect-cable-title": [
@@ -352,7 +362,7 @@
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Connecting lets you send (flash) code directly to your micro:bit, and see errors and outputs (expand the ‘serial’ area below your code to see them)."
+      "value": "In next popup:"
     }
   ],
   "connect-help-one": [
@@ -364,7 +374,7 @@
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Connect your micro:bit"
+      "value": "Select micro:bit"
     }
   ],
   "connect-help-two": [
@@ -376,13 +386,13 @@
   "connect-hover": [
     {
       "type": 0,
-      "value": "Cоннест то уоюр місро:біт овер ВебЮСБ"
+      "value": "Connectez-vous à votre micro:bit via WebUSB"
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "Cоннест то уоюр місро:біт то сее серіал оютпют хере"
+      "value": "Connectez-vous à votre micro:bit pour voir la sortie série ici"
     }
   ],
   "connect-troubleshoot": [
@@ -400,13 +410,13 @@
   "copied": [
     {
       "type": 0,
-      "value": "Cопіед"
+      "value": "Copié"
     }
   ],
   "copy-action": [
     {
       "type": 0,
-      "value": "Cопу"
+      "value": "Copier"
     }
   ],
   "copy-code-action": [
@@ -446,13 +456,13 @@
   "delete-action": [
     {
       "type": 0,
-      "value": "Делете"
+      "value": "Supprimer"
     }
   ],
   "delete-file-action": [
     {
       "type": 0,
-      "value": "Делете "
+      "value": "Supprimer "
     },
     {
       "type": 1,
@@ -461,24 +471,24 @@
   ],
   "deleted-file": [
     {
-      "type": 0,
-      "value": "Делетед "
-    },
-    {
       "type": 1,
       "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " a été supprimé"
     }
   ],
   "disconnect-action": [
     {
       "type": 0,
-      "value": "Діссоннест"
+      "value": "Se déconnecter"
     }
   ],
   "disconnect-hover": [
     {
       "type": 0,
-      "value": "Діссоннест фром тхе місро:біт"
+      "value": "Se déconnecter du micro:bit"
     }
   ],
   "dont-show-again": [
@@ -496,7 +506,7 @@
   "edit-file-action": [
     {
       "type": 0,
-      "value": "Eдіт "
+      "value": "Modifier "
     },
     {
       "type": 1,
@@ -506,19 +516,19 @@
   "edit-name-project-hover": [
     {
       "type": 0,
-      "value": "Eдіт тхе наме оф уоюр проджест"
+      "value": "Modifier le nom de votre projet"
     }
   ],
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "Eдіт проджест наме"
+      "value": "Modifier le nom du projet"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "Фаілед то бюілд тхе хекс філе"
+      "value": "Impossible de créer le fichier hex"
     }
   ],
   "feedback": [
@@ -529,12 +539,12 @@
   ],
   "file-actions": [
     {
-      "type": 1,
-      "value": "name"
+      "type": 0,
+      "value": "Actions sur le fichier "
     },
     {
-      "type": 0,
-      "value": " філе астіонс"
+      "type": 1,
+      "value": "name"
     }
   ],
   "file-already-exists": [
@@ -618,37 +628,37 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "Фласх"
+      "value": "Flasher"
     }
   ],
   "flash-hover": [
     {
       "type": 0,
-      "value": "Фласх тхе проджест дірестлу то тхе місро:біт"
+      "value": "Flasher le projet directement dans le micro:bit"
     }
   ],
   "flashing-code": [
     {
       "type": 0,
-      "value": "Фласхіндж соде"
+      "value": "Sending code (flashing)"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Інітіал фласх міджхт таке лонджер, сюбсеквюент фласхес вілл бе квюіскер."
+      "value": "Your code is being sent (flashed) to your micro:bit. This can take a while the first time but it will be quicker after that."
     }
   ],
   "flashing-micropython": [
     {
       "type": 0,
-      "value": "Фласхіндж МісроПутхон"
+      "value": "Flasher MicroPython"
     }
   ],
   "font-size": [
     {
       "type": 0,
-      "value": "Фонт сізе"
+      "value": "Taille de police"
     }
   ],
   "guide-link": [
@@ -670,67 +680,67 @@
   "help": [
     {
       "type": 0,
-      "value": "Хелп"
+      "value": "Aide"
     }
   ],
   "help-support": [
     {
       "type": 0,
-      "value": "Help & support"
+      "value": "Assistance et soutien"
     }
   ],
   "help-translate": [
     {
       "type": 0,
-      "value": "Хелп транслате"
+      "value": "Aide à la traduction"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Хіджхліджхт соде стрюстюре"
+      "value": "Surligner la structure du code"
     }
   ],
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Фюлл"
+      "value": "Complet"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Ноне"
+      "value": "Aucun"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "Сімпле"
+      "value": "Simple"
     }
   ],
   "ideas-tab": [
     {
       "type": 0,
-      "value": "Ideas"
+      "value": "Idées"
     }
   ],
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Placeholder for full working code examples"
+      "value": "Essayez ces projets, modifiez-les et soyez motivés"
     }
   ],
   "insert-code-action": [
     {
       "type": 0,
-      "value": "Інсерт соде"
+      "value": "Insérer le code"
     }
   ],
   "language": [
     {
       "type": 0,
-      "value": "Ланджюадже"
+      "value": "Langue"
     }
   ],
   "less-action": [
@@ -768,19 +778,19 @@
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "А хекс філе сан онлу бе лоадед он ітс овн. Іт репласес алл філес ін тхе проджест."
+      "value": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet."
     }
   ],
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "Тхіс версіон оф тхе Путхон Eдітор доесн'т сюррентлу сюппорт аддіндж .мпу філес."
+      "value": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy."
     }
   ],
   "load-error-title": [
     {
       "type": 0,
-      "value": "Cаннот лоад "
+      "value": "Impossible de charger "
     },
     {
       "offset": 0,
@@ -789,7 +799,7 @@
           "value": [
             {
               "type": 0,
-              "value": "філе"
+              "value": "file"
             }
           ]
         },
@@ -797,7 +807,7 @@
           "value": [
             {
               "type": 0,
-              "value": "філес"
+              "value": "files"
             }
           ]
         }
@@ -809,48 +819,48 @@
   ],
   "loaded-file-feedback": [
     {
-      "type": 0,
-      "value": "Лоадед "
-    },
-    {
       "type": 1,
       "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " a été chargé"
     }
   ],
   "loading": [
     {
       "type": 0,
-      "value": "Лоадіндж…"
+      "value": "Chargement…"
     }
   ],
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "місро:біт боард вітх тхе 5 бу 5 ЛEД джрід сховіндж а хеарт"
+      "value": "Tableau du micro:bit avec la grille LED 5 par 5 montrant un cœur"
     }
   ],
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "MicroPython Documentation"
+      "value": "Documentation de MicroPython"
     }
   ],
   "micropython-history": [
     {
       "type": 0,
-      "value": "Леарн хов МісроПутхон он тхе місро:біт саме то бе"
+      "value": "Découvrez comment MicroPython est né sur le micro:bit"
     }
   ],
   "micropython-source-code": [
     {
       "type": 0,
-      "value": "МісроПутхон "
+      "value": "MicroPython "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "союрсе соде фор тхе місро:біт В1"
+          "value": "code source pour le micro:bit V1"
         }
       ],
       "type": 8,
@@ -858,13 +868,13 @@
     },
     {
       "type": 0,
-      "value": " анд "
+      "value": " et le "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "місро:біт В2"
+          "value": "micro:bit V2"
         }
       ],
       "type": 8,
@@ -874,7 +884,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "Море"
+      "value": "Plus"
     }
   ],
   "more-connect-options": [
@@ -904,7 +914,31 @@
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "This project contains multiple files. Only "
+      "value": "This project contains "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " but only "
     },
     {
       "children": [
@@ -972,57 +1006,37 @@
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Downloaded 1 of "
-    },
-    {
-      "offset": 0,
-      "options": {
-        "other": {
-          "value": [
-            {
-              "type": 1,
-              "value": "fileCount"
-            },
-            {
-              "type": 0,
-              "value": " files"
-            }
-          ]
-        }
-      },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "value": "Warning: Only main.py downloaded"
     }
   ],
   "name-project": [
     {
       "type": 0,
-      "value": "Наме уоюр проджест"
+      "value": "Donnez un nom à votre projet"
     }
   ],
   "name-text": [
     {
       "type": 0,
-      "value": "Наме"
+      "value": "Nom"
     }
   ],
   "name-used-when": [
     {
       "type": 0,
-      "value": "Тхе наме іс юсед вхен уою довнлоад а хекс філе."
+      "value": "The name is used when you save a hex file."
     }
   ],
   "new-file-hint": [
     {
       "type": 0,
-      "value": "Ве'лл адд тхе "
+      "value": "Nous ajouterons l’extension "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": ".пу"
+          "value": ".py"
         }
       ],
       "type": 8,
@@ -1030,7 +1044,7 @@
     },
     {
       "type": 0,
-      "value": " екстенсіон фор уою."
+      "value": " pour vous."
     }
   ],
   "next-action": [
@@ -1042,23 +1056,65 @@
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "Review "
+      "value": "Is your "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "how to select the device"
+          "value": "micro:bit plugged in"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Did you "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "?"
     }
   ],
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "Check your micro:bit is plugged in and powered on"
+      "value": "If you have a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " you may need to "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update the firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
     }
   ],
   "not-found-message": [
@@ -1070,7 +1126,7 @@
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "Alternative method: choose Save"
+      "value": "Alternative method: choose Save then follow steps to transfer"
     }
   ],
   "not-found-title": [
@@ -1108,13 +1164,13 @@
   "open-file-action": [
     {
       "type": 0,
-      "value": "Open"
+      "value": "Open…"
     }
   ],
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "Опен філе вхен дроппед"
+      "value": "Ouvrir le fichier lorsqu’il est déposé"
     }
   ],
   "open-hover": [
@@ -1126,25 +1182,25 @@
   "options": [
     {
       "type": 0,
-      "value": "Оптіонс"
+      "value": "Options"
     }
   ],
   "parameter-help": [
     {
       "type": 0,
-      "value": "Parameter help"
+      "value": "Aide aux paramètres"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "Automatic"
+      "value": "Automatique"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "Manual ("
+      "value": "Manuel ("
     },
     {
       "type": 1,
@@ -1158,7 +1214,7 @@
   "permanently-delete": [
     {
       "type": 0,
-      "value": "Перманентлу делете "
+      "value": "Supprimer "
     },
     {
       "type": 1,
@@ -1166,7 +1222,7 @@
     },
     {
       "type": 0,
-      "value": "?"
+      "value": " définitivement ?"
     }
   ],
   "post-save-message-files": [
@@ -1192,7 +1248,7 @@
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "You will find your hex file in your "
+      "value": "You will find your hex file in this computer’s "
     },
     {
       "children": [
@@ -1238,7 +1294,7 @@
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "To transfer your hex file to run on your micro:bit "
+      "value": "To run this hex file on your micro:bit "
     },
     {
       "children": [
@@ -1258,19 +1314,19 @@
   "project-actions": [
     {
       "type": 0,
-      "value": "Проджест астіонс"
+      "value": "Actions du projet"
     }
   ],
   "project-header": [
     {
       "type": 0,
-      "value": "Проджест хеадер"
+      "value": "En-tête de projet"
     }
   ],
   "project-name": [
     {
       "type": 0,
-      "value": "Project name"
+      "value": "Intitulé du projet"
     }
   ],
   "project-name-not-empty": [
@@ -1282,61 +1338,61 @@
   "project-tab": [
     {
       "type": 0,
-      "value": "Project"
+      "value": "Projet"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "View, create, add and edit the files in your project"
+      "value": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
     }
   ],
   "python-powered": [
     {
       "type": 0,
-      "value": "Путхон поверед"
+      "value": "Développé par Python"
     }
   ],
   "python-tab": [
     {
       "type": 0,
-      "value": "Путхон"
+      "value": "Python"
     }
   ],
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Соме оф уоюр сханджес хаве нот беен савед. Квюіт анувау?"
+      "value": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?"
     }
   ],
   "read-less": [
     {
       "type": 0,
-      "value": "Реад лесс"
+      "value": "Lire moins"
     }
   ],
   "read-more": [
     {
       "type": 0,
-      "value": "Реад море"
+      "value": "Lire plus"
     }
   ],
   "redo": [
     {
       "type": 0,
-      "value": "Redo"
+      "value": "Refaire"
     }
   ],
   "reference-tab": [
     {
       "type": 0,
-      "value": "Референсе"
+      "value": "Référence"
     }
   ],
   "replace-action-label": [
     {
       "type": 0,
-      "value": "Репласе"
+      "value": "Remplacer"
     }
   ],
   "reset-project-action": [
@@ -1354,7 +1410,7 @@
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Resets the project to the initial code, discarding your work"
+      "value": "Resets the project to the default starter code, discarding your work"
     }
   ],
   "results-count": [
@@ -1365,7 +1421,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No results"
+              "value": "Aucun résultat"
             }
           ]
         },
@@ -1376,7 +1432,7 @@
             },
             {
               "type": 0,
-              "value": " result"
+              "value": " résultat"
             }
           ]
         },
@@ -1387,7 +1443,7 @@
             },
             {
               "type": 0,
-              "value": " results"
+              "value": " résultats"
             }
           ]
         }
@@ -1422,19 +1478,19 @@
   "save-hover": [
     {
       "type": 0,
-      "value": "Save a project hex file to your computer"
+      "value": "Save the project hex file to your computer"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "Save Python script to your computer"
+      "value": "Save Python script"
     }
   ],
   "search": [
     {
       "type": 0,
-      "value": "Search"
+      "value": "Rechercher"
     }
   ],
   "send-action": [
@@ -1452,43 +1508,43 @@
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Хіде серіал"
+      "value": "Masquer le terminal série"
     }
   ],
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Сенд Cтрл-C фор РEПЛ"
+      "value": "Envoyer Ctrl+C pour REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Сенд Cтрл-Д то ресет"
+      "value": "Envoyer Ctrl+D pour réinitialiser"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
-      "value": "Схов серіал"
+      "value": "Afficher le terminal série"
     }
   ],
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit flashed"
+      "value": "micro:bit flashé"
     }
   ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "Юсе тхе кеубоард схортсют "
+      "value": "Utilisez le raccourci clavier "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Cтрл"
+          "value": "Ctrl"
         }
       ],
       "type": 8,
@@ -1510,19 +1566,19 @@
     },
     {
       "type": 0,
-      "value": " то інтеррюпт уоюр проджрам. Тхен уою сан тупе Путхон соммандс фор МісроПутхон то рюн. Іт'с а джреат вау то експерімент вітх сометхіндж нев."
+      "value": " pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter."
     }
   ],
   "serial-help-ctrl-d": [
     {
       "type": 0,
-      "value": "То старт уоюр проджрам рюнніндж аджаін юсе "
+      "value": "Pour relancer votre programme, utilisez "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Cтрл"
+          "value": "Ctrl"
         }
       ],
       "type": 8,
@@ -1536,7 +1592,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Д"
+          "value": "D"
         }
       ],
       "type": 8,
@@ -1550,19 +1606,19 @@
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "Тхе серіал термінал сховс еррорс анд отхер оютпют фром тхе проджрам рюнніндж он уоюр місро:біт. Бу дефаюлт, іт сховс тхе мост ресент еррор фром тхе проджрам. Eкспанд іт то сее алл тхе оютпют."
+      "value": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie."
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "Уоюр проджрам сан прінт мессаджес юсіндж тхе "
+      "value": "Votre programme peut imprimer des messages en utilisant la fonction "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "прінт"
+          "value": "print"
         }
       ],
       "type": 8,
@@ -1570,13 +1626,13 @@
     },
     {
       "type": 0,
-      "value": " фюнстіон. Тру аддіндж "
+      "value": ". Essayez d’ajouter "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "прінт('місро:біт іс авесоме')"
+          "value": "print(« micro:bit est génial »)"
         }
       ],
       "type": 8,
@@ -1584,43 +1640,43 @@
     },
     {
       "type": 0,
-      "value": " то уоюр проджрам."
+      "value": " à votre programme."
     }
   ],
   "serial-help-title": [
     {
       "type": 0,
-      "value": "Серіал хінтс анд тіпс"
+      "value": "Trucs et astuces concernant la série"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "Serial hints and tips"
+      "value": "Trucs et astuces concernant la série"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "Серіал меню"
+      "value": "Menu série"
     }
   ],
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit ready to flash"
+      "value": "micro:bit prête à flasher"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "Рюнніндж…"
+      "value": "En cours d’exécution…"
     }
   ],
   "serial-terminal": [
     {
       "type": 0,
-      "value": "Серіал термінал"
+      "value": "Terminal série"
     }
   ],
   "setting-allow-editing-third-party": [
@@ -1632,31 +1688,31 @@
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "Changing third-party modules may mean they don’t work as intended"
+      "value": "Changing third-party modules may mean they don’t work as intended."
     }
   ],
   "settings": [
     {
       "type": 0,
-      "value": "Сеттінджс"
+      "value": "Paramètres"
     }
   ],
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "Show API documentation"
+      "value": "Afficher la documentation d’API"
     }
   ],
   "show-less": [
     {
       "type": 0,
-      "value": "Схов лесс"
+      "value": "Afficher moins"
     }
   ],
   "show-less-for": [
     {
       "type": 0,
-      "value": "Схов лесс фор "
+      "value": "Afficher moins pour "
     },
     {
       "type": 1,
@@ -1666,13 +1722,13 @@
   "show-more": [
     {
       "type": 0,
-      "value": "Схов море"
+      "value": "Afficher plus"
     }
   ],
   "show-more-for": [
     {
       "type": 0,
-      "value": "Схов море фор "
+      "value": "Afficher plus pour "
     },
     {
       "type": 1,
@@ -1682,7 +1738,7 @@
   "sidebar": [
     {
       "type": 0,
-      "value": "Сідебар"
+      "value": "Barre latérale"
     }
   ],
   "sidebar-collapse": [
@@ -1700,7 +1756,7 @@
   "software-versions": [
     {
       "type": 0,
-      "value": "Софтваре версіонс"
+      "value": "Versions logicielles"
     }
   ],
   "start-coding-action": [
@@ -1712,13 +1768,13 @@
   "support": [
     {
       "type": 0,
-      "value": "Сюппорт"
+      "value": "Assistance"
     }
   ],
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Термс оф юсе"
+      "value": "Conditions d’utilisation"
     }
   ],
   "third-party-module-explanation": [
@@ -1750,13 +1806,13 @@
   "timeout-error-description": [
     {
       "type": 0,
-      "value": "Юнабле то соннест то тхе місро:біт"
+      "value": "Impossible de se connecter au micro:bit"
     }
   ],
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "Cоннестіон тімед оют"
+      "value": "La connexion a expiré"
     }
   ],
   "title": [
@@ -1768,21 +1824,17 @@
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "Ан еррор оссюрред лоадіндж тхе тоолкіт."
+      "value": "Une erreur s’est produite lors du chargement de la boîte à outils."
     }
   ],
   "toolkit-view-documentation": [
     {
       "type": 0,
-      "value": "Віев "
+      "value": "Afficher la documentation "
     },
     {
       "type": 1,
       "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " досюментатіон"
     }
   ],
   "transfer-hex-message-one": [
@@ -1842,7 +1894,7 @@
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transfer downloaded hex file to micro:bit"
+      "value": "Transfer saved hex file to micro:bit"
     }
   ],
   "try-again-action": [
@@ -1854,19 +1906,19 @@
   "undo": [
     {
       "type": 0,
-      "value": "Undo"
+      "value": "Annuler"
     }
   ],
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "Плеасе тру аджаін ор "
+      "value": "Veuillez réessayer ou "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "раісе а сюппорт реквюест"
+          "value": "soumettre une demande d’assistance"
         }
       ],
       "type": 8,
@@ -1876,13 +1928,13 @@
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "Плеасе тру аджаін ор "
+      "value": "Veuillez réessayer ou "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "раісе а сюппорт реквюест"
+          "value": "soumettre une demande d’assistance"
         }
       ],
       "type": 8,
@@ -1892,7 +1944,7 @@
   "untitled-project": [
     {
       "type": 0,
-      "value": "Untitled project"
+      "value": "Projet sans titre"
     }
   ],
   "update-firmware-action": [
@@ -1904,59 +1956,63 @@
   "updated-change": [
     {
       "type": 0,
-      "value": "Юпдатед філе "
+      "value": "Le fichier "
     },
     {
       "type": 1,
       "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": " a été mis à jour"
     }
   ],
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "вісіт місробіт.ордж (опенс ін а нев таб)"
+      "value": "visiter microbit.org (s’ouvre dans un nouvel onglet)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "Анотхер просесс іс соннестед то тхіс девісе."
+      "value": "Un autre processus est connecté à cet appareil."
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Cлосе ану отхер табс тхат мау бе юсіндж ВебЮСБ (е.дж. МакеCоде, Путхон Eдітор), ор юнплюдж анд реплюдж тхе місро:біт бефоре труіндж аджаін."
+      "value": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Юнабле то слаім інтерфасе"
+      "value": "Impossible de demander l’interface"
     }
   ],
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "ВебЮСБ еррор"
+      "value": "Erreur WebUSB"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "Плеасе ресоннест уоюр місро:біт анд тру аджаін."
+      "value": "Veuillez reconnecter votre micro:bit et réessayer."
     }
   ],
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "Уою неед то "
+      "value": "Vous devez "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "юпдате уоюр місро:біт фірмваре"
+          "value": "mettre à jour le micrologiciel de votre micro:bit"
         }
       ],
       "type": 8,
@@ -1964,19 +2020,19 @@
     },
     {
       "type": 0,
-      "value": " то маке юсе оф тхіс феатюре."
+      "value": " pour utiliser cette fonctionnalité."
     }
   ],
   "webusb-error-update-req-title": [
     {
       "type": 0,
-      "value": "Плеасе юпдате тхе місро:біт фірмваре"
+      "value": "Veuillez mettre à jour le micrologiciel de micro:bit"
     }
   ],
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Юнфортюнателу, ВебЮСБ іс нот сюппортед ін тхіс бровсер. Ве ресомменд Cхроме ор Місрософт Eддже со уою сан соннест дірестлу то уоюр місро:біт."
+      "value": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit."
     }
   ],
   "webusb-not-supported-title": [
@@ -1988,7 +2044,7 @@
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "Вітх ВебЮСБ уою сан проджрам уоюр місро:біт анд соннест то тхе серіал сонсоле дірестлу фром тхе онліне едітор."
+      "value": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne."
     }
   ],
   "welcome-message": [
@@ -2006,13 +2062,13 @@
   "zoom-in-action": [
     {
       "type": 0,
-      "value": "Зоом ін"
+      "value": "Zoom avant"
     }
   ],
   "zoom-out-action": [
     {
       "type": 0,
-      "value": "Зоом оют"
+      "value": "Zoom arrière"
     }
   ]
 }

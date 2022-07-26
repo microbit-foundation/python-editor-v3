@@ -293,6 +293,12 @@
       "value": "Remplacer tous les fichiers par ceux de l’hex ?"
     }
   ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "Replace all files with the default starter code?"
+    }
+  ],
   "confirm-replace-title": [
     {
       "type": 0,
@@ -317,6 +323,12 @@
     {
       "type": 0,
       "value": "Confirm and save"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "Cancel then use Save to keep a copy of your project."
     }
   ],
   "connect-action": [
@@ -648,7 +660,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Python Editor Guide"
+          "value": "Python Editor guide"
         }
       ],
       "type": 8,
@@ -727,10 +739,30 @@
       "value": "Less"
     }
   ],
-  "load-error-makecode": [
+  "load-error-makecode-info": [
     {
       "type": 0,
       "value": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "Please visit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to use this hex file."
     }
   ],
   "load-error-mixed": [
@@ -1307,6 +1339,24 @@
       "value": "Remplacer"
     }
   ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "Reset project"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "Project reset to the default starter code"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "Resets the project to the initial code, discarding your work"
+    }
+  ],
   "results-count": [
     {
       "offset": 0,
@@ -1579,6 +1629,12 @@
       "value": "Allow editing third-party modules"
     }
   ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "Changing third-party modules may mean they don’t work as intended"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -1701,6 +1757,12 @@
     {
       "type": 0,
       "value": "La connexion a expiré"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "Python Editor for micro:bit"
     }
   ],
   "toolkit-error-loading": [
@@ -1932,7 +1994,7 @@
   "welcome-message": [
     {
       "type": 0,
-      "value": "Check out all the features in the video, or get coding right away."
+      "value": "Watch our short guide to some of the key features, or get coding right away."
     }
   ],
   "welcome-title": [

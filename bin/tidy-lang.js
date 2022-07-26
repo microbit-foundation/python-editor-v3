@@ -5,7 +5,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const en = JSON.parse(fs.readFileSync("lang/en.json"));
+const en = JSON.parse(fs.readFileSync("lang/ui.en.json"));
 const validKeys = new Set(Object.keys(en));
 
 fs.readdirSync("lang")

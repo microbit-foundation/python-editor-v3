@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, List, ListItem } from "@chakra-ui/layout";
+import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
 import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
@@ -34,7 +34,11 @@ import {
   readFileAsText,
   readFileAsUint8Array,
 } from "../fs/fs-util";
-import { PythonProject } from "../fs/initial-project";
+import {
+  defaultInitialProject,
+  projectFilesToBase64,
+  PythonProject,
+} from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import { Logging } from "../logging/logging";
 import { SessionSettings } from "../settings/session-settings";
@@ -205,18 +209,25 @@ export class ProjectActions {
     }
   };
 
-  private async confirmReplace(ideaName?: string) {
+  private async confirmReplace(customConfirmPrompt?: string): Promise<boolean> {
+    if (!this.fs.dirty) {
+      // No need to ask.
+      return true;
+    }
     return this.dialogs.show((callback) => (
       <ConfirmDialog
         callback={callback}
         header={this.intl.formatMessage({ id: "confirm-replace-title" })}
         body={
-          ideaName
-            ? this.intl.formatMessage(
-                { id: "confirm-replace-with-idea" },
-                { ideaName }
-              )
-            : this.intl.formatMessage({ id: "confirm-replace-body" })
+          <Stack>
+            <Text>
+              {customConfirmPrompt ??
+                this.intl.formatMessage({ id: "confirm-replace-body" })}
+            </Text>
+            <Text>
+              <FormattedMessage id="confirm-save-hint" />
+            </Text>
+          </Stack>
         }
         actionLabel={this.intl.formatMessage({
           id: "replace-action-label",
@@ -277,7 +288,6 @@ export class ProjectActions {
           description: this.intl.formatMessage({ id: "load-error-mixed" }),
         });
       } else {
-        // It'd be nice to suppress this (and similar) if it's just the default script.
         if (await this.confirmReplace()) {
           const file = files[0];
           const projectName = file.name.replace(/\.hex$/i, "");
@@ -292,11 +302,36 @@ export class ProjectActions {
             });
           } catch (e: any) {
             const isMakeCodeHex = isMakeCodeForV1Hex(hex);
+            // Ideally we'd make FormattedMessage work in toasts, but it does not so using intl.
             this.actionFeedback.expectedError({
               title: errorTitle,
-              description: isMakeCodeHex
-                ? this.intl.formatMessage({ id: "load-error-makecode" })
-                : e.message,
+              description: isMakeCodeHex ? (
+                <Stack spacing={0.5}>
+                  <Text>
+                    {this.intl.formatMessage({
+                      id: "load-error-makecode-info",
+                    })}
+                  </Text>
+                  <Text>
+                    {this.intl.formatMessage(
+                      { id: "load-error-makecode-link" },
+                      {
+                        link: (chunks: ReactNode) => (
+                          <Link
+                            target="_blank"
+                            rel="noopener"
+                            href="https://makecode.microbit.org/"
+                          >
+                            {chunks}
+                          </Link>
+                        ),
+                      }
+                    )}
+                  </Text>
+                </Stack>
+              ) : (
+                e.message
+              ),
               error: e,
             });
           }
@@ -325,9 +360,60 @@ export class ProjectActions {
     }
   };
 
-  openIdea = async (idea: PythonProject) => {
-    if (await this.confirmReplace(idea.projectName)) {
-      await this.fs.replaceWithMultipleFiles(idea);
+  /**
+   * Open a project, asking for confirmation if required.
+   *
+   * @param project The project.
+   * @param confirmPrompt Optional custom confirmation prompt.
+   * @returns True if we opened the project, false if the user cancelled.
+   */
+  private openProject = async (
+    project: PythonProject,
+    confirmPrompt?: string
+  ): Promise<boolean> => {
+    const confirmed = await this.confirmReplace(confirmPrompt);
+    if (confirmed) {
+      await this.fs.replaceWithMultipleFiles(project);
+    }
+    return confirmed;
+  };
+
+  openIdea = async (slug: string | undefined, code: string, title: string) => {
+    this.logging.event({
+      type: "idea-open",
+      message: slug,
+    });
+    const pythonProject: PythonProject = {
+      files: projectFilesToBase64({
+        [MAIN_FILE]: code,
+      }),
+      projectName: title,
+    };
+    const confirmPrompt = this.intl.formatMessage(
+      { id: "confirm-replace-with-idea" },
+      { ideaName: pythonProject.projectName }
+    );
+    if (await this.openProject(pythonProject, confirmPrompt)) {
+      this.actionFeedback.success({
+        title: this.intl.formatMessage(
+          { id: "loaded-file-feedback" },
+          { filename: title }
+        ),
+      });
+    }
+  };
+
+  reset = async () => {
+    this.logging.event({
+      type: "reset-project",
+    });
+    const confirmPrompt = this.intl.formatMessage({
+      id: "confirm-replace-reset",
+    });
+    if (await this.openProject(defaultInitialProject, confirmPrompt)) {
+      this.actionFeedback.success({
+        title: this.intl.formatMessage({ id: "reset-project-feedback" }),
+      });
     }
   };
 
@@ -478,6 +564,7 @@ export class ProjectActions {
       type: "application/octet-stream",
     });
     saveAs(blob, this.project.name + ".hex");
+    await this.fs.clearDirty();
     if (saveViaWebUsbNotSupported) {
       this.handleTransferHexDialog(false);
     } else {
@@ -528,10 +615,11 @@ export class ProjectActions {
       });
       const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
-      // Temporarily hide for French language users.
+      const multipleFiles = this.project.files.length > 1;
       if (
-        (await this.fs.statistics()).files > 1 &&
+        multipleFiles &&
         this.settings.values.showMultipleFilesHelp &&
+        // Temporarily hide for French language users.
         this.settings.values.languageId === "en"
       ) {
         const choice = await this.dialogs.show<MultipleFilesChoice>(
@@ -543,6 +631,10 @@ export class ProjectActions {
             showMultipleFilesHelp: false,
           });
         }
+      }
+      if (!multipleFiles) {
+        // Saving the main file is an OK way to reset the dirty flag if there are no other files.
+        await this.fs.clearDirty();
       }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);

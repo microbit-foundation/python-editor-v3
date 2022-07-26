@@ -19,7 +19,18 @@ const commonStorageTests = (storage: FSStorage) => {
     expect(await storage.ls()).toEqual([]);
   });
 
-  it("stores project name", async () => {});
+  it("stores project name", async () => {
+    await storage.setProjectName("foo");
+    expect(await storage.projectName()).toEqual("foo");
+  });
+
+  it("stores dirty flag", async () => {
+    expect(await storage.isDirty()).toEqual(false);
+    await storage.markDirty();
+    expect(await storage.isDirty()).toEqual(true);
+    await storage.clearDirty();
+    expect(await storage.isDirty()).toEqual(false);
+  });
 
   it("stores files", async () => {
     await storage.write("test1.py", new Uint8Array([1]));
@@ -94,11 +105,13 @@ describe("SplitStrategyStorage", () => {
     const session = new SessionStorageFSStorage(sessionStorage);
     await session.setProjectName("foo");
     await session.write("test1.py", new Uint8Array([1]));
+    await session.markDirty();
 
     const split = new SplitStrategyStorage(memory, session, new NullLogging());
 
     expect(await split.ls()).toEqual(["test1.py"]);
     expect(await split.projectName()).toEqual("foo");
+    expect(await split.isDirty()).toEqual(true);
   });
 
   it("clears and stops using session storage if we hit errors", async () => {

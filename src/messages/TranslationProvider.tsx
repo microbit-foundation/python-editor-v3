@@ -11,11 +11,11 @@ import { retryAsyncLoad } from "../common/chunk-util";
 async function loadLocaleData(locale: string) {
   switch (locale) {
     case "fr":
-      return (await import("./fr.json")).default;
+      return (await import("./ui.fr.json")).default;
     case "lol":
-      return (await import("./lol.json")).default;
+      return (await import("./ui.lol.json")).default;
     default:
-      return (await import("./en.json")).default;
+      return (await import("./ui.en.json")).default;
   }
 }
 

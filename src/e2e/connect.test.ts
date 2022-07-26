@@ -81,7 +81,7 @@ describe("Browser - WebUSB (mocked)", () => {
     await app.setProjectName("not default name");
     await app.flash();
     await app.confirmGenericDialog("This browser does not support WebUSB");
-    await app.closeWebUsbNotSupportedDialog();
+    await app.closeDialog();
     await app.confirmGenericDialog("Transfer saved hex file to micro:bit");
   });
 });

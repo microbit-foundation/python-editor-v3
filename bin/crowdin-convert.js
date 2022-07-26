@@ -3,7 +3,7 @@
  *
  * This script:
  *
- * 1. Converts lang/en.json to Crowdin's format in crowdin/en.json
+ * 1. Converts lang/ui.en.json to Crowdin's format in crowdin/ui.en.json
  * 2. Converts any Crowdin format crowdin/translated/{code}.json files to lang/{code}.json.
  *
  * For now we add/download files from Crowdin manually.
@@ -60,7 +60,7 @@ const convertFile = async (input, output, conversion) => {
 
 const main = async () => {
   await ensureDirs("crowdin");
-  await convertFile("lang/en.json", "crowdin/en.json", intlToCrowdin);
+  await convertFile("lang/ui.en.json", "crowdin/ui.en.json", intlToCrowdin);
   const translatedDir = "crowdin/translated";
   if (await exists(translatedDir)) {
     const translatedDirEntries = (await fsp.readdir(translatedDir)).filter(

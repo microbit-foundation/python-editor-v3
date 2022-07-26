@@ -50,17 +50,13 @@ const MultipleFilesDialogBody = () => {
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
-        <FormattedMessage
-          id="multiple-files-title"
-          values={{
-            fileCount: project.files.length,
-          }}
-        />
+        <FormattedMessage id="multiple-files-title" />
       </Text>
       <Text>
         <FormattedMessage
           id="multiple-files-message-one"
           values={{
+            fileCount: project.files.length,
             strong: (chunks: ReactNode) => (
               <Text as="span" fontWeight="semibold">
                 {chunks}

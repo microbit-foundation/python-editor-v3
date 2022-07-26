@@ -51,6 +51,6 @@ describe("Browser - save", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.saveMain();
-    await app.confirmGenericDialog("Downloaded 1 of 2 files");
+    await app.confirmGenericDialog("Warning: Only main.py downloaded");
   });
 });
