@@ -19,6 +19,7 @@ const Simulator = () => {
             title="Simulator"
             frameBorder="no"
             scrolling="no"
+            allow="autoplay;microphone"
           />
         </AspectRatio>
         <HStack justifyContent="center">
