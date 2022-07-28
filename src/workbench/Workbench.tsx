@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
-import { useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   SplitView,
@@ -98,59 +98,96 @@ const Workbench = () => {
           </SplitViewSized>
           <SplitViewDivider />
           <SplitViewRemainder>
-            <Flex
-              as="main"
-              flex="1 1 100%"
-              flexDirection="column"
-              height="100%"
-              boxShadow="4px 0px 24px #00000033"
-            >
-              <SplitView
-                direction="column"
-                minimums={[248, 200]}
-                compactSize={SerialArea.compactSize}
-                height="100%"
-                mode={serialSizedMode}
-              >
-                <SplitViewRemainder>
-                  {flags.simulator ? (
-                    <SplitView
-                      direction="row"
-                      minimums={[300, 300]}
-                      height="100%"
-                    >
-                      <SplitViewRemainder>{editor}</SplitViewRemainder>
-                      <SplitViewDivider />
-                      <SplitViewSized>
-                        <Simulator />
-                      </SplitViewSized>
-                    </SplitView>
-                  ) : (
-                    editor
-                  )}
-                </SplitViewRemainder>
-                <SplitViewDivider />
-                <SplitViewSized>
-                  <SerialArea
-                    as="section"
-                    compact={serialSizedMode === "compact"}
-                    onSizeChange={setSerialStateWhenOpen}
-                    aria-label={intl.formatMessage({ id: "serial-terminal" })}
-                  />
-                </SplitViewSized>
-              </SplitView>
-              <ProjectActionBar
-                as="section"
-                aria-label={intl.formatMessage({ id: "project-actions" })}
-                borderTopWidth={2}
-                borderColor="gray.200"
+            {flags.simulator ? (
+              <EditorWithSimulator
+                editor={editor}
+                serialSizedMode={serialSizedMode}
+                setSerialStateWhenOpen={setSerialStateWhenOpen}
               />
-            </Flex>
+            ) : (
+              <Editor
+                editor={editor}
+                serialSizedMode={serialSizedMode}
+                setSerialStateWhenOpen={setSerialStateWhenOpen}
+              />
+            )}
           </SplitViewRemainder>
         </SplitView>
       </Flex>
       <Overlay />
     </>
+  );
+};
+
+interface EditorProps {
+  serialSizedMode: SizedMode;
+  setSerialStateWhenOpen: React.Dispatch<React.SetStateAction<SizedMode>>;
+  editor: ReactNode;
+}
+
+const EditorWithSimulator = ({
+  serialSizedMode,
+  setSerialStateWhenOpen,
+  editor,
+}: EditorProps) => {
+  return (
+    <SplitView direction="row" minimums={[300, 300]} height="100%">
+      <SplitViewRemainder>
+        <Editor
+          editor={editor}
+          serialSizedMode={serialSizedMode}
+          setSerialStateWhenOpen={setSerialStateWhenOpen}
+        />
+      </SplitViewRemainder>
+      <SplitViewDivider />
+      <SplitViewSized>
+        <Simulator />
+      </SplitViewSized>
+    </SplitView>
+  );
+};
+
+const Editor = ({
+  serialSizedMode,
+  setSerialStateWhenOpen,
+  editor,
+}: EditorProps) => {
+  const intl = useIntl();
+  return (
+    <Flex
+      as="main"
+      flex="1 1 100%"
+      flexDirection="column"
+      height="100%"
+      boxShadow="4px 0px 24px #00000033"
+    >
+      <SplitView
+        direction="column"
+        minimums={[248, 200]}
+        compactSize={SerialArea.compactSize}
+        height="100%"
+        mode={serialSizedMode}
+      >
+        <SplitViewRemainder>{editor}</SplitViewRemainder>
+        <SplitViewDivider />
+        <SplitViewSized>
+          <SerialArea
+            as="section"
+            compact={serialSizedMode === "compact"}
+            onSizeChange={setSerialStateWhenOpen}
+            aria-label={intl.formatMessage({
+              id: "serial-terminal",
+            })}
+          />
+        </SplitViewSized>
+      </SplitView>
+      <ProjectActionBar
+        as="section"
+        aria-label={intl.formatMessage({ id: "project-actions" })}
+        borderTopWidth={2}
+        borderColor="gray.200"
+      />
+    </Flex>
   );
 };
 
