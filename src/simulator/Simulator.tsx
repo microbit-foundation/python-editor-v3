@@ -8,8 +8,8 @@ const Simulator = () => {
   const ref = useRef<HTMLIFrameElement>(null);
   const { play, stop, sensors, onSensorChange } = useSimulator(ref);
   return (
-    <VStack spacing={5}>
-      <Box width="100%">
+    <VStack spacing={5} height="100%" bg="gray.25">
+      <Box width="100%" boxShadow="lg" pb={2}>
         <AspectRatio ratio={191.27 / 155.77} width="100%">
           <Box
             ref={ref}
@@ -19,6 +19,7 @@ const Simulator = () => {
             title="Simulator"
             frameBorder="no"
             scrolling="no"
+            allow="autoplay;microphone"
           />
         </AspectRatio>
         <HStack justifyContent="center">

@@ -15,7 +15,8 @@ import { Box } from "@chakra-ui/layout";
  * The pane that takes the remaining space.
  */
 const SplitViewRemainder = ({ children }: { children: ReactNode }) => {
-  const { direction, sizedPaneSize, compactSize, mode } = useSplitViewContext();
+  const { direction, sizedPaneSize, compactSize, mode, dragging } =
+    useSplitViewContext();
   // We're the remainder, so figure out our size given the other cases.
   const remainingSpace = (() => {
     switch (mode) {
@@ -27,7 +28,14 @@ const SplitViewRemainder = ({ children }: { children: ReactNode }) => {
         return `calc(100% - ${compactSize}px)`;
     }
   })();
-  return <Box {...dimensionProps(direction, remainingSpace)}>{children}</Box>;
+  return (
+    <Box
+      {...dimensionProps(direction, remainingSpace)}
+      pointerEvents={dragging ? "none" : "unset"}
+    >
+      {children}
+    </Box>
+  );
 };
 
 export default SplitViewRemainder;

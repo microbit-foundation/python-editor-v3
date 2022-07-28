@@ -17,7 +17,8 @@ interface SizedPaneProps {
  * The other pane takes the remaining space.
  */
 const SplitViewSized = ({ children }: SizedPaneProps) => {
-  const { direction, sizedPaneSize, compactSize, mode } = useSplitViewContext();
+  const { direction, sizedPaneSize, compactSize, mode, dragging } =
+    useSplitViewContext();
   const ref = createRef<HTMLDivElement>();
   useEffect(() => {
     if (ref.current) {
@@ -35,7 +36,11 @@ const SplitViewSized = ({ children }: SizedPaneProps) => {
     }
   }, [ref, mode, direction, sizedPaneSize, compactSize]);
   return (
-    <Box visibility={mode === "collapsed" ? "hidden" : undefined} ref={ref}>
+    <Box
+      pointerEvents={dragging ? "none" : "unset"}
+      visibility={mode === "collapsed" ? "hidden" : undefined}
+      ref={ref}
+    >
       {children}
     </Box>
   );
