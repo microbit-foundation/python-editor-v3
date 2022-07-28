@@ -26,6 +26,7 @@ export const dimensionProps = (
 };
 
 export interface SplitViewContext {
+  dragging: boolean;
   mode: SizedMode;
   compactSize: number;
   sizedPaneSize: number | undefined;

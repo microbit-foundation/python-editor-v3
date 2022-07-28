@@ -144,6 +144,7 @@ export const SplitView = ({
 
   const context: SplitViewContext = useMemo(() => {
     return {
+      dragging,
       mode,
       compactSize,
       sizedPaneSize,
@@ -155,6 +156,7 @@ export const SplitView = ({
       handleTouchEndOrMouseUp,
     };
   }, [
+    dragging,
     mode,
     compactSize,
     sizedPaneSize,
