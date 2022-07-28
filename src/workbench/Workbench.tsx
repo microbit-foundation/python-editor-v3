@@ -186,6 +186,7 @@ const Editor = ({
         aria-label={intl.formatMessage({ id: "project-actions" })}
         borderTopWidth={2}
         borderColor="gray.200"
+        overflow="hidden"
       />
     </Flex>
   );
