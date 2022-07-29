@@ -9,13 +9,10 @@
  * It might be we could create a custom environment that was web but
  * with a tweak to Buffer.
  */
-import {
-  ConnectionStatus,
-  EVENT_STATUS,
-  MicrobitWebUSBConnection,
-} from "./device";
+import { ConnectionStatus, EVENT_STATUS } from "./device";
 import { USB } from "webusb";
 import { NullLogging } from "../deployment/default/logging";
+import { MicrobitWebUSBConnection } from "./webusb";
 
 const describeDeviceOnly = process.env.TEST_MODE_DEVICE
   ? describe

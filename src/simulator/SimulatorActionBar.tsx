@@ -4,19 +4,24 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, HStack, IconButton, useMediaQuery } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { RiPlayFill, RiStopFill } from "react-icons/ri";
 import { widthXl } from "../common/media-queries";
+import { useSimulatorDevice } from "../device/device-hooks";
+import { useFileSystem } from "../fs/fs-hooks";
 
-interface SimulatorActionBarProps extends BoxProps {
-  onPlay: () => Promise<void>;
-  onStop: () => Promise<void>;
-}
+interface SimulatorActionBarProps extends BoxProps {}
 
-const SimulatorActionBar = ({
-  onPlay,
-  onStop,
-  ...props
-}: SimulatorActionBarProps) => {
+const SimulatorActionBar = (props: SimulatorActionBarProps) => {
+  const device = useSimulatorDevice();
+  const fs = useFileSystem();
+  const handlePlay = useCallback(async () => {
+    device.flash(fs, {
+      partial: true,
+      progress: () => {},
+    });
+  }, [device, fs]);
+
   const [isWideScreen] = useMediaQuery(widthXl);
   const size = "lg";
   return (
@@ -30,14 +35,14 @@ const SimulatorActionBar = ({
       <IconButton
         size={size}
         variant="solid"
-        onClick={onPlay}
+        onClick={handlePlay}
         icon={<RiPlayFill />}
         aria-label="Run"
       />
       <IconButton
         size={size}
         variant="outline"
-        onClick={onStop}
+        onClick={device.stop}
         icon={<RiStopFill />}
         aria-label="Stop"
       />

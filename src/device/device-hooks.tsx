@@ -23,6 +23,7 @@ import {
   EVENT_SERIAL_RESET,
   EVENT_STATUS,
 } from "./device";
+import { SimulatorDeviceConnection } from "./simulator";
 
 const DeviceContext = React.createContext<undefined | DeviceConnection>(
   undefined
@@ -39,6 +40,17 @@ export const useDevice = () => {
   const device = useContext(DeviceContext);
   if (!device) {
     throw new Error("Missing provider.");
+  }
+  return device;
+};
+
+/**
+ * Hook to access the simulator from UI code.
+ */
+export const useSimulatorDevice = (): SimulatorDeviceConnection => {
+  const device = useDevice();
+  if (!(device instanceof SimulatorDeviceConnection)) {
+    throw new Error("Simulator not in scope");
   }
   return device;
 };
