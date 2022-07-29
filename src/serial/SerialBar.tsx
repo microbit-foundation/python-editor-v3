@@ -27,6 +27,7 @@ import SerialMenu from "./SerialMenu";
 interface SerialBarProps extends BoxProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
+  simulator: boolean;
 }
 
 /**
@@ -36,6 +37,7 @@ const SerialBar = ({
   compact,
   onSizeChange,
   background,
+  simulator,
   ...props
 }: SerialBarProps) => {
   const logging = useLogging();

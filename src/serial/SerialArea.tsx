@@ -12,6 +12,7 @@ import SerialBar from "./SerialBar";
 import XTerm from "./XTerm";
 
 interface SerialAreaProps extends BoxProps {
+  simulator?: boolean;
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
 }
@@ -22,7 +23,12 @@ interface SerialAreaProps extends BoxProps {
  * This has a compact and expanded form and coordinates its
  * size with the workspace layout via compact/onSizeChange.
  */
-const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
+const SerialArea = ({
+  compact,
+  onSizeChange,
+  simulator = false,
+  ...props
+}: SerialAreaProps) => {
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
   return (
     <TerminalContext>
@@ -34,7 +40,7 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
         position="relative"
         overflow="hidden"
       >
-        {!connected ? null : (
+        {!connected && !simulator ? null : (
           <Box
             alignItems="stretch"
             backgroundColor={backgroundColorTerm}
@@ -44,12 +50,14 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
               height={12}
               compact={compact}
               onSizeChange={onSizeChange}
+              simulator={simulator}
             />
             <XTerm
               visibility={compact ? "hidden" : undefined}
               height={`calc(100% - ${SerialArea.compactSize}px)`}
               ml={1}
               mr={1}
+              simulator={simulator}
             />
           </Box>
         )}
