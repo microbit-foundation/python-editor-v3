@@ -12,9 +12,9 @@ import SerialBar from "./SerialBar";
 import XTerm from "./XTerm";
 
 interface SerialAreaProps extends BoxProps {
-  simulator?: boolean;
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
+  showTerminal?: boolean;
 }
 
 /**
@@ -26,7 +26,7 @@ interface SerialAreaProps extends BoxProps {
 const SerialArea = ({
   compact,
   onSizeChange,
-  simulator = false,
+  showTerminal = false,
   ...props
 }: SerialAreaProps) => {
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
@@ -40,7 +40,7 @@ const SerialArea = ({
         position="relative"
         overflow="hidden"
       >
-        {!connected && !simulator ? null : (
+        {!connected && !showTerminal ? null : (
           <Box
             alignItems="stretch"
             backgroundColor={backgroundColorTerm}
@@ -50,14 +50,12 @@ const SerialArea = ({
               height={12}
               compact={compact}
               onSizeChange={onSizeChange}
-              simulator={simulator}
             />
             <XTerm
               visibility={compact ? "hidden" : undefined}
               height={`calc(100% - ${SerialArea.compactSize}px)`}
               ml={1}
               mr={1}
-              simulator={simulator}
             />
           </Box>
         )}

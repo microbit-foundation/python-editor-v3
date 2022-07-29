@@ -1,4 +1,3 @@
-import EventEmitter from "events";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFileSystem } from "../fs/fs-hooks";
 import { Sensor } from "./model";
@@ -27,7 +26,7 @@ export const useSimulator = (ref: React.RefObject<HTMLIFrameElement>) => {
               break;
             }
             case "serial_output": {
-              // TODO
+              // TODO: serial
               break;
             }
           }
@@ -91,15 +90,10 @@ export const useSimulator = (ref: React.RefObject<HTMLIFrameElement>) => {
     );
   }, [ref]);
 
-  const onSerialOuput = useCallback((data: string) => {
-    return data;
-  }, []);
-
   return {
     play,
     stop,
     sensors: Object.values(sensors),
     onSensorChange,
-    onSerialOuput,
   };
 };

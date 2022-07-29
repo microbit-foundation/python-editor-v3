@@ -20,16 +20,14 @@ import { useCurrentTerminalRef } from "./serial-hooks";
 import "./xterm-custom.css";
 import customKeyEventHandler from "./xterm-keyboard";
 
-interface XTermProps extends BoxProps {
-  simulator: boolean;
-}
+interface XTermProps extends BoxProps {}
 
 /**
  * xterm.js-based terminal.
  */
-const XTerm = ({ simulator, ...props }: XTermProps) => {
+const XTerm = ({ ...props }: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  useManagedTermimal(ref, simulator);
+  useManagedTermimal(ref);
   return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
 };
 
@@ -41,10 +39,7 @@ const ptToPixelRatio = 96 / 72;
  * The terminal is registered with the current terminal hook so only
  * one instance is permitted without changing that design.
  */
-const useManagedTermimal = (
-  ref: React.RefObject<HTMLDivElement>,
-  simulator: boolean
-): void => {
+const useManagedTermimal = (ref: React.RefObject<HTMLDivElement>): void => {
   const parent = ref.current;
   const actionFeedback = useActionFeedback();
   const codeFontFamily = useToken("fonts", "code");
