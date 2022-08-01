@@ -34,33 +34,34 @@ const Simulator = () => {
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex flex="1 1 100%" flexDirection="column" height="100%">
+        <VStack spacing={5} bg="gray.25">
+          <Box width="100%" pb={1}>
+            <AspectRatio ratio={191.27 / 155.77} width="100%">
+              <Box
+                ref={ref}
+                as="iframe"
+                // This needs changing before we remove the flag.
+                src="https://stage-python-simulator.microbit.org/simulator.html"
+                title="Simulator"
+                frameBorder="no"
+                scrolling="no"
+                allow="autoplay;microphone"
+              />
+            </AspectRatio>
+            <SimulatorActionBar
+              as="section"
+              aria-label={intl.formatMessage({ id: "project-actions" })}
+              overflow="hidden"
+            />
+          </Box>
+        </VStack>
         <SplitView
           direction="column"
-          minimums={[248, 200]}
+          minimums={[150, 200]}
           compactSize={SerialArea.compactSize}
           height="100%"
           mode={serialStateWhenOpen}
         >
-          <SplitViewRemainder>
-            <VStack spacing={5} height="100%" bg="gray.25">
-              <Box width="100%" boxShadow="lg" pb={2}>
-                <AspectRatio ratio={191.27 / 155.77} width="100%">
-                  <Box
-                    ref={ref}
-                    as="iframe"
-                    // This needs changing before we remove the flag.
-                    src="https://stage-python-simulator.microbit.org/simulator.html"
-                    title="Simulator"
-                    frameBorder="no"
-                    scrolling="no"
-                    allow="autoplay;microphone"
-                  />
-                </AspectRatio>
-              </Box>
-              <Sensors flex="1 1 auto" />
-            </VStack>
-          </SplitViewRemainder>
-          <SplitViewDivider />
           <SplitViewSized>
             <SerialArea
               as="section"
@@ -71,14 +72,13 @@ const Simulator = () => {
               })}
             />
           </SplitViewSized>
+          <SplitViewDivider />
+          <SplitViewRemainder>
+            <VStack spacing={5} bg="gray.25" height="100%">
+              <Sensors flex="1 1 auto" />
+            </VStack>
+          </SplitViewRemainder>
         </SplitView>
-        <SimulatorActionBar
-          as="section"
-          aria-label={intl.formatMessage({ id: "project-actions" })}
-          borderTopWidth={2}
-          borderColor="gray.200"
-          overflow="hidden"
-        />
       </Flex>
     </DeviceContextProvider>
   );
