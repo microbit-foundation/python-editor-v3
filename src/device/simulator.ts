@@ -134,7 +134,7 @@ export class SimulatorDeviceConnection
   private postMessage(kind: string, data: any): void {
     const iframe = this.iframe();
     if (!iframe) {
-      throw new Error("No-one to talk to.");
+      throw new Error("Missing simulator iframe.");
     }
     iframe.contentWindow!.postMessage(
       {
