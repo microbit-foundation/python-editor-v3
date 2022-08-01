@@ -11,10 +11,7 @@ import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { MicrobitWebUSBConnection } from "./device/webusb";
-import {
-  DeviceContextProvider,
-  SyncStatusProvider,
-} from "./device/device-hooks";
+import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import DocumentationProvider from "./documentation/documentation-hooks";
 import SearchProvider from "./documentation/search/search-hooks";
@@ -73,30 +70,28 @@ const App = () => {
           <SettingsProvider>
             <SessionSettingsProvider>
               <TranslationProvider>
-                <DeviceContextProvider value={device}>
-                  <FileSystemProvider value={fs}>
+                <FileSystemProvider value={fs}>
+                  <DeviceContextProvider value={device}>
                     <LanguageServerClientProvider>
-                      <SyncStatusProvider>
-                        <BeforeUnloadDirtyCheck />
-                        <DocumentationProvider>
-                          <SearchProvider>
-                            <SelectionProvider>
-                              <DialogProvider>
-                                <RouterProvider>
-                                  <ProjectDropTarget>
-                                    <ActiveEditorProvider>
-                                      <Workbench />
-                                    </ActiveEditorProvider>
-                                  </ProjectDropTarget>
-                                </RouterProvider>
-                              </DialogProvider>
-                            </SelectionProvider>
-                          </SearchProvider>
-                        </DocumentationProvider>
-                      </SyncStatusProvider>
+                      <BeforeUnloadDirtyCheck />
+                      <DocumentationProvider>
+                        <SearchProvider>
+                          <SelectionProvider>
+                            <DialogProvider>
+                              <RouterProvider>
+                                <ProjectDropTarget>
+                                  <ActiveEditorProvider>
+                                    <Workbench />
+                                  </ActiveEditorProvider>
+                                </ProjectDropTarget>
+                              </RouterProvider>
+                            </DialogProvider>
+                          </SelectionProvider>
+                        </SearchProvider>
+                      </DocumentationProvider>
                     </LanguageServerClientProvider>
-                  </FileSystemProvider>
-                </DeviceContextProvider>
+                  </DeviceContextProvider>
+                </FileSystemProvider>
               </TranslationProvider>
             </SessionSettingsProvider>
           </SettingsProvider>

@@ -37,11 +37,12 @@ export class SimulatorDeviceConnection
 
     switch (event.data.kind) {
       case "ready": {
+        // We get this in response to flash as well as at start-up.
         this.sensors = sensorsById(event);
         this.emit(EVENT_SENSORS, this.sensors);
-        // For now we're always connected when ready.
-        // In the future we'll disconnect when stopped.
-        this.setStatus(ConnectionStatus.CONNECTED);
+        if (this.status !== ConnectionStatus.CONNECTED) {
+          this.setStatus(ConnectionStatus.CONNECTED);
+        }
         break;
       }
       case "sensor_change": {
