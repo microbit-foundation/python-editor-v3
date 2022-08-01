@@ -50,7 +50,12 @@ const RangeSensor = ({
         <SliderMark value={min} mt="1" fontSize="xs">
           {min}
         </SliderMark>
-        <SliderMark value={max} mt="1" ml="-3ch" fontSize="xs">
+        <SliderMark
+          value={max}
+          mt="1"
+          ml={`-${max.toString().length}ch`}
+          fontSize="xs"
+        >
           {max}
         </SliderMark>
         <SliderMark
