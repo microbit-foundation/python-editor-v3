@@ -23,12 +23,11 @@ import {
   EVENT_SERIAL_RESET,
   EVENT_STATUS,
 } from "./device";
+import { SimulatorDeviceConnection } from "./simulator";
 
 const DeviceContext = React.createContext<undefined | DeviceConnection>(
   undefined
 );
-
-export const DeviceContextProvider = DeviceContext.Provider;
 
 /**
  * Hook to access the device from UI code.
@@ -39,6 +38,17 @@ export const useDevice = () => {
   const device = useContext(DeviceContext);
   if (!device) {
     throw new Error("Missing provider.");
+  }
+  return device;
+};
+
+/**
+ * Hook to access the simulator from UI code.
+ */
+export const useSimulator = (): SimulatorDeviceConnection => {
+  const device = useDevice();
+  if (!(device instanceof SimulatorDeviceConnection)) {
+    throw new Error("Simulator not in scope");
   }
   return device;
 };
@@ -224,11 +234,16 @@ export const useSyncStatus = (): SyncStatus => {
   return value[0];
 };
 
-export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
+export const DeviceContextProvider = ({
+  value: device,
+  children,
+}: {
+  value: DeviceConnection;
+  children: ReactNode;
+}) => {
   const syncStatusState = useState<SyncStatus>(SyncStatus.OUT_OF_SYNC);
   const [, setSyncStatus] = syncStatusState;
   const fs = useFileSystem();
-  const device = useDevice();
   useEffect(() => {
     const moveToOutOfSync = () => setSyncStatus(SyncStatus.OUT_OF_SYNC);
     const moveToInSync = () => setSyncStatus(SyncStatus.IN_SYNC);
@@ -244,8 +259,10 @@ export const SyncStatusProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [fs, device, setSyncStatus]);
   return (
-    <SyncContext.Provider value={syncStatusState}>
-      {children}
-    </SyncContext.Provider>
+    <DeviceContext.Provider value={device}>
+      <SyncContext.Provider value={syncStatusState}>
+        {children}
+      </SyncContext.Provider>
+    </DeviceContext.Provider>
   );
 };

@@ -23,7 +23,8 @@ interface SerialAreaProps extends BoxProps {
  * size with the workspace layout via compact/onSizeChange.
  */
 const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
-  const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const status = useConnectionStatus();
+  const connected = status === ConnectionStatus.CONNECTED;
   return (
     <TerminalContext>
       <Flex

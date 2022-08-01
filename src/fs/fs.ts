@@ -455,6 +455,15 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     }
   }
 
+  async files(): Promise<Record<string, Uint8Array>> {
+    const names = await this.storage.ls();
+    return Object.fromEntries(
+      await Promise.all(
+        names.map(async (name) => [name, (await this.read(name)).data])
+      )
+    );
+  }
+
   private assertInitialized(): MicropythonFsHex {
     if (!this.fs) {
       throw new Error("Must be initialized");

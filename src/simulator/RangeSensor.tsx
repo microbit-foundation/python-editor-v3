@@ -28,7 +28,7 @@ const RangeSensor = ({
   );
   const valueText = unit ? `${value} ${unit}` : value.toString();
   return (
-    <HStack pt={5}>
+    <HStack pt={5} pb={2}>
       <Icon
         as={sensorIcons[id] || RiQuestionFill}
         aria-label={id}
@@ -50,7 +50,12 @@ const RangeSensor = ({
         <SliderMark value={min} mt="1" fontSize="xs">
           {min}
         </SliderMark>
-        <SliderMark value={max} mt="1" ml="-3ch" fontSize="xs">
+        <SliderMark
+          value={max}
+          mt="1"
+          ml={`-${max.toString().length}ch`}
+          fontSize="xs"
+        >
           {max}
         </SliderMark>
         <SliderMark
