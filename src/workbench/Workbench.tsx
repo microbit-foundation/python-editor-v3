@@ -59,6 +59,7 @@ const Workbench = () => {
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [sidebarShown, setSidebarShown] = useState<boolean>(true);
+  const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
   const editor = (
     <Box height="100%" as="section">
       {selection && fileVersion !== undefined && (
@@ -66,6 +67,8 @@ const Workbench = () => {
           key={selection.file + "/" + fileVersion}
           selection={selection}
           onSelectedFileChanged={setSelectedFile}
+          simulatorShown={simulatorShown}
+          setSimulatorShown={setSimulatorShown}
         />
       )}
     </Box>
@@ -103,6 +106,8 @@ const Workbench = () => {
                 editor={editor}
                 serialSizedMode={serialSizedMode}
                 setSerialStateWhenOpen={setSerialStateWhenOpen}
+                simulatorShown={simulatorShown}
+                setSimulatorShown={setSimulatorShown}
               />
             ) : (
               <Editor
@@ -125,13 +130,25 @@ interface EditorProps {
   editor: ReactNode;
 }
 
+interface EditorWithSimulatorProps extends EditorProps {
+  simulatorShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const EditorWithSimulator = ({
   serialSizedMode,
   setSerialStateWhenOpen,
   editor,
-}: EditorProps) => {
+  simulatorShown,
+  setSimulatorShown,
+}: EditorWithSimulatorProps) => {
   return (
-    <SplitView direction="row" minimums={[300, 300]} height="100%">
+    <SplitView
+      direction="row"
+      minimums={[300, 300]}
+      height="100%"
+      mode={simulatorShown ? "open" : "compact"}
+    >
       <SplitViewRemainder>
         <Editor
           editor={editor}
@@ -141,7 +158,7 @@ const EditorWithSimulator = ({
       </SplitViewRemainder>
       <SplitViewDivider />
       <SplitViewSized>
-        <Simulator />
+        <Simulator setSimulatorShown={setSimulatorShown} />
       </SplitViewSized>
     </SplitView>
   );
@@ -160,6 +177,7 @@ const Editor = ({
       flexDirection="column"
       height="100%"
       boxShadow="4px 0px 24px #00000033"
+      position="relative"
     >
       <SplitView
         direction="column"

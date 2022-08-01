@@ -3,7 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Flex, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  useMediaQuery,
+  IconButton,
+} from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 import { topBarHeight } from "../deployment/misc";
 import ProjectNameEditable from "../project/ProjectNameEditable";
@@ -13,10 +19,14 @@ import EditorContainer from "./EditorContainer";
 import ZoomControls from "../editor/ZoomControls";
 import UndoRedoControls from "./UndoRedoControls";
 import { widthXl } from "../common/media-queries";
+import { flags } from "../flags";
+import { RiPlayFill } from "react-icons/ri";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
   onSelectedFileChanged: (filename: string) => void;
+  simulatorShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
@@ -26,6 +36,8 @@ interface EditorAreaProps extends BoxProps {
 const EditorArea = ({
   selection,
   onSelectedFileChanged,
+  simulatorShown,
+  setSimulatorShown,
   ...props
 }: EditorAreaProps) => {
   const intl = useIntl();
@@ -78,6 +90,19 @@ const EditorArea = ({
           right={isWideScreen ? 10 : 5}
           position="absolute"
         />
+        {flags.simulator && !simulatorShown && (
+          <IconButton
+            size="md"
+            variant="solid"
+            icon={<RiPlayFill />}
+            aria-label="Show simulator"
+            position="absolute"
+            right={isWideScreen ? 10 : 5}
+            bottom={3}
+            onClick={() => setSimulatorShown!(true)}
+            zIndex="1"
+          />
+        )}
         <EditorContainer selection={selection} />
       </Box>
     </Flex>
