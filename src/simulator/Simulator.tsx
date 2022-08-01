@@ -31,10 +31,12 @@ const Simulator = () => {
       sim.dispose();
     };
   }, []);
+  const simControlsRef = useRef<HTMLDivElement>(null);
+  const simHeight = simControlsRef.current?.offsetHeight || 0;
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex flex="1 1 100%" flexDirection="column" height="100%">
-        <VStack spacing={5} bg="gray.25">
+        <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
           <Box width="100%" pb={1}>
             <AspectRatio ratio={191.27 / 155.77} width="100%">
               <Box
@@ -59,7 +61,7 @@ const Simulator = () => {
           direction="column"
           minimums={[150, 200]}
           compactSize={SerialArea.compactSize}
-          height="100%"
+          height={`calc(100% - ${simHeight}px)`}
           mode={serialStateWhenOpen}
         >
           <SplitViewSized>
@@ -73,10 +75,12 @@ const Simulator = () => {
             />
           </SplitViewSized>
           <SplitViewDivider />
-          <SplitViewRemainder>
-            <VStack spacing={5} bg="gray.25" height="100%">
-              <Sensors flex="1 1 auto" />
-            </VStack>
+          <SplitViewRemainder overflowY="auto">
+            <Flex flexDirection="column" height="100%">
+              <VStack spacing={5} bg="gray.25" flex="1 1 auto">
+                <Sensors flex="1 1 auto" />
+              </VStack>
+            </Flex>
           </SplitViewRemainder>
         </SplitView>
       </Flex>
