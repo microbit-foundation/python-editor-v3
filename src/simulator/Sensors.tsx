@@ -1,6 +1,6 @@
 import { BoxProps, Stack } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
-import { useSimulatorDevice } from "../device/device-hooks";
+import { useSimulator } from "../device/device-hooks";
 import { EVENT_SENSORS } from "../device/simulator";
 import { Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
@@ -8,7 +8,7 @@ import RangeSensor from "./RangeSensor";
 interface SensorsProps extends BoxProps {}
 
 const Sensors = (props: SensorsProps) => {
-  const device = useSimulatorDevice();
+  const device = useSimulator();
   const [sensors, setSensors] = useState<Record<string, Sensor>>(
     device.sensors
   );

@@ -7,13 +7,13 @@ import { BoxProps, HStack, IconButton, useMediaQuery } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiPlayFill, RiStopFill } from "react-icons/ri";
 import { widthXl } from "../common/media-queries";
-import { useSimulatorDevice } from "../device/device-hooks";
+import { useSimulator } from "../device/device-hooks";
 import { useFileSystem } from "../fs/fs-hooks";
 
 interface SimulatorActionBarProps extends BoxProps {}
 
 const SimulatorActionBar = (props: SimulatorActionBarProps) => {
-  const device = useSimulatorDevice();
+  const device = useSimulator();
   const fs = useFileSystem();
   const handlePlay = useCallback(async () => {
     device.flash(fs, {

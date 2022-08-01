@@ -45,7 +45,7 @@ export const useDevice = () => {
 /**
  * Hook to access the simulator from UI code.
  */
-export const useSimulatorDevice = (): SimulatorDeviceConnection => {
+export const useSimulator = (): SimulatorDeviceConnection => {
   const device = useDevice();
   if (!(device instanceof SimulatorDeviceConnection)) {
     throw new Error("Simulator not in scope");
