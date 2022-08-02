@@ -43,7 +43,13 @@ export type Flag =
   /**
    * Simulator. Implementation is very incomplete.
    */
-  | "simulator";
+  | "simulator"
+  /**
+   * Temporary flags to test show simulator buttons.
+   */
+  | "showSquarePlay"
+  | "showSquareMicrobit"
+  | "showMicrobit";
 
 interface FlagMetadata {
   defaultOnStages: string[];
@@ -57,6 +63,10 @@ const allFlags: FlagMetadata[] = [
   { name: "livePreview", defaultOnStages: ["local", "REVIEW"] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
   { name: "simulator", defaultOnStages: [] },
+  // Temporary flags to test show simulator buttons.
+  { name: "showSquarePlay", defaultOnStages: [] },
+  { name: "showSquareMicrobit", defaultOnStages: [] },
+  { name: "showMicrobit", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;

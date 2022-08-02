@@ -6,21 +6,25 @@
 import {
   Box,
   BoxProps,
+  Button,
   Flex,
-  useMediaQuery,
+  Icon,
   IconButton,
+  useMediaQuery,
 } from "@chakra-ui/react";
+import { RiPlayCircleFill, RiPlayCircleLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { widthXl } from "../common/media-queries";
 import { topBarHeight } from "../deployment/misc";
+import ZoomControls from "../editor/ZoomControls";
+import { flags } from "../flags";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
-import ZoomControls from "../editor/ZoomControls";
+import { ReactComponent as MicrobitBoard } from "./microbit-drawing.svg";
+import { ReactComponent as FaceIcon } from "./microbit-face-icon.svg";
 import UndoRedoControls from "./UndoRedoControls";
-import { widthXl } from "../common/media-queries";
-import { flags } from "../flags";
-import { RiPlayFill } from "react-icons/ri";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
@@ -91,22 +95,133 @@ const EditorArea = ({
           position="absolute"
         />
         {flags.simulator && !simulatorShown && (
-          <IconButton
-            size="md"
-            variant="solid"
-            icon={<RiPlayFill />}
-            aria-label="Show simulator"
-            position="absolute"
-            right={isWideScreen ? 10 : 5}
-            bottom={3}
-            onClick={() => setSimulatorShown!(true)}
-            zIndex="1"
-          />
+          <HideSimButtonOptions setSimulatorShown={setSimulatorShown} />
         )}
         <EditorContainer selection={selection} />
       </Box>
     </Flex>
   );
+};
+
+// Temporary component to test different show simulator button options.
+interface HideSimButtonOptionsProps {
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const HideSimButtonOptions = ({
+  setSimulatorShown,
+}: HideSimButtonOptionsProps) => {
+  const [isWideScreen] = useMediaQuery(widthXl);
+  const round = (
+    <IconButton
+      size="md"
+      fontSize="x-large"
+      variant="solid"
+      icon={<RiPlayCircleFill color="gray.50" />}
+      aria-label="Show simulator"
+      position="absolute"
+      right={isWideScreen ? 10 : 5}
+      bottom={3}
+      onClick={() => setSimulatorShown(true)}
+      zIndex="1"
+    />
+  );
+  const squarePlay = (
+    <IconButton
+      size="md"
+      fontSize="x-large"
+      variant="solid"
+      icon={<RiPlayCircleFill color="gray.50" />}
+      aria-label="Show simulator"
+      position="absolute"
+      right={0}
+      bottom={3}
+      onClick={() => setSimulatorShown(true)}
+      zIndex="1"
+      borderTopLeftRadius={10}
+      borderTopRightRadius={0}
+      borderBottomRightRadius={0}
+      borderBottomLeftRadius={10}
+    />
+  );
+  const squareMicrobit = (
+    <IconButton
+      size="md"
+      variant="solid"
+      icon={<FaceIcon />}
+      aria-label="Show simulator"
+      position="absolute"
+      right={0}
+      bottom={3}
+      onClick={() => setSimulatorShown(true)}
+      zIndex="1"
+      borderTopLeftRadius={10}
+      borderTopRightRadius={0}
+      borderBottomRightRadius={0}
+      borderBottomLeftRadius={10}
+      p={1.5}
+    />
+  );
+  const microbitBoard = (
+    <Flex
+      position="absolute"
+      right={0}
+      bottom={3}
+      zIndex="1"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Button
+        width="100%"
+        height="100%"
+        position="relative"
+        borderTopLeftRadius={10}
+        borderTopRightRadius={0}
+        borderBottomRightRadius={0}
+        borderBottomLeftRadius={10}
+        px={2}
+        pb={0.5}
+        overflow="hidden"
+        onClick={() => setSimulatorShown(true)}
+        aria-label="Show simulator"
+        border="none"
+      >
+        <Icon as={MicrobitBoard} w={20} h={20} />
+        <Box
+          bgColor="gray.200"
+          width="100%"
+          height="100%"
+          position="absolute"
+          top={0}
+          left={0}
+          opacity={0.5}
+        />
+        <Flex
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          alignItems="center"
+          justifyContent="center"
+          bgColor="gray.200"
+          borderRadius="50%"
+          maxW="38px"
+          maxH="38px"
+          overflow="hidden"
+        >
+          <Icon as={RiPlayCircleLine} color="brand.500" w={12} h={12} />
+        </Flex>
+      </Button>
+    </Flex>
+  );
+  if (flags.showMicrobit) {
+    return microbitBoard;
+  } else if (flags.showSquarePlay) {
+    return squarePlay;
+  } else if (flags.showSquareMicrobit) {
+    return squareMicrobit;
+  }
+  return round;
 };
 
 export default EditorArea;
