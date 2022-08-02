@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { IconButton, IconButtonProps, Portal } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiDownloadLine } from "react-icons/ri";
 import { ReactComponent as FaceIcon } from "../../editor/microbit-face-icon.svg";
 
@@ -24,10 +24,15 @@ const HideSplitViewButton = ({
   handleShowSimulator,
   ...props
 }: HideSplitViewButtonProps) => {
+  const [top, setTop] = useState(0);
   const deg = direction === "left" ? "90deg" : "270deg";
   const ref = useRef<HTMLButtonElement>(null);
   const topAdjust = 5;
-  const top = ref.current?.getBoundingClientRect().top || 0;
+  useEffect(() => {
+    if (!simulatorShown) {
+      setTop(ref.current?.getBoundingClientRect().top || 0);
+    }
+  }, [simulatorShown]);
   return (
     <>
       {simulatorButton && !simulatorShown && (
