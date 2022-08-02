@@ -49,7 +49,8 @@ export type Flag =
    */
   | "showSquarePlay"
   | "showSquareMicrobit"
-  | "showMicrobit";
+  | "showMicrobit"
+  | "showAlternative";
 
 interface FlagMetadata {
   defaultOnStages: string[];
@@ -67,6 +68,7 @@ const allFlags: FlagMetadata[] = [
   { name: "showSquarePlay", defaultOnStages: [] },
   { name: "showSquareMicrobit", defaultOnStages: [] },
   { name: "showMicrobit", defaultOnStages: [] },
+  { name: "showAlternative", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;

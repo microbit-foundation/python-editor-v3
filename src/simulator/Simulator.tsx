@@ -9,14 +9,16 @@ import { useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
+import { flags } from "../flags";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 
 interface SimulatorProps {
+  simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Simulator = ({ setSimulatorShown }: SimulatorProps) => {
+const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
   const simulator = useRef(
@@ -35,6 +37,9 @@ const Simulator = ({ setSimulatorShown }: SimulatorProps) => {
   const simHeight = simControlsRef.current?.offsetHeight || 0;
   const handleHideSimulator = useCallback(() => {
     setSimulatorShown(false);
+  }, [setSimulatorShown]);
+  const handleShowSimulator = useCallback(() => {
+    setSimulatorShown(true);
   }, [setSimulatorShown]);
   return (
     <DeviceContextProvider value={simulator.current}>
@@ -62,16 +67,21 @@ const Simulator = ({ setSimulatorShown }: SimulatorProps) => {
               as="section"
               aria-label={intl.formatMessage({ id: "project-actions" })}
               overflow="hidden"
+              handleHideSimulator={handleHideSimulator}
+              handleShowSimulator={handleShowSimulator}
+              simulatorShown={simulatorShown}
             />
           </Box>
         </VStack>
         <SimulatorSplitView simHeight={simHeight} />
-        <HideSplitViewButton
-          handleClick={handleHideSimulator}
-          aria-label="Hide simulator"
-          direction="right"
-          left="-15px"
-        />
+        {!flags.showAlternative && (
+          <HideSplitViewButton
+            handleClick={handleHideSimulator}
+            aria-label="Hide simulator"
+            direction="right"
+            left="-15px"
+          />
+        )}
       </Flex>
     </DeviceContextProvider>
   );

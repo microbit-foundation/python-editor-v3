@@ -158,7 +158,10 @@ const EditorWithSimulator = ({
       </SplitViewRemainder>
       <SplitViewDivider />
       <SplitViewSized>
-        <Simulator setSimulatorShown={setSimulatorShown} />
+        <Simulator
+          setSimulatorShown={setSimulatorShown}
+          simulatorShown={simulatorShown}
+        />
       </SplitViewSized>
     </SplitView>
   );

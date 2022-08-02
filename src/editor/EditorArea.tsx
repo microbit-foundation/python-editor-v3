@@ -94,7 +94,7 @@ const EditorArea = ({
           right={isWideScreen ? 10 : 5}
           position="absolute"
         />
-        {flags.simulator && !simulatorShown && (
+        {flags.simulator && !simulatorShown && !flags.showAlternative && (
           <HideSimButtonOptions setSimulatorShown={setSimulatorShown} />
         )}
         <EditorContainer selection={selection} />
