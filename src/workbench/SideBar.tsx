@@ -39,6 +39,8 @@ import ReleaseDialogs from "./ReleaseDialogs";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
+import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
+import { useLogging } from "../logging/logging-hooks";
 
 export const cornerSize = 32;
 
@@ -155,7 +157,7 @@ const SideBar = ({
     }
   }, [reference, api, idea, tab, setParams]);
 
-  const handleSidebarToggled = () => {
+  const handleSidebarToggled = useCallback(() => {
     if (tabIndex === -1) {
       const index = panes.findIndex((p) => p.id === tab);
       setTabIndex(index !== -1 ? index : 0);
@@ -164,7 +166,7 @@ const SideBar = ({
       setTabIndex(-1);
       setSidebarShown(false);
     }
-  };
+  }, [setSidebarShown, setTabIndex, panes, tab, tabIndex]);
 
   // Load with sidebar collapsed for smaller screen widths.
   useEffect(() => {
@@ -174,8 +176,23 @@ const SideBar = ({
     }
   }, [setSidebarShown]);
 
+  const logging = useLogging();
+  const handleSidebarCollapse = useCallback(() => {
+    logging.event({
+      type: "sidebar-toggle",
+      message: !sidebarShown ? "open" : "close",
+    });
+    handleSidebarToggled();
+  }, [logging, handleSidebarToggled, sidebarShown]);
+
   return (
-    <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
+    <Flex
+      height="100%"
+      direction="column"
+      {...props}
+      backgroundColor="gray.25"
+      position="relative"
+    >
       <SideBarHeader
         sidebarShown={sidebarShown}
         onSidebarToggled={handleSidebarToggled}
@@ -224,6 +241,14 @@ const SideBar = ({
         onDialogChange={setReleaseDialog}
         dialog={releaseDialog}
       />
+      {sidebarShown && (
+        <HideSplitViewButton
+          aria-label={intl.formatMessage({ id: "sidebar-collapse" })}
+          handleClick={handleSidebarCollapse}
+          direction="left"
+          right="-15px"
+        />
+      )}
     </Flex>
   );
 };

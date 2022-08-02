@@ -3,10 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { AspectRatio, Box, Flex, IconButton, VStack } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
-import { RiDownloadLine } from "react-icons/ri";
+import { AspectRatio, Box, Flex, VStack } from "@chakra-ui/react";
+import { useCallback, useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
+import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
@@ -33,6 +33,9 @@ const Simulator = ({ setSimulatorShown }: SimulatorProps) => {
   }, []);
   const simControlsRef = useRef<HTMLDivElement>(null);
   const simHeight = simControlsRef.current?.offsetHeight || 0;
+  const handleHideSimulator = useCallback(() => {
+    setSimulatorShown(false);
+  }, [setSimulatorShown]);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
@@ -63,25 +66,11 @@ const Simulator = ({ setSimulatorShown }: SimulatorProps) => {
           </Box>
         </VStack>
         <SimulatorSplitView simHeight={simHeight} />
-        <IconButton
-          borderTopLeftRadius={0}
-          borderTopRightRadius={0}
-          borderBottomRightRadius={6}
-          borderBottomLeftRadius={6}
-          size="sm"
-          height="20px"
-          width="50px"
-          background="#eaecf1"
-          color="brand.500"
-          variant="ghost"
-          bgColor="gray.200"
-          icon={<RiDownloadLine />}
+        <HideSplitViewButton
+          handleClick={handleHideSimulator}
           aria-label="Hide simulator"
-          position="absolute"
+          direction="right"
           left="-15px"
-          top="50%"
-          transform="translateY(-50%) rotate(270deg)"
-          onClick={() => setSimulatorShown(false)}
         />
       </Flex>
     </DeviceContextProvider>
