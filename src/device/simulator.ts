@@ -119,7 +119,7 @@ export class SimulatorDeviceConnection
   };
 
   reset = async (): Promise<void> => {
-    this.postMessage("restart", {});
+    this.postMessage("reset", {});
   };
 
   private setStatus(newStatus: ConnectionStatus) {
