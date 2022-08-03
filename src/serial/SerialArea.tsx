@@ -14,6 +14,7 @@ import XTerm from "./XTerm";
 interface SerialAreaProps extends BoxProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
+  showSyncStatus: boolean;
 }
 
 /**
@@ -22,7 +23,12 @@ interface SerialAreaProps extends BoxProps {
  * This has a compact and expanded form and coordinates its
  * size with the workspace layout via compact/onSizeChange.
  */
-const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
+const SerialArea = ({
+  compact,
+  onSizeChange,
+  showSyncStatus,
+  ...props
+}: SerialAreaProps) => {
   const status = useConnectionStatus();
   const connected = status === ConnectionStatus.CONNECTED;
   return (
@@ -45,6 +51,7 @@ const SerialArea = ({ compact, onSizeChange, ...props }: SerialAreaProps) => {
               height={12}
               compact={compact}
               onSizeChange={onSizeChange}
+              showSyncStatus={showSyncStatus}
             />
             <XTerm
               visibility={compact ? "hidden" : undefined}

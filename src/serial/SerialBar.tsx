@@ -27,6 +27,7 @@ import SerialMenu from "./SerialMenu";
 interface SerialBarProps extends BoxProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
+  showSyncStatus: boolean;
 }
 
 /**
@@ -36,6 +37,7 @@ const SerialBar = ({
   compact,
   onSizeChange,
   background,
+  showSyncStatus,
   ...props
 }: SerialBarProps) => {
   const logging = useLogging();
@@ -71,6 +73,7 @@ const SerialBar = ({
           compact={compact}
           traceback={traceback}
           overflow="hidden"
+          showSyncStatus={showSyncStatus}
         />
 
         <HStack>

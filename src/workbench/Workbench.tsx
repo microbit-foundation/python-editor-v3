@@ -178,6 +178,7 @@ const Editor = ({
             aria-label={intl.formatMessage({
               id: "serial-terminal",
             })}
+            showSyncStatus={true}
           />
         </SplitViewSized>
       </SplitView>
