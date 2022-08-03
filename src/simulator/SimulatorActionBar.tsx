@@ -48,7 +48,7 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
       simState === SimState.STOPPED ? (
         <IconButton
           size={size}
-          variant="solid"
+          variant="outline"
           onClick={handlePlay}
           icon={<RiPlayFill />}
           aria-label="Run"
@@ -56,7 +56,7 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
       ) : (
         <IconButton
           size={size}
-          variant="solid"
+          variant="outline"
           onClick={handleStop}
           icon={<RiStopFill />}
           aria-label="Stop"
