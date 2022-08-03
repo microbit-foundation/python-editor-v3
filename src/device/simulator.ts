@@ -115,11 +115,11 @@ export class SimulatorDeviceConnection
   };
 
   stop = async (): Promise<void> => {
-    this.postMessage("serial_input", {
-      // Ctrl-C to interrupt.
-      // A specific message would be useful as probably best to clear display etc. here.
-      data: `\x03`,
-    });
+    this.postMessage("stop", {});
+  };
+
+  reset = async (): Promise<void> => {
+    this.postMessage("reset", {});
   };
 
   private setStatus(newStatus: ConnectionStatus) {
