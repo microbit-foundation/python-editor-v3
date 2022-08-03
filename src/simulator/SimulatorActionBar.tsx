@@ -68,7 +68,7 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
         onClick={device.reset}
         icon={<RiRefreshLine />}
         aria-label="Reset"
-        disabled={syncStatus === SyncStatus.OUT_OF_SYNC}
+        disabled={simState === SimState.STOPPED}
       />
     </HStack>
   );
