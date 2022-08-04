@@ -32,7 +32,7 @@ const Simulator = () => {
     <DeviceContextProvider value={simulator.current}>
       <Flex flex="1 1 100%" flexDirection="column" height="100%">
         <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
-          <Box width="100%" pb={1}>
+          <Box width="100%" pb={1} px={5} maxW="md">
             <AspectRatio ratio={191.27 / 155.77} width="100%">
               <Box
                 ref={ref}
