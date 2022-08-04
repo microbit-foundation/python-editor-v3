@@ -7,10 +7,10 @@ import {
   SliderTrack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
-import { Sensor } from "./model";
+import { RangeSensor as RangeSensorType } from "./model";
 
 interface RangeSensorProps {
-  value: Sensor;
+  value: RangeSensorType;
   icon: ReactNode;
   onSensorChange: (id: string, value: number) => void;
 }

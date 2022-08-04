@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSimulator } from "../device/device-hooks";
 import { EVENT_SENSORS } from "../device/simulator";
 import AccelerometerModule from "./AccelerometerModule";
-import { Sensor } from "./model";
+import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
@@ -11,9 +11,9 @@ import { RiSunFill, RiTempHotFill } from "react-icons/ri";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
+  "accelerometer",
   "lightLevel",
   "temperature",
-  "accelerometer",
 ];
 
 const titles: Record<string, string> = {
@@ -45,7 +45,7 @@ const SimulatorModules = (props: SimulatorModulesProps) => {
     (id: string, value: number) => {
       setSensors({
         ...sensors,
-        [id]: { ...sensors[id], value },
+        [id]: { ...(sensors[id] as any), value },
       });
       device.sensorWrite(id, value);
     },
@@ -93,7 +93,7 @@ const ModuleForId = ({
         <RangeSensor
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
-          value={sensors[id]}
+          value={sensors[id] as RangeSensorType}
           onSensorChange={onSensorChange}
         />
       );
