@@ -44,6 +44,7 @@ const SimulatorSplitView = ({ simHeight }: SimulatorSplitViewProps) => {
           aria-label={intl.formatMessage({
             id: "serial-terminal",
           })}
+          showSyncStatus={false}
         />
       </SplitViewSized>
       <SplitViewDivider />

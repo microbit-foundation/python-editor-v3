@@ -17,6 +17,7 @@ import MaybeTracebackLink from "./MaybeTracebackLink";
 interface SerialIndicatorsProps extends BoxProps {
   compact?: boolean;
   traceback?: Traceback | undefined;
+  showSyncStatus: boolean;
 }
 
 const syncMessages = {
@@ -36,10 +37,14 @@ const syncMessages = {
 const SerialIndicators = ({
   compact,
   traceback,
+  showSyncStatus,
   ...props
 }: SerialIndicatorsProps) => {
   const syncStatus = useSyncStatus();
   const syncMessage = syncMessages[syncStatus];
+  const displaySyncMessage =
+    showSyncStatus &&
+    (!traceback || (traceback && syncStatus === SyncStatus.OUT_OF_SYNC));
   return (
     <HStack {...props}>
       <Icon m={1} as={RiTerminalBoxLine} fill="white" boxSize={5} />
@@ -52,8 +57,7 @@ const SerialIndicators = ({
             </Text>
           </>
         )}
-        {(!traceback ||
-          (traceback && syncStatus === SyncStatus.OUT_OF_SYNC)) && (
+        {displaySyncMessage && (
           <Text color="white" display="inline-flex" alignItems="center">
             <FormattedMessage id={syncMessage?.message} />
             {syncMessage?.icon && (
