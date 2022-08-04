@@ -5,7 +5,13 @@
  */
 import { BoxProps, HStack, IconButton } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
-import { RiPlayFill, RiRefreshLine, RiStopFill } from "react-icons/ri";
+import {
+  RiPlayFill,
+  RiRefreshLine,
+  RiStopFill,
+  RiVolumeDownFill,
+  RiVolumeMuteFill,
+} from "react-icons/ri";
 import {
   SyncStatus,
   useSimulator,
@@ -24,6 +30,7 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
   const device = useSimulator();
   const fs = useFileSystem();
   const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const syncStatus = useSyncStatus();
   const handlePlay = useCallback(async () => {
     device.flash(fs, {
@@ -41,6 +48,10 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
       handleStop();
     }
   }, [handleStop, syncStatus]);
+  const handleMuteUnmute = useCallback(() => {
+    isMuted ? device.unmute() : device.mute();
+    setIsMuted(!isMuted);
+  }, [device, isMuted, setIsMuted]);
   const size = "md";
   return (
     <HStack {...props} justifyContent="center" spacing={2.5} py={2} px={1}>
@@ -68,6 +79,13 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
         onClick={device.reset}
         icon={<RiRefreshLine />}
         aria-label="Reset"
+      />
+      <IconButton
+        size={size}
+        variant="outline"
+        onClick={handleMuteUnmute}
+        icon={isMuted ? <RiVolumeDownFill /> : <RiVolumeMuteFill />}
+        aria-label={isMuted ? "Unmute" : "Mute"}
       />
     </HStack>
   );
