@@ -122,6 +122,14 @@ export class SimulatorDeviceConnection
     this.postMessage("reset", {});
   };
 
+  mute = async (): Promise<void> => {
+    this.postMessage("mute", {});
+  };
+
+  unmute = async (): Promise<void> => {
+    this.postMessage("unmute", {});
+  };
+
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
     this.emit(EVENT_STATUS, this.status);
