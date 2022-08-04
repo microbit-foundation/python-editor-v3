@@ -1,6 +1,6 @@
 import { Button, HStack, Select, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, useCallback, useState } from "react";
-import { RiTimer2Line, RiTimerLine } from "react-icons/ri";
+import { RiTimer2Line } from "react-icons/ri";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
@@ -48,7 +48,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
       setActive(false);
       onSensorChange(sensor.id, "none");
     }, 500);
-  }, [setActive, onSensorChange]);
+  }, [setActive, onSensorChange, choice, sensor.id]);
 
   return (
     <HStack>
