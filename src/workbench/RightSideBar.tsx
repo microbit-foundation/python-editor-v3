@@ -13,13 +13,12 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { VscLibrary } from "react-icons/vsc";
+import { IconType } from "react-icons";
 import ErrorBoundary from "../common/ErrorBoundary";
 import Simulator from "../simulator/Simulator";
+import { ReactComponent as FaceIcon } from "./microbit-face-icon.svg";
 import { Pane } from "./SideBar";
 import SideBarTab from "./SideBarTab";
-import { ReactComponent as FaceIcon } from "./microbit-face-icon.svg";
-import { IconType } from "react-icons";
 
 interface RightSideBarProps extends BoxProps {
   setSidebarShown: React.Dispatch<React.SetStateAction<boolean>>;
