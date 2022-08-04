@@ -21,8 +21,8 @@ import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
-import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
+import RightSideBar from "./RightSideBar";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
@@ -59,6 +59,7 @@ const Workbench = () => {
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [sidebarShown, setSidebarShown] = useState<boolean>(true);
+  const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
   const editor = (
     <Box height="100%" as="section">
       {selection && fileVersion !== undefined && (
@@ -76,7 +77,8 @@ const Workbench = () => {
       <Flex className="Workbench">
         <SplitView
           direction="row"
-          width="100%"
+          // width="100%"
+          width="calc(100% - 43px)"
           minimums={minimums}
           initialSize={Math.min(
             700,
@@ -103,6 +105,8 @@ const Workbench = () => {
                 editor={editor}
                 serialSizedMode={serialSizedMode}
                 setSerialStateWhenOpen={setSerialStateWhenOpen}
+                setSimulatorShown={setSimulatorShown}
+                simulatorShown={simulatorShown}
               />
             ) : (
               <Editor
@@ -125,13 +129,26 @@ interface EditorProps {
   editor: ReactNode;
 }
 
+interface EditorWithSimulatorProps extends EditorProps {
+  simulatorShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const EditorWithSimulator = ({
   serialSizedMode,
   setSerialStateWhenOpen,
   editor,
-}: EditorProps) => {
+  simulatorShown,
+  setSimulatorShown,
+}: EditorWithSimulatorProps) => {
   return (
-    <SplitView direction="row" minimums={[300, 300]} height="100%">
+    <SplitView
+      direction="row"
+      minimums={[340, 300]}
+      height="100%"
+      compactSize={43}
+      mode={simulatorShown ? "open" : "compact"}
+    >
       <SplitViewRemainder>
         <Editor
           editor={editor}
@@ -141,7 +158,12 @@ const EditorWithSimulator = ({
       </SplitViewRemainder>
       <SplitViewDivider />
       <SplitViewSized>
-        <Simulator />
+        <RightSideBar
+          right={0}
+          height="100vh"
+          setSidebarShown={setSimulatorShown}
+          sidebarShown={simulatorShown}
+        />
       </SplitViewSized>
     </SplitView>
   );

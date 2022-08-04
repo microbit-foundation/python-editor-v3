@@ -40,8 +40,6 @@ import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
 
-export const cornerSize = 32;
-
 export interface Pane {
   id: string;
   icon: IconType;
@@ -197,6 +195,9 @@ const SideBar = ({
               handleTabClick={handleTabClick}
               active={tabIndex === current}
               tabIndex={tabIndex}
+              size="lg"
+              cornerSize={32}
+              facingDirection="right"
               {...pane}
             />
           ))}

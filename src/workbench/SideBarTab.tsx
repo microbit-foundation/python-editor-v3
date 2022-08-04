@@ -5,7 +5,7 @@
  */
 import { Box, BoxProps, Icon, Tab, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { cornerSize, Pane } from "./SideBar";
+import { Pane } from "./SideBar";
 
 interface SideBarTabProps extends Pane {
   color: string;
@@ -13,6 +13,9 @@ interface SideBarTabProps extends Pane {
   handleTabClick: () => void;
   active: boolean;
   tabIndex: number;
+  cornerSize: number;
+  facingDirection: "left" | "right";
+  size: "sm" | "lg";
 }
 
 const SideBarTab = ({
@@ -24,8 +27,11 @@ const SideBarTab = ({
   handleTabClick,
   active,
   tabIndex,
+  size,
+  cornerSize,
+  facingDirection,
 }: SideBarTabProps) => {
-  const width = "5rem";
+  const width = size === "lg" ? "5rem" : "2.5rem";
   const ref = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     // Override tabindex.
@@ -44,85 +50,109 @@ const SideBarTab = ({
       onClick={handleTabClick}
       mb={mb ? mb : 0}
       aria-expanded={active ? "true" : "false"}
+      borderRadius={
+        facingDirection === "right"
+          ? `${cornerSize}px 0 0 ${cornerSize}px`
+          : `0 ${cornerSize}px ${cornerSize}px 0`
+      }
+      ml={facingDirection === "left" ? 0 : "6px"}
+      mr={facingDirection === "left" ? "6px" : 0}
     >
       <VStack spacing={0}>
         {active && (
           <Corner
-            id="bottom"
+            id={size === "sm" ? "sm-bottom" : "lg-bottom"}
             position="absolute"
             bottom={-cornerSize + "px"}
-            right={0}
+            right={facingDirection === "right" ? 0 : "unset"}
+            left={facingDirection === "right" ? "unset" : 0}
+            transform={
+              facingDirection === "right" ? "rotate(0deg)" : "rotate(270deg)"
+            }
+            cornerSize={cornerSize}
           />
         )}
         {active && (
           <Corner
-            id="top"
+            id={size === "sm" ? "sm-top" : "lg-top"}
             position="absolute"
             top={-cornerSize + "px"}
-            right={0}
-            transform="rotate(90deg)"
+            right={facingDirection === "right" ? 0 : "unset"}
+            left={facingDirection === "right" ? "unset" : 0}
+            transform={
+              facingDirection === "right" ? "rotate(90deg)" : "rotate(180deg)"
+            }
+            cornerSize={cornerSize}
           />
         )}
         <VStack spacing={1}>
-          <Icon boxSize={6} as={icon} mt="3px" />
-          <Text
-            m={0}
-            fontSize={13}
-            borderBottom="3px solid transparent"
-            sx={{
-              ".sidebar-tab:focus-visible &": {
-                borderBottom: "3px solid",
-                // To match the active/inactive colour.
-                borderColor: active
-                  ? "var(--chakra-colors-brand-300)"
-                  : "var(--chakra-colors-gray-25)",
-              },
-            }}
-          >
-            {title}
-          </Text>
+          <Icon boxSize={6} as={icon} mt={size === "lg" ? "3px" : "unset"} />
+          {size === "lg" && (
+            <Text
+              m={0}
+              fontSize={13}
+              borderBottom="3px solid transparent"
+              sx={{
+                ".sidebar-tab:focus-visible &": {
+                  borderBottom: "3px solid",
+                  // To match the active/inactive colour.
+                  borderColor: active
+                    ? "var(--chakra-colors-brand-300)"
+                    : "var(--chakra-colors-gray-25)",
+                },
+              }}
+            >
+              {title}
+            </Text>
+          )}
         </VStack>
       </VStack>
     </Tab>
   );
 };
 
-const Corner = ({ id, ...props }: BoxProps) => (
-  <Box
-    {...props}
-    pointerEvents="none"
-    width={`${cornerSize}px`}
-    height={`${cornerSize}px`}
-  >
-    <svg
-      width="100%"
-      height="100%"
-      viewBox={`0 0 ${cornerSize} ${cornerSize}`}
-      overflow="visible"
-      fill="var(--chakra-colors-gray-25)"
+interface CornerProps extends BoxProps {
+  cornerSize: number;
+}
+
+const Corner = ({ id, cornerSize, ...props }: CornerProps) => {
+  return (
+    <Box
+      {...props}
+      pointerEvents="none"
+      width={`${cornerSize}px`}
+      height={`${cornerSize}px`}
     >
-      <defs>
-        <mask id={id}>
-          <rect
-            x="0"
-            y="0"
-            width={cornerSize}
-            height={cornerSize}
-            fill="#fff"
-          />
-          <circle r={cornerSize} cx="0" cy={cornerSize} fill="#000" />
-        </mask>
-      </defs>
-      <rect
-        x="0"
-        y="0"
-        width={cornerSize}
-        height={cornerSize}
+      <svg
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${cornerSize} ${cornerSize}`}
+        overflow="visible"
         fill="var(--chakra-colors-gray-25)"
-        mask={`url(#${id})`}
-      />
-    </svg>
-  </Box>
-);
+      >
+        <defs>
+          <mask id={id}>
+            <rect
+              x="0"
+              y="0"
+              width={cornerSize}
+              height={cornerSize}
+              fill="#fff"
+            />
+            <circle r={cornerSize} cx="0" cy={cornerSize} fill="#000" />
+          </mask>
+        </defs>
+        <rect
+          x="0"
+          y="0"
+          width={cornerSize}
+          height={cornerSize}
+          fill="var(--chakra-colors-gray-25)"
+          mask={`url(#${id})`}
+        />
+      </svg>
+    </Box>
+  );
+};
 
 export default SideBarTab;
