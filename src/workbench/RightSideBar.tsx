@@ -18,6 +18,8 @@ import ErrorBoundary from "../common/ErrorBoundary";
 import Simulator from "../simulator/Simulator";
 import { Pane } from "./SideBar";
 import SideBarTab from "./SideBarTab";
+import { ReactComponent as FaceIcon } from "./microbit-face-icon.svg";
+import { IconType } from "react-icons";
 
 interface RightSideBarProps extends BoxProps {
   setSidebarShown: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,7 +40,7 @@ const RightSideBar = ({
       {
         id: "simluator",
         title: "Simulator",
-        icon: VscLibrary,
+        icon: FaceIcon as IconType,
         contents: <Simulator />,
         color: "gray.25",
       },
