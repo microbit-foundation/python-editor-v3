@@ -49,7 +49,11 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
     }
   }, [handleStop, syncStatus]);
   const handleMuteUnmute = useCallback(() => {
-    isMuted ? device.unmute() : device.mute();
+    if (isMuted) {
+      device.unmute();
+    } else {
+      device.mute();
+    }
     setIsMuted(!isMuted);
   }, [device, isMuted, setIsMuted]);
   const size = "md";
