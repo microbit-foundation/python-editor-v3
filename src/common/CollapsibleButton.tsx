@@ -18,6 +18,7 @@ export interface CollapsibleButtonProps
   mode: "icon" | "button";
   text: string;
   icon: React.ReactElement;
+  iconRight?: boolean;
   /**
    * Width used only in button mode.
    */
@@ -44,6 +45,7 @@ const CollapsibleButton = React.forwardRef(
       mode,
       text,
       icon,
+      iconRight,
       buttonWidth,
       _collapsed,
       ...props
@@ -60,7 +62,13 @@ const CollapsibleButton = React.forwardRef(
         fontSize="xl"
       />
     ) : (
-      <Button ref={ref} leftIcon={icon} minWidth={buttonWidth} {...props}>
+      <Button
+        ref={ref}
+        leftIcon={icon && !iconRight ? icon : undefined}
+        rightIcon={icon && iconRight ? icon : undefined}
+        minWidth={buttonWidth}
+        {...props}
+      >
         {text}
       </Button>
     );

@@ -39,12 +39,16 @@ const SimulatorSplitView = ({ simHeight }: SimulatorSplitViewProps) => {
       <SplitViewSized>
         <SerialArea
           as="section"
+          terminalFontSizePt={12}
           compact={serialStateWhenOpen === "compact"}
+          expandDirection="down"
           onSizeChange={setSerialStateWhenOpen}
           aria-label={intl.formatMessage({
             id: "serial-terminal",
           })}
+          showExpandText={false}
           showSyncStatus={false}
+          showHintsAndTips={false}
         />
       </SplitViewSized>
       <SplitViewDivider />

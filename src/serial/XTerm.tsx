@@ -20,14 +20,19 @@ import { useCurrentTerminalRef } from "./serial-hooks";
 import "./xterm-custom.css";
 import customKeyEventHandler from "./xterm-keyboard";
 
-interface XTermProps extends BoxProps {}
+interface XTermProps extends BoxProps {
+  fontSizePt?: number;
+}
 
 /**
  * xterm.js-based terminal.
  */
-const XTerm = ({ ...props }: XTermProps) => {
+const XTerm = ({
+  fontSizePt = defaultCodeFontSizePt,
+  ...props
+}: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  useManagedTermimal(ref);
+  useManagedTermimal(ref, fontSizePt);
   return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
 };
 
@@ -39,7 +44,10 @@ const ptToPixelRatio = 96 / 72;
  * The terminal is registered with the current terminal hook so only
  * one instance is permitted without changing that design.
  */
-const useManagedTermimal = (ref: React.RefObject<HTMLDivElement>): void => {
+const useManagedTermimal = (
+  ref: React.RefObject<HTMLDivElement>,
+  fontSizePt: number
+): void => {
   const parent = ref.current;
   const actionFeedback = useActionFeedback();
   const codeFontFamily = useToken("fonts", "code");
@@ -57,7 +65,7 @@ const useManagedTermimal = (ref: React.RefObject<HTMLDivElement>): void => {
     }
     const terminal = new Terminal({
       fontFamily: codeFontFamily,
-      fontSize: defaultCodeFontSizePt * ptToPixelRatio,
+      fontSize: fontSizePt * ptToPixelRatio,
       letterSpacing: 1.1,
       screenReaderMode: true,
       theme: {
@@ -180,6 +188,7 @@ const useManagedTermimal = (ref: React.RefObject<HTMLDivElement>): void => {
     isUnmounted,
     parent,
     setSelection,
+    fontSizePt,
   ]);
 };
 
