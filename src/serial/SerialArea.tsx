@@ -13,8 +13,12 @@ import XTerm from "./XTerm";
 
 interface SerialAreaProps extends BoxProps {
   compact?: boolean;
+  expandDirection: "up" | "down";
   onSizeChange: (size: "compact" | "open") => void;
   showSyncStatus: boolean;
+  terminalFontSizePt?: number;
+  showExpandText?: boolean;
+  showHintsAndTips?: boolean;
 }
 
 /**
@@ -27,6 +31,10 @@ const SerialArea = ({
   compact,
   onSizeChange,
   showSyncStatus,
+  terminalFontSizePt,
+  expandDirection,
+  showExpandText = true,
+  showHintsAndTips = true,
   ...props
 }: SerialAreaProps) => {
   const status = useConnectionStatus();
@@ -52,12 +60,16 @@ const SerialArea = ({
               compact={compact}
               onSizeChange={onSizeChange}
               showSyncStatus={showSyncStatus}
+              expandDirection={expandDirection}
+              showExpandText={showExpandText}
+              showHintsAndTips={showHintsAndTips}
             />
             <XTerm
               visibility={compact ? "hidden" : undefined}
               height={`calc(100% - ${SerialArea.compactSize}px)`}
               ml={1}
               mr={1}
+              fontSizePt={terminalFontSizePt}
             />
           </Box>
         )}

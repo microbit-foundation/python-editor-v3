@@ -3,16 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  BoxProps,
-  Button,
-  HStack,
-  IconButton,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { BoxProps, HStack, IconButton, useDisclosure } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { RiInformationLine } from "react-icons/ri";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
+import CollapsibleButton from "../common/CollapsibleButton";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import {
   SyncStatus,
@@ -28,6 +23,9 @@ interface SerialBarProps extends BoxProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
   showSyncStatus: boolean;
+  expandDirection: "up" | "down";
+  showExpandText: boolean;
+  showHintsAndTips: boolean;
 }
 
 /**
@@ -38,6 +36,9 @@ const SerialBar = ({
   onSizeChange,
   background,
   showSyncStatus,
+  showExpandText,
+  showHintsAndTips,
+  expandDirection,
   ...props
 }: SerialBarProps) => {
   const logging = useLogging();
@@ -77,30 +78,40 @@ const SerialBar = ({
         />
 
         <HStack>
-          <Button
+          <CollapsibleButton
+            mode={showExpandText ? "button" : "icon"}
             variant="unstyled"
             display="flex"
             fontWeight="normal"
             color="white"
             onClick={handleExpandCollapseClick}
-            rightIcon={<ExpandCollapseIcon open={Boolean(compact)} />}
-          >
-            <FormattedMessage
-              id={compact ? "serial-expand" : "serial-collapse"}
-            />
-          </Button>
+            icon={
+              <ExpandCollapseIcon
+                transform={
+                  expandDirection === "down" ? "rotate(180deg)" : undefined
+                }
+                open={Boolean(compact)}
+              />
+            }
+            iconRight
+            text={intl.formatMessage({
+              id: compact ? "serial-expand" : "serial-collapse",
+            })}
+          />
           <HStack spacing="0.5">
-            <IconButton
-              variant="sidebar"
-              color="white"
-              isRound
-              aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
-              icon={<RiInformationLine />}
-              onClick={() => {
-                logging.event({ type: "serial-info" });
-                helpDisclosure.onOpen();
-              }}
-            />
+            {showHintsAndTips && (
+              <IconButton
+                variant="sidebar"
+                color="white"
+                isRound
+                aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
+                icon={<RiInformationLine />}
+                onClick={() => {
+                  logging.event({ type: "serial-info" });
+                  helpDisclosure.onOpen();
+                }}
+              />
+            )}
             <SerialMenu compact={compact} onSizeChange={onSizeChange} />
           </HStack>
         </HStack>

@@ -179,6 +179,7 @@ const Editor = ({
               id: "serial-terminal",
             })}
             showSyncStatus={true}
+            expandDirection="up"
           />
         </SplitViewSized>
       </SplitView>
