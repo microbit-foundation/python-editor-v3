@@ -6,7 +6,6 @@
 import { BoxProps, HStack, IconButton } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import {
-  RiPlayFill,
   RiRefreshLine,
   RiStopFill,
   RiVolumeDownFill,
@@ -17,6 +16,7 @@ import {
   useSimulator,
   useSyncStatus,
 } from "../device/device-hooks";
+import { EVENT_REQUEST_FLASH } from "../device/simulator";
 import { useFileSystem } from "../fs/fs-hooks";
 
 interface SimulatorActionBarProps extends BoxProps {}
@@ -56,27 +56,23 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
     }
     setIsMuted(!isMuted);
   }, [device, isMuted, setIsMuted]);
+  useEffect(() => {
+    device.on(EVENT_REQUEST_FLASH, handlePlay);
+    return () => {
+      device.removeListener(EVENT_REQUEST_FLASH, handlePlay);
+    };
+  }, [device, handlePlay]);
   const size = "md";
   return (
     <HStack {...props} justifyContent="center" spacing={2.5} py={2} px={1}>
-      {syncStatus === SyncStatus.OUT_OF_SYNC ||
-      simState === SimState.STOPPED ? (
-        <IconButton
-          size={size}
-          variant="outline"
-          onClick={handlePlay}
-          icon={<RiPlayFill />}
-          aria-label="Run"
-        />
-      ) : (
-        <IconButton
-          size={size}
-          variant="outline"
-          onClick={handleStop}
-          icon={<RiStopFill />}
-          aria-label="Stop"
-        />
-      )}
+      <IconButton
+        size={size}
+        variant="outline"
+        onClick={handleStop}
+        icon={<RiStopFill />}
+        aria-label="Stop"
+        disabled={simState === SimState.STOPPED}
+      />
       <IconButton
         size={size}
         variant="outline"
