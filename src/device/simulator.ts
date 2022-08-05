@@ -15,6 +15,7 @@ import {
 } from "./device";
 
 export const EVENT_SENSORS = "sensors";
+export const EVENT_REQUEST_FLASH = "request_flash";
 
 /**
  * A simulated device.
@@ -43,6 +44,10 @@ export class SimulatorDeviceConnection
         if (this.status !== ConnectionStatus.CONNECTED) {
           this.setStatus(ConnectionStatus.CONNECTED);
         }
+        break;
+      }
+      case "request_flash": {
+        this.emit(EVENT_REQUEST_FLASH);
         break;
       }
       case "sensor_change": {
