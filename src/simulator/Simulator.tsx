@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { AspectRatio, Box, Flex, VStack } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
 import { DeviceContextProvider } from "../device/device-hooks";
@@ -28,6 +28,7 @@ const Simulator = () => {
   }, []);
   const simControlsRef = useRef<HTMLDivElement>(null);
   const simHeight = simControlsRef.current?.offsetHeight || 0;
+  const [brand500] = useToken("colors", ["brand.500"]);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex flex="1 1 100%" flexDirection="column" height="100%">
@@ -38,7 +39,9 @@ const Simulator = () => {
                 ref={ref}
                 as="iframe"
                 // This needs changing before we remove the flag.
-                src="https://stage-python-simulator.microbit.org/simulator.html"
+                src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
+                  brand500
+                )}`}
                 title="Simulator"
                 frameBorder="no"
                 scrolling="no"

@@ -1,4 +1,3 @@
-import { Icon } from "@chakra-ui/icons";
 import {
   HStack,
   Slider,
@@ -7,16 +6,17 @@ import {
   SliderThumb,
   SliderTrack,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
-import { RiQuestionFill } from "react-icons/ri";
-import { Sensor, sensorIcons } from "./model";
+import { ReactNode, useCallback } from "react";
+import { RangeSensor as RangeSensorType } from "./model";
 
 interface RangeSensorProps {
-  value: Sensor;
+  value: RangeSensorType;
+  icon: ReactNode;
   onSensorChange: (id: string, value: number) => void;
 }
 
 const RangeSensor = ({
+  icon,
   value: { id, min, max, value, unit },
   onSensorChange,
 }: RangeSensorProps) => {
@@ -28,13 +28,8 @@ const RangeSensor = ({
   );
   const valueText = unit ? `${value} ${unit}` : value.toString();
   return (
-    <HStack pt={5} pb={2}>
-      <Icon
-        as={sensorIcons[id] || RiQuestionFill}
-        aria-label={id}
-        color="blimpTeal.400"
-        boxSize="6"
-      />
+    <HStack pb={2} pt={1}>
+      {icon}
       <Slider
         aria-label={id}
         value={value}
@@ -42,9 +37,10 @@ const RangeSensor = ({
         max={max}
         onChange={handleChange}
         my={5}
+        colorScheme="blackAlpha"
       >
-        <SliderTrack>
-          <SliderFilledTrack bgColor="blimpTeal.600" />
+        <SliderTrack height={2}>
+          <SliderFilledTrack />
         </SliderTrack>
         <SliderThumb />
         <SliderMark value={min} mt="1" fontSize="xs">

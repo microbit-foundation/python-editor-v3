@@ -1,16 +1,17 @@
-import { IconType } from "react-icons";
-import { RiSunFill, RiTempHotFill } from "react-icons/ri";
+export type Sensor = RangeSensor | EnumSensor;
 
-export const sensorIcons: Record<string, IconType> = {
-  temperature: RiTempHotFill,
-  lightLevel: RiSunFill,
-};
-
-export interface Sensor {
+export interface RangeSensor {
   type: "range";
   id: string;
   min: number;
   max: number;
   value: number;
   unit?: string;
+}
+
+export interface EnumSensor {
+  type: "enum";
+  id: string;
+  choices: string[];
+  value: string;
 }
