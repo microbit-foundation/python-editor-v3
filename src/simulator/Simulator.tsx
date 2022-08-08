@@ -4,14 +4,21 @@
  * SPDX-License-Identifier: MIT
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
+import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
+import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 
-const Simulator = () => {
+interface SimulatorProps {
+  simulatorShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
   const simulator = useRef(
@@ -29,9 +36,32 @@ const Simulator = () => {
   const simControlsRef = useRef<HTMLDivElement>(null);
   const simHeight = simControlsRef.current?.offsetHeight || 0;
   const [brand500] = useToken("colors", ["brand.500"]);
+  const hideSimulator = useCallback(() => {
+    setSimulatorShown(false);
+  }, [setSimulatorShown]);
   return (
     <DeviceContextProvider value={simulator.current}>
-      <Flex flex="1 1 100%" flexDirection="column" height="100%">
+      <Flex
+        flex="1 1 100%"
+        flexDirection="column"
+        height="100%"
+        position="relative"
+      >
+        <Flex
+          position="absolute"
+          top={0}
+          left={0}
+          alignItems="center"
+          height={topBarHeight}
+          hidden={!simulatorShown}
+        >
+          <HideSplitViewButton
+            aria-label="Hide simulator"
+            handleClick={hideSimulator}
+            splitViewShown={simulatorShown}
+            direction="left"
+          />
+        </Flex>
         <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
           <Box width="100%" pb={1} px={5} maxW="md">
             <AspectRatio ratio={191.27 / 155.77} width="100%">
