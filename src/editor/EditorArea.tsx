@@ -79,6 +79,7 @@ const EditorArea = ({
               direction="left"
               text="Simulator"
               ml={5}
+              boxShadow="none"
             />
           )}
         </Flex>
