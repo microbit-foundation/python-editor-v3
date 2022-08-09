@@ -53,7 +53,6 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
           left={0}
           alignItems="center"
           height={topBarHeight}
-          hidden={!simulatorShown}
         >
           <HideSplitViewButton
             aria-label={intl.formatMessage({ id: "simulator-collapse" })}
