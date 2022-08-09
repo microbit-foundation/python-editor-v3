@@ -147,7 +147,7 @@ const EditorWithSimulator = ({
       direction="row"
       minimums={[300, 300]}
       height="100%"
-      mode={simulatorShown ? "open" : "compact"}
+      mode={simulatorShown ? "open" : "collapsed"}
     >
       <SplitViewRemainder>
         <Editor
