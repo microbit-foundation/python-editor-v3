@@ -7,25 +7,28 @@ import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
-import { RiSunFill, RiTempHotFill } from "react-icons/ri";
+import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
   "accelerometer",
   "lightLevel",
+  "microphone",
   "temperature",
 ];
 
 const titles: Record<string, string> = {
-  // To move to translation.
-  lightLevel: "Light level",
-  temperature: "Temperature",
+  // To move to translation. Sorted.
   accelerometer: "Accelerometer",
+  lightLevel: "Light level",
+  microphone: "Microphone",
+  temperature: "Temperature",
 };
 
 export const icons: Record<string, IconType> = {
   temperature: RiTempHotFill,
   lightLevel: RiSunFill,
+  soundLevel: RiWebcamLine, // Improbably like a microphone.
 };
 
 interface SimulatorModulesProps extends BoxProps {}
@@ -94,6 +97,17 @@ const ModuleForId = ({
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
           value={sensors[id] as RangeSensorType}
+          onSensorChange={onSensorChange}
+        />
+      );
+    case "microphone":
+      return (
+        <RangeSensor
+          icon={
+            <Icon as={icons.soundLevel} color="blimpTeal.400" boxSize="6" />
+          }
+          key={id}
+          value={sensors.soundLevel as RangeSensorType}
           onSensorChange={onSensorChange}
         />
       );
