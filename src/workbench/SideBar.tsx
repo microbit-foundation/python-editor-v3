@@ -13,14 +13,7 @@ import {
   Tabs,
   VStack,
 } from "@chakra-ui/react";
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
@@ -35,8 +28,8 @@ import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
-import ReleaseDialogs from "./ReleaseDialogs";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
+import ReleaseDialogs from "./ReleaseDialogs";
 import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
 
@@ -54,8 +47,12 @@ export interface Pane {
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (filename: string) => void;
-  setSidebarShown: React.Dispatch<React.SetStateAction<boolean>>;
-  sidebarShown: boolean;
+  shown: boolean;
+  tabIndex: number;
+  onTabIndexChange: (index: number) => void;
+
+  onSidebarExpand: () => void;
+  onSidebarCollapse: () => void;
 }
 
 /**
@@ -65,8 +62,11 @@ interface SideBarProps extends BoxProps {
 const SideBar = ({
   selectedFile,
   onSelectedFileChanged,
-  setSidebarShown,
-  sidebarShown,
+  shown,
+  tabIndex,
+  onTabIndexChange,
+  onSidebarCollapse,
+  onSidebarExpand,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -111,38 +111,38 @@ const SideBar = ({
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
   const [{ tab, api, reference, idea }, setParams] = useRouterState();
-  const [tabIndex, setTabIndex] = useState<number>(0);
-
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
     const activePanel = tabPanelsRef.current!.querySelector(
       "[role='tabpanel']:not([hidden])"
     );
-    (activePanel as HTMLElement).focus();
+    (activePanel as HTMLElement)?.focus();
   };
+  useEffect(() => {
+    // Initialize from the router state. Start-up and navigation.
+    const tabIndex = panes.findIndex((p) => p.id === tab);
+    if (tabIndex !== -1) {
+      onTabIndexChange(tabIndex);
+      onSidebarExpand();
+      if (!api && !reference && !idea) {
+        setPanelFocus();
+      }
+    }
+  }, [onSidebarExpand, panes, onTabIndexChange, tab, api, reference, idea]);
 
   useEffect(() => {
-    const tabIndexOf = panes.findIndex((p) => p.id === tab);
-    setTabIndex(tabIndexOf === -1 ? 0 : tabIndexOf);
-    setSidebarShown(true);
-    if (!api && !reference && !idea) {
+    if (shown && !api && !reference && !idea) {
       setPanelFocus();
     }
-  }, [setSidebarShown, panes, setTabIndex, tab, api, reference, idea]);
-
-  useEffect(() => {
-    if (sidebarShown && !api && !reference && !idea) {
-      setPanelFocus();
-    }
-  }, [sidebarShown, api, reference, idea]);
+  }, [shown, api, reference, idea]);
 
   const handleTabChange = useCallback(
     (index: number) => {
-      setTabIndex(index);
+      onTabIndexChange(index);
       setParams({ tab: panes[index]?.id });
-      setSidebarShown(true);
+      onSidebarExpand();
     },
-    [setSidebarShown, setTabIndex, panes, setParams]
+    [onSidebarExpand, onTabIndexChange, panes, setParams]
   );
   const handleTabClick = useCallback(() => {
     // A click on a tab when it's already selected should
@@ -158,26 +158,17 @@ const SideBar = ({
   const handleSidebarToggled = () => {
     if (tabIndex === -1) {
       const index = panes.findIndex((p) => p.id === tab);
-      setTabIndex(index !== -1 ? index : 0);
-      setSidebarShown(true);
+      onTabIndexChange(index !== -1 ? index : 0);
+      onSidebarExpand();
     } else {
-      setTabIndex(-1);
-      setSidebarShown(false);
+      onSidebarCollapse();
     }
   };
-
-  // Load with sidebar collapsed for smaller screen widths.
-  useEffect(() => {
-    if (window.innerWidth <= 1110) {
-      setTabIndex(-1);
-      setSidebarShown(false);
-    }
-  }, [setSidebarShown]);
 
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
       <SideBarHeader
-        sidebarShown={sidebarShown}
+        sidebarShown={shown}
         onSidebarToggled={handleSidebarToggled}
       />
       <Tabs
