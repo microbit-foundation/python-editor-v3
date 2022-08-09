@@ -27,6 +27,7 @@ import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
+import { widthToHideSidebar } from "../common/screenWidthUtils";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
@@ -35,8 +36,8 @@ import ProjectArea from "../project/ProjectArea";
 import { useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
-import ReleaseDialogs from "./ReleaseDialogs";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
+import ReleaseDialogs from "./ReleaseDialogs";
 import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
 
@@ -168,7 +169,7 @@ const SideBar = ({
 
   // Load with sidebar collapsed for smaller screen widths.
   useEffect(() => {
-    if (window.innerWidth <= 1110) {
+    if (window.innerWidth <= widthToHideSidebar) {
       setTabIndex(-1);
       setSidebarShown(false);
     }

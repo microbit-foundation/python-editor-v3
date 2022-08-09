@@ -6,6 +6,7 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
+import { sidebarToWidthRatio } from "../common/screenWidthUtils";
 import {
   SplitView,
   SplitViewDivider,
@@ -83,7 +84,10 @@ const Workbench = () => {
           minimums={minimums}
           initialSize={Math.min(
             700,
-            Math.max(minimums[0], Math.floor(window.innerWidth * 0.35))
+            Math.max(
+              minimums[0],
+              Math.floor(window.innerWidth * sidebarToWidthRatio)
+            )
           )}
           compactSize={86}
           mode={sidebarShown ? "open" : "compact"}
