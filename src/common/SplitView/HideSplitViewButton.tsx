@@ -46,6 +46,7 @@ const HideSplitViewButton = ({
           position="absolute"
           left="-10px"
           top="-10px"
+          pointerEvents="none"
         />
       )}
       <CollapsibleButton
