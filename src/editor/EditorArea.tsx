@@ -73,11 +73,11 @@ const EditorArea = ({
           <ZoomControls display={["none", "none", "none", "flex"]} />
           {flags.simulator && !simulatorShown && (
             <HideSplitViewButton
-              aria-label="Show simulator"
+              aria-label={intl.formatMessage({ id: "simulator-show" })}
               handleClick={showSimulator}
               splitViewShown={simulatorShown}
               direction="expandLeft"
-              text="Simulator"
+              text={intl.formatMessage({ id: "simulator-title" })}
               ml={5}
               boxShadow="none"
             />
