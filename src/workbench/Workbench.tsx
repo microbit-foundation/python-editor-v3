@@ -59,6 +59,7 @@ const Workbench = () => {
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [sidebarShown, setSidebarShown] = useState<boolean>(true);
+  const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
   const editor = (
     <Box height="100%" as="section">
       {selection && fileVersion !== undefined && (
@@ -66,6 +67,8 @@ const Workbench = () => {
           key={selection.file + "/" + fileVersion}
           selection={selection}
           onSelectedFileChanged={setSelectedFile}
+          setSimulatorShown={setSimulatorShown}
+          simulatorShown={simulatorShown}
         />
       )}
     </Box>
@@ -103,6 +106,8 @@ const Workbench = () => {
                 editor={editor}
                 serialSizedMode={serialSizedMode}
                 setSerialStateWhenOpen={setSerialStateWhenOpen}
+                setSimulatorShown={setSimulatorShown}
+                simulatorShown={simulatorShown}
               />
             ) : (
               <Editor
@@ -125,13 +130,25 @@ interface EditorProps {
   editor: ReactNode;
 }
 
+interface EditorWithSimulatorProps extends EditorProps {
+  simulatorShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const EditorWithSimulator = ({
   serialSizedMode,
   setSerialStateWhenOpen,
   editor,
-}: EditorProps) => {
+  simulatorShown,
+  setSimulatorShown,
+}: EditorWithSimulatorProps) => {
   return (
-    <SplitView direction="row" minimums={[300, 300]} height="100%">
+    <SplitView
+      direction="row"
+      minimums={[300, 300]}
+      height="100%"
+      mode={simulatorShown ? "open" : "collapsed"}
+    >
       <SplitViewRemainder>
         <Editor
           editor={editor}
@@ -139,9 +156,12 @@ const EditorWithSimulator = ({
           setSerialStateWhenOpen={setSerialStateWhenOpen}
         />
       </SplitViewRemainder>
-      <SplitViewDivider />
+      <SplitViewDivider showBoxShadow={true} />
       <SplitViewSized>
-        <Simulator />
+        <Simulator
+          setSimulatorShown={setSimulatorShown}
+          simulatorShown={simulatorShown}
+        />
       </SplitViewSized>
     </SplitView>
   );

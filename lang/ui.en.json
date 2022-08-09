@@ -771,6 +771,26 @@
     "defaultMessage": "Expand sidebar",
     "description": "Aria label for the expand sidebar button"
   },
+  "simulator-collapse": {
+    "defaultMessage": "Collapse simulator",
+    "description": "Aria label for the collapse simulator button"
+  },
+  "simulator-expand": {
+    "defaultMessage": "Expand simulator",
+    "description": "Aria label for the expand simulator button"
+  },
+  "simulator-hide": {
+    "defaultMessage": "Hide simulator",
+    "description": "Hide simulator action"
+  },
+  "simulator-show": {
+    "defaultMessage": "Show simulator",
+    "description": "Show simulator action"
+  },
+  "simulator-title": {
+    "defaultMessage": "Simulator",
+    "description": "Simulator title"
+  },
   "software-versions": {
     "defaultMessage": "Software versions",
     "description": "Heading for a table of software versions in the about dialog"

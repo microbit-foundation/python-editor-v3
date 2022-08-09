@@ -18,9 +18,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiDownloadLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
+import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { zIndexSidebarHeader } from "../common/zIndex";
 import { useDeployment } from "../deployment";
@@ -265,31 +266,18 @@ const SideBarHeader = ({
           alignItems="center"
           position="absolute"
           width="28px"
-          right={sidebarShown ? "4px" : "-20px"}
+          right={sidebarShown ? "-8px" : "-28px"}
         >
           <Fade in={collapseBtn.isOpen} initial={{ opacity: 1 }}>
-            <IconButton
+            <HideSplitViewButton
               aria-label={
                 sidebarShown
                   ? intl.formatMessage({ id: "sidebar-collapse" })
                   : intl.formatMessage({ id: "sidebar-expand" })
               }
-              fontSize="xl"
-              icon={<RiDownloadLine />}
-              transform={sidebarShown ? "rotate(90deg)" : "rotate(270deg)"}
-              transition="none"
-              onClick={handleCollapseBtnClick}
-              borderTopLeftRadius={0}
-              borderTopRightRadius={0}
-              borderBottomRightRadius={6}
-              borderBottomLeftRadius={6}
-              py={3}
-              borderColor="black"
-              size="md"
-              height="20px"
-              background="#eaecf1"
-              color="brand.500"
-              variant="ghost"
+              handleClick={handleCollapseBtnClick}
+              splitViewShown={sidebarShown}
+              direction="expandRight"
             />
           </Fade>
         </Flex>

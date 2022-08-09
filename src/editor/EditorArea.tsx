@@ -13,10 +13,15 @@ import EditorContainer from "./EditorContainer";
 import ZoomControls from "../editor/ZoomControls";
 import UndoRedoControls from "./UndoRedoControls";
 import { widthXl } from "../common/media-queries";
+import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
+import { useCallback } from "react";
+import { flags } from "../flags";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
   onSelectedFileChanged: (filename: string) => void;
+  simulatorShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
@@ -26,10 +31,15 @@ interface EditorAreaProps extends BoxProps {
 const EditorArea = ({
   selection,
   onSelectedFileChanged,
+  simulatorShown,
+  setSimulatorShown,
   ...props
 }: EditorAreaProps) => {
   const intl = useIntl();
   const [isWideScreen] = useMediaQuery(widthXl);
+  const showSimulator = useCallback(() => {
+    setSimulatorShown(true);
+  }, [setSimulatorShown]);
   return (
     <Flex
       height="100%"
@@ -43,7 +53,7 @@ const EditorArea = ({
         width="100%"
         alignItems="center"
         justifyContent="space-between"
-        pr={isWideScreen ? 10 : 5}
+        pr={flags.simulator && !simulatorShown ? 0 : isWideScreen ? 10 : 5}
         pl={isWideScreen ? "3rem" : "2rem"}
         py={2}
         height={topBarHeight}
@@ -59,7 +69,20 @@ const EditorArea = ({
           filename={selection.file}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <ZoomControls display={["none", "none", "none", "flex"]} />
+        <Flex alignItems="center">
+          <ZoomControls display={["none", "none", "none", "flex"]} />
+          {flags.simulator && !simulatorShown && (
+            <HideSplitViewButton
+              aria-label={intl.formatMessage({ id: "simulator-expand" })}
+              handleClick={showSimulator}
+              splitViewShown={simulatorShown}
+              direction="expandLeft"
+              text={intl.formatMessage({ id: "simulator-title" })}
+              ml={5}
+              boxShadow="none"
+            />
+          )}
+        </Flex>
       </Flex>
       {/* Just for the line */}
       <Box

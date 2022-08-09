@@ -1,0 +1,14 @@
+{
+  "simulator-expand": {
+    "defaultMessage": "Expand simulator",
+    "description": "Aria label for the expand simulator button"
+  },
+  "simulator-collapse": {
+    "defaultMessage": "Collapse simulator",
+    "description": "Aria label for the collapse simulator button"
+  },
+  "simulator-title": {
+    "defaultMessage": "Simulator",
+    "description": "Simulator title"
+  }
+}

@@ -12,7 +12,11 @@ import {
   useSplitViewContext,
 } from "./context";
 
-const SplitViewDivider = () => {
+interface SplitViewDividerProps {
+  showBoxShadow?: boolean;
+}
+
+const SplitViewDivider = ({ showBoxShadow = false }: SplitViewDividerProps) => {
   const {
     mode,
     direction,
@@ -38,6 +42,7 @@ const SplitViewDivider = () => {
         alignItems="center"
         justifyContent="center"
         flex={1}
+        boxShadow={showBoxShadow ? "md" : "none"}
       >
         <Icon
           as={RiMore2Fill}
