@@ -80,6 +80,7 @@ const EditorArea = ({
               text={intl.formatMessage({ id: "simulator-title" })}
               ml={5}
               boxShadow="none"
+              id="simulator-expand"
             />
           )}
         </Flex>

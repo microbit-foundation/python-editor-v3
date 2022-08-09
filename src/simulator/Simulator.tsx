@@ -39,6 +39,15 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
   const hideSimulator = useCallback(() => {
     setSimulatorShown(false);
   }, [setSimulatorShown]);
+  useEffect(() => {
+    if (simulatorShown) {
+      ref.current!.focus();
+    } else {
+      (
+        document.querySelector("#simulator-expand") as HTMLButtonElement
+      ).focus();
+    }
+  }, [simulatorShown]);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
