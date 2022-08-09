@@ -10,7 +10,7 @@ import { splitViewHideButton } from "../zIndex";
 
 interface HideSplitViewButtonProps extends IconButtonProps {
   handleClick: () => void;
-  direction: "left" | "right";
+  direction: "expandLeft" | "expandRight";
   splitViewShown: boolean;
   text?: string;
 }
@@ -27,8 +27,8 @@ const HideSplitViewButton = ({
   let leftBorderRadius = 0;
   let rotation = "rotate(270deg)";
   if (
-    (direction === "right" && splitViewShown) ||
-    (direction === "left" && !splitViewShown)
+    (direction === "expandRight" && splitViewShown) ||
+    (direction === "expandLeft" && !splitViewShown)
   ) {
     rightBorderRadius = 0;
     leftBorderRadius = 6;
@@ -37,22 +37,22 @@ const HideSplitViewButton = ({
   return (
     <Box position="relative">
       {/* Hack to cover divider box shadow on right hand side. */}
-      {direction === "left" && splitViewShown && (
+      {direction === "expandLeft" && splitViewShown && (
         <Box
           width="10px"
-          height="50px"
+          height="60px"
           background="#eaecf1"
           zIndex={5}
           position="absolute"
           left="-10px"
-          top="-5px"
+          top="-10px"
         />
       )}
       <CollapsibleButton
-        mode={text ? "button" : "icon"}
+        mode={mode}
         text={text}
         icon={<Icon as={RiDownloadLine} transform={rotation} />}
-        fontSize="xl"
+        fontSize="lg"
         transition="none"
         onClick={handleClick}
         borderTopRightRadius={rightBorderRadius}
@@ -68,7 +68,7 @@ const HideSplitViewButton = ({
         color="brand.500"
         variant="ghost"
         zIndex={splitViewHideButton}
-        boxShadow="md"
+        boxShadow={direction === "expandLeft" ? "md" : "none"}
         {...props}
       />
     </Box>

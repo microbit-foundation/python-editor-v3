@@ -277,7 +277,7 @@ const SideBarHeader = ({
               }
               handleClick={handleCollapseBtnClick}
               splitViewShown={sidebarShown}
-              direction="right"
+              direction="expandRight"
             />
           </Fade>
         </Flex>

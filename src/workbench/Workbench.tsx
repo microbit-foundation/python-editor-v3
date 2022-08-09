@@ -156,7 +156,7 @@ const EditorWithSimulator = ({
           setSerialStateWhenOpen={setSerialStateWhenOpen}
         />
       </SplitViewRemainder>
-      <SplitViewDivider />
+      <SplitViewDivider boxShadow={true} />
       <SplitViewSized>
         <Simulator
           setSimulatorShown={setSimulatorShown}

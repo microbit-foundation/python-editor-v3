@@ -59,7 +59,7 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
             aria-label="Hide simulator"
             handleClick={hideSimulator}
             splitViewShown={simulatorShown}
-            direction="left"
+            direction="expandLeft"
           />
         </Flex>
         <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
