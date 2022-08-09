@@ -56,7 +56,7 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
           hidden={!simulatorShown}
         >
           <HideSplitViewButton
-            aria-label={intl.formatMessage({ id: "simulator-hide" })}
+            aria-label={intl.formatMessage({ id: "simulator-collapse" })}
             handleClick={hideSimulator}
             splitViewShown={simulatorShown}
             direction="expandLeft"

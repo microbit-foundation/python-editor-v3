@@ -1,11 +1,11 @@
 {
-  "simulator-show": {
-    "defaultMessage": "Show simulator",
-    "description": "Show simulator action"
+  "simulator-expand": {
+    "defaultMessage": "Expand simulator",
+    "description": "Aria label for the expand simulator button"
   },
-  "simulator-hide": {
-    "defaultMessage": "Hide simulator",
-    "description": "Hide simulator action"
+  "simulator-collapse": {
+    "defaultMessage": "Collapse simulator",
+    "description": "Aria label for the collapse simulator button"
   },
   "simulator-title": {
     "defaultMessage": "Simulator",

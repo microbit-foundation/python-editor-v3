@@ -1697,6 +1697,18 @@
       "value": "Expand sidebar"
     }
   ],
+  "simulator-collapse": [
+    {
+      "type": 0,
+      "value": "Collapse simulator"
+    }
+  ],
+  "simulator-expand": [
+    {
+      "type": 0,
+      "value": "Expand simulator"
+    }
+  ],
   "simulator-hide": [
     {
       "type": 0,
