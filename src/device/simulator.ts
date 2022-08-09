@@ -10,6 +10,7 @@ import {
   DeviceConnection,
   EVENT_FLASH,
   EVENT_SERIAL_DATA,
+  EVENT_SERIAL_RESET,
   EVENT_STATUS,
   FlashDataSource,
 } from "./device";
@@ -94,6 +95,7 @@ export class SimulatorDeviceConnection
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
+    this.emit(EVENT_SERIAL_RESET, {});
     this.postMessage("flash", {
       filesystem: await dataSource.files(),
     });
