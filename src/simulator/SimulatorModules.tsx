@@ -7,12 +7,7 @@ import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
-import {
-  RiSunFill,
-  RiTempHotFill,
-  RiVolumeUpLine,
-  RiWebcamLine,
-} from "react-icons/ri";
+import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
