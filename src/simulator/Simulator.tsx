@@ -6,6 +6,7 @@
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
+import { widthToHideSidebar } from "../common/screenWidthUtils";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
@@ -16,9 +17,14 @@ import SimulatorSplitView from "./SimulatorSplitView";
 interface SimulatorProps {
   simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  collapseSidebar: () => void;
 }
 
-const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
+const Simulator = ({
+  simulatorShown,
+  setSimulatorShown,
+  collapseSidebar,
+}: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
   const simulator = useRef(
@@ -39,6 +45,12 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
   const hideSimulator = useCallback(() => {
     setSimulatorShown(false);
   }, [setSimulatorShown]);
+
+  useEffect(() => {
+    if (simulatorShown && window.innerWidth <= widthToHideSidebar) {
+      collapseSidebar();
+    }
+  }, [simulatorShown, collapseSidebar]);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex

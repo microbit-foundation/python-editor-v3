@@ -6,7 +6,10 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { sidebarToWidthRatio } from "../common/screenWidthUtils";
+import {
+  sidebarToWidthRatio,
+  widthToHideSidebar,
+} from "../common/screenWidthUtils";
 import {
   SplitView,
   SplitViewDivider,
@@ -59,7 +62,15 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
-  const [sidebarShown, setSidebarShown] = useState<boolean>(true);
+  // Load with sidebar collapsed for smaller screen widths.
+  const [sidebarShown, setSidebarShown] = useState<boolean>(
+    window.innerWidth <= widthToHideSidebar ? false : true
+  );
+  const [tabIndex, setTabIndex] = useState<number>(0);
+  const collapseSidebar = useCallback(() => {
+    setTabIndex(-1);
+    setSidebarShown(false);
+  }, [setTabIndex, setSidebarShown]);
   const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
   const editor = (
     <Box height="100%" as="section">
@@ -101,6 +112,10 @@ const Workbench = () => {
               flex="1 1 100%"
               setSidebarShown={setSidebarShown}
               sidebarShown={sidebarShown}
+              setSimulatorShown={setSimulatorShown}
+              tabIndex={tabIndex}
+              setTabIndex={setTabIndex}
+              collapseSidebar={collapseSidebar}
             />
           </SplitViewSized>
           <SplitViewDivider />
@@ -112,6 +127,7 @@ const Workbench = () => {
                 setSerialStateWhenOpen={setSerialStateWhenOpen}
                 setSimulatorShown={setSimulatorShown}
                 simulatorShown={simulatorShown}
+                collapseSidebar={collapseSidebar}
               />
             ) : (
               <Editor
@@ -137,6 +153,7 @@ interface EditorProps {
 interface EditorWithSimulatorProps extends EditorProps {
   simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  collapseSidebar: () => void;
 }
 
 const EditorWithSimulator = ({
@@ -145,6 +162,7 @@ const EditorWithSimulator = ({
   editor,
   simulatorShown,
   setSimulatorShown,
+  collapseSidebar,
 }: EditorWithSimulatorProps) => {
   return (
     <SplitView
@@ -165,6 +183,7 @@ const EditorWithSimulator = ({
         <Simulator
           setSimulatorShown={setSimulatorShown}
           simulatorShown={simulatorShown}
+          collapseSidebar={collapseSidebar}
         />
       </SplitViewSized>
     </SplitView>

@@ -13,14 +13,7 @@ import {
   Tabs,
   VStack,
 } from "@chakra-ui/react";
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
@@ -57,6 +50,10 @@ interface SideBarProps extends BoxProps {
   onSelectedFileChanged: (filename: string) => void;
   setSidebarShown: React.Dispatch<React.SetStateAction<boolean>>;
   sidebarShown: boolean;
+  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  tabIndex: number;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  collapseSidebar: () => void;
 }
 
 /**
@@ -68,6 +65,10 @@ const SideBar = ({
   onSelectedFileChanged,
   setSidebarShown,
   sidebarShown,
+  setSimulatorShown,
+  tabIndex,
+  setTabIndex,
+  collapseSidebar,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -112,8 +113,6 @@ const SideBar = ({
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
   const [{ tab, api, reference, idea }, setParams] = useRouterState();
-  const [tabIndex, setTabIndex] = useState<number>(0);
-
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
     const activePanel = tabPanelsRef.current!.querySelector(
@@ -162,19 +161,14 @@ const SideBar = ({
       setTabIndex(index !== -1 ? index : 0);
       setSidebarShown(true);
     } else {
-      setTabIndex(-1);
-      setSidebarShown(false);
+      collapseSidebar();
     }
   };
-
-  // Load with sidebar collapsed for smaller screen widths.
   useEffect(() => {
-    if (window.innerWidth <= widthToHideSidebar) {
-      setTabIndex(-1);
-      setSidebarShown(false);
+    if (sidebarShown && window.innerWidth <= widthToHideSidebar) {
+      setSimulatorShown(false);
     }
-  }, [setSidebarShown]);
-
+  }, [sidebarShown, setSimulatorShown]);
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
       <SideBarHeader
