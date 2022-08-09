@@ -6,6 +6,8 @@ const fs = require("fs");
 const path = require("path");
 
 const en = JSON.parse(fs.readFileSync("lang/ui.en.json"));
+// Simulator strings are temporarily separate the from base UI strings
+// that have been frozen for translation.
 const simulatorStrings = JSON.parse(
   fs.readFileSync("lang/simulator/simulator.en.json")
 );
