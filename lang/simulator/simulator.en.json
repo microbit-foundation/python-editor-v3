@@ -1,0 +1,14 @@
+{
+  "simulator-show": {
+    "defaultMessage": "Show simulator",
+    "description": "Show simulator action"
+  },
+  "simulator-hide": {
+    "defaultMessage": "Hide simulator",
+    "description": "Hide simulator action"
+  },
+  "simulator-title": {
+    "defaultMessage": "Simulator",
+    "description": "Simulator title"
+  }
+}

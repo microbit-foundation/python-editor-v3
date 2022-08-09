@@ -6,7 +6,13 @@ const fs = require("fs");
 const path = require("path");
 
 const en = JSON.parse(fs.readFileSync("lang/ui.en.json"));
-const validKeys = new Set(Object.keys(en));
+const simulatorStrings = JSON.parse(
+  fs.readFileSync("lang/simulator/simulator.en.json")
+);
+const validKeys = new Set([
+  ...Object.keys(en),
+  ...Object.keys(simulatorStrings),
+]);
 
 fs.readdirSync("lang")
   .filter((f) => f.endsWith(".json"))
@@ -15,6 +21,7 @@ fs.readdirSync("lang")
     const data = {
       // Ensure we fallback to English even if we haven't roundtripped via Crowdin yet.
       ...en,
+      ...simulatorStrings,
       ...JSON.parse(fs.readFileSync(file)),
     };
     Object.keys(data).forEach((k) => {

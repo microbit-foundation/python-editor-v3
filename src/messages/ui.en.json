@@ -1753,6 +1753,24 @@
       "value": "Expand sidebar"
     }
   ],
+  "simulator-hide": [
+    {
+      "type": 0,
+      "value": "Hide simulator"
+    }
+  ],
+  "simulator-show": [
+    {
+      "type": 0,
+      "value": "Show simulator"
+    }
+  ],
+  "simulator-title": [
+    {
+      "type": 0,
+      "value": "Simulator"
+    }
+  ],
   "software-versions": [
     {
       "type": 0,

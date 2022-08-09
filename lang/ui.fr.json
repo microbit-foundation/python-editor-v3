@@ -770,6 +770,18 @@
     "defaultMessage": "Expand sidebar",
     "description": "Aria label for the expand sidebar button"
   },
+  "simulator-hide": {
+    "defaultMessage": "Hide simulator",
+    "description": "Hide simulator action"
+  },
+  "simulator-show": {
+    "defaultMessage": "Show simulator",
+    "description": "Show simulator action"
+  },
+  "simulator-title": {
+    "defaultMessage": "Simulator",
+    "description": "Simulator title"
+  },
   "software-versions": {
     "defaultMessage": "Versions logicielles",
     "description": "Heading for a table of software versions in the about dialog"
