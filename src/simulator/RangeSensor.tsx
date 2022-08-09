@@ -28,7 +28,7 @@ const RangeSensor = ({
   );
   const valueText = unit ? `${value} ${unit}` : value.toString();
   return (
-    <HStack pb={2} pt={1}>
+    <HStack pb={2} pt={1} spacing={3}>
       {icon}
       <Slider
         aria-label={id}
