@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   SplitView,
@@ -60,6 +60,7 @@ const Workbench = () => {
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [sidebarShown, setSidebarShown] = useState<boolean>(true);
   const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
+  const simulatorButtonRef = useRef<HTMLButtonElement>(null);
   const editor = (
     <Box height="100%" as="section">
       {selection && fileVersion !== undefined && (
@@ -69,6 +70,7 @@ const Workbench = () => {
           onSelectedFileChanged={setSelectedFile}
           setSimulatorShown={setSimulatorShown}
           simulatorShown={simulatorShown}
+          ref={simulatorButtonRef}
         />
       )}
     </Box>
@@ -108,6 +110,7 @@ const Workbench = () => {
                 setSerialStateWhenOpen={setSerialStateWhenOpen}
                 setSimulatorShown={setSimulatorShown}
                 simulatorShown={simulatorShown}
+                showSimulatorButtonRef={simulatorButtonRef}
               />
             ) : (
               <Editor
@@ -133,6 +136,7 @@ interface EditorProps {
 interface EditorWithSimulatorProps extends EditorProps {
   simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 const EditorWithSimulator = ({
@@ -141,6 +145,7 @@ const EditorWithSimulator = ({
   editor,
   simulatorShown,
   setSimulatorShown,
+  showSimulatorButtonRef,
 }: EditorWithSimulatorProps) => {
   return (
     <SplitView
@@ -161,6 +166,7 @@ const EditorWithSimulator = ({
         <Simulator
           setSimulatorShown={setSimulatorShown}
           simulatorShown={simulatorShown}
+          showSimulatorButtonRef={showSimulatorButtonRef}
         />
       </SplitViewSized>
     </SplitView>

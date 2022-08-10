@@ -16,9 +16,14 @@ import SimulatorSplitView from "./SimulatorSplitView";
 interface SimulatorProps {
   simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
+const Simulator = ({
+  simulatorShown,
+  setSimulatorShown,
+  showSimulatorButtonRef,
+}: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
   const simulator = useRef(
@@ -43,11 +48,9 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
     if (simulatorShown) {
       ref.current!.focus();
     } else {
-      (
-        document.querySelector("#simulator-expand") as HTMLButtonElement
-      ).focus();
+      showSimulatorButtonRef.current!.focus();
     }
-  }, [simulatorShown]);
+  }, [showSimulatorButtonRef, simulatorShown]);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
