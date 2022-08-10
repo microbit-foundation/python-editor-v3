@@ -1,13 +1,23 @@
-import { BoxProps, Icon, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Collapse,
+  HStack,
+  Icon,
+  IconButton,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
+import { IconType } from "react-icons";
+import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useSimulator } from "../device/device-hooks";
 import { EVENT_SENSORS } from "../device/simulator";
 import AccelerometerModule from "./AccelerometerModule";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
-
-import { IconType } from "react-icons";
-import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -30,6 +40,8 @@ export const icons: Record<string, IconType> = {
   lightLevel: RiSunFill,
   soundLevel: RiWebcamLine, // Improbably like a microphone.
 };
+
+const spacing = 5;
 
 interface SimulatorModulesProps extends BoxProps {}
 
@@ -58,37 +70,78 @@ const SimulatorModules = (props: SimulatorModulesProps) => {
     // Waiting for info from sim.
     return null;
   }
-  const spacing = 5;
   return (
-    <Stack {...props} height="100%" width="100%" p={5} spacing={spacing}>
+    <Stack {...props} height="100%" width="100%" p={spacing} spacing={spacing}>
       {modules.map((id, index) => (
-        <Stack
-          borderBottomWidth={index < modules.length - 1 ? 1 : 0}
-          borderColor="grey.200"
-          spacing={5}
-          pb={spacing}
-        >
-          <Text as="h3">{titles[id]}</Text>
-          <ModuleForId
-            id={id}
-            sensors={sensors}
-            onSensorChange={handleSensorChange}
-          />
-        </Stack>
+        <CollapsibleModule
+          key={id}
+          index={index}
+          id={id}
+          sensors={sensors}
+          onSensorChange={handleSensorChange}
+        />
       ))}
     </Stack>
   );
 };
 
-const ModuleForId = ({
+interface CollapsibleModuleProps extends ModuleForIdProps {
+  index: number;
+}
+
+const CollapsibleModule = ({
+  index,
   id,
   sensors,
   onSensorChange,
-}: {
+}: CollapsibleModuleProps) => {
+  const disclosure = useDisclosure();
+  const title = titles[id];
+  return (
+    <Box
+      borderBottomWidth={index < modules.length - 1 ? 1 : 0}
+      borderColor="grey.200"
+      pb={spacing}
+    >
+      <HStack
+        justifyContent="space-between"
+        onClick={disclosure.onToggle}
+        cursor="pointer"
+      >
+        <Text as="h3">{title}</Text>
+        <IconButton
+          icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
+          aria-label={
+            disclosure.isOpen
+              ? `Collapse ${title.toLowerCase()} module`
+              : `Expand ${title.toLowerCase()} module`
+          }
+          size="sm"
+          color="brand.200"
+          variant="ghost"
+          fontSize="2xl"
+        />
+      </HStack>
+      <Collapse in={disclosure.isOpen}>
+        <Box mt={spacing}>
+          <ModuleForId
+            id={id}
+            sensors={sensors}
+            onSensorChange={onSensorChange}
+          />
+        </Box>
+      </Collapse>
+    </Box>
+  );
+};
+
+interface ModuleForIdProps {
   id: string;
   onSensorChange: (id: string, value: any) => void;
   sensors: Record<string, Sensor>;
-}) => {
+}
+
+const ModuleForId = ({ id, sensors, onSensorChange }: ModuleForIdProps) => {
   switch (id) {
     case "lightLevel":
     case "temperature":
