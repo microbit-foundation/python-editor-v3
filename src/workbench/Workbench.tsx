@@ -59,7 +59,9 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
-  const [sidebarShown, setSidebarShown] = useState<boolean>(true);
+  const [sidebarShown, setSidebarShown] = useState<boolean>(
+    flags.simulator ? false : true
+  );
   const [tabIndex, setTabIndex] = useState<number>(0);
   const collapseSidebar = useCallback(() => {
     setTabIndex(-1);
