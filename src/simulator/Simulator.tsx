@@ -16,9 +16,14 @@ import SimulatorSplitView from "./SimulatorSplitView";
 interface SimulatorProps {
   simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  minWidth: number;
 }
 
-const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
+const Simulator = ({
+  simulatorShown,
+  setSimulatorShown,
+  minWidth,
+}: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
   const simulator = useRef(
@@ -62,7 +67,7 @@ const Simulator = ({ simulatorShown, setSimulatorShown }: SimulatorProps) => {
           />
         </Flex>
         <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
-          <Box width="100%" pb={1} px={5} maxW="md">
+          <Box width="100%" pb={1} px={5} maxW="md" minW={minWidth}>
             <AspectRatio ratio={191.27 / 155.77} width="100%">
               <Box
                 ref={ref}
