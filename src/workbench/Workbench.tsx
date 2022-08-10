@@ -6,10 +6,7 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import {
-  sidebarToWidthRatio,
-  widthToHideSidebar,
-} from "../common/screenWidthUtils";
+import { sidebarToWidthRatio } from "../common/screenWidthUtils";
 import {
   SplitView,
   SplitViewDivider,
@@ -62,10 +59,7 @@ const Workbench = () => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
-  // Load with sidebar collapsed for smaller screen widths.
-  const [sidebarShown, setSidebarShown] = useState<boolean>(
-    window.innerWidth <= widthToHideSidebar ? false : true
-  );
+  const [sidebarShown, setSidebarShown] = useState<boolean>(true);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const collapseSidebar = useCallback(() => {
     setTabIndex(-1);

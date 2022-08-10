@@ -165,10 +165,21 @@ const SideBar = ({
     }
   };
   useEffect(() => {
-    if (sidebarShown && window.innerWidth <= widthToHideSidebar) {
+    if (
+      flags.simulator &&
+      sidebarShown &&
+      window.innerWidth <= widthToHideSidebar
+    ) {
       setSimulatorShown(false);
     }
   }, [sidebarShown, setSimulatorShown]);
+
+  // Load with sidebar collapsed for smaller screen widths.
+  useEffect(() => {
+    if (window.innerWidth <= widthToHideSidebar) {
+      collapseSidebar();
+    }
+  }, [collapseSidebar]);
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
       <SideBarHeader
