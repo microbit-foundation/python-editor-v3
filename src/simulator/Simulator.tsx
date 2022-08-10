@@ -17,12 +17,14 @@ interface SimulatorProps {
   simulatorShown: boolean;
   setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
   showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
+  minWidth: number;
 }
 
 const Simulator = ({
   simulatorShown,
   setSimulatorShown,
   showSimulatorButtonRef,
+  minWidth,
 }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
@@ -74,7 +76,7 @@ const Simulator = ({
           />
         </Flex>
         <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
-          <Box width="100%" pb={1} px={5} maxW="md">
+          <Box width="100%" pb={1} px={5} maxW="md" minW={minWidth}>
             <AspectRatio ratio={191.27 / 155.77} width="100%">
               <Box
                 ref={ref}

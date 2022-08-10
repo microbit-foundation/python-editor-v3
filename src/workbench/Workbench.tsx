@@ -27,6 +27,7 @@ import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
 const minimums: [number, number] = [380, 580];
+const simulatorMinimums: [number, number] = [300, 300];
 
 /**
  * The main app layout with resizable panels.
@@ -150,7 +151,7 @@ const EditorWithSimulator = ({
   return (
     <SplitView
       direction="row"
-      minimums={[300, 300]}
+      minimums={simulatorMinimums}
       height="100%"
       mode={simulatorShown ? "open" : "collapsed"}
     >
@@ -167,6 +168,7 @@ const EditorWithSimulator = ({
           setSimulatorShown={setSimulatorShown}
           simulatorShown={simulatorShown}
           showSimulatorButtonRef={showSimulatorButtonRef}
+          minWidth={simulatorMinimums[0]}
         />
       </SplitViewSized>
     </SplitView>
