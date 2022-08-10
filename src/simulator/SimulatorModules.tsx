@@ -98,10 +98,11 @@ const CollapsibleModule = ({
   const disclosure = useDisclosure();
   const title = titles[id];
   return (
-    <Box
+    <Stack
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
       borderColor="grey.200"
       pb={spacing}
+      spacing={0}
     >
       <HStack
         justifyContent="space-between"
@@ -131,7 +132,7 @@ const CollapsibleModule = ({
           />
         </Box>
       </Collapse>
-    </Box>
+    </Stack>
   );
 };
 
