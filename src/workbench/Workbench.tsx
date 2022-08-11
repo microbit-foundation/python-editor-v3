@@ -59,13 +59,13 @@ const Workbench = () => {
 
   const fileVersion = files.find((f) => f.name === selection.file)?.version;
 
-  const [sidebarShown, setSidebarShown] = useState<boolean>(() =>
-    flags.simulator ? window.innerWidth > widthToHideSidebar : true
+  const [sidebarShown, setSidebarShown] = useState<boolean>(
+    () => window.innerWidth > widthToHideSidebar
   );
   const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
   const simulatorButtonRef = useRef<HTMLButtonElement>(null);
   const [tabIndex, setTabIndex] = useState<number>(() =>
-    flags.simulator && window.innerWidth <= widthToHideSidebar ? -1 : 0
+    window.innerWidth > widthToHideSidebar ? 0 : -1
   );
 
   // Sidebar/simulator space management:
