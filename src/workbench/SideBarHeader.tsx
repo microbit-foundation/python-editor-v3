@@ -275,7 +275,7 @@ const SideBarHeader = ({
                   ? intl.formatMessage({ id: "sidebar-collapse" })
                   : intl.formatMessage({ id: "sidebar-expand" })
               }
-              handleClick={handleCollapseBtnClick}
+              onClick={handleCollapseBtnClick}
               splitViewShown={sidebarShown}
               direction="expandRight"
             />
