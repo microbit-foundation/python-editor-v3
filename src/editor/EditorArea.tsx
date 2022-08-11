@@ -5,23 +5,22 @@
  */
 import { Box, BoxProps, Flex, useMediaQuery } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
+import { widthXl } from "../common/media-queries";
+import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
+import ZoomControls from "../editor/ZoomControls";
+import { flags } from "../flags";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
-import ZoomControls from "../editor/ZoomControls";
 import UndoRedoControls from "./UndoRedoControls";
-import { widthXl } from "../common/media-queries";
-import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
-import { useCallback } from "react";
-import { flags } from "../flags";
 
 interface EditorAreaProps extends BoxProps {
   selection: WorkbenchSelection;
   onSelectedFileChanged: (filename: string) => void;
   simulatorShown: boolean;
-  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  onSimulatorExpand: () => void;
 }
 
 /**
@@ -32,14 +31,11 @@ const EditorArea = ({
   selection,
   onSelectedFileChanged,
   simulatorShown,
-  setSimulatorShown,
+  onSimulatorExpand,
   ...props
 }: EditorAreaProps) => {
   const intl = useIntl();
   const [isWideScreen] = useMediaQuery(widthXl);
-  const showSimulator = useCallback(() => {
-    setSimulatorShown(true);
-  }, [setSimulatorShown]);
   return (
     <Flex
       height="100%"
@@ -74,7 +70,7 @@ const EditorArea = ({
           {flags.simulator && !simulatorShown && (
             <HideSplitViewButton
               aria-label={intl.formatMessage({ id: "simulator-expand" })}
-              handleClick={showSimulator}
+              onClick={onSimulatorExpand}
               splitViewShown={simulatorShown}
               direction="expandLeft"
               text={intl.formatMessage({ id: "simulator-title" })}

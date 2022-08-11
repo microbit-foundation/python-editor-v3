@@ -6,7 +6,10 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { sidebarToWidthRatio } from "../common/screenWidthUtils";
+import {
+  sidebarToWidthRatio,
+  widthToHideSidebar,
+} from "../common/screenWidthUtils";
 import {
   SplitView,
   SplitViewDivider,
@@ -55,19 +58,37 @@ const Workbench = () => {
 
   const fileVersion = files.find((f) => f.name === selection.file)?.version;
 
-  const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
-  const [serialStateWhenOpen, setSerialStateWhenOpen] =
-    useState<SizedMode>("compact");
-  const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
-  const [sidebarShown, setSidebarShown] = useState<boolean>(
-    flags.simulator ? false : true
+  const [sidebarShown, setSidebarShown] = useState<boolean>(() =>
+    flags.simulator ? window.innerWidth > widthToHideSidebar : true
   );
-  const [tabIndex, setTabIndex] = useState<number>(0);
-  const collapseSidebar = useCallback(() => {
+  const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
+  const [tabIndex, setTabIndex] = useState<number>(() =>
+    flags.simulator && window.innerWidth <= widthToHideSidebar ? -1 : 0
+  );
+
+  // Sidebar/simulator space management:
+  const handleSidebarCollapse = useCallback(() => {
     setTabIndex(-1);
     setSidebarShown(false);
-  }, [setTabIndex, setSidebarShown]);
-  const [simulatorShown, setSimulatorShown] = useState<boolean>(true);
+  }, []);
+  const handleSidebarExpand = useCallback(() => {
+    setSidebarShown(true);
+    // If there's not room for the simulator then hide it.
+    if (flags.simulator && window.innerWidth <= widthToHideSidebar) {
+      setSimulatorShown(false);
+    }
+  }, []);
+  const handleSimulatorHide = useCallback(() => {
+    setSimulatorShown(false);
+  }, []);
+  const handleSimulatorExpand = useCallback(() => {
+    setSimulatorShown(true);
+    // If there's not room for the sidebar then hide it.
+    if (window.innerWidth <= widthToHideSidebar) {
+      handleSidebarCollapse();
+    }
+  }, [handleSidebarCollapse]);
+
   const editor = (
     <Box height="100%" as="section">
       {selection && fileVersion !== undefined && (
@@ -75,7 +96,7 @@ const Workbench = () => {
           key={selection.file + "/" + fileVersion}
           selection={selection}
           onSelectedFileChanged={setSelectedFile}
-          setSimulatorShown={setSimulatorShown}
+          onSimulatorExpand={handleSimulatorExpand}
           simulatorShown={simulatorShown}
         />
       )}
@@ -106,12 +127,11 @@ const Workbench = () => {
               selectedFile={selection.file}
               onSelectedFileChanged={setSelectedFile}
               flex="1 1 100%"
-              setSidebarShown={setSidebarShown}
-              sidebarShown={sidebarShown}
-              setSimulatorShown={setSimulatorShown}
+              shown={sidebarShown}
               tabIndex={tabIndex}
-              setTabIndex={setTabIndex}
-              collapseSidebar={collapseSidebar}
+              onTabIndexChange={setTabIndex}
+              onSidebarCollapse={handleSidebarCollapse}
+              onSidebarExpand={handleSidebarExpand}
             />
           </SplitViewSized>
           <SplitViewDivider />
@@ -119,18 +139,11 @@ const Workbench = () => {
             {flags.simulator ? (
               <EditorWithSimulator
                 editor={editor}
-                serialSizedMode={serialSizedMode}
-                setSerialStateWhenOpen={setSerialStateWhenOpen}
-                setSimulatorShown={setSimulatorShown}
+                onSimulatorHide={handleSimulatorHide}
                 simulatorShown={simulatorShown}
-                collapseSidebar={collapseSidebar}
               />
             ) : (
-              <Editor
-                editor={editor}
-                serialSizedMode={serialSizedMode}
-                setSerialStateWhenOpen={setSerialStateWhenOpen}
-              />
+              <Editor editor={editor} />
             )}
           </SplitViewRemainder>
         </SplitView>
@@ -141,24 +154,18 @@ const Workbench = () => {
 };
 
 interface EditorProps {
-  serialSizedMode: SizedMode;
-  setSerialStateWhenOpen: React.Dispatch<React.SetStateAction<SizedMode>>;
   editor: ReactNode;
 }
 
 interface EditorWithSimulatorProps extends EditorProps {
   simulatorShown: boolean;
-  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
-  collapseSidebar: () => void;
+  onSimulatorHide: () => void;
 }
 
 const EditorWithSimulator = ({
-  serialSizedMode,
-  setSerialStateWhenOpen,
   editor,
   simulatorShown,
-  setSimulatorShown,
-  collapseSidebar,
+  onSimulatorHide,
 }: EditorWithSimulatorProps) => {
   return (
     <SplitView
@@ -168,30 +175,23 @@ const EditorWithSimulator = ({
       mode={simulatorShown ? "open" : "collapsed"}
     >
       <SplitViewRemainder>
-        <Editor
-          editor={editor}
-          serialSizedMode={serialSizedMode}
-          setSerialStateWhenOpen={setSerialStateWhenOpen}
-        />
+        <Editor editor={editor} />
       </SplitViewRemainder>
       <SplitViewDivider showBoxShadow={true} />
       <SplitViewSized>
-        <Simulator
-          setSimulatorShown={setSimulatorShown}
-          simulatorShown={simulatorShown}
-          collapseSidebar={collapseSidebar}
-        />
+        <Simulator shown={simulatorShown} onSimulatorHide={onSimulatorHide} />
       </SplitViewSized>
     </SplitView>
   );
 };
 
-const Editor = ({
-  serialSizedMode,
-  setSerialStateWhenOpen,
-  editor,
-}: EditorProps) => {
+const Editor = ({ editor }: EditorProps) => {
   const intl = useIntl();
+  const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const [serialStateWhenOpen, setSerialStateWhenOpen] =
+    useState<SizedMode>("compact");
+  const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+
   return (
     <Flex
       as="main"

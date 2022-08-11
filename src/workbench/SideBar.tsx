@@ -20,7 +20,6 @@ import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
-import { widthToHideSidebar } from "../common/screenWidthUtils";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
@@ -48,12 +47,12 @@ export interface Pane {
 interface SideBarProps extends BoxProps {
   selectedFile: string | undefined;
   onSelectedFileChanged: (filename: string) => void;
-  setSidebarShown: React.Dispatch<React.SetStateAction<boolean>>;
-  sidebarShown: boolean;
-  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  shown: boolean;
   tabIndex: number;
-  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
-  collapseSidebar: () => void;
+  onTabIndexChange: (index: number) => void;
+
+  onSidebarExpand: () => void;
+  onSidebarCollapse: () => void;
 }
 
 /**
@@ -63,12 +62,11 @@ interface SideBarProps extends BoxProps {
 const SideBar = ({
   selectedFile,
   onSelectedFileChanged,
-  setSidebarShown,
-  sidebarShown,
-  setSimulatorShown,
+  shown,
   tabIndex,
-  setTabIndex,
-  collapseSidebar,
+  onTabIndexChange,
+  onSidebarCollapse,
+  onSidebarExpand,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -118,31 +116,33 @@ const SideBar = ({
     const activePanel = tabPanelsRef.current!.querySelector(
       "[role='tabpanel']:not([hidden])"
     );
-    (activePanel as HTMLElement).focus();
+    (activePanel as HTMLElement)?.focus();
   };
+  useEffect(() => {
+    // Initialize from the router state. Start-up and navigation.
+    const tabIndex = panes.findIndex((p) => p.id === tab);
+    if (tabIndex !== -1) {
+      onTabIndexChange(tabIndex);
+      onSidebarExpand();
+      if (!api && !reference && !idea) {
+        setPanelFocus();
+      }
+    }
+  }, [onSidebarExpand, panes, onTabIndexChange, tab, api, reference, idea]);
 
   useEffect(() => {
-    const tabIndexOf = panes.findIndex((p) => p.id === tab);
-    setTabIndex(tabIndexOf === -1 ? 0 : tabIndexOf);
-    setSidebarShown(true);
-    if (!api && !reference && !idea) {
+    if (shown && !api && !reference && !idea) {
       setPanelFocus();
     }
-  }, [setSidebarShown, panes, setTabIndex, tab, api, reference, idea]);
-
-  useEffect(() => {
-    if (sidebarShown && !api && !reference && !idea) {
-      setPanelFocus();
-    }
-  }, [sidebarShown, api, reference, idea]);
+  }, [shown, api, reference, idea]);
 
   const handleTabChange = useCallback(
     (index: number) => {
-      setTabIndex(index);
+      onTabIndexChange(index);
       setParams({ tab: panes[index]?.id });
-      setSidebarShown(true);
+      onSidebarExpand();
     },
-    [setSidebarShown, setTabIndex, panes, setParams]
+    [onSidebarExpand, onTabIndexChange, panes, setParams]
   );
   const handleTabClick = useCallback(() => {
     // A click on a tab when it's already selected should
@@ -158,32 +158,17 @@ const SideBar = ({
   const handleSidebarToggled = () => {
     if (tabIndex === -1) {
       const index = panes.findIndex((p) => p.id === tab);
-      setTabIndex(index !== -1 ? index : 0);
-      setSidebarShown(true);
+      onTabIndexChange(index !== -1 ? index : 0);
+      onSidebarExpand();
     } else {
-      collapseSidebar();
+      onSidebarCollapse();
     }
   };
-  useEffect(() => {
-    if (
-      flags.simulator &&
-      sidebarShown &&
-      window.innerWidth <= widthToHideSidebar
-    ) {
-      setSimulatorShown(false);
-    }
-  }, [sidebarShown, setSimulatorShown]);
 
-  // Load with sidebar collapsed for smaller screen widths.
-  useEffect(() => {
-    if (window.innerWidth <= widthToHideSidebar) {
-      collapseSidebar();
-    }
-  }, [collapseSidebar]);
   return (
     <Flex height="100%" direction="column" {...props} backgroundColor="gray.25">
       <SideBarHeader
-        sidebarShown={sidebarShown}
+        sidebarShown={shown}
         onSidebarToggled={handleSidebarToggled}
       />
       <Tabs

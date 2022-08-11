@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
-import { widthToHideSidebar } from "../common/screenWidthUtils";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
@@ -15,16 +14,11 @@ import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 
 interface SimulatorProps {
-  simulatorShown: boolean;
-  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
-  collapseSidebar: () => void;
+  shown: boolean;
+  onSimulatorHide: () => void;
 }
 
-const Simulator = ({
-  simulatorShown,
-  setSimulatorShown,
-  collapseSidebar,
-}: SimulatorProps) => {
+const Simulator = ({ shown, onSimulatorHide }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
   const simulator = useRef(
@@ -42,15 +36,7 @@ const Simulator = ({
   const simControlsRef = useRef<HTMLDivElement>(null);
   const simHeight = simControlsRef.current?.offsetHeight || 0;
   const [brand500] = useToken("colors", ["brand.500"]);
-  const hideSimulator = useCallback(() => {
-    setSimulatorShown(false);
-  }, [setSimulatorShown]);
 
-  useEffect(() => {
-    if (simulatorShown && window.innerWidth <= widthToHideSidebar) {
-      collapseSidebar();
-    }
-  }, [simulatorShown, collapseSidebar]);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
@@ -68,8 +54,8 @@ const Simulator = ({
         >
           <HideSplitViewButton
             aria-label={intl.formatMessage({ id: "simulator-collapse" })}
-            handleClick={hideSimulator}
-            splitViewShown={simulatorShown}
+            onClick={onSimulatorHide}
+            splitViewShown={shown}
             direction="expandLeft"
           />
         </Flex>

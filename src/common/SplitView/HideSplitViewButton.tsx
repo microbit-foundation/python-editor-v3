@@ -9,14 +9,14 @@ import CollapsibleButton from "../CollapsibleButton";
 import { splitViewHideButton } from "../zIndex";
 
 interface HideSplitViewButtonProps extends IconButtonProps {
-  handleClick: () => void;
+  onClick: () => void;
   direction: "expandLeft" | "expandRight";
   splitViewShown: boolean;
   text?: string;
 }
 
 const HideSplitViewButton = ({
-  handleClick,
+  onClick,
   direction,
   splitViewShown,
   text = "",
@@ -55,7 +55,7 @@ const HideSplitViewButton = ({
         icon={<Icon as={RiDownloadLine} transform={rotation} />}
         fontSize="lg"
         transition="none"
-        onClick={handleClick}
+        onClick={onClick}
         borderTopRightRadius={rightBorderRadius}
         borderBottomRightRadius={rightBorderRadius}
         borderTopLeftRadius={leftBorderRadius}
