@@ -26,7 +26,7 @@ export const themeExtensions = (fontSize: string) => {
     },
     // Widths to accomodate two gutters (lint and line numbers).
     ".cm-gutter.cm-gutter-lint": {
-      width: "1.8rem",
+      width: "1.35em", // Needs to scale with the markers which are sized in em.
       minWidth: "unset",
     },
     ".cm-gutter": {

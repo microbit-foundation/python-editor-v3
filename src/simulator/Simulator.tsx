@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
@@ -19,14 +19,16 @@ export enum SimState {
 }
 
 interface SimulatorProps {
-  simulatorShown: boolean;
-  setSimulatorShown: React.Dispatch<React.SetStateAction<boolean>>;
+  shown: boolean;
+  onSimulatorHide: () => void;
+  showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
   minWidth: number;
 }
 
 const Simulator = ({
-  simulatorShown,
-  setSimulatorShown,
+  shown,
+  onSimulatorHide,
+  showSimulatorButtonRef,
   minWidth,
 }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
@@ -46,10 +48,16 @@ const Simulator = ({
   const simControlsRef = useRef<HTMLDivElement>(null);
   const simHeight = simControlsRef.current?.offsetHeight || 0;
   const [brand500] = useToken("colors", ["brand.500"]);
-  const hideSimulator = useCallback(() => {
-    setSimulatorShown(false);
-  }, [setSimulatorShown]);
   const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
+
+  useEffect(() => {
+    if (shown) {
+      ref.current!.focus();
+    } else {
+      showSimulatorButtonRef.current!.focus();
+    }
+  }, [showSimulatorButtonRef, shown]);
+
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
@@ -67,8 +75,8 @@ const Simulator = ({
         >
           <HideSplitViewButton
             aria-label={intl.formatMessage({ id: "simulator-collapse" })}
-            handleClick={hideSimulator}
-            splitViewShown={simulatorShown}
+            onClick={onSimulatorHide}
+            splitViewShown={shown}
             direction="expandLeft"
           />
         </Flex>
