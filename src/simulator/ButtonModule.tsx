@@ -50,7 +50,7 @@ const SensorButton = ({
   const sensor = sensors["button" + buttonLabel.toUpperCase()];
   const [isPressedOverride, setIsPressedOverride] = useState<boolean>(false);
   const handleSensorChange = useCallback(
-    (value: boolean, override: boolean = false) => {
+    (value: number, override: boolean = false) => {
       if ((isPressedOverride && override) || !isPressedOverride) {
         onSensorChange(sensor.id, value);
       }
@@ -66,22 +66,22 @@ const SensorButton = ({
         case " ":
           event.preventDefault();
           if (event.type === "keydown") {
-            handleSensorChange(true);
+            handleSensorChange(1);
           } else {
-            handleSensorChange(false);
+            handleSensorChange(0);
           }
       }
     };
     const mouseDownListener = (event: MouseEvent) => {
       event.preventDefault();
-      handleSensorChange(true);
+      handleSensorChange(1);
     };
     const mouseUpListener = (event: MouseEvent) => {
       event.preventDefault();
-      handleSensorChange(false);
+      handleSensorChange(0);
     };
     const mouseLeaveListener = () => {
-      handleSensorChange(false);
+      handleSensorChange(0);
     };
     if (buttonEl) {
       buttonEl.addEventListener("mousedown", mouseDownListener);
@@ -102,7 +102,7 @@ const SensorButton = ({
   }, [handleSensorChange]);
   const handleOverrideSet = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsPressedOverride(event.currentTarget.checked);
-    handleSensorChange(event.currentTarget.checked, true);
+    handleSensorChange(event.currentTarget.checked ? 1 : 0, true);
   };
   const disabled = simState === SimState.STOPPED;
   useEffect(() => {
