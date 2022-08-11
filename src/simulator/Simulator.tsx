@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
@@ -12,6 +12,11 @@ import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
+
+export enum SimState {
+  RUNNING,
+  STOPPED,
+}
 
 interface SimulatorProps {
   simulatorShown: boolean;
@@ -44,6 +49,7 @@ const Simulator = ({
   const hideSimulator = useCallback(() => {
     setSimulatorShown(false);
   }, [setSimulatorShown]);
+  const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
@@ -86,10 +92,12 @@ const Simulator = ({
               as="section"
               aria-label={intl.formatMessage({ id: "project-actions" })}
               overflow="hidden"
+              simState={simState}
+              setSimState={setSimState}
             />
           </Box>
         </VStack>
-        <SimulatorSplitView simHeight={simHeight} />
+        <SimulatorSplitView simHeight={simHeight} simState={simState} />
       </Flex>
     </DeviceContextProvider>
   );

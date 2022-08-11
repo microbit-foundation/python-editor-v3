@@ -8,10 +8,13 @@ import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
 import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
+import ButtonsModule from "./ButtonModule";
+import { SimState } from "./Simulator";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
   "accelerometer",
+  "buttons",
   "lightLevel",
   "microphone",
   "temperature",
@@ -20,6 +23,7 @@ const modules: string[] = [
 const titles: Record<string, string> = {
   // To move to translation. Sorted.
   accelerometer: "Accelerometer",
+  buttons: "Buttons",
   lightLevel: "Light level",
   microphone: "Microphone",
   temperature: "Temperature",
@@ -31,9 +35,11 @@ export const icons: Record<string, IconType> = {
   soundLevel: RiWebcamLine, // Improbably like a microphone.
 };
 
-interface SimulatorModulesProps extends BoxProps {}
+interface SimulatorModulesProps extends BoxProps {
+  simState: SimState;
+}
 
-const SimulatorModules = (props: SimulatorModulesProps) => {
+const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
   const device = useSimulator();
   const [sensors, setSensors] = useState<Record<string, Sensor>>(
     device.sensors
@@ -73,6 +79,7 @@ const SimulatorModules = (props: SimulatorModulesProps) => {
             id={id}
             sensors={sensors}
             onSensorChange={handleSensorChange}
+            simState={simState}
           />
         </Stack>
       ))}
@@ -84,10 +91,12 @@ const ModuleForId = ({
   id,
   sensors,
   onSensorChange,
+  simState,
 }: {
   id: string;
   onSensorChange: (id: string, value: any) => void;
   sensors: Record<string, Sensor>;
+  simState: SimState;
 }) => {
   switch (id) {
     case "lightLevel":
@@ -109,6 +118,15 @@ const ModuleForId = ({
           key={id}
           value={sensors.soundLevel as RangeSensorType}
           onSensorChange={onSensorChange}
+        />
+      );
+    case "buttons":
+      return (
+        <ButtonsModule
+          key={id}
+          sensors={sensors}
+          onSensorChange={onSensorChange}
+          simState={simState}
         />
       );
     case "accelerometer":
