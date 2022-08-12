@@ -129,7 +129,15 @@ const SensorButton = ({
       >
         {buttonLabel}
       </Button>
-      <Switch isChecked={isHeld} onChange={handleOverrideSet} />
+      <Switch
+        sx={{
+          "*": {
+            transition: "none !important",
+          },
+        }}
+        isChecked={isHeld}
+        onChange={handleOverrideSet}
+      />
     </HStack>
   );
 };
