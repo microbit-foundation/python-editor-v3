@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Flex } from "@chakra-ui/layout";
+import { useMediaQuery } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
+  hideSidebarMediaQuery,
   sidebarToWidthRatio,
   widthToHideSidebar,
 } from "../common/screenWidthUtils";
@@ -90,6 +92,12 @@ const Workbench = () => {
       handleSidebarCollapse();
     }
   }, [handleSidebarCollapse]);
+  const [hideSideBarMediaQueryValue] = useMediaQuery(hideSidebarMediaQuery);
+  useEffect(() => {
+    if (hideSideBarMediaQueryValue) {
+      handleSidebarCollapse();
+    }
+  }, [hideSideBarMediaQueryValue, handleSidebarCollapse]);
 
   const editor = (
     <Box height="100%" as="section">
