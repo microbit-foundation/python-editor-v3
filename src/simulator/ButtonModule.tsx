@@ -119,6 +119,7 @@ const SensorButton = ({
   return (
     <HStack spacing={3}>
       <Button
+        isActive={!!sensor.value}
         disabled={disabled}
         size="sm"
         onKeyDown={keyListener}
