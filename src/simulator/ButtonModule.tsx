@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button, HStack, Switch } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import { SimState } from "./Simulator";
 
@@ -50,81 +50,86 @@ const SensorButton = ({
   const sensor = sensors[
     "button" + buttonLabel.toUpperCase()
   ] as RangeSensorType;
-  const [isPressedOverride, setIsPressedOverride] = useState<boolean>(false);
+  const [mouseDown, setMouseDown] = useState<boolean>(false);
   const handleSensorChange = useCallback(
-    (value: number, override: boolean = false) => {
-      if ((isPressedOverride && override) || !isPressedOverride) {
+    (value: number) => {
+      // In this case isHeld is true, so the value should be reversed.
+      if (sensor.value === value) {
+        onSensorChange(
+          sensor.id,
+          value === sensor.min ? sensor.max : sensor.min
+        );
+      } else {
         onSensorChange(sensor.id, value);
       }
     },
-    [isPressedOverride, onSensorChange, sensor]
+    [onSensorChange, sensor]
   );
-  const ref = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    const buttonEl = ref.current;
-    const keyListener = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "Enter":
-        case " ":
-          event.preventDefault();
-          if (event.type === "keydown") {
-            handleSensorChange(sensor.max);
-          } else {
-            handleSensorChange(sensor.min);
-          }
-      }
-    };
-    const mouseDownListener = (event: MouseEvent) => {
-      event.preventDefault();
-      handleSensorChange(sensor.max);
-    };
-    const mouseUpListener = (event: MouseEvent) => {
-      event.preventDefault();
-      handleSensorChange(sensor.min);
-    };
-    const mouseLeaveListener = () => {
-      handleSensorChange(sensor.min);
-    };
-    if (buttonEl) {
-      buttonEl.addEventListener("mousedown", mouseDownListener);
-      buttonEl.addEventListener("mouseup", mouseUpListener);
-      buttonEl.addEventListener("keydown", keyListener);
-      buttonEl.addEventListener("keyup", keyListener);
-      buttonEl.addEventListener("mouseleave", mouseLeaveListener);
+  const keyListener = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    switch (event.key) {
+      case "Enter":
+      case " ":
+        event.preventDefault();
+        if (event.type === "keydown") {
+          handleSensorChange(sensor.max);
+        } else {
+          handleSensorChange(sensor.min);
+        }
     }
-    return () => {
-      if (buttonEl) {
-        buttonEl.removeEventListener("mousedown", mouseDownListener);
-        buttonEl.removeEventListener("mouseup", mouseUpListener);
-        buttonEl.removeEventListener("keydown", keyListener);
-        buttonEl.removeEventListener("keyup", keyListener);
-        buttonEl.removeEventListener("mouseleave", mouseLeaveListener);
-      }
-    };
-  }, [handleSensorChange, sensor]);
-  const handleOverrideSet = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsPressedOverride(event.currentTarget.checked);
-    handleSensorChange(
-      event.currentTarget.checked ? sensor.max : sensor.min,
-      true
-    );
   };
-  const disabled = simState === SimState.STOPPED;
-  useEffect(() => {
-    if (disabled) {
-      setIsPressedOverride(false);
+  const mouseDownListener = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setMouseDown(true);
+    handleSensorChange(sensor.max);
+  };
+  const mouseUpListener = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setMouseDown(false);
+    handleSensorChange(sensor.min);
+  };
+  const mouseLeaveListener = () => {
+    if (mouseDown) {
+      handleSensorChange(sensor.min);
     }
-  }, [disabled]);
+  };
+  const [isHeld, setIsHeld] = useState<boolean>(false);
+  const handleOverrideSet = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setIsHeld(event.currentTarget.checked);
+      handleSensorChange(event.currentTarget.checked ? sensor.max : sensor.min);
+    },
+    [handleSensorChange, setIsHeld, sensor]
+  );
+
+  useEffect(() => {
+    if (sensor.value === sensor.min) {
+      setIsHeld(false);
+    }
+    if (sensor.value === sensor.max) {
+      setIsHeld(true);
+    }
+  }, [sensor]);
+
+  const disabled = simState === SimState.STOPPED;
+
   return (
     <HStack spacing={3}>
-      <Button disabled={disabled} size="sm" ref={ref}>
+      <Button
+        disabled={disabled}
+        size="sm"
+        onKeyDown={keyListener}
+        onKeyUp={keyListener}
+        onMouseDown={mouseDownListener}
+        onMouseUp={mouseUpListener}
+        onMouseLeave={mouseLeaveListener}
+      >
         {buttonLabel}
       </Button>
-      <Switch
-        disabled={disabled}
-        isChecked={isPressedOverride}
-        onChange={handleOverrideSet}
-      />
+      <Switch isChecked={isHeld} onChange={handleOverrideSet} />
     </HStack>
   );
 };
