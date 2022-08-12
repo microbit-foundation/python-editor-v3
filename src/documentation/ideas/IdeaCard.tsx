@@ -38,6 +38,7 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
         borderTopRadius="lg"
         src={imageUrlBuilder.image(image.asset).width(550).url()}
         alt=""
+        draggable={false}
       />
       <DocumentationHeading
         alignSelf="flex-start"
