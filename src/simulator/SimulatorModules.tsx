@@ -14,10 +14,10 @@ import { SimState } from "./Simulator";
 const modules: string[] = [
   // Controls UI order of the widgets.
   "accelerometer",
-  "buttons",
   "lightLevel",
-  "microphone",
   "temperature",
+  "microphone",
+  "buttons",
 ];
 
 const titles: Record<string, string> = {
