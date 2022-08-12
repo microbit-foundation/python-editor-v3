@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button, HStack, Switch } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import { SimState } from "./Simulator";
 
@@ -105,20 +105,29 @@ const SensorButton = ({
     [handleSensorChange, setIsHeld, sensor]
   );
 
-  useEffect(() => {
+  const [prevSensorValue, setPrevSensorValue] = useState(sensor.value);
+  if (sensor.value !== prevSensorValue) {
     if (sensor.value === sensor.min) {
       setIsHeld(false);
-    }
-    if (sensor.value === sensor.max) {
+    } else if (sensor.value === sensor.max) {
       setIsHeld(true);
     }
-  }, [sensor]);
+    setPrevSensorValue(sensor.value);
+  }
 
   const disabled = simState === SimState.STOPPED;
 
   return (
     <HStack spacing={3}>
       <Button
+        transition="none"
+        _active={
+          sensor.value === sensor.min
+            ? {}
+            : {
+                background: "brand.100",
+              }
+        }
         isActive={!!sensor.value}
         disabled={disabled}
         size="sm"
