@@ -5,7 +5,7 @@
  */
 import { Button, HStack, Switch } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Sensor } from "./model";
+import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import { SimState } from "./Simulator";
 
 interface ButtonsModuleProps {
@@ -47,7 +47,9 @@ const SensorButton = ({
   onSensorChange,
   simState,
 }: SensorButtonProps) => {
-  const sensor = sensors["button" + buttonLabel.toUpperCase()];
+  const sensor = sensors[
+    "button" + buttonLabel.toUpperCase()
+  ] as RangeSensorType;
   const [isPressedOverride, setIsPressedOverride] = useState<boolean>(false);
   const handleSensorChange = useCallback(
     (value: number, override: boolean = false) => {
@@ -66,22 +68,22 @@ const SensorButton = ({
         case " ":
           event.preventDefault();
           if (event.type === "keydown") {
-            handleSensorChange(1);
+            handleSensorChange(sensor.max);
           } else {
-            handleSensorChange(0);
+            handleSensorChange(sensor.min);
           }
       }
     };
     const mouseDownListener = (event: MouseEvent) => {
       event.preventDefault();
-      handleSensorChange(1);
+      handleSensorChange(sensor.max);
     };
     const mouseUpListener = (event: MouseEvent) => {
       event.preventDefault();
-      handleSensorChange(0);
+      handleSensorChange(sensor.min);
     };
     const mouseLeaveListener = () => {
-      handleSensorChange(0);
+      handleSensorChange(sensor.min);
     };
     if (buttonEl) {
       buttonEl.addEventListener("mousedown", mouseDownListener);
@@ -99,10 +101,13 @@ const SensorButton = ({
         buttonEl.removeEventListener("mouseleave", mouseLeaveListener);
       }
     };
-  }, [handleSensorChange]);
+  }, [handleSensorChange, sensor]);
   const handleOverrideSet = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsPressedOverride(event.currentTarget.checked);
-    handleSensorChange(event.currentTarget.checked ? 1 : 0, true);
+    handleSensorChange(
+      event.currentTarget.checked ? sensor.max : sensor.min,
+      true
+    );
   };
   const disabled = simState === SimState.STOPPED;
   useEffect(() => {
