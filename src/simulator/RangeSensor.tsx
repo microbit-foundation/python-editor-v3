@@ -90,14 +90,16 @@ const RangeSensor = ({
           <ThresholdMark
             value={lowThreshold}
             label={getThresholdLabels(id, "low")}
-            sliderRange={max - min}
+            min={min}
+            max={max}
           />
         )}
         {typeof highThreshold !== "undefined" && (
           <ThresholdMark
             value={highThreshold}
             label={getThresholdLabels(id, "high")}
-            sliderRange={max - min}
+            min={min}
+            max={max}
           />
         )}
         {!minimised && (
@@ -145,11 +147,12 @@ const getThresholdLabels = (id: string, threshold: "low" | "high") => {
 interface ThresholdMarkProps {
   value: number;
   label: string;
-  sliderRange: number;
+  min: number;
+  max: number;
 }
 
-const ThresholdMark = ({ value, label, sliderRange }: ThresholdMarkProps) => {
-  const percentLeft = (value / sliderRange) * 100 + "%";
+const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
+  const percentLeft = ((value - min) / (max - min)) * 100 + "%";
   return (
     <Tooltip hasArrow placement="top" label={label}>
       <Box
