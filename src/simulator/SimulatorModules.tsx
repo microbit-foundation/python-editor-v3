@@ -25,7 +25,7 @@ const titles: Record<string, string> = {
   accelerometer: "Accelerometer",
   buttons: "Buttons",
   lightLevel: "Light level",
-  microphone: "Microphone",
+  microphone: "Sound level",
   temperature: "Temperature",
 };
 
