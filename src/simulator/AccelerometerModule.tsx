@@ -87,7 +87,7 @@ const Axis = ({ axis, sensors, onSensorChange }: AxisProps) => (
         {axis}
       </Text>
     }
-    value={sensors["accelerometer" + axis.toUpperCase()] as RangeSensorType}
+    sensor={sensors["accelerometer" + axis.toUpperCase()] as RangeSensorType}
     onSensorChange={onSensorChange}
   />
 );
