@@ -48,7 +48,6 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
   const [sensors, setSensors] = useState<Record<string, Sensor>>(
     device.sensors
   );
-  console.log(sensors);
   useEffect(() => {
     device.on(EVENT_SENSORS, setSensors);
     return () => {
