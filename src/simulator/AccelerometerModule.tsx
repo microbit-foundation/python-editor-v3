@@ -7,17 +7,23 @@ import RangeSensor from "./RangeSensor";
 interface AccelerometerModuleProps {
   sensors: Record<string, Sensor>;
   onSensorChange: (id: string, value: any) => void;
+  minimised: boolean;
 }
 
 const AccelerometerModule = ({
   sensors,
   onSensorChange,
+  minimised,
 }: AccelerometerModuleProps) => (
   <Stack spacing={5}>
     <Gesture sensors={sensors} onSensorChange={onSensorChange} />
-    <Axis axis="x" sensors={sensors} onSensorChange={onSensorChange} />
-    <Axis axis="y" sensors={sensors} onSensorChange={onSensorChange} />
-    <Axis axis="z" sensors={sensors} onSensorChange={onSensorChange} />
+    {!minimised && (
+      <>
+        <Axis axis="x" sensors={sensors} onSensorChange={onSensorChange} />
+        <Axis axis="y" sensors={sensors} onSensorChange={onSensorChange} />
+        <Axis axis="z" sensors={sensors} onSensorChange={onSensorChange} />
+      </>
+    )}
   </Stack>
 );
 

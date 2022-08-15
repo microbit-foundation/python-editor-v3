@@ -12,12 +12,14 @@ interface ButtonsModuleProps {
   sensors: Record<string, Sensor>;
   onSensorChange: (id: string, value: any) => void;
   simState: SimState;
+  minimised: boolean;
 }
 
 const ButtonsModule = ({
   sensors,
   onSensorChange,
   simState,
+  minimised,
 }: ButtonsModuleProps) => {
   return (
     <HStack spacing={5}>
@@ -25,19 +27,21 @@ const ButtonsModule = ({
         <Text height={8} alignItems="center" display="flex">
           Press
         </Text>
-        <Text>Hold</Text>
+        {!minimised && <Text>Hold</Text>}
       </VStack>
       <SensorButton
         buttonLabel="A"
         sensors={sensors}
         onSensorChange={onSensorChange}
         simState={simState}
+        minimised={minimised}
       />
       <SensorButton
         buttonLabel="B"
         sensors={sensors}
         onSensorChange={onSensorChange}
         simState={simState}
+        minimised={minimised}
       />
     </HStack>
   );
@@ -52,6 +56,7 @@ const SensorButton = ({
   sensors,
   onSensorChange,
   simState,
+  minimised,
 }: SensorButtonProps) => {
   const sensor = sensors[
     "button" + buttonLabel.toUpperCase()
@@ -146,16 +151,18 @@ const SensorButton = ({
       >
         {buttonLabel}
       </Button>
-      <Switch
-        sx={{
-          "*": {
-            transition: "none !important",
-          },
-        }}
-        colorScheme="blackAlpha"
-        isChecked={isHeld}
-        onChange={handleOverrideSet}
-      />
+      {!minimised && (
+        <Switch
+          sx={{
+            "*": {
+              transition: "none !important",
+            },
+          }}
+          colorScheme="blackAlpha"
+          isChecked={isHeld}
+          onChange={handleOverrideSet}
+        />
+      )}
     </VStack>
   );
 };
