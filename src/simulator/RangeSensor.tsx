@@ -1,4 +1,5 @@
 import {
+  Box,
   HStack,
   Slider,
   SliderFilledTrack,
@@ -89,14 +90,14 @@ const RangeSensor = ({
           <ThresholdMark
             value={lowThreshold}
             label={getThresholdLabels(id, "low")}
-            showTooltip={minimised ? false : showTooltip}
+            sliderRange={max - min}
           />
         )}
         {typeof highThreshold !== "undefined" && (
           <ThresholdMark
             value={highThreshold}
             label={getThresholdLabels(id, "high")}
-            showTooltip={minimised ? false : showTooltip}
+            sliderRange={max - min}
           />
         )}
         {!minimised && (
@@ -144,22 +145,24 @@ const getThresholdLabels = (id: string, threshold: "low" | "high") => {
 interface ThresholdMarkProps {
   value: number;
   label: string;
-  showTooltip: boolean;
+  sliderRange: number;
 }
 
-const ThresholdMark = ({ value, label, showTooltip }: ThresholdMarkProps) => {
+const ThresholdMark = ({ value, label, sliderRange }: ThresholdMarkProps) => {
+  const percentLeft = (value / sliderRange) * 100 + "%";
   return (
-    <Tooltip hasArrow placement="top" label={label} isOpen={showTooltip}>
-      <SliderMark
-        value={value}
+    <Tooltip hasArrow placement="top" label={label}>
+      <Box
+        position="absolute"
+        top="3px"
+        left={percentLeft}
         bg="brand.200"
         height={2}
         width={2}
-        top="3px"
-        borderRight="1px solid"
         borderLeft="1px solid"
+        borderRight="1px solid"
         borderColor="gray.25"
-      ></SliderMark>
+      />
     </Tooltip>
   );
 };
