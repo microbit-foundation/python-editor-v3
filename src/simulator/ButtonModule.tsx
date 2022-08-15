@@ -152,6 +152,7 @@ const SensorButton = ({
             transition: "none !important",
           },
         }}
+        colorScheme="blackAlpha"
         isChecked={isHeld}
         onChange={handleOverrideSet}
       />
