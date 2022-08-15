@@ -18,18 +18,20 @@ import {
 } from "../device/device-hooks";
 import { EVENT_REQUEST_FLASH } from "../device/simulator";
 import { useFileSystem } from "../fs/fs-hooks";
+import { SimState } from "./Simulator";
 
-interface SimulatorActionBarProps extends BoxProps {}
-
-enum SimState {
-  RUNNING,
-  STOPPED,
+interface SimulatorActionBarProps extends BoxProps {
+  simState: SimState;
+  setSimState: React.Dispatch<React.SetStateAction<SimState>>;
 }
 
-const SimulatorActionBar = (props: SimulatorActionBarProps) => {
+const SimulatorActionBar = ({
+  simState,
+  setSimState,
+  ...props
+}: SimulatorActionBarProps) => {
   const device = useSimulator();
   const fs = useFileSystem();
-  const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const syncStatus = useSyncStatus();
   const handlePlay = useCallback(async () => {
@@ -38,7 +40,7 @@ const SimulatorActionBar = (props: SimulatorActionBarProps) => {
       progress: () => {},
     });
     setSimState(SimState.RUNNING);
-  }, [device, fs]);
+  }, [device, fs, setSimState]);
   const handleStop = useCallback(() => {
     device.stop();
     setSimState(SimState.STOPPED);

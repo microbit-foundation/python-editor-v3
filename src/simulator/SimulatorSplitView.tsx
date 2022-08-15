@@ -16,13 +16,18 @@ import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import SerialArea from "../serial/SerialArea";
+import { SimState } from "./Simulator";
 import SimulatorModules from "./SimulatorModules";
 
 interface SimulatorSplitViewProps {
   simHeight: number;
+  simState: SimState;
 }
 
-const SimulatorSplitView = ({ simHeight }: SimulatorSplitViewProps) => {
+const SimulatorSplitView = ({
+  simHeight,
+  simState,
+}: SimulatorSplitViewProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
@@ -55,7 +60,7 @@ const SimulatorSplitView = ({ simHeight }: SimulatorSplitViewProps) => {
       <SplitViewRemainder overflowY="auto">
         <Flex flexDirection="column" height="100%">
           <VStack spacing={5} bg="gray.25" flex="1 1 auto">
-            <SimulatorModules flex="1 1 auto" />
+            <SimulatorModules flex="1 1 auto" simState={simState} />
           </VStack>
         </Flex>
       </SplitViewRemainder>

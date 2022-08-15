@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
@@ -12,6 +12,11 @@ import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
+
+export enum SimState {
+  RUNNING,
+  STOPPED,
+}
 
 interface SimulatorProps {
   shown: boolean;
@@ -43,6 +48,7 @@ const Simulator = ({
   const simControlsRef = useRef<HTMLDivElement>(null);
   const simHeight = simControlsRef.current?.offsetHeight || 0;
   const [brand500] = useToken("colors", ["brand.500"]);
+  const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
 
   useEffect(() => {
     if (shown) {
@@ -94,10 +100,12 @@ const Simulator = ({
               as="section"
               aria-label={intl.formatMessage({ id: "project-actions" })}
               overflow="hidden"
+              simState={simState}
+              setSimState={setSimState}
             />
           </Box>
         </VStack>
-        <SimulatorSplitView simHeight={simHeight} />
+        <SimulatorSplitView simHeight={simHeight} simState={simState} />
       </Flex>
     </DeviceContextProvider>
   );
