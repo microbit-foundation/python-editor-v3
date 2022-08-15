@@ -1,6 +1,6 @@
-import { Button, HStack, Select, Stack, Text } from "@chakra-ui/react";
+import { HStack, IconButton, Select, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, useCallback, useState } from "react";
-import { RiTimer2Line } from "react-icons/ri";
+import { RiSendPlane2Line } from "react-icons/ri";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
@@ -51,7 +51,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
   }, [setActive, onSensorChange, choice, sensor.id]);
 
   return (
-    <HStack>
+    <HStack spacing={3}>
       <Select
         colorScheme="blackAlpha"
         value={choice}
@@ -63,14 +63,13 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
           </option>
         ))}
       </Select>
-      <Button
-        leftIcon={<RiTimer2Line />}
+      <IconButton
+        icon={<RiSendPlane2Line />}
         colorScheme="blackAlpha"
         disabled={active}
         onClick={handleClick}
-      >
-        Go
-      </Button>
+        aria-label="Send gesture"
+      ></IconButton>
     </HStack>
   );
 };
@@ -88,7 +87,7 @@ const Axis = ({ axis, sensors, onSensorChange }: AxisProps) => (
         {axis}
       </Text>
     }
-    value={sensors["accelerometer" + axis.toUpperCase()] as RangeSensorType}
+    sensor={sensors["accelerometer" + axis.toUpperCase()] as RangeSensorType}
     onSensorChange={onSensorChange}
   />
 );

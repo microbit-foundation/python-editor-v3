@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, HStack, Switch } from "@chakra-ui/react";
+import { Button, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import { SimState } from "./Simulator";
@@ -21,6 +21,12 @@ const ButtonsModule = ({
 }: ButtonsModuleProps) => {
   return (
     <HStack spacing={5}>
+      <VStack spacing={3} alignItems="flex-start">
+        <Text height={8} alignItems="center" display="flex">
+          Press
+        </Text>
+        <Text>Hold</Text>
+      </VStack>
       <SensorButton
         buttonLabel="A"
         sensors={sensors}
@@ -118,7 +124,7 @@ const SensorButton = ({
   const disabled = simState === SimState.STOPPED;
 
   return (
-    <HStack spacing={3}>
+    <VStack spacing={3}>
       <Button
         transition="none"
         _active={
@@ -131,6 +137,7 @@ const SensorButton = ({
         isActive={!!sensor.value}
         disabled={disabled}
         size="sm"
+        colorScheme="blackAlpha"
         onKeyDown={keyListener}
         onKeyUp={keyListener}
         onMouseDown={mouseDownListener}
@@ -145,10 +152,11 @@ const SensorButton = ({
             transition: "none !important",
           },
         }}
+        colorScheme="blackAlpha"
         isChecked={isHeld}
         onChange={handleOverrideSet}
       />
-    </HStack>
+    </VStack>
   );
 };
 export default ButtonsModule;

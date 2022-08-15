@@ -3,7 +3,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useSimulator } from "../device/device-hooks";
 import { EVENT_SENSORS } from "../device/simulator";
 import AccelerometerModule from "./AccelerometerModule";
-import { RangeSensor as RangeSensorType, Sensor } from "./model";
+import {
+  RangeSensor as RangeSensorType,
+  RangeSensorWithThresholds as RangeSensorWithThresholdsType,
+  Sensor,
+} from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
@@ -16,7 +20,7 @@ const modules: string[] = [
   "accelerometer",
   "lightLevel",
   "temperature",
-  "microphone",
+  "soundLevel",
   "buttons",
 ];
 
@@ -25,7 +29,7 @@ const titles: Record<string, string> = {
   accelerometer: "Accelerometer",
   buttons: "Buttons",
   lightLevel: "Light level",
-  microphone: "Microphone",
+  soundLevel: "Sound level",
   temperature: "Temperature",
 };
 
@@ -105,18 +109,18 @@ const ModuleForId = ({
         <RangeSensor
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
-          value={sensors[id] as RangeSensorType}
+          sensor={sensors[id] as RangeSensorType}
           onSensorChange={onSensorChange}
         />
       );
-    case "microphone":
+    case "soundLevel":
       return (
         <RangeSensor
           icon={
             <Icon as={icons.soundLevel} color="blimpTeal.400" boxSize="6" />
           }
           key={id}
-          value={sensors.soundLevel as RangeSensorType}
+          sensor={sensors.soundLevel as RangeSensorWithThresholdsType}
           onSensorChange={onSensorChange}
         />
       );
