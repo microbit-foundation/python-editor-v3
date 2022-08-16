@@ -35,10 +35,10 @@ const PinsModule = ({
         ) : (
           <>
             <Text height={8} alignItems="center" display="flex">
-              <FormattedMessage id="simulator-button-press" />
+              <FormattedMessage id="simulator-input-press" />
             </Text>
             <Text>
-              <FormattedMessage id="simulator-button-hold" />
+              <FormattedMessage id="simulator-input-hold" />
             </Text>
           </>
         )}
