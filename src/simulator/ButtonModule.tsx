@@ -5,6 +5,7 @@
  */
 import { Button, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import { SimState } from "./Simulator";
 
@@ -25,9 +26,13 @@ const ButtonsModule = ({
     <HStack spacing={5}>
       <VStack spacing={3} alignItems="flex-start">
         <Text height={8} alignItems="center" display="flex">
-          Press
+          <FormattedMessage id="simulator-button-press" />
         </Text>
-        {!minimised && <Text>Hold</Text>}
+        {!minimised && (
+          <Text>
+            <FormattedMessage id="simulator-button-hold" />
+          </Text>
+        )}
       </VStack>
       <SensorButton
         buttonLabel="A"
@@ -61,6 +66,7 @@ const SensorButton = ({
   const sensor = sensors[
     "button" + buttonLabel.toUpperCase()
   ] as RangeSensorType;
+  const intl = useIntl();
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const handleSensorChange = useCallback(
     (value: number) => {
@@ -131,6 +137,10 @@ const SensorButton = ({
   return (
     <VStack spacing={3}>
       <Button
+        aria-label={intl.formatMessage(
+          { id: "simulator-button-press-label" },
+          { button: buttonLabel }
+        )}
         transition="none"
         _active={
           sensor.value === sensor.min
@@ -153,6 +163,10 @@ const SensorButton = ({
       </Button>
       {!minimised && (
         <Switch
+          aria-label={intl.formatMessage(
+            { id: "simulator-button-hold-label" },
+            { button: buttonLabel }
+          )}
           sx={{
             "*": {
               transition: "none !important",

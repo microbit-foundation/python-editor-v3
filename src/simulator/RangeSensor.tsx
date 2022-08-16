@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
   RangeSensorWithThresholds as RangeSensorWithThresholdsType,
@@ -16,6 +17,7 @@ import {
 
 interface RangeSensorProps {
   sensor: RangeSensorType | RangeSensorWithThresholdsType;
+  title: string;
   icon: ReactNode;
   onSensorChange: (id: string, value: number) => void;
   minimised?: boolean;
@@ -24,6 +26,7 @@ interface RangeSensorProps {
 const RangeSensor = ({
   icon,
   sensor,
+  title,
   onSensorChange,
   minimised = false,
 }: RangeSensorProps) => {
@@ -62,7 +65,7 @@ const RangeSensor = ({
     <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
       {icon}
       <Slider
-        aria-label={id}
+        aria-label={title}
         value={value}
         min={min}
         max={max}
@@ -135,9 +138,9 @@ const getThresholdLabels = (id: string, threshold: "low" | "high") => {
   switch (id) {
     case "soundLevel":
       if (threshold === "low") {
-        return "Quiet";
+        return "simulator-quiet";
       } else {
-        return "Loud";
+        return "simulator-loud";
       }
     default:
       return "";
@@ -152,9 +155,10 @@ interface ThresholdMarkProps {
 }
 
 const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
+  const intl = useIntl();
   const percentLeft = ((value - min) / (max - min)) * 100 + "%";
   return (
-    <Tooltip hasArrow placement="top" label={label}>
+    <Tooltip hasArrow placement="top" label={intl.formatMessage({ id: label })}>
       <Box
         position="absolute"
         top="3px"

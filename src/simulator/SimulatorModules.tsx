@@ -25,6 +25,7 @@ import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import ButtonsModule from "./ButtonModule";
 import { SimState } from "./Simulator";
+import { useIntl } from "react-intl";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -36,12 +37,12 @@ const modules: string[] = [
 ];
 
 const titles: Record<string, string> = {
-  // To move to translation. Sorted.
-  accelerometer: "Accelerometer",
-  buttons: "Buttons",
-  lightLevel: "Light level",
-  soundLevel: "Sound level",
-  temperature: "Temperature",
+  // References to translatable UI strings. Sorted.
+  accelerometer: "accelerometer",
+  buttons: "buttons",
+  lightLevel: "light-level",
+  soundLevel: "sound-level",
+  temperature: "temperature",
 };
 
 export const icons: Record<string, IconType> = {
@@ -62,6 +63,7 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
   const [sensors, setSensors] = useState<Record<string, Sensor>>(
     device.sensors
   );
+  const intl = useIntl();
   useEffect(() => {
     device.on(EVENT_SENSORS, setSensors);
     return () => {
@@ -95,6 +97,7 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
           key={id}
           index={index}
           id={id}
+          title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
           sensors={sensors}
           onSensorChange={handleSensorChange}
           simState={simState}
@@ -106,6 +109,7 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
 
 interface SensorProps {
   id: string;
+  title: string;
   onSensorChange: (id: string, value: any) => void;
   sensors: Record<string, Sensor>;
   simState: SimState;
@@ -118,12 +122,12 @@ interface CollapsibleModuleProps extends SensorProps {
 const CollapsibleModule = ({
   index,
   id,
+  title,
   sensors,
   onSensorChange,
   simState,
 }: CollapsibleModuleProps) => {
   const disclosure = useDisclosure();
-  const title = titles[id];
   return (
     <Stack
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
@@ -138,6 +142,7 @@ const CollapsibleModule = ({
           <Box w="100%">
             <ModuleForId
               id={id}
+              title={title}
               sensors={sensors}
               onSensorChange={onSensorChange}
               simState={simState}
@@ -149,8 +154,8 @@ const CollapsibleModule = ({
           icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
           aria-label={
             disclosure.isOpen
-              ? `Collapse ${title.toLowerCase()} module`
-              : `Expand ${title.toLowerCase()} module`
+              ? `Collapse ${title} module`
+              : `Expand ${title} module`
           }
           size="sm"
           color="brand.200"
@@ -162,6 +167,7 @@ const CollapsibleModule = ({
       {disclosure.isOpen && (
         <ModuleForId
           id={id}
+          title={title}
           sensors={sensors}
           onSensorChange={onSensorChange}
           simState={simState}
@@ -178,6 +184,7 @@ interface ModuleForIdProps extends SensorProps {
 
 const ModuleForId = ({
   id,
+  title,
   sensors,
   onSensorChange,
   simState,
@@ -190,6 +197,7 @@ const ModuleForId = ({
         <RangeSensor
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
+          title={title}
           sensor={sensors[id] as RangeSensorType}
           onSensorChange={onSensorChange}
           minimised={minimised}
@@ -202,6 +210,7 @@ const ModuleForId = ({
             <Icon as={icons.soundLevel} color="blimpTeal.400" boxSize="6" />
           }
           key={id}
+          title={title}
           sensor={sensors.soundLevel as RangeSensorWithThresholdsType}
           onSensorChange={onSensorChange}
           minimised={minimised}

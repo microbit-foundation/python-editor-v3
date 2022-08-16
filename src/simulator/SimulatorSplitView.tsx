@@ -49,7 +49,7 @@ const SimulatorSplitView = ({
           expandDirection="down"
           onSizeChange={setSerialStateWhenOpen}
           aria-label={intl.formatMessage({
-            id: "serial-terminal",
+            id: "simulator-serial-terminal",
           })}
           showExpandText={false}
           showSyncStatus={false}

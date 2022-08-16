@@ -98,7 +98,7 @@ const Simulator = ({
             </AspectRatio>
             <SimulatorActionBar
               as="section"
-              aria-label={intl.formatMessage({ id: "project-actions" })}
+              aria-label={intl.formatMessage({ id: "simulator-actions" })}
               overflow="hidden"
               simState={simState}
               setSimState={setSimState}
