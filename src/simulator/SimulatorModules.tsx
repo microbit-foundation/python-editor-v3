@@ -21,11 +21,17 @@ import {
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
-import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
+import {
+  RiInformationLine,
+  RiSunFill,
+  RiTempHotFill,
+  RiWebcamLine,
+} from "react-icons/ri";
+import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonModule";
 import { SimState } from "./Simulator";
-import { useIntl } from "react-intl";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -37,11 +43,20 @@ const modules: string[] = [
 ];
 
 const titles: Record<string, string> = {
-  // References to translatable UI strings. Sorted.
+  // Sensor id mapped to translatable UI string ids. Sorted.
   accelerometer: "accelerometer",
   buttons: "buttons",
   lightLevel: "light-level",
   soundLevel: "sound-level",
+  temperature: "temperature",
+};
+
+const references: Record<string, string> = {
+  // Sensor id mapped to Reference anchor id. Sorted.
+  accelerometer: "accelerometer",
+  buttons: "buttons",
+  lightLevel: "light-level",
+  soundLevel: "microphone",
   temperature: "temperature",
 };
 
@@ -128,6 +143,17 @@ const CollapsibleModule = ({
   simState,
 }: CollapsibleModuleProps) => {
   const disclosure = useDisclosure();
+  const intl = useIntl();
+  const [, setRouterState] = useRouterState();
+  const handleLinkToReference = useCallback(() => {
+    setRouterState(
+      {
+        tab: "reference",
+        reference: { id: references[id] },
+      },
+      "documentation-from-simulator"
+    );
+  }, [id, setRouterState]);
   return (
     <Stack
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
@@ -136,8 +162,23 @@ const CollapsibleModule = ({
       mt={index === 0 ? 0 : disclosure.isOpen ? spacing : minimisedSpacing}
       spacing={disclosure.isOpen ? spacing : minimisedSpacing}
     >
-      <HStack justifyContent="space-between" spacing={3}>
-        {disclosure.isOpen && <Text as="h3">{title}</Text>}
+      <HStack justifyContent="space-between">
+        {disclosure.isOpen && (
+          <HStack>
+            <Text as="h3">{title}</Text>
+            <IconButton
+              aria-label={intl.formatMessage({
+                id: "simulator-reference-link",
+              })}
+              icon={<RiInformationLine />}
+              color="brand.500"
+              variant="ghost"
+              size="xs"
+              fontSize="lg"
+              onClick={handleLinkToReference}
+            />
+          </HStack>
+        )}
         {!disclosure.isOpen && (
           <Box w="100%">
             <ModuleForId
@@ -154,8 +195,11 @@ const CollapsibleModule = ({
           icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
           aria-label={
             disclosure.isOpen
-              ? `Collapse ${title} module`
-              : `Expand ${title} module`
+              ? intl.formatMessage(
+                  { id: "simulator-collapse-module" },
+                  { title }
+                )
+              : intl.formatMessage({ id: "simulator-expand-module" }, { title })
           }
           size="sm"
           color="brand.200"

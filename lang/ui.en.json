@@ -803,9 +803,17 @@
     "defaultMessage": "Collapse simulator",
     "description": "Aria label for the collapse simulator button"
   },
+  "simulator-collapse-module": {
+    "defaultMessage": "Collapse {title} module",
+    "description": "Aria label for collapse simulator module button"
+  },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",
     "description": "Aria label for the expand simulator button"
+  },
+  "simulator-expand-module": {
+    "defaultMessage": "Expand {title} module",
+    "description": "Aria label for expand simulator module button"
   },
   "simulator-gesture-select": {
     "defaultMessage": "Select gesture",
@@ -834,6 +842,10 @@
   "simulator-quiet": {
     "defaultMessage": "Quiet",
     "description": "Sound level low threshold marker hover text"
+  },
+  "simulator-reference-link": {
+    "defaultMessage": "Link to Reference section",
+    "description": "Aria label for simulator Reference link button"
   },
   "simulator-reset": {
     "defaultMessage": "Reset",

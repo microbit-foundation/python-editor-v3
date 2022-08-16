@@ -1809,10 +1809,38 @@
       "value": "Collapse simulator"
     }
   ],
+  "simulator-collapse-module": [
+    {
+      "type": 0,
+      "value": "Collapse "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " module"
+    }
+  ],
   "simulator-expand": [
     {
       "type": 0,
       "value": "Expand simulator"
+    }
+  ],
+  "simulator-expand-module": [
+    {
+      "type": 0,
+      "value": "Expand "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " module"
     }
   ],
   "simulator-gesture-select": [
@@ -1855,6 +1883,12 @@
     {
       "type": 0,
       "value": "Quiet"
+    }
+  ],
+  "simulator-reference-link": [
+    {
+      "type": 0,
+      "value": "Link to Reference section"
     }
   ],
   "simulator-reset": [
