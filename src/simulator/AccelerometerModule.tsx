@@ -1,6 +1,7 @@
 import { HStack, IconButton, Select, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
@@ -40,6 +41,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
   const choices = sensor.choices;
   const [choice, setChoice] = useState("shake");
   const [active, setActive] = useState(false);
+  const intl = useIntl();
 
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -59,6 +61,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
   return (
     <HStack spacing={3}>
       <Select
+        aria-label={intl.formatMessage({ id: "simulator-gesture-select" })}
         colorScheme="blackAlpha"
         value={choice}
         onChange={handleSelectChange}
@@ -74,7 +77,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
         colorScheme="blackAlpha"
         disabled={active}
         onClick={handleClick}
-        aria-label="Send gesture"
+        aria-label={intl.formatMessage({ id: "simulator-gesture-send" })}
       ></IconButton>
     </HStack>
   );
@@ -88,6 +91,7 @@ interface AxisProps {
 
 const Axis = ({ axis, sensors, onSensorChange }: AxisProps) => (
   <RangeSensor
+    title={axis}
     icon={
       <Text boxSize={6} textAlign="center">
         {axis}

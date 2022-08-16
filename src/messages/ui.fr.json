@@ -1753,6 +1753,56 @@
       "value": "Expand sidebar"
     }
   ],
+  "simulator-accelerometer": [
+    {
+      "type": 0,
+      "value": "Accelerometer"
+    }
+  ],
+  "simulator-actions": [
+    {
+      "type": 0,
+      "value": "Simulator actions"
+    }
+  ],
+  "simulator-button-hold": [
+    {
+      "type": 0,
+      "value": "Hold"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 0,
+      "value": "Hold button "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-button-press": [
+    {
+      "type": 0,
+      "value": "Press"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 0,
+      "value": "Press button "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-buttons": [
+    {
+      "type": 0,
+      "value": "Buttons"
+    }
+  ],
   "simulator-collapse": [
     {
       "type": 0,
@@ -1765,10 +1815,58 @@
       "value": "Expand simulator"
     }
   ],
+  "simulator-gesture-select": [
+    {
+      "type": 0,
+      "value": "Select gesture"
+    }
+  ],
+  "simulator-gesture-send": [
+    {
+      "type": 0,
+      "value": "Send gesture"
+    }
+  ],
   "simulator-hide": [
     {
       "type": 0,
       "value": "Hide simulator"
+    }
+  ],
+  "simulator-light-level": [
+    {
+      "type": 0,
+      "value": "Light level"
+    }
+  ],
+  "simulator-loud": [
+    {
+      "type": 0,
+      "value": "Loud"
+    }
+  ],
+  "simulator-mute": [
+    {
+      "type": 0,
+      "value": "Mute"
+    }
+  ],
+  "simulator-quiet": [
+    {
+      "type": 0,
+      "value": "Quiet"
+    }
+  ],
+  "simulator-reset": [
+    {
+      "type": 0,
+      "value": "Reset"
+    }
+  ],
+  "simulator-serial-terminal": [
+    {
+      "type": 0,
+      "value": "Simulator serial terminal"
     }
   ],
   "simulator-show": [
@@ -1777,10 +1875,34 @@
       "value": "Show simulator"
     }
   ],
+  "simulator-sound-level": [
+    {
+      "type": 0,
+      "value": "Sound level"
+    }
+  ],
+  "simulator-stop": [
+    {
+      "type": 0,
+      "value": "Stop"
+    }
+  ],
+  "simulator-temperature": [
+    {
+      "type": 0,
+      "value": "Temperature"
+    }
+  ],
   "simulator-title": [
     {
       "type": 0,
       "value": "Simulator"
+    }
+  ],
+  "simulator-unmute": [
+    {
+      "type": 0,
+      "value": "Unmute"
     }
   ],
   "software-versions": [

@@ -771,6 +771,34 @@
     "defaultMessage": "Expand sidebar",
     "description": "Aria label for the expand sidebar button"
   },
+  "simulator-accelerometer": {
+    "defaultMessage": "Accelerometer",
+    "description": "Accelerometer title"
+  },
+  "simulator-actions": {
+    "defaultMessage": "Simulator actions",
+    "description": "Aria label for the bar with simulator actions"
+  },
+  "simulator-button-hold": {
+    "defaultMessage": "Hold",
+    "description": "Label for simulator toggle button controls"
+  },
+  "simulator-button-hold-label": {
+    "defaultMessage": "Hold button {button}",
+    "description": "Aria label for simulator toggle button control"
+  },
+  "simulator-button-press": {
+    "defaultMessage": "Press",
+    "description": "Label for simulator push button controls"
+  },
+  "simulator-button-press-label": {
+    "defaultMessage": "Press button {button}",
+    "description": "Aria label for simulator push button control"
+  },
+  "simulator-buttons": {
+    "defaultMessage": "Buttons",
+    "description": "Buttons title"
+  },
   "simulator-collapse": {
     "defaultMessage": "Collapse simulator",
     "description": "Aria label for the collapse simulator button"
@@ -779,17 +807,65 @@
     "defaultMessage": "Expand simulator",
     "description": "Aria label for the expand simulator button"
   },
+  "simulator-gesture-select": {
+    "defaultMessage": "Select gesture",
+    "description": "Aria label for the simulator gesture select input"
+  },
+  "simulator-gesture-send": {
+    "defaultMessage": "Send gesture",
+    "description": "Aria label for the simulator gesture send button"
+  },
   "simulator-hide": {
     "defaultMessage": "Hide simulator",
     "description": "Hide simulator action"
+  },
+  "simulator-light-level": {
+    "defaultMessage": "Light level",
+    "description": "Light level title"
+  },
+  "simulator-loud": {
+    "defaultMessage": "Loud",
+    "description": "Sound level high threshold marker hover text"
+  },
+  "simulator-mute": {
+    "defaultMessage": "Mute",
+    "description": "Aria label for the mute simulator button"
+  },
+  "simulator-quiet": {
+    "defaultMessage": "Quiet",
+    "description": "Sound level low threshold marker hover text"
+  },
+  "simulator-reset": {
+    "defaultMessage": "Reset",
+    "description": "Aria label for the reset simulator button"
+  },
+  "simulator-serial-terminal": {
+    "defaultMessage": "Simulator serial terminal",
+    "description": "Aria label for the simulator serial terminal"
   },
   "simulator-show": {
     "defaultMessage": "Show simulator",
     "description": "Show simulator action"
   },
+  "simulator-sound-level": {
+    "defaultMessage": "Sound level",
+    "description": "Sound level title"
+  },
+  "simulator-stop": {
+    "defaultMessage": "Stop",
+    "description": "Aria label for the stop simulator button"
+  },
+  "simulator-temperature": {
+    "defaultMessage": "Temperature",
+    "description": "Temperature title"
+  },
   "simulator-title": {
     "defaultMessage": "Simulator",
     "description": "Simulator title"
+  },
+  "simulator-unmute": {
+    "defaultMessage": "Unmute",
+    "description": "Aria label for the unmute simulator button"
   },
   "software-versions": {
     "defaultMessage": "Software versions",

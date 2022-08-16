@@ -11,6 +11,7 @@ import {
   RiVolumeDownFill,
   RiVolumeMuteFill,
 } from "react-icons/ri";
+import { useIntl } from "react-intl";
 import {
   SyncStatus,
   useSimulator,
@@ -32,6 +33,7 @@ const SimulatorActionBar = ({
 }: SimulatorActionBarProps) => {
   const device = useSimulator();
   const fs = useFileSystem();
+  const intl = useIntl();
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const syncStatus = useSyncStatus();
   const handlePlay = useCallback(async () => {
@@ -72,7 +74,7 @@ const SimulatorActionBar = ({
         variant="outline"
         onClick={handleStop}
         icon={<RiStopFill />}
-        aria-label="Stop"
+        aria-label={intl.formatMessage({ id: "simulator-stop" })}
         disabled={simState === SimState.STOPPED}
       />
       <IconButton
@@ -80,7 +82,7 @@ const SimulatorActionBar = ({
         variant="outline"
         onClick={device.reset}
         icon={<RiRefreshLine />}
-        aria-label="Reset"
+        aria-label={intl.formatMessage({ id: "simulator-reset" })}
         disabled={simState === SimState.STOPPED}
       />
       <IconButton
@@ -88,7 +90,11 @@ const SimulatorActionBar = ({
         variant="outline"
         onClick={handleMuteUnmute}
         icon={isMuted ? <RiVolumeDownFill /> : <RiVolumeMuteFill />}
-        aria-label={isMuted ? "Unmute" : "Mute"}
+        aria-label={
+          isMuted
+            ? intl.formatMessage({ id: "simulator-unmute" })
+            : intl.formatMessage({ id: "simulator-mute" })
+        }
       />
     </HStack>
   );
