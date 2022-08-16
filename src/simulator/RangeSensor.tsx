@@ -1,4 +1,5 @@
 import {
+  Box,
   HStack,
   Slider,
   SliderFilledTrack,
@@ -17,9 +18,15 @@ interface RangeSensorProps {
   sensor: RangeSensorType | RangeSensorWithThresholdsType;
   icon: ReactNode;
   onSensorChange: (id: string, value: number) => void;
+  minimised?: boolean;
 }
 
-const RangeSensor = ({ icon, sensor, onSensorChange }: RangeSensorProps) => {
+const RangeSensor = ({
+  icon,
+  sensor,
+  onSensorChange,
+  minimised = false,
+}: RangeSensorProps) => {
   let lowThreshold;
   let highThreshold;
   if (
@@ -38,8 +45,21 @@ const RangeSensor = ({ icon, sensor, onSensorChange }: RangeSensorProps) => {
   );
   const valueText = unit ? `${value} ${unit}` : value.toString();
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const handleFocusTooltip = useCallback((value: boolean) => {
+    setIsFocused(value);
+    setShowTooltip(value);
+  }, []);
+  const handleMouseOverTooltip = useCallback(
+    (value: boolean) => {
+      if (!isFocused) {
+        setShowTooltip(value);
+      }
+    },
+    [isFocused]
+  );
   return (
-    <HStack pb={2} pt={1} spacing={3}>
+    <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
       {icon}
       <Slider
         aria-label={id}
@@ -49,47 +69,63 @@ const RangeSensor = ({ icon, sensor, onSensorChange }: RangeSensorProps) => {
         onChange={handleChange}
         my={5}
         colorScheme="blackAlpha"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+        onMouseEnter={() => handleMouseOverTooltip(true)}
+        onMouseLeave={() => handleMouseOverTooltip(false)}
       >
         <SliderTrack height={2}>
           <SliderFilledTrack />
         </SliderTrack>
-        <SliderThumb />
+        <Tooltip
+          hasArrow
+          placement="top"
+          label={valueText}
+          isOpen={minimised ? showTooltip : false}
+        >
+          <SliderThumb
+            onFocus={() => handleFocusTooltip(true)}
+            onBlur={() => handleFocusTooltip(false)}
+          />
+        </Tooltip>
         {typeof lowThreshold !== "undefined" && (
           <ThresholdMark
             value={lowThreshold}
             label={getThresholdLabels(id, "low")}
-            showTooltip={showTooltip}
+            min={min}
+            max={max}
           />
         )}
         {typeof highThreshold !== "undefined" && (
           <ThresholdMark
             value={highThreshold}
             label={getThresholdLabels(id, "high")}
-            showTooltip={showTooltip}
+            min={min}
+            max={max}
           />
         )}
-        <SliderMark value={min} mt="1" fontSize="xs">
-          {min}
-        </SliderMark>
-        <SliderMark
-          value={max}
-          mt="1"
-          ml={`-${max.toString().length}ch`}
-          fontSize="xs"
-        >
-          {max}
-        </SliderMark>
-        <SliderMark
-          value={value}
-          textAlign="center"
-          mt="-8"
-          ml={-valueText.length / 2 + "ch"}
-          fontSize="xs"
-        >
-          {valueText}
-        </SliderMark>
+        {!minimised && (
+          <>
+            <SliderMark value={min} mt="1" fontSize="xs">
+              {min}
+            </SliderMark>
+            <SliderMark
+              value={max}
+              mt="1"
+              ml={`-${max.toString().length}ch`}
+              fontSize="xs"
+            >
+              {max}
+            </SliderMark>
+            <SliderMark
+              value={value}
+              textAlign="center"
+              mt="-8"
+              ml={-valueText.length / 2 + "ch"}
+              fontSize="xs"
+            >
+              {valueText}
+            </SliderMark>
+          </>
+        )}
       </Slider>
     </HStack>
   );
@@ -111,22 +147,25 @@ const getThresholdLabels = (id: string, threshold: "low" | "high") => {
 interface ThresholdMarkProps {
   value: number;
   label: string;
-  showTooltip: boolean;
+  min: number;
+  max: number;
 }
 
-const ThresholdMark = ({ value, label, showTooltip }: ThresholdMarkProps) => {
+const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
+  const percentLeft = ((value - min) / (max - min)) * 100 + "%";
   return (
-    <Tooltip hasArrow placement="top" label={label} isOpen={showTooltip}>
-      <SliderMark
-        value={value}
+    <Tooltip hasArrow placement="top" label={label}>
+      <Box
+        position="absolute"
+        top="3px"
+        left={percentLeft}
         bg="brand.200"
         height={2}
         width={2}
-        top="3px"
-        borderRight="1px solid"
         borderLeft="1px solid"
+        borderRight="1px solid"
         borderColor="gray.25"
-      ></SliderMark>
+      />
     </Tooltip>
   );
 };

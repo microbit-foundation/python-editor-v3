@@ -1,4 +1,14 @@
-import { BoxProps, Icon, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useSimulator } from "../device/device-hooks";
 import { EVENT_SENSORS } from "../device/simulator";
@@ -12,6 +22,7 @@ import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
 import { RiSunFill, RiTempHotFill, RiWebcamLine } from "react-icons/ri";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import ButtonsModule from "./ButtonModule";
 import { SimState } from "./Simulator";
 
@@ -38,6 +49,9 @@ export const icons: Record<string, IconType> = {
   lightLevel: RiSunFill,
   soundLevel: RiWebcamLine, // Improbably like a microphone.
 };
+
+const spacing = 5;
+const minimisedSpacing = 3;
 
 interface SimulatorModulesProps extends BoxProps {
   simState: SimState;
@@ -68,40 +82,107 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
     // Waiting for info from sim.
     return null;
   }
-  const spacing = 5;
   return (
-    <Stack {...props} height="100%" width="100%" p={5} spacing={spacing}>
+    <Flex
+      {...props}
+      flexDirection="column"
+      height="100%"
+      width="100%"
+      p={spacing}
+    >
       {modules.map((id, index) => (
-        <Stack
-          borderBottomWidth={index < modules.length - 1 ? 1 : 0}
-          borderColor="grey.200"
-          spacing={5}
-          pb={spacing}
-        >
-          <Text as="h3">{titles[id]}</Text>
-          <ModuleForId
-            id={id}
-            sensors={sensors}
-            onSensorChange={handleSensorChange}
-            simState={simState}
-          />
-        </Stack>
+        <CollapsibleModule
+          key={id}
+          index={index}
+          id={id}
+          sensors={sensors}
+          onSensorChange={handleSensorChange}
+          simState={simState}
+        />
       ))}
+    </Flex>
+  );
+};
+
+interface SensorProps {
+  id: string;
+  onSensorChange: (id: string, value: any) => void;
+  sensors: Record<string, Sensor>;
+  simState: SimState;
+}
+
+interface CollapsibleModuleProps extends SensorProps {
+  index: number;
+}
+
+const CollapsibleModule = ({
+  index,
+  id,
+  sensors,
+  onSensorChange,
+  simState,
+}: CollapsibleModuleProps) => {
+  const disclosure = useDisclosure();
+  const title = titles[id];
+  return (
+    <Stack
+      borderBottomWidth={index < modules.length - 1 ? 1 : 0}
+      borderColor="grey.200"
+      pb={disclosure.isOpen ? spacing : minimisedSpacing}
+      mt={index === 0 ? 0 : disclosure.isOpen ? spacing : minimisedSpacing}
+      spacing={disclosure.isOpen ? spacing : minimisedSpacing}
+    >
+      <HStack justifyContent="space-between" spacing={3}>
+        {disclosure.isOpen && <Text as="h3">{title}</Text>}
+        {!disclosure.isOpen && (
+          <Box w="100%">
+            <ModuleForId
+              id={id}
+              sensors={sensors}
+              onSensorChange={onSensorChange}
+              simState={simState}
+              minimised={true}
+            />
+          </Box>
+        )}
+        <IconButton
+          icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
+          aria-label={
+            disclosure.isOpen
+              ? `Collapse ${title.toLowerCase()} module`
+              : `Expand ${title.toLowerCase()} module`
+          }
+          size="sm"
+          color="brand.200"
+          variant="ghost"
+          fontSize="2xl"
+          onClick={disclosure.onToggle}
+        />
+      </HStack>
+      {disclosure.isOpen && (
+        <ModuleForId
+          id={id}
+          sensors={sensors}
+          onSensorChange={onSensorChange}
+          simState={simState}
+          minimised={false}
+        />
+      )}
     </Stack>
   );
 };
+
+interface ModuleForIdProps extends SensorProps {
+  minimised: boolean;
+}
 
 const ModuleForId = ({
   id,
   sensors,
   onSensorChange,
   simState,
-}: {
-  id: string;
-  onSensorChange: (id: string, value: any) => void;
-  sensors: Record<string, Sensor>;
-  simState: SimState;
-}) => {
+  minimised,
+}: ModuleForIdProps) => {
   switch (id) {
     case "lightLevel":
     case "temperature":
@@ -111,6 +192,7 @@ const ModuleForId = ({
           key={id}
           sensor={sensors[id] as RangeSensorType}
           onSensorChange={onSensorChange}
+          minimised={minimised}
         />
       );
     case "soundLevel":
@@ -122,6 +204,7 @@ const ModuleForId = ({
           key={id}
           sensor={sensors.soundLevel as RangeSensorWithThresholdsType}
           onSensorChange={onSensorChange}
+          minimised={minimised}
         />
       );
     case "buttons":
@@ -131,6 +214,7 @@ const ModuleForId = ({
           sensors={sensors}
           onSensorChange={onSensorChange}
           simState={simState}
+          minimised={minimised}
         />
       );
     case "accelerometer":
@@ -139,6 +223,7 @@ const ModuleForId = ({
           key={id}
           sensors={sensors}
           onSensorChange={onSensorChange}
+          minimised={minimised}
         />
       );
     default:
