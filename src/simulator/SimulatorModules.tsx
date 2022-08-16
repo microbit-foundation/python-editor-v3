@@ -1,6 +1,7 @@
 import {
   Box,
   BoxProps,
+  Flex,
   HStack,
   Icon,
   IconButton,
@@ -82,7 +83,13 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
     return null;
   }
   return (
-    <Stack {...props} height="100%" width="100%" p={spacing} spacing={spacing}>
+    <Flex
+      {...props}
+      flexDirection="column"
+      height="100%"
+      width="100%"
+      p={spacing}
+    >
       {modules.map((id, index) => (
         <CollapsibleModule
           key={id}
@@ -93,7 +100,7 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
           simState={simState}
         />
       ))}
-    </Stack>
+    </Flex>
   );
 };
 
@@ -122,6 +129,7 @@ const CollapsibleModule = ({
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
       borderColor="grey.200"
       pb={disclosure.isOpen ? spacing : minimisedSpacing}
+      mt={index === 0 ? 0 : disclosure.isOpen ? spacing : minimisedSpacing}
       spacing={disclosure.isOpen ? spacing : minimisedSpacing}
     >
       <HStack justifyContent="space-between" spacing={3}>
