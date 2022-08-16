@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { useDeployment } from "../deployment";
 import { Sensor } from "./model";
-import SensorInput from "./SensorButton";
+import SensorInput from "./SensorInput";
 import { SimState } from "./Simulator";
 
 export interface PinsModuleProps {

@@ -7,7 +7,7 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { Sensor } from "./model";
-import SensorInput from "./SensorButton";
+import SensorInput from "./SensorInput";
 import { SimState } from "./Simulator";
 
 interface ButtonsModuleProps {
