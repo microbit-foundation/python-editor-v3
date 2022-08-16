@@ -1861,6 +1861,54 @@
       "value": "Hide simulator"
     }
   ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "Hold"
+    }
+  ],
+  "simulator-input-hold-label": [
+    {
+      "type": 0,
+      "value": "Hold "
+    },
+    {
+      "type": 1,
+      "value": "touchInputType"
+    },
+    {
+      "type": 0,
+      "value": " "
+    },
+    {
+      "type": 1,
+      "value": "touchInputName"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "Press"
+    }
+  ],
+  "simulator-input-press-label": [
+    {
+      "type": 0,
+      "value": "Press "
+    },
+    {
+      "type": 1,
+      "value": "touchInputType"
+    },
+    {
+      "type": 0,
+      "value": " "
+    },
+    {
+      "type": 1,
+      "value": "touchInputName"
+    }
+  ],
   "simulator-light-level": [
     {
       "type": 0,
@@ -1877,6 +1925,12 @@
     {
       "type": 0,
       "value": "Mute"
+    }
+  ],
+  "simulator-pins": [
+    {
+      "type": 0,
+      "value": "Pins"
     }
   ],
   "simulator-quiet": [

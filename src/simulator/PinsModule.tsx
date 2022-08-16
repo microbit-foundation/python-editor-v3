@@ -6,11 +6,12 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
+import { useDeployment } from "../deployment";
 import { Sensor } from "./model";
 import SensorInput from "./SensorButton";
 import { SimState } from "./Simulator";
 
-interface ButtonsModuleProps {
+export interface PinsModuleProps {
   icon: ReactNode;
   sensors: Record<string, Sensor>;
   onSensorChange: (id: string, value: any) => void;
@@ -18,13 +19,14 @@ interface ButtonsModuleProps {
   minimised: boolean;
 }
 
-const ButtonsModule = ({
+const PinsModule = ({
   icon,
   sensors,
   onSensorChange,
   simState,
   minimised,
-}: ButtonsModuleProps) => {
+}: PinsModuleProps) => {
+  const brand = useDeployment();
   return (
     <HStack spacing={3}>
       <VStack spacing={3} alignItems="flex-start">
@@ -42,18 +44,37 @@ const ButtonsModule = ({
         )}
       </VStack>
       <SensorInput
-        type="button"
-        sensorId="buttonA"
-        label="A"
+        type="pin"
+        sensorId="pin0"
+        label="0"
         sensors={sensors}
         onSensorChange={onSensorChange}
         simState={simState}
         minimised={minimised}
       />
       <SensorInput
-        type="button"
-        sensorId="buttonB"
-        label="B"
+        type="pin"
+        sensorId="pin1"
+        label="1"
+        sensors={sensors}
+        onSensorChange={onSensorChange}
+        simState={simState}
+        minimised={minimised}
+      />
+      <SensorInput
+        type="pin"
+        sensorId="pin2"
+        label="2"
+        sensors={sensors}
+        onSensorChange={onSensorChange}
+        simState={simState}
+        minimised={minimised}
+      />
+      <SensorInput
+        type="pin"
+        sensorId="pinLogo"
+        label="Touch logo"
+        logo={brand.squareLogo}
         sensors={sensors}
         onSensorChange={onSensorChange}
         simState={simState}
@@ -63,4 +84,4 @@ const ButtonsModule = ({
   );
 };
 
-export default ButtonsModule;
+export default PinsModule;

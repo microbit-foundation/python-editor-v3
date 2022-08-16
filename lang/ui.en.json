@@ -827,6 +827,22 @@
     "defaultMessage": "Hide simulator",
     "description": "Hide simulator action"
   },
+  "simulator-input-hold": {
+    "defaultMessage": "Hold",
+    "description": "Text for simulator toggle button or pin controls"
+  },
+  "simulator-input-hold-label": {
+    "defaultMessage": "Hold {touchInputType} {touchInputName}",
+    "description": "Aria label for simulator toggle button or pin control"
+  },
+  "simulator-input-press": {
+    "defaultMessage": "Press",
+    "description": "Text for simulator push button or pin controls"
+  },
+  "simulator-input-press-label": {
+    "defaultMessage": "Press {touchInputType} {touchInputName}",
+    "description": "Aria label for simulator push button or pin control"
+  },
   "simulator-light-level": {
     "defaultMessage": "Light level",
     "description": "Light level title"
@@ -838,6 +854,10 @@
   "simulator-mute": {
     "defaultMessage": "Mute",
     "description": "Aria label for the mute simulator button"
+  },
+  "simulator-pins": {
+    "defaultMessage": "Pins",
+    "description": "Pins title"
   },
   "simulator-quiet": {
     "defaultMessage": "Quiet",

@@ -23,6 +23,7 @@ import RangeSensor from "./RangeSensor";
 import { IconType } from "react-icons";
 import {
   RiInformationLine,
+  RiRadioButtonLine,
   RiSunFill,
   RiTempHotFill,
   RiWebcamLine,
@@ -32,6 +33,7 @@ import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonModule";
 import { SimState } from "./Simulator";
+import PinsModule from "./PinsModule";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -40,6 +42,7 @@ const modules: string[] = [
   "temperature",
   "soundLevel",
   "buttons",
+  "pins",
 ];
 
 const titles: Record<string, string> = {
@@ -47,6 +50,7 @@ const titles: Record<string, string> = {
   accelerometer: "accelerometer",
   buttons: "buttons",
   lightLevel: "light-level",
+  pins: "pins",
   soundLevel: "sound-level",
   temperature: "temperature",
 };
@@ -56,6 +60,7 @@ const references: Record<string, string> = {
   accelerometer: "accelerometer",
   buttons: "buttons",
   lightLevel: "light-level",
+  pins: "pins",
   soundLevel: "microphone",
   temperature: "temperature",
 };
@@ -64,6 +69,8 @@ export const icons: Record<string, IconType> = {
   temperature: RiTempHotFill,
   lightLevel: RiSunFill,
   soundLevel: RiWebcamLine, // Improbably like a microphone.
+  buttons: RiRadioButtonLine,
+  pins: RiRadioButtonLine,
 };
 
 const spacing = 5;
@@ -264,6 +271,18 @@ const ModuleForId = ({
       return (
         <ButtonsModule
           key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          sensors={sensors}
+          onSensorChange={onSensorChange}
+          simState={simState}
+          minimised={minimised}
+        />
+      );
+    case "pins":
+      return (
+        <PinsModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           sensors={sensors}
           onSensorChange={onSensorChange}
           simState={simState}

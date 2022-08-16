@@ -51,6 +51,10 @@
     "defaultMessage": "Sound level",
     "description": "Sound level title"
   },
+  "simulator-pins": {
+    "defaultMessage": "Pins",
+    "description": "Pins title"
+  },
   "simulator-temperature": {
     "defaultMessage": "Temperature",
     "description": "Temperature title"
@@ -71,21 +75,21 @@
     "defaultMessage": "Send gesture",
     "description": "Aria label for the simulator gesture send button"
   },
-  "simulator-button-press": {
+  "simulator-input-press": {
     "defaultMessage": "Press",
-    "description": "Text for simulator push button controls"
+    "description": "Text for simulator push button or pin controls"
   },
-  "simulator-button-press-label": {
-    "defaultMessage": "Press button {button}",
-    "description": "Aria label for simulator push button control"
+  "simulator-input-press-label": {
+    "defaultMessage": "Press {touchInputType} {touchInputName}",
+    "description": "Aria label for simulator push button or pin control"
   },
-  "simulator-button-hold": {
+  "simulator-input-hold": {
     "defaultMessage": "Hold",
-    "description": "Text for simulator toggle button controls"
+    "description": "Text for simulator toggle button or pin controls"
   },
-  "simulator-button-hold-label": {
-    "defaultMessage": "Hold button {button}",
-    "description": "Aria label for simulator toggle button control"
+  "simulator-input-hold-label": {
+    "defaultMessage": "Hold {touchInputType} {touchInputName}",
+    "description": "Aria label for simulator toggle button or pin control"
   },
   "simulator-reference-link": {
     "defaultMessage": "Link to Reference section",
