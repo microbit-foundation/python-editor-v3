@@ -1765,38 +1765,6 @@
       "value": "Simulator actions"
     }
   ],
-  "simulator-button-hold": [
-    {
-      "type": 0,
-      "value": "Hold"
-    }
-  ],
-  "simulator-button-hold-label": [
-    {
-      "type": 0,
-      "value": "Hold button "
-    },
-    {
-      "type": 1,
-      "value": "button"
-    }
-  ],
-  "simulator-button-press": [
-    {
-      "type": 0,
-      "value": "Press"
-    }
-  ],
-  "simulator-button-press-label": [
-    {
-      "type": 0,
-      "value": "Press button "
-    },
-    {
-      "type": 1,
-      "value": "button"
-    }
-  ],
   "simulator-buttons": [
     {
       "type": 0,

@@ -779,22 +779,6 @@
     "defaultMessage": "Simulator actions",
     "description": "Aria label for the bar with simulator actions"
   },
-  "simulator-button-hold": {
-    "defaultMessage": "Hold",
-    "description": "Label for simulator toggle button controls"
-  },
-  "simulator-button-hold-label": {
-    "defaultMessage": "Hold button {button}",
-    "description": "Aria label for simulator toggle button control"
-  },
-  "simulator-button-press": {
-    "defaultMessage": "Press",
-    "description": "Label for simulator push button controls"
-  },
-  "simulator-button-press-label": {
-    "defaultMessage": "Press button {button}",
-    "description": "Aria label for simulator push button control"
-  },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
     "description": "Buttons title"
