@@ -57,7 +57,8 @@ export interface RouterState {
 type NavigationSource =
   | "documentation-user"
   | "documentation-search"
-  | "documentation-from-code";
+  | "documentation-from-code"
+  | "documentation-from-simulator";
 
 type RouterContextValue = [
   RouterState,

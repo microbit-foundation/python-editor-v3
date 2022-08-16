@@ -86,5 +86,17 @@
   "simulator-button-hold-label": {
     "defaultMessage": "Hold button {button}",
     "description": "Aria label for simulator toggle button control"
+  },
+  "simulator-reference-link": {
+    "defaultMessage": "Link to Reference section",
+    "description": "Aria label for simulator Reference link button"
+  },
+  "simulator-expand-module": {
+    "defaultMessage": "Expand {title} module",
+    "description": "Aria label for expand simulator module button"
+  },
+  "simulator-collapse-module": {
+    "defaultMessage": "Collapse {title} module",
+    "description": "Aria label for collapse simulator module button"
   }
 }
