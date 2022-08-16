@@ -49,7 +49,7 @@ describe("Browser - multiple and missing file cases", () => {
     await app.findVisibleEditorContents(/c_works/);
   });
 
-  it.only("Shows warning for third-party module", async () => {
+  it("Shows warning for third-party module", async () => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
