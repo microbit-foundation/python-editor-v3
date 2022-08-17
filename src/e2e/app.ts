@@ -1128,6 +1128,86 @@ export class App {
     });
     await actions.click();
   }
+
+  // Simulator functions
+  private async getSimulatorIframe(): Promise<puppeteer.Frame> {
+    const page = await this.page;
+    const simulatorIframe = page
+      .frames()
+      .find((frame) => frame.name() === "Simulator");
+    if (!simulatorIframe) {
+      throw new Error("Simulator iframe not found");
+    }
+    return simulatorIframe;
+  }
+
+  async runSimulator(): Promise<void> {
+    const simulatorIframe = await this.getSimulatorIframe();
+    const playButton = await simulatorIframe!.$(".play-button");
+    await playButton!.click();
+  }
+
+  async simulatorSelectGesture(option: string): Promise<void> {
+    const document = await this.document();
+    const select = await document.findByTestId("simulator-gesture-select");
+    await select.select(option);
+  }
+
+  async simulatorSendGesture(): Promise<void> {
+    const document = await this.document();
+    const gestureSendBtn = await document.getByRole("button", {
+      name: "Send gesture",
+    });
+    await gestureSendBtn.click();
+  }
+
+  async simulatorInputPressHold(
+    name: string,
+    pressDuration: number
+  ): Promise<void> {
+    const page = await this.page;
+    const document = await this.document();
+    const inputButton = await document.getByRole("button", {
+      name,
+    });
+    const bounding_box = await inputButton!.boundingBox();
+    await page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await page.mouse.down();
+    await page.waitForTimeout(pressDuration);
+    await page.mouse.up();
+  }
+
+  async simulatorSetRangeSlider(
+    sliderLabel: string,
+    value: "min" | "max"
+  ): Promise<void> {
+    const page = await this.page;
+    const document = await this.document();
+    const sliderThumb = await document.waitForSelector(
+      `[role="slider"][aria-label="${sliderLabel}"]`
+    );
+    const bounding_box = await sliderThumb!.boundingBox();
+    await page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await page.mouse.down();
+    await page.waitForTimeout(500);
+    await page.mouse.move(value === "max" ? 1200 : 0, 0);
+    await page.waitForTimeout(500);
+    await page.mouse.up();
+  }
+
+  async simulatorConfirmResponse(): Promise<void> {
+    // Confirms that top left LED is switched on
+    // to match Image.NO being displayed.
+    const simulatorIframe = await this.getSimulatorIframe();
+    const gridLEDs = await simulatorIframe!.$("#LEDsOn");
+    await gridLEDs!.waitForSelector("use", { visible: true, timeout: 1000 });
+  }
 }
 
 /**

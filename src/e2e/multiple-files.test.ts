@@ -14,9 +14,7 @@ describe("Browser - multiple and missing file cases", () => {
   it("Copes with hex with no Python files", async () => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.
-    await app.loadFiles("src/micropython/main/microbit-micropython-v2.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
+    await app.loadFiles("src/micropython/main/microbit-micropython-v2.hex");
 
     await app.findAlertText(
       "Cannot load file",
@@ -49,7 +47,7 @@ describe("Browser - multiple and missing file cases", () => {
     await app.findVisibleEditorContents(/c_works/);
   });
 
-  it.only("Shows warning for third-party module", async () => {
+  it("Shows warning for third-party module", async () => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
@@ -83,9 +81,7 @@ describe("Browser - multiple and missing file cases", () => {
   it("Muddles through if given non-UTF-8 main.py", async () => {
     // We could start detect this on open but not sure it's worth it introducting the error cases.
     // If we need to recreate the hex then just fill the file with 0xff.
-    await app.loadFiles("testData/invalid-utf-8.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
+    await app.loadFiles("testData/invalid-utf-8.hex");
 
     await app.findVisibleEditorContents(
       /^����������������������������������������������������������������������������������������������������$/
