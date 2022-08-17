@@ -61,6 +61,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
   return (
     <HStack spacing={3}>
       <Select
+        data-testid="simulator-gesture-select"
         aria-label={intl.formatMessage({ id: "simulator-gesture-select" })}
         colorScheme="blackAlpha"
         value={choice}

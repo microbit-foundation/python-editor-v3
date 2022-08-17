@@ -91,6 +91,7 @@ const Simulator = ({
                   brand500
                 )}`}
                 title="Simulator"
+                name="Simulator"
                 frameBorder="no"
                 scrolling="no"
                 allow="autoplay;microphone"
