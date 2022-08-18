@@ -62,7 +62,12 @@ const RangeSensor = ({
     [isFocused]
   );
   return (
-    <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
+    <HStack
+      pb={minimised ? 0 : 2}
+      pt={minimised ? 0 : 1}
+      spacing={3}
+      pr={minimised ? 0 : 2}
+    >
       {icon}
       <Slider
         aria-label={title}
