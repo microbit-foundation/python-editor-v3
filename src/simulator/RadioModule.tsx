@@ -14,14 +14,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
+import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
 import {
   RadioMessage as RadioMessageType,
   RadioSensor as RadioSensorType,
 } from "./model";
-import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
 
 const messageLimit = 100;
 
@@ -41,6 +41,23 @@ const RadioModule = ({
   const filteredRadioMessages = sensor.value.filter(
     (v) => v.group === sensor.group
   );
+  const [scrollToBottom, setScrollToBottom] = useState<boolean>(true);
+  const ref = useRef<HTMLDivElement>(null);
+  const handleScroll = useCallback(() => {
+    if (
+      ref.current!.scrollTop ===
+      ref.current!.scrollHeight - ref.current!.offsetHeight
+    ) {
+      setScrollToBottom(true);
+    } else {
+      setScrollToBottom(false);
+    }
+  }, [ref, setScrollToBottom]);
+  useEffect(() => {
+    if (scrollToBottom) {
+      ref.current?.scrollTo({ top: ref.current?.scrollHeight });
+    }
+  }, [scrollToBottom, sensor]);
   return (
     <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
       {minimised ? (
@@ -58,17 +75,27 @@ const RadioModule = ({
               </VStack>
               <VStack
                 width="100%"
-                alignItems="flex-start"
                 maxH="12rem"
                 minH="12rem"
+                onScroll={handleScroll}
                 overflowY="auto"
+                ref={ref}
               >
                 {filteredRadioMessages.length > messageLimit && (
-                  <Text>Older messages not shown</Text>
+                  <Text color="gray.700" opacity="80%">
+                    <FormattedMessage id="simulator-radio-message-limit" />
+                  </Text>
                 )}
                 {filteredRadioMessages.slice(messageLimit * -1).map((v, i) => (
                   <RadioMessage key={i} message={v.message} source={v.source} />
                 ))}
+                {!filteredRadioMessages.length && (
+                  <VStack flex="1 1 auto" justifyContent="center">
+                    <Text color="gray.700" opacity="80%">
+                      <FormattedMessage id="simulator-radio-no-messages" />
+                    </Text>
+                  </VStack>
+                )}
               </VStack>
             </VStack>
           </Box>

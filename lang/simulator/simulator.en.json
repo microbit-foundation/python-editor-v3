@@ -106,5 +106,13 @@
   "simulator-collapse-module": {
     "defaultMessage": "Collapse {title} module",
     "description": "Aria label for collapse simulator module button"
+  },
+  "simulator-radio-no-messages": {
+    "defaultMessage": "No messages to show",
+    "description": "Text shown when there are no radio messages to display"
+  },
+  "simulator-radio-message-limit": {
+    "defaultMessage": "Older messages not shown",
+    "description": "Text shown when the number of radio messages has been capped"
   }
 }

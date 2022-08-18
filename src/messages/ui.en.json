@@ -1913,6 +1913,18 @@
       "value": "Radio"
     }
   ],
+  "simulator-radio-message-limit": [
+    {
+      "type": 0,
+      "value": "Older messages not shown"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "No messages to show"
+    }
+  ],
   "simulator-reference-link": [
     {
       "type": 0,

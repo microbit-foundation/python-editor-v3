@@ -851,6 +851,14 @@
     "defaultMessage": "Radio",
     "description": "Radio title"
   },
+  "simulator-radio-message-limit": {
+    "defaultMessage": "Older messages not shown",
+    "description": "Text shown when the number of radio messages has been capped"
+  },
+  "simulator-radio-no-messages": {
+    "defaultMessage": "No messages to show",
+    "description": "Text shown when there are no radio messages to display"
+  },
   "simulator-reference-link": {
     "defaultMessage": "Link to Reference section",
     "description": "Aria label for simulator Reference link button"
