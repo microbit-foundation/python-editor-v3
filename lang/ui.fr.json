@@ -846,6 +846,10 @@
     "defaultMessage": "Quiet",
     "description": "Sound level low threshold marker hover text"
   },
+  "simulator-radio": {
+    "defaultMessage": "Radio",
+    "description": "Radio title"
+  },
   "simulator-reference-link": {
     "defaultMessage": "Link to Reference section",
     "description": "Aria label for simulator Reference link button"

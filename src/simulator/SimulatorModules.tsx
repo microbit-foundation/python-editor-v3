@@ -16,6 +16,7 @@ import AccelerometerModule from "./AccelerometerModule";
 import {
   RangeSensor as RangeSensorType,
   RangeSensorWithThresholds as RangeSensorWithThresholdsType,
+  RadioSensor as RadioSensorType,
   Sensor,
 } from "./model";
 import RangeSensor from "./RangeSensor";
@@ -24,6 +25,7 @@ import { IconType } from "react-icons";
 import {
   RiInformationLine,
   RiRadioButtonLine,
+  RiRadioLine,
   RiSunFill,
   RiTempHotFill,
   RiWebcamLine,
@@ -34,6 +36,7 @@ import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonModule";
 import { SimState } from "./Simulator";
 import PinsModule from "./PinsModule";
+import RadioModule from "./RadioModule";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -43,6 +46,7 @@ const modules: string[] = [
   "soundLevel",
   "buttons",
   "pins",
+  "radio",
 ];
 
 const titles: Record<string, string> = {
@@ -53,6 +57,7 @@ const titles: Record<string, string> = {
   pins: "pins",
   soundLevel: "sound-level",
   temperature: "temperature",
+  radio: "radio",
 };
 
 const references: Record<string, string> = {
@@ -63,6 +68,7 @@ const references: Record<string, string> = {
   pins: "pins",
   soundLevel: "microphone",
   temperature: "temperature",
+  radio: "radio",
 };
 
 export const icons: Record<string, IconType> = {
@@ -71,6 +77,7 @@ export const icons: Record<string, IconType> = {
   soundLevel: RiWebcamLine, // Improbably like a microphone.
   buttons: RiRadioButtonLine,
   pins: RiRadioButtonLine,
+  radio: RiRadioLine,
 };
 
 const spacing = 5;
@@ -85,6 +92,7 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
   const [sensors, setSensors] = useState<Record<string, Sensor>>(
     device.sensors
   );
+  console.log(sensors);
   const intl = useIntl();
   useEffect(() => {
     device.on(EVENT_SENSORS, setSensors);
@@ -294,6 +302,16 @@ const ModuleForId = ({
         <AccelerometerModule
           key={id}
           sensors={sensors}
+          onSensorChange={onSensorChange}
+          minimised={minimised}
+        />
+      );
+    case "radio":
+      return (
+        <RadioModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          sensor={sensors.radio as RadioSensorType}
           onSensorChange={onSensorChange}
           minimised={minimised}
         />

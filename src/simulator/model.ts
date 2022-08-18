@@ -1,4 +1,4 @@
-export type Sensor = RangeSensor | EnumSensor;
+export type Sensor = RangeSensor | EnumSensor | RadioSensor;
 
 export interface RangeSensor {
   type: "range";
@@ -19,4 +19,18 @@ export interface EnumSensor {
   id: string;
   choices: string[];
   value: string;
+}
+
+export interface RadioMessage {
+  message: string;
+  group: number;
+  source: "code" | "user";
+}
+
+export interface RadioSensor {
+  type: "radio";
+  id: string;
+  value: RadioMessage[];
+  group: number;
+  enabled: boolean;
 }

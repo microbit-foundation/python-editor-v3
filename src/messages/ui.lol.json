@@ -1851,6 +1851,12 @@
       "value": "Quiet"
     }
   ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "Radio"
+    }
+  ],
   "simulator-reference-link": [
     {
       "type": 0,

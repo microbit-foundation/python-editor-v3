@@ -59,6 +59,10 @@
     "defaultMessage": "Temperature",
     "description": "Temperature title"
   },
+  "simulator-radio": {
+    "defaultMessage": "Radio",
+    "description": "Radio title"
+  },
   "simulator-loud": {
     "defaultMessage": "Loud",
     "description": "Sound level high threshold marker hover text"
