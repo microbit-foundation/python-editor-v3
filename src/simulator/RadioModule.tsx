@@ -16,7 +16,7 @@ import { ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { RadioSensor as RadioSensorType } from "./model";
-import { ReactComponent as MessageIcon } from "./microbit-face-icon.svg";
+import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
 
 interface RadioModuleProps {
   icon: ReactNode;
