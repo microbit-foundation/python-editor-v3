@@ -5,18 +5,25 @@
  */
 import {
   Box,
+  Divider,
   Flex,
   HStack,
   Icon,
   IconButton,
   Input,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { RadioSensor as RadioSensorType } from "./model";
+import {
+  RadioMessage as RadioMessageType,
+  RadioSensor as RadioSensorType,
+} from "./model";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
+
+const messageLimit = 100;
 
 interface RadioModuleProps {
   icon: ReactNode;
@@ -31,6 +38,9 @@ const RadioModule = ({
   onSensorChange,
   minimised,
 }: RadioModuleProps) => {
+  const filteredRadioMessages = sensor.value.filter(
+    (v) => v.group === sensor.group
+  );
   return (
     <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
       {minimised ? (
@@ -41,19 +51,25 @@ const RadioModule = ({
       ) : (
         <VStack spacing={3} width="100%" alignItems="flex-start">
           <Box width="100%">
-            <VStack
-              width="100%"
-              alignItems="flex-start"
-              bg="white"
-              borderRadius="md"
-              p={2}
-            >
-              <Box>Group {sensor.group}</Box>
-              {sensor.value
-                .filter((v) => v.group === sensor.group)
-                .map((v, i) => (
+            <VStack alignItems="flex-start" bg="white" borderRadius="md" p={2}>
+              <VStack width="100%" spacing={0} alignItems="flex-start">
+                <Box>Group {sensor.group}</Box>
+                <Divider borderWidth="1px" />
+              </VStack>
+              <VStack
+                width="100%"
+                alignItems="flex-start"
+                maxH="12rem"
+                minH="12rem"
+                overflowY="auto"
+              >
+                {filteredRadioMessages.length > messageLimit && (
+                  <Text>Older messages not shown</Text>
+                )}
+                {filteredRadioMessages.slice(messageLimit * -1).map((v, i) => (
                   <RadioMessage key={i} message={v.message} source={v.source} />
                 ))}
+              </VStack>
             </VStack>
           </Box>
           <RadioInput sensor={sensor} onSensorChange={onSensorChange} />
@@ -101,12 +117,13 @@ const RadioInput = ({ sensor, onSensorChange }: RadioInputProps) => {
     (e) => {
       e.preventDefault();
       const radioMessages = [...sensor.value];
-      radioMessages.push({
+      const cappedRadioMessages = capRadioMessages(radioMessages);
+      cappedRadioMessages.push({
         message,
         group: sensor.group,
         source: "user",
       });
-      onSensorChange(sensor.id, radioMessages);
+      onSensorChange(sensor.id, cappedRadioMessages);
       setMessage("");
     },
     [message, onSensorChange, sensor]
@@ -129,6 +146,27 @@ const RadioInput = ({ sensor, onSensorChange }: RadioInputProps) => {
       ></IconButton>
     </HStack>
   );
+};
+
+const capRadioMessages = (
+  radioMessages: RadioMessageType[]
+): RadioMessageType[] => {
+  const cappedRadioMessages: RadioMessageType[] = [];
+  const uniqueGroups = new Set(radioMessages.map((m) => m.group));
+  const radioMessagesByGroup: Record<string, RadioMessageType[]> = {};
+  uniqueGroups.forEach((group) => {
+    radioMessagesByGroup[group] = radioMessages.filter(
+      (m) => m.group === group
+    );
+  });
+  for (const group in radioMessagesByGroup) {
+    const messages = radioMessagesByGroup[group];
+    while (messages.length > messageLimit + 1) {
+      messages.shift();
+    }
+    cappedRadioMessages.push(...messages);
+  }
+  return cappedRadioMessages;
 };
 
 export default RadioModule;
