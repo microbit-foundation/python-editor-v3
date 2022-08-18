@@ -1,23 +1,25 @@
 import { HStack, IconButton, Select, Stack, Text } from "@chakra-ui/react";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
 interface AccelerometerModuleProps {
+  icon: ReactNode;
   sensors: Record<string, Sensor>;
   onSensorChange: (id: string, value: any) => void;
   minimised: boolean;
 }
 
 const AccelerometerModule = ({
+  icon,
   sensors,
   onSensorChange,
   minimised,
 }: AccelerometerModuleProps) => (
   <Stack spacing={5}>
-    <Gesture sensors={sensors} onSensorChange={onSensorChange} />
+    <Gesture icon={icon} sensors={sensors} onSensorChange={onSensorChange} />
     {!minimised && (
       <>
         <Axis axis="x" sensors={sensors} onSensorChange={onSensorChange} />
@@ -29,11 +31,12 @@ const AccelerometerModule = ({
 );
 
 interface GestureProps {
+  icon: ReactNode;
   sensors: Record<string, Sensor>;
   onSensorChange: (id: string, value: any) => void;
 }
 
-const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
+const Gesture = ({ icon, sensors, onSensorChange }: GestureProps) => {
   const sensor = sensors["gesture"];
   if (sensor.type !== "enum") {
     throw new Error("Unexpected sensor type");
@@ -60,6 +63,7 @@ const Gesture = ({ sensors, onSensorChange }: GestureProps) => {
 
   return (
     <HStack spacing={3}>
+      {icon}
       <Select
         data-testid="simulator-gesture-select"
         aria-label={intl.formatMessage({ id: "simulator-gesture-select" })}

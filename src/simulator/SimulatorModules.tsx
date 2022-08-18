@@ -21,13 +21,11 @@ import {
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
-import {
-  RiInformationLine,
-  RiRadioButtonLine,
-  RiSunFill,
-  RiTempHotFill,
-  RiWebcamLine,
-} from "react-icons/ri";
+import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
+import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
+import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
+import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
+import { ReactComponent as PinsIcon } from "./icons/pins.svg";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useRouterState } from "../router-hooks";
@@ -65,12 +63,16 @@ const references: Record<string, string> = {
   temperature: "temperature",
 };
 
-export const icons: Record<string, IconType> = {
+export const icons: Record<
+  string,
+  IconType | React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+> = {
+  accelerometer: AccelerometerIcon,
   temperature: RiTempHotFill,
   lightLevel: RiSunFill,
-  soundLevel: RiWebcamLine, // Improbably like a microphone.
-  buttons: RiRadioButtonLine,
-  pins: RiRadioButtonLine,
+  soundLevel: MicrophoneIcon, // Improbably like a microphone.
+  buttons: ButtonPressIcon,
+  pins: PinsIcon,
 };
 
 const spacing = 5;
@@ -293,6 +295,7 @@ const ModuleForId = ({
       return (
         <AccelerometerModule
           key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           sensors={sensors}
           onSensorChange={onSensorChange}
           minimised={minimised}
