@@ -49,9 +49,11 @@ const RadioModule = ({
               p={2}
             >
               <Box>Group {sensor.group}</Box>
-              {sensor.value.map((v, i) => (
-                <RadioMessage key={i} message={v.message} source={v.source} />
-              ))}
+              {sensor.value
+                .filter((v) => v.group === sensor.group)
+                .map((v, i) => (
+                  <RadioMessage key={i} message={v.message} source={v.source} />
+                ))}
             </VStack>
           </Box>
           <RadioInput sensor={sensor} onSensorChange={onSensorChange} />
