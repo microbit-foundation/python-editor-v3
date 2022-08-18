@@ -70,7 +70,7 @@ export const icons: Record<
   accelerometer: AccelerometerIcon,
   temperature: RiTempHotFill,
   lightLevel: RiSunFill,
-  soundLevel: MicrophoneIcon, // Improbably like a microphone.
+  soundLevel: MicrophoneIcon,
   buttons: ButtonPressIcon,
   pins: PinsIcon,
 };
