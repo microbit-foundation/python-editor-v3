@@ -114,7 +114,8 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
       flexDirection="column"
       height="100%"
       width="100%"
-      p={spacing}
+      py={spacing}
+      px={3}
     >
       {modules.map((id, index) => (
         <CollapsibleModule
@@ -174,7 +175,9 @@ const CollapsibleModule = ({
       <HStack justifyContent="space-between">
         {disclosure.isOpen && (
           <HStack>
-            <Text as="h3">{title}</Text>
+            <Text as="h3" fontWeight="semibold">
+              {title}
+            </Text>
             <IconButton
               aria-label={intl.formatMessage({
                 id: "simulator-reference-link",
