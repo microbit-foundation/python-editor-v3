@@ -125,7 +125,7 @@ const RadioMessage = ({
       alignSelf={source === "code" ? "flex-start" : "flex-end"}
     >
       <RadioMessageIcon color={color} />
-      <Box bg={color} p={2} borderRadius="md">
+      <Box bg={color} p={2} borderRadius="md" wordBreak="break-word">
         {message}
       </Box>
     </Flex>
