@@ -10,34 +10,30 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
+import { IconType } from "react-icons";
+import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
+import { useIntl } from "react-intl";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useSimulator } from "../device/device-hooks";
 import { EVENT_SENSORS } from "../device/simulator";
+import { useRouterState } from "../router-hooks";
 import AccelerometerModule from "./AccelerometerModule";
-import {
-  RangeSensor as RangeSensorType,
-  RangeSensorWithThresholds as RangeSensorWithThresholdsType,
-  RadioSensor as RadioSensorType,
-  Sensor,
-} from "./model";
-import RangeSensor from "./RangeSensor";
-import { IconType } from "react-icons";
-import {
-  RiInformationLine,
-  RiSunFill,
-  RiTempHotFill,
-  RiRadioLine,
-} from "react-icons/ri";
+import ButtonsModule from "./ButtonModule";
 import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
 import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
 import { ReactComponent as PinsIcon } from "./icons/pins.svg";
-import { useIntl } from "react-intl";
-import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
-import { useRouterState } from "../router-hooks";
-import ButtonsModule from "./ButtonModule";
-import { SimState } from "./Simulator";
+import { ReactComponent as RadioIcon } from "./icons/radio.svg";
+import {
+  RadioSensor as RadioSensorType,
+  RangeSensor as RangeSensorType,
+  RangeSensorWithThresholds as RangeSensorWithThresholdsType,
+  Sensor,
+} from "./model";
 import PinsModule from "./PinsModule";
 import RadioModule from "./RadioModule";
+import RangeSensor from "./RangeSensor";
+import { SimState } from "./Simulator";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -82,7 +78,7 @@ export const icons: Record<
   soundLevel: MicrophoneIcon,
   buttons: ButtonPressIcon,
   pins: PinsIcon,
-  radio: RiRadioLine,
+  radio: RadioIcon,
 };
 
 const spacing = 5;
