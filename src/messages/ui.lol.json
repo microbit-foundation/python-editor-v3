@@ -1869,6 +1869,12 @@
       "value": "No messages to show"
     }
   ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "Send message"
+    }
+  ],
   "simulator-reference-link": [
     {
       "type": 0,

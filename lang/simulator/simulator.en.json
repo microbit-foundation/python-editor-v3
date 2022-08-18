@@ -114,5 +114,9 @@
   "simulator-radio-message-limit": {
     "defaultMessage": "Older messages not shown",
     "description": "Text shown when the number of radio messages has been capped"
+  },
+  "simulator-radio-send": {
+    "defaultMessage": "Send message",
+    "description": "Aria label for the simulator radio send button"
   }
 }

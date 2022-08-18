@@ -858,6 +858,10 @@
     "defaultMessage": "No messages to show",
     "description": "Text shown when there are no radio messages to display"
   },
+  "simulator-radio-send": {
+    "defaultMessage": "Send message",
+    "description": "Aria label for the simulator radio send button"
+  },
   "simulator-reference-link": {
     "defaultMessage": "Link to Reference section",
     "description": "Aria label for simulator Reference link button"

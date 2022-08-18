@@ -169,7 +169,7 @@ const RadioInput = ({ sensor, onSensorChange }: RadioInputProps) => {
         colorScheme="blackAlpha"
         disabled={!sensor.enabled}
         onClick={handleSubmit}
-        aria-label={intl.formatMessage({ id: "simulator-gesture-send" })}
+        aria-label={intl.formatMessage({ id: "simulator-radio-send" })}
       ></IconButton>
     </HStack>
   );
