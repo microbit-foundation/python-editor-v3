@@ -7,6 +7,7 @@ import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
+import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
@@ -46,7 +47,8 @@ const Simulator = ({
     };
   }, []);
   const simControlsRef = useRef<HTMLDivElement>(null);
-  const simHeight = simControlsRef.current?.offsetHeight || 0;
+  const contentRect = useResizeObserverContentRect(simControlsRef);
+  const simHeight = contentRect?.height ?? 0;
   const [brand500] = useToken("colors", ["brand.500"]);
   const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
 
