@@ -89,7 +89,7 @@ const Simulator = ({
                 ref={ref}
                 as="iframe"
                 // This needs changing before we remove the flag.
-                src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
+                src={`https://deploy-preview-36--distracted-dubinsky-fd8a42.netlify.app/simulator.html?color=${encodeURIComponent(
                   brand500
                 )}`}
                 title="Simulator"
