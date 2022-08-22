@@ -10,20 +10,25 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
+import { useSimulator } from "../device/device-hooks";
+import AccelerometerModule from "./AccelerometerModule";
+import {
+  DataLoggingSensor as DataLoggingSensorType,
+  RangeSensor as RangeSensorType,
+} from "./model";
+import RangeSensor from "./RangeSensor";
+
 import { IconType } from "react-icons";
 import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import useRafState from "../common/use-raf-state";
-import { useSimulator } from "../device/device-hooks";
 import {
   EVENT_STATE_CHANGE,
-  RangeSensor as RangeSensorType,
   SensorStateKey,
   SimulatorState,
 } from "../device/simulator";
 import { useRouterState } from "../router-hooks";
-import AccelerometerModule from "./AccelerometerModule";
 import ButtonsModule from "./ButtonModule";
 import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
@@ -33,8 +38,9 @@ import { ReactComponent as RadioIcon } from "./icons/radio.svg";
 import PinsModule from "./PinsModule";
 import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
-import RangeSensor from "./RangeSensor";
 
+import DataLoggingModule from "./DataLogging";
+import { ReactComponent as DataLoggingIcon } from "./icons/data-logging.svg";
 import { RunningStatus } from "./Simulator";
 
 const modules: string[] = [
@@ -46,6 +52,7 @@ const modules: string[] = [
   "buttons",
   "pins",
   "radio",
+  "log",
 ];
 
 const titles: Record<string, string> = {
@@ -57,6 +64,7 @@ const titles: Record<string, string> = {
   soundLevel: "sound-level",
   temperature: "temperature",
   radio: "radio",
+  log: "log",
 };
 
 const references: Record<string, string> = {
@@ -68,6 +76,7 @@ const references: Record<string, string> = {
   soundLevel: "microphone",
   temperature: "temperature",
   radio: "radio",
+  log: "data-logging",
 };
 
 export const icons: Record<
@@ -81,6 +90,7 @@ export const icons: Record<
   buttons: ButtonPressIcon,
   pins: PinsIcon,
   radio: RadioIcon,
+  log: DataLoggingIcon,
 };
 
 const spacing = 5;
@@ -277,6 +287,15 @@ const ModuleForId = ({
           state={state}
           onValueChange={onValueChange}
           running={running}
+          minimised={minimised}
+        />
+      );
+    case "log":
+      return (
+        <DataLoggingModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          sensor={sensors.log as DataLoggingSensorType}
           minimised={minimised}
         />
       );

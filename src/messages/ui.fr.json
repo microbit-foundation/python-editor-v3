@@ -1867,6 +1867,12 @@
       "value": "Light level"
     }
   ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "Data log"
+    }
+  ],
   "simulator-loud": [
     {
       "type": 0,
