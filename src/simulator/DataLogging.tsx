@@ -15,9 +15,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import sortBy from "lodash.sortby";
-import { ReactNode } from "react";
-import { DataLoggingSensor as DataLoggingSensorType } from "./model";
+import { ReactNode, useEffect, useState } from "react";
+import { DataLoggingSensor as DataLoggingSensorType, LogData } from "./model";
 
 export interface DataLoggingProps {
   icon: ReactNode;
@@ -26,19 +25,33 @@ export interface DataLoggingProps {
 }
 
 const DataLoggingModule = ({ icon, sensor, minimised }: DataLoggingProps) => {
-  console.log(sensor);
-  const rank: Record<string, number> = {
-    timestamp: 1,
-    light: 2,
-    temperature: 3,
-    sound: 4,
+  const [header, setHeader] = useState<string[]>([]);
+  useEffect(() => {
+    if (sensor.value.length) {
+      if (!header.length) {
+        setHeader(sensor.value[0].map((h) => h.key));
+      }
+      const lastEntryHeader = sensor.value[sensor.value.length - 1].map(
+        (l) => l.key
+      );
+      if (!lastEntryHeader.every((e) => header.includes(e))) {
+        // Rebuild header.
+        setHeader(Array.from(new Set([...header, ...lastEntryHeader])));
+      }
+    }
+  }, [header, sensor]);
+
+  const isHeaderRow = (log: LogData[]): boolean => {
+    const filteredLog = log.filter((l) => l.key !== "timestamp");
+    return filteredLog.every((l) => l.value === "");
   };
+
   return (
     <HStack spacing={3}>
       {minimised ? (
         <HStack justifyContent="space-between" width="100%">
           {icon}
-          <Text>{sensor.value ? sensor.value.length - 1 : 0} rows</Text>
+          <Text>{Math.max(sensor.value.length - 1, 0)} rows</Text>
           <Button size="sm">Download</Button>
         </HStack>
       ) : (
@@ -47,17 +60,29 @@ const DataLoggingModule = ({ icon, sensor, minimised }: DataLoggingProps) => {
             <Table>
               <Thead>
                 <Tr>
-                  {sortBy(sensor.value[0], (l) => rank[l.key]).map((header) => (
-                    <Th key={header.key}>{header.key}</Th>
+                  {header.map((header) => (
+                    <Th key={header}>{header}</Th>
                   ))}
                 </Tr>
               </Thead>
               <Tbody>
                 {sensor.value.slice(1, sensor.value.length).map((log, i) => (
                   <Tr key={i}>
-                    {sortBy(log, (l) => rank[l.key]).map((v, i) => (
-                      <Td key={v.key}>{v.value}</Td>
-                    ))}
+                    {header.map((h) => {
+                      const valueKey = isHeaderRow(log) ? "key" : "value";
+                      const logForHeader = log.find((l) => l.key === h);
+                      if (logForHeader) {
+                        return (
+                          <Td key={logForHeader.key}>
+                            {logForHeader.key === "timestamp"
+                              ? logForHeader.value
+                              : logForHeader[valueKey]}
+                          </Td>
+                        );
+                      } else {
+                        return <Td key={h}></Td>;
+                      }
+                    })}
                   </Tr>
                 ))}
               </Tbody>
