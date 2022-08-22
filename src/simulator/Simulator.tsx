@@ -24,6 +24,7 @@ interface SimulatorProps {
   onSimulatorHide: () => void;
   showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
   minWidth: number;
+  simFocus: boolean;
 }
 
 const Simulator = ({
@@ -31,6 +32,7 @@ const Simulator = ({
   onSimulatorHide,
   showSimulatorButtonRef,
   minWidth,
+  simFocus,
 }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
@@ -56,9 +58,11 @@ const Simulator = ({
     if (shown) {
       ref.current!.focus();
     } else {
-      showSimulatorButtonRef.current!.focus();
+      if (simFocus) {
+        showSimulatorButtonRef.current!.focus();
+      }
     }
-  }, [showSimulatorButtonRef, shown]);
+  }, [showSimulatorButtonRef, shown, simFocus]);
 
   return (
     <DeviceContextProvider value={simulator.current}>

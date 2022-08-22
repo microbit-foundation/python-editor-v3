@@ -69,6 +69,7 @@ const Workbench = () => {
   const [tabIndex, setTabIndex] = useState<number>(() =>
     window.innerWidth > widthToHideSidebar ? 0 : -1
   );
+  const [simFocus, setSimFocus] = useState<boolean>(true);
 
   // Sidebar/simulator space management:
   const handleSidebarCollapse = useCallback(() => {
@@ -79,10 +80,12 @@ const Workbench = () => {
     setSidebarShown(true);
     // If there's not room for the simulator then hide it.
     if (flags.simulator && window.innerWidth <= widthToHideSidebar) {
+      setSimFocus(false);
       setSimulatorShown(false);
     }
   }, []);
   const handleSimulatorHide = useCallback(() => {
+    setSimFocus(true);
     setSimulatorShown(false);
   }, []);
   const handleSimulatorExpand = useCallback(() => {
@@ -153,6 +156,7 @@ const Workbench = () => {
                 onSimulatorHide={handleSimulatorHide}
                 simulatorShown={simulatorShown}
                 showSimulatorButtonRef={simulatorButtonRef}
+                simFocus={simFocus}
               />
             ) : (
               <Editor editor={editor} />
@@ -173,6 +177,7 @@ interface EditorWithSimulatorProps extends EditorProps {
   simulatorShown: boolean;
   showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
   onSimulatorHide: () => void;
+  simFocus: boolean;
 }
 
 const EditorWithSimulator = ({
@@ -180,6 +185,7 @@ const EditorWithSimulator = ({
   simulatorShown,
   showSimulatorButtonRef,
   onSimulatorHide,
+  simFocus,
 }: EditorWithSimulatorProps) => {
   return (
     <SplitView
@@ -198,6 +204,7 @@ const EditorWithSimulator = ({
           onSimulatorHide={onSimulatorHide}
           showSimulatorButtonRef={showSimulatorButtonRef}
           minWidth={simulatorMinimums[0]}
+          simFocus={simFocus}
         />
       </SplitViewSized>
     </SplitView>
