@@ -89,8 +89,9 @@ const Simulator = ({
               <Box
                 ref={ref}
                 as="iframe"
-                // This needs changing before we release.
-                src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
+                // This needs changing before we remove the flag.
+                //src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
+                src={`https://review-python-simulator.microbit.org/data-logging/?color=${encodeURIComponent(
                   brand500
                 )}`}
                 title={simulatorTitle}
