@@ -16,6 +16,7 @@ import AccelerometerModule from "./AccelerometerModule";
 import {
   RangeSensor as RangeSensorType,
   RangeSensorWithThresholds as RangeSensorWithThresholdsType,
+  DataLoggingSensor as DataLoggingSensorType,
   Sensor,
 } from "./model";
 import RangeSensor from "./RangeSensor";
@@ -26,12 +27,14 @@ import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
 import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
 import { ReactComponent as PinsIcon } from "./icons/pins.svg";
+import { ReactComponent as DataLoggingIcon } from "./icons/data-logging.svg";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonModule";
 import { SimState } from "./Simulator";
 import PinsModule from "./PinsModule";
+import DataLoggingModule from "./DataLogging";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -41,6 +44,7 @@ const modules: string[] = [
   "soundLevel",
   "buttons",
   "pins",
+  "log",
 ];
 
 const titles: Record<string, string> = {
@@ -51,6 +55,7 @@ const titles: Record<string, string> = {
   pins: "pins",
   soundLevel: "sound-level",
   temperature: "temperature",
+  log: "log",
 };
 
 const references: Record<string, string> = {
@@ -61,6 +66,7 @@ const references: Record<string, string> = {
   pins: "pins",
   soundLevel: "microphone",
   temperature: "temperature",
+  log: "data-logging",
 };
 
 export const icons: Record<
@@ -73,6 +79,7 @@ export const icons: Record<
   soundLevel: MicrophoneIcon,
   buttons: ButtonPressIcon,
   pins: PinsIcon,
+  log: DataLoggingIcon,
 };
 
 const spacing = 5;
@@ -291,6 +298,15 @@ const ModuleForId = ({
           sensors={sensors}
           onSensorChange={onSensorChange}
           simState={simState}
+          minimised={minimised}
+        />
+      );
+    case "log":
+      return (
+        <DataLoggingModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          sensor={sensors.log as DataLoggingSensorType}
           minimised={minimised}
         />
       );

@@ -830,6 +830,10 @@
     "defaultMessage": "Light level",
     "description": "Light level title"
   },
+  "simulator-log": {
+    "defaultMessage": "Data log",
+    "description": "Data log title"
+  },
   "simulator-loud": {
     "defaultMessage": "Loud",
     "description": "Sound level high threshold marker hover text"

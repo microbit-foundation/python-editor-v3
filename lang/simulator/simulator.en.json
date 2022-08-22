@@ -55,6 +55,10 @@
     "defaultMessage": "Pins",
     "description": "Pins title"
   },
+  "simulator-log": {
+    "defaultMessage": "Data log",
+    "description": "Data log title"
+  },
   "simulator-temperature": {
     "defaultMessage": "Temperature",
     "description": "Temperature title"

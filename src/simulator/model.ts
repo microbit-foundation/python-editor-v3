@@ -1,4 +1,4 @@
-export type Sensor = RangeSensor | EnumSensor;
+export type Sensor = RangeSensor | EnumSensor | DataLoggingSensor;
 
 export interface RangeSensor {
   type: "range";
@@ -19,4 +19,18 @@ export interface EnumSensor {
   id: string;
   choices: string[];
   value: string;
+}
+
+export interface LogData {
+  key: string;
+  value: string | number;
+}
+
+export interface DataLoggingSensor {
+  type: "log";
+  id: string;
+  value: [LogData[]];
+  period: number;
+  serial: boolean;
+  delete: boolean;
 }
