@@ -139,7 +139,7 @@ const SensorInput = ({
         <Switch
           aria-label={intl.formatMessage(
             { id: `simulator-${type}-hold-label` },
-            { touchInputName: label }
+            { [type]: label }
           )}
           sx={{
             "*": {
