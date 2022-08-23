@@ -7,12 +7,13 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Portal,
 } from "@chakra-ui/react";
 import { MdMoreVert } from "react-icons/md";
-import { RiKeyboardBoxLine } from "react-icons/ri";
+import { RiInformationLine, RiKeyboardBoxLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
 import { useSerialActions } from "./serial-hooks";
@@ -20,12 +21,17 @@ import { useSerialActions } from "./serial-hooks";
 interface SerialMenuProps {
   compact?: boolean;
   onSizeChange: (size: "compact" | "open") => void;
+  onShowHintsAndTips?: () => void;
 }
 
 /**
  * Serial ara drop-down menu.
  */
-const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
+const SerialMenu = ({
+  compact,
+  onSizeChange,
+  onShowHintsAndTips,
+}: SerialMenuProps) => {
   const intl = useIntl();
   const actions = useSerialActions(onSizeChange);
   return (
@@ -46,6 +52,17 @@ const SerialMenu = ({ compact, onSizeChange }: SerialMenuProps) => {
           <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.reset}>
             <FormattedMessage id="serial-ctrl-d-action" />
           </MenuItem>
+          {onShowHintsAndTips && (
+            <>
+              <MenuDivider />
+              <MenuItem
+                icon={<RiInformationLine />}
+                onClick={onShowHintsAndTips}
+              >
+                <FormattedMessage id="serial-hints-and-tips" />
+              </MenuItem>
+            </>
+          )}
         </MenuList>
       </Portal>
     </Menu>

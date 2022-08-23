@@ -51,7 +51,7 @@ const SimulatorSplitView = ({
           aria-label={intl.formatMessage({
             id: "simulator-serial-terminal",
           })}
-          showExpandText={false}
+          hideExpandTextOnTraceback={true}
           showSyncStatus={false}
           showHintsAndTips={false}
         />
