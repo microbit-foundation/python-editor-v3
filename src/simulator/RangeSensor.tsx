@@ -10,13 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
-import {
-  RangeSensor as RangeSensorType,
-  RangeSensorWithThresholds as RangeSensorWithThresholdsType,
-} from "./model";
+import { RangeSensor as RangeSensorType } from "./model";
 
 interface RangeSensorProps {
-  sensor: RangeSensorType | RangeSensorWithThresholdsType;
+  sensor: RangeSensorType;
   title: string;
   icon: ReactNode;
   onSensorChange: (id: string, value: number) => void;
@@ -30,16 +27,7 @@ const RangeSensor = ({
   onSensorChange,
   minimised = false,
 }: RangeSensorProps) => {
-  let lowThreshold;
-  let highThreshold;
-  if (
-    sensor.hasOwnProperty("lowThreshold") &&
-    sensor.hasOwnProperty("highThreshold")
-  ) {
-    lowThreshold = (sensor as RangeSensorWithThresholdsType).lowThreshold;
-    highThreshold = (sensor as RangeSensorWithThresholdsType).highThreshold;
-  }
-  const { id, min, max, value, unit } = sensor;
+  const { id, min, max, value, unit, lowThreshold, highThreshold } = sensor;
   const handleChange = useCallback(
     (value: number) => {
       onSensorChange(id, value);
