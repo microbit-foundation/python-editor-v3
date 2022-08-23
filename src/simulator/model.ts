@@ -7,11 +7,8 @@ export interface RangeSensor {
   max: number;
   value: number;
   unit?: string;
-}
-
-export interface RangeSensorWithThresholds extends RangeSensor {
-  lowThreshold: number;
-  highThreshold: number;
+  lowThreshold?: number;
+  highThreshold?: number;
 }
 
 export interface EnumSensor {
