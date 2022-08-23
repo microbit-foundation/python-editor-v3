@@ -106,8 +106,8 @@ const SensorInput = ({
     <VStack spacing={3}>
       <Button
         aria-label={intl.formatMessage(
-          { id: "simulator-input-press-label" },
-          { touchInputType: type, touchInputName: label }
+          { id: `simulator-${type}-press-label` },
+          { [type]: label }
         )}
         transition="none"
         _active={
@@ -138,8 +138,8 @@ const SensorInput = ({
       {!minimised && (
         <Switch
           aria-label={intl.formatMessage(
-            { id: "simulator-input-hold-label" },
-            { touchInputType: type, touchInputName: label }
+            { id: `simulator-${type}-hold-label` },
+            { touchInputName: label }
           )}
           sx={{
             "*": {

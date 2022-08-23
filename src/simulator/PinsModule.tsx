@@ -5,7 +5,7 @@
  */
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import { Sensor } from "./model";
 import SensorInput from "./SensorInput";
@@ -27,6 +27,8 @@ const PinsModule = ({
   minimised,
 }: PinsModuleProps) => {
   const brand = useDeployment();
+  const intl = useIntl();
+  const touchLogoLabel = intl.formatMessage({ id: "simulator-touch-logo" });
   return (
     <HStack spacing={3}>
       <VStack spacing={3} alignItems="flex-start">
@@ -73,7 +75,7 @@ const PinsModule = ({
       <SensorInput
         type="pin"
         sensorId="pinLogo"
-        label="Touch logo"
+        label={touchLogoLabel}
         logo={brand.squareLogo}
         sensors={sensors}
         onSensorChange={onSensorChange}

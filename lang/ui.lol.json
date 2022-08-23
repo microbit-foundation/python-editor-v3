@@ -778,6 +778,14 @@
     "defaultMessage": "Simulator actions",
     "description": "Aria label for the bar with simulator actions"
   },
+  "simulator-button-hold-label": {
+    "defaultMessage": "Hold button {button}",
+    "description": "Aria label for simulator toggle button"
+  },
+  "simulator-button-press-label": {
+    "defaultMessage": "Press button {button}",
+    "description": "Aria label for simulator push button"
+  },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
     "description": "Buttons title"
@@ -814,17 +822,9 @@
     "defaultMessage": "Hold",
     "description": "Text for simulator toggle button or pin controls"
   },
-  "simulator-input-hold-label": {
-    "defaultMessage": "Hold {touchInputType} {touchInputName}",
-    "description": "Aria label for simulator toggle button or pin control"
-  },
   "simulator-input-press": {
     "defaultMessage": "Press",
     "description": "Text for simulator push button or pin controls"
-  },
-  "simulator-input-press-label": {
-    "defaultMessage": "Press {touchInputType} {touchInputName}",
-    "description": "Aria label for simulator push button or pin control"
   },
   "simulator-light-level": {
     "defaultMessage": "Light level",
@@ -837,6 +837,14 @@
   "simulator-mute": {
     "defaultMessage": "Mute",
     "description": "Aria label for the mute simulator button"
+  },
+  "simulator-pin-hold-label": {
+    "defaultMessage": "Hold pin {pin}",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pin-press-label": {
+    "defaultMessage": "Press pin {pin}",
+    "description": "Aria label for simulator pin control"
   },
   "simulator-pins": {
     "defaultMessage": "Pins",
@@ -877,6 +885,10 @@
   "simulator-title": {
     "defaultMessage": "Simulator",
     "description": "Simulator title"
+  },
+  "simulator-touch-logo": {
+    "defaultMessage": "Touch logo",
+    "description": "Name for the touch logo pin on the V2 micro:bit board"
   },
   "simulator-unmute": {
     "defaultMessage": "Unmute",
