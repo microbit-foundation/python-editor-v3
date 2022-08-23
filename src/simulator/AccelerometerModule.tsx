@@ -41,7 +41,8 @@ const Gesture = ({ icon, sensors, onSensorChange }: GestureProps) => {
   if (sensor.type !== "enum") {
     throw new Error("Unexpected sensor type");
   }
-  const choices = sensor.choices;
+  // We omit "none" as we flip from "none" to the choice and back to "none".
+  const choices = sensor.choices.filter((x) => x !== "none");
   const [choice, setChoice] = useState("shake");
   const [active, setActive] = useState(false);
   const intl = useIntl();
