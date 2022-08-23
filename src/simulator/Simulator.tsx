@@ -34,6 +34,7 @@ const Simulator = ({
 }: SimulatorProps) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
+  const simulatorTitle = intl.formatMessage({ id: "simulator-title" });
   const simulator = useRef(
     new SimulatorDeviceConnection(() => {
       return ref.current;
@@ -92,8 +93,8 @@ const Simulator = ({
                 src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
                   brand500
                 )}`}
-                title="Simulator"
-                name="Simulator"
+                title={simulatorTitle}
+                name={simulatorTitle}
                 frameBorder="no"
                 scrolling="no"
                 allow="autoplay;microphone"
