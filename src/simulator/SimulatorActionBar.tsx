@@ -19,16 +19,16 @@ import {
 } from "../device/device-hooks";
 import { EVENT_REQUEST_FLASH } from "../device/simulator";
 import { useFileSystem } from "../fs/fs-hooks";
-import { SimState } from "./Simulator";
+import { RunningStatus } from "./Simulator";
 
 interface SimulatorActionBarProps extends BoxProps {
-  simState: SimState;
-  setSimState: React.Dispatch<React.SetStateAction<SimState>>;
+  running: RunningStatus;
+  onRunningChange: (running: RunningStatus) => void;
 }
 
 const SimulatorActionBar = ({
-  simState,
-  setSimState,
+  running,
+  onRunningChange: onRunningChange,
   ...props
 }: SimulatorActionBarProps) => {
   const device = useSimulator();
@@ -41,12 +41,12 @@ const SimulatorActionBar = ({
       partial: true,
       progress: () => {},
     });
-    setSimState(SimState.RUNNING);
-  }, [device, fs, setSimState]);
+    onRunningChange(RunningStatus.RUNNING);
+  }, [device, fs, onRunningChange]);
   const handleStop = useCallback(() => {
     device.stop();
-    setSimState(SimState.STOPPED);
-  }, [device, setSimState]);
+    onRunningChange(RunningStatus.STOPPED);
+  }, [device, onRunningChange]);
   useEffect(() => {
     if (syncStatus === SyncStatus.OUT_OF_SYNC) {
       handleStop();
@@ -75,7 +75,7 @@ const SimulatorActionBar = ({
         onClick={handleStop}
         icon={<RiStopFill />}
         aria-label={intl.formatMessage({ id: "simulator-stop" })}
-        disabled={simState === SimState.STOPPED}
+        disabled={running === RunningStatus.STOPPED}
       />
       <IconButton
         size={size}
@@ -83,7 +83,7 @@ const SimulatorActionBar = ({
         onClick={device.reset}
         icon={<RiRefreshLine />}
         aria-label={intl.formatMessage({ id: "simulator-reset" })}
-        disabled={simState === SimState.STOPPED}
+        disabled={running === RunningStatus.STOPPED}
       />
       <IconButton
         size={size}

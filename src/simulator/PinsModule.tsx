@@ -9,21 +9,21 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
 import { Sensor } from "./model";
 import SensorInput from "./SensorInput";
-import { SimState } from "./Simulator";
+import { RunningStatus } from "./Simulator";
 
 export interface PinsModuleProps {
   icon: ReactNode;
-  sensors: Record<string, Sensor>;
+  state: Record<string, Sensor>;
   onSensorChange: (id: string, value: any) => void;
-  simState: SimState;
+  running: RunningStatus;
   minimised: boolean;
 }
 
 const PinsModule = ({
   icon,
-  sensors,
+  state: sensors,
   onSensorChange,
-  simState,
+  running: simState,
   minimised,
 }: PinsModuleProps) => {
   const brand = useDeployment();
@@ -49,27 +49,27 @@ const PinsModule = ({
         type="pin"
         sensorId="pin0"
         label="0"
-        sensors={sensors}
-        onSensorChange={onSensorChange}
-        simState={simState}
+        state={sensors}
+        onValueChange={onSensorChange}
+        running={simState}
         minimised={minimised}
       />
       <SensorInput
         type="pin"
         sensorId="pin1"
         label="1"
-        sensors={sensors}
-        onSensorChange={onSensorChange}
-        simState={simState}
+        state={sensors}
+        onValueChange={onSensorChange}
+        running={simState}
         minimised={minimised}
       />
       <SensorInput
         type="pin"
         sensorId="pin2"
         label="2"
-        sensors={sensors}
-        onSensorChange={onSensorChange}
-        simState={simState}
+        state={sensors}
+        onValueChange={onSensorChange}
+        running={simState}
         minimised={minimised}
       />
       <SensorInput
@@ -77,9 +77,9 @@ const PinsModule = ({
         sensorId="pinLogo"
         label={touchLogoLabel}
         logo={brand.squareLogo}
-        sensors={sensors}
-        onSensorChange={onSensorChange}
-        simState={simState}
+        state={sensors}
+        onValueChange={onSensorChange}
+        running={simState}
         minimised={minimised}
       />
     </HStack>

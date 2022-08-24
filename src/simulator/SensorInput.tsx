@@ -6,17 +6,21 @@
 import { Box, Button, Switch, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
-import { RangeSensor as RangeSensorType, Sensor } from "./model";
-import { SimState } from "./Simulator";
+import {
+  SimulatorState,
+  RangeSensor as RangeSensorType,
+  Sensor,
+} from "../device/simulator";
+import { RunningStatus } from "./Simulator";
 
 interface SensorInputProps {
   type: "button" | "pin";
   label: string;
   logo?: ReactNode;
   sensorId: string;
-  sensors: Record<string, Sensor>;
-  onSensorChange: (id: string, value: any) => void;
-  simState: SimState;
+  state: SimulatorState;
+  onValueChange: (id: string, value: any) => void;
+  running: RunningStatus;
   minimised: boolean;
 }
 
@@ -25,27 +29,27 @@ const SensorInput = ({
   label,
   logo,
   sensorId,
-  sensors,
-  onSensorChange,
-  simState,
+  state,
+  onValueChange,
+  running: running,
   minimised,
 }: SensorInputProps) => {
-  const sensor = sensors[sensorId] as RangeSensorType;
+  const sensor = state[sensorId] as RangeSensorType;
   const intl = useIntl();
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const handleSensorChange = useCallback(
     (value: number) => {
       // In this case isHeld is true, so the value should be reversed.
       if (sensor.value === value) {
-        onSensorChange(
+        onValueChange(
           sensor.id,
           value === sensor.min ? sensor.max : sensor.min
         );
       } else {
-        onSensorChange(sensor.id, value);
+        onValueChange(sensor.id, value);
       }
     },
-    [onSensorChange, sensor]
+    [onValueChange, sensor]
   );
   const keyListener = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     switch (event.key) {
@@ -100,7 +104,7 @@ const SensorInput = ({
     setPrevSensorValue(sensor.value);
   }
 
-  const disabled = simState === SimState.STOPPED;
+  const disabled = running === RunningStatus.STOPPED;
 
   return (
     <VStack spacing={3}>

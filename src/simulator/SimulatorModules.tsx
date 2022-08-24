@@ -11,9 +11,12 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useSimulator } from "../device/device-hooks";
-import { EVENT_SENSORS } from "../device/simulator";
+import {
+  EVENT_STATE_CHANGE,
+  RangeSensor as RangeSensorType,
+  SimulatorState,
+} from "../device/simulator";
 import AccelerometerModule from "./AccelerometerModule";
-import { RangeSensor as RangeSensorType, Sensor } from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
@@ -26,7 +29,7 @@ import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonModule";
-import { SimState } from "./Simulator";
+import { RunningStatus } from "./Simulator";
 import PinsModule from "./PinsModule";
 
 const modules: string[] = [
@@ -75,32 +78,26 @@ const spacing = 5;
 const minimisedSpacing = 3;
 
 interface SimulatorModulesProps extends BoxProps {
-  simState: SimState;
+  running: RunningStatus;
 }
 
-const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
+const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   const device = useSimulator();
-  const [sensors, setSensors] = useState<Record<string, Sensor>>(
-    device.sensors
-  );
+  const [state, setState] = useState<SimulatorState | undefined>(device.state);
   const intl = useIntl();
   useEffect(() => {
-    device.on(EVENT_SENSORS, setSensors);
+    device.on(EVENT_STATE_CHANGE, setState);
     return () => {
-      device.removeListener(EVENT_SENSORS, setSensors);
+      device.removeListener(EVENT_STATE_CHANGE, setState);
     };
   }, [device]);
   const handleSensorChange = useCallback(
     (id: string, value: number) => {
-      setSensors({
-        ...sensors,
-        [id]: { ...(sensors[id] as any), value },
-      });
-      device.sensorWrite(id, value);
+      device.setSimulatorValue(id, value);
     },
-    [device, sensors]
+    [device]
   );
-  if (Object.values(sensors).length === 0) {
+  if (!state) {
     // Waiting for info from sim.
     return null;
   }
@@ -119,9 +116,9 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
           index={index}
           id={id}
           title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
-          sensors={sensors}
-          onSensorChange={handleSensorChange}
-          simState={simState}
+          state={state}
+          onValueChange={handleSensorChange}
+          running={running}
         />
       ))}
     </Flex>
@@ -131,9 +128,9 @@ const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
 interface SensorProps {
   id: string;
   title: string;
-  onSensorChange: (id: string, value: any) => void;
-  sensors: Record<string, Sensor>;
-  simState: SimState;
+  onValueChange: (id: string, value: any) => void;
+  state: SimulatorState;
+  running: RunningStatus;
 }
 
 interface CollapsibleModuleProps extends SensorProps {
@@ -144,9 +141,9 @@ const CollapsibleModule = ({
   index,
   id,
   title,
-  sensors,
-  onSensorChange,
-  simState,
+  state,
+  onValueChange,
+  running,
 }: CollapsibleModuleProps) => {
   const disclosure = useDisclosure();
   const intl = useIntl();
@@ -192,9 +189,9 @@ const CollapsibleModule = ({
             <ModuleForId
               id={id}
               title={title}
-              sensors={sensors}
-              onSensorChange={onSensorChange}
-              simState={simState}
+              state={state}
+              onValueChange={onValueChange}
+              running={running}
               minimised={true}
             />
           </Box>
@@ -220,9 +217,9 @@ const CollapsibleModule = ({
         <ModuleForId
           id={id}
           title={title}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
-          simState={simState}
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
           minimised={false}
         />
       )}
@@ -237,9 +234,9 @@ interface ModuleForIdProps extends SensorProps {
 const ModuleForId = ({
   id,
   title,
-  sensors,
-  onSensorChange,
-  simState,
+  state,
+  onValueChange,
+  running,
   minimised,
 }: ModuleForIdProps) => {
   switch (id) {
@@ -251,8 +248,8 @@ const ModuleForId = ({
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
           title={title}
-          sensor={sensors[id] as RangeSensorType}
-          onSensorChange={onSensorChange}
+          sensor={state[id] as RangeSensorType}
+          onSensorChange={onValueChange}
           minimised={minimised}
         />
       );
@@ -261,9 +258,9 @@ const ModuleForId = ({
         <ButtonsModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
-          simState={simState}
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
           minimised={minimised}
         />
       );
@@ -272,9 +269,9 @@ const ModuleForId = ({
         <PinsModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
-          simState={simState}
+          state={state}
+          onSensorChange={onValueChange}
+          running={running}
           minimised={minimised}
         />
       );
@@ -283,8 +280,8 @@ const ModuleForId = ({
         <AccelerometerModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
+          state={state}
+          onValueChange={onValueChange}
           minimised={minimised}
         />
       );
