@@ -1147,6 +1147,16 @@ export class App {
     await playButton!.click();
   }
 
+  async findStoppedSimulator(): Promise<void> {
+    const document = await this.document();
+    const stopButton = await document.findByRole("button", {
+      name: "Stop",
+    });
+    waitFor(async () => {
+      expect(await isDisabled(stopButton)).toEqual(true);
+    }, defaultWaitForOptions);
+  }
+
   async simulatorSelectGesture(option: string): Promise<void> {
     const document = await this.document();
     const select = await document.findByTestId("simulator-gesture-select");
