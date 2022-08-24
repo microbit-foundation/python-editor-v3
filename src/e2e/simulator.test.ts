@@ -50,7 +50,6 @@ describe("Browser - simulator", () => {
     await app.simulatorConfirmResponse();
   });
   it("stops when the code changes", async () => {
-    // Range sensor change via button.
     await app.selectAllInEditor();
     await app.typeInEditor(basicTest);
     await app.runSimulator();
