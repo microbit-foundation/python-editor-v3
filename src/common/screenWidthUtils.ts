@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { flags } from "../flags";
 
-export const widthToHideSidebar = flags.simulator ? 1376 : 1110;
-export const sidebarToWidthRatio = flags.simulator ? 0.27 : 0.35;
+export const widthToHideSidebar = 1376;
+export const sidebarToWidthRatio = 0.27;
 export const hideSidebarMediaQuery = `(max-width: ${widthToHideSidebar - 1}px)`;
