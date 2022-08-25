@@ -17,7 +17,7 @@ const sliderTest =
   "from microbit import *\nwhile True:\nif temperature() == -5:\ndisplay.show(Image.NO)";
 
 describe("Browser - simulator", () => {
-  const app = new App({ flags: ["simulator"] });
+  const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));
   afterAll(app.dispose.bind(app));
