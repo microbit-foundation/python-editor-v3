@@ -7,14 +7,14 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
-import { SimulatorState } from "../device/simulator";
+import { SensorStateKey, SimulatorState } from "../device/simulator";
 import SensorInput from "./SensorInput";
 import { RunningStatus } from "./Simulator";
 
 export interface PinsModuleProps {
   icon: ReactNode;
   state: SimulatorState;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
   running: RunningStatus;
   minimised: boolean;
 }

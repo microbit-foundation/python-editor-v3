@@ -6,14 +6,14 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
-import { SimulatorState } from "../device/simulator";
+import { SensorStateKey, SimulatorState } from "../device/simulator";
 import SensorInput from "./SensorInput";
 import { RunningStatus } from "./Simulator";
 
 interface ButtonsModuleProps {
   icon: ReactNode;
   state: SimulatorState;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
   running: RunningStatus;
   minimised: boolean;
 }

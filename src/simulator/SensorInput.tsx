@@ -19,7 +19,7 @@ interface SensorInputProps {
   logo?: ReactNode;
   sensorId: SensorStateKey;
   state: SimulatorState;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
   running: RunningStatus;
   minimised: boolean;
 }
@@ -41,15 +41,12 @@ const SensorInput = ({
     (value: number) => {
       // In this case isHeld is true, so the value should be reversed.
       if (sensor.value === value) {
-        onValueChange(
-          sensor.id,
-          value === sensor.min ? sensor.max : sensor.min
-        );
+        onValueChange(sensorId, value === sensor.min ? sensor.max : sensor.min);
       } else {
-        onValueChange(sensor.id, value);
+        onValueChange(sensorId, value);
       }
     },
-    [onValueChange, sensor]
+    [onValueChange, sensor, sensorId]
   );
   const keyListener = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     switch (event.key) {

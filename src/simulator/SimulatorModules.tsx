@@ -14,6 +14,7 @@ import { useSimulator } from "../device/device-hooks";
 import {
   EVENT_STATE_CHANGE,
   RangeSensor as RangeSensorType,
+  SensorStateKey,
   SimulatorState,
 } from "../device/simulator";
 import AccelerometerModule from "./AccelerometerModule";
@@ -92,7 +93,7 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
     };
   }, [device]);
   const handleSensorChange = useCallback(
-    (id: string, value: number) => {
+    (id: SensorStateKey, value: number) => {
       device.setSimulatorValue(id, value);
     },
     [device]
@@ -128,7 +129,7 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
 interface SensorProps {
   id: string;
   title: string;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
   state: SimulatorState;
   running: RunningStatus;
 }
