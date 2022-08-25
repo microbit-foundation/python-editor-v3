@@ -14,7 +14,7 @@ import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 
-export enum SimState {
+export enum RunningStatus {
   RUNNING,
   STOPPED,
 }
@@ -51,7 +51,7 @@ const Simulator = ({
   const contentRect = useResizeObserverContentRect(simControlsRef);
   const simHeight = contentRect?.height ?? 0;
   const [brand500] = useToken("colors", ["brand.500"]);
-  const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
+  const [running, setRunning] = useState<RunningStatus>(RunningStatus.STOPPED);
 
   useEffect(() => {
     if (shown) {
@@ -104,12 +104,12 @@ const Simulator = ({
               as="section"
               aria-label={intl.formatMessage({ id: "simulator-actions" })}
               overflow="hidden"
-              simState={simState}
-              setSimState={setSimState}
+              running={running}
+              onRunningChange={setRunning}
             />
           </Box>
         </VStack>
-        <SimulatorSplitView simHeight={simHeight} simState={simState} />
+        <SimulatorSplitView simHeight={simHeight} simRunning={running} />
       </Flex>
     </DeviceContextProvider>
   );

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import EventEmitter from "events";
-import { Sensor } from "../simulator/model";
 import {
   ConnectionStatus,
   DeviceConnection,
@@ -15,8 +14,83 @@ import {
   FlashDataSource,
 } from "./device";
 
-export const EVENT_SENSORS = "sensors";
+export const EVENT_STATE_CHANGE = "state_change";
 export const EVENT_REQUEST_FLASH = "request_flash";
+
+// It'd be nice to publish these types from the simulator project.
+
+export interface RadioState {
+  type: "radio";
+  enabled: boolean;
+  group: number;
+}
+
+export interface DataLoggingState {
+  type: "dataLogging";
+  logFull: boolean;
+}
+
+export interface RangeSensor {
+  type: "range";
+  id: string;
+  value: number;
+  min: number;
+  max: number;
+  unit: number;
+  lowThreshold?: number;
+  highThreshold?: number;
+}
+
+export interface EnumSensor {
+  type: "enum";
+  id: string;
+  value: string;
+  choices: string[];
+}
+
+export type Sensor = RangeSensor | EnumSensor;
+
+export interface SimulatorState {
+  radio: RadioState;
+
+  dataLogging: DataLoggingState;
+
+  accelerometerX: RangeSensor;
+  accelerometerY: RangeSensor;
+  accelerometerZ: RangeSensor;
+  gesture: EnumSensor;
+
+  pin0: RangeSensor;
+  pin1: RangeSensor;
+  pin2: RangeSensor;
+  pinLogo: RangeSensor;
+
+  temperature: RangeSensor;
+  lightLevel: RangeSensor;
+  soundLevel: RangeSensor;
+
+  buttonA: RangeSensor;
+  buttonB: RangeSensor;
+}
+
+export type SimulatorStateKey = keyof SimulatorState;
+
+export type SensorStateKey = Extract<
+  SimulatorStateKey,
+  | "accelerometerX"
+  | "accelerometerY"
+  | "accelerometerZ"
+  | "gesture"
+  | "pin0"
+  | "pin1"
+  | "pin2"
+  | "pinLogo"
+  | "temperature"
+  | "lightLevel"
+  | "soundLevel"
+  | "buttonA"
+  | "buttonB"
+>;
 
 /**
  * A simulated device.
@@ -28,7 +102,7 @@ export class SimulatorDeviceConnection
   implements DeviceConnection
 {
   status: ConnectionStatus = ConnectionStatus.NO_AUTHORIZED_DEVICE;
-  sensors: Record<string, Sensor> = {};
+  state: SimulatorState | undefined;
 
   private messageListener = (event: MessageEvent) => {
     const iframe = this.iframe();
@@ -39,9 +113,8 @@ export class SimulatorDeviceConnection
 
     switch (event.data.kind) {
       case "ready": {
-        // We get this in response to flash as well as at start-up.
-        this.sensors = sensorsById(event);
-        this.emit(EVENT_SENSORS, this.sensors);
+        this.state = event.data.state;
+        this.emit(EVENT_STATE_CHANGE, this.state);
         if (this.status !== ConnectionStatus.CONNECTED) {
           this.setStatus(ConnectionStatus.CONNECTED);
         }
@@ -51,9 +124,12 @@ export class SimulatorDeviceConnection
         this.emit(EVENT_REQUEST_FLASH);
         break;
       }
-      case "sensor_change": {
-        this.sensors = sensorsById(event);
-        this.emit(EVENT_SENSORS, this.sensors);
+      case "state_change": {
+        this.state = {
+          ...this.state,
+          ...event.data.changes,
+        };
+        this.emit(EVENT_STATE_CHANGE, this.state);
         break;
       }
       case "serial_output": {
@@ -114,9 +190,25 @@ export class SimulatorDeviceConnection
     });
   }
 
-  sensorWrite = async (id: string, value: number): Promise<void> => {
-    this.postMessage("sensor_set", {
-      sensor: id,
+  setSimulatorValue = async (
+    id: SensorStateKey,
+    value: number | string
+  ): Promise<void> => {
+    if (!this.state) {
+      throw new Error("Simulator not ready");
+    }
+    // We don't get notified of our own changes, so update our state and notify.
+    this.state = {
+      ...this.state,
+      [id]: {
+        // Would be good to make this safe.
+        ...(this.state as any)[id],
+        value,
+      },
+    };
+    this.emit(EVENT_STATE_CHANGE, this.state);
+    this.postMessage("set_value", {
+      id,
       value,
     });
   };
@@ -160,10 +252,3 @@ export class SimulatorDeviceConnection
     );
   }
 }
-
-const sensorsById = (event: Event & { data: any }) =>
-  Object.fromEntries(
-    event.data.sensors.map((json: Sensor) => {
-      return [json.id, json];
-    })
-  );
