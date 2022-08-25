@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
-import { RangeSensor as RangeSensorType } from "./model";
+import { RangeSensor as RangeSensorType } from "../device/simulator";
 
 interface RangeSensorProps {
   sensor: RangeSensorType;

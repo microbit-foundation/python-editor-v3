@@ -73,6 +73,25 @@ export interface SimulatorState {
   buttonB: RangeSensor;
 }
 
+export type SimulatorStateKey = keyof SimulatorState;
+
+export type SensorStateKey = Extract<
+  SimulatorStateKey,
+  | "accelerometerX"
+  | "accelerometerY"
+  | "accelerometerZ"
+  | "gesture"
+  | "pin0"
+  | "pin1"
+  | "pin2"
+  | "pinLogo"
+  | "temperature"
+  | "lightLevel"
+  | "soundLevel"
+  | "buttonA"
+  | "buttonB"
+>;
+
 /**
  * A simulated device.
  *
@@ -189,7 +208,7 @@ export class SimulatorDeviceConnection
     };
     this.emit(EVENT_STATE_CHANGE, this.state);
     this.postMessage("set_value", {
-      sensor: id,
+      id,
       value,
     });
   };

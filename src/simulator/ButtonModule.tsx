@@ -20,7 +20,7 @@ interface ButtonsModuleProps {
 
 const ButtonsModule = ({
   icon,
-  state: state,
+  state,
   onValueChange,
   running,
   minimised,

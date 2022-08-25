@@ -28,7 +28,7 @@ interface SimulatorActionBarProps extends BoxProps {
 
 const SimulatorActionBar = ({
   running,
-  onRunningChange: onRunningChange,
+  onRunningChange,
   ...props
 }: SimulatorActionBarProps) => {
   const device = useSimulator();

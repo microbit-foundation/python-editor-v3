@@ -7,22 +7,22 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDeployment } from "../deployment";
-import { Sensor } from "./model";
+import { SimulatorState } from "../device/simulator";
 import SensorInput from "./SensorInput";
 import { RunningStatus } from "./Simulator";
 
 export interface PinsModuleProps {
   icon: ReactNode;
-  state: Record<string, Sensor>;
-  onSensorChange: (id: string, value: any) => void;
+  state: SimulatorState;
+  onValueChange: (id: string, value: any) => void;
   running: RunningStatus;
   minimised: boolean;
 }
 
 const PinsModule = ({
   icon,
-  state: sensors,
-  onSensorChange,
+  state,
+  onValueChange,
   running: simState,
   minimised,
 }: PinsModuleProps) => {
@@ -49,8 +49,8 @@ const PinsModule = ({
         type="pin"
         sensorId="pin0"
         label="0"
-        state={sensors}
-        onValueChange={onSensorChange}
+        state={state}
+        onValueChange={onValueChange}
         running={simState}
         minimised={minimised}
       />
@@ -58,8 +58,8 @@ const PinsModule = ({
         type="pin"
         sensorId="pin1"
         label="1"
-        state={sensors}
-        onValueChange={onSensorChange}
+        state={state}
+        onValueChange={onValueChange}
         running={simState}
         minimised={minimised}
       />
@@ -67,8 +67,8 @@ const PinsModule = ({
         type="pin"
         sensorId="pin2"
         label="2"
-        state={sensors}
-        onValueChange={onSensorChange}
+        state={state}
+        onValueChange={onValueChange}
         running={simState}
         minimised={minimised}
       />
@@ -77,8 +77,8 @@ const PinsModule = ({
         sensorId="pinLogo"
         label={touchLogoLabel}
         logo={brand.squareLogo}
-        state={sensors}
-        onValueChange={onSensorChange}
+        state={state}
+        onValueChange={onValueChange}
         running={simState}
         minimised={minimised}
       />

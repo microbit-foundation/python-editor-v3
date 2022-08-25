@@ -270,7 +270,7 @@ const ModuleForId = ({
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           state={state}
-          onSensorChange={onValueChange}
+          onValueChange={onValueChange}
           running={running}
           minimised={minimised}
         />

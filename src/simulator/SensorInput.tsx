@@ -7,9 +7,9 @@ import { Box, Button, Switch, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
 import {
-  SimulatorState,
   RangeSensor as RangeSensorType,
-  Sensor,
+  SensorStateKey,
+  SimulatorState,
 } from "../device/simulator";
 import { RunningStatus } from "./Simulator";
 
@@ -17,7 +17,7 @@ interface SensorInputProps {
   type: "button" | "pin";
   label: string;
   logo?: ReactNode;
-  sensorId: string;
+  sensorId: SensorStateKey;
   state: SimulatorState;
   onValueChange: (id: string, value: any) => void;
   running: RunningStatus;
@@ -31,7 +31,7 @@ const SensorInput = ({
   sensorId,
   state,
   onValueChange,
-  running: running,
+  running,
   minimised,
 }: SensorInputProps) => {
   const sensor = state[sensorId] as RangeSensorType;
