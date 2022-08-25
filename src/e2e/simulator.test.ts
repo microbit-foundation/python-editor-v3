@@ -5,6 +5,8 @@
  */
 import { App } from "./app";
 
+const basicTest = "from microbit import *\ndisplay.show(Image.NO)";
+
 const buttonTest =
   "from microbit import *\nwhile True:\nif button_a.was_pressed():\ndisplay.show(Image.NO)";
 
@@ -46,5 +48,15 @@ describe("Browser - simulator", () => {
     await app.runSimulator();
     await app.simulatorInputPressHold("Press button A", 500);
     await app.simulatorConfirmResponse();
+  });
+  it("stops when the code changes", async () => {
+    await app.selectAllInEditor();
+    await app.typeInEditor(basicTest);
+    await app.runSimulator();
+    await app.simulatorConfirmResponse();
+
+    await app.typeInEditor("A change!");
+
+    await app.findStoppedSimulator();
   });
 });

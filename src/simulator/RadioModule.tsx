@@ -17,24 +17,21 @@ import {
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { RadioState } from "../device/simulator";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
-import {
-  RadioMessage as RadioMessageType,
-  RadioSensor as RadioSensorType,
-} from "./model";
 
 const messageLimit = 100;
 
 interface RadioModuleProps {
   icon: ReactNode;
-  sensor: RadioSensorType;
+  state: RadioState;
   onSensorChange: (id: string, value: any) => void;
   minimised: boolean;
 }
 
 const RadioModule = ({
   icon,
-  sensor,
+  state,
   onSensorChange,
   minimised,
 }: RadioModuleProps) => {
@@ -70,7 +67,7 @@ const RadioModule = ({
           <Box width="100%">
             <VStack alignItems="flex-start" bg="white" borderRadius="md" p={2}>
               <VStack width="100%" spacing={0} alignItems="flex-start">
-                <Box>Group {sensor.group}</Box>
+                <Box>Group {state.group}</Box>
                 <Divider borderWidth="1px" />
               </VStack>
               <VStack

@@ -12,34 +12,27 @@ import { ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
-  RangeSensorWithThresholds as RangeSensorWithThresholdsType,
-} from "./model";
+  SensorStateKey,
+} from "../device/simulator";
 
 interface RangeSensorProps {
-  sensor: RangeSensorType | RangeSensorWithThresholdsType;
+  id: SensorStateKey;
+  sensor: RangeSensorType;
   title: string;
   icon: ReactNode;
-  onSensorChange: (id: string, value: number) => void;
+  onSensorChange: (id: SensorStateKey, value: number) => void;
   minimised?: boolean;
 }
 
 const RangeSensor = ({
+  id,
   icon,
   sensor,
   title,
   onSensorChange,
   minimised = false,
 }: RangeSensorProps) => {
-  let lowThreshold;
-  let highThreshold;
-  if (
-    sensor.hasOwnProperty("lowThreshold") &&
-    sensor.hasOwnProperty("highThreshold")
-  ) {
-    lowThreshold = (sensor as RangeSensorWithThresholdsType).lowThreshold;
-    highThreshold = (sensor as RangeSensorWithThresholdsType).highThreshold;
-  }
-  const { id, min, max, value, unit } = sensor;
+  const { min, max, value, unit, lowThreshold, highThreshold } = sensor;
   const handleChange = useCallback(
     (value: number) => {
       onSensorChange(id, value);

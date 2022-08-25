@@ -2,29 +2,48 @@ import { HStack, IconButton, Select, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { RangeSensor as RangeSensorType, Sensor } from "./model";
+import {
+  RangeSensor as RangeSensorType,
+  SensorStateKey,
+  SimulatorState,
+} from "../device/simulator";
 import RangeSensor from "./RangeSensor";
 
 interface AccelerometerModuleProps {
   icon: ReactNode;
-  sensors: Record<string, Sensor>;
-  onSensorChange: (id: string, value: any) => void;
+  state: SimulatorState;
+  onValueChange: (id: SensorStateKey, value: any) => void;
   minimised: boolean;
 }
 
 const AccelerometerModule = ({
   icon,
-  sensors,
-  onSensorChange,
+  state,
+  onValueChange,
   minimised,
 }: AccelerometerModuleProps) => (
   <Stack spacing={5}>
-    <Gesture icon={icon} sensors={sensors} onSensorChange={onSensorChange} />
+    <Gesture icon={icon} state={state} onValueChange={onValueChange} />
     {!minimised && (
       <>
-        <Axis axis="x" sensors={sensors} onSensorChange={onSensorChange} />
-        <Axis axis="y" sensors={sensors} onSensorChange={onSensorChange} />
-        <Axis axis="z" sensors={sensors} onSensorChange={onSensorChange} />
+        <Axis
+          axis="accelerometerX"
+          label="x"
+          state={state}
+          onValueChange={onValueChange}
+        />
+        <Axis
+          axis="accelerometerY"
+          label="y"
+          state={state}
+          onValueChange={onValueChange}
+        />
+        <Axis
+          axis="accelerometerZ"
+          label="z"
+          state={state}
+          onValueChange={onValueChange}
+        />
       </>
     )}
   </Stack>
@@ -32,16 +51,17 @@ const AccelerometerModule = ({
 
 interface GestureProps {
   icon: ReactNode;
-  sensors: Record<string, Sensor>;
-  onSensorChange: (id: string, value: any) => void;
+  state: SimulatorState;
+  onValueChange: (id: SensorStateKey, value: any) => void;
 }
 
-const Gesture = ({ icon, sensors, onSensorChange }: GestureProps) => {
-  const sensor = sensors["gesture"];
+const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
+  const sensor = state.gesture;
   if (sensor.type !== "enum") {
     throw new Error("Unexpected sensor type");
   }
-  const choices = sensor.choices;
+  // We omit "none" as we flip from "none" to the choice and back to "none".
+  const choices = sensor.choices.filter((x) => x !== "none");
   const [choice, setChoice] = useState("shake");
   const [active, setActive] = useState(false);
   const intl = useIntl();
@@ -54,12 +74,12 @@ const Gesture = ({ icon, sensors, onSensorChange }: GestureProps) => {
   );
   const handleClick = useCallback(() => {
     setActive(true);
-    onSensorChange(sensor.id, choice);
+    onValueChange("gesture", choice);
     setTimeout(() => {
       setActive(false);
-      onSensorChange(sensor.id, "none");
+      onValueChange("gesture", "none");
     }, 500);
-  }, [setActive, onSensorChange, choice, sensor.id]);
+  }, [setActive, onValueChange, choice]);
 
   return (
     <HStack spacing={3}>
@@ -89,20 +109,27 @@ const Gesture = ({ icon, sensors, onSensorChange }: GestureProps) => {
 };
 
 interface AxisProps {
-  axis: string;
-  sensors: Record<string, Sensor>;
-  onSensorChange: (id: string, value: any) => void;
+  axis: SensorStateKey;
+  label: string;
+  state: SimulatorState;
+  onValueChange: (id: SensorStateKey, value: any) => void;
 }
 
-const Axis = ({ axis, sensors, onSensorChange }: AxisProps) => (
+const Axis = ({
+  axis,
+  label,
+  state,
+  onValueChange: onSensorChange,
+}: AxisProps) => (
   <RangeSensor
-    title={axis}
+    id={axis}
+    title={label}
     icon={
       <Text boxSize={6} textAlign="center">
-        {axis}
+        {label}
       </Text>
     }
-    sensor={sensors["accelerometer" + axis.toUpperCase()] as RangeSensorType}
+    sensor={state[axis] as RangeSensorType}
     onSensorChange={onSensorChange}
   />
 );
