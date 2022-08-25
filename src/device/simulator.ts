@@ -191,7 +191,7 @@ export class SimulatorDeviceConnection
   }
 
   setSimulatorValue = async (
-    id: string,
+    id: SensorStateKey,
     value: number | string
   ): Promise<void> => {
     if (!this.state) {

@@ -245,6 +245,7 @@ const ModuleForId = ({
     case "soundLevel":
       return (
         <RangeSensor
+          id={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
           title={title}

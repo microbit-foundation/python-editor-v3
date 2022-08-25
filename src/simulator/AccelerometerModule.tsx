@@ -12,7 +12,7 @@ import RangeSensor from "./RangeSensor";
 interface AccelerometerModuleProps {
   icon: ReactNode;
   state: SimulatorState;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
   minimised: boolean;
 }
 
@@ -52,7 +52,7 @@ const AccelerometerModule = ({
 interface GestureProps {
   icon: ReactNode;
   state: SimulatorState;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
 }
 
 const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
@@ -74,12 +74,12 @@ const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
   );
   const handleClick = useCallback(() => {
     setActive(true);
-    onValueChange(sensor.id, choice);
+    onValueChange("gesture", choice);
     setTimeout(() => {
       setActive(false);
-      onValueChange(sensor.id, "none");
+      onValueChange("gesture", "none");
     }, 500);
-  }, [setActive, onValueChange, choice, sensor.id]);
+  }, [setActive, onValueChange, choice]);
 
   return (
     <HStack spacing={3}>
@@ -112,7 +112,7 @@ interface AxisProps {
   axis: SensorStateKey;
   label: string;
   state: SimulatorState;
-  onValueChange: (id: string, value: any) => void;
+  onValueChange: (id: SensorStateKey, value: any) => void;
 }
 
 const Axis = ({
@@ -122,6 +122,7 @@ const Axis = ({
   onValueChange: onSensorChange,
 }: AxisProps) => (
   <RangeSensor
+    id={axis}
     title={label}
     icon={
       <Text boxSize={6} textAlign="center">
