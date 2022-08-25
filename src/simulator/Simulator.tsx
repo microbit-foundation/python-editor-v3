@@ -90,7 +90,7 @@ const Simulator = ({
                 ref={ref}
                 as="iframe"
                 // This needs changing before we remove the flag.
-                src={`https://review-python-simulator.microbit.org/api-change/simulator.html?color=${encodeURIComponent(
+                src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
                   brand500
                 )}`}
                 title={simulatorTitle}
