@@ -17,27 +17,43 @@ import {
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { RadioState } from "../device/simulator";
+import { useSimulator } from "../device/device-hooks";
+import { EVENT_RADIO_DATA, RadioState } from "../device/simulator";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
+
+interface AttributedMessage {
+  from: "user" | "code";
+  message: string;
+}
 
 const messageLimit = 100;
 
 interface RadioModuleProps {
   icon: ReactNode;
   state: RadioState;
-  onSensorChange: (id: string, value: any) => void;
   minimised: boolean;
 }
 
-const RadioModule = ({
-  icon,
-  state,
-  onSensorChange,
-  minimised,
-}: RadioModuleProps) => {
-  const filteredRadioMessages = sensor.value.filter(
-    (v) => v.group === sensor.group
+const RadioModule = ({ icon, state, minimised }: RadioModuleProps) => {
+  const [messages, setMessages] = useState<AttributedMessage[]>([]);
+  const device = useSimulator();
+  useEffect(() => {
+    const handleReceive = (message: string) => {
+      setMessages([...messages, { from: "code", message }]);
+    };
+    device.on(EVENT_RADIO_DATA, handleReceive);
+    return () => {
+      device.removeListener(EVENT_RADIO_DATA, handleReceive);
+    };
+  }, [device, messages]);
+  const handleSend = useCallback(
+    (message: string) => {
+      setMessages([...messages, { from: "user", message }]);
+      device.radioSend(message);
+    },
+    [device, messages]
   );
+
   const [scrollToBottom, setScrollToBottom] = useState<boolean>(true);
   const ref = useRef<HTMLDivElement>(null);
   const handleScroll = useCallback(() => {
@@ -54,13 +70,13 @@ const RadioModule = ({
     if (scrollToBottom) {
       ref.current?.scrollTo({ top: ref.current?.scrollHeight });
     }
-  }, [scrollToBottom, sensor]);
+  }, [scrollToBottom]);
   return (
     <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
       {minimised ? (
         <>
           {icon}
-          <RadioInput sensor={sensor} onSensorChange={onSensorChange} />
+          <MessageComposer enabled={state.enabled} onSend={handleSend} />
         </>
       ) : (
         <VStack spacing={3} width="100%" alignItems="flex-start">
@@ -78,15 +94,15 @@ const RadioModule = ({
                 overflowY="auto"
                 ref={ref}
               >
-                {filteredRadioMessages.length > messageLimit && (
+                {messages.length > messageLimit && (
                   <Text color="gray.700" opacity="80%">
                     <FormattedMessage id="simulator-radio-message-limit" />
                   </Text>
                 )}
-                {filteredRadioMessages.slice(messageLimit * -1).map((v, i) => (
-                  <RadioMessage key={i} message={v.message} source={v.source} />
+                {messages.slice(messageLimit * -1).map((v, i) => (
+                  <RadioMessage key={i} message={v.message} from={v.from} />
                 ))}
-                {!filteredRadioMessages.length && (
+                {!messages.length && (
                   <VStack flex="1 1 auto" justifyContent="center">
                     <Text color="gray.700" opacity="80%">
                       <FormattedMessage id="simulator-radio-no-messages" />
@@ -96,7 +112,7 @@ const RadioModule = ({
               </VStack>
             </VStack>
           </Box>
-          <RadioInput sensor={sensor} onSensorChange={onSensorChange} />
+          <MessageComposer enabled={state.enabled} onSend={handleSend} />
         </VStack>
       )}
     </HStack>
@@ -108,18 +124,18 @@ const RadioMessageIcon = ({ color }: { color: string }) => (
 );
 
 const RadioMessage = ({
-  source,
+  from,
   message,
 }: {
-  source: "code" | "user";
+  from: "code" | "user";
   message: string;
 }) => {
-  const color = source === "code" ? "blimpTeal.300" : "brand.200";
+  const color = from === "code" ? "blimpTeal.300" : "brand.200";
   return (
     <Flex
       gap="10px"
-      flexDirection={source === "code" ? "row" : "row-reverse"}
-      alignSelf={source === "code" ? "flex-start" : "flex-end"}
+      flexDirection={from === "code" ? "row" : "row-reverse"}
+      alignSelf={from === "code" ? "flex-start" : "flex-end"}
     >
       <RadioMessageIcon color={color} />
       <Box bg={color} p={2} borderRadius="md" wordBreak="break-word">
@@ -129,68 +145,40 @@ const RadioMessage = ({
   );
 };
 
-interface RadioInputProps {
-  sensor: RadioSensorType;
-  onSensorChange: (id: string, value: any) => void;
+interface MessageComposerProps {
+  enabled: boolean;
+  onSend: (message: string) => void;
 }
 
-const RadioInput = ({ sensor, onSensorChange }: RadioInputProps) => {
+const MessageComposer = ({ enabled, onSend }: MessageComposerProps) => {
   const intl = useIntl();
   const [message, setMessage] = useState<string>("");
-  const handleSubmit = useCallback(
+  const handleSendMessage = useCallback(
     (e) => {
       e.preventDefault();
-      const radioMessages = [...sensor.value];
-      const cappedRadioMessages = capRadioMessages(radioMessages);
-      cappedRadioMessages.push({
-        message,
-        group: sensor.group,
-        source: "user",
-      });
-      onSensorChange(sensor.id, cappedRadioMessages);
+      onSend(message);
       setMessage("");
     },
-    [message, onSensorChange, sensor]
+    [message, onSend]
   );
   return (
-    <HStack as="form" onSubmit={handleSubmit} spacing={3}>
+    <HStack as="form" onSubmit={handleSendMessage} spacing={3}>
       <Input
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        disabled={!sensor.enabled}
+        disabled={!enabled}
         bg="white"
       ></Input>
       <IconButton
         icon={<RiSendPlane2Line />}
         colorScheme="blackAlpha"
-        disabled={!sensor.enabled}
-        onClick={handleSubmit}
+        disabled={!enabled}
+        onClick={handleSendMessage}
         aria-label={intl.formatMessage({ id: "simulator-radio-send" })}
       ></IconButton>
     </HStack>
   );
-};
-
-const capRadioMessages = (
-  radioMessages: RadioMessageType[]
-): RadioMessageType[] => {
-  const cappedRadioMessages: RadioMessageType[] = [];
-  const uniqueGroups = new Set(radioMessages.map((m) => m.group));
-  const radioMessagesByGroup: Record<string, RadioMessageType[]> = {};
-  uniqueGroups.forEach((group) => {
-    radioMessagesByGroup[group] = radioMessages.filter(
-      (m) => m.group === group
-    );
-  });
-  for (const group in radioMessagesByGroup) {
-    const messages = radioMessagesByGroup[group];
-    while (messages.length > messageLimit + 1) {
-      messages.shift();
-    }
-    cappedRadioMessages.push(...messages);
-  }
-  return cappedRadioMessages;
 };
 
 export default RadioModule;
