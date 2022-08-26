@@ -129,7 +129,7 @@ export class SimulatorDeviceConnection
       case "state_change": {
         this.state = {
           ...this.state,
-          ...event.data.changes,
+          ...event.data.change,
         };
         this.emit(EVENT_STATE_CHANGE, this.state);
         break;
