@@ -182,7 +182,7 @@ const CollapsibleModule = ({
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
       borderColor="grey.200"
       pb={disclosure.isOpen ? spacing : minimisedSpacing}
-      mt={index === 0 ? 0 : disclosure.isOpen ? spacing : minimisedSpacing}
+      mt={index === 0 ? 0 : minimisedSpacing}
       spacing={disclosure.isOpen ? spacing : minimisedSpacing}
     >
       <HStack justifyContent="space-between">
