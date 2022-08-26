@@ -10,6 +10,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
+import { IconType } from "react-icons";
+import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
+import { useIntl } from "react-intl";
+import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import { useSimulator } from "../device/device-hooks";
 import {
   EVENT_STATE_CHANGE,
@@ -17,21 +21,20 @@ import {
   SensorStateKey,
   SimulatorState,
 } from "../device/simulator";
+import { flags } from "../flags";
+import { useRouterState } from "../router-hooks";
 import AccelerometerModule from "./AccelerometerModule";
-import RangeSensor from "./RangeSensor";
-
-import { IconType } from "react-icons";
-import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
+import ButtonsModule from "./ButtonModule";
 import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
 import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
 import { ReactComponent as PinsIcon } from "./icons/pins.svg";
-import { useIntl } from "react-intl";
-import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
-import { useRouterState } from "../router-hooks";
-import ButtonsModule from "./ButtonModule";
-import { RunningStatus } from "./Simulator";
+import { ReactComponent as RadioIcon } from "./icons/radio.svg";
 import PinsModule from "./PinsModule";
+import RadioModule from "./RadioModule";
+import RangeSensor from "./RangeSensor";
+
+import { RunningStatus } from "./Simulator";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -42,6 +45,9 @@ const modules: string[] = [
   "buttons",
   "pins",
 ];
+if (flags.simRadio) {
+  modules.push("radio");
+}
 
 const titles: Record<string, string> = {
   // Sensor id mapped to translatable UI string ids. Sorted.
@@ -51,6 +57,7 @@ const titles: Record<string, string> = {
   pins: "pins",
   soundLevel: "sound-level",
   temperature: "temperature",
+  radio: "radio",
 };
 
 const references: Record<string, string> = {
@@ -61,6 +68,7 @@ const references: Record<string, string> = {
   pins: "pins",
   soundLevel: "microphone",
   temperature: "temperature",
+  radio: "radio",
 };
 
 export const icons: Record<
@@ -73,6 +81,7 @@ export const icons: Record<
   soundLevel: MicrophoneIcon,
   buttons: ButtonPressIcon,
   pins: PinsIcon,
+  radio: RadioIcon,
 };
 
 const spacing = 5;
@@ -284,6 +293,15 @@ const ModuleForId = ({
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           state={state}
           onValueChange={onValueChange}
+          minimised={minimised}
+        />
+      );
+    case "radio":
+      return (
+        <RadioModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          state={state.radio}
           minimised={minimised}
         />
       );

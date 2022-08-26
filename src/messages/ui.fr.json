@@ -1911,6 +1911,30 @@
       "value": "Quiet"
     }
   ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "Radio"
+    }
+  ],
+  "simulator-radio-message-limit": [
+    {
+      "type": 0,
+      "value": "Older messages not shown"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "No messages to show"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "Send message"
+    }
+  ],
   "simulator-reference-link": [
     {
       "type": 0,

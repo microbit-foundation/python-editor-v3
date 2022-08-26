@@ -14,6 +14,8 @@ import {
   FlashDataSource,
 } from "./device";
 
+// Simulator-only events.
+export const EVENT_RADIO_DATA = "radio_data";
 export const EVENT_STATE_CHANGE = "state_change";
 export const EVENT_REQUEST_FLASH = "request_flash";
 
@@ -127,9 +129,23 @@ export class SimulatorDeviceConnection
       case "state_change": {
         this.state = {
           ...this.state,
-          ...event.data.changes,
+          ...event.data.change,
         };
         this.emit(EVENT_STATE_CHANGE, this.state);
+        break;
+      }
+      case "radio_output": {
+        // So this is a Uint8Array that may be prefixed with 0, 1, 0 bytes to indicate that it's a "string".
+        // Either way we only display strings for now so convert at this layer.
+        // If it's really binary data then TextEncoder will put replacement characters in and we'll live with that for now.
+        const message = event.data.data;
+        const text = new TextDecoder()
+          .decode(message)
+          // eslint-disable-next-line no-control-regex
+          .replace(/^\x01\x01\x00/, "");
+        if (message instanceof Uint8Array) {
+          this.emit(EVENT_RADIO_DATA, text);
+        }
         break;
       }
       case "serial_output": {
@@ -188,6 +204,14 @@ export class SimulatorDeviceConnection
     this.postMessage("serial_input", {
       data,
     });
+  }
+
+  radioSend(message: string) {
+    const data = new TextEncoder().encode(message);
+    const prefixed = new Uint8Array(3 + data.length);
+    prefixed.set([1, 0, 1]);
+    prefixed.set(data, 3);
+    this.postMessage("radio_input", { data: prefixed });
   }
 
   setSimulatorValue = async (
