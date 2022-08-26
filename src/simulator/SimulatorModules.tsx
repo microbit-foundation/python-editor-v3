@@ -9,11 +9,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { IconType } from "react-icons";
 import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import useRafState from "../common/use-raf-state";
 import { useSimulator } from "../device/device-hooks";
 import {
   EVENT_STATE_CHANGE,
@@ -94,7 +95,9 @@ interface SimulatorModulesProps extends BoxProps {
 
 const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   const device = useSimulator();
-  const [state, setState] = useState<SimulatorState | undefined>(device.state);
+  const [state, setState] = useRafState<SimulatorState | undefined>(
+    device.state
+  );
   const intl = useIntl();
   useEffect(() => {
     device.on(EVENT_STATE_CHANGE, setState);
