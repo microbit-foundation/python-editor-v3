@@ -167,6 +167,16 @@ const CollapsibleModule = ({
       "documentation-from-simulator"
     );
   }, [id, setRouterState]);
+  const module = (
+    <ModuleForId
+      id={id}
+      title={title}
+      state={state}
+      onValueChange={onValueChange}
+      running={running}
+      minimised={!disclosure.isOpen}
+    />
+  );
   return (
     <Stack
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
@@ -194,18 +204,7 @@ const CollapsibleModule = ({
             />
           </HStack>
         )}
-        {!disclosure.isOpen && (
-          <Box w="100%">
-            <ModuleForId
-              id={id}
-              title={title}
-              state={state}
-              onValueChange={onValueChange}
-              running={running}
-              minimised={true}
-            />
-          </Box>
-        )}
+        {!disclosure.isOpen && <Box w="100%">{module}</Box>}
         <IconButton
           icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
           aria-label={
@@ -223,16 +222,7 @@ const CollapsibleModule = ({
           onClick={disclosure.onToggle}
         />
       </HStack>
-      {disclosure.isOpen && (
-        <ModuleForId
-          id={id}
-          title={title}
-          state={state}
-          onValueChange={onValueChange}
-          running={running}
-          minimised={false}
-        />
-      )}
+      {disclosure.isOpen && module}
     </Stack>
   );
 };
