@@ -75,7 +75,7 @@ const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
       );
     };
     const handleReset = () => {
-      setItems([]);
+      setItems([{ type: "groupChange", group, id: idSeq++ }]);
     };
     device.on(EVENT_RADIO_DATA, handleReceive);
     device.on(EVENT_RADIO_RESET, handleReset);
@@ -118,7 +118,11 @@ const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
       {minimised ? (
         <>
           {icon}
-          <MessageComposer enabled={enabled} onSend={handleSend} />
+          <MessageComposer
+            enabled={enabled}
+            onSend={handleSend}
+            minimised={minimised}
+          />
         </>
       ) : (
         <Stack spacing={3} width="100%" bg="white" borderRadius="md" p={1}>
@@ -139,6 +143,7 @@ const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
             <MessageComposer
               enabled={enabled}
               onSend={handleSend}
+              minimised={minimised}
               width="100%"
             />
           </Stack>
@@ -151,7 +156,7 @@ const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
 const ChatItem = ({ item }: { item: RadioChatItem }) => {
   switch (item.type) {
     case "groupChange":
-      return <ChatNotice>In radio group {item.group}</ChatNotice>;
+      return <ChatNotice>Radio group set to {item.group}</ChatNotice>;
     case "truncationNotice":
       return (
         <ChatNotice>
@@ -199,12 +204,14 @@ const ChatMessage = ({
 
 interface MessageComposerProps extends BoxProps {
   enabled: boolean;
+  minimised: boolean;
   onSend: (message: string) => void;
 }
 
 const MessageComposer = ({
   enabled,
   onSend,
+  minimised,
   ...props
 }: MessageComposerProps) => {
   const intl = useIntl();
@@ -227,9 +234,9 @@ const MessageComposer = ({
     >
       <Input
         minW={0}
-        borderRadius="2xl"
-        border="none"
-        bgColor="gray.25"
+        borderRadius={minimised ? undefined : "2xl"}
+        border={minimised ? undefined : "none"}
+        bgColor={minimised ? undefined : "gray.25"}
         aria-label="Radio message to send"
         type="text"
         placeholder="Send a message"
