@@ -114,7 +114,7 @@ const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
     }
   }, [scrollToBottom, items]);
   return (
-    <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
+    <HStack pb={minimised ? 0 : 2} pt={0} spacing={3}>
       {minimised ? (
         <>
           {icon}
