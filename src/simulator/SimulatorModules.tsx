@@ -31,6 +31,7 @@ import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
 import { ReactComponent as PinsIcon } from "./icons/pins.svg";
 import { ReactComponent as RadioIcon } from "./icons/radio.svg";
 import PinsModule from "./PinsModule";
+import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
 import RangeSensor from "./RangeSensor";
 
@@ -112,26 +113,28 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
     return null;
   }
   return (
-    <Flex
-      {...props}
-      flexDirection="column"
-      height="100%"
-      width="100%"
-      py={spacing}
-      px={3}
-    >
-      {modules.map((id, index) => (
-        <CollapsibleModule
-          key={id}
-          index={index}
-          id={id}
-          title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
-          state={state}
-          onValueChange={handleSensorChange}
-          running={running}
-        />
-      ))}
-    </Flex>
+    <RadioChatProvider group={state.radio.group} enabled={state.radio.enabled}>
+      <Flex
+        {...props}
+        flexDirection="column"
+        height="100%"
+        width="100%"
+        py={spacing}
+        px={3}
+      >
+        {modules.map((id, index) => (
+          <CollapsibleModule
+            key={id}
+            index={index}
+            id={id}
+            title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
+            state={state}
+            onValueChange={handleSensorChange}
+            running={running}
+          />
+        ))}
+      </Flex>
+    </RadioChatProvider>
   );
 };
 

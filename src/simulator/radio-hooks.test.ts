@@ -1,4 +1,4 @@
-import { cappedMessages, RadioChatItem } from "./RadioModule";
+import { cappedMessages, RadioChatItem } from "./radio-hooks";
 
 describe("cappedItems", () => {
   const m1: RadioChatItem = {

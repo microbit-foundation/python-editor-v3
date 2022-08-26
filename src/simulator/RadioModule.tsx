@@ -13,38 +13,13 @@ import {
   Input,
   Stack,
   Text,
-  usePrevious,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useSimulator } from "../device/device-hooks";
-import { EVENT_RADIO_DATA, EVENT_RADIO_RESET } from "../device/simulator";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
-
-export interface RadioMessage {
-  type: "message";
-  id: number | string;
-  from: "user" | "code";
-  message: string;
-}
-
-export interface RadioGroupChange {
-  type: "groupChange";
-  id: number | string;
-  group: number;
-}
-
-export interface TruncationNotice {
-  type: "truncationNotice";
-  id: "truncationNotice";
-}
-
-export type RadioChatItem = RadioGroupChange | RadioMessage | TruncationNotice;
-
-const messageLimit = 100;
-let idSeq = 0;
+import { RadioChatItem, useRadioChatItems } from "./radio-hooks";
 
 interface RadioModuleProps {
   icon: ReactNode;
@@ -53,49 +28,8 @@ interface RadioModuleProps {
   minimised: boolean;
 }
 
-const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
-  const [items, setItems] = useState<RadioChatItem[]>([]);
-  const device = useSimulator();
-  const prevGroup = usePrevious(group);
-  useEffect(() => {
-    if (group !== prevGroup) {
-      setItems((items) =>
-        cappedMessages([...items, { type: "groupChange", group, id: idSeq++ }])
-      );
-    }
-  }, [group, prevGroup]);
-
-  useEffect(() => {
-    const handleReceive = (message: string) => {
-      setItems((items) =>
-        cappedMessages([
-          ...items,
-          { type: "message", from: "code", message, id: idSeq++ },
-        ])
-      );
-    };
-    const handleReset = () => {
-      setItems([{ type: "groupChange", group, id: idSeq++ }]);
-    };
-    device.on(EVENT_RADIO_DATA, handleReceive);
-    device.on(EVENT_RADIO_RESET, handleReset);
-    return () => {
-      device.removeListener(EVENT_RADIO_RESET, handleReset);
-      device.removeListener(EVENT_RADIO_DATA, handleReceive);
-    };
-  }, [device, group]);
-  const handleSend = useCallback(
-    (message: string) => {
-      setItems((items) =>
-        cappedMessages([
-          ...items,
-          { type: "message", from: "user", message, id: idSeq++ },
-        ])
-      );
-      device.radioSend(message);
-    },
-    [device]
-  );
+const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
+  const [items, handleSend] = useRadioChatItems();
 
   const [scrollToBottom, setScrollToBottom] = useState<boolean>(true);
   const ref = useRef<HTMLDivElement>(null);
@@ -125,7 +59,7 @@ const RadioModule = ({ icon, enabled, group, minimised }: RadioModuleProps) => {
           />
         </>
       ) : (
-        <Stack spacing={3} width="100%" bg="white" borderRadius="md" p={1}>
+        <Stack spacing={3} bg="white" borderRadius="md" p={1}>
           <Stack spacing={1} p={1}>
             <VStack
               p={1}
@@ -239,7 +173,7 @@ const MessageComposer = ({
         bgColor={minimised ? "white" : "gray.25"}
         aria-label="Radio message to send"
         type="text"
-        placeholder="Send a message"
+        placeholder="Radio message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         disabled={!enabled}
@@ -253,51 +187,6 @@ const MessageComposer = ({
       ></IconButton>
     </HStack>
   );
-};
-
-// Exposed for testing
-export const cappedMessages = (
-  items: RadioChatItem[],
-  limit: number = messageLimit
-): RadioChatItem[] => {
-  // Find the first message that we keep.
-  let firstKeptMessageIndex = 0;
-  let count = 0;
-  for (let i = items.length - 1; i >= 0; --i) {
-    if (items[i].type === "message") {
-      count++;
-      firstKeptMessageIndex = i;
-      if (count === limit) {
-        break;
-      }
-    }
-  }
-  const result: RadioChatItem[] = [];
-  let truncated: boolean = false;
-  items.forEach((item, index) => {
-    switch (item.type) {
-      case "message": {
-        if (index === firstKeptMessageIndex && truncated) {
-          result.push({ type: "truncationNotice", id: "truncationNotice" });
-        }
-        if (index >= firstKeptMessageIndex) {
-          result.push(item);
-        } else {
-          truncated = true;
-        }
-        break;
-      }
-      case "truncationNotice": {
-        // Skip it, we'll add a new one if required.
-        break;
-      }
-      default: {
-        result.push(item);
-        break;
-      }
-    }
-  });
-  return result;
 };
 
 export default RadioModule;
