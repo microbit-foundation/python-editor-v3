@@ -22,7 +22,6 @@ import {
   SensorStateKey,
   SimulatorState,
 } from "../device/simulator";
-import { flags } from "../flags";
 import { useRouterState } from "../router-hooks";
 import AccelerometerModule from "./AccelerometerModule";
 import ButtonsModule from "./ButtonModule";
@@ -46,10 +45,8 @@ const modules: string[] = [
   "soundLevel",
   "buttons",
   "pins",
+  "radio",
 ];
-if (flags.simRadio) {
-  modules.push("radio");
-}
 
 const titles: Record<string, string> = {
   // Sensor id mapped to translatable UI string ids. Sorted.

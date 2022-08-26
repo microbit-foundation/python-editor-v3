@@ -39,11 +39,7 @@ export type Flag =
    * Added to support user-testing and has the nice side-effect of disabling
    * the dialog for local development so is worth keeping for that use alone.
    */
-  | "noWelcome"
-  /**
-   * Simulator radio support.
-   */
-  | "simRadio";
+  | "noWelcome";
 
 interface FlagMetadata {
   defaultOnStages: string[];
@@ -56,7 +52,6 @@ const allFlags: FlagMetadata[] = [
   { name: "dndDebug", defaultOnStages: [] },
   { name: "livePreview", defaultOnStages: ["local", "REVIEW"] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
-  { name: "simRadio", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;
