@@ -87,7 +87,6 @@ const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
       <Select
         data-testid="simulator-gesture-select"
         aria-label={intl.formatMessage({ id: "simulator-gesture-select" })}
-        colorScheme="blackAlpha"
         value={choice}
         onChange={handleSelectChange}
       >
@@ -99,7 +98,6 @@ const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
       </Select>
       <IconButton
         icon={<RiSendPlane2Line />}
-        colorScheme="blackAlpha"
         disabled={active}
         onClick={handleClick}
         aria-label={intl.formatMessage({ id: "simulator-gesture-send" })}

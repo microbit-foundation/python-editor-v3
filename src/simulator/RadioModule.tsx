@@ -47,43 +47,45 @@ const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
       ref.current.scrollTop = ref.current.scrollHeight;
     }
   }, [scrollToBottom, items]);
+  if (minimised) {
+    return (
+      <HStack spacing={3}>
+        {icon}
+        <MessageComposer
+          enabled={enabled}
+          onSend={handleSend}
+          minimised={minimised}
+        />
+      </HStack>
+    );
+  }
   return (
-    <HStack pb={minimised ? 0 : 2} pt={0} spacing={3}>
-      {minimised ? (
-        <>
-          {icon}
-          <MessageComposer
-            enabled={enabled}
-            onSend={handleSend}
-            minimised={minimised}
-          />
-        </>
-      ) : (
-        <Stack spacing={3} bg="white" borderRadius="md" p={1}>
-          <Stack spacing={1} p={1}>
-            <VStack
-              p={1}
-              width="100%"
-              h="2xs"
-              onScroll={handleScroll}
-              overflowY="auto"
-              scrollBehavior="smooth"
-              ref={ref}
-            >
-              {items.map((item) => (
-                <ChatItem key={item.id} item={item} />
-              ))}
+    <Stack spacing={3} bg="white" borderRadius="md" p={1}>
+      <Stack spacing={1} p={1}>
+        <VStack
+          p={1}
+          h="2xs"
+          onScroll={handleScroll}
+          overflowY="auto"
+          scrollBehavior="smooth"
+          ref={ref}
+        >
+          {enabled ? (
+            items.map((item) => <ChatItem key={item.id} item={item} />)
+          ) : (
+            <VStack flex="1 1 auto" justifyContent="center">
+              <ChatNotice>The radio is off</ChatNotice>
             </VStack>
-            <MessageComposer
-              enabled={enabled}
-              onSend={handleSend}
-              minimised={minimised}
-              width="100%"
-            />
-          </Stack>
-        </Stack>
-      )}
-    </HStack>
+          )}
+        </VStack>
+        <MessageComposer
+          enabled={enabled}
+          onSend={handleSend}
+          minimised={minimised}
+          width="100%"
+        />
+      </Stack>
+    </Stack>
   );
 };
 
@@ -167,20 +169,22 @@ const MessageComposer = ({
       {...props}
     >
       <Input
+        colorScheme="brand"
         minW={0}
+        _placeholder={{
+          color: "gray.600",
+        }}
         borderRadius={minimised ? undefined : "2xl"}
-        border={minimised ? undefined : "none"}
-        bgColor={minimised ? "white" : "gray.25"}
-        aria-label="Radio message to send"
+        bgColor="white"
+        aria-label="Radio message"
         type="text"
         placeholder="Radio message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         disabled={!enabled}
-      ></Input>
+      />
       <IconButton
         icon={<RiSendPlane2Line />}
-        colorScheme="blackAlpha"
         disabled={!enabled}
         onClick={handleSendMessage}
         aria-label={intl.formatMessage({ id: "simulator-radio-send" })}

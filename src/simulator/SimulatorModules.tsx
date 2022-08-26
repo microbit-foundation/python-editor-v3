@@ -212,6 +212,7 @@ const CollapsibleModule = ({
         )}
         {!disclosure.isOpen && <Box w="100%">{module}</Box>}
         <IconButton
+          alignSelf="flex-start"
           icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
           aria-label={
             disclosure.isOpen
