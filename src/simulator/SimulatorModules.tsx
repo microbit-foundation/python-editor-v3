@@ -104,7 +104,7 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
     return () => {
       device.removeListener(EVENT_STATE_CHANGE, setState);
     };
-  }, [device]);
+  }, [device, setState]);
   const handleSensorChange = useCallback(
     (id: SensorStateKey, value: number) => {
       device.setSimulatorValue(id, value);
