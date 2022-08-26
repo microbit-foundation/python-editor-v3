@@ -301,7 +301,8 @@ const ModuleForId = ({
         <RadioModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          state={state.radio}
+          enabled={state.radio.enabled}
+          group={state.radio.group}
           minimised={minimised}
         />
       );
