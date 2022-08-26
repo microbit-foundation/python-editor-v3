@@ -16,6 +16,8 @@ import {
 
 // Simulator-only events.
 export const EVENT_RADIO_DATA = "radio_data";
+export const EVENT_RADIO_GROUP = "radio_group";
+export const EVENT_RADIO_RESET = "radio_reset";
 export const EVENT_STATE_CHANGE = "state_change";
 export const EVENT_REQUEST_FLASH = "request_flash";
 
@@ -187,12 +189,18 @@ export class SimulatorDeviceConnection
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
-    this.emit(EVENT_SERIAL_RESET, {});
     this.postMessage("flash", {
       filesystem: await dataSource.files(),
     });
+    this.notifyResetComms();
     options.progress(undefined);
     this.emit(EVENT_FLASH);
+  }
+
+  private notifyResetComms() {
+    // Might be nice to rework so this was all about connection state changes.
+    this.emit(EVENT_SERIAL_RESET, {});
+    this.emit(EVENT_RADIO_RESET, {});
   }
 
   async disconnect(): Promise<void> {
@@ -243,6 +251,7 @@ export class SimulatorDeviceConnection
 
   reset = async (): Promise<void> => {
     this.postMessage("reset", {});
+    this.notifyResetComms();
   };
 
   mute = async (): Promise<void> => {

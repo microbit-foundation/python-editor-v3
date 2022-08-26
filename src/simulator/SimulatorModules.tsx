@@ -31,6 +31,7 @@ import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
 import { ReactComponent as PinsIcon } from "./icons/pins.svg";
 import { ReactComponent as RadioIcon } from "./icons/radio.svg";
 import PinsModule from "./PinsModule";
+import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
 import RangeSensor from "./RangeSensor";
 
@@ -112,26 +113,28 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
     return null;
   }
   return (
-    <Flex
-      {...props}
-      flexDirection="column"
-      height="100%"
-      width="100%"
-      py={spacing}
-      px={3}
-    >
-      {modules.map((id, index) => (
-        <CollapsibleModule
-          key={id}
-          index={index}
-          id={id}
-          title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
-          state={state}
-          onValueChange={handleSensorChange}
-          running={running}
-        />
-      ))}
-    </Flex>
+    <RadioChatProvider group={state.radio.group} enabled={state.radio.enabled}>
+      <Flex
+        {...props}
+        flexDirection="column"
+        height="100%"
+        width="100%"
+        py={spacing}
+        px={3}
+      >
+        {modules.map((id, index) => (
+          <CollapsibleModule
+            key={id}
+            index={index}
+            id={id}
+            title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
+            state={state}
+            onValueChange={handleSensorChange}
+            running={running}
+          />
+        ))}
+      </Flex>
+    </RadioChatProvider>
   );
 };
 
@@ -167,12 +170,22 @@ const CollapsibleModule = ({
       "documentation-from-simulator"
     );
   }, [id, setRouterState]);
+  const module = (
+    <ModuleForId
+      id={id}
+      title={title}
+      state={state}
+      onValueChange={onValueChange}
+      running={running}
+      minimised={!disclosure.isOpen}
+    />
+  );
   return (
     <Stack
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
       borderColor="grey.200"
       pb={disclosure.isOpen ? spacing : minimisedSpacing}
-      mt={index === 0 ? 0 : disclosure.isOpen ? spacing : minimisedSpacing}
+      mt={index === 0 ? 0 : minimisedSpacing}
       spacing={disclosure.isOpen ? spacing : minimisedSpacing}
     >
       <HStack justifyContent="space-between">
@@ -194,18 +207,7 @@ const CollapsibleModule = ({
             />
           </HStack>
         )}
-        {!disclosure.isOpen && (
-          <Box w="100%">
-            <ModuleForId
-              id={id}
-              title={title}
-              state={state}
-              onValueChange={onValueChange}
-              running={running}
-              minimised={true}
-            />
-          </Box>
-        )}
+        {!disclosure.isOpen && <Box w="100%">{module}</Box>}
         <IconButton
           icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
           aria-label={
@@ -223,16 +225,7 @@ const CollapsibleModule = ({
           onClick={disclosure.onToggle}
         />
       </HStack>
-      {disclosure.isOpen && (
-        <ModuleForId
-          id={id}
-          title={title}
-          state={state}
-          onValueChange={onValueChange}
-          running={running}
-          minimised={false}
-        />
-      )}
+      {disclosure.isOpen && module}
     </Stack>
   );
 };
@@ -301,7 +294,8 @@ const ModuleForId = ({
         <RadioModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          state={state.radio}
+          enabled={state.radio.enabled}
+          group={state.radio.group}
           minimised={minimised}
         />
       );

@@ -5,139 +5,130 @@
  */
 import {
   Box,
-  Divider,
+  BoxProps,
   Flex,
   HStack,
   Icon,
   IconButton,
   Input,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useSimulator } from "../device/device-hooks";
-import { EVENT_RADIO_DATA, RadioState } from "../device/simulator";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
-
-interface AttributedMessage {
-  from: "user" | "code";
-  message: string;
-}
-
-const messageLimit = 100;
+import { RadioChatItem, useRadioChatItems } from "./radio-hooks";
 
 interface RadioModuleProps {
   icon: ReactNode;
-  state: RadioState;
+  group: number;
+  enabled: boolean;
   minimised: boolean;
 }
 
-const RadioModule = ({ icon, state, minimised }: RadioModuleProps) => {
-  const [messages, setMessages] = useState<AttributedMessage[]>([]);
-  const device = useSimulator();
-  useEffect(() => {
-    const handleReceive = (message: string) => {
-      setMessages([...messages, { from: "code", message }]);
-    };
-    device.on(EVENT_RADIO_DATA, handleReceive);
-    return () => {
-      device.removeListener(EVENT_RADIO_DATA, handleReceive);
-    };
-  }, [device, messages]);
-  const handleSend = useCallback(
-    (message: string) => {
-      setMessages([...messages, { from: "user", message }]);
-      device.radioSend(message);
-    },
-    [device, messages]
-  );
+const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
+  const [items, handleSend] = useRadioChatItems();
 
   const [scrollToBottom, setScrollToBottom] = useState<boolean>(true);
   const ref = useRef<HTMLDivElement>(null);
-  const handleScroll = useCallback(() => {
-    if (
-      ref.current!.scrollTop ===
-      ref.current!.scrollHeight - ref.current!.offsetHeight
-    ) {
-      setScrollToBottom(true);
-    } else {
-      setScrollToBottom(false);
-    }
-  }, [ref, setScrollToBottom]);
+  const handleScroll = useCallback(
+    (e: React.UIEvent) => {
+      const isAtBottom =
+        ref.current!.scrollTop ===
+        ref.current!.scrollHeight - ref.current!.offsetHeight;
+      setScrollToBottom(isAtBottom);
+    },
+    [ref, setScrollToBottom]
+  );
   useEffect(() => {
-    if (scrollToBottom) {
-      ref.current?.scrollTo({ top: ref.current?.scrollHeight });
+    if (scrollToBottom && ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
     }
-  }, [scrollToBottom]);
+  }, [scrollToBottom, items]);
   return (
-    <HStack pb={minimised ? 0 : 2} pt={minimised ? 0 : 1} spacing={3}>
+    <HStack pb={minimised ? 0 : 2} pt={0} spacing={3}>
       {minimised ? (
         <>
           {icon}
-          <MessageComposer enabled={state.enabled} onSend={handleSend} />
+          <MessageComposer
+            enabled={enabled}
+            onSend={handleSend}
+            minimised={minimised}
+          />
         </>
       ) : (
-        <VStack spacing={3} width="100%" alignItems="flex-start">
-          <Box width="100%">
-            <VStack alignItems="flex-start" bg="white" borderRadius="md" p={2}>
-              <VStack width="100%" spacing={0} alignItems="flex-start">
-                <Box>Group {state.group}</Box>
-                <Divider borderWidth="1px" />
-              </VStack>
-              <VStack
-                width="100%"
-                maxH="12rem"
-                minH="12rem"
-                onScroll={handleScroll}
-                overflowY="auto"
-                ref={ref}
-              >
-                {messages.length > messageLimit && (
-                  <Text color="gray.700" opacity="80%">
-                    <FormattedMessage id="simulator-radio-message-limit" />
-                  </Text>
-                )}
-                {messages.slice(messageLimit * -1).map((v, i) => (
-                  <RadioMessage key={i} message={v.message} from={v.from} />
-                ))}
-                {!messages.length && (
-                  <VStack flex="1 1 auto" justifyContent="center">
-                    <Text color="gray.700" opacity="80%">
-                      <FormattedMessage id="simulator-radio-no-messages" />
-                    </Text>
-                  </VStack>
-                )}
-              </VStack>
+        <Stack spacing={3} bg="white" borderRadius="md" p={1}>
+          <Stack spacing={1} p={1}>
+            <VStack
+              p={1}
+              width="100%"
+              h="2xs"
+              onScroll={handleScroll}
+              overflowY="auto"
+              scrollBehavior="smooth"
+              ref={ref}
+            >
+              {items.map((item) => (
+                <ChatItem key={item.id} item={item} />
+              ))}
             </VStack>
-          </Box>
-          <MessageComposer enabled={state.enabled} onSend={handleSend} />
-        </VStack>
+            <MessageComposer
+              enabled={enabled}
+              onSend={handleSend}
+              minimised={minimised}
+              width="100%"
+            />
+          </Stack>
+        </Stack>
       )}
     </HStack>
   );
 };
 
-const RadioMessageIcon = ({ color }: { color: string }) => (
+const ChatItem = ({ item }: { item: RadioChatItem }) => {
+  switch (item.type) {
+    case "groupChange":
+      return <ChatNotice>Radio group set to {item.group}</ChatNotice>;
+    case "truncationNotice":
+      return (
+        <ChatNotice>
+          <FormattedMessage id="simulator-radio-message-limit" />
+        </ChatNotice>
+      );
+    case "message":
+      return <ChatMessage message={item.message} from={item.from} />;
+    default:
+      throw new Error("Unknown channel item");
+  }
+};
+
+const ChatNotice = ({ children }: { children: ReactNode }) => (
+  <Text color="gray.700" opacity="80%" p={1}>
+    {children}
+  </Text>
+);
+
+const ChatUserIcon = ({ color }: { color: string }) => (
   <Icon color={color} h={10} w={10} as={MessageIcon} />
 );
 
-const RadioMessage = ({
+const ChatMessage = ({
   from,
   message,
 }: {
   from: "code" | "user";
   message: string;
 }) => {
-  const color = from === "code" ? "blimpTeal.300" : "brand.200";
+  const color = from === "code" ? "blimpTeal.100" : "brand.100";
   return (
     <Flex
       gap="10px"
       flexDirection={from === "code" ? "row" : "row-reverse"}
       alignSelf={from === "code" ? "flex-start" : "flex-end"}
     >
-      <RadioMessageIcon color={color} />
+      <ChatUserIcon color={color} />
       <Box bg={color} p={2} borderRadius="md" wordBreak="break-word">
         {message}
       </Box>
@@ -145,12 +136,18 @@ const RadioMessage = ({
   );
 };
 
-interface MessageComposerProps {
+interface MessageComposerProps extends BoxProps {
   enabled: boolean;
+  minimised: boolean;
   onSend: (message: string) => void;
 }
 
-const MessageComposer = ({ enabled, onSend }: MessageComposerProps) => {
+const MessageComposer = ({
+  enabled,
+  onSend,
+  minimised,
+  ...props
+}: MessageComposerProps) => {
   const intl = useIntl();
   const [message, setMessage] = useState<string>("");
   const handleSendMessage = useCallback(
@@ -162,13 +159,24 @@ const MessageComposer = ({ enabled, onSend }: MessageComposerProps) => {
     [message, onSend]
   );
   return (
-    <HStack as="form" onSubmit={handleSendMessage} spacing={3}>
+    <HStack
+      as="form"
+      flex="1 1 auto"
+      onSubmit={handleSendMessage}
+      spacing={2}
+      {...props}
+    >
       <Input
+        minW={0}
+        borderRadius={minimised ? undefined : "2xl"}
+        border={minimised ? undefined : "none"}
+        bgColor={minimised ? "white" : "gray.25"}
+        aria-label="Radio message to send"
         type="text"
+        placeholder="Radio message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         disabled={!enabled}
-        bg="white"
       ></Input>
       <IconButton
         icon={<RiSendPlane2Line />}
