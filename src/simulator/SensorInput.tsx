@@ -121,7 +121,6 @@ const SensorInput = ({
         isActive={!!sensor.value}
         disabled={disabled}
         size="sm"
-        colorScheme="blackAlpha"
         onKeyDown={keyListener}
         onKeyUp={keyListener}
         onMouseDown={mouseDownListener}
@@ -147,7 +146,6 @@ const SensorInput = ({
               transition: "none !important",
             },
           }}
-          colorScheme="blackAlpha"
           isChecked={isHeld}
           onChange={handleOverrideSet}
         />
