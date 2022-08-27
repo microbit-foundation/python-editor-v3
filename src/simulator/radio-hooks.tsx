@@ -135,11 +135,9 @@ const RadioChatContext = React.createContext<
 >(undefined);
 
 export const RadioChatProvider = ({
-  enabled,
   group,
   children,
 }: {
-  enabled: boolean;
   group: number;
   children: ReactNode;
 }) => {

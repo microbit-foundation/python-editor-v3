@@ -113,7 +113,7 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
     return null;
   }
   return (
-    <RadioChatProvider group={state.radio.group} enabled={state.radio.enabled}>
+    <RadioChatProvider group={state.radio.group}>
       <Flex
         {...props}
         flexDirection="column"
