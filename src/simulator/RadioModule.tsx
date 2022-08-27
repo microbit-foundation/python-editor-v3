@@ -74,7 +74,9 @@ const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
             items.map((item) => <ChatItem key={item.id} item={item} />)
           ) : (
             <VStack flex="1 1 auto" justifyContent="center">
-              <ChatNotice>The radio is off</ChatNotice>
+              <ChatNotice>
+                <FormattedMessage id="simulator-radio-off" />
+              </ChatNotice>
             </VStack>
           )}
         </VStack>
@@ -92,11 +94,20 @@ const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
 const ChatItem = ({ item }: { item: RadioChatItem }) => {
   switch (item.type) {
     case "groupChange":
-      return <ChatNotice>Radio group set to {item.group}</ChatNotice>;
+      return (
+        <ChatNotice>
+          <FormattedMessage
+            id="simulator-radio-group-notice"
+            values={{
+              groupNumber: item.group,
+            }}
+          />
+        </ChatNotice>
+      );
     case "truncationNotice":
       return (
         <ChatNotice>
-          <FormattedMessage id="simulator-radio-message-limit" />
+          <FormattedMessage id="simulator-radio-message-limit-notice" />
         </ChatNotice>
       );
     case "message":
@@ -107,7 +118,7 @@ const ChatItem = ({ item }: { item: RadioChatItem }) => {
 };
 
 const ChatNotice = ({ children }: { children: ReactNode }) => (
-  <Text color="gray.700" opacity="80%" p={1}>
+  <Text color="gray.700" p={1}>
     {children}
   </Text>
 );
@@ -151,6 +162,9 @@ const MessageComposer = ({
   ...props
 }: MessageComposerProps) => {
   const intl = useIntl();
+  const radioMessageLabel = intl.formatMessage({
+    id: "simulator-radio-message",
+  });
   const [message, setMessage] = useState<string>("");
   const handleSendMessage = useCallback(
     (e) => {
@@ -176,9 +190,9 @@ const MessageComposer = ({
         }}
         borderRadius={minimised ? undefined : "2xl"}
         bgColor="white"
-        aria-label="Radio message"
+        aria-label={radioMessageLabel}
         type="text"
-        placeholder="Radio message"
+        placeholder={radioMessageLabel}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         disabled={!enabled}

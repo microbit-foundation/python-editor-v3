@@ -8,12 +8,14 @@ import {
   SimulatorState,
 } from "../device/simulator";
 import RangeSensor from "./RangeSensor";
+import { RunningStatus } from "./Simulator";
 
 interface AccelerometerModuleProps {
   icon: ReactNode;
   state: SimulatorState;
   onValueChange: (id: SensorStateKey, value: any) => void;
   minimised: boolean;
+  running: RunningStatus;
 }
 
 const AccelerometerModule = ({
@@ -21,9 +23,15 @@ const AccelerometerModule = ({
   state,
   onValueChange,
   minimised,
+  running,
 }: AccelerometerModuleProps) => (
   <Stack spacing={5}>
-    <Gesture icon={icon} state={state} onValueChange={onValueChange} />
+    <Gesture
+      icon={icon}
+      enabled={running === RunningStatus.RUNNING}
+      state={state}
+      onValueChange={onValueChange}
+    />
     {!minimised && (
       <>
         <Axis
@@ -52,10 +60,11 @@ const AccelerometerModule = ({
 interface GestureProps {
   icon: ReactNode;
   state: SimulatorState;
+  enabled: boolean;
   onValueChange: (id: SensorStateKey, value: any) => void;
 }
 
-const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
+const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
   const sensor = state.gesture;
   if (sensor.type !== "enum") {
     throw new Error("Unexpected sensor type");
@@ -98,7 +107,7 @@ const Gesture = ({ icon, state, onValueChange }: GestureProps) => {
       </Select>
       <IconButton
         icon={<RiSendPlane2Line />}
-        disabled={active}
+        disabled={!enabled || active}
         onClick={handleClick}
         aria-label={intl.formatMessage({ id: "simulator-gesture-send" })}
       ></IconButton>

@@ -33,10 +33,10 @@ const ButtonsModule = ({
         ) : (
           <>
             <Text height={8} alignItems="center" display="flex">
-              <FormattedMessage id="simulator-input-press" />
+              <FormattedMessage id="simulator-button-press" />
             </Text>
             <Text>
-              <FormattedMessage id="simulator-input-hold" />
+              <FormattedMessage id="simulator-button-hold" />
             </Text>
           </>
         )}
