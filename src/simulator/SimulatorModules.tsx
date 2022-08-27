@@ -287,6 +287,7 @@ const ModuleForId = ({
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           state={state}
           onValueChange={onValueChange}
+          running={running}
           minimised={minimised}
         />
       );
