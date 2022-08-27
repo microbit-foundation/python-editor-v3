@@ -1849,18 +1849,6 @@
       "value": "Hide simulator"
     }
   ],
-  "simulator-input-hold": [
-    {
-      "type": 0,
-      "value": "Hold"
-    }
-  ],
-  "simulator-input-press": [
-    {
-      "type": 0,
-      "value": "Press"
-    }
-  ],
   "simulator-light-level": [
     {
       "type": 0,
@@ -1917,7 +1905,23 @@
       "value": "Radio"
     }
   ],
-  "simulator-radio-message-limit": [
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "Radio group set to "
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "Radio message"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
     {
       "type": 0,
       "value": "Older messages not shown"
@@ -1927,6 +1931,12 @@
     {
       "type": 0,
       "value": "No messages to show"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "The radio is off"
     }
   ],
   "simulator-radio-send": [

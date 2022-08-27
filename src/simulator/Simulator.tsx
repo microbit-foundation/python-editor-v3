@@ -89,7 +89,7 @@ const Simulator = ({
               <Box
                 ref={ref}
                 as="iframe"
-                // This needs changing before we remove the flag.
+                // This needs changing before we release.
                 src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
                   brand500
                 )}`}
