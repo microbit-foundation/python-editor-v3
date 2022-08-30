@@ -247,6 +247,10 @@
     "defaultMessage": "Don't show this again",
     "description": "Text to never show a dialog again"
   },
+  "download-action": {
+    "defaultMessage": "Download",
+    "description": "Download action label"
+  },
   "drag-hover": {
     "defaultMessage": "Drag and drop",
     "description": "Draggable code hover text"
@@ -798,6 +802,18 @@
   "simulator-collapse-module": {
     "defaultMessage": "Collapse {title} module",
     "description": "Aria label for collapse simulator module button"
+  },
+  "simulator-data-logging-download": {
+    "defaultMessage": "Download data",
+    "description": "Download data action from the Data logging simulator panel"
+  },
+  "simulator-data-logging-empty": {
+    "defaultMessage": "No log entries.",
+    "description": "Shown in the simulator Data logging table when there are no rows"
+  },
+  "simulator-data-logging-full": {
+    "defaultMessage": "Log full",
+    "description": "Shown below the Data logging table to warn that the log is full"
   },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",

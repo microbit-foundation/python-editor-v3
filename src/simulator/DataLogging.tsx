@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
 import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
+import { FormattedMessage } from "react-intl";
 import { DataLog, useDataLog } from "./data-logging-hooks";
 
 export interface DataLoggingProps {
@@ -46,7 +47,7 @@ const DataLoggingModule = ({ icon, logFull, minimised }: DataLoggingProps) => {
           leftIcon={<RiDownload2Line />}
           onClick={handleDownload}
         >
-          Download
+          <FormattedMessage id="download-action" />
         </Button>
       </HStack>
     );
@@ -99,7 +100,9 @@ const DataLoggingModule = ({ icon, logFull, minimised }: DataLoggingProps) => {
           </Table>
         ) : (
           <VStack flex="1 1 auto" justifyContent="center">
-            <Notice>No log entries.</Notice>
+            <Notice>
+              <FormattedMessage id="simulator-data-logging-empty" />
+            </Notice>
           </VStack>
         )}
       </TableContainer>
@@ -108,12 +111,14 @@ const DataLoggingModule = ({ icon, logFull, minimised }: DataLoggingProps) => {
           {logFull && (
             <>
               <Icon as={RiErrorWarningLine} />
-              <Text>Log full</Text>
+              <Text>
+                <FormattedMessage id="simulator-data-logging-full" />
+              </Text>
             </>
           )}
         </HStack>
         <Button leftIcon={<RiDownload2Line />} onClick={handleDownload}>
-          Download data
+          <FormattedMessage id="simulator-data-logging-download" />
         </Button>
       </HStack>
     </Stack>

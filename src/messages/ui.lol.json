@@ -487,6 +487,12 @@
       "value": "Don't show this again"
     }
   ],
+  "download-action": [
+    {
+      "type": 0,
+      "value": "Download"
+    }
+  ],
   "drag-hover": [
     {
       "type": 0,
@@ -1753,6 +1759,24 @@
     {
       "type": 0,
       "value": " module"
+    }
+  ],
+  "simulator-data-logging-download": [
+    {
+      "type": 0,
+      "value": "Download data"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "No log entries."
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "Log full"
     }
   ],
   "simulator-expand": [
