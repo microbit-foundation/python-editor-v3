@@ -15,6 +15,8 @@ import {
 } from "./device";
 
 // Simulator-only events.
+export const EVENT_LOG_DATA = "log_data";
+export const EVENT_LOG_DELETE = "log_delete";
 export const EVENT_RADIO_DATA = "radio_data";
 export const EVENT_RADIO_GROUP = "radio_group";
 export const EVENT_RADIO_RESET = "radio_reset";
@@ -53,6 +55,11 @@ export interface EnumSensor {
 }
 
 export type Sensor = RangeSensor | EnumSensor;
+
+export interface LogEntry {
+  headers?: string[];
+  data?: string[];
+}
 
 export interface SimulatorState {
   radio: RadioState;
@@ -148,6 +155,14 @@ export class SimulatorDeviceConnection
         if (message instanceof Uint8Array) {
           this.emit(EVENT_RADIO_DATA, text);
         }
+        break;
+      }
+      case "log_output": {
+        this.emit(EVENT_LOG_DATA, event.data);
+        break;
+      }
+      case "log_delete": {
+        this.emit(EVENT_LOG_DELETE, {});
         break;
       }
       case "serial_output": {

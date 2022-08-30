@@ -12,10 +12,6 @@ import {
 import { useCallback, useEffect } from "react";
 import { useSimulator } from "../device/device-hooks";
 import AccelerometerModule from "./AccelerometerModule";
-import {
-  DataLoggingSensor as DataLoggingSensorType,
-  RangeSensor as RangeSensorType,
-} from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
@@ -27,6 +23,7 @@ import {
   EVENT_STATE_CHANGE,
   SensorStateKey,
   SimulatorState,
+  RangeSensor as RangeSensorType,
 } from "../device/simulator";
 import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonModule";
@@ -295,7 +292,7 @@ const ModuleForId = ({
         <DataLoggingModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensor={sensors.log as DataLoggingSensorType}
+          logFull={state.dataLogging.logFull}
           minimised={minimised}
         />
       );
