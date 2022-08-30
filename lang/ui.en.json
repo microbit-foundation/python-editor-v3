@@ -819,6 +819,14 @@
     "defaultMessage": "Hide simulator",
     "description": "Hide simulator action"
   },
+  "simulator-input-hold": {
+    "defaultMessage": "Hold",
+    "description": "Label for UI toggles to hold simulator buttons or pins"
+  },
+  "simulator-input-press": {
+    "defaultMessage": "Press",
+    "description": "Label for UI buttons to press simulator buttons or pins"
+  },
   "simulator-light-level": {
     "defaultMessage": "Light level",
     "description": "Light level title"
