@@ -1849,6 +1849,18 @@
       "value": "Hide simulator"
     }
   ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "Hold"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "Press"
+    }
+  ],
   "simulator-light-level": [
     {
       "type": 0,
