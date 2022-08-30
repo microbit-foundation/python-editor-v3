@@ -39,6 +39,7 @@ import RadioModule from "./RadioModule";
 import DataLoggingModule from "./DataLogging";
 import { ReactComponent as DataLoggingIcon } from "./icons/data-logging.svg";
 import { RunningStatus } from "./Simulator";
+import { DataLogProvider } from "./data-logging-hooks";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -121,26 +122,28 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   }
   return (
     <RadioChatProvider group={state.radio.group}>
-      <Flex
-        {...props}
-        flexDirection="column"
-        height="100%"
-        width="100%"
-        py={spacing}
-        px={3}
-      >
-        {modules.map((id, index) => (
-          <CollapsibleModule
-            key={id}
-            index={index}
-            id={id}
-            title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
-            state={state}
-            onValueChange={handleSensorChange}
-            running={running}
-          />
-        ))}
-      </Flex>
+      <DataLogProvider>
+        <Flex
+          {...props}
+          flexDirection="column"
+          height="100%"
+          width="100%"
+          py={spacing}
+          px={3}
+        >
+          {modules.map((id, index) => (
+            <CollapsibleModule
+              key={id}
+              index={index}
+              id={id}
+              title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
+              state={state}
+              onValueChange={handleSensorChange}
+              running={running}
+            />
+          ))}
+        </Flex>
+      </DataLogProvider>
     </RadioChatProvider>
   );
 };

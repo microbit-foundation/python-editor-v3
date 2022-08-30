@@ -57,7 +57,7 @@ export interface EnumSensor {
 export type Sensor = RangeSensor | EnumSensor;
 
 export interface LogEntry {
-  headers?: string[];
+  headings?: string[];
   data?: string[];
 }
 
@@ -121,7 +121,6 @@ export class SimulatorDeviceConnection
       // Not an event for us.
       return;
     }
-
     switch (event.data.kind) {
       case "ready": {
         this.state = event.data.state;
@@ -158,6 +157,7 @@ export class SimulatorDeviceConnection
         break;
       }
       case "log_output": {
+        console.log(event.data);
         this.emit(EVENT_LOG_DATA, event.data);
         break;
       }

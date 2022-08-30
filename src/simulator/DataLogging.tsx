@@ -6,6 +6,8 @@
 import {
   Button,
   HStack,
+  Icon,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -14,10 +16,11 @@ import {
   Th,
   Thead,
   Tr,
+  VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState } from "react";
-import { useSimulator } from "../device/device-hooks";
-import { EVENT_LOG_DATA, LogEntry } from "../device/simulator";
+import { ReactNode, useCallback } from "react";
+import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
+import { DataLog, useDataLog } from "./data-logging-hooks";
 
 export interface DataLoggingProps {
   icon: ReactNode;
@@ -25,69 +28,115 @@ export interface DataLoggingProps {
   minimised: boolean;
 }
 
-interface TableState {
-  headers: string[];
-  data: string[][];
-}
-
 const DataLoggingModule = ({ icon, logFull, minimised }: DataLoggingProps) => {
-  const [table, setTable] = useState<TableState>({
-    headers: [],
-    data: [],
-  });
-  const simulator = useSimulator();
-  useEffect(() => {
-    simulator.on(EVENT_LOG_DATA, ({ headers, data }: LogEntry) => {
-      setTable((table) => {
-        const result: TableState = {
-          headers: headers ?? table.headers,
-          data: [...table.data],
-        };
-        if (headers) {
-          result.data.push(headers);
-        }
-        if (data) {
-          result.data.push(data);
-        }
-        return result;
-      });
+  const dataLog = useDataLog();
+  const handleDownload = useCallback(() => {
+    const blob = new Blob([toCsv(dataLog)], {
+      type: "text/csv;charset=utf-8",
     });
-  });
-
+    saveAs(blob, "data-log.csv");
+  }, [dataLog]);
+  if (minimised) {
+    return (
+      <HStack justifyContent="space-between" width="100%">
+        {icon}
+        <Text>{dataLog.data.length} rows</Text>
+        <Button
+          size="sm"
+          leftIcon={<RiDownload2Line />}
+          onClick={handleDownload}
+        >
+          Download
+        </Button>
+      </HStack>
+    );
+  }
+  const hasContent = dataLog.headings.length > 0;
   return (
-    <HStack spacing={3}>
-      {minimised ? (
-        <HStack justifyContent="space-between" width="100%">
-          {icon}
-          <Text>{table.data.length} rows</Text>
-          <Button size="sm">Download</Button>
-        </HStack>
-      ) : (
-        table.headers.length > 0 && (
-          <TableContainer maxH="12rem" overflowY="auto">
-            <Table>
-              <Thead>
-                <Tr>
-                  {table.headers.map((header) => (
-                    <Th key={header}>{header}</Th>
-                  ))}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {table.data.map((row, i) => (
-                  <Tr key={i}>
-                    {row.map((cell, index) => {
-                      return <Td key={table.headers[i]}>{cell}</Td>;
-                    })}
-                  </Tr>
+    <Stack spacing={3}>
+      <TableContainer
+        h="2xs"
+        bgColor="white"
+        borderRadius="md"
+        display={hasContent ? "block" : "flex"}
+        overflowY="auto"
+      >
+        {hasContent ? (
+          <Table variant="striped" colorScheme="blackAlpha" position="relative">
+            <Thead>
+              <Tr>
+                {dataLog.headings.map((heading) => (
+                  <Th
+                    px={1.5}
+                    key={heading}
+                    color="gray.800"
+                    position="sticky"
+                    top={0}
+                    bgColor="white"
+                  >
+                    {heading}
+                  </Th>
                 ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        )
-      )}
-    </HStack>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {dataLog.data.map((row, rowNum) => (
+                <Tr key={rowNum}>
+                  {row.data.map((cell, headingIndex) => {
+                    return (
+                      <Td
+                        key={dataLog.headings[headingIndex]}
+                        p={1.5}
+                        isNumeric={!row.isHeading}
+                      >
+                        {cell}
+                      </Td>
+                    );
+                  })}
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        ) : (
+          <VStack flex="1 1 auto" justifyContent="center">
+            <Notice>No log entries.</Notice>
+          </VStack>
+        )}
+      </TableContainer>
+      <HStack justifyContent="space-between" fontWeight="semibold">
+        <HStack spacing={1}>
+          {logFull && (
+            <>
+              <Icon as={RiErrorWarningLine} />
+              <Text>Log full</Text>
+            </>
+          )}
+        </HStack>
+        <Button leftIcon={<RiDownload2Line />} onClick={handleDownload}>
+          Download data
+        </Button>
+      </HStack>
+    </Stack>
   );
+};
+
+const Notice = ({ children }: { children: ReactNode }) => (
+  <Text color="gray.700" p={1}>
+    {children}
+  </Text>
+);
+
+// Exported for testing.
+export const toCsv = (log: DataLog) => {
+  const escape = (content: string): string => {
+    if (/[\n\r",]/.test(content)) {
+      return `"${content.replaceAll('"', '""')}"`;
+    }
+    return content;
+  };
+  const rows = [log.headings, ...log.data.map((d) => d.data)];
+  const lines = rows.map((row) => row.map(escape));
+  return lines.join("\r\n");
 };
 
 export default DataLoggingModule;
