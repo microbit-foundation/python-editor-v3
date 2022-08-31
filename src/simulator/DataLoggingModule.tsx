@@ -153,7 +153,11 @@ const DataLoggingModule = ({
             </>
           )}
         </HStack>
-        <Button leftIcon={<RiDownload2Line />} onClick={handleSaveLog}>
+        <Button
+          leftIcon={<RiDownload2Line />}
+          onClick={handleSaveLog}
+          disabled={!hasContent}
+        >
           <FormattedMessage id="simulator-data-logging-save-log" />
         </Button>
       </HStack>
