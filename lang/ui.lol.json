@@ -247,10 +247,6 @@
     "defaultMessage": "Don't show this again",
     "description": "Text to never show a dialog again"
   },
-  "download-action": {
-    "defaultMessage": "Download",
-    "description": "Download action label"
-  },
   "drag-hover": {
     "defaultMessage": "Drag and drop",
     "description": "Draggable code hover text"

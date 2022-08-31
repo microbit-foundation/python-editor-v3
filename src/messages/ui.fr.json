@@ -497,12 +497,6 @@
       "value": "Don't show this again"
     }
   ],
-  "download-action": [
-    {
-      "type": 0,
-      "value": "Download"
-    }
-  ],
   "drag-hover": [
     {
       "type": 0,
