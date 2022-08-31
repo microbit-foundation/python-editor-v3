@@ -1811,6 +1811,12 @@
       "value": " module"
     }
   ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "Compass"
+    }
+  ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
@@ -1834,7 +1840,7 @@
             },
             {
               "type": 0,
-              "value": " row"
+              "value": " row logged"
             }
           ]
         },
@@ -1842,7 +1848,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows"
+              "value": "No rows logged"
             }
           ]
         },
@@ -1853,7 +1859,7 @@
             },
             {
               "type": 0,
-              "value": " rows"
+              "value": " rows logged"
             }
           ]
         }

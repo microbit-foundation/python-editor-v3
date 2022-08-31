@@ -54,12 +54,14 @@ const RangeSensor = ({
     },
     [isFocused]
   );
+  const valuePercent = ((value - min) / (max - min)) * 100;
   return (
     <HStack
       pb={minimised ? 0 : 2}
       pt={minimised ? 0 : 1}
       spacing={3}
       pr={minimised ? 0 : 2}
+      flex="1 1 auto"
     >
       {icon}
       <Slider
@@ -120,8 +122,9 @@ const RangeSensor = ({
               value={value}
               textAlign="center"
               mt="-8"
-              ml={-valueText.length / 2 + "ch"}
+              ml={(-valueText.length * valuePercent) / 100 + "ch"}
               fontSize="xs"
+              whiteSpace="nowrap"
             >
               {valueText}
             </SliderMark>

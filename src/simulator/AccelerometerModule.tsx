@@ -1,13 +1,9 @@
-import { HStack, IconButton, Select, Stack, Text } from "@chakra-ui/react";
+import { HStack, IconButton, Select, Stack } from "@chakra-ui/react";
 import { ChangeEvent, ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import {
-  RangeSensor as RangeSensorType,
-  SensorStateKey,
-  SimulatorState,
-} from "../device/simulator";
-import RangeSensor from "./RangeSensor";
+import { SensorStateKey, SimulatorState } from "../device/simulator";
+import Axis from "./Axis";
 import { RunningStatus } from "./Simulator";
 
 interface AccelerometerModuleProps {
@@ -114,31 +110,5 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
     </HStack>
   );
 };
-
-interface AxisProps {
-  axis: SensorStateKey;
-  label: string;
-  state: SimulatorState;
-  onValueChange: (id: SensorStateKey, value: any) => void;
-}
-
-const Axis = ({
-  axis,
-  label,
-  state,
-  onValueChange: onSensorChange,
-}: AxisProps) => (
-  <RangeSensor
-    id={axis}
-    title={label}
-    icon={
-      <Text boxSize={6} textAlign="center">
-        {label}
-      </Text>
-    }
-    sensor={state[axis] as RangeSensorType}
-    onSensorChange={onSensorChange}
-  />
-);
 
 export default AccelerometerModule;
