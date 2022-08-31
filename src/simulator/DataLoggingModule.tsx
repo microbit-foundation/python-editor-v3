@@ -21,7 +21,8 @@ import {
 import { ReactNode, useCallback, useMemo } from "react";
 import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import { DataLog, useDataLog } from "./data-logging-hooks";
+import { DataLog } from "../device/simulator";
+import { useDataLog } from "./data-logging-hooks";
 import { useAutoScrollToBottom } from "./scroll-hooks";
 
 export interface DataLoggingModuleProps {

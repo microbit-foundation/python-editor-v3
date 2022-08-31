@@ -1,17 +1,7 @@
 import React, { ReactNode, useContext, useEffect } from "react";
 import useRafState from "../common/use-raf-state";
 import { useSimulator } from "../device/device-hooks";
-import { EVENT_LOG_DATA } from "../device/simulator";
-
-export interface DataLog {
-  headings: string[];
-  data: DataLogRow[];
-}
-
-export interface DataLogRow {
-  isHeading?: boolean;
-  data: string[];
-}
+import { DataLog, EVENT_LOG_DATA } from "../device/simulator";
 
 const useDataLogInternal = (): DataLog => {
   const simulator = useSimulator();
