@@ -8,6 +8,8 @@ import useIsUnmounted from "./use-is-unmounted";
 
 /**
  * State that rate limits changes with request animation frame.
+ *
+ * Note that if you rely on the previous state value you'll get a stale one.
  */
 const useRafState = <S>(
   initialState: S | (() => S)

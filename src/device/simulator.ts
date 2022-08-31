@@ -15,6 +15,7 @@ import {
 } from "./device";
 
 // Simulator-only events.
+export const EVENT_LOG_DATA = "log_data";
 export const EVENT_RADIO_DATA = "radio_data";
 export const EVENT_RADIO_GROUP = "radio_group";
 export const EVENT_RADIO_RESET = "radio_reset";
@@ -53,6 +54,11 @@ export interface EnumSensor {
 }
 
 export type Sensor = RangeSensor | EnumSensor;
+
+export interface LogEntry {
+  headings?: string[];
+  data?: string[];
+}
 
 export interface SimulatorState {
   radio: RadioState;
@@ -105,6 +111,21 @@ export type SensorStateKey = Extract<
   | "buttonB"
 >;
 
+export interface DataLog {
+  headings: string[];
+  data: DataLogRow[];
+}
+
+export interface DataLogRow {
+  isHeading?: boolean;
+  data: string[];
+}
+
+const initialDataLog = (): DataLog => ({
+  headings: [],
+  data: [],
+});
+
 /**
  * A simulated device.
  *
@@ -117,13 +138,14 @@ export class SimulatorDeviceConnection
   status: ConnectionStatus = ConnectionStatus.NO_AUTHORIZED_DEVICE;
   state: SimulatorState | undefined;
 
+  log: DataLog = initialDataLog();
+
   private messageListener = (event: MessageEvent) => {
     const iframe = this.iframe();
     if (!iframe || event.source !== iframe.contentWindow || !event.data.kind) {
       // Not an event for us.
       return;
     }
-
     switch (event.data.kind) {
       case "ready": {
         this.state = event.data.state;
@@ -157,6 +179,28 @@ export class SimulatorDeviceConnection
         if (message instanceof Uint8Array) {
           this.emit(EVENT_RADIO_DATA, text);
         }
+        break;
+      }
+      case "log_output": {
+        const entry: LogEntry = event.data;
+        const result: DataLog = {
+          headings: entry.headings ?? this.log.headings,
+          data: this.log.data,
+        };
+        // The first row is all-time headings row so don't show the initial set.
+        if (entry.headings && this.log.data.length > 0) {
+          result.data.push({ isHeading: true, data: entry.headings });
+        }
+        if (entry.data) {
+          result.data.push({ data: entry.data });
+        }
+        this.log = result;
+        this.emit(EVENT_LOG_DATA, this.log);
+        break;
+      }
+      case "log_delete": {
+        this.log = initialDataLog();
+        this.emit(EVENT_LOG_DATA, this.log);
         break;
       }
       case "serial_output": {

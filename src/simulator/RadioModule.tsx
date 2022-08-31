@@ -15,11 +15,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
 import { RadioChatItem, useRadioChatItems } from "./radio-hooks";
+import { useAutoScrollToBottom } from "./scroll-hooks";
 
 interface RadioModuleProps {
   icon: ReactNode;
@@ -30,23 +31,7 @@ interface RadioModuleProps {
 
 const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
   const [items, handleSend] = useRadioChatItems();
-
-  const [scrollToBottom, setScrollToBottom] = useState<boolean>(true);
-  const ref = useRef<HTMLDivElement>(null);
-  const handleScroll = useCallback(
-    (e: React.UIEvent) => {
-      const isAtBottom =
-        ref.current!.scrollTop ===
-        ref.current!.scrollHeight - ref.current!.offsetHeight;
-      setScrollToBottom(isAtBottom);
-    },
-    [ref, setScrollToBottom]
-  );
-  useEffect(() => {
-    if (scrollToBottom && ref.current) {
-      ref.current.scrollTop = ref.current.scrollHeight;
-    }
-  }, [scrollToBottom, items]);
+  const [ref, handleScroll] = useAutoScrollToBottom(items);
   if (minimised) {
     return (
       <HStack spacing={3}>
