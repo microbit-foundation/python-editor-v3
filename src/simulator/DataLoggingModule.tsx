@@ -96,6 +96,8 @@ const DataLoggingModule = ({
                     position="sticky"
                     top={0}
                     bgColor="white"
+                    textTransform="unset" // More important to match the user's Python
+                    fontSize="sm"
                   >
                     {heading}
                   </Th>
@@ -122,9 +124,10 @@ const DataLoggingModule = ({
                       <Td
                         key={truncatedDataLog.headings[headingIndex]}
                         p={1.5}
-                        textTransform={row.isHeading ? "uppercase" : undefined}
+                        fontSize={row.isHeading ? "sm" : undefined}
                         fontWeight={row.isHeading ? "semibold" : undefined}
                         isNumeric={!row.isHeading}
+                        fontFamily={row.isHeading ? undefined : "code"}
                       >
                         {cell}
                       </Td>
