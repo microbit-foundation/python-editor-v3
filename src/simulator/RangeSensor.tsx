@@ -8,7 +8,7 @@ import {
   SliderTrack,
   Tooltip,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
@@ -53,6 +53,10 @@ const RangeSensor = ({
       }
     },
     [isFocused]
+  );
+  const valuePercent = useMemo(
+    () => ((value - min) / (max - min)) * 100,
+    [min, max, value]
   );
   return (
     <HStack
@@ -121,8 +125,15 @@ const RangeSensor = ({
               value={value}
               textAlign="center"
               mt="-8"
-              ml={-valueText.length / 2 + "ch"}
+              ml={
+                valuePercent < 25
+                  ? 0
+                  : valuePercent > 75
+                  ? -valueText.length + "ch"
+                  : -valueText.length / 2 + "ch"
+              }
               fontSize="xs"
+              whiteSpace="nowrap"
             >
               {valueText}
             </SliderMark>
