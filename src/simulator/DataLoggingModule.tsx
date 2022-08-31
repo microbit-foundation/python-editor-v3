@@ -18,7 +18,7 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { DataLog, useDataLog } from "./data-logging-hooks";
@@ -30,24 +30,39 @@ export interface DataLoggingModuleProps {
   minimised: boolean;
 }
 
+interface TruncatedDataLog extends DataLog {
+  truncated: boolean;
+}
+
 const DataLoggingModule = ({
   icon,
   logFull,
   minimised,
 }: DataLoggingModuleProps) => {
-  const dataLog = useDataLog();
-  const [ref, handleScroll] = useAutoScrollToBottom(dataLog);
+  const untruncatedDataLog = useDataLog();
+  const truncatedDataLog = useMemo((): TruncatedDataLog => {
+    const limit = 200;
+    const truncated = untruncatedDataLog.data.length > limit;
+    return {
+      headings: untruncatedDataLog.headings,
+      data: truncated
+        ? untruncatedDataLog.data.slice(-limit)
+        : untruncatedDataLog.data,
+      truncated,
+    };
+  }, [untruncatedDataLog]);
+  const [ref, handleScroll] = useAutoScrollToBottom(truncatedDataLog);
   const handleDownload = useCallback(() => {
-    const blob = new Blob([toCsv(dataLog)], {
+    const blob = new Blob([toCsv(untruncatedDataLog)], {
       type: "text/csv;charset=utf-8",
     });
-    saveAs(blob, "data-log.csv");
-  }, [dataLog]);
+    saveAs(blob, "simulated-data.csv");
+  }, [untruncatedDataLog]);
   if (minimised) {
     return (
       <HStack justifyContent="space-between" width="100%">
         {icon}
-        <Text>{dataLog.data.length} rows</Text>
+        <Text>{untruncatedDataLog.data.length} rows</Text>
         <Button
           size="sm"
           leftIcon={<RiDownload2Line />}
@@ -58,7 +73,7 @@ const DataLoggingModule = ({
       </HStack>
     );
   }
-  const hasContent = dataLog.headings.length > 0;
+  const hasContent = truncatedDataLog.headings.length > 0;
   return (
     <Stack spacing={3}>
       <TableContainer
@@ -75,7 +90,7 @@ const DataLoggingModule = ({
           <Table variant="striped" colorScheme="blackAlpha" position="relative">
             <Thead>
               <Tr>
-                {dataLog.headings.map((heading) => (
+                {truncatedDataLog.headings.map((heading) => (
                   <Th
                     px={1.5}
                     key={heading}
@@ -90,13 +105,26 @@ const DataLoggingModule = ({
               </Tr>
             </Thead>
             <Tbody>
-              {dataLog.data.map((row, rowNum) => (
+              {truncatedDataLog.truncated && (
+                <Tr key="truncated">
+                  <Td
+                    p={1.5}
+                    colSpan={truncatedDataLog.headings.length}
+                    fontWeight="semibold"
+                  >
+                    Older rows not shown
+                  </Td>
+                </Tr>
+              )}
+              {truncatedDataLog.data.map((row, rowNum) => (
                 <Tr key={rowNum}>
                   {row.data.map((cell, headingIndex) => {
                     return (
                       <Td
-                        key={dataLog.headings[headingIndex]}
+                        key={truncatedDataLog.headings[headingIndex]}
                         p={1.5}
+                        textTransform={row.isHeading ? "uppercase" : undefined}
+                        fontWeight={row.isHeading ? "semibold" : undefined}
                         isNumeric={!row.isHeading}
                       >
                         {cell}

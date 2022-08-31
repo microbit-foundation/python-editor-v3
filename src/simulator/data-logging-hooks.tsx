@@ -23,6 +23,7 @@ const initialState = {
 
 const useDataLogInternal = (): DataLog => {
   const [table, setTable] = useState<DataLog>(initialState);
+
   const simulator = useSimulator();
   useEffect(() => {
     const handleLogData = ({ headings, data }: LogEntry) => {
