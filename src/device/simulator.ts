@@ -16,7 +16,6 @@ import {
 
 // Simulator-only events.
 export const EVENT_LOG_DATA = "log_data";
-export const EVENT_LOG_DELETE = "log_delete";
 export const EVENT_RADIO_DATA = "radio_data";
 export const EVENT_RADIO_GROUP = "radio_group";
 export const EVENT_RADIO_RESET = "radio_reset";
@@ -103,6 +102,21 @@ export type SensorStateKey = Extract<
   | "buttonB"
 >;
 
+export interface DataLog {
+  headings: string[];
+  data: DataLogRow[];
+}
+
+export interface DataLogRow {
+  isHeading?: boolean;
+  data: string[];
+}
+
+const initialDataLog = (): DataLog => ({
+  headings: [],
+  data: [],
+});
+
 /**
  * A simulated device.
  *
@@ -114,6 +128,8 @@ export class SimulatorDeviceConnection
 {
   status: ConnectionStatus = ConnectionStatus.NO_AUTHORIZED_DEVICE;
   state: SimulatorState | undefined;
+
+  log: DataLog = initialDataLog();
 
   private messageListener = (event: MessageEvent) => {
     const iframe = this.iframe();
@@ -157,12 +173,25 @@ export class SimulatorDeviceConnection
         break;
       }
       case "log_output": {
-        console.log(event.data);
-        this.emit(EVENT_LOG_DATA, event.data);
+        const entry: LogEntry = event.data;
+        const result: DataLog = {
+          headings: entry.headings ?? this.log.headings,
+          data: this.log.data,
+        };
+        // The first row is all-time headings row so don't show the initial set.
+        if (entry.headings && this.log.data.length > 0) {
+          result.data.push({ isHeading: true, data: entry.headings });
+        }
+        if (entry.data) {
+          result.data.push({ data: entry.data });
+        }
+        this.log = result;
+        this.emit(EVENT_LOG_DATA, this.log);
         break;
       }
       case "log_delete": {
-        this.emit(EVENT_LOG_DELETE, {});
+        this.log = initialDataLog();
+        this.emit(EVENT_LOG_DATA, this.log);
         break;
       }
       case "serial_output": {

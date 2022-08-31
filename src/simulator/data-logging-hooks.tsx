@@ -1,10 +1,7 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect } from "react";
+import useRafState from "../common/use-raf-state";
 import { useSimulator } from "../device/device-hooks";
-import {
-  EVENT_LOG_DATA,
-  EVENT_LOG_DELETE,
-  LogEntry,
-} from "../device/simulator";
+import { EVENT_LOG_DATA } from "../device/simulator";
 
 export interface DataLog {
   headings: string[];
@@ -16,41 +13,16 @@ export interface DataLogRow {
   data: string[];
 }
 
-const initialState = {
-  headings: [],
-  data: [],
-};
-
 const useDataLogInternal = (): DataLog => {
-  const [table, setTable] = useState<DataLog>(initialState);
-
   const simulator = useSimulator();
+  const [value, setValue] = useRafState<DataLog>(simulator.log);
   useEffect(() => {
-    const handleLogData = ({ headings, data }: LogEntry) => {
-      setTable((table) => {
-        const result: DataLog = {
-          headings: headings ?? table.headings,
-          data: [...table.data],
-        };
-        // The first row is all-time headings row so don't show the initial set.
-        if (headings && table.data.length > 0) {
-          result.data.push({ isHeading: true, data: headings });
-        }
-        if (data) {
-          result.data.push({ data });
-        }
-        return result;
-      });
-    };
-    const handleLogDelete = () => setTable(initialState);
-    simulator.on(EVENT_LOG_DATA, handleLogData);
-    simulator.on(EVENT_LOG_DELETE, handleLogDelete);
+    simulator.on(EVENT_LOG_DATA, setValue);
     return () => {
-      simulator.removeListener(EVENT_LOG_DELETE, handleLogDelete);
-      simulator.removeListener(EVENT_LOG_DATA, handleLogData);
+      simulator.removeListener(EVENT_LOG_DATA, setValue);
     };
-  }, [simulator, setTable]);
-  return table;
+  }, [simulator, setValue]);
+  return value;
 };
 
 const DataLogContext = React.createContext<DataLog | undefined>(undefined);

@@ -52,7 +52,7 @@ const DataLoggingModule = ({
     };
   }, [untruncatedDataLog]);
   const [ref, handleScroll] = useAutoScrollToBottom(truncatedDataLog);
-  const handleDownload = useCallback(() => {
+  const handleSaveLog = useCallback(() => {
     const blob = new Blob([toCsv(untruncatedDataLog)], {
       type: "text/csv;charset=utf-8",
     });
@@ -60,16 +60,14 @@ const DataLoggingModule = ({
   }, [untruncatedDataLog]);
   if (minimised) {
     return (
-      <HStack justifyContent="space-between" width="100%">
+      <HStack spacing={3}>
         {icon}
-        <Text>{untruncatedDataLog.data.length} rows</Text>
-        <Button
-          size="sm"
-          leftIcon={<RiDownload2Line />}
-          onClick={handleDownload}
-        >
-          <FormattedMessage id="download-action" />
-        </Button>
+        <Text>
+          <FormattedMessage
+            id="simulator-data-logging-rows"
+            values={{ count: untruncatedDataLog.data.length }}
+          />
+        </Text>
       </HStack>
     );
   }
@@ -154,8 +152,8 @@ const DataLoggingModule = ({
             </>
           )}
         </HStack>
-        <Button leftIcon={<RiDownload2Line />} onClick={handleDownload}>
-          <FormattedMessage id="simulator-data-logging-download" />
+        <Button leftIcon={<RiDownload2Line />} onClick={handleSaveLog}>
+          <FormattedMessage id="simulator-data-logging-save-log" />
         </Button>
       </HStack>
     </Stack>

@@ -1817,12 +1817,6 @@
       "value": " module"
     }
   ],
-  "simulator-data-logging-download": [
-    {
-      "type": 0,
-      "value": "Download data"
-    }
-  ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
@@ -1833,6 +1827,52 @@
     {
       "type": 0,
       "value": "Log full"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "1": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " row"
+            }
+          ]
+        },
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " rows"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "Save log"
     }
   ],
   "simulator-expand": [

@@ -803,10 +803,6 @@
     "defaultMessage": "Collapse {title} module",
     "description": "Aria label for collapse simulator module button"
   },
-  "simulator-data-logging-download": {
-    "defaultMessage": "Download data",
-    "description": "Download data action from the Data logging simulator panel"
-  },
   "simulator-data-logging-empty": {
     "defaultMessage": "No log entries.",
     "description": "Shown in the simulator Data logging table when there are no rows"
@@ -814,6 +810,14 @@
   "simulator-data-logging-full": {
     "defaultMessage": "Log full",
     "description": "Shown below the Data logging table to warn that the log is full"
+  },
+  "simulator-data-logging-rows": {
+    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} other {# rows logged}}",
+    "description": "Indicator of the number of rows logged"
+  },
+  "simulator-data-logging-save-log": {
+    "defaultMessage": "Save log",
+    "description": "Action label to save the data log as a file from the Data logging simulator panel"
   },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",
