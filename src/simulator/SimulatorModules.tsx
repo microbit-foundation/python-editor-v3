@@ -47,10 +47,10 @@ const modules: string[] = [
   "accelerometer",
   "lightLevel",
   "temperature",
+  "compass",
   "soundLevel",
   "buttons",
   "pins",
-  "compass",
   "radio",
   "log",
 ];
