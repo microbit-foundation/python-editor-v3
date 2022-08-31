@@ -8,7 +8,7 @@ import {
   SliderTrack,
   Tooltip,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
@@ -54,10 +54,7 @@ const RangeSensor = ({
     },
     [isFocused]
   );
-  const valuePercent = useMemo(
-    () => ((value - min) / (max - min)) * 100,
-    [min, max, value]
-  );
+  const valuePercent = ((value - min) / (max - min)) * 100;
   return (
     <HStack
       pb={minimised ? 0 : 2}
