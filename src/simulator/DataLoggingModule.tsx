@@ -56,7 +56,7 @@ const DataLoggingModule = ({
     const blob = new Blob([toCsv(untruncatedDataLog)], {
       type: "text/csv;charset=utf-8",
     });
-    saveAs(blob, "simulated-data.csv");
+    saveAs(blob, "simulated-log-data.csv");
   }, [untruncatedDataLog]);
   if (minimised) {
     return (
