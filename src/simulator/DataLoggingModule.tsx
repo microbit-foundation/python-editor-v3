@@ -23,13 +23,17 @@ import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { DataLog, useDataLog } from "./data-logging-hooks";
 
-export interface DataLoggingProps {
+export interface DataLoggingModuleProps {
   icon: ReactNode;
   logFull: boolean;
   minimised: boolean;
 }
 
-const DataLoggingModule = ({ icon, logFull, minimised }: DataLoggingProps) => {
+const DataLoggingModule = ({
+  icon,
+  logFull,
+  minimised,
+}: DataLoggingModuleProps) => {
   const dataLog = useDataLog();
   const handleDownload = useCallback(() => {
     const blob = new Blob([toCsv(dataLog)], {

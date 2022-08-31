@@ -26,7 +26,7 @@ import {
   RangeSensor as RangeSensorType,
 } from "../device/simulator";
 import { useRouterState } from "../router-hooks";
-import ButtonsModule from "./ButtonModule";
+import ButtonsModule from "./ButtonsModule";
 import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
 import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
@@ -36,7 +36,7 @@ import PinsModule from "./PinsModule";
 import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
 
-import DataLoggingModule from "./DataLogging";
+import DataLoggingModule from "./DataLoggingModule";
 import { ReactComponent as DataLoggingIcon } from "./icons/data-logging.svg";
 import { RunningStatus } from "./Simulator";
 import { DataLogProvider } from "./data-logging-hooks";

@@ -1,4 +1,4 @@
-import { toCsv } from "./DataLogging";
+import { toCsv } from "./DataLoggingModule";
 
 describe("toCsv", () => {
   it("works for a basic case", () => {
