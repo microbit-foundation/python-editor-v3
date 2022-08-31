@@ -10,21 +10,23 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
+import { useSimulator } from "../device/device-hooks";
+import AccelerometerModule from "./AccelerometerModule";
+import RangeSensor from "./RangeSensor";
+
 import { IconType } from "react-icons";
 import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import useRafState from "../common/use-raf-state";
-import { useSimulator } from "../device/device-hooks";
 import {
   EVENT_STATE_CHANGE,
-  RangeSensor as RangeSensorType,
   SensorStateKey,
   SimulatorState,
+  RangeSensor as RangeSensorType,
 } from "../device/simulator";
 import { useRouterState } from "../router-hooks";
-import AccelerometerModule from "./AccelerometerModule";
-import ButtonsModule from "./ButtonModule";
+import ButtonsModule from "./ButtonsModule";
 import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
 import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
@@ -33,9 +35,11 @@ import { ReactComponent as RadioIcon } from "./icons/radio.svg";
 import PinsModule from "./PinsModule";
 import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
-import RangeSensor from "./RangeSensor";
 
+import DataLoggingModule from "./DataLoggingModule";
+import { ReactComponent as DataLoggingIcon } from "./icons/data-logging.svg";
 import { RunningStatus } from "./Simulator";
+import { DataLogProvider } from "./data-logging-hooks";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -46,6 +50,7 @@ const modules: string[] = [
   "buttons",
   "pins",
   "radio",
+  "log",
 ];
 
 const titles: Record<string, string> = {
@@ -57,6 +62,7 @@ const titles: Record<string, string> = {
   soundLevel: "sound-level",
   temperature: "temperature",
   radio: "radio",
+  log: "log",
 };
 
 const references: Record<string, string> = {
@@ -68,6 +74,7 @@ const references: Record<string, string> = {
   soundLevel: "microphone",
   temperature: "temperature",
   radio: "radio",
+  log: "data-logging",
 };
 
 export const icons: Record<
@@ -81,6 +88,7 @@ export const icons: Record<
   buttons: ButtonPressIcon,
   pins: PinsIcon,
   radio: RadioIcon,
+  log: DataLoggingIcon,
 };
 
 const spacing = 5;
@@ -114,26 +122,28 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   }
   return (
     <RadioChatProvider group={state.radio.group}>
-      <Flex
-        {...props}
-        flexDirection="column"
-        height="100%"
-        width="100%"
-        py={spacing}
-        px={3}
-      >
-        {modules.map((id, index) => (
-          <CollapsibleModule
-            key={id}
-            index={index}
-            id={id}
-            title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
-            state={state}
-            onValueChange={handleSensorChange}
-            running={running}
-          />
-        ))}
-      </Flex>
+      <DataLogProvider>
+        <Flex
+          {...props}
+          flexDirection="column"
+          height="100%"
+          width="100%"
+          py={spacing}
+          px={3}
+        >
+          {modules.map((id, index) => (
+            <CollapsibleModule
+              key={id}
+              index={index}
+              id={id}
+              title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
+              state={state}
+              onValueChange={handleSensorChange}
+              running={running}
+            />
+          ))}
+        </Flex>
+      </DataLogProvider>
     </RadioChatProvider>
   );
 };
@@ -277,6 +287,15 @@ const ModuleForId = ({
           state={state}
           onValueChange={onValueChange}
           running={running}
+          minimised={minimised}
+        />
+      );
+    case "log":
+      return (
+        <DataLoggingModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          logFull={state.dataLogging.logFull}
           minimised={minimised}
         />
       );

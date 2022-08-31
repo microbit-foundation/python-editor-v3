@@ -1811,6 +1811,70 @@
       "value": " module"
     }
   ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "No log entries."
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "Log full"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "1": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " row logged"
+            }
+          ]
+        },
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows logged"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " rows logged"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "Save log"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "Older rows not shown"
+    }
+  ],
   "simulator-expand": [
     {
       "type": 0,
@@ -1865,6 +1929,12 @@
     {
       "type": 0,
       "value": "Light level"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "Data log"
     }
   ],
   "simulator-loud": [
