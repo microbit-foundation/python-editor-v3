@@ -38,7 +38,7 @@ const CompassModule = ({
     }
   }, [compassHeading]);
   return (
-    <Stack spacing={5}>
+    <Box>
       {minimised ? (
         <RangeSensor
           id="compassHeading"
@@ -50,16 +50,16 @@ const CompassModule = ({
         />
       ) : (
         <>
-          <Text as="h4">Heading</Text>
-          <HStack spacing={3} pl={5}>
-            <Box w="100%">
-              <Axis
-                axis="compassHeading"
-                label=""
-                state={state}
-                onValueChange={onValueChange}
-              />
-            </Box>
+          <Text as="h4" fontSize="sm">
+            Heading
+          </Text>
+          <HStack spacing={3} pl={4} width="100%">
+            <Axis
+              axis="compassHeading"
+              label=""
+              state={state}
+              onValueChange={onValueChange}
+            />
             <Icon
               ref={ref}
               as={CompassHeadingIcon}
@@ -67,28 +67,32 @@ const CompassModule = ({
               boxSize="20"
             />
           </HStack>
-          <Text as="h4">Magnetic field strength</Text>
-          <Axis
-            axis="compassX"
-            label="x"
-            state={state}
-            onValueChange={onValueChange}
-          />
-          <Axis
-            axis="compassY"
-            label="y"
-            state={state}
-            onValueChange={onValueChange}
-          />
-          <Axis
-            axis="compassZ"
-            label="z"
-            state={state}
-            onValueChange={onValueChange}
-          />
+          <Stack spacing={5} mt={5}>
+            <Text as="h4" fontSize="sm">
+              Magnetic field strength
+            </Text>
+            <Axis
+              axis="compassX"
+              label="x"
+              state={state}
+              onValueChange={onValueChange}
+            />
+            <Axis
+              axis="compassY"
+              label="y"
+              state={state}
+              onValueChange={onValueChange}
+            />
+            <Axis
+              axis="compassZ"
+              label="z"
+              state={state}
+              onValueChange={onValueChange}
+            />
+          </Stack>
         </>
       )}
-    </Stack>
+    </Box>
   );
 };
 

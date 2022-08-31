@@ -60,6 +60,7 @@ const RangeSensor = ({
       pt={minimised ? 0 : 1}
       spacing={3}
       pr={minimised ? 0 : 2}
+      flex="1 1 auto"
     >
       {icon}
       <Slider
