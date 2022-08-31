@@ -122,13 +122,7 @@ const RangeSensor = ({
               value={value}
               textAlign="center"
               mt="-8"
-              ml={
-                valuePercent < 25
-                  ? 0
-                  : valuePercent > 75
-                  ? -valueText.length + "ch"
-                  : -valueText.length / 2 + "ch"
-              }
+              ml={(-valueText.length * valuePercent) / 100 + "ch"}
               fontSize="xs"
               whiteSpace="nowrap"
             >
