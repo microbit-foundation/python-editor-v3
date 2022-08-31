@@ -22,6 +22,7 @@ import { ReactNode, useCallback } from "react";
 import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { DataLog, useDataLog } from "./data-logging-hooks";
+import { useAutoScrollToBottom } from "./scroll-hooks";
 
 export interface DataLoggingModuleProps {
   icon: ReactNode;
@@ -35,6 +36,7 @@ const DataLoggingModule = ({
   minimised,
 }: DataLoggingModuleProps) => {
   const dataLog = useDataLog();
+  const [ref, handleScroll] = useAutoScrollToBottom(dataLog);
   const handleDownload = useCallback(() => {
     const blob = new Blob([toCsv(dataLog)], {
       type: "text/csv;charset=utf-8",
@@ -65,6 +67,9 @@ const DataLoggingModule = ({
         borderRadius="md"
         display={hasContent ? "block" : "flex"}
         overflowY="auto"
+        ref={ref}
+        onScroll={handleScroll}
+        scrollBehavior="smooth"
       >
         {hasContent ? (
           <Table variant="striped" colorScheme="blackAlpha" position="relative">
