@@ -799,6 +799,10 @@
     "defaultMessage": "Collapse {title} module",
     "description": "Aria label for collapse simulator module button"
   },
+  "simulator-compass": {
+    "defaultMessage": "Compass",
+    "description": "Compass title"
+  },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",
     "description": "Aria label for the expand simulator button"

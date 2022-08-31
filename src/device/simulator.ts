@@ -64,6 +64,11 @@ export interface SimulatorState {
   accelerometerZ: RangeSensor;
   gesture: EnumSensor;
 
+  compassX: RangeSensor;
+  compassY: RangeSensor;
+  compassZ: RangeSensor;
+  compassHeading: RangeSensor;
+
   pin0: RangeSensor;
   pin1: RangeSensor;
   pin2: RangeSensor;
@@ -84,6 +89,10 @@ export type SensorStateKey = Extract<
   | "accelerometerX"
   | "accelerometerY"
   | "accelerometerZ"
+  | "compassX"
+  | "compassY"
+  | "compassZ"
+  | "compassHeading"
   | "gesture"
   | "pin0"
   | "pin1"

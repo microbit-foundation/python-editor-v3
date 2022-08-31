@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 140 144" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlnsserif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-51.6663,-3700.09)">
+        <g transform="matrix(0.794927,0,0,0.794927,33.4097,768.072)">
+            <circle cx="112.855" cy="3776.47" r="63.094" style="fill:none;stroke:rgb(123,203,194);stroke-width:8.81px;"/>
+        </g>
+        <g id="Needle" style="transform-box: fill-box; transform-origin: center;">
+            <g transform="matrix(1,0,0,1,3.22958,-2.84217e-14)">
+                <path d="M118.596,3726.91L123.121,3770.09L114.071,3770.09L118.596,3726.91Z" style="fill:rgb(168,155,218);"/>
+            </g>
+            <g transform="matrix(-1,1.22465e-16,-1.22465e-16,-1,240.422,7540.44)">
+                <path d="M118.596,3726.91L123.121,3770.09L114.071,3770.09L118.596,3726.91Z" style="fill:rgb(215,216,214);"/>
+            </g>
+        </g>
+        <g id="Ordinals">
+            <g id="Tooltip-Top" serifid="Tooltip Top" transform="matrix(1.27689,0,0,1.2442,122.198,3712.47)">
+                <text x="-5.055px" y="0px" style="font-family:'Helvetica';font-size:14px;">N</text>
+            </g>
+            <g id="Tooltip-Top1" serifid="Tooltip Top" transform="matrix(1.27689,0,0,1.2442,186.495,3776.77)">
+                <text x="-4.669px" y="0px" style="font-family:'Helvetica';font-size:14px;">E</text>
+            </g>
+            <g id="Tooltip-Top2" serifid="Tooltip Top" transform="matrix(1.27689,0,0,1.2442,122.198,3843.7)">
+                <text x="-4.669px" y="0px" style="font-family:'Helvetica';font-size:14px;">S</text>
+            </g>
+            <g id="Tooltip-Top3" serifid="Tooltip Top" transform="matrix(1.27689,0,0,1.2442,59.1774,3776.29)">
+                <text x="-6.607px" y="0px" style="font-family:'Helvetica';font-size:14px;">W</text>
+            </g>
+        </g>
+    </g>
+</svg>

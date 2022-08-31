@@ -25,8 +25,10 @@ import {
 import { useRouterState } from "../router-hooks";
 import AccelerometerModule from "./AccelerometerModule";
 import ButtonsModule from "./ButtonModule";
+import CompassModule from "./CompassModule";
 import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
 import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
+import { ReactComponent as CompassIcon } from "./icons/compass.svg";
 import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
 import { ReactComponent as PinsIcon } from "./icons/pins.svg";
 import { ReactComponent as RadioIcon } from "./icons/radio.svg";
@@ -34,7 +36,6 @@ import PinsModule from "./PinsModule";
 import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
 import RangeSensor from "./RangeSensor";
-
 import { RunningStatus } from "./Simulator";
 
 const modules: string[] = [
@@ -45,6 +46,7 @@ const modules: string[] = [
   "soundLevel",
   "buttons",
   "pins",
+  "compass",
   "radio",
 ];
 
@@ -52,6 +54,7 @@ const titles: Record<string, string> = {
   // Sensor id mapped to translatable UI string ids. Sorted.
   accelerometer: "accelerometer",
   buttons: "buttons",
+  compass: "compass",
   lightLevel: "light-level",
   pins: "pins",
   soundLevel: "sound-level",
@@ -63,6 +66,7 @@ const references: Record<string, string> = {
   // Sensor id mapped to Reference anchor id. Sorted.
   accelerometer: "accelerometer",
   buttons: "buttons",
+  compass: "compass",
   lightLevel: "light-level",
   pins: "pins",
   soundLevel: "microphone",
@@ -75,11 +79,12 @@ export const icons: Record<
   IconType | React.FunctionComponent<React.SVGProps<SVGSVGElement>>
 > = {
   accelerometer: AccelerometerIcon,
-  temperature: RiTempHotFill,
-  lightLevel: RiSunFill,
-  soundLevel: MicrophoneIcon,
   buttons: ButtonPressIcon,
+  compass: CompassIcon,
+  lightLevel: RiSunFill,
   pins: PinsIcon,
+  soundLevel: MicrophoneIcon,
+  temperature: RiTempHotFill,
   radio: RadioIcon,
 };
 
@@ -288,6 +293,16 @@ const ModuleForId = ({
           state={state}
           onValueChange={onValueChange}
           running={running}
+          minimised={minimised}
+        />
+      );
+    case "compass":
+      return (
+        <CompassModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          state={state}
+          onValueChange={onValueChange}
           minimised={minimised}
         />
       );

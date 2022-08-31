@@ -1755,6 +1755,12 @@
       "value": " module"
     }
   ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "Compass"
+    }
+  ],
   "simulator-expand": [
     {
       "type": 0,
