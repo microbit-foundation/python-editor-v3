@@ -819,6 +819,10 @@
     "defaultMessage": "Save log",
     "description": "Action label to save the data log as a file from the Data logging simulator panel"
   },
+  "simulator-data-logging-truncated": {
+    "defaultMessage": "Older rows not shown",
+    "description": "Text shown in the Data logging table to indicate that old rows have been omitted"
+  },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",
     "description": "Aria label for the expand simulator button"

@@ -1819,6 +1819,12 @@
       "value": "Save log"
     }
   ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "Older rows not shown"
+    }
+  ],
   "simulator-expand": [
     {
       "type": 0,

@@ -109,8 +109,9 @@ const DataLoggingModule = ({
                     p={1.5}
                     colSpan={truncatedDataLog.headings.length}
                     fontWeight="semibold"
+                    fontSize="sm"
                   >
-                    Older rows not shown
+                    <FormattedMessage id="simulator-data-logging-truncated" />
                   </Td>
                 </Tr>
               )}
