@@ -802,6 +802,14 @@
     "defaultMessage": "Compass",
     "description": "Compass title"
   },
+  "simulator-compass-heading-one": {
+    "defaultMessage": "Heading",
+    "description": "Sub heading for simulator Compass module"
+  },
+  "simulator-compass-heading-two": {
+    "defaultMessage": "Magnetic field strength",
+    "description": "Sub heading for simulator Compass module"
+  },
   "simulator-data-logging-empty": {
     "defaultMessage": "No log entries.",
     "description": "Shown in the simulator Data logging table when there are no rows"

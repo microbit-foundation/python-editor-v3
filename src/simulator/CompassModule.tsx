@@ -5,6 +5,7 @@
  */
 import { Box, HStack, Icon, Stack, Text } from "@chakra-ui/react";
 import { ReactNode, useEffect, useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
@@ -51,7 +52,7 @@ const CompassModule = ({
       ) : (
         <>
           <Text as="h4" fontSize="sm">
-            Heading
+            <FormattedMessage id="simulator-compass-heading-one" />
           </Text>
           <HStack spacing={3} pl={4} width="100%">
             <Axis
@@ -69,7 +70,7 @@ const CompassModule = ({
           </HStack>
           <Stack spacing={5} mt={5}>
             <Text as="h4" fontSize="sm">
-              Magnetic field strength
+              <FormattedMessage id="simulator-compass-heading-two" />
             </Text>
             <Axis
               axis="compassX"
