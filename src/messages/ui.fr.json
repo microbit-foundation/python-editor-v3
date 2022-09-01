@@ -2090,7 +2090,7 @@
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Stop simulator"
+      "value": "Stop"
     }
   ],
   "simulator-temperature": [
