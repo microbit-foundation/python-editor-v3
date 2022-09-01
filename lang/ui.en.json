@@ -877,7 +877,7 @@
   },
   "simulator-loud": {
     "defaultMessage": "Loud",
-    "description": "Simulator sound level high threshold marker hover text"
+    "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
     "defaultMessage": "Mute",
@@ -897,7 +897,7 @@
   },
   "simulator-quiet": {
     "defaultMessage": "Quiet",
-    "description": "Simulator sound level low threshold marker hover text"
+    "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
     "defaultMessage": "Radio",
@@ -948,7 +948,7 @@
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
-    "defaultMessage": "Stop",
+    "defaultMessage": "Stop simulator",
     "description": "Aria label for the stop simulator button"
   },
   "simulator-temperature": {
