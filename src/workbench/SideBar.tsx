@@ -110,7 +110,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, api, reference, idea }, setParams] = useRouterState();
+  const [{ tab, api, reference, idea, focusTab }, setParams] = useRouterState();
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
     const activePanel = tabPanelsRef.current!.querySelector(
@@ -124,17 +124,26 @@ const SideBar = ({
     if (tabIndex !== -1) {
       onTabIndexChange(tabIndex);
       onSidebarExpand();
-      if (!api && !reference && !idea) {
+      if ((!api && !reference && !idea) || focusTab) {
         setPanelFocus();
       }
     }
-  }, [onSidebarExpand, panes, onTabIndexChange, tab, api, reference, idea]);
+  }, [
+    onSidebarExpand,
+    panes,
+    onTabIndexChange,
+    tab,
+    api,
+    reference,
+    idea,
+    focusTab,
+  ]);
 
   useEffect(() => {
-    if (shown && !api && !reference && !idea) {
+    if (shown && ((!api && !reference && !idea) || focusTab)) {
       setPanelFocus();
     }
-  }, [shown, api, reference, idea]);
+  }, [shown, api, reference, idea, focusTab]);
 
   const handleTabChange = useCallback(
     (index: number) => {

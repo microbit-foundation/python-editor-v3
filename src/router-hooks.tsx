@@ -52,6 +52,7 @@ export interface RouterState {
   reference?: Anchor;
   api?: Anchor;
   idea?: Anchor;
+  focusTab?: boolean;
 }
 
 type NavigationSource =
@@ -62,7 +63,7 @@ type NavigationSource =
 
 type RouterContextValue = [
   RouterState,
-  (state: RouterState, source?: NavigationSource) => void
+  (state: RouterState, source?: NavigationSource, focusTab?: boolean) => void
 ];
 
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);

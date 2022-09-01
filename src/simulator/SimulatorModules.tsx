@@ -176,22 +176,16 @@ const CollapsibleModule = ({
   const disclosure = useDisclosure();
   const intl = useIntl();
   const [, setRouterState] = useRouterState();
-  const setPanelFocus = () => {
-    const sidebarElement = document.querySelector("[aria-label='Sidebar']");
-    const activePanel = sidebarElement!.querySelector(
-      "[role='tabpanel']:not([hidden])"
-    );
-    (activePanel as HTMLElement)?.focus();
-  };
   const handleLinkToReference = useCallback(() => {
     setRouterState(
       {
         tab: "reference",
         reference: { id: references[id] },
+        focusTab: true,
       },
       "documentation-from-simulator"
     );
-    setPanelFocus();
+    // setPanelFocus();
   }, [id, setRouterState]);
   const module = (
     <ModuleForId
