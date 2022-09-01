@@ -785,7 +785,7 @@
   },
   "simulator-button-b": {
     "defaultMessage": "Button B",
-    "description": "Button A aria label on the simulator board"
+    "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
     "defaultMessage": "Hold button {button}",
