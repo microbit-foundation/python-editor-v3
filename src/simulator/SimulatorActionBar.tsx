@@ -8,8 +8,8 @@ import { useCallback, useEffect, useState } from "react";
 import {
   RiRefreshLine,
   RiStopFill,
-  RiVolumeDownFill,
   RiVolumeMuteFill,
+  RiVolumeUpFill,
 } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
@@ -89,7 +89,7 @@ const SimulatorActionBar = ({
         size={size}
         variant="outline"
         onClick={handleMuteUnmute}
-        icon={isMuted ? <RiVolumeDownFill /> : <RiVolumeMuteFill />}
+        icon={isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpFill />}
         aria-label={
           isMuted
             ? intl.formatMessage({ id: "simulator-unmute" })
