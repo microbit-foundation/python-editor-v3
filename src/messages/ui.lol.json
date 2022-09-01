@@ -2022,7 +2022,7 @@
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Button A"
+      "value": "Start simulator"
     }
   ],
   "simulator-stop": [

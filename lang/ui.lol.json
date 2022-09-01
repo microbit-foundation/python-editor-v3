@@ -784,7 +784,7 @@
   },
   "simulator-button-b": {
     "defaultMessage": "Button B",
-    "description": "Button A aria label on the simulator board"
+    "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
     "defaultMessage": "Hold button {button}",
@@ -939,7 +939,7 @@
     "description": "Sound level title"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Button A",
+    "defaultMessage": "Start simulator",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
