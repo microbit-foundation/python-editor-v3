@@ -2019,12 +2019,6 @@
       "value": "Simulator serial terminal"
     }
   ],
-  "simulator-show": [
-    {
-      "type": 0,
-      "value": "Show simulator"
-    }
-  ],
   "simulator-sound-level": [
     {
       "type": 0,
