@@ -795,7 +795,7 @@
     "defaultMessage": "Press button {button}",
     "description": "Aria label for simulator push button"
   },
-  "simulator-button-touch-logo": {
+  "simulator-touch-logo": {
     "defaultMessage": "Touch logo",
     "description": "Touch logo aria label on the simulator board"
   },
@@ -944,7 +944,7 @@
     "description": "Sound level title"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Button A",
+    "defaultMessage": "Start simulator",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
