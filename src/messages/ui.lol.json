@@ -1761,6 +1761,18 @@
       "value": "Compass"
     }
   ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "Heading"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "Magnetic field strength"
+    }
+  ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
