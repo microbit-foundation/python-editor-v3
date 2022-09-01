@@ -6,23 +6,23 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
-import { Sensor } from "./model";
+import { SensorStateKey, SimulatorState } from "../device/simulator";
 import SensorInput from "./SensorInput";
-import { SimState } from "./Simulator";
+import { RunningStatus } from "./Simulator";
 
 interface ButtonsModuleProps {
   icon: ReactNode;
-  sensors: Record<string, Sensor>;
-  onSensorChange: (id: string, value: any) => void;
-  simState: SimState;
+  state: SimulatorState;
+  onValueChange: (id: SensorStateKey, value: any) => void;
+  running: RunningStatus;
   minimised: boolean;
 }
 
 const ButtonsModule = ({
   icon,
-  sensors,
-  onSensorChange,
-  simState,
+  state,
+  onValueChange,
+  running,
   minimised,
 }: ButtonsModuleProps) => {
   return (
@@ -32,10 +32,10 @@ const ButtonsModule = ({
           icon
         ) : (
           <>
-            <Text height={8} alignItems="center" display="flex">
+            <Text height={8} fontSize="sm" alignItems="center" display="flex">
               <FormattedMessage id="simulator-input-press" />
             </Text>
-            <Text>
+            <Text fontSize="sm">
               <FormattedMessage id="simulator-input-hold" />
             </Text>
           </>
@@ -45,18 +45,18 @@ const ButtonsModule = ({
         type="button"
         sensorId="buttonA"
         label="A"
-        sensors={sensors}
-        onSensorChange={onSensorChange}
-        simState={simState}
+        state={state}
+        onValueChange={onValueChange}
+        running={running}
         minimised={minimised}
       />
       <SensorInput
         type="button"
         sensorId="buttonB"
         label="B"
-        sensors={sensors}
-        onSensorChange={onSensorChange}
-        simState={simState}
+        state={state}
+        onValueChange={onValueChange}
+        running={running}
         minimised={minimised}
       />
     </HStack>

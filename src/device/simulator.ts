@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import EventEmitter from "events";
-import { Sensor } from "../simulator/model";
 import {
   ConnectionStatus,
   DeviceConnection,
@@ -15,8 +14,117 @@ import {
   FlashDataSource,
 } from "./device";
 
-export const EVENT_SENSORS = "sensors";
+// Simulator-only events.
+export const EVENT_LOG_DATA = "log_data";
+export const EVENT_RADIO_DATA = "radio_data";
+export const EVENT_RADIO_GROUP = "radio_group";
+export const EVENT_RADIO_RESET = "radio_reset";
+export const EVENT_STATE_CHANGE = "state_change";
 export const EVENT_REQUEST_FLASH = "request_flash";
+
+// It'd be nice to publish these types from the simulator project.
+
+export interface RadioState {
+  type: "radio";
+  enabled: boolean;
+  group: number;
+}
+
+export interface DataLoggingState {
+  type: "dataLogging";
+  logFull: boolean;
+}
+
+export interface RangeSensor {
+  type: "range";
+  id: string;
+  value: number;
+  min: number;
+  max: number;
+  unit: number;
+  lowThreshold?: number;
+  highThreshold?: number;
+}
+
+export interface EnumSensor {
+  type: "enum";
+  id: string;
+  value: string;
+  choices: string[];
+}
+
+export type Sensor = RangeSensor | EnumSensor;
+
+export interface LogEntry {
+  headings?: string[];
+  data?: string[];
+}
+
+export interface SimulatorState {
+  radio: RadioState;
+
+  dataLogging: DataLoggingState;
+
+  accelerometerX: RangeSensor;
+  accelerometerY: RangeSensor;
+  accelerometerZ: RangeSensor;
+  gesture: EnumSensor;
+
+  compassX: RangeSensor;
+  compassY: RangeSensor;
+  compassZ: RangeSensor;
+  compassHeading: RangeSensor;
+
+  pin0: RangeSensor;
+  pin1: RangeSensor;
+  pin2: RangeSensor;
+  pinLogo: RangeSensor;
+
+  temperature: RangeSensor;
+  lightLevel: RangeSensor;
+  soundLevel: RangeSensor;
+
+  buttonA: RangeSensor;
+  buttonB: RangeSensor;
+}
+
+export type SimulatorStateKey = keyof SimulatorState;
+
+export type SensorStateKey = Extract<
+  SimulatorStateKey,
+  | "accelerometerX"
+  | "accelerometerY"
+  | "accelerometerZ"
+  | "compassX"
+  | "compassY"
+  | "compassZ"
+  | "compassHeading"
+  | "gesture"
+  | "pin0"
+  | "pin1"
+  | "pin2"
+  | "pinLogo"
+  | "temperature"
+  | "lightLevel"
+  | "soundLevel"
+  | "buttonA"
+  | "buttonB"
+>;
+
+export interface DataLog {
+  headings: string[];
+  data: DataLogRow[];
+}
+
+export interface DataLogRow {
+  isHeading?: boolean;
+  data: string[];
+}
+
+const initialDataLog = (): DataLog => ({
+  headings: [],
+  data: [],
+});
 
 /**
  * A simulated device.
@@ -28,7 +136,9 @@ export class SimulatorDeviceConnection
   implements DeviceConnection
 {
   status: ConnectionStatus = ConnectionStatus.NO_AUTHORIZED_DEVICE;
-  sensors: Record<string, Sensor> = {};
+  state: SimulatorState | undefined;
+
+  log: DataLog = initialDataLog();
 
   private messageListener = (event: MessageEvent) => {
     const iframe = this.iframe();
@@ -36,12 +146,10 @@ export class SimulatorDeviceConnection
       // Not an event for us.
       return;
     }
-
     switch (event.data.kind) {
       case "ready": {
-        // We get this in response to flash as well as at start-up.
-        this.sensors = sensorsById(event);
-        this.emit(EVENT_SENSORS, this.sensors);
+        this.state = event.data.state;
+        this.emit(EVENT_STATE_CHANGE, this.state);
         if (this.status !== ConnectionStatus.CONNECTED) {
           this.setStatus(ConnectionStatus.CONNECTED);
         }
@@ -51,9 +159,48 @@ export class SimulatorDeviceConnection
         this.emit(EVENT_REQUEST_FLASH);
         break;
       }
-      case "sensor_change": {
-        this.sensors = sensorsById(event);
-        this.emit(EVENT_SENSORS, this.sensors);
+      case "state_change": {
+        this.state = {
+          ...this.state,
+          ...event.data.change,
+        };
+        this.emit(EVENT_STATE_CHANGE, this.state);
+        break;
+      }
+      case "radio_output": {
+        // So this is a Uint8Array that may be prefixed with 0, 1, 0 bytes to indicate that it's a "string".
+        // Either way we only display strings for now so convert at this layer.
+        // If it's really binary data then TextEncoder will put replacement characters in and we'll live with that for now.
+        const message = event.data.data;
+        const text = new TextDecoder()
+          .decode(message)
+          // eslint-disable-next-line no-control-regex
+          .replace(/^\x01\x01\x00/, "");
+        if (message instanceof Uint8Array) {
+          this.emit(EVENT_RADIO_DATA, text);
+        }
+        break;
+      }
+      case "log_output": {
+        const entry: LogEntry = event.data;
+        const result: DataLog = {
+          headings: entry.headings ?? this.log.headings,
+          data: this.log.data,
+        };
+        // The first row is all-time headings row so don't show the initial set.
+        if (entry.headings && this.log.data.length > 0) {
+          result.data.push({ isHeading: true, data: entry.headings });
+        }
+        if (entry.data) {
+          result.data.push({ data: entry.data });
+        }
+        this.log = result;
+        this.emit(EVENT_LOG_DATA, this.log);
+        break;
+      }
+      case "log_delete": {
+        this.log = initialDataLog();
+        this.emit(EVENT_LOG_DATA, this.log);
         break;
       }
       case "serial_output": {
@@ -95,12 +242,18 @@ export class SimulatorDeviceConnection
       progress: (percentage: number | undefined) => void;
     }
   ): Promise<void> {
-    this.emit(EVENT_SERIAL_RESET, {});
     this.postMessage("flash", {
       filesystem: await dataSource.files(),
     });
+    this.notifyResetComms();
     options.progress(undefined);
     this.emit(EVENT_FLASH);
+  }
+
+  private notifyResetComms() {
+    // Might be nice to rework so this was all about connection state changes.
+    this.emit(EVENT_SERIAL_RESET, {});
+    this.emit(EVENT_RADIO_RESET, {});
   }
 
   async disconnect(): Promise<void> {
@@ -114,9 +267,33 @@ export class SimulatorDeviceConnection
     });
   }
 
-  sensorWrite = async (id: string, value: number): Promise<void> => {
-    this.postMessage("sensor_set", {
-      sensor: id,
+  radioSend(message: string) {
+    const data = new TextEncoder().encode(message);
+    const prefixed = new Uint8Array(3 + data.length);
+    prefixed.set([1, 0, 1]);
+    prefixed.set(data, 3);
+    this.postMessage("radio_input", { data: prefixed });
+  }
+
+  setSimulatorValue = async (
+    id: SensorStateKey,
+    value: number | string
+  ): Promise<void> => {
+    if (!this.state) {
+      throw new Error("Simulator not ready");
+    }
+    // We don't get notified of our own changes, so update our state and notify.
+    this.state = {
+      ...this.state,
+      [id]: {
+        // Would be good to make this safe.
+        ...(this.state as any)[id],
+        value,
+      },
+    };
+    this.emit(EVENT_STATE_CHANGE, this.state);
+    this.postMessage("set_value", {
+      id,
       value,
     });
   };
@@ -127,6 +304,7 @@ export class SimulatorDeviceConnection
 
   reset = async (): Promise<void> => {
     this.postMessage("reset", {});
+    this.notifyResetComms();
   };
 
   mute = async (): Promise<void> => {
@@ -160,10 +338,3 @@ export class SimulatorDeviceConnection
     );
   }
 }
-
-const sensorsById = (event: Event & { data: any }) =>
-  Object.fromEntries(
-    event.data.sensors.map((json: Sensor) => {
-      return [json.id, json];
-    })
-  );

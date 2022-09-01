@@ -779,6 +779,14 @@
     "defaultMessage": "Simulator actions",
     "description": "Aria label for the bar with simulator actions"
   },
+  "simulator-button-hold-label": {
+    "defaultMessage": "Hold button {button}",
+    "description": "Aria label for simulator toggle button"
+  },
+  "simulator-button-press-label": {
+    "defaultMessage": "Press button {button}",
+    "description": "Aria label for simulator push button"
+  },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
     "description": "Buttons title"
@@ -790,6 +798,38 @@
   "simulator-collapse-module": {
     "defaultMessage": "Collapse {title} module",
     "description": "Aria label for collapse simulator module button"
+  },
+  "simulator-compass": {
+    "defaultMessage": "Compass",
+    "description": "Compass title"
+  },
+  "simulator-compass-heading-one": {
+    "defaultMessage": "Heading",
+    "description": "Sub heading for simulator Compass module"
+  },
+  "simulator-compass-heading-two": {
+    "defaultMessage": "Magnetic field strength",
+    "description": "Sub heading for simulator Compass module"
+  },
+  "simulator-data-logging-empty": {
+    "defaultMessage": "No log entries.",
+    "description": "Shown in the simulator Data logging table when there are no rows"
+  },
+  "simulator-data-logging-full": {
+    "defaultMessage": "Log full",
+    "description": "Shown below the Data logging table to warn that the log is full"
+  },
+  "simulator-data-logging-rows": {
+    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} other {# rows logged}}",
+    "description": "Indicator of the number of rows logged"
+  },
+  "simulator-data-logging-save-log": {
+    "defaultMessage": "Save log",
+    "description": "Action label to save the data log as a file from the Data logging simulator panel"
+  },
+  "simulator-data-logging-truncated": {
+    "defaultMessage": "Older rows not shown",
+    "description": "Text shown in the Data logging table to indicate that old rows have been omitted"
   },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",
@@ -813,23 +853,19 @@
   },
   "simulator-input-hold": {
     "defaultMessage": "Hold",
-    "description": "Text for simulator toggle button or pin controls"
-  },
-  "simulator-input-hold-label": {
-    "defaultMessage": "Hold {touchInputType} {touchInputName}",
-    "description": "Aria label for simulator toggle button or pin control"
+    "description": "Label for UI toggles to hold simulator buttons or pins"
   },
   "simulator-input-press": {
     "defaultMessage": "Press",
-    "description": "Text for simulator push button or pin controls"
-  },
-  "simulator-input-press-label": {
-    "defaultMessage": "Press {touchInputType} {touchInputName}",
-    "description": "Aria label for simulator push button or pin control"
+    "description": "Label for UI buttons to press simulator buttons or pins"
   },
   "simulator-light-level": {
     "defaultMessage": "Light level",
     "description": "Light level title"
+  },
+  "simulator-log": {
+    "defaultMessage": "Data log",
+    "description": "Data log title"
   },
   "simulator-loud": {
     "defaultMessage": "Loud",
@@ -839,6 +875,14 @@
     "defaultMessage": "Mute",
     "description": "Aria label for the mute simulator button"
   },
+  "simulator-pin-hold-label": {
+    "defaultMessage": "Hold pin {pin}",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pin-press-label": {
+    "defaultMessage": "Press pin {pin}",
+    "description": "Aria label for simulator pin control"
+  },
   "simulator-pins": {
     "defaultMessage": "Pins",
     "description": "Pins title"
@@ -846,6 +890,34 @@
   "simulator-quiet": {
     "defaultMessage": "Quiet",
     "description": "Sound level low threshold marker hover text"
+  },
+  "simulator-radio": {
+    "defaultMessage": "Radio",
+    "description": "Radio title"
+  },
+  "simulator-radio-group-notice": {
+    "defaultMessage": "Radio group set to {groupNumber}",
+    "description": "Message in radio simulator area when the radio group changes"
+  },
+  "simulator-radio-message": {
+    "defaultMessage": "Radio message",
+    "description": "Label and placeholder for the radio message input field"
+  },
+  "simulator-radio-message-limit-notice": {
+    "defaultMessage": "Older messages not shown",
+    "description": "Text shown when the number of radio messages has been capped"
+  },
+  "simulator-radio-no-messages": {
+    "defaultMessage": "No messages to show",
+    "description": "Text shown when there are no radio messages to display"
+  },
+  "simulator-radio-off": {
+    "defaultMessage": "The radio is off",
+    "description": "Text shown when there are no radio messages because the radio is off"
+  },
+  "simulator-radio-send": {
+    "defaultMessage": "Send message",
+    "description": "Aria label for the simulator radio send button"
   },
   "simulator-reference-link": {
     "defaultMessage": "Link to Reference section",
@@ -878,6 +950,10 @@
   "simulator-title": {
     "defaultMessage": "Simulator",
     "description": "Simulator title"
+  },
+  "simulator-touch-logo": {
+    "defaultMessage": "Touch logo",
+    "description": "Name for the touch logo pin on the V2 micro:bit board"
   },
   "simulator-unmute": {
     "defaultMessage": "Unmute",
