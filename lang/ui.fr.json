@@ -938,10 +938,6 @@
     "defaultMessage": "Simulator serial terminal",
     "description": "Aria label for the simulator serial terminal"
   },
-  "simulator-show": {
-    "defaultMessage": "Show simulator",
-    "description": "Show simulator action"
-  },
   "simulator-sound-level": {
     "defaultMessage": "Sound level",
     "description": "Sound level title"

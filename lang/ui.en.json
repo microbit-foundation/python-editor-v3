@@ -773,11 +773,11 @@
   },
   "simulator-accelerometer": {
     "defaultMessage": "Accelerometer",
-    "description": "Accelerometer title"
+    "description": "Simulator Accelerometer panel title"
   },
   "simulator-actions": {
     "defaultMessage": "Simulator actions",
-    "description": "Aria label for the bar with simulator actions"
+    "description": "Aria label for the bar with simulator actions (stop, mute etc)"
   },
   "simulator-button-a": {
     "defaultMessage": "Button A",
@@ -797,7 +797,7 @@
   },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
-    "description": "Buttons title"
+    "description": "Buttons simulator panel title"
   },
   "simulator-collapse": {
     "defaultMessage": "Collapse simulator",
@@ -809,15 +809,15 @@
   },
   "simulator-compass": {
     "defaultMessage": "Compass",
-    "description": "Compass title"
+    "description": "Compass simulator panel title"
   },
   "simulator-compass-heading-one": {
     "defaultMessage": "Heading",
-    "description": "Sub heading for simulator Compass module"
+    "description": "Sub heading for simulator Compass panel"
   },
   "simulator-compass-heading-two": {
     "defaultMessage": "Magnetic field strength",
-    "description": "Sub heading for simulator Compass module"
+    "description": "Sub heading for simulator Compass panel"
   },
   "simulator-data-logging-empty": {
     "defaultMessage": "No log entries.",
@@ -825,11 +825,11 @@
   },
   "simulator-data-logging-full": {
     "defaultMessage": "Log full",
-    "description": "Shown below the Data logging table to warn that the log is full"
+    "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
     "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} other {# rows logged}}",
-    "description": "Indicator of the number of rows logged"
+    "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
     "defaultMessage": "Save log",
@@ -837,7 +837,7 @@
   },
   "simulator-data-logging-truncated": {
     "defaultMessage": "Older rows not shown",
-    "description": "Text shown in the Data logging table to indicate that old rows have been omitted"
+    "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
   },
   "simulator-expand": {
     "defaultMessage": "Expand simulator",
@@ -869,15 +869,15 @@
   },
   "simulator-light-level": {
     "defaultMessage": "Light level",
-    "description": "Light level title"
+    "description": "Light level simulator panel title"
   },
   "simulator-log": {
     "defaultMessage": "Data log",
-    "description": "Data log title"
+    "description": "Data log simulator panel title"
   },
   "simulator-loud": {
     "defaultMessage": "Loud",
-    "description": "Sound level high threshold marker hover text"
+    "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
     "defaultMessage": "Mute",
@@ -893,15 +893,15 @@
   },
   "simulator-pins": {
     "defaultMessage": "Pins",
-    "description": "Pins title"
+    "description": "Pins simulator panel title"
   },
   "simulator-quiet": {
     "defaultMessage": "Quiet",
-    "description": "Sound level low threshold marker hover text"
+    "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
     "defaultMessage": "Radio",
-    "description": "Radio title"
+    "description": "Radio simulator panel title"
   },
   "simulator-radio-group-notice": {
     "defaultMessage": "Radio group set to {groupNumber}",
@@ -909,19 +909,19 @@
   },
   "simulator-radio-message": {
     "defaultMessage": "Radio message",
-    "description": "Label and placeholder for the radio message input field"
+    "description": "Label and placeholder for the simulator radio message input field"
   },
   "simulator-radio-message-limit-notice": {
     "defaultMessage": "Older messages not shown",
-    "description": "Text shown when the number of radio messages has been capped"
+    "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
   },
   "simulator-radio-no-messages": {
     "defaultMessage": "No messages to show",
-    "description": "Text shown when there are no radio messages to display"
+    "description": "Text shown when there are no radio messages to display in the simulator user interface"
   },
   "simulator-radio-off": {
     "defaultMessage": "The radio is off",
-    "description": "Text shown when there are no radio messages because the radio is off"
+    "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
   },
   "simulator-radio-send": {
     "defaultMessage": "Send message",
@@ -939,25 +939,21 @@
     "defaultMessage": "Simulator serial terminal",
     "description": "Aria label for the simulator serial terminal"
   },
-  "simulator-show": {
-    "defaultMessage": "Show simulator",
-    "description": "Show simulator action"
-  },
   "simulator-sound-level": {
     "defaultMessage": "Sound level",
-    "description": "Sound level title"
+    "description": "Sound level simulator panel title"
   },
   "simulator-start-simulator": {
     "defaultMessage": "Start simulator",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
-    "defaultMessage": "Stop",
+    "defaultMessage": "Stop simulator",
     "description": "Aria label for the stop simulator button"
   },
   "simulator-temperature": {
     "defaultMessage": "Temperature",
-    "description": "Temperature title"
+    "description": "Temperature simulator panel title"
   },
   "simulator-title": {
     "defaultMessage": "Simulator",
@@ -965,7 +961,7 @@
   },
   "simulator-touch-logo": {
     "defaultMessage": "Touch logo",
-    "description": "Name for the touch logo pin on the V2 micro:bit board"
+    "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
   "simulator-unmute": {
     "defaultMessage": "Unmute",

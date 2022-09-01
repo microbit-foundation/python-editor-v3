@@ -2075,12 +2075,6 @@
       "value": "Simulator serial terminal"
     }
   ],
-  "simulator-show": [
-    {
-      "type": 0,
-      "value": "Show simulator"
-    }
-  ],
   "simulator-sound-level": [
     {
       "type": 0,
@@ -2096,7 +2090,7 @@
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Stop"
+      "value": "Stop simulator"
     }
   ],
   "simulator-temperature": [

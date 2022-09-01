@@ -1160,7 +1160,7 @@ export class App {
   async findStoppedSimulator(): Promise<void> {
     const document = await this.document();
     const stopButton = await document.findByRole("button", {
-      name: "Stop",
+      name: "Stop simulator",
     });
     waitFor(async () => {
       expect(await isDisabled(stopButton)).toEqual(true);
