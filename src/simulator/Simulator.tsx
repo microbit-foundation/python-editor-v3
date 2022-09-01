@@ -134,7 +134,6 @@ const updateTranslations = (
       ])
     ),
   };
-  console.log("Reconfiguring sim", config);
   simulator.configure(config);
 };
 
