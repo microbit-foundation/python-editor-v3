@@ -111,6 +111,11 @@ export type SensorStateKey = Extract<
   | "buttonB"
 >;
 
+interface Config {
+  language: string;
+  translations: Record<string, string>;
+}
+
 export interface DataLog {
   headings: string[];
   data: DataLogRow[];
@@ -248,6 +253,10 @@ export class SimulatorDeviceConnection
     this.notifyResetComms();
     options.progress(undefined);
     this.emit(EVENT_FLASH);
+  }
+
+  configure(config: Config): void {
+    this.postMessage("config", config);
   }
 
   private notifyResetComms() {

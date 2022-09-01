@@ -779,6 +779,14 @@
     "defaultMessage": "Simulator actions",
     "description": "Aria label for the bar with simulator actions"
   },
+  "simulator-button-a": {
+    "defaultMessage": "Button A",
+    "description": "Button A aria label on the simulator board"
+  },
+  "simulator-button-b": {
+    "defaultMessage": "Button B",
+    "description": "Button A aria label on the simulator board"
+  },
   "simulator-button-hold-label": {
     "defaultMessage": "Hold button {button}",
     "description": "Aria label for simulator toggle button"
@@ -786,6 +794,10 @@
   "simulator-button-press-label": {
     "defaultMessage": "Press button {button}",
     "description": "Aria label for simulator push button"
+  },
+  "simulator-button-touch-logo": {
+    "defaultMessage": "Touch logo",
+    "description": "Touch logo aria label on the simulator board"
   },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
@@ -930,6 +942,10 @@
   "simulator-sound-level": {
     "defaultMessage": "Sound level",
     "description": "Sound level title"
+  },
+  "simulator-start-simulator": {
+    "defaultMessage": "Button A",
+    "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
     "defaultMessage": "Stop",

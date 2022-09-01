@@ -1709,6 +1709,18 @@
       "value": "Simulator actions"
     }
   ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "Button A"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "Button B"
+    }
+  ],
   "simulator-button-hold-label": [
     {
       "type": 0,
@@ -1727,6 +1739,12 @@
     {
       "type": 1,
       "value": "button"
+    }
+  ],
+  "simulator-button-touch-logo": [
+    {
+      "type": 0,
+      "value": "Touch logo"
     }
   ],
   "simulator-buttons": [
@@ -2005,6 +2023,12 @@
     {
       "type": 0,
       "value": "Sound level"
+    }
+  ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "Button A"
     }
   ],
   "simulator-stop": [
