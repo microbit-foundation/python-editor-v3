@@ -794,10 +794,6 @@
     "defaultMessage": "Press button {button}",
     "description": "Aria label for simulator push button"
   },
-  "simulator-button-touch-logo": {
-    "defaultMessage": "Touch logo",
-    "description": "Touch logo aria label on the simulator board"
-  },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
     "description": "Buttons title"

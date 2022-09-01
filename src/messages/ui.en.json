@@ -1797,12 +1797,6 @@
       "value": "button"
     }
   ],
-  "simulator-button-touch-logo": [
-    {
-      "type": 0,
-      "value": "Touch logo"
-    }
-  ],
   "simulator-buttons": [
     {
       "type": 0,
@@ -2084,7 +2078,7 @@
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Button A"
+      "value": "Start simulator"
     }
   ],
   "simulator-stop": [

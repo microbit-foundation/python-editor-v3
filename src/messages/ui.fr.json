@@ -1797,12 +1797,6 @@
       "value": "button"
     }
   ],
-  "simulator-button-touch-logo": [
-    {
-      "type": 0,
-      "value": "Touch logo"
-    }
-  ],
   "simulator-buttons": [
     {
       "type": 0,
