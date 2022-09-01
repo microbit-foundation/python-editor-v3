@@ -33,10 +33,10 @@ const Simulator = ({
   minWidth,
 }: SimulatorProps) => {
   // This needs the domain to be updated before we release.
-  //const url = "https://stage-python-simulator.microbit.org/simulator.html";
+  const url = "https://stage-python-simulator.microbit.org/simulator.html";
   // For testing with sim branches:
-  const branch = "i18n-1";
-  const url = `https://review-python-simulator.microbit.org/${branch}/simulator.html`;
+  //const branch = "whatever";
+  //const url = `https://review-python-simulator.microbit.org/${branch}/simulator.html`;
 
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
