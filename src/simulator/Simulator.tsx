@@ -5,7 +5,7 @@
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { useIntl } from "react-intl";
+import { IntlShape, useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
@@ -53,6 +53,9 @@ const Simulator = ({
       sim.dispose();
     };
   }, []);
+  useEffect(() => {
+    updateTranslations(simulator.current, intl);
+  }, [simulator, intl]);
   const simControlsRef = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(simControlsRef);
   const simHeight = contentRect?.height ?? 0;
@@ -116,6 +119,22 @@ const Simulator = ({
       </Flex>
     </DeviceContextProvider>
   );
+};
+
+const updateTranslations = (
+  simulator: SimulatorDeviceConnection,
+  intl: IntlShape
+) => {
+  const config = {
+    language: intl.locale,
+    translations: Object.fromEntries(
+      ["button-a", "button-b", "touch-logo", "start-simulator"].map((k) => [
+        k,
+        intl.formatMessage({ id: "simulator-" + k }),
+      ])
+    ),
+  };
+  simulator.configure(config);
 };
 
 export default Simulator;
