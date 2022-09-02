@@ -14,12 +14,8 @@ const v2Main = {
   name: "MicroPython (micro:bit V2)",
   url: microPythonV2HexUrl,
   boardId: microbitBoardId.V2,
-  // Temporary pre-release version for data logging testing
-  // Commit 1af1498ae01ca4b4ff6dfe3511738747e5cd4bf9 (master)
-  version: "1af1498",
-  web: "https://github.com/microbit-foundation/micropython-microbit-v2/actions/runs/2774388121",
-  // When we're back on a release we want URLs in this format:
-  // web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.0.0",
+  version: "2.1.0-beta.1",
+  web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.1.0-beta.1",
 };
 
 const v2AudioSoundEffectsPreview = {
@@ -38,8 +34,8 @@ export const microPythonConfig = {
       name: "MicroPython (micro:bit V1)",
       url: microPythonV1HexUrl,
       boardId: microbitBoardId.V1,
-      version: "1.0.1",
-      web: "https://github.com/bbcmicrobit/micropython/releases/tag/v1.0.1",
+      version: "1.0.1-beta.1",
+      web: "https://github.com/bbcmicrobit/micropython/releases/tag/v1.1.0-beta.1",
     },
     flags.audioSoundEffect ? v2AudioSoundEffectsPreview : v2Main,
   ],
