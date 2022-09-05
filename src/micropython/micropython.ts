@@ -34,7 +34,7 @@ export const microPythonConfig = {
       name: "MicroPython (micro:bit V1)",
       url: microPythonV1HexUrl,
       boardId: microbitBoardId.V1,
-      version: "1.0.1-beta.1",
+      version: "1.1.0-beta.1",
       web: "https://github.com/bbcmicrobit/micropython/releases/tag/v1.1.0-beta.1",
     },
     flags.audioSoundEffect ? v2AudioSoundEffectsPreview : v2Main,
