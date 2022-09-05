@@ -15,20 +15,15 @@ async function loadLocaleData(locale: string) {
     case "fr":
       return (await import("./ui.fr.json")).default;
     case "es-es":
-    //return (await import("./ui.es-es.json")).default;
-    //fallthrough for now
+      return (await import("./ui.es-es.json")).default;
     case "ja":
-    //return (await import("./ui.ja.json")).default;
-    //fallthrough for now
+      return (await import("./ui.ja.json")).default;
     case "ko":
-    //return (await import("./ui.ko.json")).default;
-    //fallthrough for now
+      return (await import("./ui.ko.json")).default;
     case "zh-cn":
-    //return (await import("./ui.zh-cn.json")).default;
-    //fallthrough for now
+      return (await import("./ui.zh-cn.json")).default;
     case "zh-tw":
-    //return (await import("./ui.zh-tw.json")).default;
-    //fallthrough for now
+      return (await import("./ui.zh-tw.json")).default;
     default:
       return (await import("./ui.en.json")).default;
   }
