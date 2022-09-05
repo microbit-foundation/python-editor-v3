@@ -2,35 +2,35 @@
   "about": [
     {
       "type": 0,
-      "value": "À propos"
+      "value": "关于我们"
     }
   ],
   "about-comic": [
     {
       "type": 0,
-      "value": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent bleu. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent bleu approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs."
+      "value": "由Mike Rowbit 创作的题为“MicroPython Rocks”的三幅漫画。一条卡通蛇介绍了 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。"
     }
   ],
   "about-microbit": [
     {
-      "type": 0,
-      "value": "Réalisé avec amour par la "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation et ses contributeurs"
+          "value": "Micro:bit Educational Foundation 和捐款人"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " 用爱心制作"
     }
   ],
   "about-micropython": [
     {
       "type": 0,
-      "value": "L’éditeur dépend de "
+      "value": "编辑器依赖于由 Damien George 和世界各地的开发人员社区开发的 "
     },
     {
       "children": [
@@ -44,25 +44,25 @@
     },
     {
       "type": 0,
-      "value": " qui est créé par Damien George et une communauté de développeurs du monde entier."
+      "value": "。"
     }
   ],
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "En savoir moins sur MicroPython"
+      "value": "阅读更少有关 MicroPython 的信息"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "En savoir plus sur MicroPython"
+      "value": "阅读更多有关 MicroPython 的信息"
     }
   ],
   "added-change": [
     {
       "type": 0,
-      "value": "Fichier ajouté "
+      "value": "已添加文件 "
     },
     {
       "type": 1,
@@ -72,13 +72,13 @@
   "api-description": [
     {
       "type": 0,
-      "value": "Pour l'utilisation et les exemples, consultez la "
+      "value": "关于用法和示例，请参阅 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Référence"
+          "value": "参考"
         }
       ],
       "type": 8,
@@ -99,7 +99,7 @@
           "value": [
             {
               "type": 0,
-              "value": "classe de base"
+              "value": "base class"
             }
           ]
         },
@@ -107,7 +107,7 @@
           "value": [
             {
               "type": 0,
-              "value": "classes de base : "
+              "value": "base classes: "
             }
           ]
         }
@@ -120,55 +120,55 @@
   "apidocs-classes": [
     {
       "type": 0,
-      "value": "Classes"
+      "value": "类"
     }
   ],
   "apidocs-fields": [
     {
       "type": 0,
-      "value": "Champs"
+      "value": "字段"
     }
   ],
   "apidocs-functions": [
     {
       "type": 0,
-      "value": "Fonctions"
+      "value": "函数"
     }
   ],
   "apidocs-methods": [
     {
       "type": 0,
-      "value": "Méthodes"
+      "value": "方法"
     }
   ],
   "back-action": [
     {
       "type": 0,
-      "value": "Précédent"
+      "value": "返回"
     }
   ],
   "back-to-main": [
     {
       "type": 0,
-      "value": "revenir au code principal"
+      "value": "返回主代码"
     }
   ],
   "cancel-action": [
     {
       "type": 0,
-      "value": "Annuler"
+      "value": "取消"
     }
   ],
   "change-files": [
     {
       "type": 0,
-      "value": "Changer de fichiers ?"
+      "value": "更改文件？"
     }
   ],
   "choose-main-add-file": [
     {
       "type": 0,
-      "value": "Ajouter le fichier "
+      "value": "添加文件 "
     },
     {
       "type": 1,
@@ -178,7 +178,7 @@
   "choose-main-add-module": [
     {
       "type": 0,
-      "value": "Ajouter le module "
+      "value": "添加模块 "
     },
     {
       "type": 1,
@@ -188,7 +188,7 @@
   "choose-main-replace-file": [
     {
       "type": 0,
-      "value": "Remplacer le fichier "
+      "value": "替换文件 "
     },
     {
       "type": 1,
@@ -198,7 +198,7 @@
   "choose-main-replace-module": [
     {
       "type": 0,
-      "value": "Remplacer le module "
+      "value": "替换模块 "
     },
     {
       "type": 1,
@@ -208,35 +208,39 @@
   "choose-main-source-add-file": [
     {
       "type": 0,
-      "value": "Ajouter le fichier "
-    },
-    {
-      "type": 1,
-      "value": "target"
-    },
-    {
-      "type": 0,
-      "value": " depuis "
+      "value": "从 "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " 添加文件 "
+    },
+    {
+      "type": 1,
+      "value": "target"
     }
   ],
   "choose-main-source-add-main-code": [
     {
       "type": 0,
-      "value": "Ajouter le code principal depuis "
+      "value": "从 "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " 添加主代码"
     }
   ],
   "choose-main-source-replace-file": [
     {
       "type": 0,
-      "value": "Remplacer le fichier "
+      "value": "将文件 "
     },
     {
       "type": 1,
@@ -244,7 +248,7 @@
     },
     {
       "type": 0,
-      "value": " par "
+      "value": " 替换为 "
     },
     {
       "type": 1,
@@ -254,71 +258,75 @@
   "choose-main-source-replace-main-code": [
     {
       "type": 0,
-      "value": "Remplacer le code principal par "
+      "value": "用 "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " 替换主代码"
     }
   ],
   "clear": [
     {
       "type": 0,
-      "value": "Effacer"
+      "value": "清除"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "Fermer"
+      "value": "关闭"
     }
   ],
   "code-editor": [
     {
       "type": 0,
-      "value": "Éditeur de code"
+      "value": "代码编辑器"
     }
   ],
   "code-example": [
     {
       "type": 0,
-      "value": "Exemple de code :"
+      "value": "代码示例："
     }
   ],
   "confirm-action": [
     {
       "type": 0,
-      "value": "Confirmer"
+      "value": "确认"
     }
   ],
   "confirm-delete": [
     {
       "type": 0,
-      "value": "Confirmer la suppression"
+      "value": "确认删除"
     }
   ],
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par ceux de l’hex ?"
+      "value": "将所有文件替换成十六进制文件？"
     }
   ],
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers avec le code de départ par défaut ?"
+      "value": "用默认启动代码替换所有文件？"
     }
   ],
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "Confirmer le remplacement du projet"
+      "value": "确认替换项目"
     }
   ],
   "confirm-replace-with-idea": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par "
+      "value": "用 "
     },
     {
       "type": 1,
@@ -326,143 +334,143 @@
     },
     {
       "type": 0,
-      "value": " ?"
+      "value": " 替换所有文件？"
     }
   ],
   "confirm-save-action": [
     {
       "type": 0,
-      "value": "Confirmer et enregistrer"
+      "value": "确认并保存"
     }
   ],
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "Annulez et utilisez Enregistrer pour conserver une copie de votre projet."
+      "value": "取消然后使用 Save （保存）来保留您的项目副本。"
     }
   ],
   "connect-action": [
     {
       "type": 0,
-      "value": "Connecter"
+      "value": "连接"
     }
   ],
   "connect-cable-title": [
     {
       "type": 0,
-      "value": "Connecter le câble"
+      "value": "连接电缆"
     }
   ],
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "Boîte de dialogue de connexion WebUSB avec une entrée pour le BBC micro:bit étiquetée avec le numéro 1 et le bouton Connexion étiqueté avec le numéro 2"
+      "value": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按键"
     }
   ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Dans la prochaine fenêtre :"
+      "value": "在下一个弹出窗口中："
     }
   ],
   "connect-help-one": [
     {
       "type": 0,
-      "value": "Sélectionnez votre micro:bit"
+      "value": "选择您的 micro:bit"
     }
   ],
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Sélectionner le micro:bit"
+      "value": "选择 micro:bit"
     }
   ],
   "connect-help-two": [
     {
       "type": 0,
-      "value": "Sélectionnez ‘Connecter’"
+      "value": "选择 \"Connect\"（连接）"
     }
   ],
   "connect-hover": [
     {
       "type": 0,
-      "value": "Connectez-vous à votre micro:bit via WebUSB"
+      "value": "通过 WebUSB 连接到您的 micro:bit"
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "Connectez-vous à votre micro:bit pour voir la sortie série ici"
+      "value": "连接到您的 micro:bit 以在此处查看串行输出"
     }
   ],
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "Dépannage des problèmes de connexion à votre micro:bit"
+      "value": "对连接到 micro:bit 的问题进行排错"
     }
   ],
   "content-load-error": [
     {
       "type": 0,
-      "value": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page."
+      "value": "出错了。下载您的十六进制文件以便安全保存，然后刷新页面来重新加载。"
     }
   ],
   "copied": [
     {
       "type": 0,
-      "value": "Copié"
+      "value": "已复制"
     }
   ],
   "copy-action": [
     {
       "type": 0,
-      "value": "Copier"
+      "value": "复制"
     }
   ],
   "copy-code-action": [
     {
       "type": 0,
-      "value": "Copier le code"
+      "value": "复制代码"
     }
   ],
   "create-action": [
     {
       "type": 0,
-      "value": "Créez"
+      "value": "创作"
     }
   ],
   "create-file-action": [
     {
       "type": 0,
-      "value": "Créer un fichier"
+      "value": "创建文件"
     }
   ],
   "create-python": [
     {
       "type": 0,
-      "value": "Créer un nouveau fichier Python dans ce projet"
+      "value": "在此项目中创建一个新的 Python 文件"
     }
   ],
   "created-file": [
     {
-      "type": 1,
-      "value": "filename"
+      "type": 0,
+      "value": "创建 "
     },
     {
-      "type": 0,
-      "value": " créé"
+      "type": 1,
+      "value": "filename"
     }
   ],
   "delete-action": [
     {
       "type": 0,
-      "value": "Supprimer"
+      "value": "删除"
     }
   ],
   "delete-file-action": [
     {
       "type": 0,
-      "value": "Supprimer "
+      "value": "删除 "
     },
     {
       "type": 1,
@@ -471,42 +479,42 @@
   ],
   "deleted-file": [
     {
-      "type": 1,
-      "value": "filename"
+      "type": 0,
+      "value": "已删除 "
     },
     {
-      "type": 0,
-      "value": " a été supprimé"
+      "type": 1,
+      "value": "filename"
     }
   ],
   "disconnect-action": [
     {
       "type": 0,
-      "value": "Déconnecter"
+      "value": "断开连接"
     }
   ],
   "disconnect-hover": [
     {
       "type": 0,
-      "value": "Se déconnecter du micro:bit"
+      "value": "断开 micro:bit 连接"
     }
   ],
   "dont-show-again": [
     {
       "type": 0,
-      "value": "Ne plus afficher ce message"
+      "value": "不再显示此内容"
     }
   ],
   "drag-hover": [
     {
       "type": 0,
-      "value": "Glisser-déposer"
+      "value": "拖放"
     }
   ],
   "edit-file-action": [
     {
       "type": 0,
-      "value": "Modifier "
+      "value": "编辑"
     },
     {
       "type": 1,
@@ -516,47 +524,47 @@
   "edit-name-project-hover": [
     {
       "type": 0,
-      "value": "Modifier le nom de votre projet"
+      "value": "编辑您项目的名称"
     }
   ],
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "Modifier le nom du projet"
+      "value": "编辑项目名称"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "Impossible de créer le fichier hex"
+      "value": "无法构建 hex （十六进制) 文件"
     }
   ],
   "feedback": [
     {
       "type": 0,
-      "value": "Votre avis"
+      "value": "反馈"
     }
   ],
   "file-actions": [
     {
-      "type": 0,
-      "value": "Actions sur le fichier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 文件操作"
     }
   ],
   "file-already-exists": [
     {
       "type": 0,
-      "value": "Ce fichier existe déjà"
+      "value": "该文件已经存在。"
     }
   ],
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "Le nom contient un caractère invalide : "
+      "value": "名称包含非法字符:"
     },
     {
       "type": 1,
@@ -566,43 +574,43 @@
   "file-name-length": [
     {
       "type": 0,
-      "value": "Le nom est trop long"
+      "value": "名称太长"
     }
   ],
   "file-name-lowercase-only": [
     {
       "type": 0,
-      "value": "Le nom doit être en minuscule"
+      "value": "名称应全部小写"
     }
   ],
   "file-name-not-empty": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas être vide"
+      "value": "名称不能为空"
     }
   ],
   "file-name-start-number": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas débuter par un chiffre"
+      "value": "名称不能以数字开头"
     }
   ],
   "file-name-whitespace": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas contenir d'espaces"
+      "value": "名称不能包含空格"
     }
   ],
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "您必须"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "更新您的固件"
         }
       ],
       "type": 8,
@@ -610,67 +618,67 @@
     },
     {
       "type": 0,
-      "value": " avant de pouvoir vous connecter à ce micro:bit."
+      "value": "，然后才能连接到此 micro:bit。"
     }
   ],
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "La connexion au micro:bit a échoué car le micrologiciel sur votre micro:bit est trop ancien."
+      "value": "连接到 micro:bit 失败，因为您micro:bit 上的固件太老。"
     }
   ],
   "firmware-update-title": [
     {
       "type": 0,
-      "value": "Mise à jour du micrologiciel requise"
+      "value": "需要更新固件"
     }
   ],
   "flash-action": [
     {
       "type": 0,
-      "value": "Flasher"
+      "value": "烧录"
     }
   ],
   "flash-hover": [
     {
       "type": 0,
-      "value": "Flasher le projet directement dans le micro:bit"
+      "value": "直接下载项目到 micro:bit"
     }
   ],
   "flashing-code": [
     {
       "type": 0,
-      "value": "Envoi du code (flash)"
+      "value": "发送代码（闪烁）"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Votre code est envoyé (flashé) sur votre micro:bit. Cela peut prendre un certain temps mais il sera plus rapide après cela."
+      "value": "您的代码正被发送（刷）到您的 micro:bit。第一次可能需要一段时间，但之后会更快。"
     }
   ],
   "flashing-micropython": [
     {
       "type": 0,
-      "value": "Flasher MicroPython"
+      "value": "刷写 MicroPython"
     }
   ],
   "font-size": [
     {
       "type": 0,
-      "value": "Taille de police"
+      "value": "字体大小"
     }
   ],
   "guide-link": [
     {
       "type": 0,
-      "value": "Pour plus d'aide, consultez le "
+      "value": "如需更多支持，请参阅 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Guide de l'éditeur Python"
+          "value": "Python 编辑器指南"
         }
       ],
       "type": 8,
@@ -680,85 +688,85 @@
   "help": [
     {
       "type": 0,
-      "value": "Aide"
+      "value": "帮助"
     }
   ],
   "help-support": [
     {
       "type": 0,
-      "value": "Aide et support"
+      "value": "帮助与支持"
     }
   ],
   "help-translate": [
     {
       "type": 0,
-      "value": "Contribuer à la traduction"
+      "value": "帮助翻译"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Surligner la structure du code"
+      "value": "高亮代码结构"
     }
   ],
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Complet"
+      "value": "完整"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Aucun"
+      "value": "无"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "Simple"
+      "value": "简单模式"
     }
   ],
   "ideas-tab": [
     {
       "type": 0,
-      "value": "Idées"
+      "value": "创意"
     }
   ],
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Essayez ces projets, modifiez-les et inspirez-vous en"
+      "value": "尝试这些项目，修改它们并获得灵感"
     }
   ],
   "insert-code-action": [
     {
       "type": 0,
-      "value": "Insérer le code"
+      "value": "插入代码"
     }
   ],
   "language": [
     {
       "type": 0,
-      "value": "Langue"
+      "value": "语言"
     }
   ],
   "less-action": [
     {
       "type": 0,
-      "value": "Moins"
+      "value": "更少"
     }
   ],
   "load-error-makecode-info": [
     {
       "type": 0,
-      "value": "Ce fichier hex ne peut pas être chargé dans l'éditeur Python. L'éditeur Python ne peut pas ouvrir les fichiers hex créés avec Microsoft MakeCode."
+      "value": "此 hex 文件无法在 Python 编辑器中加载。 Python 编辑器无法打开使用 Microsoft MakeCode 创建的 hex 文件。"
     }
   ],
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "Veuillez visiter "
+      "value": "请访问 "
     },
     {
       "children": [
@@ -772,25 +780,25 @@
     },
     {
       "type": 0,
-      "value": " pour utiliser ce fichier hex."
+      "value": " 来使用这个hex文件。"
     }
   ],
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet."
+      "value": "\nhex文件只能单独加载。它取代了项目中的所有文件。"
     }
   ],
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy."
+      "value": "这个版本的 Python Editor 不支持添加 .mpy 文件。"
     }
   ],
   "load-error-title": [
     {
       "type": 0,
-      "value": "Impossible de charger "
+      "value": "无法加载 "
     },
     {
       "offset": 0,
@@ -799,7 +807,7 @@
           "value": [
             {
               "type": 0,
-              "value": "le fichier"
+              "value": "file"
             }
           ]
         },
@@ -807,7 +815,7 @@
           "value": [
             {
               "type": 0,
-              "value": "les fichiers"
+              "value": "files"
             }
           ]
         }
@@ -819,48 +827,48 @@
   ],
   "loaded-file-feedback": [
     {
-      "type": 1,
-      "value": "filename"
+      "type": 0,
+      "value": "已加载 "
     },
     {
-      "type": 0,
-      "value": " a été chargé"
+      "type": 1,
+      "value": "filename"
     }
   ],
   "loading": [
     {
       "type": 0,
-      "value": "Chargement…"
+      "value": "正在加载…"
     }
   ],
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "Carte micro:bit avec la grille LED 5 par 5 montrant un cœur"
+      "value": "带有 5 x 5 LED 网格的 micro:bit 板，显示一颗心"
     }
   ],
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "Documentation de MicroPython"
+      "value": "MicroPython 文档"
     }
   ],
   "micropython-history": [
     {
       "type": 0,
-      "value": "Découvrez comment MicroPython est né sur le micro:bit"
+      "value": "了解 micro:bit 上的 MicroPython 是如何诞生的"
     }
   ],
   "micropython-source-code": [
     {
       "type": 0,
-      "value": "Code source "
+      "value": "MicroPython "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "MicroPython pour le micro:bit V1"
+          "value": "micro:bit V1 的源代码"
         }
       ],
       "type": 8,
@@ -868,7 +876,7 @@
     },
     {
       "type": 0,
-      "value": " et pour le "
+      "value": "和"
     },
     {
       "children": [
@@ -884,13 +892,13 @@
   "more-action": [
     {
       "type": 0,
-      "value": "Plus"
+      "value": "更多"
     }
   ],
   "more-connect-options": [
     {
       "type": 0,
-      "value": "Plus d'options de connexion"
+      "value": "更多连接选项"
     }
   ],
   "more-ideas": [
@@ -898,7 +906,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Plus d'idées"
+          "value": "更多想法"
         }
       ],
       "type": 8,
@@ -908,13 +916,13 @@
   "more-save-options": [
     {
       "type": 0,
-      "value": "Plus d'options d'enregistrement"
+      "value": "更多保存选项"
     }
   ],
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "Ce projet contient "
+      "value": "此项目包含 "
     },
     {
       "offset": 0,
@@ -927,7 +935,7 @@
             },
             {
               "type": 0,
-              "value": " fichiers"
+              "value": " 文件"
             }
           ]
         }
@@ -938,7 +946,7 @@
     },
     {
       "type": 0,
-      "value": " mais seul "
+      "value": " 但只有 "
     },
     {
       "children": [
@@ -952,19 +960,19 @@
     },
     {
       "type": 0,
-      "value": " a été téléchargé."
+      "value": " 已下载。"
     }
   ],
   "multiple-files-message-two": [
     {
       "type": 0,
-      "value": "Utilisez le bouton "
+      "value": "使用 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Enregistrer"
+          "value": "Save"
         }
       ],
       "type": 8,
@@ -972,13 +980,13 @@
     },
     {
       "type": 0,
-      "value": " pour télécharger le projet au complet sous la forme d'un fichier hex. Vous pouvez "
+      "value": "（保存） 按键将整个项目下载为一个 hex 文件。您可以 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "Open"
         }
       ],
       "type": 8,
@@ -986,13 +994,13 @@
     },
     {
       "type": 0,
-      "value": " le fichier hex pour restaurer votre projet. Si vous préférez télécharger des fichiers Python individuels, utilisez l'onglet "
+      "value": "（打开） 此hex 文件来恢复您的项目。如果您希望下载单个 Python 文件，请使用 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Projet"
+          "value": "Project"
         }
       ],
       "type": 8,
@@ -1000,37 +1008,37 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "（项目） 选项卡。"
     }
   ],
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Avertissement : Seul main.py est téléchargé"
+      "value": "警告：只下载了 main.py"
     }
   ],
   "name-project": [
     {
       "type": 0,
-      "value": "Donnez un nom à votre projet"
+      "value": "为您的项目命名"
     }
   ],
   "name-text": [
     {
       "type": 0,
-      "value": "Nom"
+      "value": "姓名"
     }
   ],
   "name-used-when": [
     {
       "type": 0,
-      "value": "Ce nom est utilisé lorsque vous enregistrez un fichier hex."
+      "value": "保存hex(十六进制)文件时使用该名称。"
     }
   ],
   "new-file-hint": [
     {
       "type": 0,
-      "value": "Nous ajouterons l’extension "
+      "value": "\n我们将为您添加 "
     },
     {
       "children": [
@@ -1044,25 +1052,25 @@
     },
     {
       "type": 0,
-      "value": " pour vous."
+      "value": " 扩展名。"
     }
   ],
   "next-action": [
     {
       "type": 0,
-      "value": "Suivant"
+      "value": "下一个"
     }
   ],
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "Est-ce que votre "
+      "value": "\n您的 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit est branché"
+          "value": "micro:bit 是否已插入"
         }
       ],
       "type": 8,
@@ -1070,13 +1078,13 @@
     },
     {
       "type": 0,
-      "value": " ? Avez-vous "
+      "value": "？您是否"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "suivi ces étapes"
+          "value": "遵循了这些步骤"
         }
       ],
       "type": 8,
@@ -1084,13 +1092,13 @@
     },
     {
       "type": 0,
-      "value": " ?"
+      "value": "？"
     }
   ],
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "Si vous possédez un "
+      "value": "\n如果您持有的是 "
     },
     {
       "children": [
@@ -1104,13 +1112,13 @@
     },
     {
       "type": 0,
-      "value": " vous aurez peut-être besoin de "
+      "value": "，您可能需要"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "更新固件"
         }
       ],
       "type": 8,
@@ -1120,31 +1128,31 @@
   "not-found-message": [
     {
       "type": 0,
-      "value": "Vous n'avez pas sélectionné de micro:bit, ou un problème de connexion est survenu."
+      "value": "\n您没有选择 micro:bit，或者与它的连接有问题。"
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "Méthode alternative : choisissez Enregistrer puis suivez les étapes pour transférer"
+      "value": "替代方法：选择保存，然后按照步骤传输"
     }
   ],
   "not-found-title": [
     {
       "type": 0,
-      "value": "Aucun micro:bit trouvé"
+      "value": "未找到 micro:bit"
     }
   ],
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "\n您必须"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "更新您的固件，然后"
         }
       ],
       "type": 8,
@@ -1152,55 +1160,55 @@
     },
     {
       "type": 0,
-      "value": " avant de pouvoir vous connecter à ce micro:bit."
+      "value": "才能连接到此 micro:bit。"
     }
   ],
   "open-action": [
     {
       "type": 0,
-      "value": "Ouvrir"
+      "value": "打开"
     }
   ],
   "open-file-action": [
     {
       "type": 0,
-      "value": "Ouvrir…"
+      "value": "打开…"
     }
   ],
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "Ouvrir le fichier lorsqu’il est déposé"
+      "value": "放下时打开文件"
     }
   ],
   "open-hover": [
     {
       "type": 0,
-      "value": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers"
+      "value": "打开一个hex（十六进制)或 Python 文件，或添加其他文件"
     }
   ],
   "options": [
     {
       "type": 0,
-      "value": "Options"
+      "value": "选项"
     }
   ],
   "parameter-help": [
     {
       "type": 0,
-      "value": "Aide aux paramètres"
+      "value": "参数帮助"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "Automatique"
+      "value": "自动"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "Manuel ("
+      "value": "手动("
     },
     {
       "type": 1,
@@ -1214,7 +1222,7 @@
   "permanently-delete": [
     {
       "type": 0,
-      "value": "Supprimer "
+      "value": "永久删除 "
     },
     {
       "type": 1,
@@ -1222,19 +1230,19 @@
     },
     {
       "type": 0,
-      "value": " définitivement ?"
+      "value": " 吗？"
     }
   ],
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "Ceci contient tous les fichiers de ce projet (y compris tous les fichiers supplémentaires, par exemple pour utiliser les accessoires, listés dans l’onglet "
+      "value": "这包含此项目中的所有文件（包括任何附加文件，例如运行附件，列在 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Projet"
+          "value": "项目"
         }
       ],
       "type": 8,
@@ -1242,19 +1250,19 @@
     },
     {
       "type": 0,
-      "value": ")."
+      "value": " 选项卡中）。"
     }
   ],
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "Vous trouverez votre fichier hex dans le dossier "
+      "value": "\n▲\n您将在这台计算机的 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Téléchargements"
+          "value": "Downloads(下载)"
         }
       ],
       "type": 8,
@@ -1262,19 +1270,19 @@
     },
     {
       "type": 0,
-      "value": " de cet ordinateur."
+      "value": " 文件夹中找到您的 hex(十六进制) 文件。"
     }
   ],
   "post-save-message-two": [
     {
       "type": 0,
-      "value": "Vous pouvez le déplacer vers un autre dossier de stockage et utiliser "
+      "value": "您可以将其移至另一个文件夹进行保存，稍后使用"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "打开"
         }
       ],
       "type": 8,
@@ -1282,25 +1290,25 @@
     },
     {
       "type": 0,
-      "value": " pour continuer à le modifier plus tard."
+      "value": "继续编辑。"
     }
   ],
   "post-save-title": [
     {
       "type": 0,
-      "value": "Projet enregistré"
+      "value": "\n项目已保存"
     }
   ],
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "Pour exécuter ce fichier hex sur votre micro:bit "
+      "value": "\n要在您的 micro:bit 上运行此 hex （十六进制) 文件，"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "suivez ces étapes"
+          "value": "请按照以下步骤操作"
         }
       ],
       "type": 8,
@@ -1308,49 +1316,49 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "。"
     }
   ],
   "project-actions": [
     {
       "type": 0,
-      "value": "Actions du projet"
+      "value": "项目行动"
     }
   ],
   "project-header": [
     {
       "type": 0,
-      "value": "En-tête de projet"
+      "value": "项目标题"
     }
   ],
   "project-name": [
     {
       "type": 0,
-      "value": "Intitulé du projet"
+      "value": "项目名称"
     }
   ],
   "project-name-not-empty": [
     {
       "type": 0,
-      "value": "Le nom du projet ne peut pas être vide"
+      "value": "项目名称不能为空"
     }
   ],
   "project-tab": [
     {
       "type": 0,
-      "value": "Projet"
+      "value": "项目"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
+      "value": "查看、创建、添加和编辑您项目中的文件"
     }
   ],
   "python-powered": [
     {
       "type": 0,
-      "value": "Fonctionne avec Python"
+      "value": "\nPython 驱动"
     }
   ],
   "python-tab": [
@@ -1362,55 +1370,55 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?"
+      "value": "某些更改尚未保存。仍然退出吗?"
     }
   ],
   "read-less": [
     {
       "type": 0,
-      "value": "Lire moins"
+      "value": "了解简略信息"
     }
   ],
   "read-more": [
     {
       "type": 0,
-      "value": "Lire plus"
+      "value": "了解更多"
     }
   ],
   "redo": [
     {
       "type": 0,
-      "value": "Refaire"
+      "value": "重做"
     }
   ],
   "reference-tab": [
     {
       "type": 0,
-      "value": "Référence"
+      "value": "参考"
     }
   ],
   "replace-action-label": [
     {
       "type": 0,
-      "value": "Remplacer"
+      "value": "替换"
     }
   ],
   "reset-project-action": [
     {
       "type": 0,
-      "value": "Réinitialiser le projet"
+      "value": "重置项目"
     }
   ],
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "Le projet a été réinitialisé au code de départ par défaut"
+      "value": "项目重置为默认启动代码"
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail"
+      "value": "将项目重置为默认的启动代码，放弃您的工作"
     }
   ],
   "results-count": [
@@ -1421,7 +1429,7 @@
           "value": [
             {
               "type": 0,
-              "value": "Aucun résultat"
+              "value": "No results"
             }
           ]
         },
@@ -1432,7 +1440,7 @@
             },
             {
               "type": 0,
-              "value": " résultat"
+              "value": " result"
             }
           ]
         },
@@ -1443,7 +1451,7 @@
             },
             {
               "type": 0,
-              "value": " résultats"
+              "value": " results"
             }
           ]
         }
@@ -1456,13 +1464,13 @@
   "save-action": [
     {
       "type": 0,
-      "value": "Enregistrer"
+      "value": "保存"
     }
   ],
   "save-file-action": [
     {
       "type": 0,
-      "value": "Enregistrer "
+      "value": "保存 "
     },
     {
       "type": 1,
@@ -1472,73 +1480,73 @@
   "save-hex-action": [
     {
       "type": 0,
-      "value": "Sauvegarder hex du projet"
+      "value": "保存项目hex（十六进制)"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "Enregistre le fichier hex du projet sur votre ordinateur"
+      "value": "将项目的hex(十六进制文件)保存到您的计算机"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "Enregistrer script Python"
+      "value": "保存Python脚本"
     }
   ],
   "search": [
     {
       "type": 0,
-      "value": "Rechercher"
+      "value": "搜索​​​​"
     }
   ],
   "send-action": [
     {
       "type": 0,
-      "value": "Envoyer vers micro:bit"
+      "value": "发送至 micro:bit"
     }
   ],
   "send-hover": [
     {
       "type": 0,
-      "value": "Se connecter via WebUSB puis flasher le code sur le micro:bit"
+      "value": "通过 WebUSB 连接，然后将代码刷到 micro:bit"
     }
   ],
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Masquer le terminal série"
+      "value": "隐藏串口"
     }
   ],
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl+C pour REPL"
+      "value": "发送 Ctrl+C 到 REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl+D pour réinitialiser"
+      "value": "发送 Ctrl+D 来重置"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
-      "value": "Afficher le terminal série"
+      "value": "显示串口"
     }
   ],
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit flashé"
+      "value": "micro:bit 刷入"
     }
   ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "Utilisez le raccourci clavier "
+      "value": "使用键盘快捷键 "
     },
     {
       "children": [
@@ -1566,13 +1574,13 @@
     },
     {
       "type": 0,
-      "value": " pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter."
+      "value": " 来中断您的程序。然后，您可以输入 Python 命令让 MicroPython 运行。这是尝试新事物的好办法。"
     }
   ],
   "serial-help-ctrl-d": [
     {
       "type": 0,
-      "value": "Pour relancer votre programme, utilisez "
+      "value": "若要重新运行程序，请使用 "
     },
     {
       "children": [
@@ -1600,19 +1608,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "。"
     }
   ],
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie."
+      "value": "串行终端显示在您的 micro:bit 上运行的程序的错误和其他输出。默认情况下，它显示程序的最新错误。展开它以查看所有输出。"
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "Votre programme peut inscrire des messages en utilisant la fonction "
+      "value": "您的程序可以使用 "
     },
     {
       "children": [
@@ -1626,13 +1634,13 @@
     },
     {
       "type": 0,
-      "value": ". Essayez d’ajouter "
+      "value": " 函数打印消息。尝试将 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "print('micro:bit est génial')"
+          "value": "print('micro:bit is awesome')"
         }
       ],
       "type": 8,
@@ -1640,79 +1648,79 @@
     },
     {
       "type": 0,
-      "value": " à votre programme."
+      "value": " 添加到您的程序中。"
     }
   ],
   "serial-help-title": [
     {
       "type": 0,
-      "value": "Trucs et astuces sur la communication série"
+      "value": "\n串口提示和技巧"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "Trucs et astuces sur la communication série"
+      "value": "\n串口提示和技巧"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "Menu série"
+      "value": "串行菜单"
     }
   ],
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit prêt à flasher"
+      "value": "micro:bit 刷入就绪"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "En cours d’exécution…"
+      "value": "正在运行..."
     }
   ],
   "serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal série"
+      "value": "串行终端"
     }
   ],
   "setting-allow-editing-third-party": [
     {
       "type": 0,
-      "value": "Autoriser la modification des modules tiers"
+      "value": "允许编辑第三方模块"
     }
   ],
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "La modification de modules tiers peut empêcher leur bon fonctionnement."
+      "value": "更改第三方模块可能意味着它们无法按预期工作。"
     }
   ],
   "settings": [
     {
       "type": 0,
-      "value": "Paramètres"
+      "value": "设置"
     }
   ],
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "Afficher la documentation d’API"
+      "value": "显示 API 文档"
     }
   ],
   "show-less": [
     {
       "type": 0,
-      "value": "Afficher moins"
+      "value": "显示更少"
     }
   ],
   "show-less-for": [
     {
       "type": 0,
-      "value": "Afficher moins pour "
+      "value": "显示更少的 "
     },
     {
       "type": 1,
@@ -1722,65 +1730,69 @@
   "show-more": [
     {
       "type": 0,
-      "value": "Afficher plus"
+      "value": "显示更多"
     }
   ],
   "show-more-for": [
     {
       "type": 0,
-      "value": "Afficher plus pour "
+      "value": "\n显示 "
     },
     {
       "type": 1,
       "value": "item"
+    },
+    {
+      "type": 0,
+      "value": " 的更多信息"
     }
   ],
   "sidebar": [
     {
       "type": 0,
-      "value": "Barre latérale"
+      "value": "侧边栏"
     }
   ],
   "sidebar-collapse": [
     {
       "type": 0,
-      "value": "Réduire la barre latérale"
+      "value": "收起侧边栏"
     }
   ],
   "sidebar-expand": [
     {
       "type": 0,
-      "value": "Déplier la barre latérale"
+      "value": "展开侧边栏"
     }
   ],
   "simulator-accelerometer": [
     {
       "type": 0,
-      "value": "Accéléromètre"
+      "value": "加速度传感器"
     }
   ],
   "simulator-actions": [
     {
       "type": 0,
-      "value": "Actions du simulateur"
+      "value": "模拟器操作"
     }
   ],
   "simulator-button-a": [
     {
       "type": 0,
-      "value": "Bouton A"
+      "value": "按键 A"
     }
   ],
   "simulator-button-b": [
     {
       "type": 0,
-      "value": "Bouton B"
+      "value": "按键 B"
     }
   ],
   "simulator-button-hold-label": [
     {
       "type": 0,
-      "value": "Maintenez le bouton "
+      "value": "按住按钮 "
     },
     {
       "type": 1,
@@ -1790,7 +1802,7 @@
   "simulator-button-press-label": [
     {
       "type": 0,
-      "value": "Appuyer sur le bouton "
+      "value": "按下按钮 "
     },
     {
       "type": 1,
@@ -1800,53 +1812,57 @@
   "simulator-buttons": [
     {
       "type": 0,
-      "value": "Boutons"
+      "value": "按钮"
     }
   ],
   "simulator-collapse": [
     {
       "type": 0,
-      "value": "Réduire le simulateur"
+      "value": "折叠模拟器"
     }
   ],
   "simulator-collapse-module": [
     {
       "type": 0,
-      "value": "Réduire le module "
+      "value": "折叠 "
     },
     {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " 模块"
     }
   ],
   "simulator-compass": [
     {
       "type": 0,
-      "value": "Boussole"
+      "value": "指南针"
     }
   ],
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "Titre"
+      "value": "朝向"
     }
   ],
   "simulator-compass-heading-two": [
     {
       "type": 0,
-      "value": "Intensité du champ magnétique"
+      "value": "磁场强度"
     }
   ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
-      "value": "Aucune entrée journal."
+      "value": "无日志条目。"
     }
   ],
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "Journal plein"
+      "value": "完整日志"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1887,98 +1903,98 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "count"
-    },
-    {
-      "type": 0,
-      "value": " "
     }
   ],
   "simulator-data-logging-save-log": [
     {
       "type": 0,
-      "value": "Sauvegarder le journal"
+      "value": "保存日志"
     }
   ],
   "simulator-data-logging-truncated": [
     {
       "type": 0,
-      "value": "Les anciennes lignes ne sont pas affichées"
+      "value": "不显示较旧的行"
     }
   ],
   "simulator-expand": [
     {
       "type": 0,
-      "value": "Développer le simulateur"
+      "value": "展开模拟器"
     }
   ],
   "simulator-expand-module": [
     {
       "type": 0,
-      "value": "Développer le module "
+      "value": "展开 "
     },
     {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " 模块"
     }
   ],
   "simulator-gesture-select": [
     {
       "type": 0,
-      "value": "Sélectionner un geste"
+      "value": "选择手势"
     }
   ],
   "simulator-gesture-send": [
     {
       "type": 0,
-      "value": "Envoyer un geste"
+      "value": "发送手势"
     }
   ],
   "simulator-hide": [
     {
       "type": 0,
-      "value": "Cacher le simulateur "
+      "value": "隐藏模拟器"
     }
   ],
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "Maintenir"
+      "value": "长按"
     }
   ],
   "simulator-input-press": [
     {
       "type": 0,
-      "value": "Appuyer"
+      "value": "按下"
     }
   ],
   "simulator-light-level": [
     {
       "type": 0,
-      "value": "Niveau de luminosité"
+      "value": "亮度"
     }
   ],
   "simulator-log": [
     {
       "type": 0,
-      "value": "Journal des données"
+      "value": "数据日志"
     }
   ],
   "simulator-loud": [
     {
       "type": 0,
-      "value": "Bruyant"
+      "value": "大声"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "Couper le son"
+      "value": "静音"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "Maintenir la broche "
+      "value": "按住引脚 "
     },
     {
       "type": 1,
@@ -1988,7 +2004,7 @@
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "Appuyer sur la broche "
+      "value": "按下引脚 "
     },
     {
       "type": 1,
@@ -1998,25 +2014,25 @@
   "simulator-pins": [
     {
       "type": 0,
-      "value": "Broches"
+      "value": "引脚"
     }
   ],
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "Silencieux"
+      "value": "安静"
     }
   ],
   "simulator-radio": [
     {
       "type": 0,
-      "value": "Radio"
+      "value": "无线电"
     }
   ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "Le groupe radio est réglé sur "
+      "value": "无线电组设置为 "
     },
     {
       "type": 1,
@@ -2026,133 +2042,133 @@
   "simulator-radio-message": [
     {
       "type": 0,
-      "value": "Message radio"
+      "value": "无线电消息"
     }
   ],
   "simulator-radio-message-limit-notice": [
     {
       "type": 0,
-      "value": "Les anciens messages ne s'affichent pas"
+      "value": "不显示较旧的消息"
     }
   ],
   "simulator-radio-no-messages": [
     {
       "type": 0,
-      "value": "Aucun message à afficher"
+      "value": "无消息显示"
     }
   ],
   "simulator-radio-off": [
     {
       "type": 0,
-      "value": "La radio est éteinte"
+      "value": "无线电已关闭"
     }
   ],
   "simulator-radio-send": [
     {
       "type": 0,
-      "value": "Envoyer un message"
+      "value": "发送消息"
     }
   ],
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "Lien vers la section de référence"
+      "value": "链接到参考部分"
     }
   ],
   "simulator-reset": [
     {
       "type": 0,
-      "value": "Réinitialiser"
+      "value": "复位"
     }
   ],
   "simulator-serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal série du simulateur"
+      "value": "模拟器串行终端"
     }
   ],
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "Niveau sonore"
+      "value": "音量 "
     }
   ],
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Démarrer le simulateur"
+      "value": "启动模拟器"
     }
   ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Arrêter le simulateur"
+      "value": "停止模拟器"
     }
   ],
   "simulator-temperature": [
     {
       "type": 0,
-      "value": "Température"
+      "value": "温度"
     }
   ],
   "simulator-title": [
     {
       "type": 0,
-      "value": "Simulateur"
+      "value": "模拟器"
     }
   ],
   "simulator-touch-logo": [
     {
       "type": 0,
-      "value": "Logo tactile"
+      "value": "触摸标志"
     }
   ],
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "Démuter"
+      "value": "取消静音"
     }
   ],
   "software-versions": [
     {
       "type": 0,
-      "value": "Versions logicielles"
+      "value": "软件版本"
     }
   ],
   "start-coding-action": [
     {
       "type": 0,
-      "value": "Commencer à programmer"
+      "value": "开始编程"
     }
   ],
   "support": [
     {
       "type": 0,
-      "value": "Assistance"
+      "value": "帮助"
     }
   ],
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Conditions d’utilisation"
+      "value": "使用条款"
     }
   ],
   "third-party-module-explanation": [
     {
       "type": 0,
-      "value": "Ce fichier est un module tiers et n'est pas destiné à être modifié."
+      "value": "\n此文件是第三方模块，不可编辑。"
     }
   ],
   "third-party-module-how-to": [
     {
       "type": 0,
-      "value": "Autorisez la modification des modules tiers dans "
+      "value": "在"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Paramètres"
+          "value": "设置"
         }
       ],
       "type": 8,
@@ -2160,53 +2176,57 @@
     },
     {
       "type": 0,
-      "value": " pour modifier ce module."
+      "value": "中允许编辑第三方模块，以修改此模块。"
     }
   ],
   "timeout-error-description": [
     {
       "type": 0,
-      "value": "Impossible de se connecter au micro:bit"
+      "value": "不能连接到 micro:bit"
     }
   ],
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "La connexion a expiré"
+      "value": "连接超时"
     }
   ],
   "title": [
     {
       "type": 0,
-      "value": "Éditeur Python pour micro:bit"
+      "value": "\nmicro:bit 的 Python 编辑器"
     }
   ],
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "Une erreur s’est produite lors du chargement de la boîte à outils."
+      "value": "\n加载工具包时出错。"
     }
   ],
   "toolkit-view-documentation": [
     {
       "type": 0,
-      "value": "Afficher la documentation "
+      "value": "\n查看 "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 文档"
     }
   ],
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "Faites glisser le fichier hex de votre dossier "
+      "value": "\n将 hex（十六进制) 文件从 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Téléchargements"
+          "value": "Downloads(下载) 文件夹"
         }
       ],
       "type": 8,
@@ -2214,13 +2234,13 @@
     },
     {
       "type": 0,
-      "value": " vers le "
+      "value": " 拖到 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "lecteur MICROBIT"
+          "value": "MICROBIT 驱动器"
         }
       ],
       "type": 8,
@@ -2228,19 +2248,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "。"
     }
   ],
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "Vous pourrez "
+      "value": "\n您可以稍后"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "打开"
         }
       ],
       "type": 8,
@@ -2248,37 +2268,37 @@
     },
     {
       "type": 0,
-      "value": " le fichier hex plus tard pour continuer l'édition."
+      "value": " hex(十六进制) 文件以继续编辑。"
     }
   ],
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transférer le fichier hex enregistré vers le micro:bit"
+      "value": "将保存的 hex (十六进制)文件传输到 micro:bit"
     }
   ],
   "try-again-action": [
     {
       "type": 0,
-      "value": "Réessayer"
+      "value": "重试"
     }
   ],
   "undo": [
     {
       "type": 0,
-      "value": "Annuler"
+      "value": "撤销"
     }
   ],
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "Veuillez réessayer ou "
+      "value": "请重试或"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d’assistance"
+          "value": "提交支持请求"
         }
       ],
       "type": 8,
@@ -2288,13 +2308,13 @@
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "Veuillez réessayer ou "
+      "value": "请重试或"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d’assistance"
+          "value": "提交支持请求"
         }
       ],
       "type": 8,
@@ -2304,75 +2324,71 @@
   "untitled-project": [
     {
       "type": 0,
-      "value": "Projet sans titre"
+      "value": "未命名的项目"
     }
   ],
   "update-firmware-action": [
     {
       "type": 0,
-      "value": "Mise à jour du micrologiciel"
+      "value": "升级固件"
     }
   ],
   "updated-change": [
     {
       "type": 0,
-      "value": "Le fichier "
+      "value": "已更新文件 "
     },
     {
       "type": 1,
       "value": "changeName"
-    },
-    {
-      "type": 0,
-      "value": " a été mis à jour"
     }
   ],
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "visiter microbit.org (s’ouvre dans un nouvel onglet)"
+      "value": "访问microbit.org (在新标签页中打开)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "Un autre processus est connecté à cet appareil."
+      "value": "另一个进程已连接到此设备。"
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer."
+      "value": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode , Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。"
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Impossible de demander l’interface"
+      "value": "\n无法声明接口"
     }
   ],
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "Erreur WebUSB"
+      "value": "WebUSB 错误"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "Veuillez reconnecter votre micro:bit et réessayer."
+      "value": "请重新连接 micro:bit 然后再次尝试。"
     }
   ],
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "您需要 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel de votre micro:bit"
+          "value": "升级您的 micro:bit 固件"
         }
       ],
       "type": 8,
@@ -2380,55 +2396,55 @@
     },
     {
       "type": 0,
-      "value": " pour utiliser cette fonctionnalité."
+      "value": " 才能使用此功能。"
     }
   ],
   "webusb-error-update-req-title": [
     {
       "type": 0,
-      "value": "Veuillez mettre à jour le micrologiciel de micro:bit"
+      "value": "请更新 micro:bit 固件"
     }
   ],
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Malheureusement, WebUSB n'est pas pris en charge dans ce navigateur et votre programme sera sauvegardé sur votre ordinateur. Suivez les étapes sur l'écran suivant pour le transférer vers votre micro:bit. Nous vous recommandons Google Chrome ou Microsoft Edge afin que vous puissiez vous connecter directement à votre micro:bit."
+      "value": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请遵循下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge浏览器，以便您可以直接连接到您的 micro:bit。"
     }
   ],
   "webusb-not-supported-title": [
     {
       "type": 0,
-      "value": "Ce navigateur ne supporte pas WebUSB"
+      "value": "此浏览器不支持 WebUSB"
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne."
+      "value": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行终端。"
     }
   ],
   "welcome-message": [
     {
       "type": 0,
-      "value": "Regardez notre court guide sur certaines des fonctionnalités principales, ou commencez à coder immédiatement."
+      "value": "观看我们对一些关键功能的简短指南，或立即开始编程。"
     }
   ],
   "welcome-title": [
     {
       "type": 0,
-      "value": "Bienvenue dans l'éditeur Python micro:bit"
+      "value": "欢迎使用 micro:bit Python 编辑器"
     }
   ],
   "zoom-in-action": [
     {
       "type": 0,
-      "value": "Zoom avant"
+      "value": "放大"
     }
   ],
   "zoom-out-action": [
     {
       "type": 0,
-      "value": "Zoom arrière"
+      "value": "缩小"
     }
   ]
 }
