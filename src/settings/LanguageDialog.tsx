@@ -97,7 +97,6 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
       colorScheme="gray"
       onClick={() => onChooseLanguage(language.id)}
       height="auto"
-      textAlign="left"
       data-testid={language.id}
     >
       <HStack>

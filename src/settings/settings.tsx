@@ -23,9 +23,14 @@ export const supportedLanguages: Language[] = [
     enName: "English",
   },
   {
-    id: "es-es",
-    name: "Español",
-    enName: "Spanish",
+    id: "zh-cn",
+    name: "中文（中华人民共和国）",
+    enName: "Chinese Simplified",
+  },
+  {
+    id: "zh-tw",
+    name: "中文（繁體，台灣）",
+    enName: "Chinese Traditional",
   },
   {
     id: "fr",
@@ -43,14 +48,9 @@ export const supportedLanguages: Language[] = [
     enName: "Korean",
   },
   {
-    id: "zh-cn",
-    name: "中文（中华人民共和国）",
-    enName: "Chinese Simplified",
-  },
-  {
-    id: "zh-tw",
-    name: "中文（繁體，台灣）",
-    enName: "Chinese Traditional",
+    id: "es-es",
+    name: "Español",
+    enName: "Spanish",
   },
 ];
 
