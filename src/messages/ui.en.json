@@ -1857,7 +1857,15 @@
     {
       "offset": 0,
       "options": {
-        "1": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows logged"
+            }
+          ]
+        },
+        "one": {
           "value": [
             {
               "type": 7
@@ -1865,14 +1873,6 @@
             {
               "type": 0,
               "value": " row logged"
-            }
-          ]
-        },
-        "=0": {
-          "value": [
-            {
-              "type": 0,
-              "value": "No rows logged"
             }
           ]
         },
