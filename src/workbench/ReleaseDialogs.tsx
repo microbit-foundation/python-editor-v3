@@ -5,7 +5,7 @@
  */
 import { useCallback } from "react";
 import FeedbackForm from "./FeedbackForm";
-import { ReleaseNoticeState } from "./PreReleaseNotice";
+import { ReleaseNoticeState } from "./release-notice-hooks";
 import WelcomeDialog from "./WelcomeDialog";
 
 interface ReleaseDialogsProps {

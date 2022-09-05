@@ -27,13 +27,6 @@ export type Flag =
   | "dndDebug"
 
   /**
-   * Flag to enable live-only features and hide beta only ones.
-   *
-   * We'll remove this when we go live.
-   */
-  | "livePreview"
-
-  /**
    * Disables the pop-up welcome dialog.
    *
    * Added to support user-testing and has the nice side-effect of disabling
@@ -50,7 +43,6 @@ const allFlags: FlagMetadata[] = [
   // Alphabetical order.
   { name: "audioSoundEffect", defaultOnStages: [] },
   { name: "dndDebug", defaultOnStages: [] },
-  { name: "livePreview", defaultOnStages: ["local", "REVIEW"] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
 ];
 
