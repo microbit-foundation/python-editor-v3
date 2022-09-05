@@ -1,34 +1,34 @@
 {
   "about": {
-    "defaultMessage": "À propos",
+    "defaultMessage": "关于我们",
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent bleu. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent bleu approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs.",
+    "defaultMessage": "由Mike Rowbit 创作的题为“MicroPython Rocks”的三幅漫画。一条卡通蛇介绍了 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
-    "defaultMessage": "Réalisé avec amour par la <link>Micro:bit Educational Foundation et ses contributeurs</link>",
+    "defaultMessage": "<link>Micro:bit Educational Foundation 和捐款人</link> 用爱心制作",
     "description": "Text in about dialog"
   },
   "about-micropython": {
-    "defaultMessage": "L’éditeur dépend de <link>MicroPython</link> qui est créé par Damien George et une communauté de développeurs du monde entier.",
+    "defaultMessage": "编辑器依赖于由 Damien George 和世界各地的开发人员社区开发的 <link>MicroPython</link>。",
     "description": "Text in about dialog"
   },
   "about-read-less-micropython": {
-    "defaultMessage": "En savoir moins sur MicroPython",
+    "defaultMessage": "阅读更少有关 MicroPython 的信息",
     "description": "Aria label to collapse an expanded section about MicroPython"
   },
   "about-read-more-micropython": {
-    "defaultMessage": "En savoir plus sur MicroPython",
+    "defaultMessage": "阅读更多有关 MicroPython 的信息",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "added-change": {
-    "defaultMessage": "Fichier ajouté {changeName}",
+    "defaultMessage": "已添加文件 {changeName}",
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Pour l'utilisation et les exemples, consultez la <link>Référence</link>",
+    "defaultMessage": "关于用法和示例，请参阅 <link>参考</link>",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -36,558 +36,558 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, one {classe de base} other {classes de base : }}",
+    "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
-    "defaultMessage": "Classes",
+    "defaultMessage": "类",
     "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
-    "defaultMessage": "Champs",
+    "defaultMessage": "字段",
     "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
-    "defaultMessage": "Fonctions",
+    "defaultMessage": "函数",
     "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
-    "defaultMessage": "Méthodes",
+    "defaultMessage": "方法",
     "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-action": {
-    "defaultMessage": "Précédent",
+    "defaultMessage": "返回",
     "description": "Back button text"
   },
   "back-to-main": {
-    "defaultMessage": "revenir au code principal",
+    "defaultMessage": "返回主代码",
     "description": "Text button, takes back to main code"
   },
   "cancel-action": {
-    "defaultMessage": "Annuler",
+    "defaultMessage": "取消",
     "description": "Cancel button text"
   },
   "change-files": {
-    "defaultMessage": "Changer de fichiers ?",
+    "defaultMessage": "更改文件？",
     "description": "Header for dialog of confirmation of files changed"
   },
   "choose-main-add-file": {
-    "defaultMessage": "Ajouter le fichier {name}",
+    "defaultMessage": "添加文件 {name}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-add-module": {
-    "defaultMessage": "Ajouter le module {name}",
+    "defaultMessage": "添加模块 {name}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-replace-file": {
-    "defaultMessage": "Remplacer le fichier {name}",
+    "defaultMessage": "替换文件 {name}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-replace-module": {
-    "defaultMessage": "Remplacer le module {name}",
+    "defaultMessage": "替换模块 {name}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "Ajouter le fichier {target} depuis {source}",
+    "defaultMessage": "从 {source} 添加文件 {target}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-main-code": {
-    "defaultMessage": "Ajouter le code principal depuis {source}",
+    "defaultMessage": "从 {source} 添加主代码",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-file": {
-    "defaultMessage": "Remplacer le fichier {target} par {source}",
+    "defaultMessage": "将文件 {target} 替换为 {source}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-main-code": {
-    "defaultMessage": "Remplacer le code principal par {source}",
+    "defaultMessage": "用 {source} 替换主代码",
     "description": "Shown in load dialog to confirm actions"
   },
   "clear": {
-    "defaultMessage": "Effacer",
+    "defaultMessage": "清除",
     "description": "Aria label for the search input"
   },
   "close-action": {
-    "defaultMessage": "Fermer",
+    "defaultMessage": "关闭",
     "description": "Close button text"
   },
   "code-editor": {
-    "defaultMessage": "Éditeur de code",
+    "defaultMessage": "代码编辑器",
     "description": "Aria label for the code editor"
   },
   "code-example": {
-    "defaultMessage": "Exemple de code :",
+    "defaultMessage": "代码示例：",
     "description": "Visually hidden text to announce code examples in the toolkit documentation"
   },
   "confirm-action": {
-    "defaultMessage": "Confirmer",
+    "defaultMessage": "确认",
     "description": "Confirm action label"
   },
   "confirm-delete": {
-    "defaultMessage": "Confirmer la suppression",
+    "defaultMessage": "确认删除",
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "Remplacer tous les fichiers par ceux de l’hex ?",
+    "defaultMessage": "将所有文件替换成十六进制文件？",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
-    "defaultMessage": "Remplacer tous les fichiers avec le code de départ par défaut ?",
+    "defaultMessage": "用默认启动代码替换所有文件？",
     "description": "Confirmation message for the reset action"
   },
   "confirm-replace-title": {
-    "defaultMessage": "Confirmer le remplacement du projet",
+    "defaultMessage": "确认替换项目",
     "description": "Confirmation message title for replacing project dialog"
   },
   "confirm-replace-with-idea": {
-    "defaultMessage": "Remplacer tous les fichiers par {ideaName} ?",
+    "defaultMessage": "用 {ideaName} 替换所有文件？",
     "description": "Confirmation message body for replacing project dialog with an idea"
   },
   "confirm-save-action": {
-    "defaultMessage": "Confirmer et enregistrer",
+    "defaultMessage": "确认并保存",
     "description": "Confirm and save action label"
   },
   "confirm-save-hint": {
-    "defaultMessage": "Annulez et utilisez Enregistrer pour conserver une copie de votre projet.",
+    "defaultMessage": "取消然后使用 Save （保存）来保留您的项目副本。",
     "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
   },
   "connect-action": {
-    "defaultMessage": "Connecter",
+    "defaultMessage": "连接",
     "description": "Connect button text"
   },
   "connect-cable-title": {
-    "defaultMessage": "Connecter le câble",
+    "defaultMessage": "连接电缆",
     "description": "Title for the connect cable dialog"
   },
   "connect-help-alt": {
-    "defaultMessage": "Boîte de dialogue de connexion WebUSB avec une entrée pour le BBC micro:bit étiquetée avec le numéro 1 et le bouton Connexion étiqueté avec le numéro 2",
+    "defaultMessage": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按键",
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
-    "defaultMessage": "Dans la prochaine fenêtre :",
+    "defaultMessage": "在下一个弹出窗口中：",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
-    "defaultMessage": "Sélectionnez votre micro:bit",
+    "defaultMessage": "选择您的 micro:bit",
     "description": "Legend text for the connect help dialog image"
   },
   "connect-help-title": {
-    "defaultMessage": "Sélectionner le micro:bit",
+    "defaultMessage": "选择 micro:bit",
     "description": "Title for the connect help dialog"
   },
   "connect-help-two": {
-    "defaultMessage": "Sélectionnez ‘Connecter’",
+    "defaultMessage": "选择 \"Connect\"（连接）",
     "description": "Legend text for the connect help dialog image"
   },
   "connect-hover": {
-    "defaultMessage": "Connectez-vous à votre micro:bit via WebUSB",
+    "defaultMessage": "通过 WebUSB 连接到您的 micro:bit",
     "description": "Connect button hover text"
   },
   "connect-microbit": {
-    "defaultMessage": "Connectez-vous à votre micro:bit pour voir la sortie série ici",
+    "defaultMessage": "连接到您的 micro:bit 以在此处查看串行输出",
     "description": "Text in serial area"
   },
   "connect-troubleshoot": {
-    "defaultMessage": "Dépannage des problèmes de connexion à votre micro:bit",
+    "defaultMessage": "对连接到 micro:bit 的问题进行排错",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "content-load-error": {
-    "defaultMessage": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page.",
+    "defaultMessage": "出错了。下载您的十六进制文件以便安全保存，然后刷新页面来重新加载。",
     "description": "Text displayed when content fails to load"
   },
   "copied": {
-    "defaultMessage": "Copié",
+    "defaultMessage": "已复制",
     "description": "Text shown after copy to clipboard"
   },
   "copy-action": {
-    "defaultMessage": "Copier",
+    "defaultMessage": "复制",
     "description": "Copy to clipboard action text"
   },
   "copy-code-action": {
-    "defaultMessage": "Copier le code",
+    "defaultMessage": "复制代码",
     "description": "Copy code to clipboard action text"
   },
   "create-action": {
-    "defaultMessage": "Créez",
+    "defaultMessage": "创作",
     "description": "Create action label (e.g. in create file dialog)"
   },
   "create-file-action": {
-    "defaultMessage": "Créer un fichier",
+    "defaultMessage": "创建文件",
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
   "create-python": {
-    "defaultMessage": "Créer un nouveau fichier Python dans ce projet",
+    "defaultMessage": "在此项目中创建一个新的 Python 文件",
     "description": "Hover and dialog title when creating a new Python file"
   },
   "created-file": {
-    "defaultMessage": "{filename} créé",
+    "defaultMessage": "创建 {filename}",
     "description": "Action feedback for creating a file"
   },
   "delete-action": {
-    "defaultMessage": "Supprimer",
+    "defaultMessage": "删除",
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "Supprimer {name}",
+    "defaultMessage": "删除 {name}",
     "description": "Menu option to delete file"
   },
   "deleted-file": {
-    "defaultMessage": "{filename} a été supprimé",
+    "defaultMessage": "已删除 {filename}",
     "description": "Confirmation message that file got deleted"
   },
   "disconnect-action": {
-    "defaultMessage": "Déconnecter",
+    "defaultMessage": "断开连接",
     "description": "Disconnect button text"
   },
   "disconnect-hover": {
-    "defaultMessage": "Se déconnecter du micro:bit",
+    "defaultMessage": "断开 micro:bit 连接",
     "description": "Disconnect button hover text"
   },
   "dont-show-again": {
-    "defaultMessage": "Ne plus afficher ce message",
+    "defaultMessage": "不再显示此内容",
     "description": "Text to never show a dialog again"
   },
   "drag-hover": {
-    "defaultMessage": "Glisser-déposer",
+    "defaultMessage": "拖放",
     "description": "Draggable code hover text"
   },
   "edit-file-action": {
-    "defaultMessage": "Modifier {name}",
+    "defaultMessage": "编辑{name}",
     "description": "Menu option to edit file"
   },
   "edit-name-project-hover": {
-    "defaultMessage": "Modifier le nom de votre projet",
+    "defaultMessage": "编辑您项目的名称",
     "description": "Text for user to edit the name of the project"
   },
   "edit-project-name-action": {
-    "defaultMessage": "Modifier le nom du projet",
+    "defaultMessage": "编辑项目名称",
     "description": "Text for user to edit the name of the project"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "Impossible de créer le fichier hex",
+    "defaultMessage": "无法构建 hex （十六进制) 文件",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
   "feedback": {
-    "defaultMessage": "Votre avis",
+    "defaultMessage": "反馈",
     "description": "Feedback action"
   },
   "file-actions": {
-    "defaultMessage": "Actions sur le fichier {name}",
+    "defaultMessage": "{name} 文件操作",
     "description": "Header of file actions for file"
   },
   "file-already-exists": {
-    "defaultMessage": "Ce fichier existe déjà",
+    "defaultMessage": "该文件已经存在。",
     "description": "File already exists notification text"
   },
   "file-name-invalid-character": {
-    "defaultMessage": "Le nom contient un caractère invalide : {invalid}",
+    "defaultMessage": "名称包含非法字符:{invalid}",
     "description": "Warning text for new Python file name with an invalid character"
   },
   "file-name-length": {
-    "defaultMessage": "Le nom est trop long",
+    "defaultMessage": "名称太长",
     "description": "Warning text for overly long file names (file system limitation)"
   },
   "file-name-lowercase-only": {
-    "defaultMessage": "Le nom doit être en minuscule",
+    "defaultMessage": "名称应全部小写",
     "description": "Warning text for new Python file with uppercase"
   },
   "file-name-not-empty": {
-    "defaultMessage": "Le nom ne peut pas être vide",
+    "defaultMessage": "名称不能为空",
     "description": "Warning text for new Python file with empty name"
   },
   "file-name-start-number": {
-    "defaultMessage": "Le nom ne peut pas débuter par un chiffre",
+    "defaultMessage": "名称不能以数字开头",
     "description": "Warning text for new Python file names starting with a number"
   },
   "file-name-whitespace": {
-    "defaultMessage": "Le nom ne peut pas contenir d'espaces",
+    "defaultMessage": "名称不能包含空格",
     "description": "Warning text for new Python file name with whitespace"
   },
   "firmware-update-link": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel</link> avant de pouvoir vous connecter à ce micro:bit.",
+    "defaultMessage": "您必须<link>更新您的固件</link>，然后才能连接到此 micro:bit。",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-message": {
-    "defaultMessage": "La connexion au micro:bit a échoué car le micrologiciel sur votre micro:bit est trop ancien.",
+    "defaultMessage": "连接到 micro:bit 失败，因为您micro:bit 上的固件太老。",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-title": {
-    "defaultMessage": "Mise à jour du micrologiciel requise",
+    "defaultMessage": "需要更新固件",
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "Flasher",
+    "defaultMessage": "烧录",
     "description": "Text for flash button"
   },
   "flash-hover": {
-    "defaultMessage": "Flasher le projet directement dans le micro:bit",
+    "defaultMessage": "直接下载项目到 micro:bit",
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "Envoi du code (flash)",
+    "defaultMessage": "发送代码（闪烁）",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "Votre code est envoyé (flashé) sur votre micro:bit. Cela peut prendre un certain temps mais il sera plus rapide après cela.",
+    "defaultMessage": "您的代码正被发送（刷）到您的 micro:bit。第一次可能需要一段时间，但之后会更快。",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
-    "defaultMessage": "Flasher MicroPython",
+    "defaultMessage": "刷写 MicroPython",
     "description": "Progress dialog text for full flashes (slower)"
   },
   "font-size": {
-    "defaultMessage": "Taille de police",
+    "defaultMessage": "字体大小",
     "description": "Font size option text"
   },
   "guide-link": {
-    "defaultMessage": "Pour plus d'aide, consultez le <link>Guide de l'éditeur Python</link>",
+    "defaultMessage": "如需更多支持，请参阅 <link>Python 编辑器指南</link>",
     "description": "Text with an external link to support/help content"
   },
   "help": {
-    "defaultMessage": "Aide",
+    "defaultMessage": "帮助",
     "description": "Help menu label"
   },
   "help-support": {
-    "defaultMessage": "Aide et support",
+    "defaultMessage": "帮助与支持",
     "description": "Menu item for link to support site"
   },
   "help-translate": {
-    "defaultMessage": "Contribuer à la traduction",
+    "defaultMessage": "帮助翻译",
     "description": "Help translate  menu option text"
   },
   "highlight-code-structure": {
-    "defaultMessage": "Surligner la structure du code",
+    "defaultMessage": "高亮代码结构",
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
-    "defaultMessage": "Complet",
+    "defaultMessage": "完整",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-none": {
-    "defaultMessage": "Aucun",
+    "defaultMessage": "无",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-simple": {
-    "defaultMessage": "Simple",
+    "defaultMessage": "简单模式",
     "description": "Highlight code structure option"
   },
   "ideas-tab": {
-    "defaultMessage": "Idées",
+    "defaultMessage": "创意",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "Essayez ces projets, modifiez-les et inspirez-vous en",
+    "defaultMessage": "尝试这些项目，修改它们并获得灵感",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
-    "defaultMessage": "Insérer le code"
+    "defaultMessage": "插入代码"
   },
   "language": {
-    "defaultMessage": "Langue",
+    "defaultMessage": "语言",
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "Moins",
+    "defaultMessage": "更少",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
-    "defaultMessage": "Ce fichier hex ne peut pas être chargé dans l'éditeur Python. L'éditeur Python ne peut pas ouvrir les fichiers hex créés avec Microsoft MakeCode.",
+    "defaultMessage": "此 hex 文件无法在 Python 编辑器中加载。 Python 编辑器无法打开使用 Microsoft MakeCode 创建的 hex 文件。",
     "description": "Load error message"
   },
   "load-error-makecode-link": {
-    "defaultMessage": "Veuillez visiter <link>https://makecode.microbit.org/</link> pour utiliser ce fichier hex.",
+    "defaultMessage": "请访问 <link>https://makecode.microbit.org/</link> 来使用这个hex文件。",
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
+    "defaultMessage": "\nhex文件只能单独加载。它取代了项目中的所有文件。",
     "description": "Load error message"
   },
   "load-error-mpy": {
-    "defaultMessage": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy.",
+    "defaultMessage": "这个版本的 Python Editor 不支持添加 .mpy 文件。",
     "description": "Load error message"
   },
   "load-error-title": {
-    "defaultMessage": "Impossible de charger {fileCount, plural, one {le fichier} other {les fichiers}}",
+    "defaultMessage": "无法加载 {fileCount, plural, one {file} other {files}}",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "loaded-file-feedback": {
-    "defaultMessage": "{filename} a été chargé",
+    "defaultMessage": "已加载 {filename}",
     "description": "Success feedback for loading file"
   },
   "loading": {
-    "defaultMessage": "Chargement…",
+    "defaultMessage": "正在加载…",
     "description": "Shown on loading indicators"
   },
   "microbit-hearts-alt": {
-    "defaultMessage": "Carte micro:bit avec la grille LED 5 par 5 montrant un cœur",
+    "defaultMessage": "带有 5 x 5 LED 网格的 micro:bit 板，显示一颗心",
     "description": "Alt text for micro:bit image in About dialog"
   },
   "micropython-documentation": {
-    "defaultMessage": "Documentation de MicroPython",
+    "defaultMessage": "MicroPython 文档",
     "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
-    "defaultMessage": "Découvrez comment MicroPython est né sur le micro:bit",
+    "defaultMessage": "了解 micro:bit 上的 MicroPython 是如何诞生的",
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
-    "defaultMessage": "Code source <linkV1>MicroPython pour le micro:bit V1</linkV1> et pour le <linkV2>micro:bit V2</linkV2>",
+    "defaultMessage": "MicroPython <linkV1>micro:bit V1 的源代码</linkV1>和<linkV2>micro:bit V2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "Plus",
+    "defaultMessage": "更多",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
-    "defaultMessage": "Plus d'options de connexion",
+    "defaultMessage": "更多连接选项",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
   "more-ideas": {
-    "defaultMessage": "<link>Plus d'idées</link>",
+    "defaultMessage": "<link>更多想法</link>",
     "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
   "more-save-options": {
-    "defaultMessage": "Plus d'options d'enregistrement",
+    "defaultMessage": "更多保存选项",
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "Ce projet contient {fileCount, plural, other {{fileCount} fichiers}} mais seul <strong>main.py</strong> a été téléchargé.",
+    "defaultMessage": "此项目包含 {fileCount, plural, other {{fileCount} 文件}} 但只有 <strong>main.py</strong> 已下载。",
     "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
-    "defaultMessage": "Utilisez le bouton <strong>Enregistrer</strong> pour télécharger le projet au complet sous la forme d'un fichier hex. Vous pouvez <strong>Ouvrir</strong> le fichier hex pour restaurer votre projet. Si vous préférez télécharger des fichiers Python individuels, utilisez l'onglet <strong>Projet</strong>.",
+    "defaultMessage": "使用 <strong>Save</strong>（保存） 按键将整个项目下载为一个 hex 文件。您可以 <strong>Open</strong>（打开） 此hex 文件来恢复您的项目。如果您希望下载单个 Python 文件，请使用 <strong>Project</strong>（项目） 选项卡。",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Avertissement : Seul main.py est téléchargé",
+    "defaultMessage": "警告：只下载了 main.py",
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "name-project": {
-    "defaultMessage": "Donnez un nom à votre projet",
+    "defaultMessage": "为您的项目命名",
     "description": "Name your project header"
   },
   "name-text": {
-    "defaultMessage": "Nom",
+    "defaultMessage": "姓名",
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "Ce nom est utilisé lorsque vous enregistrez un fichier hex.",
+    "defaultMessage": "保存hex(十六进制)文件时使用该名称。",
     "description": "Text under project name field"
   },
   "new-file-hint": {
-    "defaultMessage": "Nous ajouterons l’extension <code>.py</code> pour vous.",
+    "defaultMessage": "\n我们将为您添加 <code>.py</code> 扩展名。",
     "description": "Hint shown in the new Python file dialog"
   },
   "next-action": {
-    "defaultMessage": "Suivant",
+    "defaultMessage": "下一个",
     "description": "Next button text"
   },
   "not-found-checklist-one": {
-    "defaultMessage": "Est-ce que votre <strong>micro:bit est branché</strong> ? Avez-vous <link>suivi ces étapes</link> ?",
+    "defaultMessage": "\n您的 <strong>micro:bit 是否已插入</strong>？您是否<link>遵循了这些步骤</link>？",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "Si vous possédez un <strong>micro:bit V1</strong> vous aurez peut-être besoin de <link>mettre à jour le micrologiciel</link>",
+    "defaultMessage": "\n如果您持有的是 <strong>micro:bit V1</strong>，您可能需要<link>更新固件</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
-    "defaultMessage": "Vous n'avez pas sélectionné de micro:bit, ou un problème de connexion est survenu.",
+    "defaultMessage": "\n您没有选择 micro:bit，或者与它的连接有问题。",
     "description": "Text in the no micro:bit found dialog"
   },
   "not-found-save-message": {
-    "defaultMessage": "Méthode alternative : choisissez Enregistrer puis suivez les étapes pour transférer",
+    "defaultMessage": "替代方法：选择保存，然后按照步骤传输",
     "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
-    "defaultMessage": "Aucun micro:bit trouvé",
+    "defaultMessage": "未找到 micro:bit",
     "description": "Title for the micro:bit found dialog"
   },
   "not-found-update-link": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel</link> avant de pouvoir vous connecter à ce micro:bit.",
+    "defaultMessage": "\n您必须<link>更新您的固件，然后</link>才能连接到此 micro:bit。",
     "description": "Text in the no micro:bit found dialog"
   },
   "open-action": {
-    "defaultMessage": "Ouvrir",
+    "defaultMessage": "打开",
     "description": "Open button text"
   },
   "open-file-action": {
-    "defaultMessage": "Ouvrir…",
+    "defaultMessage": "打开…",
     "description": "Open file button text"
   },
   "open-file-dropped": {
-    "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé",
+    "defaultMessage": "放下时打开文件",
     "description": "Aria label for file drop target"
   },
   "open-hover": {
-    "defaultMessage": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers",
+    "defaultMessage": "打开一个hex（十六进制)或 Python 文件，或添加其他文件",
     "description": "Hover text over load button"
   },
   "options": {
-    "defaultMessage": "Options",
+    "defaultMessage": "选项",
     "description": "Label for an options menu"
   },
   "parameter-help": {
-    "defaultMessage": "Aide aux paramètres",
+    "defaultMessage": "参数帮助",
     "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
   },
   "parameter-help-automatic": {
-    "defaultMessage": "Automatique",
+    "defaultMessage": "自动",
     "description": "Parameter help setting for when the parameter documentation is shown automatically"
   },
   "parameter-help-manual": {
-    "defaultMessage": "Manuel ({shortcut})",
+    "defaultMessage": "手动({shortcut})",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
-    "defaultMessage": "Supprimer {filename} définitivement ?",
+    "defaultMessage": "永久删除 {filename} 吗？",
     "description": "Confirmation question to permanently delete file"
   },
   "post-save-message-files": {
-    "defaultMessage": "Ceci contient tous les fichiers de ce projet (y compris tous les fichiers supplémentaires, par exemple pour utiliser les accessoires, listés dans l’onglet <strong>Projet</strong>).",
+    "defaultMessage": "这包含此项目中的所有文件（包括任何附加文件，例如运行附件，列在 <strong>项目</strong> 选项卡中）。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "Vous trouverez votre fichier hex dans le dossier <strong>Téléchargements</strong> de cet ordinateur.",
+    "defaultMessage": "\n▲\n您将在这台计算机的 <strong>Downloads(下载)</strong> 文件夹中找到您的 hex(十六进制) 文件。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
-    "defaultMessage": "Vous pouvez le déplacer vers un autre dossier de stockage et utiliser <strong>Ouvrir</strong> pour continuer à le modifier plus tard.",
+    "defaultMessage": "您可以将其移至另一个文件夹进行保存，稍后使用<strong>打开</strong>继续编辑。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-title": {
-    "defaultMessage": "Projet enregistré",
+    "defaultMessage": "\n项目已保存",
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "Pour exécuter ce fichier hex sur votre micro:bit <link>suivez ces étapes</link>.",
+    "defaultMessage": "\n要在您的 micro:bit 上运行此 hex （十六进制) 文件，<link>请按照以下步骤操作</link>。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
-    "defaultMessage": "Actions du projet",
+    "defaultMessage": "项目行动",
     "description": "Aria label for the bar with project actions"
   },
   "project-header": {
-    "defaultMessage": "En-tête de projet",
+    "defaultMessage": "项目标题",
     "description": "Aria label for the project header area"
   },
   "project-name": {
-    "defaultMessage": "Intitulé du projet",
+    "defaultMessage": "项目名称",
     "description": "Text used to indicate the project name"
   },
   "project-name-not-empty": {
-    "defaultMessage": "Le nom du projet ne peut pas être vide",
+    "defaultMessage": "项目名称不能为空",
     "description": "Validation message for project name"
   },
   "project-tab": {
-    "defaultMessage": "Projet",
+    "defaultMessage": "项目",
     "description": "Project tab button text"
   },
   "project-tab-description": {
-    "defaultMessage": "Visualiser, créer, ajouter et modifier les fichiers de votre projet",
+    "defaultMessage": "查看、创建、添加和编辑您项目中的文件",
     "description": "Project tab description"
   },
   "python-powered": {
-    "defaultMessage": "Fonctionne avec Python",
+    "defaultMessage": "\nPython 驱动",
     "description": "Python powered logo alt text"
   },
   "python-tab": {
@@ -595,519 +595,519 @@
     "description": "Python tab text"
   },
   "quit-anyway": {
-    "defaultMessage": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?",
+    "defaultMessage": "某些更改尚未保存。仍然退出吗?",
     "description": "Quit anyway text"
   },
   "read-less": {
-    "defaultMessage": "Lire moins",
+    "defaultMessage": "了解简略信息",
     "description": "Action text to collapse an expanded section"
   },
   "read-more": {
-    "defaultMessage": "Lire plus",
+    "defaultMessage": "了解更多",
     "description": "Action text to expand a collapsed section"
   },
   "redo": {
-    "defaultMessage": "Refaire",
+    "defaultMessage": "重做",
     "description": "Aria label for the redo button"
   },
   "reference-tab": {
-    "defaultMessage": "Référence",
+    "defaultMessage": "参考",
     "description": "Reference tab button text"
   },
   "replace-action-label": {
-    "defaultMessage": "Remplacer",
+    "defaultMessage": "替换",
     "description": "Action label for replacing project dialog"
   },
   "reset-project-action": {
-    "defaultMessage": "Réinitialiser le projet",
+    "defaultMessage": "重置项目",
     "description": "Action to reset the project to its default state"
   },
   "reset-project-feedback": {
-    "defaultMessage": "Le projet a été réinitialisé au code de départ par défaut",
+    "defaultMessage": "项目重置为默认启动代码",
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail",
+    "defaultMessage": "将项目重置为默认的启动代码，放弃您的工作",
     "description": "Reset action hover text"
   },
   "results-count": {
-    "defaultMessage": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
+    "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
-    "defaultMessage": "Enregistrer",
+    "defaultMessage": "保存",
     "description": "Save button text"
   },
   "save-file-action": {
-    "defaultMessage": "Enregistrer {name}",
+    "defaultMessage": "保存 {name}",
     "description": "Menu option to save a file"
   },
   "save-hex-action": {
-    "defaultMessage": "Sauvegarder hex du projet",
+    "defaultMessage": "保存项目hex（十六进制)",
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "Enregistre le fichier hex du projet sur votre ordinateur",
+    "defaultMessage": "将项目的hex(十六进制文件)保存到您的计算机",
     "description": "Hover text over save button"
   },
   "save-python-action": {
-    "defaultMessage": "Enregistrer script Python",
+    "defaultMessage": "保存Python脚本",
     "description": "Save button menu option to save the Python script"
   },
   "search": {
-    "defaultMessage": "Rechercher",
+    "defaultMessage": "搜索​​​​",
     "description": "Aria label for searching documentation"
   },
   "send-action": {
-    "defaultMessage": "Envoyer vers micro:bit",
+    "defaultMessage": "发送至 micro:bit",
     "description": "Send to micro:bit button text"
   },
   "send-hover": {
-    "defaultMessage": "Se connecter via WebUSB puis flasher le code sur le micro:bit",
+    "defaultMessage": "通过 WebUSB 连接，然后将代码刷到 micro:bit",
     "description": "Send button hover text"
   },
   "serial-collapse": {
-    "defaultMessage": "Masquer le terminal série",
+    "defaultMessage": "隐藏串口",
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Envoyer Ctrl+C pour REPL",
+    "defaultMessage": "发送 Ctrl+C 到 REPL",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Envoyer Ctrl+D pour réinitialiser",
+    "defaultMessage": "发送 Ctrl+D 来重置",
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
-    "defaultMessage": "Afficher le terminal série",
+    "defaultMessage": "显示串口",
     "description": "Action label to expand the serial console/REPL area"
   },
   "serial-flashed": {
-    "defaultMessage": "micro:bit flashé",
+    "defaultMessage": "micro:bit 刷入",
     "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "Utilisez le raccourci clavier <kbd>Ctrl</kbd> + <kbd>C</kbd> pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter.",
+    "defaultMessage": "使用键盘快捷键 <kbd>Ctrl</kbd> + <kbd>C</kbd> 来中断您的程序。然后，您可以输入 Python 命令让 MicroPython 运行。这是尝试新事物的好办法。",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
-    "defaultMessage": "Pour relancer votre programme, utilisez <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
+    "defaultMessage": "若要重新运行程序，请使用 <kbd>Ctrl</kbd> + <kbd>D</kbd>。",
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
-    "defaultMessage": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie.",
+    "defaultMessage": "串行终端显示在您的 micro:bit 上运行的程序的错误和其他输出。默认情况下，它显示程序的最新错误。展开它以查看所有输出。",
     "description": "Text from the serial hints and tips dialog"
   },
   "serial-help-print": {
-    "defaultMessage": "Votre programme peut inscrire des messages en utilisant la fonction <code>print</code>. Essayez d’ajouter <code>print('micro:bit est génial')</code> à votre programme.",
+    "defaultMessage": "您的程序可以使用 <code>print</code> 函数打印消息。尝试将 <code>print('micro:bit is awesome')</code> 添加到您的程序中。",
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
-    "defaultMessage": "Trucs et astuces sur la communication série",
+    "defaultMessage": "\n串口提示和技巧",
     "description": "Title for the serial hints and tips dialog"
   },
   "serial-hints-and-tips": {
-    "defaultMessage": "Trucs et astuces sur la communication série",
+    "defaultMessage": "\n串口提示和技巧",
     "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
-    "defaultMessage": "Menu série",
+    "defaultMessage": "串行菜单",
     "description": "Aria label for serial area menu"
   },
   "serial-ready-to-flash": {
-    "defaultMessage": "micro:bit prêt à flasher",
+    "defaultMessage": "micro:bit 刷入就绪",
     "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
-    "defaultMessage": "En cours d’exécution…",
+    "defaultMessage": "正在运行...",
     "description": "Indicator text when the micro:bit is running a program"
   },
   "serial-terminal": {
-    "defaultMessage": "Terminal série",
+    "defaultMessage": "串行终端",
     "description": "Aria label for the serial terminal"
   },
   "setting-allow-editing-third-party": {
-    "defaultMessage": "Autoriser la modification des modules tiers",
+    "defaultMessage": "允许编辑第三方模块",
     "description": "Checkbox setting label"
   },
   "setting-allow-editing-third-party-info": {
-    "defaultMessage": "La modification de modules tiers peut empêcher leur bon fonctionnement.",
+    "defaultMessage": "更改第三方模块可能意味着它们无法按预期工作。",
     "description": "Checkbox setting label"
   },
   "settings": {
-    "defaultMessage": "Paramètres",
+    "defaultMessage": "设置",
     "description": "Settings text"
   },
   "show-api-documentation": {
-    "defaultMessage": "Afficher la documentation d’API",
+    "defaultMessage": "显示 API 文档",
     "description": "Shown on link from editor autocomplete and signature help to the API docs."
   },
   "show-less": {
-    "defaultMessage": "Afficher moins",
+    "defaultMessage": "显示更少",
     "description": "Show less for general progressive disclosure"
   },
   "show-less-for": {
-    "defaultMessage": "Afficher moins pour {item}",
+    "defaultMessage": "显示更少的 {item}",
     "description": "Show less with item usually for aria label"
   },
   "show-more": {
-    "defaultMessage": "Afficher plus",
+    "defaultMessage": "显示更多",
     "description": "Show more for general progressive disclosure"
   },
   "show-more-for": {
-    "defaultMessage": "Afficher plus pour {item}",
+    "defaultMessage": "\n显示 {item} 的更多信息",
     "description": "Show more with item usually for aria label"
   },
   "sidebar": {
-    "defaultMessage": "Barre latérale",
+    "defaultMessage": "侧边栏",
     "description": "Aria label for the area on the left"
   },
   "sidebar-collapse": {
-    "defaultMessage": "Réduire la barre latérale",
+    "defaultMessage": "收起侧边栏",
     "description": "Aria label for the collapse sidebar button"
   },
   "sidebar-expand": {
-    "defaultMessage": "Déplier la barre latérale",
+    "defaultMessage": "展开侧边栏",
     "description": "Aria label for the expand sidebar button"
   },
   "simulator-accelerometer": {
-    "defaultMessage": "Accéléromètre",
+    "defaultMessage": "加速度传感器",
     "description": "Simulator Accelerometer panel title"
   },
   "simulator-actions": {
-    "defaultMessage": "Actions du simulateur",
+    "defaultMessage": "模拟器操作",
     "description": "Aria label for the bar with simulator actions (stop, mute etc)"
   },
   "simulator-button-a": {
-    "defaultMessage": "Bouton A",
+    "defaultMessage": "按键 A",
     "description": "Button A aria label on the simulator board"
   },
   "simulator-button-b": {
-    "defaultMessage": "Bouton B",
+    "defaultMessage": "按键 B",
     "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
-    "defaultMessage": "Maintenez le bouton {button}",
+    "defaultMessage": "按住按钮 {button}",
     "description": "Aria label for simulator toggle button"
   },
   "simulator-button-press-label": {
-    "defaultMessage": "Appuyer sur le bouton {button}",
+    "defaultMessage": "按下按钮 {button}",
     "description": "Aria label for simulator push button"
   },
   "simulator-buttons": {
-    "defaultMessage": "Boutons",
+    "defaultMessage": "按钮",
     "description": "Buttons simulator panel title"
   },
   "simulator-collapse": {
-    "defaultMessage": "Réduire le simulateur",
+    "defaultMessage": "折叠模拟器",
     "description": "Aria label for the collapse simulator button"
   },
   "simulator-collapse-module": {
-    "defaultMessage": "Réduire le module {title}",
+    "defaultMessage": "折叠 {title} 模块",
     "description": "Aria label for collapse simulator module button"
   },
   "simulator-compass": {
-    "defaultMessage": "Boussole",
+    "defaultMessage": "指南针",
     "description": "Compass simulator panel title"
   },
   "simulator-compass-heading-one": {
-    "defaultMessage": "Titre",
+    "defaultMessage": "朝向",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-compass-heading-two": {
-    "defaultMessage": "Intensité du champ magnétique",
+    "defaultMessage": "磁场强度",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-data-logging-empty": {
-    "defaultMessage": "Aucune entrée journal.",
+    "defaultMessage": "无日志条目。",
     "description": "Shown in the simulator Data logging table when there are no rows"
   },
   "simulator-data-logging-full": {
-    "defaultMessage": "Journal plein",
+    "defaultMessage": "完整日志",
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} autre {# rows logged}} ",
+    "defaultMessage": "{计算, 复数, =0 {No rows logged} 1 {# row logged} 其它 {# rows logged}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
-    "defaultMessage": "Sauvegarder le journal",
+    "defaultMessage": "保存日志",
     "description": "Action label to save the data log as a file from the Data logging simulator panel"
   },
   "simulator-data-logging-truncated": {
-    "defaultMessage": "Les anciennes lignes ne sont pas affichées",
+    "defaultMessage": "不显示较旧的行",
     "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
   },
   "simulator-expand": {
-    "defaultMessage": "Développer le simulateur",
+    "defaultMessage": "展开模拟器",
     "description": "Aria label for the expand simulator button"
   },
   "simulator-expand-module": {
-    "defaultMessage": "Développer le module {title}",
+    "defaultMessage": "展开 {title} 模块",
     "description": "Aria label for expand simulator module button"
   },
   "simulator-gesture-select": {
-    "defaultMessage": "Sélectionner un geste",
+    "defaultMessage": "选择手势",
     "description": "Aria label for the simulator gesture select input"
   },
   "simulator-gesture-send": {
-    "defaultMessage": "Envoyer un geste",
+    "defaultMessage": "发送手势",
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-hide": {
-    "defaultMessage": "Cacher le simulateur ",
+    "defaultMessage": "隐藏模拟器",
     "description": "Hide simulator action"
   },
   "simulator-input-hold": {
-    "defaultMessage": "Maintenir",
+    "defaultMessage": "长按",
     "description": "Label for UI toggles to hold simulator buttons or pins"
   },
   "simulator-input-press": {
-    "defaultMessage": "Appuyer",
+    "defaultMessage": "按下",
     "description": "Label for UI buttons to press simulator buttons or pins"
   },
   "simulator-light-level": {
-    "defaultMessage": "Niveau de luminosité",
+    "defaultMessage": "亮度",
     "description": "Light level simulator panel title"
   },
   "simulator-log": {
-    "defaultMessage": "Journal des données",
+    "defaultMessage": "数据日志",
     "description": "Data log simulator panel title"
   },
   "simulator-loud": {
-    "defaultMessage": "Bruyant",
+    "defaultMessage": "大声",
     "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
-    "defaultMessage": "Couper le son",
+    "defaultMessage": "静音",
     "description": "Aria label for the mute simulator button"
   },
   "simulator-pin-hold-label": {
-    "defaultMessage": "Maintenir la broche {pin}",
+    "defaultMessage": "按住引脚 {pin}",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pin-press-label": {
-    "defaultMessage": "Appuyer sur la broche {pin}",
+    "defaultMessage": "按下引脚 {pin}",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pins": {
-    "defaultMessage": "Broches",
+    "defaultMessage": "引脚",
     "description": "Pins simulator panel title"
   },
   "simulator-quiet": {
-    "defaultMessage": "Silencieux",
+    "defaultMessage": "安静",
     "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
-    "defaultMessage": "Radio",
+    "defaultMessage": "无线电",
     "description": "Radio simulator panel title"
   },
   "simulator-radio-group-notice": {
-    "defaultMessage": "Le groupe radio est réglé sur {groupNumber}",
+    "defaultMessage": "无线电组设置为 {groupNumber}",
     "description": "Message in radio simulator area when the radio group changes"
   },
   "simulator-radio-message": {
-    "defaultMessage": "Message radio",
+    "defaultMessage": "无线电消息",
     "description": "Label and placeholder for the simulator radio message input field"
   },
   "simulator-radio-message-limit-notice": {
-    "defaultMessage": "Les anciens messages ne s'affichent pas",
+    "defaultMessage": "不显示较旧的消息",
     "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
   },
   "simulator-radio-no-messages": {
-    "defaultMessage": "Aucun message à afficher",
+    "defaultMessage": "无消息显示",
     "description": "Text shown when there are no radio messages to display in the simulator user interface"
   },
   "simulator-radio-off": {
-    "defaultMessage": "La radio est éteinte",
+    "defaultMessage": "无线电已关闭",
     "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
   },
   "simulator-radio-send": {
-    "defaultMessage": "Envoyer un message",
+    "defaultMessage": "发送消息",
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-reference-link": {
-    "defaultMessage": "Lien vers la section de référence",
+    "defaultMessage": "链接到参考部分",
     "description": "Aria label for simulator Reference link button"
   },
   "simulator-reset": {
-    "defaultMessage": "Réinitialiser",
+    "defaultMessage": "复位",
     "description": "Aria label for the reset simulator button"
   },
   "simulator-serial-terminal": {
-    "defaultMessage": "Terminal série du simulateur",
+    "defaultMessage": "模拟器串行终端",
     "description": "Aria label for the simulator serial terminal"
   },
   "simulator-sound-level": {
-    "defaultMessage": "Niveau sonore",
+    "defaultMessage": "音量 ",
     "description": "Sound level simulator panel title"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Démarrer le simulateur",
+    "defaultMessage": "启动模拟器",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
-    "defaultMessage": "Arrêter le simulateur",
+    "defaultMessage": "停止模拟器",
     "description": "Aria label for the stop simulator button"
   },
   "simulator-temperature": {
-    "defaultMessage": "Température",
+    "defaultMessage": "温度",
     "description": "Temperature simulator panel title"
   },
   "simulator-title": {
-    "defaultMessage": "Simulateur",
+    "defaultMessage": "模拟器",
     "description": "Simulator title"
   },
   "simulator-touch-logo": {
-    "defaultMessage": "Logo tactile",
+    "defaultMessage": "触摸标志",
     "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
   "simulator-unmute": {
-    "defaultMessage": "Démuter",
+    "defaultMessage": "取消静音",
     "description": "Aria label for the unmute simulator button"
   },
   "software-versions": {
-    "defaultMessage": "Versions logicielles",
+    "defaultMessage": "软件版本",
     "description": "Heading for a table of software versions in the about dialog"
   },
   "start-coding-action": {
-    "defaultMessage": "Commencer à programmer",
+    "defaultMessage": "开始编程",
     "description": "Start coding button text"
   },
   "support": {
-    "defaultMessage": "Assistance",
+    "defaultMessage": "帮助",
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Conditions d’utilisation",
+    "defaultMessage": "使用条款",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {
-    "defaultMessage": "Ce fichier est un module tiers et n'est pas destiné à être modifié.",
+    "defaultMessage": "\n此文件是第三方模块，不可编辑。",
     "description": "Explanation shown instead of the code editor for third-party modules."
   },
   "third-party-module-how-to": {
-    "defaultMessage": "Autorisez la modification des modules tiers dans <link>Paramètres</link> pour modifier ce module.",
+    "defaultMessage": "在<link>设置</link>中允许编辑第三方模块，以修改此模块。",
     "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
-    "defaultMessage": "Impossible de se connecter au micro:bit",
+    "defaultMessage": "不能连接到 micro:bit",
     "description": "Description for error messages relating to WebUSB timeout"
   },
   "timeout-error-title": {
-    "defaultMessage": "La connexion a expiré",
+    "defaultMessage": "连接超时",
     "description": "Title for error messages relating to WebUSB timeout"
   },
   "title": {
-    "defaultMessage": "Éditeur Python pour micro:bit",
+    "defaultMessage": "\nmicro:bit 的 Python 编辑器",
     "description": "Application title"
   },
   "toolkit-error-loading": {
-    "defaultMessage": "Une erreur s’est produite lors du chargement de la boîte à outils.",
+    "defaultMessage": "\n加载工具包时出错。",
     "description": "Error shown if we failed to load toolkit content"
   },
   "toolkit-view-documentation": {
-    "defaultMessage": "Afficher la documentation {name}",
+    "defaultMessage": "\n查看 {name} 文档",
     "description": "Aria label for the toolkit topic right arrow"
   },
   "transfer-hex-message-one": {
-    "defaultMessage": "Faites glisser le fichier hex de votre dossier <strong>Téléchargements</strong> vers le <strong>lecteur MICROBIT</strong>.",
+    "defaultMessage": "\n将 hex（十六进制) 文件从 <strong>Downloads(下载) 文件夹</strong> 拖到 <strong>MICROBIT 驱动器</strong>。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "Vous pourrez <strong>Ouvrir</strong> le fichier hex plus tard pour continuer l'édition.",
+    "defaultMessage": "\n您可以稍后<strong>打开</strong> hex(十六进制) 文件以继续编辑。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "Transférer le fichier hex enregistré vers le micro:bit",
+    "defaultMessage": "将保存的 hex (十六进制)文件传输到 micro:bit",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
-    "defaultMessage": "Réessayer",
+    "defaultMessage": "重试",
     "description": "Try again button text"
   },
   "undo": {
-    "defaultMessage": "Annuler",
+    "defaultMessage": "撤销",
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
+    "defaultMessage": "请重试或<link>提交支持请求</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
+    "defaultMessage": "请重试或<link>提交支持请求</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
-    "defaultMessage": "Projet sans titre",
+    "defaultMessage": "未命名的项目",
     "description": "Title for a new project"
   },
   "update-firmware-action": {
-    "defaultMessage": "Mise à jour du micrologiciel",
+    "defaultMessage": "升级固件",
     "description": "Update firmware button text"
   },
   "updated-change": {
-    "defaultMessage": "Le fichier {changeName} a été mis à jour",
+    "defaultMessage": "已更新文件 {changeName}",
     "description": "Change made to file"
   },
   "visit-dot-org": {
-    "defaultMessage": "visiter microbit.org (s’ouvre dans un nouvel onglet)",
+    "defaultMessage": "访问microbit.org (在新标签页中打开)",
     "description": "alt text for logo link to .org"
   },
   "webusb-error-clear-connect-description-1": {
-    "defaultMessage": "Un autre processus est connecté à cet appareil.",
+    "defaultMessage": "另一个进程已连接到此设备。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer.",
+    "defaultMessage": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode , Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Impossible de demander l’interface",
+    "defaultMessage": "\n无法声明接口",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
-    "defaultMessage": "Erreur WebUSB",
+    "defaultMessage": "WebUSB 错误",
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "Veuillez reconnecter votre micro:bit et réessayer.",
+    "defaultMessage": "请重新连接 micro:bit 然后再次尝试。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-update-req-description": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel de votre micro:bit</link> pour utiliser cette fonctionnalité.",
+    "defaultMessage": "您需要 <link>升级您的 micro:bit 固件</link> 才能使用此功能。",
     "description": "WebUSB error telling user to update firmware"
   },
   "webusb-error-update-req-title": {
-    "defaultMessage": "Veuillez mettre à jour le micrologiciel de micro:bit",
+    "defaultMessage": "请更新 micro:bit 固件",
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Malheureusement, WebUSB n'est pas pris en charge dans ce navigateur et votre programme sera sauvegardé sur votre ordinateur. Suivez les étapes sur l'écran suivant pour le transférer vers votre micro:bit. Nous vous recommandons Google Chrome ou Microsoft Edge afin que vous puissiez vous connecter directement à votre micro:bit.",
+    "defaultMessage": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请遵循下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge浏览器，以便您可以直接连接到您的 micro:bit。",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
-    "defaultMessage": "Ce navigateur ne supporte pas WebUSB",
+    "defaultMessage": "此浏览器不支持 WebUSB",
     "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne.",
+    "defaultMessage": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行终端。",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {
-    "defaultMessage": "Regardez notre court guide sur certaines des fonctionnalités principales, ou commencez à coder immédiatement.",
+    "defaultMessage": "观看我们对一些关键功能的简短指南，或立即开始编程。",
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {
-    "defaultMessage": "Bienvenue dans l'éditeur Python micro:bit",
+    "defaultMessage": "欢迎使用 micro:bit Python 编辑器",
     "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {
-    "defaultMessage": "Zoom avant",
+    "defaultMessage": "放大",
     "description": "Text label for zoom in button"
   },
   "zoom-out-action": {
-    "defaultMessage": "Zoom arrière",
+    "defaultMessage": "缩小",
     "description": "Text label for zoom out button"
   }
 }

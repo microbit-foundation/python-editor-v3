@@ -29,13 +29,6 @@ export const supportedLanguages: Language[] = [
     enName: "French",
   },
 ];
-if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
-  supportedLanguages.push({
-    id: "lol", // This has to be a valid locale value, so can't be e.g. "test".
-    name: "Translation test",
-    enName: "Translation test",
-  });
-}
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;

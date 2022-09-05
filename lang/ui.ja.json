@@ -1,34 +1,34 @@
 {
   "about": {
-    "defaultMessage": "À propos",
+    "defaultMessage": "micro:bitについて",
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent bleu. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent bleu approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs.",
+    "defaultMessage": "Mike Rowbitによる「MicroPython Rocks」（MicroPython最高！）という3コマ漫画。漫画のヘビが「Damienを紹介します... 彼はMicroPythonを作成しました」と言ってDamienを紹介します。2匹のヘビがMicroPythonについて話します。黄色のヘビが「MicroPythonは非常に小さなコンピュータで動作するように設計されています」と言います。紫のヘビが「あなたのBBC micro:bitのようにね」と応じます。黄色のヘビが「けれどもPythonはどこでも動作します」と続けます。 紫のヘビは同意して「巨大なウェブサイトを動かすこのラックのサーバーのようにね」と言います。ヘビたちの背後にはサーバーラックが見えます。",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
-    "defaultMessage": "Réalisé avec amour par la <link>Micro:bit Educational Foundation et ses contributeurs</link>",
+    "defaultMessage": "<link>Micro:bit Educational Foundationと貢献者</link>により愛を込めて作られました",
     "description": "Text in about dialog"
   },
   "about-micropython": {
-    "defaultMessage": "L’éditeur dépend de <link>MicroPython</link> qui est créé par Damien George et une communauté de développeurs du monde entier.",
+    "defaultMessage": "このエディタは、Damien Georgeと世界中の開発者コミュニティによって作られた<link>MicroPython</link>に依存しています。",
     "description": "Text in about dialog"
   },
   "about-read-less-micropython": {
-    "defaultMessage": "En savoir moins sur MicroPython",
+    "defaultMessage": "MicroPythonについて読まない",
     "description": "Aria label to collapse an expanded section about MicroPython"
   },
   "about-read-more-micropython": {
-    "defaultMessage": "En savoir plus sur MicroPython",
+    "defaultMessage": "MicroPythonについてもっと読む",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "added-change": {
-    "defaultMessage": "Fichier ajouté {changeName}",
+    "defaultMessage": "ファイル {changeName} を追加しました",
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Pour l'utilisation et les exemples, consultez la <link>Référence</link>",
+    "defaultMessage": "使用方法と例については、<link>リファレンス</link>を参照してください。",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -36,558 +36,558 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, one {classe de base} other {classes de base : }}",
+    "defaultMessage": "{baseClassCount, plural, other {ベースクラス: }}",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
-    "defaultMessage": "Classes",
+    "defaultMessage": "クラス",
     "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
-    "defaultMessage": "Champs",
+    "defaultMessage": "フィールド",
     "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
-    "defaultMessage": "Fonctions",
+    "defaultMessage": "関数",
     "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
-    "defaultMessage": "Méthodes",
+    "defaultMessage": "メソッド",
     "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-action": {
-    "defaultMessage": "Précédent",
+    "defaultMessage": "戻る",
     "description": "Back button text"
   },
   "back-to-main": {
-    "defaultMessage": "revenir au code principal",
+    "defaultMessage": "メインコードに戻る",
     "description": "Text button, takes back to main code"
   },
   "cancel-action": {
-    "defaultMessage": "Annuler",
+    "defaultMessage": "キャンセル",
     "description": "Cancel button text"
   },
   "change-files": {
-    "defaultMessage": "Changer de fichiers ?",
+    "defaultMessage": "ファイルを変更しますか？",
     "description": "Header for dialog of confirmation of files changed"
   },
   "choose-main-add-file": {
-    "defaultMessage": "Ajouter le fichier {name}",
+    "defaultMessage": "ファイル {name} を追加",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-add-module": {
-    "defaultMessage": "Ajouter le module {name}",
+    "defaultMessage": "モジュール {name} を追加",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-replace-file": {
-    "defaultMessage": "Remplacer le fichier {name}",
+    "defaultMessage": "ファイル {name} を置き換え",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-replace-module": {
-    "defaultMessage": "Remplacer le module {name}",
+    "defaultMessage": "モジュール {name} を置き換え",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "Ajouter le fichier {target} depuis {source}",
+    "defaultMessage": "{source}からファイル {target} を追加",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-main-code": {
-    "defaultMessage": "Ajouter le code principal depuis {source}",
+    "defaultMessage": "{source} からメインコードを追加",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-file": {
-    "defaultMessage": "Remplacer le fichier {target} par {source}",
+    "defaultMessage": "ファイル {target} を{source}に置き換え",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-main-code": {
-    "defaultMessage": "Remplacer le code principal par {source}",
+    "defaultMessage": "メインコードを {source} に置き換え",
     "description": "Shown in load dialog to confirm actions"
   },
   "clear": {
-    "defaultMessage": "Effacer",
+    "defaultMessage": "クリア",
     "description": "Aria label for the search input"
   },
   "close-action": {
-    "defaultMessage": "Fermer",
+    "defaultMessage": "閉じる",
     "description": "Close button text"
   },
   "code-editor": {
-    "defaultMessage": "Éditeur de code",
+    "defaultMessage": "コードエディター",
     "description": "Aria label for the code editor"
   },
   "code-example": {
-    "defaultMessage": "Exemple de code :",
+    "defaultMessage": "コード例:",
     "description": "Visually hidden text to announce code examples in the toolkit documentation"
   },
   "confirm-action": {
-    "defaultMessage": "Confirmer",
+    "defaultMessage": "確認",
     "description": "Confirm action label"
   },
   "confirm-delete": {
-    "defaultMessage": "Confirmer la suppression",
+    "defaultMessage": "削除の確認",
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "Remplacer tous les fichiers par ceux de l’hex ?",
+    "defaultMessage": "すべてのファイルをHEXに置き換えますか？",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
-    "defaultMessage": "Remplacer tous les fichiers avec le code de départ par défaut ?",
+    "defaultMessage": "すべてのファイルをデフォルトのスターターコードに置き換えますか？",
     "description": "Confirmation message for the reset action"
   },
   "confirm-replace-title": {
-    "defaultMessage": "Confirmer le remplacement du projet",
+    "defaultMessage": "プロジェクトの置き換えを確認",
     "description": "Confirmation message title for replacing project dialog"
   },
   "confirm-replace-with-idea": {
-    "defaultMessage": "Remplacer tous les fichiers par {ideaName} ?",
+    "defaultMessage": "すべてのファイルを{ideaName}に置き換えますか？",
     "description": "Confirmation message body for replacing project dialog with an idea"
   },
   "confirm-save-action": {
-    "defaultMessage": "Confirmer et enregistrer",
+    "defaultMessage": "確認して保存",
     "description": "Confirm and save action label"
   },
   "confirm-save-hint": {
-    "defaultMessage": "Annulez et utilisez Enregistrer pour conserver une copie de votre projet.",
+    "defaultMessage": "キャンセルして、保存を使ってプロジェクトのコピーを保持します。",
     "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
   },
   "connect-action": {
-    "defaultMessage": "Connecter",
+    "defaultMessage": "接続",
     "description": "Connect button text"
   },
   "connect-cable-title": {
-    "defaultMessage": "Connecter le câble",
+    "defaultMessage": "ケーブルを接続",
     "description": "Title for the connect cable dialog"
   },
   "connect-help-alt": {
-    "defaultMessage": "Boîte de dialogue de connexion WebUSB avec une entrée pour le BBC micro:bit étiquetée avec le numéro 1 et le bouton Connexion étiqueté avec le numéro 2",
+    "defaultMessage": "1のラベルが付いたBBC micro:bitエントリと2のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ",
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
-    "defaultMessage": "Dans la prochaine fenêtre :",
+    "defaultMessage": "次のポップアップ",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
-    "defaultMessage": "Sélectionnez votre micro:bit",
+    "defaultMessage": "micro:bitを選ぶ",
     "description": "Legend text for the connect help dialog image"
   },
   "connect-help-title": {
-    "defaultMessage": "Sélectionner le micro:bit",
+    "defaultMessage": "micro:bitを選択",
     "description": "Title for the connect help dialog"
   },
   "connect-help-two": {
-    "defaultMessage": "Sélectionnez ‘Connecter’",
+    "defaultMessage": "「接続」を選択",
     "description": "Legend text for the connect help dialog image"
   },
   "connect-hover": {
-    "defaultMessage": "Connectez-vous à votre micro:bit via WebUSB",
+    "defaultMessage": "WebUSB経由でmicro:bitに接続",
     "description": "Connect button hover text"
   },
   "connect-microbit": {
-    "defaultMessage": "Connectez-vous à votre micro:bit pour voir la sortie série ici",
+    "defaultMessage": "micro:bitに接続してシリアル出力を確認",
     "description": "Text in serial area"
   },
   "connect-troubleshoot": {
-    "defaultMessage": "Dépannage des problèmes de connexion à votre micro:bit",
+    "defaultMessage": "micro:bit接続時に発生する問題のトラブルシューティング",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "content-load-error": {
-    "defaultMessage": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page.",
+    "defaultMessage": "問題が発生しました。HEXファイルをダウンロードして、ページをリロードしてください。",
     "description": "Text displayed when content fails to load"
   },
   "copied": {
-    "defaultMessage": "Copié",
+    "defaultMessage": "コピーしました",
     "description": "Text shown after copy to clipboard"
   },
   "copy-action": {
-    "defaultMessage": "Copier",
+    "defaultMessage": "コピー",
     "description": "Copy to clipboard action text"
   },
   "copy-code-action": {
-    "defaultMessage": "Copier le code",
+    "defaultMessage": "コードをコピー",
     "description": "Copy code to clipboard action text"
   },
   "create-action": {
-    "defaultMessage": "Créez",
+    "defaultMessage": "作る",
     "description": "Create action label (e.g. in create file dialog)"
   },
   "create-file-action": {
-    "defaultMessage": "Créer un fichier",
+    "defaultMessage": "ファイルを作成",
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
   "create-python": {
-    "defaultMessage": "Créer un nouveau fichier Python dans ce projet",
+    "defaultMessage": "このプロジェクトに新しいPythonファイルを作成",
     "description": "Hover and dialog title when creating a new Python file"
   },
   "created-file": {
-    "defaultMessage": "{filename} créé",
+    "defaultMessage": "{filename} を作成しました",
     "description": "Action feedback for creating a file"
   },
   "delete-action": {
-    "defaultMessage": "Supprimer",
+    "defaultMessage": "削除",
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "Supprimer {name}",
+    "defaultMessage": "{name} を削除",
     "description": "Menu option to delete file"
   },
   "deleted-file": {
-    "defaultMessage": "{filename} a été supprimé",
+    "defaultMessage": "{filename} を削除しました",
     "description": "Confirmation message that file got deleted"
   },
   "disconnect-action": {
-    "defaultMessage": "Déconnecter",
+    "defaultMessage": "切断",
     "description": "Disconnect button text"
   },
   "disconnect-hover": {
-    "defaultMessage": "Se déconnecter du micro:bit",
+    "defaultMessage": "micro:bitを切断",
     "description": "Disconnect button hover text"
   },
   "dont-show-again": {
-    "defaultMessage": "Ne plus afficher ce message",
+    "defaultMessage": "今後表示しない",
     "description": "Text to never show a dialog again"
   },
   "drag-hover": {
-    "defaultMessage": "Glisser-déposer",
+    "defaultMessage": "ドラッグ＆ドロップ",
     "description": "Draggable code hover text"
   },
   "edit-file-action": {
-    "defaultMessage": "Modifier {name}",
+    "defaultMessage": "{name} を編集",
     "description": "Menu option to edit file"
   },
   "edit-name-project-hover": {
-    "defaultMessage": "Modifier le nom de votre projet",
+    "defaultMessage": "プロジェクトの名前を編集",
     "description": "Text for user to edit the name of the project"
   },
   "edit-project-name-action": {
-    "defaultMessage": "Modifier le nom du projet",
+    "defaultMessage": "プロジェクト名を編集",
     "description": "Text for user to edit the name of the project"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "Impossible de créer le fichier hex",
+    "defaultMessage": "hexファイルのビルドに失敗しました",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
   "feedback": {
-    "defaultMessage": "Votre avis",
+    "defaultMessage": "フィードバック",
     "description": "Feedback action"
   },
   "file-actions": {
-    "defaultMessage": "Actions sur le fichier {name}",
+    "defaultMessage": "{name} ファイルのアクション",
     "description": "Header of file actions for file"
   },
   "file-already-exists": {
-    "defaultMessage": "Ce fichier existe déjà",
+    "defaultMessage": "ファイルは既に存在します",
     "description": "File already exists notification text"
   },
   "file-name-invalid-character": {
-    "defaultMessage": "Le nom contient un caractère invalide : {invalid}",
+    "defaultMessage": "名前に無効な文字が含まれています: {invalid}",
     "description": "Warning text for new Python file name with an invalid character"
   },
   "file-name-length": {
-    "defaultMessage": "Le nom est trop long",
+    "defaultMessage": "名前が長すぎます",
     "description": "Warning text for overly long file names (file system limitation)"
   },
   "file-name-lowercase-only": {
-    "defaultMessage": "Le nom doit être en minuscule",
+    "defaultMessage": "名前はすべて小文字にする必要があります",
     "description": "Warning text for new Python file with uppercase"
   },
   "file-name-not-empty": {
-    "defaultMessage": "Le nom ne peut pas être vide",
+    "defaultMessage": "名前は空にできません",
     "description": "Warning text for new Python file with empty name"
   },
   "file-name-start-number": {
-    "defaultMessage": "Le nom ne peut pas débuter par un chiffre",
+    "defaultMessage": "名前を数字で始めることはできません",
     "description": "Warning text for new Python file names starting with a number"
   },
   "file-name-whitespace": {
-    "defaultMessage": "Le nom ne peut pas contenir d'espaces",
+    "defaultMessage": "名前にスペースを含めることはできません",
     "description": "Warning text for new Python file name with whitespace"
   },
   "firmware-update-link": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel</link> avant de pouvoir vous connecter à ce micro:bit.",
+    "defaultMessage": "このmicro:bitに接続するには、<link>ファームウェアを更新する</link>必要があります。",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-message": {
-    "defaultMessage": "La connexion au micro:bit a échoué car le micrologiciel sur votre micro:bit est trop ancien.",
+    "defaultMessage": "micro:bitのファームウェアが古すぎるため、micro:bitへの接続に失敗しました。",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-title": {
-    "defaultMessage": "Mise à jour du micrologiciel requise",
+    "defaultMessage": "ファームウェアの更新が必要です",
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "Flasher",
+    "defaultMessage": "書き込み",
     "description": "Text for flash button"
   },
   "flash-hover": {
-    "defaultMessage": "Flasher le projet directement dans le micro:bit",
+    "defaultMessage": "プロジェクトをmicro:bitに直接書き込む",
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "Envoi du code (flash)",
+    "defaultMessage": "プログラムを送信中（書き込み中）",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "Votre code est envoyé (flashé) sur votre micro:bit. Cela peut prendre un certain temps mais il sera plus rapide après cela.",
+    "defaultMessage": "プログラムがmicro:bitに送信（書き込み）されています。最初はしばらく時間がかかることがありますが、その後は速くなります。",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
-    "defaultMessage": "Flasher MicroPython",
+    "defaultMessage": "MicroPython の書込み",
     "description": "Progress dialog text for full flashes (slower)"
   },
   "font-size": {
-    "defaultMessage": "Taille de police",
+    "defaultMessage": "フォントサイズ",
     "description": "Font size option text"
   },
   "guide-link": {
-    "defaultMessage": "Pour plus d'aide, consultez le <link>Guide de l'éditeur Python</link>",
+    "defaultMessage": "サポートについては、<link>Pythonエディターガイド</link>を参照してください",
     "description": "Text with an external link to support/help content"
   },
   "help": {
-    "defaultMessage": "Aide",
+    "defaultMessage": "ヘルプ",
     "description": "Help menu label"
   },
   "help-support": {
-    "defaultMessage": "Aide et support",
+    "defaultMessage": "ヘルプとサポート",
     "description": "Menu item for link to support site"
   },
   "help-translate": {
-    "defaultMessage": "Contribuer à la traduction",
+    "defaultMessage": "翻訳を手伝う",
     "description": "Help translate  menu option text"
   },
   "highlight-code-structure": {
-    "defaultMessage": "Surligner la structure du code",
+    "defaultMessage": "コード構造を強調表示",
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
-    "defaultMessage": "Complet",
+    "defaultMessage": "全て",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-none": {
-    "defaultMessage": "Aucun",
+    "defaultMessage": "なし",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-simple": {
-    "defaultMessage": "Simple",
+    "defaultMessage": "簡易",
     "description": "Highlight code structure option"
   },
   "ideas-tab": {
-    "defaultMessage": "Idées",
+    "defaultMessage": "アイデア",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "Essayez ces projets, modifiez-les et inspirez-vous en",
+    "defaultMessage": "これらのプロジェクトを試したり、変更したりして、ひらめきを得てください",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
-    "defaultMessage": "Insérer le code"
+    "defaultMessage": "コードを挿入"
   },
   "language": {
-    "defaultMessage": "Langue",
+    "defaultMessage": "言語",
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "Moins",
+    "defaultMessage": "減らす",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
-    "defaultMessage": "Ce fichier hex ne peut pas être chargé dans l'éditeur Python. L'éditeur Python ne peut pas ouvrir les fichiers hex créés avec Microsoft MakeCode.",
+    "defaultMessage": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。",
     "description": "Load error message"
   },
   "load-error-makecode-link": {
-    "defaultMessage": "Veuillez visiter <link>https://makecode.microbit.org/</link> pour utiliser ce fichier hex.",
+    "defaultMessage": "このhexファイルを使用するには、<link>https://makecode.microbit.org/</link>を参照してください。",
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet.",
+    "defaultMessage": "hexファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。",
     "description": "Load error message"
   },
   "load-error-mpy": {
-    "defaultMessage": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy.",
+    "defaultMessage": "このバージョンのPythonエディターは現在.mpyファイルの追加をサポートしていません。",
     "description": "Load error message"
   },
   "load-error-title": {
-    "defaultMessage": "Impossible de charger {fileCount, plural, one {le fichier} other {les fichiers}}",
+    "defaultMessage": "{fileCount, plural, other {ファイル}}を読み込むことができません",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "loaded-file-feedback": {
-    "defaultMessage": "{filename} a été chargé",
+    "defaultMessage": "{filename} を読み込みました",
     "description": "Success feedback for loading file"
   },
   "loading": {
-    "defaultMessage": "Chargement…",
+    "defaultMessage": "読み込み中…",
     "description": "Shown on loading indicators"
   },
   "microbit-hearts-alt": {
-    "defaultMessage": "Carte micro:bit avec la grille LED 5 par 5 montrant un cœur",
+    "defaultMessage": "5×5のLEDグリッドにハートを表示するmicro:bitボード",
     "description": "Alt text for micro:bit image in About dialog"
   },
   "micropython-documentation": {
-    "defaultMessage": "Documentation de MicroPython",
+    "defaultMessage": "MicroPythonドキュメント",
     "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
-    "defaultMessage": "Découvrez comment MicroPython est né sur le micro:bit",
+    "defaultMessage": "micro:bit上のMicroPythonがどのように生まれたかを学ぶ",
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
-    "defaultMessage": "Code source <linkV1>MicroPython pour le micro:bit V1</linkV1> et pour le <linkV2>micro:bit V2</linkV2>",
+    "defaultMessage": "MicroPython <linkV1>micro:bit V1</linkV1>と<linkV2>micro:bit V2のソースコード</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "Plus",
+    "defaultMessage": "増やす",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
-    "defaultMessage": "Plus d'options de connexion",
+    "defaultMessage": "その他の接続オプション",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
   "more-ideas": {
-    "defaultMessage": "<link>Plus d'idées</link>",
+    "defaultMessage": "<link>他のアイデア</link>",
     "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
   "more-save-options": {
-    "defaultMessage": "Plus d'options d'enregistrement",
+    "defaultMessage": "その他の保存オプション",
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "Ce projet contient {fileCount, plural, other {{fileCount} fichiers}} mais seul <strong>main.py</strong> a été téléchargé.",
+    "defaultMessage": "このプロジェクトには{fileCount, plural, other {{fileCount}個のファイル}}が含まれますが、<strong>main.py</strong>のみがダウンロードされています。",
     "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
-    "defaultMessage": "Utilisez le bouton <strong>Enregistrer</strong> pour télécharger le projet au complet sous la forme d'un fichier hex. Vous pouvez <strong>Ouvrir</strong> le fichier hex pour restaurer votre projet. Si vous préférez télécharger des fichiers Python individuels, utilisez l'onglet <strong>Projet</strong>.",
+    "defaultMessage": "<strong>保存</strong>ボタンを使ってプロジェクト全体をhexファイルにダウンロードします。そのhexファイルを<strong>開く</strong>とプロジェクトを復元することができます。Pythonファイルを個別にダウンロードしたいなら、<strong>プロジェクト</strong>タブを使用します。",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Avertissement : Seul main.py est téléchargé",
+    "defaultMessage": "注意: main.pyのみダウンロードされました",
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "name-project": {
-    "defaultMessage": "Donnez un nom à votre projet",
+    "defaultMessage": "プロジェクトに名前を付ける",
     "description": "Name your project header"
   },
   "name-text": {
-    "defaultMessage": "Nom",
+    "defaultMessage": "名前",
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "Ce nom est utilisé lorsque vous enregistrez un fichier hex.",
+    "defaultMessage": "この名前はhexファイルを保存するときに使用されます。",
     "description": "Text under project name field"
   },
   "new-file-hint": {
-    "defaultMessage": "Nous ajouterons l’extension <code>.py</code> pour vous.",
+    "defaultMessage": "<code>.py</code>拡張子を追加します。",
     "description": "Hint shown in the new Python file dialog"
   },
   "next-action": {
-    "defaultMessage": "Suivant",
+    "defaultMessage": "次",
     "description": "Next button text"
   },
   "not-found-checklist-one": {
-    "defaultMessage": "Est-ce que votre <strong>micro:bit est branché</strong> ? Avez-vous <link>suivi ces étapes</link> ?",
+    "defaultMessage": "<strong>micro:bitは接続</strong>されていますか？<link>以下の手順</link>に従いましたか？",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "Si vous possédez un <strong>micro:bit V1</strong> vous aurez peut-être besoin de <link>mettre à jour le micrologiciel</link>",
+    "defaultMessage": "<strong>micro:bit V1</strong>をお持ちの場合は、<link>ファームウェアを更新</link>する必要があります。",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
-    "defaultMessage": "Vous n'avez pas sélectionné de micro:bit, ou un problème de connexion est survenu.",
+    "defaultMessage": "micro:bitを選択していないか、接続中に問題が発生しました。",
     "description": "Text in the no micro:bit found dialog"
   },
   "not-found-save-message": {
-    "defaultMessage": "Méthode alternative : choisissez Enregistrer puis suivez les étapes pour transférer",
+    "defaultMessage": "代替方法: 保存を選択し、転送する手順に従ってください",
     "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
-    "defaultMessage": "Aucun micro:bit trouvé",
+    "defaultMessage": "micro:bitが見つかりません",
     "description": "Title for the micro:bit found dialog"
   },
   "not-found-update-link": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel</link> avant de pouvoir vous connecter à ce micro:bit.",
+    "defaultMessage": "このmicro:bitに接続するには、<link>ファームウェアを更新</link>する必要があります。",
     "description": "Text in the no micro:bit found dialog"
   },
   "open-action": {
-    "defaultMessage": "Ouvrir",
+    "defaultMessage": "開く",
     "description": "Open button text"
   },
   "open-file-action": {
-    "defaultMessage": "Ouvrir…",
+    "defaultMessage": "開く…",
     "description": "Open file button text"
   },
   "open-file-dropped": {
-    "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé",
+    "defaultMessage": "ドロップ時にファイルを開く",
     "description": "Aria label for file drop target"
   },
   "open-hover": {
-    "defaultMessage": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers",
+    "defaultMessage": "hexファイルまたはPythonファイルを開くか、他のファイルを追加する",
     "description": "Hover text over load button"
   },
   "options": {
-    "defaultMessage": "Options",
+    "defaultMessage": "オプション",
     "description": "Label for an options menu"
   },
   "parameter-help": {
-    "defaultMessage": "Aide aux paramètres",
+    "defaultMessage": "パラメータのヘルプ",
     "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
   },
   "parameter-help-automatic": {
-    "defaultMessage": "Automatique",
+    "defaultMessage": "自動",
     "description": "Parameter help setting for when the parameter documentation is shown automatically"
   },
   "parameter-help-manual": {
-    "defaultMessage": "Manuel ({shortcut})",
+    "defaultMessage": "マニュアル（{shortcut}）",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
-    "defaultMessage": "Supprimer {filename} définitivement ?",
+    "defaultMessage": "{filename}を完全に削除しますか？",
     "description": "Confirmation question to permanently delete file"
   },
   "post-save-message-files": {
-    "defaultMessage": "Ceci contient tous les fichiers de ce projet (y compris tous les fichiers supplémentaires, par exemple pour utiliser les accessoires, listés dans l’onglet <strong>Projet</strong>).",
+    "defaultMessage": "これには、このプロジェクト内のすべてのファイル（例えば、<strong>プロジェクト</strong>タブにリストされているアクセサリを実行するための追加ファイルを含む）が含まれています。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "Vous trouverez votre fichier hex dans le dossier <strong>Téléchargements</strong> de cet ordinateur.",
+    "defaultMessage": "このコンピューターの<strong>ダウンロード</strong>フォルダにhexファイルがあります。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
-    "defaultMessage": "Vous pouvez le déplacer vers un autre dossier de stockage et utiliser <strong>Ouvrir</strong> pour continuer à le modifier plus tard.",
+    "defaultMessage": "保管用の別フォルダに移動して、後で<strong>開く</strong>を使用して編集を続けることができます。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-title": {
-    "defaultMessage": "Projet enregistré",
+    "defaultMessage": "プロジェクトを保存しました",
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "Pour exécuter ce fichier hex sur votre micro:bit <link>suivez ces étapes</link>.",
+    "defaultMessage": "micro:bit上のhexファイルを実行するには<link>この手順に従います</link>。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
-    "defaultMessage": "Actions du projet",
+    "defaultMessage": "プロジェクトアクション",
     "description": "Aria label for the bar with project actions"
   },
   "project-header": {
-    "defaultMessage": "En-tête de projet",
+    "defaultMessage": "プロジェクトヘッダー",
     "description": "Aria label for the project header area"
   },
   "project-name": {
-    "defaultMessage": "Intitulé du projet",
+    "defaultMessage": "プロジェクト名",
     "description": "Text used to indicate the project name"
   },
   "project-name-not-empty": {
-    "defaultMessage": "Le nom du projet ne peut pas être vide",
+    "defaultMessage": "プロジェクト名は空にできません",
     "description": "Validation message for project name"
   },
   "project-tab": {
-    "defaultMessage": "Projet",
+    "defaultMessage": "プロジェクト",
     "description": "Project tab button text"
   },
   "project-tab-description": {
-    "defaultMessage": "Visualiser, créer, ajouter et modifier les fichiers de votre projet",
+    "defaultMessage": "プロジェクト内のファイルの表示、作成、追加、編集",
     "description": "Project tab description"
   },
   "python-powered": {
-    "defaultMessage": "Fonctionne avec Python",
+    "defaultMessage": "Python搭載",
     "description": "Python powered logo alt text"
   },
   "python-tab": {
@@ -595,519 +595,519 @@
     "description": "Python tab text"
   },
   "quit-anyway": {
-    "defaultMessage": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?",
+    "defaultMessage": "変更が保存されていません。終了しますか？",
     "description": "Quit anyway text"
   },
   "read-less": {
-    "defaultMessage": "Lire moins",
+    "defaultMessage": "折りたたむ",
     "description": "Action text to collapse an expanded section"
   },
   "read-more": {
-    "defaultMessage": "Lire plus",
+    "defaultMessage": "もっと読む",
     "description": "Action text to expand a collapsed section"
   },
   "redo": {
-    "defaultMessage": "Refaire",
+    "defaultMessage": "繰り返し",
     "description": "Aria label for the redo button"
   },
   "reference-tab": {
-    "defaultMessage": "Référence",
+    "defaultMessage": "リファレンス",
     "description": "Reference tab button text"
   },
   "replace-action-label": {
-    "defaultMessage": "Remplacer",
+    "defaultMessage": "置換",
     "description": "Action label for replacing project dialog"
   },
   "reset-project-action": {
-    "defaultMessage": "Réinitialiser le projet",
+    "defaultMessage": "プロジェクトをリセット",
     "description": "Action to reset the project to its default state"
   },
   "reset-project-feedback": {
-    "defaultMessage": "Le projet a été réinitialisé au code de départ par défaut",
+    "defaultMessage": "プロジェクトがデフォルトのスターターコードにリセットされました",
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail",
+    "defaultMessage": "プロジェクトをデフォルトのスターターコードにリセットし、作業を破棄します",
     "description": "Reset action hover text"
   },
   "results-count": {
-    "defaultMessage": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
+    "defaultMessage": "{count, plural, =0 {結果なし} other {#件の結果}}",
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
-    "defaultMessage": "Enregistrer",
+    "defaultMessage": "保存",
     "description": "Save button text"
   },
   "save-file-action": {
-    "defaultMessage": "Enregistrer {name}",
+    "defaultMessage": "{name}を保存",
     "description": "Menu option to save a file"
   },
   "save-hex-action": {
-    "defaultMessage": "Sauvegarder hex du projet",
+    "defaultMessage": "プロジェクトのhexを保存",
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "Enregistre le fichier hex du projet sur votre ordinateur",
+    "defaultMessage": "プロジェクトのhexファイルをコンピュータに保存",
     "description": "Hover text over save button"
   },
   "save-python-action": {
-    "defaultMessage": "Enregistrer script Python",
+    "defaultMessage": "Pythonスクリプトを保存",
     "description": "Save button menu option to save the Python script"
   },
   "search": {
-    "defaultMessage": "Rechercher",
+    "defaultMessage": "検索",
     "description": "Aria label for searching documentation"
   },
   "send-action": {
-    "defaultMessage": "Envoyer vers micro:bit",
+    "defaultMessage": "micro:bitに送る",
     "description": "Send to micro:bit button text"
   },
   "send-hover": {
-    "defaultMessage": "Se connecter via WebUSB puis flasher le code sur le micro:bit",
+    "defaultMessage": "WebUSBで接続してプログラムをmicro:bitに書き込む",
     "description": "Send button hover text"
   },
   "serial-collapse": {
-    "defaultMessage": "Masquer le terminal série",
+    "defaultMessage": "シリアルを隠す",
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Envoyer Ctrl+C pour REPL",
+    "defaultMessage": "REPLにCtrl+Cを送信",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Envoyer Ctrl+D pour réinitialiser",
+    "defaultMessage": "Ctrl+Dを送信してリセット",
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
-    "defaultMessage": "Afficher le terminal série",
+    "defaultMessage": "シリアルを表示",
     "description": "Action label to expand the serial console/REPL area"
   },
   "serial-flashed": {
-    "defaultMessage": "micro:bit flashé",
+    "defaultMessage": "micro:bitに書き込みました",
     "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "Utilisez le raccourci clavier <kbd>Ctrl</kbd> + <kbd>C</kbd> pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter.",
+    "defaultMessage": "キーボードショートカット<kbd>Ctrl</kbd> + <kbd>C</kbd>を使用してプログラムを中断します。すると、MicroPythonが実行するPythonコマンドを入力することができます。これは何か新しいことを試してみるのに最適な方法です。",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
-    "defaultMessage": "Pour relancer votre programme, utilisez <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
+    "defaultMessage": "プログラムを再起動するには、<kbd>Ctrl</kbd> + <kbd>D</kbd>を使用します。",
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
-    "defaultMessage": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie.",
+    "defaultMessage": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。 デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。",
     "description": "Text from the serial hints and tips dialog"
   },
   "serial-help-print": {
-    "defaultMessage": "Votre programme peut inscrire des messages en utilisant la fonction <code>print</code>. Essayez d’ajouter <code>print('micro:bit est génial')</code> à votre programme.",
+    "defaultMessage": "プログラムで<code>print</code>関数を使うとメッセージを出力できます。プログラムに<code>print('micro:bitは素晴らしい')</code>を追加してみてください。",
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
-    "defaultMessage": "Trucs et astuces sur la communication série",
+    "defaultMessage": "シリアルのヒントと秘訣",
     "description": "Title for the serial hints and tips dialog"
   },
   "serial-hints-and-tips": {
-    "defaultMessage": "Trucs et astuces sur la communication série",
+    "defaultMessage": "シリアルのヒントと秘訣",
     "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
-    "defaultMessage": "Menu série",
+    "defaultMessage": "シリアルメニュー",
     "description": "Aria label for serial area menu"
   },
   "serial-ready-to-flash": {
-    "defaultMessage": "micro:bit prêt à flasher",
+    "defaultMessage": "micro:bitの書き込み準備ができました",
     "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
-    "defaultMessage": "En cours d’exécution…",
+    "defaultMessage": "実行中…",
     "description": "Indicator text when the micro:bit is running a program"
   },
   "serial-terminal": {
-    "defaultMessage": "Terminal série",
+    "defaultMessage": "シリアルターミナル",
     "description": "Aria label for the serial terminal"
   },
   "setting-allow-editing-third-party": {
-    "defaultMessage": "Autoriser la modification des modules tiers",
+    "defaultMessage": "サードパーティ製モジュールの編集を許可",
     "description": "Checkbox setting label"
   },
   "setting-allow-editing-third-party-info": {
-    "defaultMessage": "La modification de modules tiers peut empêcher leur bon fonctionnement.",
+    "defaultMessage": "サードパーティ製モジュールを変更すると、意図した通りに動作しない可能性があります。",
     "description": "Checkbox setting label"
   },
   "settings": {
-    "defaultMessage": "Paramètres",
+    "defaultMessage": "設定",
     "description": "Settings text"
   },
   "show-api-documentation": {
-    "defaultMessage": "Afficher la documentation d’API",
+    "defaultMessage": "APIドキュメントを表示",
     "description": "Shown on link from editor autocomplete and signature help to the API docs."
   },
   "show-less": {
-    "defaultMessage": "Afficher moins",
+    "defaultMessage": "表示を減らす",
     "description": "Show less for general progressive disclosure"
   },
   "show-less-for": {
-    "defaultMessage": "Afficher moins pour {item}",
+    "defaultMessage": "{item}の表示を減らす",
     "description": "Show less with item usually for aria label"
   },
   "show-more": {
-    "defaultMessage": "Afficher plus",
+    "defaultMessage": "詳細を表示",
     "description": "Show more for general progressive disclosure"
   },
   "show-more-for": {
-    "defaultMessage": "Afficher plus pour {item}",
+    "defaultMessage": "{item}の詳細を表示",
     "description": "Show more with item usually for aria label"
   },
   "sidebar": {
-    "defaultMessage": "Barre latérale",
+    "defaultMessage": "サイドバー",
     "description": "Aria label for the area on the left"
   },
   "sidebar-collapse": {
-    "defaultMessage": "Réduire la barre latérale",
+    "defaultMessage": "サイドバーを隠す",
     "description": "Aria label for the collapse sidebar button"
   },
   "sidebar-expand": {
-    "defaultMessage": "Déplier la barre latérale",
+    "defaultMessage": "サイドバーを表示",
     "description": "Aria label for the expand sidebar button"
   },
   "simulator-accelerometer": {
-    "defaultMessage": "Accéléromètre",
+    "defaultMessage": "加速度センサー",
     "description": "Simulator Accelerometer panel title"
   },
   "simulator-actions": {
-    "defaultMessage": "Actions du simulateur",
+    "defaultMessage": "シミュレーターアクション",
     "description": "Aria label for the bar with simulator actions (stop, mute etc)"
   },
   "simulator-button-a": {
-    "defaultMessage": "Bouton A",
+    "defaultMessage": "Aボタン",
     "description": "Button A aria label on the simulator board"
   },
   "simulator-button-b": {
-    "defaultMessage": "Bouton B",
+    "defaultMessage": "Bボタン",
     "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
-    "defaultMessage": "Maintenez le bouton {button}",
+    "defaultMessage": "{button}ボタンを押し続ける",
     "description": "Aria label for simulator toggle button"
   },
   "simulator-button-press-label": {
-    "defaultMessage": "Appuyer sur le bouton {button}",
+    "defaultMessage": "{button}ボタンを押す",
     "description": "Aria label for simulator push button"
   },
   "simulator-buttons": {
-    "defaultMessage": "Boutons",
+    "defaultMessage": "ボタン",
     "description": "Buttons simulator panel title"
   },
   "simulator-collapse": {
-    "defaultMessage": "Réduire le simulateur",
+    "defaultMessage": "シミュレーターを隠す",
     "description": "Aria label for the collapse simulator button"
   },
   "simulator-collapse-module": {
-    "defaultMessage": "Réduire le module {title}",
+    "defaultMessage": "{title}モジュールを隠す",
     "description": "Aria label for collapse simulator module button"
   },
   "simulator-compass": {
-    "defaultMessage": "Boussole",
+    "defaultMessage": "コンパス",
     "description": "Compass simulator panel title"
   },
   "simulator-compass-heading-one": {
-    "defaultMessage": "Titre",
+    "defaultMessage": "方角検知",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-compass-heading-two": {
-    "defaultMessage": "Intensité du champ magnétique",
+    "defaultMessage": "磁場強度",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-data-logging-empty": {
-    "defaultMessage": "Aucune entrée journal.",
+    "defaultMessage": "ログはありません。",
     "description": "Shown in the simulator Data logging table when there are no rows"
   },
   "simulator-data-logging-full": {
-    "defaultMessage": "Journal plein",
+    "defaultMessage": "ログが満杯です",
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} autre {# rows logged}} ",
+    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} other {# rows logged}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
-    "defaultMessage": "Sauvegarder le journal",
+    "defaultMessage": "ログを保存",
     "description": "Action label to save the data log as a file from the Data logging simulator panel"
   },
   "simulator-data-logging-truncated": {
-    "defaultMessage": "Les anciennes lignes ne sont pas affichées",
+    "defaultMessage": "古い行は表示されていません",
     "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
   },
   "simulator-expand": {
-    "defaultMessage": "Développer le simulateur",
+    "defaultMessage": "シミュレーターを展開",
     "description": "Aria label for the expand simulator button"
   },
   "simulator-expand-module": {
-    "defaultMessage": "Développer le module {title}",
+    "defaultMessage": "{title}モジュールを展開",
     "description": "Aria label for expand simulator module button"
   },
   "simulator-gesture-select": {
-    "defaultMessage": "Sélectionner un geste",
+    "defaultMessage": "ジェスチャーを選択",
     "description": "Aria label for the simulator gesture select input"
   },
   "simulator-gesture-send": {
-    "defaultMessage": "Envoyer un geste",
+    "defaultMessage": "ジェスチャーを送信",
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-hide": {
-    "defaultMessage": "Cacher le simulateur ",
+    "defaultMessage": "シミュレーターを隠す",
     "description": "Hide simulator action"
   },
   "simulator-input-hold": {
-    "defaultMessage": "Maintenir",
+    "defaultMessage": "押し続ける",
     "description": "Label for UI toggles to hold simulator buttons or pins"
   },
   "simulator-input-press": {
-    "defaultMessage": "Appuyer",
+    "defaultMessage": "押す",
     "description": "Label for UI buttons to press simulator buttons or pins"
   },
   "simulator-light-level": {
-    "defaultMessage": "Niveau de luminosité",
+    "defaultMessage": "照度レベル",
     "description": "Light level simulator panel title"
   },
   "simulator-log": {
-    "defaultMessage": "Journal des données",
+    "defaultMessage": "データログ",
     "description": "Data log simulator panel title"
   },
   "simulator-loud": {
-    "defaultMessage": "Bruyant",
+    "defaultMessage": "うるさくなった",
     "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
-    "defaultMessage": "Couper le son",
+    "defaultMessage": "消音",
     "description": "Aria label for the mute simulator button"
   },
   "simulator-pin-hold-label": {
-    "defaultMessage": "Maintenir la broche {pin}",
+    "defaultMessage": "端子{pin}にタッチし続ける",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pin-press-label": {
-    "defaultMessage": "Appuyer sur la broche {pin}",
+    "defaultMessage": "端子{pin}にタッチする",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pins": {
-    "defaultMessage": "Broches",
+    "defaultMessage": "端子",
     "description": "Pins simulator panel title"
   },
   "simulator-quiet": {
-    "defaultMessage": "Silencieux",
+    "defaultMessage": "静かになった",
     "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
-    "defaultMessage": "Radio",
+    "defaultMessage": "無線",
     "description": "Radio simulator panel title"
   },
   "simulator-radio-group-notice": {
-    "defaultMessage": "Le groupe radio est réglé sur {groupNumber}",
+    "defaultMessage": "無線のグループを{groupNumber}に設定",
     "description": "Message in radio simulator area when the radio group changes"
   },
   "simulator-radio-message": {
-    "defaultMessage": "Message radio",
+    "defaultMessage": "無線メッセージ",
     "description": "Label and placeholder for the simulator radio message input field"
   },
   "simulator-radio-message-limit-notice": {
-    "defaultMessage": "Les anciens messages ne s'affichent pas",
+    "defaultMessage": "古いメッセージは表示されていません",
     "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
   },
   "simulator-radio-no-messages": {
-    "defaultMessage": "Aucun message à afficher",
+    "defaultMessage": "表示するメッセージはありません",
     "description": "Text shown when there are no radio messages to display in the simulator user interface"
   },
   "simulator-radio-off": {
-    "defaultMessage": "La radio est éteinte",
+    "defaultMessage": "無線は無効になっています",
     "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
   },
   "simulator-radio-send": {
-    "defaultMessage": "Envoyer un message",
+    "defaultMessage": "メッセージを送信",
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-reference-link": {
-    "defaultMessage": "Lien vers la section de référence",
+    "defaultMessage": "参照セクションへのリンク",
     "description": "Aria label for simulator Reference link button"
   },
   "simulator-reset": {
-    "defaultMessage": "Réinitialiser",
+    "defaultMessage": "リセット",
     "description": "Aria label for the reset simulator button"
   },
   "simulator-serial-terminal": {
-    "defaultMessage": "Terminal série du simulateur",
+    "defaultMessage": "シミュレーターシリアルターミナル",
     "description": "Aria label for the simulator serial terminal"
   },
   "simulator-sound-level": {
-    "defaultMessage": "Niveau sonore",
+    "defaultMessage": "サウンドレベル",
     "description": "Sound level simulator panel title"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Démarrer le simulateur",
+    "defaultMessage": "シミュレーターを開始",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
-    "defaultMessage": "Arrêter le simulateur",
+    "defaultMessage": "シミュレーターを停止",
     "description": "Aria label for the stop simulator button"
   },
   "simulator-temperature": {
-    "defaultMessage": "Température",
+    "defaultMessage": "温度",
     "description": "Temperature simulator panel title"
   },
   "simulator-title": {
-    "defaultMessage": "Simulateur",
+    "defaultMessage": "シミュレーター",
     "description": "Simulator title"
   },
   "simulator-touch-logo": {
-    "defaultMessage": "Logo tactile",
+    "defaultMessage": "タッチロゴ",
     "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
   "simulator-unmute": {
-    "defaultMessage": "Démuter",
+    "defaultMessage": "消音解除",
     "description": "Aria label for the unmute simulator button"
   },
   "software-versions": {
-    "defaultMessage": "Versions logicielles",
+    "defaultMessage": "ソフトウェアのバージョン",
     "description": "Heading for a table of software versions in the about dialog"
   },
   "start-coding-action": {
-    "defaultMessage": "Commencer à programmer",
+    "defaultMessage": "プログラミングを開始",
     "description": "Start coding button text"
   },
   "support": {
-    "defaultMessage": "Assistance",
+    "defaultMessage": "サポート",
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Conditions d’utilisation",
+    "defaultMessage": "利用規約",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {
-    "defaultMessage": "Ce fichier est un module tiers et n'est pas destiné à être modifié.",
+    "defaultMessage": "このファイルはサードパーティ製モジュールであり、編集するものではありません。",
     "description": "Explanation shown instead of the code editor for third-party modules."
   },
   "third-party-module-how-to": {
-    "defaultMessage": "Autorisez la modification des modules tiers dans <link>Paramètres</link> pour modifier ce module.",
+    "defaultMessage": "このモジュールを変更するには、<link>設定</link>でサードパーティ製モジュールの編集を許可します。",
     "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
-    "defaultMessage": "Impossible de se connecter au micro:bit",
+    "defaultMessage": "micro:bitに接続できません",
     "description": "Description for error messages relating to WebUSB timeout"
   },
   "timeout-error-title": {
-    "defaultMessage": "La connexion a expiré",
+    "defaultMessage": "接続がタイムアウトしました",
     "description": "Title for error messages relating to WebUSB timeout"
   },
   "title": {
-    "defaultMessage": "Éditeur Python pour micro:bit",
+    "defaultMessage": "micro:bit用Pythonエディター",
     "description": "Application title"
   },
   "toolkit-error-loading": {
-    "defaultMessage": "Une erreur s’est produite lors du chargement de la boîte à outils.",
+    "defaultMessage": "ツールキットの読み込み中にエラーが発生しました。",
     "description": "Error shown if we failed to load toolkit content"
   },
   "toolkit-view-documentation": {
-    "defaultMessage": "Afficher la documentation {name}",
+    "defaultMessage": "{name}ドキュメントを表示",
     "description": "Aria label for the toolkit topic right arrow"
   },
   "transfer-hex-message-one": {
-    "defaultMessage": "Faites glisser le fichier hex de votre dossier <strong>Téléchargements</strong> vers le <strong>lecteur MICROBIT</strong>.",
+    "defaultMessage": "hexファイルを<strong>ダウンロードフォルダ</strong>から<strong>MICROBITドライブ</strong>へドラッグします。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "Vous pourrez <strong>Ouvrir</strong> le fichier hex plus tard pour continuer l'édition.",
+    "defaultMessage": "後でhexファイルを<strong>開く</strong>と編集を続けることができます。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "Transférer le fichier hex enregistré vers le micro:bit",
+    "defaultMessage": "保存されたhexファイルをmicro:bitに転送する",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
-    "defaultMessage": "Réessayer",
+    "defaultMessage": "もう一度やり直してください",
     "description": "Try again button text"
   },
   "undo": {
-    "defaultMessage": "Annuler",
+    "defaultMessage": "元に戻す",
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
+    "defaultMessage": "もう一度やり直すか、<link>サポートリクエストを提出</link>してください",
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>",
+    "defaultMessage": "もう一度やり直すか、<link>サポートリクエストを提出</link>してください",
     "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
-    "defaultMessage": "Projet sans titre",
+    "defaultMessage": "無題プロジェクト",
     "description": "Title for a new project"
   },
   "update-firmware-action": {
-    "defaultMessage": "Mise à jour du micrologiciel",
+    "defaultMessage": "ファームウェアを更新",
     "description": "Update firmware button text"
   },
   "updated-change": {
-    "defaultMessage": "Le fichier {changeName} a été mis à jour",
+    "defaultMessage": "ファイル {changeName} を更新しました",
     "description": "Change made to file"
   },
   "visit-dot-org": {
-    "defaultMessage": "visiter microbit.org (s’ouvre dans un nouvel onglet)",
+    "defaultMessage": "microbit.orgにアクセスする（新しいタブで開きます）",
     "description": "alt text for logo link to .org"
   },
   "webusb-error-clear-connect-description-1": {
-    "defaultMessage": "Un autre processus est connecté à cet appareil.",
+    "defaultMessage": "別のプロセスがこのデバイスに接続されています。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer.",
+    "defaultMessage": "WebUSBを使用している他のタブ（MakeCode、Pythonエディターなど）を閉じるか、micro:bitを抜き差ししてやり直してください。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Impossible de demander l’interface",
+    "defaultMessage": "インタフェースを要求できません",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
-    "defaultMessage": "Erreur WebUSB",
+    "defaultMessage": "WebUSBエラー",
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "Veuillez reconnecter votre micro:bit et réessayer.",
+    "defaultMessage": "micro:bitを再接続して、やり直してください。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-update-req-description": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel de votre micro:bit</link> pour utiliser cette fonctionnalité.",
+    "defaultMessage": "この機能を利用するには、<link>micro:bitファームウェアを更新</link>する必要があります。",
     "description": "WebUSB error telling user to update firmware"
   },
   "webusb-error-update-req-title": {
-    "defaultMessage": "Veuillez mettre à jour le micrologiciel de micro:bit",
+    "defaultMessage": "micro:bit のファームウェアを更新してください。",
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Malheureusement, WebUSB n'est pas pris en charge dans ce navigateur et votre programme sera sauvegardé sur votre ordinateur. Suivez les étapes sur l'écran suivant pour le transférer vers votre micro:bit. Nous vous recommandons Google Chrome ou Microsoft Edge afin que vous puissiez vous connecter directement à votre micro:bit.",
+    "defaultMessage": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。 micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
-    "defaultMessage": "Ce navigateur ne supporte pas WebUSB",
+    "defaultMessage": "このブラウザはWebUSBに対応していません",
     "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne.",
+    "defaultMessage": "WebUSBを使用すると、オンラインエディターから直接micro:bitをプログラムしたり、シリアルコンソールに接続できます。",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {
-    "defaultMessage": "Regardez notre court guide sur certaines des fonctionnalités principales, ou commencez à coder immédiatement.",
+    "defaultMessage": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めてください。",
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {
-    "defaultMessage": "Bienvenue dans l'éditeur Python micro:bit",
+    "defaultMessage": "micro:bit Pythonエディターへようこそ",
     "description": "Title for the welcome dialog"
   },
   "zoom-in-action": {
-    "defaultMessage": "Zoom avant",
+    "defaultMessage": "拡大",
     "description": "Text label for zoom in button"
   },
   "zoom-out-action": {
-    "defaultMessage": "Zoom arrière",
+    "defaultMessage": "縮小",
     "description": "Text label for zoom out button"
   }
 }
