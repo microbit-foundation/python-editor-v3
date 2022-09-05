@@ -23,7 +23,7 @@ export const supportedLanguages: Language[] = [
     enName: "English",
   },
   {
-    id: "es",
+    id: "es-es",
     name: "Español",
     enName: "Spanish",
   },
