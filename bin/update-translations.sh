@@ -26,7 +26,7 @@ for language in $languages; do
     cp "${prefix}/api.en.json" "../micropython-microbit-stubs/crowdin/translated/api.${lower}.json"
 done
 npm run i18n:convert
-npm run i18n:compile || true # Failing for the moment
+npm run i18n:compile
 
 (
   cd ../micropython-microbit-stubs
