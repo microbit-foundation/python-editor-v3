@@ -95,6 +95,7 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
       alignItems="stretch"
       borderRadius="xl"
       colorScheme="gray"
+      textColor="brand.500"
       onClick={() => onChooseLanguage(language.id)}
       height="auto"
       data-testid={language.id}
