@@ -6,7 +6,6 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
-import { stage } from "../environment";
 
 export interface Language {
   id: string;
@@ -24,9 +23,34 @@ export const supportedLanguages: Language[] = [
     enName: "English",
   },
   {
+    id: "es",
+    name: "Español",
+    enName: "Spanish",
+  },
+  {
     id: "fr",
     name: "Français",
     enName: "French",
+  },
+  {
+    id: "ja",
+    name: "日本語",
+    enName: "Japanese",
+  },
+  {
+    id: "ko",
+    name: "한국어",
+    enName: "Korean",
+  },
+  {
+    id: "zh-cn",
+    name: "中文（中华人民共和国）",
+    enName: "Chinese Simplified",
+  },
+  {
+    id: "zh-tw",
+    name: "中文（繁體，台灣）",
+    enName: "Chinese Traditional",
   },
 ];
 
