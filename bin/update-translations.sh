@@ -5,7 +5,8 @@
 #
 # New languages require code change in:
 # 1. Pyright to add to the switch in localization.ts
-# 2. Some undocumented change in the Python editor TBC.
+# 2. Editor updates in settings.tsx and TranslationProvider.tsx.
+# 
 
 set -euxo pipefail
 
