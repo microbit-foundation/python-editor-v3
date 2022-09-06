@@ -107,6 +107,7 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
           </Text>
           <Text fontWeight="normal" fontSize="sm" color="gray.700">
             {language.enName}
+            {/*Intentionally not translated as on a line with English text*/}
             {language.preview ? " (preview)" : null}
           </Text>
         </VStack>
