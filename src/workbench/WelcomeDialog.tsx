@@ -40,11 +40,7 @@ const WelcomeDialog = ({ isOpen, onClose }: WelcomeDialogProps) => {
         return result[0].welcomeVideo;
       }
     };
-    const query = (languageId: string): string => {
-      if (!languageId.match(/^[a-z-]+$/g)) {
-        throw new Error("Invalid language id.");
-      }
-      // Ready to use languageId here if the alt field is made translatable.
+    const query = (): string => {
       return `
         *[_id == "pythonEditorConfig" && !(_id in path("drafts.**"))]{
           welcomeVideo
