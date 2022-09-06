@@ -11,6 +11,7 @@ export interface Language {
   id: string;
   name: string;
   enName: string;
+  preview?: boolean;
 }
 
 // When we add languages we need to update the toolkit search indexing,
@@ -26,31 +27,37 @@ export const supportedLanguages: Language[] = [
     id: "zh-cn",
     name: "中文（中华人民共和国）",
     enName: "Chinese Simplified",
+    preview: true,
   },
   {
     id: "zh-tw",
     name: "中文（繁體，台灣）",
     enName: "Chinese Traditional",
+    preview: true,
   },
   {
     id: "fr",
     name: "Français",
     enName: "French",
+    preview: true,
   },
   {
     id: "ja",
     name: "日本語",
     enName: "Japanese",
+    preview: true,
   },
   {
     id: "ko",
     name: "한국어",
     enName: "Korean",
+    preview: true,
   },
   {
     id: "es-es",
     name: "Español",
     enName: "Spanish",
+    preview: true,
   },
 ];
 

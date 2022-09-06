@@ -105,8 +105,9 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
           <Text fontSize="lg" fontWeight="semibold">
             {language.name}
           </Text>
-          <Text fontWeight="normal" color="gray.700">
+          <Text fontWeight="normal" fontSize="sm" color="gray.700">
             {language.enName}
+            {language.preview ? " (preview)" : null}
           </Text>
         </VStack>
       </HStack>
