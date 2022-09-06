@@ -6,12 +6,12 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
-import { stage } from "../environment";
 
 export interface Language {
   id: string;
   name: string;
   enName: string;
+  preview?: boolean;
 }
 
 // When we add languages we need to update the toolkit search indexing,
@@ -24,18 +24,42 @@ export const supportedLanguages: Language[] = [
     enName: "English",
   },
   {
+    id: "zh-cn",
+    name: "中文（中华人民共和国）",
+    enName: "Chinese Simplified",
+    preview: true,
+  },
+  {
+    id: "zh-tw",
+    name: "中文（繁體，台灣）",
+    enName: "Chinese Traditional",
+    preview: true,
+  },
+  {
     id: "fr",
     name: "Français",
     enName: "French",
+    preview: true,
+  },
+  {
+    id: "ja",
+    name: "日本語",
+    enName: "Japanese",
+    preview: true,
+  },
+  {
+    id: "ko",
+    name: "한국어",
+    enName: "Korean",
+    preview: true,
+  },
+  {
+    id: "es-es",
+    name: "Español",
+    enName: "Spanish",
+    preview: true,
   },
 ];
-if (stage === "REVIEW" || process.env.NODE_ENV !== "production") {
-  supportedLanguages.push({
-    id: "lol", // This has to be a valid locale value, so can't be e.g. "test".
-    name: "Translation test",
-    enName: "Translation test",
-  });
-}
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;

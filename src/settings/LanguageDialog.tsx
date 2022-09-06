@@ -95,9 +95,9 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
       alignItems="stretch"
       borderRadius="xl"
       colorScheme="gray"
+      textColor="brand.500"
       onClick={() => onChooseLanguage(language.id)}
       height="auto"
-      textAlign="left"
       data-testid={language.id}
     >
       <HStack>
@@ -105,8 +105,10 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
           <Text fontSize="lg" fontWeight="semibold">
             {language.name}
           </Text>
-          <Text fontWeight="normal" color="gray.700">
+          <Text fontWeight="normal" fontSize="sm" color="gray.700">
             {language.enName}
+            {/*Intentionally not translated as on a line with English text*/}
+            {language.preview ? " (preview)" : null}
           </Text>
         </VStack>
       </HStack>

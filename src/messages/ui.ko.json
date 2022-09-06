@@ -2,35 +2,35 @@
   "about": [
     {
       "type": 0,
-      "value": "À propos"
+      "value": "소개"
     }
   ],
   "about-comic": [
     {
       "type": 0,
-      "value": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent bleu. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent bleu approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs."
+      "value": "Mike Rowbit의 \"MicroPython Rocks\"라는 제목의 세 패널 만화. 만화 속 뱀이 Damien을 소개하며 \"Damien을 소개합니다. 그는 MicroPython을 만들었죠.\"라고 말합니다. 두 마리의 뱀이 MicroPython에 대해 이야기하며, 노란색 뱀은 \"MicroPython은 아주 작은 컴퓨터에서 구동되도록 만들어졌어.\" 라고 말하자 보라색 뱀은 \"네 BBC micro:bit 처럼 말이지\"라고 대답합니다. 계속해서 노란색 뱀은 \"하지만 Python은 어디에서든 실행할 수 있어.\"라고 하자 보라색 뱀은 \"거대한 웹사이트를 구동하는 이 서버 랙처럼 말이지\"라고 하며 동의합니다. 뱀 뒤의 배경에는 서버 랙이 그려져 있습니다."
     }
   ],
   "about-microbit": [
     {
-      "type": 0,
-      "value": "Réalisé avec amour par la "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation et ses contributeurs"
+          "value": "Micro:bit Educational Foundation 및 기여자들"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "의 사랑을 담아 만들어짐"
     }
   ],
   "about-micropython": [
     {
       "type": 0,
-      "value": "L’éditeur dépend de "
+      "value": "이 편집기는 "
     },
     {
       "children": [
@@ -44,45 +44,49 @@
     },
     {
       "type": 0,
-      "value": " qui est créé par Damien George et une communauté de développeurs du monde entier."
+      "value": " 기반으로, Damien George와 전 세계 개발자 커뮤니티에 의해 제작되었습니다."
     }
   ],
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "En savoir moins sur MicroPython"
+      "value": "MicroPython의 자세한 내용 숨기기"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "En savoir plus sur MicroPython"
+      "value": "MicroPython의 자세한 내용 표시하기"
     }
   ],
   "added-change": [
     {
-      "type": 0,
-      "value": "Fichier ajouté "
-    },
-    {
       "type": 1,
       "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": " 파일 추가됨"
     }
   ],
   "api-description": [
     {
       "type": 0,
-      "value": "Pour l'utilisation et les exemples, consultez la "
+      "value": "사용 및 용례는 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Référence"
+          "value": "참조(Reference)"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "를 확인하세요"
     }
   ],
   "api-tab": [
@@ -95,19 +99,11 @@
     {
       "offset": 0,
       "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "classe de base"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
               "type": 0,
-              "value": "classes de base : "
+              "value": "base classes: "
             }
           ]
         }
@@ -120,95 +116,99 @@
   "apidocs-classes": [
     {
       "type": 0,
-      "value": "Classes"
+      "value": "클래스"
     }
   ],
   "apidocs-fields": [
     {
       "type": 0,
-      "value": "Champs"
+      "value": "필드"
     }
   ],
   "apidocs-functions": [
     {
       "type": 0,
-      "value": "Fonctions"
+      "value": "함수"
     }
   ],
   "apidocs-methods": [
     {
       "type": 0,
-      "value": "Méthodes"
+      "value": "메소드"
     }
   ],
   "back-action": [
     {
       "type": 0,
-      "value": "Précédent"
+      "value": "뒤로"
     }
   ],
   "back-to-main": [
     {
       "type": 0,
-      "value": "revenir au code principal"
+      "value": "메인 코드로 돌아갑니다"
     }
   ],
   "cancel-action": [
     {
       "type": 0,
-      "value": "Annuler"
+      "value": "취소"
     }
   ],
   "change-files": [
     {
       "type": 0,
-      "value": "Changer de fichiers ?"
+      "value": "파일을 변경하시겠습니까?"
     }
   ],
   "choose-main-add-file": [
     {
-      "type": 0,
-      "value": "Ajouter le fichier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 파일 추가"
     }
   ],
   "choose-main-add-module": [
     {
-      "type": 0,
-      "value": "Ajouter le module "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 모듈 추가"
     }
   ],
   "choose-main-replace-file": [
     {
-      "type": 0,
-      "value": "Remplacer le fichier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 파일 교체"
     }
   ],
   "choose-main-replace-module": [
     {
-      "type": 0,
-      "value": "Remplacer le module "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 모듈 교체"
     }
   ],
   "choose-main-source-add-file": [
     {
+      "type": 1,
+      "value": "source"
+    },
+    {
       "type": 0,
-      "value": "Ajouter le fichier "
+      "value": "으(로)부터 "
     },
     {
       "type": 1,
@@ -216,109 +216,109 @@
     },
     {
       "type": 0,
-      "value": " depuis "
-    },
-    {
-      "type": 1,
-      "value": "source"
+      "value": " 파일 추가"
     }
   ],
   "choose-main-source-add-main-code": [
     {
-      "type": 0,
-      "value": "Ajouter le code principal depuis "
-    },
-    {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "(으)로부터 메인 코드 추가"
     }
   ],
   "choose-main-source-replace-file": [
-    {
-      "type": 0,
-      "value": "Remplacer le fichier "
-    },
     {
       "type": 1,
       "value": "target"
     },
     {
       "type": 0,
-      "value": " par "
+      "value": " 파일을 "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "(으)로 교체"
     }
   ],
   "choose-main-source-replace-main-code": [
     {
       "type": 0,
-      "value": "Remplacer le code principal par "
+      "value": "메인 코드를 "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "(으)로 교체"
     }
   ],
   "clear": [
     {
       "type": 0,
-      "value": "Effacer"
+      "value": "Clear"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "Fermer"
+      "value": "닫기"
     }
   ],
   "code-editor": [
     {
       "type": 0,
-      "value": "Éditeur de code"
+      "value": "코드 편집기"
     }
   ],
   "code-example": [
     {
       "type": 0,
-      "value": "Exemple de code :"
+      "value": "코드 예시:"
     }
   ],
   "confirm-action": [
     {
       "type": 0,
-      "value": "Confirmer"
+      "value": "확인"
     }
   ],
   "confirm-delete": [
     {
       "type": 0,
-      "value": "Confirmer la suppression"
+      "value": "삭제 확인"
     }
   ],
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par ceux de l’hex ?"
+      "value": "모든 파일을 hex 내부의 내용으로 교체하시겠습니까?"
     }
   ],
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers avec le code de départ par défaut ?"
+      "value": "모든 파일을 기본 스타터 코드로 교체하시겠습니까?"
     }
   ],
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "Confirmer le remplacement du projet"
+      "value": "프로젝트 교체 확인"
     }
   ],
   "confirm-replace-with-idea": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par "
+      "value": "모든 파일을 "
     },
     {
       "type": 1,
@@ -326,121 +326,121 @@
     },
     {
       "type": 0,
-      "value": " ?"
+      "value": "(으)로 교체하시겠습니까?"
     }
   ],
   "confirm-save-action": [
     {
       "type": 0,
-      "value": "Confirmer et enregistrer"
+      "value": "확인 및 저장"
     }
   ],
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "Annulez et utilisez Enregistrer pour conserver une copie de votre projet."
+      "value": "취소하고 저장을 사용해 프로젝트의 사본을 유지합니다."
     }
   ],
   "connect-action": [
     {
       "type": 0,
-      "value": "Connecter"
+      "value": "연결"
     }
   ],
   "connect-cable-title": [
     {
       "type": 0,
-      "value": "Connecter le câble"
+      "value": "연결 케이블"
     }
   ],
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "Boîte de dialogue de connexion WebUSB avec une entrée pour le BBC micro:bit étiquetée avec le numéro 1 et le bouton Connexion étiqueté avec le numéro 2"
+      "value": "BBC micro:bit entry 라벨 1 및 연결 버튼 라벨 2의 WebUSB 연결 대화 상자 "
     }
   ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Dans la prochaine fenêtre :"
+      "value": "다음 팝업:"
     }
   ],
   "connect-help-one": [
     {
       "type": 0,
-      "value": "Sélectionnez votre micro:bit"
+      "value": "micro:bit를 고르세요"
     }
   ],
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Sélectionner le micro:bit"
+      "value": "micro:bit을 선택하세요"
     }
   ],
   "connect-help-two": [
     {
       "type": 0,
-      "value": "Sélectionnez ‘Connecter’"
+      "value": "‘연결’을 선택하세요"
     }
   ],
   "connect-hover": [
     {
       "type": 0,
-      "value": "Connectez-vous à votre micro:bit via WebUSB"
+      "value": "WebUSB를 통해 micro:bit에 연결합니다."
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "Connectez-vous à votre micro:bit pour voir la sortie série ici"
+      "value": "micro:bit에 연결하면 여기서 직렬 출력을 확인할 수 있습니다"
     }
   ],
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "Dépannage des problèmes de connexion à votre micro:bit"
+      "value": "micro:bit의 연결 문제 해결"
     }
   ],
   "content-load-error": [
     {
       "type": 0,
-      "value": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page."
+      "value": "오류가 발생했습니다. hex 파일을 다운로드해 작업물을 보호하고 새로 고침으로 페이지를 다시 불러오세요."
     }
   ],
   "copied": [
     {
       "type": 0,
-      "value": "Copié"
+      "value": "복사됨"
     }
   ],
   "copy-action": [
     {
       "type": 0,
-      "value": "Copier"
+      "value": "복사"
     }
   ],
   "copy-code-action": [
     {
       "type": 0,
-      "value": "Copier le code"
+      "value": "코드 복사"
     }
   ],
   "create-action": [
     {
       "type": 0,
-      "value": "Créez"
+      "value": "Create"
     }
   ],
   "create-file-action": [
     {
       "type": 0,
-      "value": "Créer un fichier"
+      "value": "파일 생성"
     }
   ],
   "create-python": [
     {
       "type": 0,
-      "value": "Créer un nouveau fichier Python dans ce projet"
+      "value": "이 프로젝트 안에서 새로운 Python 파일 생성"
     }
   ],
   "created-file": [
@@ -450,23 +450,23 @@
     },
     {
       "type": 0,
-      "value": " créé"
+      "value": " 생성함"
     }
   ],
   "delete-action": [
     {
       "type": 0,
-      "value": "Supprimer"
+      "value": "삭제"
     }
   ],
   "delete-file-action": [
     {
-      "type": 0,
-      "value": "Supprimer "
+      "type": 1,
+      "value": "filename"
     },
     {
-      "type": 1,
-      "value": "name"
+      "type": 0,
+      "value": " 삭제"
     }
   ],
   "deleted-file": [
@@ -476,87 +476,87 @@
     },
     {
       "type": 0,
-      "value": " a été supprimé"
+      "value": " 삭제함"
     }
   ],
   "disconnect-action": [
     {
       "type": 0,
-      "value": "Déconnecter"
+      "value": "연결 해제"
     }
   ],
   "disconnect-hover": [
     {
       "type": 0,
-      "value": "Se déconnecter du micro:bit"
+      "value": "micro:bit 와의 연결을 해제합니다."
     }
   ],
   "dont-show-again": [
     {
       "type": 0,
-      "value": "Ne plus afficher ce message"
+      "value": "다시 보지 않음"
     }
   ],
   "drag-hover": [
     {
       "type": 0,
-      "value": "Glisser-déposer"
+      "value": "드래그 &amp; 드롭"
     }
   ],
   "edit-file-action": [
     {
-      "type": 0,
-      "value": "Modifier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 편집"
     }
   ],
   "edit-name-project-hover": [
     {
       "type": 0,
-      "value": "Modifier le nom de votre projet"
+      "value": "프로젝트의 이름을 편집합니다"
     }
   ],
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "Modifier le nom du projet"
+      "value": "프로젝트의 이름"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "Impossible de créer le fichier hex"
+      "value": "hex 파일 빌딩에 실패함"
     }
   ],
   "feedback": [
     {
       "type": 0,
-      "value": "Votre avis"
+      "value": "피드백 평가"
     }
   ],
   "file-actions": [
     {
-      "type": 0,
-      "value": "Actions sur le fichier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 파일 액션"
     }
   ],
   "file-already-exists": [
     {
       "type": 0,
-      "value": "Ce fichier existe déjà"
+      "value": "이미 존재하는 파일입니다"
     }
   ],
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "Le nom contient un caractère invalide : "
+      "value": "이름에 유효하지 않은 글자가 포함됨: "
     },
     {
       "type": 1,
@@ -566,43 +566,43 @@
   "file-name-length": [
     {
       "type": 0,
-      "value": "Le nom est trop long"
+      "value": "이름이 너무 깁니다"
     }
   ],
   "file-name-lowercase-only": [
     {
       "type": 0,
-      "value": "Le nom doit être en minuscule"
+      "value": "이름은 모두 소문자여야 합니다"
     }
   ],
   "file-name-not-empty": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas être vide"
+      "value": "이름은 공백일 수 없습니다"
     }
   ],
   "file-name-start-number": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas débuter par un chiffre"
+      "value": "이름은 숫자로 시작할 수 없습니다"
     }
   ],
   "file-name-whitespace": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas contenir d'espaces"
+      "value": "이름에 띄어쓰기를 포함할 수 없습니다"
     }
   ],
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "이 micro:bit에 연결하기 전에 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "펌웨어를 업데이트해야 합니다"
         }
       ],
       "type": 8,
@@ -610,156 +610,156 @@
     },
     {
       "type": 0,
-      "value": " avant de pouvoir vous connecter à ce micro:bit."
+      "value": "."
     }
   ],
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "La connexion au micro:bit a échoué car le micrologiciel sur votre micro:bit est trop ancien."
+      "value": "micro:bit의 펌웨어가 너무 오래되어 연결에 실패했습니다."
     }
   ],
   "firmware-update-title": [
     {
       "type": 0,
-      "value": "Mise à jour du micrologiciel requise"
+      "value": "펌웨어 업데이트 필요"
     }
   ],
   "flash-action": [
     {
       "type": 0,
-      "value": "Flasher"
+      "value": "프로그램 업로드"
     }
   ],
   "flash-hover": [
     {
       "type": 0,
-      "value": "Flasher le projet directement dans le micro:bit"
+      "value": "micro:bit 로 바로 업로드"
     }
   ],
   "flashing-code": [
     {
       "type": 0,
-      "value": "Envoi du code (flash)"
+      "value": "코드 전송 중(플래싱)"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Votre code est envoyé (flashé) sur votre micro:bit. Cela peut prendre un certain temps mais il sera plus rapide après cela."
+      "value": "코드가 micro:bit으로 전송(플래싱)되고 있습니다. 처음은 조금 시간이 걸리지만 이후에는 빠르게 완료됩니다."
     }
   ],
   "flashing-micropython": [
     {
       "type": 0,
-      "value": "Flasher MicroPython"
+      "value": "MicroPython 프로그램 업로드"
     }
   ],
   "font-size": [
     {
       "type": 0,
-      "value": "Taille de police"
+      "value": "폰트 크기"
     }
   ],
   "guide-link": [
     {
       "type": 0,
-      "value": "Pour plus d'aide, consultez le "
+      "value": "지원 항목은 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Guide de l'éditeur Python"
+          "value": "Python 편집기 가이드"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "를 확인하세요"
     }
   ],
   "help": [
     {
       "type": 0,
-      "value": "Aide"
+      "value": "도움 및 지원"
     }
   ],
   "help-support": [
     {
       "type": 0,
-      "value": "Aide et support"
+      "value": "도움말 & 지원"
     }
   ],
   "help-translate": [
     {
       "type": 0,
-      "value": "Contribuer à la traduction"
+      "value": "번역 돕기"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Surligner la structure du code"
+      "value": "하이라이트 코드 구조"
     }
   ],
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Complet"
+      "value": "전체"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Aucun"
+      "value": "없음"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "Simple"
+      "value": "간단"
     }
   ],
   "ideas-tab": [
     {
       "type": 0,
-      "value": "Idées"
+      "value": "아이디어들"
     }
   ],
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Essayez ces projets, modifiez-les et inspirez-vous en"
+      "value": "다양한 프로젝트를 써보고 수정하여 영감을 얻으세요"
     }
   ],
   "insert-code-action": [
     {
       "type": 0,
-      "value": "Insérer le code"
+      "value": "코드 입력"
     }
   ],
   "language": [
     {
       "type": 0,
-      "value": "Langue"
+      "value": "언어 선택"
     }
   ],
   "less-action": [
     {
       "type": 0,
-      "value": "Moins"
+      "value": "더 적게"
     }
   ],
   "load-error-makecode-info": [
     {
       "type": 0,
-      "value": "Ce fichier hex ne peut pas être chargé dans l'éditeur Python. L'éditeur Python ne peut pas ouvrir les fichiers hex créés avec Microsoft MakeCode."
+      "value": "Python 편집기에 이 hex 파일을 로드할 수 없습니다. Python 편집기는 Microsoft MakeCode로 생성된 hex 파일을 열 수 없습니다."
     }
   ],
   "load-error-makecode-link": [
-    {
-      "type": 0,
-      "value": "Veuillez visiter "
-    },
     {
       "children": [
         {
@@ -772,42 +772,30 @@
     },
     {
       "type": 0,
-      "value": " pour utiliser ce fichier hex."
+      "value": "로 이동하여 hex 파일을 사용하세요."
     }
   ],
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet."
+      "value": "Hex 파일은 직접 로드되어야만 합니다. 프로젝트의 모든 파일을 교체합니다."
     }
   ],
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy."
+      "value": "이 버전에서는 .mpy 파일 추가를 지원하지 않습니다."
     }
   ],
   "load-error-title": [
     {
-      "type": 0,
-      "value": "Impossible de charger "
-    },
-    {
       "offset": 0,
       "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "le fichier"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
               "type": 0,
-              "value": "les fichiers"
+              "value": "files"
             }
           ]
         }
@@ -815,6 +803,10 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "을(를) 불러올 수 없음"
     }
   ],
   "loaded-file-feedback": [
@@ -824,43 +816,43 @@
     },
     {
       "type": 0,
-      "value": " a été chargé"
+      "value": " 불러옴"
     }
   ],
   "loading": [
     {
       "type": 0,
-      "value": "Chargement…"
+      "value": "로드 중…"
     }
   ],
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "Carte micro:bit avec la grille LED 5 par 5 montrant un cœur"
+      "value": "5x5 LED 그리드로 하트를 표시하는 micro:bit"
     }
   ],
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "Documentation de MicroPython"
+      "value": "MicroPython 문서"
     }
   ],
   "micropython-history": [
     {
       "type": 0,
-      "value": "Découvrez comment MicroPython est né sur le micro:bit"
+      "value": "micro:bit에서 작동하는 MicroPython에 대해 알아보기"
     }
   ],
   "micropython-source-code": [
     {
       "type": 0,
-      "value": "Code source "
+      "value": "MicroPython "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "MicroPython pour le micro:bit V1"
+          "value": "micro:bit V1"
         }
       ],
       "type": 8,
@@ -868,13 +860,13 @@
     },
     {
       "type": 0,
-      "value": " et pour le "
+      "value": " 및 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit V2"
+          "value": "micro:bit V2의 소스 코드"
         }
       ],
       "type": 8,
@@ -884,13 +876,13 @@
   "more-action": [
     {
       "type": 0,
-      "value": "Plus"
+      "value": "더 많게"
     }
   ],
   "more-connect-options": [
     {
       "type": 0,
-      "value": "Plus d'options de connexion"
+      "value": "더 많은 연결 옵션"
     }
   ],
   "more-ideas": [
@@ -898,7 +890,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Plus d'idées"
+          "value": "더 많은 아이디어"
         }
       ],
       "type": 8,
@@ -908,13 +900,13 @@
   "more-save-options": [
     {
       "type": 0,
-      "value": "Plus d'options d'enregistrement"
+      "value": "더 많은 저장 옵션"
     }
   ],
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "Ce projet contient "
+      "value": "본 프로젝트는 "
     },
     {
       "offset": 0,
@@ -927,7 +919,7 @@
             },
             {
               "type": 0,
-              "value": " fichiers"
+              "value": " files"
             }
           ]
         }
@@ -938,7 +930,7 @@
     },
     {
       "type": 0,
-      "value": " mais seul "
+      "value": "을(를) 포함하지만 "
     },
     {
       "children": [
@@ -952,19 +944,15 @@
     },
     {
       "type": 0,
-      "value": " a été téléchargé."
+      "value": "만 다운로드된 상태입니다."
     }
   ],
   "multiple-files-message-two": [
     {
-      "type": 0,
-      "value": "Utilisez le bouton "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Enregistrer"
+          "value": "저장"
         }
       ],
       "type": 8,
@@ -972,13 +960,13 @@
     },
     {
       "type": 0,
-      "value": " pour télécharger le projet au complet sous la forme d'un fichier hex. Vous pouvez "
+      "value": " 버튼을 사용해 프로젝트 전체를 hex 파일로 다운로드합니다. Hex 파일을 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "열기"
         }
       ],
       "type": 8,
@@ -986,13 +974,13 @@
     },
     {
       "type": 0,
-      "value": " le fichier hex pour restaurer votre projet. Si vous préférez télécharger des fichiers Python individuels, utilisez l'onglet "
+      "value": " 버튼으로 프로젝트를 복구할 수 있습니다. 개별 Python 파일 다운로드를 원한다면 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Projet"
+          "value": "프로젝트"
         }
       ],
       "type": 8,
@@ -1000,38 +988,34 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": " 탭을 이용하세요."
     }
   ],
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Avertissement : Seul main.py est téléchargé"
+      "value": "경고: main.py만 다운로드됨"
     }
   ],
   "name-project": [
     {
       "type": 0,
-      "value": "Donnez un nom à votre projet"
+      "value": "프로젝트 이름을 지정하세요"
     }
   ],
   "name-text": [
     {
       "type": 0,
-      "value": "Nom"
+      "value": "이름"
     }
   ],
   "name-used-when": [
     {
       "type": 0,
-      "value": "Ce nom est utilisé lorsque vous enregistrez un fichier hex."
+      "value": "Hex 파일을 저장할 때 해당 이름이 사용됩니다."
     }
   ],
   "new-file-hint": [
-    {
-      "type": 0,
-      "value": "Nous ajouterons l’extension "
-    },
     {
       "children": [
         {
@@ -1044,25 +1028,25 @@
     },
     {
       "type": 0,
-      "value": " pour vous."
+      "value": " 확장자는 프로그램이 추가합니다."
     }
   ],
   "next-action": [
     {
       "type": 0,
-      "value": "Suivant"
+      "value": "Next"
     }
   ],
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "Est-ce que votre "
+      "value": " "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit est branché"
+          "value": "micro:bit이 연결되었나요"
         }
       ],
       "type": 8,
@@ -1070,13 +1054,13 @@
     },
     {
       "type": 0,
-      "value": " ? Avez-vous "
+      "value": "? "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "suivi ces étapes"
+          "value": "다음 단계를 따르셨나요"
         }
       ],
       "type": 8,
@@ -1084,14 +1068,10 @@
     },
     {
       "type": 0,
-      "value": " ?"
+      "value": "?"
     }
   ],
   "not-found-checklist-two": [
-    {
-      "type": 0,
-      "value": "Si vous possédez un "
-    },
     {
       "children": [
         {
@@ -1104,13 +1084,13 @@
     },
     {
       "type": 0,
-      "value": " vous aurez peut-être besoin de "
+      "value": "을 소유하고 있는 경우 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "펌웨어를 업데이트해야할 수 있습니다"
         }
       ],
       "type": 8,
@@ -1120,31 +1100,31 @@
   "not-found-message": [
     {
       "type": 0,
-      "value": "Vous n'avez pas sélectionné de micro:bit, ou un problème de connexion est survenu."
+      "value": "micro:bit을 선택하지 않았거나 연결에 문제가 발생했습니다."
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "Méthode alternative : choisissez Enregistrer puis suivez les étapes pour transférer"
+      "value": "다른 방법: 저장 후 다음 단계를 통해 전송합니다"
     }
   ],
   "not-found-title": [
     {
       "type": 0,
-      "value": "Aucun micro:bit trouvé"
+      "value": "발견된 micro:bit 없음"
     }
   ],
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "이 micro:bit에 연결하기 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "전에 펌웨어를 업데이트해야 합니다"
         }
       ],
       "type": 8,
@@ -1152,55 +1132,55 @@
     },
     {
       "type": 0,
-      "value": " avant de pouvoir vous connecter à ce micro:bit."
+      "value": "."
     }
   ],
   "open-action": [
     {
       "type": 0,
-      "value": "Ouvrir"
+      "value": "열기"
     }
   ],
   "open-file-action": [
     {
       "type": 0,
-      "value": "Ouvrir…"
+      "value": "열기…"
     }
   ],
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "Ouvrir le fichier lorsqu’il est déposé"
+      "value": "드롭될 때 파일 열기"
     }
   ],
   "open-hover": [
     {
       "type": 0,
-      "value": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers"
+      "value": "Hex 또는 Python 파일을 열거나 다른 파일을 추가하세요"
     }
   ],
   "options": [
     {
       "type": 0,
-      "value": "Options"
+      "value": "옵션"
     }
   ],
   "parameter-help": [
     {
       "type": 0,
-      "value": "Aide aux paramètres"
+      "value": "매개변수 도움말"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "Automatique"
+      "value": "자동"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "Manuel ("
+      "value": "수동("
     },
     {
       "type": 1,
@@ -1213,28 +1193,24 @@
   ],
   "permanently-delete": [
     {
-      "type": 0,
-      "value": "Supprimer "
-    },
-    {
       "type": 1,
       "value": "filename"
     },
     {
       "type": 0,
-      "value": " définitivement ?"
+      "value": "을(를) 영구 삭제하시겠습니까?"
     }
   ],
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "Ceci contient tous les fichiers de ce projet (y compris tous les fichiers supplémentaires, par exemple pour utiliser les accessoires, listés dans l’onglet "
+      "value": "이 프로젝트의 모든 파일(예: "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Projet"
+          "value": "프로젝트"
         }
       ],
       "type": 8,
@@ -1242,19 +1218,19 @@
     },
     {
       "type": 0,
-      "value": ")."
+      "value": " 탭에 나열됨, 액세서리 작동 등)을 포함합니다."
     }
   ],
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "Vous trouverez votre fichier hex dans le dossier "
+      "value": "컴퓨터의 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Téléchargements"
+          "value": "다운로드"
         }
       ],
       "type": 8,
@@ -1262,19 +1238,19 @@
     },
     {
       "type": 0,
-      "value": " de cet ordinateur."
+      "value": " 폴더에서 hex 파일을 찾을 수 있습니다."
     }
   ],
   "post-save-message-two": [
     {
       "type": 0,
-      "value": "Vous pouvez le déplacer vers un autre dossier de stockage et utiliser "
+      "value": "저장소의 다른 폴더로 옮겨서 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "열기"
         }
       ],
       "type": 8,
@@ -1282,25 +1258,25 @@
     },
     {
       "type": 0,
-      "value": " pour continuer à le modifier plus tard."
+      "value": "를 통해 나중에 계속 편집할 수 있습니다."
     }
   ],
   "post-save-title": [
     {
       "type": 0,
-      "value": "Projet enregistré"
+      "value": "프로젝트 저장됨"
     }
   ],
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "Pour exécuter ce fichier hex sur votre micro:bit "
+      "value": "micro:bit에서 이 hex 파일을 실행하려면 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "suivez ces étapes"
+          "value": "다음 단계를 따르세요"
         }
       ],
       "type": 8,
@@ -1314,43 +1290,43 @@
   "project-actions": [
     {
       "type": 0,
-      "value": "Actions du projet"
+      "value": "프로젝트 액션"
     }
   ],
   "project-header": [
     {
       "type": 0,
-      "value": "En-tête de projet"
+      "value": "프로젝트 헤더"
     }
   ],
   "project-name": [
     {
       "type": 0,
-      "value": "Intitulé du projet"
+      "value": "프로젝트 이름"
     }
   ],
   "project-name-not-empty": [
     {
       "type": 0,
-      "value": "Le nom du projet ne peut pas être vide"
+      "value": "프로젝트 이름을 비워둘 수 없습니다."
     }
   ],
   "project-tab": [
     {
       "type": 0,
-      "value": "Projet"
+      "value": "프로젝트"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
+      "value": "프로젝트에서 파일을 보고, 생성하고, 편집합니다"
     }
   ],
   "python-powered": [
     {
       "type": 0,
-      "value": "Fonctionne avec Python"
+      "value": "Python 제공"
     }
   ],
   "python-tab": [
@@ -1362,55 +1338,55 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?"
+      "value": "변경 사항을 저장하지 않고 종료 하시겠습니까?"
     }
   ],
   "read-less": [
     {
       "type": 0,
-      "value": "Lire moins"
+      "value": "축소"
     }
   ],
   "read-more": [
     {
       "type": 0,
-      "value": "Lire plus"
+      "value": "더 알아보기"
     }
   ],
   "redo": [
     {
       "type": 0,
-      "value": "Refaire"
+      "value": "다시 실행"
     }
   ],
   "reference-tab": [
     {
       "type": 0,
-      "value": "Référence"
+      "value": "참조"
     }
   ],
   "replace-action-label": [
     {
       "type": 0,
-      "value": "Remplacer"
+      "value": "교체"
     }
   ],
   "reset-project-action": [
     {
       "type": 0,
-      "value": "Réinitialiser le projet"
+      "value": "프로젝트 초기화"
     }
   ],
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "Le projet a été réinitialisé au code de départ par défaut"
+      "value": "프로젝트를 기본 스타터 코드로 초기화합니다."
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail"
+      "value": "프로젝트를 기본 스타터 코드로 초기화하고 작업한 내용을 삭제합니다"
     }
   ],
   "results-count": [
@@ -1421,18 +1397,7 @@
           "value": [
             {
               "type": 0,
-              "value": "Aucun résultat"
-            }
-          ]
-        },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " résultat"
+              "value": "No results"
             }
           ]
         },
@@ -1443,7 +1408,7 @@
             },
             {
               "type": 0,
-              "value": " résultats"
+              "value": " results"
             }
           ]
         }
@@ -1456,89 +1421,89 @@
   "save-action": [
     {
       "type": 0,
-      "value": "Enregistrer"
+      "value": "저장하기"
     }
   ],
   "save-file-action": [
     {
-      "type": 0,
-      "value": "Enregistrer "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 저장"
     }
   ],
   "save-hex-action": [
     {
       "type": 0,
-      "value": "Sauvegarder hex du projet"
+      "value": "프로젝트 hex 저장"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "Enregistre le fichier hex du projet sur votre ordinateur"
+      "value": "컴퓨터에 프로젝트 hex 파일을 저장합니다"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "Enregistrer script Python"
+      "value": "Python 스크립트 저장"
     }
   ],
   "search": [
     {
       "type": 0,
-      "value": "Rechercher"
+      "value": "찾기"
     }
   ],
   "send-action": [
     {
       "type": 0,
-      "value": "Envoyer vers micro:bit"
+      "value": "micro:bit에 저장"
     }
   ],
   "send-hover": [
     {
       "type": 0,
-      "value": "Se connecter via WebUSB puis flasher le code sur le micro:bit"
+      "value": "WebUSB로 micro:bit을 연결하고 코드를 플래시합니다"
     }
   ],
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Masquer le terminal série"
+      "value": "시리얼 숨기기"
     }
   ],
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl+C pour REPL"
+      "value": "Ctrl+C를 전송하여 REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl+D pour réinitialiser"
+      "value": "Ctrl+D를 전송하여 초기화"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
-      "value": "Afficher le terminal série"
+      "value": "시리얼 보기"
     }
   ],
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit flashé"
+      "value": "micro:bit 플래시됨"
     }
   ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "Utilisez le raccourci clavier "
+      "value": "키보드 단축키인 "
     },
     {
       "children": [
@@ -1552,7 +1517,7 @@
     },
     {
       "type": 0,
-      "value": " + "
+      "value": "  + "
     },
     {
       "children": [
@@ -1566,13 +1531,13 @@
     },
     {
       "type": 0,
-      "value": " pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter."
+      "value": "를 이용하여 프로그램에 인터럽트를 부여합니다. 이후 MicroPython의 Python 명령어를 입력하여 실행하세요. 새로운 것을 실험하는 데 좋습니다."
     }
   ],
   "serial-help-ctrl-d": [
     {
       "type": 0,
-      "value": "Pour relancer votre programme, utilisez "
+      "value": "프로그램을 다시 실행하려면 "
     },
     {
       "children": [
@@ -1600,19 +1565,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "를 사용하세요."
     }
   ],
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie."
+      "value": "시리얼 터미널은 micro:bit에서 작동하는 프로그램으로부터의 오류와 기타 출력을 표시합니다. 기본적으로 해당 프로그램의 가장 최근의 오류를 표시합니다. 확대하여 모든 출력을 볼 수 있습니다."
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "Votre programme peut inscrire des messages en utilisant la fonction "
+      "value": "프로그램은 "
     },
     {
       "children": [
@@ -1626,13 +1591,13 @@
     },
     {
       "type": 0,
-      "value": ". Essayez d’ajouter "
+      "value": " 기능을 사용해 메시지를 프린트할 수 있습니다. 프로그램에 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "print('micro:bit est génial')"
+          "value": "print('micro:bit is awesome')"
         }
       ],
       "type": 8,
@@ -1640,147 +1605,147 @@
     },
     {
       "type": 0,
-      "value": " à votre programme."
+      "value": " 를 추가해보세요."
     }
   ],
   "serial-help-title": [
     {
       "type": 0,
-      "value": "Trucs et astuces sur la communication série"
+      "value": "시리얼 힌트와 팁"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "Trucs et astuces sur la communication série"
+      "value": "시리얼 힌트와 팁"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "Menu série"
+      "value": "시리얼 메뉴"
     }
   ],
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit prêt à flasher"
+      "value": "micro:bit 플래시 준비됨"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "En cours d’exécution…"
+      "value": "실행 중…"
     }
   ],
   "serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal série"
+      "value": "시리얼 터미널"
     }
   ],
   "setting-allow-editing-third-party": [
     {
       "type": 0,
-      "value": "Autoriser la modification des modules tiers"
+      "value": "제 3자 모듈 편집 허용"
     }
   ],
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "La modification de modules tiers peut empêcher leur bon fonctionnement."
+      "value": "제 3자 모듈을 변경하면 모듈이 의도대로 작동하지 않을 수 있습니다."
     }
   ],
   "settings": [
     {
       "type": 0,
-      "value": "Paramètres"
+      "value": "설정"
     }
   ],
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "Afficher la documentation d’API"
+      "value": "API 문서 보기"
     }
   ],
   "show-less": [
     {
       "type": 0,
-      "value": "Afficher moins"
+      "value": "간략히 보기"
     }
   ],
   "show-less-for": [
     {
-      "type": 0,
-      "value": "Afficher moins pour "
-    },
-    {
       "type": 1,
       "value": "item"
+    },
+    {
+      "type": 0,
+      "value": " 간략히 보기"
     }
   ],
   "show-more": [
     {
       "type": 0,
-      "value": "Afficher plus"
+      "value": "더 보기"
     }
   ],
   "show-more-for": [
     {
-      "type": 0,
-      "value": "Afficher plus pour "
-    },
-    {
       "type": 1,
       "value": "item"
+    },
+    {
+      "type": 0,
+      "value": " 자세히 보기"
     }
   ],
   "sidebar": [
     {
       "type": 0,
-      "value": "Barre latérale"
+      "value": "사이드바"
     }
   ],
   "sidebar-collapse": [
     {
       "type": 0,
-      "value": "Réduire la barre latérale"
+      "value": "사이드바 접기"
     }
   ],
   "sidebar-expand": [
     {
       "type": 0,
-      "value": "Déplier la barre latérale"
+      "value": "사이드바 펼치기"
     }
   ],
   "simulator-accelerometer": [
     {
       "type": 0,
-      "value": "Accéléromètre"
+      "value": "가속도 센서"
     }
   ],
   "simulator-actions": [
     {
       "type": 0,
-      "value": "Actions du simulateur"
+      "value": "Simulator actions"
     }
   ],
   "simulator-button-a": [
     {
       "type": 0,
-      "value": "Bouton A"
+      "value": "A 버튼"
     }
   ],
   "simulator-button-b": [
     {
       "type": 0,
-      "value": "Bouton B"
+      "value": "B 버튼"
     }
   ],
   "simulator-button-hold-label": [
     {
       "type": 0,
-      "value": "Maintenez le bouton "
+      "value": "Hold button "
     },
     {
       "type": 1,
@@ -1790,7 +1755,7 @@
   "simulator-button-press-label": [
     {
       "type": 0,
-      "value": "Appuyer sur le bouton "
+      "value": "Press button "
     },
     {
       "type": 1,
@@ -1800,53 +1765,57 @@
   "simulator-buttons": [
     {
       "type": 0,
-      "value": "Boutons"
+      "value": "버튼"
     }
   ],
   "simulator-collapse": [
     {
       "type": 0,
-      "value": "Réduire le simulateur"
+      "value": "Collapse simulator"
     }
   ],
   "simulator-collapse-module": [
     {
       "type": 0,
-      "value": "Réduire le module "
+      "value": "Collapse "
     },
     {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " module"
     }
   ],
   "simulator-compass": [
     {
       "type": 0,
-      "value": "Boussole"
+      "value": "나침반(자기) 센서"
     }
   ],
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "Titre"
+      "value": "진행방향각"
     }
   ],
   "simulator-compass-heading-two": [
     {
       "type": 0,
-      "value": "Intensité du champ magnétique"
+      "value": "Magnetic field strength"
     }
   ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
-      "value": "Aucune entrée journal."
+      "value": "No log entries."
     }
   ],
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "Journal plein"
+      "value": "Log full"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1887,98 +1856,98 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "count"
-    },
-    {
-      "type": 0,
-      "value": " "
     }
   ],
   "simulator-data-logging-save-log": [
     {
       "type": 0,
-      "value": "Sauvegarder le journal"
+      "value": "Save log"
     }
   ],
   "simulator-data-logging-truncated": [
     {
       "type": 0,
-      "value": "Les anciennes lignes ne sont pas affichées"
+      "value": "Older rows not shown"
     }
   ],
   "simulator-expand": [
     {
       "type": 0,
-      "value": "Développer le simulateur"
+      "value": "Expand simulator"
     }
   ],
   "simulator-expand-module": [
     {
       "type": 0,
-      "value": "Développer le module "
+      "value": "Expand "
     },
     {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " module"
     }
   ],
   "simulator-gesture-select": [
     {
       "type": 0,
-      "value": "Sélectionner un geste"
+      "value": "Select gesture"
     }
   ],
   "simulator-gesture-send": [
     {
       "type": 0,
-      "value": "Envoyer un geste"
+      "value": "Send gesture"
     }
   ],
   "simulator-hide": [
     {
       "type": 0,
-      "value": "Cacher le simulateur "
+      "value": "Hide simulator"
     }
   ],
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "Maintenir"
+      "value": "Hold"
     }
   ],
   "simulator-input-press": [
     {
       "type": 0,
-      "value": "Appuyer"
+      "value": "Press"
     }
   ],
   "simulator-light-level": [
     {
       "type": 0,
-      "value": "Niveau de luminosité"
+      "value": "광량 레벨"
     }
   ],
   "simulator-log": [
     {
       "type": 0,
-      "value": "Journal des données"
+      "value": "Data log"
     }
   ],
   "simulator-loud": [
     {
       "type": 0,
-      "value": "Bruyant"
+      "value": "Loud"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "Couper le son"
+      "value": "Mute"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "Maintenir la broche "
+      "value": "Hold pin "
     },
     {
       "type": 1,
@@ -1988,7 +1957,7 @@
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "Appuyer sur la broche "
+      "value": "Press pin "
     },
     {
       "type": 1,
@@ -1998,25 +1967,25 @@
   "simulator-pins": [
     {
       "type": 0,
-      "value": "Broches"
+      "value": "핀"
     }
   ],
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "Silencieux"
+      "value": "Quiet"
     }
   ],
   "simulator-radio": [
     {
       "type": 0,
-      "value": "Radio"
+      "value": "라디오"
     }
   ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "Le groupe radio est réglé sur "
+      "value": "Radio group set to "
     },
     {
       "type": 1,
@@ -2026,133 +1995,129 @@
   "simulator-radio-message": [
     {
       "type": 0,
-      "value": "Message radio"
+      "value": "Radio message"
     }
   ],
   "simulator-radio-message-limit-notice": [
     {
       "type": 0,
-      "value": "Les anciens messages ne s'affichent pas"
+      "value": "Older messages not shown"
     }
   ],
   "simulator-radio-no-messages": [
     {
       "type": 0,
-      "value": "Aucun message à afficher"
+      "value": "No messages to show"
     }
   ],
   "simulator-radio-off": [
     {
       "type": 0,
-      "value": "La radio est éteinte"
+      "value": "The radio is off"
     }
   ],
   "simulator-radio-send": [
     {
       "type": 0,
-      "value": "Envoyer un message"
+      "value": "Send message"
     }
   ],
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "Lien vers la section de référence"
+      "value": "Link to Reference section"
     }
   ],
   "simulator-reset": [
     {
       "type": 0,
-      "value": "Réinitialiser"
+      "value": "재설정"
     }
   ],
   "simulator-serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal série du simulateur"
+      "value": "Simulator serial terminal"
     }
   ],
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "Niveau sonore"
+      "value": "Sound level"
     }
   ],
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Démarrer le simulateur"
+      "value": "Start simulator"
     }
   ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Arrêter le simulateur"
+      "value": "Stop simulator"
     }
   ],
   "simulator-temperature": [
     {
       "type": 0,
-      "value": "Température"
+      "value": "온도"
     }
   ],
   "simulator-title": [
     {
       "type": 0,
-      "value": "Simulateur"
+      "value": "Simulator"
     }
   ],
   "simulator-touch-logo": [
     {
       "type": 0,
-      "value": "Logo tactile"
+      "value": "터치 로고"
     }
   ],
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "Démuter"
+      "value": "Unmute"
     }
   ],
   "software-versions": [
     {
       "type": 0,
-      "value": "Versions logicielles"
+      "value": "소프트웨어 버전"
     }
   ],
   "start-coding-action": [
     {
       "type": 0,
-      "value": "Commencer à programmer"
+      "value": "코딩 시작"
     }
   ],
   "support": [
     {
       "type": 0,
-      "value": "Assistance"
+      "value": "지원"
     }
   ],
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Conditions d’utilisation"
+      "value": "이용 약관"
     }
   ],
   "third-party-module-explanation": [
     {
       "type": 0,
-      "value": "Ce fichier est un module tiers et n'est pas destiné à être modifié."
+      "value": "이 파일은 제 3자 모듈이며 편집하도록 제작된 파일이 아닙니다."
     }
   ],
   "third-party-module-how-to": [
     {
-      "type": 0,
-      "value": "Autorisez la modification des modules tiers dans "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Paramètres"
+          "value": "설정"
         }
       ],
       "type": 8,
@@ -2160,53 +2125,49 @@
     },
     {
       "type": 0,
-      "value": " pour modifier ce module."
+      "value": "에서 제 3자 모듈 편집 허용을 체크해 이 모듈을 수정할 수 있습니다."
     }
   ],
   "timeout-error-description": [
     {
       "type": 0,
-      "value": "Impossible de se connecter au micro:bit"
+      "value": "micro:bit 에 연결할 수 없습니다."
     }
   ],
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "La connexion a expiré"
+      "value": "연결 시간 초과"
     }
   ],
   "title": [
     {
       "type": 0,
-      "value": "Éditeur Python pour micro:bit"
+      "value": "micro:bit용 Python 편집기"
     }
   ],
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "Une erreur s’est produite lors du chargement de la boîte à outils."
+      "value": "툴킷을 불러오는 중 오류가 발생했습니다."
     }
   ],
   "toolkit-view-documentation": [
     {
-      "type": 0,
-      "value": "Afficher la documentation "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " 문서 보기"
     }
   ],
   "transfer-hex-message-one": [
     {
-      "type": 0,
-      "value": "Faites glisser le fichier hex de votre dossier "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Téléchargements"
+          "value": "다운로드 폴더"
         }
       ],
       "type": 8,
@@ -2214,13 +2175,13 @@
     },
     {
       "type": 0,
-      "value": " vers le "
+      "value": "에서 hex 파일을 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "lecteur MICROBIT"
+          "value": "MICROBIT drive"
         }
       ],
       "type": 8,
@@ -2228,19 +2189,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "로 드래그하세요."
     }
   ],
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "Vous pourrez "
+      "value": "Hex 파일을 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "열어서"
         }
       ],
       "type": 8,
@@ -2248,37 +2209,37 @@
     },
     {
       "type": 0,
-      "value": " le fichier hex plus tard pour continuer l'édition."
+      "value": " 나중에 계속 편집할 수 있습니다."
     }
   ],
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transférer le fichier hex enregistré vers le micro:bit"
+      "value": "저장된 hex 파일을 micro:bit으로 전송"
     }
   ],
   "try-again-action": [
     {
       "type": 0,
-      "value": "Réessayer"
+      "value": "다시 시도"
     }
   ],
   "undo": [
     {
       "type": 0,
-      "value": "Annuler"
+      "value": "실행 취소"
     }
   ],
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "Veuillez réessayer ou "
+      "value": "다시 시도하거나 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d’assistance"
+          "value": "지원 문의를 보내세요"
         }
       ],
       "type": 8,
@@ -2288,13 +2249,13 @@
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "Veuillez réessayer ou "
+      "value": "다시 시도하거나 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d’assistance"
+          "value": "지원 문의를 보내세요"
         }
       ],
       "type": 8,
@@ -2304,75 +2265,71 @@
   "untitled-project": [
     {
       "type": 0,
-      "value": "Projet sans titre"
+      "value": "이름없는 프로젝트"
     }
   ],
   "update-firmware-action": [
     {
       "type": 0,
-      "value": "Mise à jour du micrologiciel"
+      "value": "펌웨어 업데이트"
     }
   ],
   "updated-change": [
-    {
-      "type": 0,
-      "value": "Le fichier "
-    },
     {
       "type": 1,
       "value": "changeName"
     },
     {
       "type": 0,
-      "value": " a été mis à jour"
+      "value": " 파일 업데이트됨"
     }
   ],
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "visiter microbit.org (s’ouvre dans un nouvel onglet)"
+      "value": "microbit.org 방문(새 탭으로 열림)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "Un autre processus est connecté à cet appareil."
+      "value": "다른 프로세스가 이 기기에 연결되었습니다."
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer."
+      "value": "WebUSB를 사용할 수 있는 다른 탭(예: MakeCode, Python Editor)을 닫거나 다시 시도하기 전에 micro:bit의 플러그를 뽑은 후 다시 연결해보세요."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Impossible de demander l’interface"
+      "value": "인터페이스 수령 실패"
     }
   ],
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "Erreur WebUSB"
+      "value": "WebUSB 오류"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "Veuillez reconnecter votre micro:bit et réessayer."
+      "value": "micro:bit 연결을 확인한 후, 다시 시도해 보세요."
     }
   ],
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": " "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel de votre micro:bit"
+          "value": "micro:bit 펌웨어를 업데이트해야"
         }
       ],
       "type": 8,
@@ -2380,55 +2337,55 @@
     },
     {
       "type": 0,
-      "value": " pour utiliser cette fonctionnalité."
+      "value": " 이 기능을 이용할 수 있습니다."
     }
   ],
   "webusb-error-update-req-title": [
     {
       "type": 0,
-      "value": "Veuillez mettre à jour le micrologiciel de micro:bit"
+      "value": "micro:bit 펌웨어를 업데이트 하세요."
     }
   ],
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Malheureusement, WebUSB n'est pas pris en charge dans ce navigateur et votre programme sera sauvegardé sur votre ordinateur. Suivez les étapes sur l'écran suivant pour le transférer vers votre micro:bit. Nous vous recommandons Google Chrome ou Microsoft Edge afin que vous puissiez vous connecter directement à votre micro:bit."
+      "value": "이 브라우저는 WebUSB를 지원하지 않아 프로그램이 컴퓨터에 저장됩니다. 다음 화면의 단계를 따라 micro:bit로 전송하세요. micro:bit에 직접 연결하기 위해 Google Chrome 또는 Microsoft Edge 사용을 권장합니다."
     }
   ],
   "webusb-not-supported-title": [
     {
       "type": 0,
-      "value": "Ce navigateur ne supporte pas WebUSB"
+      "value": "이 브라우저는 WebUSB를 지원하지 않습니다"
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne."
+      "value": "WebUSB로 온라인 에디터에서 직접 micro:bit을 프로그래밍하고 시리얼 콘솔에 연결할 수 있습니다."
     }
   ],
   "welcome-message": [
     {
       "type": 0,
-      "value": "Regardez notre court guide sur certaines des fonctionnalités principales, ou commencez à coder immédiatement."
+      "value": "간략한 가이드를 보고 주요 기능 일부를 파악하거나 바로 코딩에 뛰어드세요."
     }
   ],
   "welcome-title": [
     {
       "type": 0,
-      "value": "Bienvenue dans l'éditeur Python micro:bit"
+      "value": "micro:bit Python 편집기에 오신 것을 환영합니다"
     }
   ],
   "zoom-in-action": [
     {
       "type": 0,
-      "value": "Zoom avant"
+      "value": "글꼴 크게"
     }
   ],
   "zoom-out-action": [
     {
       "type": 0,
-      "value": "Zoom arrière"
+      "value": "글꼴 작게"
     }
   ]
 }

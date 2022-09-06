@@ -10,9 +10,6 @@ export const fetchIdeas = async (languageId: string): Promise<Idea[]> =>
   fetchContent(languageId, ideasQuery, adaptContent);
 
 const ideasQuery = (languageId: string): string => {
-  if (!languageId.match(/^[a-z-]+$/g)) {
-    throw new Error("Invalid language id.");
-  }
   return `
     *[_type == "pythonIdeasConfig" && language == "${languageId}" && !(_id in path("drafts.**"))][0]{
       pythonIdeasOrder[]->{

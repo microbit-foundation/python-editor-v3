@@ -2,35 +2,35 @@
   "about": [
     {
       "type": 0,
-      "value": "À propos"
+      "value": "micro:bitについて"
     }
   ],
   "about-comic": [
     {
       "type": 0,
-      "value": "Bande dessinée en trois planches intitulée « MicroPython Rocks » par Mike Rowbit. Un serpent dessiné présente Damien en disant : « Voici Damien... Il a créé MicroPython ». Deux serpents parlent de MicroPython. Le serpent jaune dit « MicroPython est conçu pour fonctionner sur de très petits ordinateurs ». « Comme votre BBC micro:bit », répond le serpent bleu. Le serpent jaune poursuit : « Mais Python peut fonctionner n’importe où ». Le serpent bleu approuve en disant : « Comme sur ces serveurs qui font fonctionner d’énormes sites web ». L’arrière-plan derrière les serpents affiche un parc de serveurs."
+      "value": "Mike Rowbitによる「MicroPython Rocks」（MicroPython最高！）という3コマ漫画。漫画のヘビが「Damienを紹介します... 彼はMicroPythonを作成しました」と言ってDamienを紹介します。2匹のヘビがMicroPythonについて話します。黄色のヘビが「MicroPythonは非常に小さなコンピュータで動作するように設計されています」と言います。紫のヘビが「あなたのBBC micro:bitのようにね」と応じます。黄色のヘビが「けれどもPythonはどこでも動作します」と続けます。 紫のヘビは同意して「巨大なウェブサイトを動かすこのラックのサーバーのようにね」と言います。ヘビたちの背後にはサーバーラックが見えます。"
     }
   ],
   "about-microbit": [
     {
-      "type": 0,
-      "value": "Réalisé avec amour par la "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation et ses contributeurs"
+          "value": "Micro:bit Educational Foundationと貢献者"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "により愛を込めて作られました"
     }
   ],
   "about-micropython": [
     {
       "type": 0,
-      "value": "L’éditeur dépend de "
+      "value": "このエディタは、Damien Georgeと世界中の開発者コミュニティによって作られた"
     },
     {
       "children": [
@@ -44,45 +44,53 @@
     },
     {
       "type": 0,
-      "value": " qui est créé par Damien George et une communauté de développeurs du monde entier."
+      "value": "に依存しています。"
     }
   ],
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "En savoir moins sur MicroPython"
+      "value": "MicroPythonについて読まない"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "En savoir plus sur MicroPython"
+      "value": "MicroPythonについてもっと読む"
     }
   ],
   "added-change": [
     {
       "type": 0,
-      "value": "Fichier ajouté "
+      "value": "ファイル "
     },
     {
       "type": 1,
       "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": " を追加しました"
     }
   ],
   "api-description": [
     {
       "type": 0,
-      "value": "Pour l'utilisation et les exemples, consultez la "
+      "value": "使用方法と例については、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Référence"
+          "value": "リファレンス"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "を参照してください。"
     }
   ],
   "api-tab": [
@@ -95,19 +103,11 @@
     {
       "offset": 0,
       "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "classe de base"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
               "type": 0,
-              "value": "classes de base : "
+              "value": "ベースクラス: "
             }
           ]
         }
@@ -120,95 +120,115 @@
   "apidocs-classes": [
     {
       "type": 0,
-      "value": "Classes"
+      "value": "クラス"
     }
   ],
   "apidocs-fields": [
     {
       "type": 0,
-      "value": "Champs"
+      "value": "フィールド"
     }
   ],
   "apidocs-functions": [
     {
       "type": 0,
-      "value": "Fonctions"
+      "value": "関数"
     }
   ],
   "apidocs-methods": [
     {
       "type": 0,
-      "value": "Méthodes"
+      "value": "メソッド"
     }
   ],
   "back-action": [
     {
       "type": 0,
-      "value": "Précédent"
+      "value": "戻る"
     }
   ],
   "back-to-main": [
     {
       "type": 0,
-      "value": "revenir au code principal"
+      "value": "メインコードに戻る"
     }
   ],
   "cancel-action": [
     {
       "type": 0,
-      "value": "Annuler"
+      "value": "キャンセル"
     }
   ],
   "change-files": [
     {
       "type": 0,
-      "value": "Changer de fichiers ?"
+      "value": "ファイルを変更しますか？"
     }
   ],
   "choose-main-add-file": [
     {
       "type": 0,
-      "value": "Ajouter le fichier "
+      "value": "ファイル "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を追加"
     }
   ],
   "choose-main-add-module": [
     {
       "type": 0,
-      "value": "Ajouter le module "
+      "value": "モジュール "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を追加"
     }
   ],
   "choose-main-replace-file": [
     {
       "type": 0,
-      "value": "Remplacer le fichier "
+      "value": "ファイル "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を置き換え"
     }
   ],
   "choose-main-replace-module": [
     {
       "type": 0,
-      "value": "Remplacer le module "
+      "value": "モジュール "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を置き換え"
     }
   ],
   "choose-main-source-add-file": [
     {
+      "type": 1,
+      "value": "source"
+    },
+    {
       "type": 0,
-      "value": "Ajouter le fichier "
+      "value": "からファイル "
     },
     {
       "type": 1,
@@ -216,27 +236,23 @@
     },
     {
       "type": 0,
-      "value": " depuis "
-    },
-    {
-      "type": 1,
-      "value": "source"
+      "value": " を追加"
     }
   ],
   "choose-main-source-add-main-code": [
     {
-      "type": 0,
-      "value": "Ajouter le code principal depuis "
-    },
-    {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " からメインコードを追加"
     }
   ],
   "choose-main-source-replace-file": [
     {
       "type": 0,
-      "value": "Remplacer le fichier "
+      "value": "ファイル "
     },
     {
       "type": 1,
@@ -244,81 +260,89 @@
     },
     {
       "type": 0,
-      "value": " par "
+      "value": " を"
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "に置き換え"
     }
   ],
   "choose-main-source-replace-main-code": [
     {
       "type": 0,
-      "value": "Remplacer le code principal par "
+      "value": "メインコードを "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " に置き換え"
     }
   ],
   "clear": [
     {
       "type": 0,
-      "value": "Effacer"
+      "value": "クリア"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "Fermer"
+      "value": "閉じる"
     }
   ],
   "code-editor": [
     {
       "type": 0,
-      "value": "Éditeur de code"
+      "value": "コードエディター"
     }
   ],
   "code-example": [
     {
       "type": 0,
-      "value": "Exemple de code :"
+      "value": "コード例:"
     }
   ],
   "confirm-action": [
     {
       "type": 0,
-      "value": "Confirmer"
+      "value": "確認"
     }
   ],
   "confirm-delete": [
     {
       "type": 0,
-      "value": "Confirmer la suppression"
+      "value": "削除の確認"
     }
   ],
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par ceux de l’hex ?"
+      "value": "すべてのファイルをHEXに置き換えますか？"
     }
   ],
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers avec le code de départ par défaut ?"
+      "value": "すべてのファイルをデフォルトのスターターコードに置き換えますか？"
     }
   ],
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "Confirmer le remplacement du projet"
+      "value": "プロジェクトの置き換えを確認"
     }
   ],
   "confirm-replace-with-idea": [
     {
       "type": 0,
-      "value": "Remplacer tous les fichiers par "
+      "value": "すべてのファイルを"
     },
     {
       "type": 1,
@@ -326,121 +350,121 @@
     },
     {
       "type": 0,
-      "value": " ?"
+      "value": "に置き換えますか？"
     }
   ],
   "confirm-save-action": [
     {
       "type": 0,
-      "value": "Confirmer et enregistrer"
+      "value": "確認して保存"
     }
   ],
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "Annulez et utilisez Enregistrer pour conserver une copie de votre projet."
+      "value": "キャンセルして、保存を使ってプロジェクトのコピーを保持します。"
     }
   ],
   "connect-action": [
     {
       "type": 0,
-      "value": "Connecter"
+      "value": "接続"
     }
   ],
   "connect-cable-title": [
     {
       "type": 0,
-      "value": "Connecter le câble"
+      "value": "ケーブルを接続"
     }
   ],
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "Boîte de dialogue de connexion WebUSB avec une entrée pour le BBC micro:bit étiquetée avec le numéro 1 et le bouton Connexion étiqueté avec le numéro 2"
+      "value": "1のラベルが付いたBBC micro:bitエントリと2のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ"
     }
   ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Dans la prochaine fenêtre :"
+      "value": "次のポップアップ"
     }
   ],
   "connect-help-one": [
     {
       "type": 0,
-      "value": "Sélectionnez votre micro:bit"
+      "value": "micro:bitを選ぶ"
     }
   ],
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Sélectionner le micro:bit"
+      "value": "micro:bitを選択"
     }
   ],
   "connect-help-two": [
     {
       "type": 0,
-      "value": "Sélectionnez ‘Connecter’"
+      "value": "「接続」を選択"
     }
   ],
   "connect-hover": [
     {
       "type": 0,
-      "value": "Connectez-vous à votre micro:bit via WebUSB"
+      "value": "WebUSB経由でmicro:bitに接続"
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "Connectez-vous à votre micro:bit pour voir la sortie série ici"
+      "value": "micro:bitに接続してシリアル出力を確認"
     }
   ],
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "Dépannage des problèmes de connexion à votre micro:bit"
+      "value": "micro:bit接続時に発生する問題のトラブルシューティング"
     }
   ],
   "content-load-error": [
     {
       "type": 0,
-      "value": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page."
+      "value": "問題が発生しました。HEXファイルをダウンロードして、ページをリロードしてください。"
     }
   ],
   "copied": [
     {
       "type": 0,
-      "value": "Copié"
+      "value": "コピーしました"
     }
   ],
   "copy-action": [
     {
       "type": 0,
-      "value": "Copier"
+      "value": "コピー"
     }
   ],
   "copy-code-action": [
     {
       "type": 0,
-      "value": "Copier le code"
+      "value": "コードをコピー"
     }
   ],
   "create-action": [
     {
       "type": 0,
-      "value": "Créez"
+      "value": "作る"
     }
   ],
   "create-file-action": [
     {
       "type": 0,
-      "value": "Créer un fichier"
+      "value": "ファイルを作成"
     }
   ],
   "create-python": [
     {
       "type": 0,
-      "value": "Créer un nouveau fichier Python dans ce projet"
+      "value": "このプロジェクトに新しいPythonファイルを作成"
     }
   ],
   "created-file": [
@@ -450,23 +474,23 @@
     },
     {
       "type": 0,
-      "value": " créé"
+      "value": " を作成しました"
     }
   ],
   "delete-action": [
     {
       "type": 0,
-      "value": "Supprimer"
+      "value": "削除"
     }
   ],
   "delete-file-action": [
     {
-      "type": 0,
-      "value": "Supprimer "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を削除"
     }
   ],
   "deleted-file": [
@@ -476,87 +500,87 @@
     },
     {
       "type": 0,
-      "value": " a été supprimé"
+      "value": " を削除しました"
     }
   ],
   "disconnect-action": [
     {
       "type": 0,
-      "value": "Déconnecter"
+      "value": "切断"
     }
   ],
   "disconnect-hover": [
     {
       "type": 0,
-      "value": "Se déconnecter du micro:bit"
+      "value": "micro:bitを切断"
     }
   ],
   "dont-show-again": [
     {
       "type": 0,
-      "value": "Ne plus afficher ce message"
+      "value": "今後表示しない"
     }
   ],
   "drag-hover": [
     {
       "type": 0,
-      "value": "Glisser-déposer"
+      "value": "ドラッグ＆ドロップ"
     }
   ],
   "edit-file-action": [
     {
-      "type": 0,
-      "value": "Modifier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を編集"
     }
   ],
   "edit-name-project-hover": [
     {
       "type": 0,
-      "value": "Modifier le nom de votre projet"
+      "value": "プロジェクトの名前を編集"
     }
   ],
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "Modifier le nom du projet"
+      "value": "プロジェクト名を編集"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "Impossible de créer le fichier hex"
+      "value": "hexファイルのビルドに失敗しました"
     }
   ],
   "feedback": [
     {
       "type": 0,
-      "value": "Votre avis"
+      "value": "フィードバック"
     }
   ],
   "file-actions": [
     {
-      "type": 0,
-      "value": "Actions sur le fichier "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " ファイルのアクション"
     }
   ],
   "file-already-exists": [
     {
       "type": 0,
-      "value": "Ce fichier existe déjà"
+      "value": "ファイルは既に存在します"
     }
   ],
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "Le nom contient un caractère invalide : "
+      "value": "名前に無効な文字が含まれています: "
     },
     {
       "type": 1,
@@ -566,43 +590,43 @@
   "file-name-length": [
     {
       "type": 0,
-      "value": "Le nom est trop long"
+      "value": "名前が長すぎます"
     }
   ],
   "file-name-lowercase-only": [
     {
       "type": 0,
-      "value": "Le nom doit être en minuscule"
+      "value": "名前はすべて小文字にする必要があります"
     }
   ],
   "file-name-not-empty": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas être vide"
+      "value": "名前は空にできません"
     }
   ],
   "file-name-start-number": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas débuter par un chiffre"
+      "value": "名前を数字で始めることはできません"
     }
   ],
   "file-name-whitespace": [
     {
       "type": 0,
-      "value": "Le nom ne peut pas contenir d'espaces"
+      "value": "名前にスペースを含めることはできません"
     }
   ],
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "このmicro:bitに接続するには、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "ファームウェアを更新する"
         }
       ],
       "type": 8,
@@ -610,155 +634,159 @@
     },
     {
       "type": 0,
-      "value": " avant de pouvoir vous connecter à ce micro:bit."
+      "value": "必要があります。"
     }
   ],
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "La connexion au micro:bit a échoué car le micrologiciel sur votre micro:bit est trop ancien."
+      "value": "micro:bitのファームウェアが古すぎるため、micro:bitへの接続に失敗しました。"
     }
   ],
   "firmware-update-title": [
     {
       "type": 0,
-      "value": "Mise à jour du micrologiciel requise"
+      "value": "ファームウェアの更新が必要です"
     }
   ],
   "flash-action": [
     {
       "type": 0,
-      "value": "Flasher"
+      "value": "書き込み"
     }
   ],
   "flash-hover": [
     {
       "type": 0,
-      "value": "Flasher le projet directement dans le micro:bit"
+      "value": "プロジェクトをmicro:bitに直接書き込む"
     }
   ],
   "flashing-code": [
     {
       "type": 0,
-      "value": "Envoi du code (flash)"
+      "value": "プログラムを送信中（書き込み中）"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "Votre code est envoyé (flashé) sur votre micro:bit. Cela peut prendre un certain temps mais il sera plus rapide après cela."
+      "value": "プログラムがmicro:bitに送信（書き込み）されています。最初はしばらく時間がかかることがありますが、その後は速くなります。"
     }
   ],
   "flashing-micropython": [
     {
       "type": 0,
-      "value": "Flasher MicroPython"
+      "value": "MicroPython の書込み"
     }
   ],
   "font-size": [
     {
       "type": 0,
-      "value": "Taille de police"
+      "value": "フォントサイズ"
     }
   ],
   "guide-link": [
     {
       "type": 0,
-      "value": "Pour plus d'aide, consultez le "
+      "value": "サポートについては、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Guide de l'éditeur Python"
+          "value": "Pythonエディターガイド"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "を参照してください"
     }
   ],
   "help": [
     {
       "type": 0,
-      "value": "Aide"
+      "value": "ヘルプ"
     }
   ],
   "help-support": [
     {
       "type": 0,
-      "value": "Aide et support"
+      "value": "ヘルプとサポート"
     }
   ],
   "help-translate": [
     {
       "type": 0,
-      "value": "Contribuer à la traduction"
+      "value": "翻訳を手伝う"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Surligner la structure du code"
+      "value": "コード構造を強調表示"
     }
   ],
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Complet"
+      "value": "全て"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Aucun"
+      "value": "なし"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "Simple"
+      "value": "簡易"
     }
   ],
   "ideas-tab": [
     {
       "type": 0,
-      "value": "Idées"
+      "value": "アイデア"
     }
   ],
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Essayez ces projets, modifiez-les et inspirez-vous en"
+      "value": "これらのプロジェクトを試したり、変更したりして、ひらめきを得てください"
     }
   ],
   "insert-code-action": [
     {
       "type": 0,
-      "value": "Insérer le code"
+      "value": "コードを挿入"
     }
   ],
   "language": [
     {
       "type": 0,
-      "value": "Langue"
+      "value": "言語"
     }
   ],
   "less-action": [
     {
       "type": 0,
-      "value": "Moins"
+      "value": "減らす"
     }
   ],
   "load-error-makecode-info": [
     {
       "type": 0,
-      "value": "Ce fichier hex ne peut pas être chargé dans l'éditeur Python. L'éditeur Python ne peut pas ouvrir les fichiers hex créés avec Microsoft MakeCode."
+      "value": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。"
     }
   ],
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "Veuillez visiter "
+      "value": "このhexファイルを使用するには、"
     },
     {
       "children": [
@@ -772,42 +800,30 @@
     },
     {
       "type": 0,
-      "value": " pour utiliser ce fichier hex."
+      "value": "を参照してください。"
     }
   ],
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "Un fichier hex ne peut être chargé que seul. Il remplace tous les fichiers du projet."
+      "value": "hexファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。"
     }
   ],
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "Cette version de l’éditeur Python ne prend actuellement pas en charge l’ajout de fichiers .mpy."
+      "value": "このバージョンのPythonエディターは現在.mpyファイルの追加をサポートしていません。"
     }
   ],
   "load-error-title": [
     {
-      "type": 0,
-      "value": "Impossible de charger "
-    },
-    {
       "offset": 0,
       "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "le fichier"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
               "type": 0,
-              "value": "les fichiers"
+              "value": "ファイル"
             }
           ]
         }
@@ -815,6 +831,10 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "を読み込むことができません"
     }
   ],
   "loaded-file-feedback": [
@@ -824,43 +844,43 @@
     },
     {
       "type": 0,
-      "value": " a été chargé"
+      "value": " を読み込みました"
     }
   ],
   "loading": [
     {
       "type": 0,
-      "value": "Chargement…"
+      "value": "読み込み中…"
     }
   ],
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "Carte micro:bit avec la grille LED 5 par 5 montrant un cœur"
+      "value": "5×5のLEDグリッドにハートを表示するmicro:bitボード"
     }
   ],
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "Documentation de MicroPython"
+      "value": "MicroPythonドキュメント"
     }
   ],
   "micropython-history": [
     {
       "type": 0,
-      "value": "Découvrez comment MicroPython est né sur le micro:bit"
+      "value": "micro:bit上のMicroPythonがどのように生まれたかを学ぶ"
     }
   ],
   "micropython-source-code": [
     {
       "type": 0,
-      "value": "Code source "
+      "value": "MicroPython "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "MicroPython pour le micro:bit V1"
+          "value": "micro:bit V1"
         }
       ],
       "type": 8,
@@ -868,13 +888,13 @@
     },
     {
       "type": 0,
-      "value": " et pour le "
+      "value": "と"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit V2"
+          "value": "micro:bit V2のソースコード"
         }
       ],
       "type": 8,
@@ -884,13 +904,13 @@
   "more-action": [
     {
       "type": 0,
-      "value": "Plus"
+      "value": "増やす"
     }
   ],
   "more-connect-options": [
     {
       "type": 0,
-      "value": "Plus d'options de connexion"
+      "value": "その他の接続オプション"
     }
   ],
   "more-ideas": [
@@ -898,7 +918,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Plus d'idées"
+          "value": "他のアイデア"
         }
       ],
       "type": 8,
@@ -908,13 +928,13 @@
   "more-save-options": [
     {
       "type": 0,
-      "value": "Plus d'options d'enregistrement"
+      "value": "その他の保存オプション"
     }
   ],
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "Ce projet contient "
+      "value": "このプロジェクトには"
     },
     {
       "offset": 0,
@@ -927,7 +947,7 @@
             },
             {
               "type": 0,
-              "value": " fichiers"
+              "value": "個のファイル"
             }
           ]
         }
@@ -938,7 +958,7 @@
     },
     {
       "type": 0,
-      "value": " mais seul "
+      "value": "が含まれますが、"
     },
     {
       "children": [
@@ -952,19 +972,15 @@
     },
     {
       "type": 0,
-      "value": " a été téléchargé."
+      "value": "のみがダウンロードされています。"
     }
   ],
   "multiple-files-message-two": [
     {
-      "type": 0,
-      "value": "Utilisez le bouton "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "Enregistrer"
+          "value": "保存"
         }
       ],
       "type": 8,
@@ -972,13 +988,13 @@
     },
     {
       "type": 0,
-      "value": " pour télécharger le projet au complet sous la forme d'un fichier hex. Vous pouvez "
+      "value": "ボタンを使ってプロジェクト全体をhexファイルにダウンロードします。そのhexファイルを"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "開く"
         }
       ],
       "type": 8,
@@ -986,13 +1002,13 @@
     },
     {
       "type": 0,
-      "value": " le fichier hex pour restaurer votre projet. Si vous préférez télécharger des fichiers Python individuels, utilisez l'onglet "
+      "value": "とプロジェクトを復元することができます。Pythonファイルを個別にダウンロードしたいなら、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Projet"
+          "value": "プロジェクト"
         }
       ],
       "type": 8,
@@ -1000,38 +1016,34 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "タブを使用します。"
     }
   ],
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Avertissement : Seul main.py est téléchargé"
+      "value": "注意: main.pyのみダウンロードされました"
     }
   ],
   "name-project": [
     {
       "type": 0,
-      "value": "Donnez un nom à votre projet"
+      "value": "プロジェクトに名前を付ける"
     }
   ],
   "name-text": [
     {
       "type": 0,
-      "value": "Nom"
+      "value": "名前"
     }
   ],
   "name-used-when": [
     {
       "type": 0,
-      "value": "Ce nom est utilisé lorsque vous enregistrez un fichier hex."
+      "value": "この名前はhexファイルを保存するときに使用されます。"
     }
   ],
   "new-file-hint": [
-    {
-      "type": 0,
-      "value": "Nous ajouterons l’extension "
-    },
     {
       "children": [
         {
@@ -1044,25 +1056,21 @@
     },
     {
       "type": 0,
-      "value": " pour vous."
+      "value": "拡張子を追加します。"
     }
   ],
   "next-action": [
     {
       "type": 0,
-      "value": "Suivant"
+      "value": "次"
     }
   ],
   "not-found-checklist-one": [
     {
-      "type": 0,
-      "value": "Est-ce que votre "
-    },
-    {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit est branché"
+          "value": "micro:bitは接続"
         }
       ],
       "type": 8,
@@ -1070,13 +1078,13 @@
     },
     {
       "type": 0,
-      "value": " ? Avez-vous "
+      "value": "されていますか？"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "suivi ces étapes"
+          "value": "以下の手順"
         }
       ],
       "type": 8,
@@ -1084,14 +1092,10 @@
     },
     {
       "type": 0,
-      "value": " ?"
+      "value": "に従いましたか？"
     }
   ],
   "not-found-checklist-two": [
-    {
-      "type": 0,
-      "value": "Si vous possédez un "
-    },
     {
       "children": [
         {
@@ -1104,47 +1108,51 @@
     },
     {
       "type": 0,
-      "value": " vous aurez peut-être besoin de "
+      "value": "をお持ちの場合は、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "ファームウェアを更新"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "する必要があります。"
     }
   ],
   "not-found-message": [
     {
       "type": 0,
-      "value": "Vous n'avez pas sélectionné de micro:bit, ou un problème de connexion est survenu."
+      "value": "micro:bitを選択していないか、接続中に問題が発生しました。"
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "Méthode alternative : choisissez Enregistrer puis suivez les étapes pour transférer"
+      "value": "代替方法: 保存を選択し、転送する手順に従ってください"
     }
   ],
   "not-found-title": [
     {
       "type": 0,
-      "value": "Aucun micro:bit trouvé"
+      "value": "micro:bitが見つかりません"
     }
   ],
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "このmicro:bitに接続するには、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel"
+          "value": "ファームウェアを更新"
         }
       ],
       "type": 8,
@@ -1152,55 +1160,55 @@
     },
     {
       "type": 0,
-      "value": " avant de pouvoir vous connecter à ce micro:bit."
+      "value": "する必要があります。"
     }
   ],
   "open-action": [
     {
       "type": 0,
-      "value": "Ouvrir"
+      "value": "開く"
     }
   ],
   "open-file-action": [
     {
       "type": 0,
-      "value": "Ouvrir…"
+      "value": "開く…"
     }
   ],
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "Ouvrir le fichier lorsqu’il est déposé"
+      "value": "ドロップ時にファイルを開く"
     }
   ],
   "open-hover": [
     {
       "type": 0,
-      "value": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers"
+      "value": "hexファイルまたはPythonファイルを開くか、他のファイルを追加する"
     }
   ],
   "options": [
     {
       "type": 0,
-      "value": "Options"
+      "value": "オプション"
     }
   ],
   "parameter-help": [
     {
       "type": 0,
-      "value": "Aide aux paramètres"
+      "value": "パラメータのヘルプ"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "Automatique"
+      "value": "自動"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "Manuel ("
+      "value": "マニュアル（"
     },
     {
       "type": 1,
@@ -1208,33 +1216,29 @@
     },
     {
       "type": 0,
-      "value": ")"
+      "value": "）"
     }
   ],
   "permanently-delete": [
-    {
-      "type": 0,
-      "value": "Supprimer "
-    },
     {
       "type": 1,
       "value": "filename"
     },
     {
       "type": 0,
-      "value": " définitivement ?"
+      "value": "を完全に削除しますか？"
     }
   ],
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "Ceci contient tous les fichiers de ce projet (y compris tous les fichiers supplémentaires, par exemple pour utiliser les accessoires, listés dans l’onglet "
+      "value": "これには、このプロジェクト内のすべてのファイル（例えば、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Projet"
+          "value": "プロジェクト"
         }
       ],
       "type": 8,
@@ -1242,19 +1246,19 @@
     },
     {
       "type": 0,
-      "value": ")."
+      "value": "タブにリストされているアクセサリを実行するための追加ファイルを含む）が含まれています。"
     }
   ],
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "Vous trouverez votre fichier hex dans le dossier "
+      "value": "このコンピューターの"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Téléchargements"
+          "value": "ダウンロード"
         }
       ],
       "type": 8,
@@ -1262,19 +1266,19 @@
     },
     {
       "type": 0,
-      "value": " de cet ordinateur."
+      "value": "フォルダにhexファイルがあります。"
     }
   ],
   "post-save-message-two": [
     {
       "type": 0,
-      "value": "Vous pouvez le déplacer vers un autre dossier de stockage et utiliser "
+      "value": "保管用の別フォルダに移動して、後で"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "開く"
         }
       ],
       "type": 8,
@@ -1282,25 +1286,25 @@
     },
     {
       "type": 0,
-      "value": " pour continuer à le modifier plus tard."
+      "value": "を使用して編集を続けることができます。"
     }
   ],
   "post-save-title": [
     {
       "type": 0,
-      "value": "Projet enregistré"
+      "value": "プロジェクトを保存しました"
     }
   ],
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "Pour exécuter ce fichier hex sur votre micro:bit "
+      "value": "micro:bit上のhexファイルを実行するには"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "suivez ces étapes"
+          "value": "この手順に従います"
         }
       ],
       "type": 8,
@@ -1308,49 +1312,49 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "。"
     }
   ],
   "project-actions": [
     {
       "type": 0,
-      "value": "Actions du projet"
+      "value": "プロジェクトアクション"
     }
   ],
   "project-header": [
     {
       "type": 0,
-      "value": "En-tête de projet"
+      "value": "プロジェクトヘッダー"
     }
   ],
   "project-name": [
     {
       "type": 0,
-      "value": "Intitulé du projet"
+      "value": "プロジェクト名"
     }
   ],
   "project-name-not-empty": [
     {
       "type": 0,
-      "value": "Le nom du projet ne peut pas être vide"
+      "value": "プロジェクト名は空にできません"
     }
   ],
   "project-tab": [
     {
       "type": 0,
-      "value": "Projet"
+      "value": "プロジェクト"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
+      "value": "プロジェクト内のファイルの表示、作成、追加、編集"
     }
   ],
   "python-powered": [
     {
       "type": 0,
-      "value": "Fonctionne avec Python"
+      "value": "Python搭載"
     }
   ],
   "python-tab": [
@@ -1362,55 +1366,55 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Certaines de vos modifications n’ont pas été sauvegardées. Quitter quand même ?"
+      "value": "変更が保存されていません。終了しますか？"
     }
   ],
   "read-less": [
     {
       "type": 0,
-      "value": "Lire moins"
+      "value": "折りたたむ"
     }
   ],
   "read-more": [
     {
       "type": 0,
-      "value": "Lire plus"
+      "value": "もっと読む"
     }
   ],
   "redo": [
     {
       "type": 0,
-      "value": "Refaire"
+      "value": "繰り返し"
     }
   ],
   "reference-tab": [
     {
       "type": 0,
-      "value": "Référence"
+      "value": "リファレンス"
     }
   ],
   "replace-action-label": [
     {
       "type": 0,
-      "value": "Remplacer"
+      "value": "置換"
     }
   ],
   "reset-project-action": [
     {
       "type": 0,
-      "value": "Réinitialiser le projet"
+      "value": "プロジェクトをリセット"
     }
   ],
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "Le projet a été réinitialisé au code de départ par défaut"
+      "value": "プロジェクトがデフォルトのスターターコードにリセットされました"
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail"
+      "value": "プロジェクトをデフォルトのスターターコードにリセットし、作業を破棄します"
     }
   ],
   "results-count": [
@@ -1421,18 +1425,7 @@
           "value": [
             {
               "type": 0,
-              "value": "Aucun résultat"
-            }
-          ]
-        },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " résultat"
+              "value": "結果なし"
             }
           ]
         },
@@ -1443,7 +1436,7 @@
             },
             {
               "type": 0,
-              "value": " résultats"
+              "value": "件の結果"
             }
           ]
         }
@@ -1456,89 +1449,89 @@
   "save-action": [
     {
       "type": 0,
-      "value": "Enregistrer"
+      "value": "保存"
     }
   ],
   "save-file-action": [
     {
-      "type": 0,
-      "value": "Enregistrer "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "を保存"
     }
   ],
   "save-hex-action": [
     {
       "type": 0,
-      "value": "Sauvegarder hex du projet"
+      "value": "プロジェクトのhexを保存"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "Enregistre le fichier hex du projet sur votre ordinateur"
+      "value": "プロジェクトのhexファイルをコンピュータに保存"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "Enregistrer script Python"
+      "value": "Pythonスクリプトを保存"
     }
   ],
   "search": [
     {
       "type": 0,
-      "value": "Rechercher"
+      "value": "検索"
     }
   ],
   "send-action": [
     {
       "type": 0,
-      "value": "Envoyer vers micro:bit"
+      "value": "micro:bitに送る"
     }
   ],
   "send-hover": [
     {
       "type": 0,
-      "value": "Se connecter via WebUSB puis flasher le code sur le micro:bit"
+      "value": "WebUSBで接続してプログラムをmicro:bitに書き込む"
     }
   ],
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Masquer le terminal série"
+      "value": "シリアルを隠す"
     }
   ],
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl+C pour REPL"
+      "value": "REPLにCtrl+Cを送信"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Envoyer Ctrl+D pour réinitialiser"
+      "value": "Ctrl+Dを送信してリセット"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
-      "value": "Afficher le terminal série"
+      "value": "シリアルを表示"
     }
   ],
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit flashé"
+      "value": "micro:bitに書き込みました"
     }
   ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "Utilisez le raccourci clavier "
+      "value": "キーボードショートカット"
     },
     {
       "children": [
@@ -1566,13 +1559,13 @@
     },
     {
       "type": 0,
-      "value": " pour interrompre votre programme. Ensuite, vous pouvez taper des commandes Python pour que MicroPython s’exécute. C’est un excellent moyen d’expérimenter."
+      "value": "を使用してプログラムを中断します。すると、MicroPythonが実行するPythonコマンドを入力することができます。これは何か新しいことを試してみるのに最適な方法です。"
     }
   ],
   "serial-help-ctrl-d": [
     {
       "type": 0,
-      "value": "Pour relancer votre programme, utilisez "
+      "value": "プログラムを再起動するには、"
     },
     {
       "children": [
@@ -1600,19 +1593,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "を使用します。"
     }
   ],
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "Le terminal série affiche les erreurs et autres sorties du programme en cours d’exécution sur votre micro:bit. Par défaut, il affiche la dernière erreur du programme. Développez pour voir toute la sortie."
+      "value": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。 デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。"
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "Votre programme peut inscrire des messages en utilisant la fonction "
+      "value": "プログラムで"
     },
     {
       "children": [
@@ -1626,13 +1619,13 @@
     },
     {
       "type": 0,
-      "value": ". Essayez d’ajouter "
+      "value": "関数を使うとメッセージを出力できます。プログラムに"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "print('micro:bit est génial')"
+          "value": "print('micro:bitは素晴らしい')"
         }
       ],
       "type": 8,
@@ -1640,213 +1633,213 @@
     },
     {
       "type": 0,
-      "value": " à votre programme."
+      "value": "を追加してみてください。"
     }
   ],
   "serial-help-title": [
     {
       "type": 0,
-      "value": "Trucs et astuces sur la communication série"
+      "value": "シリアルのヒントと秘訣"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "Trucs et astuces sur la communication série"
+      "value": "シリアルのヒントと秘訣"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "Menu série"
+      "value": "シリアルメニュー"
     }
   ],
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit prêt à flasher"
+      "value": "micro:bitの書き込み準備ができました"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "En cours d’exécution…"
+      "value": "実行中…"
     }
   ],
   "serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal série"
+      "value": "シリアルターミナル"
     }
   ],
   "setting-allow-editing-third-party": [
     {
       "type": 0,
-      "value": "Autoriser la modification des modules tiers"
+      "value": "サードパーティ製モジュールの編集を許可"
     }
   ],
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "La modification de modules tiers peut empêcher leur bon fonctionnement."
+      "value": "サードパーティ製モジュールを変更すると、意図した通りに動作しない可能性があります。"
     }
   ],
   "settings": [
     {
       "type": 0,
-      "value": "Paramètres"
+      "value": "設定"
     }
   ],
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "Afficher la documentation d’API"
+      "value": "APIドキュメントを表示"
     }
   ],
   "show-less": [
     {
       "type": 0,
-      "value": "Afficher moins"
+      "value": "表示を減らす"
     }
   ],
   "show-less-for": [
     {
-      "type": 0,
-      "value": "Afficher moins pour "
-    },
-    {
       "type": 1,
       "value": "item"
+    },
+    {
+      "type": 0,
+      "value": "の表示を減らす"
     }
   ],
   "show-more": [
     {
       "type": 0,
-      "value": "Afficher plus"
+      "value": "詳細を表示"
     }
   ],
   "show-more-for": [
     {
-      "type": 0,
-      "value": "Afficher plus pour "
-    },
-    {
       "type": 1,
       "value": "item"
+    },
+    {
+      "type": 0,
+      "value": "の詳細を表示"
     }
   ],
   "sidebar": [
     {
       "type": 0,
-      "value": "Barre latérale"
+      "value": "サイドバー"
     }
   ],
   "sidebar-collapse": [
     {
       "type": 0,
-      "value": "Réduire la barre latérale"
+      "value": "サイドバーを隠す"
     }
   ],
   "sidebar-expand": [
     {
       "type": 0,
-      "value": "Déplier la barre latérale"
+      "value": "サイドバーを表示"
     }
   ],
   "simulator-accelerometer": [
     {
       "type": 0,
-      "value": "Accéléromètre"
+      "value": "加速度センサー"
     }
   ],
   "simulator-actions": [
     {
       "type": 0,
-      "value": "Actions du simulateur"
+      "value": "シミュレーターアクション"
     }
   ],
   "simulator-button-a": [
     {
       "type": 0,
-      "value": "Bouton A"
+      "value": "Aボタン"
     }
   ],
   "simulator-button-b": [
     {
       "type": 0,
-      "value": "Bouton B"
+      "value": "Bボタン"
     }
   ],
   "simulator-button-hold-label": [
     {
-      "type": 0,
-      "value": "Maintenez le bouton "
-    },
-    {
       "type": 1,
       "value": "button"
+    },
+    {
+      "type": 0,
+      "value": "ボタンを押し続ける"
     }
   ],
   "simulator-button-press-label": [
     {
-      "type": 0,
-      "value": "Appuyer sur le bouton "
-    },
-    {
       "type": 1,
       "value": "button"
+    },
+    {
+      "type": 0,
+      "value": "ボタンを押す"
     }
   ],
   "simulator-buttons": [
     {
       "type": 0,
-      "value": "Boutons"
+      "value": "ボタン"
     }
   ],
   "simulator-collapse": [
     {
       "type": 0,
-      "value": "Réduire le simulateur"
+      "value": "シミュレーターを隠す"
     }
   ],
   "simulator-collapse-module": [
     {
-      "type": 0,
-      "value": "Réduire le module "
-    },
-    {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "モジュールを隠す"
     }
   ],
   "simulator-compass": [
     {
       "type": 0,
-      "value": "Boussole"
+      "value": "コンパス"
     }
   ],
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "Titre"
+      "value": "方角検知"
     }
   ],
   "simulator-compass-heading-two": [
     {
       "type": 0,
-      "value": "Intensité du champ magnétique"
+      "value": "磁場強度"
     }
   ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
-      "value": "Aucune entrée journal."
+      "value": "ログはありません。"
     }
   ],
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "Journal plein"
+      "value": "ログが満杯です"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1887,272 +1880,280 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "count"
-    },
-    {
-      "type": 0,
-      "value": " "
     }
   ],
   "simulator-data-logging-save-log": [
     {
       "type": 0,
-      "value": "Sauvegarder le journal"
+      "value": "ログを保存"
     }
   ],
   "simulator-data-logging-truncated": [
     {
       "type": 0,
-      "value": "Les anciennes lignes ne sont pas affichées"
+      "value": "古い行は表示されていません"
     }
   ],
   "simulator-expand": [
     {
       "type": 0,
-      "value": "Développer le simulateur"
+      "value": "シミュレーターを展開"
     }
   ],
   "simulator-expand-module": [
     {
-      "type": 0,
-      "value": "Développer le module "
-    },
-    {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "モジュールを展開"
     }
   ],
   "simulator-gesture-select": [
     {
       "type": 0,
-      "value": "Sélectionner un geste"
+      "value": "ジェスチャーを選択"
     }
   ],
   "simulator-gesture-send": [
     {
       "type": 0,
-      "value": "Envoyer un geste"
+      "value": "ジェスチャーを送信"
     }
   ],
   "simulator-hide": [
     {
       "type": 0,
-      "value": "Cacher le simulateur "
+      "value": "シミュレーターを隠す"
     }
   ],
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "Maintenir"
+      "value": "押し続ける"
     }
   ],
   "simulator-input-press": [
     {
       "type": 0,
-      "value": "Appuyer"
+      "value": "押す"
     }
   ],
   "simulator-light-level": [
     {
       "type": 0,
-      "value": "Niveau de luminosité"
+      "value": "照度レベル"
     }
   ],
   "simulator-log": [
     {
       "type": 0,
-      "value": "Journal des données"
+      "value": "データログ"
     }
   ],
   "simulator-loud": [
     {
       "type": 0,
-      "value": "Bruyant"
+      "value": "うるさくなった"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "Couper le son"
+      "value": "消音"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "Maintenir la broche "
+      "value": "端子"
     },
     {
       "type": 1,
       "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": "にタッチし続ける"
     }
   ],
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "Appuyer sur la broche "
+      "value": "端子"
     },
     {
       "type": 1,
       "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": "にタッチする"
     }
   ],
   "simulator-pins": [
     {
       "type": 0,
-      "value": "Broches"
+      "value": "端子"
     }
   ],
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "Silencieux"
+      "value": "静かになった"
     }
   ],
   "simulator-radio": [
     {
       "type": 0,
-      "value": "Radio"
+      "value": "無線"
     }
   ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "Le groupe radio est réglé sur "
+      "value": "無線のグループを"
     },
     {
       "type": 1,
       "value": "groupNumber"
+    },
+    {
+      "type": 0,
+      "value": "に設定"
     }
   ],
   "simulator-radio-message": [
     {
       "type": 0,
-      "value": "Message radio"
+      "value": "無線メッセージ"
     }
   ],
   "simulator-radio-message-limit-notice": [
     {
       "type": 0,
-      "value": "Les anciens messages ne s'affichent pas"
+      "value": "古いメッセージは表示されていません"
     }
   ],
   "simulator-radio-no-messages": [
     {
       "type": 0,
-      "value": "Aucun message à afficher"
+      "value": "表示するメッセージはありません"
     }
   ],
   "simulator-radio-off": [
     {
       "type": 0,
-      "value": "La radio est éteinte"
+      "value": "無線は無効になっています"
     }
   ],
   "simulator-radio-send": [
     {
       "type": 0,
-      "value": "Envoyer un message"
+      "value": "メッセージを送信"
     }
   ],
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "Lien vers la section de référence"
+      "value": "参照セクションへのリンク"
     }
   ],
   "simulator-reset": [
     {
       "type": 0,
-      "value": "Réinitialiser"
+      "value": "リセット"
     }
   ],
   "simulator-serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal série du simulateur"
+      "value": "シミュレーターシリアルターミナル"
     }
   ],
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "Niveau sonore"
+      "value": "サウンドレベル"
     }
   ],
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Démarrer le simulateur"
+      "value": "シミュレーターを開始"
     }
   ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Arrêter le simulateur"
+      "value": "シミュレーターを停止"
     }
   ],
   "simulator-temperature": [
     {
       "type": 0,
-      "value": "Température"
+      "value": "温度"
     }
   ],
   "simulator-title": [
     {
       "type": 0,
-      "value": "Simulateur"
+      "value": "シミュレーター"
     }
   ],
   "simulator-touch-logo": [
     {
       "type": 0,
-      "value": "Logo tactile"
+      "value": "タッチロゴ"
     }
   ],
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "Démuter"
+      "value": "消音解除"
     }
   ],
   "software-versions": [
     {
       "type": 0,
-      "value": "Versions logicielles"
+      "value": "ソフトウェアのバージョン"
     }
   ],
   "start-coding-action": [
     {
       "type": 0,
-      "value": "Commencer à programmer"
+      "value": "プログラミングを開始"
     }
   ],
   "support": [
     {
       "type": 0,
-      "value": "Assistance"
+      "value": "サポート"
     }
   ],
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Conditions d’utilisation"
+      "value": "利用規約"
     }
   ],
   "third-party-module-explanation": [
     {
       "type": 0,
-      "value": "Ce fichier est un module tiers et n'est pas destiné à être modifié."
+      "value": "このファイルはサードパーティ製モジュールであり、編集するものではありません。"
     }
   ],
   "third-party-module-how-to": [
     {
       "type": 0,
-      "value": "Autorisez la modification des modules tiers dans "
+      "value": "このモジュールを変更するには、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Paramètres"
+          "value": "設定"
         }
       ],
       "type": 8,
@@ -2160,53 +2161,53 @@
     },
     {
       "type": 0,
-      "value": " pour modifier ce module."
+      "value": "でサードパーティ製モジュールの編集を許可します。"
     }
   ],
   "timeout-error-description": [
     {
       "type": 0,
-      "value": "Impossible de se connecter au micro:bit"
+      "value": "micro:bitに接続できません"
     }
   ],
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "La connexion a expiré"
+      "value": "接続がタイムアウトしました"
     }
   ],
   "title": [
     {
       "type": 0,
-      "value": "Éditeur Python pour micro:bit"
+      "value": "micro:bit用Pythonエディター"
     }
   ],
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "Une erreur s’est produite lors du chargement de la boîte à outils."
+      "value": "ツールキットの読み込み中にエラーが発生しました。"
     }
   ],
   "toolkit-view-documentation": [
     {
-      "type": 0,
-      "value": "Afficher la documentation "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "ドキュメントを表示"
     }
   ],
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "Faites glisser le fichier hex de votre dossier "
+      "value": "hexファイルを"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Téléchargements"
+          "value": "ダウンロードフォルダ"
         }
       ],
       "type": 8,
@@ -2214,13 +2215,13 @@
     },
     {
       "type": 0,
-      "value": " vers le "
+      "value": "から"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "lecteur MICROBIT"
+          "value": "MICROBITドライブ"
         }
       ],
       "type": 8,
@@ -2228,19 +2229,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "へドラッグします。"
     }
   ],
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "Vous pourrez "
+      "value": "後でhexファイルを"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ouvrir"
+          "value": "開く"
         }
       ],
       "type": 8,
@@ -2248,75 +2249,83 @@
     },
     {
       "type": 0,
-      "value": " le fichier hex plus tard pour continuer l'édition."
+      "value": "と編集を続けることができます。"
     }
   ],
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transférer le fichier hex enregistré vers le micro:bit"
+      "value": "保存されたhexファイルをmicro:bitに転送する"
     }
   ],
   "try-again-action": [
     {
       "type": 0,
-      "value": "Réessayer"
+      "value": "もう一度やり直してください"
     }
   ],
   "undo": [
     {
       "type": 0,
-      "value": "Annuler"
+      "value": "元に戻す"
     }
   ],
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "Veuillez réessayer ou "
+      "value": "もう一度やり直すか、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d’assistance"
+          "value": "サポートリクエストを提出"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "してください"
     }
   ],
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "Veuillez réessayer ou "
+      "value": "もう一度やり直すか、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "soumettre une demande d’assistance"
+          "value": "サポートリクエストを提出"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "してください"
     }
   ],
   "untitled-project": [
     {
       "type": 0,
-      "value": "Projet sans titre"
+      "value": "無題プロジェクト"
     }
   ],
   "update-firmware-action": [
     {
       "type": 0,
-      "value": "Mise à jour du micrologiciel"
+      "value": "ファームウェアを更新"
     }
   ],
   "updated-change": [
     {
       "type": 0,
-      "value": "Le fichier "
+      "value": "ファイル "
     },
     {
       "type": 1,
@@ -2324,55 +2333,55 @@
     },
     {
       "type": 0,
-      "value": " a été mis à jour"
+      "value": " を更新しました"
     }
   ],
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "visiter microbit.org (s’ouvre dans un nouvel onglet)"
+      "value": "microbit.orgにアクセスする（新しいタブで開きます）"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "Un autre processus est connecté à cet appareil."
+      "value": "別のプロセスがこのデバイスに接続されています。"
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Fermez tous les autres onglets susceptibles d’utiliser WebUSB (par exemple, MakeCode, éditeur Python), ou débranchez et rebranchez le micro:bit avant de réessayer."
+      "value": "WebUSBを使用している他のタブ（MakeCode、Pythonエディターなど）を閉じるか、micro:bitを抜き差ししてやり直してください。"
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Impossible de demander l’interface"
+      "value": "インタフェースを要求できません"
     }
   ],
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "Erreur WebUSB"
+      "value": "WebUSBエラー"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "Veuillez reconnecter votre micro:bit et réessayer."
+      "value": "micro:bitを再接続して、やり直してください。"
     }
   ],
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "Vous devez "
+      "value": "この機能を利用するには、"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "mettre à jour le micrologiciel de votre micro:bit"
+          "value": "micro:bitファームウェアを更新"
         }
       ],
       "type": 8,
@@ -2380,55 +2389,55 @@
     },
     {
       "type": 0,
-      "value": " pour utiliser cette fonctionnalité."
+      "value": "する必要があります。"
     }
   ],
   "webusb-error-update-req-title": [
     {
       "type": 0,
-      "value": "Veuillez mettre à jour le micrologiciel de micro:bit"
+      "value": "micro:bit のファームウェアを更新してください。"
     }
   ],
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Malheureusement, WebUSB n'est pas pris en charge dans ce navigateur et votre programme sera sauvegardé sur votre ordinateur. Suivez les étapes sur l'écran suivant pour le transférer vers votre micro:bit. Nous vous recommandons Google Chrome ou Microsoft Edge afin que vous puissiez vous connecter directement à votre micro:bit."
+      "value": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。 micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。"
     }
   ],
   "webusb-not-supported-title": [
     {
       "type": 0,
-      "value": "Ce navigateur ne supporte pas WebUSB"
+      "value": "このブラウザはWebUSBに対応していません"
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "Avec WebUSB, vous pouvez programmer votre micro:bit et vous connecter à la console série directement depuis l’éditeur en ligne."
+      "value": "WebUSBを使用すると、オンラインエディターから直接micro:bitをプログラムしたり、シリアルコンソールに接続できます。"
     }
   ],
   "welcome-message": [
     {
       "type": 0,
-      "value": "Regardez notre court guide sur certaines des fonctionnalités principales, ou commencez à coder immédiatement."
+      "value": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めてください。"
     }
   ],
   "welcome-title": [
     {
       "type": 0,
-      "value": "Bienvenue dans l'éditeur Python micro:bit"
+      "value": "micro:bit Pythonエディターへようこそ"
     }
   ],
   "zoom-in-action": [
     {
       "type": 0,
-      "value": "Zoom avant"
+      "value": "拡大"
     }
   ],
   "zoom-out-action": [
     {
       "type": 0,
-      "value": "Zoom arrière"
+      "value": "縮小"
     }
   ]
 }
