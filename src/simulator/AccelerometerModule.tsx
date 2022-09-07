@@ -1,5 +1,5 @@
 import { HStack, IconButton, Select, Stack } from "@chakra-ui/react";
-import { ChangeEvent, ReactNode, useCallback, useState } from "react";
+import { ChangeEvent, ReactNode, useCallback, useRef, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { SensorStateKey, SimulatorState } from "../device/simulator";
@@ -70,6 +70,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
   const [choice, setChoice] = useState("shake");
   const [active, setActive] = useState(false);
   const intl = useIntl();
+  const ref = useRef<HTMLButtonElement>(null);
 
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -83,6 +84,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
     setTimeout(() => {
       setActive(false);
       onValueChange("gesture", "none");
+      ref.current!.focus();
     }, 500);
   }, [setActive, onValueChange, choice]);
 
@@ -102,6 +104,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
         ))}
       </Select>
       <IconButton
+        ref={ref}
         icon={<RiSendPlane2Line />}
         disabled={!enabled || active}
         onClick={handleClick}
