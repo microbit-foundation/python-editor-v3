@@ -4,11 +4,11 @@
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "由Mike Rowbit 创作的题为“MicroPython Rocks”的三幅漫画。一条卡通蛇介绍了 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。",
+    "defaultMessage": "由 Mike Rowbit 创作的题为 “MicroPython Rocks” 的三幅漫画。漫画上一条卡通蛇介绍 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
-    "defaultMessage": "<link>Micro:bit Educational Foundation 和捐款人</link> 用爱心制作",
+    "defaultMessage": "<link>Micro:bit Educational Foundation and contributors</link> 用爱心制作",
     "description": "Text in about dialog"
   },
   "about-micropython": {
@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "关于用法和示例，请参阅 <link>参考</link>",
+    "defaultMessage": "关于用法和示例，请参阅 <link>Reference</link>",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -36,7 +36,7 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, one {base class} other {base classes: }}",
+    "defaultMessage": "{baseClassCount, plural,  other {base classes: }}",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
@@ -128,7 +128,7 @@
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "将所有文件替换成十六进制文件？",
+    "defaultMessage": "将所有文件替换成 hex 文件？",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
@@ -160,7 +160,7 @@
     "description": "Title for the connect cable dialog"
   },
   "connect-help-alt": {
-    "defaultMessage": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按键",
+    "defaultMessage": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按钮",
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
@@ -188,11 +188,11 @@
     "description": "Text in serial area"
   },
   "connect-troubleshoot": {
-    "defaultMessage": "对连接到 micro:bit 的问题进行排错",
+    "defaultMessage": "通过与您的 micro:bit 连接进行排错",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "content-load-error": {
-    "defaultMessage": "出错了。下载您的十六进制文件以便安全保存，然后刷新页面来重新加载。",
+    "defaultMessage": "出错了。下载您的 hex 文件以便安全保存，然后刷新页面来重新加载。",
     "description": "Text displayed when content fails to load"
   },
   "copied": {
@@ -216,7 +216,7 @@
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
   "create-python": {
-    "defaultMessage": "在此项目中创建一个新的 Python 文件",
+    "defaultMessage": "在此项目中创建一份新的 Python 文件",
     "description": "Hover and dialog title when creating a new Python file"
   },
   "created-file": {
@@ -252,7 +252,7 @@
     "description": "Draggable code hover text"
   },
   "edit-file-action": {
-    "defaultMessage": "编辑{name}",
+    "defaultMessage": "编辑 {name}",
     "description": "Menu option to edit file"
   },
   "edit-name-project-hover": {
@@ -264,7 +264,7 @@
     "description": "Text for user to edit the name of the project"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "无法构建 hex （十六进制) 文件",
+    "defaultMessage": "无法创建 hex 文件",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
   "feedback": {
@@ -276,11 +276,11 @@
     "description": "Header of file actions for file"
   },
   "file-already-exists": {
-    "defaultMessage": "该文件已经存在。",
+    "defaultMessage": "该文件已经存在",
     "description": "File already exists notification text"
   },
   "file-name-invalid-character": {
-    "defaultMessage": "名称包含非法字符:{invalid}",
+    "defaultMessage": "名称包含无效字符：{invalid}",
     "description": "Warning text for new Python file name with an invalid character"
   },
   "file-name-length": {
@@ -304,11 +304,11 @@
     "description": "Warning text for new Python file name with whitespace"
   },
   "firmware-update-link": {
-    "defaultMessage": "您必须<link>更新您的固件</link>，然后才能连接到此 micro:bit。",
+    "defaultMessage": "在连接 micro:bit 之前，您必须 <link>update your firmware</link>。",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-message": {
-    "defaultMessage": "连接到 micro:bit 失败，因为您micro:bit 上的固件太老。",
+    "defaultMessage": "因为您的 micro:bit 上的固件太老，所以导致 micro:bit 连接失败。",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-title": {
@@ -324,7 +324,7 @@
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "发送代码（闪烁）",
+    "defaultMessage": "发送代码（刷入）",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
@@ -340,7 +340,7 @@
     "description": "Font size option text"
   },
   "guide-link": {
-    "defaultMessage": "如需更多支持，请参阅 <link>Python 编辑器指南</link>",
+    "defaultMessage": "如需更多支持，请参阅 <link>Python Editor guide</link>",
     "description": "Text with an external link to support/help content"
   },
   "help": {
@@ -356,7 +356,7 @@
     "description": "Help translate  menu option text"
   },
   "highlight-code-structure": {
-    "defaultMessage": "高亮代码结构",
+    "defaultMessage": "突出显示代码结构",
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
@@ -368,7 +368,7 @@
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-simple": {
-    "defaultMessage": "简单模式",
+    "defaultMessage": "简单",
     "description": "Highlight code structure option"
   },
   "ideas-tab": {
@@ -395,11 +395,11 @@
     "description": "Load error message"
   },
   "load-error-makecode-link": {
-    "defaultMessage": "请访问 <link>https://makecode.microbit.org/</link> 来使用这个hex文件。",
+    "defaultMessage": "要使用该 hex 文件，请访问 <link>https://makecode.microbit.org/</link>。",
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "\nhex文件只能单独加载。它取代了项目中的所有文件。",
+    "defaultMessage": "hex 文件只能单独加载。它会取代项目中的所有文件。",
     "description": "Load error message"
   },
   "load-error-mpy": {
@@ -419,7 +419,7 @@
     "description": "Shown on loading indicators"
   },
   "microbit-hearts-alt": {
-    "defaultMessage": "带有 5 x 5 LED 网格的 micro:bit 板，显示一颗心",
+    "defaultMessage": "用 5 x 5 LED 网格显示一颗心的 micro:bit 主板",
     "description": "Alt text for micro:bit image in About dialog"
   },
   "micropython-documentation": {
@@ -431,7 +431,7 @@
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
-    "defaultMessage": "MicroPython <linkV1>micro:bit V1 的源代码</linkV1>和<linkV2>micro:bit V2</linkV2>",
+    "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1> 和 <linkV2>micro:bit V2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
@@ -443,7 +443,7 @@
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
   "more-ideas": {
-    "defaultMessage": "<link>更多想法</link>",
+    "defaultMessage": "<link>More ideas</link>",
     "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
   "more-save-options": {
@@ -455,7 +455,7 @@
     "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
-    "defaultMessage": "使用 <strong>Save</strong>（保存） 按键将整个项目下载为一个 hex 文件。您可以 <strong>Open</strong>（打开） 此hex 文件来恢复您的项目。如果您希望下载单个 Python 文件，请使用 <strong>Project</strong>（项目） 选项卡。",
+    "defaultMessage": "使用 <strong>Save</strong>（保存） 按钮将整个项目下载为一个 hex 文件。您可以 <strong>Open</strong>（打开） 此hex 文件来恢复您的项目。如果您希望下载单个 Python 文件，请使用 <strong>Project</strong>（项目） 选项卡。",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
@@ -471,11 +471,11 @@
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "保存hex(十六进制)文件时使用该名称。",
+    "defaultMessage": "保存 hex 文件时使用该名称。",
     "description": "Text under project name field"
   },
   "new-file-hint": {
-    "defaultMessage": "\n我们将为您添加 <code>.py</code> 扩展名。",
+    "defaultMessage": "我们将为您添加 <code>.py</code> 扩展名。",
     "description": "Hint shown in the new Python file dialog"
   },
   "next-action": {
@@ -483,19 +483,19 @@
     "description": "Next button text"
   },
   "not-found-checklist-one": {
-    "defaultMessage": "\n您的 <strong>micro:bit 是否已插入</strong>？您是否<link>遵循了这些步骤</link>？",
+    "defaultMessage": "您的 <strong>micro:bit 是否已插入</strong>？您是否 <link>follow these steps</link>？",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "\n如果您持有的是 <strong>micro:bit V1</strong>，您可能需要<link>更新固件</link>",
+    "defaultMessage": "如果您持有的是 <strong>micro:bit V1</strong>，您可能需要  <link>update the firmware</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
-    "defaultMessage": "\n您没有选择 micro:bit，或者与它的连接有问题。",
+    "defaultMessage": "您没有选择 micro:bit，或者与它的连接存在问题。",
     "description": "Text in the no micro:bit found dialog"
   },
   "not-found-save-message": {
-    "defaultMessage": "替代方法：选择保存，然后按照步骤传输",
+    "defaultMessage": "替代方法：选择 Save （保存），然后按照步骤传输",
     "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
@@ -503,7 +503,7 @@
     "description": "Title for the micro:bit found dialog"
   },
   "not-found-update-link": {
-    "defaultMessage": "\n您必须<link>更新您的固件，然后</link>才能连接到此 micro:bit。",
+    "defaultMessage": "您必须 <link>update your firmware before</link> 才能连接到此 micro:bit。",
     "description": "Text in the no micro:bit found dialog"
   },
   "open-action": {
@@ -519,7 +519,7 @@
     "description": "Aria label for file drop target"
   },
   "open-hover": {
-    "defaultMessage": "打开一个hex（十六进制)或 Python 文件，或添加其他文件",
+    "defaultMessage": "打开一 份 hex 或 Python 文件，或添加其他文件",
     "description": "Hover text over load button"
   },
   "options": {
@@ -547,19 +547,19 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "\n▲\n您将在这台计算机的 <strong>Downloads(下载)</strong> 文件夹中找到您的 hex(十六进制) 文件。",
+    "defaultMessage": "\n您将在这台计算机的 <strong>Downloads (下载)</strong> 文件夹中找到您的 hex 文件。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
-    "defaultMessage": "您可以将其移至另一个文件夹进行保存，稍后使用<strong>打开</strong>继续编辑。",
+    "defaultMessage": "您可以将其移至另一个文件夹进行保存，稍后使用<strong>Open （打开）</strong>继续编辑。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-title": {
-    "defaultMessage": "\n项目已保存",
+    "defaultMessage": "项目已保存",
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "\n要在您的 micro:bit 上运行此 hex （十六进制) 文件，<link>请按照以下步骤操作</link>。",
+    "defaultMessage": "要在您的 micro:bit 上运行此 hex 文件，<link>follow these steps</link>。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
@@ -587,7 +587,7 @@
     "description": "Project tab description"
   },
   "python-powered": {
-    "defaultMessage": "\nPython 驱动",
+    "defaultMessage": "Python 驱动",
     "description": "Python powered logo alt text"
   },
   "python-tab": {
@@ -627,11 +627,11 @@
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "将项目重置为默认的启动代码，放弃您的工作",
+    "defaultMessage": "将项目重置为默认启动代码，放弃您的工作",
     "description": "Reset action hover text"
   },
   "results-count": {
-    "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "defaultMessage": "{count, plural, =0 {No results} other {# results}}",
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
@@ -643,15 +643,15 @@
     "description": "Menu option to save a file"
   },
   "save-hex-action": {
-    "defaultMessage": "保存项目hex（十六进制)",
+    "defaultMessage": "保存项目 hex",
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "将项目的hex(十六进制文件)保存到您的计算机",
+    "defaultMessage": "将项目的 hex 文件保存到您的计算机",
     "description": "Hover text over save button"
   },
   "save-python-action": {
-    "defaultMessage": "保存Python脚本",
+    "defaultMessage": "保存 Python 脚本",
     "description": "Save button menu option to save the Python script"
   },
   "search": {
@@ -703,15 +703,15 @@
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
-    "defaultMessage": "\n串口提示和技巧",
+    "defaultMessage": "串口提示和技巧",
     "description": "Title for the serial hints and tips dialog"
   },
   "serial-hints-and-tips": {
-    "defaultMessage": "\n串口提示和技巧",
+    "defaultMessage": "串口提示和技巧",
     "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
-    "defaultMessage": "串行菜单",
+    "defaultMessage": "串口菜单",
     "description": "Aria label for serial area menu"
   },
   "serial-ready-to-flash": {
@@ -747,7 +747,7 @@
     "description": "Show less for general progressive disclosure"
   },
   "show-less-for": {
-    "defaultMessage": "显示更少的 {item}",
+    "defaultMessage": "显示的 {item} 更少信息",
     "description": "Show less with item usually for aria label"
   },
   "show-more": {
@@ -827,7 +827,7 @@
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} other {# rows logged}}",
+    "defaultMessage": "{count, plural, =0 {没有行记录} other {# 行记录}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
@@ -983,11 +983,11 @@
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {
-    "defaultMessage": "\n此文件是第三方模块，不可编辑。",
+    "defaultMessage": "此文件是第三方模块，不可编辑。",
     "description": "Explanation shown instead of the code editor for third-party modules."
   },
   "third-party-module-how-to": {
-    "defaultMessage": "在<link>设置</link>中允许编辑第三方模块，以修改此模块。",
+    "defaultMessage": "为了修改此模块，允许在 <link>Settings</link> 中编辑第三方模块。",
     "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
@@ -999,27 +999,27 @@
     "description": "Title for error messages relating to WebUSB timeout"
   },
   "title": {
-    "defaultMessage": "\nmicro:bit 的 Python 编辑器",
+    "defaultMessage": "micro:bit 的 Python 编辑器",
     "description": "Application title"
   },
   "toolkit-error-loading": {
-    "defaultMessage": "\n加载工具包时出错。",
+    "defaultMessage": "加载工具包时出错。",
     "description": "Error shown if we failed to load toolkit content"
   },
   "toolkit-view-documentation": {
-    "defaultMessage": "\n查看 {name} 文档",
+    "defaultMessage": "查看 {name} 文档",
     "description": "Aria label for the toolkit topic right arrow"
   },
   "transfer-hex-message-one": {
-    "defaultMessage": "\n将 hex（十六进制) 文件从 <strong>Downloads(下载) 文件夹</strong> 拖到 <strong>MICROBIT 驱动器</strong>。",
+    "defaultMessage": "将 hex 文件从 <strong>Downloads (下载) 文件夹</strong> 拖到 <strong>MICROBIT 驱动器</strong>。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "\n您可以稍后<strong>打开</strong> hex(十六进制) 文件以继续编辑。",
+    "defaultMessage": "您可以稍后<strong>打开</strong> hex 文件以继续编辑。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "将保存的 hex (十六进制)文件传输到 micro:bit",
+    "defaultMessage": "将保存的 hex 文件传输到 micro:bit",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
@@ -1031,11 +1031,11 @@
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "请重试或<link>提交支持请求</link>",
+    "defaultMessage": "请重试或 <link>raise a support request</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "请重试或<link>提交支持请求</link>",
+    "defaultMessage": "请重试或 <link>raise a support request</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
@@ -1051,7 +1051,7 @@
     "description": "Change made to file"
   },
   "visit-dot-org": {
-    "defaultMessage": "访问microbit.org (在新标签页中打开)",
+    "defaultMessage": "访问 microbit.org (在新标签页中打开)",
     "description": "alt text for logo link to .org"
   },
   "webusb-error-clear-connect-description-1": {
@@ -1059,11 +1059,11 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode , Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。",
+    "defaultMessage": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode、Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "\n无法声明接口",
+    "defaultMessage": "无法声明接口",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -1075,7 +1075,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-update-req-description": {
-    "defaultMessage": "您需要 <link>升级您的 micro:bit 固件</link> 才能使用此功能。",
+    "defaultMessage": "您需要  <link>update your micro:bit firmware</link> 才能使用此功能。",
     "description": "WebUSB error telling user to update firmware"
   },
   "webusb-error-update-req-title": {
@@ -1083,7 +1083,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请遵循下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge浏览器，以便您可以直接连接到您的 micro:bit。",
+    "defaultMessage": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请按照下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge 浏览器，以便您可以直接连接到您的 micro:bit。",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
@@ -1091,7 +1091,7 @@
     "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行终端。",
+    "defaultMessage": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行控制台。",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {

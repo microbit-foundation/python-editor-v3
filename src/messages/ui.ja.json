@@ -1531,7 +1531,7 @@
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "キーボードショートカット"
+      "value": "キーボードショートカット "
     },
     {
       "children": [
@@ -1559,7 +1559,7 @@
     },
     {
       "type": 0,
-      "value": "を使用してプログラムを中断します。すると、MicroPythonが実行するPythonコマンドを入力することができます。これは何か新しいことを試してみるのに最適な方法です。"
+      "value": " を使用してプログラムを中断します。すると、MicroPythonが実行するPythonコマンドを入力することができます。これは何か新しいことを試してみるのに最適な方法です。"
     }
   ],
   "serial-help-ctrl-d": [
@@ -1846,22 +1846,11 @@
     {
       "offset": 0,
       "options": {
-        "1": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " row logged"
-            }
-          ]
-        },
         "=0": {
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "ログ行なし"
             }
           ]
         },
@@ -1872,7 +1861,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": "行のログ"
             }
           ]
         }

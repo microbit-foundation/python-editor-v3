@@ -8,7 +8,7 @@
   "about-comic": [
     {
       "type": 0,
-      "value": "由Mike Rowbit 创作的题为“MicroPython Rocks”的三幅漫画。一条卡通蛇介绍了 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。"
+      "value": "由 Mike Rowbit 创作的题为 “MicroPython Rocks” 的三幅漫画。漫画上一条卡通蛇介绍 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。"
     }
   ],
   "about-microbit": [
@@ -16,7 +16,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation 和捐款人"
+          "value": "Micro:bit Educational Foundation and contributors"
         }
       ],
       "type": 8,
@@ -78,7 +78,7 @@
       "children": [
         {
           "type": 0,
-          "value": "参考"
+          "value": "Reference"
         }
       ],
       "type": 8,
@@ -95,14 +95,6 @@
     {
       "offset": 0,
       "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "base class"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
@@ -308,7 +300,7 @@
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "将所有文件替换成十六进制文件？"
+      "value": "将所有文件替换成 hex 文件？"
     }
   ],
   "confirm-replace-reset": [
@@ -364,7 +356,7 @@
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按键"
+      "value": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按钮"
     }
   ],
   "connect-help-message": [
@@ -406,13 +398,13 @@
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "对连接到 micro:bit 的问题进行排错"
+      "value": "通过与您的 micro:bit 连接进行排错"
     }
   ],
   "content-load-error": [
     {
       "type": 0,
-      "value": "出错了。下载您的十六进制文件以便安全保存，然后刷新页面来重新加载。"
+      "value": "出错了。下载您的 hex 文件以便安全保存，然后刷新页面来重新加载。"
     }
   ],
   "copied": [
@@ -448,7 +440,7 @@
   "create-python": [
     {
       "type": 0,
-      "value": "在此项目中创建一个新的 Python 文件"
+      "value": "在此项目中创建一份新的 Python 文件"
     }
   ],
   "created-file": [
@@ -514,7 +506,7 @@
   "edit-file-action": [
     {
       "type": 0,
-      "value": "编辑"
+      "value": "编辑 "
     },
     {
       "type": 1,
@@ -536,7 +528,7 @@
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "无法构建 hex （十六进制) 文件"
+      "value": "无法创建 hex 文件"
     }
   ],
   "feedback": [
@@ -558,13 +550,13 @@
   "file-already-exists": [
     {
       "type": 0,
-      "value": "该文件已经存在。"
+      "value": "该文件已经存在"
     }
   ],
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "名称包含非法字符:"
+      "value": "名称包含无效字符："
     },
     {
       "type": 1,
@@ -604,13 +596,13 @@
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "您必须"
+      "value": "在连接 micro:bit 之前，您必须 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "更新您的固件"
+          "value": "update your firmware"
         }
       ],
       "type": 8,
@@ -618,13 +610,13 @@
     },
     {
       "type": 0,
-      "value": "，然后才能连接到此 micro:bit。"
+      "value": "。"
     }
   ],
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "连接到 micro:bit 失败，因为您micro:bit 上的固件太老。"
+      "value": "因为您的 micro:bit 上的固件太老，所以导致 micro:bit 连接失败。"
     }
   ],
   "firmware-update-title": [
@@ -648,7 +640,7 @@
   "flashing-code": [
     {
       "type": 0,
-      "value": "发送代码（闪烁）"
+      "value": "发送代码（刷入）"
     }
   ],
   "flashing-full-flash-detail": [
@@ -678,7 +670,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Python 编辑器指南"
+          "value": "Python Editor guide"
         }
       ],
       "type": 8,
@@ -706,7 +698,7 @@
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "高亮代码结构"
+      "value": "突出显示代码结构"
     }
   ],
   "highlight-code-structure-full": [
@@ -724,7 +716,7 @@
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "简单模式"
+      "value": "简单"
     }
   ],
   "ideas-tab": [
@@ -766,7 +758,7 @@
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "请访问 "
+      "value": "要使用该 hex 文件，请访问 "
     },
     {
       "children": [
@@ -780,13 +772,13 @@
     },
     {
       "type": 0,
-      "value": " 来使用这个hex文件。"
+      "value": "。"
     }
   ],
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "\nhex文件只能单独加载。它取代了项目中的所有文件。"
+      "value": "hex 文件只能单独加载。它会取代项目中的所有文件。"
     }
   ],
   "load-error-mpy": [
@@ -844,7 +836,7 @@
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "带有 5 x 5 LED 网格的 micro:bit 板，显示一颗心"
+      "value": "用 5 x 5 LED 网格显示一颗心的 micro:bit 主板"
     }
   ],
   "micropython-documentation": [
@@ -868,7 +860,7 @@
       "children": [
         {
           "type": 0,
-          "value": "micro:bit V1 的源代码"
+          "value": "source code for the micro:bit V1"
         }
       ],
       "type": 8,
@@ -876,7 +868,7 @@
     },
     {
       "type": 0,
-      "value": "和"
+      "value": " 和 "
     },
     {
       "children": [
@@ -906,7 +898,7 @@
       "children": [
         {
           "type": 0,
-          "value": "更多想法"
+          "value": "More ideas"
         }
       ],
       "type": 8,
@@ -980,7 +972,7 @@
     },
     {
       "type": 0,
-      "value": "（保存） 按键将整个项目下载为一个 hex 文件。您可以 "
+      "value": "（保存） 按钮将整个项目下载为一个 hex 文件。您可以 "
     },
     {
       "children": [
@@ -1032,13 +1024,13 @@
   "name-used-when": [
     {
       "type": 0,
-      "value": "保存hex(十六进制)文件时使用该名称。"
+      "value": "保存 hex 文件时使用该名称。"
     }
   ],
   "new-file-hint": [
     {
       "type": 0,
-      "value": "\n我们将为您添加 "
+      "value": "我们将为您添加 "
     },
     {
       "children": [
@@ -1064,7 +1056,7 @@
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "\n您的 "
+      "value": "您的 "
     },
     {
       "children": [
@@ -1078,13 +1070,13 @@
     },
     {
       "type": 0,
-      "value": "？您是否"
+      "value": "？您是否 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "遵循了这些步骤"
+          "value": "follow these steps"
         }
       ],
       "type": 8,
@@ -1098,7 +1090,7 @@
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "\n如果您持有的是 "
+      "value": "如果您持有的是 "
     },
     {
       "children": [
@@ -1112,13 +1104,13 @@
     },
     {
       "type": 0,
-      "value": "，您可能需要"
+      "value": "，您可能需要  "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "更新固件"
+          "value": "update the firmware"
         }
       ],
       "type": 8,
@@ -1128,13 +1120,13 @@
   "not-found-message": [
     {
       "type": 0,
-      "value": "\n您没有选择 micro:bit，或者与它的连接有问题。"
+      "value": "您没有选择 micro:bit，或者与它的连接存在问题。"
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "替代方法：选择保存，然后按照步骤传输"
+      "value": "替代方法：选择 Save （保存），然后按照步骤传输"
     }
   ],
   "not-found-title": [
@@ -1146,13 +1138,13 @@
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "\n您必须"
+      "value": "您必须 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "更新您的固件，然后"
+          "value": "update your firmware before"
         }
       ],
       "type": 8,
@@ -1160,7 +1152,7 @@
     },
     {
       "type": 0,
-      "value": "才能连接到此 micro:bit。"
+      "value": " 才能连接到此 micro:bit。"
     }
   ],
   "open-action": [
@@ -1184,7 +1176,7 @@
   "open-hover": [
     {
       "type": 0,
-      "value": "打开一个hex（十六进制)或 Python 文件，或添加其他文件"
+      "value": "打开一 份 hex 或 Python 文件，或添加其他文件"
     }
   ],
   "options": [
@@ -1256,13 +1248,13 @@
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "\n▲\n您将在这台计算机的 "
+      "value": "\n您将在这台计算机的 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Downloads(下载)"
+          "value": "Downloads (下载)"
         }
       ],
       "type": 8,
@@ -1270,7 +1262,7 @@
     },
     {
       "type": 0,
-      "value": " 文件夹中找到您的 hex(十六进制) 文件。"
+      "value": " 文件夹中找到您的 hex 文件。"
     }
   ],
   "post-save-message-two": [
@@ -1282,7 +1274,7 @@
       "children": [
         {
           "type": 0,
-          "value": "打开"
+          "value": "Open （打开）"
         }
       ],
       "type": 8,
@@ -1296,19 +1288,19 @@
   "post-save-title": [
     {
       "type": 0,
-      "value": "\n项目已保存"
+      "value": "项目已保存"
     }
   ],
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "\n要在您的 micro:bit 上运行此 hex （十六进制) 文件，"
+      "value": "要在您的 micro:bit 上运行此 hex 文件，"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "请按照以下步骤操作"
+          "value": "follow these steps"
         }
       ],
       "type": 8,
@@ -1358,7 +1350,7 @@
   "python-powered": [
     {
       "type": 0,
-      "value": "\nPython 驱动"
+      "value": "Python 驱动"
     }
   ],
   "python-tab": [
@@ -1418,7 +1410,7 @@
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "将项目重置为默认的启动代码，放弃您的工作"
+      "value": "将项目重置为默认启动代码，放弃您的工作"
     }
   ],
   "results-count": [
@@ -1430,17 +1422,6 @@
             {
               "type": 0,
               "value": "No results"
-            }
-          ]
-        },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " result"
             }
           ]
         },
@@ -1480,19 +1461,19 @@
   "save-hex-action": [
     {
       "type": 0,
-      "value": "保存项目hex（十六进制)"
+      "value": "保存项目 hex"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "将项目的hex(十六进制文件)保存到您的计算机"
+      "value": "将项目的 hex 文件保存到您的计算机"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "保存Python脚本"
+      "value": "保存 Python 脚本"
     }
   ],
   "search": [
@@ -1654,19 +1635,19 @@
   "serial-help-title": [
     {
       "type": 0,
-      "value": "\n串口提示和技巧"
+      "value": "串口提示和技巧"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "\n串口提示和技巧"
+      "value": "串口提示和技巧"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "串行菜单"
+      "value": "串口菜单"
     }
   ],
   "serial-ready-to-flash": [
@@ -1720,11 +1701,15 @@
   "show-less-for": [
     {
       "type": 0,
-      "value": "显示更少的 "
+      "value": "显示的 "
     },
     {
       "type": 1,
       "value": "item"
+    },
+    {
+      "type": 0,
+      "value": " 更少信息"
     }
   ],
   "show-more": [
@@ -1869,22 +1854,11 @@
     {
       "offset": 0,
       "options": {
-        "1": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " row logged"
-            }
-          ]
-        },
         "=0": {
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "没有行记录"
             }
           ]
         },
@@ -1895,7 +1869,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": " 行记录"
             }
           ]
         }
@@ -2156,19 +2130,19 @@
   "third-party-module-explanation": [
     {
       "type": 0,
-      "value": "\n此文件是第三方模块，不可编辑。"
+      "value": "此文件是第三方模块，不可编辑。"
     }
   ],
   "third-party-module-how-to": [
     {
       "type": 0,
-      "value": "在"
+      "value": "为了修改此模块，允许在 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "设置"
+          "value": "Settings"
         }
       ],
       "type": 8,
@@ -2176,7 +2150,7 @@
     },
     {
       "type": 0,
-      "value": "中允许编辑第三方模块，以修改此模块。"
+      "value": " 中编辑第三方模块。"
     }
   ],
   "timeout-error-description": [
@@ -2194,19 +2168,19 @@
   "title": [
     {
       "type": 0,
-      "value": "\nmicro:bit 的 Python 编辑器"
+      "value": "micro:bit 的 Python 编辑器"
     }
   ],
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "\n加载工具包时出错。"
+      "value": "加载工具包时出错。"
     }
   ],
   "toolkit-view-documentation": [
     {
       "type": 0,
-      "value": "\n查看 "
+      "value": "查看 "
     },
     {
       "type": 1,
@@ -2220,13 +2194,13 @@
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "\n将 hex（十六进制) 文件从 "
+      "value": "将 hex 文件从 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Downloads(下载) 文件夹"
+          "value": "Downloads (下载) 文件夹"
         }
       ],
       "type": 8,
@@ -2254,7 +2228,7 @@
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "\n您可以稍后"
+      "value": "您可以稍后"
     },
     {
       "children": [
@@ -2268,13 +2242,13 @@
     },
     {
       "type": 0,
-      "value": " hex(十六进制) 文件以继续编辑。"
+      "value": " hex 文件以继续编辑。"
     }
   ],
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "将保存的 hex (十六进制)文件传输到 micro:bit"
+      "value": "将保存的 hex 文件传输到 micro:bit"
     }
   ],
   "try-again-action": [
@@ -2292,13 +2266,13 @@
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "请重试或"
+      "value": "请重试或 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "提交支持请求"
+          "value": "raise a support request"
         }
       ],
       "type": 8,
@@ -2308,13 +2282,13 @@
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "请重试或"
+      "value": "请重试或 "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "提交支持请求"
+          "value": "raise a support request"
         }
       ],
       "type": 8,
@@ -2346,7 +2320,7 @@
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "访问microbit.org (在新标签页中打开)"
+      "value": "访问 microbit.org (在新标签页中打开)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2358,13 +2332,13 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode , Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。"
+      "value": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode、Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。"
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "\n无法声明接口"
+      "value": "无法声明接口"
     }
   ],
   "webusb-error-default-title": [
@@ -2382,13 +2356,13 @@
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "您需要 "
+      "value": "您需要  "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "升级您的 micro:bit 固件"
+          "value": "update your micro:bit firmware"
         }
       ],
       "type": 8,
@@ -2408,7 +2382,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请遵循下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge浏览器，以便您可以直接连接到您的 micro:bit。"
+      "value": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请按照下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge 浏览器，以便您可以直接连接到您的 micro:bit。"
     }
   ],
   "webusb-not-supported-title": [
@@ -2420,7 +2394,7 @@
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行终端。"
+      "value": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行控制台。"
     }
   ],
   "welcome-message": [

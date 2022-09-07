@@ -1853,22 +1853,22 @@
     {
       "offset": 0,
       "options": {
-        "1": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows logged"
+            }
+          ]
+        },
+        "one": {
           "value": [
             {
               "type": 7
             },
             {
               "type": 0,
-              "value": " fila registrada"
-            }
-          ]
-        },
-        "=0": {
-          "value": [
-            {
-              "type": 0,
-              "value": "No se han registrado filas"
+              "value": " row logged"
             }
           ]
         },
@@ -1879,7 +1879,7 @@
             },
             {
               "type": 0,
-              "value": " filas registradas"
+              "value": " rows logged"
             }
           ]
         }

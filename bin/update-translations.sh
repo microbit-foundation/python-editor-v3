@@ -35,8 +35,8 @@ npm run i18n:compile
       rm -rf "lang/${lower}"
       cp -r lang/en "lang/${lower}"
   done
-  npm run i18n:crowdin-to-typeshed
   npm run i18n:typeshed-to-crowdin
+  npm run i18n:crowdin-to-typeshed
 )
 
 ./bin/update-pyright.sh
