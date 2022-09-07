@@ -70,6 +70,10 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
                 <Icon as={RiExternalLinkLine} />
               </Link>
             </VStack>
+            <Text fontSize="xs" alignSelf="flex-end" mt={1}>
+              * These languages are an early preview of in-progress
+              translations.
+            </Text>{" "}
           </ModalBody>
           <ModalFooter>
             <Button variant="solid" onClick={onClose}>
@@ -107,8 +111,7 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
           </Text>
           <Text fontWeight="normal" fontSize="sm" color="gray.700">
             {language.enName}
-            {/*Intentionally not translated as on a line with English text*/}
-            {language.preview ? " (preview)" : null}
+            {language.preview ? "*" : null}
           </Text>
         </VStack>
       </HStack>
