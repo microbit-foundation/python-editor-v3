@@ -898,7 +898,7 @@
       "children": [
         {
           "type": 0,
-          "value": "More ideas"
+          "value": "更多想法"
         }
       ],
       "type": 8,
@@ -1090,7 +1090,7 @@
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "If you have a "
+      "value": "如果您有 "
     },
     {
       "children": [
@@ -1104,13 +1104,13 @@
     },
     {
       "type": 0,
-      "value": " you may need to "
+      "value": "，您可能需要"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "update the firmware"
+          "value": "更新韌體"
         }
       ],
       "type": 8,
@@ -1846,7 +1846,15 @@
     {
       "offset": 0,
       "options": {
-        "1": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows logged"
+            }
+          ]
+        },
+        "one": {
           "value": [
             {
               "type": 7
@@ -1854,14 +1862,6 @@
             {
               "type": 0,
               "value": " row logged"
-            }
-          ]
-        },
-        "=0": {
-          "value": [
-            {
-              "type": 0,
-              "value": "No rows logged"
             }
           ]
         },
@@ -1923,25 +1923,25 @@
   "simulator-gesture-send": [
     {
       "type": 0,
-      "value": "Send gesture"
+      "value": "傳送手勢"
     }
   ],
   "simulator-hide": [
     {
       "type": 0,
-      "value": "Hide simulator"
+      "value": "隱藏模擬器"
     }
   ],
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "Hold"
+      "value": "按住"
     }
   ],
   "simulator-input-press": [
     {
       "type": 0,
-      "value": "Press"
+      "value": "按"
     }
   ],
   "simulator-light-level": [
@@ -1953,25 +1953,25 @@
   "simulator-log": [
     {
       "type": 0,
-      "value": "Data log"
+      "value": "數據日誌"
     }
   ],
   "simulator-loud": [
     {
       "type": 0,
-      "value": "Loud"
+      "value": "大聲"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "Mute"
+      "value": "靜音"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "Hold pin "
+      "value": "按住引腳 "
     },
     {
       "type": 1,
@@ -1981,7 +1981,7 @@
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "Press pin "
+      "value": "按引腳 "
     },
     {
       "type": 1,
@@ -1997,7 +1997,7 @@
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "Quiet"
+      "value": "安靜的"
     }
   ],
   "simulator-radio": [
@@ -2009,7 +2009,7 @@
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "Radio group set to "
+      "value": "無線電組設定為 "
     },
     {
       "type": 1,
@@ -2019,37 +2019,37 @@
   "simulator-radio-message": [
     {
       "type": 0,
-      "value": "Radio message"
+      "value": "無線電訊息"
     }
   ],
   "simulator-radio-message-limit-notice": [
     {
       "type": 0,
-      "value": "Older messages not shown"
+      "value": "不顯示舊的訊息"
     }
   ],
   "simulator-radio-no-messages": [
     {
       "type": 0,
-      "value": "No messages to show"
+      "value": "沒有訊息顯示"
     }
   ],
   "simulator-radio-off": [
     {
       "type": 0,
-      "value": "The radio is off"
+      "value": "無線電是關閉的"
     }
   ],
   "simulator-radio-send": [
     {
       "type": 0,
-      "value": "Send message"
+      "value": "傳送訊息"
     }
   ],
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "Link to Reference section"
+      "value": "參考區的連結"
     }
   ],
   "simulator-reset": [
@@ -2061,25 +2061,25 @@
   "simulator-serial-terminal": [
     {
       "type": 0,
-      "value": "Simulator serial terminal"
+      "value": "模擬器串列終端"
     }
   ],
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "Sound level"
+      "value": "聲音大小"
     }
   ],
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Start simulator"
+      "value": "啟動模擬器"
     }
   ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Stop simulator"
+      "value": "停止模擬器"
     }
   ],
   "simulator-temperature": [
@@ -2091,7 +2091,7 @@
   "simulator-title": [
     {
       "type": 0,
-      "value": "Simulator"
+      "value": "模擬器"
     }
   ],
   "simulator-touch-logo": [
@@ -2103,7 +2103,7 @@
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "Unmute"
+      "value": "取消靜音"
     }
   ],
   "software-versions": [

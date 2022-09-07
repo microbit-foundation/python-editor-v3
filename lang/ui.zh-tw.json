@@ -443,7 +443,7 @@
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
   "more-ideas": {
-    "defaultMessage": "<link>More ideas</link>",
+    "defaultMessage": "<link>更多想法</link>",
     "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
   "more-save-options": {
@@ -487,7 +487,7 @@
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "If you have a <strong>micro:bit V1</strong> you may need to <link>update the firmware</link>",
+    "defaultMessage": "如果您有 <strong>micro:bit V1</strong>，您可能需要<link>更新韌體</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
@@ -827,7 +827,7 @@
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No rows logged} 1 {# row logged} other {# rows logged}}",
+    "defaultMessage": "{count, plural, =0 {No rows logged} one {# row logged} other {# rows logged}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
@@ -851,19 +851,19 @@
     "description": "Aria label for the simulator gesture select input"
   },
   "simulator-gesture-send": {
-    "defaultMessage": "Send gesture",
+    "defaultMessage": "傳送手勢",
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-hide": {
-    "defaultMessage": "Hide simulator",
+    "defaultMessage": "隱藏模擬器",
     "description": "Hide simulator action"
   },
   "simulator-input-hold": {
-    "defaultMessage": "Hold",
+    "defaultMessage": "按住",
     "description": "Label for UI toggles to hold simulator buttons or pins"
   },
   "simulator-input-press": {
-    "defaultMessage": "Press",
+    "defaultMessage": "按",
     "description": "Label for UI buttons to press simulator buttons or pins"
   },
   "simulator-light-level": {
@@ -871,23 +871,23 @@
     "description": "Light level simulator panel title"
   },
   "simulator-log": {
-    "defaultMessage": "Data log",
+    "defaultMessage": "數據日誌",
     "description": "Data log simulator panel title"
   },
   "simulator-loud": {
-    "defaultMessage": "Loud",
+    "defaultMessage": "大聲",
     "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
-    "defaultMessage": "Mute",
+    "defaultMessage": "靜音",
     "description": "Aria label for the mute simulator button"
   },
   "simulator-pin-hold-label": {
-    "defaultMessage": "Hold pin {pin}",
+    "defaultMessage": "按住引腳 {pin}",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pin-press-label": {
-    "defaultMessage": "Press pin {pin}",
+    "defaultMessage": "按引腳 {pin}",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pins": {
@@ -895,7 +895,7 @@
     "description": "Pins simulator panel title"
   },
   "simulator-quiet": {
-    "defaultMessage": "Quiet",
+    "defaultMessage": "安靜的",
     "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
@@ -903,31 +903,31 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-group-notice": {
-    "defaultMessage": "Radio group set to {groupNumber}",
+    "defaultMessage": "無線電組設定為 {groupNumber}",
     "description": "Message in radio simulator area when the radio group changes"
   },
   "simulator-radio-message": {
-    "defaultMessage": "Radio message",
+    "defaultMessage": "無線電訊息",
     "description": "Label and placeholder for the simulator radio message input field"
   },
   "simulator-radio-message-limit-notice": {
-    "defaultMessage": "Older messages not shown",
+    "defaultMessage": "不顯示舊的訊息",
     "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
   },
   "simulator-radio-no-messages": {
-    "defaultMessage": "No messages to show",
+    "defaultMessage": "沒有訊息顯示",
     "description": "Text shown when there are no radio messages to display in the simulator user interface"
   },
   "simulator-radio-off": {
-    "defaultMessage": "The radio is off",
+    "defaultMessage": "無線電是關閉的",
     "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
   },
   "simulator-radio-send": {
-    "defaultMessage": "Send message",
+    "defaultMessage": "傳送訊息",
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-reference-link": {
-    "defaultMessage": "Link to Reference section",
+    "defaultMessage": "參考區的連結",
     "description": "Aria label for simulator Reference link button"
   },
   "simulator-reset": {
@@ -935,19 +935,19 @@
     "description": "Aria label for the reset simulator button"
   },
   "simulator-serial-terminal": {
-    "defaultMessage": "Simulator serial terminal",
+    "defaultMessage": "模擬器串列終端",
     "description": "Aria label for the simulator serial terminal"
   },
   "simulator-sound-level": {
-    "defaultMessage": "Sound level",
+    "defaultMessage": "聲音大小",
     "description": "Sound level simulator panel title"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Start simulator",
+    "defaultMessage": "啟動模擬器",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
-    "defaultMessage": "Stop simulator",
+    "defaultMessage": "停止模擬器",
     "description": "Aria label for the stop simulator button"
   },
   "simulator-temperature": {
@@ -955,7 +955,7 @@
     "description": "Temperature simulator panel title"
   },
   "simulator-title": {
-    "defaultMessage": "Simulator",
+    "defaultMessage": "模擬器",
     "description": "Simulator title"
   },
   "simulator-touch-logo": {
@@ -963,7 +963,7 @@
     "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
   "simulator-unmute": {
-    "defaultMessage": "Unmute",
+    "defaultMessage": "取消靜音",
     "description": "Aria label for the unmute simulator button"
   },
   "software-versions": {
