@@ -180,7 +180,7 @@ export class SimulatorDeviceConnection
         const text = new TextDecoder()
           .decode(message)
           // eslint-disable-next-line no-control-regex
-          .replace(/^\x01\x01\x00/, "");
+          .replace(/^\x01\x00\x01/, "");
         if (message instanceof Uint8Array) {
           this.emit(EVENT_RADIO_DATA, text);
         }
