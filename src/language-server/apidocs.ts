@@ -73,6 +73,7 @@ export const apiDocs = (
       "music",
       "neopixel",
       "os",
+      "power",
       "radio",
       "random",
       "speech",
