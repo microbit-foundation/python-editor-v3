@@ -5,7 +5,7 @@
  */
 import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { useIntl } from "react-intl";
+import { IntlShape, useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
@@ -14,7 +14,7 @@ import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 
-export enum SimState {
+export enum RunningStatus {
   RUNNING,
   STOPPED,
 }
@@ -34,8 +34,15 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
+  // This needs the domain to be updated before we release.
+  const url = "https://stage-python-simulator.microbit.org/simulator.html";
+  // For testing with sim branches:
+  //const branch = "whatever";
+  //const url = `https://review-python-simulator.microbit.org/${branch}/simulator.html`;
+
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
+  const simulatorTitle = intl.formatMessage({ id: "simulator-title" });
   const simulator = useRef(
     new SimulatorDeviceConnection(() => {
       return ref.current;
@@ -48,11 +55,14 @@ const Simulator = ({
       sim.dispose();
     };
   }, []);
+  useEffect(() => {
+    updateTranslations(simulator.current, intl);
+  }, [simulator, intl]);
   const simControlsRef = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(simControlsRef);
   const simHeight = contentRect?.height ?? 0;
   const [brand500] = useToken("colors", ["brand.500"]);
-  const [simState, setSimState] = useState<SimState>(SimState.STOPPED);
+  const [running, setRunning] = useState<RunningStatus>(RunningStatus.STOPPED);
 
   useEffect(() => {
     if (shown) {
@@ -92,12 +102,9 @@ const Simulator = ({
               <Box
                 ref={ref}
                 as="iframe"
-                // This needs changing before we remove the flag.
-                src={`https://stage-python-simulator.microbit.org/simulator.html?color=${encodeURIComponent(
-                  brand500
-                )}`}
-                title="Simulator"
-                name="Simulator"
+                src={`${url}?color=${encodeURIComponent(brand500)}`}
+                title={simulatorTitle}
+                name={simulatorTitle}
                 frameBorder="no"
                 scrolling="no"
                 allow="autoplay;microphone"
@@ -107,15 +114,31 @@ const Simulator = ({
               as="section"
               aria-label={intl.formatMessage({ id: "simulator-actions" })}
               overflow="hidden"
-              simState={simState}
-              setSimState={setSimState}
+              running={running}
+              onRunningChange={setRunning}
             />
           </Box>
         </VStack>
-        <SimulatorSplitView simHeight={simHeight} simState={simState} />
+        <SimulatorSplitView simHeight={simHeight} simRunning={running} />
       </Flex>
     </DeviceContextProvider>
   );
+};
+
+const updateTranslations = (
+  simulator: SimulatorDeviceConnection,
+  intl: IntlShape
+) => {
+  const config = {
+    language: intl.locale,
+    translations: Object.fromEntries(
+      ["button-a", "button-b", "touch-logo", "start-simulator"].map((k) => [
+        k,
+        intl.formatMessage({ id: "simulator-" + k }),
+      ])
+    ),
+  };
+  simulator.configure(config);
 };
 
 export default Simulator;

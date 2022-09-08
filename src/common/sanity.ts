@@ -46,7 +46,9 @@ export const fetchContent = async <T>(
   query: (languageId: string) => string,
   adaptContent: (result: any) => T | undefined
 ): Promise<T> => {
-  const preferred = adaptContent(await fetchContentInternal(query(languageId)));
+  const preferred = adaptContent(
+    await fetchContentInternal(query(sanityLanguageId(languageId)))
+  );
   if (preferred) {
     return preferred;
   }
@@ -67,6 +69,20 @@ const fetchContentInternal = async (query: string): Promise<any> => {
     return result;
   }
   throw new Error("Error fetching content: " + response.status);
+};
+
+export const sanityLanguageId = (locale: string): string => {
+  if (!locale) {
+    return "";
+  }
+  if (locale && !locale.match(/^[A-Za-z-]+$/g)) {
+    throw new Error(`Invalid language id: ${locale}`);
+  }
+  const parts = locale.split("-");
+  if (parts.length !== 2) {
+    return locale;
+  }
+  return `${parts[0]}-${parts[1].toUpperCase()}`;
 };
 
 const queryUrl = (query: string): string => {

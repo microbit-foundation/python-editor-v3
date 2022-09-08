@@ -172,13 +172,8 @@ export class LanguageServerClient extends EventEmitter {
 
   private async getInitializationOptions(): Promise<any> {
     const branch = microPythonConfig.stubs;
-    const typeshedLanguages = new Set(
-      // One per line, alphabetical
-      "en"
-    );
-    const locale = typeshedLanguages.has(this.locale) ? this.locale : "en";
     const typeshed = await retryAsyncLoad(() => {
-      return import(`../micropython/${branch}/typeshed.${locale}.json`);
+      return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
     });
     return {
       files: typeshed,

@@ -32,9 +32,6 @@ export const getTopicAndEntry = (
 // For now we just slurp the whole toolkit at once.
 // Might revisit depending on eventual size.
 const toolkitQuery = (languageId: string): string => {
-  if (!languageId.match(/^[a-z-]+$/g)) {
-    throw new Error("Invalid language id.");
-  }
   return `
   *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{
     id, name, description, language,

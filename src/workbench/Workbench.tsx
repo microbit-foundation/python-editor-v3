@@ -22,7 +22,6 @@ import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
-import { flags } from "../flags";
 import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
@@ -79,7 +78,7 @@ const Workbench = () => {
   const handleSidebarExpand = useCallback(() => {
     setSidebarShown(true);
     // If there's not room for the simulator then hide it.
-    if (flags.simulator && window.innerWidth <= widthToHideSidebar) {
+    if (window.innerWidth <= widthToHideSidebar) {
       setSimFocus(false);
       setSimulatorShown(false);
     }
@@ -150,17 +149,13 @@ const Workbench = () => {
           </SplitViewSized>
           <SplitViewDivider />
           <SplitViewRemainder>
-            {flags.simulator ? (
-              <EditorWithSimulator
-                editor={editor}
-                onSimulatorHide={handleSimulatorHide}
-                simulatorShown={simulatorShown}
-                showSimulatorButtonRef={simulatorButtonRef}
-                simFocus={simFocus}
-              />
-            ) : (
-              <Editor editor={editor} />
-            )}
+            <EditorWithSimulator
+              editor={editor}
+              onSimulatorHide={handleSimulatorHide}
+              simulatorShown={simulatorShown}
+              showSimulatorButtonRef={simulatorButtonRef}
+              simFocus={simFocus}
+            />
           </SplitViewRemainder>
         </SplitView>
       </Flex>

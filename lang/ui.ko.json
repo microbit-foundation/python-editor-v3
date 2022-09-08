@@ -1,0 +1,1113 @@
+{
+  "about": {
+    "defaultMessage": "소개",
+    "description": "About action"
+  },
+  "about-comic": {
+    "defaultMessage": "Mike Rowbit의 \"MicroPython Rocks\"라는 제목의 세 칸 만화입니다. 만화 속 뱀이 Damien을 소개하며 \"Damien을 소개합니다. 그는 MicroPython을 만들었죠.\"라고 말합니다. 두 마리의 뱀이 MicroPython에 대해 이야기하며, 노란색 뱀은 \"MicroPython은 아주 작은 컴퓨터에서 구동되도록 만들어졌어.\" 라고 말하자 보라색 뱀은 \"네 BBC micro:bit 처럼 말이지\"라고 대답합니다. 계속해서 노란색 뱀은 \"하지만 Python은 어디에서든 실행할 수 있어.\"라고 하자 보라색 뱀은 \"거대한 웹사이트를 구동하는 이 서버 랙처럼 말이지\"라고 하며 동의합니다. 뱀 뒤의 배경에는 서버 랙이 그려져 있습니다.",
+    "description": "Alt text for comic in the about dialog"
+  },
+  "about-microbit": {
+    "defaultMessage": "<link>Micro:bit Educational Foundation 및 기여자</link>의 사랑을 담아 만들었습니다",
+    "description": "Text in about dialog"
+  },
+  "about-micropython": {
+    "defaultMessage": "이 편집기는 <link>MicroPython</link>을 기반으로 Damien George와 전 세계 개발자 커뮤니티가 제작했습니다.",
+    "description": "Text in about dialog"
+  },
+  "about-read-less-micropython": {
+    "defaultMessage": "MicroPython 세부 정보 숨기기",
+    "description": "Aria label to collapse an expanded section about MicroPython"
+  },
+  "about-read-more-micropython": {
+    "defaultMessage": "MicroPython 세부 정보 표시하기",
+    "description": "Aria label to expand a collapsed section about MicroPython"
+  },
+  "added-change": {
+    "defaultMessage": "{changeName} 파일 추가됨",
+    "description": "Change made to file"
+  },
+  "api-description": {
+    "defaultMessage": "사용법과 예시는 <link>참조(Reference)</link>를 확인하세요",
+    "description": "Extended description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
+  },
+  "apidocs-baseclass": {
+    "defaultMessage": "{baseClassCount, plural, other {base classes: }}",
+    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "apidocs-classes": {
+    "defaultMessage": "클래스",
+    "description": "Heading in API documentation for the classes in a Python module"
+  },
+  "apidocs-fields": {
+    "defaultMessage": "필드",
+    "description": "Heading in API documentation for the fields in a Python module"
+  },
+  "apidocs-functions": {
+    "defaultMessage": "함수",
+    "description": "Heading in API documentation for the functions in a Python module"
+  },
+  "apidocs-methods": {
+    "defaultMessage": "메소드",
+    "description": "Heading in API documentation for the methods in a Python class"
+  },
+  "back-action": {
+    "defaultMessage": "뒤로",
+    "description": "Back button text"
+  },
+  "back-to-main": {
+    "defaultMessage": "메인 코드로 돌아가기",
+    "description": "Text button, takes back to main code"
+  },
+  "cancel-action": {
+    "defaultMessage": "취소",
+    "description": "Cancel button text"
+  },
+  "change-files": {
+    "defaultMessage": "파일을 변경하시겠습니까?",
+    "description": "Header for dialog of confirmation of files changed"
+  },
+  "choose-main-add-file": {
+    "defaultMessage": "{name} 파일 추가",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-add-module": {
+    "defaultMessage": "{name} 모듈 추가",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-file": {
+    "defaultMessage": "{name} 파일 교체",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-module": {
+    "defaultMessage": "{name} 모듈 교체",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-file": {
+    "defaultMessage": "{source}에서 {target} 파일 추가",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-main-code": {
+    "defaultMessage": "{source}에서 메인 코드 추가",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-file": {
+    "defaultMessage": "{target} 파일을 {source}(으)로 교체",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-main-code": {
+    "defaultMessage": "메인 코드를 {source}(으)로 교체",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "clear": {
+    "defaultMessage": "지우기",
+    "description": "Aria label for the search input"
+  },
+  "close-action": {
+    "defaultMessage": "닫기",
+    "description": "Close button text"
+  },
+  "code-editor": {
+    "defaultMessage": "코드 편집기",
+    "description": "Aria label for the code editor"
+  },
+  "code-example": {
+    "defaultMessage": "코드 예시:",
+    "description": "Visually hidden text to announce code examples in the toolkit documentation"
+  },
+  "confirm-action": {
+    "defaultMessage": "확인",
+    "description": "Confirm action label"
+  },
+  "confirm-delete": {
+    "defaultMessage": "삭제 확인",
+    "description": "Confirmation header of deletion of a file"
+  },
+  "confirm-replace-body": {
+    "defaultMessage": "모든 파일을 hex 내 파일로 교체하시겠습니까?",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-reset": {
+    "defaultMessage": "모든 파일을 기본 스타터 코드로 교체하시겠습니까?",
+    "description": "Confirmation message for the reset action"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "프로젝트 교체 확인",
+    "description": "Confirmation message title for replacing project dialog"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "모든 파일을 {ideaName}(으)로 교체하시겠습니까?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
+  "confirm-save-action": {
+    "defaultMessage": "확인 및 저장",
+    "description": "Confirm and save action label"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "프로젝트의 사본을 유지하려면 취소하고 저장하세요.",
+    "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
+  },
+  "connect-action": {
+    "defaultMessage": "연결",
+    "description": "Connect button text"
+  },
+  "connect-cable-title": {
+    "defaultMessage": "연결 케이블",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "BBC micro:bit entry 레이블 1 및 연결 버튼 레이블 2의 WebUSB 연결 대화 상자 ",
+    "description": "Alt text for image in connect help dialog"
+  },
+  "connect-help-message": {
+    "defaultMessage": "다음 팝업에서:",
+    "description": "Text in the connect help dialog"
+  },
+  "connect-help-one": {
+    "defaultMessage": "micro:bit를 선택하세요",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-help-title": {
+    "defaultMessage": "micro:bit을 선택하세요",
+    "description": "Title for the connect help dialog"
+  },
+  "connect-help-two": {
+    "defaultMessage": "‘연결’을 선택하세요",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-hover": {
+    "defaultMessage": "WebUSB를 통해 micro:bit에 연결합니다.",
+    "description": "Connect button hover text"
+  },
+  "connect-microbit": {
+    "defaultMessage": "micro:bit에 연결하면 여기서 직렬 출력을 확인할 수 있습니다",
+    "description": "Text in serial area"
+  },
+  "connect-troubleshoot": {
+    "defaultMessage": "micro:bit 연결 문제 해결",
+    "description": "Text in no the micro:bit found and firmware update dialogs"
+  },
+  "content-load-error": {
+    "defaultMessage": "오류가 발생했습니다. hex 파일을 다운로드해 작업물을 보호하고 새로 고침으로 페이지를 다시 불러오세요.",
+    "description": "Text displayed when content fails to load"
+  },
+  "copied": {
+    "defaultMessage": "복사됨",
+    "description": "Text shown after copy to clipboard"
+  },
+  "copy-action": {
+    "defaultMessage": "복사",
+    "description": "Copy to clipboard action text"
+  },
+  "copy-code-action": {
+    "defaultMessage": "코드 복사",
+    "description": "Copy code to clipboard action text"
+  },
+  "create-action": {
+    "defaultMessage": "Create",
+    "description": "Create action label (e.g. in create file dialog)"
+  },
+  "create-file-action": {
+    "defaultMessage": "파일 생성",
+    "description": "Button text for action that creates a new blank Python file in the current project"
+  },
+  "create-python": {
+    "defaultMessage": "이 프로젝트 안에서 새로운 Python 파일 생성",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
+  "created-file": {
+    "defaultMessage": "{filename} 생성됨",
+    "description": "Action feedback for creating a file"
+  },
+  "delete-action": {
+    "defaultMessage": "삭제",
+    "description": "Button text for delete action"
+  },
+  "delete-file-action": {
+    "defaultMessage": "{filename} 삭제",
+    "description": "Menu option to delete file"
+  },
+  "deleted-file": {
+    "defaultMessage": "{filename} 삭제됨",
+    "description": "Confirmation message that file got deleted"
+  },
+  "disconnect-action": {
+    "defaultMessage": "연결 해제",
+    "description": "Disconnect button text"
+  },
+  "disconnect-hover": {
+    "defaultMessage": "micro:bit 와의 연결을 해제합니다.",
+    "description": "Disconnect button hover text"
+  },
+  "dont-show-again": {
+    "defaultMessage": "다시 보지 않기",
+    "description": "Text to never show a dialog again"
+  },
+  "drag-hover": {
+    "defaultMessage": "드래그 &amp; 드롭",
+    "description": "Draggable code hover text"
+  },
+  "edit-file-action": {
+    "defaultMessage": "{name} 편집",
+    "description": "Menu option to edit file"
+  },
+  "edit-name-project-hover": {
+    "defaultMessage": "프로젝트의 이름을 편집합니다",
+    "description": "Text for user to edit the name of the project"
+  },
+  "edit-project-name-action": {
+    "defaultMessage": "프로젝트 이름 편집",
+    "description": "Text for user to edit the name of the project"
+  },
+  "failed-to-build-hex": {
+    "defaultMessage": "hex 파일 빌딩 실패",
+    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+  },
+  "feedback": {
+    "defaultMessage": "피드백 평가",
+    "description": "Feedback action"
+  },
+  "file-actions": {
+    "defaultMessage": "{name} 파일 동작",
+    "description": "Header of file actions for file"
+  },
+  "file-already-exists": {
+    "defaultMessage": "이미 존재하는 파일입니다",
+    "description": "File already exists notification text"
+  },
+  "file-name-invalid-character": {
+    "defaultMessage": "이름에 유효하지 않은 문자가 포함됨: {invalid}",
+    "description": "Warning text for new Python file name with an invalid character"
+  },
+  "file-name-length": {
+    "defaultMessage": "이름이 너무 깁니다",
+    "description": "Warning text for overly long file names (file system limitation)"
+  },
+  "file-name-lowercase-only": {
+    "defaultMessage": "이름은 모두 소문자여야 합니다",
+    "description": "Warning text for new Python file with uppercase"
+  },
+  "file-name-not-empty": {
+    "defaultMessage": "이름에 공백을 포함할 수 없습니다",
+    "description": "Warning text for new Python file with empty name"
+  },
+  "file-name-start-number": {
+    "defaultMessage": "이름은 숫자로 시작할 수 없습니다",
+    "description": "Warning text for new Python file names starting with a number"
+  },
+  "file-name-whitespace": {
+    "defaultMessage": "이름에 띄어쓰기를 포함할 수 없습니다",
+    "description": "Warning text for new Python file name with whitespace"
+  },
+  "firmware-update-link": {
+    "defaultMessage": "이 micro:bit에 연결하기 전에 <link>펌웨어를 업데이트</link>해야 합니다.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-message": {
+    "defaultMessage": "micro:bit 펌웨어가 너무 오래되어 연결에 실패했습니다.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-title": {
+    "defaultMessage": "펌웨어 업데이트 필요",
+    "description": "Title for the firmware update dialog"
+  },
+  "flash-action": {
+    "defaultMessage": "프로그램 업로드",
+    "description": "Text for flash button"
+  },
+  "flash-hover": {
+    "defaultMessage": "micro:bit 로 바로 업로드",
+    "description": "Hover text over flash button"
+  },
+  "flashing-code": {
+    "defaultMessage": "코드 전송 중(플래싱)",
+    "description": "Progress dialog text for partial flashes (quick)"
+  },
+  "flashing-full-flash-detail": {
+    "defaultMessage": "코드가 micro:bit으로 전송(플래싱)되고 있습니다. 처음에는 조금 시간이 걸리지만 이후에는 빠르게 완료됩니다.",
+    "description": "Message shown after the title in the progress dialog for a full flash"
+  },
+  "flashing-micropython": {
+    "defaultMessage": "MicroPython 프로그램 업로드",
+    "description": "Progress dialog text for full flashes (slower)"
+  },
+  "font-size": {
+    "defaultMessage": "폰트 크기",
+    "description": "Font size option text"
+  },
+  "guide-link": {
+    "defaultMessage": "지원 항목은 <link>Python 편집기 가이드</link>를 확인하세요",
+    "description": "Text with an external link to support/help content"
+  },
+  "help": {
+    "defaultMessage": "도움 및 지원",
+    "description": "Help menu label"
+  },
+  "help-support": {
+    "defaultMessage": "도움말 및 지원",
+    "description": "Menu item for link to support site"
+  },
+  "help-translate": {
+    "defaultMessage": "번역 지원",
+    "description": "Help translate  menu option text"
+  },
+  "highlight-code-structure": {
+    "defaultMessage": "코드 구조 하이라이트",
+    "description": "Code structure setting label"
+  },
+  "highlight-code-structure-full": {
+    "defaultMessage": "전체",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-none": {
+    "defaultMessage": "없음",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-simple": {
+    "defaultMessage": "단순",
+    "description": "Highlight code structure option"
+  },
+  "ideas-tab": {
+    "defaultMessage": "아이디어들",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "다양한 프로젝트를 체험해보고 수정하며 아이디어를 얻어보세요",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+  },
+  "insert-code-action": {
+    "defaultMessage": "코드 삽입"
+  },
+  "language": {
+    "defaultMessage": "언어 선택",
+    "description": "Language option text"
+  },
+  "less-action": {
+    "defaultMessage": "더 적게",
+    "description": "Less button text (showing less content)"
+  },
+  "load-error-makecode-info": {
+    "defaultMessage": "Python 편집기에 이 hex 파일을 로드할 수 없습니다. Python 편집기는 Microsoft MakeCode로 생성된 hex 파일을 열 수 없습니다.",
+    "description": "Load error message"
+  },
+  "load-error-makecode-link": {
+    "defaultMessage": "hex 파일을 사용하려면 <link>https://makecode.microbit.org/</link>를 방문하세요.",
+    "description": "Load error message"
+  },
+  "load-error-mixed": {
+    "defaultMessage": "Hex 파일은 자체적으로 불러와야 합니다. 헥스 파일은 프로젝트의 모든 파일을 교체합니다.",
+    "description": "Load error message"
+  },
+  "load-error-mpy": {
+    "defaultMessage": "이 버전에서는 .mpy 파일 추가를 지원하지 않습니다.",
+    "description": "Load error message"
+  },
+  "load-error-title": {
+    "defaultMessage": "{fileCount, plural, one {파일} other {파일}}을 불러올 수 없음",
+    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "loaded-file-feedback": {
+    "defaultMessage": "{filename} 불러옴",
+    "description": "Success feedback for loading file"
+  },
+  "loading": {
+    "defaultMessage": "불러오는 중...",
+    "description": "Shown on loading indicators"
+  },
+  "microbit-hearts-alt": {
+    "defaultMessage": "5x5 LED 그리드로 하트를 표시하는 micro:bit",
+    "description": "Alt text for micro:bit image in About dialog"
+  },
+  "micropython-documentation": {
+    "defaultMessage": "MicroPython 문서",
+    "description": "MicroPython documentation menu option text"
+  },
+  "micropython-history": {
+    "defaultMessage": "micro:bit의 MicroPython에 대해 알아보기",
+    "description": "Links to MicroPython history in the about dialog"
+  },
+  "micropython-source-code": {
+    "defaultMessage": "MicroPython <linkV1>micro:bit V1</linkV1> 및 <linkV2>micro:bit V2의 소스 코드</linkV2>",
+    "description": "Links to the MicroPython source code in the about dialog"
+  },
+  "more-action": {
+    "defaultMessage": "더 많게",
+    "description": "More button text (showing more/further content)"
+  },
+  "more-connect-options": {
+    "defaultMessage": "연결 옵션 더 보기",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
+  "more-ideas": {
+    "defaultMessage": "<link>아이디어 더 보기</link>",
+    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
+  },
+  "more-save-options": {
+    "defaultMessage": "저장 옵션 더 보기",
+    "description": "Aria label for the additional actions menu to the right of the Save button"
+  },
+  "multiple-files-message-one": {
+    "defaultMessage": "이 프로젝트는 {fileCount, plural, other {{fileCount}개의 파일}}을 포함하지만 지금까지 <strong>main.py</strong>만 다운로드되었습니다.",
+    "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
+  },
+  "multiple-files-message-two": {
+    "defaultMessage": "전체 프로젝트를 hex 파일로 다운로드하려면 <strong>저장</strong> 버튼을 사용하세요. <strong>열기</strong> 버튼 hex 파일을 열고 프로젝트를 복구할 수 있습니다. 개별 Python 파일을 다운로드할며ㅕㄴ <strong>프로젝트</strong> 탭을 사용하세요.",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-title": {
+    "defaultMessage": "경고: main.py만 다운로드됨",
+    "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
+  },
+  "name-project": {
+    "defaultMessage": "프로젝트 이름을 지정하세요",
+    "description": "Name your project header"
+  },
+  "name-text": {
+    "defaultMessage": "이름",
+    "description": "Header for name field"
+  },
+  "name-used-when": {
+    "defaultMessage": "hex 파일을 저장할 때 해당 이름을 사용합니다.",
+    "description": "Text under project name field"
+  },
+  "new-file-hint": {
+    "defaultMessage": "프로그램이 <code>.py</code> 확장자를 추가합니다.",
+    "description": "Hint shown in the new Python file dialog"
+  },
+  "next-action": {
+    "defaultMessage": "Next",
+    "description": "Next button text"
+  },
+  "not-found-checklist-one": {
+    "defaultMessage": " <strong>micro:bit이 연결되었나요</strong>? <link>다음 단계를 따르셨나요</link>?",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-two": {
+    "defaultMessage": "<strong>micro:bit V1</strong>을 소유하고 있는 경우 <link>펌웨어를 업데이트</link>해야 할 수 있습니다",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-message": {
+    "defaultMessage": "micro:bit을 선택하지 않았거나 연결 문제가 발생했습니다.",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-save-message": {
+    "defaultMessage": "다른 방법: 저장 후 다음 단계를 통해 전송합니다",
+    "description": "Save prompt in the no micro:bit found dialog"
+  },
+  "not-found-title": {
+    "defaultMessage": "발견된 micro:bit 없음",
+    "description": "Title for the micro:bit found dialog"
+  },
+  "not-found-update-link": {
+    "defaultMessage": "이 micro:bit에 연결하기 전에 <link>펌웨어를 업데이트</link>해야 합니다.",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "open-action": {
+    "defaultMessage": "열기",
+    "description": "Open button text"
+  },
+  "open-file-action": {
+    "defaultMessage": "열기…",
+    "description": "Open file button text"
+  },
+  "open-file-dropped": {
+    "defaultMessage": "드롭될 때 파일 열기",
+    "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "Hex 또는 Python 파일을 열거나 다른 파일을 추가하세요",
+    "description": "Hover text over load button"
+  },
+  "options": {
+    "defaultMessage": "옵션",
+    "description": "Label for an options menu"
+  },
+  "parameter-help": {
+    "defaultMessage": "매개변수 도움말",
+    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
+  },
+  "parameter-help-automatic": {
+    "defaultMessage": "자동",
+    "description": "Parameter help setting for when the parameter documentation is shown automatically"
+  },
+  "parameter-help-manual": {
+    "defaultMessage": "수동({shortcut})",
+    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
+  },
+  "permanently-delete": {
+    "defaultMessage": "{filename}(을)를 영구 삭제하시겠습니까?",
+    "description": "Confirmation question to permanently delete file"
+  },
+  "post-save-message-files": {
+    "defaultMessage": "이 프로젝트의 모든 파일(예: 액세서리 실행 등을 위한 <strong>프로젝트</strong> 탭에 나열된 추가 파일)이 포함됩니다.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-one": {
+    "defaultMessage": "컴퓨터 <strong>다운로드</strong> 폴더에서 hex 파일을 찾을 수 있습니다.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-two": {
+    "defaultMessage": "저장소의 다른 폴더로 옮긴 후 <strong>열기</strong> 버튼을 눌러 나중에 계속 편집할 수 있습니다.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-title": {
+    "defaultMessage": "프로젝트 저장됨",
+    "description": "Title of dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-transfer-hex": {
+    "defaultMessage": "micro:bit에서 이 hex 파일을 실행하려면 <link>다음 단계를 따르세요</link>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "project-actions": {
+    "defaultMessage": "프로젝트 동작",
+    "description": "Aria label for the bar with project actions"
+  },
+  "project-header": {
+    "defaultMessage": "프로젝트 머리글",
+    "description": "Aria label for the project header area"
+  },
+  "project-name": {
+    "defaultMessage": "프로젝트 이름",
+    "description": "Text used to indicate the project name"
+  },
+  "project-name-not-empty": {
+    "defaultMessage": "프로젝트 이름을 입력해야 합니다",
+    "description": "Validation message for project name"
+  },
+  "project-tab": {
+    "defaultMessage": "프로젝트",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "프로젝트에서 파일을 확인하고, 생성하고, 추가하고 편집할 수 있습니다",
+    "description": "Project tab description"
+  },
+  "python-powered": {
+    "defaultMessage": "Python powered",
+    "description": "Python powered logo alt text"
+  },
+  "python-tab": {
+    "defaultMessage": "Python",
+    "description": "Python tab text"
+  },
+  "quit-anyway": {
+    "defaultMessage": "변경 사항을 저장하지 않고 종료 하시겠습니까?",
+    "description": "Quit anyway text"
+  },
+  "read-less": {
+    "defaultMessage": "축소",
+    "description": "Action text to collapse an expanded section"
+  },
+  "read-more": {
+    "defaultMessage": "더 알아보기",
+    "description": "Action text to expand a collapsed section"
+  },
+  "redo": {
+    "defaultMessage": "다시 실행",
+    "description": "Aria label for the redo button"
+  },
+  "reference-tab": {
+    "defaultMessage": "참조",
+    "description": "Reference tab button text"
+  },
+  "replace-action-label": {
+    "defaultMessage": "교체",
+    "description": "Action label for replacing project dialog"
+  },
+  "reset-project-action": {
+    "defaultMessage": "프로젝트 초기화",
+    "description": "Action to reset the project to its default state"
+  },
+  "reset-project-feedback": {
+    "defaultMessage": "프로젝트를 기본 스타터 코드로 초기화합니다.",
+    "description": "Confirmation message after resetting the project"
+  },
+  "reset-project-hover": {
+    "defaultMessage": "프로젝트를 기본 스타터 코드로 초기화하고 작업한 내용을 삭제합니다",
+    "description": "Reset action hover text"
+  },
+  "results-count": {
+    "defaultMessage": "{count, plural, =0 {결과 없음} one {#개의 결과} other {#개의 결과}}",
+    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "save-action": {
+    "defaultMessage": "저장하기",
+    "description": "Save button text"
+  },
+  "save-file-action": {
+    "defaultMessage": "{name} 저장",
+    "description": "Menu option to save a file"
+  },
+  "save-hex-action": {
+    "defaultMessage": "프로젝트 hex 저장",
+    "description": "Text for menu item for saving a project hex file"
+  },
+  "save-hover": {
+    "defaultMessage": "컴퓨터에 프로젝트 hex 파일을 저장합니다",
+    "description": "Hover text over save button"
+  },
+  "save-python-action": {
+    "defaultMessage": "Python 스크립트 저장",
+    "description": "Save button menu option to save the Python script"
+  },
+  "search": {
+    "defaultMessage": "찾기",
+    "description": "Aria label for searching documentation"
+  },
+  "send-action": {
+    "defaultMessage": "micro:bit로 전송",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "WebUSB로 micro:bit에 연결하고 코드를 플래시합니다",
+    "description": "Send button hover text"
+  },
+  "serial-collapse": {
+    "defaultMessage": "시리얼 숨기기",
+    "description": "Action label to collapse the serial console/REPL area"
+  },
+  "serial-ctrl-c-action": {
+    "defaultMessage": "Ctrl+C를 전송해 REPL",
+    "description": "Button to trigger the Python REPL from the serial area"
+  },
+  "serial-ctrl-d-action": {
+    "defaultMessage": "Ctrl+D를 전송해 초기화",
+    "description": "Button to reset the micro:bit from the serial area"
+  },
+  "serial-expand": {
+    "defaultMessage": "시리얼 표시",
+    "description": "Action label to expand the serial console/REPL area"
+  },
+  "serial-flashed": {
+    "defaultMessage": "micro:bit 플래시됨",
+    "description": "Shown when your program is in sync with the micro:bit"
+  },
+  "serial-help-ctrl-c": {
+    "defaultMessage": "키보드 단축키 <kbd>Ctrl</kbd> + <kbd>C</kbd>로 프로그램에 인터럽트를 부여합니다. 그다음 MicroPython의 Python 명령어를 입력해 실행할 수 있습니다. 새로운 것을 실험하기 좋은 방법입니다.",
+    "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
+  },
+  "serial-help-ctrl-d": {
+    "defaultMessage": "프로그램을 다시 실행하려면 <kbd>Ctrl</kbd> + <kbd>D</kbd>를 누르세요.",
+    "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
+  },
+  "serial-help-intro": {
+    "defaultMessage": "시리얼 터미널은 micro:bit에서 작동하는 프로그램으로부터의 오류와 기타 출력을 표시합니다. 기본적으로 해당 프로그램의 가장 최근의 오류를 표시합니다. 확대하여 모든 출력을 볼 수 있습니다.",
+    "description": "Text from the serial hints and tips dialog"
+  },
+  "serial-help-print": {
+    "defaultMessage": "프로그램은 <code>print</code> 기능을 사용해 메시지를 프린트할 수 있습니다. 프로그램에 <code>print('micro:bit is awesome')</code>를 추가해보세요.",
+    "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
+  },
+  "serial-help-title": {
+    "defaultMessage": "시리얼 힌트와 팁",
+    "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-hints-and-tips": {
+    "defaultMessage": "시리얼 힌트와 팁",
+    "description": "Link/button to open the serial hints and tips dialog"
+  },
+  "serial-menu": {
+    "defaultMessage": "시리얼 메뉴",
+    "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "micro:bit 플래시 준비됨",
+    "description": "Shown when your program is out of sync with the micro:bit"
+  },
+  "serial-running": {
+    "defaultMessage": "실행 중…",
+    "description": "Indicator text when the micro:bit is running a program"
+  },
+  "serial-terminal": {
+    "defaultMessage": "시리얼 터미널",
+    "description": "Aria label for the serial terminal"
+  },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "서드파티 모듈 편집 허용",
+    "description": "Checkbox setting label"
+  },
+  "setting-allow-editing-third-party-info": {
+    "defaultMessage": "서드파티 모듈을 변경하면 모듈이 의도대로 작동하지 않을 수 있습니다.",
+    "description": "Checkbox setting label"
+  },
+  "settings": {
+    "defaultMessage": "설정",
+    "description": "Settings text"
+  },
+  "show-api-documentation": {
+    "defaultMessage": "API 문서 표시",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+  },
+  "show-less": {
+    "defaultMessage": "간략히 표시",
+    "description": "Show less for general progressive disclosure"
+  },
+  "show-less-for": {
+    "defaultMessage": "{item} 간략히 표시",
+    "description": "Show less with item usually for aria label"
+  },
+  "show-more": {
+    "defaultMessage": "더 보기",
+    "description": "Show more for general progressive disclosure"
+  },
+  "show-more-for": {
+    "defaultMessage": "{item} 자세히 표시",
+    "description": "Show more with item usually for aria label"
+  },
+  "sidebar": {
+    "defaultMessage": "사이드바",
+    "description": "Aria label for the area on the left"
+  },
+  "sidebar-collapse": {
+    "defaultMessage": "사이드바 접기",
+    "description": "Aria label for the collapse sidebar button"
+  },
+  "sidebar-expand": {
+    "defaultMessage": "사이드바 펼치기",
+    "description": "Aria label for the expand sidebar button"
+  },
+  "simulator-accelerometer": {
+    "defaultMessage": "가속도 센서",
+    "description": "Simulator Accelerometer panel title"
+  },
+  "simulator-actions": {
+    "defaultMessage": "시뮬레이터 동작",
+    "description": "Aria label for the bar with simulator actions (stop, mute etc)"
+  },
+  "simulator-button-a": {
+    "defaultMessage": "A 버튼",
+    "description": "Button A aria label on the simulator board"
+  },
+  "simulator-button-b": {
+    "defaultMessage": "B 버튼",
+    "description": "Button B aria label on the simulator board"
+  },
+  "simulator-button-hold-label": {
+    "defaultMessage": "{button} 버튼 누르고 있기",
+    "description": "Aria label for simulator toggle button"
+  },
+  "simulator-button-press-label": {
+    "defaultMessage": "{button} 버튼 누르기",
+    "description": "Aria label for simulator push button"
+  },
+  "simulator-buttons": {
+    "defaultMessage": "버튼",
+    "description": "Buttons simulator panel title"
+  },
+  "simulator-collapse": {
+    "defaultMessage": "시뮬레이터 접기",
+    "description": "Aria label for the collapse simulator button"
+  },
+  "simulator-collapse-module": {
+    "defaultMessage": "{title} 모듈 접기",
+    "description": "Aria label for collapse simulator module button"
+  },
+  "simulator-compass": {
+    "defaultMessage": "나침반(자기) 센서",
+    "description": "Compass simulator panel title"
+  },
+  "simulator-compass-heading-one": {
+    "defaultMessage": "방향",
+    "description": "Sub heading for simulator Compass panel"
+  },
+  "simulator-compass-heading-two": {
+    "defaultMessage": "자기장 강도",
+    "description": "Sub heading for simulator Compass panel"
+  },
+  "simulator-data-logging-empty": {
+    "defaultMessage": "로그 항목이 없습니다.",
+    "description": "Shown in the simulator Data logging table when there are no rows"
+  },
+  "simulator-data-logging-full": {
+    "defaultMessage": "로그 가득 참",
+    "description": "Shown below the simulator Data logging table to warn that the log is full"
+  },
+  "simulator-data-logging-rows": {
+    "defaultMessage": "{count, plural, =0 {No rows logged} one {# row logged} other {# rows logged}}",
+    "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "simulator-data-logging-save-log": {
+    "defaultMessage": "로그 저장",
+    "description": "Action label to save the data log as a file from the Data logging simulator panel"
+  },
+  "simulator-data-logging-truncated": {
+    "defaultMessage": "이전 행 미표시",
+    "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
+  },
+  "simulator-expand": {
+    "defaultMessage": "시뮬레이터 펼치기",
+    "description": "Aria label for the expand simulator button"
+  },
+  "simulator-expand-module": {
+    "defaultMessage": "{title} 모듈 펼치기",
+    "description": "Aria label for expand simulator module button"
+  },
+  "simulator-gesture-select": {
+    "defaultMessage": "제스처 선택",
+    "description": "Aria label for the simulator gesture select input"
+  },
+  "simulator-gesture-send": {
+    "defaultMessage": "제스처 전송",
+    "description": "Aria label for the simulator gesture send button"
+  },
+  "simulator-hide": {
+    "defaultMessage": "시뮬레이터 숨기기",
+    "description": "Hide simulator action"
+  },
+  "simulator-input-hold": {
+    "defaultMessage": "누르고 있기",
+    "description": "Label for UI toggles to hold simulator buttons or pins"
+  },
+  "simulator-input-press": {
+    "defaultMessage": "누르기",
+    "description": "Label for UI buttons to press simulator buttons or pins"
+  },
+  "simulator-light-level": {
+    "defaultMessage": "조도",
+    "description": "Light level simulator panel title"
+  },
+  "simulator-log": {
+    "defaultMessage": "데이터 로그",
+    "description": "Data log simulator panel title"
+  },
+  "simulator-loud": {
+    "defaultMessage": "크게",
+    "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
+  },
+  "simulator-mute": {
+    "defaultMessage": "음소거",
+    "description": "Aria label for the mute simulator button"
+  },
+  "simulator-pin-hold-label": {
+    "defaultMessage": "{pin} 핀 누르고 있기",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pin-press-label": {
+    "defaultMessage": "{pin} 핀 누르기",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pins": {
+    "defaultMessage": "핀",
+    "description": "Pins simulator panel title"
+  },
+  "simulator-quiet": {
+    "defaultMessage": "조용히",
+    "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
+  },
+  "simulator-radio": {
+    "defaultMessage": "라디오",
+    "description": "Radio simulator panel title"
+  },
+  "simulator-radio-group-notice": {
+    "defaultMessage": "라디오 그룹이 {groupNumber}(으)로 설정됨",
+    "description": "Message in radio simulator area when the radio group changes"
+  },
+  "simulator-radio-message": {
+    "defaultMessage": "라디오 메시지",
+    "description": "Label and placeholder for the simulator radio message input field"
+  },
+  "simulator-radio-message-limit-notice": {
+    "defaultMessage": "이전 메시지 미표시",
+    "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
+  },
+  "simulator-radio-no-messages": {
+    "defaultMessage": "표시할 메시지 없음",
+    "description": "Text shown when there are no radio messages to display in the simulator user interface"
+  },
+  "simulator-radio-off": {
+    "defaultMessage": "라디오 비활성화됨",
+    "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
+  },
+  "simulator-radio-send": {
+    "defaultMessage": "메시지 전송",
+    "description": "Aria label for the simulator radio send button"
+  },
+  "simulator-reference-link": {
+    "defaultMessage": "레퍼런스 섹션에 링크하기",
+    "description": "Aria label for simulator Reference link button"
+  },
+  "simulator-reset": {
+    "defaultMessage": "재설정",
+    "description": "Aria label for the reset simulator button"
+  },
+  "simulator-serial-terminal": {
+    "defaultMessage": "시뮬레이터 시리얼 터미널",
+    "description": "Aria label for the simulator serial terminal"
+  },
+  "simulator-sound-level": {
+    "defaultMessage": "소리 크기",
+    "description": "Sound level simulator panel title"
+  },
+  "simulator-start-simulator": {
+    "defaultMessage": "시뮬레이터 시작",
+    "description": "Aria label for the large play button on the simulator board"
+  },
+  "simulator-stop": {
+    "defaultMessage": "시뮬레이터 중지",
+    "description": "Aria label for the stop simulator button"
+  },
+  "simulator-temperature": {
+    "defaultMessage": "온도",
+    "description": "Temperature simulator panel title"
+  },
+  "simulator-title": {
+    "defaultMessage": "시뮬레이터",
+    "description": "Simulator title"
+  },
+  "simulator-touch-logo": {
+    "defaultMessage": "터치 로고",
+    "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
+  },
+  "simulator-unmute": {
+    "defaultMessage": "음소거 해제",
+    "description": "Aria label for the unmute simulator button"
+  },
+  "software-versions": {
+    "defaultMessage": "소프트웨어 버전",
+    "description": "Heading for a table of software versions in the about dialog"
+  },
+  "start-coding-action": {
+    "defaultMessage": "코딩 시작",
+    "description": "Start coding button text"
+  },
+  "support": {
+    "defaultMessage": "지원",
+    "description": "Support menu option text"
+  },
+  "terms-of-use": {
+    "defaultMessage": "이용 약관",
+    "description": "Terms of use menu option text"
+  },
+  "third-party-module-explanation": {
+    "defaultMessage": "이 파일은 서드파티 모듈이며 편집하도록 제작된 파일이 아닙니다.",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "<link>설정</link>에서 서드파티 모듈 편집 허용을 체크해 이 모듈을 수정할 수 있습니다.",
+    "description": "Explanation of how to allow editing for third-party modules."
+  },
+  "timeout-error-description": {
+    "defaultMessage": "micro:bit 에 연결할 수 없습니다.",
+    "description": "Description for error messages relating to WebUSB timeout"
+  },
+  "timeout-error-title": {
+    "defaultMessage": "연결 시간 초과",
+    "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "title": {
+    "defaultMessage": "micro:bit용 Python 편집기",
+    "description": "Application title"
+  },
+  "toolkit-error-loading": {
+    "defaultMessage": "도구 키트를 불러오는 중 오류가 발생했습니다.",
+    "description": "Error shown if we failed to load toolkit content"
+  },
+  "toolkit-view-documentation": {
+    "defaultMessage": "{name} 문서 보기",
+    "description": "Aria label for the toolkit topic right arrow"
+  },
+  "transfer-hex-message-one": {
+    "defaultMessage": "<strong>다운로드 폴더</strong>에서 hex 파일을 <strong>MICROBIT 드라이브</strong>로 드래그하세요.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-message-two": {
+    "defaultMessage": "<strong>열기</strong> 버튼으로 헥스 파일을 열어 나중에 계속 편집할 수 있습니다.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-title": {
+    "defaultMessage": "저장된 hex 파일을 micro:bit으로 전송",
+    "description": "Title for the transfer hex dialog"
+  },
+  "try-again-action": {
+    "defaultMessage": "다시 시도",
+    "description": "Try again button text"
+  },
+  "undo": {
+    "defaultMessage": "실행 취소",
+    "description": "Aria label for the undo button"
+  },
+  "unexpected-error-description": {
+    "defaultMessage": "다시 시도하거나 <link>지원 요청을 접수하세요</link>",
+    "description": "Text shown for unexpected error scenarios"
+  },
+  "unexpected-error-title": {
+    "defaultMessage": "다시 시도하거나 <link>지원 요청을 접수하세요</link>",
+    "description": "Text shown for unexpected error scenarios"
+  },
+  "untitled-project": {
+    "defaultMessage": "이름 없는 프로젝트",
+    "description": "Title for a new project"
+  },
+  "update-firmware-action": {
+    "defaultMessage": "펌웨어 업데이트",
+    "description": "Update firmware button text"
+  },
+  "updated-change": {
+    "defaultMessage": "{changeName} 파일 업데이트됨",
+    "description": "Change made to file"
+  },
+  "visit-dot-org": {
+    "defaultMessage": "microbit.org 방문(새 탭에서 열기)",
+    "description": "alt text for logo link to .org"
+  },
+  "webusb-error-clear-connect-description-1": {
+    "defaultMessage": "다른 프로세스가 이 장치에 연결되어 있습니다.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-description-2": {
+    "defaultMessage": "WebUSB를 사용하고 있는 다른 탭(예: MakeCode, Python Editor)을 닫거나 다시 시도하기 전에 micro:bit의 플러그를 뽑은 후 다시 연결해보세요.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-title": {
+    "defaultMessage": "인터페이스 수령 실패",
+    "description": "Title of error for WebUsb connection"
+  },
+  "webusb-error-default-title": {
+    "defaultMessage": "WebUSB 오류",
+    "description": "Default title for error messages relating to WebUSB"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "micro:bit 연결을 확인한 후, 다시 시도해 보세요.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-update-req-description": {
+    "defaultMessage": "이 기능을 활용하려면 <link>micro:bit 펌웨어를 업데이트</link>해야 합니다.",
+    "description": "WebUSB error telling user to update firmware"
+  },
+  "webusb-error-update-req-title": {
+    "defaultMessage": "micro:bit 펌웨어를 업데이트 하세요.",
+    "description": "Error text telling user to update firmware"
+  },
+  "webusb-not-supported": {
+    "defaultMessage": "이 브라우저가 WebUSB를 지원하지 않아 프로그램이 컴퓨터에 저장됩니다. micro:bit로 전송하려면 다음 화면의 단계를 따르세요. micro:bit에 직접 연결할 수 있도록 Google Chrome 또는 Microsoft Edge 사용을 권장합니다.",
+    "description": "Explantion shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-not-supported-title": {
+    "defaultMessage": "이 브라우저는 WebUSB를 지원하지 않습니다",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-why-use": {
+    "defaultMessage": "WebUSB로 온라인 에디터에서 직접 micro:bit을 프로그래밍하고 시리얼 콘솔에 연결할 수 있습니다.",
+    "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "welcome-message": {
+    "defaultMessage": "간략한 가이드를 보고 주요 기능 일부를 파악하거나 바로 코딩을 시작하세요.",
+    "description": "Text in the welcome dialogn"
+  },
+  "welcome-title": {
+    "defaultMessage": "micro:bit Python 편집기에 오신 것을 환영합니다",
+    "description": "Title for the welcome dialog"
+  },
+  "zoom-in-action": {
+    "defaultMessage": "글꼴 크게",
+    "description": "Text label for zoom in button"
+  },
+  "zoom-out-action": {
+    "defaultMessage": "글꼴 작게",
+    "description": "Text label for zoom out button"
+  }
+}

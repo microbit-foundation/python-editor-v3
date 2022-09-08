@@ -116,7 +116,8 @@ export class App {
     ]);
 
     const page = await context.newPage();
-    await page.setViewport({ width: 1200, height: 800 });
+    // Needs to be large enough to display Reference + Simulator or tests need to show/hide them.
+    await page.setViewport({ width: 1920, height: 1440 });
     await page.setCookie({
       // See corresponding code in App.tsx.
       name: "mockDevice",
@@ -719,8 +720,8 @@ export class App {
   }
 
   async confirmConnection(): Promise<void> {
-    const document = await this.document();
-    await document.findByRole("button", {
+    const serialArea = await this.findMainSerialArea();
+    await serialArea.findByRole("button", {
       name: "Serial menu",
     });
   }
@@ -785,10 +786,12 @@ export class App {
     return waitFor(
       async () => {
         expect(
-          await document.queryByRole("button", {
-            name: "Serial menu",
-          })
-        ).toBeNull();
+          (
+            await document.queryAllByRole("button", {
+              name: "Serial terminal",
+            })
+          ).length
+        ).toEqual(0);
       },
       {
         ...defaultWaitForOptions,
@@ -797,26 +800,33 @@ export class App {
     );
   }
 
-  async serialShow(): Promise<void> {
+  private async findMainSerialArea() {
     const document = await this.document();
-    const showSerialButton = await document.findByRole("button", {
+    return document.findByRole("region", {
+      name: "Serial terminal",
+    });
+  }
+
+  async serialShow(): Promise<void> {
+    const mainSerialArea = await this.findMainSerialArea();
+    const showSerialButton = await mainSerialArea.findByRole("button", {
       name: "Show serial",
     });
     await showSerialButton.click();
     // Make sure the button has flipped.
-    await document.findByRole("button", {
+    await mainSerialArea.findByRole("button", {
       name: "Hide serial",
     });
   }
 
   async serialHide(): Promise<void> {
-    const document = await this.document();
-    const hideSerialButton = await document.findByRole("button", {
+    const serialArea = await this.findMainSerialArea();
+    const hideSerialButton = await serialArea.findByRole("button", {
       name: "Hide serial",
     });
     await hideSerialButton.click();
     // Make sure the button has flipped.
-    await document.findByRole("button", {
+    await serialArea.findByRole("button", {
       name: "Show serial",
     });
   }
@@ -1145,6 +1155,16 @@ export class App {
     const simulatorIframe = await this.getSimulatorIframe();
     const playButton = await simulatorIframe!.$(".play-button");
     await playButton!.click();
+  }
+
+  async findStoppedSimulator(): Promise<void> {
+    const document = await this.document();
+    const stopButton = await document.findByRole("button", {
+      name: "Stop simulator",
+    });
+    waitFor(async () => {
+      expect(await isDisabled(stopButton)).toEqual(true);
+    }, defaultWaitForOptions);
   }
 
   async simulatorSelectGesture(option: string): Promise<void> {

@@ -10,10 +10,20 @@ import { retryAsyncLoad } from "../common/chunk-util";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
+    // Add further cases explicitly for code splitting.
+    // The need for this might be worth revisiting.
     case "fr":
       return (await import("./ui.fr.json")).default;
-    case "lol":
-      return (await import("./ui.lol.json")).default;
+    case "es-es":
+      return (await import("./ui.es-es.json")).default;
+    case "ja":
+      return (await import("./ui.ja.json")).default;
+    case "ko":
+      return (await import("./ui.ko.json")).default;
+    case "zh-cn":
+      return (await import("./ui.zh-cn.json")).default;
+    case "zh-tw":
+      return (await import("./ui.zh-tw.json")).default;
     default:
       return (await import("./ui.en.json")).default;
   }

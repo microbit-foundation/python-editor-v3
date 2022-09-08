@@ -17,12 +17,14 @@ interface SerialAreaProps extends BoxProps {
   onSizeChange: (size: "compact" | "open") => void;
   showSyncStatus: boolean;
   terminalFontSizePt?: number;
-  showExpandText?: boolean;
+  hideExpandTextOnTraceback?: boolean;
   showHintsAndTips?: boolean;
 }
 
 /**
- * The serial area below the editor.
+ * The serial area.
+ *
+ * This is used below the editor (connected via WebUSB) and in the simulator.
  *
  * This has a compact and expanded form and coordinates its
  * size with the workspace layout via compact/onSizeChange.
@@ -33,7 +35,7 @@ const SerialArea = ({
   showSyncStatus,
   terminalFontSizePt,
   expandDirection,
-  showExpandText = true,
+  hideExpandTextOnTraceback = false,
   showHintsAndTips = true,
   ...props
 }: SerialAreaProps) => {
@@ -61,7 +63,7 @@ const SerialArea = ({
               onSizeChange={onSizeChange}
               showSyncStatus={showSyncStatus}
               expandDirection={expandDirection}
-              showExpandText={showExpandText}
+              hideExpandTextOnTraceback={hideExpandTextOnTraceback}
               showHintsAndTips={showHintsAndTips}
             />
             <XTerm

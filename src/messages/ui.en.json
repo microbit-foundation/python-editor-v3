@@ -1765,6 +1765,38 @@
       "value": "Simulator actions"
     }
   ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "Button A"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "Button B"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 0,
+      "value": "Hold button "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 0,
+      "value": "Press button "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
   "simulator-buttons": [
     {
       "type": 0,
@@ -1789,6 +1821,88 @@
     {
       "type": 0,
       "value": " module"
+    }
+  ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "Compass"
+    }
+  ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "Heading"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "Magnetic field strength"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "No log entries."
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "Log full"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows logged"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " row logged"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " rows logged"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "Save log"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "Older rows not shown"
     }
   ],
   "simulator-expand": [
@@ -1835,52 +1949,22 @@
       "value": "Hold"
     }
   ],
-  "simulator-input-hold-label": [
-    {
-      "type": 0,
-      "value": "Hold "
-    },
-    {
-      "type": 1,
-      "value": "touchInputType"
-    },
-    {
-      "type": 0,
-      "value": " "
-    },
-    {
-      "type": 1,
-      "value": "touchInputName"
-    }
-  ],
   "simulator-input-press": [
     {
       "type": 0,
       "value": "Press"
     }
   ],
-  "simulator-input-press-label": [
-    {
-      "type": 0,
-      "value": "Press "
-    },
-    {
-      "type": 1,
-      "value": "touchInputType"
-    },
-    {
-      "type": 0,
-      "value": " "
-    },
-    {
-      "type": 1,
-      "value": "touchInputName"
-    }
-  ],
   "simulator-light-level": [
     {
       "type": 0,
       "value": "Light level"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "Data log"
     }
   ],
   "simulator-loud": [
@@ -1895,6 +1979,26 @@
       "value": "Mute"
     }
   ],
+  "simulator-pin-hold-label": [
+    {
+      "type": 0,
+      "value": "Hold pin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
+  "simulator-pin-press-label": [
+    {
+      "type": 0,
+      "value": "Press pin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
   "simulator-pins": [
     {
       "type": 0,
@@ -1905,6 +2009,52 @@
     {
       "type": 0,
       "value": "Quiet"
+    }
+  ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "Radio"
+    }
+  ],
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "Radio group set to "
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "Radio message"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
+    {
+      "type": 0,
+      "value": "Older messages not shown"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "No messages to show"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "The radio is off"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "Send message"
     }
   ],
   "simulator-reference-link": [
@@ -1925,22 +2075,22 @@
       "value": "Simulator serial terminal"
     }
   ],
-  "simulator-show": [
-    {
-      "type": 0,
-      "value": "Show simulator"
-    }
-  ],
   "simulator-sound-level": [
     {
       "type": 0,
       "value": "Sound level"
     }
   ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "Start simulator"
+    }
+  ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Stop"
+      "value": "Stop simulator"
     }
   ],
   "simulator-temperature": [
@@ -1953,6 +2103,12 @@
     {
       "type": 0,
       "value": "Simulator"
+    }
+  ],
+  "simulator-touch-logo": [
+    {
+      "type": 0,
+      "value": "Touch logo"
     }
   ],
   "simulator-unmute": [

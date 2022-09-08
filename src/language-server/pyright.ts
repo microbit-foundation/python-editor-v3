@@ -11,7 +11,7 @@ import {
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-main-8fe8afc1823da211c82b.worker.js";
+const workerScriptName = "pyright-main-ed1fb15286507e5d6509.worker.js";
 
 /**
  * Creates Pyright workers and corresponding client.

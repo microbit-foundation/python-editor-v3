@@ -1,0 +1,2432 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "micro:bitについて"
+    }
+  ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "Mike Rowbitによる「MicroPython Rocks」（MicroPython最高！）という3コマ漫画。漫画のヘビが「Damienを紹介します... 彼はMicroPythonを作成しました」と言ってDamienを紹介します。2匹のヘビがMicroPythonについて話します。黄色のヘビが「MicroPythonは非常に小さなコンピュータで動作するように設計されています」と言います。紫のヘビが「あなたのBBC micro:bitのようにね」と応じます。黄色のヘビが「けれどもPythonはどこでも動作します」と続けます。 紫のヘビは同意して「巨大なウェブサイトを動かすこのラックのサーバーのようにね」と言います。ヘビたちの背後にはサーバーラックが見えます。"
+    }
+  ],
+  "about-microbit": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Micro:bit Educational Foundationと貢献者"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "により愛を込めて作られました"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "このエディタは、Damien Georgeと世界中の開発者コミュニティによって作られた"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MicroPython"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "に依存しています。"
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "MicroPythonについて読まない"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "MicroPythonについてもっと読む"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "ファイル "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": " を追加しました"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "使用方法と例については、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "リファレンス"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "を参照してください。"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
+    }
+  ],
+  "apidocs-baseclass": [
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ベースクラス: "
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "baseClassCount"
+    }
+  ],
+  "apidocs-classes": [
+    {
+      "type": 0,
+      "value": "クラス"
+    }
+  ],
+  "apidocs-fields": [
+    {
+      "type": 0,
+      "value": "フィールド"
+    }
+  ],
+  "apidocs-functions": [
+    {
+      "type": 0,
+      "value": "関数"
+    }
+  ],
+  "apidocs-methods": [
+    {
+      "type": 0,
+      "value": "メソッド"
+    }
+  ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "戻る"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "メインコードに戻る"
+    }
+  ],
+  "cancel-action": [
+    {
+      "type": 0,
+      "value": "キャンセル"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "ファイルを変更しますか？"
+    }
+  ],
+  "choose-main-add-file": [
+    {
+      "type": 0,
+      "value": "ファイル "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を追加"
+    }
+  ],
+  "choose-main-add-module": [
+    {
+      "type": 0,
+      "value": "モジュール "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を追加"
+    }
+  ],
+  "choose-main-replace-file": [
+    {
+      "type": 0,
+      "value": "ファイル "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を置き換え"
+    }
+  ],
+  "choose-main-replace-module": [
+    {
+      "type": 0,
+      "value": "モジュール "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を置き換え"
+    }
+  ],
+  "choose-main-source-add-file": [
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "からファイル "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " を追加"
+    }
+  ],
+  "choose-main-source-add-main-code": [
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " からメインコードを追加"
+    }
+  ],
+  "choose-main-source-replace-file": [
+    {
+      "type": 0,
+      "value": "ファイル "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " を"
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "に置き換え"
+    }
+  ],
+  "choose-main-source-replace-main-code": [
+    {
+      "type": 0,
+      "value": "メインコードを "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " に置き換え"
+    }
+  ],
+  "clear": [
+    {
+      "type": 0,
+      "value": "クリア"
+    }
+  ],
+  "close-action": [
+    {
+      "type": 0,
+      "value": "閉じる"
+    }
+  ],
+  "code-editor": [
+    {
+      "type": 0,
+      "value": "コードエディター"
+    }
+  ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "コード例:"
+    }
+  ],
+  "confirm-action": [
+    {
+      "type": 0,
+      "value": "確認"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "削除の確認"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "すべてのファイルをHEXに置き換えますか？"
+    }
+  ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "すべてのファイルをデフォルトのスターターコードに置き換えますか？"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "プロジェクトの置き換えを確認"
+    }
+  ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "すべてのファイルを"
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "に置き換えますか？"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "確認して保存"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "キャンセルして、保存を使ってプロジェクトのコピーを保持します。"
+    }
+  ],
+  "connect-action": [
+    {
+      "type": 0,
+      "value": "接続"
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "ケーブルを接続"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "1のラベルが付いたBBC micro:bitエントリと2のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ"
+    }
+  ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "次のポップアップ"
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "micro:bitを選ぶ"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "micro:bitを選択"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "「接続」を選択"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "WebUSB経由でmicro:bitに接続"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "micro:bitに接続してシリアル出力を確認"
+    }
+  ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "micro:bit接続時に発生する問題のトラブルシューティング"
+    }
+  ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "問題が発生しました。HEXファイルをダウンロードして、ページをリロードしてください。"
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "コピーしました"
+    }
+  ],
+  "copy-action": [
+    {
+      "type": 0,
+      "value": "コピー"
+    }
+  ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "コードをコピー"
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "作る"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "ファイルを作成"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "このプロジェクトに新しいPythonファイルを作成"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " を作成しました"
+    }
+  ],
+  "delete-action": [
+    {
+      "type": 0,
+      "value": "削除"
+    }
+  ],
+  "delete-file-action": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を削除"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " を削除しました"
+    }
+  ],
+  "disconnect-action": [
+    {
+      "type": 0,
+      "value": "切断"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "micro:bitを切断"
+    }
+  ],
+  "dont-show-again": [
+    {
+      "type": 0,
+      "value": "今後表示しない"
+    }
+  ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "ドラッグ＆ドロップ"
+    }
+  ],
+  "edit-file-action": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " を編集"
+    }
+  ],
+  "edit-name-project-hover": [
+    {
+      "type": 0,
+      "value": "プロジェクトの名前を編集"
+    }
+  ],
+  "edit-project-name-action": [
+    {
+      "type": 0,
+      "value": "プロジェクト名を編集"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "hexファイルのビルドに失敗しました"
+    }
+  ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "フィードバック"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " ファイルのアクション"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "ファイルは既に存在します"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "名前に無効な文字が含まれています: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "名前が長すぎます"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "名前はすべて小文字にする必要があります"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "名前は空にできません"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "名前を数字で始めることはできません"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "名前にスペースを含めることはできません"
+    }
+  ],
+  "firmware-update-link": [
+    {
+      "type": 0,
+      "value": "このmicro:bitに接続するには、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ファームウェアを更新する"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "必要があります。"
+    }
+  ],
+  "firmware-update-message": [
+    {
+      "type": 0,
+      "value": "micro:bitのファームウェアが古すぎるため、micro:bitへの接続に失敗しました。"
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "ファームウェアの更新が必要です"
+    }
+  ],
+  "flash-action": [
+    {
+      "type": 0,
+      "value": "書き込み"
+    }
+  ],
+  "flash-hover": [
+    {
+      "type": 0,
+      "value": "プロジェクトをmicro:bitに直接書き込む"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "プログラムを送信中（書き込み中）"
+    }
+  ],
+  "flashing-full-flash-detail": [
+    {
+      "type": 0,
+      "value": "プログラムがmicro:bitに送信（書き込み）されています。最初はしばらく時間がかかることがありますが、その後は速くなります。"
+    }
+  ],
+  "flashing-micropython": [
+    {
+      "type": 0,
+      "value": "MicroPython の書込み"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "フォントサイズ"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "サポートについては、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Pythonエディターガイド"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "を参照してください"
+    }
+  ],
+  "help": [
+    {
+      "type": 0,
+      "value": "ヘルプ"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "ヘルプとサポート"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "翻訳を手伝う"
+    }
+  ],
+  "highlight-code-structure": [
+    {
+      "type": 0,
+      "value": "コード構造を強調表示"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "全て"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "なし"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "簡易"
+    }
+  ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "アイデア"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "これらのプロジェクトを試したり、変更したりして、ひらめきを得てください"
+    }
+  ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "コードを挿入"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "言語"
+    }
+  ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "減らす"
+    }
+  ],
+  "load-error-makecode-info": [
+    {
+      "type": 0,
+      "value": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。"
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "このhexファイルを使用するには、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "を参照してください。"
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "hexファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。"
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "このバージョンのPythonエディターは現在.mpyファイルの追加をサポートしていません。"
+    }
+  ],
+  "load-error-title": [
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ファイル"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "を読み込むことができません"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " を読み込みました"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "読み込み中…"
+    }
+  ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "5×5のLEDグリッドにハートを表示するmicro:bitボード"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "MicroPythonドキュメント"
+    }
+  ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "micro:bit上のMicroPythonがどのように生まれたかを学ぶ"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "MicroPython "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "linkV1"
+    },
+    {
+      "type": 0,
+      "value": "と"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V2のソースコード"
+        }
+      ],
+      "type": 8,
+      "value": "linkV2"
+    }
+  ],
+  "more-action": [
+    {
+      "type": 0,
+      "value": "増やす"
+    }
+  ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "その他の接続オプション"
+    }
+  ],
+  "more-ideas": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "他のアイデア"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "more-save-options": [
+    {
+      "type": 0,
+      "value": "その他の保存オプション"
+    }
+  ],
+  "multiple-files-message-one": [
+    {
+      "type": 0,
+      "value": "このプロジェクトには"
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": "個のファイル"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "が含まれますが、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "main.py"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "のみがダウンロードされています。"
+    }
+  ],
+  "multiple-files-message-two": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "保存"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "ボタンを使ってプロジェクト全体をhexファイルにダウンロードします。そのhexファイルを"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "開く"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "とプロジェクトを復元することができます。Pythonファイルを個別にダウンロードしたいなら、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "プロジェクト"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "タブを使用します。"
+    }
+  ],
+  "multiple-files-title": [
+    {
+      "type": 0,
+      "value": "注意: main.pyのみダウンロードされました"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "プロジェクトに名前を付ける"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "名前"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "この名前はhexファイルを保存するときに使用されます。"
+    }
+  ],
+  "new-file-hint": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": ".py"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": "拡張子を追加します。"
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "次"
+    }
+  ],
+  "not-found-checklist-one": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bitは接続"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "されていますか？"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "以下の手順"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "に従いましたか？"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "をお持ちの場合は、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ファームウェアを更新"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "する必要があります。"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "micro:bitを選択していないか、接続中に問題が発生しました。"
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "代替方法: 保存を選択し、転送する手順に従ってください"
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "micro:bitが見つかりません"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "このmicro:bitに接続するには、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ファームウェアを更新"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "する必要があります。"
+    }
+  ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "開く"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "開く…"
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "ドロップ時にファイルを開く"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "hexファイルまたはPythonファイルを開くか、他のファイルを追加する"
+    }
+  ],
+  "options": [
+    {
+      "type": 0,
+      "value": "オプション"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "パラメータのヘルプ"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "自動"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "マニュアル（"
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": "）"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "を完全に削除しますか？"
+    }
+  ],
+  "post-save-message-files": [
+    {
+      "type": 0,
+      "value": "これには、このプロジェクト内のすべてのファイル（例えば、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "プロジェクト"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "タブにリストされているアクセサリを実行するための追加ファイルを含む）が含まれています。"
+    }
+  ],
+  "post-save-message-one": [
+    {
+      "type": 0,
+      "value": "このコンピューターの"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ダウンロード"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "フォルダにhexファイルがあります。"
+    }
+  ],
+  "post-save-message-two": [
+    {
+      "type": 0,
+      "value": "保管用の別フォルダに移動して、後で"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "開く"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "を使用して編集を続けることができます。"
+    }
+  ],
+  "post-save-title": [
+    {
+      "type": 0,
+      "value": "プロジェクトを保存しました"
+    }
+  ],
+  "post-save-transfer-hex": [
+    {
+      "type": 0,
+      "value": "micro:bit上のhexファイルを実行するには"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "この手順に従います"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "。"
+    }
+  ],
+  "project-actions": [
+    {
+      "type": 0,
+      "value": "プロジェクトアクション"
+    }
+  ],
+  "project-header": [
+    {
+      "type": 0,
+      "value": "プロジェクトヘッダー"
+    }
+  ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "プロジェクト名"
+    }
+  ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "プロジェクト名は空にできません"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "プロジェクト"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "プロジェクト内のファイルの表示、作成、追加、編集"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "Python搭載"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "Python"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "変更が保存されていません。終了しますか？"
+    }
+  ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "折りたたむ"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "もっと読む"
+    }
+  ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "繰り返し"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "リファレンス"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "置換"
+    }
+  ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "プロジェクトをリセット"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "プロジェクトがデフォルトのスターターコードにリセットされました"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "プロジェクトをデフォルトのスターターコードにリセットし、作業を破棄します"
+    }
+  ],
+  "results-count": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "結果なし"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": "件の結果"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "保存"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "を保存"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "プロジェクトのhexを保存"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "プロジェクトのhexファイルをコンピュータに保存"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Pythonスクリプトを保存"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "検索"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "micro:bitに送る"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "WebUSBで接続してプログラムをmicro:bitに書き込む"
+    }
+  ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "シリアルを隠す"
+    }
+  ],
+  "serial-ctrl-c-action": [
+    {
+      "type": 0,
+      "value": "REPLにCtrl+Cを送信"
+    }
+  ],
+  "serial-ctrl-d-action": [
+    {
+      "type": 0,
+      "value": "Ctrl+Dを送信してリセット"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "シリアルを表示"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "micro:bitに書き込みました"
+    }
+  ],
+  "serial-help-ctrl-c": [
+    {
+      "type": 0,
+      "value": "キーボードショートカット "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "C"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " を使用してプログラムを中断します。すると、MicroPythonが実行するPythonコマンドを入力することができます。これは何か新しいことを試してみるのに最適な方法です。"
+    }
+  ],
+  "serial-help-ctrl-d": [
+    {
+      "type": 0,
+      "value": "プログラムを再起動するには、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "D"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": "を使用します。"
+    }
+  ],
+  "serial-help-intro": [
+    {
+      "type": 0,
+      "value": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。 デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。"
+    }
+  ],
+  "serial-help-print": [
+    {
+      "type": 0,
+      "value": "プログラムで"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": "関数を使うとメッセージを出力できます。プログラムに"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print('micro:bitは素晴らしい')"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": "を追加してみてください。"
+    }
+  ],
+  "serial-help-title": [
+    {
+      "type": 0,
+      "value": "シリアルのヒントと秘訣"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "シリアルのヒントと秘訣"
+    }
+  ],
+  "serial-menu": [
+    {
+      "type": 0,
+      "value": "シリアルメニュー"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "micro:bitの書き込み準備ができました"
+    }
+  ],
+  "serial-running": [
+    {
+      "type": 0,
+      "value": "実行中…"
+    }
+  ],
+  "serial-terminal": [
+    {
+      "type": 0,
+      "value": "シリアルターミナル"
+    }
+  ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "サードパーティ製モジュールの編集を許可"
+    }
+  ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "サードパーティ製モジュールを変更すると、意図した通りに動作しない可能性があります。"
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "設定"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "APIドキュメントを表示"
+    }
+  ],
+  "show-less": [
+    {
+      "type": 0,
+      "value": "表示を減らす"
+    }
+  ],
+  "show-less-for": [
+    {
+      "type": 1,
+      "value": "item"
+    },
+    {
+      "type": 0,
+      "value": "の表示を減らす"
+    }
+  ],
+  "show-more": [
+    {
+      "type": 0,
+      "value": "詳細を表示"
+    }
+  ],
+  "show-more-for": [
+    {
+      "type": 1,
+      "value": "item"
+    },
+    {
+      "type": 0,
+      "value": "の詳細を表示"
+    }
+  ],
+  "sidebar": [
+    {
+      "type": 0,
+      "value": "サイドバー"
+    }
+  ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "サイドバーを隠す"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "サイドバーを表示"
+    }
+  ],
+  "simulator-accelerometer": [
+    {
+      "type": 0,
+      "value": "加速度センサー"
+    }
+  ],
+  "simulator-actions": [
+    {
+      "type": 0,
+      "value": "シミュレーターアクション"
+    }
+  ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "Aボタン"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "Bボタン"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 1,
+      "value": "button"
+    },
+    {
+      "type": 0,
+      "value": "ボタンを押し続ける"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 1,
+      "value": "button"
+    },
+    {
+      "type": 0,
+      "value": "ボタンを押す"
+    }
+  ],
+  "simulator-buttons": [
+    {
+      "type": 0,
+      "value": "ボタン"
+    }
+  ],
+  "simulator-collapse": [
+    {
+      "type": 0,
+      "value": "シミュレーターを隠す"
+    }
+  ],
+  "simulator-collapse-module": [
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "モジュールを隠す"
+    }
+  ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "コンパス"
+    }
+  ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "方角検知"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "磁場強度"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "ログはありません。"
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "ログが満杯です"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ログ行なし"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": "行のログ"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "ログを保存"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "古い行は表示されていません"
+    }
+  ],
+  "simulator-expand": [
+    {
+      "type": 0,
+      "value": "シミュレーターを展開"
+    }
+  ],
+  "simulator-expand-module": [
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "モジュールを展開"
+    }
+  ],
+  "simulator-gesture-select": [
+    {
+      "type": 0,
+      "value": "ジェスチャーを選択"
+    }
+  ],
+  "simulator-gesture-send": [
+    {
+      "type": 0,
+      "value": "ジェスチャーを送信"
+    }
+  ],
+  "simulator-hide": [
+    {
+      "type": 0,
+      "value": "シミュレーターを隠す"
+    }
+  ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "押し続ける"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "押す"
+    }
+  ],
+  "simulator-light-level": [
+    {
+      "type": 0,
+      "value": "照度レベル"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "データログ"
+    }
+  ],
+  "simulator-loud": [
+    {
+      "type": 0,
+      "value": "うるさくなった"
+    }
+  ],
+  "simulator-mute": [
+    {
+      "type": 0,
+      "value": "消音"
+    }
+  ],
+  "simulator-pin-hold-label": [
+    {
+      "type": 0,
+      "value": "端子"
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": "にタッチし続ける"
+    }
+  ],
+  "simulator-pin-press-label": [
+    {
+      "type": 0,
+      "value": "端子"
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": "にタッチする"
+    }
+  ],
+  "simulator-pins": [
+    {
+      "type": 0,
+      "value": "端子"
+    }
+  ],
+  "simulator-quiet": [
+    {
+      "type": 0,
+      "value": "静かになった"
+    }
+  ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "無線"
+    }
+  ],
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "無線のグループを"
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    },
+    {
+      "type": 0,
+      "value": "に設定"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "無線メッセージ"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
+    {
+      "type": 0,
+      "value": "古いメッセージは表示されていません"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "表示するメッセージはありません"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "無線は無効になっています"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "メッセージを送信"
+    }
+  ],
+  "simulator-reference-link": [
+    {
+      "type": 0,
+      "value": "参照セクションへのリンク"
+    }
+  ],
+  "simulator-reset": [
+    {
+      "type": 0,
+      "value": "リセット"
+    }
+  ],
+  "simulator-serial-terminal": [
+    {
+      "type": 0,
+      "value": "シミュレーターシリアルターミナル"
+    }
+  ],
+  "simulator-sound-level": [
+    {
+      "type": 0,
+      "value": "サウンドレベル"
+    }
+  ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "シミュレーターを開始"
+    }
+  ],
+  "simulator-stop": [
+    {
+      "type": 0,
+      "value": "シミュレーターを停止"
+    }
+  ],
+  "simulator-temperature": [
+    {
+      "type": 0,
+      "value": "温度"
+    }
+  ],
+  "simulator-title": [
+    {
+      "type": 0,
+      "value": "シミュレーター"
+    }
+  ],
+  "simulator-touch-logo": [
+    {
+      "type": 0,
+      "value": "タッチロゴ"
+    }
+  ],
+  "simulator-unmute": [
+    {
+      "type": 0,
+      "value": "消音解除"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "ソフトウェアのバージョン"
+    }
+  ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "プログラミングを開始"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "サポート"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "利用規約"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "このファイルはサードパーティ製モジュールであり、編集するものではありません。"
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "このモジュールを変更するには、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "設定"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "でサードパーティ製モジュールの編集を許可します。"
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "micro:bitに接続できません"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "接続がタイムアウトしました"
+    }
+  ],
+  "title": [
+    {
+      "type": 0,
+      "value": "micro:bit用Pythonエディター"
+    }
+  ],
+  "toolkit-error-loading": [
+    {
+      "type": 0,
+      "value": "ツールキットの読み込み中にエラーが発生しました。"
+    }
+  ],
+  "toolkit-view-documentation": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "ドキュメントを表示"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "hexファイルを"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ダウンロードフォルダ"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "から"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MICROBITドライブ"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "へドラッグします。"
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "後でhexファイルを"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "開く"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "と編集を続けることができます。"
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "保存されたhexファイルをmicro:bitに転送する"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "もう一度やり直してください"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "元に戻す"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "もう一度やり直すか、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "サポートリクエストを提出"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "してください"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "もう一度やり直すか、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "サポートリクエストを提出"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "してください"
+    }
+  ],
+  "untitled-project": [
+    {
+      "type": 0,
+      "value": "無題プロジェクト"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "ファームウェアを更新"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "ファイル "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": " を更新しました"
+    }
+  ],
+  "visit-dot-org": [
+    {
+      "type": 0,
+      "value": "microbit.orgにアクセスする（新しいタブで開きます）"
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "別のプロセスがこのデバイスに接続されています。"
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "WebUSBを使用している他のタブ（MakeCode、Pythonエディターなど）を閉じるか、micro:bitを抜き差ししてやり直してください。"
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "インタフェースを要求できません"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "WebUSBエラー"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "micro:bitを再接続して、やり直してください。"
+    }
+  ],
+  "webusb-error-update-req-description": [
+    {
+      "type": 0,
+      "value": "この機能を利用するには、"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bitファームウェアを更新"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "する必要があります。"
+    }
+  ],
+  "webusb-error-update-req-title": [
+    {
+      "type": 0,
+      "value": "micro:bit のファームウェアを更新してください。"
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。 micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。"
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "このブラウザはWebUSBに対応していません"
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "WebUSBを使用すると、オンラインエディターから直接micro:bitをプログラムしたり、シリアルコンソールに接続できます。"
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めてください。"
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "micro:bit Pythonエディターへようこそ"
+    }
+  ],
+  "zoom-in-action": [
+    {
+      "type": 0,
+      "value": "拡大"
+    }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "縮小"
+    }
+  ]
+}

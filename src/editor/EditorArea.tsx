@@ -10,7 +10,6 @@ import { widthXl } from "../common/media-queries";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import ZoomControls from "../editor/ZoomControls";
-import { flags } from "../flags";
 import ProjectNameEditable from "../project/ProjectNameEditable";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import ActiveFileInfo from "./ActiveFileInfo";
@@ -54,7 +53,7 @@ const EditorArea = React.forwardRef(
           width="100%"
           alignItems="center"
           justifyContent="space-between"
-          pr={flags.simulator && !simulatorShown ? 0 : isWideScreen ? 10 : 5}
+          pr={!simulatorShown ? 0 : isWideScreen ? 10 : 5}
           pl={isWideScreen ? "3rem" : "2rem"}
           py={2}
           height={topBarHeight}
@@ -72,7 +71,7 @@ const EditorArea = React.forwardRef(
           />
           <Flex alignItems="center">
             <ZoomControls display={["none", "none", "none", "flex"]} />
-            {flags.simulator && !simulatorShown && (
+            {!simulatorShown && (
               <HideSplitViewButton
                 aria-label={intl.formatMessage({ id: "simulator-expand" })}
                 onClick={onSimulatorExpand}

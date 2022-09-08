@@ -9,58 +9,76 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useSimulator } from "../device/device-hooks";
-import { EVENT_SENSORS } from "../device/simulator";
 import AccelerometerModule from "./AccelerometerModule";
-import {
-  RangeSensor as RangeSensorType,
-  RangeSensorWithThresholds as RangeSensorWithThresholdsType,
-  Sensor,
-} from "./model";
 import RangeSensor from "./RangeSensor";
 
 import { IconType } from "react-icons";
 import { RiInformationLine, RiSunFill, RiTempHotFill } from "react-icons/ri";
-import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
-import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
-import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
-import { ReactComponent as PinsIcon } from "./icons/pins.svg";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import useRafState from "../common/use-raf-state";
+import {
+  EVENT_STATE_CHANGE,
+  RangeSensor as RangeSensorType,
+  SensorStateKey,
+  SimulatorState,
+} from "../device/simulator";
 import { useRouterState } from "../router-hooks";
-import ButtonsModule from "./ButtonModule";
-import { SimState } from "./Simulator";
+import ButtonsModule from "./ButtonsModule";
+import CompassModule from "./CompassModule";
+import { DataLogProvider } from "./data-logging-hooks";
+import DataLoggingModule from "./DataLoggingModule";
+import { ReactComponent as AccelerometerIcon } from "./icons/accelerometer.svg";
+import { ReactComponent as ButtonPressIcon } from "./icons/button-press.svg";
+import { ReactComponent as CompassIcon } from "./icons/compass.svg";
+import { ReactComponent as DataLoggingIcon } from "./icons/data-logging.svg";
+import { ReactComponent as MicrophoneIcon } from "./icons/microphone.svg";
+import { ReactComponent as PinsIcon } from "./icons/pins.svg";
+import { ReactComponent as RadioIcon } from "./icons/radio.svg";
 import PinsModule from "./PinsModule";
+import { RadioChatProvider } from "./radio-hooks";
+import RadioModule from "./RadioModule";
+import { RunningStatus } from "./Simulator";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
   "accelerometer",
   "lightLevel",
   "temperature",
+  "compass",
   "soundLevel",
   "buttons",
   "pins",
+  "radio",
+  "log",
 ];
 
 const titles: Record<string, string> = {
   // Sensor id mapped to translatable UI string ids. Sorted.
   accelerometer: "accelerometer",
   buttons: "buttons",
+  compass: "compass",
   lightLevel: "light-level",
   pins: "pins",
   soundLevel: "sound-level",
   temperature: "temperature",
+  radio: "radio",
+  log: "log",
 };
 
 const references: Record<string, string> = {
   // Sensor id mapped to Reference anchor id. Sorted.
   accelerometer: "accelerometer",
   buttons: "buttons",
+  compass: "compass",
   lightLevel: "light-level",
   pins: "pins",
   soundLevel: "microphone",
   temperature: "temperature",
+  radio: "radio",
+  log: "data-logging",
 };
 
 export const icons: Record<
@@ -68,76 +86,79 @@ export const icons: Record<
   IconType | React.FunctionComponent<React.SVGProps<SVGSVGElement>>
 > = {
   accelerometer: AccelerometerIcon,
-  temperature: RiTempHotFill,
-  lightLevel: RiSunFill,
-  soundLevel: MicrophoneIcon,
   buttons: ButtonPressIcon,
+  compass: CompassIcon,
+  lightLevel: RiSunFill,
   pins: PinsIcon,
+  soundLevel: MicrophoneIcon,
+  temperature: RiTempHotFill,
+  radio: RadioIcon,
+  log: DataLoggingIcon,
 };
 
 const spacing = 5;
 const minimisedSpacing = 3;
 
 interface SimulatorModulesProps extends BoxProps {
-  simState: SimState;
+  running: RunningStatus;
 }
 
-const SimulatorModules = ({ simState, ...props }: SimulatorModulesProps) => {
+const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   const device = useSimulator();
-  const [sensors, setSensors] = useState<Record<string, Sensor>>(
-    device.sensors
+  const [state, setState] = useRafState<SimulatorState | undefined>(
+    device.state
   );
   const intl = useIntl();
   useEffect(() => {
-    device.on(EVENT_SENSORS, setSensors);
+    device.on(EVENT_STATE_CHANGE, setState);
     return () => {
-      device.removeListener(EVENT_SENSORS, setSensors);
+      device.removeListener(EVENT_STATE_CHANGE, setState);
     };
-  }, [device]);
+  }, [device, setState]);
   const handleSensorChange = useCallback(
-    (id: string, value: number) => {
-      setSensors({
-        ...sensors,
-        [id]: { ...(sensors[id] as any), value },
-      });
-      device.sensorWrite(id, value);
+    (id: SensorStateKey, value: number) => {
+      device.setSimulatorValue(id, value);
     },
-    [device, sensors]
+    [device]
   );
-  if (Object.values(sensors).length === 0) {
+  if (!state) {
     // Waiting for info from sim.
     return null;
   }
   return (
-    <Flex
-      {...props}
-      flexDirection="column"
-      height="100%"
-      width="100%"
-      py={spacing}
-      px={3}
-    >
-      {modules.map((id, index) => (
-        <CollapsibleModule
-          key={id}
-          index={index}
-          id={id}
-          title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
-          sensors={sensors}
-          onSensorChange={handleSensorChange}
-          simState={simState}
-        />
-      ))}
-    </Flex>
+    <RadioChatProvider group={state.radio.group}>
+      <DataLogProvider>
+        <Flex
+          {...props}
+          flexDirection="column"
+          height="100%"
+          width="100%"
+          py={spacing}
+          px={3}
+        >
+          {modules.map((id, index) => (
+            <CollapsibleModule
+              key={id}
+              index={index}
+              id={id}
+              title={intl.formatMessage({ id: `simulator-${titles[id]}` })}
+              state={state}
+              onValueChange={handleSensorChange}
+              running={running}
+            />
+          ))}
+        </Flex>
+      </DataLogProvider>
+    </RadioChatProvider>
   );
 };
 
 interface SensorProps {
   id: string;
   title: string;
-  onSensorChange: (id: string, value: any) => void;
-  sensors: Record<string, Sensor>;
-  simState: SimState;
+  onValueChange: (id: SensorStateKey, value: any) => void;
+  state: SimulatorState;
+  running: RunningStatus;
 }
 
 interface CollapsibleModuleProps extends SensorProps {
@@ -148,9 +169,9 @@ const CollapsibleModule = ({
   index,
   id,
   title,
-  sensors,
-  onSensorChange,
-  simState,
+  state,
+  onValueChange,
+  running,
 }: CollapsibleModuleProps) => {
   const disclosure = useDisclosure();
   const intl = useIntl();
@@ -164,12 +185,22 @@ const CollapsibleModule = ({
       "documentation-from-simulator"
     );
   }, [id, setRouterState]);
+  const module = (
+    <ModuleForId
+      id={id}
+      title={title}
+      state={state}
+      onValueChange={onValueChange}
+      running={running}
+      minimised={!disclosure.isOpen}
+    />
+  );
   return (
     <Stack
       borderBottomWidth={index < modules.length - 1 ? 1 : 0}
       borderColor="grey.200"
       pb={disclosure.isOpen ? spacing : minimisedSpacing}
-      mt={index === 0 ? 0 : disclosure.isOpen ? spacing : minimisedSpacing}
+      mt={index === 0 ? 0 : minimisedSpacing}
       spacing={disclosure.isOpen ? spacing : minimisedSpacing}
     >
       <HStack justifyContent="space-between">
@@ -191,19 +222,9 @@ const CollapsibleModule = ({
             />
           </HStack>
         )}
-        {!disclosure.isOpen && (
-          <Box w="100%">
-            <ModuleForId
-              id={id}
-              title={title}
-              sensors={sensors}
-              onSensorChange={onSensorChange}
-              simState={simState}
-              minimised={true}
-            />
-          </Box>
-        )}
+        {!disclosure.isOpen && <Box w="100%">{module}</Box>}
         <IconButton
+          alignSelf="flex-start"
           icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
           aria-label={
             disclosure.isOpen
@@ -220,16 +241,7 @@ const CollapsibleModule = ({
           onClick={disclosure.onToggle}
         />
       </HStack>
-      {disclosure.isOpen && (
-        <ModuleForId
-          id={id}
-          title={title}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
-          simState={simState}
-          minimised={false}
-        />
-      )}
+      {disclosure.isOpen && module}
     </Stack>
   );
 };
@@ -241,34 +253,23 @@ interface ModuleForIdProps extends SensorProps {
 const ModuleForId = ({
   id,
   title,
-  sensors,
-  onSensorChange,
-  simState,
+  state,
+  onValueChange,
+  running,
   minimised,
 }: ModuleForIdProps) => {
   switch (id) {
     case "lightLevel":
     case "temperature":
-      return (
-        <RangeSensor
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          key={id}
-          title={title}
-          sensor={sensors[id] as RangeSensorType}
-          onSensorChange={onSensorChange}
-          minimised={minimised}
-        />
-      );
     case "soundLevel":
       return (
         <RangeSensor
-          icon={
-            <Icon as={icons.soundLevel} color="blimpTeal.400" boxSize="6" />
-          }
+          id={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
           key={id}
           title={title}
-          sensor={sensors.soundLevel as RangeSensorWithThresholdsType}
-          onSensorChange={onSensorChange}
+          sensor={state[id] as RangeSensorType}
+          onSensorChange={onValueChange}
           minimised={minimised}
         />
       );
@@ -277,9 +278,9 @@ const ModuleForId = ({
         <ButtonsModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
-          simState={simState}
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
           minimised={minimised}
         />
       );
@@ -288,9 +289,18 @@ const ModuleForId = ({
         <PinsModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
-          simState={simState}
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
+          minimised={minimised}
+        />
+      );
+    case "log":
+      return (
+        <DataLoggingModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          logFull={state.dataLogging.logFull}
           minimised={minimised}
         />
       );
@@ -299,8 +309,29 @@ const ModuleForId = ({
         <AccelerometerModule
           key={id}
           icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
-          sensors={sensors}
-          onSensorChange={onSensorChange}
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
+          minimised={minimised}
+        />
+      );
+    case "compass":
+      return (
+        <CompassModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          state={state}
+          onValueChange={onValueChange}
+          minimised={minimised}
+        />
+      );
+    case "radio":
+      return (
+        <RadioModule
+          key={id}
+          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          enabled={state.radio.enabled}
+          group={state.radio.group}
           minimised={minimised}
         />
       );

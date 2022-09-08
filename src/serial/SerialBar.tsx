@@ -24,7 +24,7 @@ interface SerialBarProps extends BoxProps {
   onSizeChange: (size: "compact" | "open") => void;
   showSyncStatus: boolean;
   expandDirection: "up" | "down";
-  showExpandText: boolean;
+  hideExpandTextOnTraceback: boolean;
   showHintsAndTips: boolean;
 }
 
@@ -36,7 +36,7 @@ const SerialBar = ({
   onSizeChange,
   background,
   showSyncStatus,
-  showExpandText,
+  hideExpandTextOnTraceback,
   showHintsAndTips,
   expandDirection,
   ...props
@@ -52,6 +52,10 @@ const SerialBar = ({
   const helpDisclosure = useDisclosure();
   const traceback = useDeviceTraceback();
   const syncStatus = useSyncStatus();
+  const handleShowHintsAndTips = useCallback(() => {
+    logging.event({ type: "serial-info" });
+    helpDisclosure.onOpen();
+  }, [logging, helpDisclosure]);
   return (
     <>
       <SerialHelpDialog
@@ -79,7 +83,11 @@ const SerialBar = ({
 
         <HStack>
           <CollapsibleButton
-            mode={showExpandText ? "button" : "icon"}
+            mode={
+              hideExpandTextOnTraceback && compact && traceback
+                ? "icon"
+                : "button"
+            }
             variant="unstyled"
             display="flex"
             fontWeight="normal"
@@ -106,13 +114,17 @@ const SerialBar = ({
                 isRound
                 aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
                 icon={<RiInformationLine />}
-                onClick={() => {
-                  logging.event({ type: "serial-info" });
-                  helpDisclosure.onOpen();
-                }}
+                onClick={handleShowHintsAndTips}
               />
             )}
-            <SerialMenu compact={compact} onSizeChange={onSizeChange} />
+            <SerialMenu
+              compact={compact}
+              onSizeChange={onSizeChange}
+              // Move it to the menu if not shown more visibly.
+              onShowHintsAndTips={
+                !showHintsAndTips ? handleShowHintsAndTips : undefined
+              }
+            />
           </HStack>
         </HStack>
       </HStack>
