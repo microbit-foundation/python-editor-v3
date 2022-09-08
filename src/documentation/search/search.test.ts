@@ -38,7 +38,11 @@ const searchableReferenceContent: SearchableContent[] = [
 ];
 
 describe("Search", () => {
-  const search = buildSearchIndex(searchableReferenceContent, "reference");
+  const search = buildSearchIndex(
+    searchableReferenceContent,
+    "reference",
+    "en"
+  );
 
   it("finds stuff", () => {
     expect(search.search("python")).toEqual([
