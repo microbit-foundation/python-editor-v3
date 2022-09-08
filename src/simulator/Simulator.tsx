@@ -24,6 +24,7 @@ interface SimulatorProps {
   onSimulatorHide: () => void;
   showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
   minWidth: number;
+  simFocus: boolean;
 }
 
 const Simulator = ({
@@ -31,6 +32,7 @@ const Simulator = ({
   onSimulatorHide,
   showSimulatorButtonRef,
   minWidth,
+  simFocus,
 }: SimulatorProps) => {
   // This needs the domain to be updated before we release.
   const url = "https://stage-python-simulator.microbit.org/simulator.html";
@@ -66,9 +68,11 @@ const Simulator = ({
     if (shown) {
       ref.current!.focus();
     } else {
-      showSimulatorButtonRef.current!.focus();
+      if (simFocus) {
+        showSimulatorButtonRef.current!.focus();
+      }
     }
-  }, [showSimulatorButtonRef, shown]);
+  }, [showSimulatorButtonRef, shown, simFocus]);
 
   return (
     <DeviceContextProvider value={simulator.current}>
