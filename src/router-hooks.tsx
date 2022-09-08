@@ -52,7 +52,7 @@ export interface RouterState {
   reference?: Anchor;
   api?: Anchor;
   idea?: Anchor;
-  focus?: boolean;
+  focusTab?: boolean;
 }
 
 type NavigationSource =
@@ -63,7 +63,7 @@ type NavigationSource =
 
 type RouterContextValue = [
   RouterState,
-  (state: RouterState, source?: NavigationSource) => void
+  (state: RouterState, source?: NavigationSource, focusTab?: boolean) => void
 ];
 
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);
@@ -96,7 +96,7 @@ export const useRouterState = (): RouterContextValue => {
 
 export const toUrl = (state: RouterState): string => {
   const query = Object.entries(state)
-    .filter(([k, v]) => k !== "focus" && !!v)
+    .filter(([_, v]) => !!v)
     .map(([k, v]) => {
       return `${encodeURIComponent(k)}=${encodeURIComponent(
         serializeValue(v)

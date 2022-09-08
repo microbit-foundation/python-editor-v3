@@ -11,7 +11,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  usePrevious,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
@@ -111,32 +110,40 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [params, setParams] = useRouterState();
+  const [{ tab, api, reference, idea, focusTab }, setParams] = useRouterState();
   const tabPanelsRef = useRef<HTMLDivElement>(null);
-  const prevParams = usePrevious(params);
-
+  const setPanelFocus = () => {
+    const activePanel = tabPanelsRef.current!.querySelector(
+      "[role='tabpanel']:not([hidden])"
+    );
+    (activePanel as HTMLElement)?.focus();
+  };
   useEffect(() => {
     // Initialize from the router state. Start-up and navigation.
-    const tabIndex = panes.findIndex((p) => p.id === params.tab);
-    const relevant = params.api || params.reference || params.idea;
-    if (relevant && tabIndex !== -1) {
+    const tabIndex = panes.findIndex((p) => p.id === tab);
+    if (tabIndex !== -1) {
       onTabIndexChange(tabIndex);
       onSidebarExpand();
-      if (params.focus && params !== prevParams) {
-        const activePanel = tabPanelsRef.current!.querySelector(
-          "[role='tabpanel']:not([hidden])"
-        );
-        (activePanel as HTMLElement)?.focus();
+      if ((!api && !reference && !idea) || focusTab) {
+        setPanelFocus();
       }
     }
   }, [
-    params,
-    prevParams,
-    tabPanelsRef,
     onSidebarExpand,
     panes,
     onTabIndexChange,
+    tab,
+    api,
+    reference,
+    idea,
+    focusTab,
   ]);
+
+  useEffect(() => {
+    if (shown && ((!api && !reference && !idea) || focusTab)) {
+      setPanelFocus();
+    }
+  }, [shown, api, reference, idea, focusTab]);
 
   const handleTabChange = useCallback(
     (index: number) => {
@@ -150,16 +157,16 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (params.reference || params.api || params.idea) {
+    if (reference || api || idea) {
       setParams({
-        tab: params.tab,
+        tab,
       });
     }
-  }, [params, setParams]);
+  }, [reference, api, idea, tab, setParams]);
 
   const handleSidebarToggled = () => {
     if (tabIndex === -1) {
-      const index = panes.findIndex((p) => p.id === params.tab);
+      const index = panes.findIndex((p) => p.id === tab);
       onTabIndexChange(index !== -1 ? index : 0);
       onSidebarExpand();
     } else {
