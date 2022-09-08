@@ -181,7 +181,7 @@ const CollapsibleModule = ({
       {
         tab: "reference",
         reference: { id: references[id] },
-        focusTab: true,
+        focus: true,
       },
       "documentation-from-simulator"
     );
