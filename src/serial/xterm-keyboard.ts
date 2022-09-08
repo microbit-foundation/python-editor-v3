@@ -13,7 +13,13 @@ const copyShortcut = (e: KeyboardEvent): boolean => {
 };
 
 let escWasPressed = false;
-let escTimeout: NodeJS.Timeout;
+let escTimeout: any;
+
+const resetEscState = () => {
+  clearTimeout(escTimeout);
+  escWasPressed = false;
+};
+
 const tabOutShortcut = (e: KeyboardEvent, tabTo: HTMLElement): boolean => {
   if (e.code === "Escape") {
     clearTimeout(escTimeout);
@@ -21,11 +27,13 @@ const tabOutShortcut = (e: KeyboardEvent, tabTo: HTMLElement): boolean => {
     escTimeout = setTimeout(() => {
       escWasPressed = false;
     }, 500);
-  }
-  if (e.code === "Tab" && escWasPressed) {
+  } else if (e.code === "Tab" && escWasPressed) {
     e.preventDefault();
+    resetEscState();
     tabTo.focus();
     return false;
+  } else {
+    resetEscState();
   }
   return true;
 };
