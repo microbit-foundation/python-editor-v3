@@ -22,6 +22,7 @@ import customKeyEventHandler from "./xterm-keyboard";
 
 interface XTermProps extends BoxProps {
   fontSizePt?: number;
+  tabOutRef: HTMLElement;
 }
 
 /**
@@ -29,10 +30,11 @@ interface XTermProps extends BoxProps {
  */
 const XTerm = ({
   fontSizePt = defaultCodeFontSizePt,
+  tabOutRef,
   ...props
 }: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  useManagedTermimal(ref, fontSizePt);
+  useManagedTermimal(ref, fontSizePt, tabOutRef);
   return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
 };
 
@@ -46,7 +48,8 @@ const ptToPixelRatio = 96 / 72;
  */
 const useManagedTermimal = (
   ref: React.RefObject<HTMLDivElement>,
-  fontSizePt: number
+  fontSizePt: number,
+  tabOutRef: HTMLElement
 ): void => {
   const parent = ref.current;
   const actionFeedback = useActionFeedback();
@@ -92,7 +95,9 @@ const useManagedTermimal = (
     );
     const fitAddon = new FitAddon();
     terminal.loadAddon(fitAddon);
-    terminal.attachCustomKeyEventHandler(customKeyEventHandler);
+    terminal.attachCustomKeyEventHandler((e) =>
+      customKeyEventHandler(e, tabOutRef)
+    );
 
     const serialListener = (data: string) => {
       if (!isUnmounted()) {
@@ -189,6 +194,7 @@ const useManagedTermimal = (
     parent,
     setSelection,
     fontSizePt,
+    tabOutRef,
   ]);
 };
 

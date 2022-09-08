@@ -1,10 +1,18 @@
 import { HStack, IconButton, Select, Stack } from "@chakra-ui/react";
-import { ChangeEvent, ReactNode, useCallback, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { SensorStateKey, SimulatorState } from "../device/simulator";
 import Axis from "./Axis";
 import { RunningStatus } from "./Simulator";
+import { useSimSerialTabControl } from "./tab-control-hooks";
 
 interface AccelerometerModuleProps {
   icon: ReactNode;
@@ -70,7 +78,15 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
   const [choice, setChoice] = useState("shake");
   const [active, setActive] = useState(false);
   const intl = useIntl();
-  const ref = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
+  const [, setTabOutRef] = useSimSerialTabControl();
+
+  useEffect(() => {
+    if (selectRef.current) {
+      setTabOutRef(selectRef.current);
+    }
+  }, [selectRef, setTabOutRef]);
 
   const handleSelectChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -84,7 +100,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
     setTimeout(() => {
       setActive(false);
       onValueChange("gesture", "none");
-      ref.current!.focus();
+      buttonRef.current!.focus();
     }, 500);
   }, [setActive, onValueChange, choice]);
 
@@ -96,6 +112,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
         aria-label={intl.formatMessage({ id: "simulator-gesture-select" })}
         value={choice}
         onChange={handleSelectChange}
+        ref={selectRef}
       >
         {choices.map((choice) => (
           <option key={choice} value={choice}>
@@ -104,7 +121,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
         ))}
       </Select>
       <IconButton
-        ref={ref}
+        ref={buttonRef}
         icon={<RiSendPlane2Line />}
         disabled={!enabled || active}
         onClick={handleClick}

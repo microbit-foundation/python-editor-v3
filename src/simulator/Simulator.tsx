@@ -13,6 +13,7 @@ import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
+import SimSerialTabControlProvider from "./tab-control-hooks";
 
 export enum RunningStatus {
   RUNNING,
@@ -115,7 +116,9 @@ const Simulator = ({
             />
           </Box>
         </VStack>
-        <SimulatorSplitView simHeight={simHeight} simRunning={running} />
+        <SimSerialTabControlProvider>
+          <SimulatorSplitView simHeight={simHeight} simRunning={running} />
+        </SimSerialTabControlProvider>
       </Flex>
     </DeviceContextProvider>
   );

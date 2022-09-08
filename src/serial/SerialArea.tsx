@@ -19,6 +19,7 @@ interface SerialAreaProps extends BoxProps {
   terminalFontSizePt?: number;
   hideExpandTextOnTraceback?: boolean;
   showHintsAndTips?: boolean;
+  tabOutRef: HTMLElement;
 }
 
 /**
@@ -37,6 +38,7 @@ const SerialArea = ({
   expandDirection,
   hideExpandTextOnTraceback = false,
   showHintsAndTips = true,
+  tabOutRef,
   ...props
 }: SerialAreaProps) => {
   const status = useConnectionStatus();
@@ -72,6 +74,7 @@ const SerialArea = ({
               ml={1}
               mr={1}
               fontSizePt={terminalFontSizePt}
+              tabOutRef={tabOutRef}
             />
           </Box>
         )}
