@@ -18,6 +18,7 @@ import { useConnectionStatus } from "../device/device-hooks";
 import SerialArea from "../serial/SerialArea";
 import { RunningStatus } from "./Simulator";
 import SimulatorModules from "./SimulatorModules";
+import { useSimSerialTabControl } from "./tab-control-hooks";
 
 interface SimulatorSplitViewProps {
   simHeight: number;
@@ -33,6 +34,7 @@ const SimulatorSplitView = ({
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+  const [tabOutRef] = useSimSerialTabControl();
   return (
     <SplitView
       direction="column"
@@ -54,6 +56,7 @@ const SimulatorSplitView = ({
           hideExpandTextOnTraceback={true}
           showSyncStatus={false}
           showHintsAndTips={false}
+          tabOutRef={tabOutRef!}
         />
       </SplitViewSized>
       <SplitViewDivider />

@@ -212,7 +212,7 @@ const Editor = ({ editor }: EditorProps) => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
-
+  const ref = useRef<HTMLButtonElement>(null);
   return (
     <Flex
       as="main"
@@ -240,10 +240,12 @@ const Editor = ({ editor }: EditorProps) => {
             })}
             showSyncStatus={true}
             expandDirection="up"
+            tabOutRef={ref.current!}
           />
         </SplitViewSized>
       </SplitView>
       <ProjectActionBar
+        ref={ref}
         as="section"
         aria-label={intl.formatMessage({ id: "project-actions" })}
         borderTopWidth={2}

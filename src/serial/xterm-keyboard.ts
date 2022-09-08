@@ -12,6 +12,32 @@ const copyShortcut = (e: KeyboardEvent): boolean => {
   return true;
 };
 
+let escWasPressed = false;
+let escTimeout: any;
+
+const resetEscState = () => {
+  clearTimeout(escTimeout);
+  escWasPressed = false;
+};
+
+const tabOutShortcut = (e: KeyboardEvent, tabTo: HTMLElement): boolean => {
+  if (e.code === "Escape") {
+    clearTimeout(escTimeout);
+    escWasPressed = true;
+    escTimeout = setTimeout(() => {
+      escWasPressed = false;
+    }, 500);
+  } else if (e.code === "Tab" && escWasPressed) {
+    e.preventDefault();
+    resetEscState();
+    tabTo.focus();
+    return false;
+  } else {
+    resetEscState();
+  }
+  return true;
+};
+
 const isMicroPythonCtrlShortcut = (code: string) => {
   // Editing keys are here: https://github.com/micropython/micropython/blob/46a11028521425e7d6c85458c849bb96ff82152e/lib/mp-readline/readline.c
   switch (code) {
@@ -35,7 +61,7 @@ const micropythonShortcuts = (e: KeyboardEvent) => {
   return true;
 };
 
-const handlers = [copyShortcut, micropythonShortcuts];
+const handlers = [copyShortcut, tabOutShortcut, micropythonShortcuts];
 
 /**
  * A key event handler that can be installed on an xterm.js terminal
@@ -44,9 +70,12 @@ const handlers = [copyShortcut, micropythonShortcuts];
  *
  * @returns true if xterm.js should handle the event, false otherwise.
  */
-const customKeyEventHandler = (e: KeyboardEvent): boolean => {
+const customKeyEventHandler = (
+  e: KeyboardEvent,
+  tabTo: HTMLElement
+): boolean => {
   for (const handler of handlers) {
-    if (!handler(e)) {
+    if (!handler(e, tabTo)) {
       return false;
     }
   }
