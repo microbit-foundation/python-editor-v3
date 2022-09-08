@@ -181,9 +181,11 @@ const CollapsibleModule = ({
       {
         tab: "reference",
         reference: { id: references[id] },
+        focus: true,
       },
       "documentation-from-simulator"
     );
+    // setPanelFocus();
   }, [id, setRouterState]);
   const module = (
     <ModuleForId
