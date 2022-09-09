@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "使用方法と例については、<link>リファレンス</link>を参照してください。",
+    "defaultMessage": "使用方法と例については、<link>リファレンス</link>を参照してください",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -36,7 +36,7 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, other {ベースクラス: }}",
+    "defaultMessage": "{baseClassCount, plural, other {base classes: }}",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
@@ -88,7 +88,7 @@
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "{source}からファイル {target} を追加",
+    "defaultMessage": "{source} からファイル {target} を追加",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-main-code": {
@@ -96,7 +96,7 @@
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-file": {
-    "defaultMessage": "ファイル {target} を{source}に置き換え",
+    "defaultMessage": "ファイル {target} を {source} に置き換え",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-main-code": {
@@ -128,7 +128,7 @@
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "すべてのファイルをHEXに置き換えますか？",
+    "defaultMessage": "すべてのファイルを hex に置き換えますか？",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
@@ -140,7 +140,7 @@
     "description": "Confirmation message title for replacing project dialog"
   },
   "confirm-replace-with-idea": {
-    "defaultMessage": "すべてのファイルを{ideaName}に置き換えますか？",
+    "defaultMessage": "すべてのファイルを {ideaName} に置き換えますか？",
     "description": "Confirmation message body for replacing project dialog with an idea"
   },
   "confirm-save-action": {
@@ -164,7 +164,7 @@
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
-    "defaultMessage": "次のポップアップ",
+    "defaultMessage": "次のポップアップ:",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
@@ -184,7 +184,7 @@
     "description": "Connect button hover text"
   },
   "connect-microbit": {
-    "defaultMessage": "micro:bitに接続してシリアル出力を確認",
+    "defaultMessage": "micro:bitに接続してシリアル出力をここに表示",
     "description": "Text in serial area"
   },
   "connect-troubleshoot": {
@@ -192,7 +192,7 @@
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "content-load-error": {
-    "defaultMessage": "問題が発生しました。HEXファイルをダウンロードして、ページをリロードしてください。",
+    "defaultMessage": "問題が発生しました。hex ファイルをダウンロードして、ページをリロードしてください。",
     "description": "Text displayed when content fails to load"
   },
   "copied": {
@@ -264,7 +264,7 @@
     "description": "Text for user to edit the name of the project"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "hexファイルのビルドに失敗しました",
+    "defaultMessage": "hex ファイルのビルドに失敗しました",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
   "feedback": {
@@ -391,15 +391,15 @@
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
-    "defaultMessage": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。",
+    "defaultMessage": "この hex ファイルは Python エディターで読み込むことができません。Python エディターは Microsoft MakeCode で作成した hex ファイルを開くことができません。",
     "description": "Load error message"
   },
   "load-error-makecode-link": {
-    "defaultMessage": "このhexファイルを使用するには、<link>https://makecode.microbit.org/</link>を参照してください。",
+    "defaultMessage": "この hex ファイルを使用するには、<link>https://makecode.microbit.org/</link>を参照してください。",
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "hexファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。",
+    "defaultMessage": "hex ファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。",
     "description": "Load error message"
   },
   "load-error-mpy": {
@@ -451,7 +451,7 @@
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "このプロジェクトには{fileCount, plural, other {{fileCount}個のファイル}}が含まれますが、<strong>main.py</strong>のみがダウンロードされています。",
+    "defaultMessage": "このプロジェクトには {fileCount, plural, other {{fileCount} 個のファイル}}が含まれますが、<strong>main.py</strong>のみがダウンロードされています。",
     "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
@@ -471,7 +471,7 @@
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "この名前はhexファイルを保存するときに使用されます。",
+    "defaultMessage": "この名前は hex ファイルを保存するときに使用されます。",
     "description": "Text under project name field"
   },
   "new-file-hint": {
@@ -519,7 +519,7 @@
     "description": "Aria label for file drop target"
   },
   "open-hover": {
-    "defaultMessage": "hexファイルまたはPythonファイルを開くか、他のファイルを追加する",
+    "defaultMessage": "hex ファイルまたは Python ファイルを開くか、他のファイルを追加する",
     "description": "Hover text over load button"
   },
   "options": {
@@ -539,7 +539,7 @@
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
-    "defaultMessage": "{filename}を完全に削除しますか？",
+    "defaultMessage": "{filename} を完全に削除しますか？",
     "description": "Confirmation question to permanently delete file"
   },
   "post-save-message-files": {
@@ -639,15 +639,15 @@
     "description": "Save button text"
   },
   "save-file-action": {
-    "defaultMessage": "{name}を保存",
+    "defaultMessage": "{name} を保存",
     "description": "Menu option to save a file"
   },
   "save-hex-action": {
-    "defaultMessage": "プロジェクトのhexを保存",
+    "defaultMessage": "プロジェクトの hex を保存",
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "プロジェクトのhexファイルをコンピュータに保存",
+    "defaultMessage": "プロジェクトの hex ファイルをコンピュータに保存",
     "description": "Hover text over save button"
   },
   "save-python-action": {
@@ -671,11 +671,11 @@
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "REPLにCtrl+Cを送信",
+    "defaultMessage": "REPL に Ctrl+C を送信",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Ctrl+Dを送信してリセット",
+    "defaultMessage": "Ctrl+D を送信してリセット",
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
@@ -691,15 +691,15 @@
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
-    "defaultMessage": "プログラムを再起動するには、<kbd>Ctrl</kbd> + <kbd>D</kbd>を使用します。",
+    "defaultMessage": "プログラムを再起動するには、<kbd>Ctrl</kbd> + <kbd>D</kbd> を使用します。",
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
-    "defaultMessage": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。 デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。",
+    "defaultMessage": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。",
     "description": "Text from the serial hints and tips dialog"
   },
   "serial-help-print": {
-    "defaultMessage": "プログラムで<code>print</code>関数を使うとメッセージを出力できます。プログラムに<code>print('micro:bitは素晴らしい')</code>を追加してみてください。",
+    "defaultMessage": "プログラムで <code>print</code> 関数を使うとメッセージを出力できます。プログラムに <code>print('micro:bitは素晴らしい')</code> を追加してみてください。",
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
@@ -747,7 +747,7 @@
     "description": "Show less for general progressive disclosure"
   },
   "show-less-for": {
-    "defaultMessage": "{item}の表示を減らす",
+    "defaultMessage": "{item} の表示を減らす",
     "description": "Show less with item usually for aria label"
   },
   "show-more": {
@@ -755,7 +755,7 @@
     "description": "Show more for general progressive disclosure"
   },
   "show-more-for": {
-    "defaultMessage": "{item}の詳細を表示",
+    "defaultMessage": "{item} の詳細を表示",
     "description": "Show more with item usually for aria label"
   },
   "sidebar": {
@@ -1023,7 +1023,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "後でhexファイルを<strong>開く</strong>と編集を続けることができます。",
+    "defaultMessage": "後で hex ファイルを<strong>開く</strong>と編集を続けることができます。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
@@ -1031,7 +1031,7 @@
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
-    "defaultMessage": "もう一度やり直してください",
+    "defaultMessage": "もう一度やり直す",
     "description": "Try again button text"
   },
   "undo": {
@@ -1059,7 +1059,7 @@
     "description": "Change made to file"
   },
   "visit-dot-org": {
-    "defaultMessage": "microbit.orgにアクセスする（新しいタブで開きます）",
+    "defaultMessage": "microbit.orgにアクセスします（新しいタブで開きます）",
     "description": "alt text for logo link to .org"
   },
   "webusb-error-clear-connect-description-1": {

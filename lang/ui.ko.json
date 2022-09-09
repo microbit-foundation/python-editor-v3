@@ -36,7 +36,7 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, other {base classes: }}",
+    "defaultMessage": "{baseClassCount, plural, one {베이스 클래스} other {베이스 클래스: }}",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {

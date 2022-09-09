@@ -1765,13 +1765,13 @@
   "simulator-button-a": [
     {
       "type": 0,
-      "value": "按键 A"
+      "value": "按钮 A"
     }
   ],
   "simulator-button-b": [
     {
       "type": 0,
-      "value": "按键 B"
+      "value": "按钮 B"
     }
   ],
   "simulator-button-hold-label": [
@@ -1862,6 +1862,17 @@
             }
           ]
         },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": "行记录"
+            }
+          ]
+        },
         "other": {
           "value": [
             {
@@ -1869,7 +1880,7 @@
             },
             {
               "type": 0,
-              "value": " 行记录"
+              "value": "行记录"
             }
           ]
         }
@@ -2058,7 +2069,7 @@
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "链接到参考部分"
+      "value": "链接到 Reference （参考）部分"
     }
   ],
   "simulator-reset": [
@@ -2076,7 +2087,7 @@
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "音量 "
+      "value": "声级"
     }
   ],
   "simulator-start-simulator": [

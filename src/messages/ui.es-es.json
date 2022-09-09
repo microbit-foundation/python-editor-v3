@@ -632,7 +632,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "Escribir"
+      "value": "Flashear"
     }
   ],
   "flash-hover": [
@@ -668,13 +668,13 @@
   "guide-link": [
     {
       "type": 0,
-      "value": "Para obtener más ayuda, consulte la "
+      "value": "Para obtener más ayuda, consulta la "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "guía del editor de Python"
+          "value": "guía del Editor de Python"
         }
       ],
       "type": 8,
@@ -762,7 +762,7 @@
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "Por favor visita "
+      "value": "Visita "
     },
     {
       "children": [
@@ -776,7 +776,7 @@
     },
     {
       "type": 0,
-      "value": " para usar este archivo hex."
+      "value": " para usar este archivo HEX."
     }
   ],
   "load-error-mixed": [
@@ -2268,7 +2268,7 @@
   "try-again-action": [
     {
       "type": 0,
-      "value": "Inténtelo de nuevo"
+      "value": "Inténtalo de nuevo"
     }
   ],
   "undo": [
@@ -2350,7 +2350,7 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Hay otro proceso conectado a este dispositivo.Cierre cualquier otra pestaña que pueda estar usando WebUSB (por ejemplo, MakeCode or Editor de Python), o desconecte y vuelva a conectar el micro:bit antes de volver a intentarlo."
+      "value": "Cierra cualquier otra pestaña que pueda estar usando WebUSB (por ejemplo, MakeCode or Editor de Python), o desconecta y vuelve a conectar el micro:bit antes de volver a intentarlo."
     }
   ],
   "webusb-error-clear-connect-title": [

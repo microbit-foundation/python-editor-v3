@@ -99,11 +99,19 @@
     {
       "offset": 0,
       "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "베이스 클래스"
+            }
+          ]
+        },
         "other": {
           "value": [
             {
               "type": 0,
-              "value": "base classes: "
+              "value": "베이스 클래스: "
             }
           ]
         }

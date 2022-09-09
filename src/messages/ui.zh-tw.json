@@ -8,7 +8,7 @@
   "about-comic": [
     {
       "type": 0,
-      "value": "Mike Rowbit 題為“MicroPython Rocks”的三幅漫畫。一條卡通蛇介紹了 Damien，說“認識 Damien……他創造了 MicroPython。”。兩條蛇討論 MicroPython。黃蛇說：“MicroPython 設計用於在非常小的計算機上工作。” “就像你的 BBC micro:bit 一樣，紫色的蛇回復了。”黃色的蛇繼續說道，“但是 Python 可以在任何地方運行。”紫色的蛇表示同意，並說“就像在這個運行大型網站的服務器機架上一樣”。背後的背景snakes 展示了一個服務器機架。"
+      "value": "由 Mike Rowbit 所製作且標題為「MicroPython Rocks」的三幅漫畫。一條卡通蛇介紹了 Damien，並說「認識 Damien…他創造了 MicroPython。」。兩條蛇討論 MicroPython。黃蛇說：「MicroPython 是設計為運用在非常小型的電腦上工作。」「就像你的 BBC micro:bit 一樣」，紫蛇回覆。黃蛇繼續說，「但是 Python 可以在任何地方運行。」紫蛇表示同意，並且說「就如同在這個運行大型網站的伺服器機架上」。在蛇背後的背景顯示了一個伺服器機架。"
     }
   ],
   "about-microbit": [
@@ -138,7 +138,7 @@
   "back-to-main": [
     {
       "type": 0,
-      "value": "返回到主程式碼"
+      "value": "返回主程式碼"
     }
   ],
   "cancel-action": [
@@ -302,7 +302,7 @@
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "是否要用預設啟動程式碼取代所有檔案？"
+      "value": "是否要用預設啟動程式碼來取代所有檔案？"
     }
   ],
   "confirm-replace-title": [
@@ -352,7 +352,7 @@
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "WebUSB 連接對話框，帶有標記為 1 的 BBC micro:bit 項目和標記為 2 的連接按鈕"
+      "value": "WebUSB 連線對話框，帶有標記為 1 的 BBC micro:bit 項目和標記為 2 的「連線」按鈕"
     }
   ],
   "connect-help-message": [
@@ -376,25 +376,25 @@
   "connect-help-two": [
     {
       "type": 0,
-      "value": "選擇「連接」"
+      "value": "選擇「連線」"
     }
   ],
   "connect-hover": [
     {
       "type": 0,
-      "value": "透過 WebUSB 連接您的 micro:bit"
+      "value": "透過 WebUSB 連線至您的 micro:bit"
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "連接您的 micro:bit，在這裡查看序列輸出"
+      "value": "連線至您的 micro:bit，在這裡查看序列輸出"
     }
   ],
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "疑難排解連接到 micro:bit 的問題"
+      "value": "疑難排解連線至 micro:bit 的問題"
     }
   ],
   "content-load-error": [
@@ -592,7 +592,7 @@
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "在連接到 micro:bit 前，您必須"
+      "value": "在連線至 micro:bit 前，您必須"
     },
     {
       "children": [
@@ -612,7 +612,7 @@
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "您的 micro:bit 上的韌體過舊，無法連接到 micro:bit。"
+      "value": "您 micro:bit 上的韌體過舊，無法連線至 micro:bit。"
     }
   ],
   "firmware-update-title": [
@@ -890,7 +890,7 @@
   "more-connect-options": [
     {
       "type": 0,
-      "value": "更加連接選項"
+      "value": "更多連線選項"
     }
   ],
   "more-ideas": [
@@ -958,7 +958,7 @@
   "multiple-files-message-two": [
     {
       "type": 0,
-      "value": "點擊"
+      "value": "點按"
     },
     {
       "children": [
@@ -972,13 +972,13 @@
     },
     {
       "type": 0,
-      "value": "按鈕將整個專案下載為 HEX 檔案。 您可以"
+      "value": "按鈕，將整個專案下載為 HEX 檔案。 您可以"
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "打開"
+          "value": "開啟"
         }
       ],
       "type": 8,
@@ -986,7 +986,7 @@
     },
     {
       "type": 0,
-      "value": " HEX 檔案來恢復您的專案。 如果您想個別下載 Python 檔案，請使用"
+      "value": " HEX 檔案來還原您的專案。如果您想下載個別 Python 檔案，請使用"
     },
     {
       "children": [
@@ -1000,7 +1000,7 @@
     },
     {
       "type": 0,
-      "value": "頁籤。"
+      "value": "索引標籤。"
     }
   ],
   "multiple-files-title": [
@@ -1120,13 +1120,13 @@
   "not-found-message": [
     {
       "type": 0,
-      "value": "您沒有選擇 micro:bit，或是連接有問題。"
+      "value": "您並未選擇 micro:bit，或是連線有問題。"
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "替代方法：選擇儲存，然後按照步驟轉移"
+      "value": "替代方法：選擇「儲存」，然後按照步驟轉移"
     }
   ],
   "not-found-title": [
@@ -1152,7 +1152,7 @@
     },
     {
       "type": 0,
-      "value": "，然後才能連接到此 micro:bit。"
+      "value": "，然後才能連線至此 micro:bit。"
     }
   ],
   "open-action": [
@@ -1228,7 +1228,7 @@
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "這包含此專案中的所有檔案（包括任何附加檔案，例如列在 "
+      "value": "這包含此專案中的所有檔案 (包括任何附加檔案，例如列在 "
     },
     {
       "children": [
@@ -1242,7 +1242,7 @@
     },
     {
       "type": 0,
-      "value": "頁籤中的執行附件）。"
+      "value": "索引標籤中的執行附件)。"
     }
   ],
   "post-save-message-one": [
@@ -1300,7 +1300,7 @@
       "children": [
         {
           "type": 0,
-          "value": "按照這些步驟"
+          "value": "遵循這些步驟"
         }
       ],
       "type": 8,
@@ -1491,7 +1491,7 @@
   "send-hover": [
     {
       "type": 0,
-      "value": "透過 WebUSB 連接，然後將程式碼燒錄到 micro:bit"
+      "value": "透過 WebUSB 連線，然後將程式碼燒錄到 micro:bit"
     }
   ],
   "serial-collapse": [
@@ -1595,7 +1595,7 @@
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "序列終端會顯示 micro:bit 上執行的程式錯誤和其他輸出。 預設情況下，它顯示程序的最新錯誤。 展開它以查看所有輸出。"
+      "value": "序列終端會顯示 micro:bit 上執行的程式錯誤和其他輸出。預設情況下，它會顯示程序的最新錯誤。展開它以查看所有輸出。"
     }
   ],
   "serial-help-print": [
@@ -1769,7 +1769,7 @@
   "simulator-button-hold-label": [
     {
       "type": 0,
-      "value": "按住按鈕 "
+      "value": "按住按鍵 "
     },
     {
       "type": 1,
@@ -1779,11 +1779,11 @@
   "simulator-button-press-label": [
     {
       "type": 0,
-      "value": "按下按鈕 "
+      "value": "按下按鍵 "
     },
     {
       "type": 1,
-      "value": "按鈕"
+      "value": "button"
     }
   ],
   "simulator-buttons": [
@@ -1809,7 +1809,7 @@
     },
     {
       "type": 0,
-      "value": " 模塊"
+      "value": " 模組"
     }
   ],
   "simulator-compass": [
@@ -1885,13 +1885,13 @@
   "simulator-data-logging-save-log": [
     {
       "type": 0,
-      "value": "保存日誌"
+      "value": "儲存日誌"
     }
   ],
   "simulator-data-logging-truncated": [
     {
       "type": 0,
-      "value": "較早的行未顯示"
+      "value": "較舊的列未顯示"
     }
   ],
   "simulator-expand": [
@@ -1911,7 +1911,7 @@
     },
     {
       "type": 0,
-      "value": " 模塊"
+      "value": " 模組"
     }
   ],
   "simulator-gesture-select": [
@@ -2177,7 +2177,7 @@
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "連接超時"
+      "value": "連線超時"
     }
   ],
   "title": [
@@ -2335,19 +2335,19 @@
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "造訪 microbit.org（在新頁籤中開啟）"
+      "value": "造訪 microbit.org (在新索引標籤中開啟)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "其他程序連接到此裝置。"
+      "value": "其他程序連線至此裝置。"
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "關閉任何其他可能正在使用 WebUSB 的頁籤（例如 MakeCode、Python 編輯器），或者在重試之前拔下並重新插入 micro:bit。"
+      "value": "關閉任何其他可能正在使用 WebUSB 的索引標籤 (例如 MakeCode、Python 編輯器)，或者在重試之前拔下並重新插入 micro:bit。"
     }
   ],
   "webusb-error-clear-connect-title": [
@@ -2397,7 +2397,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "很抱歉，此瀏覽器不支援 WebUSB，您的程式將儲存到您的電腦上。 請依照下一個畫面上的步驟，將其傳輸到您的 micro:bit。 我們建議您使用 Google Chrome 或 Microsoft Edge，以便您可以直接連接到您的 micro:bit。"
+      "value": "很抱歉，此瀏覽器不支援 WebUSB，您的程式將儲存到您的電腦上。請依照下一個畫面上的步驟，將其傳輸到您的 micro:bit。我們建議您使用 Google Chrome 或 Microsoft Edge，以便能直接連線至您的 micro:bit。"
     }
   ],
   "webusb-not-supported-title": [
@@ -2409,7 +2409,7 @@
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "使用 WebUSB，您可以對 micro:bit 進行編程，並直接從線上編輯器連接到序列控制台。"
+      "value": "使用 WebUSB，您可以對 micro:bit 進行編程，並直接從線上編輯器連線至序列控制台。"
     }
   ],
   "welcome-message": [
