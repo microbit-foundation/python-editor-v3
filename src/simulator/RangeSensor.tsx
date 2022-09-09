@@ -19,7 +19,7 @@ interface RangeSensorProps {
   id: SensorStateKey;
   sensor: RangeSensorType;
   title: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   onSensorChange: (id: SensorStateKey, value: number) => void;
   minimised?: boolean;
 }
@@ -66,6 +66,7 @@ const RangeSensor = ({
       {icon}
       <Slider
         aria-label={title}
+        aria-valuetext={valueText}
         value={value}
         min={min}
         max={max}
