@@ -902,6 +902,10 @@
     "defaultMessage": "无线电",
     "description": "Radio simulator panel title"
   },
+  "simulator-radio-code": {
+    "defaultMessage": "Radio message from the micro:bit simulator",
+    "description": "Aria label for a message sent from the micro:bit simulator"
+  },
   "simulator-radio-group-notice": {
     "defaultMessage": "无线电组设置为 {groupNumber}",
     "description": "Message in radio simulator area when the radio group changes"
@@ -925,6 +929,10 @@
   "simulator-radio-send": {
     "defaultMessage": "发送消息",
     "description": "Aria label for the simulator radio send button"
+  },
+  "simulator-radio-user": {
+    "defaultMessage": "Radio message to the micro:bit simulator",
+    "description": "Aria label for a message sent to the micro:bit simulator"
   },
   "simulator-reference-link": {
     "defaultMessage": "链接到参考部分",

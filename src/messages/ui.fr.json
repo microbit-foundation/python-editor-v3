@@ -2009,6 +2009,12 @@
       "value": "Radio"
     }
   ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "Radio message from the micro:bit simulator"
+    }
+  ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
@@ -2047,6 +2053,12 @@
     {
       "type": 0,
       "value": "Envoyer un message"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "Radio message to the micro:bit simulator"
     }
   ],
   "simulator-reference-link": [
