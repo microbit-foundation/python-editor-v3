@@ -162,6 +162,7 @@ const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
   return (
     <Tooltip hasArrow placement="top" label={intl.formatMessage({ id: label })}>
       <Box
+        aria-label={intl.formatMessage({ id: label }) + ` ${value}`}
         position="absolute"
         top="3px"
         left={percentLeft}
