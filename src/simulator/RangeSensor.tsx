@@ -159,10 +159,11 @@ interface ThresholdMarkProps {
 const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
   const intl = useIntl();
   const percentLeft = ((value - min) / (max - min)) * 100 + "%";
+  const formattedLabel = intl.formatMessage({ id: label }) + ` ${value}`;
   return (
-    <Tooltip hasArrow placement="top" label={intl.formatMessage({ id: label })}>
+    <Tooltip hasArrow placement="top" label={formattedLabel}>
       <Box
-        aria-label={intl.formatMessage({ id: label }) + ` ${value}`}
+        aria-label={formattedLabel}
         position="absolute"
         top="3px"
         left={percentLeft}
