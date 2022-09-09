@@ -779,11 +779,11 @@
     "description": "Aria label for the bar with simulator actions (stop, mute etc)"
   },
   "simulator-button-a": {
-    "defaultMessage": "按键 A",
+    "defaultMessage": "按钮 A",
     "description": "Button A aria label on the simulator board"
   },
   "simulator-button-b": {
-    "defaultMessage": "按键 B",
+    "defaultMessage": "按钮 B",
     "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
@@ -827,7 +827,7 @@
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {没有行记录} other {# 行记录}}",
+    "defaultMessage": "{count, plural, =0 {没有行记录} one {#行记录} other {#行记录}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
@@ -927,7 +927,7 @@
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-reference-link": {
-    "defaultMessage": "链接到参考部分",
+    "defaultMessage": "链接到 Reference （参考）部分",
     "description": "Aria label for simulator Reference link button"
   },
   "simulator-reset": {
@@ -939,7 +939,7 @@
     "description": "Aria label for the simulator serial terminal"
   },
   "simulator-sound-level": {
-    "defaultMessage": "音量 ",
+    "defaultMessage": "声级",
     "description": "Sound level simulator panel title"
   },
   "simulator-start-simulator": {
