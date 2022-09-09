@@ -82,6 +82,6 @@ const SerialArea = ({
     </TerminalContext>
   );
 };
-SerialArea.compactSize = 48;
+SerialArea.compactSize = 43.19;
 
 export default SerialArea;
