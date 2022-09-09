@@ -8,7 +8,7 @@ import {
   SliderTrack,
   Tooltip,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
@@ -55,6 +55,7 @@ const RangeSensor = ({
     [isFocused]
   );
   const valuePercent = ((value - min) / (max - min)) * 100;
+  const sliderRef = useRef<HTMLDivElement>(null);
   return (
     <HStack
       pb={minimised ? 0 : 2}
@@ -84,8 +85,11 @@ const RangeSensor = ({
           placement="top"
           label={valueText}
           isOpen={minimised ? showTooltip : false}
+          onOpen={() => sliderRef.current!.removeAttribute("aria-describedby")}
         >
           <SliderThumb
+            ref={sliderRef}
+            aria-hidden="true"
             onFocus={() => handleFocusTooltip(true)}
             onBlur={() => handleFocusTooltip(false)}
           />
