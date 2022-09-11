@@ -50,7 +50,7 @@
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "MicroPythonについて読まない"
+      "value": "MicroPythonについての詳細を非表示にする"
     }
   ],
   "about-read-more-micropython": [
@@ -380,7 +380,7 @@
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "1のラベルが付いたBBC micro:bitエントリと2のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ"
+      "value": "「1」のラベルが付いたBBC micro:bitエントリと「2」のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ"
     }
   ],
   "connect-help-message": [
@@ -756,7 +756,7 @@
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "これらのプロジェクトを試したり、変更したりして、ひらめきを得てください"
+      "value": "これらのプロジェクトを試し、修正し、インスピレーションを得ることができます。"
     }
   ],
   "insert-code-action": [
@@ -780,7 +780,7 @@
   "load-error-makecode-info": [
     {
       "type": 0,
-      "value": "この hex ファイルは Python エディターで読み込むことができません。Python エディターは Microsoft MakeCode で作成した hex ファイルを開くことができません。"
+      "value": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。"
     }
   ],
   "load-error-makecode-link": [
@@ -1266,7 +1266,7 @@
     },
     {
       "type": 0,
-      "value": "フォルダにhexファイルがあります。"
+      "value": "フォルダに hex ファイルがあります。"
     }
   ],
   "post-save-message-two": [
@@ -1298,7 +1298,7 @@
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "micro:bit上のhexファイルを実行するには"
+      "value": "micro:bit上のhex ファイルを実行するには"
     },
     {
       "children": [
@@ -1821,7 +1821,7 @@
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "方角検知"
+      "value": "方角"
     }
   ],
   "simulator-compass-heading-two": [
@@ -2190,7 +2190,7 @@
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "hexファイルを"
+      "value": "hex ファイルを"
     },
     {
       "children": [
@@ -2244,7 +2244,7 @@
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "保存されたhexファイルをmicro:bitに転送する"
+      "value": "保存された hex ファイルをmicro:bitに転送する"
     }
   ],
   "try-again-action": [
@@ -2390,7 +2390,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。 micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。"
+      "value": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。"
     }
   ],
   "webusb-not-supported-title": [
@@ -2408,7 +2408,7 @@
   "welcome-message": [
     {
       "type": 0,
-      "value": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めてください。"
+      "value": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めることができます。"
     }
   ],
   "welcome-title": [

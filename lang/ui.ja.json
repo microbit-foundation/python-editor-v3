@@ -16,7 +16,7 @@
     "description": "Text in about dialog"
   },
   "about-read-less-micropython": {
-    "defaultMessage": "MicroPythonについて読まない",
+    "defaultMessage": "MicroPythonについての詳細を非表示にする",
     "description": "Aria label to collapse an expanded section about MicroPython"
   },
   "about-read-more-micropython": {
@@ -160,7 +160,7 @@
     "description": "Title for the connect cable dialog"
   },
   "connect-help-alt": {
-    "defaultMessage": "1のラベルが付いたBBC micro:bitエントリと2のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ",
+    "defaultMessage": "「1」のラベルが付いたBBC micro:bitエントリと「2」のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ",
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
@@ -376,7 +376,7 @@
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "これらのプロジェクトを試したり、変更したりして、ひらめきを得てください",
+    "defaultMessage": "これらのプロジェクトを試し、修正し、インスピレーションを得ることができます。",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
@@ -391,7 +391,7 @@
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
-    "defaultMessage": "この hex ファイルは Python エディターで読み込むことができません。Python エディターは Microsoft MakeCode で作成した hex ファイルを開くことができません。",
+    "defaultMessage": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。",
     "description": "Load error message"
   },
   "load-error-makecode-link": {
@@ -547,7 +547,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "このコンピューターの<strong>ダウンロード</strong>フォルダにhexファイルがあります。",
+    "defaultMessage": "このコンピューターの<strong>ダウンロード</strong>フォルダに hex ファイルがあります。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
@@ -559,7 +559,7 @@
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "micro:bit上のhexファイルを実行するには<link>この手順に従います</link>。",
+    "defaultMessage": "micro:bit上のhex ファイルを実行するには<link>この手順に従います</link>。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "project-actions": {
@@ -811,7 +811,7 @@
     "description": "Compass simulator panel title"
   },
   "simulator-compass-heading-one": {
-    "defaultMessage": "方角検知",
+    "defaultMessage": "方角",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-compass-heading-two": {
@@ -1011,7 +1011,7 @@
     "description": "Aria label for the toolkit topic right arrow"
   },
   "transfer-hex-message-one": {
-    "defaultMessage": "hexファイルを<strong>ダウンロードフォルダ</strong>から<strong>MICROBITドライブ</strong>へドラッグします。",
+    "defaultMessage": "hex ファイルを<strong>ダウンロードフォルダ</strong>から<strong>MICROBITドライブ</strong>へドラッグします。",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
@@ -1019,7 +1019,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "保存されたhexファイルをmicro:bitに転送する",
+    "defaultMessage": "保存された hex ファイルをmicro:bitに転送する",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
@@ -1083,7 +1083,7 @@
     "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
-    "defaultMessage": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。 micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。",
+    "defaultMessage": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
@@ -1095,7 +1095,7 @@
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {
-    "defaultMessage": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めてください。",
+    "defaultMessage": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めることができます。",
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {
