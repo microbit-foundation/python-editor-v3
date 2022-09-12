@@ -24,6 +24,14 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
+// Supress warning issued when changing languages.
+const lunrWarn = lunr.utils.warn;
+lunr.utils.warn = (message: string) => {
+  if (!message.includes("Overwriting existing registered function")) {
+    lunrWarn(message);
+  }
+};
+
 stemmerSupport(lunr);
 multi(lunr);
 // Required for Ja stemming support.
