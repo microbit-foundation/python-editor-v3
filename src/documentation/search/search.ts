@@ -269,13 +269,12 @@ async function loadLunrLanguageSupport(
   language: string
 ): Promise<undefined | ((l: typeof lunr) => void)> {
   // Enumerated for code splitting.
-  switch (language) {
+  switch (language.toLowerCase()) {
     case "fr":
       return (await import("lunr-languages/lunr.fr")).default;
-    case "es-es":
+    case "es":
       return (await import("lunr-languages/lunr.es")).default;
-    case "zh-cn":
-    case "zh-tw":
+    case "zh":
       return (await import("lunr-languages/lunr.zh")).default;
     case "ja":
       return (await import("lunr-languages/lunr.ja")).default;
