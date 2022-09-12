@@ -228,7 +228,7 @@ export const buildReferenceIndex = async (
   reference: Toolkit,
   api: ApiDocsResponse
 ): Promise<LunrSearch> => {
-  const language = reference.language;
+  const language = convertLangToLunrParam(reference.language);
   const languageSupport = await retryAsyncLoad(() =>
     loadLunrLanguageSupport(language)
   );
@@ -244,9 +244,8 @@ export const buildReferenceIndex = async (
 
   // There is always some degree of English content.
   const multiLanguages = ["en"];
-  const l = convertLangToLunrParam(language);
-  if (l) {
-    multiLanguages.push(l);
+  if (language !== "en") {
+    multiLanguages.push(language);
   }
   const languagePlugin = lunr.multiLanguage(...multiLanguages);
 
@@ -270,12 +269,12 @@ async function loadLunrLanguageSupport(
   language: string
 ): Promise<undefined | ((l: typeof lunr) => void)> {
   // Enumerated for code splitting.
-  switch (language.toLowerCase()) {
+  switch (language) {
     case "fr":
       return (await import("lunr-languages/lunr.fr")).default;
     case "es-es":
       return (await import("lunr-languages/lunr.es")).default;
-    case "zh-ch":
+    case "zh-cn":
     case "zh-tw":
       return (await import("lunr-languages/lunr.zh")).default;
     case "ja":
@@ -286,21 +285,21 @@ async function loadLunrLanguageSupport(
   }
 }
 
-function convertLangToLunrParam(language: string): string | undefined {
+function convertLangToLunrParam(language: string): string {
   // Korean is not supported by lunr-languages.
   switch (language.toLowerCase()) {
     case "fr":
       return "fr";
     case "es-es":
       return "es";
-    case "zh-ch":
+    case "zh-cn":
     case "zh-tw":
       return "zh";
     case "ja":
       return "ja";
     default:
       // No search support for the language, default to lunr's built-in English support.
-      return undefined;
+      return "en";
   }
 }
 
