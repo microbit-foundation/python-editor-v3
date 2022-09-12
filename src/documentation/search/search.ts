@@ -205,20 +205,14 @@ const apiSearchableContent = (
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
   tab: "reference" | "api",
-  language: string,
+  languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
   const index = lunr(function () {
     this.ref("id");
     this.field("title", { boost: 10 });
     this.field("content");
-    // There is always some degree of English content.
-    const multiLanguages = ["en"];
-    const l = convertLangToLunrParam(language);
-    if (l) {
-      multiLanguages.push(l);
-    }
-    this.use(lunr.multiLanguage(...multiLanguages));
+    this.use(languagePlugin);
     plugins.forEach((p) => this.use(p));
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
@@ -248,14 +242,27 @@ export const buildReferenceIndex = async (
     plugins.push((lunr as any)[language]);
   }
 
+  // There is always some degree of English content.
+  const multiLanguages = ["en"];
+  const l = convertLangToLunrParam(language);
+  if (l) {
+    multiLanguages.push(l);
+  }
+  const languagePlugin = lunr.multiLanguage(...multiLanguages);
+
   return new LunrSearch(
     buildSearchIndex(
       referenceSearchableContent(reference),
       "reference",
-      language,
+      languagePlugin,
       ...plugins
     ),
-    buildSearchIndex(apiSearchableContent(api), "api", language, ...plugins)
+    buildSearchIndex(
+      apiSearchableContent(api),
+      "api",
+      languagePlugin,
+      ...plugins
+    )
   );
 };
 
@@ -263,7 +270,7 @@ async function loadLunrLanguageSupport(
   language: string
 ): Promise<undefined | ((l: typeof lunr) => void)> {
   // Enumerated for code splitting.
-  switch (language) {
+  switch (language.toLowerCase()) {
     case "fr":
       return (await import("lunr-languages/lunr.fr")).default;
     case "es-es":
@@ -281,7 +288,7 @@ async function loadLunrLanguageSupport(
 
 function convertLangToLunrParam(language: string): string | undefined {
   // Korean is not supported by lunr-languages.
-  switch (language) {
+  switch (language.toLowerCase()) {
     case "fr":
       return "fr";
     case "es-es":

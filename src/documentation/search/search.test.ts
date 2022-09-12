@@ -3,15 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import lunr from "lunr";
 import { ApiDocsResponse } from "../../language-server/apidocs";
 import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
 import {
-  SearchableContent,
-  buildSearchIndex,
-  SearchWorker,
   buildReferenceIndex,
+  buildSearchIndex,
+  SearchableContent,
+  SearchWorker,
 } from "./search";
+
+const languagePlugin = lunr.multiLanguage("en");
 
 const searchableReferenceContent: SearchableContent[] = [
   {
@@ -41,7 +44,7 @@ describe("Search", () => {
   const search = buildSearchIndex(
     searchableReferenceContent,
     "reference",
-    "en"
+    languagePlugin
   );
 
   it("finds stuff", () => {
