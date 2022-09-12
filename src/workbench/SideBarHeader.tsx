@@ -26,10 +26,12 @@ import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { zIndexSidebarHeader } from "../common/zIndex";
 import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
+import { supportedSearchLanguages } from "../documentation/search/search";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
+import { useSettings } from "../settings/settings";
 
 interface SideBarHeaderProps {
   sidebarShown: boolean;
@@ -67,6 +69,8 @@ const SideBarHeader = ({
     onSidebarToggled();
   }, [logging, onSidebarToggled, sidebarShown]);
 
+  const [{ languageId }] = useSettings();
+  const searchAvailable = supportedSearchLanguages.includes(languageId);
   // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
   // available actions and their shortcuts, with a hook used here to register a handler for the action.
   useEffect(() => {
@@ -76,7 +80,8 @@ const SideBarHeader = ({
         (e.key === "F" || e.key === "f") &&
         (isMac ? e.metaKey : e.ctrlKey) &&
         e.shiftKey &&
-        !e.repeat
+        !e.repeat &&
+        searchAvailable
       ) {
         handleModalOpened();
         if (!sidebarShown) {
@@ -88,7 +93,13 @@ const SideBarHeader = ({
     return () => {
       document.removeEventListener("keydown", keydown);
     };
-  }, [onSidebarToggled, searchModal, sidebarShown, handleModalOpened]);
+  }, [
+    onSidebarToggled,
+    searchModal,
+    sidebarShown,
+    handleModalOpened,
+    searchAvailable,
+  ]);
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -134,7 +145,7 @@ const SideBarHeader = ({
   const modalWidth = contentWidth - modalOffset + "px";
   return (
     <>
-      {searchModal.isOpen && (
+      {searchAvailable && searchModal.isOpen && (
         <Modal
           isOpen={searchModal.isOpen}
           onClose={handleModalClosed}
@@ -172,7 +183,7 @@ const SideBarHeader = ({
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
         zIndex={zIndexSidebarHeader}
-        height={searchModal.isOpen ? "5.5rem" : topBarHeight}
+        height={searchAvailable && searchModal.isOpen ? "5.5rem" : topBarHeight}
         alignItems="center"
         justifyContent="space-between"
         pr={4}
@@ -197,7 +208,7 @@ const SideBarHeader = ({
             )}
           </HStack>
         </Link>
-        {!query && sidebarShown && (
+        {searchAvailable && !query && sidebarShown && (
           <CollapsibleButton
             onClick={handleModalOpened}
             backgroundColor="#5c40a6"
@@ -219,7 +230,7 @@ const SideBarHeader = ({
             mr="2rem"
           />
         )}
-        {query && sidebarShown && (
+        {searchAvailable && query && sidebarShown && (
           <Flex
             backgroundColor="white"
             borderRadius="3xl"

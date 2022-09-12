@@ -24,6 +24,8 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
+export const supportedSearchLanguages = ["en", "es-es", "fr", "ja"];
+
 // Supress warning issued when changing languages.
 const lunrWarn = lunr.utils.warn;
 lunr.utils.warn = (message: string) => {
