@@ -26,7 +26,7 @@
   "about-micropython": [
     {
       "type": 0,
-      "value": "編輯器依賴於由 Damien George 和世界各地的開發人員社群製作的 "
+      "value": "編輯器依賴於由 Damien George 和世界各地開發人員社群開發的 "
     },
     {
       "children": [
@@ -46,13 +46,13 @@
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "我不想深入瞭解 MicroPython"
+      "value": "簡略瞭解 MicroPython"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "我想深入瞭解 MicroPython"
+      "value": "深入瞭解 MicroPython"
     }
   ],
   "added-change": [
@@ -204,7 +204,7 @@
     },
     {
       "type": 0,
-      "value": " 新增檔案到 "
+      "value": " 新增檔案 "
     },
     {
       "type": 1,
@@ -302,7 +302,7 @@
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "是否要用預設啟動程式碼來取代所有檔案？"
+      "value": "是否要用預設起始程式碼來取代所有檔案？"
     }
   ],
   "confirm-replace-title": [
@@ -334,7 +334,7 @@
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "取消然後使用儲存來保留您的專案副本。"
+      "value": "取消，然後使用「儲存」來保留您的專案副本。"
     }
   ],
   "connect-action": [
@@ -358,7 +358,7 @@
   "connect-help-message": [
     {
       "type": 0,
-      "value": "在下一個彈出窗口中："
+      "value": "在下一個快顯視窗中："
     }
   ],
   "connect-help-one": [
@@ -400,7 +400,7 @@
   "content-load-error": [
     {
       "type": 0,
-      "value": "發生錯誤。 下載您的 HEX 檔案以安全儲存，然後重新整理頁面以重新載入。"
+      "value": "發生錯誤。下載您的 HEX 檔案以便安全儲存，然後重新整理頁面來重新載入。"
     }
   ],
   "copied": [
@@ -552,7 +552,7 @@
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "名稱中包含無效字元："
+      "value": "該名稱包含無效字元："
     },
     {
       "type": 1,
@@ -642,7 +642,7 @@
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "您的代碼正在發送 (燒錄) 到您的 micro:bit。第一次可能需要一段時間，但之後會更快。"
+      "value": "您的程式碼正被傳送 (燒錄) 到您的 micro:bit。第一次可能需要一段時間，但之後會更快。"
     }
   ],
   "flashing-micropython": [
@@ -724,7 +724,7 @@
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "嘗試這些專案，修改並獲得靈感"
+      "value": "嘗試這些專案，進行修改並獲得靈感"
     }
   ],
   "insert-code-action": [
@@ -844,7 +844,7 @@
   "micropython-history": [
     {
       "type": 0,
-      "value": "了解 micro:bit 上的 MicroPython 如何誕生"
+      "value": "瞭解 micro:bit 上的 MicroPython 如何誕生"
     }
   ],
   "micropython-source-code": [
@@ -972,7 +972,7 @@
     },
     {
       "type": 0,
-      "value": "按鈕，將整個專案下載為 HEX 檔案。 您可以"
+      "value": "按鈕，將整個專案下載為 HEX 檔案。您可以"
     },
     {
       "children": [
@@ -1398,19 +1398,19 @@
   "reset-project-action": [
     {
       "type": 0,
-      "value": "重置專案"
+      "value": "重設專案"
     }
   ],
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "專案重置為預設啟動程式碼"
+      "value": "專案重設為預設起始程式碼"
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "將專案重置為預設啟動程式碼，放棄您的工作"
+      "value": "將專案重設為預設起始程式碼，放棄您的工作"
     }
   ],
   "results-count": [
@@ -1509,7 +1509,7 @@
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "傳送 Ctrl+D 重置"
+      "value": "傳送 Ctrl+D 重設"
     }
   ],
   "serial-expand": [
@@ -1555,7 +1555,7 @@
     },
     {
       "type": 0,
-      "value": " 來中斷您的程式。 然後，您可以輸入 Python 指令讓 MicroPython 執行。 這是嘗試新事物的好方法。"
+      "value": " 來中斷您的程式。然後，您可以輸入 Python 指令，讓 MicroPython 執行。這是嘗試新事物的好方法。"
     }
   ],
   "serial-help-ctrl-d": [
@@ -1595,7 +1595,7 @@
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "序列終端會顯示 micro:bit 上執行的程式錯誤和其他輸出。預設情況下，它會顯示程序的最新錯誤。展開它以查看所有輸出。"
+      "value": "序列終端會顯示 micro:bit 上執行的程式錯誤和其他輸出。預設情況下，它會顯示程式的最新錯誤。展開它以查看所有輸出。"
     }
   ],
   "serial-help-print": [
@@ -1615,7 +1615,7 @@
     },
     {
       "type": 0,
-      "value": "函式輸出訊息。嘗試將 "
+      "value": "函式來輸出訊息。嘗試將"
     },
     {
       "children": [
@@ -1629,7 +1629,7 @@
     },
     {
       "type": 0,
-      "value": " 加入您的程式中。"
+      "value": " 新增至您的程式。"
     }
   ],
   "serial-help-title": [
@@ -2403,19 +2403,19 @@
   "webusb-not-supported-title": [
     {
       "type": 0,
-      "value": "此瀏覽器不支持 WebUSB"
+      "value": "此瀏覽器不支援 WebUSB"
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "使用 WebUSB，您可以對 micro:bit 進行編程，並直接從線上編輯器連線至序列控制台。"
+      "value": "使用 WebUSB，您可以對 micro:bit 進行編程，並直接從線上編輯器連線至序列主控台。"
     }
   ],
   "welcome-message": [
     {
       "type": 0,
-      "value": "觀看我們的一些關鍵功能簡短指南，或立即開始編碼。"
+      "value": "觀看我們一些關鍵功能簡短指南，或立即開始編碼。"
     }
   ],
   "welcome-title": [

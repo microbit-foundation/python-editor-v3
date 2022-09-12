@@ -12,15 +12,15 @@
     "description": "Text in about dialog"
   },
   "about-micropython": {
-    "defaultMessage": "編輯器依賴於由 Damien George 和世界各地的開發人員社群製作的 <link>MicroPython</link>。",
+    "defaultMessage": "編輯器依賴於由 Damien George 和世界各地開發人員社群開發的 <link>MicroPython</link>。",
     "description": "Text in about dialog"
   },
   "about-read-less-micropython": {
-    "defaultMessage": "我不想深入瞭解 MicroPython",
+    "defaultMessage": "簡略瞭解 MicroPython",
     "description": "Aria label to collapse an expanded section about MicroPython"
   },
   "about-read-more-micropython": {
-    "defaultMessage": "我想深入瞭解 MicroPython",
+    "defaultMessage": "深入瞭解 MicroPython",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "added-change": {
@@ -88,7 +88,7 @@
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "從 {source} 新增檔案到 {target}",
+    "defaultMessage": "從 {source} 新增檔案 {target}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-main-code": {
@@ -132,7 +132,7 @@
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
-    "defaultMessage": "是否要用預設啟動程式碼來取代所有檔案？",
+    "defaultMessage": "是否要用預設起始程式碼來取代所有檔案？",
     "description": "Confirmation message for the reset action"
   },
   "confirm-replace-title": {
@@ -148,7 +148,7 @@
     "description": "Confirm and save action label"
   },
   "confirm-save-hint": {
-    "defaultMessage": "取消然後使用儲存來保留您的專案副本。",
+    "defaultMessage": "取消，然後使用「儲存」來保留您的專案副本。",
     "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
   },
   "connect-action": {
@@ -164,7 +164,7 @@
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
-    "defaultMessage": "在下一個彈出窗口中：",
+    "defaultMessage": "在下一個快顯視窗中：",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
@@ -192,7 +192,7 @@
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "content-load-error": {
-    "defaultMessage": "發生錯誤。 下載您的 HEX 檔案以安全儲存，然後重新整理頁面以重新載入。",
+    "defaultMessage": "發生錯誤。下載您的 HEX 檔案以便安全儲存，然後重新整理頁面來重新載入。",
     "description": "Text displayed when content fails to load"
   },
   "copied": {
@@ -280,7 +280,7 @@
     "description": "File already exists notification text"
   },
   "file-name-invalid-character": {
-    "defaultMessage": "名稱中包含無效字元：{invalid}",
+    "defaultMessage": "該名稱包含無效字元：{invalid}",
     "description": "Warning text for new Python file name with an invalid character"
   },
   "file-name-length": {
@@ -328,7 +328,7 @@
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "您的代碼正在發送 (燒錄) 到您的 micro:bit。第一次可能需要一段時間，但之後會更快。",
+    "defaultMessage": "您的程式碼正被傳送 (燒錄) 到您的 micro:bit。第一次可能需要一段時間，但之後會更快。",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
@@ -376,7 +376,7 @@
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "嘗試這些專案，修改並獲得靈感",
+    "defaultMessage": "嘗試這些專案，進行修改並獲得靈感",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
@@ -427,7 +427,7 @@
     "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
-    "defaultMessage": "了解 micro:bit 上的 MicroPython 如何誕生",
+    "defaultMessage": "瞭解 micro:bit 上的 MicroPython 如何誕生",
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
@@ -455,7 +455,7 @@
     "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
-    "defaultMessage": "點按<strong>儲存</strong>按鈕，將整個專案下載為 HEX 檔案。 您可以<strong>開啟</strong> HEX 檔案來還原您的專案。如果您想下載個別 Python 檔案，請使用<strong>專案</strong>索引標籤。",
+    "defaultMessage": "點按<strong>儲存</strong>按鈕，將整個專案下載為 HEX 檔案。您可以<strong>開啟</strong> HEX 檔案來還原您的專案。如果您想下載個別 Python 檔案，請使用<strong>專案</strong>索引標籤。",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
@@ -619,15 +619,15 @@
     "description": "Action label for replacing project dialog"
   },
   "reset-project-action": {
-    "defaultMessage": "重置專案",
+    "defaultMessage": "重設專案",
     "description": "Action to reset the project to its default state"
   },
   "reset-project-feedback": {
-    "defaultMessage": "專案重置為預設啟動程式碼",
+    "defaultMessage": "專案重設為預設起始程式碼",
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "將專案重置為預設啟動程式碼，放棄您的工作",
+    "defaultMessage": "將專案重設為預設起始程式碼，放棄您的工作",
     "description": "Reset action hover text"
   },
   "results-count": {
@@ -675,7 +675,7 @@
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "傳送 Ctrl+D 重置",
+    "defaultMessage": "傳送 Ctrl+D 重設",
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
@@ -687,7 +687,7 @@
     "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "使用鍵盤快捷鍵 <kbd>Ctrl</kbd> + <kbd>C</kbd> 來中斷您的程式。 然後，您可以輸入 Python 指令讓 MicroPython 執行。 這是嘗試新事物的好方法。",
+    "defaultMessage": "使用鍵盤快捷鍵 <kbd>Ctrl</kbd> + <kbd>C</kbd> 來中斷您的程式。然後，您可以輸入 Python 指令，讓 MicroPython 執行。這是嘗試新事物的好方法。",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
@@ -695,11 +695,11 @@
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
-    "defaultMessage": "序列終端會顯示 micro:bit 上執行的程式錯誤和其他輸出。預設情況下，它會顯示程序的最新錯誤。展開它以查看所有輸出。",
+    "defaultMessage": "序列終端會顯示 micro:bit 上執行的程式錯誤和其他輸出。預設情況下，它會顯示程式的最新錯誤。展開它以查看所有輸出。",
     "description": "Text from the serial hints and tips dialog"
   },
   "serial-help-print": {
-    "defaultMessage": "您的程式可以使用<code>輸出</code>函式輸出訊息。嘗試將 <code>輸出 ('micro:bit is awesome')</code> 加入您的程式中。",
+    "defaultMessage": "您的程式可以使用<code>輸出</code>函式來輸出訊息。嘗試將<code>輸出 ('micro:bit is awesome')</code> 新增至您的程式。",
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
@@ -1095,15 +1095,15 @@
     "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
-    "defaultMessage": "此瀏覽器不支持 WebUSB",
+    "defaultMessage": "此瀏覽器不支援 WebUSB",
     "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "使用 WebUSB，您可以對 micro:bit 進行編程，並直接從線上編輯器連線至序列控制台。",
+    "defaultMessage": "使用 WebUSB，您可以對 micro:bit 進行編程，並直接從線上編輯器連線至序列主控台。",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {
-    "defaultMessage": "觀看我們的一些關鍵功能簡短指南，或立即開始編碼。",
+    "defaultMessage": "觀看我們一些關鍵功能簡短指南，或立即開始編碼。",
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {

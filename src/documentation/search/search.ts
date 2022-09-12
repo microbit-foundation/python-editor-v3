@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import lunr from "lunr";
+import multi from "lunr-languages/lunr.multi";
 import stemmerSupport from "lunr-languages/lunr.stemmer.support";
+import tinyseg from "lunr-languages/tinyseg";
 import { retryAsyncLoad } from "../../common/chunk-util";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {
@@ -23,6 +25,9 @@ import {
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
 stemmerSupport(lunr);
+multi(lunr);
+// Required for Ja stemming support.
+tinyseg(lunr);
 
 const ignoredPythonStopWords = new Set([
   // Sorted.
@@ -200,12 +205,20 @@ const apiSearchableContent = (
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
   tab: "reference" | "api",
+  language: string,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
   const index = lunr(function () {
     this.ref("id");
     this.field("title", { boost: 10 });
     this.field("content");
+    // There is always some degree of English content.
+    const multiLanguages = ["en"];
+    const l = convertLangToLunrParam(language);
+    if (l) {
+      multiLanguages.push(l);
+    }
+    this.use(lunr.multiLanguage(...multiLanguages));
     plugins.forEach((p) => this.use(p));
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
@@ -239,9 +252,10 @@ export const buildReferenceIndex = async (
     buildSearchIndex(
       referenceSearchableContent(reference),
       "reference",
+      language,
       ...plugins
     ),
-    buildSearchIndex(apiSearchableContent(api), "api")
+    buildSearchIndex(apiSearchableContent(api), "api", language, ...plugins)
   );
 };
 
@@ -252,6 +266,31 @@ async function loadLunrLanguageSupport(
   switch (language) {
     case "fr":
       return (await import("lunr-languages/lunr.fr")).default;
+    case "es-es":
+      return (await import("lunr-languages/lunr.es")).default;
+    case "zh-ch":
+    case "zh-tw":
+      return (await import("lunr-languages/lunr.zh")).default;
+    case "ja":
+      return (await import("lunr-languages/lunr.ja")).default;
+    default:
+      // No search support for the language, default to lunr's built-in English support.
+      return undefined;
+  }
+}
+
+function convertLangToLunrParam(language: string): string | undefined {
+  // Korean is not supported by lunr-languages.
+  switch (language) {
+    case "fr":
+      return "fr";
+    case "es-es":
+      return "es";
+    case "zh-ch":
+    case "zh-tw":
+      return "zh";
+    case "ja":
+      return "ja";
     default:
       // No search support for the language, default to lunr's built-in English support.
       return undefined;
