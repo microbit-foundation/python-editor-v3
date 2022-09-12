@@ -2014,6 +2014,12 @@
       "value": "无线电"
     }
   ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "Radio message from the micro:bit simulator"
+    }
+  ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
@@ -2052,6 +2058,12 @@
     {
       "type": 0,
       "value": "发送消息"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "Radio message to the micro:bit simulator"
     }
   ],
   "simulator-reference-link": [

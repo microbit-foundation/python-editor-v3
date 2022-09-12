@@ -902,6 +902,10 @@
     "defaultMessage": "라디오",
     "description": "Radio simulator panel title"
   },
+  "simulator-radio-code": {
+    "defaultMessage": "Radio message from the micro:bit simulator",
+    "description": "Aria label for a message sent from the micro:bit simulator"
+  },
   "simulator-radio-group-notice": {
     "defaultMessage": "라디오 그룹이 {groupNumber}(으)로 설정됨",
     "description": "Message in radio simulator area when the radio group changes"
@@ -925,6 +929,10 @@
   "simulator-radio-send": {
     "defaultMessage": "메시지 전송",
     "description": "Aria label for the simulator radio send button"
+  },
+  "simulator-radio-user": {
+    "defaultMessage": "Radio message to the micro:bit simulator",
+    "description": "Aria label for a message sent to the micro:bit simulator"
   },
   "simulator-reference-link": {
     "defaultMessage": "레퍼런스 섹션에 링크하기",

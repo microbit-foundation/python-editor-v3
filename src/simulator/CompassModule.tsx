@@ -5,7 +5,7 @@
  */
 import { Box, HStack, Icon, Stack, Text } from "@chakra-ui/react";
 import { ReactNode, useEffect, useRef } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
@@ -29,6 +29,7 @@ const CompassModule = ({
   minimised,
 }: CompassModuleProps) => {
   const ref = useRef<SVGSVGElement>(null);
+  const intl = useIntl();
   const compassHeading = state["compassHeading"];
   useEffect(() => {
     const needle = ref.current?.querySelector("#Needle");
@@ -44,7 +45,7 @@ const CompassModule = ({
         <RangeSensor
           id="compassHeading"
           icon={icon}
-          title="compass heading"
+          title={intl.formatMessage({ id: "simulator-compass-heading-one" })}
           sensor={compassHeading as RangeSensorType}
           onSensorChange={onValueChange}
           minimised={minimised}
@@ -55,11 +56,14 @@ const CompassModule = ({
             <FormattedMessage id="simulator-compass-heading-one" />
           </Text>
           <HStack spacing={3} pl={4} width="100%">
-            <Axis
-              axis="compassHeading"
-              label=""
-              state={state}
-              onValueChange={onValueChange}
+            <RangeSensor
+              id="compassHeading"
+              title={intl.formatMessage({
+                id: "simulator-compass-heading-one",
+              })}
+              sensor={compassHeading as RangeSensorType}
+              onSensorChange={onValueChange}
+              minimised={minimised}
             />
             <Icon
               ref={ref}

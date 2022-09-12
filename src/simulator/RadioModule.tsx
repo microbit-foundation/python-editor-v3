@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import {
-  Box,
   BoxProps,
   Flex,
   HStack,
@@ -13,7 +12,8 @@ import {
   Input,
   Stack,
   Text,
-  VStack,
+  VisuallyHidden,
+  VStack
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
@@ -127,9 +127,12 @@ const ChatMessage = ({
       alignSelf={from === "code" ? "flex-start" : "flex-end"}
     >
       <ChatUserIcon color={color} />
-      <Box bg={color} p={2} borderRadius="md" wordBreak="break-word">
+      <Text bg={color} p={2} borderRadius="md" wordBreak="break-word">
+        <VisuallyHidden>
+          <FormattedMessage id={`simulator-radio-${from}`} />{" "}
+        </VisuallyHidden>
         {message}
-      </Box>
+      </Text>
     </Flex>
   );
 };
