@@ -282,8 +282,6 @@ async function loadLunrLanguageSupport(
       return (await import("lunr-languages/lunr.fr")).default;
     case "es":
       return (await import("lunr-languages/lunr.es")).default;
-    case "zh":
-      return (await import("lunr-languages/lunr.zh")).default;
     case "ja":
       return (await import("lunr-languages/lunr.ja")).default;
     default:
@@ -299,9 +297,6 @@ function convertLangToLunrParam(language: string): string {
       return "fr";
     case "es-es":
       return "es";
-    case "zh-cn":
-    case "zh-tw":
-      return "zh";
     case "ja":
       return "ja";
     default:
