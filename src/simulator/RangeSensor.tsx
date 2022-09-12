@@ -5,10 +5,11 @@ import {
   SliderFilledTrack,
   SliderMark,
   SliderThumb,
+  SliderThumbProps,
   SliderTrack,
   Tooltip,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useRef, useState } from "react";
+import React, { ForwardedRef, ReactNode, useCallback, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
@@ -55,7 +56,6 @@ const RangeSensor = ({
     [isFocused]
   );
   const valuePercent = ((value - min) / (max - min)) * 100;
-  const sliderRef = useRef<HTMLDivElement>(null);
   return (
     <HStack
       pb={minimised ? 0 : 2}
@@ -85,10 +85,8 @@ const RangeSensor = ({
           placement="top"
           label={valueText}
           isOpen={minimised ? showTooltip : false}
-          onOpen={() => sliderRef.current!.removeAttribute("aria-describedby")}
         >
-          <SliderThumb
-            ref={sliderRef}
+          <SliderThumbIgnoreAriaDescribedBy
             aria-hidden="true"
             onFocus={() => handleFocusTooltip(true)}
             onBlur={() => handleFocusTooltip(false)}
@@ -181,5 +179,13 @@ const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
     </Tooltip>
   );
 };
+
+const SliderThumbIgnoreAriaDescribedBy = React.forwardRef(
+  (props: SliderThumbProps, ref: ForwardedRef<HTMLDivElement>) => {
+    // We ignore it as otherwise screenreaders get the value read out twice.
+    const { "aria-describedby": _, ...rest } = props;
+    return <SliderThumb ref={ref} {...rest} />;
+  }
+);
 
 export default RangeSensor;
