@@ -215,6 +215,7 @@ const apiSearchableContent = (
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
   tab: "reference" | "api",
+  language: string,
   languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
@@ -224,6 +225,14 @@ export const buildSearchIndex = (
     this.field("content");
     this.use(languagePlugin);
     plugins.forEach((p) => this.use(p));
+    // @ts-ignore
+    if (language !== "en" && lunr[language].tokenizer) {
+      // @ts-ignore
+      this.tokenizer = function (x) {
+        // @ts-ignore
+        return lunr.tokenizer(x).concat(lunr[language].tokenizer(x));
+      };
+    }
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
       this.add(doc);
@@ -263,12 +272,14 @@ export const buildReferenceIndex = async (
     buildSearchIndex(
       referenceSearchableContent(reference),
       "reference",
+      language,
       languagePlugin,
       ...plugins
     ),
     buildSearchIndex(
       apiSearchableContent(api),
       "api",
+      language,
       languagePlugin,
       ...plugins
     )
