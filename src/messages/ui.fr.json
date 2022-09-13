@@ -1857,18 +1857,22 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "aucune ligne enregistrée"
             }
           ]
         },
         "one": {
           "value": [
             {
+              "type": 0,
+              "value": "ligne "
+            },
+            {
               "type": 7
             },
             {
               "type": 0,
-              "value": " row logged"
+              "value": " enregistrée"
             }
           ]
         },
@@ -1879,7 +1883,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": " lignes enregistrées"
             }
           ]
         }
@@ -2012,7 +2016,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "Radio message from the micro:bit simulator"
+      "value": "micro:bit sent:"
     }
   ],
   "simulator-radio-group-notice": [
@@ -2058,7 +2062,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "Radio message to the micro:bit simulator"
+      "value": "You sent:"
     }
   ],
   "simulator-reference-link": [

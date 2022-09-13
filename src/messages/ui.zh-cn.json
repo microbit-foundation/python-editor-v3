@@ -2017,7 +2017,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "Radio message from the micro:bit simulator"
+      "value": "micro:bit sent:"
     }
   ],
   "simulator-radio-group-notice": [
@@ -2063,7 +2063,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "Radio message to the micro:bit simulator"
+      "value": "You sent:"
     }
   ],
   "simulator-reference-link": [
