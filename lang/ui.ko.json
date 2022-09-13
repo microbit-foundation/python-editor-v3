@@ -228,7 +228,7 @@
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "{filename} 삭제",
+    "defaultMessage": "{name} 삭제",
     "description": "Menu option to delete file"
   },
   "deleted-file": {

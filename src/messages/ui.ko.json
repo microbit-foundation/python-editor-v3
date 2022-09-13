@@ -470,7 +470,7 @@
   "delete-file-action": [
     {
       "type": 1,
-      "value": "filename"
+      "value": "name"
     },
     {
       "type": 0,
