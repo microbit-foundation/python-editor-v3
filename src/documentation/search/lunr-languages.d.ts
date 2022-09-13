@@ -15,12 +15,19 @@ declare module "@microbit/lunr-languages/lunr.*" {
 
 declare namespace lunr {
   import { Builder } from "lunr";
+
+  interface LanguagePlugin extends Builder.Plugin {
+    tokenizer?: (
+      obj?: string | object | object[] | null | undefined
+    ) => lunr.Token[];
+  }
+
   export function multiLanguage(...lang: string[]): Builder.Plugin;
 
   // Add more here.
   // I don't think we can use module augmentation—lunr is a namespace.
-  export const es: Builder.Plugin;
-  export const fr: Builder.Plugin;
-  export const ja: Builder.Plugin;
-  export const zh: Builder.Plugin;
+  export const es: LanguagePlugin;
+  export const fr: LanguagePlugin;
+  export const ja: LanguagePlugin;
+  export const ko: LanguagePlugin;
 }

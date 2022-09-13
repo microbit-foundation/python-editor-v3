@@ -69,9 +69,7 @@ export class SearchIndex {
   constructor(
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
-    private tokenizer: (
-      obj?: string | object | object[] | null | undefined
-    ) => lunr.Token[],
+    private tokenizer: TokenizerFunction,
     private tab: "reference" | "api"
   ) {}
 
@@ -215,16 +213,19 @@ const apiSearchableContent = (
   return content;
 };
 
+type TokenizerFunction = {
+  (obj?: string | object | object[] | null | undefined): lunr.Token[];
+  separator: RegExp;
+};
+
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
   tab: "reference" | "api",
-  language: string,
+  language: LunrLanguage | undefined,
   languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
-  let customTokenizer:
-    | ((obj?: string | object | object[] | null | undefined) => lunr.Token[])
-    | undefined;
+  let customTokenizer: TokenizerFunction | undefined;
   const index = lunr(function () {
     this.ref("id");
     this.field("title", { boost: 10 });
@@ -232,17 +233,17 @@ export const buildSearchIndex = (
     this.use(languagePlugin);
     plugins.forEach((p) => this.use(p));
 
-    const languageTokenizer =
-      // @ts-ignore
-      language !== "en" ? lunr[language].tokenizer : undefined;
-    customTokenizer = (obj?: string | object | object[] | null | undefined) => {
-      const tokens = lunr.tokenizer(obj);
-      if (!languageTokenizer) {
-        return tokens;
-      }
-      return tokens.concat(languageTokenizer(obj));
-    };
-    // @ts-ignore
+    const languageTokenizer = language ? lunr[language].tokenizer : undefined;
+    customTokenizer = Object.assign(
+      (obj?: string | object | object[] | null | undefined) => {
+        const tokens = lunr.tokenizer(obj);
+        if (!languageTokenizer) {
+          return tokens;
+        }
+        return tokens.concat(languageTokenizer(obj));
+      },
+      { separator: lunr.tokenizer.separator }
+    );
     this.tokenizer = customTokenizer;
 
     this.metadataWhitelist = ["position"];
@@ -264,18 +265,18 @@ export const buildReferenceIndex = async (
     loadLunrLanguageSupport(language)
   );
   const plugins: lunr.Builder.Plugin[] = [];
-  if (languageSupport) {
+  if (languageSupport && language) {
     // Loading plugin for fr makes lunr.fr available but we don't model this in the types.
     // Avoid repeatedly initializing them when switching back and forth.
-    if (!(lunr as any)[language]) {
+    if (!lunr[language]) {
       languageSupport(lunr);
     }
-    plugins.push((lunr as any)[language]);
+    plugins.push(lunr[language]);
   }
 
   // There is always some degree of English content.
   const multiLanguages = ["en"];
-  if (language !== "en") {
+  if (language) {
     multiLanguages.push(language);
   }
   const languagePlugin = lunr.multiLanguage(...multiLanguages);
@@ -299,8 +300,12 @@ export const buildReferenceIndex = async (
 };
 
 async function loadLunrLanguageSupport(
-  language: string
+  language: LunrLanguage | undefined
 ): Promise<undefined | ((l: typeof lunr) => void)> {
+  if (!language) {
+    // English.
+    return undefined;
+  }
   // Enumerated for code splitting.
   switch (language.toLowerCase()) {
     case "fr":
@@ -317,7 +322,9 @@ async function loadLunrLanguageSupport(
   }
 }
 
-function convertLangToLunrParam(language: string): string {
+type LunrLanguage = "es" | "fr" | "ja" | "ko";
+
+function convertLangToLunrParam(language: string): LunrLanguage | undefined {
   switch (language.toLowerCase()) {
     case "fr":
       return "fr";
@@ -329,7 +336,7 @@ function convertLangToLunrParam(language: string): string {
       return "ko";
     default:
       // No search support for the language, default to lunr's built-in English support.
-      return "en";
+      return undefined;
   }
 }
 

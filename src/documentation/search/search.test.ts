@@ -53,7 +53,7 @@ describe("Search", () => {
   const search = buildSearchIndex(
     searchableReferenceContent,
     "reference",
-    "en",
+    undefined,
     languagePlugin
   );
 
