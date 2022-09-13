@@ -233,6 +233,9 @@ export const buildSearchIndex = (
     this.use(languagePlugin);
     plugins.forEach((p) => this.use(p));
 
+    // If the language defines a tokenizer then we need to us it alongside the
+    // English one. We stash the tokenizer in customTokenizer so we can pass it
+    // to the index for use at query time.
     const languageTokenizer = language ? lunr[language].tokenizer : undefined;
     customTokenizer = Object.assign(
       (obj?: string | object | object[] | null | undefined) => {
