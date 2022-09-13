@@ -211,7 +211,7 @@ const SideBar = ({
               <Flex height="100%" direction="column">
                 <ErrorBoundary>
                   {p.contents}
-                  {!flags.livePreview && (
+                  {flags.betaNotice && (
                     <PreReleaseNotice onDialogChange={setReleaseDialog} />
                   )}
                 </ErrorBoundary>
