@@ -3,14 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import lunr from "lunr";
 import { ApiDocsResponse } from "../../language-server/apidocs";
 import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
+import lunrJa from "@microbit/lunr-languages/lunr.ja";
 import {
-  SearchableContent,
-  buildSearchIndex,
-  SearchWorker,
   buildReferenceIndex,
+  buildSearchIndex,
+  SearchableContent,
+  SearchWorker,
 } from "./search";
 
 const searchableReferenceContent: SearchableContent[] = [
@@ -37,11 +39,22 @@ const searchableReferenceContent: SearchableContent[] = [
   },
 ];
 
+const searchableReferenceContentJa: SearchableContent[] = [
+  {
+    id: "",
+    title: "",
+    containerTitle: "",
+    content: "この文章は日本語で書かれています",
+  },
+];
+
 describe("Search", () => {
+  const languagePlugin = lunr.multiLanguage("en");
   const search = buildSearchIndex(
     searchableReferenceContent,
     "reference",
-    "en"
+    undefined,
+    languagePlugin
   );
 
   it("finds stuff", () => {
@@ -225,5 +238,32 @@ describe("SearchWorker", () => {
     expect(postMessage.mock.calls.length).toEqual(2);
     expect(postMessage.mock.calls[0][0].reference.length).toEqual(0);
     expect(postMessage.mock.calls[1][0].reference.length).toEqual(1);
+  });
+});
+
+describe("Search in Japanese", () => {
+  const plugins: lunr.Builder.Plugin[] = [];
+  lunrJa(lunr);
+  plugins.push((lunr as any)["ja"]);
+  const languagePluginJa = lunr.multiLanguage("en", "ja");
+
+  const search = buildSearchIndex(
+    searchableReferenceContentJa,
+    "reference",
+    "ja",
+    languagePluginJa,
+    ...plugins
+  );
+
+  it("matches Japanese characters", () => {
+    expect(search.search("書か").length).toEqual(1);
+  });
+
+  it("matches Japanese characters with spaces between", () => {
+    expect(search.search("書か れ").length).toEqual(1);
+  });
+
+  it("matches Japanese characters with no spaces between", () => {
+    expect(search.search("この文章は日本語").length).toEqual(1);
   });
 });
