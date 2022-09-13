@@ -14,7 +14,9 @@ const internal = "src/deployment/default";
 module.exports = {
   webpack: {
     alias: {
-      "theme-package": path.resolve(__dirname, internal),
+      "theme-package": fs.existsSync(external)
+        ? theme
+        : path.resolve(__dirname, internal),
     },
     configure: {
       ignoreWarnings: [
