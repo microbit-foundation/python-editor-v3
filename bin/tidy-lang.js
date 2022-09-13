@@ -10,9 +10,9 @@ const validKeys = new Set(Object.keys(en));
 
 const variableRegExp = /({[a-zA-Z0-9]+})/g;
 
-const isValid = (file, enJson, translatedJson) => {
-  // This is just a best effort check that variables haven't been changed.
-  let anyError = false;
+// This is just a best effort check that variables haven't been changed.
+const areTranslationsValid = (file, enJson, translatedJson) => {
+  let valid = true;
   const keys = Object.keys(en);
   for (const k of keys) {
     const en = enJson[k].defaultMessage;
@@ -26,9 +26,9 @@ const isValid = (file, enJson, translatedJson) => {
     const areSetsEqual = (a, b) =>
       a.size === b.size && Array.from(a).every((value) => b.has(value));
     if (!areSetsEqual(variablesEn, variablesTranslated)) {
-      if (!anyError) {
+      if (valid) {
         console.error(file);
-        anyError = true;
+        valid = false;
       }
       console.error(`  ${en}`);
       console.error(`  ${translated}`);
@@ -36,10 +36,10 @@ const isValid = (file, enJson, translatedJson) => {
       console.error();
     }
   }
-  return anyError;
+  return valid;
 };
 
-const error = fs
+const valid = fs
   .readdirSync("lang")
   .filter((f) => f.endsWith(".json"))
   .map((messages) => {
@@ -58,7 +58,7 @@ const error = fs
     const result = Object.create(null);
     sortedKeys.forEach((k) => (result[k] = data[k]));
     fs.writeFileSync(file, JSON.stringify(result, null, 2));
-    return isValid(file, en, result);
+    return areTranslationsValid(file, en, result);
   })
   .reduce((prev, curr) => prev && curr, true);
-process.exit(error ? 2 : 0);
+process.exit(valid ? 0 : 2);
