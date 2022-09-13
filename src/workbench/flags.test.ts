@@ -14,16 +14,13 @@ describe("flags", () => {
     expect(flags.dndDebug).toEqual(false);
   });
 
-  for (const stage of ["STAGING", "PRODUCTION"]) {
-    // This might change in future if we opt in to flags on staging once we have production.
-    it("enables nothing in " + stage, () => {
-      const params = new URLSearchParams([]);
+  it("enables nothing in production", () => {
+    const params = new URLSearchParams([]);
 
-      const flags = flagsForParams(stage, params);
+    const flags = flagsForParams("PRODUCTION", params);
 
-      expect(Object.values(flags).every((x) => x)).toEqual(false);
-    });
-  }
+    expect(Object.values(flags).every((x) => !x)).toEqual(true);
+  });
 
   it("enable specific flag", () => {
     const params = new URLSearchParams([["flag", "noWelcome"]]);

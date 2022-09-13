@@ -10,28 +10,21 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { stage as stageFromEnvironment } from "./environment";
+import { Stage, stage as stageFromEnvironment } from "./environment";
 
 /**
  * A union of the flag names (alphabetical order).
  */
 export type Flag =
   /**
-   * Enables a preview of SoundEffects via the audio-sound-effect MicroPython branch.
-   */
-  | "audioSoundEffect"
-
-  /**
    * Enables verbose debug logging to the console of drag events.
    */
   | "dndDebug"
 
   /**
-   * Flag to enable live-only features and hide beta only ones.
-   *
-   * We'll remove this when we go live.
+   * Flag to add a beta notice. Enabled for staging site but not production stages.
    */
-  | "livePreview"
+  | "betaNotice"
 
   /**
    * Disables the pop-up welcome dialog.
@@ -42,22 +35,21 @@ export type Flag =
   | "noWelcome";
 
 interface FlagMetadata {
-  defaultOnStages: string[];
+  defaultOnStages: Stage[];
   name: Flag;
 }
 
 const allFlags: FlagMetadata[] = [
   // Alphabetical order.
-  { name: "audioSoundEffect", defaultOnStages: [] },
   { name: "dndDebug", defaultOnStages: [] },
-  { name: "livePreview", defaultOnStages: ["local", "REVIEW"] },
+  { name: "betaNotice", defaultOnStages: ["local", "REVIEW", "STAGING"] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
 ];
 
 type Flags = Record<Flag, boolean>;
 
 // Exposed for testing.
-export const flagsForParams = (stage: string, params: URLSearchParams) => {
+export const flagsForParams = (stage: Stage, params: URLSearchParams) => {
   const enableFlags = new Set(params.getAll("flag"));
   const allFlagsDefault = enableFlags.has("none")
     ? false
@@ -74,7 +66,7 @@ export const flagsForParams = (stage: string, params: URLSearchParams) => {
 
 const isEnabled = (
   f: FlagMetadata,
-  stage: string,
+  stage: Stage,
   allFlagsDefault: boolean | undefined,
   thisFlagOn: boolean
 ): boolean => {
