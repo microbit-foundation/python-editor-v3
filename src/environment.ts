@@ -8,4 +8,3 @@ export const version = process.env.REACT_APP_VERSION || "local";
 export type Stage = "local" | "REVIEW" | "STAGING" | "PRODUCTION";
 
 export const stage = (process.env.REACT_APP_STAGE || "local") as Stage;
-console.log("Stage", stage);
