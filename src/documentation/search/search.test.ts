@@ -263,8 +263,7 @@ describe("Search in Japanese", () => {
     expect(search.search("書か れ").length).toEqual(1);
   });
 
-  // This should be possible with the tokenizer 'fix'.
-  // it("matches Japanese characters with no spaces between", () => {
-  //   expect(search.search("書かれ").length).toEqual(1);
-  // });
+  it("matches Japanese characters with no spaces between", () => {
+    expect(search.search("この文章は日本語").length).toEqual(1);
+  });
 });

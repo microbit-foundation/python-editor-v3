@@ -69,15 +69,18 @@ export class SearchIndex {
   constructor(
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
+    private tokenizer: (
+      obj?: string | object | object[] | null | undefined
+    ) => lunr.Token[],
     private tab: "reference" | "api"
   ) {}
 
   search(text: string): Result[] {
-    const results = this.index.search(
-      // TODO: Review escaping and decide what we let through.
-      //       Ideally nothing that can cause query errors.
-      text.replace(/[~^+:-]/g, (x) => `\\$1`)
-    );
+    const results = this.index.query((builder) => {
+      this.tokenizer(text).forEach((token) => {
+        builder.term(token.toString(), {});
+      });
+    });
     return results.map((result) => {
       const content = this.contentByRef.get(result.ref);
       if (!content) {
@@ -219,27 +222,36 @@ export const buildSearchIndex = (
   languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
+  let customTokenizer:
+    | ((obj?: string | object | object[] | null | undefined) => lunr.Token[])
+    | undefined;
   const index = lunr(function () {
     this.ref("id");
     this.field("title", { boost: 10 });
     this.field("content");
     this.use(languagePlugin);
     plugins.forEach((p) => this.use(p));
-    // @ts-ignore
-    if (language !== "en" && lunr[language].tokenizer) {
+
+    const languageTokenizer =
       // @ts-ignore
-      this.tokenizer = function (x) {
-        // @ts-ignore
-        return lunr.tokenizer(x).concat(lunr[language].tokenizer(x));
-      };
-    }
+      language !== "en" ? lunr[language].tokenizer : undefined;
+    customTokenizer = (obj?: string | object | object[] | null | undefined) => {
+      const tokens = lunr.tokenizer(obj);
+      if (!languageTokenizer) {
+        return tokens;
+      }
+      return tokens.concat(languageTokenizer(obj));
+    };
+    // @ts-ignore
+    this.tokenizer = customTokenizer;
+
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
       this.add(doc);
     }
   });
   const contentByRef = new Map(searchableContent.map((c) => [c.id, c]));
-  return new SearchIndex(contentByRef, index, tab);
+  return new SearchIndex(contentByRef, index, customTokenizer!, tab);
 };
 
 // Exposed for testing.
@@ -306,7 +318,6 @@ async function loadLunrLanguageSupport(
 }
 
 function convertLangToLunrParam(language: string): string {
-  // Korean is not supported by lunr-languages.
   switch (language.toLowerCase()) {
     case "fr":
       return "fr";
