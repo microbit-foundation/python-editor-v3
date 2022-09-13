@@ -24,7 +24,7 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
-export const supportedSearchLanguages = ["en", "es-es", "fr", "ja"];
+export const supportedSearchLanguages = ["en", "es-es", "fr", "ja", "ko"];
 
 // Supress warning issued when changing languages.
 const lunrWarn = lunr.utils.warn;
@@ -297,6 +297,8 @@ async function loadLunrLanguageSupport(
       return (await import("@microbit/lunr-languages/lunr.es")).default;
     case "ja":
       return (await import("@microbit/lunr-languages/lunr.ja")).default;
+    case "ko":
+      return (await import("@microbit/lunr-languages/lunr.ko")).default;
     default:
       // No search support for the language, default to lunr's built-in English support.
       return undefined;
@@ -312,6 +314,8 @@ function convertLangToLunrParam(language: string): string {
       return "es";
     case "ja":
       return "ja";
+    case "ko":
+      return "ko";
     default:
       // No search support for the language, default to lunr's built-in English support.
       return "en";
