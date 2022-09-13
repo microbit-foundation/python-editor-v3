@@ -32,7 +32,7 @@ import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
 
 const minimums: [number, number] = [380, 580];
-const simulatorMinimums: [number, number] = [275, 0];
+const simulatorMinimums: [number, number] = [290, 0];
 
 /**
  * The main app layout with resizable panels.

@@ -7,4 +7,4 @@
 // Miscellaneous items that haven't been properly integrated into the branding.
 export const backgroundColorTerm = "#333333";
 export const defaultCodeFontSizePt = 14;
-export const topBarHeight = 16;
+export const topBarHeight = "3.825rem";
