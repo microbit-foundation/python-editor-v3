@@ -50,7 +50,7 @@
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "MicroPythonについて読まない"
+      "value": "MicroPythonについての詳細を非表示にする"
     }
   ],
   "about-read-more-micropython": [
@@ -90,7 +90,7 @@
     },
     {
       "type": 0,
-      "value": "を参照してください。"
+      "value": "を参照してください"
     }
   ],
   "api-tab": [
@@ -107,7 +107,7 @@
           "value": [
             {
               "type": 0,
-              "value": "ベースクラス: "
+              "value": "base classes: "
             }
           ]
         }
@@ -228,7 +228,7 @@
     },
     {
       "type": 0,
-      "value": "からファイル "
+      "value": " からファイル "
     },
     {
       "type": 1,
@@ -260,7 +260,7 @@
     },
     {
       "type": 0,
-      "value": " を"
+      "value": " を "
     },
     {
       "type": 1,
@@ -268,7 +268,7 @@
     },
     {
       "type": 0,
-      "value": "に置き換え"
+      "value": " に置き換え"
     }
   ],
   "choose-main-source-replace-main-code": [
@@ -324,7 +324,7 @@
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "すべてのファイルをHEXに置き換えますか？"
+      "value": "すべてのファイルを hex に置き換えますか？"
     }
   ],
   "confirm-replace-reset": [
@@ -342,7 +342,7 @@
   "confirm-replace-with-idea": [
     {
       "type": 0,
-      "value": "すべてのファイルを"
+      "value": "すべてのファイルを "
     },
     {
       "type": 1,
@@ -350,7 +350,7 @@
     },
     {
       "type": 0,
-      "value": "に置き換えますか？"
+      "value": " に置き換えますか？"
     }
   ],
   "confirm-save-action": [
@@ -380,13 +380,13 @@
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "1のラベルが付いたBBC micro:bitエントリと2のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ"
+      "value": "「1」のラベルが付いたBBC micro:bitエントリと「2」のラベルが付いた接続ボタンを持つWebUSB接続ダイアログ"
     }
   ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "次のポップアップ"
+      "value": "次のポップアップ:"
     }
   ],
   "connect-help-one": [
@@ -416,7 +416,7 @@
   "connect-microbit": [
     {
       "type": 0,
-      "value": "micro:bitに接続してシリアル出力を確認"
+      "value": "micro:bitに接続してシリアル出力をここに表示"
     }
   ],
   "connect-troubleshoot": [
@@ -428,7 +428,7 @@
   "content-load-error": [
     {
       "type": 0,
-      "value": "問題が発生しました。HEXファイルをダウンロードして、ページをリロードしてください。"
+      "value": "問題が発生しました。hex ファイルをダウンロードして、ページをリロードしてください。"
     }
   ],
   "copied": [
@@ -552,7 +552,7 @@
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "hexファイルのビルドに失敗しました"
+      "value": "hex ファイルのビルドに失敗しました"
     }
   ],
   "feedback": [
@@ -756,7 +756,7 @@
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "これらのプロジェクトを試したり、変更したりして、ひらめきを得てください"
+      "value": "これらのプロジェクトを試し、修正し、インスピレーションを得ることができます。"
     }
   ],
   "insert-code-action": [
@@ -786,7 +786,7 @@
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "このhexファイルを使用するには、"
+      "value": "この hex ファイルを使用するには、"
     },
     {
       "children": [
@@ -806,7 +806,7 @@
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "hexファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。"
+      "value": "hex ファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。"
     }
   ],
   "load-error-mpy": [
@@ -934,7 +934,7 @@
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "このプロジェクトには"
+      "value": "このプロジェクトには "
     },
     {
       "offset": 0,
@@ -947,7 +947,7 @@
             },
             {
               "type": 0,
-              "value": "個のファイル"
+              "value": " 個のファイル"
             }
           ]
         }
@@ -1040,7 +1040,7 @@
   "name-used-when": [
     {
       "type": 0,
-      "value": "この名前はhexファイルを保存するときに使用されます。"
+      "value": "この名前は hex ファイルを保存するときに使用されます。"
     }
   ],
   "new-file-hint": [
@@ -1184,7 +1184,7 @@
   "open-hover": [
     {
       "type": 0,
-      "value": "hexファイルまたはPythonファイルを開くか、他のファイルを追加する"
+      "value": "hex ファイルまたは Python ファイルを開くか、他のファイルを追加する"
     }
   ],
   "options": [
@@ -1226,7 +1226,7 @@
     },
     {
       "type": 0,
-      "value": "を完全に削除しますか？"
+      "value": " を完全に削除しますか？"
     }
   ],
   "post-save-message-files": [
@@ -1266,7 +1266,7 @@
     },
     {
       "type": 0,
-      "value": "フォルダにhexファイルがあります。"
+      "value": "フォルダに hex ファイルがあります。"
     }
   ],
   "post-save-message-two": [
@@ -1298,7 +1298,7 @@
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "micro:bit上のhexファイルを実行するには"
+      "value": "micro:bit上のhex ファイルを実行するには"
     },
     {
       "children": [
@@ -1459,19 +1459,19 @@
     },
     {
       "type": 0,
-      "value": "を保存"
+      "value": " を保存"
     }
   ],
   "save-hex-action": [
     {
       "type": 0,
-      "value": "プロジェクトのhexを保存"
+      "value": "プロジェクトの hex を保存"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "プロジェクトのhexファイルをコンピュータに保存"
+      "value": "プロジェクトの hex ファイルをコンピュータに保存"
     }
   ],
   "save-python-action": [
@@ -1507,13 +1507,13 @@
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "REPLにCtrl+Cを送信"
+      "value": "REPL に Ctrl+C を送信"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Ctrl+Dを送信してリセット"
+      "value": "Ctrl+D を送信してリセット"
     }
   ],
   "serial-expand": [
@@ -1593,19 +1593,19 @@
     },
     {
       "type": 0,
-      "value": "を使用します。"
+      "value": " を使用します。"
     }
   ],
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。 デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。"
+      "value": "シリアルターミナルはmicro:bit上で実行されているプログラムからのエラーやその他の出力を表示します。デフォルトでは、プログラムからの最新のエラーが表示されます。展開するとすべての出力を見ることができます。"
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "プログラムで"
+      "value": "プログラムで "
     },
     {
       "children": [
@@ -1619,7 +1619,7 @@
     },
     {
       "type": 0,
-      "value": "関数を使うとメッセージを出力できます。プログラムに"
+      "value": " 関数を使うとメッセージを出力できます。プログラムに "
     },
     {
       "children": [
@@ -1633,7 +1633,7 @@
     },
     {
       "type": 0,
-      "value": "を追加してみてください。"
+      "value": " を追加してみてください。"
     }
   ],
   "serial-help-title": [
@@ -1709,7 +1709,7 @@
     },
     {
       "type": 0,
-      "value": "の表示を減らす"
+      "value": " の表示を減らす"
     }
   ],
   "show-more": [
@@ -1725,7 +1725,7 @@
     },
     {
       "type": 0,
-      "value": "の詳細を表示"
+      "value": " の詳細を表示"
     }
   ],
   "sidebar": [
@@ -1777,7 +1777,7 @@
     },
     {
       "type": 0,
-      "value": "ボタンを押し続ける"
+      "value": " ボタンを長押し"
     }
   ],
   "simulator-button-press-label": [
@@ -1787,7 +1787,7 @@
     },
     {
       "type": 0,
-      "value": "ボタンを押す"
+      "value": " ボタンを押す"
     }
   ],
   "simulator-buttons": [
@@ -1809,7 +1809,7 @@
     },
     {
       "type": 0,
-      "value": "モジュールを隠す"
+      "value": " モジュールを隠す"
     }
   ],
   "simulator-compass": [
@@ -1821,7 +1821,7 @@
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "方角検知"
+      "value": "方角"
     }
   ],
   "simulator-compass-heading-two": [
@@ -1839,7 +1839,7 @@
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "ログが満杯です"
+      "value": "ログ満杯"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1850,7 +1850,7 @@
           "value": [
             {
               "type": 0,
-              "value": "ログ行なし"
+              "value": "ログに記録された行がありません"
             }
           ]
         },
@@ -1861,7 +1861,7 @@
             },
             {
               "type": 0,
-              "value": "行のログ"
+              "value": "行がログに記録されています"
             }
           ]
         }
@@ -1896,7 +1896,7 @@
     },
     {
       "type": 0,
-      "value": "モジュールを展開"
+      "value": " モジュールを展開"
     }
   ],
   "simulator-gesture-select": [
@@ -1920,7 +1920,7 @@
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "押し続ける"
+      "value": "長押し"
     }
   ],
   "simulator-input-press": [
@@ -1944,19 +1944,19 @@
   "simulator-loud": [
     {
       "type": 0,
-      "value": "うるさくなった"
+      "value": "大音量"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "消音"
+      "value": "ミュート"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "端子"
+      "value": "端子 "
     },
     {
       "type": 1,
@@ -1964,13 +1964,13 @@
     },
     {
       "type": 0,
-      "value": "にタッチし続ける"
+      "value": " を長押し"
     }
   ],
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "端子"
+      "value": "端子 "
     },
     {
       "type": 1,
@@ -1978,7 +1978,7 @@
     },
     {
       "type": 0,
-      "value": "にタッチする"
+      "value": " を押す"
     }
   ],
   "simulator-pins": [
@@ -1990,7 +1990,7 @@
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "静かになった"
+      "value": "小音量"
     }
   ],
   "simulator-radio": [
@@ -1999,10 +1999,16 @@
       "value": "無線"
     }
   ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "micro:bit sent:"
+    }
+  ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "無線のグループを"
+      "value": "無線グループを "
     },
     {
       "type": 1,
@@ -2010,7 +2016,7 @@
     },
     {
       "type": 0,
-      "value": "に設定"
+      "value": " に設定"
     }
   ],
   "simulator-radio-message": [
@@ -2041,6 +2047,12 @@
     {
       "type": 0,
       "value": "メッセージを送信"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "You sent:"
     }
   ],
   "simulator-reference-link": [
@@ -2100,7 +2112,7 @@
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "消音解除"
+      "value": "ミュート解除"
     }
   ],
   "software-versions": [
@@ -2190,7 +2202,7 @@
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "hexファイルを"
+      "value": "hex ファイルを"
     },
     {
       "children": [
@@ -2224,7 +2236,7 @@
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "後でhexファイルを"
+      "value": "後で hex ファイルを"
     },
     {
       "children": [
@@ -2244,13 +2256,13 @@
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "保存されたhexファイルをmicro:bitに転送する"
+      "value": "保存された hex ファイルをmicro:bitに転送する"
     }
   ],
   "try-again-action": [
     {
       "type": 0,
-      "value": "もう一度やり直してください"
+      "value": "もう一度やり直す"
     }
   ],
   "undo": [
@@ -2328,7 +2340,7 @@
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "microbit.orgにアクセスする（新しいタブで開きます）"
+      "value": "microbit.orgにアクセスします（新しいタブで開きます）"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2390,7 +2402,7 @@
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。 micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。"
+      "value": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。"
     }
   ],
   "webusb-not-supported-title": [
@@ -2408,7 +2420,7 @@
   "welcome-message": [
     {
       "type": 0,
-      "value": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めてください。"
+      "value": "主要な機能のいくつかについての短いガイドを見るか、すぐにプログラミングを始めることができます。"
     }
   ],
   "welcome-title": [

@@ -26,7 +26,7 @@ const tabOutShortcut = (e: KeyboardEvent, tabTo: HTMLElement): boolean => {
     escWasPressed = true;
     escTimeout = setTimeout(() => {
       escWasPressed = false;
-    }, 500);
+    }, 2000);
   } else if (e.code === "Tab" && escWasPressed) {
     e.preventDefault();
     resetEscState();

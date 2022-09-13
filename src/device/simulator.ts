@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import EventEmitter from "events";
+import { Logging } from "../logging/logging";
 import {
   ConnectionStatus,
   DeviceConnection,
@@ -215,13 +216,21 @@ export class SimulatorDeviceConnection
         }
         break;
       }
+      case "internal_error": {
+        const error = event.data.error;
+        this.logging.error(error);
+        break;
+      }
       default: {
         // Ignore unknown message.
       }
     }
   };
 
-  constructor(private iframe: () => HTMLIFrameElement | null) {
+  constructor(
+    private logging: Logging,
+    private iframe: () => HTMLIFrameElement | null
+  ) {
     super();
   }
 

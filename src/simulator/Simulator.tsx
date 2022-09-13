@@ -11,6 +11,7 @@ import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
+import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
@@ -43,9 +44,10 @@ const Simulator = ({
 
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
+  const logging = useLogging();
   const simulatorTitle = intl.formatMessage({ id: "simulator-title" });
   const simulator = useRef(
-    new SimulatorDeviceConnection(() => {
+    new SimulatorDeviceConnection(logging, () => {
       return ref.current;
     })
   );

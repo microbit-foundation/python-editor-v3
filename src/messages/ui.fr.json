@@ -1857,18 +1857,22 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "aucune ligne enregistrée"
             }
           ]
         },
         "one": {
           "value": [
             {
+              "type": 0,
+              "value": "ligne "
+            },
+            {
               "type": 7
             },
             {
               "type": 0,
-              "value": " row logged"
+              "value": " enregistrée"
             }
           ]
         },
@@ -1879,7 +1883,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": " lignes enregistrées"
             }
           ]
         }
@@ -2009,6 +2013,12 @@
       "value": "Radio"
     }
   ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "micro:bit sent:"
+    }
+  ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
@@ -2047,6 +2057,12 @@
     {
       "type": 0,
       "value": "Envoyer un message"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "You sent:"
     }
   ],
   "simulator-reference-link": [

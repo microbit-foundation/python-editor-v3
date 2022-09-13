@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import lunr from "lunr";
-import stemmerSupport from "lunr-languages/lunr.stemmer.support";
+import multi from "@microbit/lunr-languages/lunr.multi";
+import stemmerSupport from "@microbit/lunr-languages/lunr.stemmer.support";
+import tinyseg from "@microbit/lunr-languages/tinyseg";
 import { retryAsyncLoad } from "../../common/chunk-util";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {
@@ -22,7 +24,20 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
+export const supportedSearchLanguages = ["en", "es-es", "fr", "ja", "ko"];
+
+// Supress warning issued when changing languages.
+const lunrWarn = lunr.utils.warn;
+lunr.utils.warn = (message: string) => {
+  if (!message.includes("Overwriting existing registered function")) {
+    lunrWarn(message);
+  }
+};
+
 stemmerSupport(lunr);
+multi(lunr);
+// Required for Ja stemming support.
+tinyseg(lunr);
 
 const ignoredPythonStopWords = new Set([
   // Sorted.
@@ -54,15 +69,16 @@ export class SearchIndex {
   constructor(
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
+    private tokenizer: TokenizerFunction,
     private tab: "reference" | "api"
   ) {}
 
   search(text: string): Result[] {
-    const results = this.index.search(
-      // TODO: Review escaping and decide what we let through.
-      //       Ideally nothing that can cause query errors.
-      text.replace(/[~^+:-]/g, (x) => `\\$1`)
-    );
+    const results = this.index.query((builder) => {
+      this.tokenizer(text).forEach((token) => {
+        builder.term(token.toString(), {});
+      });
+    });
     return results.map((result) => {
       const content = this.contentByRef.get(result.ref);
       if (!content) {
@@ -197,23 +213,49 @@ const apiSearchableContent = (
   return content;
 };
 
+type TokenizerFunction = {
+  (obj?: string | object | object[] | null | undefined): lunr.Token[];
+  separator: RegExp;
+};
+
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
   tab: "reference" | "api",
+  language: LunrLanguage | undefined,
+  languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
+  let customTokenizer: TokenizerFunction | undefined;
   const index = lunr(function () {
     this.ref("id");
     this.field("title", { boost: 10 });
     this.field("content");
+    this.use(languagePlugin);
     plugins.forEach((p) => this.use(p));
+
+    // If the language defines a tokenizer then we need to us it alongside the
+    // English one. We stash the tokenizer in customTokenizer so we can pass it
+    // to the index for use at query time.
+    const languageTokenizer = language ? lunr[language].tokenizer : undefined;
+    customTokenizer = Object.assign(
+      (obj?: string | object | object[] | null | undefined) => {
+        const tokens = lunr.tokenizer(obj);
+        if (!languageTokenizer) {
+          return tokens;
+        }
+        return tokens.concat(languageTokenizer(obj));
+      },
+      { separator: lunr.tokenizer.separator }
+    );
+    this.tokenizer = customTokenizer;
+
     this.metadataWhitelist = ["position"];
     for (const doc of searchableContent) {
       this.add(doc);
     }
   });
   const contentByRef = new Map(searchableContent.map((c) => [c.id, c]));
-  return new SearchIndex(contentByRef, index, tab);
+  return new SearchIndex(contentByRef, index, customTokenizer!, tab);
 };
 
 // Exposed for testing.
@@ -221,37 +263,80 @@ export const buildReferenceIndex = async (
   reference: Toolkit,
   api: ApiDocsResponse
 ): Promise<LunrSearch> => {
-  const language = reference.language;
+  const language = convertLangToLunrParam(reference.language);
   const languageSupport = await retryAsyncLoad(() =>
     loadLunrLanguageSupport(language)
   );
   const plugins: lunr.Builder.Plugin[] = [];
-  if (languageSupport) {
+  if (languageSupport && language) {
     // Loading plugin for fr makes lunr.fr available but we don't model this in the types.
     // Avoid repeatedly initializing them when switching back and forth.
-    if (!(lunr as any)[language]) {
+    if (!lunr[language]) {
       languageSupport(lunr);
     }
-    plugins.push((lunr as any)[language]);
+    plugins.push(lunr[language]);
   }
+
+  // There is always some degree of English content.
+  const multiLanguages = ["en"];
+  if (language) {
+    multiLanguages.push(language);
+  }
+  const languagePlugin = lunr.multiLanguage(...multiLanguages);
 
   return new LunrSearch(
     buildSearchIndex(
       referenceSearchableContent(reference),
       "reference",
+      language,
+      languagePlugin,
       ...plugins
     ),
-    buildSearchIndex(apiSearchableContent(api), "api")
+    buildSearchIndex(
+      apiSearchableContent(api),
+      "api",
+      language,
+      languagePlugin,
+      ...plugins
+    )
   );
 };
 
 async function loadLunrLanguageSupport(
-  language: string
+  language: LunrLanguage | undefined
 ): Promise<undefined | ((l: typeof lunr) => void)> {
+  if (!language) {
+    // English.
+    return undefined;
+  }
   // Enumerated for code splitting.
-  switch (language) {
+  switch (language.toLowerCase()) {
     case "fr":
-      return (await import("lunr-languages/lunr.fr")).default;
+      return (await import("@microbit/lunr-languages/lunr.fr")).default;
+    case "es":
+      return (await import("@microbit/lunr-languages/lunr.es")).default;
+    case "ja":
+      return (await import("@microbit/lunr-languages/lunr.ja")).default;
+    case "ko":
+      return (await import("@microbit/lunr-languages/lunr.ko")).default;
+    default:
+      // No search support for the language, default to lunr's built-in English support.
+      return undefined;
+  }
+}
+
+type LunrLanguage = "es" | "fr" | "ja" | "ko";
+
+function convertLangToLunrParam(language: string): LunrLanguage | undefined {
+  switch (language.toLowerCase()) {
+    case "fr":
+      return "fr";
+    case "es-es":
+      return "es";
+    case "ja":
+      return "ja";
+    case "ko":
+      return "ko";
     default:
       // No search support for the language, default to lunr's built-in English support.
       return undefined;

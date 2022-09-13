@@ -8,7 +8,7 @@
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
-    "defaultMessage": "<link>Micro:bit Educational Foundation 및 기여자</link>의 사랑을 담아 만들었습니다",
+    "defaultMessage": "<link>Micro:bit Educational Foundation 및 기여자</link>의 사랑을 담아 개발했습니다",
     "description": "Text in about dialog"
   },
   "about-micropython": {
@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "사용법과 예시는 <link>참조(Reference)</link>를 확인하세요",
+    "defaultMessage": "사용법과 예시는 <link>Reference</link>를 확인하세요",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -36,7 +36,7 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, other {base classes: }}",
+    "defaultMessage": "{baseClassCount, plural, one {베이스 클래스} other {베이스 클래스: }}",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
@@ -228,7 +228,7 @@
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "{filename} 삭제",
+    "defaultMessage": "{name} 삭제",
     "description": "Menu option to delete file"
   },
   "deleted-file": {
@@ -495,7 +495,7 @@
     "description": "Text in the no micro:bit found dialog"
   },
   "not-found-save-message": {
-    "defaultMessage": "다른 방법: 저장 후 다음 단계를 통해 전송합니다",
+    "defaultMessage": "다른 방법: 저장 후 전송 단계를 따릅니다",
     "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
@@ -902,6 +902,10 @@
     "defaultMessage": "라디오",
     "description": "Radio simulator panel title"
   },
+  "simulator-radio-code": {
+    "defaultMessage": "micro:bit sent:",
+    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
+  },
   "simulator-radio-group-notice": {
     "defaultMessage": "라디오 그룹이 {groupNumber}(으)로 설정됨",
     "description": "Message in radio simulator area when the radio group changes"
@@ -925,6 +929,10 @@
   "simulator-radio-send": {
     "defaultMessage": "메시지 전송",
     "description": "Aria label for the simulator radio send button"
+  },
+  "simulator-radio-user": {
+    "defaultMessage": "You sent:",
+    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {
     "defaultMessage": "레퍼런스 섹션에 링크하기",
