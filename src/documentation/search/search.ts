@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import lunr from "lunr";
-import multi from "lunr-languages/lunr.multi";
-import stemmerSupport from "lunr-languages/lunr.stemmer.support";
-import tinyseg from "lunr-languages/tinyseg";
+import multi from "@microbit/lunr-languages/lunr.multi";
+import stemmerSupport from "@microbit/lunr-languages/lunr.stemmer.support";
+import tinyseg from "@microbit/lunr-languages/tinyseg";
 import { retryAsyncLoad } from "../../common/chunk-util";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {
@@ -292,11 +292,11 @@ async function loadLunrLanguageSupport(
   // Enumerated for code splitting.
   switch (language.toLowerCase()) {
     case "fr":
-      return (await import("lunr-languages/lunr.fr")).default;
+      return (await import("@microbit/lunr-languages/lunr.fr")).default;
     case "es":
-      return (await import("lunr-languages/lunr.es")).default;
+      return (await import("@microbit/lunr-languages/lunr.es")).default;
     case "ja":
-      return (await import("lunr-languages/lunr.ja")).default;
+      return (await import("@microbit/lunr-languages/lunr.ja")).default;
     default:
       // No search support for the language, default to lunr's built-in English support.
       return undefined;

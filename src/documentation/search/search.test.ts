@@ -7,7 +7,7 @@ import lunr from "lunr";
 import { ApiDocsResponse } from "../../language-server/apidocs";
 import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
-import lunrJa from "lunr-languages/lunr.ja";
+import lunrJa from "@microbit/lunr-languages/lunr.ja";
 import {
   buildReferenceIndex,
   buildSearchIndex,
