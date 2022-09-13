@@ -95,11 +95,9 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
   return (
     <Button
       padding={3}
-      variant="outline"
+      variant="language"
       alignItems="stretch"
       borderRadius="xl"
-      colorScheme="gray"
-      textColor="brand.500"
       onClick={() => onChooseLanguage(language.id)}
       height="auto"
       data-testid={language.id}
