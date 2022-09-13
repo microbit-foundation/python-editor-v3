@@ -903,8 +903,8 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "Radio message from the micro:bit simulator",
-    "description": "Aria label for a message sent from the micro:bit simulator"
+    "defaultMessage": "micro:bit sent:",
+    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
     "defaultMessage": "Grupo de radio configurado a {groupNumber}",
@@ -931,8 +931,8 @@
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-radio-user": {
-    "defaultMessage": "Radio message to the micro:bit simulator",
-    "description": "Aria label for a message sent to the micro:bit simulator"
+    "defaultMessage": "You sent:",
+    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {
     "defaultMessage": "Enlace a la sección de referencia",

@@ -1777,7 +1777,7 @@
     },
     {
       "type": 0,
-      "value": "ボタンを押し続ける"
+      "value": " ボタンを長押し"
     }
   ],
   "simulator-button-press-label": [
@@ -1787,7 +1787,7 @@
     },
     {
       "type": 0,
-      "value": "ボタンを押す"
+      "value": " ボタンを押す"
     }
   ],
   "simulator-buttons": [
@@ -1809,7 +1809,7 @@
     },
     {
       "type": 0,
-      "value": "モジュールを隠す"
+      "value": " モジュールを隠す"
     }
   ],
   "simulator-compass": [
@@ -1839,7 +1839,7 @@
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "ログが満杯です"
+      "value": "ログ満杯"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1850,7 +1850,7 @@
           "value": [
             {
               "type": 0,
-              "value": "ログ行なし"
+              "value": "ログに記録された行がありません"
             }
           ]
         },
@@ -1861,7 +1861,7 @@
             },
             {
               "type": 0,
-              "value": "行のログ"
+              "value": "行がログに記録されています"
             }
           ]
         }
@@ -1896,7 +1896,7 @@
     },
     {
       "type": 0,
-      "value": "モジュールを展開"
+      "value": " モジュールを展開"
     }
   ],
   "simulator-gesture-select": [
@@ -1920,7 +1920,7 @@
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "押し続ける"
+      "value": "長押し"
     }
   ],
   "simulator-input-press": [
@@ -1944,19 +1944,19 @@
   "simulator-loud": [
     {
       "type": 0,
-      "value": "うるさくなった"
+      "value": "大音量"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "消音"
+      "value": "ミュート"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "端子"
+      "value": "端子 "
     },
     {
       "type": 1,
@@ -1964,13 +1964,13 @@
     },
     {
       "type": 0,
-      "value": "にタッチし続ける"
+      "value": " を長押し"
     }
   ],
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "端子"
+      "value": "端子 "
     },
     {
       "type": 1,
@@ -1978,7 +1978,7 @@
     },
     {
       "type": 0,
-      "value": "にタッチする"
+      "value": " を押す"
     }
   ],
   "simulator-pins": [
@@ -1990,7 +1990,7 @@
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "静かになった"
+      "value": "小音量"
     }
   ],
   "simulator-radio": [
@@ -2002,13 +2002,13 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "Radio message from the micro:bit simulator"
+      "value": "micro:bit sent:"
     }
   ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "無線のグループを"
+      "value": "無線グループを "
     },
     {
       "type": 1,
@@ -2016,7 +2016,7 @@
     },
     {
       "type": 0,
-      "value": "に設定"
+      "value": " に設定"
     }
   ],
   "simulator-radio-message": [
@@ -2052,7 +2052,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "Radio message to the micro:bit simulator"
+      "value": "You sent:"
     }
   ],
   "simulator-reference-link": [
@@ -2112,7 +2112,7 @@
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "消音解除"
+      "value": "ミュート解除"
     }
   ],
   "software-versions": [

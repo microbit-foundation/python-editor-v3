@@ -787,11 +787,11 @@
     "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
-    "defaultMessage": "{button}ボタンを押し続ける",
+    "defaultMessage": "{button} ボタンを長押し",
     "description": "Aria label for simulator toggle button"
   },
   "simulator-button-press-label": {
-    "defaultMessage": "{button}ボタンを押す",
+    "defaultMessage": "{button} ボタンを押す",
     "description": "Aria label for simulator push button"
   },
   "simulator-buttons": {
@@ -803,7 +803,7 @@
     "description": "Aria label for the collapse simulator button"
   },
   "simulator-collapse-module": {
-    "defaultMessage": "{title}モジュールを隠す",
+    "defaultMessage": "{title} モジュールを隠す",
     "description": "Aria label for collapse simulator module button"
   },
   "simulator-compass": {
@@ -823,11 +823,11 @@
     "description": "Shown in the simulator Data logging table when there are no rows"
   },
   "simulator-data-logging-full": {
-    "defaultMessage": "ログが満杯です",
+    "defaultMessage": "ログ満杯",
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {ログ行なし} other {#行のログ}}",
+    "defaultMessage": "{count, plural, =0 {ログに記録された行がありません} other {#行がログに記録されています}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
@@ -843,7 +843,7 @@
     "description": "Aria label for the expand simulator button"
   },
   "simulator-expand-module": {
-    "defaultMessage": "{title}モジュールを展開",
+    "defaultMessage": "{title} モジュールを展開",
     "description": "Aria label for expand simulator module button"
   },
   "simulator-gesture-select": {
@@ -859,7 +859,7 @@
     "description": "Hide simulator action"
   },
   "simulator-input-hold": {
-    "defaultMessage": "押し続ける",
+    "defaultMessage": "長押し",
     "description": "Label for UI toggles to hold simulator buttons or pins"
   },
   "simulator-input-press": {
@@ -875,19 +875,19 @@
     "description": "Data log simulator panel title"
   },
   "simulator-loud": {
-    "defaultMessage": "うるさくなった",
+    "defaultMessage": "大音量",
     "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
-    "defaultMessage": "消音",
+    "defaultMessage": "ミュート",
     "description": "Aria label for the mute simulator button"
   },
   "simulator-pin-hold-label": {
-    "defaultMessage": "端子{pin}にタッチし続ける",
+    "defaultMessage": "端子 {pin} を長押し",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pin-press-label": {
-    "defaultMessage": "端子{pin}にタッチする",
+    "defaultMessage": "端子 {pin} を押す",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pins": {
@@ -895,7 +895,7 @@
     "description": "Pins simulator panel title"
   },
   "simulator-quiet": {
-    "defaultMessage": "静かになった",
+    "defaultMessage": "小音量",
     "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
@@ -903,11 +903,11 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "Radio message from the micro:bit simulator",
-    "description": "Aria label for a message sent from the micro:bit simulator"
+    "defaultMessage": "micro:bit sent:",
+    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
-    "defaultMessage": "無線のグループを{groupNumber}に設定",
+    "defaultMessage": "無線グループを {groupNumber} に設定",
     "description": "Message in radio simulator area when the radio group changes"
   },
   "simulator-radio-message": {
@@ -931,8 +931,8 @@
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-radio-user": {
-    "defaultMessage": "Radio message to the micro:bit simulator",
-    "description": "Aria label for a message sent to the micro:bit simulator"
+    "defaultMessage": "You sent:",
+    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {
     "defaultMessage": "参照セクションへのリンク",
@@ -971,7 +971,7 @@
     "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
   "simulator-unmute": {
-    "defaultMessage": "消音解除",
+    "defaultMessage": "ミュート解除",
     "description": "Aria label for the unmute simulator button"
   },
   "software-versions": {
