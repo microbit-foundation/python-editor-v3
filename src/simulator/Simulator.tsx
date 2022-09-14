@@ -111,6 +111,7 @@ const Simulator = ({
                 frameBorder="no"
                 scrolling="no"
                 allow="autoplay;microphone"
+                sandbox="allow-scripts allow-same-origin"
               />
             </AspectRatio>
             <SimulatorActionBar
