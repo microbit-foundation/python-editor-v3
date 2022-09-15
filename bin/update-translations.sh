@@ -38,6 +38,8 @@ npm run i18n:compile
   npm run i18n:typeshed-to-crowdin
   npm run i18n:crowdin-to-typeshed
 )
-
 ./bin/update-pyright.sh
 ./bin/update-typeshed.sh
+# We sometimes have newer English stubs than translations and don't want to
+# regress them as part of a translations update.
+git checkout -- src/micropython/main/typeshed.en.json
