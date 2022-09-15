@@ -10,6 +10,7 @@ import { useIntl } from "react-intl";
 import {
   hideSidebarMediaQuery,
   sidebarToWidthRatio,
+  simulatorToWidthRatio,
   widthToHideSidebar,
 } from "../common/screenWidthUtils";
 import {
@@ -188,6 +189,13 @@ const EditorWithSimulator = ({
       minimums={simulatorMinimums}
       height="100%"
       mode={simulatorShown ? "open" : "collapsed"}
+      initialSize={Math.min(
+        350,
+        Math.max(
+          simulatorMinimums[0],
+          Math.floor(window.innerWidth * simulatorToWidthRatio)
+        )
+      )}
     >
       <SplitViewRemainder>
         <Editor editor={editor} />
