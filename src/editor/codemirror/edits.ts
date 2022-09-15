@@ -112,6 +112,21 @@ export const calculateChanges = (
         } else {
           mainFrom = state.doc.line(line).from;
         }
+        // Determine if code is being appended to previous block and indent accordingly.
+        const previousLineNum = line - 1;
+        if (previousLineNum >= 1 && previousLineNum <= state.doc.lines) {
+          const previousLine = state.doc.line(previousLineNum);
+          const currentLineIsBlank = lineIsBlank(state, line);
+          const previousLineIsBlank = lineIsBlank(state, previousLineNum);
+          mainIndent =
+            !previousLineIsBlank && currentLineIsBlank
+              ? previousLine.text.match(/^(\s*)/)?.[0] ?? ""
+              : "";
+          // Special case where body code does not yet exist but should be indented.
+          if (previousLine.text.trim().endsWith(":") && currentLineIsBlank) {
+            mainIndent += "    ";
+          }
+        }
       }
     } else {
       // When no line is specified, insert before the code (not just after the imports).
@@ -126,7 +141,7 @@ export const calculateChanges = (
     ) {
       mainCode = removeCommonIndent(mainCode.slice(whileTrueLine.length));
     }
-    mainIndent = insertLine.text.match(/^(\s*)/)?.[0] ?? "";
+    mainIndent += insertLine.text.match(/^(\s*)/)?.[0] ?? "";
     mainChange = {
       from: mainFrom,
       insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
@@ -151,6 +166,16 @@ export const calculateChanges = (
     scrollIntoView: true,
     selection,
   });
+};
+
+/**
+ * Determines if the line contains any code.
+ */
+const lineIsBlank = (state: EditorState, line: number): boolean => {
+  if (line <= state.doc.lines) {
+    return state.doc.line(line).text.trim() === "";
+  }
+  return false;
 };
 
 const calculateNewSelection = (
