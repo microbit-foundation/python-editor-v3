@@ -56,7 +56,10 @@ const useManagedTermimal = (
   const [, setSelection] = useSelection();
   const fitAddon = useMemo(() => new FitAddon(), []);
   const currentTerminalRef = useCurrentTerminalRef();
-  const [{ fontSize: settingsFontSize }] = useSettings();
+  const [{ fontSize: settingsFontSizePt }] = useSettings();
+  const initialFontSizeRef = useRef<number>(
+    fontSizePt ? fontSizePt : settingsFontSizePt
+  );
 
   useEffect(() => {
     if (!parent) {
@@ -67,7 +70,7 @@ const useManagedTermimal = (
     }
     const terminal = new Terminal({
       fontFamily: codeFontFamily,
-      fontSize: ptToPixelRatio * (fontSizePt ? fontSizePt : settingsFontSize),
+      fontSize: ptToPixelRatio * initialFontSizeRef.current,
       letterSpacing: 1.1,
       screenReaderMode: true,
       theme: {
@@ -192,8 +195,7 @@ const useManagedTermimal = (
     parent,
     setSelection,
     fitAddon,
-    fontSizePt,
-    settingsFontSize,
+    initialFontSizeRef,
     tabOutRef,
   ]);
 
@@ -201,7 +203,7 @@ const useManagedTermimal = (
     if (!fontSizePt) {
       currentTerminalRef.current?.setOption(
         "fontSize",
-        settingsFontSize * ptToPixelRatio
+        settingsFontSizePt * ptToPixelRatio
       );
       try {
         fitAddon.fit();
@@ -209,7 +211,7 @@ const useManagedTermimal = (
         // It throws if you resize it when not visible but it does no harm.
       }
     }
-  }, [currentTerminalRef, fitAddon, settingsFontSize, fontSizePt]);
+  }, [currentTerminalRef, fitAddon, settingsFontSizePt, fontSizePt]);
 };
 
 export default XTerm;
