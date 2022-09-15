@@ -183,7 +183,9 @@ const SideBarHeader = ({
         backgroundColor="brand.500"
         boxShadow="0px 4px 16px #00000033"
         zIndex={zIndexSidebarHeader}
-        height={searchAvailable && searchModal.isOpen ? "5.5rem" : topBarHeight}
+        height={
+          searchAvailable && searchModal.isOpen ? "4.95rem" : topBarHeight
+        }
         alignItems="center"
         justifyContent="space-between"
         pr={4}
@@ -197,7 +199,7 @@ const SideBarHeader = ({
           rel="noopener noreferrer"
           aria-label={intl.formatMessage({ id: "visit-dot-org" })}
         >
-          <HStack spacing={3.5} pl={4} pr={4}>
+          <HStack spacing="0.875rem" px="1rem">
             <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
               {brand.squareLogo}
             </Box>

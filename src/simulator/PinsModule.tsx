@@ -45,43 +45,45 @@ const PinsModule = ({
           </>
         )}
       </VStack>
-      <SensorInput
-        type="pin"
-        sensorId="pin0"
-        label="0"
-        state={state}
-        onValueChange={onValueChange}
-        running={simState}
-        minimised={minimised}
-      />
-      <SensorInput
-        type="pin"
-        sensorId="pin1"
-        label="1"
-        state={state}
-        onValueChange={onValueChange}
-        running={simState}
-        minimised={minimised}
-      />
-      <SensorInput
-        type="pin"
-        sensorId="pin2"
-        label="2"
-        state={state}
-        onValueChange={onValueChange}
-        running={simState}
-        minimised={minimised}
-      />
-      <SensorInput
-        type="pin"
-        sensorId="pinLogo"
-        label={touchLogoLabel}
-        logo={brand.squareLogo}
-        state={state}
-        onValueChange={onValueChange}
-        running={simState}
-        minimised={minimised}
-      />
+      <HStack spacing={2}>
+        <SensorInput
+          type="pin"
+          sensorId="pin0"
+          label="0"
+          state={state}
+          onValueChange={onValueChange}
+          running={simState}
+          minimised={minimised}
+        />
+        <SensorInput
+          type="pin"
+          sensorId="pin1"
+          label="1"
+          state={state}
+          onValueChange={onValueChange}
+          running={simState}
+          minimised={minimised}
+        />
+        <SensorInput
+          type="pin"
+          sensorId="pin2"
+          label="2"
+          state={state}
+          onValueChange={onValueChange}
+          running={simState}
+          minimised={minimised}
+        />
+        <SensorInput
+          type="pin"
+          sensorId="pinLogo"
+          label={touchLogoLabel}
+          logo={brand.squareLogo}
+          state={state}
+          onValueChange={onValueChange}
+          running={simState}
+          minimised={minimised}
+        />
+      </HStack>
     </HStack>
   );
 };

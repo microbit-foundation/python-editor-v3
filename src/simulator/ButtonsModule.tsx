@@ -41,24 +41,26 @@ const ButtonsModule = ({
           </>
         )}
       </VStack>
-      <SensorInput
-        type="button"
-        sensorId="buttonA"
-        label="A"
-        state={state}
-        onValueChange={onValueChange}
-        running={running}
-        minimised={minimised}
-      />
-      <SensorInput
-        type="button"
-        sensorId="buttonB"
-        label="B"
-        state={state}
-        onValueChange={onValueChange}
-        running={running}
-        minimised={minimised}
-      />
+      <HStack spacing={2}>
+        <SensorInput
+          type="button"
+          sensorId="buttonA"
+          label="A"
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
+          minimised={minimised}
+        />
+        <SensorInput
+          type="button"
+          sensorId="buttonB"
+          label="B"
+          state={state}
+          onValueChange={onValueChange}
+          running={running}
+          minimised={minimised}
+        />
+      </HStack>
     </HStack>
   );
 };

@@ -237,6 +237,7 @@ const CodePopUp = ({
   return (
     <Portal>
       <Code
+        fontSize="md"
         zIndex={zIndexCodePopUp}
         concise={concise}
         full={full}
