@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-export const widthToHideSidebar = 1376;
+export const widthToHideSidebar = 1365;
 export const sidebarToWidthRatio = 0.27;
-export const hideSidebarMediaQuery = `(max-width: ${widthToHideSidebar - 1}px)`;
+export const simulatorToWidthRatio = 0.29;
+export const hideSidebarMediaQuery = `(max-width: ${widthToHideSidebar}px)`;
