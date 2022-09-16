@@ -37,10 +37,11 @@ const Simulator = ({
   simFocus,
 }: SimulatorProps) => {
   // This needs the domain to be updated before we release.
-  const url = "https://stage-python-simulator.microbit.org/simulator.html";
+  const version = "0.1.0";
+  const url = `https://python-simulator.usermbit.org/v/${version}/simulator.html`;
   // For testing with sim branches:
   //const branch = "whatever";
-  //const url = `https://review-python-simulator.microbit.org/${branch}/simulator.html`;
+  //const url = `https://review-python-simulator.usermbit.org/${branch}/simulator.html`;
 
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
