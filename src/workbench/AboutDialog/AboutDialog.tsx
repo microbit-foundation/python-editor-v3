@@ -51,7 +51,7 @@ const versionInfo = [
   {
     name: "Editor",
     value: process.env.REACT_APP_VERSION,
-    href: "https://github.com/microbit-foundation/python-editor-next",
+    href: "https://github.com/microbit-foundation/python-editor-v3",
   },
   ...microPythonConfig.versions.map((mpy) => ({
     name: mpy.name,
@@ -118,7 +118,7 @@ const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
                         rel="noopener noreferrer"
                         target="blank"
                         color="brand.500"
-                        href="https://github.com/microbit-foundation/python-editor-next/graphs/contributors"
+                        href="https://github.com/microbit-foundation/python-editor-v3/graphs/contributors"
                       >
                         {chunks}
                       </Link>

@@ -31,7 +31,7 @@ If you use Visual Studio Code you might find the devcontainer included in this r
 
 ## Deployments
 
-The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-next).
+The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
 
 The `main` branch is deployed to https://stage-python-editor-next.microbit.org/ on each commit.
 

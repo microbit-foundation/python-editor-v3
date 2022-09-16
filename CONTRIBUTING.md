@@ -4,7 +4,7 @@ possible through contributions of companies and individuals around the world.
 This project is managed on GitHub, and the best way to contribute is to jump in
 and fix/file issues.
 
-https://github.com/microbit-foundation/python-editor-next
+https://github.com/microbit-foundation/python-editor-v3
 
 Significant features are best discussed first to make sure everyone is agreed
 on the best direction.

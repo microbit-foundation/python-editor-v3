@@ -94,7 +94,7 @@ export class MicrobitWebUSBConnection
     // If serial is in progress when the page unloads with V1 DAPLink 0254 or V2 0255
     // then it'll fail to reconnect with mismatched command/response errors.
     // Try hard to disconnect as a workaround.
-    // https://github.com/microbit-foundation/python-editor-next/issues/89
+    // https://github.com/microbit-foundation/python-editor-v3/issues/89
     this.unloading = true;
     this.stopSerialInternal();
     // The user might stay on the page if they have unsaved changes and there's another beforeunload listener.
@@ -343,7 +343,7 @@ export class MicrobitWebUSBConnection
     return this.withEnrichedErrors(async () => {
       if (this.connection) {
         // Using WebUSB/DAPJs we're limited to 64 byte packet size with a two byte header.
-        // https://github.com/microbit-foundation/python-editor-next/issues/215
+        // https://github.com/microbit-foundation/python-editor-v3/issues/215
         const maxSerialWrite = 62;
         let start = 0;
         while (start < data.length) {

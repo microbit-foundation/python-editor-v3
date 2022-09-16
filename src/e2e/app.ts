@@ -493,7 +493,7 @@ export class App {
     const content = await this.focusEditorContent();
     // The short delay seems to improve reliability triggering autocomplete.
     // Previously finding autocomplete options failed approx 1 in 30 times.
-    // https://github.com/microbit-foundation/python-editor-next/issues/419
+    // https://github.com/microbit-foundation/python-editor-v3/issues/419
     return content.type(text, { delay: 10 });
   }
 
