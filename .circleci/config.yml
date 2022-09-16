@@ -54,7 +54,7 @@ _steps:
   serve-review: &serve-review
     run:
       name: Serve files for e2e tests (review)
-      command: mkdir /tmp/app && cp -r build /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app
+      command: npx serve --no-clipboard -l 3000 build
       background: true
   serve: &serve
     run:
