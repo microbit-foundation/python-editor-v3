@@ -7,7 +7,7 @@ const path = require("path");
 const fs = require("fs");
 
 // Support optionally pulling in external branding if the module is installed.
-const theme = "@microbit-foundation/python-editor-next-microbit";
+const theme = "@microbit-foundation/python-editor-v3-microbit";
 const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
 

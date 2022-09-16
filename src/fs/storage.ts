@@ -113,7 +113,7 @@ export class SessionStorageFSStorage implements FSStorage {
         return window.sessionStorage;
       } catch (e) {
         // We see SecurityError here in some scenarios
-        // https://github.com/microbit-foundation/python-editor-next/issues/736
+        // https://github.com/microbit-foundation/python-editor-v3/issues/736
         return undefined;
       }
     };

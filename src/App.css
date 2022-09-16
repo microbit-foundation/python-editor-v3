@@ -24,7 +24,7 @@
 }
 
 :root {
-  /* Seems to fix a Safari glitch: https://github.com/microbit-foundation/python-editor-next/issues/369 */
+  /* Seems to fix a Safari glitch: https://github.com/microbit-foundation/python-editor-v3/issues/369 */
   font-size: 16px;
 }
 

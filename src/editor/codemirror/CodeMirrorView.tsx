@@ -38,7 +38,7 @@ const CodeMirrorView = ({ value, ...props }: CodeMirrorViewProps) => {
           ".cm-scroller": {
             // Reduced from 1.4 to a value that gets integral line height on Safari with the 16px
             // font size used in Reference to sidestep https://bugs.webkit.org/show_bug.cgi?id=225695
-            // See https://github.com/microbit-foundation/python-editor-next/issues/369
+            // See https://github.com/microbit-foundation/python-editor-v3/issues/369
             lineHeight: 1.375,
           },
         }),

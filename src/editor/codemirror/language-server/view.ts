@@ -50,7 +50,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   update({ docChanged }: ViewUpdate) {
     if (docChanged) {
       // We should do incremental updates here
-      // See https://github.com/microbit-foundation/python-editor-next/issues/256
+      // See https://github.com/microbit-foundation/python-editor-v3/issues/256
       this.client.didChangeTextDocument(this.uri, [
         { text: this.view.state.doc.toString() },
       ]);
