@@ -9,7 +9,7 @@ export interface DocSectionsSplit {
 }
 
 export const splitDocString = (markup: string): DocSectionsSplit => {
-  // Workaround for https://github.com/microbit-foundation/python-editor-next/issues/501
+  // Workaround for https://github.com/microbit-foundation/python-editor-v3/issues/501
   if (markup.startsWith("\\\n")) {
     markup = markup.substring(2);
   }

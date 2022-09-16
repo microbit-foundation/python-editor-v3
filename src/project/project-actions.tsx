@@ -527,7 +527,7 @@ export class ProjectActions {
       if (e instanceof HexGenerationError) {
         this.actionFeedback.expectedError({
           title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
-          // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
+          // Not translated, see https://github.com/microbit-foundation/python-editor-v3/issues/159
           description: e.message,
         });
       } else {
@@ -555,7 +555,7 @@ export class ProjectActions {
     } catch (e: any) {
       this.actionFeedback.expectedError({
         title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
-        // Not translated, see https://github.com/microbit-foundation/python-editor-next/issues/159
+        // Not translated, see https://github.com/microbit-foundation/python-editor-v3/issues/159
         description: e.message,
       });
       return;
