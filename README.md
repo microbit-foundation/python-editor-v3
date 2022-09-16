@@ -27,8 +27,6 @@ CodeMirror 6 has [great documentation](https://codemirror.net/6/docs/). The [sys
 
 The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-If you use Visual Studio Code you might find the devcontainer included in this repository a useful option to get an automatically configured development environment. [Find out more about containers and Visual Studio Code](https://code.visualstudio.com/docs/remote/containers).
-
 ## Deployments
 
 The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
@@ -45,8 +43,6 @@ For custom deployments, note that the educational content in the sidebar is curr
 2. Checkout this repository.
 3. Install the dependencies via `npm install`.
 4. Choose from the NPM scripts documented below.
-
-If you're using the devcontainer with Visual Studio Code then the "Clone a repository from GitHub in a Container Volume" action will address steps 1 through 3.
 
 ### `npm start`
 
