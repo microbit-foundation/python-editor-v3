@@ -106,13 +106,6 @@ jobs:
       - *install_theme
       - *update_version
       - *save_npm_cache
-      # Set PUBLIC_URL based on the bucket prefix. PUBLIC_URL is equivalent to CRA's package.json homepage setting https://create-react-app.dev/docs/advanced-configuration/
-      - run:
-          name: "Set PUBLIC_URL for review branch"
-          environment:
-            NODE_PATH: /usr/local/lib/node_modules
-          # Two env vars as PUBLIC_URL seems to be blank when running jest even if we set it.
-          command: URL=$(npm run --silent public-url); echo "export PUBLIC_URL=$URL && export E2E_PUBLIC_URL=$URL" >> $BASH_ENV
       - *build
       # Unlike other stages deploy, first so we still get deployments when e2e fails.
       - *queue_until_front_of_line

@@ -19,6 +19,9 @@ module.exports = {
         : path.resolve(__dirname, internal),
     },
     configure: {
+      output: {
+        publicPath: "auto",
+      },
       ignoreWarnings: [
         // Temporary version of https://github.com/facebook/create-react-app/pull/11752
         function ignoreSourcemapsloaderWarnings(warning) {
