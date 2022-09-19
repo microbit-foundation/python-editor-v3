@@ -68,14 +68,34 @@ type RouterContextValue = [
 
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);
 
-const parse = (search: string): RouterState => {
+const parse = (pathname: string, search: string): RouterState => {
   const params = new URLSearchParams(search);
-  return {
-    tab: params.get("tab") ?? undefined,
-    api: anchorForParam(params.get("api")),
-    reference: anchorForParam(params.get("reference")),
-    idea: anchorForParam(params.get("idea")),
-  };
+  if (params.get("tab")) {
+    // Legacy
+    return {
+      tab: params.get("tab") ?? undefined,
+      api: anchorForParam(params.get("api")),
+      reference: anchorForParam(params.get("reference")),
+      idea: anchorForParam(params.get("idea")),
+    };
+  }
+  const base = process.env.PUBLIC_URL ?? "/";
+  pathname = pathname.slice(base.length);
+  if (pathname) {
+    const parts = pathname.split("/");
+    const tab = parts[0];
+    switch (tab) {
+      case "api":
+        return { tab: "api", api: anchorForParam(parts[1]) };
+      case "reference":
+        return { tab: "reference", api: anchorForParam(parts[1]) };
+      case "idea":
+        return { tab: "ideas", api: anchorForParam(parts[1]) };
+      default:
+        return {};
+    }
+  }
+  return {};
 };
 
 /**
@@ -95,28 +115,29 @@ export const useRouterState = (): RouterContextValue => {
 };
 
 export const toUrl = (state: RouterState): string => {
-  const query = Object.entries(state)
-    .filter(([k, v]) => k !== "focus" && !!v)
-    .map(([k, v]) => {
-      return `${encodeURIComponent(k)}=${encodeURIComponent(
-        serializeValue(v)
-      )}`;
-    })
-    .join("&");
-  return window.location.toString().split("?")[0] + (query ? "?" + query : "");
+  // This could be cleaned up if we always set the tab.
+  const parts = [
+    state.tab ??
+      (state.tab === "api" || state.api ? "api" : undefined) ??
+      (state.reference ? "reference" : undefined) ??
+      (state.idea ? "ideas" : undefined),
+    state.api?.id ?? state.reference?.id ?? state.idea?.id,
+  ];
+  const base = process.env.PUBLIC_URL ?? "/";
+  const pathname = base + parts.filter((x): x is string => !!x).join("/");
+  return window.location.toString().split("/", 1)[0] + pathname;
 };
-
-const serializeValue = (value: Anchor | string) =>
-  typeof value === "string" ? value : value.id;
 
 export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const logging = useLogging();
-  const [state, setState] = useState(parse(window.location.search));
+  const [state, setState] = useState(
+    parse(window.location.pathname, window.location.search)
+  );
   useEffect(() => {
     // This detects browser navigation but not our programatic changes,
     // so we need to update state there ourselves.
     const listener = (_: PopStateEvent) => {
-      const newState = parse(window.location.search);
+      const newState = parse(window.location.pathname, window.location.search);
       setState(newState);
     };
     window.addEventListener("popstate", listener);
