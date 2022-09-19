@@ -19,6 +19,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { baseUrl } from "./base";
 import { useLogging } from "./logging/logging-hooks";
 
 /**
@@ -79,8 +80,7 @@ const parse = (pathname: string, search: string): RouterState => {
       idea: anchorForParam(params.get("idea")),
     };
   }
-  const base = process.env.PUBLIC_URL || "/";
-  pathname = pathname.slice(base.length);
+  pathname = pathname.slice(baseUrl.length);
   if (pathname) {
     const parts = pathname.split("/");
     const tab = parts[0];
@@ -123,8 +123,7 @@ export const toUrl = (state: RouterState): string => {
       (state.idea ? "ideas" : undefined),
     state.api?.id ?? state.reference?.id ?? state.idea?.id,
   ];
-  const base = process.env.PUBLIC_URL || "/";
-  const pathname = base + parts.filter((x): x is string => !!x).join("/");
+  const pathname = baseUrl + parts.filter((x): x is string => !!x).join("/");
   return window.location.toString().split("/", 1)[0] + pathname;
 };
 
