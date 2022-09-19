@@ -41,10 +41,10 @@ const animations = {
   },
   none: {
     initial: {
-      x: "unset",
+      x: 0,
     },
     animate: {
-      x: "unset",
+      x: 0,
     },
   },
 };
