@@ -79,7 +79,7 @@ const parse = (pathname: string, search: string): RouterState => {
       idea: anchorForParam(params.get("idea")),
     };
   }
-  const base = process.env.PUBLIC_URL ?? "/";
+  const base = process.env.PUBLIC_URL || "/";
   pathname = pathname.slice(base.length);
   if (pathname) {
     const parts = pathname.split("/");
@@ -88,11 +88,11 @@ const parse = (pathname: string, search: string): RouterState => {
       case "api":
         return { tab: "api", api: anchorForParam(parts[1]) };
       case "reference":
-        return { tab: "reference", api: anchorForParam(parts[1]) };
+        return { tab: "reference", reference: anchorForParam(parts[1]) };
       case "idea":
-        return { tab: "ideas", api: anchorForParam(parts[1]) };
+        return { tab: "ideas", idea: anchorForParam(parts[1]) };
       default:
-        return {};
+        return { tab };
     }
   }
   return {};
@@ -123,7 +123,7 @@ export const toUrl = (state: RouterState): string => {
       (state.idea ? "ideas" : undefined),
     state.api?.id ?? state.reference?.id ?? state.idea?.id,
   ];
-  const base = process.env.PUBLIC_URL ?? "/";
+  const base = process.env.PUBLIC_URL || "/";
   const pathname = base + parts.filter((x): x is string => !!x).join("/");
   return window.location.toString().split("/", 1)[0] + pathname;
 };

@@ -24,9 +24,9 @@ export const pyright = (language: string): LanguageServerClient | undefined => {
     return undefined;
   }
   // Needed to support review branches that use a path location.
-  const { origin, pathname } = window.location;
-  const base = `${origin}${pathname}${pathname.endsWith("/") ? "" : "/"}`;
-  const workerScript = `${base}workers/${workerScriptName}`;
+  const workerScript = `${
+    process.env.PUBLIC_URL || "/"
+  }workers/${workerScriptName}`;
   const foreground = new Worker(workerScript, {
     name: "Pyright-foreground",
   });
