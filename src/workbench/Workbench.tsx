@@ -119,14 +119,23 @@ const Workbench = () => {
       )}
     </Box>
   );
+  const inIframe = () => {
+    try {
+      return window.self !== window.top;
+    } catch (e) {
+      return true;
+    }
+  };
   const deployment = useDeployment();
   const Compliance = deployment.Compliance ?? (() => null);
   return (
     <Flex className="WorkbenchContainer" flexDir="column">
-      <Compliance
-        zIndex={zIndexAboveDialogs}
-        externalLinkIcon={RiExternalLinkLine}
-      />
+      {!inIframe() && (
+        <Compliance
+          zIndex={zIndexAboveDialogs}
+          externalLinkIcon={RiExternalLinkLine}
+        />
+      )}
       <Flex className="Workbench">
         <SplitView
           direction="row"
