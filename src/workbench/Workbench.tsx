@@ -6,6 +6,7 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { RiExternalLinkLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
   hideSidebarMediaQuery,
@@ -20,6 +21,7 @@ import {
   SplitViewSized,
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
+import { zIndexAboveDialogs } from "../common/zIndex";
 import { useDeployment } from "../deployment";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
@@ -121,7 +123,10 @@ const Workbench = () => {
   const Compliance = deployment.Compliance ?? (() => null);
   return (
     <Flex className="WorkbenchContainer" flexDir="column">
-      <Compliance />
+      <Compliance
+        zIndex={zIndexAboveDialogs}
+        externalLinkIcon={RiExternalLinkLine}
+      />
       <Flex className="Workbench">
         <SplitView
           direction="row"

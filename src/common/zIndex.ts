@@ -13,3 +13,4 @@ export const splitViewHideButton = 4;
 // z-index above the xterm.js's layers (currently 10 but given some margin for increases as it can vary with config)
 export const zIndexAboveTerminal = 20;
 export const zIndexOverlay = 30;
+export const zIndexAboveDialogs = 1500;
