@@ -65,7 +65,7 @@ describe("Search", () => {
         id: "indentations",
         navigation: {
           tab: "reference",
-          reference: { id: "indentations" },
+          slug: { id: "indentations" },
         },
         extract: {
           title: [

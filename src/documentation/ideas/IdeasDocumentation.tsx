@@ -12,7 +12,7 @@ import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
-import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
+import { Anchor, useRouterTabSlug } from "../../router-hooks";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
 import DocumentationContent, {
@@ -27,7 +27,7 @@ interface IdeasDocumentationProps {
 }
 
 const IdeasDocumentation = ({ ideas }: IdeasDocumentationProps) => {
-  const [anchor, setAnchor] = useRouterParam(RouterParam.idea);
+  const [anchor, setAnchor] = useRouterTabSlug("ideas");
   const direction = useAnimationDirection(anchor);
   const ideaId = anchor?.id;
   const handleNavigate = useCallback(

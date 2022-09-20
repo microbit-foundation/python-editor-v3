@@ -25,7 +25,7 @@ import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
 import ProjectArea from "../project/ProjectArea";
-import { useRouterState } from "../router-hooks";
+import { TabName, useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
@@ -36,7 +36,7 @@ import SideBarTab from "./SideBarTab";
 export const cornerSize = 32;
 
 export interface Pane {
-  id: string;
+  id: TabName;
   icon: IconType;
   title: string;
   contents: ReactNode;
@@ -74,21 +74,21 @@ const SideBar = ({
   const panes: Pane[] = useMemo(() => {
     const result = [
       {
-        id: "reference",
+        id: "reference" as const,
         title: intl.formatMessage({ id: "reference-tab" }),
         icon: VscLibrary,
         contents: <ReferenceArea />,
         color: "gray.25",
       },
       {
-        id: "ideas",
+        id: "ideas" as const,
         title: intl.formatMessage({ id: "ideas-tab" }),
         icon: RiLightbulbFlashLine,
         contents: <IdeasArea />,
         color: "gray.25",
       },
       {
-        id: "api",
+        id: "api" as const,
         title: "API",
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
@@ -96,7 +96,7 @@ const SideBar = ({
         mb: "auto",
       },
       {
-        id: "project",
+        id: "project" as const,
         title: intl.formatMessage({ id: "project-tab" }),
         icon: VscFiles,
         contents: (
@@ -110,7 +110,7 @@ const SideBar = ({
     ];
     return result;
   }, [onSelectedFileChanged, selectedFile, intl]);
-  const [{ tab, api, reference, idea, focus }, setParams] = useRouterState();
+  const [{ tab, slug, focus }, setParams] = useRouterState();
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
     const activePanel = tabPanelsRef.current!.querySelector(
@@ -124,26 +124,17 @@ const SideBar = ({
     if (tabIndex !== -1) {
       onTabIndexChange(tabIndex);
       onSidebarExpand();
-      if ((!api && !reference && !idea) || focus) {
+      if (!slug || focus) {
         setPanelFocus();
       }
     }
-  }, [
-    onSidebarExpand,
-    panes,
-    onTabIndexChange,
-    tab,
-    api,
-    reference,
-    idea,
-    focus,
-  ]);
+  }, [onSidebarExpand, panes, onTabIndexChange, tab, slug, focus]);
 
   useEffect(() => {
-    if (shown && ((!api && !reference && !idea) || focus)) {
+    if (shown && (!slug || focus)) {
       setPanelFocus();
     }
-  }, [shown, api, reference, idea, focus]);
+  }, [shown, slug, focus]);
 
   const handleTabChange = useCallback(
     (index: number) => {
@@ -157,12 +148,12 @@ const SideBar = ({
     // A click on a tab when it's already selected should
     // reset any other parameters so we go back to the top
     // level.
-    if (reference || api || idea) {
+    if (slug) {
       setParams({
         tab,
       });
     }
-  }, [reference, api, idea, tab, setParams]);
+  }, [slug, tab, setParams]);
 
   const handleSidebarToggled = () => {
     if (tabIndex === -1) {

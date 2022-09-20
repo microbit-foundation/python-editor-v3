@@ -240,7 +240,7 @@ const CodeMirror = ({
       setRouterState(
         {
           tab,
-          [tab]: { id },
+          slug: { id },
         },
         "documentation-from-code"
       );

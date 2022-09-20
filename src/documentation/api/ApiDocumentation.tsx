@@ -13,12 +13,7 @@ import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
-import {
-  Anchor,
-  RouterParam,
-  useRouterParam,
-  useRouterState,
-} from "../../router-hooks";
+import { Anchor, useRouterTabSlug, useRouterState } from "../../router-hooks";
 import DocString from "../common/DocString";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
@@ -32,7 +27,7 @@ interface ApiDocumentationProps {
 }
 
 export const ApiDocumentation = ({ docs }: ApiDocumentationProps) => {
-  const [anchor, setAnchor] = useRouterParam(RouterParam.api);
+  const [anchor, setAnchor] = useRouterTabSlug("api");
   const handleNavigate = useCallback(
     (id: string | undefined) => {
       setAnchor(id ? { id } : undefined, "documentation-user");
