@@ -159,6 +159,7 @@ export const wrapWithDocumentationButton = (
     apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
     apiAnchor.onclick = (e) => {
       e.preventDefault();
+      // Could we instead interact with the history API here?
       document.dispatchEvent(
         new CustomEvent("cm/openDocs", {
           detail: {
