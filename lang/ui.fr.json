@@ -827,7 +827,7 @@
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {aucune ligne enregistrée} one {ligne # enregistrée} other {# lignes enregistrées}}",
+    "defaultMessage": "{count, plural, =0 {aucune ligne enregistrée} one {# ligne enregistrée} other {# lignes enregistrées}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
