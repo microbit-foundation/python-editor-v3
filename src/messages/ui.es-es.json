@@ -1857,7 +1857,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "No se han registrado filas"
             }
           ]
         },
@@ -1868,7 +1868,7 @@
             },
             {
               "type": 0,
-              "value": " row logged"
+              "value": " fila registrada"
             }
           ]
         },
@@ -1879,7 +1879,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": " filas registradas"
             }
           ]
         }

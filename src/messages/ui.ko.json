@@ -758,7 +758,7 @@
   "less-action": [
     {
       "type": 0,
-      "value": "더 적게"
+      "value": "간단히 보기"
     }
   ],
   "load-error-makecode-info": [
@@ -896,7 +896,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "더 많게"
+      "value": "자세히 보기"
     }
   ],
   "more-connect-options": [
@@ -1865,7 +1865,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "기록된 행 없음"
             }
           ]
         },
@@ -1876,7 +1876,7 @@
             },
             {
               "type": 0,
-              "value": " row logged"
+              "value": "개의 행 기록됨"
             }
           ]
         },
@@ -1887,7 +1887,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": "개의 행 기록됨"
             }
           ]
         }

@@ -1864,15 +1864,11 @@
         "one": {
           "value": [
             {
-              "type": 0,
-              "value": "ligne "
-            },
-            {
               "type": 7
             },
             {
               "type": 0,
-              "value": " enregistrée"
+              "value": " ligne enregistrée"
             }
           ]
         },

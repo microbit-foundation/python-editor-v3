@@ -387,7 +387,7 @@
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "더 적게",
+    "defaultMessage": "간단히 보기",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
@@ -435,7 +435,7 @@
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "더 많게",
+    "defaultMessage": "자세히 보기",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
@@ -827,7 +827,7 @@
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No rows logged} one {# row logged} other {# rows logged}}",
+    "defaultMessage": "{count, plural, =0 {기록된 행 없음} one {#개의 행 기록됨} other {#개의 행 기록됨}}",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {

@@ -1421,7 +1421,18 @@
           "value": [
             {
               "type": 0,
-              "value": "No results"
+              "value": "沒有結果"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 個結果"
             }
           ]
         },
@@ -1432,7 +1443,7 @@
             },
             {
               "type": 0,
-              "value": " results"
+              "value": " 個結果"
             }
           ]
         }
@@ -1850,7 +1861,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "沒有列已記錄"
             }
           ]
         },
@@ -1861,7 +1872,7 @@
             },
             {
               "type": 0,
-              "value": " row logged"
+              "value": " 列已記錄"
             }
           ]
         },
@@ -1872,7 +1883,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": " 列已記錄"
             }
           ]
         }
