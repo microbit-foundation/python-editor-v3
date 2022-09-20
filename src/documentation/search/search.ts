@@ -93,7 +93,7 @@ export class SearchIndex {
         containerTitle: content.containerTitle,
         navigation: {
           tab: this.tab,
-          [this.tab]: { id: content.id },
+          slug: { id: content.id },
         },
         extract: extracts,
       };

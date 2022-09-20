@@ -19,7 +19,10 @@ import {
   useMemo,
   useState,
 } from "react";
+import { baseUrl } from "./base";
 import { useLogging } from "./logging/logging-hooks";
+
+export type TabName = "api" | "ideas" | "reference" | "project";
 
 /**
  * An anchor-like navigation used for scroll positions.
@@ -33,25 +36,9 @@ export interface Anchor {
 const anchorForParam = (param: string | null): Anchor | undefined =>
   param ? { id: param } : undefined;
 
-export class RouterParam<T> {
-  static tab: RouterParam<string> = new RouterParam("tab");
-  static api: RouterParam<Anchor> = new RouterParam("api");
-  static reference: RouterParam<Anchor> = new RouterParam("reference");
-  static idea: RouterParam<Anchor> = new RouterParam("idea");
-
-  private constructor(public id: keyof RouterState) {}
-
-  get(state: RouterState): T | undefined {
-    // Constructor is private so this is safe.
-    return state[this.id] as unknown as T | undefined;
-  }
-}
-
 export interface RouterState {
-  tab?: string;
-  reference?: Anchor;
-  api?: Anchor;
-  idea?: Anchor;
+  tab?: TabName;
+  slug?: Anchor;
   focus?: boolean;
 }
 
@@ -68,14 +55,21 @@ type RouterContextValue = [
 
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);
 
-const parse = (search: string): RouterState => {
-  const params = new URLSearchParams(search);
-  return {
-    tab: params.get("tab") ?? undefined,
-    api: anchorForParam(params.get("api")),
-    reference: anchorForParam(params.get("reference")),
-    idea: anchorForParam(params.get("idea")),
-  };
+const parse = (pathname: string): RouterState => {
+  pathname = pathname.slice(baseUrl.length);
+  if (pathname) {
+    const parts = pathname.split("/");
+    const tab = parts[0];
+    if (
+      tab === "api" ||
+      tab === "reference" ||
+      tab === "ideas" ||
+      tab === "project"
+    ) {
+      return { tab, slug: anchorForParam(parts[1]) };
+    }
+  }
+  return {};
 };
 
 /**
@@ -95,28 +89,19 @@ export const useRouterState = (): RouterContextValue => {
 };
 
 export const toUrl = (state: RouterState): string => {
-  const query = Object.entries(state)
-    .filter(([k, v]) => k !== "focus" && !!v)
-    .map(([k, v]) => {
-      return `${encodeURIComponent(k)}=${encodeURIComponent(
-        serializeValue(v)
-      )}`;
-    })
-    .join("&");
-  return window.location.toString().split("?")[0] + (query ? "?" + query : "");
+  const parts = [state.tab, state.slug?.id];
+  const pathname = baseUrl + parts.filter((x): x is string => !!x).join("/");
+  return window.location.toString().split("/", 1)[0] + pathname;
 };
-
-const serializeValue = (value: Anchor | string) =>
-  typeof value === "string" ? value : value.id;
 
 export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const logging = useLogging();
-  const [state, setState] = useState(parse(window.location.search));
+  const [state, setState] = useState(parse(window.location.pathname));
   useEffect(() => {
     // This detects browser navigation but not our programatic changes,
     // so we need to update state there ourselves.
     const listener = (_: PopStateEvent) => {
-      const newState = parse(window.location.search);
+      const newState = parse(window.location.pathname);
       setState(newState);
     };
     window.addEventListener("popstate", listener);
@@ -129,10 +114,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       if (source) {
         logging.event({
           type: source,
-          message:
-            (newState.reference?.id && `reference-${newState.reference?.id}`) ||
-            (newState.api?.id && `api-${newState.api?.id}`) ||
-            (newState.idea?.id && `ideas-${newState.idea?.id}`),
+          message: toUrl(newState),
         });
       }
       const url = toUrl(newState);
@@ -151,24 +133,23 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
 };
 
 /**
- * Access a single parameter of the router state.
- * All other parameters will remain unchanged if you set this parameter.
+ * Access the slug for a particular tab.
  *
- * @param param The parameter name.
- * @returns A [state, setState] pair for the parameter.
+ * @param tab The tab name.
+ * @returns A [state, setState] pair for the tab.
  */
-export const useRouterParam = <T,>(
-  param: RouterParam<T>
+export const useRouterTabSlug = (
+  tab: TabName
 ): [
-  T | undefined,
-  (param: T | undefined, source?: NavigationSource) => void
+  Anchor | undefined,
+  (param: Anchor | undefined, source?: NavigationSource) => void
 ] => {
   const [state, setState] = useRouterState();
   const navigateParam = useCallback(
-    (value: T | undefined, source?: NavigationSource) => {
-      setState({ ...state, [param.id]: value }, source);
+    (value: Anchor | undefined, source?: NavigationSource) => {
+      setState({ ...state, tab, slug: value }, source);
     },
-    [param, setState, state]
+    [tab, setState, state]
   );
-  return [param.get(state), navigateParam];
+  return [state.tab === tab ? state.slug : undefined, navigateParam];
 };

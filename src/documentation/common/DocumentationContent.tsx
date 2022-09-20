@@ -74,7 +74,7 @@ const DocumentationApiLinkMark = (
         e.preventDefault();
         setState({
           tab: "api",
-          api: { id: props.mark.name },
+          slug: { id: props.mark.name },
         });
       }}
     >
@@ -96,7 +96,7 @@ const DocumentationInternalLinkMark = (
           {
             ...state,
             tab: "reference",
-            reference: {
+            slug: {
               id: props.mark.slug.current,
             },
           },

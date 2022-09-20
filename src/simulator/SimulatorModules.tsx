@@ -180,7 +180,7 @@ const CollapsibleModule = ({
     setRouterState(
       {
         tab: "reference",
-        reference: { id: references[id] },
+        slug: { id: references[id] },
         focus: true,
       },
       "documentation-from-simulator"

@@ -8,6 +8,7 @@ import {
   BrowserMessageReader,
   BrowserMessageWriter,
 } from "vscode-jsonrpc/browser";
+import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
@@ -24,9 +25,7 @@ export const pyright = (language: string): LanguageServerClient | undefined => {
     return undefined;
   }
   // Needed to support review branches that use a path location.
-  const { origin, pathname } = window.location;
-  const base = `${origin}${pathname}${pathname.endsWith("/") ? "" : "/"}`;
-  const workerScript = `${base}workers/${workerScriptName}`;
+  const workerScript = `${baseUrl}workers/${workerScriptName}`;
   const foreground = new Worker(workerScript, {
     name: "Pyright-foreground",
   });

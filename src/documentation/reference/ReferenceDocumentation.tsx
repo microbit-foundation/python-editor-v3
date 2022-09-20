@@ -8,7 +8,7 @@ import { useCallback } from "react";
 import { useIntl } from "react-intl";
 import { docStyles } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
-import { Anchor, RouterParam, useRouterParam } from "../../router-hooks";
+import { Anchor, useRouterTabSlug } from "../../router-hooks";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
 import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHeading";
 import DocumentationContent from "../common/DocumentationContent";
@@ -29,7 +29,7 @@ interface ReferenceDocumentationProps {
  * generate the API documentation.
  */
 const ReferenceToolkit = ({ toolkit }: ReferenceDocumentationProps) => {
-  const [anchor, setAnchor] = useRouterParam(RouterParam.reference);
+  const [anchor, setAnchor] = useRouterTabSlug("reference");
   const direction = useAnimationDirection(anchor);
   const topicOrEntryId = anchor?.id.split("/")[0];
   const handleNavigate = useCallback(
