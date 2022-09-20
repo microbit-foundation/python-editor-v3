@@ -20,6 +20,7 @@ import {
   SplitViewSized,
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
+import { useDeployment } from "../deployment";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
@@ -116,9 +117,11 @@ const Workbench = () => {
       )}
     </Box>
   );
-
+  const deployment = useDeployment();
+  const Compliance = deployment.Compliance ?? (() => null);
   return (
-    <>
+    <Flex className="WorkbenchContainer" flexDir="column">
+      <Compliance />
       <Flex className="Workbench">
         <SplitView
           direction="row"
@@ -161,7 +164,7 @@ const Workbench = () => {
         </SplitView>
       </Flex>
       <Overlay />
-    </>
+    </Flex>
   );
 };
 

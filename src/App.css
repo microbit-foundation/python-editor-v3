@@ -31,6 +31,7 @@
 html,
 body,
 #root,
+.WorkbenchContainer,
 .Workbench {
   width: 100%;
   /* --ios-vvh set by VisualViewPortCSSVariables on iOS only. */

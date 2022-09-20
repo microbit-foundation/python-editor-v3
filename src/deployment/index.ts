@@ -13,6 +13,7 @@ export const deployment: DeploymentConfig = d;
 export interface DeploymentConfig {
   squareLogo?: ReactNode;
   horizontalLogo?: ReactNode;
+  Compliance?: () => JSX.Element;
 
   chakraTheme: any;
 
