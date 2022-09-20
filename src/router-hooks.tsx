@@ -71,15 +71,6 @@ const RouterContext = createContext<RouterContextValue | undefined>(undefined);
 
 const parse = (pathname: string, search: string): RouterState => {
   const params = new URLSearchParams(search);
-  if (params.get("tab")) {
-    // Legacy
-    return {
-      tab: params.get("tab") ?? undefined,
-      api: anchorForParam(params.get("api")),
-      reference: anchorForParam(params.get("reference")),
-      idea: anchorForParam(params.get("idea")),
-    };
-  }
   pathname = pathname.slice(baseUrl.length);
   if (pathname) {
     const parts = pathname.split("/");
