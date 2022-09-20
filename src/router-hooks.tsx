@@ -108,7 +108,7 @@ export const toUrl = (state: RouterState): string => {
   // This could be cleaned up if we always set the tab.
   const parts = [
     state.tab ??
-      (state.tab === "api" || state.api ? "api" : undefined) ??
+      (state.api ? "api" : undefined) ??
       (state.reference ? "reference" : undefined) ??
       (state.idea ? "ideas" : undefined),
     state.api?.id ?? state.reference?.id ?? state.idea?.id,
