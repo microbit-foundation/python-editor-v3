@@ -70,7 +70,6 @@ type RouterContextValue = [
 const RouterContext = createContext<RouterContextValue | undefined>(undefined);
 
 const parse = (pathname: string, search: string): RouterState => {
-  const params = new URLSearchParams(search);
   pathname = pathname.slice(baseUrl.length);
   if (pathname) {
     const parts = pathname.split("/");
