@@ -29,8 +29,9 @@ const SideBarTab = ({
   const ref = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     // Override tabindex.
+    // Has no dependencies as it needs to run for every re-render.
     ref.current!.setAttribute("tabindex", "0");
-  }, [tabIndex]);
+  });
   return (
     <Tab
       ref={ref}
