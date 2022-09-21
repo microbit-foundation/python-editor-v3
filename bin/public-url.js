@@ -6,11 +6,5 @@
  *
  * SPDX-License-Identifier: MIT
  */
-const {
-  createDeploymentDetailsWithReviewPrefixes,
-} = require("@microbit-foundation/website-deploy-aws-config");
-
-const {
-  s3Config: { bucketPrefix },
-} = createDeploymentDetailsWithReviewPrefixes();
+const  { bucketPrefix } = require("../deployment");
 console.log(`/${bucketPrefix}/`);
