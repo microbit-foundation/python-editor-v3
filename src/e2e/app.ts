@@ -124,6 +124,12 @@ export class App {
       value: "1",
       url: this.url,
     });
+    // Don't show compliance notice.
+    await page.setCookie({
+      name: "MBCC",
+      value: "1",
+      url: this.url,
+    });
 
     const client = await page.target().createCDPSession();
     await client.send("Page.setDownloadBehavior", {
@@ -306,7 +312,7 @@ export class App {
     }
   }
 
-  private async findAndClickButton(name: string): Promise<void> {
+  async findAndClickButton(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: name,
@@ -1137,6 +1143,42 @@ export class App {
       name: `${filename} file actions`,
     });
     await actions.click();
+  }
+
+  async simulateTab(): Promise<void> {
+    const keyboard = (await this.page).keyboard;
+    await keyboard.press("Tab");
+  }
+
+  async getActiveElement(): Promise<puppeteer.ElementHandle<Element>> {
+    return (await this.page).evaluateHandle<ElementHandle>(
+      () => document.activeElement
+    );
+  }
+
+  async getElementByRoleAndLabel(
+    role: string,
+    name: string
+  ): Promise<puppeteer.ElementHandle<Element>> {
+    return (await this.document()).findByRole(role, {
+      name,
+    });
+  }
+
+  async getElementByQuerySelector(
+    query: string
+  ): Promise<puppeteer.ElementHandle<Element>> {
+    return (await this.page).evaluateHandle<ElementHandle>(
+      (query) => document.querySelector(query),
+      query
+    );
+  }
+
+  async compareElementHandles(
+    e1: puppeteer.ElementHandle<Element>,
+    e2: puppeteer.ElementHandle<Element>
+  ): Promise<boolean> {
+    return (await this.page).evaluate((e1, e2) => e1 === e2, e1, e2);
   }
 
   // Simulator functions
