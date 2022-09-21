@@ -6,6 +6,7 @@
 import { Box, Flex } from "@chakra-ui/layout";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { RiExternalLinkLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import {
   hideSidebarMediaQuery,
@@ -20,6 +21,8 @@ import {
   SplitViewSized,
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
+import { zIndexAboveDialogs } from "../common/zIndex";
+import { useDeployment } from "../deployment";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
@@ -116,9 +119,23 @@ const Workbench = () => {
       )}
     </Box>
   );
-
+  const inIframe = () => {
+    try {
+      return window.self !== window.top;
+    } catch (e) {
+      return true;
+    }
+  };
+  const deployment = useDeployment();
+  const Compliance = deployment.Compliance ?? (() => null);
   return (
-    <>
+    <Flex className="WorkbenchContainer" flexDir="column">
+      {!inIframe() && (
+        <Compliance
+          zIndex={zIndexAboveDialogs}
+          externalLinkIcon={RiExternalLinkLine}
+        />
+      )}
       <Flex className="Workbench">
         <SplitView
           direction="row"
@@ -161,7 +178,7 @@ const Workbench = () => {
         </SplitView>
       </Flex>
       <Overlay />
-    </>
+    </Flex>
   );
 };
 
