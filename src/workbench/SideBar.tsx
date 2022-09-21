@@ -11,6 +11,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  usePrevious,
   VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
@@ -130,11 +131,18 @@ const SideBar = ({
     }
   }, [onSidebarExpand, panes, onTabIndexChange, tab, slug, focus]);
 
+  const previouslyShown = usePrevious(shown);
   useEffect(() => {
-    if (shown && (!slug || focus)) {
+    // Prevents the sidebar stealing focus on initial load.
+    if (
+      shown &&
+      (!slug || focus) &&
+      previouslyShown !== undefined &&
+      previouslyShown !== shown
+    ) {
       setPanelFocus();
     }
-  }, [shown, slug, focus]);
+  }, [previouslyShown, shown, slug, focus]);
 
   const handleTabChange = useCallback(
     (index: number) => {
