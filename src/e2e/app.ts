@@ -312,7 +312,7 @@ export class App {
     }
   }
 
-  async findAndClickButton(name: string): Promise<void> {
+  private async findAndClickButton(name: string): Promise<void> {
     const document = await this.document();
     const button = await document.findByRole("button", {
       name: name,
@@ -1145,18 +1145,18 @@ export class App {
     await actions.click();
   }
 
-  async simulateTab(): Promise<void> {
+  private async keyboardPress(key: puppeteer.KeyInput): Promise<void> {
     const keyboard = (await this.page).keyboard;
-    await keyboard.press("Tab");
+    await keyboard.press(key);
   }
 
-  async getActiveElement(): Promise<puppeteer.ElementHandle<Element>> {
+  private async getActiveElement(): Promise<puppeteer.ElementHandle<Element>> {
     return (await this.page).evaluateHandle<ElementHandle>(
       () => document.activeElement
     );
   }
 
-  async getElementByRoleAndLabel(
+  private async getElementByRoleAndLabel(
     role: string,
     name: string
   ): Promise<puppeteer.ElementHandle<Element>> {
@@ -1165,7 +1165,7 @@ export class App {
     });
   }
 
-  async getElementByQuerySelector(
+  private async getElementByQuerySelector(
     query: string
   ): Promise<puppeteer.ElementHandle<Element>> {
     return (await this.page).evaluateHandle<ElementHandle>(
@@ -1174,11 +1174,38 @@ export class App {
     );
   }
 
-  async compareElementHandles(
+  private async compareElementHandles(
     e1: puppeteer.ElementHandle<Element>,
     e2: puppeteer.ElementHandle<Element>
   ): Promise<boolean> {
     return (await this.page).evaluate((e1, e2) => e1 === e2, e1, e2);
+  }
+
+  async assertFocusOnLoad(): Promise<boolean> {
+    await this.keyboardPress("Tab");
+    const activeElement = await this.getActiveElement();
+    const firstFocusableElement = await this.getElementByRoleAndLabel(
+      "link",
+      "visit microbit.org (opens in a new tab)"
+    );
+    return this.compareElementHandles(activeElement, firstFocusableElement);
+  }
+
+  async assertFocusOnAreaToggle(
+    action: "Collapse" | "Expand",
+    area: "simulator" | "sidebar"
+  ): Promise<boolean> {
+    await this.findAndClickButton(`${action} ${area}`);
+    const activeElement = await this.getActiveElement();
+    const proposedActiveElement =
+      action === "Collapse"
+        ? await this.getElementByRoleAndLabel("button", `Expand ${area}`)
+        : await this.getElementByQuerySelector(
+            area === "simulator"
+              ? "iframe[name='Simulator']"
+              : "[role='tabpanel']"
+          );
+    return this.compareElementHandles(activeElement, proposedActiveElement);
   }
 
   // Simulator functions
