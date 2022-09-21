@@ -3,7 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { AspectRatio, Box, Flex, useToken, VStack } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  Flex,
+  usePrevious,
+  useToken,
+  VStack,
+} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
@@ -67,16 +74,20 @@ const Simulator = ({
   const simHeight = contentRect?.height ?? 0;
   const [brand500] = useToken("colors", ["brand.500"]);
   const [running, setRunning] = useState<RunningStatus>(RunningStatus.STOPPED);
+  const previouslyShown = usePrevious(shown);
 
   useEffect(() => {
     if (shown) {
-      ref.current!.focus();
+      // Prevents the simulator stealing focus on initial load.
+      if (previouslyShown !== undefined && previouslyShown !== shown) {
+        ref.current!.focus();
+      }
     } else {
       if (simFocus) {
         showSimulatorButtonRef.current!.focus();
       }
     }
-  }, [showSimulatorButtonRef, shown, simFocus]);
+  }, [previouslyShown, showSimulatorButtonRef, shown, simFocus]);
 
   return (
     <DeviceContextProvider value={simulator.current}>
