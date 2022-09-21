@@ -63,7 +63,7 @@ _steps:
   serve: &serve
     run:
       name: Serve files for e2e tests
-      command: mkdir /tmp/app && cp -r build /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app
+      command: mkdir -p /tmp/app${PUBLIC_URL} && cp -r build/* /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app
       background: true
   serve_wait: &serve_wait
     run:
