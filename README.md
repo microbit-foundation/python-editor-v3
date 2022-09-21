@@ -31,9 +31,9 @@ The project was bootstrapped with [Create React App](https://github.com/facebook
 
 The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
 
-The `main` branch is deployed to https://stage-python-editor-next.microbit.org/ on each commit.
+The `main` branch is deployed to https://python.microbit.org/v/beta on each commit.
 
-Other branches (e.g. for PRs) are deployed to https://review-python-editor-next.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
+Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
 
 For custom deployments, note that the educational content in the sidebar is currently sourced live from our CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
 
