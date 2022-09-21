@@ -124,6 +124,12 @@ export class App {
       value: "1",
       url: this.url,
     });
+    // Don't show compliance notice.
+    await page.setCookie({
+      name: "MBCC",
+      value: "1",
+      url: this.url,
+    });
 
     const client = await page.target().createCDPSession();
     await client.send("Page.setDownloadBehavior", {
@@ -1137,6 +1143,69 @@ export class App {
       name: `${filename} file actions`,
     });
     await actions.click();
+  }
+
+  private async keyboardPress(key: puppeteer.KeyInput): Promise<void> {
+    const keyboard = (await this.page).keyboard;
+    await keyboard.press(key);
+  }
+
+  private async getActiveElement(): Promise<puppeteer.ElementHandle<Element>> {
+    return (await this.page).evaluateHandle<ElementHandle>(
+      () => document.activeElement
+    );
+  }
+
+  private async getElementByRoleAndLabel(
+    role: string,
+    name: string
+  ): Promise<puppeteer.ElementHandle<Element>> {
+    return (await this.document()).findByRole(role, {
+      name,
+    });
+  }
+
+  private async getElementByQuerySelector(
+    query: string
+  ): Promise<puppeteer.ElementHandle<Element>> {
+    return (await this.page).evaluateHandle<ElementHandle>(
+      (query) => document.querySelector(query),
+      query
+    );
+  }
+
+  private async compareElementHandles(
+    e1: puppeteer.ElementHandle<Element>,
+    e2: puppeteer.ElementHandle<Element>
+  ): Promise<boolean> {
+    return (await this.page).evaluate((e1, e2) => e1 === e2, e1, e2);
+  }
+
+  async assertFocusOnLoad(): Promise<boolean> {
+    await this.keyboardPress("Tab");
+    const activeElement = await this.getActiveElement();
+    const firstFocusableElement = await this.getElementByRoleAndLabel(
+      "link",
+      "visit microbit.org (opens in a new tab)"
+    );
+    return this.compareElementHandles(activeElement, firstFocusableElement);
+  }
+
+  async assertFocusOnAreaToggle(
+    action: "Collapse" | "Expand",
+    area: "simulator" | "sidebar"
+  ): Promise<boolean> {
+    await this.findAndClickButton(`${action} ${area}`);
+    const activeElement = await this.getActiveElement();
+    const proposedActiveElement =
+      action === "Collapse"
+        ? await this.getElementByRoleAndLabel("button", `Expand ${area}`)
+        : await this.getElementByQuerySelector(
+            area === "simulator"
+              ? "iframe[name='Simulator']"
+              : "[role='tabpanel']"
+          );
+    return this.compareElementHandles(activeElement, proposedActiveElement);
   }
 
   // Simulator functions
