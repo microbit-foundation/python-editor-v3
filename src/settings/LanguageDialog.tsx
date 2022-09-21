@@ -39,7 +39,7 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
     },
     [settings, setSettings, onClose]
   );
-
+  const hasPreviewLanguages = supportedLanguages.some((l) => l.preview);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay>
@@ -70,10 +70,12 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
                 <Icon as={RiExternalLinkLine} />
               </Link>
             </VStack>
-            <Text fontSize="xs" alignSelf="flex-end" mt={1}>
-              * These languages are an early preview of in-progress
-              translations.
-            </Text>{" "}
+            {hasPreviewLanguages && (
+              <Text fontSize="xs" alignSelf="flex-end" mt={1}>
+                * These languages are an early preview of in-progress
+                translations.
+              </Text>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button variant="solid" onClick={onClose}>
