@@ -29,6 +29,15 @@ _steps:
       paths:
         - .npm-cache
       key: npm-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  set_public_url:
+    &set_public_url # Set PUBLIC_URL based on the deployment prefix. PUBLIC_URL is equivalent to CRA's package.json homepage setting https://create-react-app.dev/docs/advanced-configuration/
+    run:
+      name: "Set PUBLIC_URL for staging/review branch"
+      environment:
+        NODE_PATH: /usr/local/lib/node_modules
+      # Two env vars as PUBLIC_URL seems to be blank when running jest even if we set it.
+      command: URL=$(npm run --silent public-url); echo "export PUBLIC_URL=$URL && export E2E_PUBLIC_URL=$URL" >> $BASH_ENV
+
   install_aws_cli: &install_aws_cli
     run: sudo apt-get update && sudo apt-get install awscli
   install_dependencies: &install_dependencies
@@ -42,7 +51,7 @@ _steps:
       name: Build
       command: npm run ci
   # https://circleci.com/orbs/registry/orb/threetreeslight/puppeteer
-  chrome-deps: &chrome-deps
+  chrome_deps: &chrome_deps
     run:
       name: Install Headless Chrome dependencies
       command: |
@@ -51,7 +60,7 @@ _steps:
         libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 \
         libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
         libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
-  serve-review: &serve-review
+  serve_public_url: &serve_public_url
     run:
       name: Serve files for e2e tests (review)
       command: mkdir /tmp/app && cp -r build /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app
@@ -61,7 +70,7 @@ _steps:
       name: Serve files for e2e tests
       command: npm run serve
       background: true
-  serve-wait: &serve-wait
+  serve_wait: &serve_wait
     run:
       name: Wait for e2e server
       command: "curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null"
@@ -106,21 +115,15 @@ jobs:
       - *install_theme
       - *update_version
       - *save_npm_cache
-      # Set PUBLIC_URL based on the bucket prefix. PUBLIC_URL is equivalent to CRA's package.json homepage setting https://create-react-app.dev/docs/advanced-configuration/
-      - run:
-          name: "Set PUBLIC_URL for review branch"
-          environment:
-            NODE_PATH: /usr/local/lib/node_modules
-          # Two env vars as PUBLIC_URL seems to be blank when running jest even if we set it.
-          command: URL=$(npm run --silent public-url); echo "export PUBLIC_URL=$URL && export E2E_PUBLIC_URL=$URL" >> $BASH_ENV
+      - *set_public_url
       - *build
       # Unlike other stages deploy, first so we still get deployments when e2e fails.
       - *queue_until_front_of_line
       - *deploy
       - *invalidate
-      - *chrome-deps
-      - *serve-review
-      - *serve-wait
+      - *chrome_deps
+      - *serve_public_url
+      - *serve_wait
       - *e2e
       - *store_reports
 
@@ -140,13 +143,14 @@ jobs:
       - *install_theme
       - *update_version
       - *save_npm_cache
+      - *set_public_url
       - *build
-      - *queue_until_front_of_line
-      - *chrome-deps
-      - *serve
-      - *serve-wait
+      - *chrome_deps
+      - *serve_public_url
+      - *serve_wait
       - *e2e
       - *store_reports
+      - *queue_until_front_of_line
       - *deploy
       - *invalidate
 
@@ -166,6 +170,7 @@ jobs:
       - *install_theme
       - *update_version
       - *save_npm_cache
+      - *set_public_url
       - *build
       # This doesn't work for tags. Don't release more than one at once!
       # - *queue_until_front_of_line
