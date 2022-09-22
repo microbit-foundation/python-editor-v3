@@ -158,7 +158,7 @@ jobs:
         environment:
           STAGE: PRODUCTION
           REACT_APP_STAGE: PRODUCTION
-          PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: "E1IW78R9PB0PD1"
+          PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: "E2ELTBTA2OFPY2"
     steps:
       - checkout
       - *restore_npm_cache
