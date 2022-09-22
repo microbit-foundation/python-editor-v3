@@ -62,7 +62,7 @@ const SerialBar = ({
       <SerialHelpDialog
         isOpen={helpDisclosure.isOpen}
         onClose={helpDisclosure.onClose}
-        finalFocusRef={menuButtonRef}
+        finalFocusRef={showHintsAndTips ? undefined : menuButtonRef}
       />
       <HStack
         justifyContent="space-between"
