@@ -119,7 +119,8 @@ export class ProjectActions {
 
   connect = async (
     forceConnectHelp: boolean,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
   ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
@@ -131,7 +132,8 @@ export class ProjectActions {
       if (await this.showConnectHelp(forceConnectHelp)) {
         return this.connectInternal(
           { serial: userAction !== ConnectionAction.FLASH },
-          userAction
+          userAction,
+          finalFocusRef
         );
       }
     }
@@ -183,13 +185,15 @@ export class ProjectActions {
    */
   private async connectInternal(
     options: ConnectOptions,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
   ) {
     try {
       await this.device.connect(options);
+      finalFocusRef?.current?.focus();
       return true;
     } catch (e) {
-      this.handleWebUSBError(e, userAction);
+      this.handleWebUSBError(e, userAction, finalFocusRef);
       return false;
     }
   }
@@ -774,25 +778,29 @@ export class ProjectActions {
 
   private handleConnectErrorChoice = (
     choice: ConnectErrorChoice,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
   ) => {
     if (choice !== ConnectErrorChoice.TRY_AGAIN) {
       return;
     }
     if (userAction === ConnectionAction.CONNECT) {
-      this.connect(true, userAction);
+      this.connect(true, userAction, finalFocusRef);
     } else if (userAction === ConnectionAction.FLASH) {
       this.flash(true);
     }
   };
 
-  private async handleNotFound(userAction: ConnectionAction) {
+  private async handleNotFound(
+    userAction: ConnectionAction,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) {
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
-      <NotFoundDialog callback={callback} />
+      <NotFoundDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
     this.handleConnectErrorChoice(choice, userAction);
   }
@@ -814,14 +822,18 @@ export class ProjectActions {
     this.handleConnectErrorChoice(choice, userAction);
   }
 
-  private async handleWebUSBError(e: any, userAction: ConnectionAction) {
+  private async handleWebUSBError(
+    e: any,
+    userAction: ConnectionAction,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) {
     if (e instanceof WebUSBError) {
       this.device.emit(EVENT_END_USB_SELECT);
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
           // where no devices.
-          await this.handleNotFound(userAction);
+          await this.handleNotFound(userAction, finalFocusRef);
           return;
         }
         case "device-disconnected": {

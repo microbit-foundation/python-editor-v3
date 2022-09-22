@@ -36,7 +36,7 @@ const SendButton = React.forwardRef(
       if (connected) {
         await actions.disconnect();
       } else {
-        await actions.connect(false, ConnectionAction.CONNECT);
+        await actions.connect(false, ConnectionAction.CONNECT, menuButtonRef);
       }
     }, [connected, actions]);
     const intl = useIntl();
@@ -74,6 +74,7 @@ const SendButton = React.forwardRef(
       },
       [flashing]
     );
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
     return (
       <HStack>
         <Menu>
@@ -97,6 +98,7 @@ const SendButton = React.forwardRef(
               </Button>
             </Tooltip>
             <MoreMenuButton
+              ref={menuButtonRef}
               variant="solid"
               aria-label={intl.formatMessage({ id: "more-connect-options" })}
               data-testid="more-connect-options"
