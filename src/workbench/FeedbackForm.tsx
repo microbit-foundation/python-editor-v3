@@ -10,12 +10,17 @@ import ModalCloseButton from "../common/ModalCloseButton";
 interface FeedbackFormProps {
   isOpen: boolean;
   onClose: () => void;
+  finalFocusRef?: React.RefObject<HTMLButtonElement>;
 }
 
 /**
  * Temporary embedded Jotform for the alpha release.
  */
-const FeedbackForm = ({ isOpen, onClose }: FeedbackFormProps) => {
+const FeedbackForm = ({
+  isOpen,
+  onClose,
+  finalFocusRef = undefined,
+}: FeedbackFormProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     const listener = (message: MessageEvent) => {
@@ -37,7 +42,12 @@ const FeedbackForm = ({ isOpen, onClose }: FeedbackFormProps) => {
     };
   });
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="2xl"
+      finalFocusRef={finalFocusRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalCloseButton />
