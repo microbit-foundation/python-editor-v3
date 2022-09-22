@@ -634,7 +634,12 @@ export class ProjectActions {
         this.settings.values.languageId === "en"
       ) {
         const choice = await this.dialogs.show<MultipleFilesChoice>(
-          (callback) => <MultipleFilesDialog callback={callback} />
+          (callback) => (
+            <MultipleFilesDialog
+              callback={callback}
+              finalFocusRef={finalFocusRef}
+            />
+          )
         );
         if (choice === MultipleFilesChoice.CloseDontShowAgain) {
           this.settings.setValues({
