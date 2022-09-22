@@ -24,6 +24,7 @@ export interface GenericDialogProps {
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   onClose: () => void;
   returnFocusOnClose?: boolean;
+  finalFocusRef?: React.RefObject<HTMLButtonElement>;
 }
 
 export const GenericDialog = ({
@@ -33,6 +34,7 @@ export const GenericDialog = ({
   size,
   onClose,
   returnFocusOnClose = true,
+  finalFocusRef = undefined,
 }: GenericDialogProps) => {
   return (
     <Modal
@@ -40,6 +42,7 @@ export const GenericDialog = ({
       onClose={onClose}
       size={size}
       returnFocusOnClose={returnFocusOnClose}
+      finalFocusRef={finalFocusRef}
     >
       <ModalOverlay>
         <ModalContent minWidth="560px" my="auto">

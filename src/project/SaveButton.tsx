@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Tooltip } from "@chakra-ui/react";
+import { useRef } from "react";
 import { RiDownload2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
@@ -25,6 +26,7 @@ interface SaveButtonProps
 const SaveButton = (props: SaveButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <Tooltip
       hasArrow
@@ -34,9 +36,10 @@ const SaveButton = (props: SaveButtonProps) => {
       })}
     >
       <CollapsibleButton
+        ref={menuButtonRef}
         {...props}
         icon={<RiDownload2Line />}
-        onClick={() => actions.save()}
+        onClick={() => actions.save(undefined, menuButtonRef)}
         text={intl.formatMessage({
           id: "save-action",
         })}

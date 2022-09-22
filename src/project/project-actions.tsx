@@ -539,7 +539,10 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  save = async (saveViaWebUsbNotSupported?: boolean) => {
+  save = async (
+    saveViaWebUsbNotSupported?: boolean,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) => {
     this.logging.event({
       type: "save",
       detail: await this.projectStats(),
@@ -568,7 +571,7 @@ export class ProjectActions {
     if (saveViaWebUsbNotSupported) {
       this.handleTransferHexDialog(false);
     } else {
-      this.handlePostSaveDialog();
+      this.handlePostSaveDialog(finalFocusRef);
     }
   };
 
@@ -599,12 +602,12 @@ export class ProjectActions {
    * There's some debate as to whether this action is more confusing than helpful
    * but leaving it around for a bit so we can try out different UI arrangements.
    */
-  saveMainFile = async () => {
+  saveMainFile = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
     this.logging.event({
       type: "save-main-file",
     });
 
-    if (!(await this.ensureProjectName())) {
+    if (!(await this.ensureProjectName(finalFocusRef))) {
       return;
     }
 
@@ -718,14 +721,19 @@ export class ProjectActions {
 
   isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
 
-  ensureProjectName = async (): Promise<boolean | undefined> => {
+  ensureProjectName = async (
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ): Promise<boolean | undefined> => {
     if (this.isDefaultProjectName()) {
-      return await this.editProjectName(true);
+      return await this.editProjectName(true, finalFocusRef);
     }
     return true;
   };
 
-  editProjectName = async (isSave: boolean = false) => {
+  editProjectName = async (
+    isSave: boolean = false,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
         callback={callback}
@@ -736,6 +744,7 @@ export class ProjectActions {
           id: isSave ? "confirm-save-action" : "confirm-action",
         })}
         customFocus
+        finalFocusRef={finalFocusRef}
         validate={(name: string) =>
           name.trim().length === 0
             ? this.intl.formatMessage({ id: "project-name-not-empty" })
@@ -919,7 +928,9 @@ export class ProjectActions {
     }
   }
 
-  private async handlePostSaveDialog() {
+  private async handlePostSaveDialog(
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) {
     const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -932,6 +943,7 @@ export class ProjectActions {
       <PostSaveDialog
         callback={callback}
         dialogNormallyHidden={!showPostSaveHelpSetting}
+        finalFocusRef={finalFocusRef}
       />
     ));
     if (choice === PostSaveChoice.CloseDontShowAgain) {
@@ -945,7 +957,10 @@ export class ProjectActions {
     }
   }
 
-  private async handleTransferHexDialog(forceTransferHexHelp: boolean) {
+  private async handleTransferHexDialog(
+    forceTransferHexHelp: boolean,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -959,6 +974,7 @@ export class ProjectActions {
         shownByRequest={forceTransferHexHelp}
         callback={callback}
         dialogNormallyHidden={!showTransferHexHelpSetting}
+        finalFocusRef={finalFocusRef}
       />
     ));
     if (choice === TransferHexChoice.CloseDontShowAgain) {
