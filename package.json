@@ -1,6 +1,6 @@
 {
   "name": "python-editor",
-  "version": "0.1.0-local",
+  "version": "3.0.0-local",
   "author": "Micro:bit Educational Foundation <package-help@microbit.org>",
   "license": "MIT",
   "private": true,
