@@ -1,5 +1,5 @@
 {
-  "name": "python-editor",
+  "name": "@microbit/python-editor-v3",
   "version": "3.0.0-local",
   "author": "Micro:bit Educational Foundation <package-help@microbit.org>",
   "license": "MIT",
