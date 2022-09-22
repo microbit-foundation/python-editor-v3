@@ -488,7 +488,10 @@ export class ProjectActions {
   /**
    * Flash the device, reporting progress via a dialog.
    */
-  flash = async (tryAgain?: boolean): Promise<void> => {
+  flash = async (
+    tryAgain?: boolean,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ): Promise<void> => {
     this.logging.event({
       type: "flash",
       detail: await this.projectStats(),
@@ -505,7 +508,8 @@ export class ProjectActions {
     ) {
       const connected = await this.connect(
         tryAgain || false,
-        ConnectionAction.FLASH
+        ConnectionAction.FLASH,
+        finalFocusRef
       );
       if (!connected) {
         return;
@@ -787,7 +791,7 @@ export class ProjectActions {
     if (userAction === ConnectionAction.CONNECT) {
       this.connect(true, userAction, finalFocusRef);
     } else if (userAction === ConnectionAction.FLASH) {
-      this.flash(true);
+      this.flash(true, finalFocusRef);
     }
   };
 
@@ -807,7 +811,8 @@ export class ProjectActions {
 
   private async handleFirmwareUpdate(
     errorCode: WebUSBErrorCode,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
   ) {
     this.device.clearDevice();
     // Temporarily hide for French language users.
@@ -817,9 +822,9 @@ export class ProjectActions {
       );
     }
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
-      <FirmwareDialog callback={callback} />
+      <FirmwareDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
-    this.handleConnectErrorChoice(choice, userAction);
+    this.handleConnectErrorChoice(choice, userAction, finalFocusRef);
   }
 
   private async handleWebUSBError(
@@ -841,7 +846,7 @@ export class ProjectActions {
           return;
         }
         case "update-req":
-          await this.handleFirmwareUpdate(e.code, userAction);
+          await this.handleFirmwareUpdate(e.code, userAction, finalFocusRef);
           return;
         case "clear-connect":
         case "timeout-error":

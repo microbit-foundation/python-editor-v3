@@ -25,10 +25,14 @@ import { useProjectActions } from "./project-hooks";
 
 interface SendButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
+  sendButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 const SendButton = React.forwardRef(
-  ({ size }: SendButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
+  (
+    { size, sendButtonRef }: SendButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
     const status = useConnectionStatus();
     const connected = status === ConnectionStatus.CONNECTED;
     const actions = useProjectActions();
@@ -54,14 +58,14 @@ const SendButton = React.forwardRef(
         lastCompleteFlash: flashing.current.lastCompleteFlash,
       };
       try {
-        await actions.flash();
+        await actions.flash(undefined, sendButtonRef);
       } finally {
         flashing.current = {
           flashing: false,
           lastCompleteFlash: new Date().getTime(),
         };
       }
-    }, [flashing, actions]);
+    }, [flashing, actions, sendButtonRef]);
     const handleFocus = useCallback(
       (e) => {
         const inProgress = flashing.current.flashing;
