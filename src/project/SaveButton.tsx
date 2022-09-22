@@ -39,7 +39,7 @@ const SaveButton = (props: SaveButtonProps) => {
         ref={menuButtonRef}
         {...props}
         icon={<RiDownload2Line />}
-        onClick={() => actions.save(undefined, menuButtonRef)}
+        onClick={() => actions.save(menuButtonRef)}
         text={intl.formatMessage({
           id: "save-action",
         })}

@@ -16,12 +16,12 @@ import notFound from "./not-found.svg";
 
 interface NotFoundDialogProps {
   callback: (value: ConnectErrorChoice) => void;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 export const NotFoundDialog = ({
   callback,
-  finalFocusRef = undefined,
+  finalFocusRef,
 }: NotFoundDialogProps) => {
   const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {

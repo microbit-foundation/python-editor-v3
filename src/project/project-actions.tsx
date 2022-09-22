@@ -127,7 +127,7 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.webusbNotSupportedError();
+      this.webusbNotSupportedError(finalFocusRef);
     } else {
       if (await this.showConnectHelp(forceConnectHelp)) {
         return this.connectInternal(
@@ -190,7 +190,7 @@ export class ProjectActions {
   ) {
     try {
       await this.device.connect(options);
-      finalFocusRef?.current?.focus();
+      finalFocusRef.current?.focus();
       return true;
     } catch (e) {
       this.handleWebUSBError(e, userAction, finalFocusRef);
@@ -498,7 +498,7 @@ export class ProjectActions {
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.webusbNotSupportedError();
+      this.webusbNotSupportedError(finalFocusRef);
       return;
     }
 
@@ -548,8 +548,8 @@ export class ProjectActions {
    * Trigger a browser download with a universal hex file.
    */
   save = async (
-    saveViaWebUsbNotSupported?: boolean,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    saveViaWebUsbNotSupported?: boolean
   ) => {
     this.logging.event({
       type: "save",
@@ -577,7 +577,7 @@ export class ProjectActions {
     saveAs(blob, this.project.name + ".hex");
     await this.fs.clearDirty();
     if (saveViaWebUsbNotSupported) {
-      this.handleTransferHexDialog(false);
+      this.handleTransferHexDialog(false, finalFocusRef);
     } else {
       this.handlePostSaveDialog(finalFocusRef);
     }
@@ -864,7 +864,9 @@ export class ProjectActions {
     }
   }
 
-  private async webusbNotSupportedError(): Promise<void> {
+  private async webusbNotSupportedError(
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ): Promise<void> {
     if (this.sessionSettings.values.showWebUsbNotSupported) {
       await this.dialogs.show<void>((callback) => (
         <WebUSBDialog callback={callback} />
@@ -874,7 +876,7 @@ export class ProjectActions {
         showWebUsbNotSupported: false,
       });
     }
-    this.save(true);
+    this.save(finalFocusRef, true);
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -946,7 +948,7 @@ export class ProjectActions {
   }
 
   private async handlePostSaveDialog(
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
     // Temporarily hide for French language users.
@@ -970,13 +972,13 @@ export class ProjectActions {
       });
     }
     if (choice === PostSaveChoice.ShowTransferHexHelp) {
-      this.handleTransferHexDialog(true);
+      this.handleTransferHexDialog(true, finalFocusRef);
     }
   }
 
   private async handleTransferHexDialog(
     forceTransferHexHelp: boolean,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     // Temporarily hide for French language users.

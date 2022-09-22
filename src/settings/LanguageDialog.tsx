@@ -22,7 +22,7 @@ import { Language, supportedLanguages, useSettings } from "./settings";
 interface LanguageDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 /**
@@ -31,7 +31,7 @@ interface LanguageDialogProps {
 export const LanguageDialog = ({
   isOpen,
   onClose,
-  finalFocusRef = undefined,
+  finalFocusRef,
 }: LanguageDialogProps) => {
   const [settings, setSettings] = useSettings();
   const handleChooseLanguage = useCallback(

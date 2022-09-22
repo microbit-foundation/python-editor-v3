@@ -18,13 +18,13 @@ export const enum PostSaveChoice {
 interface PostSaveDialogProps {
   callback: (value: PostSaveChoice) => void;
   dialogNormallyHidden: boolean;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 export const PostSaveDialog = ({
   callback,
   dialogNormallyHidden,
-  finalFocusRef = undefined,
+  finalFocusRef,
 }: PostSaveDialogProps) => {
   const onShowTransferHexHelp = useCallback(() => {
     callback(PostSaveChoice.ShowTransferHexHelp);
