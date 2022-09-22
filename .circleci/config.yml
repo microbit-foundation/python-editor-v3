@@ -101,6 +101,7 @@ jobs:
         environment:
           STAGE: REVIEW
           REACT_APP_STAGE: REVIEW
+          REVIEW_CLOUDFRONT_DISTRIBUTION_ID: "E3267W09ZJHQG9"
     steps:
       - checkout
       - *restore_npm_cache
@@ -129,6 +130,7 @@ jobs:
         environment:
           STAGE: STAGING
           REACT_APP_STAGE: STAGING
+          STAGING_CLOUDFRONT_DISTRIBUTION_ID: "E1IW78R9PB0PD1"
     steps:
       - checkout
       - *restore_npm_cache
@@ -156,6 +158,7 @@ jobs:
         environment:
           STAGE: PRODUCTION
           REACT_APP_STAGE: PRODUCTION
+          PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: "E1IW78R9PB0PD1"
     steps:
       - checkout
       - *restore_npm_cache
