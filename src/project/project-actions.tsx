@@ -556,7 +556,7 @@ export class ProjectActions {
       detail: await this.projectStats(),
     });
 
-    if (!(await this.ensureProjectName())) {
+    if (!(await this.ensureProjectName(finalFocusRef))) {
       return;
     }
 
@@ -730,7 +730,7 @@ export class ProjectActions {
   isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
 
   ensureProjectName = async (
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ): Promise<boolean | undefined> => {
     if (this.isDefaultProjectName()) {
       return await this.editProjectName(true, finalFocusRef);
@@ -869,7 +869,7 @@ export class ProjectActions {
   ): Promise<void> {
     if (this.sessionSettings.values.showWebUsbNotSupported) {
       await this.dialogs.show<void>((callback) => (
-        <WebUSBDialog callback={callback} />
+        <WebUSBDialog callback={callback} finalFocusRef={finalFocusRef} />
       ));
       this.sessionSettings.setValues({
         ...this.sessionSettings.values,

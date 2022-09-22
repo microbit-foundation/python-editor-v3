@@ -11,14 +11,19 @@ import { GenericDialog } from "../../common/GenericDialog";
 
 interface WebUSBDialogProps {
   callback: () => void;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
-export const WebUSBDialog = ({ callback }: WebUSBDialogProps) => {
+export const WebUSBDialog = ({
+  callback,
+  finalFocusRef,
+}: WebUSBDialogProps) => {
   const handleClose = useCallback(() => {
     callback();
   }, [callback]);
   return (
     <GenericDialog
+      finalFocusRef={finalFocusRef}
       onClose={handleClose}
       body={<WebUSBDialogBody />}
       footer={<WebUSBDialogFooter onCancel={handleClose} />}
