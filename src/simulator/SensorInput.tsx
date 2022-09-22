@@ -60,21 +60,31 @@ const SensorInput = ({
         }
     }
   };
+  const mouseDownTouchStartAction = () => {
+    setMouseDown(true);
+    handleSensorChange(sensor.max);
+  };
+  const mouseUpTouchEndAction = () => {
+    if (mouseDown) {
+      setMouseDown(false);
+      handleSensorChange(sensor.min);
+    }
+  };
   const mouseDownListener = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    setMouseDown(true);
-    handleSensorChange(sensor.max);
+    mouseDownTouchStartAction();
   };
   const mouseUpListener = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (mouseDown) {
-      setMouseDown(false);
-      handleSensorChange(sensor.min);
-    }
+    mouseUpTouchEndAction();
+  };
+  const touchEndListener = (event: React.TouchEvent) => {
+    event.preventDefault();
+    mouseUpTouchEndAction();
   };
   const mouseLeaveListener = () => {
     if (mouseDown) {
@@ -124,7 +134,9 @@ const SensorInput = ({
         onKeyDown={keyListener}
         onKeyUp={keyListener}
         onMouseDown={mouseDownListener}
+        onTouchStart={mouseDownTouchStartAction}
         onMouseUp={mouseUpListener}
+        onTouchEnd={touchEndListener}
         onMouseLeave={mouseLeaveListener}
       >
         {logo ? (
