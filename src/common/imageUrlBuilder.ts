@@ -16,12 +16,12 @@ export const imageUrlBuilder = unconfiguredImageUrlBuilder()
   .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
 
-export const getAspectRatio = (imageRef: string): number | undefined => {
+export const getAspectRatio = (imageRef: string): string | undefined => {
   const dimensionsArr = imageRef.match(/\d+x\d+/g);
   if (!dimensionsArr) {
     return undefined;
   }
   const dimensions = dimensionsArr.join().split("x");
   const [width, height] = dimensions.map((n: string) => Number(n));
-  return width / height;
+  return (width / height).toString();
 };

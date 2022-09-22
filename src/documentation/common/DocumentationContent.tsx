@@ -211,7 +211,12 @@ const serializers = {
             .url()}
           alt={props.node.alt}
           width={300}
-          sx={{ aspectRatio: getAspectRatio(props.node.asset._ref) }}
+          borderRadius="lg"
+          border="solid 1px"
+          borderColor="gray.300"
+          sx={{
+            aspectRatio: getAspectRatio(props.node.asset._ref),
+          }}
         />
       );
     },
