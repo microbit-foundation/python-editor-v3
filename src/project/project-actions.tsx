@@ -129,7 +129,7 @@ export class ProjectActions {
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.webusbNotSupportedError(finalFocusRef);
     } else {
-      if (await this.showConnectHelp(forceConnectHelp)) {
+      if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
         return this.connectInternal(
           { serial: userAction !== ConnectionAction.FLASH },
           userAction,
@@ -145,7 +145,10 @@ export class ProjectActions {
    * @param force true to show the help even if the user previously requested not to (used in error handling scenarios).
    * @return true to continue to connect, false to cancel.
    */
-  private async showConnectHelp(force: boolean): Promise<boolean> {
+  private async showConnectHelp(
+    force: boolean,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -160,6 +163,7 @@ export class ProjectActions {
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
       <ConnectDialog
+        finalFocusRef={finalFocusRef}
         shownByRequest={force}
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}

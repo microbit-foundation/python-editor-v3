@@ -21,6 +21,7 @@ interface ConnectHelpDialogProps {
   callback: (choice: ConnectHelpChoice) => void;
   dialogNormallyHidden: boolean;
   shownByRequest: boolean;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 const enum Stage {
@@ -32,6 +33,7 @@ const ConnectDialog = ({
   callback,
   dialogNormallyHidden,
   shownByRequest,
+  finalFocusRef,
 }: ConnectHelpDialogProps) => {
   const [stage, setStage] = useState<Stage>(Stage.ConnectCable);
   const handleNext = useCallback(() => {
@@ -43,6 +45,7 @@ const ConnectDialog = ({
   }, [callback, stage]);
   return (
     <GenericDialog
+      finalFocusRef={finalFocusRef}
       onClose={() => callback(ConnectHelpChoice.Cancel)}
       body={
         stage === Stage.ConnectCable ? (
