@@ -38,7 +38,7 @@ const SendButton = React.forwardRef(
     const actions = useProjectActions();
     const handleToggleConnected = useCallback(async () => {
       if (connected) {
-        await actions.disconnect();
+        await actions.disconnect(menuButtonRef);
       } else {
         await actions.connect(false, ConnectionAction.CONNECT, menuButtonRef);
       }
@@ -58,7 +58,7 @@ const SendButton = React.forwardRef(
         lastCompleteFlash: flashing.current.lastCompleteFlash,
       };
       try {
-        await actions.flash(undefined, sendButtonRef);
+        await actions.flash(sendButtonRef);
       } finally {
         flashing.current = {
           flashing: false,

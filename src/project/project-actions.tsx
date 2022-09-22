@@ -120,7 +120,7 @@ export class ProjectActions {
   connect = async (
     forceConnectHelp: boolean,
     userAction: ConnectionAction,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
@@ -186,7 +186,7 @@ export class ProjectActions {
   private async connectInternal(
     options: ConnectOptions,
     userAction: ConnectionAction,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     try {
       await this.device.connect(options);
@@ -201,7 +201,7 @@ export class ProjectActions {
   /**
    * Disconnect from the device.
    */
-  disconnect = async () => {
+  disconnect = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
     this.logging.event({
       type: "disconnect",
     });
@@ -209,7 +209,7 @@ export class ProjectActions {
     try {
       await this.device.disconnect();
     } catch (e) {
-      this.handleWebUSBError(e, ConnectionAction.DISCONNECT);
+      this.handleWebUSBError(e, ConnectionAction.DISCONNECT, finalFocusRef);
     }
   };
 
@@ -489,8 +489,8 @@ export class ProjectActions {
    * Flash the device, reporting progress via a dialog.
    */
   flash = async (
-    tryAgain?: boolean,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    tryAgain?: boolean
   ): Promise<void> => {
     this.logging.event({
       type: "flash",
@@ -539,7 +539,7 @@ export class ProjectActions {
           description: e.message,
         });
       } else {
-        this.handleWebUSBError(e, ConnectionAction.FLASH);
+        this.handleWebUSBError(e, ConnectionAction.FLASH, finalFocusRef);
       }
     }
   };
@@ -783,7 +783,7 @@ export class ProjectActions {
   private handleConnectErrorChoice = (
     choice: ConnectErrorChoice,
     userAction: ConnectionAction,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) => {
     if (choice !== ConnectErrorChoice.TRY_AGAIN) {
       return;
@@ -791,13 +791,13 @@ export class ProjectActions {
     if (userAction === ConnectionAction.CONNECT) {
       this.connect(true, userAction, finalFocusRef);
     } else if (userAction === ConnectionAction.FLASH) {
-      this.flash(true, finalFocusRef);
+      this.flash(finalFocusRef, true);
     }
   };
 
   private async handleNotFound(
     userAction: ConnectionAction,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -806,13 +806,13 @@ export class ProjectActions {
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <NotFoundDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
-    this.handleConnectErrorChoice(choice, userAction);
+    this.handleConnectErrorChoice(choice, userAction, finalFocusRef);
   }
 
   private async handleFirmwareUpdate(
     errorCode: WebUSBErrorCode,
     userAction: ConnectionAction,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     this.device.clearDevice();
     // Temporarily hide for French language users.
@@ -830,7 +830,7 @@ export class ProjectActions {
   private async handleWebUSBError(
     e: any,
     userAction: ConnectionAction,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     if (e instanceof WebUSBError) {
       this.device.emit(EVENT_END_USB_SELECT);
