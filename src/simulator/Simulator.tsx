@@ -43,8 +43,7 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
-  // This needs the domain to be updated before we release.
-  const version = "0.1.0";
+  const version = "0.1";
   const url = `https://python-simulator.usermbit.org/v/${version}/simulator.html`;
   // For testing with sim branches:
   //const branch = "whatever";
