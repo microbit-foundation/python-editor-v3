@@ -67,6 +67,7 @@ const clipboardVersion = versionInfo
 interface AboutDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 /**
@@ -74,13 +75,18 @@ interface AboutDialogProps {
  *
  * Shown via the help menu.
  */
-const AboutDialog = ({ isOpen, onClose }: AboutDialogProps) => {
+const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
   const { hasCopied, onCopy } = useClipboard(clipboardVersion);
   const deployment = useDeployment();
   const micropythonSection = useDisclosure();
   const intl = useIntl();
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="4xl"
+      finalFocusRef={finalFocusRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalBody>

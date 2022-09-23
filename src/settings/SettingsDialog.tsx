@@ -18,14 +18,24 @@ import SettingsArea from "./SettingsArea";
 interface SettingsDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  finalFocusRef?: React.RefObject<HTMLButtonElement>;
 }
 
 /**
  * Settings dialog.
  */
-export const SettingsDialog = ({ isOpen, onClose }: SettingsDialogProps) => {
+export const SettingsDialog = ({
+  isOpen,
+  onClose,
+  finalFocusRef = undefined,
+}: SettingsDialogProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="lg"
+      finalFocusRef={finalFocusRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">

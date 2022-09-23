@@ -119,19 +119,21 @@ export class ProjectActions {
 
   connect = async (
     forceConnectHelp: boolean,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.webusbNotSupportedError();
+      this.webusbNotSupportedError(finalFocusRef);
     } else {
-      if (await this.showConnectHelp(forceConnectHelp)) {
+      if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
         return this.connectInternal(
           { serial: userAction !== ConnectionAction.FLASH },
-          userAction
+          userAction,
+          finalFocusRef
         );
       }
     }
@@ -143,7 +145,10 @@ export class ProjectActions {
    * @param force true to show the help even if the user previously requested not to (used in error handling scenarios).
    * @return true to continue to connect, false to cancel.
    */
-  private async showConnectHelp(force: boolean): Promise<boolean> {
+  private async showConnectHelp(
+    force: boolean,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -158,6 +163,7 @@ export class ProjectActions {
     }
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
       <ConnectDialog
+        finalFocusRef={finalFocusRef}
         shownByRequest={force}
         callback={callback}
         dialogNormallyHidden={!showConnectHelpSetting}
@@ -183,13 +189,15 @@ export class ProjectActions {
    */
   private async connectInternal(
     options: ConnectOptions,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     try {
       await this.device.connect(options);
+      finalFocusRef.current?.focus();
       return true;
     } catch (e) {
-      this.handleWebUSBError(e, userAction);
+      this.handleWebUSBError(e, userAction, finalFocusRef);
       return false;
     }
   }
@@ -197,7 +205,7 @@ export class ProjectActions {
   /**
    * Disconnect from the device.
    */
-  disconnect = async () => {
+  disconnect = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
     this.logging.event({
       type: "disconnect",
     });
@@ -205,7 +213,7 @@ export class ProjectActions {
     try {
       await this.device.disconnect();
     } catch (e) {
-      this.handleWebUSBError(e, ConnectionAction.DISCONNECT);
+      this.handleWebUSBError(e, ConnectionAction.DISCONNECT, finalFocusRef);
     }
   };
 
@@ -484,14 +492,17 @@ export class ProjectActions {
   /**
    * Flash the device, reporting progress via a dialog.
    */
-  flash = async (tryAgain?: boolean): Promise<void> => {
+  flash = async (
+    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    tryAgain?: boolean
+  ): Promise<void> => {
     this.logging.event({
       type: "flash",
       detail: await this.projectStats(),
     });
 
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.webusbNotSupportedError();
+      this.webusbNotSupportedError(finalFocusRef);
       return;
     }
 
@@ -501,7 +512,8 @@ export class ProjectActions {
     ) {
       const connected = await this.connect(
         tryAgain || false,
-        ConnectionAction.FLASH
+        ConnectionAction.FLASH,
+        finalFocusRef
       );
       if (!connected) {
         return;
@@ -531,7 +543,7 @@ export class ProjectActions {
           description: e.message,
         });
       } else {
-        this.handleWebUSBError(e, ConnectionAction.FLASH);
+        this.handleWebUSBError(e, ConnectionAction.FLASH, finalFocusRef);
       }
     }
   };
@@ -539,13 +551,16 @@ export class ProjectActions {
   /**
    * Trigger a browser download with a universal hex file.
    */
-  save = async (saveViaWebUsbNotSupported?: boolean) => {
+  save = async (
+    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    saveViaWebUsbNotSupported?: boolean
+  ) => {
     this.logging.event({
       type: "save",
       detail: await this.projectStats(),
     });
 
-    if (!(await this.ensureProjectName())) {
+    if (!(await this.ensureProjectName(finalFocusRef))) {
       return;
     }
 
@@ -566,9 +581,9 @@ export class ProjectActions {
     saveAs(blob, this.project.name + ".hex");
     await this.fs.clearDirty();
     if (saveViaWebUsbNotSupported) {
-      this.handleTransferHexDialog(false);
+      this.handleTransferHexDialog(false, finalFocusRef);
     } else {
-      this.handlePostSaveDialog();
+      this.handlePostSaveDialog(finalFocusRef);
     }
   };
 
@@ -599,12 +614,12 @@ export class ProjectActions {
    * There's some debate as to whether this action is more confusing than helpful
    * but leaving it around for a bit so we can try out different UI arrangements.
    */
-  saveMainFile = async () => {
+  saveMainFile = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
     this.logging.event({
       type: "save-main-file",
     });
 
-    if (!(await this.ensureProjectName())) {
+    if (!(await this.ensureProjectName(finalFocusRef))) {
       return;
     }
 
@@ -623,7 +638,12 @@ export class ProjectActions {
         this.settings.values.languageId === "en"
       ) {
         const choice = await this.dialogs.show<MultipleFilesChoice>(
-          (callback) => <MultipleFilesDialog callback={callback} />
+          (callback) => (
+            <MultipleFilesDialog
+              callback={callback}
+              finalFocusRef={finalFocusRef}
+            />
+          )
         );
         if (choice === MultipleFilesChoice.CloseDontShowAgain) {
           this.settings.setValues({
@@ -718,14 +738,19 @@ export class ProjectActions {
 
   isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
 
-  ensureProjectName = async (): Promise<boolean | undefined> => {
+  ensureProjectName = async (
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ): Promise<boolean | undefined> => {
     if (this.isDefaultProjectName()) {
-      return await this.editProjectName(true);
+      return await this.editProjectName(true, finalFocusRef);
     }
     return true;
   };
 
-  editProjectName = async (isSave: boolean = false) => {
+  editProjectName = async (
+    isSave: boolean = false,
+    finalFocusRef?: React.RefObject<HTMLButtonElement>
+  ) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
         callback={callback}
@@ -736,6 +761,7 @@ export class ProjectActions {
           id: isSave ? "confirm-save-action" : "confirm-action",
         })}
         customFocus
+        finalFocusRef={finalFocusRef}
         validate={(name: string) =>
           name.trim().length === 0
             ? this.intl.formatMessage({ id: "project-name-not-empty" })
@@ -765,32 +791,37 @@ export class ProjectActions {
 
   private handleConnectErrorChoice = (
     choice: ConnectErrorChoice,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) => {
     if (choice !== ConnectErrorChoice.TRY_AGAIN) {
       return;
     }
     if (userAction === ConnectionAction.CONNECT) {
-      this.connect(true, userAction);
+      this.connect(true, userAction, finalFocusRef);
     } else if (userAction === ConnectionAction.FLASH) {
-      this.flash(true);
+      this.flash(finalFocusRef, true);
     }
   };
 
-  private async handleNotFound(userAction: ConnectionAction) {
+  private async handleNotFound(
+    userAction: ConnectionAction,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
       return;
     }
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
-      <NotFoundDialog callback={callback} />
+      <NotFoundDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
-    this.handleConnectErrorChoice(choice, userAction);
+    this.handleConnectErrorChoice(choice, userAction, finalFocusRef);
   }
 
   private async handleFirmwareUpdate(
     errorCode: WebUSBErrorCode,
-    userAction: ConnectionAction
+    userAction: ConnectionAction,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     this.device.clearDevice();
     // Temporarily hide for French language users.
@@ -800,19 +831,23 @@ export class ProjectActions {
       );
     }
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
-      <FirmwareDialog callback={callback} />
+      <FirmwareDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
-    this.handleConnectErrorChoice(choice, userAction);
+    this.handleConnectErrorChoice(choice, userAction, finalFocusRef);
   }
 
-  private async handleWebUSBError(e: any, userAction: ConnectionAction) {
+  private async handleWebUSBError(
+    e: any,
+    userAction: ConnectionAction,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
     if (e instanceof WebUSBError) {
       this.device.emit(EVENT_END_USB_SELECT);
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
           // where no devices.
-          await this.handleNotFound(userAction);
+          await this.handleNotFound(userAction, finalFocusRef);
           return;
         }
         case "device-disconnected": {
@@ -820,7 +855,7 @@ export class ProjectActions {
           return;
         }
         case "update-req":
-          await this.handleFirmwareUpdate(e.code, userAction);
+          await this.handleFirmwareUpdate(e.code, userAction, finalFocusRef);
           return;
         case "clear-connect":
         case "timeout-error":
@@ -838,17 +873,19 @@ export class ProjectActions {
     }
   }
 
-  private async webusbNotSupportedError(): Promise<void> {
+  private async webusbNotSupportedError(
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ): Promise<void> {
     if (this.sessionSettings.values.showWebUsbNotSupported) {
       await this.dialogs.show<void>((callback) => (
-        <WebUSBDialog callback={callback} />
+        <WebUSBDialog callback={callback} finalFocusRef={finalFocusRef} />
       ));
       this.sessionSettings.setValues({
         ...this.sessionSettings.values,
         showWebUsbNotSupported: false,
       });
     }
-    this.save(true);
+    this.save(finalFocusRef, true);
   }
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
@@ -919,7 +956,9 @@ export class ProjectActions {
     }
   }
 
-  private async handlePostSaveDialog() {
+  private async handlePostSaveDialog(
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
     const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -932,6 +971,7 @@ export class ProjectActions {
       <PostSaveDialog
         callback={callback}
         dialogNormallyHidden={!showPostSaveHelpSetting}
+        finalFocusRef={finalFocusRef}
       />
     ));
     if (choice === PostSaveChoice.CloseDontShowAgain) {
@@ -941,11 +981,14 @@ export class ProjectActions {
       });
     }
     if (choice === PostSaveChoice.ShowTransferHexHelp) {
-      this.handleTransferHexDialog(true);
+      this.handleTransferHexDialog(true, finalFocusRef);
     }
   }
 
-  private async handleTransferHexDialog(forceTransferHexHelp: boolean) {
+  private async handleTransferHexDialog(
+    forceTransferHexHelp: boolean,
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     // Temporarily hide for French language users.
     if (this.settings.values.languageId !== "en") {
@@ -959,6 +1002,7 @@ export class ProjectActions {
         shownByRequest={forceTransferHexHelp}
         callback={callback}
         dialogNormallyHidden={!showTransferHexHelpSetting}
+        finalFocusRef={finalFocusRef}
       />
     ));
     if (choice === TransferHexChoice.CloseDontShowAgain) {

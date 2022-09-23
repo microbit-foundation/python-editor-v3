@@ -25,18 +25,22 @@ import { useProjectActions } from "./project-hooks";
 
 interface SendButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
+  sendButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 const SendButton = React.forwardRef(
-  ({ size }: SendButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
+  (
+    { size, sendButtonRef }: SendButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
     const status = useConnectionStatus();
     const connected = status === ConnectionStatus.CONNECTED;
     const actions = useProjectActions();
     const handleToggleConnected = useCallback(async () => {
       if (connected) {
-        await actions.disconnect();
+        await actions.disconnect(menuButtonRef);
       } else {
-        await actions.connect(false, ConnectionAction.CONNECT);
+        await actions.connect(false, ConnectionAction.CONNECT, menuButtonRef);
       }
     }, [connected, actions]);
     const intl = useIntl();
@@ -54,14 +58,14 @@ const SendButton = React.forwardRef(
         lastCompleteFlash: flashing.current.lastCompleteFlash,
       };
       try {
-        await actions.flash();
+        await actions.flash(sendButtonRef);
       } finally {
         flashing.current = {
           flashing: false,
           lastCompleteFlash: new Date().getTime(),
         };
       }
-    }, [flashing, actions]);
+    }, [flashing, actions, sendButtonRef]);
     const handleFocus = useCallback(
       (e) => {
         const inProgress = flashing.current.flashing;
@@ -74,6 +78,7 @@ const SendButton = React.forwardRef(
       },
       [flashing]
     );
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
     return (
       <HStack>
         <Menu>
@@ -97,6 +102,7 @@ const SendButton = React.forwardRef(
               </Button>
             </Tooltip>
             <MoreMenuButton
+              ref={menuButtonRef}
               variant="solid"
               aria-label={intl.formatMessage({ id: "more-connect-options" })}
               data-testid="more-connect-options"

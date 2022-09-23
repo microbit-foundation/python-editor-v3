@@ -271,6 +271,7 @@ const Editor = ({ editor }: EditorProps) => {
       </SplitView>
       <ProjectActionBar
         ref={ref}
+        sendButtonRef={ref}
         as="section"
         aria-label={intl.formatMessage({ id: "project-actions" })}
         borderTopWidth={2}

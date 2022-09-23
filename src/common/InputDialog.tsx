@@ -35,6 +35,7 @@ export interface InputDialogProps<T> {
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   validate?: (input: T) => string | undefined;
   customFocus?: boolean;
+  finalFocusRef?: React.RefObject<HTMLButtonElement>;
   callback: (value: ValueOrCancelled<T>) => void;
 }
 
@@ -50,6 +51,7 @@ export const InputDialog = <T,>({
   initialValue,
   size,
   customFocus,
+  finalFocusRef = undefined,
   validate = noValidation,
   callback,
 }: InputDialogProps<T>) => {
@@ -70,6 +72,7 @@ export const InputDialog = <T,>({
       onClose={onCancel}
       size={size}
       initialFocusRef={customFocus ? undefined : leastDestructiveRef}
+      finalFocusRef={finalFocusRef}
     >
       <ModalOverlay>
         <ModalContent>

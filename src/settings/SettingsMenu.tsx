@@ -14,7 +14,7 @@ import {
   ThemingProps,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { IoMdGlobe } from "react-icons/io";
 import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -36,17 +36,24 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
   const dialogs = useDialogs();
   const handleShowSettings = useCallback(() => {
     dialogs.show((callback) => (
-      <SettingsDialog isOpen onClose={() => callback(undefined)} />
+      <SettingsDialog
+        isOpen
+        onClose={() => callback(undefined)}
+        finalFocusRef={menuButtonRef}
+      />
     ));
   }, [dialogs]);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <>
       <LanguageDialog
         isOpen={languageDisclosure.isOpen}
         onClose={languageDisclosure.onClose}
+        finalFocusRef={menuButtonRef}
       />
       <Menu {...props}>
         <MenuButton
+          ref={menuButtonRef}
           as={IconButton}
           data-testid="settings"
           aria-label={intl.formatMessage({ id: "settings" })}

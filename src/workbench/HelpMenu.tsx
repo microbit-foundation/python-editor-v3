@@ -15,7 +15,7 @@ import {
   ThemingProps,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import {
   RiExternalLinkLine,
   RiFeedbackLine,
@@ -42,17 +42,24 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   const dialogs = useDialogs();
   const handleFeedback = useCallback(() => {
     dialogs.show((callback) => (
-      <FeedbackForm isOpen onClose={() => callback(undefined)} />
+      <FeedbackForm
+        isOpen
+        onClose={() => callback(undefined)}
+        finalFocusRef={menuButtonRef}
+      />
     ));
   }, [dialogs]);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <>
       <AboutDialog
         isOpen={aboutDialogDisclosure.isOpen}
         onClose={aboutDialogDisclosure.onClose}
+        finalFocusRef={menuButtonRef}
       />
       <Menu {...props}>
         <MenuButton
+          ref={menuButtonRef}
           as={IconButton}
           aria-label={intl.formatMessage({ id: "help" })}
           size={size}

@@ -19,9 +19,10 @@ export const enum ConnectErrorChoice {
 
 interface FirmwareDialogProps {
   callback: (choice: ConnectErrorChoice) => void;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
-const FirmwareDialog = ({ callback }: FirmwareDialogProps) => {
+const FirmwareDialog = ({ callback, finalFocusRef }: FirmwareDialogProps) => {
   const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {
     setReturnFocus(false);
@@ -29,6 +30,7 @@ const FirmwareDialog = ({ callback }: FirmwareDialogProps) => {
   }, [callback, setReturnFocus]);
   return (
     <GenericDialog
+      finalFocusRef={finalFocusRef}
       returnFocusOnClose={returnFocus}
       body={<FirmwareDialogBody />}
       footer={

@@ -19,6 +19,7 @@ import { FormattedMessage } from "react-intl";
 interface SerialHelpDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  finalFocusRef?: React.RefObject<HTMLButtonElement>;
 }
 
 const formatValues = {
@@ -32,9 +33,15 @@ const formatValues = {
 export const SerialHelpDialog = ({
   isOpen,
   onClose,
+  finalFocusRef = undefined,
 }: SerialHelpDialogProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="lg"
+      finalFocusRef={finalFocusRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">

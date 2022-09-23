@@ -20,16 +20,19 @@ interface TransferHexDialogProps {
   callback: (value: TransferHexChoice) => void;
   dialogNormallyHidden: boolean;
   shownByRequest: boolean;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 export const TransferHexDialog = ({
   callback,
   dialogNormallyHidden,
   shownByRequest,
+  finalFocusRef,
 }: TransferHexDialogProps) => {
   return (
     <GenericDialog
       onClose={() => callback(TransferHexChoice.Close)}
+      finalFocusRef={finalFocusRef}
       body={<TransferHexDialogBody />}
       footer={
         <GenericDialogFooter

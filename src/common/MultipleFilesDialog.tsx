@@ -16,11 +16,16 @@ export const enum MultipleFilesChoice {
 
 interface MultipleFilesDialogProps {
   callback: (value: MultipleFilesChoice) => void;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
-export const MultipleFilesDialog = ({ callback }: MultipleFilesDialogProps) => {
+export const MultipleFilesDialog = ({
+  callback,
+  finalFocusRef,
+}: MultipleFilesDialogProps) => {
   return (
     <GenericDialog
+      finalFocusRef={finalFocusRef}
       onClose={() => callback(MultipleFilesChoice.Close)}
       body={<MultipleFilesDialogBody />}
       footer={

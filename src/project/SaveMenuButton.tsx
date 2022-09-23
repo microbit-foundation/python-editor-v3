@@ -18,6 +18,7 @@ import { zIndexAboveTerminal } from "../common/zIndex";
 import SaveButton from "./SaveButton";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
+import { useRef } from "react";
 
 interface SaveMenuButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -32,12 +33,14 @@ interface SaveMenuButtonProps {
 const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
   const intl = useIntl();
   const actions = useProjectActions();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <HStack>
       <Menu>
         <ButtonGroup isAttached>
           <SaveButton mode="button" size={size} borderRight="1px" />
           <MoreMenuButton
+            ref={menuButtonRef}
             aria-label={intl.formatMessage({ id: "more-save-options" })}
             size={size}
             data-testid="more-save-options"
@@ -46,7 +49,7 @@ const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
             <MenuList zIndex={zIndexAboveTerminal}>
               <MenuItem
                 icon={<RiDownload2Line />}
-                onClick={actions.saveMainFile}
+                onClick={() => actions.saveMainFile(menuButtonRef)}
               >
                 <FormattedMessage id="save-python-action" />
               </MenuItem>

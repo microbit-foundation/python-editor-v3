@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, HStack, IconButton, useDisclosure } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
@@ -56,11 +56,13 @@ const SerialBar = ({
     logging.event({ type: "serial-info" });
     helpDisclosure.onOpen();
   }, [logging, helpDisclosure]);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <>
       <SerialHelpDialog
         isOpen={helpDisclosure.isOpen}
         onClose={helpDisclosure.onClose}
+        finalFocusRef={showHintsAndTips ? undefined : menuButtonRef}
       />
       <HStack
         justifyContent="space-between"
@@ -118,6 +120,7 @@ const SerialBar = ({
               />
             )}
             <SerialMenu
+              ref={menuButtonRef}
               compact={compact}
               onSizeChange={onSizeChange}
               // Move it to the menu if not shown more visibly.

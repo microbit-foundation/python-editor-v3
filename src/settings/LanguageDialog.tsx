@@ -22,12 +22,17 @@ import { Language, supportedLanguages, useSettings } from "./settings";
 interface LanguageDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 /**
  * Language setting dialog.
  */
-export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
+export const LanguageDialog = ({
+  isOpen,
+  onClose,
+  finalFocusRef,
+}: LanguageDialogProps) => {
   const [settings, setSettings] = useSettings();
   const handleChooseLanguage = useCallback(
     (languageId: string) => {
@@ -41,7 +46,12 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
   );
   const hasPreviewLanguages = supportedLanguages.some((l) => l.preview);
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="xl"
+      finalFocusRef={finalFocusRef}
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">

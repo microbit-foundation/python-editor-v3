@@ -16,9 +16,13 @@ import notFound from "./not-found.svg";
 
 interface NotFoundDialogProps {
   callback: (value: ConnectErrorChoice) => void;
+  finalFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
-export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
+export const NotFoundDialog = ({
+  callback,
+  finalFocusRef,
+}: NotFoundDialogProps) => {
   const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {
     setReturnFocus(false);
@@ -30,6 +34,7 @@ export const NotFoundDialog = ({ callback }: NotFoundDialogProps) => {
   }, [callback, setReturnFocus]);
   return (
     <GenericDialog
+      finalFocusRef={finalFocusRef}
       returnFocusOnClose={returnFocus}
       onClose={() => callback(ConnectErrorChoice.CANCEL)}
       body={<NotFoundDialogBody onSave={onSave} onTryAgain={onTryAgain} />}

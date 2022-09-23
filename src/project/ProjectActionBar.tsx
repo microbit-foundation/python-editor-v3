@@ -10,8 +10,15 @@ import OpenButton from "./OpenButton";
 import { widthXl } from "../common/media-queries";
 import React, { ForwardedRef } from "react";
 
+interface ProjectActionBarProps extends BoxProps {
+  sendButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
 const ProjectActionBar = React.forwardRef(
-  (props: BoxProps, ref: ForwardedRef<HTMLButtonElement>) => {
+  (
+    { sendButtonRef, ...props }: ProjectActionBarProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
     const [isWideScreen] = useMediaQuery(widthXl);
     const size = "lg";
     return (
@@ -21,7 +28,7 @@ const ProjectActionBar = React.forwardRef(
         py={5}
         px={isWideScreen ? 10 : 5}
       >
-        <SendButton size={size} ref={ref} />
+        <SendButton size={size} ref={ref} sendButtonRef={sendButtonRef} />
         <HStack spacing={2.5}>
           <SaveMenuButton size={size} />
           {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
