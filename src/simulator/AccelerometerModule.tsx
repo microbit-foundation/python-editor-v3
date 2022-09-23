@@ -104,6 +104,16 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
     }, 500);
   }, [setActive, onValueChange, choice]);
 
+  const renderOptionText = (gesture: string): string => {
+    const translation = intl.formatMessage({
+      id: `simulator-gesture-${gesture.split(" ").join("-")}`,
+    });
+    if (translation !== gesture) {
+      gesture += ` (${translation})`;
+    }
+    return gesture;
+  };
+
   return (
     <HStack spacing={3}>
       {icon}
@@ -117,9 +127,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
       >
         {choices.map((choice) => (
           <option key={choice} value={choice}>
-            {intl.formatMessage({
-              id: `simulator-gesture-${choice.split(" ").join("-")}`,
-            })}
+            {renderOptionText(choice)}
           </option>
         ))}
       </Select>
