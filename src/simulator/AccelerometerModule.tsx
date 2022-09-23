@@ -117,7 +117,9 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
       >
         {choices.map((choice) => (
           <option key={choice} value={choice}>
-            {choice}
+            {intl.formatMessage({
+              id: `simulator-gesture-${choice.split(" ").join("-")}`,
+            })}
           </option>
         ))}
       </Select>
