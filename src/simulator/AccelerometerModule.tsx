@@ -113,6 +113,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
         value={choice}
         onChange={handleSelectChange}
         ref={selectRef}
+        fontFamily="code"
       >
         {choices.map((choice) => (
           <option key={choice} value={choice}>
