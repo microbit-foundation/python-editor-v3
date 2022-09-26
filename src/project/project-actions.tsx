@@ -1065,7 +1065,7 @@ export class ProjectActions {
 
   private isChromeOS105(): boolean {
     const userAgent = navigator.userAgent;
-    return /(CrOS)/.test(userAgent) && /(Chrome\/105)/.test(userAgent);
+    return /CrOS/.test(userAgent) && /Chrome\/105\b/.test(userAgent);
   }
 }
 
