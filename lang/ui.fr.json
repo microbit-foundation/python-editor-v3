@@ -846,6 +846,42 @@
     "defaultMessage": "Développer le module {title}",
     "description": "Aria label for expand simulator module button"
   },
+  "simulator-gesture-3g": {
+    "defaultMessage": "3g",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-6g": {
+    "defaultMessage": "6g",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-8g": {
+    "defaultMessage": "8g",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-down": {
+    "defaultMessage": "down",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-face-down": {
+    "defaultMessage": "face down",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-face-up": {
+    "defaultMessage": "face up",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-freefall": {
+    "defaultMessage": "freefall",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-left": {
+    "defaultMessage": "left",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-right": {
+    "defaultMessage": "right",
+    "description": "Simulator gesture option"
+  },
   "simulator-gesture-select": {
     "defaultMessage": "Sélectionner un geste",
     "description": "Aria label for the simulator gesture select input"
@@ -853,6 +889,14 @@
   "simulator-gesture-send": {
     "defaultMessage": "Envoyer un geste",
     "description": "Aria label for the simulator gesture send button"
+  },
+  "simulator-gesture-shake": {
+    "defaultMessage": "shake",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-up": {
+    "defaultMessage": "up",
+    "description": "Simulator gesture option"
   },
   "simulator-hide": {
     "defaultMessage": "Cacher le simulateur ",

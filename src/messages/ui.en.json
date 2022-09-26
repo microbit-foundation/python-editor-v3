@@ -1925,6 +1925,60 @@
       "value": " module"
     }
   ],
+  "simulator-gesture-3g": [
+    {
+      "type": 0,
+      "value": "3g"
+    }
+  ],
+  "simulator-gesture-6g": [
+    {
+      "type": 0,
+      "value": "6g"
+    }
+  ],
+  "simulator-gesture-8g": [
+    {
+      "type": 0,
+      "value": "8g"
+    }
+  ],
+  "simulator-gesture-down": [
+    {
+      "type": 0,
+      "value": "down"
+    }
+  ],
+  "simulator-gesture-face-down": [
+    {
+      "type": 0,
+      "value": "face down"
+    }
+  ],
+  "simulator-gesture-face-up": [
+    {
+      "type": 0,
+      "value": "face up"
+    }
+  ],
+  "simulator-gesture-freefall": [
+    {
+      "type": 0,
+      "value": "freefall"
+    }
+  ],
+  "simulator-gesture-left": [
+    {
+      "type": 0,
+      "value": "left"
+    }
+  ],
+  "simulator-gesture-right": [
+    {
+      "type": 0,
+      "value": "right"
+    }
+  ],
   "simulator-gesture-select": [
     {
       "type": 0,
@@ -1935,6 +1989,18 @@
     {
       "type": 0,
       "value": "Send gesture"
+    }
+  ],
+  "simulator-gesture-shake": [
+    {
+      "type": 0,
+      "value": "shake"
+    }
+  ],
+  "simulator-gesture-up": [
+    {
+      "type": 0,
+      "value": "up"
     }
   ],
   "simulator-hide": [
