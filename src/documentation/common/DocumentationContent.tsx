@@ -154,7 +154,7 @@ const ContextualCollapse = ({
   return (
     <Collapse
       in={isExpanded}
-      startingHeight={collapseToFirstLine ? "2.0625rem" : undefined}
+      startingHeight={collapseToFirstLine ? "1.9725rem" : undefined}
     >
       <Stack spacing={3} pt={3} noOfLines={justFirstLine ? 1 : undefined}>
         <BlockContent blocks={children} serializers={serializers} />
