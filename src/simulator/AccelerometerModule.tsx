@@ -109,7 +109,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
       id: `simulator-gesture-${gesture.split(" ").join("-")}`,
     });
     if (translation !== gesture) {
-      gesture += ` (${translation})`;
+      return `${translation} (${gesture})`;
     }
     return gesture;
   };
@@ -123,7 +123,6 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
         value={choice}
         onChange={handleSelectChange}
         ref={selectRef}
-        fontFamily="code"
       >
         {choices.map((choice) => (
           <option key={choice} value={choice}>
