@@ -100,7 +100,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
     setTimeout(() => {
       setActive(false);
       onValueChange("gesture", "none");
-      buttonRef.current!.focus();
+      buttonRef.current?.focus();
     }, 500);
   }, [setActive, onValueChange, choice]);
 
