@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Box, VStack } from "@chakra-ui/layout";
+import { Box, VStack, Text } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -77,7 +77,9 @@ export const InputDialog = <T,>({
       <ModalOverlay>
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
-            {header}
+            <Text as="h2" fontSize="lg">
+              {header}
+            </Text>
           </ModalHeader>
           <ModalBody>
             <VStack>
