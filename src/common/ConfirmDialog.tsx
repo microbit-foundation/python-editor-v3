@@ -41,8 +41,8 @@ export const ConfirmDialog = ({
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            <Text as="h2" fontSize="lg">
+          <AlertDialogHeader>
+            <Text as="h2" fontSize="lg" fontWeight="bold">
               {header}
             </Text>
           </AlertDialogHeader>

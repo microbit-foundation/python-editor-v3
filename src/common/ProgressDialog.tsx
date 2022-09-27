@@ -40,7 +40,7 @@ const ProgressDialog = ({ header, body, progress }: ProgressDialogProps) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          <Text as="h2" fontSize="xl">
+          <Text as="h2" fontSize="xl" fontWeight="bold">
             {header}
           </Text>
         </ModalHeader>

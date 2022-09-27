@@ -76,8 +76,8 @@ export const InputDialog = <T,>({
     >
       <ModalOverlay>
         <ModalContent>
-          <ModalHeader fontSize="lg" fontWeight="bold">
-            <Text as="h2" fontSize="lg">
+          <ModalHeader>
+            <Text as="h2" fontSize="lg" fontWeight="bold">
               {header}
             </Text>
           </ModalHeader>
