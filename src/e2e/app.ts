@@ -742,7 +742,7 @@ export class App {
   async confirmInputDialog(title: string): Promise<void> {
     const document = await this.document();
     await document.findByText(title, {
-      selector: "header",
+      selector: "h2",
     });
   }
 

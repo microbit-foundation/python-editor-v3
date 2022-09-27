@@ -11,7 +11,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { Button, HStack, Link } from "@chakra-ui/react";
+import { Button, HStack, Link, Text } from "@chakra-ui/react";
 import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
@@ -48,8 +48,10 @@ export const GenericDialog = ({
         <ModalContent minWidth="560px" my="auto">
           <ModalCloseButton />
           {header && (
-            <ModalHeader fontSize="lg" fontWeight="bold">
-              {header}
+            <ModalHeader>
+              <Text as="h2" fontSize="xl" fontWeight="bold">
+                {header}
+              </Text>
             </ModalHeader>
           )}
           <ModalBody>{body}</ModalBody>

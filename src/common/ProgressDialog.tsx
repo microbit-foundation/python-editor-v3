@@ -11,7 +11,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Progress } from "@chakra-ui/progress";
-import { VStack } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 const doNothing = () => {};
@@ -39,7 +39,11 @@ const ProgressDialog = ({ header, body, progress }: ProgressDialogProps) => {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{header}</ModalHeader>
+        <ModalHeader>
+          <Text as="h2" fontSize="xl" fontWeight="bold">
+            {header}
+          </Text>
+        </ModalHeader>
         <ModalBody>
           <VStack
             spacing={4}

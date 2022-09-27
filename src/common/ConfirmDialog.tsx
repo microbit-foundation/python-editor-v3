@@ -12,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from "@chakra-ui/modal";
+import { Text } from "@chakra-ui/react";
 import { ReactNode, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -40,8 +41,10 @@ export const ConfirmDialog = ({
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            {header}
+          <AlertDialogHeader>
+            <Text as="h2" fontSize="lg" fontWeight="bold">
+              {header}
+            </Text>
           </AlertDialogHeader>
           <AlertDialogBody>{body}</AlertDialogBody>
           <AlertDialogFooter>
