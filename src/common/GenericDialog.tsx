@@ -48,8 +48,8 @@ export const GenericDialog = ({
         <ModalContent minWidth="560px" my="auto">
           <ModalCloseButton />
           {header && (
-            <ModalHeader fontSize="lg" fontWeight="bold">
-              <Text as="h2" fontSize="xl">
+            <ModalHeader>
+              <Text as="h2" fontSize="xl" fontWeight="bold">
                 {header}
               </Text>
             </ModalHeader>
