@@ -150,10 +150,6 @@ export class ProjectActions {
     finalFocusRef: React.RefObject<HTMLButtonElement>
   ): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
-    // Temporarily hide for French language users.
-    if (this.settings.values.languageId !== "en") {
-      return true;
-    }
     if (
       !force &&
       (!showConnectHelpSetting ||
@@ -631,12 +627,7 @@ export class ProjectActions {
       const filename = `${this.project.name}-${MAIN_FILE}`;
       saveAs(blob, filename);
       const multipleFiles = this.project.files.length > 1;
-      if (
-        multipleFiles &&
-        this.settings.values.showMultipleFilesHelp &&
-        // Temporarily hide for French language users.
-        this.settings.values.languageId === "en"
-      ) {
+      if (multipleFiles && this.settings.values.showMultipleFilesHelp) {
         const choice = await this.dialogs.show<MultipleFilesChoice>(
           (callback) => (
             <MultipleFilesDialog
@@ -808,10 +799,6 @@ export class ProjectActions {
     userAction: ConnectionAction,
     finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
-    // Temporarily hide for French language users.
-    if (this.settings.values.languageId !== "en") {
-      return;
-    }
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <NotFoundDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
@@ -824,12 +811,6 @@ export class ProjectActions {
     finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     this.device.clearDevice();
-    // Temporarily hide for French language users.
-    if (this.settings.values.languageId !== "en") {
-      return this.actionFeedback.expectedError(
-        this.webusbErrorMessage(errorCode)
-      );
-    }
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <FirmwareDialog callback={callback} finalFocusRef={finalFocusRef} />
     ));
@@ -960,10 +941,6 @@ export class ProjectActions {
     finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
-    // Temporarily hide for French language users.
-    if (this.settings.values.languageId !== "en") {
-      return;
-    }
     if (!showPostSaveHelpSetting) {
       return;
     }
@@ -990,10 +967,6 @@ export class ProjectActions {
     finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
-    // Temporarily hide for French language users.
-    if (this.settings.values.languageId !== "en") {
-      return;
-    }
     if (!forceTransferHexHelp && !showTransferHexHelpSetting) {
       return;
     }
