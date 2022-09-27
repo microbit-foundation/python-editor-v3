@@ -126,12 +126,8 @@ export class ProjectActions {
       type: "connect",
     });
 
-    const chromeOS105Error = this.isChromeOS105();
-    if (
-      this.device.status === ConnectionStatus.NOT_SUPPORTED ||
-      chromeOS105Error
-    ) {
-      this.webusbNotSupportedError(finalFocusRef, chromeOS105Error);
+    if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
+      this.webusbNotSupportedError(finalFocusRef);
     } else {
       if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
         return this.connectInternal(
@@ -505,12 +501,8 @@ export class ProjectActions {
       detail: await this.projectStats(),
     });
 
-    const chromeOS105Error = this.isChromeOS105();
-    if (
-      this.device.status === ConnectionStatus.NOT_SUPPORTED ||
-      chromeOS105Error
-    ) {
-      this.webusbNotSupportedError(finalFocusRef, chromeOS105Error);
+    if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
+      this.webusbNotSupportedError(finalFocusRef);
       return;
     }
 
@@ -882,16 +874,11 @@ export class ProjectActions {
   }
 
   private async webusbNotSupportedError(
-    finalFocusRef: React.RefObject<HTMLButtonElement>,
-    chromeOS105Error: boolean
+    finalFocusRef: React.RefObject<HTMLButtonElement>
   ): Promise<void> {
     if (this.sessionSettings.values.showWebUsbNotSupported) {
       await this.dialogs.show<void>((callback) => (
-        <WebUSBDialog
-          callback={callback}
-          finalFocusRef={finalFocusRef}
-          chromeOS105Error={chromeOS105Error}
-        />
+        <WebUSBDialog callback={callback} finalFocusRef={finalFocusRef} />
       ));
       this.sessionSettings.setValues({
         ...this.sessionSettings.values,
@@ -1062,11 +1049,6 @@ export class ProjectActions {
       { changeName: change.name }
     );
   };
-
-  private isChromeOS105(): boolean {
-    const userAgent = navigator.userAgent;
-    return /CrOS/.test(userAgent) && /Chrome\/105\b/.test(userAgent);
-  }
 }
 
 export const defaultedProject = (

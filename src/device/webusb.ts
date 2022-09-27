@@ -26,6 +26,13 @@ import {
   WebUSBError,
 } from "./device";
 
+// Temporary workaround for ChromeOS 105 bug.
+// See https://bugs.chromium.org/p/chromium/issues/detail?id=1363712&q=usb&can=2
+export const isChromeOS105 = (): boolean  => {
+  const userAgent = navigator.userAgent;
+  return /CrOS/.test(userAgent) && /Chrome\/105\b/.test(userAgent);
+}
+
 /**
  * A WebUSB connection to a micro:bit device.
  */
@@ -33,7 +40,7 @@ export class MicrobitWebUSBConnection
   extends EventEmitter
   implements DeviceConnection
 {
-  status: ConnectionStatus = navigator.usb
+  status: ConnectionStatus = navigator.usb && !isChromeOS105()
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
     : ConnectionStatus.NOT_SUPPORTED;
 

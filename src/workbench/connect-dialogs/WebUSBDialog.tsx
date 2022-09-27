@@ -8,18 +8,17 @@ import { Flex, HStack, Image, Stack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
+import { isChromeOS105 } from "../../device/webusb";
 import chromeOSErrorImage from "./chrome-os-105-error.png";
 
 interface WebUSBDialogProps {
   callback: () => void;
   finalFocusRef: React.RefObject<HTMLButtonElement>;
-  chromeOS105Error: boolean;
 }
 
 export const WebUSBDialog = ({
   callback,
   finalFocusRef,
-  chromeOS105Error,
 }: WebUSBDialogProps) => {
   const handleClose = useCallback(() => {
     callback();
@@ -29,7 +28,7 @@ export const WebUSBDialog = ({
       finalFocusRef={finalFocusRef}
       onClose={handleClose}
       body={
-        chromeOS105Error ? <Chrome105ErrorBody /> : <NotSupportedErrorBody />
+        isChromeOS105() ? <Chrome105ErrorBody /> : <NotSupportedErrorBody />
       }
       footer={<WebUSBDialogFooter onCancel={handleClose} />}
       size="3xl"
@@ -110,7 +109,7 @@ interface WebUSBDialogFooterProps {
 const WebUSBDialogFooter = ({ onCancel }: WebUSBDialogFooterProps) => {
   return (
     <HStack spacing={2.5}>
-      <Button onClick={onCancel} size="lg">
+      <Button onClick={onCancel} size="lg" variant="solid">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>
