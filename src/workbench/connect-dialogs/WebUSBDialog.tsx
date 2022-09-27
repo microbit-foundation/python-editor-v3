@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { Flex, HStack, Image, Stack, Text, VStack } from "@chakra-ui/react";
+import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
 import chromeOSErrorImage from "./chrome-os-105-error.png";
@@ -28,62 +28,78 @@ export const WebUSBDialog = ({
     <GenericDialog
       finalFocusRef={finalFocusRef}
       onClose={handleClose}
-      body={<WebUSBDialogBody chromeOS105Error={chromeOS105Error} />}
+      body={
+        chromeOS105Error ? <Chrome105ErrorBody /> : <NotSupportedErrorBody />
+      }
       footer={<WebUSBDialogFooter onCancel={handleClose} />}
       size="3xl"
     />
   );
 };
 
-interface WebUSBDialogBodyProps {
-  chromeOS105Error: boolean;
-}
+const DialogBodyWrapper = ({ children }: { children: ReactNode }) => (
+  <VStack
+    width="auto"
+    ml="auto"
+    mr="auto"
+    p={8}
+    pb={0}
+    spacing={5}
+    alignItems="flex-start"
+  >
+    {children}
+  </VStack>
+);
 
-const WebUSBDialogBody = ({ chromeOS105Error }: WebUSBDialogBodyProps) => {
+const NotSupportedErrorBody = () => {
   return (
-    <VStack
-      width="auto"
-      ml="auto"
-      mr="auto"
-      p={8}
-      pb={0}
-      spacing={5}
-      alignItems="flex-start"
-    >
+    <DialogBodyWrapper>
       <Text as="h2" fontSize="xl" fontWeight="semibold">
         <FormattedMessage id="webusb-not-supported-title" />
       </Text>
-      {chromeOS105Error ? (
-        <>
-          <Text>There is an issue with Chrome OS version 105 and WebUSB*</Text>
+      <Text>
+        <FormattedMessage id="webusb-not-supported" />
+      </Text>
+      <Text>
+        <FormattedMessage id="webusb-why-use" />
+      </Text>
+    </DialogBodyWrapper>
+  );
+};
+
+const Chrome105ErrorBody = () => {
+  return (
+    <DialogBodyWrapper>
+      <Text as="h2" fontSize="xl" fontWeight="semibold">
+        There is an issue with Chrome OS version 105 and WebUSB*
+      </Text>
+      <HStack spacing={5}>
+        <Stack>
           <Text>
             Unfortunately “Send to micro:bit” does not work in this particular
             Chrome OS version due to a bug in the operating system. The next
             version of Chrome OS, version 106, expected October 2022, should
             contain a fix for this.
           </Text>
-          <Text>
+          <Text fontSize="md">
             Your program will be saved to your computer instead. Follow the
             steps on the next screen to transfer it to your micro:bit.
           </Text>
-          <Text>
+          <Text fontSize="sm">
             *<FormattedMessage id="webusb-why-use" />
           </Text>
-          <Flex justifyContent="center" width="100%">
-            <Image width="100%" height="100%" src={chromeOSErrorImage} alt="" />
-          </Flex>
-        </>
-      ) : (
-        <>
-          <Text>
-            <FormattedMessage id="webusb-not-supported" />
-          </Text>
-          <Text>
-            <FormattedMessage id="webusb-why-use" />
-          </Text>
-        </>
-      )}
-    </VStack>
+        </Stack>
+        <Flex justifyContent="center" width="100%">
+          <Image
+            width="100%"
+            height="100%"
+            src={chromeOSErrorImage}
+            alt=""
+            pb={3}
+          />
+        </Flex>
+      </HStack>
+    </DialogBodyWrapper>
   );
 };
 
