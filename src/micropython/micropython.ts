@@ -12,8 +12,8 @@ const v2Main = {
   name: "MicroPython (micro:bit V2)",
   url: microPythonV2HexUrl,
   boardId: microbitBoardId.V2,
-  version: "2.1.0-beta.3",
-  web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.1.0-beta.3",
+  version: "2.1.0",
+  web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.1.0",
 };
 
 export const microPythonConfig = {
@@ -22,8 +22,8 @@ export const microPythonConfig = {
       name: "MicroPython (micro:bit V1)",
       url: microPythonV1HexUrl,
       boardId: microbitBoardId.V1,
-      version: "1.1.0-beta.1",
-      web: "https://github.com/bbcmicrobit/micropython/releases/tag/v1.1.0-beta.1",
+      version: "1.1.0",
+      web: "https://github.com/bbcmicrobit/micropython/releases/tag/v1.1.0",
     },
     v2Main,
   ],
