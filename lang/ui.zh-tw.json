@@ -316,7 +316,7 @@
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "燒錄",
+    "defaultMessage": "讀寫",
     "description": "Text for flash button"
   },
   "flash-hover": {
@@ -859,27 +859,27 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "down",
+    "defaultMessage": "標誌向下",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "face down",
+    "defaultMessage": "面朝下",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-up": {
-    "defaultMessage": "face up",
+    "defaultMessage": "面朝上",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-freefall": {
-    "defaultMessage": "freefall",
+    "defaultMessage": "自由落體",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-left": {
-    "defaultMessage": "left",
+    "defaultMessage": "左側",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-right": {
-    "defaultMessage": "right",
+    "defaultMessage": "右側",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-select": {
@@ -891,11 +891,11 @@
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "shake",
+    "defaultMessage": "搖晃",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "up",
+    "defaultMessage": "標誌向上",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {

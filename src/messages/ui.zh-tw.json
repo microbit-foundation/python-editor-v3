@@ -624,7 +624,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "燒錄"
+      "value": "讀寫"
     }
   ],
   "flash-hover": [
@@ -1946,37 +1946,37 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "down"
+      "value": "標誌向下"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "face down"
+      "value": "面朝下"
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "face up"
+      "value": "面朝上"
     }
   ],
   "simulator-gesture-freefall": [
     {
       "type": 0,
-      "value": "freefall"
+      "value": "自由落體"
     }
   ],
   "simulator-gesture-left": [
     {
       "type": 0,
-      "value": "left"
+      "value": "左側"
     }
   ],
   "simulator-gesture-right": [
     {
       "type": 0,
-      "value": "right"
+      "value": "右側"
     }
   ],
   "simulator-gesture-select": [
@@ -1994,13 +1994,13 @@
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "shake"
+      "value": "搖晃"
     }
   ],
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "up"
+      "value": "標誌向上"
     }
   ],
   "simulator-hide": [

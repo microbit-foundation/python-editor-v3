@@ -859,27 +859,27 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "down",
+    "defaultMessage": "标志朝下",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "face down",
+    "defaultMessage": "正面朝下",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-up": {
-    "defaultMessage": "face up",
+    "defaultMessage": "正面朝上",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-freefall": {
-    "defaultMessage": "freefall",
+    "defaultMessage": "自由落体",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-left": {
-    "defaultMessage": "left",
+    "defaultMessage": "左",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-right": {
-    "defaultMessage": "right",
+    "defaultMessage": "右",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-select": {
@@ -891,11 +891,11 @@
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "shake",
+    "defaultMessage": "摇晃",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "up",
+    "defaultMessage": "标志朝上",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {
@@ -947,7 +947,7 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "micro:bit sent:",
+    "defaultMessage": "micro:bit 已发送：",
     "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
@@ -975,7 +975,7 @@
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-radio-user": {
-    "defaultMessage": "You sent:",
+    "defaultMessage": "您已发送：",
     "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {

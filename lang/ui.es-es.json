@@ -859,27 +859,27 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "down",
+    "defaultMessage": "logo abajo",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "face down",
+    "defaultMessage": "hacia abajo",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-up": {
-    "defaultMessage": "face up",
+    "defaultMessage": "hacia arriba",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-freefall": {
-    "defaultMessage": "freefall",
+    "defaultMessage": "caída libre",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-left": {
-    "defaultMessage": "left",
+    "defaultMessage": "izquierda",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-right": {
-    "defaultMessage": "right",
+    "defaultMessage": "derecha",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-select": {
@@ -891,11 +891,11 @@
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "shake",
+    "defaultMessage": "agitar",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "up",
+    "defaultMessage": "logo arriba",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {
