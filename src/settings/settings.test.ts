@@ -28,4 +28,12 @@ describe("isValidSettingsObject", () => {
       })
     ).toEqual(true);
   });
+  it("checks language is supported", () => {
+    expect(
+      isValidSettingsObject({
+        ...defaultSettings,
+        languageId: "xx",
+      })
+    ).toEqual(false);
+  });
 });
