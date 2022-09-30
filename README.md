@@ -8,7 +8,7 @@ Try it out at https://python.microbit.org/
 
 <figure>
   <img src="https://user-images.githubusercontent.com/44397098/193227581-58d86d58-d679-4244-ac80-2282007a20b9.png" alt="Screenshot of the Python editor showing the code editing area and Reference documentation" width="100%">
-  <figcaption>You can try out the micro:bit-branded deployment of this project at https://python.microbit.org</figcaption>  
+  <figcaption>The micro:bit-branded deployment</figcaption>  
 </figure>
 
 ## Previous versions
