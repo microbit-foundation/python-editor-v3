@@ -130,7 +130,9 @@ jobs:
         environment:
           STAGE: STAGING
           REACT_APP_STAGE: STAGING
-          STAGING_CLOUDFRONT_DISTRIBUTION_ID: "E1IW78R9PB0PD1"
+          # Ideally we'd do stage-python and python.microbit.org. For now just the latter.
+          #STAGING_CLOUDFRONT_DISTRIBUTION_ID: "E1IW78R9PB0PD1"
+          STAGING_CLOUDFRONT_DISTRIBUTION_ID: "E2ELTBTA2OFPY2"
     steps:
       - checkout
       - *restore_npm_cache
