@@ -1943,37 +1943,37 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "down"
+      "value": "标志朝下"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "face down"
+      "value": "正面朝下"
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "face up"
+      "value": "正面朝上"
     }
   ],
   "simulator-gesture-freefall": [
     {
       "type": 0,
-      "value": "freefall"
+      "value": "自由落体"
     }
   ],
   "simulator-gesture-left": [
     {
       "type": 0,
-      "value": "left"
+      "value": "左"
     }
   ],
   "simulator-gesture-right": [
     {
       "type": 0,
-      "value": "right"
+      "value": "右"
     }
   ],
   "simulator-gesture-select": [
@@ -1991,13 +1991,13 @@
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "shake"
+      "value": "摇晃"
     }
   ],
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "up"
+      "value": "标志朝上"
     }
   ],
   "simulator-hide": [
@@ -2083,7 +2083,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit sent:"
+      "value": "micro:bit 已发送："
     }
   ],
   "simulator-radio-group-notice": [
@@ -2129,7 +2129,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "You sent:"
+      "value": "您已发送："
     }
   ],
   "simulator-reference-link": [

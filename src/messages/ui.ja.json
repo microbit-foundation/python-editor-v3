@@ -1920,37 +1920,37 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "down"
+      "value": "ロゴが下になった"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "face down"
+      "value": "画面が下になった"
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "face up"
+      "value": "画面が上になった"
     }
   ],
   "simulator-gesture-freefall": [
     {
       "type": 0,
-      "value": "freefall"
+      "value": "落とした"
     }
   ],
   "simulator-gesture-left": [
     {
       "type": 0,
-      "value": "left"
+      "value": "左に傾けた"
     }
   ],
   "simulator-gesture-right": [
     {
       "type": 0,
-      "value": "right"
+      "value": "右に傾けた"
     }
   ],
   "simulator-gesture-select": [
@@ -1968,13 +1968,13 @@
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "shake"
+      "value": "ゆさぶられた"
     }
   ],
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "up"
+      "value": "ロゴが上になった"
     }
   ],
   "simulator-hide": [
@@ -2068,7 +2068,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit sent:"
+      "value": "micro:bitの送信:"
     }
   ],
   "simulator-radio-group-notice": [
@@ -2118,7 +2118,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "You sent:"
+      "value": "あなたの送信:"
     }
   ],
   "simulator-reference-link": [

@@ -859,27 +859,27 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "down",
+    "defaultMessage": "ロゴが下になった",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "face down",
+    "defaultMessage": "画面が下になった",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-up": {
-    "defaultMessage": "face up",
+    "defaultMessage": "画面が上になった",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-freefall": {
-    "defaultMessage": "freefall",
+    "defaultMessage": "落とした",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-left": {
-    "defaultMessage": "left",
+    "defaultMessage": "左に傾けた",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-right": {
-    "defaultMessage": "right",
+    "defaultMessage": "右に傾けた",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-select": {
@@ -891,11 +891,11 @@
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "shake",
+    "defaultMessage": "ゆさぶられた",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "up",
+    "defaultMessage": "ロゴが上になった",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {
@@ -947,7 +947,7 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "micro:bit sent:",
+    "defaultMessage": "micro:bitの送信:",
     "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
@@ -975,7 +975,7 @@
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-radio-user": {
-    "defaultMessage": "You sent:",
+    "defaultMessage": "あなたの送信:",
     "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {

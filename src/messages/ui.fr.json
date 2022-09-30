@@ -1938,37 +1938,37 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "down"
+      "value": "logo en bas"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "face down"
+      "value": "face orientée vers le bas"
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "face up"
+      "value": "face orientée vers le haut"
     }
   ],
   "simulator-gesture-freefall": [
     {
       "type": 0,
-      "value": "freefall"
+      "value": "chute libre"
     }
   ],
   "simulator-gesture-left": [
     {
       "type": 0,
-      "value": "left"
+      "value": "gauche"
     }
   ],
   "simulator-gesture-right": [
     {
       "type": 0,
-      "value": "right"
+      "value": "droite"
     }
   ],
   "simulator-gesture-select": [
@@ -1986,13 +1986,13 @@
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "shake"
+      "value": "secouer"
     }
   ],
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "up"
+      "value": "logo en haut"
     }
   ],
   "simulator-hide": [
