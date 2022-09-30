@@ -18,6 +18,12 @@ import {
   projectFilesToBase64,
 } from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
+import {
+  FSStorage,
+  InMemoryFSStorage,
+  SessionStorageFSStorage,
+  SplitStrategyStorage,
+} from "./storage";
 
 const messages = {
   type: "pyeditor",
@@ -30,6 +36,8 @@ const messages = {
 };
 
 export interface Host {
+  createStorage(logging: Logging): FSStorage;
+  shouldReinitializeProject(storage: FSStorage): Promise<boolean>;
   createInitialProject(): Promise<PythonProject>;
   notifyReady(fs: FileSystem): void;
 }
@@ -37,15 +45,36 @@ export interface Host {
 export class DefaultHost implements Host {
   constructor(private url: string = "") {}
 
-  async createInitialProject(): Promise<PythonProject> {
+  createStorage(logging: Logging): FSStorage {
+    return new SplitStrategyStorage(
+      new InMemoryFSStorage(undefined),
+      SessionStorageFSStorage.create(),
+      logging
+    );
+  }
+
+  async shouldReinitializeProject(storage: FSStorage): Promise<boolean> {
     const migration = parseMigrationFromUrl(this.url);
     if (migration) {
-      return {
+      return true;
+    }
+    return !(await storage.exists(MAIN_FILE));
+  }
+
+  async createInitialProject(): Promise<PythonProject> {
+    const migrationParseResult = parseMigrationFromUrl(this.url);
+    if (migrationParseResult) {
+      const { migration, postMigrationUrl } = migrationParseResult;
+      const project = {
         files: projectFilesToBase64({
           [MAIN_FILE]: migration.source,
         }),
         projectName: migration.meta.name,
       };
+      // Remove the migration information from the URL so that a refresh
+      // will reload from storage not remigrate.
+      window.history.replaceState(null, "", postMigrationUrl);
+      return project;
     }
     return defaultInitialProject;
   }
@@ -58,6 +87,13 @@ export class IframeHost implements Host {
     private window: Window,
     private debounceDelay: number = 1_000
   ) {}
+  createStorage(logging: Logging): FSStorage {
+    return new InMemoryFSStorage(undefined);
+  }
+  async shouldReinitializeProject(storage: FSStorage): Promise<boolean> {
+    // If there is persistence then it is the embedder's problem.
+    return true;
+  }
   createInitialProject(): Promise<PythonProject> {
     return new Promise((resolve) => {
       this.window.addEventListener("load", () =>
