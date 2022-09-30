@@ -6,7 +6,10 @@ Code written with this editor is expected to run on the [BBC micro:bit device](h
 
 Try it out at https://python.microbit.org/
 
-<img src="https://user-images.githubusercontent.com/44397098/193227581-58d86d58-d679-4244-ac80-2282007a20b9.png" alt="Screenshot of the Python editor showing the code editing area, Reference documentation and micro:bit simulator" width="100%">
+<figure>
+  <img src="https://user-images.githubusercontent.com/44397098/193227581-58d86d58-d679-4244-ac80-2282007a20b9.png" alt="Screenshot of the Python editor showing the code editing area, Reference documentation and micro:bit simulator" width="100%">
+  <figcaption>The image shows the micro:bit-branded deployment</figcaption>  
+</figure>
 
 ## Previous versions
 
