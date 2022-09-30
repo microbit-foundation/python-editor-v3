@@ -23,14 +23,25 @@ export const isMigration = (v: any): v is Migration =>
   typeof v.meta?.name === "string" &&
   typeof v.source === "string";
 
-export const parseMigrationFromUrl = (url: string): Migration | undefined => {
-  const urlPart = url.split("#project:")[1];
+interface MigrationParseResult {
+  migration: Migration;
+  postMigrationUrl: string;
+}
+
+export const parseMigrationFromUrl = (
+  url: string
+): MigrationParseResult | undefined => {
+  const parts = url.split("#project:");
+  const urlPart = parts[1];
   try {
     if (urlPart) {
       const bytes = toByteArray(urlPart);
       const json = JSON.parse(LZMA.decompress(bytes));
       if (isMigration(json)) {
-        return json;
+        let postMigrationUrl = parts[0];
+        // This was previously stripped off by the versioner but for now do it ourselves:
+        postMigrationUrl = postMigrationUrl.replace(/#import:$/, "");
+        return { migration: json, postMigrationUrl };
       }
     }
   } catch (e) {

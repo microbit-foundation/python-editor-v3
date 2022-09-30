@@ -10,20 +10,15 @@ import {
 import { fromByteArray, toByteArray } from "base64-js";
 import EventEmitter from "events";
 import sortBy from "lodash.sortby";
+import { lineNumFromUint8Array } from "../common/text-util";
 import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
-import { Host } from "./host";
-import { asciiToBytes, generateId } from "./fs-util";
-import {
-  FSStorage,
-  InMemoryFSStorage,
-  SessionStorageFSStorage,
-  SplitStrategyStorage,
-} from "./storage";
-import { PythonProject } from "./initial-project";
-import { lineNumFromUint8Array } from "../common/text-util";
 import { MicroPythonSource } from "../micropython/micropython";
+import { asciiToBytes, generateId } from "./fs-util";
+import { Host } from "./host";
+import { PythonProject } from "./initial-project";
+import { FSStorage } from "./storage";
 
 const commonFsSize = 20 * 1024;
 
@@ -168,11 +163,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     private microPythonSource: MicroPythonSource
   ) {
     super();
-    this.storage = new SplitStrategyStorage(
-      new InMemoryFSStorage(undefined),
-      SessionStorageFSStorage.create(),
-      logging
-    );
+    this.storage = host.createStorage(logging);
     this.project = {
       files: [],
       id: generateId(),
@@ -216,7 +207,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     if (!this.initializing) {
       this.initializing = (async () => {
         this._dirty = await this.storage.isDirty();
-        if (!(await this.exists(MAIN_FILE))) {
+        if (await this.host.shouldReinitializeProject(this.storage)) {
           // Do this ASAP to unblock the editor.
           this.cachedInitialProject = await this.host.createInitialProject();
           if (this.cachedInitialProject.projectName) {
