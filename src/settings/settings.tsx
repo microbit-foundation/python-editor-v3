@@ -25,7 +25,7 @@ export const supportedLanguages: Language[] = [
   },
   {
     id: "zh-cn",
-    name: "中文（中华人民共和国）",
+    name: "简体中文",
     enName: "Chinese (Simplified)",
   },
   {
