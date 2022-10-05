@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { RangeSetBuilder, StateEffect } from "@codemirror/state";
 import {
   Decoration,
   DecorationSet,
@@ -10,8 +11,6 @@ import {
   ViewPlugin,
   ViewUpdate,
 } from "@codemirror/view";
-import { RangeSetBuilder } from "@codemirror/rangeset";
-import { StateEffect } from "@codemirror/state";
 
 export const timeoutEffect = StateEffect.define<{}>({});
 

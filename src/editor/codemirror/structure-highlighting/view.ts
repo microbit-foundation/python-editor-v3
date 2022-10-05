@@ -97,9 +97,9 @@ export const codeStructureView = (option: "full" | "simple") =>
           const indentWidth =
             state.facet(indentUnit).length * view.defaultCharacterWidth;
 
-          let topLine = view.visualLineAt(start);
+          let topLine = view.lineBlockAt(start);
           if (body) {
-            topLine = view.visualLineAt(topLine.to + 1);
+            topLine = view.lineBlockAt(topLine.to + 1);
             if (topLine.from > end) {
               // If we've fallen out of the scope of the body then the statement is all on
               // one line, e.g. "if True: pass". Avoid highlighting for now.
@@ -123,7 +123,7 @@ export const codeStructureView = (option: "full" | "simple") =>
             // but best to bail if we encounter it in error scenarios.
             return undefined;
           }
-          const bottomLine = view.visualLineAt(bottomPos);
+          const bottomLine = view.lineBlockAt(bottomPos);
           const top = topLine.top;
           const bottom = bottomLine.bottom;
           const height = bottom - top;
@@ -153,14 +153,14 @@ export const codeStructureView = (option: "full" | "simple") =>
         }[] = [];
         if (tree) {
           tree.iterate({
-            enter: (type, _start) => {
-              parents.push({ name: type.name });
-              if (type.name === "Body") {
+            enter: (node) => {
+              parents.push({ name: node.type.name });
+              if (node.type.name === "Body") {
                 depth++;
               }
             },
-            leave: (type, start, end) => {
-              if (type.name === "Body") {
+            leave: (node) => {
+              if (node.type.name === "Body") {
                 depth--;
               }
 
@@ -209,7 +209,11 @@ export const codeStructureView = (option: "full" | "simple") =>
                 if (!parent.children) {
                   parent.children = [];
                 }
-                parent.children.push({ name: type.name, start, end });
+                parent.children.push({
+                  name: node.type.name,
+                  start: node.from,
+                  end: node.to,
+                });
               }
             },
           });

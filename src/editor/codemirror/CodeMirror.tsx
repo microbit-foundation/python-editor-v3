@@ -3,10 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { highlightActiveLineGutter, lineNumbers } from "@codemirror/gutter";
-import { redoDepth, undoDepth } from "@codemirror/history";
+import { redoDepth, undoDepth } from "@codemirror/commands";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
-import { EditorView, highlightActiveLine, ViewUpdate } from "@codemirror/view";
+import {
+  EditorView,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+  lineNumbers,
+  ViewUpdate,
+} from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";

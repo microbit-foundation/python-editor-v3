@@ -28,15 +28,15 @@ export const debug = () =>
             tree.iterate({
               from: 0,
               to: tree.length,
-              enter: (type, start) => {
-                if (isInteresting(type)) {
+              enter: (node) => {
+                if (isInteresting(node.type)) {
                   depth++;
                   let indent = "  ".repeat(depth);
-                  console.log(`${indent} ${type.name} ${start}`);
+                  console.log(`${indent} ${node.type.name} ${node.from}`);
                 }
               },
-              leave: (type, _start, _end) => {
-                if (isInteresting(type)) {
+              leave: (node) => {
+                if (isInteresting(node.type)) {
                   depth--;
                 }
               },

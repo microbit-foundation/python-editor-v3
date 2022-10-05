@@ -5,7 +5,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { redo, undo } from "@codemirror/history";
+import { redo, undo } from "@codemirror/commands";
 import { EditorView } from "@codemirror/view";
 import React, {
   Dispatch,

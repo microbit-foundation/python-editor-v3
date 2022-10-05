@@ -15,7 +15,8 @@
 // https://github.com/codemirror/highlight/blob/main/src/highlight.ts#L480
 // This file shows the mapping of grammar nodes to tags for Python
 // https://github.com/codemirror/lang-python/blob/main/src/python.ts#L17
-import { HighlightStyle, tags } from "@codemirror/highlight";
+import { HighlightStyle } from "@codemirror/language";
+import { tags } from "@lezer/highlight";
 
 export const highlightStyle = () => {
   const dark = "var(--chakra-colors-code-default)";
