@@ -137,6 +137,7 @@ export const autocompletion = (
         };
       },
     ],
+    closeOnBlur: false,
   });
 
 const createDocumentationResolver =
