@@ -30,6 +30,7 @@ import { MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
+import { useSettings } from "../settings/settings";
 import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
@@ -237,6 +238,7 @@ const Editor = ({ editor }: EditorProps) => {
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+  const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
   return (
     <Flex
@@ -266,6 +268,7 @@ const Editor = ({ editor }: EditorProps) => {
             showSyncStatus={true}
             expandDirection="up"
             tabOutRef={ref.current!}
+            terminalFontSizePt={settingsFontSizePt}
           />
         </SplitViewSized>
       </SplitView>

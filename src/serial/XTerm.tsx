@@ -5,13 +5,13 @@
  */
 import { Box, BoxProps } from "@chakra-ui/layout";
 import { useToken } from "@chakra-ui/react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
-import { backgroundColorTerm, defaultCodeFontSizePt } from "../deployment/misc";
+import { backgroundColorTerm } from "../deployment/misc";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
 import { useSelection } from "../workbench/use-selection";
@@ -21,20 +21,16 @@ import "./xterm-custom.css";
 import customKeyEventHandler from "./xterm-keyboard";
 
 interface XTermProps extends BoxProps {
-  fontSizePt?: number;
   tabOutRef: HTMLElement;
+  fontSizePt: number;
 }
 
 /**
  * xterm.js-based terminal.
  */
-const XTerm = ({
-  fontSizePt = defaultCodeFontSizePt,
-  tabOutRef,
-  ...props
-}: XTermProps) => {
+const XTerm = ({ fontSizePt, tabOutRef, ...props }: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  useManagedTermimal(ref, fontSizePt, tabOutRef);
+  useManagedTermimal(ref, tabOutRef, fontSizePt);
   return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
 };
 
@@ -48,8 +44,8 @@ const ptToPixelRatio = 96 / 72;
  */
 const useManagedTermimal = (
   ref: React.RefObject<HTMLDivElement>,
-  fontSizePt: number,
-  tabOutRef: HTMLElement
+  tabOutRef: HTMLElement,
+  fontSizePt: number
 ): void => {
   const parent = ref.current;
   const actionFeedback = useActionFeedback();
@@ -57,7 +53,9 @@ const useManagedTermimal = (
   const device = useDevice();
   const isUnmounted = useIsUnmounted();
   const [, setSelection] = useSelection();
+  const fitAddon = useMemo(() => new FitAddon(), []);
   const currentTerminalRef = useCurrentTerminalRef();
+  const initialFontSizeRef = useRef<number>(fontSizePt);
 
   useEffect(() => {
     if (!parent) {
@@ -68,7 +66,7 @@ const useManagedTermimal = (
     }
     const terminal = new Terminal({
       fontFamily: codeFontFamily,
-      fontSize: fontSizePt * ptToPixelRatio,
+      fontSize: ptToPixelRatio * initialFontSizeRef.current,
       letterSpacing: 1.1,
       screenReaderMode: true,
       theme: {
@@ -93,7 +91,6 @@ const useManagedTermimal = (
         {}
       )
     );
-    const fitAddon = new FitAddon();
     terminal.loadAddon(fitAddon);
     terminal.attachCustomKeyEventHandler((e) =>
       customKeyEventHandler(e, tabOutRef)
@@ -193,9 +190,22 @@ const useManagedTermimal = (
     isUnmounted,
     parent,
     setSelection,
-    fontSizePt,
+    fitAddon,
+    initialFontSizeRef,
     tabOutRef,
   ]);
+
+  useEffect(() => {
+    currentTerminalRef.current?.setOption(
+      "fontSize",
+      fontSizePt * ptToPixelRatio
+    );
+    try {
+      fitAddon.fit();
+    } catch (e) {
+      // It throws if you resize it when not visible but it does no harm.
+    }
+  }, [currentTerminalRef, fitAddon, fontSizePt]);
 };
 
 export default XTerm;

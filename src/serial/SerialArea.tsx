@@ -16,7 +16,7 @@ interface SerialAreaProps extends BoxProps {
   expandDirection: "up" | "down";
   onSizeChange: (size: "compact" | "open") => void;
   showSyncStatus: boolean;
-  terminalFontSizePt?: number;
+  terminalFontSizePt: number;
   hideExpandTextOnTraceback?: boolean;
   showHintsAndTips?: boolean;
   tabOutRef: HTMLElement;
