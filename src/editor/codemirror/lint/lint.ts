@@ -6,7 +6,6 @@ sha1 of source lint.ts facbdc305d2b5a318dbcb9bcd41f992073ecfff5 NEEDS UPDATING!!
 To aid comparison to the original, this file is not auto-formatted
 and we've disabled our eslint rules.
 
-// REVIEW THESE
 Changes:
 - The gutter markers track whether they're on a line that's currently
   being edited.
@@ -72,7 +71,7 @@ export interface Diagnostic {
   /// An optional array of actions that can be taken on this
   /// diagnostic.
   actions?: readonly Action[]
-    /// Tags control alternative presentations for diagnostics.
+  /// Tags control alternative presentations for diagnostics.
   /// Currently supported tags are `"unnecessary"` and `"deprecated"`
   /// which are formatted with opacity and strikethrough respectively.
   tags?: string[]
@@ -647,9 +646,9 @@ const baseTheme = EditorView.baseTheme({
   ".cm-lintRange-error": { backgroundImage: underline("#d11") },
   ".cm-lintRange-warning": { backgroundImage: underline("orange") },
   ".cm-lintRange-info": { backgroundImage: underline("#999") },
-    // Nothing for .cm-lintRange-hint, they're styled based on tags only.
-    ".cm-lintRange-unnecessary": { opacity: 0.5 },
-    ".cm-lintRange-deprecated": { textDecoration: "line-through" },
+  // Nothing for .cm-lintRange-hint, they're styled based on tags only.
+  ".cm-lintRange-unnecessary": { opacity: 0.5 },
+  ".cm-lintRange-deprecated": { textDecoration: "line-through" },
   ".cm-lintRange-active": { backgroundColor: "#ffdd9980" },
 
   ".cm-tooltip-lint": {
@@ -919,5 +918,5 @@ const lintGutterConfig = Facet.define<LintGutterConfig, Required<LintGutterConfi
 /// each line that has diagnostics, which can be hovered over to see
 /// the diagnostics.
 export function lintGutter(config: LintGutterConfig = {}): Extension {
-  return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip, editingLineState, editingLinePlugin,]
+  return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip, editingLineState, editingLinePlugin]
 }
