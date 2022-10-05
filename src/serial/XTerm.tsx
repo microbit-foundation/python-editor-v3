@@ -14,7 +14,6 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm } from "../deployment/misc";
 import { EVENT_SERIAL_DATA, EVENT_SERIAL_RESET } from "../device/device";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
-import { useSettings } from "../settings/settings";
 import { useSelection } from "../workbench/use-selection";
 import { WebLinkProvider } from "./link-provider";
 import { useCurrentTerminalRef } from "./serial-hooks";
@@ -23,7 +22,7 @@ import customKeyEventHandler from "./xterm-keyboard";
 
 interface XTermProps extends BoxProps {
   tabOutRef: HTMLElement;
-  fontSizePt?: number;
+  fontSizePt: number;
 }
 
 /**
@@ -46,7 +45,7 @@ const ptToPixelRatio = 96 / 72;
 const useManagedTermimal = (
   ref: React.RefObject<HTMLDivElement>,
   tabOutRef: HTMLElement,
-  fontSizePt?: number
+  fontSizePt: number
 ): void => {
   const parent = ref.current;
   const actionFeedback = useActionFeedback();
@@ -56,10 +55,7 @@ const useManagedTermimal = (
   const [, setSelection] = useSelection();
   const fitAddon = useMemo(() => new FitAddon(), []);
   const currentTerminalRef = useCurrentTerminalRef();
-  const [{ fontSize: settingsFontSizePt }] = useSettings();
-  const initialFontSizeRef = useRef<number>(
-    fontSizePt ? fontSizePt : settingsFontSizePt
-  );
+  const initialFontSizeRef = useRef<number>(fontSizePt);
 
   useEffect(() => {
     if (!parent) {
@@ -200,18 +196,16 @@ const useManagedTermimal = (
   ]);
 
   useEffect(() => {
-    if (!fontSizePt) {
-      currentTerminalRef.current?.setOption(
-        "fontSize",
-        settingsFontSizePt * ptToPixelRatio
-      );
-      try {
-        fitAddon.fit();
-      } catch (e) {
-        // It throws if you resize it when not visible but it does no harm.
-      }
+    currentTerminalRef.current?.setOption(
+      "fontSize",
+      fontSizePt * ptToPixelRatio
+    );
+    try {
+      fitAddon.fit();
+    } catch (e) {
+      // It throws if you resize it when not visible but it does no harm.
     }
-  }, [currentTerminalRef, fitAddon, settingsFontSizePt, fontSizePt]);
+  }, [currentTerminalRef, fitAddon, fontSizePt]);
 };
 
 export default XTerm;
