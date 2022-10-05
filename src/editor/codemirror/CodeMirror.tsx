@@ -21,7 +21,6 @@ import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
 import { Logging } from "../../logging/logging";
 import { useLogging } from "../../logging/logging-hooks";
-import { useRouterState } from "../../router-hooks";
 import { useSessionSettings } from "../../settings/session-settings";
 import {
   CodeStructureOption,
@@ -237,27 +236,6 @@ const CodeMirror = ({
       view.focus();
     }
   }, [location]);
-
-  const [routerState, setRouterState] = useRouterState();
-  useEffect(() => {
-    const listener = (event: Event) => {
-      const { id, tab } = (event as CustomEvent).detail;
-      setRouterState(
-        {
-          tab,
-          slug: { id },
-        },
-        "documentation-from-code"
-      );
-      const view = viewRef.current!;
-      // Put the focus back in the text editor so the docs are immediately useful.
-      view.focus();
-    };
-    document.addEventListener("cm/openDocs", listener);
-    return () => {
-      document.removeEventListener("cm/openDocs", listener);
-    };
-  }, [routerState, setRouterState]);
 
   return (
     <section
