@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Button, Switch, VStack } from "@chakra-ui/react";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   RangeSensor as RangeSensorType,
@@ -35,15 +35,18 @@ const SensorInput = ({
   minimised,
 }: SensorInputProps) => {
   const sensor = state[sensorId] as RangeSensorType;
+  const sensorValue = useRef<number>(sensor.value);
   const intl = useIntl();
-  const [mouseDown, setMouseDown] = useState<boolean>(false);
+  const mouseDown = useRef<boolean>(false);
   const handleSensorChange = useCallback(
     (value: number) => {
       // In this case isHeld is true, so the value should be reversed.
-      if (sensor.value === value) {
+      if (sensorValue.current === value) {
         onValueChange(sensorId, value === sensor.min ? sensor.max : sensor.min);
+        sensorValue.current = value === sensor.min ? sensor.max : sensor.min;
       } else {
         onValueChange(sensorId, value);
+        sensorValue.current = value;
       }
     },
     [onValueChange, sensor, sensorId]
@@ -61,12 +64,12 @@ const SensorInput = ({
     }
   };
   const mouseDownTouchStartAction = () => {
-    setMouseDown(true);
+    mouseDown.current = true;
     handleSensorChange(sensor.max);
   };
   const mouseUpTouchEndAction = () => {
-    if (mouseDown) {
-      setMouseDown(false);
+    if (mouseDown.current) {
+      mouseDown.current = false;
       handleSensorChange(sensor.min);
     }
   };
@@ -87,8 +90,8 @@ const SensorInput = ({
     mouseUpTouchEndAction();
   };
   const mouseLeaveListener = () => {
-    if (mouseDown) {
-      setMouseDown(false);
+    if (mouseDown.current) {
+      mouseDown.current = false;
       handleSensorChange(sensor.min);
     }
   };
@@ -108,11 +111,11 @@ const SensorInput = ({
     } else if (sensor.value === sensor.max) {
       setIsHeld(true);
     }
+    sensorValue.current = sensor.value;
     setPrevSensorValue(sensor.value);
   }
 
   const disabled = running === RunningStatus.STOPPED;
-
   return (
     <VStack spacing={3}>
       <Button
@@ -122,13 +125,13 @@ const SensorInput = ({
         )}
         transition="none"
         _active={
-          sensor.value === sensor.min
+          sensorValue.current === sensor.min
             ? {}
             : {
                 background: "brand.100",
               }
         }
-        isActive={!!sensor.value}
+        isActive={!!sensorValue.current}
         disabled={disabled}
         size="sm"
         onKeyDown={keyListener}
