@@ -122,7 +122,7 @@ const CodeMirror = ({
           dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
           // Order of lintGutter and lineNumbers determines how they are displayed.
-          lintGutter(),
+          lintGutter({ hoverTime: 0 }),
           lineNumbers(),
           highlightActiveLineGutter(),
           highlightActiveLine(),
