@@ -171,6 +171,7 @@ const CodeEmbed = ({
           ref={codeRef}
           background={determineBackground()}
           highlightDragHandle={state === "raised"}
+          parentSlug={parentSlug}
           toolkitType={toolkitType}
           tabIndex={0}
           _focus={{
