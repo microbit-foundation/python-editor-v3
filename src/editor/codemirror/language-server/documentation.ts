@@ -9,7 +9,6 @@ import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
 import { moduleAndApiFromId } from "../../../documentation/api/apidocs-util";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
-import { pushUrlState, RouterState, TabName } from "../../../router-hooks";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
 
@@ -141,7 +140,14 @@ export const wrapWithDocumentationButton = (
     refAnchor.textContent = intl.formatMessage({ id: "help" });
     refAnchor.onclick = (e) => {
       e.preventDefault();
-      setRouterState("reference", id);
+      document.dispatchEvent(
+        new CustomEvent("cm/openDocs", {
+          detail: {
+            tab: "reference",
+            id: referenceLink,
+          },
+        })
+      );
     };
     actionsContainer.appendChild(refAnchor);
   }
@@ -153,7 +159,15 @@ export const wrapWithDocumentationButton = (
     apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
     apiAnchor.onclick = (e) => {
       e.preventDefault();
-      setRouterState("api", id);
+      // Could we instead interact with the history API here?
+      document.dispatchEvent(
+        new CustomEvent("cm/openDocs", {
+          detail: {
+            tab: "api",
+            id,
+          },
+        })
+      );
     };
     if (referenceLink) {
       const verticalDivider = document.createElement("hr");
@@ -183,12 +197,4 @@ export const getLinkToReference = (
     )}`;
   }
   return referenceLink;
-};
-
-const setRouterState = (tab: TabName, id: string): void => {
-  const newRouterState: RouterState = {
-    tab,
-    slug: { id },
-  };
-  pushUrlState(newRouterState);
 };

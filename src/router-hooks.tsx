@@ -119,7 +119,9 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
           message,
         });
       }
-      pushUrlState(newState);
+      const url = toUrl(newState);
+      window.history.pushState(newState, "", url);
+
       setState(newState);
     },
     [logging, setState]
@@ -130,11 +132,6 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   return (
     <RouterContext.Provider value={value}>{children}</RouterContext.Provider>
   );
-};
-
-export const pushUrlState = (newState: RouterState) => {
-  const url = toUrl(newState);
-  window.history.pushState(newState, "", url);
 };
 
 /**
