@@ -132,6 +132,18 @@ const initialDataLog = (): DataLog => ({
   data: [],
 });
 
+export type SensorsLogged = Record<string, boolean>;
+
+const SENSORS_LOGGED = "sensorsLogged";
+
+const getSensorsLogged = (): SensorsLogged => {
+  const sensorsLogged = sessionStorage.getItem(SENSORS_LOGGED);
+  if (sensorsLogged) {
+    return JSON.parse(sensorsLogged);
+  }
+  return {};
+};
+
 /**
  * A simulated device.
  *
@@ -163,6 +175,10 @@ export class SimulatorDeviceConnection
       }
       case "request_flash": {
         this.emit(EVENT_REQUEST_FLASH);
+        this.logging.event({
+          type: "sim-user",
+          message: "start",
+        });
         break;
       }
       case "state_change": {
@@ -229,9 +245,14 @@ export class SimulatorDeviceConnection
 
   constructor(
     private logging: Logging,
-    private iframe: () => HTMLIFrameElement | null
+    private iframe: () => HTMLIFrameElement | null,
+    private sensorsLogged: SensorsLogged = getSensorsLogged()
   ) {
     super();
+  }
+  logSensor(sensorId: string): void {
+    this.sensorsLogged[sensorId] = true;
+    sessionStorage.setItem(SENSORS_LOGGED, JSON.stringify(this.sensorsLogged));
   }
 
   async initialize(): Promise<void> {
@@ -286,11 +307,19 @@ export class SimulatorDeviceConnection
   }
 
   radioSend(message: string) {
+    const kind = "radio_input";
     const data = new TextEncoder().encode(message);
     const prefixed = new Uint8Array(3 + data.length);
     prefixed.set([1, 0, 1]);
     prefixed.set(data, 3);
-    this.postMessage("radio_input", { data: prefixed });
+    this.postMessage(kind, { data: prefixed });
+    if (!this.sensorsLogged[kind]) {
+      this.logging.event({
+        type: "sim-user",
+        message: kind,
+      });
+      this.logSensor(kind);
+    }
   }
 
   setSimulatorValue = async (
@@ -314,23 +343,46 @@ export class SimulatorDeviceConnection
       id,
       value,
     });
+    if (!this.sensorsLogged[id]) {
+      this.logging.event({
+        type: "sim-user",
+        message: id,
+      });
+      this.logSensor(id);
+    }
   };
 
   stop = async (): Promise<void> => {
     this.postMessage("stop", {});
+    this.logging.event({
+      type: "sim-user",
+      message: "stopped",
+    });
   };
 
   reset = async (): Promise<void> => {
     this.postMessage("reset", {});
     this.notifyResetComms();
+    this.logging.event({
+      type: "sim-user",
+      message: "reset",
+    });
   };
 
   mute = async (): Promise<void> => {
     this.postMessage("mute", {});
+    this.logging.event({
+      type: "sim-user",
+      message: "mute",
+    });
   };
 
   unmute = async (): Promise<void> => {
     this.postMessage("unmute", {});
+    this.logging.event({
+      type: "sim-user",
+      message: "unmute",
+    });
   };
 
   private setStatus(newStatus: ConnectionStatus) {
