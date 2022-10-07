@@ -250,6 +250,7 @@ export class SimulatorDeviceConnection
   ) {
     super();
   }
+
   logSensor(sensorId: string): void {
     this.sensorsLogged[sensorId] = true;
     sessionStorage.setItem(SENSORS_LOGGED, JSON.stringify(this.sensorsLogged));
