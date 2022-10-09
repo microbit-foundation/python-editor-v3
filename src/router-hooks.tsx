@@ -112,9 +112,11 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useCallback(
     (newState: RouterState, source?: NavigationSource) => {
       if (source) {
+        const parts = [newState.tab, newState.slug?.id];
+        const message = parts.filter((x): x is string => !!x).join("-");
         logging.event({
           type: source,
-          message: toUrl(newState),
+          message,
         });
       }
       const url = toUrl(newState);
