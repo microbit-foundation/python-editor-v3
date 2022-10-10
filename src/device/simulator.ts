@@ -336,10 +336,6 @@ export class SimulatorDeviceConnection
 
   stop = async (): Promise<void> => {
     this.postMessage("stop", {});
-    this.logging.event({
-      type: "sim-user",
-      message: "stopped",
-    });
   };
 
   reset = async (): Promise<void> => {
