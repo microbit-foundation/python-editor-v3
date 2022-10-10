@@ -2254,12 +2254,6 @@
       "value": "连接超时"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "micro:bit 的 Python 编辑器"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,

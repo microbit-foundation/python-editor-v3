@@ -1050,10 +1050,6 @@
     "defaultMessage": "連線逾時",
     "description": "Title for error messages relating to WebUSB timeout"
   },
-  "title": {
-    "defaultMessage": "micro:bit 的 Python 編輯器",
-    "description": "Application title"
-  },
   "toolkit-error-loading": {
     "defaultMessage": "載入工具包時，發生錯誤。",
     "description": "Error shown if we failed to load toolkit content"

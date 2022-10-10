@@ -2243,12 +2243,6 @@
       "value": "接続がタイムアウトしました"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "micro:bit用Pythonエディター"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,

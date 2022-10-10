@@ -2257,12 +2257,6 @@
       "value": "連線逾時"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "micro:bit 的 Python 編輯器"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,

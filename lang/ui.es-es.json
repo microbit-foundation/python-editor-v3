@@ -1050,10 +1050,6 @@
     "defaultMessage": "La conexión ha expirado",
     "description": "Title for error messages relating to WebUSB timeout"
   },
-  "title": {
-    "defaultMessage": "Python Editor para micro:bit",
-    "description": "Application title"
-  },
   "toolkit-error-loading": {
     "defaultMessage": "Se ha producido un error al cargar las herramientas.",
     "description": "Error shown if we failed to load toolkit content"
