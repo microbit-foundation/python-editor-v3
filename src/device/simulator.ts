@@ -132,18 +132,6 @@ const initialDataLog = (): DataLog => ({
   data: [],
 });
 
-export type SensorsLogged = Record<string, boolean>;
-
-const SENSORS_LOGGED = "sensorsLogged";
-
-const getSensorsLogged = (): SensorsLogged => {
-  const sensorsLogged = sessionStorage.getItem(SENSORS_LOGGED);
-  if (sensorsLogged) {
-    return JSON.parse(sensorsLogged);
-  }
-  return {};
-};
-
 /**
  * A simulated device.
  *
@@ -246,14 +234,19 @@ export class SimulatorDeviceConnection
   constructor(
     private logging: Logging,
     private iframe: () => HTMLIFrameElement | null,
-    private sensorsLogged: SensorsLogged = getSensorsLogged()
+    private sensorsLogged: Record<string, boolean> = {}
   ) {
     super();
   }
 
-  logSensor(sensorId: string): void {
-    this.sensorsLogged[sensorId] = true;
-    sessionStorage.setItem(SENSORS_LOGGED, JSON.stringify(this.sensorsLogged));
+  private logSensor(sensorId: string): void {
+    if (!this.sensorsLogged[sensorId]) {
+      this.logging.event({
+        type: "sim-user",
+        message: sensorId,
+      });
+      this.sensorsLogged[sensorId] = true;
+    }
   }
 
   async initialize(): Promise<void> {
@@ -314,13 +307,7 @@ export class SimulatorDeviceConnection
     prefixed.set([1, 0, 1]);
     prefixed.set(data, 3);
     this.postMessage(kind, { data: prefixed });
-    if (!this.sensorsLogged[kind]) {
-      this.logging.event({
-        type: "sim-user",
-        message: kind,
-      });
-      this.logSensor(kind);
-    }
+    this.logSensor(kind);
   }
 
   setSimulatorValue = async (
@@ -344,13 +331,7 @@ export class SimulatorDeviceConnection
       id,
       value,
     });
-    if (!this.sensorsLogged[id]) {
-      this.logging.event({
-        type: "sim-user",
-        message: id,
-      });
-      this.logSensor(id);
-    }
+    this.logSensor(id);
   };
 
   stop = async (): Promise<void> => {
