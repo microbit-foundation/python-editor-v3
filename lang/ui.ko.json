@@ -1050,10 +1050,6 @@
     "defaultMessage": "연결 시간 초과",
     "description": "Title for error messages relating to WebUSB timeout"
   },
-  "title": {
-    "defaultMessage": "micro:bit용 Python 편집기",
-    "description": "Application title"
-  },
   "toolkit-error-loading": {
     "defaultMessage": "도구 키트를 불러오는 중 오류가 발생했습니다.",
     "description": "Error shown if we failed to load toolkit content"

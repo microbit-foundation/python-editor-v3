@@ -1050,10 +1050,6 @@
     "defaultMessage": "接続がタイムアウトしました",
     "description": "Title for error messages relating to WebUSB timeout"
   },
-  "title": {
-    "defaultMessage": "micro:bit用Pythonエディター",
-    "description": "Application title"
-  },
   "toolkit-error-loading": {
     "defaultMessage": "ツールキットの読み込み中にエラーが発生しました。",
     "description": "Error shown if we failed to load toolkit content"

@@ -1051,10 +1051,6 @@
     "defaultMessage": "Connection timed out",
     "description": "Title for error messages relating to WebUSB timeout"
   },
-  "title": {
-    "defaultMessage": "Python Editor for micro:bit",
-    "description": "Application title"
-  },
   "toolkit-error-loading": {
     "defaultMessage": "An error occurred loading the toolkit.",
     "description": "Error shown if we failed to load toolkit content"

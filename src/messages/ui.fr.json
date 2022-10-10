@@ -2249,12 +2249,6 @@
       "value": "La connexion a expiré"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "Éditeur Python pour micro:bit"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,

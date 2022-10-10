@@ -1050,10 +1050,6 @@
     "defaultMessage": "La connexion a expiré",
     "description": "Title for error messages relating to WebUSB timeout"
   },
-  "title": {
-    "defaultMessage": "Éditeur Python pour micro:bit",
-    "description": "Application title"
-  },
   "toolkit-error-loading": {
     "defaultMessage": "Une erreur s’est produite lors du chargement de la boîte à outils.",
     "description": "Error shown if we failed to load toolkit content"

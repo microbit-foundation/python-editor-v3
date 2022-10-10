@@ -2257,12 +2257,6 @@
       "value": "Connection timed out"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "Python Editor for micro:bit"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,
