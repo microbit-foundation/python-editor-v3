@@ -164,8 +164,7 @@ export class SimulatorDeviceConnection
       case "request_flash": {
         this.emit(EVENT_REQUEST_FLASH);
         this.logging.event({
-          type: "sim-user",
-          message: "start",
+          type: "sim-user-start",
         });
         break;
       }
@@ -242,8 +241,7 @@ export class SimulatorDeviceConnection
   private logSensor(sensorId: string): void {
     if (!this.sensorsLogged[sensorId]) {
       this.logging.event({
-        type: "sim-user",
-        message: sensorId,
+        type: `sim-user-${sensorId}`,
       });
       this.sensorsLogged[sensorId] = true;
     }
@@ -342,24 +340,21 @@ export class SimulatorDeviceConnection
     this.postMessage("reset", {});
     this.notifyResetComms();
     this.logging.event({
-      type: "sim-user",
-      message: "reset",
+      type: "sim-user-reset",
     });
   };
 
   mute = async (): Promise<void> => {
     this.postMessage("mute", {});
     this.logging.event({
-      type: "sim-user",
-      message: "mute",
+      type: "sim-user-mute",
     });
   };
 
   unmute = async (): Promise<void> => {
     this.postMessage("unmute", {});
     this.logging.event({
-      type: "sim-user",
-      message: "unmute",
+      type: "sim-user-unmute",
     });
   };
 

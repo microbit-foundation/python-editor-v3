@@ -51,8 +51,7 @@ const SimulatorActionBar = ({
       onRunningChange(RunningStatus.STOPPED);
       if (source === "user") {
         logging.event({
-          type: "sim-user",
-          message: "stopped",
+          type: "sim-user-stopped",
         });
       }
     },
