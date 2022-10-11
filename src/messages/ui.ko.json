@@ -2257,12 +2257,6 @@
       "value": "연결 시간 초과"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "micro:bit용 Python 편집기"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,

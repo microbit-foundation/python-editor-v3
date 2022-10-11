@@ -2249,12 +2249,6 @@
       "value": "La conexión ha expirado"
     }
   ],
-  "title": [
-    {
-      "type": 0,
-      "value": "Python Editor para micro:bit"
-    }
-  ],
   "toolkit-error-loading": [
     {
       "type": 0,

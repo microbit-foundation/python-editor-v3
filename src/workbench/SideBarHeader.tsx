@@ -198,8 +198,9 @@ const SideBarHeader = ({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+          mx="1rem"
         >
-          <HStack spacing="0.875rem" px="1rem">
+          <HStack spacing="0.875rem">
             <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
               {brand.squareLogo}
             </Box>
