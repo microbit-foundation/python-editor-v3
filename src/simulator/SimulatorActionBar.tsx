@@ -19,6 +19,7 @@ import {
 } from "../device/device-hooks";
 import { EVENT_REQUEST_FLASH } from "../device/simulator";
 import { useFileSystem } from "../fs/fs-hooks";
+import { useLogging } from "../logging/logging-hooks";
 import { RunningStatus } from "./Simulator";
 
 interface SimulatorActionBarProps extends BoxProps {
@@ -34,6 +35,7 @@ const SimulatorActionBar = ({
   const device = useSimulator();
   const fs = useFileSystem();
   const intl = useIntl();
+  const logging = useLogging();
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const syncStatus = useSyncStatus();
   const handlePlay = useCallback(async () => {
@@ -43,13 +45,21 @@ const SimulatorActionBar = ({
     });
     onRunningChange(RunningStatus.RUNNING);
   }, [device, fs, onRunningChange]);
-  const handleStop = useCallback(() => {
-    device.stop();
-    onRunningChange(RunningStatus.STOPPED);
-  }, [device, onRunningChange]);
+  const handleStop = useCallback(
+    (source: "user" | "code") => {
+      device.stop();
+      onRunningChange(RunningStatus.STOPPED);
+      if (source === "user") {
+        logging.event({
+          type: "sim-user-stopped",
+        });
+      }
+    },
+    [device, logging, onRunningChange]
+  );
   useEffect(() => {
     if (syncStatus === SyncStatus.OUT_OF_SYNC) {
-      handleStop();
+      handleStop("code");
     }
   }, [handleStop, syncStatus]);
   const handleMuteUnmute = useCallback(() => {
@@ -72,7 +82,7 @@ const SimulatorActionBar = ({
       <IconButton
         size={size}
         variant="outline"
-        onClick={handleStop}
+        onClick={() => handleStop("user")}
         icon={<RiStopFill />}
         aria-label={intl.formatMessage({ id: "simulator-stop" })}
         disabled={running === RunningStatus.STOPPED}

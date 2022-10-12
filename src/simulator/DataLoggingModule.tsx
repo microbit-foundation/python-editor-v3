@@ -22,6 +22,7 @@ import { ReactNode, useCallback, useMemo } from "react";
 import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { DataLog } from "../device/simulator";
+import { useLogging } from "../logging/logging-hooks";
 import { useDataLog } from "./data-logging-hooks";
 import { useAutoScrollToBottom } from "./scroll-hooks";
 
@@ -53,12 +54,16 @@ const DataLoggingModule = ({
     };
   }, [untruncatedDataLog]);
   const [ref, handleScroll] = useAutoScrollToBottom(truncatedDataLog);
+  const logging = useLogging();
   const handleSaveLog = useCallback(() => {
     const blob = new Blob([toCsv(untruncatedDataLog)], {
       type: "text/csv;charset=utf-8",
     });
     saveAs(blob, "simulated-log-data.csv");
-  }, [untruncatedDataLog]);
+    logging.event({
+      type: "sim-user-data-log-saved",
+    });
+  }, [logging, untruncatedDataLog]);
   if (minimised) {
     return (
       <HStack spacing={3}>
