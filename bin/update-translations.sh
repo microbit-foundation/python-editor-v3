@@ -30,13 +30,7 @@ npm run i18n:compile
 
 (
   cd ../micropython-microbit-stubs
-  for language in $languages; do
-      lower="${language,,}"
-      rm -rf "lang/${lower}"
-      cp -r lang/en "lang/${lower}"
-  done
-  npm run i18n:typeshed-to-crowdin
-  npm run i18n:crowdin-to-typeshed
+  ./scripts/build-translations.sh
 )
 ./bin/update-pyright.sh
 ./bin/update-typeshed.sh
