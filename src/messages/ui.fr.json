@@ -1857,7 +1857,7 @@
           "value": [
             {
               "type": 0,
-              "value": "aucune ligne enregistrée"
+              "value": "Aucune ligne enregistrée"
             }
           ]
         },
@@ -1938,19 +1938,19 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "logo en bas"
+      "value": "bas"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "face orientée vers le bas"
+      "value": "visage vers le bas"
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "face orientée vers le haut"
+      "value": "visage vers le haut"
     }
   ],
   "simulator-gesture-freefall": [
@@ -1992,7 +1992,7 @@
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "logo en haut"
+      "value": "haut"
     }
   ],
   "simulator-hide": [
