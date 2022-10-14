@@ -755,8 +755,13 @@ export class ProjectActions {
         finalFocusRef={finalFocusRef}
         validate={(name: string) =>
           name.trim().length === 0
-            ? this.intl.formatMessage({ id: "project-name-not-empty" })
-            : undefined
+            ? {
+                ok: false,
+                message: this.intl.formatMessage({
+                  id: "project-name-not-empty",
+                }),
+              }
+            : { ok: true }
         }
       />
     ));

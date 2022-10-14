@@ -11,6 +11,7 @@ import ChooseMainScriptQuestion, {
 import { MainScriptChoice } from "./project-actions";
 import { stubIntl as intl } from "../messages/testing";
 import FixedTranslationProvider from "../messages/FixedTranslationProvider";
+import { InputValidationResult } from "../common/InputDialog";
 
 describe("ChooseMainScriptQuestion", () => {
   const data = () => Promise.resolve(new Uint8Array([0]));
@@ -19,13 +20,13 @@ describe("ChooseMainScriptQuestion", () => {
     const setValue = jest.fn() as jest.MockedFunction<
       (x: MainScriptChoice | undefined) => void
     >;
-    const setError = jest.fn() as jest.MockedFunction<
-      (x: string | undefined) => void
+    const setValidationResult = jest.fn() as jest.MockedFunction<
+      (x: InputValidationResult) => void
     >;
     const currentFiles = new Set(["main.py", "magic.py"]);
 
     afterEach(() => {
-      setError.mockClear();
+      setValidationResult.mockClear();
       setValue.mockClear();
     });
 
@@ -36,13 +37,13 @@ describe("ChooseMainScriptQuestion", () => {
       return render(
         <FixedTranslationProvider>
           <ChooseMainScriptQuestion
-            error={undefined}
-            setError={setError}
+            validationResult={{ ok: true }}
+            setValidationResult={setValidationResult}
             setValue={setValue}
             currentFiles={currentFiles}
             value={{ main: choice }}
             inputs={inputs}
-            validate={() => undefined}
+            validate={() => ({ ok: true })}
           />
         </FixedTranslationProvider>
       );

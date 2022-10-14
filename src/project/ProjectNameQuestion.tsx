@@ -17,9 +17,9 @@ import { InputDialogBody } from "../common/InputDialog";
 interface ProjectNameQuestionProps extends InputDialogBody<string> {}
 
 const ProjectNameQuestion = ({
-  error,
+  validationResult,
   value,
-  setError,
+  setValidationResult,
   setValue,
   validate,
 }: ProjectNameQuestionProps) => {
@@ -31,7 +31,7 @@ const ProjectNameQuestion = ({
     }
   }, []);
   return (
-    <FormControl id="fileName" isRequired isInvalid={Boolean(error)}>
+    <FormControl id="fileName" isRequired isInvalid={!validationResult.ok}>
       <FormLabel>
         <FormattedMessage id="name-text" />
       </FormLabel>
@@ -42,15 +42,13 @@ const ProjectNameQuestion = ({
         onChange={(e) => {
           const value = e.target.value;
           setValue(value);
-          setError(validate(value));
+          setValidationResult(validate(value));
         }}
       ></Input>
       <FormHelperText color="gray.700">
         <FormattedMessage id="name-used-when" />
       </FormHelperText>
-      <FormErrorMessage>
-        <FormattedMessage id={error} />
-      </FormErrorMessage>
+      <FormErrorMessage>{validationResult.message}</FormErrorMessage>
     </FormControl>
   );
 };
