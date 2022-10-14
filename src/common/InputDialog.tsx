@@ -17,12 +17,17 @@ import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode, useCallback, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
+export interface InputValidationResult {
+  ok: boolean;
+  message?: string;
+}
+
 export interface InputDialogBody<T> {
   value: T;
   setValue: (value: T) => void;
-  error: string | undefined;
-  setError: (error: string | undefined) => void;
-  validate: (value: T) => string | undefined;
+  validationResult: InputValidationResult;
+  setValidationResult: (value: InputValidationResult) => void;
+  validate: (value: T) => InputValidationResult;
 }
 
 type ValueOrCancelled<T> = T | undefined;
@@ -33,13 +38,13 @@ export interface InputDialogProps<T> {
   initialValue: T;
   actionLabel: string;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
-  validate?: (input: T) => string | undefined;
+  validate?: (input: T) => InputValidationResult;
   customFocus?: boolean;
   finalFocusRef?: React.RefObject<HTMLButtonElement>;
   callback: (value: ValueOrCancelled<T>) => void;
 }
 
-const noValidation = () => undefined;
+const noValidation = () => ({ ok: true });
 
 /**
  * General purpose input dialog.
@@ -56,12 +61,13 @@ export const InputDialog = <T,>({
   callback,
 }: InputDialogProps<T>) => {
   const [value, setValue] = useState(initialValue);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [validationResult, setValidationResult] =
+    useState<InputValidationResult>(validate(initialValue));
   const leastDestructiveRef = useRef<HTMLButtonElement>(null);
   const onCancel = useCallback(() => callback(undefined), [callback]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!error) {
+    if (validationResult.ok) {
       callback(value);
     }
   };
@@ -87,8 +93,8 @@ export const InputDialog = <T,>({
                 <Body
                   value={value}
                   setValue={setValue}
-                  error={error}
-                  setError={setError}
+                  validationResult={validationResult}
+                  setValidationResult={setValidationResult}
                   validate={validate}
                 />
               </Box>
@@ -102,7 +108,7 @@ export const InputDialog = <T,>({
               variant="solid"
               onClick={handleSubmit}
               ml={3}
-              isDisabled={Boolean(error)}
+              isDisabled={!validationResult.ok}
             >
               {actionLabel}
             </Button>

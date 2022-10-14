@@ -10,6 +10,7 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
+import { Text } from "@chakra-ui/react";
 import { ReactNode, useEffect, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
@@ -17,9 +18,9 @@ import { InputDialogBody } from "../common/InputDialog";
 interface NewFileNameQuestionProps extends InputDialogBody<string> {}
 
 const NewFileNameQuestion = ({
-  error,
+  validationResult,
   value,
-  setError,
+  setValidationResult,
   setValue,
   validate,
 }: NewFileNameQuestionProps) => {
@@ -30,7 +31,7 @@ const NewFileNameQuestion = ({
     }
   }, []);
   return (
-    <FormControl id="fileName" isRequired isInvalid={Boolean(error)}>
+    <FormControl id="fileName" isRequired isInvalid={!validationResult.ok}>
       <FormLabel>
         <FormattedMessage id="name-text" />
       </FormLabel>
@@ -41,7 +42,7 @@ const NewFileNameQuestion = ({
         onChange={(e) => {
           const value = e.target.value;
           setValue(value);
-          setError(validate(value));
+          setValidationResult(validate(value));
         }}
         autoComplete="off"
         autoCorrect="off"
@@ -56,7 +57,23 @@ const NewFileNameQuestion = ({
           }}
         />
       </FormHelperText>
-      <FormErrorMessage>{error}</FormErrorMessage>
+      {validationResult.message && !validationResult.ok && (
+        <FormErrorMessage>{validationResult.message}</FormErrorMessage>
+      )}
+      {validationResult.message && validationResult.ok && (
+        // FormErrorMessage does not display when the field is valid so we need
+        // an equivalent for warning feedback.
+        <Text
+          id="fileName-feedback"
+          aria-live="polite"
+          fontSize="sm"
+          color="red.500"
+          lineHeight="normal"
+          mt={2}
+        >
+          {validationResult.message}
+        </Text>
+      )}
     </FormControl>
   );
 };
