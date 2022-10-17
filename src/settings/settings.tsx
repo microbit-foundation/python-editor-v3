@@ -6,6 +6,7 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
+import { stage } from "../environment";
 
 export interface Language {
   id: string;
@@ -34,6 +35,12 @@ export const supportedLanguages: Language[] = [
     enName: "Chinese (Traditional)",
   },
   {
+    id: "nl",
+    name: "Dutch",
+    enName: "Dutch",
+    preview: true,
+  },
+  {
     id: "fr",
     name: "Français",
     enName: "French",
@@ -53,7 +60,7 @@ export const supportedLanguages: Language[] = [
     name: "Español",
     enName: "Spanish",
   },
-];
+].filter((l) => stage !== "PRODUCTION" || !l.preview);
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;

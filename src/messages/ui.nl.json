@@ -1,0 +1,2541 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "Over"
+    }
+  ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "Drie panel comics getiteld \"MicroPython Rocks\" door Mike Rowbit. Een cartoon slang introduceert Damien en zegt: \"Maak kennis met Damien... Hij creëerde MicroPython.” Twee slangen bespreken MicroPython. De gele slang zegt: \"MicroPython is ontworpen om te werken op zeer kleine computers.\" “Zoals jouw BBC micro:bit” antwoordt de paarse slang. De gele slang gaat verder: \"Maar Python kan overal draaien.\" De paarse slang is het ermee eens en zegt: \"Zoals op dit rack van servers die enorme websites runnen\". De achtergrond achter de slangen toont een server rack."
+    }
+  ],
+  "about-microbit": [
+    {
+      "type": 0,
+      "value": "Met liefde gemaakt door de "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Micro:bit Educational Foundation en bijdragers"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "De editor is afhankelijk van "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MicroPython"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " die wordt gemaakt door Damien George en een gemeenschap van ontwikkelaars over de hele wereld."
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "Lees minder over MicroPython"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "Lees meer over MicroPython"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "Toegevoegd bestand "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "Voor gebruik en voorbeelden, zie "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Referentie"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
+    }
+  ],
+  "apidocs-baseclass": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "base class"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "base classes: "
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "baseClassCount"
+    }
+  ],
+  "apidocs-classes": [
+    {
+      "type": 0,
+      "value": "Klassen"
+    }
+  ],
+  "apidocs-fields": [
+    {
+      "type": 0,
+      "value": "Velden"
+    }
+  ],
+  "apidocs-functions": [
+    {
+      "type": 0,
+      "value": "Functies"
+    }
+  ],
+  "apidocs-methods": [
+    {
+      "type": 0,
+      "value": "Methoden"
+    }
+  ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "Terug"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "terug naar de hoofdcode"
+    }
+  ],
+  "cancel-action": [
+    {
+      "type": 0,
+      "value": "Annuleren"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "Bestanden wijzigen?"
+    }
+  ],
+  "choose-main-add-file": [
+    {
+      "type": 0,
+      "value": "Voeg bestand "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " toe"
+    }
+  ],
+  "choose-main-add-module": [
+    {
+      "type": 0,
+      "value": "Module "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " toevoegen"
+    }
+  ],
+  "choose-main-replace-file": [
+    {
+      "type": 0,
+      "value": "Vervang bestand "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-replace-module": [
+    {
+      "type": 0,
+      "value": "Vervang module "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-source-add-file": [
+    {
+      "type": 0,
+      "value": "Bestand "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " van "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " toevoegen"
+    }
+  ],
+  "choose-main-source-add-main-code": [
+    {
+      "type": 0,
+      "value": "Voeg hoofdcode toe van "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-replace-file": [
+    {
+      "type": 0,
+      "value": "Vervang bestand "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " door "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-replace-main-code": [
+    {
+      "type": 0,
+      "value": "Vervang hoofdcode door "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "clear": [
+    {
+      "type": 0,
+      "value": "Verwijderen"
+    }
+  ],
+  "close-action": [
+    {
+      "type": 0,
+      "value": "Afsluiten"
+    }
+  ],
+  "code-editor": [
+    {
+      "type": 0,
+      "value": "Code editor"
+    }
+  ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Code voorbeeld:"
+    }
+  ],
+  "confirm-action": [
+    {
+      "type": 0,
+      "value": "Bevestig"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "Verwijderen bevestigen"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "Alle bestanden vervangen door bestanden in de hex?"
+    }
+  ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "Alle bestanden vervangen door de standaard startcode?"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "Vervanging bevestigen"
+    }
+  ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "Alle bestanden vervangen door "
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "Bevestigen en opslaan"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "Annuleer dan Opslaan om een kopie van je project te bewaren."
+    }
+  ],
+  "connect-action": [
+    {
+      "type": 0,
+      "value": "Verbinden "
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Verbinden met kabel"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "WebUSB verbinding dialoogvenster met BBC micro:bit item gelabeld 1 en Connect knop gelabeld 2"
+    }
+  ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "In volgende pop-up:"
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "Kies je micro:bit"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "Selecteer een micro:bit"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "Selecteer ‘Connect’"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "Verbind met je micro:bit via WebUSB"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "Verbind met je micro:bit om de seriële uitvoer hier te zien"
+    }
+  ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "Problemen met het verbinden met je micro:bit"
+    }
+  ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "Er is iets fout gegaan. Download je hexadecimale bestand voor een veilige bewaring, ververs daarna de pagina om te herladen."
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "Gekopieerd"
+    }
+  ],
+  "copy-action": [
+    {
+      "type": 0,
+      "value": "Kopiëer"
+    }
+  ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Kopieer code"
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "Maak"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "Bestand aanmaken"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Maak een nieuw Python-bestand aan in dit project"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Aangemaakt "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "delete-action": [
+    {
+      "type": 0,
+      "value": "Verwijderen"
+    }
+  ],
+  "delete-file-action": [
+    {
+      "type": 0,
+      "value": "Wissen "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "Verwijderd "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "disconnect-action": [
+    {
+      "type": 0,
+      "value": "Loskoppelen"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "Ontkoppel de micro:bit"
+    }
+  ],
+  "dont-show-again": [
+    {
+      "type": 0,
+      "value": "Deze melding niet opnieuw weergeven"
+    }
+  ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "Slepen en neerzetten"
+    }
+  ],
+  "edit-file-action": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " bewerken"
+    }
+  ],
+  "edit-name-project-hover": [
+    {
+      "type": 0,
+      "value": "Wijzig de naam van je project"
+    }
+  ],
+  "edit-project-name-action": [
+    {
+      "type": 0,
+      "value": "Projectnaam bewerken"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "Het maken van het hex-bestand is mislukt"
+    }
+  ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Feedback"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " bestand acties"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "Dit bestand bestaat al"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "De naam bevat een ongeldig teken: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "De naam is te lang"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "De naam moet in kleine letters zijn"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "De naam kan niet leeg zijn"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "De naam kan niet beginnen met een getal"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "De naam mag geen spaties bevatten"
+    }
+  ],
+  "firmware-update-link": [
+    {
+      "type": 0,
+      "value": "Je moet "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "firmware updaten"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " voordat je verbinding kan maken met deze micro:bit."
+    }
+  ],
+  "firmware-update-message": [
+    {
+      "type": 0,
+      "value": "Het verbinden met de micro:bit is mislukt omdat de firmware op je micro:bit te oud is."
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "Firmware update vereist"
+    }
+  ],
+  "flash-action": [
+    {
+      "type": 0,
+      "value": "Flash"
+    }
+  ],
+  "flash-hover": [
+    {
+      "type": 0,
+      "value": "Schrijf het project rechtstreeks naar je mico:bit"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "Code verzenden (flashen)"
+    }
+  ],
+  "flashing-full-flash-detail": [
+    {
+      "type": 0,
+      "value": "Je code wordt verzonden (flashen) naar je micro:bit. Dit kan een tijdje duren, maar daarna zal het sneller gaan."
+    }
+  ],
+  "flashing-micropython": [
+    {
+      "type": 0,
+      "value": "MicroPython flashen"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Lettertypegrootte"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "Voor meer ondersteuning, zie de "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Python Editor gids"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "help": [
+    {
+      "type": 0,
+      "value": "Help"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Hulp & Ondersteuning"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Help met vertalen"
+    }
+  ],
+  "highlight-code-structure": [
+    {
+      "type": 0,
+      "value": "Code-structuur markeren"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "Vol"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "Geen"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "Eenvoudig"
+    }
+  ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "Ideeën"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Probeer deze projecten uit, verander ze en laat je inspireren"
+    }
+  ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "Code invoegen"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Taal"
+    }
+  ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "Minder"
+    }
+  ],
+  "load-error-makecode-info": [
+    {
+      "type": 0,
+      "value": "Dit hexadecimale bestand kan niet in de Python Editor geladen worden. De Python Editor kan geen hex-bestanden openen die gemaakt zijn met Microsoft MakeCode."
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "Bezoek "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " om dit hex-bestand te gebruiken."
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "Een hex-bestand maar een keer tegelijk worden geladen. Alle bestanden in het project worden vervangen."
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "Deze versie van de Python Editor ondersteunt momenteel geen .mpy bestanden."
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "Kan "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "bestand"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "bestanden"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " niet laden"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "Geladen "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "Laden…"
+    }
+  ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "micro:bit bord met het 5 bij 5 LED raster dat een hart toont"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "MicroPython documentatie"
+    }
+  ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "Leer hoe MicroPython op de micro:bit kwam"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "MicroPython "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "broncode voor de micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "linkV1"
+    },
+    {
+      "type": 0,
+      "value": " en "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V2"
+        }
+      ],
+      "type": 8,
+      "value": "linkV2"
+    }
+  ],
+  "more-action": [
+    {
+      "type": 0,
+      "value": "Meer"
+    }
+  ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "Meer verbindingsopties"
+    }
+  ],
+  "more-ideas": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Meer ideeën"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "more-save-options": [
+    {
+      "type": 0,
+      "value": "Meer besparingsopties"
+    }
+  ],
+  "multiple-files-message-one": [
+    {
+      "type": 0,
+      "value": "Dit project bevat "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " bestanden"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " maar alleen "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "main.py"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " is gedownload."
+    }
+  ],
+  "multiple-files-message-two": [
+    {
+      "type": 0,
+      "value": "Gebruik de knop "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Opslaan"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " om je hele project te downloaden als een hex bestand. Je kunt "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "het hex-bestand"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " openen om je project te herstellen. Als je liever afzonderlijke Python bestanden downloadt, gebruik dan het "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Project"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " tabblad."
+    }
+  ],
+  "multiple-files-title": [
+    {
+      "type": 0,
+      "value": "Waarschuwing: Alleen main.py gedownload"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Geef een naam aan uw project"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "Naam"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "De naam wordt gebruikt wanneer je een hex-bestand opslaat."
+    }
+  ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "We zullen de "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": ".py"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " extensie voor je toevoegen."
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Volgende"
+    }
+  ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "Is je "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit aangesloten"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Heb je "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "deze stappen gevolgd"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "Als je een "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " hebt, moet je mogelijk "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "firmware updaten"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "Je hebt geen micro:bit geselecteerd, of er was een probleem met de verbinding."
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "Alternatieve methode: kies Opslaan en volg dan stappen om over te dragen"
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "Geen micro:bit gevonden"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "Je moet "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "firmware updaten voordat"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " je verbinding kan maken met deze micro:bit."
+    }
+  ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "Open"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Open…"
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "Open bestand wanneer gedropt"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Open een hex of Python bestand of voeg andere bestanden toe"
+    }
+  ],
+  "options": [
+    {
+      "type": 0,
+      "value": "Opties"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "Hulp parameter"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "Automatisch"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "Handleiding ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "Definitief verwijderen "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "post-save-message-files": [
+    {
+      "type": 0,
+      "value": "Dit bevat alle bestanden in dit project (inclusief eventuele extra bestanden, bijvoorbeeld om accessoires uit te voeren, weergegeven in het "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Project"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " tabblad)."
+    }
+  ],
+  "post-save-message-one": [
+    {
+      "type": 0,
+      "value": "Je vindt je hex-bestand in de map "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Downloads"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " van deze computer."
+    }
+  ],
+  "post-save-message-two": [
+    {
+      "type": 0,
+      "value": "Je kunt het verplaatsen naar een andere map voor opslag en "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Open"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " gebruiken om later verder te gaan met bewerken."
+    }
+  ],
+  "post-save-title": [
+    {
+      "type": 0,
+      "value": "Project opgeslagen"
+    }
+  ],
+  "post-save-transfer-hex": [
+    {
+      "type": 0,
+      "value": "Om dit hexadecimale bestand uit te voeren op je micro:bit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "volg deze stappen"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "project-actions": [
+    {
+      "type": 0,
+      "value": "Project acties"
+    }
+  ],
+  "project-header": [
+    {
+      "type": 0,
+      "value": "Project koptekst"
+    }
+  ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "Projectnaam"
+    }
+  ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "De projectnaam kan niet leeg zijn"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "Project"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in uw project"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "Python actief"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "Python"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "Sommige van uw wijzigingen zijn niet opgeslagen. Toch afsluiten?"
+    }
+  ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "Minder lezen"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "Lees meer"
+    }
+  ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "Opnieuw"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "Referentie"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "Vervangen"
+    }
+  ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "Reset project"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "Project opnieuw instellen op de standaard startcode"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "Reset het project naar de standaard startercode, waarmee je je werk weggooit"
+    }
+  ],
+  "results-count": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " results"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " result"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " results"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "Opslaan"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " opslaan"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "Project hex opslaan"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "Sla het project hex-bestand op uw computer op"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Python script opslaan"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Zoeken"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Stuur naar micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Maak verbinding via WebUSB en schrijf code vervolgens naar micro:bit"
+    }
+  ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "Serienummer verbergen"
+    }
+  ],
+  "serial-ctrl-c-action": [
+    {
+      "type": 0,
+      "value": "Verstuur Ctrl+C voor REPL"
+    }
+  ],
+  "serial-ctrl-d-action": [
+    {
+      "type": 0,
+      "value": "Verstuur Ctrl+D om te resetten"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "Serienummer weergeven"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "Micro:bit geflasht"
+    }
+  ],
+  "serial-help-ctrl-c": [
+    {
+      "type": 0,
+      "value": "Gebruik de sneltoets "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "C"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " om je programma te onderbreken. Vervolgens kun je Python commando's typen om MicroPython te laten werken. Het is een geweldige manier om met iets nieuws te experimenteren."
+    }
+  ],
+  "serial-help-ctrl-d": [
+    {
+      "type": 0,
+      "value": "Gebruik "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "D"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " om je programma weer uit te voeren."
+    }
+  ],
+  "serial-help-intro": [
+    {
+      "type": 0,
+      "value": "De seriële terminal toont fouten en andere uitvoer van het programma dat wordt uitgevoerd op je micro:bit. Standaard toont het de meest recente fout van het programma. Klap het uit om alle uitvoer te zien."
+    }
+  ],
+  "serial-help-print": [
+    {
+      "type": 0,
+      "value": "Je programma kan berichten printen met de "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " functie. Probeer "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print('micro:bit is awesome')"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " toe te voegen aan je programma."
+    }
+  ],
+  "serial-help-title": [
+    {
+      "type": 0,
+      "value": "Seriële hints en tips"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Seriële hints en tips"
+    }
+  ],
+  "serial-menu": [
+    {
+      "type": 0,
+      "value": "Seriële menu"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "Micro:bit klaar om te flashen"
+    }
+  ],
+  "serial-running": [
+    {
+      "type": 0,
+      "value": "Uitvoeren…"
+    }
+  ],
+  "serial-terminal": [
+    {
+      "type": 0,
+      "value": "Seriële terminal"
+    }
+  ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "Sta modules van derden toe"
+    }
+  ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "Wijzigen van modules van derden kan betekenen dat ze niet werken zoals bedoeld."
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Instellingen"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Toon API-documentatie"
+    }
+  ],
+  "show-less": [
+    {
+      "type": 0,
+      "value": "Minder weergeven"
+    }
+  ],
+  "show-less-for": [
+    {
+      "type": 0,
+      "value": "Toon minder voor "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "show-more": [
+    {
+      "type": 0,
+      "value": "Toon meer"
+    }
+  ],
+  "show-more-for": [
+    {
+      "type": 0,
+      "value": "Toon meer voor "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "sidebar": [
+    {
+      "type": 0,
+      "value": "Sidebar"
+    }
+  ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "Klap sidebar in"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "Zijbalk uitvouwen"
+    }
+  ],
+  "simulator-accelerometer": [
+    {
+      "type": 0,
+      "value": "Versnellingsmeter"
+    }
+  ],
+  "simulator-actions": [
+    {
+      "type": 0,
+      "value": "Simulator acties"
+    }
+  ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "Knop A"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "Knop B"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 0,
+      "value": "Houd knop "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    },
+    {
+      "type": 0,
+      "value": " ingedrukt"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 0,
+      "value": "Druk op knop "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-buttons": [
+    {
+      "type": 0,
+      "value": "Knoppen"
+    }
+  ],
+  "simulator-collapse": [
+    {
+      "type": 0,
+      "value": "Simulator inklappen"
+    }
+  ],
+  "simulator-collapse-module": [
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " module inklappen"
+    }
+  ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "Kompas"
+    }
+  ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "Richting"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "Magnetische veldsterkte"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "Geen log vermeldingen."
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "Log vol"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Geen rijen gelogd"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " rij gelogd"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " rijen gelogd"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "Logboek opslaan"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "Oudere rijen worden niet weergegeven"
+    }
+  ],
+  "simulator-expand": [
+    {
+      "type": 0,
+      "value": "Simulator uitvouwen"
+    }
+  ],
+  "simulator-expand-module": [
+    {
+      "type": 0,
+      "value": "Uitklappen "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " module"
+    }
+  ],
+  "simulator-gesture-3g": [
+    {
+      "type": 0,
+      "value": "3g"
+    }
+  ],
+  "simulator-gesture-6g": [
+    {
+      "type": 0,
+      "value": "6g"
+    }
+  ],
+  "simulator-gesture-8g": [
+    {
+      "type": 0,
+      "value": "8g"
+    }
+  ],
+  "simulator-gesture-down": [
+    {
+      "type": 0,
+      "value": "omlaag"
+    }
+  ],
+  "simulator-gesture-face-down": [
+    {
+      "type": 0,
+      "value": "beeld onder"
+    }
+  ],
+  "simulator-gesture-face-up": [
+    {
+      "type": 0,
+      "value": "beeld boven"
+    }
+  ],
+  "simulator-gesture-freefall": [
+    {
+      "type": 0,
+      "value": "vrije val"
+    }
+  ],
+  "simulator-gesture-left": [
+    {
+      "type": 0,
+      "value": "links"
+    }
+  ],
+  "simulator-gesture-right": [
+    {
+      "type": 0,
+      "value": "rechts"
+    }
+  ],
+  "simulator-gesture-select": [
+    {
+      "type": 0,
+      "value": "Selecteer gebaar"
+    }
+  ],
+  "simulator-gesture-send": [
+    {
+      "type": 0,
+      "value": "Verstuur gebaar"
+    }
+  ],
+  "simulator-gesture-shake": [
+    {
+      "type": 0,
+      "value": "schudden"
+    }
+  ],
+  "simulator-gesture-up": [
+    {
+      "type": 0,
+      "value": "omhoog"
+    }
+  ],
+  "simulator-hide": [
+    {
+      "type": 0,
+      "value": "Verberg simulator"
+    }
+  ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "Ingedrukt houden"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "Druk"
+    }
+  ],
+  "simulator-light-level": [
+    {
+      "type": 0,
+      "value": "Verlichtingsniveau"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "Data log"
+    }
+  ],
+  "simulator-loud": [
+    {
+      "type": 0,
+      "value": "Luid"
+    }
+  ],
+  "simulator-mute": [
+    {
+      "type": 0,
+      "value": "Dempen"
+    }
+  ],
+  "simulator-pin-hold-label": [
+    {
+      "type": 0,
+      "value": "Houd pin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": " vast"
+    }
+  ],
+  "simulator-pin-press-label": [
+    {
+      "type": 0,
+      "value": "Druk op pin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
+  "simulator-pins": [
+    {
+      "type": 0,
+      "value": "Pinnen"
+    }
+  ],
+  "simulator-quiet": [
+    {
+      "type": 0,
+      "value": "Stil"
+    }
+  ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "Radio"
+    }
+  ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "micro:bit verzonden:"
+    }
+  ],
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "Radiogroep ingesteld op "
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "Radiobericht"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
+    {
+      "type": 0,
+      "value": "Oudere berichten worden niet weergegeven"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "Geen berichten om weer te geven"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "De radio staat uit"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "Stuur bericht"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "Je verzendt"
+    }
+  ],
+  "simulator-reference-link": [
+    {
+      "type": 0,
+      "value": "Link naar Referentie sectie"
+    }
+  ],
+  "simulator-reset": [
+    {
+      "type": 0,
+      "value": "Resetten"
+    }
+  ],
+  "simulator-serial-terminal": [
+    {
+      "type": 0,
+      "value": "Simulator seriële terminal"
+    }
+  ],
+  "simulator-sound-level": [
+    {
+      "type": 0,
+      "value": "Geluidsniveau"
+    }
+  ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "Simulator starten"
+    }
+  ],
+  "simulator-stop": [
+    {
+      "type": 0,
+      "value": "Simulator stoppen"
+    }
+  ],
+  "simulator-temperature": [
+    {
+      "type": 0,
+      "value": "Temperatuur"
+    }
+  ],
+  "simulator-title": [
+    {
+      "type": 0,
+      "value": "Simulator"
+    }
+  ],
+  "simulator-touch-logo": [
+    {
+      "type": 0,
+      "value": "Aanraak logo"
+    }
+  ],
+  "simulator-unmute": [
+    {
+      "type": 0,
+      "value": "Niet meer dempen"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "Software versies"
+    }
+  ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "Start codering"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Ondersteuning"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Gebruiksvoorwaarden"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "Dit bestand is een module van derden en is niet bedoeld om te worden bewerkt."
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "Sta het bewerken van modules van derden toe in "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Instellingen"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " om deze module te wijzigen."
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "Kan geen verbinding maken met de micro:bit"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "Verbinding verbroken"
+    }
+  ],
+  "toolkit-error-loading": [
+    {
+      "type": 0,
+      "value": "Er is een fout opgetreden bij het laden van de toolkit."
+    }
+  ],
+  "toolkit-view-documentation": [
+    {
+      "type": 0,
+      "value": "Bekijk "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " documentatie"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "Sleep het hex-bestand van je "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "map Downloads"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " naar het "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MICROBIT-station"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "U kunt het hex-bestand "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "later"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " openen om door te gaan met bewerken."
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Zet het opgeslagen hex-bestand over naar micro:bit"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Probeer het opnieuw"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "Ongedaan maken"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "Probeer het opnieuw of "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "doe een ondersteuningsverzoek"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "Probeer het opnieuw of "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "doe een ondersteuningsverzoek"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "untitled-project": [
+    {
+      "type": 0,
+      "value": "Naamloos Project"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Firmware bijwerken"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "Bestand "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": " bijgewerkt"
+    }
+  ],
+  "visit-dot-org": [
+    {
+      "type": 0,
+      "value": "bezoek microbit.org (opent in een nieuw tabblad)"
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "Een ander proces is verbonden met dit apparaat."
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "Sluit alle andere tabbladen die mogelijk gebruikmaken van WebUSB (bijv. MakeCode, Python Editor), of koppel de micro:bit los en sluit deze opnieuw aan voordat u het opnieuw probeert."
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "Kan interface niet opeisen"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "WebUSB fout"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "Verbind je micro:bit opnieuw en probeer het nog eens."
+    }
+  ],
+  "webusb-error-update-req-description": [
+    {
+      "type": 0,
+      "value": "Je moet "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "je micro:bit firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " updaten om deze functie te gebruiken."
+    }
+  ],
+  "webusb-error-update-req-title": [
+    {
+      "type": 0,
+      "value": "Werk de firmware van de micro:bit bij"
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "Helaas wordt WebUSB niet ondersteund in deze browser en zal je programma worden opgeslagen op je computer. Volg de stappen op het volgende scherm om het naar de micro:bit te verplaatsen. We raden Google Chrome of Microsoft Edge aan, zodat je direct verbinding kunt maken met je micro:bit."
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "Deze browser ondersteunt geen WebUSB"
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "Met WebUSB kun je de micro:bit programmeren en verbinding maken met de seriële console rechtstreeks vanuit de online editor."
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "Bekijk onze korte handleiding voor enkele van de belangrijkste functies of ga meteen aan de slag met coderen."
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "Welkom bij de micro:bit Python Editor"
+    }
+  ],
+  "zoom-in-action": [
+    {
+      "type": 0,
+      "value": "Inzoomen"
+    }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "Uitzoomen"
+    }
+  ]
+}

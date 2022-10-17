@@ -24,7 +24,7 @@ import {
 } from "./common";
 import { contextExtracts, fullStringExtracts, Position } from "./extracts";
 
-export const supportedSearchLanguages = ["en", "es-es", "fr", "ja", "ko"];
+export const supportedSearchLanguages = ["en", "es-es", "fr", "nl", "ja", "ko"];
 
 // Supress warning issued when changing languages.
 const lunrWarn = lunr.utils.warn;
@@ -319,13 +319,15 @@ async function loadLunrLanguageSupport(
       return (await import("@microbit/lunr-languages/lunr.ja")).default;
     case "ko":
       return (await import("@microbit/lunr-languages/lunr.ko")).default;
+    case "nl":
+      return (await import("@microbit/lunr-languages/lunr.nl")).default;
     default:
       // No search support for the language, default to lunr's built-in English support.
       return undefined;
   }
 }
 
-type LunrLanguage = "es" | "fr" | "ja" | "ko";
+type LunrLanguage = "es" | "fr" | "ja" | "nl" | "ko";
 
 function convertLangToLunrParam(language: string): LunrLanguage | undefined {
   switch (language.toLowerCase()) {
@@ -337,6 +339,8 @@ function convertLangToLunrParam(language: string): LunrLanguage | undefined {
       return "ja";
     case "ko":
       return "ko";
+    case "nl":
+      return "nl";
     default:
       // No search support for the language, default to lunr's built-in English support.
       return undefined;

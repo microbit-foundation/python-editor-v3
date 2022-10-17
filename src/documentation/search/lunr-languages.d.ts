@@ -30,4 +30,5 @@ declare namespace lunr {
   export const fr: LanguagePlugin;
   export const ja: LanguagePlugin;
   export const ko: LanguagePlugin;
+  export const nl: LanguagePlugin;
 }
