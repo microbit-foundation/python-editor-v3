@@ -61,7 +61,6 @@ export const supportedLanguages: Language[] = [
     enName: "Spanish",
   },
 ].filter((l) => stage !== "PRODUCTION" || !l.preview);
-console.log(stage, supportedLanguages);
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;
