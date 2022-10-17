@@ -36,7 +36,7 @@ export const supportedLanguages: Language[] = [
   },
   {
     id: "nl",
-    name: "Dutch",
+    name: "Nederlands",
     enName: "Dutch",
     preview: true,
   },
