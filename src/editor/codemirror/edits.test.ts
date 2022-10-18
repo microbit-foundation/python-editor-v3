@@ -237,6 +237,15 @@ describe("edits", () => {
       type: "example",
     });
   });
+  it("while True inside while True is a special case even when inserting after document end", () => {
+    check({
+      line: 10,
+      initial: "while True:\n    a = 1\n",
+      additional: "while True:\n    b = 2\n",
+      expected: `while True:\n    a = 1\n${"\n".repeat(7)}    b = 2\n`,
+      type: "example",
+    });
+  });
   it("inside while False is not a special case", () => {
     check({
       line: 2,
@@ -418,13 +427,58 @@ describe("edits", () => {
       type: "example",
     });
   });
-  it("uses column to decide position", () => {
+  it("uses indent hint", () => {
     check({
-      line: 2,
-      initial: "while True:\n\t",
-      additional: "print('Bye')",
-      expected: "while True:\n    print('Bye')\n  \n    print('Hi')\n",
+      line: 3,
+      initial: "if True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "if True:\n\tprint('a')\nprint('b')\n",
       type: "example",
+      // This pulls it back a level
+      indentLevelHint: 0,
+    });
+
+    check({
+      line: 3,
+      initial: "if True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "if True:\n\tprint('a')\n\tprint('b')\n",
+      type: "example",
+      indentLevelHint: 1,
+    });
+  });
+  it("ignores indent hint when greater than calculated indent", () => {
+    check({
+      line: 3,
+      initial: "if True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "if True:\n\tprint('a')\n\tprint('b')\n",
+      type: "example",
+      // This is ignored
+      indentLevelHint: 2,
+    });
+  });
+  it("ignores indent hint when appending to while true", () => {
+    check({
+      line: 3,
+      initial: "while True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "while True:\n\tprint('a')\n\tprint('b')\n",
+      type: "example",
+      // This is ignored to make it easy to build typical while True micro:bit programs.
+      indentLevelHint: 0,
+    });
+  });
+  it("uses indent hint when nested in while True", () => {
+    check({
+      line: 4,
+      initial: "while True:\n\tif True:\n\t\tprint('a')\n\tpass\n",
+      additional: "print('b')",
+      expected:
+        "while True:\n\tif True:\n\t\tprint('a')\n\tprint('b')\n\tpass\n",
+      type: "example",
+      // By default it would indent under the if.
+      indentLevelHint: 1,
     });
   });
 });
