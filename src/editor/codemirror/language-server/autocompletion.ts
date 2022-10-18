@@ -8,8 +8,8 @@ import {
   Completion,
   CompletionContext,
   CompletionResult,
+  insertBracket,
 } from "@codemirror/autocomplete";
-import { insertBracket } from "@codemirror/closebrackets";
 import { TransactionSpec } from "@codemirror/state";
 import sortBy from "lodash.sortby";
 import { IntlShape } from "react-intl";
@@ -92,7 +92,7 @@ export const autocompletion = (
           // Could vary these based on isIncomplete? Needs investigation.
           // Very desirable to set most of the time to remove flicker.
           filter: true,
-          span: identifierLike,
+          validFor: identifierLike,
           options: sortBy(
             results.items
               // For now we don't support these edits (they usually add imports).
@@ -137,6 +137,7 @@ export const autocompletion = (
         };
       },
     ],
+    closeOnBlur: false,
   });
 
 const createDocumentationResolver =

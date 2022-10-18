@@ -7,9 +7,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { EditorState } from "@codemirror/state";
+import { EditorState, Line } from "@codemirror/state";
 import { DecorationSet } from "@codemirror/view";
-import { Line } from "@codemirror/text";
 
 /**
  * Skip trailing content that we don't include in a block:

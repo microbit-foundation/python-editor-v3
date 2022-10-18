@@ -3,14 +3,25 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { completionKeymap } from "@codemirror/autocomplete";
-import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
-import { defaultKeymap, indentLess, indentMore } from "@codemirror/commands";
-import { commentKeymap } from "@codemirror/comment";
-import { defaultHighlightStyle } from "@codemirror/highlight";
-import { history, historyKeymap } from "@codemirror/history";
+import {
+  closeBrackets,
+  closeBracketsKeymap,
+  completionKeymap,
+} from "@codemirror/autocomplete";
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentLess,
+  indentMore,
+} from "@codemirror/commands";
 import { python } from "@codemirror/lang-python";
-import { indentOnInput, indentUnit } from "@codemirror/language";
+import {
+  defaultHighlightStyle,
+  indentOnInput,
+  indentUnit,
+  syntaxHighlighting,
+} from "@codemirror/language";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import {
   drawSelection,
@@ -47,9 +58,9 @@ export const editorConfig: Extension = [
   history(),
   drawSelection(),
   indentOnInput(),
-  Prec.fallback(defaultHighlightStyle),
+  Prec.lowest(syntaxHighlighting(defaultHighlightStyle)),
   closeBrackets(),
-  highlightStyle(),
+  syntaxHighlighting(highlightStyle()),
 
   keymap.of([
     // Added, but see https://codemirror.net/6/examples/tab/ for accessibility discussion.
@@ -57,7 +68,6 @@ export const editorConfig: Extension = [
     ...closeBracketsKeymap,
     ...defaultKeymap,
     ...historyKeymap,
-    ...commentKeymap,
     ...completionKeymap,
     ...lintKeymap,
   ]),

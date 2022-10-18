@@ -414,7 +414,7 @@ const indentLevelOfContainingWhileTrue = (
     return -1;
   }
   let done = false;
-  for (const cursor = tree.cursor(pos, 0); !done; done = !cursor.parent()) {
+  for (const cursor = tree.cursorAt(pos, 0); !done; done = !cursor.parent()) {
     if (cursor.type.name === "WhileStatement") {
       const maybeTrueNode = cursor.node.firstChild?.nextSibling;
       if (

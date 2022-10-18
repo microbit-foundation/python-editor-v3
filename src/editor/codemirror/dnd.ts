@@ -218,7 +218,8 @@ const findLogicalPosition = (
   view: EditorView,
   event: DragEvent
 ): { line: number; indent: number | undefined } => {
-  const visualLine = view.visualLineAtHeight(event.y || event.clientY);
+  const height = (event.y || event.clientY) - view.documentTop;
+  const visualLine = view.lineBlockAtHeight(height);
   const line = view.state.doc.lineAt(visualLine.from);
   const pos = view.posAtCoords({
     x: event.x || event.clientX,

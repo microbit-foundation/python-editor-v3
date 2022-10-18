@@ -8,7 +8,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { StateEffect, StateField } from "@codemirror/state";
-import { showTooltip, Tooltip } from "@codemirror/tooltip";
 import {
   Command,
   EditorView,
@@ -16,6 +15,8 @@ import {
   keymap,
   logException,
   PluginValue,
+  showTooltip,
+  Tooltip,
   ViewPlugin,
   ViewUpdate,
 } from "@codemirror/view";
