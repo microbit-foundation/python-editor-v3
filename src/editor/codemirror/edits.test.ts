@@ -14,12 +14,14 @@ describe("edits", () => {
     additional,
     expected,
     line,
+    column,
     type,
   }: {
     initial: string;
     additional: string;
     expected: string;
     line?: number;
+    column?: number;
     type?: CodeInsertType;
   }) => {
     // Tabs are more maintainable in the examples but we actually work with 4 space indents.
@@ -32,7 +34,7 @@ describe("edits", () => {
       extensions: [python()],
     });
     const transaction = state.update(
-      calculateChanges(state, additional, type ?? "example", line)
+      calculateChanges(state, additional, type ?? "example", line, column)
     );
     const actual = transaction.newDoc.sliceString(0);
     const expectedSelection = expected.indexOf("█");
@@ -392,12 +394,21 @@ describe("edits", () => {
       type: "example",
     });
   });
-  it("is not misled by whitespace on blank lines", () => {
+  it("is not misled by whitespace on blank lines - 1", () => {
     check({
       line: 3,
       initial: "while True:\n    print('Hi')\n   \n",
       additional: "print('Bye')",
       expected: "while True:\n    print('Hi')\n    print('Bye')\n   \n",
+      type: "example",
+    });
+  });
+  it("is not misled by whitespace on blank lines - 2", () => {
+    check({
+      line: 2,
+      initial: "while True:\n  \n    print('Hi')\n",
+      additional: "print('Bye')",
+      expected: "while True:\n    print('Bye')\n  \n    print('Hi')\n",
       type: "example",
     });
   });

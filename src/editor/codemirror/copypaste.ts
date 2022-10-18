@@ -51,9 +51,9 @@ const copyPasteHandlers = () => [
         message: pasteContext.id,
       });
 
-      const lineNumber = view.state.doc.lineAt(
-        view.state.selection.ranges[0].from
-      ).number;
+      const line = view.state.doc.lineAt(view.state.selection.ranges[0].from);
+      const lineNumber = line.number;
+      const column = view.state.selection.ranges[0].from - line.from;
 
       view.dispatch(
         calculateChanges(
@@ -61,6 +61,7 @@ const copyPasteHandlers = () => [
           pasteContext.codeWithImports,
           pasteContext.type,
           lineNumber,
+          Math.floor(column / 4),
           true
         )
       );

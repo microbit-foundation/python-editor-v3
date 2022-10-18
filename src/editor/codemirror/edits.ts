@@ -63,6 +63,7 @@ export const calculateChanges = (
   source: string,
   type: CodeInsertType,
   line?: number,
+  indentLevel?: number,
   paste?: boolean
 ) => {
   const parser = python().language.parser;
@@ -125,7 +126,7 @@ export const calculateChanges = (
     ) {
       mainCode = removeCommonIndent(mainCode.slice(whileTrueLine.length));
     }
-    mainIndent = findIndentLevel(state, mainFrom);
+    mainIndent = "    ".repeat(findIndentLevel(state, mainFrom, indentLevel));
     mainChange = {
       from: mainFrom,
       insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
@@ -152,24 +153,53 @@ export const calculateChanges = (
   });
 };
 
-const findIndentLevel = (state: EditorState, mainFrom: number): string => {
-  for (const line of preceedingLines(state, mainFrom)) {
+const findIndentLevel = (
+  state: EditorState,
+  mainFrom: number,
+  levelHint: number | undefined
+): number => {
+  let nextNonBlankLineIndentLevel: number = 0;
+  for (const line of succeedingLinesInclusive(state, mainFrom)) {
     const text = line.text;
     if (text.trim()) {
-      let indent = text.match(/^(\s*)/)?.[0] ?? "";
+      nextNonBlankLineIndentLevel = indentLevel(text);
+      break;
+    }
+  }
+  for (const line of preceedingLinesExclusive(state, mainFrom)) {
+    const text = line.text;
+    if (text.trim()) {
+      let indent = indentLevel(text);
       // Beginning of block:
       if (text.trim().endsWith(":")) {
-        indent += "    ";
+        indent += 1;
+      } else if (
+        levelHint !== undefined &&
+        levelHint < indent &&
+        nextNonBlankLineIndentLevel < indent
+      ) {
+        return levelHint;
       }
       return indent;
     }
   }
-  return "";
+  return 0;
 };
 
-const preceedingLines = function* (state: EditorState, from: number) {
+const indentLevel = (text: string): number => {
+  return Math.floor((text.match(/^(\s*)/)?.[0] ?? "").length / 4);
+};
+
+const preceedingLinesExclusive = function* (state: EditorState, from: number) {
   const initial = state.doc.lineAt(from).number - 1;
   for (let line = initial; line >= 1; --line) {
+    yield state.doc.line(line);
+  }
+};
+
+const succeedingLinesInclusive = function* (state: EditorState, from: number) {
+  const initial = state.doc.lineAt(from).number;
+  for (let line = initial; line <= state.doc.lines; ++line) {
     yield state.doc.line(line);
   }
 };
