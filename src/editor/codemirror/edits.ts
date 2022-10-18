@@ -112,28 +112,12 @@ export const calculateChanges = (
         } else {
           mainFrom = state.doc.line(line).from;
         }
-        // Determine if code is being appended to previous block and indent accordingly.
-        const previousLineNum = line - 1;
-        if (previousLineNum >= 1 && previousLineNum <= state.doc.lines) {
-          const previousLine = state.doc.line(previousLineNum);
-          const currentLineIsBlank = lineIsBlank(state, line);
-          const previousLineIsBlank = lineIsBlank(state, previousLineNum);
-          mainIndent =
-            !previousLineIsBlank && currentLineIsBlank
-              ? previousLine.text.match(/^(\s*)/)?.[0] ?? ""
-              : "";
-          // Special case where body code does not yet exist but should be indented.
-          if (previousLine.text.trim().endsWith(":") && currentLineIsBlank) {
-            mainIndent += "    ";
-          }
-        }
       }
     } else {
       // When no line is specified, insert before the code (not just after the imports).
       mainFrom = skipWhitespaceLines(state.doc, importInsertPoint.from);
     }
 
-    const insertLine = state.doc.lineAt(mainFrom);
     const whileTrueLine = "while True:\n";
     if (
       mainCode.startsWith(whileTrueLine) &&
@@ -141,7 +125,7 @@ export const calculateChanges = (
     ) {
       mainCode = removeCommonIndent(mainCode.slice(whileTrueLine.length));
     }
-    mainIndent += insertLine.text.match(/^(\s*)/)?.[0] ?? "";
+    mainIndent = findIndentLevel(state, mainFrom);
     mainChange = {
       from: mainFrom,
       insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
@@ -166,6 +150,19 @@ export const calculateChanges = (
     scrollIntoView: true,
     selection,
   });
+};
+
+const findIndentLevel = (state: EditorState, mainFrom: number): string => {
+  let matchLine = state.doc.lineAt(mainFrom);
+  while (!matchLine.text.trim()) {
+    const next = matchLine.number - 1;
+    if (next > 0) {
+      matchLine = state.doc.line(matchLine.number - 1);
+    } else {
+      return "";
+    }
+  }
+  return matchLine.text.match(/^(\s*)/)?.[0] ?? "";
 };
 
 /**
