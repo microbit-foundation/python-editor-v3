@@ -22,6 +22,11 @@ describe("edits", () => {
     line?: number;
     type?: CodeInsertType;
   }) => {
+    // Tabs are more maintainable in the examples but we actually work with 4 space indents.
+    initial = initial.replaceAll("\t", "    ");
+    additional = additional.replaceAll("\t", "    ");
+    expected = expected.replaceAll("\t", "    ");
+
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],

@@ -153,26 +153,25 @@ export const calculateChanges = (
 };
 
 const findIndentLevel = (state: EditorState, mainFrom: number): string => {
-  let matchLine = state.doc.lineAt(mainFrom);
-  while (!matchLine.text.trim()) {
-    const next = matchLine.number - 1;
-    if (next > 0) {
-      matchLine = state.doc.line(matchLine.number - 1);
-    } else {
-      return "";
+  for (const line of preceedingLines(state, mainFrom)) {
+    const text = line.text;
+    if (text.trim()) {
+      let indent = text.match(/^(\s*)/)?.[0] ?? "";
+      // Beginning of block:
+      if (text.trim().endsWith(":")) {
+        indent += "    ";
+      }
+      return indent;
     }
   }
-  return matchLine.text.match(/^(\s*)/)?.[0] ?? "";
+  return "";
 };
 
-/**
- * Determines if the line contains any code.
- */
-const lineIsBlank = (state: EditorState, line: number): boolean => {
-  if (line <= state.doc.lines) {
-    return state.doc.line(line).text.trim() === "";
+const preceedingLines = function* (state: EditorState, from: number) {
+  const initial = state.doc.lineAt(from).number - 1;
+  for (let line = initial; line >= 1; --line) {
+    yield state.doc.line(line);
   }
-  return false;
 };
 
 const calculateNewSelection = (
