@@ -258,17 +258,25 @@ const calculateNewSelection = (
  * Find the beginning of the first content line after `pos`,
  * or failing that return `pos` unchanged.
  */
-const skipWhitespaceLines = (doc: Text, pos: number): number => {
+const skipWhitespaceLines = (
+  doc: Text,
+  pos: number,
+  dir: 1 | -1 = 1
+): number => {
   let original = doc.lineAt(pos);
   let line = original;
-  while (line.text.match(/^\s*$/)) {
+  while (!line.text.trim()) {
     try {
-      line = doc.line(line.number + 1);
+      line = doc.line(line.number + dir);
     } catch {
       break;
     }
   }
-  return line.number === original.number ? pos : line.from;
+  return line.number === original.number
+    ? pos
+    : dir === 1
+    ? line.from
+    : line.to;
 };
 
 const calculateImportChangesInternal = (
@@ -389,6 +397,7 @@ const currentImports = (state: EditorState): ImportNode[] => {
 };
 
 const isInWhileTrueTree = (state: EditorState, pos: number): boolean => {
+  pos = skipWhitespaceLines(state.doc, pos, -1);
   const tree = ensureSyntaxTree(state, state.doc.length);
   if (!tree) {
     return false;
