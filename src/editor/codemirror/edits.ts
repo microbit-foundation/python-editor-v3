@@ -55,6 +55,7 @@ class AliasesNotSupportedError extends Error {}
  * @param addition The new Python code.
  * @param type The type of change.
  * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
+ * @param indentLevelHint 0 based indent level hint (e.g. 2 for column 8 = 2 * 4 spaces). This is used to allow the indent to be less than the previous non-blank line where this is likely to result in correctly indented code.
  * @returns A CM transaction with the necessary changes.
  * @throws AliasesNotSupportedError If the additional code contains alias imports.
  */
@@ -63,6 +64,7 @@ export const calculateChanges = (
   source: string,
   type: CodeInsertType,
   line?: number,
+  indentLevelHint?: number,
   paste?: boolean
 ) => {
   const parser = python().language.parser;
@@ -118,7 +120,6 @@ export const calculateChanges = (
       mainFrom = skipWhitespaceLines(state.doc, importInsertPoint.from);
     }
 
-    const insertLine = state.doc.lineAt(mainFrom);
     const whileTrueLine = "while True:\n";
     if (
       mainCode.startsWith(whileTrueLine) &&
@@ -126,7 +127,9 @@ export const calculateChanges = (
     ) {
       mainCode = removeCommonIndent(mainCode.slice(whileTrueLine.length));
     }
-    mainIndent = insertLine.text.match(/^(\s*)/)?.[0] ?? "";
+    mainIndent = "    ".repeat(
+      findIndentLevel(state, mainFrom, indentLevelHint)
+    );
     mainChange = {
       from: mainFrom,
       insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
@@ -151,6 +154,64 @@ export const calculateChanges = (
     scrollIntoView: true,
     selection,
   });
+};
+
+const findIndentLevel = (
+  state: EditorState,
+  mainFrom: number,
+  levelHint: number | undefined
+): number => {
+  // This affects whether we can lower the indent level based on the hint.
+  let nextNonBlankLineIndentLevel: number = 0;
+  for (const line of succeedingLinesInclusive(state, mainFrom)) {
+    const text = line.text;
+    if (text.trim()) {
+      nextNonBlankLineIndentLevel = indentLevel(text);
+      break;
+    }
+  }
+  // Now base our indent level on the preceeding non-blank line, using the hint
+  // if it will reduce indentation and we're not mid block.
+  for (const line of preceedingLinesExclusive(state, mainFrom)) {
+    const text = line.text;
+    if (text.trim()) {
+      let indent = indentLevel(text);
+      // Beginning of block:
+      if (text.trim().endsWith(":")) {
+        indent += 1;
+      } else if (
+        levelHint !== undefined &&
+        levelHint < indent &&
+        nextNonBlankLineIndentLevel < indent &&
+        indentLevelOfContainingWhileTrue(state, mainFrom) + 1 !== indent
+      ) {
+        if (levelHint < nextNonBlankLineIndentLevel) {
+          return nextNonBlankLineIndentLevel;
+        }
+        return levelHint;
+      }
+      return indent;
+    }
+  }
+  return 0;
+};
+
+const indentLevel = (text: string): number => {
+  return Math.floor((text.match(/^(\s*)/)?.[0] ?? "").length / 4);
+};
+
+const preceedingLinesExclusive = function* (state: EditorState, from: number) {
+  const initial = state.doc.lineAt(from).number - 1;
+  for (let line = initial; line >= 1; --line) {
+    yield state.doc.line(line);
+  }
+};
+
+const succeedingLinesInclusive = function* (state: EditorState, from: number) {
+  const initial = state.doc.lineAt(from).number;
+  for (let line = initial; line <= state.doc.lines; ++line) {
+    yield state.doc.line(line);
+  }
 };
 
 const calculateNewSelection = (
@@ -201,17 +262,25 @@ const calculateNewSelection = (
  * Find the beginning of the first content line after `pos`,
  * or failing that return `pos` unchanged.
  */
-const skipWhitespaceLines = (doc: Text, pos: number): number => {
+const skipWhitespaceLines = (
+  doc: Text,
+  pos: number,
+  dir: 1 | -1 = 1
+): number => {
   let original = doc.lineAt(pos);
   let line = original;
-  while (line.text.match(/^\s*$/)) {
+  while (!line.text.trim()) {
     try {
-      line = doc.line(line.number + 1);
+      line = doc.line(line.number + dir);
     } catch {
       break;
     }
   }
-  return line.number === original.number ? pos : line.from;
+  return line.number === original.number
+    ? pos
+    : dir === 1
+    ? line.from
+    : line.to;
 };
 
 const calculateImportChangesInternal = (
@@ -332,9 +401,17 @@ const currentImports = (state: EditorState): ImportNode[] => {
 };
 
 const isInWhileTrueTree = (state: EditorState, pos: number): boolean => {
+  return indentLevelOfContainingWhileTrue(state, pos) !== -1;
+};
+
+const indentLevelOfContainingWhileTrue = (
+  state: EditorState,
+  pos: number
+): number => {
+  pos = skipWhitespaceLines(state.doc, pos, -1);
   const tree = ensureSyntaxTree(state, state.doc.length);
   if (!tree) {
-    return false;
+    return -1;
   }
   let done = false;
   for (const cursor = tree.cursor(pos, 0); !done; done = !cursor.parent()) {
@@ -344,11 +421,11 @@ const isInWhileTrueTree = (state: EditorState, pos: number): boolean => {
         maybeTrueNode?.type.name === "Boolean" &&
         state.sliceDoc(maybeTrueNode.from, maybeTrueNode.to) === "True"
       ) {
-        return true;
+        return indentLevel(state.doc.lineAt(cursor.from).text);
       }
     }
   }
-  return false;
+  return -1;
 };
 
 const topLevelImports = (

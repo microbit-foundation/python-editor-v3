@@ -14,20 +14,33 @@ describe("edits", () => {
     additional,
     expected,
     line,
+    indentLevelHint,
     type,
   }: {
     initial: string;
     additional: string;
     expected: string;
     line?: number;
+    indentLevelHint?: number;
     type?: CodeInsertType;
   }) => {
+    // Tabs are more maintainable in the examples but we actually work with 4 space indents.
+    initial = initial.replaceAll("\t", "    ");
+    additional = additional.replaceAll("\t", "    ");
+    expected = expected.replaceAll("\t", "    ");
+
     const state = EditorState.create({
       doc: initial,
       extensions: [python()],
     });
     const transaction = state.update(
-      calculateChanges(state, additional, type ?? "example", line)
+      calculateChanges(
+        state,
+        additional,
+        type ?? "example",
+        line,
+        indentLevelHint
+      )
     );
     const actual = transaction.newDoc.sliceString(0);
     const expectedSelection = expected.indexOf("█");
@@ -224,6 +237,15 @@ describe("edits", () => {
       type: "example",
     });
   });
+  it("while True inside while True is a special case even when inserting after document end", () => {
+    check({
+      line: 10,
+      initial: "while True:\n    a = 1\n",
+      additional: "while True:\n    b = 2\n",
+      expected: `while True:\n    a = 1\n${"\n".repeat(7)}    b = 2\n`,
+      type: "example",
+    });
+  });
   it("inside while False is not a special case", () => {
     check({
       line: 2,
@@ -385,6 +407,90 @@ describe("edits", () => {
       expected:
         "from microbit import *\n\nwhile True:\n\tdisplay.scroll('score')█\n\tprint('')",
       type: "example",
+    });
+  });
+  it("is not misled by whitespace on blank lines - 1", () => {
+    check({
+      line: 3,
+      initial: "while True:\n    print('Hi')\n   \n",
+      additional: "print('Bye')",
+      expected: "while True:\n    print('Hi')\n    print('Bye')\n   \n",
+      type: "example",
+    });
+  });
+  it("is not misled by whitespace on blank lines - 2", () => {
+    check({
+      line: 2,
+      initial: "while True:\n  \n    print('Hi')\n",
+      additional: "print('Bye')",
+      expected: "while True:\n    print('Bye')\n  \n    print('Hi')\n",
+      type: "example",
+    });
+  });
+  it("uses indent hint", () => {
+    check({
+      line: 3,
+      initial: "if True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "if True:\n\tprint('a')\nprint('b')\n",
+      type: "example",
+      // This pulls it back a level
+      indentLevelHint: 0,
+    });
+
+    check({
+      line: 3,
+      initial: "if True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "if True:\n\tprint('a')\n\tprint('b')\n",
+      type: "example",
+      indentLevelHint: 1,
+    });
+  });
+  it("ignores indent hint when greater than calculated indent", () => {
+    check({
+      line: 3,
+      initial: "if True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "if True:\n\tprint('a')\n\tprint('b')\n",
+      type: "example",
+      // This is ignored
+      indentLevelHint: 2,
+    });
+  });
+  it("ignores indent hint when appending to while true", () => {
+    check({
+      line: 3,
+      initial: "while True:\n\tprint('a')\n",
+      additional: "print('b')",
+      expected: "while True:\n\tprint('a')\n\tprint('b')\n",
+      type: "example",
+      // This is ignored to make it easy to build typical while True micro:bit programs.
+      indentLevelHint: 0,
+    });
+  });
+  it("uses indent hint when nested in while True", () => {
+    check({
+      line: 4,
+      initial: "while True:\n\tif True:\n\t\tprint('a')\n\tpass\n",
+      additional: "print('b')",
+      expected:
+        "while True:\n\tif True:\n\t\tprint('a')\n\tprint('b')\n\tpass\n",
+      type: "example",
+      // By default it would indent under the if.
+      indentLevelHint: 1,
+    });
+  });
+  it("limits use of indent hint based on following line indent", () => {
+    check({
+      line: 4,
+      initial: "if True:\n\tif True:\n\t\tprint('a')\n\tprint('b')\n",
+      additional: "print('c')",
+      expected:
+        "if True:\n\tif True:\n\t\tprint('a')\n\tprint('c')\n\tprint('b')\n",
+      type: "example",
+      // By default it would indent under the if.
+      indentLevelHint: 0,
     });
   });
 });

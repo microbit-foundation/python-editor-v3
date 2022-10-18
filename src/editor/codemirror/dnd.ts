@@ -26,11 +26,16 @@ interface LastDragPos {
   /**
    * The last drag position.
    */
-  line: number;
+  logicalPosition: LogicalPosition;
   /**
    * The inverse set of changes to the changes made for preview.
    */
   previewUndo: ChangeSet;
+}
+
+interface LogicalPosition {
+  line: number;
+  indent: number | undefined;
 }
 
 export type CodeInsertType =
@@ -109,21 +114,23 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
         if (dragContext) {
           event.preventDefault();
 
-          const visualLine = view.visualLineAtHeight(event.y || event.clientY);
-          const line = view.state.doc.lineAt(visualLine.from);
-
-          if (line.number !== lastDragPos?.line) {
-            debug("  dragover", line);
+          const logicalPosition = findLogicalPosition(view, event);
+          if (
+            logicalPosition.line !== lastDragPos?.logicalPosition.line ||
+            logicalPosition.indent !== lastDragPos?.logicalPosition.indent
+          ) {
+            debug("  dragover", logicalPosition);
             revertPreview(view);
 
             const transaction = calculateChanges(
               view.state,
               dragContext.code,
               dragContext.type,
-              line.number
+              logicalPosition.line,
+              logicalPosition.indent
             );
             lastDragPos = {
-              line: line.number,
+              logicalPosition,
               previewUndo: transaction.changes.invert(view.state.doc),
             };
             // Take just the changes, skip the selection updates we perform on drop.
@@ -189,22 +196,40 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
         clearSuppressChildDragEnterLeave(view);
         event.preventDefault();
 
-        const visualLine = view.visualLineAtHeight(event.y || event.clientY);
-        const line = view.state.doc.lineAt(visualLine.from);
-
+        const logicalPosition = findLogicalPosition(view, event);
         revertPreview(view);
         view.dispatch(
           calculateChanges(
             view.state,
             dragContext.code,
             dragContext.type,
-            line.number
+            logicalPosition.line,
+            logicalPosition.indent,
+            false
           )
         );
         view.focus();
       },
     }),
   ];
+};
+
+const findLogicalPosition = (
+  view: EditorView,
+  event: DragEvent
+): { line: number; indent: number | undefined } => {
+  const visualLine = view.visualLineAtHeight(event.y || event.clientY);
+  const line = view.state.doc.lineAt(visualLine.from);
+  const pos = view.posAtCoords({
+    x: event.x || event.clientX,
+    y: event.y || event.clientY,
+  });
+  const column = pos ? pos - visualLine.from : undefined;
+  const indent = column ? Math.floor(column / 4) : undefined;
+  return {
+    line: line.number,
+    indent,
+  };
 };
 
 interface DragTracker {
