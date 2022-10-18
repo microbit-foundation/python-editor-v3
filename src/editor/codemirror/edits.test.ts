@@ -14,14 +14,14 @@ describe("edits", () => {
     additional,
     expected,
     line,
-    column,
+    indentLevelHint,
     type,
   }: {
     initial: string;
     additional: string;
     expected: string;
     line?: number;
-    column?: number;
+    indentLevelHint?: number;
     type?: CodeInsertType;
   }) => {
     // Tabs are more maintainable in the examples but we actually work with 4 space indents.
@@ -34,7 +34,13 @@ describe("edits", () => {
       extensions: [python()],
     });
     const transaction = state.update(
-      calculateChanges(state, additional, type ?? "example", line, column)
+      calculateChanges(
+        state,
+        additional,
+        type ?? "example",
+        line,
+        indentLevelHint
+      )
     );
     const actual = transaction.newDoc.sliceString(0);
     const expectedSelection = expected.indexOf("█");
@@ -407,6 +413,15 @@ describe("edits", () => {
     check({
       line: 2,
       initial: "while True:\n  \n    print('Hi')\n",
+      additional: "print('Bye')",
+      expected: "while True:\n    print('Bye')\n  \n    print('Hi')\n",
+      type: "example",
+    });
+  });
+  it("uses column to decide position", () => {
+    check({
+      line: 2,
+      initial: "while True:\n\t",
       additional: "print('Bye')",
       expected: "while True:\n    print('Bye')\n  \n    print('Hi')\n",
       type: "example",

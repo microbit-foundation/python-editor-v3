@@ -55,6 +55,7 @@ class AliasesNotSupportedError extends Error {}
  * @param addition The new Python code.
  * @param type The type of change.
  * @param line Optional 1-based target line. This can be a greater than the number of lines in the document.
+ * @param indentLevelHint 0 based indent level hint (e.g. 2 for column 8 = 2 * 4 spaces). This is used to allow the indent to be less than the previous non-blank line where this is likely to result in correctly indented code.
  * @returns A CM transaction with the necessary changes.
  * @throws AliasesNotSupportedError If the additional code contains alias imports.
  */
@@ -63,7 +64,7 @@ export const calculateChanges = (
   source: string,
   type: CodeInsertType,
   line?: number,
-  indentLevel?: number,
+  indentLevelHint?: number,
   paste?: boolean
 ) => {
   const parser = python().language.parser;
@@ -126,7 +127,9 @@ export const calculateChanges = (
     ) {
       mainCode = removeCommonIndent(mainCode.slice(whileTrueLine.length));
     }
-    mainIndent = "    ".repeat(findIndentLevel(state, mainFrom, indentLevel));
+    mainIndent = "    ".repeat(
+      findIndentLevel(state, mainFrom, indentLevelHint)
+    );
     mainChange = {
       from: mainFrom,
       insert: mainPreceedingWhitespace + indentBy(mainCode, mainIndent) + "\n",
@@ -158,6 +161,7 @@ const findIndentLevel = (
   mainFrom: number,
   levelHint: number | undefined
 ): number => {
+  // This affects whether we can lower the indent level based on the hint.
   let nextNonBlankLineIndentLevel: number = 0;
   for (const line of succeedingLinesInclusive(state, mainFrom)) {
     const text = line.text;
@@ -166,6 +170,8 @@ const findIndentLevel = (
       break;
     }
   }
+  // Now base our indent level on the preceeding non-blank line, using the hint
+  // if it will reduce indentation and we're not mid block.
   for (const line of preceedingLinesExclusive(state, mainFrom)) {
     const text = line.text;
     if (text.trim()) {
