@@ -185,6 +185,9 @@ const findIndentLevel = (
         nextNonBlankLineIndentLevel < indent &&
         indentLevelOfContainingWhileTrue(state, mainFrom) + 1 !== indent
       ) {
+        if (levelHint < nextNonBlankLineIndentLevel) {
+          return nextNonBlankLineIndentLevel;
+        }
         return levelHint;
       }
       return indent;

@@ -481,4 +481,16 @@ describe("edits", () => {
       indentLevelHint: 1,
     });
   });
+  it("limits use of indent hint based on following line indent", () => {
+    check({
+      line: 4,
+      initial: "if True:\n\tif True:\n\t\tprint('a')\n\tprint('b')\n",
+      additional: "print('c')",
+      expected:
+        "if True:\n\tif True:\n\t\tprint('a')\n\tprint('c')\n\tprint('b')\n",
+      type: "example",
+      // By default it would indent under the if.
+      indentLevelHint: 0,
+    });
+  });
 });
