@@ -182,7 +182,8 @@ const findIndentLevel = (
       } else if (
         levelHint !== undefined &&
         levelHint < indent &&
-        nextNonBlankLineIndentLevel < indent
+        nextNonBlankLineIndentLevel < indent &&
+        indentLevelOfContainingWhileTrue(state, mainFrom) + 1 !== indent
       ) {
         return levelHint;
       }
@@ -397,10 +398,17 @@ const currentImports = (state: EditorState): ImportNode[] => {
 };
 
 const isInWhileTrueTree = (state: EditorState, pos: number): boolean => {
+  return indentLevelOfContainingWhileTrue(state, pos) !== -1;
+};
+
+const indentLevelOfContainingWhileTrue = (
+  state: EditorState,
+  pos: number
+): number => {
   pos = skipWhitespaceLines(state.doc, pos, -1);
   const tree = ensureSyntaxTree(state, state.doc.length);
   if (!tree) {
-    return false;
+    return -1;
   }
   let done = false;
   for (const cursor = tree.cursor(pos, 0); !done; done = !cursor.parent()) {
@@ -410,11 +418,11 @@ const isInWhileTrueTree = (state: EditorState, pos: number): boolean => {
         maybeTrueNode?.type.name === "Boolean" &&
         state.sliceDoc(maybeTrueNode.from, maybeTrueNode.to) === "True"
       ) {
-        return true;
+        return indentLevel(state.doc.lineAt(cursor.from).text);
       }
     }
   }
-  return false;
+  return -1;
 };
 
 const topLevelImports = (
