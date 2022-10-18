@@ -1,7 +1,7 @@
 /**
 Modified copy of the lint extension from CodeMirror 6.0.0
-git revision 15319f1202f9fa6654e8d1328a0c506ed3d04e7f
-sha1 of source lint.ts facbdc305d2b5a318dbcb9bcd41f992073ecfff5 NEEDS UPDATING!!
+git revision 6f209208918744c37d62902c34e3f04f85f54965
+sha1 of source lint.ts 165f647c49d87591ab8a7dd67212e0ddd570fb9e
 
 To aid comparison to the original, this file is not auto-formatted
 and we've disabled our eslint rules.
@@ -300,7 +300,7 @@ export const nextDiagnostic: Command = (view: EditorView) => {
 /// - Ctrl-Shift-m (Cmd-Shift-m on macOS): [`openLintPanel`](#lint.openLintPanel)
 /// - F8: [`nextDiagnostic`](#lint.nextDiagnostic)
 export const lintKeymap: readonly KeyBinding[] = [
-  {key: "Mod-Shift-m", run: openLintPanel},
+  {key: "Mod-Shift-m", run: openLintPanel, preventDefault: true},
   {key: "F8", run: nextDiagnostic}
 ]
 
