@@ -387,4 +387,13 @@ describe("edits", () => {
       type: "example",
     });
   });
+  it("is not misled by whitespace on blank lines", () => {
+    check({
+      line: 3,
+      initial: "while True:\n    print('Hi')\n   \n",
+      additional: "print('Bye')",
+      expected: "while True:\n    print('Hi')\n    print('Bye')\n   \n",
+      type: "example",
+    });
+  });
 });
