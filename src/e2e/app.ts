@@ -901,6 +901,19 @@ export class App {
   }
 
   /**
+   * Navigate to the URL defined by options.
+   *
+   * Only needed to test initialization scenarios when options has been
+   * changed by the test.
+   */
+  async gotoOptionsUrl() {
+    let page = await this.page;
+    // Allow testing fragment changes by actually navigating away.
+    await page.goto("about:blank");
+    return page.goto(this.url);
+  }
+
+  /**
    * Wait for matching completion options to appear.
    */
   async findCompletionOptions(expected: string[]): Promise<void> {
