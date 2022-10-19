@@ -201,7 +201,12 @@ const indentLevel = (text: string): number => {
 };
 
 const preceedingLinesExclusive = function* (state: EditorState, from: number) {
-  const initial = state.doc.lineAt(from).number - 1;
+  const initialLine = state.doc.lineAt(from);
+  // Special case: if there was no line break on the previous line then
+  // we're inserting one. So we need to use the current line as the preceding
+  // line.
+  let initial =
+    initialLine.to === from ? initialLine.number : initialLine.number - 1;
   for (let line = initial; line >= 1; --line) {
     yield state.doc.line(line);
   }
