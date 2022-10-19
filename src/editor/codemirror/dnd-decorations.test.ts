@@ -131,6 +131,34 @@ describe("dndDecorations", () => {
 
     expect(plugin.decorations.size).toEqual(0);
   });
+
+  it("handles inserting at end of doc with no blank line", () => {
+    const view = createView(Text.of(["#1"]));
+    const plugin = new DndDecorationsViewPlugin(view, 0);
+
+    const viewUpdate = createViewUpdate(
+      view,
+      true,
+      view.state.update({
+        userEvent: "dnd.preview",
+        changes: [
+          {
+            insert: "\n#2\n",
+            from: 2,
+          },
+        ],
+      })
+    );
+    plugin.update(viewUpdate);
+    expect(viewUpdate.state.doc.sliceString(0)).toEqual("#1\n#2\n");
+
+    expect(decorationDetails(plugin)).toEqual([
+      {
+        class: "cm-preview",
+        from: 3,
+      },
+    ]);
+  });
 });
 
 interface DecorationDetails {
