@@ -35,7 +35,12 @@ export class DndDecorationsViewPlugin {
       const isDrop = transactions.some((t) => t.isUserEvent("dnd.drop"));
       if (isPreview || isDrop) {
         changes.iterChangedRanges((_fromA, _toA, fromB, toB) => {
-          const start = state.doc.lineAt(fromB);
+          let start = state.doc.lineAt(fromB);
+          // If there was no blank line at the end then the insertion will have
+          // started from the EOL but doesn't make sense to highlight that line.
+          if (start.to === fromB) {
+            start = state.doc.lineAt(fromB + 1);
+          }
           const end = state.doc.lineAt(toB);
           for (let l = start.number; l < end.number; ++l) {
             const line = state.doc.line(l);

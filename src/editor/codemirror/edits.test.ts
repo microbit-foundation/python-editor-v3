@@ -493,4 +493,13 @@ describe("edits", () => {
       indentLevelHint: 0,
     });
   });
+  it("uses correct preceding line for indent at end of document", () => {
+    check({
+      line: 2,
+      initial: "if True:",
+      additional: "pass",
+      expected: "if True:\n\tpass\n",
+      type: "example",
+    });
+  });
 });
