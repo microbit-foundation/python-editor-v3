@@ -5,7 +5,7 @@
  */
 import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
 import { Text, VStack } from "@chakra-ui/react";
-import { isMakeCodeForV1Hex } from "@microbit/microbit-universal-hex";
+import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
@@ -1028,6 +1028,16 @@ export class ProjectActions {
     );
   };
 }
+
+const isMakeCodeForV1Hex = (hexStr: string) => {
+  try {
+    return isMakeCodeForV1HexNoErrorHandling(hexStr);
+  } catch (e) {
+    // We just use this to give a better message in error scenarios so we don't
+    // care if we failed to parse it etc.
+    return false;
+  }
+};
 
 export const defaultedProject = (
   fs: FileSystem,

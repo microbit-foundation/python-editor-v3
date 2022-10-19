@@ -29,6 +29,19 @@ describe("Browser - open", () => {
     await app.findProjectName("Untitled project");
   });
 
+  it("Correctly handles a hex that's actually Python", async () => {
+    await app.loadFiles("testData/not-a-hex.hex", {
+      acceptDialog: LoadDialogType.NONE,
+    });
+
+    await app.findAlertText(
+      "Cannot load file",
+      // Would be great to have custom messages here but needs error codes
+      // pushing into microbit-fs.
+      "Malformed .hex file, could not parse any registers"
+    );
+  });
+
   it("Loads a v1.0.1 hex file", async () => {
     await app.loadFiles("testData/1.0.1.hex");
 
