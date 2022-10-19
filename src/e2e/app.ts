@@ -908,6 +908,8 @@ export class App {
    */
   async gotoOptionsUrl() {
     let page = await this.page;
+    // Allow testing fragment changes by actually navigating away.
+    await page.goto("about:blank");
     return page.goto(this.url);
   }
 
