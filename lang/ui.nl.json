@@ -639,7 +639,7 @@
     "description": "Save button text"
   },
   "save-file-action": {
-    "defaultMessage": "{name} opslaan",
+    "defaultMessage": "Opslaan {name}",
     "description": "Menu option to save a file"
   },
   "save-hex-action": {
@@ -667,7 +667,7 @@
     "description": "Send button hover text"
   },
   "serial-collapse": {
-    "defaultMessage": "Serienummer verbergen",
+    "defaultMessage": "Serieel verbergen",
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
@@ -679,7 +679,7 @@
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
-    "defaultMessage": "Serienummer weergeven",
+    "defaultMessage": "Serieel weergeven",
     "description": "Action label to expand the serial console/REPL area"
   },
   "serial-flashed": {
@@ -771,7 +771,7 @@
     "description": "Aria label for the expand sidebar button"
   },
   "simulator-accelerometer": {
-    "defaultMessage": "Versnellingsmeter",
+    "defaultMessage": "Acceleratiemeter",
     "description": "Simulator Accelerometer panel title"
   },
   "simulator-actions": {
@@ -803,7 +803,7 @@
     "description": "Aria label for the collapse simulator button"
   },
   "simulator-collapse-module": {
-    "defaultMessage": "{title} module inklappen",
+    "defaultMessage": "Module {title} inklappen",
     "description": "Aria label for collapse simulator module button"
   },
   "simulator-compass": {

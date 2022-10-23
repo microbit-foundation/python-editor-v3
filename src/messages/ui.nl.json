@@ -1484,12 +1484,12 @@
   ],
   "save-file-action": [
     {
-      "type": 1,
-      "value": "name"
+      "type": 0,
+      "value": "Opslaan "
     },
     {
-      "type": 0,
-      "value": " opslaan"
+      "type": 1,
+      "value": "name"
     }
   ],
   "save-hex-action": [
@@ -1531,7 +1531,7 @@
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Serienummer verbergen"
+      "value": "Serieel verbergen"
     }
   ],
   "serial-ctrl-c-action": [
@@ -1549,7 +1549,7 @@
   "serial-expand": [
     {
       "type": 0,
-      "value": "Serienummer weergeven"
+      "value": "Serieel weergeven"
     }
   ],
   "serial-flashed": [
@@ -1779,7 +1779,7 @@
   "simulator-accelerometer": [
     {
       "type": 0,
-      "value": "Versnellingsmeter"
+      "value": "Acceleratiemeter"
     }
   ],
   "simulator-actions": [
@@ -1838,12 +1838,16 @@
   ],
   "simulator-collapse-module": [
     {
+      "type": 0,
+      "value": "Module "
+    },
+    {
       "type": 1,
       "value": "title"
     },
     {
       "type": 0,
-      "value": " module inklappen"
+      "value": " inklappen"
     }
   ],
   "simulator-compass": [
