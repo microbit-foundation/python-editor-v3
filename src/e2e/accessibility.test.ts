@@ -12,18 +12,32 @@ describe("Browser - accessibility", () => {
   afterAll(app.dispose.bind(app));
 
   it("focuses the correct element on tabbing after load", async () => {
-    expect(await app.assertFocusOnLoad()).toBe(true);
-  });
-
-  it("focuses the correct elements on collapsing and expanding the sidebar", async () => {
-    expect(await app.assertFocusOnAreaToggle("Collapse", "simulator")).toBe(
-      true
-    );
-    expect(await app.assertFocusOnAreaToggle("Expand", "simulator")).toBe(true);
+    app.assertFocusOnLoad();
   });
 
   it("focuses the correct elements on collapsing and expanding the simulator", async () => {
-    expect(await app.assertFocusOnAreaToggle("Collapse", "sidebar")).toBe(true);
-    expect(await app.assertFocusOnAreaToggle("Expand", "sidebar")).toBe(true);
+    await app.collapseSimulator();
+    await app.assertFocusOnExpandSimulator();
+
+    await app.expandSimulator();
+    await app.assertFocusOnSimulator();
+  });
+
+  it("focuses the correct elements on collapsing and expanding the sidebar", async () => {
+    await app.collapseSidebar();
+    await app.assertFocusOnExpandSidebar();
+
+    await app.expandSidebar();
+    await app.assertFocusOnSidebar();
+  });
+
+  it("allows tab out of editor", async () => {
+    await app.typeInEditor("Hello");
+    await app.tabOutOfEditorForwards();
+    await app.assertFocusAfterEditor();
+
+    await app.typeInEditor("World");
+    await app.tabOutOfEditorBackwards();
+    await app.assertFocusBeforeEditor();
   });
 });

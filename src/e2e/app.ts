@@ -1113,6 +1113,19 @@ export class App {
     await result[0].click();
   }
 
+  async tabOutOfEditorForwards(): Promise<void> {
+    await this.keyboardPress("Escape");
+    await this.keyboardPress("Tab");
+  }
+
+  async tabOutOfEditorBackwards(): Promise<void> {
+    const keyboard = (await this.page).keyboard;
+    await this.keyboardPress("Escape");
+    await keyboard.down("Shift");
+    await this.keyboardPress("Tab");
+    await keyboard.up("Shift");
+  }
+
   private async document(): Promise<puppeteer.ElementHandle<Element>> {
     const page = await this.page;
     return page.getDocument();
@@ -1163,12 +1176,6 @@ export class App {
     await keyboard.press(key);
   }
 
-  private async getActiveElement(): Promise<puppeteer.ElementHandle<Element>> {
-    return (await this.page).evaluateHandle<ElementHandle>(
-      () => document.activeElement
-    );
-  }
-
   private async getElementByRoleAndLabel(
     role: string,
     name: string
@@ -1187,38 +1194,92 @@ export class App {
     );
   }
 
-  private async compareElementHandles(
-    e1: puppeteer.ElementHandle<Element>,
-    e2: puppeteer.ElementHandle<Element>
-  ): Promise<boolean> {
-    return (await this.page).evaluate((e1, e2) => e1 === e2, e1, e2);
-  }
-
-  async assertFocusOnLoad(): Promise<boolean> {
-    await this.keyboardPress("Tab");
-    const activeElement = await this.getActiveElement();
-    const firstFocusableElement = await this.getElementByRoleAndLabel(
-      "link",
-      "visit microbit.org (opens in a new tab)"
+  async assertActiveElement(
+    accessExpectedElement: () => Promise<puppeteer.ElementHandle<Element>>
+  ) {
+    return waitFor(
+      async () => {
+        const page = await this.page;
+        const expectedElement = await accessExpectedElement();
+        expect(
+          await page.evaluate(
+            (e) => e === document.activeElement,
+            expectedElement
+          )
+        ).toEqual(true);
+      },
+      { timeout: 10_000 }
     );
-    return this.compareElementHandles(activeElement, firstFocusableElement);
   }
 
-  async assertFocusOnAreaToggle(
-    action: "Collapse" | "Expand",
-    area: "simulator" | "sidebar"
-  ): Promise<boolean> {
-    await this.findAndClickButton(`${action} ${area}`);
-    const activeElement = await this.getActiveElement();
-    const proposedActiveElement =
-      action === "Collapse"
-        ? await this.getElementByRoleAndLabel("button", `Expand ${area}`)
-        : await this.getElementByQuerySelector(
-            area === "simulator"
-              ? "iframe[name='Simulator']"
-              : "[role='tabpanel']"
-          );
-    return this.compareElementHandles(activeElement, proposedActiveElement);
+  async assertFocusOnLoad(): Promise<void> {
+    await this.keyboardPress("Tab");
+    this.assertActiveElement(() =>
+      this.getElementByRoleAndLabel(
+        "link",
+        "visit microbit.org (opens in a new tab)"
+      )
+    );
+  }
+
+  collapseSimulator(): Promise<void> {
+    return this.findAndClickButton("Collapse simulator");
+  }
+
+  expandSimulator(): Promise<void> {
+    return this.findAndClickButton("Expand simulator");
+  }
+
+  collapseSidebar(): Promise<void> {
+    return this.findAndClickButton("Collapse sidebar");
+  }
+
+  expandSidebar(): Promise<void> {
+    return this.findAndClickButton("Expand sidebar");
+  }
+
+  async assertFocusOnExpandSimulator(): Promise<void> {
+    const document = await this.document();
+    return this.assertActiveElement(() =>
+      document.getByRole("button", { name: "Expand simulator" })
+    );
+  }
+
+  assertFocusOnSimulator(): Promise<void> {
+    return this.assertActiveElement(() =>
+      this.getElementByQuerySelector("iframe[name='Simulator']")
+    );
+  }
+
+  async assertFocusOnExpandSidebar(): Promise<void> {
+    const document = await this.document();
+    return this.assertActiveElement(() =>
+      document.findByRole("button", { name: "Expand sidebar" })
+    );
+  }
+
+  assertFocusOnSidebar(): Promise<void> {
+    return this.assertActiveElement(() =>
+      this.getElementByQuerySelector("[role='tabpanel']")
+    );
+  }
+
+  async assertFocusBeforeEditor(): Promise<void> {
+    const document = await this.document();
+    this.assertActiveElement(() =>
+      document.findByRole("button", {
+        name: "Zoom in",
+      })
+    );
+  }
+
+  async assertFocusAfterEditor(): Promise<void> {
+    const document = await this.document();
+    this.assertActiveElement(() =>
+      document.findByRole("button", {
+        name: "Send to micro:bit",
+      })
+    );
   }
 
   // Simulator functions
