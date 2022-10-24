@@ -1214,7 +1214,7 @@ export class App {
 
   async assertFocusOnLoad(): Promise<void> {
     await this.keyboardPress("Tab");
-    this.assertActiveElement(() =>
+    return this.assertActiveElement(() =>
       this.getElementByRoleAndLabel(
         "link",
         "visit microbit.org (opens in a new tab)"
@@ -1266,7 +1266,7 @@ export class App {
 
   async assertFocusBeforeEditor(): Promise<void> {
     const document = await this.document();
-    this.assertActiveElement(() =>
+    return this.assertActiveElement(() =>
       document.findByRole("button", {
         name: "Zoom in",
       })
@@ -1275,7 +1275,7 @@ export class App {
 
   async assertFocusAfterEditor(): Promise<void> {
     const document = await this.document();
-    this.assertActiveElement(() =>
+    return this.assertActiveElement(() =>
       document.findByRole("button", {
         name: "Send to micro:bit",
       })
