@@ -63,16 +63,6 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   },
 });
 
-const closeSignatureHelp: Command = (view: EditorView) => {
-  view.dispatch({
-    effects: setSignatureHelpEffect.of({
-      pos: -1,
-      result: null,
-    }),
-  });
-  return true;
-};
-
 const triggerSignatureHelpRequest = async (view: EditorView): Promise<void> => {
   const uri = view.state.facet(uriFacet)!;
   const client = view.state.facet(clientFacet)!;
@@ -102,12 +92,6 @@ const openSignatureHelp: Command = (view: EditorView) => {
   return true;
 };
 
-const signatureHelpKeymap: readonly KeyBinding[] = [
-  // This matches VS Code.
-  { key: "Mod-Shift-Space", run: openSignatureHelp },
-  { key: "Escape", run: closeSignatureHelp },
-];
-
 export const signatureHelp = (
   intl: IntlShape,
   automatic: boolean,
@@ -128,6 +112,25 @@ export const signatureHelp = (
     },
     provide: (f) => showTooltip.from(f, (val) => val.tooltip),
   });
+
+  const closeSignatureHelp: Command = (view: EditorView) => {
+    if (view.state.field(signatureHelpTooltipField).tooltip) {
+      view.dispatch({
+        effects: setSignatureHelpEffect.of({
+          pos: -1,
+          result: null,
+        }),
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const signatureHelpKeymap: readonly KeyBinding[] = [
+    // This matches VS Code.
+    { key: "Mod-Shift-Space", run: openSignatureHelp },
+    { key: "Escape", run: closeSignatureHelp },
+  ];
 
   class SignatureHelpView
     extends BaseLanguageServerView
