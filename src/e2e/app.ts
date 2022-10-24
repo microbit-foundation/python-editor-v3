@@ -1114,15 +1114,18 @@ export class App {
   }
 
   async tabOutOfEditorForwards(): Promise<void> {
-    await this.keyboardPress("Escape");
-    await this.keyboardPress("Tab");
+    const content = await this.focusEditorContent();
+    await content.press("Escape");
+    await content.press("Tab");
   }
 
   async tabOutOfEditorBackwards(): Promise<void> {
     const keyboard = (await this.page).keyboard;
-    await this.keyboardPress("Escape");
+
+    const content = await this.focusEditorContent();
+    await content.press("Escape");
     await keyboard.down("Shift");
-    await this.keyboardPress("Tab");
+    await content.press("Tab");
     await keyboard.up("Shift");
   }
 
@@ -1197,19 +1200,16 @@ export class App {
   async assertActiveElement(
     accessExpectedElement: () => Promise<puppeteer.ElementHandle<Element>>
   ) {
-    return waitFor(
-      async () => {
-        const page = await this.page;
-        const expectedElement = await accessExpectedElement();
-        expect(
-          await page.evaluate(
-            (e) => e === document.activeElement,
-            expectedElement
-          )
-        ).toEqual(true);
-      },
-      { timeout: 10_000 }
-    );
+    return waitFor(async () => {
+      const page = await this.page;
+      const expectedElement = await accessExpectedElement();
+
+      expect(
+        await page.evaluate((e) => {
+          return e === document.activeElement;
+        }, expectedElement)
+      ).toEqual(true);
+    }, defaultWaitForOptions);
   }
 
   async assertFocusOnLoad(): Promise<void> {
