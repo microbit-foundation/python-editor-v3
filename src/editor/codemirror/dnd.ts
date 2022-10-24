@@ -225,8 +225,8 @@ const findLogicalPosition = (
     x: event.x || event.clientX,
     y: event.y || event.clientY,
   });
-  const column = pos ? pos - visualLine.from : undefined;
-  const indent = column ? Math.floor(column / 4) : undefined;
+  const column = pos !== null ? pos - visualLine.from : undefined;
+  const indent = column !== undefined ? Math.floor(column / 4) : undefined;
   return {
     line: line.number,
     indent,
