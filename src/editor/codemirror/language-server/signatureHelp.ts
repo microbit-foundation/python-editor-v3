@@ -126,6 +126,10 @@ export const signatureHelp = (
           }
         }
       }
+      if (state.pos === pos && state.result === result) {
+        // Avoid pointless tooltip updates. If nothing else it makes e2e tests hard.
+        return state;
+      }
       return {
         pos,
         result,
