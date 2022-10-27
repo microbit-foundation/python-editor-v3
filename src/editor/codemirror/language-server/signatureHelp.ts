@@ -134,7 +134,6 @@ export const signatureHelp = (
     provide: (f) =>
       showTooltip.from(f, (val) => {
         const { result, pos } = val;
-        console.log(result, pos);
         if (result) {
           return {
             pos,
