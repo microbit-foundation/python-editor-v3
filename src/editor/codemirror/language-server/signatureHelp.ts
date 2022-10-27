@@ -114,7 +114,6 @@ export const signatureHelp = (
     }),
     update(state, tr) {
       let pos = state.pos === -1 ? -1 : tr.changes.mapPos(state.pos);
-      console.log(state.pos, pos);
       let result = state.result;
       for (const effect of tr.effects) {
         if (effect.is(setSignatureHelpRequestPosition)) {
