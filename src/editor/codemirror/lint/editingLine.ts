@@ -34,11 +34,11 @@ export const editingLinePlugin = ViewPlugin.fromClass(
         if (!foundEditOnLine && doc.lineAt(fromB).number === selectionLine) {
           foundEditOnLine = true;
           clearTimeout(this.timeout);
-          setTimeout(() => {
+          queueMicrotask(() => {
             update.view.dispatch({
               effects: [setEditingLineEffect.of(selectionLine)],
             });
-          }, 0);
+          });
           this.timeout = setTimeout(() => {
             update.view.dispatch({
               effects: [setEditingLineEffect.of(undefined)],
@@ -51,11 +51,11 @@ export const editingLinePlugin = ViewPlugin.fromClass(
         update.state.field(editingLineState) !== selectionLine
       ) {
         clearTimeout(this.timeout);
-        setTimeout(() => {
+        queueMicrotask(() => {
           update.view.dispatch({
             effects: [setEditingLineEffect.of(undefined)],
           });
-        }, 0);
+        });
       }
     }
 

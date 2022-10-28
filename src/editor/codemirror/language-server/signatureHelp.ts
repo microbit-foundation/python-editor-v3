@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { StateEffect, StateField } from "@codemirror/state";
+import { EditorState, StateEffect, StateField } from "@codemirror/state";
 import {
   Command,
   EditorView,
@@ -68,20 +68,25 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   },
 });
 
-const triggerSignatureHelpRequest = async (view: EditorView): Promise<void> => {
-  const uri = view.state.facet(uriFacet)!;
-  const client = view.state.facet(clientFacet)!;
-  const pos = view.state.selection.main.from;
+const triggerSignatureHelpRequest = async (
+  view: EditorView,
+  state: EditorState
+): Promise<void> => {
+  const uri = state.facet(uriFacet)!;
+  const client = state.facet(clientFacet)!;
+  const pos = state.selection.main.from;
   const params: SignatureHelpParams = {
     textDocument: { uri },
-    position: offsetToPosition(view.state.doc, pos),
+    position: offsetToPosition(state.doc, pos),
   };
   try {
-    setTimeout(() => {
+    // Must happen before other event handling that might dispatch more
+    // changes thatt invalidate our position.
+    queueMicrotask(() => {
       view.dispatch({
         effects: [setSignatureHelpRequestPosition.of(pos)],
       });
-    }, 0);
+    });
     const result = await client.connection.sendRequest(
       SignatureHelpRequest.type,
       params
@@ -90,7 +95,7 @@ const triggerSignatureHelpRequest = async (view: EditorView): Promise<void> => {
       effects: [setSignatureHelpResult.of(result)],
     });
   } catch (e) {
-    logException(view.state, e, "signature-help");
+    logException(state, e, "signature-help");
     view.dispatch({
       effects: [setSignatureHelpResult.of(null)],
     });
@@ -98,7 +103,7 @@ const triggerSignatureHelpRequest = async (view: EditorView): Promise<void> => {
 };
 
 const openSignatureHelp: Command = (view: EditorView) => {
-  triggerSignatureHelpRequest(view);
+  triggerSignatureHelpRequest(view, view.state);
   return true;
 };
 
@@ -113,11 +118,14 @@ export const signatureHelp = (
       result: null,
     }),
     update(state, tr) {
-      let pos = state.pos === -1 ? -1 : tr.changes.mapPos(state.pos);
+      let pos = state.pos;
       let result = state.result;
       for (const effect of tr.effects) {
         if (effect.is(setSignatureHelpRequestPosition)) {
           pos = effect.value;
+          if (pos === -1) {
+            result = null;
+          }
         } else if (effect.is(setSignatureHelpResult)) {
           result = effect.value;
           if (result === null) {
@@ -126,6 +134,8 @@ export const signatureHelp = (
           }
         }
       }
+
+      pos = pos === -1 ? -1 : tr.changes.mapPos(pos);
       if (state.pos === pos && state.result === result) {
         // Avoid pointless tooltip updates. If nothing else it makes e2e tests hard.
         return state;
@@ -179,14 +189,14 @@ export const signatureHelp = (
     constructor(view: EditorView, private automatic: boolean) {
       super(view);
     }
-    update({ docChanged, selectionSet, transactions }: ViewUpdate) {
+    update(update: ViewUpdate) {
       if (
-        (docChanged || selectionSet) &&
+        (update.docChanged || update.selectionSet) &&
         this.view.state.field(signatureHelpTooltipField).pos !== -1
       ) {
-        triggerSignatureHelpRequest(this.view);
-      } else if (this.automatic && docChanged) {
-        const last = transactions[transactions.length - 1];
+        triggerSignatureHelpRequest(this.view, update.state);
+      } else if (this.automatic && update.docChanged) {
+        const last = update.transactions[update.transactions.length - 1];
 
         // This needs to trigger for autocomplete adding function parens
         // as well as normal user input with `closebrackets` inserting
@@ -194,7 +204,7 @@ export const signatureHelp = (
         if (last.isUserEvent("input") || last.isUserEvent("dnd.drop.call")) {
           last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
             if (inserted.sliceString(0).trim().endsWith("()")) {
-              triggerSignatureHelpRequest(this.view);
+              triggerSignatureHelpRequest(this.view, update.state);
             }
           });
         }
