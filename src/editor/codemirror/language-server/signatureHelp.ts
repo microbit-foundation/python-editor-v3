@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { StateEffect, StateField } from "@codemirror/state";
+import { EditorState, StateEffect, StateField } from "@codemirror/state";
 import {
   Command,
   EditorView,
@@ -16,7 +16,6 @@ import {
   logException,
   PluginValue,
   showTooltip,
-  Tooltip,
   ViewPlugin,
   ViewUpdate,
 } from "@codemirror/view";
@@ -38,18 +37,32 @@ import {
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 
-interface SignatureChangeEffect {
-  pos: number;
-  result: SignatureHelp | null;
-}
+export const setSignatureHelpRequestPosition = StateEffect.define<number>({});
 
-export const setSignatureHelpEffect = StateEffect.define<SignatureChangeEffect>(
+export const setSignatureHelpResult = StateEffect.define<SignatureHelp | null>(
   {}
 );
 
-interface SignatureHelpState {
-  tooltip: Tooltip | null;
+class SignatureHelpState {
+  /**
+   * -1 for no signature help requested.
+   */
+  pos: number;
+  /**
+   * The latest result we want to display.
+   *
+   * This may be out of date while we wait for async response from LSP
+   * but we display it as it's generally useful.
+   */
   result: SignatureHelp | null;
+
+  constructor(pos: number, result: SignatureHelp | null) {
+    if (result && pos === -1) {
+      throw new Error("Invalid state");
+    }
+    this.pos = pos;
+    this.result = result;
+  }
 }
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
@@ -63,32 +76,42 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   },
 });
 
-const triggerSignatureHelpRequest = async (view: EditorView): Promise<void> => {
-  const uri = view.state.facet(uriFacet)!;
-  const client = view.state.facet(clientFacet)!;
-  const pos = view.state.selection.main.from;
+const triggerSignatureHelpRequest = async (
+  view: EditorView,
+  state: EditorState
+): Promise<void> => {
+  const uri = state.facet(uriFacet)!;
+  const client = state.facet(clientFacet)!;
+  const pos = state.selection.main.from;
   const params: SignatureHelpParams = {
     textDocument: { uri },
-    position: offsetToPosition(view.state.doc, pos),
+    position: offsetToPosition(state.doc, pos),
   };
   try {
+    // Must happen before other event handling that might dispatch more
+    // changes that invalidate our position.
+    queueMicrotask(() => {
+      view.dispatch({
+        effects: [setSignatureHelpRequestPosition.of(pos)],
+      });
+    });
     const result = await client.connection.sendRequest(
       SignatureHelpRequest.type,
       params
     );
     view.dispatch({
-      effects: [setSignatureHelpEffect.of({ pos, result })],
+      effects: [setSignatureHelpResult.of(result)],
     });
   } catch (e) {
-    logException(view.state, e, "signature-help");
+    logException(state, e, "signature-help");
     view.dispatch({
-      effects: [setSignatureHelpEffect.of({ pos, result: null })],
+      effects: [setSignatureHelpResult.of(null)],
     });
   }
 };
 
 const openSignatureHelp: Command = (view: EditorView) => {
-  triggerSignatureHelpRequest(view);
+  triggerSignatureHelpRequest(view, view.state);
   return true;
 };
 
@@ -98,28 +121,57 @@ export const signatureHelp = (
   apiReferenceMap: ApiReferenceMap
 ) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
-    create: () => ({
-      result: null,
-      tooltip: null,
-    }),
+    create: () => new SignatureHelpState(-1, null),
     update(state, tr) {
+      let { pos, result } = state;
       for (const effect of tr.effects) {
-        if (effect.is(setSignatureHelpEffect)) {
-          return reduceSignatureHelpState(state, effect.value, apiReferenceMap);
+        if (effect.is(setSignatureHelpRequestPosition)) {
+          pos = effect.value;
+        } else if (effect.is(setSignatureHelpResult)) {
+          result = effect.value;
+          if (result === null) {
+            // No need to ask for more updates until triggered again.
+            pos = -1;
+          }
         }
       }
-      return state;
+      // Even if we just got a result, if the position has been cleared we don't want it.
+      if (pos === -1) {
+        result = null;
+      }
+
+      pos = pos === -1 ? -1 : tr.changes.mapPos(pos);
+      if (state.pos === pos && state.result === result) {
+        // Avoid pointless tooltip updates. If nothing else it makes e2e tests hard.
+        return state;
+      }
+      return new SignatureHelpState(pos, result);
     },
-    provide: (f) => showTooltip.from(f, (val) => val.tooltip),
+    provide: (f) =>
+      showTooltip.from(f, (val) => {
+        const { result, pos } = val;
+        if (result) {
+          return {
+            pos,
+            above: true,
+            // This isn't great but the impact is really bad when it conflicts with autocomplete.
+            // strictSide: true,
+            create: () => {
+              const dom = document.createElement("div");
+              dom.className = "cm-signature-tooltip";
+              dom.appendChild(formatSignatureHelp(result, apiReferenceMap));
+              return { dom };
+            },
+          };
+        }
+        return null;
+      }),
   });
 
   const closeSignatureHelp: Command = (view: EditorView) => {
-    if (view.state.field(signatureHelpTooltipField).tooltip) {
+    if (view.state.field(signatureHelpTooltipField).pos !== -1) {
       view.dispatch({
-        effects: setSignatureHelpEffect.of({
-          pos: -1,
-          result: null,
-        }),
+        effects: setSignatureHelpRequestPosition.of(-1),
       });
       return true;
     }
@@ -139,14 +191,14 @@ export const signatureHelp = (
     constructor(view: EditorView, private automatic: boolean) {
       super(view);
     }
-    update({ docChanged, selectionSet, transactions }: ViewUpdate) {
+    update(update: ViewUpdate) {
       if (
-        (docChanged || selectionSet) &&
-        this.view.state.field(signatureHelpTooltipField).tooltip
+        (update.docChanged || update.selectionSet) &&
+        this.view.state.field(signatureHelpTooltipField).pos !== -1
       ) {
-        triggerSignatureHelpRequest(this.view);
-      } else if (this.automatic && docChanged) {
-        const last = transactions[transactions.length - 1];
+        triggerSignatureHelpRequest(this.view, update.state);
+      } else if (this.automatic && update.docChanged) {
+        const last = update.transactions[update.transactions.length - 1];
 
         // This needs to trigger for autocomplete adding function parens
         // as well as normal user input with `closebrackets` inserting
@@ -154,48 +206,13 @@ export const signatureHelp = (
         if (last.isUserEvent("input") || last.isUserEvent("dnd.drop.call")) {
           last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
             if (inserted.sliceString(0).trim().endsWith("()")) {
-              triggerSignatureHelpRequest(this.view);
+              triggerSignatureHelpRequest(this.view, update.state);
             }
           });
         }
       }
     }
   }
-
-  const reduceSignatureHelpState = (
-    state: SignatureHelpState,
-    effect: SignatureChangeEffect,
-    apiReferenceMap: ApiReferenceMap
-  ): SignatureHelpState => {
-    if (state.tooltip && !effect.result) {
-      return {
-        result: null,
-        tooltip: null,
-      };
-    }
-    // It's a bit weird that we always update the position, but VS Code does this too.
-    // I think ideally we'd have a notion of "same function call". Does the
-    // node have a stable identity?
-    if (effect.result) {
-      const result = effect.result;
-      return {
-        result,
-        tooltip: {
-          pos: effect.pos,
-          above: true,
-          // This isn't great but the impact is really bad when it conflicts with autocomplete.
-          // strictSide: true,
-          create: () => {
-            const dom = document.createElement("div");
-            dom.className = "cm-signature-tooltip";
-            dom.appendChild(formatSignatureHelp(result, apiReferenceMap));
-            return { dom };
-          },
-        },
-      };
-    }
-    return state;
-  };
 
   const formatSignatureHelp = (
     help: SignatureHelp,
