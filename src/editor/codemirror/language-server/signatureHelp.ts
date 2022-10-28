@@ -307,5 +307,20 @@ export const signatureHelp = (
     signatureHelpTooltipField,
     signatureHelpToolTipBaseTheme,
     keymap.of(signatureHelpKeymap),
+    EditorView.domEventHandlers({
+      blur(event, view) {
+        // Close signature help as it interacts badly with drag and drop if
+        // you drag over the tooltip. Deal with the special case of focus
+        // moving to the tooltip itself.
+        if (
+          !(event.relatedTarget instanceof Element) ||
+          !event.relatedTarget.closest(".cm-signature-tooltip")
+        ) {
+          view.dispatch({
+            effects: setSignatureHelpRequestPosition.of(-1),
+          });
+        }
+      },
+    }),
   ];
 };
