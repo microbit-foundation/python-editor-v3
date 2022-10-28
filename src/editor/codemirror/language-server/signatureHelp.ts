@@ -122,9 +122,6 @@ export const signatureHelp = (
       for (const effect of tr.effects) {
         if (effect.is(setSignatureHelpRequestPosition)) {
           pos = effect.value;
-          if (pos === -1) {
-            result = null;
-          }
         } else if (effect.is(setSignatureHelpResult)) {
           result = effect.value;
           if (result === null) {
@@ -132,6 +129,10 @@ export const signatureHelp = (
             pos = -1;
           }
         }
+      }
+      // Even if we just got a result, if the position has been cleared we don't want it.
+      if (pos === -1) {
+        result = null;
       }
 
       pos = pos === -1 ? -1 : tr.changes.mapPos(pos);
