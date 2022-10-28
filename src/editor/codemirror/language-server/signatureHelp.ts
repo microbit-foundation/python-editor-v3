@@ -43,7 +43,7 @@ export const setSignatureHelpResult = StateEffect.define<SignatureHelp | null>(
   {}
 );
 
-interface SignatureHelpState {
+class SignatureHelpState {
   /**
    * -1 for no signature help requested.
    */
@@ -55,6 +55,14 @@ interface SignatureHelpState {
    * but we display it as it's generally useful.
    */
   result: SignatureHelp | null;
+
+  constructor(pos: number, result: SignatureHelp | null) {
+    if (result && pos === -1) {
+      throw new Error("Invalid state");
+    }
+    this.pos = pos;
+    this.result = result;
+  }
 }
 
 const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
@@ -113,10 +121,7 @@ export const signatureHelp = (
   apiReferenceMap: ApiReferenceMap
 ) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
-    create: () => ({
-      pos: -1,
-      result: null,
-    }),
+    create: () => new SignatureHelpState(-1, null),
     update(state, tr) {
       let { pos, result } = state;
       for (const effect of tr.effects) {
@@ -140,10 +145,7 @@ export const signatureHelp = (
         // Avoid pointless tooltip updates. If nothing else it makes e2e tests hard.
         return state;
       }
-      return {
-        pos,
-        result,
-      };
+      return new SignatureHelpState(pos, result);
     },
     provide: (f) =>
       showTooltip.from(f, (val) => {
