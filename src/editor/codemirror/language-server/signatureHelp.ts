@@ -81,7 +81,7 @@ const triggerSignatureHelpRequest = async (
   };
   try {
     // Must happen before other event handling that might dispatch more
-    // changes thatt invalidate our position.
+    // changes that invalidate our position.
     queueMicrotask(() => {
       view.dispatch({
         effects: [setSignatureHelpRequestPosition.of(pos)],
@@ -118,8 +118,7 @@ export const signatureHelp = (
       result: null,
     }),
     update(state, tr) {
-      let pos = state.pos;
-      let result = state.result;
+      let { pos, result } = state;
       for (const effect of tr.effects) {
         if (effect.is(setSignatureHelpRequestPosition)) {
           pos = effect.value;
