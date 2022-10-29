@@ -316,9 +316,12 @@ export const signatureHelp = (
           !(event.relatedTarget instanceof Element) ||
           !event.relatedTarget.closest(".cm-signature-tooltip")
         ) {
-          view.dispatch({
-            effects: setSignatureHelpRequestPosition.of(-1),
-          });
+          // This can be called inside an update.
+          setTimeout(() => {
+            view.dispatch({
+              effects: setSignatureHelpRequestPosition.of(-1),
+            });
+          }, 0);
         }
       },
     }),
