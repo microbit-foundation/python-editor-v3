@@ -96,10 +96,11 @@ export const codeStructureView = (option: "full" | "simple") =>
           const diagnostics = state.field(lintState, false)?.diagnostics;
           const indentWidth =
             state.facet(indentUnit).length * view.defaultCharacterWidth;
-
           let topLine = view.lineBlockAt(start);
           if (body) {
-            topLine = view.lineBlockAt(topLine.to + 1);
+            if (topLine.to + 1 < view.state.doc.length) {
+              topLine = view.lineBlockAt(topLine.to + 1);
+            }
             if (topLine.from > end) {
               // If we've fallen out of the scope of the body then the statement is all on
               // one line, e.g. "if True: pass". Avoid highlighting for now.
