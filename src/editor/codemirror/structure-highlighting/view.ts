@@ -86,23 +86,36 @@ export const codeStructureView = (option: "full" | "simple") =>
 
         let cursorFound = false;
 
+        /**
+         * Calculate visual positions for a node from start/end.
+         *
+         * @param view The view.
+         * @param start The start position.
+         * @param end The end position.
+         * @param depth Current indent depth (1 per indent level starting at 0).
+         * @param parent The parent positions (e.g. for the while block) if we're calculating body positions, otherwise undefined.
+         * @returns The positions for the block denoted by start/end or undefined if highlighting should be skipped.
+         */
         const positionsForNode = (
           view: EditorView,
           start: number,
           end: number,
           depth: number,
-          body: boolean
+          parent: Positions | undefined
         ): Positions | undefined => {
           const diagnostics = state.field(lintState, false)?.diagnostics;
           const indentWidth =
             state.facet(indentUnit).length * view.defaultCharacterWidth;
-
           let topLine = view.lineBlockAt(start);
-          if (body) {
-            topLine = view.lineBlockAt(topLine.to + 1);
-            if (topLine.from > end) {
-              // If we've fallen out of the scope of the body then the statement is all on
-              // one line, e.g. "if True: pass". Avoid highlighting for now.
+          if (parent) {
+            if (topLine.to + 1 < view.state.doc.length) {
+              topLine = view.lineBlockAt(topLine.to + 1);
+            } else {
+              // There's no next line.
+              return undefined;
+            }
+            if (parent.top === topLine.top) {
+              // It's the same line, e.g. if True: pass
               return undefined;
             }
           }
@@ -179,14 +192,14 @@ export const codeStructureView = (option: "full" | "simple") =>
                       startNode.start,
                       bodyNode.start,
                       depth,
-                      false
+                      undefined
                     );
                     const bodyPositions = positionsForNode(
                       view,
                       bodyNode.start,
                       bodyNode.end,
                       depth + 1,
-                      true
+                      parentPositions
                     );
                     if (parentPositions && bodyPositions) {
                       blocks.push(
