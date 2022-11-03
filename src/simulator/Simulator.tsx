@@ -43,11 +43,11 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
-  const version = "0.1";
-  const url = `https://python-simulator.usermbit.org/v/${version}/simulator.html`;
+  // const version = "0.1";
+  //const url = `https://python-simulator.usermbit.org/v/${version}/simulator.html`;
   // For testing with sim branches:
-  //const branch = "whatever";
-  //const url = `https://review-python-simulator.usermbit.org/${branch}/simulator.html`;
+  const branch = "separate-dwarf";
+  const url = `https://review-python-simulator.usermbit.org/${branch}/simulator.html`;
 
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
