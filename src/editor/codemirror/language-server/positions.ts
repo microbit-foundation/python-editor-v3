@@ -15,8 +15,11 @@ export const positionToOffset = (
   if (position.line >= document.lines) {
     return undefined;
   }
-  const offset = document.line(position.line + 1).from + position.character;
-  if (offset > document.length) return;
+  const line = document.line(position.line + 1);
+  const offset = line.from + position.character;
+  if (offset > line.to) {
+    return undefined;
+  }
   return offset;
 };
 

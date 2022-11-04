@@ -24,7 +24,7 @@ export const diagnosticsMapping = (
       let from = positionToOffset(document, range.start);
       let to = positionToOffset(document, range.end);
       // Skip if we can't map to the current document.
-      if (from !== undefined && to !== undefined) {
+      if (from !== undefined && to !== undefined && to >= from) {
         return {
           from,
           to,
