@@ -13,6 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
+import useDocumentInteractive from "../common/use-document-interactive";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
@@ -122,7 +123,15 @@ let dragImageRefCount = 0;
 
 export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
   const ref = useRef<HTMLImageElement>();
+  const interactive = useDocumentInteractive();
   useEffect(() => {
+    if (ref.current) {
+      // Already done.
+    }
+    if (!interactive) {
+      // We'll try again when the state changes.
+      return;
+    }
     const id = "code-drag-image";
     let img = document.getElementById(id) as HTMLImageElement | null;
     if (!img) {
@@ -137,6 +146,7 @@ export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
       document.body.appendChild(img);
     }
     ref.current = img;
+
     dragImageRefCount++;
     return () => {
       if (!img) {
@@ -147,6 +157,6 @@ export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
         img.remove();
       }
     };
-  }, []);
+  }, [interactive]);
   return ref;
 };
