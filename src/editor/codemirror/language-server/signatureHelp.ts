@@ -317,11 +317,11 @@ export const signatureHelp = (
           !event.relatedTarget.closest(".cm-signature-tooltip")
         ) {
           // This can be called inside an update.
-          setTimeout(() => {
+          queueMicrotask(() => {
             view.dispatch({
               effects: setSignatureHelpRequestPosition.of(-1),
             });
-          }, 0);
+          });
         }
       },
     }),
