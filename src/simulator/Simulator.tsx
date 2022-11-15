@@ -18,6 +18,7 @@ import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
+import { stage } from "../environment";
 import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
@@ -43,11 +44,13 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
-  //const version = "0.1";
-  //const url = `https://python-simulator.usermbit.org/v/${version}/simulator.html`;
+  const production =
+    "https://python-simulator.usermbit.org/v/0.1/simulator.html";
+  const staging = "https://stage-python-simulator.usermbit.org/simulator.html";
+  const url = stage === "PRODUCTION" ? production : staging;
   // For testing with sim branches:
-  const branch = "upgrade-mpy";
-  const url = `https://review-python-simulator.usermbit.org/${branch}/simulator.html`;
+  //const branch = "upgrade-mpy";
+  //const url = `https://review-python-simulator.usermbit.org/${branch}/simulator.html`;
 
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
