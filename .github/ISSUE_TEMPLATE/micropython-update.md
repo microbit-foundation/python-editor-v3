@@ -1,6 +1,6 @@
 ---
 name: Upgrade MicroPython
-about: Template for MicroPyton upgrades
+about: Template for MicroPython upgrades
 ---
 
 ## New MicroPython releases
