@@ -61,7 +61,9 @@ We've written [notes on our Pyright changes in its Git repository](https://githu
 
 We benefit from customising Pyright and control over the language server client, allowing us to carefully consider what we present to our educational users. We intentionally have fewer features and present simplified error messages and function signatures to our users.
 
-In addition, we have a custom mapping, stored in our content management system, that allows the parameter help for the MicroPython API to link to the educational content in the Reference tab. This is what powers the "Help" link you see on the parameter help tooltip.
+We don't consider the CodeMirror language server client suitable for more general use without signficant work. It's feature support is limited and it has only been tested with our Pyright fork. It also has a number of hacks specific to the micro:bit MicroPython documentation.
+
+In addition to Pyright, we also have a custom mapping, stored in our content management system, that allows the parameter help for the MicroPython API to link to the educational content in the Reference tab. This is what powers the "Help" link you see on the parameter help tooltip.
 
 ## Simulator
 
