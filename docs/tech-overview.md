@@ -32,7 +32,7 @@ To produce the correct data format to flash a micro:bit, we use the Foundation's
 
 The Reference and Ideas sidebar tabs show educational content that is managed in the Micro:bit Educational Foundation's content management system (CMS). The content is currently sourced live from the CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
 
-The API tab shows detailed documentation of the MicroPython API for users who need more detail than the curated content in the Reference tab provides. The API tab content is generated at runtime from the bundled type stubs for MicroPython. We do this using an enhancement to the Foundation's fork of Pyright. For more details see [Python code intelligence](#python-code-intelligence) below.
+The API tab shows detailed documentation of the MicroPython API for users who need more detail than the curated content in the Reference tab provides. The API tab content is generated at runtime from the bundled type stubs for MicroPython. We do this using an enhancement to the Foundation's fork of Pyright. For more details see [Python code intelligence](#python-code-intelligence).
 
 ## Text editing
 
@@ -47,7 +47,7 @@ We've written a number of non-trivial CodeMirror 6 extensions:
 - A [code structure highlighting extension](../src/editor/codemirror/structure-highlighting) that uses CodeMirror's syntax tree (a concrete syntax tree) to highlight the block structure of Python programs. The aim is to make Python program structure clearer. The extension assumes four space indentation and aims to guide users towards correct indentation. We'd be open to packaging this separately if there was interest.
 - A [custom version of CodeMirror's lint extension](../src/editor/codemirror/lint) that delays showing red gutter markers for the actively edited line. This uses another extension that tracks the actively edited line.
 - An extension that integrates with the Reference and API sidebar tabs to allow [drag and drop](../src/editor/codemirror/dnd.ts) and [copy/paste](../src/editor/codemirror/copypaste.ts) of code snippets.
-- A partial language server client, see [Python code intelligence](#python-code-intelligence) below for more details.
+- A partial language server client, see [Python code intelligence](#python-code-intelligence) for more details.
 
 ## Python code intelligence
 
