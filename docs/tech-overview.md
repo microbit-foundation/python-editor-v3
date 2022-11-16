@@ -53,13 +53,13 @@ We've written a number of non-trivial CodeMirror 6 extensions:
 
 Modern code intelligence features depend on a good understanding of types in the users program.
 
-The content in the API tab, lint messages/diagnostics, autocomplete and parameter help are provided by a fork of Microsoft's Open Source Pyright language server that runs as a Web Worker integrated with CodeMirror using a custom language server client.
+The content in the API tab, lint messages/diagnostics, autocomplete and parameter help are all provided by a fork of Microsoft's Open Source Pyright language server that runs as a Web Worker integrated with CodeMirror using a custom language server client.
 
 We use this together with our type stubs for [micro:bit MicroPython](https://github.com/microbit-foundation/micropython-microbit-stubs/).
 
 We've written [notes on our Pyright changes in its Git repository](https://github.com/microbit-foundation/pyright/blob/microbit/THIS_FORK.md).
 
-We benefit from customising Pyright and control over the language server client, allowing us to carefully consider what we present to our educational users. We intentionally have fewer features and present simplified error messages and function signatures.
+We benefit from customising Pyright and control over the language server client, allowing us to carefully consider what we present to our educational users. We intentionally have fewer features and present simplified error messages and function signatures to our users.
 
 In addition, we have a custom mapping, stored in our content management system, that allows the parameter help for the MicroPython API to link to the educational content in the Reference tab. This is what powers the "Help" link you see on the parameter help tooltip.
 
