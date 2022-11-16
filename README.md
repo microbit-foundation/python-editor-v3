@@ -19,7 +19,7 @@ The V2 editor project is still available at https://python.microbit.org/v/2 and 
 
 ## Building and running the editor
 
-We've written a [technical overview](./docs/tech-overview.md) that's a good starting point for working on the editor or for using ideas and components from the editor in other projects.
+We've written a [technical overview](./docs/tech-overview.md) that's a good starting point for working on the Python Editor or for using ideas and components from the app in other projects. We'd love to hear from you if you're making use of this project. You can get in touch via [support](https://support.microbit.org/).
 
 Getting up and running:
 
