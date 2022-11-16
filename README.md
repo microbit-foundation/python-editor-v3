@@ -17,21 +17,11 @@ For more background about how this editor relates to the original Python Editor 
 
 The V2 editor project is still available at https://python.microbit.org/v/2 and its source code can be found in GitHub at https://github.com/bbcmicrobit/PythonEditor.
 
-## Developing the editor
+## Building and running the editor
 
 We've written a [technical overview](./docs/tech-overview.md) that's a good starting point for working on the editor or for using ideas and components from the editor in other projects.
 
-## Deployments
-
-The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
-
-The `main` branch is deployed to https://python.microbit.org/v/beta on each push.
-
-Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
-
-For custom deployments, note that the educational content in the sidebar is currently sourced live from our CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
-
-## Building and running the editor
+Getting up and running:
 
 1. Ensure you have a working Node.js environment. We recommend using the LTS version of Node and NPM 8+.
 2. Checkout this repository.
@@ -65,7 +55,7 @@ We use [Puppeteer](https://pptr.dev/) and the helpers provided by [Testing Libra
 
 The CI tests run these end-to-end tests against a production build.
 
-### `npm run test:all --testPathPattern toolkit`
+### `npm run test:all --testPathPattern autocomplete`
 
 An example of how to use jest options to filter to a specific subset of the tests (e2e or unit).
 
@@ -74,41 +64,15 @@ An example of how to use jest options to filter to a specific subset of the test
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Feature flags
+## Deployments
 
-The editor supports a simple runtime feature flag system to:
+Most users should use the supported Foundation deployment at https://python.microbit.org/
 
-- allow work-in-progress features to be integrated before they're ready for general use
-- allow scenarios to be set up for user testing
-- enable debug features
+The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
 
-This system may change without notice. Flags are regularly added and removed.
+The `main` branch is deployed to https://python.microbit.org/v/beta on each push.
 
-The current set of flags are documented in [the source](./src/flags.ts).
-
-Flags may be specified via the query string with repeated `flag` parameters,
-for example, http://localhost:3000/?flag=oneFlag&flag=anotherFlag
-
-By default, all flags are enabled for local development and branches builds.
-They can be disabled with the special flag `none`.
-
-## Translations
-
-We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.
-
-Add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
-
-The UI strings are translated via Crowdin. Run `npm run i18n:convert` and upload `crowdin/ui.en.json`
-to Crowdin.
-
-Place translated files from Crowdin in `crowdin/translated/` and run `npm run i18n:convert`. The
-files in `lang/` will be updated. Then run `npm run i18n:compile` to update the compiled versions.
-
-The translations for other content are managed separately, though they are also translated via Crowdin.
-
-- API documentation is managed in the type stubs repository
-- Reference and Ideas content is managed in the Foundation's content management system
-- Common Pyright error messages are managed [in the Foundation's Pyright fork](https://github.com/microbit-foundation/pyright/blob/microbit/packages/pyright-internal/src/localization/simplified.nls.en-us.json).
+Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
 
 ## License
 

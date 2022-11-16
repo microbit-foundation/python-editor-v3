@@ -28,7 +28,7 @@ We're open to extracting this code to a separate NPM package if there's interest
 
 To produce the correct data format to flash a micro:bit, we use the Foundation's Open Source [microbit-fs library](https://github.com/microbit-foundation/microbit-fs).
 
-## Sidebar and educational content
+## The sidebar and educational content
 
 The Reference and Ideas sidebar tabs show educational content that is managed in the Micro:bit Educational Foundation's content management system (CMS). The content is currently sourced live from the CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
 
@@ -76,3 +76,39 @@ The serial area and simulator controls below the board are part of the Python Ed
 We're using [xterm.js](https://github.com/xtermjs/xterm.js) for our serial terminal, both for the device connection and the simulator. This is the same terminal component that's used in Visual Studio Code.
 
 We've enabled the [screenreader mode](https://github.com/xtermjs/xterm.js/wiki/Design-Document:-Screen-Reader-Mode) by default as we have less of a focus on performance and this seems suitable for an educational setting.
+
+## Feature flags
+
+The editor supports a simple runtime feature flag system to:
+
+- allow work-in-progress features to be integrated before they're ready for general use
+- allow scenarios to be set up for user testing
+- enable debug features
+
+This system may change without notice. Flags are regularly added and removed.
+
+The current set of flags are documented in [the source](../src/flags.ts).
+
+Flags may be specified via the query string with repeated `flag` parameters,
+for example, http://localhost:3000/?flag=oneFlag&flag=anotherFlag
+
+By default, all flags are enabled for local development and branches builds.
+They can be disabled with the special flag `none`.
+
+## Translations
+
+We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.
+
+Add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
+
+The UI strings are translated via Crowdin. Run `npm run i18n:convert` and upload `crowdin/ui.en.json`
+to Crowdin.
+
+Place translated files from Crowdin in `crowdin/translated/` and run `npm run i18n:convert`. The
+files in `lang/` will be updated. Then run `npm run i18n:compile` to update the compiled versions.
+
+The translations for other content are managed separately, though they are also translated via Crowdin.
+
+- API documentation is managed in the type stubs repository
+- Reference and Ideas content is managed in the Foundation's content management system
+- Common Pyright error messages are managed [in the Foundation's Pyright fork](https://github.com/microbit-foundation/pyright/blob/microbit/packages/pyright-internal/src/localization/simplified.nls.en-us.json).
