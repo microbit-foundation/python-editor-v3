@@ -19,23 +19,13 @@ The V2 editor project is still available at https://python.microbit.org/v/2 and 
 
 ## Developing the editor
 
-The editor is written in TypeScript using React. We use the Chakra UI component library and [CodeMirror 6](https://codemirror.net/6/) editor component.
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-To learn TypeScript, check out the [TypeScript documentation](https://www.typescriptlang.org/).
-
-To learn more about Chakra UI check out the [component library documentation](https://chakra-ui.com/docs/getting-started).
-
-CodeMirror 6 has [great documentation](https://codemirror.net/6/docs/). The [system guide](https://codemirror.net/6/docs/guide/) is a particularly useful overview of the key concepts.
-
-The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We've written a [technical overview](./docs/tech-overview.md) that's a good starting point for working on the editor or for using ideas and components from the editor in other projects.
 
 ## Deployments
 
 The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
 
-The `main` branch is deployed to https://python.microbit.org/v/beta on each commit.
+The `main` branch is deployed to https://python.microbit.org/v/beta on each push.
 
 Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
 
