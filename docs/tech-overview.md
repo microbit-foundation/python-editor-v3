@@ -57,7 +57,7 @@ The content in the API tab, lint messages/diagnostics, autocomplete and paramete
 
 We use this together with our type stubs for [micro:bit MicroPython](https://github.com/microbit-foundation/micropython-microbit-stubs/).
 
-We've written [notes on our Pyright changes in its Git repository](https://github.com/microbit-foundation/pyright/blob/microbit/THIS_FORK.md).
+We've written [notes on our Pyright changes in its Git repository](https://github.com/microbit-foundation/pyright/blob/microbit/THIS_FORK.md). The micro:bit usecases are simple relative to general purpose Web-based Pyright as we have a small code size and a fixed API.
 
 We benefit from customising Pyright and control over the language server client, allowing us to carefully consider what we present to our educational users. We intentionally have fewer features and present simplified error messages and function signatures to our users.
 
