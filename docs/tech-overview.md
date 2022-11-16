@@ -67,7 +67,7 @@ In addition, we have a custom mapping, stored in our content management system, 
 
 The simulator is a [separate project on GitHub](https://github.com/microbit-foundation/micropython-microbit-v2-simulator). The simulator project is a Web Assembly build of MicroPython with MicroPython's hardware abstraction layer implemented using an SVG board and other Web technologies. The Python Editor communicates with it over postMessage.
 
-If you have a micro:bit MicroPython app that would benefit from it please consider embedding the simulator. We'd be very happy to discuss this further, please raise an issue or get in touch via [mailto:help@microbit.org](support).
+If you have a micro:bit MicroPython app that would benefit from it please consider embedding the simulator. We'd be very happy to discuss this further, please raise an issue or get in touch via [support](mailto:help@microbit.org).
 
 The serial area and simulator controls below the board are part of the Python Editor project rather than the simulator. This allows embedders control over the user interface for the simulator interactions. The play action is kept inside the simulator project in part for technical reasons: iframe performance can be throttled if there is no user interaction. You may find our implementation of the controls a useful reference.
 
