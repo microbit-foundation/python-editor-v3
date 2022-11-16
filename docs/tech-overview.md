@@ -12,10 +12,10 @@ We use the [Chakra UI component library](https://chakra-ui.com/docs/getting-star
 
 The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started). We're using [Craco](https://github.com/dilanx/craco) to override some parts of the Create React App configuration.
 
-The UI is split into different areas by the [workbench component](../src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. Areas:
+The UI is split into different areas by the [workbench component](../src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. The main areas are:
 
 1. The sidebar on the left, with Reference, Ideas, API and Project tabs as well as settings and help menus.
-2. The main editing area with the text editor for the current file, header with the project title and the project action bar with buttons for key interactions. A micro:bit device is connected over WebUSB the serial area appears between the text editor and the project actions.
+2. The main editing area with the text editor for the current file, header with the project title and the project action bar with buttons for key interactions. When a micro:bit device is connected over WebUSB, the serial area appears between the text editor and the project actions.
 3. The simulator on the right, with its own serial area and controls.
 
 The branding that you see on the [Foundation deployment](https://python.microbit.org/v/3) is not Open Source and is managed in a private GitHub project. This is swapped in via a webpack alias for `theme-package` configured by Craco.
@@ -32,7 +32,7 @@ To produce the correct data format to flash a micro:bit, we use the Foundation's
 
 The Reference and Ideas sidebar tabs show educational content that is managed in the Micro:bit Educational Foundation's content management system (CMS). The content is currently sourced live from the CMS. For non-localhost deploys this will require CORS configuration on our end. Please open an issue to discuss this.
 
-The API tab shows detailed documentation of the MicroPython API for users who need more detail than the curated content in the Reference tab provides. The API tab content is generated at runtime from the bundled type stubs for MicroPython. We do this using an enhancement to the Foundation's fork of Pyright. For more details see [Python code intelligence](#Python-code-intelligence) below.
+The API tab shows detailed documentation of the MicroPython API for users who need more detail than the curated content in the Reference tab provides. The API tab content is generated at runtime from the bundled type stubs for MicroPython. We do this using an enhancement to the Foundation's fork of Pyright. For more details see [Python code intelligence](#python-code-intelligence) below.
 
 ## Text editing
 
@@ -47,7 +47,7 @@ We've written a number of non-trivial CodeMirror 6 extensions:
 - A [code structure highlighting extension](../src/editor/codemirror/structure-highlighting) that uses CodeMirror's syntax tree (a concrete syntax tree) to highlight the block structure of Python programs. The aim is to make Python program structure clearer. The extension assumes four space indentation and aims to guide users towards correct indentation. We'd be open to packaging this separately if there was interest.
 - A [custom version of CodeMirror's lint extension](../src/editor/codemirror/lint) that delays showing red gutter markers for the actively edited line. This uses another extension that tracks the actively edited line.
 - An extension that integrates with the Reference and API sidebar tabs to allow [drag and drop](../src/editor/codemirror/dnd.ts) and [copy/paste](../src/editor/codemirror/copypaste.ts) of code snippets.
-- A partial language server client, see [Python code intelligence](#Python-code-intelligence) below for more details.
+- A partial language server client, see [Python code intelligence](#python-code-intelligence) below for more details.
 
 ## Python code intelligence
 
