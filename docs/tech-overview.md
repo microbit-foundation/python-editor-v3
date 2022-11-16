@@ -12,7 +12,7 @@ We use the [Chakra UI component library](https://chakra-ui.com/docs/getting-star
 
 The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started). We're using [Craco](https://github.com/dilanx/craco) to override some parts of the Create React App configuration.
 
-The UI is split into different areas by the [workbench component](./src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. Areas:
+The UI is split into different areas by the [workbench component](../src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. Areas:
 
 1. The sidebar on the left, with Reference, Ideas, API and Project tabs as well as settings and help menus.
 2. The main editing area with the text editor for the current file, header with the project title and the project action bar with buttons for key interactions. A micro:bit device is connected over WebUSB the serial area appears between the text editor and the project actions.
@@ -22,7 +22,7 @@ The branding that you see on the [Foundation deployment](https://python.microbit
 
 ## Connecting to the micro:bit via WebUSB, flashing and hex files
 
-The [device folder](./src/device) contains WebUSB support for the micro:bit using [DAP.js](https://github.com/ARMmbed/dapjs). This includes an implementation of partial flashing which signficiantly speeds up subsequent flashing.
+The [device folder](../src/device) contains WebUSB support for the micro:bit using [DAP.js](https://github.com/ARMmbed/dapjs). This includes an implementation of partial flashing which signficiantly speeds up subsequent flashing.
 
 We're open to extracting this code to a separate NPM package if there's interest in reusing it. Expressions of interest and views on what should be in scope are very welcome.
 
@@ -44,9 +44,9 @@ We've wrapped CodeMirror in a custom React component that configures and integra
 
 We've written a number of non-trivial CodeMirror 6 extensions:
 
-- A [code structure highlighting extension](./src/editor/codemirror/structure-highlighting) that uses CodeMirror's syntax tree (a concrete syntax tree) to highlight the block structure of Python programs. The aim is to make Python program structure clearer. The extension assumes four space indentation and aims to guide users towards correct indentation. We'd be open to packaging this separately if there was interest.
-- A [custom version of CodeMirror's lint extension](./src/editor/codemirror/lint) that delays showing red gutter markers for the actively edited line. This uses another extension that tracks the actively edited line.
-- An extension that integrates with the Reference and API sidebar tabs to allow [drag and drop](./src/editor/codemirror/dnd.ts) and [copy/paste](./src/editor/codemirror/copypaste.ts) of code snippets.
+- A [code structure highlighting extension](../src/editor/codemirror/structure-highlighting) that uses CodeMirror's syntax tree (a concrete syntax tree) to highlight the block structure of Python programs. The aim is to make Python program structure clearer. The extension assumes four space indentation and aims to guide users towards correct indentation. We'd be open to packaging this separately if there was interest.
+- A [custom version of CodeMirror's lint extension](../src/editor/codemirror/lint) that delays showing red gutter markers for the actively edited line. This uses another extension that tracks the actively edited line.
+- An extension that integrates with the Reference and API sidebar tabs to allow [drag and drop](../src/editor/codemirror/dnd.ts) and [copy/paste](../src/editor/codemirror/copypaste.ts) of code snippets.
 - A partial language server client, see [Python code intelligence](#Python-code-intelligence) below for more details.
 
 ## Python code intelligence
