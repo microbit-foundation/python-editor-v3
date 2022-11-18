@@ -6,6 +6,7 @@
 import {
   Box,
   Button,
+  Container,
   Fade,
   Flex,
   HStack,
@@ -178,124 +179,130 @@ const SideBarHeader = ({
           </ModalOverlay>
         </Modal>
       )}
-      <Flex
-        ref={ref}
-        backgroundColor="brand.500"
-        boxShadow="0px 4px 16px #00000033"
-        zIndex={zIndexSidebarHeader}
-        height={
-          searchAvailable && searchModal.isOpen ? "4.95rem" : topBarHeight
-        }
-        alignItems="center"
-        justifyContent="space-between"
-        pr={4}
-        transition="height .2s"
-        position="relative"
-      >
-        <Link
-          display="block"
-          href="https://microbit.org/code/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-          mx="1rem"
-        >
-          <HStack spacing="0.875rem">
-            <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
-              {brand.squareLogo}
-            </Box>
-            {!query && sidebarShown && (
-              <Box width="9.098rem" role="img" color="white">
-                {brand.horizontalLogo}
-              </Box>
-            )}
-          </HStack>
-        </Link>
-        {searchAvailable && !query && sidebarShown && (
-          <CollapsibleButton
-            onClick={handleModalOpened}
-            backgroundColor="#5c40a6"
-            fontWeight="normal"
-            color="#fffc"
-            icon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
-            fontSize="sm"
-            _hover={{}}
-            _active={{}}
-            border="unset"
-            textAlign="left"
-            p={3}
-            pr={`min(${contentWidth / 50}%, var(--chakra-space-20))`}
-            _collapsed={{
-              pr: 3,
-            }}
-            text={intl.formatMessage({ id: "search" })}
-            mode={searchButtonMode}
-            mr="2rem"
-          />
-        )}
-        {searchAvailable && query && sidebarShown && (
-          <Flex
-            backgroundColor="white"
-            borderRadius="3xl"
-            width={`calc(100% - ${modalOffset}px - 28px)`}
-            marginRight="28px"
-            position="relative"
-          >
-            <Button
-              _active={{}}
-              _hover={{}}
-              border="unset"
-              color="gray.800"
-              flex={1}
-              fontSize="md"
-              fontWeight="normal"
-              justifyContent="flex-start"
-              leftIcon={
-                <Box as={RiSearch2Line} fontSize="lg" color="#838383" />
-              }
-              onClick={handleModalOpened}
-              overflow="hidden"
-            >
-              {query}
-            </Button>
-            <IconButton
-              aria-label={intl.formatMessage({ id: "clear" })}
-              backgroundColor="white"
-              // Also used for Zoom, move to theme.
-              color="#838383"
-              fontSize="2xl"
-              icon={<RiCloseLine />}
-              isRound={false}
-              onClick={handleClear}
-              position="absolute"
-              right="0"
-              pr={3}
-              pl={3}
-              variant="ghost"
-            />
-          </Flex>
-        )}
+      <Container variant="sidebar-header">
         <Flex
-          height="100%"
+          ref={ref}
+          boxShadow="0px 4px 16px #00000033"
+          zIndex={zIndexSidebarHeader}
+          height={
+            searchAvailable && searchModal.isOpen ? "4.95rem" : topBarHeight
+          }
           alignItems="center"
-          position="absolute"
-          width="28px"
-          right={sidebarShown ? "-8px" : "-28px"}
+          justifyContent="space-between"
+          pr={4}
+          transition="height .2s"
+          position="relative"
         >
-          <Fade in={collapseBtn.isOpen} initial={{ opacity: 1 }}>
-            <HideSplitViewButton
-              aria-label={
-                sidebarShown
-                  ? intl.formatMessage({ id: "sidebar-collapse" })
-                  : intl.formatMessage({ id: "sidebar-expand" })
-              }
-              onClick={handleCollapseBtnClick}
-              splitViewShown={sidebarShown}
-              direction="expandRight"
+          <Link
+            display="block"
+            href="https://microbit.org/code/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+            mx="1rem"
+          >
+            <HStack spacing="0.875rem">
+              <Box
+                width="3.56875rem"
+                color="white"
+                role="img"
+                ref={faceLogoRef}
+              >
+                {brand.squareLogo}
+              </Box>
+              {!query && sidebarShown && (
+                <Box width="9.098rem" role="img" color="white">
+                  {brand.horizontalLogo}
+                </Box>
+              )}
+            </HStack>
+          </Link>
+          {searchAvailable && !query && sidebarShown && (
+            <CollapsibleButton
+              onClick={handleModalOpened}
+              backgroundColor="brand.700"
+              fontWeight="normal"
+              color="#fffc"
+              icon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
+              fontSize="sm"
+              _hover={{}}
+              _active={{}}
+              border="unset"
+              textAlign="left"
+              p={3}
+              pr={`min(${contentWidth / 50}%, var(--chakra-space-20))`}
+              _collapsed={{
+                pr: 3,
+              }}
+              text={intl.formatMessage({ id: "search" })}
+              mode={searchButtonMode}
+              mr="2rem"
             />
-          </Fade>
+          )}
+          {searchAvailable && query && sidebarShown && (
+            <Flex
+              backgroundColor="white"
+              borderRadius="3xl"
+              width={`calc(100% - ${modalOffset}px - 28px)`}
+              marginRight="28px"
+              position="relative"
+            >
+              <Button
+                _active={{}}
+                _hover={{}}
+                border="unset"
+                color="gray.800"
+                flex={1}
+                fontSize="md"
+                fontWeight="normal"
+                justifyContent="flex-start"
+                leftIcon={
+                  <Box as={RiSearch2Line} fontSize="lg" color="#838383" />
+                }
+                onClick={handleModalOpened}
+                overflow="hidden"
+              >
+                {query}
+              </Button>
+              <IconButton
+                aria-label={intl.formatMessage({ id: "clear" })}
+                backgroundColor="white"
+                // Also used for Zoom, move to theme.
+                color="#838383"
+                fontSize="2xl"
+                icon={<RiCloseLine />}
+                isRound={false}
+                onClick={handleClear}
+                position="absolute"
+                right="0"
+                pr={3}
+                pl={3}
+                variant="ghost"
+              />
+            </Flex>
+          )}
+          <Flex
+            height="100%"
+            alignItems="center"
+            position="absolute"
+            width="28px"
+            right={sidebarShown ? "-8px" : "-28px"}
+          >
+            <Fade in={collapseBtn.isOpen} initial={{ opacity: 1 }}>
+              <HideSplitViewButton
+                aria-label={
+                  sidebarShown
+                    ? intl.formatMessage({ id: "sidebar-collapse" })
+                    : intl.formatMessage({ id: "sidebar-expand" })
+                }
+                onClick={handleCollapseBtnClick}
+                splitViewShown={sidebarShown}
+                direction="expandRight"
+              />
+            </Fade>
+          </Flex>
         </Flex>
-      </Flex>
+      </Container>
     </>
   );
 };
