@@ -5,16 +5,17 @@
  */
 import { extendTheme, withDefaultVariant } from "@chakra-ui/react";
 
-import fonts from "./fonts";
-import fontSizes from "./font-sizes";
-import radii from "./radii";
 import colors from "./colors";
+import Alert from "./components/alert";
+import Button from "./components/button";
+import Container from "./components/container";
+import Tabs from "./components/tabs";
+import Text from "./components/text";
+import fontSizes from "./font-sizes";
+import fonts from "./fonts";
+import radii from "./radii";
 import sizes from "./sizes";
 import space from "./space";
-import Button from "./components/button";
-import Tabs from "./components/tabs";
-import Alert from "./components/alert";
-import Text from "./components/text";
 
 // See https://chakra-ui.com/docs/theming/customize-theme
 const overrides = {
@@ -27,6 +28,7 @@ const overrides = {
   components: {
     Alert,
     Button,
+    Container,
     Tabs,
     Text,
   },
