@@ -99,13 +99,13 @@ They can be disabled with the special flag `none`.
 
 ## Translations
 
-We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.
+We manage translations via Crowdin. Different sources of text are integrated with Crowdin in different ways.
 
-The UI strings are stored in this repository.
+We use react-intl from [FormatJS](https://formatjs.io/) to manage user interface strings. These are stored in this repository.
 
 In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
-The translations for other content are managed separately, though they are also translated via Crowdin.
+Other content:
 
 - API documentation is managed in the [type stubs repository](https://github.com/microbit-foundation/micropython-microbit-stubs/)
 - Reference and Ideas content is managed in the Foundation's content management system
