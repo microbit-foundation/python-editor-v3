@@ -94,7 +94,7 @@ The current set of flags are documented in [the source](../src/flags.ts).
 Flags may be specified via the query string with repeated `flag` parameters,
 for example, http://localhost:3000/?flag=oneFlag&flag=anotherFlag
 
-By default, all flags are enabled for local development and branches builds.
+By default, all flags are enabled for local development and branch builds.
 They can be disabled with the special flag `none`.
 
 ## Translations
