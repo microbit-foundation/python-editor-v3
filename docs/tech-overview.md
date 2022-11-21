@@ -101,16 +101,50 @@ They can be disabled with the special flag `none`.
 
 We use react-intl from [FormatJS](https://formatjs.io/) to manage strings for translation.
 
-Add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
+The UI strings are stored in this repository.
 
-The UI strings are translated via Crowdin. Run `npm run i18n:convert` and upload `crowdin/ui.en.json`
-to Crowdin.
-
-Place translated files from Crowdin in `crowdin/translated/` and run `npm run i18n:convert`. The
-files in `lang/` will be updated. Then run `npm run i18n:compile` to update the compiled versions.
+In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
 The translations for other content are managed separately, though they are also translated via Crowdin.
 
-- API documentation is managed in the type stubs repository
+- API documentation is managed in the [type stubs repository](https://github.com/microbit-foundation/micropython-microbit-stubs/)
 - Reference and Ideas content is managed in the Foundation's content management system
 - Common Pyright error messages are managed [in the Foundation's Pyright fork](https://github.com/microbit-foundation/pyright/blob/microbit/packages/pyright-internal/src/localization/simplified.nls.en-us.json).
+
+### Running a translation sync
+
+The CMS content is managed separately by the Micro:bit Educational Foundation and is synchronized daily by an automated process.
+
+#### Incorporting changes from Crowdin
+
+Use [update-translations.sh](../bin/update-translations.sh). Review it first. It assumes sibling checkouts of our pyright fork and the stubs repository. Prepare them with a clean branch from the main (editor, stubs) or microbit (pyright) branches.
+
+Build and download the Crowdin zip and unzip it to a temporary location. Note the zip itself doesn't contain a top-level directory, so on Mac/Linux use e.g. `unzip -d ~/tmp/trans microbit-org.zip`. Run the script passing the directory containing the unzipped translations.
+
+The script will update the stubs and pyright repository and update the editor with the stubs and pyright changes as well as the UI strings.
+
+Review the changes and create PRs for each repository. Review the pyright and stubs PRs first.
+
+The script for this process could be improved to create and/or verify clean branches.
+
+#### Updating files in Crowdin
+
+The UI, Pyright and API files are updated manually. Please download the existing files and diff locally to ensure the changes are as expected. Each project contains an NPM script to produce a file in the format needed for Crowdin except the Pyright project where the JSON file can be used directly.
+
+For the editor itself, run `npm run i18n:convert` to create `crowdin/ui.en.json` in the correct format.
+
+### Adding a new language
+
+This process assumes the language is already in Crowdin and has at least some translations.
+
+When considering a new language it's worth checking early whether support is available in [lunr-languages](https://github.com/MihaiValentin/lunr-languages) as we need that support for our client-side search. Search is not currently supported for zh-CN and zh-TW due to the technical challenge of indexing those languages in the browser.
+
+Steps:
+
+1. Add the language in the stubs repository. The script there needs updating.
+2. Add the language to the editor repository:
+   1. Add the language to the update script.
+   2. Add lunr language support. See [search.ts](../src/documentation/search/search.ts).
+   3. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
+3. Add the language to the pyright repository. There's a switch statement in `localize.ts`.
+4. Run a translation sync as documented above.
