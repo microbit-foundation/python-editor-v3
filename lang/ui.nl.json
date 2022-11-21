@@ -216,7 +216,7 @@
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
   "create-python": {
-    "defaultMessage": "Maak een nieuw Python-bestand aan in dit project",
+    "defaultMessage": "Maak een nieuw Python bestand aan in dit project",
     "description": "Hover and dialog title when creating a new Python file"
   },
   "created-file": {
@@ -260,11 +260,11 @@
     "description": "Text for user to edit the name of the project"
   },
   "edit-project-name-action": {
-    "defaultMessage": "Projectnaam bewerken",
+    "defaultMessage": "Project naam bewerken",
     "description": "Text for user to edit the name of the project"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "Het maken van het hex-bestand is mislukt",
+    "defaultMessage": "Het maken van het hex bestand is mislukt",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
   "feedback": {
@@ -336,7 +336,7 @@
     "description": "Progress dialog text for full flashes (slower)"
   },
   "font-size": {
-    "defaultMessage": "Lettertypegrootte",
+    "defaultMessage": "Lettertype grootte",
     "description": "Font size option text"
   },
   "guide-link": {
@@ -352,11 +352,11 @@
     "description": "Menu item for link to support site"
   },
   "help-translate": {
-    "defaultMessage": "Help met vertalen",
+    "defaultMessage": "Hulp met vertalen",
     "description": "Help translate  menu option text"
   },
   "highlight-code-structure": {
-    "defaultMessage": "Code-structuur markeren",
+    "defaultMessage": "Code structuur markeren",
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
@@ -399,7 +399,7 @@
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "Een hex-bestand maar een keer tegelijk worden geladen. Alle bestanden in het project worden vervangen.",
+    "defaultMessage": "Een hex bestand maar een keer tegelijk worden geladen. Alle bestanden in het project worden vervangen.",
     "description": "Load error message"
   },
   "load-error-mpy": {
@@ -439,7 +439,7 @@
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
-    "defaultMessage": "Meer verbindingsopties",
+    "defaultMessage": "Meer verbindings opties",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
   "more-ideas": {
@@ -447,7 +447,7 @@
     "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
   "more-save-options": {
-    "defaultMessage": "Meer besparingsopties",
+    "defaultMessage": "Meer opslagopties",
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
@@ -463,7 +463,7 @@
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "name-project": {
-    "defaultMessage": "Geef een naam aan uw project",
+    "defaultMessage": "Geef een naam aan je project",
     "description": "Name your project header"
   },
   "name-text": {
@@ -547,7 +547,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "Je vindt je hex-bestand in de map <strong>Downloads</strong> van deze computer.",
+    "defaultMessage": "Je vindt je hex bestand in de map <strong>Downloads</strong> van deze computer.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
@@ -583,7 +583,7 @@
     "description": "Project tab button text"
   },
   "project-tab-description": {
-    "defaultMessage": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in uw project",
+    "defaultMessage": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in je project",
     "description": "Project tab description"
   },
   "python-powered": {
@@ -595,7 +595,7 @@
     "description": "Python tab text"
   },
   "quit-anyway": {
-    "defaultMessage": "Sommige van uw wijzigingen zijn niet opgeslagen. Toch afsluiten?",
+    "defaultMessage": "Sommige van je wijzigingen zijn niet opgeslagen. Toch afsluiten?",
     "description": "Quit anyway text"
   },
   "read-less": {
@@ -611,7 +611,7 @@
     "description": "Aria label for the redo button"
   },
   "reference-tab": {
-    "defaultMessage": "Referentie",
+    "defaultMessage": "Sommige van je wijzigingen zijn niet opgeslagen. Toch afsluiten?",
     "description": "Reference tab button text"
   },
   "replace-action-label": {
@@ -627,7 +627,7 @@
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Reset het project naar de standaard startercode, waarmee je je werk weggooit",
+    "defaultMessage": "Reset het project naar de standaard start code, waarmee je jouw werk weggooit",
     "description": "Reset action hover text"
   },
   "results-count": {
@@ -647,7 +647,7 @@
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "Sla het project hex-bestand op uw computer op",
+    "defaultMessage": "Sla het project hex bestand op je computer op",
     "description": "Hover text over save button"
   },
   "save-python-action": {
@@ -759,11 +759,11 @@
     "description": "Show more with item usually for aria label"
   },
   "sidebar": {
-    "defaultMessage": "Sidebar",
+    "defaultMessage": "Zijbalk",
     "description": "Aria label for the area on the left"
   },
   "sidebar-collapse": {
-    "defaultMessage": "Klap sidebar in",
+    "defaultMessage": "Zijbalk inklappen",
     "description": "Aria label for the collapse sidebar button"
   },
   "sidebar-expand": {
@@ -947,7 +947,7 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "micro:bit verzonden:",
+    "defaultMessage": "micro:bit verzend:",
     "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
@@ -1031,7 +1031,7 @@
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Gebruiksvoorwaarden",
+    "defaultMessage": "Gebruikers voorwaarden",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {
@@ -1063,7 +1063,7 @@
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "U kunt het hex-bestand <strong>later</strong> openen om door te gaan met bewerken.",
+    "defaultMessage": "Je kunt het hex-bestand <strong>later</strong> openen om door te gaan met bewerken.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
@@ -1079,11 +1079,11 @@
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Probeer het opnieuw of <link>doe een ondersteuningsverzoek</link>",
+    "defaultMessage": "Probeer het opnieuw of <link>doe een ondersteunings verzoek</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Probeer het opnieuw of <link>doe een ondersteuningsverzoek</link>",
+    "defaultMessage": "Probeer het opnieuw of <link>doe een ondersteunings verzoek</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
