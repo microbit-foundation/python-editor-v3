@@ -148,3 +148,9 @@ Steps:
    3. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
 3. Add the language to the pyright repository. There's a switch statement in `localize.ts`.
 4. Run a translation sync as documented above.
+
+## Updating MicroPython
+
+Follow the instructions in the [issue template](https://github.com/microbit-foundation/python-editor-v3/issues/new?assignees=&labels=&template=micropython-update.md).
+
+We've previously explored using the feature flag support to run a beta of MicroPython on the editor beta deployment. This might be a good strategy for feedback in future, though we'd need to coordinate it with a beta of the simulator (we already use simulator staging on beta).
