@@ -452,7 +452,7 @@
   "create-python": [
     {
       "type": 0,
-      "value": "Maak een nieuw Python-bestand aan in dit project"
+      "value": "Maak een nieuw Python bestand aan in dit project"
     }
   ],
   "created-file": [
@@ -534,13 +534,13 @@
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "Projectnaam bewerken"
+      "value": "Project naam bewerken"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "Het maken van het hex-bestand is mislukt"
+      "value": "Het maken van het hex bestand is mislukt"
     }
   ],
   "feedback": [
@@ -670,7 +670,7 @@
   "font-size": [
     {
       "type": 0,
-      "value": "Lettertypegrootte"
+      "value": "Lettertype grootte"
     }
   ],
   "guide-link": [
@@ -704,13 +704,13 @@
   "help-translate": [
     {
       "type": 0,
-      "value": "Help met vertalen"
+      "value": "Hulp met vertalen"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Code-structuur markeren"
+      "value": "Code structuur markeren"
     }
   ],
   "highlight-code-structure-full": [
@@ -790,7 +790,7 @@
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "Een hex-bestand maar een keer tegelijk worden geladen. Alle bestanden in het project worden vervangen."
+      "value": "Een hex bestand maar een keer tegelijk worden geladen. Alle bestanden in het project worden vervangen."
     }
   ],
   "load-error-mpy": [
@@ -906,7 +906,7 @@
   "more-connect-options": [
     {
       "type": 0,
-      "value": "Meer verbindingsopties"
+      "value": "Meer verbindings opties"
     }
   ],
   "more-ideas": [
@@ -924,7 +924,7 @@
   "more-save-options": [
     {
       "type": 0,
-      "value": "Meer besparingsopties"
+      "value": "Meer opslagopties"
     }
   ],
   "multiple-files-message-one": [
@@ -1032,7 +1032,7 @@
   "name-project": [
     {
       "type": 0,
-      "value": "Geef een naam aan uw project"
+      "value": "Geef een naam aan je project"
     }
   ],
   "name-text": [
@@ -1268,7 +1268,7 @@
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "Je vindt je hex-bestand in de map "
+      "value": "Je vindt je hex bestand in de map "
     },
     {
       "children": [
@@ -1364,7 +1364,7 @@
   "project-tab-description": [
     {
       "type": 0,
-      "value": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in uw project"
+      "value": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in je project"
     }
   ],
   "python-powered": [
@@ -1382,7 +1382,7 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Sommige van uw wijzigingen zijn niet opgeslagen. Toch afsluiten?"
+      "value": "Sommige van je wijzigingen zijn niet opgeslagen. Toch afsluiten?"
     }
   ],
   "read-less": [
@@ -1430,7 +1430,7 @@
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Reset het project naar de standaard startercode, waarmee je je werk weggooit"
+      "value": "Reset het project naar de standaard start code, waarmee je jouw werk weggooit"
     }
   ],
   "results-count": [
@@ -1501,7 +1501,7 @@
   "save-hover": [
     {
       "type": 0,
-      "value": "Sla het project hex-bestand op uw computer op"
+      "value": "Sla het project hex bestand op je computer op"
     }
   ],
   "save-python-action": [
@@ -1761,13 +1761,13 @@
   "sidebar": [
     {
       "type": 0,
-      "value": "Sidebar"
+      "value": "Zijbalk"
     }
   ],
   "sidebar-collapse": [
     {
       "type": 0,
-      "value": "Klap sidebar in"
+      "value": "Zijbalk inklappen"
     }
   ],
   "sidebar-expand": [
@@ -2117,7 +2117,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit verzonden:"
+      "value": "micro:bit verzend:"
     }
   ],
   "simulator-radio-group-notice": [
@@ -2247,7 +2247,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Gebruiksvoorwaarden"
+      "value": "Gebruikers voorwaarden"
     }
   ],
   "third-party-module-explanation": [
@@ -2345,7 +2345,7 @@
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "U kunt het hex-bestand "
+      "value": "Je kunt het hex-bestand "
     },
     {
       "children": [
@@ -2389,7 +2389,7 @@
       "children": [
         {
           "type": 0,
-          "value": "doe een ondersteuningsverzoek"
+          "value": "doe een ondersteunings verzoek"
         }
       ],
       "type": 8,
@@ -2405,7 +2405,7 @@
       "children": [
         {
           "type": 0,
-          "value": "doe een ondersteuningsverzoek"
+          "value": "doe een ondersteunings verzoek"
         }
       ],
       "type": 8,
