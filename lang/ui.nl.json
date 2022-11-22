@@ -611,7 +611,7 @@
     "description": "Aria label for the redo button"
   },
   "reference-tab": {
-    "defaultMessage": "Sommige van je wijzigingen zijn niet opgeslagen. Toch afsluiten?",
+    "defaultMessage": "Referentie",
     "description": "Reference tab button text"
   },
   "replace-action-label": {
