@@ -229,6 +229,7 @@ describe("Filesystem", () => {
       files: 1,
       lines: undefined, // signifies initial program
       storageUsed: 256,
+      magicModules: 0,
     });
 
     await ufs.write(
@@ -239,10 +240,13 @@ describe("Filesystem", () => {
     const data = new Uint8Array(512);
     data.fill(128);
     await ufs.write("other.dat", data, VersionAction.INCREMENT);
+    const moduleData = "# microbit-module: empty@1.0.0";
+    await ufs.write("magic_module.py", moduleData, VersionAction.INCREMENT);
     expect(await ufs.statistics()).toEqual({
-      files: 2,
+      files: 3,
       lines: 3,
-      storageUsed: 768,
+      storageUsed: 896,
+      magicModules: 1,
     });
   });
 });

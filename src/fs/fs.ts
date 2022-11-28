@@ -15,7 +15,7 @@ import { BoardId } from "../device/board-id";
 import { FlashDataSource, HexGenerationError } from "../device/device";
 import { Logging } from "../logging/logging";
 import { MicroPythonSource } from "../micropython/micropython";
-import { asciiToBytes, generateId } from "./fs-util";
+import { asciiToBytes, extractModuleData, generateId } from "./fs-util";
 import { Host } from "./host";
 import { PythonProject } from "./initial-project";
 import { FSStorage } from "./storage";
@@ -58,6 +58,10 @@ export interface Statistics {
    * HEX storage used.
    */
   storageUsed: number;
+  /**
+   * Number of files tagged with "# microbit-module:".
+   */
+  magicModules: number;
 }
 
 /**
@@ -387,8 +391,16 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   async statistics(): Promise<Statistics> {
     const fs = await this.initialize();
     const currentMainFile = fs.readBytes(MAIN_FILE);
+    const files = fs.ls();
+    let numMagicModules = 0;
+    for (const file of files) {
+      const text = fs.read(file);
+      if (extractModuleData(text)) {
+        numMagicModules++;
+      }
+    }
     return {
-      files: fs.ls().length,
+      files: files.length,
       storageUsed: fs.getStorageUsed(),
       lines:
         this.cachedInitialProject &&
@@ -396,6 +408,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
           fromByteArray(currentMainFile)
           ? undefined
           : lineNumFromUint8Array(currentMainFile),
+      magicModules: numMagicModules,
     };
   }
 
