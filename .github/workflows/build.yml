@@ -39,7 +39,8 @@ jobs:
       - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.1.0-dev.198 @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.7.0 @microbit-foundation/circleci-npm-package-versioner@1
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: node ./bin/print-ci-env.js >> $GITHUB_ENV
+      - run: node ./bin/print-ci-env-stage.js >> $GITHUB_ENV
+      - run: node ./bin/print-ci-env-public-url.js >> $GITHUB_ENV
       - run: npm run ci:update-version
       - run: npm run ci
       - run: mkdir -p /tmp/app${PUBLIC_URL} && cp -r build/* /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
