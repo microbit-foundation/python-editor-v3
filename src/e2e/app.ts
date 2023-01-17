@@ -144,7 +144,7 @@ export class App {
       await dialog.accept();
     });
 
-    const logsPath = reportsPath + expect.getState().currentTestName + ".txt";
+    const logsPath = this.reportFilename("txt");
     // Clears previous output from local file.
     fs.writeFile(logsPath, "", (err) => {
       if (err) {
@@ -1052,8 +1052,18 @@ export class App {
   async screenshot() {
     const page = await this.page;
     return page.screenshot({
-      path: reportsPath + expect.getState().currentTestName + ".png",
+      path: this.reportFilename("png"),
     });
+  }
+
+  private reportFilename(extension: string): string {
+    return (
+      reportsPath +
+      // GH actions has character restrictions
+      expect.getState().currentTestName.replace(/[^0-9a-zA-Z]+/g, "-") +
+      "." +
+      extension
+    );
   }
 
   private async focusEditorContent(): Promise<ElementHandle> {
