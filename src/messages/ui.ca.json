@@ -1,0 +1,2534 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "Quant a"
+    }
+  ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva micro:bit de la BBC\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors."
+    }
+  ],
+  "about-microbit": [
+    {
+      "type": 0,
+      "value": "Fet amb amor per la "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Micro:bit Educational Foundation and contributors"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "L'editor depèn de "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MicroPython"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": ", fet per Damien George i una comunitat de desenvolupadors d'arreu del món."
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "Llegeix menys sobre MicroPython"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "Llegeix més sobre MicroPython"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "S'ha afegit el fitxer "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "Per a l'ús i els exemples, consulta "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Reference"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "(Referència)"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
+    }
+  ],
+  "apidocs-baseclass": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "base class"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "base classes: "
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "baseClassCount"
+    }
+  ],
+  "apidocs-classes": [
+    {
+      "type": 0,
+      "value": "Classes"
+    }
+  ],
+  "apidocs-fields": [
+    {
+      "type": 0,
+      "value": "Camps"
+    }
+  ],
+  "apidocs-functions": [
+    {
+      "type": 0,
+      "value": "Funcions"
+    }
+  ],
+  "apidocs-methods": [
+    {
+      "type": 0,
+      "value": "Mètodes"
+    }
+  ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "enrera (back)"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "tornar al codi principal"
+    }
+  ],
+  "cancel-action": [
+    {
+      "type": 0,
+      "value": "Cancel·lar"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "Canviar fitxers?"
+    }
+  ],
+  "choose-main-add-file": [
+    {
+      "type": 0,
+      "value": "Afegeix el fitxer "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-add-module": [
+    {
+      "type": 0,
+      "value": "Afegeix el mòdul "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-replace-file": [
+    {
+      "type": 0,
+      "value": "Substitueix el fitxer "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-replace-module": [
+    {
+      "type": 0,
+      "value": "Substitueix el mòdul "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-source-add-file": [
+    {
+      "type": 0,
+      "value": "Afegeix el fitxer "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " (objectiu) des de "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " (font)"
+    }
+  ],
+  "choose-main-source-add-main-code": [
+    {
+      "type": 0,
+      "value": "Afegeix el programa principal de "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " (font)"
+    }
+  ],
+  "choose-main-source-replace-file": [
+    {
+      "type": 0,
+      "value": "Substitueix el fitxer "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " (objectiu) per "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " (font)"
+    }
+  ],
+  "choose-main-source-replace-main-code": [
+    {
+      "type": 0,
+      "value": "Substitueix el programa principal per "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "clear": [
+    {
+      "type": 0,
+      "value": "Esborra (clear)"
+    }
+  ],
+  "close-action": [
+    {
+      "type": 0,
+      "value": "Tanca (close)"
+    }
+  ],
+  "code-editor": [
+    {
+      "type": 0,
+      "value": "Editor de codi"
+    }
+  ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Exemple de codi:"
+    }
+  ],
+  "confirm-action": [
+    {
+      "type": 0,
+      "value": "Confirma"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "Confirma la supressió"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "Substitueix tots els fitxers amb els de l'hexadecimal?"
+    }
+  ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "Vols substituir tots els fitxers pel programa d'inici per defecte?"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "Confirma la substitució del projecte"
+    }
+  ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "Vols substituir tots els fitxers per "
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "Confirma i desa"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "Cancel·la i després utilitza Desa per conservar una còpia del teu projecte."
+    }
+  ],
+  "connect-action": [
+    {
+      "type": 0,
+      "value": "Connecta"
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Connecta el cable"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "Diàleg de connexió WebUSB amb l'entrada de BBC micro:bit etiquetada com 1 i el botó de connexió etiquetat com 2"
+    }
+  ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "A la següent finestra emergent:"
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "Tria la teva micro:bit"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "Selecciona la micro:bit"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "Selecciona 'Connecta'"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "Connecta't a la teva micro:bit mitjançant WebUSB"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "Connecta't a la teva micro:bit per veure la sortida en sèrie aquí"
+    }
+  ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "Soluciona problemes de connexió a la teva micro:bit"
+    }
+  ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "Alguna cosa ha anat malament. Baixa el teu fitxer hexadecimal per mantenir-lo segur i, a continuació, actualitza la pàgina per tornar-la a carregar."
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "Copiat"
+    }
+  ],
+  "copy-action": [
+    {
+      "type": 0,
+      "value": "Copia"
+    }
+  ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Copia el programa"
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "Crea"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "Crea un fitxer"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Crea un nou fitxer Python en aquest projecte"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "S'ha creat "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "delete-action": [
+    {
+      "type": 0,
+      "value": "Eliminar"
+    }
+  ],
+  "delete-file-action": [
+    {
+      "type": 0,
+      "value": "Suprimeix "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "S'ha suprimit "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "disconnect-action": [
+    {
+      "type": 0,
+      "value": "Desconnecta"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "Desconnecta't de la micro:bit"
+    }
+  ],
+  "dont-show-again": [
+    {
+      "type": 0,
+      "value": "No tornis a mostrar això"
+    }
+  ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "Arrossegar i deixar anar"
+    }
+  ],
+  "edit-file-action": [
+    {
+      "type": 0,
+      "value": "Edita "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "edit-name-project-hover": [
+    {
+      "type": 0,
+      "value": "Edita el nom del teu projecte"
+    }
+  ],
+  "edit-project-name-action": [
+    {
+      "type": 0,
+      "value": "Edita el nom del projecte"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "No s'ha pogut crear el fitxer hexadecimal"
+    }
+  ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Comentaris"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 0,
+      "value": "Accions del fitxer "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "Aquest fitxer ja existeix"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "El nom conté un caràcter no vàlid: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "El nom és massa llarg"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "El nom ha de ser tot en minúscula"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "El nom no pot estar buit"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "El nom no pot començar amb un nombre"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "El nom no pot contenir espais"
+    }
+  ],
+  "firmware-update-link": [
+    {
+      "type": 0,
+      "value": "Has d'actualitzar el teu microprogramari "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " abans de poder connectar-te a aquesta micro:bit."
+    }
+  ],
+  "firmware-update-message": [
+    {
+      "type": 0,
+      "value": "La connexió a la micro:bit ha fallat perquè el microprogramari de la teva micro:bit és massa antic."
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "Cal actualitzar el firmware"
+    }
+  ],
+  "flash-action": [
+    {
+      "type": 0,
+      "value": "Transferir"
+    }
+  ],
+  "flash-hover": [
+    {
+      "type": 0,
+      "value": "Transfereix el projecte directament a la micro:bit"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "S'està enviant el programa (transferint)"
+    }
+  ],
+  "flashing-full-flash-detail": [
+    {
+      "type": 0,
+      "value": "El teu programa s'està enviant (transferint) a la teva micro:bit. Això pot trigar una mica la primera vegada, però després serà més ràpid."
+    }
+  ],
+  "flashing-micropython": [
+    {
+      "type": 0,
+      "value": "Transferint MicroPython "
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Mida de la font"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "Per obtenir més suport, consulta la guia de l'editor de Python "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Python Editor guide "
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "help": [
+    {
+      "type": 0,
+      "value": "Ajuda"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Ajuda i suport"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Ajuda a traduir"
+    }
+  ],
+  "highlight-code-structure": [
+    {
+      "type": 0,
+      "value": "Ressaltar l'estructura del programa"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "Ple (full)"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "Cap (None)"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "Simple"
+    }
+  ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "Idees"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Prova aquests projectes, modifica'ls i inspira't"
+    }
+  ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "Insereix codi"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Idioma"
+    }
+  ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "Menys"
+    }
+  ],
+  "load-error-makecode-info": [
+    {
+      "type": 0,
+      "value": "Aquest fitxer hexadecimal no es pot carregar a l'Editor de Python. L'Editor Python no pot obrir fitxers hexadecimals creats amb Microsoft MakeCode."
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "Visita "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " per utilitzar aquest fitxer hexadecimal."
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "Un fitxer hexadecimal només es pot carregar sol. Substitueix tots els fitxers del projecte."
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "Aquesta versió de l'Editor de Python actualment no admet l'addició de fitxers .mpy."
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "No es pot carregar "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "file"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "S'ha carregat "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "S'està carregant…"
+    }
+  ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "placa micro:bit amb la graella LED de 5 per 5 que mostra un cor"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "Documentació de MicroPython"
+    }
+  ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "Descobreix com va néixer MicroPython a la micro:bit"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "MicroPython "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "source code for the micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "linkV1"
+    },
+    {
+      "type": 0,
+      "value": "(codi font per la micro:bit V1) i "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V2"
+        }
+      ],
+      "type": 8,
+      "value": "linkV2"
+    }
+  ],
+  "more-action": [
+    {
+      "type": 0,
+      "value": "Més"
+    }
+  ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "Més opcions de connexió"
+    }
+  ],
+  "more-ideas": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "More ideas"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " Més idees."
+    }
+  ],
+  "more-save-options": [
+    {
+      "type": 0,
+      "value": "Més opcions de desar"
+    }
+  ],
+  "multiple-files-message-one": [
+    {
+      "type": 0,
+      "value": "Aquest projecte conté els fitxers "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": ", però només s'ha baixat "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "main.py"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "multiple-files-message-two": [
+    {
+      "type": 0,
+      "value": "Fes servir el botó "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Desa"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " per baixar tot el projecte com a fitxer hexadecimal. Pots "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "obrir"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " el fitxer hexadecimal per restaurar el teu projecte. Si prefereixes baixar fitxers Python individuals, fes servir la pestanya "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Projecte"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "multiple-files-title": [
+    {
+      "type": 0,
+      "value": "Avís: només s'ha descarregat main.py"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Anomena el teu projecte"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "Nom"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "El nom s'utilitza quan deses un fitxer hexadecimal."
+    }
+  ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "T'afegirem l'extensió "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": ".py"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Següent"
+    }
+  ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "La teva  "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit està connectada"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Has "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "? seguit aquests passos?"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "Si tens una "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": ", potser hauràs de "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update the firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "(actualitzar el microprogramari)"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "No has seleccionat cap micro:bit o hi ha hagut un problema en connectar-s'hi."
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "Mètode alternatiu: selecciona Desa i segueix els passos per transferir"
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "No s'ha trobat cap micro:bit"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "Has d'actualitzar el teu microprogramari "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " abans de poder connectar-te a aquesta micro:bit."
+    }
+  ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "Obert"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Obert"
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "Obre el fitxer quan es deixa anar"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Obre un fitxer hexadecimal o Python o afegeix altres fitxers"
+    }
+  ],
+  "options": [
+    {
+      "type": 0,
+      "value": "Opcions"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "Ajuda dels paràmetres"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "Automàtic"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "Manual ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "Suprimir "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " permanentment?"
+    }
+  ],
+  "post-save-message-files": [
+    {
+      "type": 0,
+      "value": "Conté tots els fitxers d'aquest projecte (inclosos els fitxers addicionals, per exemple, per executar accessoris, que s'enumeren a la pestanya "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Projecte"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": ")."
+    }
+  ],
+  "post-save-message-one": [
+    {
+      "type": 0,
+      "value": "Trobaràs el teu fitxer hexadecimal a la carpeta "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Baixades"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " d'aquest ordinador."
+    }
+  ],
+  "post-save-message-two": [
+    {
+      "type": 0,
+      "value": "Pots moure'l a una altra carpeta per emmagatzemar-lo i fer servir  "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Obre"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " per continuar editant-lo més tard."
+    }
+  ],
+  "post-save-title": [
+    {
+      "type": 0,
+      "value": "Projecte desat"
+    }
+  ],
+  "post-save-transfer-hex": [
+    {
+      "type": 0,
+      "value": "Per executar aquest fitxer hexadecimal a la teva micro:bit segueix aquests passos "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "follow these steps"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "project-actions": [
+    {
+      "type": 0,
+      "value": "Accions del projecte"
+    }
+  ],
+  "project-header": [
+    {
+      "type": 0,
+      "value": "Capçalera del projecte"
+    }
+  ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "Nom del projecte"
+    }
+  ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "El nom del projecte no pot estar buit"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "Projecte"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "Visualitza, crea, afegeix i edita els fitxers del teu projecte"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "Fet amb Python"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "Python"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "Alguns dels teus canvis no s'han desat. Sortir de totes maneres?"
+    }
+  ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "Llegir menys"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "Més informació"
+    }
+  ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "Refer (redo)"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "Referència"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "Substitueix"
+    }
+  ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "Restableix el projecte"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "Restableix el projecte al programa d'inici predeterminat"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "Restableix el projecte al programa inicial predeterminat, descartant el teu treball"
+    }
+  ],
+  "results-count": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No results"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " result"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " results"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "Desa (save)"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 0,
+      "value": "Desa "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "Desa el projecte hexadecimal"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "Desa el fitxer hexadecimal del projecte al teu ordinador"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Desa l'script de Python"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Cerca"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Envia a la micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Connecta't mitjançant WebUSB i després transfereix el programa a la micro:bit"
+    }
+  ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "Amaga el terminal sèrie"
+    }
+  ],
+  "serial-ctrl-c-action": [
+    {
+      "type": 0,
+      "value": "Envia Ctrl+C per REPL"
+    }
+  ],
+  "serial-ctrl-d-action": [
+    {
+      "type": 0,
+      "value": "Envia Ctrl+D per restablir"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "Mostra la consola sèrie"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "micro:bit transferit"
+    }
+  ],
+  "serial-help-ctrl-c": [
+    {
+      "type": 0,
+      "value": "Utilitza la drecera de teclat "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "C"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " per interrompre el teu programa. A continuació, pots escriure ordres de Python perquè s'executi MicroPython. És una bona manera d'experimentar amb alguna cosa nova."
+    }
+  ],
+  "serial-help-ctrl-d": [
+    {
+      "type": 0,
+      "value": "Per tornar a iniciar el programa, fes servir "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "D"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "serial-help-intro": [
+    {
+      "type": 0,
+      "value": "El terminal sèrie mostra errors i altres sortides del programa que s'executa a la teva micro:bit. Per defecte, mostra l'error més recent del programa. Amplia'l per veure tota la sortida."
+    }
+  ],
+  "serial-help-print": [
+    {
+      "type": 0,
+      "value": "El teu programa pot imprimir missatges mitjançant la funció "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": ". Prova d'afegir "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print('la micro:bit es genial')"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " al teu programa."
+    }
+  ],
+  "serial-help-title": [
+    {
+      "type": 0,
+      "value": "Suggeriments i consells sobre la comunicació en sèrie"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Suggeriments i consells sobre la comunicació en sèrie"
+    }
+  ],
+  "serial-menu": [
+    {
+      "type": 0,
+      "value": "Menú del terminal sèrie"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "micro:bit llesta per transferir"
+    }
+  ],
+  "serial-running": [
+    {
+      "type": 0,
+      "value": "Executant..."
+    }
+  ],
+  "serial-terminal": [
+    {
+      "type": 0,
+      "value": "Terminal sèrie"
+    }
+  ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "Permet editar mòduls de tercers"
+    }
+  ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "Canviar mòduls de tercers pot significar que no funcionin com s'havia previst."
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Configuració"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Mostra la documentació de l'API"
+    }
+  ],
+  "show-less": [
+    {
+      "type": 0,
+      "value": "Mostra menys"
+    }
+  ],
+  "show-less-for": [
+    {
+      "type": 0,
+      "value": "Mostra menys per a "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "show-more": [
+    {
+      "type": 0,
+      "value": "Mostra més"
+    }
+  ],
+  "show-more-for": [
+    {
+      "type": 0,
+      "value": "Mostra més per a "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "sidebar": [
+    {
+      "type": 0,
+      "value": "Barra lateral"
+    }
+  ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "Replega la barra lateral"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "Amplia la barra lateral"
+    }
+  ],
+  "simulator-accelerometer": [
+    {
+      "type": 0,
+      "value": "Acceleròmetre"
+    }
+  ],
+  "simulator-actions": [
+    {
+      "type": 0,
+      "value": "Accions del simulador"
+    }
+  ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "Botó A"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "Botó B"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 0,
+      "value": "Manté premut el botó "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 0,
+      "value": "Prem el botó "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-buttons": [
+    {
+      "type": 0,
+      "value": "Botons"
+    }
+  ],
+  "simulator-collapse": [
+    {
+      "type": 0,
+      "value": "Replega el simulador"
+    }
+  ],
+  "simulator-collapse-module": [
+    {
+      "type": 0,
+      "value": "Replega el mòdul "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "Brúixola"
+    }
+  ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "Encapçalament"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "Intensitat del camp magnètic"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "Sense entrades al registre."
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "Registre ple"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No rows logged"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " row logged"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " rows logged"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "Guarda el registre"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "Les files més antigues no es mostren"
+    }
+  ],
+  "simulator-expand": [
+    {
+      "type": 0,
+      "value": "Ampliar el simulador"
+    }
+  ],
+  "simulator-expand-module": [
+    {
+      "type": 0,
+      "value": "Desplega el mòdul "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " "
+    }
+  ],
+  "simulator-gesture-3g": [
+    {
+      "type": 0,
+      "value": "3g"
+    }
+  ],
+  "simulator-gesture-6g": [
+    {
+      "type": 0,
+      "value": "6g"
+    }
+  ],
+  "simulator-gesture-8g": [
+    {
+      "type": 0,
+      "value": "8g"
+    }
+  ],
+  "simulator-gesture-down": [
+    {
+      "type": 0,
+      "value": "cap avall"
+    }
+  ],
+  "simulator-gesture-face-down": [
+    {
+      "type": 0,
+      "value": "cara avall"
+    }
+  ],
+  "simulator-gesture-face-up": [
+    {
+      "type": 0,
+      "value": "cara amunt"
+    }
+  ],
+  "simulator-gesture-freefall": [
+    {
+      "type": 0,
+      "value": "caiguda lliure"
+    }
+  ],
+  "simulator-gesture-left": [
+    {
+      "type": 0,
+      "value": "esquerra"
+    }
+  ],
+  "simulator-gesture-right": [
+    {
+      "type": 0,
+      "value": "dreta"
+    }
+  ],
+  "simulator-gesture-select": [
+    {
+      "type": 0,
+      "value": "Tria el gest"
+    }
+  ],
+  "simulator-gesture-send": [
+    {
+      "type": 0,
+      "value": "Envia el gest"
+    }
+  ],
+  "simulator-gesture-shake": [
+    {
+      "type": 0,
+      "value": "sacsejar"
+    }
+  ],
+  "simulator-gesture-up": [
+    {
+      "type": 0,
+      "value": "amunt"
+    }
+  ],
+  "simulator-hide": [
+    {
+      "type": 0,
+      "value": "Amaga el simulador"
+    }
+  ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "Manté"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "Prem"
+    }
+  ],
+  "simulator-light-level": [
+    {
+      "type": 0,
+      "value": "Nivell de llum"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "Registre de dades"
+    }
+  ],
+  "simulator-loud": [
+    {
+      "type": 0,
+      "value": "So fort"
+    }
+  ],
+  "simulator-mute": [
+    {
+      "type": 0,
+      "value": "Silencia"
+    }
+  ],
+  "simulator-pin-hold-label": [
+    {
+      "type": 0,
+      "value": "Manté premut el pin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
+  "simulator-pin-press-label": [
+    {
+      "type": 0,
+      "value": "Prem el pin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
+  "simulator-pins": [
+    {
+      "type": 0,
+      "value": "Pins"
+    }
+  ],
+  "simulator-quiet": [
+    {
+      "type": 0,
+      "value": "So fluix"
+    }
+  ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "Ràdio"
+    }
+  ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "micro:bit ha enviat:"
+    }
+  ],
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "Grup de ràdio establert a  "
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "Missatge de ràdio"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
+    {
+      "type": 0,
+      "value": "Els missatges més antigs no es mostren"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "Cap missatge a mostrar"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "La ràdio està tancada"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "Envia missatge"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "Has enviat:"
+    }
+  ],
+  "simulator-reference-link": [
+    {
+      "type": 0,
+      "value": "Enllaç a la secció de Referència"
+    }
+  ],
+  "simulator-reset": [
+    {
+      "type": 0,
+      "value": "Reiniciar"
+    }
+  ],
+  "simulator-serial-terminal": [
+    {
+      "type": 0,
+      "value": "Terminal sèrie del simulador"
+    }
+  ],
+  "simulator-sound-level": [
+    {
+      "type": 0,
+      "value": "Nivell de so"
+    }
+  ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "Inicia el simulador"
+    }
+  ],
+  "simulator-stop": [
+    {
+      "type": 0,
+      "value": "Atura el simulador"
+    }
+  ],
+  "simulator-temperature": [
+    {
+      "type": 0,
+      "value": "Temperatura"
+    }
+  ],
+  "simulator-title": [
+    {
+      "type": 0,
+      "value": "Simulador"
+    }
+  ],
+  "simulator-touch-logo": [
+    {
+      "type": 0,
+      "value": "Logotip tàctil"
+    }
+  ],
+  "simulator-unmute": [
+    {
+      "type": 0,
+      "value": "Deixar de silenciar"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "Versions de programari"
+    }
+  ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "Comença a codificar"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Suport"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Condicions d'ús"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "Aquest fitxer és un mòdul de tercers i no està pensat per ser editat."
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "Permet editar mòduls de tercers a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Settings"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " (configuració) per modificar aquest mòdul."
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "No es pot connectar a la micro:bit"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "Temps de connexió esgotat"
+    }
+  ],
+  "toolkit-error-loading": [
+    {
+      "type": 0,
+      "value": "S'ha produït un error en carregar el conjunt d'eines."
+    }
+  ],
+  "toolkit-view-documentation": [
+    {
+      "type": 0,
+      "value": "Consulta la documentació de "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "Arrossega el fitxer hexadecimal de la teva "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "carpeta de descàrregues"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " a la "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "unitat MICROBIT"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "Pots "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "obrir"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " el fitxer hexadecimal més tard per continuar editant."
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Transfereix el fitxer hexadecimal desat a la micro:bit"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Torna-ho a provar"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "Desfer"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "Si us plau, torna-ho a provar o "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "raise a support request"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "  (proposa una sol·licitud d'ajuda)"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "Si us plau, torna-ho a provar o "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "raise a support request"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "  (proposa una sol·licitud d'ajuda)"
+    }
+  ],
+  "untitled-project": [
+    {
+      "type": 0,
+      "value": "Projecte sense títol"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Actualitza microprogramari"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "Fitxer actualitzat "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "visit-dot-org": [
+    {
+      "type": 0,
+      "value": "visita microbit.org (s'obre en una pestanya nova)"
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "Un altre procés està connectat a aquest dispositiu."
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "Tanca qualsevol altra pestanya que pugui utilitzar WebUSB (per exemple, MakeCode, Python Editor) o desconnecta i torna a connectar la micro:bit abans de tornar-ho a provar."
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "No es pot sol·licitar la interfície"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "error de WebUSB"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "Torna a connectar la teva micro:bit i torna-ho a provar."
+    }
+  ],
+  "webusb-error-update-req-description": [
+    {
+      "type": 0,
+      "value": "Has d'actualitzar el microprogramari"
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your micro:bit firmware"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " per fer ús d'aquesta característica."
+    }
+  ],
+  "webusb-error-update-req-title": [
+    {
+      "type": 0,
+      "value": "Actualitza el microprogramari de la micro:bit "
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "Malauradament, WebUSB no és compatible amb aquest navegador i el teu programa es desarà al teu ordinador. Segueix els passos de la pantalla següent per transferir-lo ala teva micro:bit. Et recomanem Google Chrome o Microsoft Edge perquè et puguis connectar directament a la teva micro:bit."
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "Aquest navegador no admet WebUSB"
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "Amb WebUSB pots programar la teva micro:bit i connectar-te a la consola sèrie directament des de l'editor en línia."
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "Mira la nostra breu guia sobre algunes de les funcions clau o obté el programa immediatament."
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "Benvingut a l'Editor Python de la micro:bit"
+    }
+  ],
+  "zoom-in-action": [
+    {
+      "type": 0,
+      "value": "Amplia"
+    }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "Allunya"
+    }
+  ]
+}
