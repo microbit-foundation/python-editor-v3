@@ -18,7 +18,9 @@ export interface Language {
 // When we add languages we need to update the toolkit search indexing,
 // which will require the dynamic import of a new language plugin for lunr.
 // See search.ts.
-export const supportedLanguages: Language[] = [
+//
+// Tag new languages with `preview: true` to enable for beta only.
+const allLanguages: Language[] = [
   {
     id: "en",
     name: "English",
@@ -38,7 +40,6 @@ export const supportedLanguages: Language[] = [
     id: "nl",
     name: "Nederlands",
     enName: "Dutch",
-    preview: true,
   },
   {
     id: "fr",
@@ -60,7 +61,10 @@ export const supportedLanguages: Language[] = [
     name: "Español",
     enName: "Spanish",
   },
-].filter((l) => stage !== "PRODUCTION" || !l.preview);
+];
+export const supportedLanguages: Language[] = allLanguages.filter(
+  (l) => stage !== "PRODUCTION" || !l.preview
+);
 
 export const minimumFontSize = 4;
 export const maximumFontSize = 154;
