@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 const ref = process.env.GITHUB_REF;
-const eventName = process.env.GITHUB_EVENT_NAME;
-
-let stage = "";
+let stage;
 if (ref === "refs/heads/main") {
-  if (eventName === "release") {
-    stage = "PRODUCTION";
-  } else {
-    stage = "STAGING";
-  }
+  stage = "STAGING";
+} else if (ref.startsWith("refs/tags/v")) {
+  stage = "PRODUCTION";
 } else {
   stage = "REVIEW";
 }
