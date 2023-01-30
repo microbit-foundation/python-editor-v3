@@ -8,7 +8,7 @@
   "about-comic": [
     {
       "type": 0,
-      "value": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva micro:bit de la BBC\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors."
+      "value": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva BBC micro:bit\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors."
     }
   ],
   "about-microbit": [
@@ -83,10 +83,6 @@
       ],
       "type": 8,
       "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "(Referència)"
     }
   ],
   "api-tab": [
@@ -148,7 +144,7 @@
   "back-action": [
     {
       "type": 0,
-      "value": "enrera (back)"
+      "value": "enrera"
     }
   ],
   "back-to-main": [
@@ -220,7 +216,7 @@
     },
     {
       "type": 0,
-      "value": " (objectiu) des de "
+      "value": " des de "
     },
     {
       "type": 1,
@@ -228,7 +224,7 @@
     },
     {
       "type": 0,
-      "value": " (font)"
+      "value": " "
     }
   ],
   "choose-main-source-add-main-code": [
@@ -239,10 +235,6 @@
     {
       "type": 1,
       "value": "source"
-    },
-    {
-      "type": 0,
-      "value": " (font)"
     }
   ],
   "choose-main-source-replace-file": [
@@ -256,15 +248,11 @@
     },
     {
       "type": 0,
-      "value": " (objectiu) per "
+      "value": " per "
     },
     {
       "type": 1,
       "value": "source"
-    },
-    {
-      "type": 0,
-      "value": " (font)"
     }
   ],
   "choose-main-source-replace-main-code": [
@@ -280,13 +268,13 @@
   "clear": [
     {
       "type": 0,
-      "value": "Esborra (clear)"
+      "value": "Esborra"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "Tanca (close)"
+      "value": "Tanca "
     }
   ],
   "code-editor": [
@@ -720,13 +708,13 @@
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Ple (full)"
+      "value": "Full"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Cap (None)"
+      "value": "None"
     }
   ],
   "highlight-code-structure-simple": [
@@ -884,7 +872,7 @@
     },
     {
       "type": 0,
-      "value": "(codi font per la micro:bit V1) i "
+      "value": " i "
     },
     {
       "children": [
@@ -1135,10 +1123,6 @@
       ],
       "type": 8,
       "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "(actualitzar el microprogramari)"
     }
   ],
   "not-found-message": [
@@ -1404,7 +1388,7 @@
   "redo": [
     {
       "type": 0,
-      "value": "Refer (redo)"
+      "value": "Refer"
     }
   ],
   "reference-tab": [
@@ -1480,7 +1464,7 @@
   "save-action": [
     {
       "type": 0,
-      "value": "Desa (save)"
+      "value": "Desa"
     }
   ],
   "save-file-action": [
@@ -1852,7 +1836,7 @@
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "Encapçalament"
+      "value": "Orientació"
     }
   ],
   "simulator-compass-heading-two": [
@@ -1972,7 +1956,7 @@
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "cara avall"
+      "value": "cara avall "
     }
   ],
   "simulator-gesture-face-up": [
@@ -2014,7 +1998,7 @@
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "sacsejar"
+      "value": "sacseja"
     }
   ],
   "simulator-gesture-up": [
@@ -2262,7 +2246,7 @@
     },
     {
       "type": 0,
-      "value": " (configuració) per modificar aquest mòdul."
+      "value": "  per modificar aquest mòdul."
     }
   ],
   "timeout-error-description": [
@@ -2382,7 +2366,7 @@
     },
     {
       "type": 0,
-      "value": "  (proposa una sol·licitud d'ajuda)"
+      "value": " ."
     }
   ],
   "unexpected-error-title": [
@@ -2402,7 +2386,7 @@
     },
     {
       "type": 0,
-      "value": "  (proposa una sol·licitud d'ajuda)"
+      "value": "."
     }
   ],
   "untitled-project": [

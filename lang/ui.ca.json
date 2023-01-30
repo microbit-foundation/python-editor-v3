@@ -4,7 +4,7 @@
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva micro:bit de la BBC\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors.",
+    "defaultMessage": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva BBC micro:bit\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors.",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Per a l'ús i els exemples, consulta <link>Reference</link>(Referència)",
+    "defaultMessage": "Per a l'ús i els exemples, consulta <link>Reference</link>",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -56,7 +56,7 @@
     "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-action": {
-    "defaultMessage": "enrera (back)",
+    "defaultMessage": "enrera",
     "description": "Back button text"
   },
   "back-to-main": {
@@ -88,15 +88,15 @@
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "Afegeix el fitxer {target} (objectiu) des de {source} (font)",
+    "defaultMessage": "Afegeix el fitxer {target} des de {source} ",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-main-code": {
-    "defaultMessage": "Afegeix el programa principal de {source} (font)",
+    "defaultMessage": "Afegeix el programa principal de {source}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {target} (objectiu) per {source} (font)",
+    "defaultMessage": "Substitueix el fitxer {target} per {source}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-main-code": {
@@ -104,11 +104,11 @@
     "description": "Shown in load dialog to confirm actions"
   },
   "clear": {
-    "defaultMessage": "Esborra (clear)",
+    "defaultMessage": "Esborra",
     "description": "Aria label for the search input"
   },
   "close-action": {
-    "defaultMessage": "Tanca (close)",
+    "defaultMessage": "Tanca ",
     "description": "Close button text"
   },
   "code-editor": {
@@ -360,11 +360,11 @@
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
-    "defaultMessage": "Ple (full)",
+    "defaultMessage": "Full",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-none": {
-    "defaultMessage": "Cap (None)",
+    "defaultMessage": "None",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-simple": {
@@ -431,7 +431,7 @@
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
-    "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1>(codi font per la micro:bit V1) i <linkV2>micro:bit V2</linkV2>",
+    "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1> i <linkV2>micro:bit V2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
@@ -487,7 +487,7 @@
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "Si tens una <strong>micro:bit V1</strong>, potser hauràs de <link>update the firmware</link>(actualitzar el microprogramari)",
+    "defaultMessage": "Si tens una <strong>micro:bit V1</strong>, potser hauràs de <link>update the firmware</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
@@ -607,7 +607,7 @@
     "description": "Action text to expand a collapsed section"
   },
   "redo": {
-    "defaultMessage": "Refer (redo)",
+    "defaultMessage": "Refer",
     "description": "Aria label for the redo button"
   },
   "reference-tab": {
@@ -635,7 +635,7 @@
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
-    "defaultMessage": "Desa (save)",
+    "defaultMessage": "Desa",
     "description": "Save button text"
   },
   "save-file-action": {
@@ -811,7 +811,7 @@
     "description": "Compass simulator panel title"
   },
   "simulator-compass-heading-one": {
-    "defaultMessage": "Encapçalament",
+    "defaultMessage": "Orientació",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-compass-heading-two": {
@@ -863,7 +863,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "cara avall",
+    "defaultMessage": "cara avall ",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-up": {
@@ -891,7 +891,7 @@
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "sacsejar",
+    "defaultMessage": "sacseja",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
@@ -1039,7 +1039,7 @@
     "description": "Explanation shown instead of the code editor for third-party modules."
   },
   "third-party-module-how-to": {
-    "defaultMessage": "Permet editar mòduls de tercers a <link>Settings</link> (configuració) per modificar aquest mòdul.",
+    "defaultMessage": "Permet editar mòduls de tercers a <link>Settings</link>  per modificar aquest mòdul.",
     "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
@@ -1079,11 +1079,11 @@
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Si us plau, torna-ho a provar o <link>raise a support request</link>  (proposa una sol·licitud d'ajuda)",
+    "defaultMessage": "Si us plau, torna-ho a provar o <link>raise a support request</link> .",
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Si us plau, torna-ho a provar o <link>raise a support request</link>  (proposa una sol·licitud d'ajuda)",
+    "defaultMessage": "Si us plau, torna-ho a provar o <link>raise a support request</link>.",
     "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
