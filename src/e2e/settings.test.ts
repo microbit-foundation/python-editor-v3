@@ -5,7 +5,7 @@
  */
 import { App } from "./app";
 
-describe("Browser - settings", () => {
+describe("settings", () => {
   const app = new App();
   beforeEach(() => {
     app.setOptions({});

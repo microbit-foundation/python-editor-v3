@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App, LoadDialogType } from "./app";
+import { App } from "./app";
 
-describe("Browser - reset", () => {
+describe("reset", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));

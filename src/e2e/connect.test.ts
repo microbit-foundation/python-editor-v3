@@ -10,7 +10,7 @@ const traceback = `Traceback (most recent call last):
 SyntaxError: invalid syntax
 `; // Needs trailing newline!
 
-describe("Browser - WebUSB (mocked)", () => {
+describe("connect", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));

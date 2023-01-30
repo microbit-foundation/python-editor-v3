@@ -5,7 +5,7 @@
  */
 import { App } from "./app";
 
-describe("Browser - edits", () => {
+describe("edits", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   // We intentionally close the page so can't screenshot here.

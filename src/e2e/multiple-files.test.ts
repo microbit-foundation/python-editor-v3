@@ -5,7 +5,7 @@
  */
 import { App, LoadDialogType } from "./app";
 
-describe("Browser - multiple and missing file cases", () => {
+describe("multiple-files", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));

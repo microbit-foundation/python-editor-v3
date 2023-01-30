@@ -5,7 +5,7 @@
  */
 import { App, LoadDialogType } from "./app";
 
-describe("Browser - save", () => {
+describe("save", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));
