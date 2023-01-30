@@ -75,7 +75,11 @@ export class App {
 
   constructor(options: Options = {}) {
     this.url = this.optionsToURL(options);
-    this.browser = puppeteer.launch();
+    this.browser = puppeteer.launch({
+      headless: process.env.E2E_HEADLESS !== "0",
+      // Needs to be large enough to display Reference + Simulator or tests need to show/hide them.
+      defaultViewport: { width: 1920, height: 1440 },
+    });
     this.page = this.createPage();
   }
 
@@ -116,8 +120,6 @@ export class App {
     ]);
 
     const page = await context.newPage();
-    // Needs to be large enough to display Reference + Simulator or tests need to show/hide them.
-    await page.setViewport({ width: 1920, height: 1440 });
     await page.setCookie({
       // See corresponding code in App.tsx.
       name: "mockDevice",
@@ -1095,7 +1097,7 @@ export class App {
     tabName: "Project" | "API" | "Reference" | "Ideas"
   ): Promise<ElementHandle<Element>> {
     const document = await this.document();
-    const tab = await document.getByRole("tab", {
+    const tab = await document.findByRole("tab", {
       name: tabName,
     });
     await tab.click();

@@ -8,7 +8,7 @@ import { App } from "./app";
 const showFullSignature =
   "show(image, delay=400, wait=True, loop=False, clear=False)";
 
-describe("Browser - autocomplete and signature help tests", () => {
+describe("autocomplete", () => {
   // Enable flags to allow testing the toolkit interactions.
   const app = new App();
   beforeEach(app.reset.bind(app));

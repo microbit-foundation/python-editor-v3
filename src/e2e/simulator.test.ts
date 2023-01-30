@@ -16,7 +16,7 @@ const gestureTest =
 const sliderTest =
   "from microbit import *\nwhile True:\nif temperature() == -5:\ndisplay.show(Image.NO)";
 
-describe("Browser - simulator", () => {
+describe("simulator", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));
