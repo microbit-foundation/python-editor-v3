@@ -52,7 +52,7 @@ jobs:
       - run: npm run test:e2e:headless
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - name: Store reports
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+        if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
         uses: actions/upload-artifact@v3
         with:
           name: reports
