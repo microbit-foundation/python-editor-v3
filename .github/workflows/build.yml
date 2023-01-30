@@ -43,6 +43,8 @@ jobs:
       - run: node ./bin/print-ci-env-public-url.js >> $GITHUB_ENV
       - run: npm run ci:update-version
       - run: npm run ci
+        env:
+          REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
       - run: mkdir -p /tmp/app${PUBLIC_URL} && cp -r build/* /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
