@@ -18,7 +18,6 @@ import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
-import { stage } from "../environment";
 import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
