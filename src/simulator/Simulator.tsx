@@ -44,10 +44,10 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
-  const production =
-    "https://python-simulator.usermbit.org/v/0.1/simulator.html";
-  const staging =
-    "https://python-simulator.usermbit.org/staging/simulator.html";
+  // const production =
+  //   "https://python-simulator.usermbit.org/v/0.1/simulator.html";
+  // const staging =
+  //   "https://python-simulator.usermbit.org/staging/simulator.html";
   // const url = stage === "PRODUCTION" ? production : staging;
   // For testing with sim branches:
   const branch = "safari-fix";
