@@ -6,7 +6,7 @@ The document assumes some familiarity with the app as a user. [Try it out](http:
 
 ## User interface
 
-The editor is written in [TypeScript](https://www.typescriptlang.org/) using [React](https://reactjs.org/).
+The editor is written in [TypeScript](https://www.typescriptlang.org/) using [React](https://reactjs.org/). The best documentation for React at the time of writing is their [beta documentation](https://beta.reactjs.org/).
 
 We use the [Chakra UI component library](https://chakra-ui.com/docs/getting-started) which provides a base set of accessible components. We're currently using Chakra UI 1.x.
 
