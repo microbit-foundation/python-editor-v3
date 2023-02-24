@@ -24,8 +24,7 @@ jobs:
       REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
 
     steps:
-      # Note: This workflow will not run on forks without modification; we're open to making steps
-      #       that reply on our deployment infrastructure conditional. Please open an issue.
+      # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
       - uses: actions/checkout@v3
       - name: Configure node
         uses: actions/setup-node@v3
@@ -37,11 +36,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.1.0-dev.198 @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.7.1 @microbit-foundation/circleci-npm-package-versioner@1
+        if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: node ./bin/print-ci-env-stage.js >> $GITHUB_ENV
       - run: node ./bin/print-ci-env-public-url.js >> $GITHUB_ENV
       - run: npm run ci:update-version
+        if: github.repository_owner == 'microbit-foundation'
       - run: npm run ci
         env:
           REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
@@ -58,10 +59,12 @@ jobs:
           name: reports
           path: reports/
       - run: npm run deploy
+        if: github.repository_owner == 'microbit-foundation'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
       - run: npm run invalidate
+        if: github.repository_owner == 'microbit-foundation'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
