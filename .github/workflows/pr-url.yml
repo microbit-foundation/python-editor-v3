@@ -4,6 +4,7 @@ on:
     types: [opened]
 jobs:
   pr-url:
+    if: github.repository_owner == 'microbit-foundation'
     runs-on: ubuntu-latest
     steps:
       - uses: microbit-foundation/action-pr-url-template@v0.1.2
