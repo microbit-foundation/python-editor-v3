@@ -23,10 +23,10 @@ We've written a [technical overview](./docs/tech-overview.md) that's a good star
 
 Getting up and running:
 
-1. Ensure you have a working Node.js environment. We recommend using the LTS version of Node and NPM 8+.
-2. Checkout this repository.
-3. Install the dependencies via `npm install`.
-4. Choose from the NPM scripts documented below.
+1. Ensure you have a working [Node.js environment](https://nodejs.org/en/download/). We recommend using the LTS version of Node and NPM version 8 or newer.
+2. Checkout this repository with Git. GitHub have some [learning resources for Git](https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources) that you may find useful.
+3. Install the dependencies by running `npm install` on the command line in the checkout folder.
+4. Choose from the NPM scripts documented below. Try `npm start` if you're not sure.
 
 ### `npm start`
 
