@@ -4,18 +4,25 @@
  * SPDX-License-Identifier: MIT
  */
 import { Text } from "@chakra-ui/layout";
-import React, { ErrorInfo } from "react";
+import React, { ErrorInfo, ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { LoggingContext } from "../logging/logging-hooks";
 
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends React.Component<{}, State> {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   context!: React.ContextType<typeof LoggingContext>;
 
-  constructor(props: {}) {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
@@ -36,7 +43,7 @@ class ErrorBoundary extends React.Component<{}, State> {
         </Text>
       );
     }
-    return this.props.children;
+    return <>{this.props.children}</>;
   }
 }
 

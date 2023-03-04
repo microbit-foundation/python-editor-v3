@@ -433,11 +433,12 @@ export class App {
    */
   async findAlertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
-    await document.findByText(title);
+    const alert = await document.findByRole("alert", {
+      name: title,
+    });
     if (description) {
-      await document.findByText(description);
+      await alert.findByText(description);
     }
-    await document.findAllByRole("alert");
   }
 
   /**
