@@ -20,7 +20,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation and contributors"
+          "value": "Micro:bit Educational Foundation i els col·laboradors"
         }
       ],
       "type": 8,
@@ -78,7 +78,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Reference"
+          "value": "Referència"
         }
       ],
       "type": 8,
@@ -99,7 +99,7 @@
           "value": [
             {
               "type": 0,
-              "value": "base class"
+              "value": "classe base"
             }
           ]
         },
@@ -107,7 +107,7 @@
           "value": [
             {
               "type": 0,
-              "value": "base classes: "
+              "value": "classes base: "
             }
           ]
         }
@@ -144,7 +144,7 @@
   "back-action": [
     {
       "type": 0,
-      "value": "enrera"
+      "value": "Enrera"
     }
   ],
   "back-to-main": [
@@ -600,21 +600,7 @@
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "Has d'actualitzar el teu microprogramari "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " abans de poder connectar-te a aquesta micro:bit."
+      "value": "Has d<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit."
     }
   ],
   "firmware-update-message": [
@@ -668,13 +654,13 @@
   "guide-link": [
     {
       "type": 0,
-      "value": "Per obtenir més suport, consulta la guia de l'editor de Python "
+      "value": "Per obtenir més suport, consulta la "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Python Editor guide "
+          "value": "guia de l'Editor de Python"
         }
       ],
       "type": 8,
@@ -708,19 +694,19 @@
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Full"
+      "value": "Ple"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "None"
+      "value": "Cap"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "Simple"
+      "value": "Senzill"
     }
   ],
   "ideas-tab": [
@@ -864,7 +850,7 @@
       "children": [
         {
           "type": 0,
-          "value": "source code for the micro:bit V1"
+          "value": "codi font per a la micro:bit V1"
         }
       ],
       "type": 8,
@@ -902,15 +888,11 @@
       "children": [
         {
           "type": 0,
-          "value": "More ideas"
+          "value": "Més idees"
         }
       ],
       "type": 8,
       "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " Més idees."
     }
   ],
   "more-save-options": [
@@ -935,7 +917,7 @@
             },
             {
               "type": 0,
-              "value": " files"
+              "value": " fitxers"
             }
           ]
         }
@@ -1064,7 +1046,7 @@
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "La teva  "
+      "value": "La teva "
     },
     {
       "children": [
@@ -1078,13 +1060,13 @@
     },
     {
       "type": 0,
-      "value": "? Has "
+      "value": "? Has  "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "follow these steps"
+          "value": "seguit aquests passos"
         }
       ],
       "type": 8,
@@ -1092,7 +1074,7 @@
     },
     {
       "type": 0,
-      "value": "? seguit aquests passos?"
+      "value": "?"
     }
   ],
   "not-found-checklist-two": [
@@ -1112,17 +1094,7 @@
     },
     {
       "type": 0,
-      "value": ", potser hauràs de "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update the firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
+      "value": ", potser hauries d<link>actualitzar el microprogramari</link>"
     }
   ],
   "not-found-message": [
@@ -1146,21 +1118,7 @@
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "Has d'actualitzar el teu microprogramari "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " abans de poder connectar-te a aquesta micro:bit."
+      "value": "Has d<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit."
     }
   ],
   "open-action": [
@@ -1302,13 +1260,13 @@
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "Per executar aquest fitxer hexadecimal a la teva micro:bit segueix aquests passos "
+      "value": "Per executar aquest fitxer hexadecimal a la teva micro:bit "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "follow these steps"
+          "value": "segueix aquests passos"
         }
       ],
       "type": 8,
@@ -1429,7 +1387,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No results"
+              "value": "Sense resultats"
             }
           ]
         },
@@ -1440,7 +1398,7 @@
             },
             {
               "type": 0,
-              "value": " result"
+              "value": " resultat"
             }
           ]
         },
@@ -1451,7 +1409,7 @@
             },
             {
               "type": 0,
-              "value": " results"
+              "value": " resultats"
             }
           ]
         }
@@ -1865,7 +1823,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No rows logged"
+              "value": "No hi ha files registrades"
             }
           ]
         },
@@ -1876,7 +1834,7 @@
             },
             {
               "type": 0,
-              "value": " row logged"
+              "value": " fila registrada"
             }
           ]
         },
@@ -1887,7 +1845,7 @@
             },
             {
               "type": 0,
-              "value": " rows logged"
+              "value": " files registrades"
             }
           ]
         }
@@ -2238,7 +2196,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Settings"
+          "value": "Configuració"
         }
       ],
       "type": 8,
@@ -2358,7 +2316,7 @@
       "children": [
         {
           "type": 0,
-          "value": "raise a support request"
+          "value": "plantejar una solicitud de suport"
         }
       ],
       "type": 8,
@@ -2378,7 +2336,7 @@
       "children": [
         {
           "type": 0,
-          "value": "raise a support request"
+          "value": "plantejar una solicitud de suport"
         }
       ],
       "type": 8,
@@ -2438,7 +2396,7 @@
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "error de WebUSB"
+      "value": "Error de WebUSB"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
@@ -2450,21 +2408,7 @@
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "Has d'actualitzar el microprogramari"
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your micro:bit firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " per fer ús d'aquesta característica."
+      "value": "Has d<link>actualitzar el microprogramari de la teva micro:bit </link> per fer ús daquesta característica."
     }
   ],
   "webusb-error-update-req-title": [
