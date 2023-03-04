@@ -433,12 +433,22 @@ export class App {
    */
   async findAlertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
-    const alert = await document.findByRole("alert", {
-      name: title,
-    });
-    if (description) {
-      await alert.findByText(description);
-    }
+    await waitFor(async () => {
+      const alerts = await document.findAllByRole("alert", {
+        name: title,
+      });
+      if (description) {
+        const matchingDescriptions = await Promise.all(
+          alerts.map(async (alert) => {
+            const matches = await alert.queryAllByText(description);
+            return matches.length > 0;
+          })
+        );
+        if (!matchingDescriptions.some((x) => x)) {
+          throw new Error("No description match in matching alerts");
+        }
+      }
+    }, defaultWaitForOptions);
   }
 
   /**
