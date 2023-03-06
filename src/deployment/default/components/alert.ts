@@ -9,7 +9,7 @@ const Alert = {
   variants: {
     toast: (props: any) => {
       const base = {
-        ...theme.components.Alert.variants["solid"](props),
+        ...theme.components.Alert.variants!["solid"](props),
       };
       return base;
     },
