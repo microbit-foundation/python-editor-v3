@@ -230,7 +230,6 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
         await this.initializeFsFromStorage(fs);
         this.fs = fs;
         this.initializing = undefined;
-        this.logging.log("Initialized file system");
         await this.notify();
       })();
     }

@@ -14,20 +14,34 @@ import { createUri, LanguageServerClient } from "./client";
 // This is modified by bin/update-pyright.sh
 const workerScriptName = "pyright-main-9de05813f9fe07eabc93.worker.js";
 
+// Very simple cache to avoid React re-creating pointlessly in development.
+let counter = 0;
+let cached: LanguageServerClient | undefined;
+let cachedLang: string | undefined;
+
 /**
  * Creates Pyright workers and corresponding client.
  *
- * These have the same lifetime as the app.
+ * These are recreated when the language changes.
  */
-export const pyright = (language: string): LanguageServerClient | undefined => {
+export const pyright = async (
+  language: string
+): Promise<LanguageServerClient | undefined> => {
   // For jest.
   if (!window.Worker) {
     return undefined;
   }
+  if (cached && cachedLang === language) {
+    return cached;
+  }
+  // Dispose it, we'll create a new one.
+  cached?.dispose();
+
+  const idSuffix = counter++;
   // Needed to support review branches that use a path location.
   const workerScript = `${baseUrl}workers/${workerScriptName}`;
   const foreground = new Worker(workerScript, {
-    name: "Pyright-foreground",
+    name: `Pyright-foreground-${idSuffix}`,
   });
   foreground.postMessage({
     type: "browser/boot",
@@ -51,7 +65,7 @@ export const pyright = (language: string): LanguageServerClient | undefined => {
       // onward.
       const { initialData, port } = e.data;
       const background = new Worker(workerScript, {
-        name: `Pyright-background-${++backgroundWorkerCount}`,
+        name: `Pyright-background-${idSuffix}-${++backgroundWorkerCount}`,
       });
       workers.push(background);
       background.postMessage(
@@ -67,5 +81,8 @@ export const pyright = (language: string): LanguageServerClient | undefined => {
   });
   connection.listen();
 
-  return new LanguageServerClient(connection, language, createUri(""));
+  cached = new LanguageServerClient(connection, language, createUri(""));
+  await cached.initialize();
+  cachedLang = language;
+  return cached;
 };

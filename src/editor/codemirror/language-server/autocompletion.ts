@@ -19,6 +19,7 @@ import {
   CompletionItemKind,
   CompletionResolveRequest,
   CompletionTriggerKind,
+  ConnectionError,
 } from "vscode-languageserver-protocol";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { LanguageServerClient } from "../../../language-server/client";
@@ -147,12 +148,20 @@ const createDocumentationResolver =
     apiReferenceMap: ApiReferenceMap
   ) =>
   async (completion: Completion): Promise<Node> => {
-    const resolved = await client.connection.sendRequest(
-      CompletionResolveRequest.type,
-      (completion as AugmentedCompletion).item
-    );
+    let documentation: string | LSP.MarkupContent | undefined;
+    try {
+      const resolved = await client.connection.sendRequest(
+        CompletionResolveRequest.type,
+        (completion as AugmentedCompletion).item
+      );
+      documentation = resolved.documentation;
+    } catch (e) {
+      if (!(e instanceof ConnectionError)) {
+        throw e;
+      }
+    }
     const node = renderDocumentation(
-      resolved.documentation,
+      documentation,
       DocSections.Summary | DocSections.Example
     );
     node.className += " docs-skip-signature";

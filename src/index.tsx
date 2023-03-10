@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -11,9 +11,9 @@ import reportWebVitals from "./reportWebVitals";
 const root = createRoot(document.getElementById("root")!);
 root.render(
   // Disabled while we work through React 18 migration issues
-  //<React.StrictMode>
-  <App />
-  //</React.StrictMode>,
+  <StrictMode>
+    <App />
+  </StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
