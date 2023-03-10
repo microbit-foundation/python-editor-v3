@@ -279,7 +279,6 @@ export class App {
         (dragOverEvent as any).dataTransfer = { types: ["Files"] };
         (dropEvent as any).dataTransfer = { files: e.target.files };
         dragOverZone.dispatchEvent(dragOverEvent);
-        console.log("Dispatched drag over");
 
         const dropWhenReady = () => {
           const dropZone = document.querySelector(
