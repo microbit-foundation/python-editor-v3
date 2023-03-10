@@ -56,11 +56,11 @@ describe("open", () => {
     await app.findProjectName("0.9");
   });
 
-  it("Loads via drag and drop", async () => {
+  it.only("Loads via drag and drop", async () => {
     await app.dropFile("testData/1.0.1.hex");
 
-    await app.findVisibleEditorContents(/PASS1/);
     await app.findProjectName("1.0.1");
+    await app.findVisibleEditorContents(/PASS1/);
   });
 
   it("Correctly handles an mpy file", async () => {

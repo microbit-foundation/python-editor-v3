@@ -283,6 +283,9 @@ export class App {
         const dropZone = document.querySelector(
           "[data-testid=project-drop-target-overlay]"
         );
+        if (!dropZone) {
+          throw new Error();
+        }
         dropZone!.dispatchEvent(dropEvent);
 
         input.remove();
@@ -433,22 +436,20 @@ export class App {
    */
   async findAlertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
-    await waitFor(async () => {
-      const alerts = await document.findAllByRole("alert", {
-        name: title,
-      });
-      if (description) {
-        const matchingDescriptions = await Promise.all(
-          alerts.map(async (alert) => {
-            const matches = await alert.queryAllByText(description);
-            return matches.length > 0;
-          })
-        );
-        if (!matchingDescriptions.some((x) => x)) {
-          throw new Error("No description match in matching alerts");
+    // role=status queries don't work by content
+    const titles = await document.findAllByText(title);
+    if (description) {
+      for (const title of titles) {
+        const parentElement = (await title.getProperty(
+          "parentElement"
+        )) as ElementHandle;
+        const descriptionMatch = await parentElement.getByText(description);
+        if (descriptionMatch) {
+          return;
         }
+        throw new Error("Not found!");
       }
-    }, defaultWaitForOptions);
+    }
   }
 
   /**
@@ -537,7 +538,7 @@ export class App {
    */
   async setProjectName(projectName: string): Promise<void> {
     const document = await this.document();
-    const editButton = await document.getByRole("button", {
+    const editButton = await document.findByRole("button", {
       name: "Edit project name",
     });
     await editButton.click();
@@ -1081,7 +1082,8 @@ export class App {
 
   private async focusEditorContent(): Promise<ElementHandle> {
     const document = await this.document();
-    const content = await document.$("[data-testid='editor'] .cm-content");
+    const editor = await document.findByTestId("editor");
+    const content = await editor.$(".cm-content");
     if (!content) {
       throw new Error("Missing editor area");
     }
