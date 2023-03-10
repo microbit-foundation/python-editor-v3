@@ -279,16 +279,21 @@ export class App {
         (dragOverEvent as any).dataTransfer = { types: ["Files"] };
         (dropEvent as any).dataTransfer = { files: e.target.files };
         dragOverZone.dispatchEvent(dragOverEvent);
+        console.log("Dispatched drag over");
 
-        const dropZone = document.querySelector(
-          "[data-testid=project-drop-target-overlay]"
-        );
-        if (!dropZone) {
-          throw new Error();
-        }
-        dropZone!.dispatchEvent(dropEvent);
+        const dropWhenReady = () => {
+          const dropZone = document.querySelector(
+            "[data-testid=project-drop-target-overlay]"
+          );
+          if (dropZone) {
+            dropZone!.dispatchEvent(dropEvent);
+            input.remove();
+          } else {
+            setTimeout(dropWhenReady, 10);
+          }
+        };
 
-        input.remove();
+        dropWhenReady();
       };
       document.body.appendChild(input);
     }, inputId);
