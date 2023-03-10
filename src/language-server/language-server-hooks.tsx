@@ -10,7 +10,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import useIsUnmounted from "../common/use-is-unmounted";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useSettings } from "../settings/settings";
 import { LanguageServerClient } from "./client";
