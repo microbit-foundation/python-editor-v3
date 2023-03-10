@@ -183,11 +183,11 @@ const MessageComposer = ({
         placeholder={radioMessageLabel}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        disabled={!enabled}
+        isDisabled={!enabled}
       />
       <IconButton
         icon={<RiSendPlane2Line />}
-        disabled={!enabled}
+        isDisabled={!enabled}
         onClick={handleSendMessage}
         aria-label={intl.formatMessage({ id: "simulator-radio-send" })}
       ></IconButton>
