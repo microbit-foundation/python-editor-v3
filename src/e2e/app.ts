@@ -982,7 +982,8 @@ export class App {
     // This seems significantly more reliable than pressing Enter, though there's
     // no real-life issue here.
     const document = await this.document();
-    const option = await document.findByRole(
+    const editor = await document.findByTestId("editor");
+    const option = await editor.findByRole(
       "option",
       {
         name,

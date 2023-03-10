@@ -56,7 +56,7 @@ describe("open", () => {
     await app.findProjectName("0.9");
   });
 
-  it.only("Loads via drag and drop", async () => {
+  it("Loads via drag and drop", async () => {
     await app.dropFile("testData/1.0.1.hex");
 
     await app.findProjectName("1.0.1");
