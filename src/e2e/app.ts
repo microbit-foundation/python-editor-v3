@@ -597,9 +597,13 @@ export class App {
     description?: string
   ): Promise<void> {
     const document = await this.document();
-    await document.findByText(title, {
-      selector: "h2",
-    });
+    await document.findByText(
+      title,
+      {
+        selector: "h2",
+      },
+      defaultWaitForOptions
+    );
     if (description) {
       await document.findByText(description);
     }
