@@ -11,7 +11,14 @@ import { escapeRegExp } from "lodash";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
+import puppeteer, {
+  Browser,
+  Dialog,
+  ElementHandle,
+  Frame,
+  KeyInput,
+  Page,
+} from "puppeteer";
 import { WebUSBErrorCode } from "../device/device";
 import { Flag } from "../flags";
 
@@ -194,7 +201,9 @@ export class App {
    */
   async reloadPage(): Promise<void> {
     const page = await this.page;
-    await page.reload();
+    await page.reload({
+      waitUntil: "networkidle0",
+    });
   }
 
   /**
@@ -209,7 +218,9 @@ export class App {
   ): Promise<void> {
     await this.switchTab("Project");
     const document = await this.document();
-    const openInput = await document.getAllByTestId("open-input");
+    const openInput = (await document.getAllByTestId(
+      "open-input"
+    )) as ElementHandle<HTMLInputElement>[];
     await openInput[0].uploadFile(filePath);
     if (options.acceptDialog !== undefined) {
       await this.findAndAcceptLoadDialog(options.acceptDialog);
@@ -296,8 +307,10 @@ export class App {
       };
       document.body.appendChild(input);
     }, inputId);
-    const fileInput = await page.$(`#${inputId}`);
-    await fileInput!.uploadFile(filePath);
+    const fileInput = (await page.$(
+      `#${inputId}`
+    )) as ElementHandle<HTMLInputElement>;
+    await fileInput.uploadFile(filePath);
     if (options.acceptDialog !== undefined) {
       await this.findAndAcceptLoadDialog(options.acceptDialog);
     }
@@ -348,12 +361,10 @@ export class App {
     expectedVersion: string
   ): Promise<void> {
     const document = await this.document();
-    await document.findByRole("gridcell", {
-      name: expectedName,
-    });
-    await document.findByRole("gridcell", {
-      name: expectedVersion,
-    });
+    await Promise.all([
+      document.findByText(expectedName),
+      document.findByText(expectedVersion),
+    ]);
   }
 
   async toggleSettingThirdPartyModuleEditing(): Promise<void> {
@@ -577,8 +588,8 @@ export class App {
     const document = await this.document();
     return waitFor(async () => {
       const items = await document.$$(headingLevel);
-      const headings = await Promise.all(
-        items.map((e) =>
+      const headings: { text: string; visible: boolean }[] = await Promise.all(
+        items.map((e: ElementHandle<Element>) =>
           e.evaluate((node) => {
             const text = (node as HTMLElement).innerText;
             const rect = (node as HTMLElement).getBoundingClientRect();
@@ -666,8 +677,8 @@ export class App {
     const heading = await document.findByText(name, {
       selector: "h3",
     });
-    const handle = heading.asElement();
-    await handle!.evaluate((element) => {
+    const handle = heading.asElement() as ElementHandle<HTMLElement>;
+    await handle.evaluate((element) => {
       const item = element.closest("li");
       (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
     });
@@ -919,7 +930,9 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto(this.url);
+    await page.goto(this.url, {
+      waitUntil: "networkidle0",
+    });
   }
 
   /**
@@ -941,7 +954,9 @@ export class App {
   async findCompletionOptions(expected: string[]): Promise<void> {
     const document = await this.document();
     return waitFor(async () => {
-      const items = await document.$$(".cm-completionLabel");
+      const items: ElementHandle<Element>[] = await document.$$(
+        ".cm-completionLabel"
+      );
       const actual = await Promise.all(
         items.map((e) => e.evaluate((node) => (node as HTMLElement).innerText))
       );
@@ -1025,18 +1040,16 @@ export class App {
       name,
       level: 3,
     });
-    const section = await heading.evaluateHandle<ElementHandle>(
-      (e: Element) => {
-        let node: Element | null = e;
-        while (node && node.tagName !== "LI") {
-          node = node.parentElement;
-        }
-        if (!node) {
-          throw new Error("Unexpected DOM structure");
-        }
-        return node;
+    const section = await heading.evaluateHandle((e: Element) => {
+      let node: Element | null = e;
+      while (node && node.tagName !== "LI") {
+        node = node.parentElement;
       }
-    );
+      if (!node) {
+        throw new Error("Unexpected DOM structure");
+      }
+      return node;
+    });
     const draggable = (await section.$("[draggable]"))!;
     const lines = await document.$$("[data-testid='editor'] .cm-line");
     const line = lines[targetLine - 1];
@@ -1163,7 +1176,7 @@ export class App {
     await keyboard.up("Shift");
   }
 
-  private async document(): Promise<puppeteer.ElementHandle<Element>> {
+  private async document(): Promise<ElementHandle<Element>> {
     const page = await this.page;
     return page.getDocument();
   }
@@ -1208,7 +1221,7 @@ export class App {
     await actions.click();
   }
 
-  private async keyboardPress(key: puppeteer.KeyInput): Promise<void> {
+  private async keyboardPress(key: KeyInput): Promise<void> {
     const keyboard = (await this.page).keyboard;
     await keyboard.press(key);
   }
@@ -1216,7 +1229,7 @@ export class App {
   private async getElementByRoleAndLabel(
     role: string,
     name: string
-  ): Promise<puppeteer.ElementHandle<Element>> {
+  ): Promise<ElementHandle<Element>> {
     return (await this.document()).findByRole(role, {
       name,
     });
@@ -1224,15 +1237,17 @@ export class App {
 
   private async getElementByQuerySelector(
     query: string
-  ): Promise<puppeteer.ElementHandle<Element>> {
-    return (await this.page).evaluateHandle<ElementHandle>(
-      (query) => document.querySelector(query),
-      query
-    );
+  ): Promise<ElementHandle<Element>> {
+    const document = await this.document();
+    const result = await document.$(query);
+    if (!result) {
+      throw new Error();
+    }
+    return result;
   }
 
   async assertActiveElement(
-    accessExpectedElement: () => Promise<puppeteer.ElementHandle<Element>>
+    accessExpectedElement: () => Promise<ElementHandle<Element>>
   ) {
     return waitFor(async () => {
       const page = await this.page;
@@ -1317,7 +1332,7 @@ export class App {
   }
 
   // Simulator functions
-  private async getSimulatorIframe(): Promise<puppeteer.Frame> {
+  private async getSimulatorIframe(): Promise<Frame> {
     const page = await this.page;
     const simulatorIframe = page
       .frames()
