@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "关于用法和示例，请参阅 <link>Reference</link>",
+    "defaultMessage": "关于用法和示例，请参阅 <link>参考</link>",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -431,7 +431,7 @@
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
-    "defaultMessage": "MicroPython <linkV1>source code for the micro:bit V1</linkV1> 和 <linkV2>micro:bit V2</linkV2>",
+    "defaultMessage": "MicroPython <linkV1>micro:bit V1</linkV1> 和 <linkV2>micro:bit V2</linkV2> 的源代码",
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {

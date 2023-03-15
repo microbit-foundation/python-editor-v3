@@ -78,7 +78,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Reference"
+          "value": "参考"
         }
       ],
       "type": 8,
@@ -860,7 +860,7 @@
       "children": [
         {
           "type": 0,
-          "value": "source code for the micro:bit V1"
+          "value": "micro:bit V1"
         }
       ],
       "type": 8,
@@ -879,6 +879,10 @@
       ],
       "type": 8,
       "value": "linkV2"
+    },
+    {
+      "type": 0,
+      "value": " 的源代码"
     }
   ],
   "more-action": [
