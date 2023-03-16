@@ -2,35 +2,35 @@
   "about": [
     {
       "type": 0,
-      "value": "关于我们"
+      "value": "Quant a"
     }
   ],
   "about-comic": [
     {
       "type": 0,
-      "value": "由 Mike Rowbit 创作的题为 “MicroPython Rocks” 的三幅漫画。漫画上一条卡通蛇介绍 Damien，说：“这是 Damien……他创造了 MicroPython。”两条蛇讨论着 MicroPython。黄色的蛇说：“MicroPython 是为在非常小的计算机上工作而设计的。” 紫色的蛇答道：“就像你的 BBC micro:bit 一样。\" 黄色的蛇继续说道：“但是 Python 可以在任何地方运行。”紫色的蛇表示同意，并说：“就像在这个运行大型网站的服务器机架上一样”。蛇身后的背景展示了一个服务器机架。"
+      "value": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva BBC micro:bit\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors."
     }
   ],
   "about-microbit": [
     {
+      "type": 0,
+      "value": "Fet amb amor per la "
+    },
+    {
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation and contributors"
+          "value": "Micro:bit Educational Foundation i els col·laboradors"
         }
       ],
       "type": 8,
       "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " 用爱心制作"
     }
   ],
   "about-micropython": [
     {
       "type": 0,
-      "value": "编辑器依赖于由 Damien George 和世界各地的开发人员社区开发的 "
+      "value": "L'editor depèn de "
     },
     {
       "children": [
@@ -44,25 +44,25 @@
     },
     {
       "type": 0,
-      "value": "。"
+      "value": ", fet per Damien George i una comunitat de desenvolupadors d'arreu del món."
     }
   ],
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "阅读更少有关 MicroPython 的信息"
+      "value": "Llegeix menys sobre MicroPython"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "阅读更多有关 MicroPython 的信息"
+      "value": "Llegeix més sobre MicroPython"
     }
   ],
   "added-change": [
     {
       "type": 0,
-      "value": "已添加文件 "
+      "value": "S'ha afegit el fitxer "
     },
     {
       "type": 1,
@@ -72,13 +72,13 @@
   "api-description": [
     {
       "type": 0,
-      "value": "关于用法和示例，请参阅 "
+      "value": "Per a l'ús i els exemples, consulta "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "参考"
+          "value": "Referència"
         }
       ],
       "type": 8,
@@ -95,11 +95,19 @@
     {
       "offset": 0,
       "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "classe base"
+            }
+          ]
+        },
         "other": {
           "value": [
             {
               "type": 0,
-              "value": "base classes: "
+              "value": "classes base: "
             }
           ]
         }
@@ -112,55 +120,55 @@
   "apidocs-classes": [
     {
       "type": 0,
-      "value": "类"
+      "value": "Classes"
     }
   ],
   "apidocs-fields": [
     {
       "type": 0,
-      "value": "字段"
+      "value": "Camps"
     }
   ],
   "apidocs-functions": [
     {
       "type": 0,
-      "value": "函数"
+      "value": "Funcions"
     }
   ],
   "apidocs-methods": [
     {
       "type": 0,
-      "value": "方法"
+      "value": "Mètodes"
     }
   ],
   "back-action": [
     {
       "type": 0,
-      "value": "返回"
+      "value": "Enrera"
     }
   ],
   "back-to-main": [
     {
       "type": 0,
-      "value": "返回主代码"
+      "value": "tornar al codi principal"
     }
   ],
   "cancel-action": [
     {
       "type": 0,
-      "value": "取消"
+      "value": "Cancel·lar"
     }
   ],
   "change-files": [
     {
       "type": 0,
-      "value": "更改文件？"
+      "value": "Canviar fitxers?"
     }
   ],
   "choose-main-add-file": [
     {
       "type": 0,
-      "value": "添加文件 "
+      "value": "Afegeix el fitxer "
     },
     {
       "type": 1,
@@ -170,7 +178,7 @@
   "choose-main-add-module": [
     {
       "type": 0,
-      "value": "添加模块 "
+      "value": "Afegeix el mòdul "
     },
     {
       "type": 1,
@@ -180,7 +188,7 @@
   "choose-main-replace-file": [
     {
       "type": 0,
-      "value": "替换文件 "
+      "value": "Substitueix el fitxer "
     },
     {
       "type": 1,
@@ -190,7 +198,7 @@
   "choose-main-replace-module": [
     {
       "type": 0,
-      "value": "替换模块 "
+      "value": "Substitueix el mòdul "
     },
     {
       "type": 1,
@@ -200,7 +208,15 @@
   "choose-main-source-add-file": [
     {
       "type": 0,
-      "value": "从 "
+      "value": "Afegeix el fitxer "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " des de "
     },
     {
       "type": 1,
@@ -208,31 +224,23 @@
     },
     {
       "type": 0,
-      "value": " 添加文件 "
-    },
-    {
-      "type": 1,
-      "value": "target"
+      "value": " "
     }
   ],
   "choose-main-source-add-main-code": [
     {
       "type": 0,
-      "value": "从 "
+      "value": "Afegeix el programa principal de "
     },
     {
       "type": 1,
       "value": "source"
-    },
-    {
-      "type": 0,
-      "value": " 添加主代码"
     }
   ],
   "choose-main-source-replace-file": [
     {
       "type": 0,
-      "value": "将文件 "
+      "value": "Substitueix el fitxer "
     },
     {
       "type": 1,
@@ -240,7 +248,7 @@
     },
     {
       "type": 0,
-      "value": " 替换为 "
+      "value": " per "
     },
     {
       "type": 1,
@@ -250,75 +258,71 @@
   "choose-main-source-replace-main-code": [
     {
       "type": 0,
-      "value": "用 "
+      "value": "Substitueix el programa principal per "
     },
     {
       "type": 1,
       "value": "source"
-    },
-    {
-      "type": 0,
-      "value": " 替换主代码"
     }
   ],
   "clear": [
     {
       "type": 0,
-      "value": "清除"
+      "value": "Esborra"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "关闭"
+      "value": "Tanca "
     }
   ],
   "code-editor": [
     {
       "type": 0,
-      "value": "代码编辑器"
+      "value": "Editor de codi"
     }
   ],
   "code-example": [
     {
       "type": 0,
-      "value": "代码示例："
+      "value": "Exemple de codi:"
     }
   ],
   "confirm-action": [
     {
       "type": 0,
-      "value": "确认"
+      "value": "Confirma"
     }
   ],
   "confirm-delete": [
     {
       "type": 0,
-      "value": "确认删除"
+      "value": "Confirma la supressió"
     }
   ],
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "将所有文件替换成 hex 文件？"
+      "value": "Substitueix tots els fitxers amb els de l'hexadecimal?"
     }
   ],
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "用默认启动代码替换所有文件？"
+      "value": "Vols substituir tots els fitxers pel programa d'inici per defecte?"
     }
   ],
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "确认替换项目"
+      "value": "Confirma la substitució del projecte"
     }
   ],
   "confirm-replace-with-idea": [
     {
       "type": 0,
-      "value": "用 "
+      "value": "Vols substituir tots els fitxers per "
     },
     {
       "type": 1,
@@ -326,127 +330,127 @@
     },
     {
       "type": 0,
-      "value": " 替换所有文件？"
+      "value": "?"
     }
   ],
   "confirm-save-action": [
     {
       "type": 0,
-      "value": "确认并保存"
+      "value": "Confirma i desa"
     }
   ],
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "取消然后使用 Save （保存）来保留您的项目副本。"
+      "value": "Cancel·la i després utilitza Desa per conservar una còpia del teu projecte."
     }
   ],
   "connect-action": [
     {
       "type": 0,
-      "value": "连接"
+      "value": "Connecta"
     }
   ],
   "connect-cable-title": [
     {
       "type": 0,
-      "value": "连接电缆"
+      "value": "Connecta el cable"
     }
   ],
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "WebUSB 连接对话框，带有标记为 1 的 BBC micro:bit 条目和标记为 2 的连接按钮"
+      "value": "Diàleg de connexió WebUSB amb l'entrada de BBC micro:bit etiquetada com 1 i el botó de connexió etiquetat com 2"
     }
   ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "在下一个弹出窗口中："
+      "value": "A la següent finestra emergent:"
     }
   ],
   "connect-help-one": [
     {
       "type": 0,
-      "value": "选择您的 micro:bit"
+      "value": "Tria la teva micro:bit"
     }
   ],
   "connect-help-title": [
     {
       "type": 0,
-      "value": "选择 micro:bit"
+      "value": "Selecciona la micro:bit"
     }
   ],
   "connect-help-two": [
     {
       "type": 0,
-      "value": "选择 \"Connect\"（连接）"
+      "value": "Selecciona 'Connecta'"
     }
   ],
   "connect-hover": [
     {
       "type": 0,
-      "value": "通过 WebUSB 连接到您的 micro:bit"
+      "value": "Connecta't a la teva micro:bit mitjançant WebUSB"
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "连接到您的 micro:bit 以在此处查看串行输出"
+      "value": "Connecta't a la teva micro:bit per veure la sortida en sèrie aquí"
     }
   ],
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "通过与您的 micro:bit 连接进行排错"
+      "value": "Soluciona problemes de connexió a la teva micro:bit"
     }
   ],
   "content-load-error": [
     {
       "type": 0,
-      "value": "出错了。下载您的 hex 文件以便安全保存，然后刷新页面来重新加载。"
+      "value": "Alguna cosa ha anat malament. Baixa el teu fitxer hexadecimal per mantenir-lo segur i, a continuació, actualitza la pàgina per tornar-la a carregar."
     }
   ],
   "copied": [
     {
       "type": 0,
-      "value": "已复制"
+      "value": "Copiat"
     }
   ],
   "copy-action": [
     {
       "type": 0,
-      "value": "复制"
+      "value": "Copia"
     }
   ],
   "copy-code-action": [
     {
       "type": 0,
-      "value": "复制代码"
+      "value": "Copia el programa"
     }
   ],
   "create-action": [
     {
       "type": 0,
-      "value": "创作"
+      "value": "Crea"
     }
   ],
   "create-file-action": [
     {
       "type": 0,
-      "value": "创建文件"
+      "value": "Crea un fitxer"
     }
   ],
   "create-python": [
     {
       "type": 0,
-      "value": "在此项目中创建一份新的 Python 文件"
+      "value": "Crea un nou fitxer Python en aquest projecte"
     }
   ],
   "created-file": [
     {
       "type": 0,
-      "value": "创建 "
+      "value": "S'ha creat "
     },
     {
       "type": 1,
@@ -456,13 +460,13 @@
   "delete-action": [
     {
       "type": 0,
-      "value": "删除"
+      "value": "Eliminar"
     }
   ],
   "delete-file-action": [
     {
       "type": 0,
-      "value": "删除 "
+      "value": "Suprimeix "
     },
     {
       "type": 1,
@@ -472,7 +476,7 @@
   "deleted-file": [
     {
       "type": 0,
-      "value": "已删除 "
+      "value": "S'ha suprimit "
     },
     {
       "type": 1,
@@ -482,31 +486,31 @@
   "disconnect-action": [
     {
       "type": 0,
-      "value": "断开连接"
+      "value": "Desconnecta"
     }
   ],
   "disconnect-hover": [
     {
       "type": 0,
-      "value": "断开 micro:bit 连接"
+      "value": "Desconnecta't de la micro:bit"
     }
   ],
   "dont-show-again": [
     {
       "type": 0,
-      "value": "不再显示此内容"
+      "value": "No tornis a mostrar això"
     }
   ],
   "drag-hover": [
     {
       "type": 0,
-      "value": "拖放"
+      "value": "Arrossegar i deixar anar"
     }
   ],
   "edit-file-action": [
     {
       "type": 0,
-      "value": "编辑 "
+      "value": "Edita "
     },
     {
       "type": 1,
@@ -516,47 +520,47 @@
   "edit-name-project-hover": [
     {
       "type": 0,
-      "value": "编辑您项目的名称"
+      "value": "Edita el nom del teu projecte"
     }
   ],
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "编辑项目名称"
+      "value": "Edita el nom del projecte"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "无法创建 hex 文件"
+      "value": "No s'ha pogut crear el fitxer hexadecimal"
     }
   ],
   "feedback": [
     {
       "type": 0,
-      "value": "反馈"
+      "value": "Comentaris"
     }
   ],
   "file-actions": [
     {
-      "type": 1,
-      "value": "name"
+      "type": 0,
+      "value": "Accions del fitxer "
     },
     {
-      "type": 0,
-      "value": " 文件操作"
+      "type": 1,
+      "value": "name"
     }
   ],
   "file-already-exists": [
     {
       "type": 0,
-      "value": "该文件已经存在"
+      "value": "Aquest fitxer ja existeix"
     }
   ],
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "名称包含无效字符："
+      "value": "El nom conté un caràcter no vàlid: "
     },
     {
       "type": 1,
@@ -566,111 +570,97 @@
   "file-name-length": [
     {
       "type": 0,
-      "value": "名称太长"
+      "value": "El nom és massa llarg"
     }
   ],
   "file-name-lowercase-only": [
     {
       "type": 0,
-      "value": "名称应全部小写"
+      "value": "El nom ha de ser tot en minúscula"
     }
   ],
   "file-name-not-empty": [
     {
       "type": 0,
-      "value": "名称不能为空"
+      "value": "El nom no pot estar buit"
     }
   ],
   "file-name-start-number": [
     {
       "type": 0,
-      "value": "名称不能以数字开头"
+      "value": "El nom no pot començar amb un nombre"
     }
   ],
   "file-name-whitespace": [
     {
       "type": 0,
-      "value": "名称不能包含空格"
+      "value": "El nom no pot contenir espais"
     }
   ],
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "在连接 micro:bit 之前，您必须 "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "。"
+      "value": "Has d<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit."
     }
   ],
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "因为您的 micro:bit 上的固件太老，所以导致 micro:bit 连接失败。"
+      "value": "La connexió a la micro:bit ha fallat perquè el microprogramari de la teva micro:bit és massa antic."
     }
   ],
   "firmware-update-title": [
     {
       "type": 0,
-      "value": "需要更新固件"
+      "value": "Cal actualitzar el firmware"
     }
   ],
   "flash-action": [
     {
       "type": 0,
-      "value": "烧录"
+      "value": "Transferir"
     }
   ],
   "flash-hover": [
     {
       "type": 0,
-      "value": "直接下载项目到 micro:bit"
+      "value": "Transfereix el projecte directament a la micro:bit"
     }
   ],
   "flashing-code": [
     {
       "type": 0,
-      "value": "发送代码（刷入）"
+      "value": "S'està enviant el programa (transferint)"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "您的代码正被发送（刷）到您的 micro:bit。第一次可能需要一段时间，但之后会更快。"
+      "value": "El teu programa s'està enviant (transferint) a la teva micro:bit. Això pot trigar una mica la primera vegada, però després serà més ràpid."
     }
   ],
   "flashing-micropython": [
     {
       "type": 0,
-      "value": "刷写 MicroPython"
+      "value": "Transferint MicroPython "
     }
   ],
   "font-size": [
     {
       "type": 0,
-      "value": "字体大小"
+      "value": "Mida de la font"
     }
   ],
   "guide-link": [
     {
       "type": 0,
-      "value": "如需更多支持，请参阅 "
+      "value": "Per obtenir més suport, consulta la "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Python Editor guide"
+          "value": "guia de l'Editor de Python"
         }
       ],
       "type": 8,
@@ -680,85 +670,85 @@
   "help": [
     {
       "type": 0,
-      "value": "帮助"
+      "value": "Ajuda"
     }
   ],
   "help-support": [
     {
       "type": 0,
-      "value": "帮助与支持"
+      "value": "Ajuda i suport"
     }
   ],
   "help-translate": [
     {
       "type": 0,
-      "value": "帮助翻译"
+      "value": "Ajuda a traduir"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "突出显示代码结构"
+      "value": "Ressaltar l'estructura del programa"
     }
   ],
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "完整"
+      "value": "Ple"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "无"
+      "value": "Cap"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "简单"
+      "value": "Senzill"
     }
   ],
   "ideas-tab": [
     {
       "type": 0,
-      "value": "创意"
+      "value": "Idees"
     }
   ],
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "尝试这些项目，修改它们并获得灵感"
+      "value": "Prova aquests projectes, modifica'ls i inspira't"
     }
   ],
   "insert-code-action": [
     {
       "type": 0,
-      "value": "插入代码"
+      "value": "Insereix codi"
     }
   ],
   "language": [
     {
       "type": 0,
-      "value": "语言"
+      "value": "Idioma"
     }
   ],
   "less-action": [
     {
       "type": 0,
-      "value": "更少"
+      "value": "Menys"
     }
   ],
   "load-error-makecode-info": [
     {
       "type": 0,
-      "value": "此 hex 文件无法在 Python 编辑器中加载。 Python 编辑器无法打开使用 Microsoft MakeCode 创建的 hex 文件。"
+      "value": "Aquest fitxer hexadecimal no es pot carregar a l'Editor de Python. L'Editor Python no pot obrir fitxers hexadecimals creats amb Microsoft MakeCode."
     }
   ],
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "要使用该 hex 文件，请访问 "
+      "value": "Visita "
     },
     {
       "children": [
@@ -772,25 +762,25 @@
     },
     {
       "type": 0,
-      "value": "。"
+      "value": " per utilitzar aquest fitxer hexadecimal."
     }
   ],
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "hex 文件只能单独加载。它会取代项目中的所有文件。"
+      "value": "Un fitxer hexadecimal només es pot carregar sol. Substitueix tots els fitxers del projecte."
     }
   ],
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "这个版本的 Python Editor 不支持添加 .mpy 文件。"
+      "value": "Aquesta versió de l'Editor de Python actualment no admet l'addició de fitxers .mpy."
     }
   ],
   "load-error-title": [
     {
       "type": 0,
-      "value": "无法加载 "
+      "value": "No es pot carregar "
     },
     {
       "offset": 0,
@@ -820,7 +810,7 @@
   "loaded-file-feedback": [
     {
       "type": 0,
-      "value": "已加载 "
+      "value": "S'ha carregat "
     },
     {
       "type": 1,
@@ -830,25 +820,25 @@
   "loading": [
     {
       "type": 0,
-      "value": "正在加载…"
+      "value": "S'està carregant…"
     }
   ],
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "用 5 x 5 LED 网格显示一颗心的 micro:bit 主板"
+      "value": "placa micro:bit amb la graella LED de 5 per 5 que mostra un cor"
     }
   ],
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "MicroPython 文档"
+      "value": "Documentació de MicroPython"
     }
   ],
   "micropython-history": [
     {
       "type": 0,
-      "value": "了解 micro:bit 上的 MicroPython 是如何诞生的"
+      "value": "Descobreix com va néixer MicroPython a la micro:bit"
     }
   ],
   "micropython-source-code": [
@@ -860,7 +850,7 @@
       "children": [
         {
           "type": 0,
-          "value": "micro:bit V1"
+          "value": "codi font per a la micro:bit V1"
         }
       ],
       "type": 8,
@@ -868,7 +858,7 @@
     },
     {
       "type": 0,
-      "value": " 和 "
+      "value": " i "
     },
     {
       "children": [
@@ -879,22 +869,18 @@
       ],
       "type": 8,
       "value": "linkV2"
-    },
-    {
-      "type": 0,
-      "value": " 的源代码"
     }
   ],
   "more-action": [
     {
       "type": 0,
-      "value": "更多"
+      "value": "Més"
     }
   ],
   "more-connect-options": [
     {
       "type": 0,
-      "value": "更多连接选项"
+      "value": "Més opcions de connexió"
     }
   ],
   "more-ideas": [
@@ -902,7 +888,7 @@
       "children": [
         {
           "type": 0,
-          "value": "More ideas"
+          "value": "Més idees"
         }
       ],
       "type": 8,
@@ -912,13 +898,13 @@
   "more-save-options": [
     {
       "type": 0,
-      "value": "更多保存选项"
+      "value": "Més opcions de desar"
     }
   ],
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "此项目包含 "
+      "value": "Aquest projecte conté els fitxers "
     },
     {
       "offset": 0,
@@ -931,7 +917,7 @@
             },
             {
               "type": 0,
-              "value": " 文件"
+              "value": " fitxers"
             }
           ]
         }
@@ -942,7 +928,7 @@
     },
     {
       "type": 0,
-      "value": " 但只有 "
+      "value": ", però només s'ha baixat "
     },
     {
       "children": [
@@ -956,19 +942,19 @@
     },
     {
       "type": 0,
-      "value": " 已下载。"
+      "value": "."
     }
   ],
   "multiple-files-message-two": [
     {
       "type": 0,
-      "value": "使用 "
+      "value": "Fes servir el botó "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Save"
+          "value": "Desa"
         }
       ],
       "type": 8,
@@ -976,13 +962,13 @@
     },
     {
       "type": 0,
-      "value": "（保存） 按钮将整个项目下载为一个 hex 文件。您可以 "
+      "value": " per baixar tot el projecte com a fitxer hexadecimal. Pots "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Open"
+          "value": "obrir"
         }
       ],
       "type": 8,
@@ -990,13 +976,13 @@
     },
     {
       "type": 0,
-      "value": "（打开） 此hex 文件来恢复您的项目。如果您希望下载单个 Python 文件，请使用 "
+      "value": " el fitxer hexadecimal per restaurar el teu projecte. Si prefereixes baixar fitxers Python individuals, fes servir la pestanya "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Project"
+          "value": "Projecte"
         }
       ],
       "type": 8,
@@ -1004,37 +990,37 @@
     },
     {
       "type": 0,
-      "value": "（项目） 选项卡。"
+      "value": "."
     }
   ],
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "警告：只下载了 main.py"
+      "value": "Avís: només s'ha descarregat main.py"
     }
   ],
   "name-project": [
     {
       "type": 0,
-      "value": "为您的项目命名"
+      "value": "Anomena el teu projecte"
     }
   ],
   "name-text": [
     {
       "type": 0,
-      "value": "姓名"
+      "value": "Nom"
     }
   ],
   "name-used-when": [
     {
       "type": 0,
-      "value": "保存 hex 文件时使用该名称。"
+      "value": "El nom s'utilitza quan deses un fitxer hexadecimal."
     }
   ],
   "new-file-hint": [
     {
       "type": 0,
-      "value": "我们将为您添加 "
+      "value": "T'afegirem l'extensió "
     },
     {
       "children": [
@@ -1048,25 +1034,25 @@
     },
     {
       "type": 0,
-      "value": " 扩展名。"
+      "value": "."
     }
   ],
   "next-action": [
     {
       "type": 0,
-      "value": "下一个"
+      "value": "Següent"
     }
   ],
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "您的 "
+      "value": "La teva "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit 是否已插入"
+          "value": "micro:bit està connectada"
         }
       ],
       "type": 8,
@@ -1074,13 +1060,13 @@
     },
     {
       "type": 0,
-      "value": "？您是否 "
+      "value": "? Has  "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "follow these steps"
+          "value": "seguit aquests passos"
         }
       ],
       "type": 8,
@@ -1088,13 +1074,13 @@
     },
     {
       "type": 0,
-      "value": "？"
+      "value": "?"
     }
   ],
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "如果您持有的是 "
+      "value": "Si tens una "
     },
     {
       "children": [
@@ -1108,103 +1094,79 @@
     },
     {
       "type": 0,
-      "value": "，您可能需要  "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update the firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
+      "value": ", potser hauries d<link>actualitzar el microprogramari</link>"
     }
   ],
   "not-found-message": [
     {
       "type": 0,
-      "value": "您没有选择 micro:bit，或者与它的连接存在问题。"
+      "value": "No has seleccionat cap micro:bit o hi ha hagut un problema en connectar-s'hi."
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "替代方法：选择 Save （保存），然后按照步骤传输"
+      "value": "Mètode alternatiu: selecciona Desa i segueix els passos per transferir"
     }
   ],
   "not-found-title": [
     {
       "type": 0,
-      "value": "未找到 micro:bit"
+      "value": "No s'ha trobat cap micro:bit"
     }
   ],
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "您必须 "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your firmware before"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " 才能连接到此 micro:bit。"
+      "value": "Has d<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit."
     }
   ],
   "open-action": [
     {
       "type": 0,
-      "value": "打开"
+      "value": "Obert"
     }
   ],
   "open-file-action": [
     {
       "type": 0,
-      "value": "打开…"
+      "value": "Obert"
     }
   ],
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "放下时打开文件"
+      "value": "Obre el fitxer quan es deixa anar"
     }
   ],
   "open-hover": [
     {
       "type": 0,
-      "value": "打开一 份 hex 或 Python 文件，或添加其他文件"
+      "value": "Obre un fitxer hexadecimal o Python o afegeix altres fitxers"
     }
   ],
   "options": [
     {
       "type": 0,
-      "value": "选项"
+      "value": "Opcions"
     }
   ],
   "parameter-help": [
     {
       "type": 0,
-      "value": "参数帮助"
+      "value": "Ajuda dels paràmetres"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "自动"
+      "value": "Automàtic"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "手动("
+      "value": "Manual ("
     },
     {
       "type": 1,
@@ -1218,7 +1180,7 @@
   "permanently-delete": [
     {
       "type": 0,
-      "value": "永久删除 "
+      "value": "Suprimir "
     },
     {
       "type": 1,
@@ -1226,19 +1188,19 @@
     },
     {
       "type": 0,
-      "value": " 吗？"
+      "value": " permanentment?"
     }
   ],
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "这包含此项目中的所有文件（包括任何附加文件，例如运行附件，列在 "
+      "value": "Conté tots els fitxers d'aquest projecte (inclosos els fitxers addicionals, per exemple, per executar accessoris, que s'enumeren a la pestanya "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "项目"
+          "value": "Projecte"
         }
       ],
       "type": 8,
@@ -1246,19 +1208,19 @@
     },
     {
       "type": 0,
-      "value": " 选项卡中）。"
+      "value": ")."
     }
   ],
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "\n您将在这台计算机的 "
+      "value": "Trobaràs el teu fitxer hexadecimal a la carpeta "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Downloads (下载)"
+          "value": "Baixades"
         }
       ],
       "type": 8,
@@ -1266,19 +1228,19 @@
     },
     {
       "type": 0,
-      "value": " 文件夹中找到您的 hex 文件。"
+      "value": " d'aquest ordinador."
     }
   ],
   "post-save-message-two": [
     {
       "type": 0,
-      "value": "您可以将其移至另一个文件夹进行保存，稍后使用"
+      "value": "Pots moure'l a una altra carpeta per emmagatzemar-lo i fer servir  "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Open （打开）"
+          "value": "Obre"
         }
       ],
       "type": 8,
@@ -1286,25 +1248,25 @@
     },
     {
       "type": 0,
-      "value": "继续编辑。"
+      "value": " per continuar editant-lo més tard."
     }
   ],
   "post-save-title": [
     {
       "type": 0,
-      "value": "项目已保存"
+      "value": "Projecte desat"
     }
   ],
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "要在您的 micro:bit 上运行此 hex 文件，"
+      "value": "Per executar aquest fitxer hexadecimal a la teva micro:bit "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "follow these steps"
+          "value": "segueix aquests passos"
         }
       ],
       "type": 8,
@@ -1312,49 +1274,49 @@
     },
     {
       "type": 0,
-      "value": "。"
+      "value": "."
     }
   ],
   "project-actions": [
     {
       "type": 0,
-      "value": "项目行动"
+      "value": "Accions del projecte"
     }
   ],
   "project-header": [
     {
       "type": 0,
-      "value": "项目标题"
+      "value": "Capçalera del projecte"
     }
   ],
   "project-name": [
     {
       "type": 0,
-      "value": "项目名称"
+      "value": "Nom del projecte"
     }
   ],
   "project-name-not-empty": [
     {
       "type": 0,
-      "value": "项目名称不能为空"
+      "value": "El nom del projecte no pot estar buit"
     }
   ],
   "project-tab": [
     {
       "type": 0,
-      "value": "项目"
+      "value": "Projecte"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "查看、创建、添加和编辑您项目中的文件"
+      "value": "Visualitza, crea, afegeix i edita els fitxers del teu projecte"
     }
   ],
   "python-powered": [
     {
       "type": 0,
-      "value": "Python 驱动"
+      "value": "Fet amb Python"
     }
   ],
   "python-tab": [
@@ -1366,55 +1328,55 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "某些更改尚未保存。仍然退出吗?"
+      "value": "Alguns dels teus canvis no s'han desat. Sortir de totes maneres?"
     }
   ],
   "read-less": [
     {
       "type": 0,
-      "value": "了解简略信息"
+      "value": "Llegir menys"
     }
   ],
   "read-more": [
     {
       "type": 0,
-      "value": "了解更多"
+      "value": "Més informació"
     }
   ],
   "redo": [
     {
       "type": 0,
-      "value": "重做"
+      "value": "Refer"
     }
   ],
   "reference-tab": [
     {
       "type": 0,
-      "value": "参考"
+      "value": "Referència"
     }
   ],
   "replace-action-label": [
     {
       "type": 0,
-      "value": "替换"
+      "value": "Substitueix"
     }
   ],
   "reset-project-action": [
     {
       "type": 0,
-      "value": "重置项目"
+      "value": "Restableix el projecte"
     }
   ],
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "项目重置为默认启动代码"
+      "value": "Restableix el projecte al programa d'inici predeterminat"
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "将项目重置为默认启动代码，放弃您的工作"
+      "value": "Restableix el projecte al programa inicial predeterminat, descartant el teu treball"
     }
   ],
   "results-count": [
@@ -1425,7 +1387,18 @@
           "value": [
             {
               "type": 0,
-              "value": "No results"
+              "value": "Sense resultats"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " resultat"
             }
           ]
         },
@@ -1436,7 +1409,7 @@
             },
             {
               "type": 0,
-              "value": " results"
+              "value": " resultats"
             }
           ]
         }
@@ -1449,13 +1422,13 @@
   "save-action": [
     {
       "type": 0,
-      "value": "保存"
+      "value": "Desa"
     }
   ],
   "save-file-action": [
     {
       "type": 0,
-      "value": "保存 "
+      "value": "Desa "
     },
     {
       "type": 1,
@@ -1465,73 +1438,73 @@
   "save-hex-action": [
     {
       "type": 0,
-      "value": "保存项目 hex"
+      "value": "Desa el projecte hexadecimal"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "将项目的 hex 文件保存到您的计算机"
+      "value": "Desa el fitxer hexadecimal del projecte al teu ordinador"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "保存 Python 脚本"
+      "value": "Desa l'script de Python"
     }
   ],
   "search": [
     {
       "type": 0,
-      "value": "搜索​​​​"
+      "value": "Cerca"
     }
   ],
   "send-action": [
     {
       "type": 0,
-      "value": "发送至 micro:bit"
+      "value": "Envia a la micro:bit"
     }
   ],
   "send-hover": [
     {
       "type": 0,
-      "value": "通过 WebUSB 连接，然后将代码刷到 micro:bit"
+      "value": "Connecta't mitjançant WebUSB i després transfereix el programa a la micro:bit"
     }
   ],
   "serial-collapse": [
     {
       "type": 0,
-      "value": "隐藏串口"
+      "value": "Amaga el terminal sèrie"
     }
   ],
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "发送 Ctrl+C 到 REPL"
+      "value": "Envia Ctrl+C per REPL"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "发送 Ctrl+D 来重置"
+      "value": "Envia Ctrl+D per restablir"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
-      "value": "显示串口"
+      "value": "Mostra la consola sèrie"
     }
   ],
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit 刷入"
+      "value": "micro:bit transferit"
     }
   ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "使用键盘快捷键 "
+      "value": "Utilitza la drecera de teclat "
     },
     {
       "children": [
@@ -1559,13 +1532,13 @@
     },
     {
       "type": 0,
-      "value": " 来中断您的程序。然后，您可以输入 Python 命令让 MicroPython 运行。这是尝试新事物的好办法。"
+      "value": " per interrompre el teu programa. A continuació, pots escriure ordres de Python perquè s'executi MicroPython. És una bona manera d'experimentar amb alguna cosa nova."
     }
   ],
   "serial-help-ctrl-d": [
     {
       "type": 0,
-      "value": "若要重新运行程序，请使用 "
+      "value": "Per tornar a iniciar el programa, fes servir "
     },
     {
       "children": [
@@ -1593,19 +1566,19 @@
     },
     {
       "type": 0,
-      "value": "。"
+      "value": "."
     }
   ],
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "串行终端显示在您的 micro:bit 上运行的程序的错误和其他输出。默认情况下，它显示程序的最新错误。展开它以查看所有输出。"
+      "value": "El terminal sèrie mostra errors i altres sortides del programa que s'executa a la teva micro:bit. Per defecte, mostra l'error més recent del programa. Amplia'l per veure tota la sortida."
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "您的程序可以使用 "
+      "value": "El teu programa pot imprimir missatges mitjançant la funció "
     },
     {
       "children": [
@@ -1619,13 +1592,13 @@
     },
     {
       "type": 0,
-      "value": " 函数打印消息。尝试将 "
+      "value": ". Prova d'afegir "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "print('micro:bit is awesome')"
+          "value": "print('la micro:bit es genial')"
         }
       ],
       "type": 8,
@@ -1633,155 +1606,147 @@
     },
     {
       "type": 0,
-      "value": " 添加到您的程序中。"
+      "value": " al teu programa."
     }
   ],
   "serial-help-title": [
     {
       "type": 0,
-      "value": "串口提示和技巧"
+      "value": "Suggeriments i consells sobre la comunicació en sèrie"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "串口提示和技巧"
+      "value": "Suggeriments i consells sobre la comunicació en sèrie"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "串口菜单"
+      "value": "Menú del terminal sèrie"
     }
   ],
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit 刷入就绪"
+      "value": "micro:bit llesta per transferir"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "正在运行..."
+      "value": "Executant..."
     }
   ],
   "serial-terminal": [
     {
       "type": 0,
-      "value": "串行终端"
+      "value": "Terminal sèrie"
     }
   ],
   "setting-allow-editing-third-party": [
     {
       "type": 0,
-      "value": "允许编辑第三方模块"
+      "value": "Permet editar mòduls de tercers"
     }
   ],
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "更改第三方模块可能意味着它们无法按预期工作。"
+      "value": "Canviar mòduls de tercers pot significar que no funcionin com s'havia previst."
     }
   ],
   "settings": [
     {
       "type": 0,
-      "value": "设置"
+      "value": "Configuració"
     }
   ],
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "显示 API 文档"
+      "value": "Mostra la documentació de l'API"
     }
   ],
   "show-less": [
     {
       "type": 0,
-      "value": "显示更少"
+      "value": "Mostra menys"
     }
   ],
   "show-less-for": [
     {
       "type": 0,
-      "value": "显示的 "
+      "value": "Mostra menys per a "
     },
     {
       "type": 1,
       "value": "item"
-    },
-    {
-      "type": 0,
-      "value": " 更少信息"
     }
   ],
   "show-more": [
     {
       "type": 0,
-      "value": "显示更多"
+      "value": "Mostra més"
     }
   ],
   "show-more-for": [
     {
       "type": 0,
-      "value": "\n显示 "
+      "value": "Mostra més per a "
     },
     {
       "type": 1,
       "value": "item"
-    },
-    {
-      "type": 0,
-      "value": " 的更多信息"
     }
   ],
   "sidebar": [
     {
       "type": 0,
-      "value": "侧边栏"
+      "value": "Barra lateral"
     }
   ],
   "sidebar-collapse": [
     {
       "type": 0,
-      "value": "收起侧边栏"
+      "value": "Replega la barra lateral"
     }
   ],
   "sidebar-expand": [
     {
       "type": 0,
-      "value": "展开侧边栏"
+      "value": "Amplia la barra lateral"
     }
   ],
   "simulator-accelerometer": [
     {
       "type": 0,
-      "value": "加速度传感器"
+      "value": "Acceleròmetre"
     }
   ],
   "simulator-actions": [
     {
       "type": 0,
-      "value": "模拟器操作"
+      "value": "Accions del simulador"
     }
   ],
   "simulator-button-a": [
     {
       "type": 0,
-      "value": "按钮 A"
+      "value": "Botó A"
     }
   ],
   "simulator-button-b": [
     {
       "type": 0,
-      "value": "按钮 B"
+      "value": "Botó B"
     }
   ],
   "simulator-button-hold-label": [
     {
       "type": 0,
-      "value": "按住按钮 "
+      "value": "Manté premut el botó "
     },
     {
       "type": 1,
@@ -1791,7 +1756,7 @@
   "simulator-button-press-label": [
     {
       "type": 0,
-      "value": "按下按钮 "
+      "value": "Prem el botó "
     },
     {
       "type": 1,
@@ -1801,57 +1766,53 @@
   "simulator-buttons": [
     {
       "type": 0,
-      "value": "按钮"
+      "value": "Botons"
     }
   ],
   "simulator-collapse": [
     {
       "type": 0,
-      "value": "折叠模拟器"
+      "value": "Replega el simulador"
     }
   ],
   "simulator-collapse-module": [
     {
       "type": 0,
-      "value": "折叠 "
+      "value": "Replega el mòdul "
     },
     {
       "type": 1,
       "value": "title"
-    },
-    {
-      "type": 0,
-      "value": " 模块"
     }
   ],
   "simulator-compass": [
     {
       "type": 0,
-      "value": "指南针"
+      "value": "Brúixola"
     }
   ],
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "朝向"
+      "value": "Orientació"
     }
   ],
   "simulator-compass-heading-two": [
     {
       "type": 0,
-      "value": "磁场强度"
+      "value": "Intensitat del camp magnètic"
     }
   ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
-      "value": "无日志条目。"
+      "value": "Sense entrades al registre."
     }
   ],
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "完整日志"
+      "value": "Registre ple"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1862,7 +1823,7 @@
           "value": [
             {
               "type": 0,
-              "value": "没有行记录"
+              "value": "No hi ha files registrades"
             }
           ]
         },
@@ -1873,7 +1834,7 @@
             },
             {
               "type": 0,
-              "value": "行记录"
+              "value": " fila registrada"
             }
           ]
         },
@@ -1884,7 +1845,7 @@
             },
             {
               "type": 0,
-              "value": "行记录"
+              "value": " files registrades"
             }
           ]
         }
@@ -1897,25 +1858,25 @@
   "simulator-data-logging-save-log": [
     {
       "type": 0,
-      "value": "保存日志"
+      "value": "Guarda el registre"
     }
   ],
   "simulator-data-logging-truncated": [
     {
       "type": 0,
-      "value": "不显示较旧的行"
+      "value": "Les files més antigues no es mostren"
     }
   ],
   "simulator-expand": [
     {
       "type": 0,
-      "value": "展开模拟器"
+      "value": "Ampliar el simulador"
     }
   ],
   "simulator-expand-module": [
     {
       "type": 0,
-      "value": "展开 "
+      "value": "Desplega el mòdul "
     },
     {
       "type": 1,
@@ -1923,7 +1884,7 @@
     },
     {
       "type": 0,
-      "value": " 模块"
+      "value": " "
     }
   ],
   "simulator-gesture-3g": [
@@ -1947,109 +1908,109 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "标志朝下"
+      "value": "cap avall"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "正面朝下"
+      "value": "cara avall "
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "正面朝上"
+      "value": "cara amunt"
     }
   ],
   "simulator-gesture-freefall": [
     {
       "type": 0,
-      "value": "自由落体"
+      "value": "caiguda lliure"
     }
   ],
   "simulator-gesture-left": [
     {
       "type": 0,
-      "value": "左"
+      "value": "esquerra"
     }
   ],
   "simulator-gesture-right": [
     {
       "type": 0,
-      "value": "右"
+      "value": "dreta"
     }
   ],
   "simulator-gesture-select": [
     {
       "type": 0,
-      "value": "选择手势"
+      "value": "Tria el gest"
     }
   ],
   "simulator-gesture-send": [
     {
       "type": 0,
-      "value": "发送手势"
+      "value": "Envia el gest"
     }
   ],
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "摇晃"
+      "value": "sacseja"
     }
   ],
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "标志朝上"
+      "value": "amunt"
     }
   ],
   "simulator-hide": [
     {
       "type": 0,
-      "value": "隐藏模拟器"
+      "value": "Amaga el simulador"
     }
   ],
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "长按"
+      "value": "Manté"
     }
   ],
   "simulator-input-press": [
     {
       "type": 0,
-      "value": "按下"
+      "value": "Prem"
     }
   ],
   "simulator-light-level": [
     {
       "type": 0,
-      "value": "亮度"
+      "value": "Nivell de llum"
     }
   ],
   "simulator-log": [
     {
       "type": 0,
-      "value": "数据日志"
+      "value": "Registre de dades"
     }
   ],
   "simulator-loud": [
     {
       "type": 0,
-      "value": "大声"
+      "value": "So fort"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "静音"
+      "value": "Silencia"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "按住引脚 "
+      "value": "Manté premut el pin "
     },
     {
       "type": 1,
@@ -2059,7 +2020,7 @@
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "按下引脚 "
+      "value": "Prem el pin "
     },
     {
       "type": 1,
@@ -2069,31 +2030,31 @@
   "simulator-pins": [
     {
       "type": 0,
-      "value": "引脚"
+      "value": "Pins"
     }
   ],
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "安静"
+      "value": "So fluix"
     }
   ],
   "simulator-radio": [
     {
       "type": 0,
-      "value": "无线电"
+      "value": "Ràdio"
     }
   ],
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit 已发送："
+      "value": "micro:bit ha enviat:"
     }
   ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "无线电组设置为 "
+      "value": "Grup de ràdio establert a  "
     },
     {
       "type": 1,
@@ -2103,139 +2064,139 @@
   "simulator-radio-message": [
     {
       "type": 0,
-      "value": "无线电消息"
+      "value": "Missatge de ràdio"
     }
   ],
   "simulator-radio-message-limit-notice": [
     {
       "type": 0,
-      "value": "不显示较旧的消息"
+      "value": "Els missatges més antigs no es mostren"
     }
   ],
   "simulator-radio-no-messages": [
     {
       "type": 0,
-      "value": "无消息显示"
+      "value": "Cap missatge a mostrar"
     }
   ],
   "simulator-radio-off": [
     {
       "type": 0,
-      "value": "无线电已关闭"
+      "value": "La ràdio està tancada"
     }
   ],
   "simulator-radio-send": [
     {
       "type": 0,
-      "value": "发送消息"
+      "value": "Envia missatge"
     }
   ],
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "您已发送："
+      "value": "Has enviat:"
     }
   ],
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "链接到 Reference （参考）部分"
+      "value": "Enllaç a la secció de Referència"
     }
   ],
   "simulator-reset": [
     {
       "type": 0,
-      "value": "复位"
+      "value": "Reiniciar"
     }
   ],
   "simulator-serial-terminal": [
     {
       "type": 0,
-      "value": "模拟器串行终端"
+      "value": "Terminal sèrie del simulador"
     }
   ],
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "声级"
+      "value": "Nivell de so"
     }
   ],
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "启动模拟器"
+      "value": "Inicia el simulador"
     }
   ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "停止模拟器"
+      "value": "Atura el simulador"
     }
   ],
   "simulator-temperature": [
     {
       "type": 0,
-      "value": "温度"
+      "value": "Temperatura"
     }
   ],
   "simulator-title": [
     {
       "type": 0,
-      "value": "模拟器"
+      "value": "Simulador"
     }
   ],
   "simulator-touch-logo": [
     {
       "type": 0,
-      "value": "触摸标志"
+      "value": "Logotip tàctil"
     }
   ],
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "取消静音"
+      "value": "Deixar de silenciar"
     }
   ],
   "software-versions": [
     {
       "type": 0,
-      "value": "软件版本"
+      "value": "Versions de programari"
     }
   ],
   "start-coding-action": [
     {
       "type": 0,
-      "value": "开始编程"
+      "value": "Comença a codificar"
     }
   ],
   "support": [
     {
       "type": 0,
-      "value": "帮助"
+      "value": "Suport"
     }
   ],
   "terms-of-use": [
     {
       "type": 0,
-      "value": "使用条款"
+      "value": "Condicions d'ús"
     }
   ],
   "third-party-module-explanation": [
     {
       "type": 0,
-      "value": "此文件是第三方模块，不可编辑。"
+      "value": "Aquest fitxer és un mòdul de tercers i no està pensat per ser editat."
     }
   ],
   "third-party-module-how-to": [
     {
       "type": 0,
-      "value": "为了修改此模块，允许在 "
+      "value": "Permet editar mòduls de tercers a "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Settings"
+          "value": "Configuració"
         }
       ],
       "type": 8,
@@ -2243,51 +2204,47 @@
     },
     {
       "type": 0,
-      "value": " 中编辑第三方模块。"
+      "value": "  per modificar aquest mòdul."
     }
   ],
   "timeout-error-description": [
     {
       "type": 0,
-      "value": "不能连接到 micro:bit"
+      "value": "No es pot connectar a la micro:bit"
     }
   ],
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "连接超时"
+      "value": "Temps de connexió esgotat"
     }
   ],
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "加载工具包时出错。"
+      "value": "S'ha produït un error en carregar el conjunt d'eines."
     }
   ],
   "toolkit-view-documentation": [
     {
       "type": 0,
-      "value": "查看 "
+      "value": "Consulta la documentació de "
     },
     {
       "type": 1,
       "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " 文档"
     }
   ],
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "将 hex 文件从 "
+      "value": "Arrossega el fitxer hexadecimal de la teva "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Downloads (下载) 文件夹"
+          "value": "carpeta de descàrregues"
         }
       ],
       "type": 8,
@@ -2295,13 +2252,13 @@
     },
     {
       "type": 0,
-      "value": " 拖到 "
+      "value": " a la "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "MICROBIT 驱动器"
+          "value": "unitat MICROBIT"
         }
       ],
       "type": 8,
@@ -2309,19 +2266,19 @@
     },
     {
       "type": 0,
-      "value": "。"
+      "value": "."
     }
   ],
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "您可以稍后"
+      "value": "Pots "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "打开"
+          "value": "obrir"
         }
       ],
       "type": 8,
@@ -2329,75 +2286,83 @@
     },
     {
       "type": 0,
-      "value": " hex 文件以继续编辑。"
+      "value": " el fitxer hexadecimal més tard per continuar editant."
     }
   ],
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "将保存的 hex 文件传输到 micro:bit"
+      "value": "Transfereix el fitxer hexadecimal desat a la micro:bit"
     }
   ],
   "try-again-action": [
     {
       "type": 0,
-      "value": "重试"
+      "value": "Torna-ho a provar"
     }
   ],
   "undo": [
     {
       "type": 0,
-      "value": "撤销"
+      "value": "Desfer"
     }
   ],
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "请重试或 "
+      "value": "Si us plau, torna-ho a provar o "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "raise a support request"
+          "value": "plantejar una solicitud de suport"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " ."
     }
   ],
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "请重试或 "
+      "value": "Si us plau, torna-ho a provar o "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "raise a support request"
+          "value": "plantejar una solicitud de suport"
         }
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
     }
   ],
   "untitled-project": [
     {
       "type": 0,
-      "value": "未命名的项目"
+      "value": "Projecte sense títol"
     }
   ],
   "update-firmware-action": [
     {
       "type": 0,
-      "value": "升级固件"
+      "value": "Actualitza microprogramari"
     }
   ],
   "updated-change": [
     {
       "type": 0,
-      "value": "已更新文件 "
+      "value": "Fitxer actualitzat "
     },
     {
       "type": 1,
@@ -2407,105 +2372,91 @@
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "访问 microbit.org (在新标签页中打开)"
+      "value": "visita microbit.org (s'obre en una pestanya nova)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "另一个进程已连接到此设备。"
+      "value": "Un altre procés està connectat a aquest dispositiu."
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "关闭任何其他可能正在使用 WebUSB 的标签页(如 MakeCode、Python 编辑器)，或者在重试之前拔下并重新插入 micro:bit。"
+      "value": "Tanca qualsevol altra pestanya que pugui utilitzar WebUSB (per exemple, MakeCode, Python Editor) o desconnecta i torna a connectar la micro:bit abans de tornar-ho a provar."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "无法声明接口"
+      "value": "No es pot sol·licitar la interfície"
     }
   ],
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "WebUSB 错误"
+      "value": "Error de WebUSB"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "请重新连接 micro:bit 然后再次尝试。"
+      "value": "Torna a connectar la teva micro:bit i torna-ho a provar."
     }
   ],
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "您需要  "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your micro:bit firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " 才能使用此功能。"
+      "value": "Has d<link>actualitzar el microprogramari de la teva micro:bit </link> per fer ús daquesta característica."
     }
   ],
   "webusb-error-update-req-title": [
     {
       "type": 0,
-      "value": "请更新 micro:bit 固件"
+      "value": "Actualitza el microprogramari de la micro:bit "
     }
   ],
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请按照下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge 浏览器，以便您可以直接连接到您的 micro:bit。"
+      "value": "Malauradament, WebUSB no és compatible amb aquest navegador i el teu programa es desarà al teu ordinador. Segueix els passos de la pantalla següent per transferir-lo ala teva micro:bit. Et recomanem Google Chrome o Microsoft Edge perquè et puguis connectar directament a la teva micro:bit."
     }
   ],
   "webusb-not-supported-title": [
     {
       "type": 0,
-      "value": "此浏览器不支持 WebUSB"
+      "value": "Aquest navegador no admet WebUSB"
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "使用 WebUSB，您可以对 micro:bit 进行编程并直接从在线编辑器连接到串行控制台。"
+      "value": "Amb WebUSB pots programar la teva micro:bit i connectar-te a la consola sèrie directament des de l'editor en línia."
     }
   ],
   "welcome-message": [
     {
       "type": 0,
-      "value": "观看我们对一些关键功能的简短指南，或立即开始编程。"
+      "value": "Mira la nostra breu guia sobre algunes de les funcions clau o obté el programa immediatament."
     }
   ],
   "welcome-title": [
     {
       "type": 0,
-      "value": "欢迎使用 micro:bit Python 编辑器"
+      "value": "Benvingut a l'Editor Python de la micro:bit"
     }
   ],
   "zoom-in-action": [
     {
       "type": 0,
-      "value": "放大"
+      "value": "Amplia"
     }
   ],
   "zoom-out-action": [
     {
       "type": 0,
-      "value": "缩小"
+      "value": "Allunya"
     }
   ]
 }

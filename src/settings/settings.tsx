@@ -27,6 +27,12 @@ const allLanguages: Language[] = [
     enName: "English",
   },
   {
+    id: "ca",
+    name: "Català",
+    enName: "Catalan",
+    preview: true,
+  },
+  {
     id: "zh-cn",
     name: "简体中文",
     enName: "Chinese (Simplified)",
