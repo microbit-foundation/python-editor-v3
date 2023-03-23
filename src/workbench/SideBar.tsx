@@ -24,7 +24,7 @@ import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
-import InterfaceArea from "../documentation/InterfaceArea";
+import InteractionArea from "../documentation/InteractionArea";
 import { flags } from "../flags";
 import ProjectArea from "../project/ProjectArea";
 import { TabName, useRouterState } from "../router-hooks";
@@ -97,10 +97,10 @@ const SideBar = ({
         color: "gray.25",
       }, 
       {
-        id: "api" as const,
-        title: "Interface",
+        id: "interaction" as const,
+        title: intl.formatMessage({ id: "interaction-tab"}),
         icon: RiLightbulbFlashLine as IconType,
-        contents: <InterfaceArea />,
+        contents: <InteractionArea />,
         color: "gray.25",
         mb: "auto",
       }, 
