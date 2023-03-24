@@ -100,7 +100,7 @@ const SideBar = ({
       {
 
         id: "interaction" as const,
-        title: intl.formatMessage({ id: "interaction-tab"}),
+        title: "Interaction",
         icon: InteractionLogo as IconType,
         contents: <InteractionArea />,
         color: "gray.25",
