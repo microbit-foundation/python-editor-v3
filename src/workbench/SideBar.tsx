@@ -21,6 +21,7 @@ import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
+import InteractionLogo from "../common/InteractionLogo";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
@@ -98,8 +99,8 @@ const SideBar = ({
       }, 
       {
         id: "api" as const,
-        title: "Interface",
-        icon: RiLightbulbFlashLine as IconType,
+        title: "Interaction",
+        icon: InteractionLogo as IconType,
         contents: <InterfaceArea />,
         color: "gray.25",
         mb: "auto",
