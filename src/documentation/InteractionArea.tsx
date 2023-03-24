@@ -5,11 +5,11 @@
  */
 import { Text } from "@chakra-ui/layout";
 import { FormattedMessage } from "react-intl";
-import IdeasDocumentation from "./ideas/IdeasDocumentation";
+import InteractionDocumentation from "./interaction/InteractionDocumentation";
 import Spinner from "../common/Spinner";
 import { useDocumentation } from "./documentation-hooks";
 
-const InterfaceArea = () => {
+const InteractionArea = () => {
   const { ideas } = useDocumentation();
   switch (ideas.status) {
     case "loading":
@@ -21,14 +21,10 @@ const InterfaceArea = () => {
         </Text>
       );
     case "ok":
-      return (
-        <Text p={5} height="100%">
-          <FormattedMessage id="this will be the interface tab :)" />
-        </Text>
-      );
+      return <InteractionDocumentation ideas={ideas.content} />;
     default:
       throw new Error();
   }
 };
 
-export default InterfaceArea;
+export default InteractionArea;
