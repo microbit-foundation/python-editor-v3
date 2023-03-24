@@ -98,7 +98,7 @@ const SideBar = ({
       }, 
       {
         id: "interaction" as const,
-        title: intl.formatMessage({ id: "interaction-tab"}),
+        title: "Interaction",
         icon: RiLightbulbFlashLine as IconType,
         contents: <InteractionArea />,
         color: "gray.25",
