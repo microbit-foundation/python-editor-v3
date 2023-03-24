@@ -21,7 +21,9 @@ const InteractionArea = () => {
         </Text>
       );
     case "ok":
-      return <InteractionDocumentation ideas={ideas.content} />;
+      return <Text p={5} height="200%">
+      <FormattedMessage id="Interaction" />
+    </Text>;
     default:
       throw new Error();
   }
