@@ -49,6 +49,22 @@ const InteractionArea = () => {
       fontSize: 'sm',
     }
 
+    const [sliderValue3, setSliderValue3] = useState(2500)
+  
+    const labelStyles3 = {
+      mt: '2',
+      ml: '-2.5',
+      fontSize: 'sm',
+    }
+
+    const [sliderValue4, setSliderValue4] = useState(2500)
+  
+    const labelStyles4 = {
+      mt: '2',
+      ml: '-2.5',
+      fontSize: 'sm',
+    }
+
     return (
       <HeadedScrollablePanel>
       <Box m={7}>
@@ -56,21 +72,61 @@ const InteractionArea = () => {
         <Text p={5} >
           <FormattedMessage id="Start Frequency" />
         </Text>
-        <Slider aria-label='slider-ex-1' defaultValue={30}>
-          <SliderTrack>
+        <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue3(val)} max={5000}>
+        <SliderMark value={150} {...labelStyles1}> 
+          0 
+        </SliderMark>
+        <SliderMark value={2500} {...labelStyles1}>
+          2500
+        </SliderMark>
+        <SliderMark value={4800} {...labelStyles1}>
+          5000
+        </SliderMark>
+        <SliderMark
+          value={sliderValue3}
+          textAlign='center'
+          bg='blue.500'
+          color='white'
+          mt='-10'
+          ml='-5'
+          w='12'
+        >
+          {sliderValue3}
+        </SliderMark>
+        <SliderTrack>
           <SliderFilledTrack />
         </SliderTrack>
         <SliderThumb />
-        </Slider>
+      </Slider>
         <Text p={5}>
           <FormattedMessage id="End Frequency" />
         </Text>
-        <Slider aria-label='slider-ex-1' defaultValue={30}>
-          <SliderTrack>
+        <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue4(val)} max={5000}>
+        <SliderMark value={150} {...labelStyles1}> 
+          0 
+        </SliderMark>
+        <SliderMark value={2500} {...labelStyles1}>
+          2500
+        </SliderMark>
+        <SliderMark value={4800} {...labelStyles1}>
+          5000
+        </SliderMark>
+        <SliderMark
+          value={sliderValue4}
+          textAlign='center'
+          bg='blue.500'
+          color='white'
+          mt='-10'
+          ml='-5'
+          w='12'
+        >
+          {sliderValue4}
+        </SliderMark>
+        <SliderTrack>
           <SliderFilledTrack />
         </SliderTrack>
         <SliderThumb />
-        </Slider>
+      </Slider>
         <Text p={5}>
           <FormattedMessage id = "Duration" />
         </Text>
