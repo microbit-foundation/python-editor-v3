@@ -22,11 +22,10 @@ import {
   GridItem,
   Checkbox,
   Center,
+  Divider,
+  VStack
 } from '@chakra-ui/react'
 import { FormattedMessage } from "react-intl";
-import InteractionDocumentation from "./interaction/InteractionDocumentation";
-import Spinner from "../common/Spinner";
-import { useDocumentation } from "./documentation-hooks";
 import { useState } from "react";
 import HeadedScrollablePanel from "./../common/HeadedScrollablePanel";
 
@@ -34,44 +33,35 @@ import HeadedScrollablePanel from "./../common/HeadedScrollablePanel";
 const InteractionArea = () => {
   
     const [sliderValue1, setSliderValue1] = useState(128)
-  
+
+    const [sliderValue2, setSliderValue2] = useState(128)
+
+    const [sliderValue3, setSliderValue3] = useState(2500)
+
+    const [sliderValue4, setSliderValue4] = useState(2500)
+
     const labelStyles1 = {
       mt: '2',
       ml: '-2.5',
       fontSize: 'sm',
     }
 
-    const [sliderValue2, setSliderValue2] = useState(128)
-  
-    const labelStyles2 = {
-      mt: '2',
-      ml: '-2.5',
-      fontSize: 'sm',
-    }
-
-    const [sliderValue3, setSliderValue3] = useState(2500)
-  
-    const labelStyles3 = {
-      mt: '2',
-      ml: '-2.5',
-      fontSize: 'sm',
-    }
-
-    const [sliderValue4, setSliderValue4] = useState(2500)
-  
-    const labelStyles4 = {
-      mt: '2',
-      ml: '-2.5',
-      fontSize: 'sm',
-    }
 
     return (
       <HeadedScrollablePanel>
       <Box m={7}>
+        
         <Heading>Interaction</Heading>
-        <Text p={5} >
+
+        <Divider borderWidth='2px' />
+        <VStack
+          spacing={4}
+          align='stretch'
+        >
+        <Text p={5} as='b'>
           <FormattedMessage id="Start Frequency" />
         </Text>
+        <Box m={10}>
         <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue3(val)} max={5000}>
         <SliderMark value={150} {...labelStyles1}> 
           0 
@@ -98,9 +88,14 @@ const InteractionArea = () => {
         </SliderTrack>
         <SliderThumb />
       </Slider>
-        <Text p={5}>
+      </Box>
+
+      <Divider borderWidth='2px' />
+
+        <Text p={5} as='b'>
           <FormattedMessage id="End Frequency" />
         </Text>
+        <Box m={10}>
         <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue4(val)} max={5000}>
         <SliderMark value={150} {...labelStyles1}> 
           0 
@@ -127,19 +122,28 @@ const InteractionArea = () => {
         </SliderTrack>
         <SliderThumb />
       </Slider>
-        <Text p={5}>
+      </Box>
+
+      <Divider borderWidth='2px' />
+
+
+        <Text p={5} as='b'>
           <FormattedMessage id = "Duration" />
         </Text>
-        <NumberInput min={1} max={9999} keepWithinRange = {false} clampValueOnBlur={false}>
+        <NumberInput min={1} max={9999} defaultValue= {500} keepWithinRange = {false} clampValueOnBlur={false}>
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
-        <Text p={5}>
+
+        <Divider borderWidth='2px' />
+
+        <Text p={5} as='b'>
           <FormattedMessage id="Start Volume" />
         </Text>  
+        <Box m={10}>
       <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue1(val)} max={255}>
         <SliderMark value={10} {...labelStyles1}>
           0
@@ -166,9 +170,14 @@ const InteractionArea = () => {
         </SliderTrack>
         <SliderThumb />
       </Slider>
-      <Text p={5}>
+      </Box>
+
+      <Divider borderWidth='2px' />
+
+      <Text p={5} as='b'>
           <FormattedMessage id="End Volume" />
         </Text>  
+        <Box m={10}>
         <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue2(val)} max={255}>
         <SliderMark value={10} {...labelStyles1}> 
           0 
@@ -195,7 +204,11 @@ const InteractionArea = () => {
         </SliderTrack>
         <SliderThumb />
       </Slider>
-      <Text p={5}>
+      </Box>
+
+      <Divider borderWidth='2px' />
+
+      <Text p={5} as='b'>
         <FormattedMessage id="Waveform" />
       </Text>  
       <Select placeholder='Select option'>
@@ -205,7 +218,10 @@ const InteractionArea = () => {
         <option value='option4'>Square</option>
         <option value='option5'>Noise</option>
       </Select>
-      <Text p={5}>
+
+      <Divider borderWidth='2px' />
+
+      <Text p={5} as='b'>
         <FormattedMessage id="Effect" />
       </Text>
       <Select placeholder='None'>
@@ -213,7 +229,10 @@ const InteractionArea = () => {
         <option value='option2'>Vibrato</option>
         <option value='option3'>Warble</option>
       </Select>
-      <Text p={5}>
+
+      <Divider borderWidth='2px' />
+
+      <Text p={5} as='b'>
         <FormattedMessage id="Shape" />
       </Text>
       <Select placeholder='Select option'>
@@ -221,7 +240,10 @@ const InteractionArea = () => {
         <option value='option2'>Curve</option>
         <option value='option3'>Log</option>
       </Select>
-      <Text p={5}>
+
+      <Divider borderWidth='2px' />
+
+      <Text p={5} as='b'>
         <FormattedMessage id="Pixels" />
       </Text>
       <Box m ={4} borderWidth='20px' borderRadius='lg' borderColor={'black'} bg='black'>
@@ -303,6 +325,7 @@ const InteractionArea = () => {
         </GridItem>
       </Grid>
       </Box>
+      </VStack>
       </Box>
       </HeadedScrollablePanel>
       
