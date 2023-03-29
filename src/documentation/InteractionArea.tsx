@@ -10,24 +10,10 @@ import Spinner from "../common/Spinner";
 import { useDocumentation } from "./documentation-hooks";
 
 const InteractionArea = () => {
-  const { ideas } = useDocumentation();
-  switch (ideas.status) {
-    case "loading":
-      return <Spinner />;
-    case "error":
-      return (
-        <Text p={5} height="100%">
-          <FormattedMessage id="toolkit-error-loading" />
-        </Text>
-      );
-    case "ok":
-      return (<Text p={5} height="200%">
-      <FormattedMessage id="Interaction" />
-      </Text>
-    );
-    default:
-      throw new Error();
-  }
+  
+    return (<Text p={5} height="200%">
+    <FormattedMessage id="hsghfsfh" />
+    </Text>)
 };
 
 export default InteractionArea;
