@@ -21,9 +21,10 @@ const InteractionArea = () => {
         </Text>
       );
     case "ok":
-      return <Text p={5} height="200%">
+      return (<Text p={5} height="200%">
       <FormattedMessage id="Interaction" />
-    </Text>;
+      </Text>
+    );
     default:
       throw new Error();
   }
