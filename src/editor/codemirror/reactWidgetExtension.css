@@ -1,0 +1,16 @@
+.current-line {
+    background-color: rgb(180, 220, 180);
+    animation-name: highlight-line;
+    animation-duration: 0.7s;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes highlight-line {
+0% {
+  /* background-color: red; */
+}
+100% {
+  background-color: rgba(255, 255, 255, 0);
+}
+}

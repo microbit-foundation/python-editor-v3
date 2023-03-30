@@ -1,4 +1,5 @@
-import { Button, HStack, Text } from "@chakra-ui/react";
+import { Button, HStack, Input, Text } from "@chakra-ui/react";
+import { syntaxTree } from "@codemirror/language";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
@@ -9,6 +10,8 @@ import {
 import { useCallback } from "react";
 import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
+import "./reactWidgetExtension.css"
+import { SyntaxNode } from '@lezer/common';
 
 /**
  * An example react component that we use inside a CodeMirror widget as
@@ -33,8 +36,7 @@ const ExampleReactComponent = () => {
   }, [settings, setSettings]);
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleClick}>Pick random UI language</Button>
-      <Text fontWeight="semibold">Current language: {settings.languageId}</Text>
+      <Input></Input>
     </HStack>
   );
 };
@@ -63,7 +65,7 @@ class ExampleReactBlockWidget extends WidgetType {
   }
 
   ignoreEvent() {
-    return false;
+    return true;
   }
 }
 
@@ -73,16 +75,50 @@ class ExampleReactBlockWidget extends WidgetType {
 export const reactWidgetExtension = (
   createPortal: PortalFactory
 ): Extension => {
+  const getNodeStack = (state: EditorState, cursor: number) => {
+    let nodeStack: SyntaxNode[] = [];
+    syntaxTree(state).iterate({
+      from: cursor,
+      to: cursor,
+      enter(node) {
+        // console.log(node.type.name, node.from, node.to)
+        nodeStack.push(node.node)
+      }
+      // leave(node) {
+      //   if (enabled) {
+      //     innermost = node
+      //   }
+      // }
+    })
+    // console.log("finished iterating", nodeStack[nodeStack.length - 1].type.name)
+    return nodeStack
+  }
+
   const decorate = (state: EditorState) => {
     // Just put a widget at the start of the document.
     // A more interesting example would look at the cursor (selection) and/or syntax tree.
-    const endOfFirstLine = state.doc.lineAt(0).to;
+    const selRange = state.selection.asSingle().ranges[0]
+    if (!selRange.empty) {
+      return Decoration.set([])
+    }
+    const currentLine = state.doc.lineAt(selRange.to)
+    
+    const nodeStack = getNodeStack(state, selRange.to);
+    const innermost = nodeStack[nodeStack.length - 2];
+
+    // const endOfFirstLine = state.doc.lineAt(0).to;
     const widget = Decoration.widget({
       block: true,
       widget: new ExampleReactBlockWidget(createPortal),
       side: 1,
     });
-    return Decoration.set(widget.range(endOfFirstLine));
+    const highlight = Decoration.mark({
+      // attributes: {
+      //   style: "background: red;"
+      // },
+      class: "current-line"
+    })
+    return Decoration.set([highlight.range(innermost.from, innermost.to), widget.range(currentLine.to)]);
   };
 
   const stateField = StateField.define<DecorationSet>({
@@ -90,9 +126,9 @@ export const reactWidgetExtension = (
       return decorate(state);
     },
     update(widgets, transaction) {
-      if (transaction.docChanged) {
+      // if (transaction.docChanged) {
         return decorate(transaction.state);
-      }
+      // }
       return widgets.map(transaction.changes);
     },
     provide(field) {
