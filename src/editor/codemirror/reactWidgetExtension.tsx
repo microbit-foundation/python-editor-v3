@@ -13,6 +13,12 @@ import { PortalFactory } from "./CodeMirror";
 import "./reactWidgetExtension.css"
 import { SyntaxNode } from '@lezer/common';
 
+export interface SyntaxAtCursor {
+  nodeStack: SyntaxNode[],
+  currentLine: SyntaxNode,
+  innermostNode: SyntaxNode
+}
+
 /**
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
@@ -75,8 +81,9 @@ class ExampleReactBlockWidget extends WidgetType {
 export const reactWidgetExtension = (
   createPortal: PortalFactory
 ): Extension => {
-  const getNodeStack = (state: EditorState, cursor: number) => {
+  const getSyntaxAtCursor = (state: EditorState, cursor: number) => {
     let nodeStack: SyntaxNode[] = [];
+    
     syntaxTree(state).iterate({
       from: cursor,
       to: cursor,
@@ -90,8 +97,22 @@ export const reactWidgetExtension = (
       //   }
       // }
     })
+
+    let currentLine = nodeStack[nodeStack.length - 1];
+    // We ignore the outmost node as that is always going to be the global script node
+    for (let i = nodeStack.length - 1, line = state.doc.lineAt(cursor); i > 0; i--) {
+      if (nodeStack[i].from < line.from && nodeStack[i].to > line.to) {
+        break
+      }
+      currentLine = nodeStack[i]
+    }
     // console.log("finished iterating", nodeStack[nodeStack.length - 1].type.name)
-    return nodeStack
+    console.log(nodeStack)
+    return {
+      currentLine,
+      nodeStack,
+      innermostNode: nodeStack[nodeStack.length - 1]
+    }
   }
 
   const decorate = (state: EditorState) => {
@@ -101,10 +122,8 @@ export const reactWidgetExtension = (
     if (!selRange.empty) {
       return Decoration.set([])
     }
-    const currentLine = state.doc.lineAt(selRange.to)
     
-    const nodeStack = getNodeStack(state, selRange.to);
-    const innermost = nodeStack[nodeStack.length - 2];
+    const syntaxAtCursor = getSyntaxAtCursor(state, selRange.to);
 
     // const endOfFirstLine = state.doc.lineAt(0).to;
     const widget = Decoration.widget({
@@ -118,7 +137,7 @@ export const reactWidgetExtension = (
       // },
       class: "current-line"
     })
-    return Decoration.set([highlight.range(innermost.from, innermost.to), widget.range(currentLine.to)]);
+    return Decoration.set([highlight.range(syntaxAtCursor.innermostNode.from, syntaxAtCursor.innermostNode.to), widget.range(syntaxAtCursor.currentLine.to)]);
   };
 
   const stateField = StateField.define<DecorationSet>({
