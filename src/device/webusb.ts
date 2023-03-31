@@ -23,6 +23,7 @@ import {
   FlashDataSource,
   HexGenerationError,
   MicrobitWebUSBConnectionOptions,
+  SerialOption,
   WebUSBError,
 } from "./device";
 
@@ -78,7 +79,11 @@ export class MicrobitWebUSBConnection
         this.visibilityReconnect = false;
         if (!this.flashing) {
           this.log("Reconnecting visible tab");
-          this.connect();
+          this.connect({
+            // If any other connection status change occurs then visibilitReconnect is set to false, so
+            // it's likely the same program at this point.
+            serial: SerialOption.NoReset,
+          });
         }
       }
     } else {
@@ -113,7 +118,7 @@ export class MicrobitWebUSBConnection
         setTimeout(() => {
           if (this.status === ConnectionStatus.CONNECTED) {
             this.unloading = false;
-            this.startSerialInternal();
+            this.startSerialInternal(SerialOption.NoReset);
           }
         }, assumePageIsStayingOpenDelay);
       },
@@ -165,7 +170,9 @@ export class MicrobitWebUSBConnection
     }
   }
 
-  async connect(options: ConnectOptions = {}): Promise<ConnectionStatus> {
+  async connect(
+    options: ConnectOptions = { serial: SerialOption.Reset }
+  ): Promise<ConnectionStatus> {
     return this.withEnrichedErrors(async () => {
       await this.connectInternal(options);
       return this.status;
@@ -217,7 +224,7 @@ export class MicrobitWebUSBConnection
     await this.stopSerialInternal();
     this.log("Reconnecting before flash");
     await this.connectInternal({
-      serial: false,
+      serial: SerialOption.None,
     });
     if (!this.connection) {
       throw new Error("Must be connected now");
@@ -249,13 +256,13 @@ export class MicrobitWebUSBConnection
         this.log("Reinstating serial after flash");
         if (this.connection.daplink) {
           await this.connection.daplink.connect();
-          await this.startSerialInternal();
+          await this.startSerialInternal(SerialOption.Reset);
         }
       }
     }
   }
 
-  private async startSerialInternal() {
+  private async startSerialInternal(option: SerialOption) {
     if (!this.connection) {
       // As connecting then starting serial are async we could disconnect between them,
       // so handle this gracefully.
@@ -263,6 +270,12 @@ export class MicrobitWebUSBConnection
     }
     if (this.serialReadInProgress) {
       await this.stopSerialInternal();
+    }
+    if (option === SerialOption.None || option === SerialOption.Reset) {
+      this.emit(EVENT_SERIAL_RESET, {});
+    }
+    if (option === SerialOption.None) {
+      return;
     }
     // This is async but won't return until we stop serial so we error handle with an event.
     this.serialReadInProgress = this.connection
@@ -278,7 +291,6 @@ export class MicrobitWebUSBConnection
       this.connection.stopSerial(this.serialListener);
       await this.serialReadInProgress;
       this.serialReadInProgress = undefined;
-      this.emit(EVENT_SERIAL_RESET, {});
     }
   }
 
@@ -384,9 +396,7 @@ export class MicrobitWebUSBConnection
       this.connection = new DAPWrapper(device, this.logging);
     }
     await withTimeout(this.connection.reconnectAsync(), 10_000);
-    if (options.serial === undefined || options.serial) {
-      this.startSerialInternal();
-    }
+    this.startSerialInternal(options.serial);
     this.setStatus(ConnectionStatus.CONNECTED);
   }
 

@@ -24,6 +24,7 @@ import {
   DeviceConnection,
   EVENT_END_USB_SELECT,
   HexGenerationError,
+  SerialOption,
   WebUSBError,
   WebUSBErrorCode,
 } from "../device/device";
@@ -131,7 +132,12 @@ export class ProjectActions {
     } else {
       if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
         return this.connectInternal(
-          { serial: userAction !== ConnectionAction.FLASH },
+          {
+            serial:
+              userAction === ConnectionAction.FLASH
+                ? SerialOption.None
+                : SerialOption.Reset,
+          },
           userAction,
           finalFocusRef
         );
