@@ -32,7 +32,15 @@ import HeadedScrollablePanel from "./../common/HeadedScrollablePanel";
 
 const InteractionArea = () => {
   
-    const [sliderValue1, setSliderValue1] = useState(128)
+    return ExampleSoundInteraction()
+    
+};
+
+const ExampleSoundInteraction = () =>  {
+
+
+
+  const [sliderValue1, setSliderValue1] = useState(128)
 
     const [sliderValue2, setSliderValue2] = useState(128)
 
@@ -243,6 +251,21 @@ const InteractionArea = () => {
 
       <Divider borderWidth='2px' />
 
+      
+      </VStack>
+      </Box>
+      </HeadedScrollablePanel>
+      
+    )
+}
+
+const ExampleGraphicsInteraction = () => {
+
+  return (
+  <HeadedScrollablePanel>
+    <Box m={7}>
+    <VStack spacing={4} align='stretch'>
+
       <Text p={5} as='b'>
         <FormattedMessage id="Pixels" />
       </Text>
@@ -328,9 +351,9 @@ const InteractionArea = () => {
       </VStack>
       </Box>
       </HeadedScrollablePanel>
-      
-    )
-    
-};
+  
+  )
+
+}
 
 export default InteractionArea;
