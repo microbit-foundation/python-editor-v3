@@ -251,7 +251,7 @@ const ExampleSoundInteraction = () =>  {
   )
 }
 
-const ExampleGraphicsInteraction = () => {
+export const ExampleGraphicsInteraction = () => {
 
   return (
   <HeadedScrollablePanel>
