@@ -44,12 +44,12 @@ function node2str(node: SyntaxNode, state: EditorState) {
 
 function line2widget(line: SyntaxNode, createPortal: PortalFactory, state: EditorState) {
   // console.debug(line)
-  if (line.type.name != "ExpressionStatement") return null;
+  if (line.type.name !== "ExpressionStatement") return null;
 
-  if (line.firstChild?.type.name != "CallExpression") return null;
+  if (line.firstChild?.type.name !== "CallExpression") return null;
 
   let moduleName, method
-  if (line.firstChild.firstChild?.type.name == "MemberExpression") {
+  if (line.firstChild.firstChild?.type.name === "MemberExpression") {
     moduleName = node2str(line.firstChild.firstChild?.firstChild!, state)
     method = node2str(line.firstChild.firstChild?.lastChild!, state)
   } else {
@@ -62,9 +62,11 @@ function line2widget(line: SyntaxNode, createPortal: PortalFactory, state: Edito
   let args = []
   const excluded = ["(", ")", ","]
   // The first element is always the open parenthesis, so it's skipped
-  while(arg = arg?.nextSibling) {
+  arg = arg?.nextSibling
+  while (arg) {
     if (excluded.includes(arg.type.name)) continue
     args.push(node2str(arg, state))
+    arg = arg?.nextSibling
   }
 
   console.log(module, method, args.length)
@@ -106,7 +108,7 @@ export const SyntaxAtCursorContext = React.createContext<SyntaxAtCursor | null>(
 
 
 export function SyntaxAtCursorProvider({ children }: {children: any}) {
-  const [syntax, setSytnax] = React.useState<SyntaxAtCursor | null>(null);
+  const [syntax] = React.useState<SyntaxAtCursor | null>(null);
 
 
   return (
@@ -166,7 +168,7 @@ export const reactWidgetExtension = (
       return Decoration.set([])
     }
     
-    const currentLine = state.doc.lineAt(selRange.to)
+    // const currentLine = state.doc.lineAt(selRange.to)
     const syntaxAtCursor = getSyntaxAtCursor(state, selRange.to);
 
     // const endOfFirstLine = state.doc.lineAt(0).to;
@@ -210,7 +212,7 @@ export const reactWidgetExtension = (
       // if (transaction.docChanged) {
         return decorate(transaction.state);
       // }
-      return widgets.map(transaction.changes);
+      // return widgets.map(transaction.changes);
     },
     provide(field) {
       return EditorView.decorations.from(field);
