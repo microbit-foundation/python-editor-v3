@@ -7,7 +7,7 @@ import {
   EditorView,
   WidgetType,
 } from "@codemirror/view";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
 import "./reactWidgetExtension.css"
@@ -23,29 +23,56 @@ export interface SyntaxAtCursor {
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
  */
-const ExampleReactComponent = () => {
-  // This is a weird thing to do in a CodeMirror widget but proves the point that
-  // we can use React features to communicate with the rest of the app.
-  const [settings, setSettings] = useSettings();
-  const handleClick = useCallback(() => {
-    let { languageId } = settings;
-    while (languageId === settings.languageId) {
-      languageId =
-        supportedLanguages[
-          Math.floor(Math.random() * supportedLanguages.length)
-        ].id;
-    }
-    setSettings({
-      ...settings,
-      languageId,
-    });
-  }, [settings, setSettings]);
+interface MethodCallProps {
+  module?: string,
+  method: string,
+  args: string[]
+}
+
+const MethodCallComponent: React.FC<MethodCallProps> = ({
+  method, module, args
+}) => {
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
-      <Input></Input>
+      <Text>Calling method {method} from module {module || "GLOBAL"} with args: [{args.join(", ")}]</Text>
     </HStack>
   );
 };
+
+function node2str(node: SyntaxNode, state: EditorState) {
+  return state.sliceDoc(node.from, node.to)
+}
+
+function line2widget(line: SyntaxNode, createPortal: PortalFactory, state: EditorState) {
+  // console.debug(line)
+  if (line.type.name != "ExpressionStatement") return null;
+
+  if (line.firstChild?.type.name != "CallExpression") return null;
+
+  let moduleName, method
+  if (line.firstChild.firstChild?.type.name == "MemberExpression") {
+    moduleName = node2str(line.firstChild.firstChild?.firstChild!, state)
+    method = node2str(line.firstChild.firstChild?.lastChild!, state)
+  } else {
+    moduleName = undefined
+    method = node2str(line.firstChild.firstChild!, state)
+  }
+
+  const argList = line.firstChild.lastChild
+  let arg = argList?.firstChild
+  let args = []
+  const excluded = ["(", ")", ","]
+  // The first element is always the open parenthesis, so it's skipped
+  while(arg = arg?.nextSibling) {
+    if (excluded.includes(arg.type.name)) continue
+    args.push(node2str(arg, state))
+  }
+
+  console.log(module, method, args.length)
+
+  return new ExampleReactBlockWidget(createPortal, 
+  <MethodCallComponent module={moduleName} method={method} args={args}/>)
+}
 
 /**
  * This widget will have its contents rendered by the code in CodeMirror.tsx
@@ -54,13 +81,13 @@ const ExampleReactComponent = () => {
 class ExampleReactBlockWidget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
-  constructor(private createPortal: PortalFactory) {
+  constructor(private createPortal: PortalFactory, private element: JSX.Element) {
     super();
   }
 
   toDOM() {
     const dom = document.createElement("div");
-    this.portalCleanup = this.createPortal(dom, <ExampleReactComponent />);
+    this.portalCleanup = this.createPortal(dom, this.element);
     return dom;
   }
 
@@ -106,8 +133,8 @@ export const reactWidgetExtension = (
       }
       currentLine = nodeStack[i]
     }
-    // console.log("finished iterating", nodeStack[nodeStack.length - 1].type.name)
     console.log(nodeStack)
+    // console.log("finished iterating", nodeStack[nodeStack.length - 1].type.name)
     return {
       currentLine,
       nodeStack,
@@ -123,21 +150,40 @@ export const reactWidgetExtension = (
       return Decoration.set([])
     }
     
+    const currentLine = state.doc.lineAt(selRange.to)
     const syntaxAtCursor = getSyntaxAtCursor(state, selRange.to);
 
     // const endOfFirstLine = state.doc.lineAt(0).to;
-    const widget = Decoration.widget({
-      block: true,
-      widget: new ExampleReactBlockWidget(createPortal),
-      side: 1,
-    });
-    const highlight = Decoration.mark({
-      // attributes: {
-      //   style: "background: red;"
-      // },
+
+    // const lineHighlight = Decoration.mark({
+    //   attributes: {
+    //     style: "background: red;"
+    //   },
+    //   class: "current-line"
+    // })
+
+    const nodeHighlight = Decoration.mark({
+      attributes: {
+        style: "background: green;"
+      },
       class: "current-line"
     })
-    return Decoration.set([highlight.range(syntaxAtCursor.innermostNode.from, syntaxAtCursor.innermostNode.to), widget.range(syntaxAtCursor.currentLine.to)]);
+
+    const ranges = [
+      // lineHighlight.range(currentLine.from, currentLine.to),
+      nodeHighlight.range(syntaxAtCursor.innermostNode.from, syntaxAtCursor.innermostNode.to)
+    ]
+
+    const lineWidget = line2widget(syntaxAtCursor.currentLine, createPortal, state);
+    if (lineWidget) {
+      ranges.push(Decoration.widget({
+        block: true,
+        widget: lineWidget,
+        side: 1,
+      }).range(syntaxAtCursor.currentLine.to))
+    }
+
+    return Decoration.set(ranges);
   };
 
   const stateField = StateField.define<DecorationSet>({
