@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Button, HStack, Input, Text } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import { syntaxTree } from "@codemirror/language";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
@@ -9,8 +7,7 @@ import {
   EditorView,
   WidgetType,
 } from "@codemirror/view";
-import React, { useCallback } from "react";
-import { supportedLanguages, useSettings } from "../../settings/settings";
+import React from "react";
 import { PortalFactory } from "./CodeMirror";
 import "./reactWidgetExtension.css"
 import { SyntaxNode } from '@lezer/common';
@@ -108,13 +105,13 @@ class ExampleReactBlockWidget extends WidgetType {
 export const SyntaxAtCursorContext = React.createContext<SyntaxAtCursor | null>(null);
 
 
-export function SyntaxAtCursorProvider({  }) {
+export function SyntaxAtCursorProvider({ children }: {children: any}) {
   const [syntax, setSytnax] = React.useState<SyntaxAtCursor | null>(null);
 
 
   return (
     <SyntaxAtCursorContext.Provider value={syntax}>
-      <ExampleReactComponent />
+      {children}
     </SyntaxAtCursorContext.Provider>
   );
 };
