@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Button, HStack, Input, Text } from "@chakra-ui/react";
 import { syntaxTree } from "@codemirror/language";
 import { EditorState, Extension, StateField } from "@codemirror/state";
@@ -101,6 +103,23 @@ class ExampleReactBlockWidget extends WidgetType {
     return true;
   }
 }
+
+//giving me errors if I don't put some default value
+export const SyntaxAtCursorContext = React.createContext<SyntaxAtCursor | null>(null);
+
+
+export function SyntaxAtCursorProvider({  }) {
+  const [syntax, setSytnax] = React.useState<SyntaxAtCursor | null>(null);
+
+
+  return (
+    <SyntaxAtCursorContext.Provider value={syntax}>
+      <ExampleReactComponent />
+    </SyntaxAtCursorContext.Provider>
+  );
+};
+
+
 
 /**
  * A toy extension that creates a wiget after the first line.
