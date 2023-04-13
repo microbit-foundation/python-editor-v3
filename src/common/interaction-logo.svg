@@ -1,0 +1,13 @@
+<svg width="100%" height="100%" viewBox="0 0 34 35" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" fill="currentColor" xml:space="preserve" version="1.1">
+
+ <g>
+  <title>Layer 1</title>
+  <rect stroke-width="3" rx="2" id="svg_12" height="19.67157" width="30.49165" y="7.35271" x="1.784" stroke="currentColor" fill="none"/>
+  <g stroke-width="2" id="svg_20">
+   <rect rx="1" id="svg_13" height="12.37121" width="14.39433" y="10.87509" x="14.36893" stroke="currentColor" fill="none"/>
+   <rect rx="1" id="svg_15" height="6.38367" width="0.55128" y="14.01262" x="17.64435" stroke="currentColor" fill="none"/>
+   <rect rx="1" id="svg_16" height="6.46849" width="0.55128" y="13.8932" x="21.18913" stroke="currentColor" fill="none"/>
+   <rect rx="1" id="svg_17" height="6.60442" width="0.55128" y="13.94124" x="25.06499" stroke="currentColor" fill="none"/>
+  </g>
+ </g>
+</svg>

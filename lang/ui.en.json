@@ -472,7 +472,7 @@
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "The name is used when you save a hex file.",
+    "defaultMessage": "The name is used when you save a file.",
     "description": "Text under project name field"
   },
   "new-file-hint": {
