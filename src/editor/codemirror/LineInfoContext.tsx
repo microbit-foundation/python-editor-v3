@@ -1,41 +1,39 @@
+import { Transaction } from "@codemirror/state";
 import React, { useContext } from "react";
 
-export interface LineInfoContext {
-    statementType?: "CALL",
-    callInfo?: {
-        name: string,
-        arguments: string[]
-    },
-    // This is defined by the extension, and it will update the arguments and the context info
-    updateArguments: (args: string[]) => void,
+export interface LineInfo {
+  statementType: "CALL";
+  callInfo: {
+    moduleName?: string;
+    name: string;
+    arguments: string[];
+  };
 
-    reduce: (change: Partial<LineInfoContext>) => void
+  createArgumentUpdate: (args: string[]) => Transaction;
 }
 
-//giving me errors if I don't put some default value
-export const LineInfoContext = React.createContext<LineInfoContext>({
-    updateArguments() {},
-    reduce() {}
-});
+type LineInfoContextValue = [
+  LineInfo | undefined,
+  React.Dispatch<React.SetStateAction<LineInfo | undefined>>
+];
 
-export function LineInfoProvider({ children }: {children: any}) {
-    const [lineInfo, setLineInfo] = React.useState<LineInfoContext>({
-        updateArguments() {},
-        reduce() {}
-    });
-  
-  
-    return (
-      <LineInfoContext.Provider value={{
-        ...lineInfo,
-        reduce(change) {
-            setLineInfo({
-                ...lineInfo,
-                ...change
-            })
-        }
-      }}>
-        {children}
-      </LineInfoContext.Provider>
-    );
-  };
+const LineInfoContext = React.createContext<LineInfoContextValue | undefined>(
+  undefined
+);
+
+export const useLineInfo = () => {
+  const value = useContext(LineInfoContext);
+  if (!value) {
+    throw new Error("Missing provider");
+  }
+  return value;
+};
+
+export function LineInfoProvider({ children }: { children: any }) {
+  const stateReturn = React.useState<LineInfo | undefined>();
+  return (
+    <LineInfoContext.Provider value={stateReturn}>
+      {children}
+    </LineInfoContext.Provider>
+  );
+}
