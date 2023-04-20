@@ -26,11 +26,76 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { FormattedMessage } from "react-intl";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import HeadedScrollablePanel from "./../common/HeadedScrollablePanel";
+import { LineInfoContext } from "../editor/codemirror/LineInfoContext";
 
+const labelStyles1 = {
+  mt: '2',
+  ml: '-2.5',
+  fontSize: 'sm',
+}
 
 const InteractionArea = () => {
+  const lineInfo = useContext(LineInfoContext);
+  console.log(lineInfo)
+
+  if (lineInfo.statementType !== "CALL") return null;
+
+  // const firstArgNum = parseInt(lineInfo.callInfo?.arguments[0]!)
+
+  return (
+    <HeadedScrollablePanel>
+      <Box m={7}>
+        <Heading>Interaction</Heading>
+
+        <Divider borderWidth='2px' />
+
+        <VStack spacing={4} align='stretch' >
+        {lineInfo.callInfo?.arguments.map((arg, i) => (
+          <>
+          <Text p={5} as='b'>
+            <FormattedMessage id="Start Frequency" />
+          </Text>
+          <Box m={10}>
+            <Slider aria-label='slider-ex-6' onChange={val => {
+              lineInfo.callInfo!.arguments[i] = val.toString()
+              lineInfo.updateArguments(lineInfo.callInfo!.arguments)
+            }} value={parseInt(arg!)} max={5000}>
+              <SliderMark value={150} {...labelStyles1}> 
+                0 
+              </SliderMark>
+              <SliderMark value={2500} {...labelStyles1}>
+                2500
+              </SliderMark>
+              <SliderMark value={4800} {...labelStyles1}>
+                5000
+              </SliderMark>
+              <SliderMark
+                value={parseInt(arg!)}
+                textAlign='center'
+                bg='blue.500'
+                color='white'
+                mt='-10'
+                ml='-5'
+                w='12'
+              >
+                {parseInt(arg!)}
+              </SliderMark>
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Box>
+
+          <Divider borderWidth='2px' />
+          </>
+        ))}
+        </VStack>
+      </Box>
+    </HeadedScrollablePanel>
+  )
   
     return ExampleSoundInteraction()
     

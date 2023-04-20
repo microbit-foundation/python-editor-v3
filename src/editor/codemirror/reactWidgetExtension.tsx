@@ -1,22 +1,18 @@
 import { HStack, Text } from "@chakra-ui/react";
 import { syntaxTree } from "@codemirror/language";
-import { EditorState, Extension, StateField } from "@codemirror/state";
+import { EditorSelection, EditorState, Extension, StateField, Transaction } from "@codemirror/state";
 import {
   Decoration,
   DecorationSet,
   EditorView,
   WidgetType,
 } from "@codemirror/view";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { PortalFactory } from "./CodeMirror";
 import "./reactWidgetExtension.css"
 import { SyntaxNode } from '@lezer/common';
-
-export interface SyntaxAtCursor {
-  nodeStack: SyntaxNode[],
-  currentLine: SyntaxNode,
-  innermostNode: SyntaxNode
-}
+import { LineInfoContext } from "./LineInfoContext";
+import { useActiveEditorActions } from "../active-editor-hooks";
 
 /**
  * An example react component that we use inside a CodeMirror widget as
@@ -25,12 +21,29 @@ export interface SyntaxAtCursor {
 interface MethodCallProps {
   module?: string,
   method: string,
-  args: string[]
+  args: string[],
+  updateArgs: (args: string[], dispatch: (tx: Transaction) => void) => void
 }
 
 const MethodCallComponent: React.FC<MethodCallProps> = ({
-  method, module, args
+  method, module, args, updateArgs
 }) => {
+  const editor = useActiveEditorActions();
+
+  const lineInfo = useContext(LineInfoContext);
+  useEffect(() => {
+    lineInfo.reduce({
+      statementType: "CALL",
+      callInfo: {
+        name: method,
+        arguments: args
+      },
+      updateArguments(args) {
+        updateArgs(args, editor?.dispatchTransaction!)
+      }
+    })
+  }, [method, module, args])
+
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
       <Text>Calling method {method} from module {module || "GLOBAL"} with args: [{args.join(", ")}]</Text>
@@ -64,7 +77,10 @@ function line2widget(line: SyntaxNode, createPortal: PortalFactory, state: Edito
   // The first element is always the open parenthesis, so it's skipped
   arg = arg?.nextSibling
   while (arg) {
-    if (excluded.includes(arg.type.name)) continue
+    if (excluded.includes(arg.type.name)) {
+      arg = arg?.nextSibling
+      continue
+    }
     args.push(node2str(arg, state))
     arg = arg?.nextSibling
   }
@@ -72,7 +88,24 @@ function line2widget(line: SyntaxNode, createPortal: PortalFactory, state: Edito
   console.log(module, method, args.length)
 
   return new ExampleReactBlockWidget(createPortal, 
-  <MethodCallComponent module={moduleName} method={method} args={args}/>)
+  <MethodCallComponent module={moduleName} method={method} args={args} updateArgs={(args, dispatch) => {
+    console.log("Updating args", {
+      from: line.firstChild!.lastChild?.from!,
+      to: line.firstChild!.lastChild?.to!,
+      insert: args.join(", ")
+    });
+    // state.doc.replace(line.firstChild!.lastChild?.from!, line.firstChild!.lastChild?.to!, state.toText(args.join(", ")))
+    dispatch(state.update({
+      changes: {
+        from: line.firstChild!.lastChild?.from!,
+        to: line.firstChild!.lastChild?.to!,
+        insert: `(${args.join(", ")})`
+      },
+      // selection: state.selection.replaceRange(
+      //   EditorSelection.range(line.firstChild!.lastChild?.from!, line.firstChild!.lastChild?.to!)
+      // )
+    }))
+  }}/>)
 }
 
 /**
@@ -102,21 +135,6 @@ class ExampleReactBlockWidget extends WidgetType {
     return true;
   }
 }
-
-//giving me errors if I don't put some default value
-export const SyntaxAtCursorContext = React.createContext<SyntaxAtCursor | null>(null);
-
-
-export function SyntaxAtCursorProvider({ children }: {children: any}) {
-  const [syntax] = React.useState<SyntaxAtCursor | null>(null);
-
-
-  return (
-    <SyntaxAtCursorContext.Provider value={syntax}>
-      {children}
-    </SyntaxAtCursorContext.Provider>
-  );
-};
 
 
 

@@ -30,6 +30,7 @@ import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
+import { LineInfoProvider } from "./editor/codemirror/LineInfoContext";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -81,7 +82,9 @@ const App = () => {
                               <RouterProvider>
                                 <ProjectDropTarget>
                                   <ActiveEditorProvider>
-                                    <Workbench />
+                                    <LineInfoProvider>
+                                      <Workbench />
+                                    </LineInfoProvider>
                                   </ActiveEditorProvider>
                                 </ProjectDropTarget>
                               </RouterProvider>

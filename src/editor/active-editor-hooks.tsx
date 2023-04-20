@@ -18,6 +18,7 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Logging } from "../logging/logging";
 import { copyCodeSnippet } from "./codemirror/copypaste";
 import { CodeInsertType } from "./codemirror/dnd";
+import { Transaction } from "@codemirror/state";
 
 /**
  * Actions that operate on a CM editor.
@@ -63,6 +64,10 @@ export class EditorActions {
     redo(this.view);
     this.view.focus();
   };
+
+  dispatchTransaction = (tx: Transaction): void => {
+    this.view.dispatch(tx)
+  }
 }
 
 type UseActiveEditorReturn = [
