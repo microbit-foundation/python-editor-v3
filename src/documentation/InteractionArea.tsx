@@ -10,20 +10,19 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderMark,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Select,
   Box,
   Heading,
-  Grid,
+  SimpleGrid,
   GridItem,
-  Checkbox,
   Center,
   Divider,
-  VStack
+  VStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button
 } from '@chakra-ui/react'
 import { FormattedMessage } from "react-intl";
 import { useContext, useState } from "react";
@@ -107,6 +106,7 @@ const ExampleSoundInteraction = () =>  {
   const [sliderValue2, setSliderValue2] = useState(128)
   const [sliderValue3, setSliderValue3] = useState(2500)
   const [sliderValue4, setSliderValue4] = useState(2500)
+  const [sliderValue5, setSliderValue5] = useState(500)
 
   const labelStyles1 = {
     mt: '2',
@@ -196,13 +196,34 @@ const ExampleSoundInteraction = () =>  {
           <Text p={5} as='b'>
             <FormattedMessage id = "Duration" />
           </Text>
-          <NumberInput min={1} max={9999} defaultValue= {500} keepWithinRange = {false} clampValueOnBlur={false}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+          <Box m={10}>
+            <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue5(val)} min={1} max={999}>
+              <SliderMark value={10} {...labelStyles1}>
+                1
+              </SliderMark>
+              <SliderMark value={500} {...labelStyles1}>
+                500
+              </SliderMark>
+              <SliderMark value={960} {...labelStyles1}>
+                999
+              </SliderMark>
+              <SliderMark
+                value={sliderValue5}
+                textAlign='center'
+                bg='blue.500'
+                color='white'
+                mt='-10'
+                ml='-5'
+                w='12'
+              >
+                {sliderValue5}
+              </SliderMark>
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Box>
 
           <Divider borderWidth='2px' />
 
@@ -318,6 +339,55 @@ const ExampleSoundInteraction = () =>  {
 
 export const ExampleGraphicsInteraction = () => {
 
+  function pixelGrid(){
+    const pixelValues = new Array(25);
+    for (let i = 0; i < 25; i++){
+      pixelValues.push(
+        <GridItem w='100%' h='10'>
+        <Center><Menu>
+          <MenuButton as={Button} size='sm' bg='red'>
+          </MenuButton>
+          <MenuList>
+            <MenuItem>0</MenuItem>
+            <MenuItem>1</MenuItem>
+            <MenuItem>2</MenuItem>
+            <MenuItem>3</MenuItem>
+            <MenuItem>4</MenuItem>
+            <MenuItem>5</MenuItem>
+            <MenuItem>6</MenuItem>
+            <MenuItem>7</MenuItem>
+            <MenuItem>8</MenuItem>
+            <MenuItem>9</MenuItem>
+          </MenuList>
+        </Menu></Center>
+        </GridItem>
+      )
+    }
+    return(
+      <Box m ={4} borderWidth='10px' borderRadius='md' borderColor={'black'} bg='black'>
+        <SimpleGrid gap={1} p={5} columns={5}>
+          {pixelValues}
+        </SimpleGrid>
+      </Box>
+    )
+  }
+
+  const colorSchemeMap = {
+    0: "black",
+    1: "red.900",
+    2: "red.850",
+    3: "red.800",
+    4: "red.750",
+    5: "red.700",
+    6: "red.650",
+    7: "red.600",
+    8: "red.550",
+    9: "red.500",
+  };
+
+  //const colorScheme = colorSchemeMap[value] || "gray"
+
+  
   return (
   <HeadedScrollablePanel>
     <Box m={7}>
@@ -327,85 +397,7 @@ export const ExampleGraphicsInteraction = () => {
           <FormattedMessage id="Pixels" />
         </Text>
 
-        <Box m ={4} borderWidth='20px' borderRadius='lg' borderColor={'black'} bg='black'>
-          <Grid templateColumns='repeat(5, 1fr)' gap={6}>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-            <GridItem w='100%' h='10'>
-              <Center><Checkbox size = 'lg' colorScheme='red'></Checkbox></Center>
-            </GridItem>
-          </Grid>
-        </Box>
+        {pixelGrid()}
 
       </VStack>
     </Box>
