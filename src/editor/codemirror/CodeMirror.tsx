@@ -49,6 +49,7 @@ import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 import { reactWidgetExtension } from "./reactWidgetExtension";
+import { useLineInfo } from "./LineInfoContext";
 
 interface CodeMirrorProps {
   className?: string;
@@ -130,6 +131,8 @@ const CodeMirror = ({
     return () => setPortals((portals) => portals.filter((p) => p !== portal));
   }, []);
 
+  const [, setLineInfo] = useLineInfo();
+
   useEffect(() => {
     const initializing = !viewRef.current;
     if (initializing) {
@@ -148,7 +151,7 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
-          reactWidgetExtension(portalFactory),
+          reactWidgetExtension(portalFactory, setLineInfo),
           // Extension requires external state.
           dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
@@ -206,6 +209,7 @@ const CodeMirror = ({
     portals,
     portalFactory,
     setPortals,
+    setLineInfo,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
