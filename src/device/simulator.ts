@@ -277,6 +277,10 @@ export class SimulatorDeviceConnection
     this.emit(EVENT_FLASH);
   }
 
+  async setDisplay(display: boolean): Promise<void> {
+    this.postMessage("set_display", {"display": display})
+  }
+
   configure(config: Config): void {
     this.postMessage("config", config);
   }

@@ -13,10 +13,11 @@ import {
   WidgetType,
 } from "@codemirror/view";
 import { SyntaxNode } from "@lezer/common";
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { PortalFactory } from "./CodeMirror";
 import { LineInfo } from "./LineInfoContext";
 import "./reactWidgetExtension.css";
+import { Simulator, flashType } from "../../simulator/MiniSimulator"
 
 /**
  * An example react component that we use inside a CodeMirror widget as
@@ -30,13 +31,42 @@ const MethodCallComponent: React.FC<MethodCallProps> = ({ lineInfo }) => {
   const {
     callInfo: { name, arguments: args, moduleName },
   } = lineInfo;
+  let line = "";
+  if (moduleName) line += moduleName + ".";
+  line += name+"("+args.join(",")+")";
+  let code = "from microbit import *\n";
+  if (moduleName) code +=`
+try:
+  import ${moduleName}
+except:pass
+`
+  code += line
+  const flash = useRef<flashType>(null)
+  const [size, setSize] = useState(20)
+  const [displayBoard, setDisplay] = useState(false)
+  const requestCode = () => {
+    setSize(175)
+    console.log(displayBoard)
+    setDisplay(true)
+    console.log("requestCode")
+    return code
+  }
+  console.log(displayBoard)
+  const simulator = <Simulator 
+    requestCode={requestCode}
+    size={size}
+    displayBoard={displayBoard}
+    flash={flash}
+    debug={true}
+  />
   return (
-    <HStack fontFamily="body" spacing={5} py={3}>
-      <Text>
-        Calling method {name} from module {moduleName || "GLOBAL"} with args: [
-        {args.join(", ")}]
-      </Text>
-    </HStack>
+    // <HStack fontFamily="body" spacing={5} py={3}>
+    //   <Text>
+    //     Calling method {name} from module {moduleName || "GLOBAL"} with args: [
+    //     {args.join(", ")}]
+    //   </Text>
+    // </HStack>
+    simulator
   );
 };
 
