@@ -1040,16 +1040,17 @@ export class App {
       name,
       level: 3,
     });
-    const section = await heading.evaluateHandle((e: Element) => {
-      let node: Element | null = e;
-      while (node && node.tagName !== "LI") {
-        node = node.parentElement;
-      }
-      if (!node) {
-        throw new Error("Unexpected DOM structure");
-      }
-      return node;
-    });
+    const section: puppeteer.ElementHandle<Element> =
+      await heading.evaluateHandle((e: Element) => {
+        let node: Element | null = e;
+        while (node && node.tagName !== "LI") {
+          node = node.parentElement;
+        }
+        if (!node) {
+          throw new Error("Unexpected DOM structure");
+        }
+        return node;
+      });
     const draggable = (await section.$("[draggable]"))!;
     const lines = await document.$$("[data-testid='editor'] .cm-line");
     const line = lines[targetLine - 1];
