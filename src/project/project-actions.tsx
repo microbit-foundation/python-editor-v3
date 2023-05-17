@@ -110,7 +110,7 @@ export class ProjectActions {
     },
     private intl: IntlShape,
     private logging: Logging,
-    private client: Promise<LanguageServerClient | undefined> | undefined
+    private client: LanguageServerClient | undefined
   ) {}
 
   private get project(): DefaultedProject {
@@ -994,7 +994,7 @@ export class ProjectActions {
   private async projectStats(): Promise<ProjectStatistics> {
     return {
       ...(await this.fs.statistics()),
-      errorCount: (await this.client)?.errorCount() ?? 0,
+      errorCount: this.client?.errorCount() ?? 0,
     };
   }
 

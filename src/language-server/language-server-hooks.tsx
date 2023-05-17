@@ -21,12 +21,10 @@ import {
 import { pyright } from "./pyright";
 
 const LanguageServerClientContext = createContext<
-  Promise<LanguageServerClient | undefined> | undefined
+  LanguageServerClient | undefined
 >(undefined);
 
-export const useLanguageServerClient = ():
-  | Promise<LanguageServerClient | undefined>
-  | undefined => {
+export const useLanguageServerClient = (): LanguageServerClient | undefined => {
   return useContext(LanguageServerClientContext);
 };
 
@@ -40,19 +38,19 @@ export const LanguageServerClientProvider = ({
   const fs = useFileSystem();
   const [{ languageId }] = useSettings();
   const [clientState, setClientState] = useState<
-    Promise<LanguageServerClient | undefined> | undefined
+    LanguageServerClient | undefined
   >(undefined);
   useEffect(() => {
     let listener: FsChangesListener | undefined;
     let ignore = false;
-    const client = pyright(languageId);
-    if (!ignore) {
-      setClientState(client);
-    }
     const initAsync = async () => {
-      client.then((client) =>
-        client?.initialize().then(() => (listener = trackFsChanges(client, fs)))
-      );
+      const client = await pyright(languageId);
+      if (client) {
+        listener = trackFsChanges(client, fs);
+        if (!ignore) {
+          setClientState(client);
+        }
+      }
     };
     initAsync();
     return () => {

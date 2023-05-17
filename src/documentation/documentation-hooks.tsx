@@ -70,15 +70,11 @@ const useApiDocumentation = (): ApiDocsResponse | undefined => {
     let ignore = false;
     const load = async () => {
       if (client) {
-        client.then(async (client) => {
-          if (client) {
-            const docs = await apiDocs(client);
-            pullModulesToTop(docs);
-            if (!ignore) {
-              setApiDocs(docs);
-            }
-          }
-        });
+        const docs = await apiDocs(client);
+        pullModulesToTop(docs);
+        if (!ignore) {
+          setApiDocs(docs);
+        }
       }
     };
     load();
