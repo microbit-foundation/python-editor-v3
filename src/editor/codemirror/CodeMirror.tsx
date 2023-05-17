@@ -101,62 +101,64 @@ const CodeMirror = ({
   );
 
   useEffect(() => {
-    const initializing = !viewRef.current;
-    if (initializing) {
-      const notify = EditorView.updateListener.of((update) => {
-        if (update.docChanged) {
-          onChange(update.state.sliceDoc(0));
-          setEditorInfo({
-            undo: undoDepth(view.state),
-            redo: redoDepth(view.state),
-          });
-          logPastedLineCount(logging, update);
-        }
-      });
-      const state = EditorState.create({
-        doc: defaultValue,
-        extensions: [
-          notify,
-          editorConfig,
-          // Extension requires external state.
-          dndSupport({ sessionSettings, setSessionSettings }),
-          // Extensions only relevant for editing:
-          // Order of lintGutter and lineNumbers determines how they are displayed.
-          lintGutter({ hoverTime: 0 }),
-          lineNumbers(),
-          highlightActiveLineGutter(),
-          highlightActiveLine(),
-          // Extensions we enable/disable based on props.
-          compartment.of([
-            client
-              ? languageServer(
-                  client,
-                  uri,
-                  intl,
-                  logging,
-                  apiReferenceMap.status === "ok"
-                    ? apiReferenceMap.content
-                    : {},
-                  {
-                    signatureHelp: {
-                      automatic: parameterHelpOption === "automatic",
-                    },
-                  }
-                )
-              : [],
-            codeStructure(options.codeStructureOption),
-            themeExtensionsForOptions(options),
-          ]),
-        ],
-      });
-      const view = new EditorView({
-        state,
-        parent: elementRef.current!,
-      });
+    client?.then((client) => {
+      const initializing = !viewRef.current;
+      if (initializing) {
+        const notify = EditorView.updateListener.of((update) => {
+          if (update.docChanged) {
+            onChange(update.state.sliceDoc(0));
+            setEditorInfo({
+              undo: undoDepth(view.state),
+              redo: redoDepth(view.state),
+            });
+            logPastedLineCount(logging, update);
+          }
+        });
+        const state = EditorState.create({
+          doc: defaultValue,
+          extensions: [
+            notify,
+            editorConfig,
+            // Extension requires external state.
+            dndSupport({ sessionSettings, setSessionSettings }),
+            // Extensions only relevant for editing:
+            // Order of lintGutter and lineNumbers determines how they are displayed.
+            lintGutter({ hoverTime: 0 }),
+            lineNumbers(),
+            highlightActiveLineGutter(),
+            highlightActiveLine(),
+            // Extensions we enable/disable based on props.
+            compartment.of([
+              client
+                ? languageServer(
+                    client,
+                    uri,
+                    intl,
+                    logging,
+                    apiReferenceMap.status === "ok"
+                      ? apiReferenceMap.content
+                      : {},
+                    {
+                      signatureHelp: {
+                        automatic: parameterHelpOption === "automatic",
+                      },
+                    }
+                  )
+                : [],
+              codeStructure(options.codeStructureOption),
+              themeExtensionsForOptions(options),
+            ]),
+          ],
+        });
+        const view = new EditorView({
+          state,
+          parent: elementRef.current!,
+        });
 
-      viewRef.current = view;
-      setActiveEditor(new EditorActions(view, logging, actionFeedback));
-    }
+        viewRef.current = view;
+        setActiveEditor(new EditorActions(view, logging, actionFeedback));
+      }
+    });
   }, [
     actionFeedback,
     client,
@@ -185,27 +187,31 @@ const CodeMirror = ({
   }, [setActiveEditor]);
 
   useEffect(() => {
-    viewRef.current!.dispatch({
-      effects: [
-        compartment.reconfigure([
-          client
-            ? languageServer(
-                client,
-                uri,
-                intl,
-                logging,
-                apiReferenceMap.status === "ok" ? apiReferenceMap.content : {},
-                {
-                  signatureHelp: {
-                    automatic: parameterHelpOption === "automatic",
-                  },
-                }
-              )
-            : [],
-          codeStructure(options.codeStructureOption),
-          themeExtensionsForOptions(options),
-        ]),
-      ],
+    client?.then((client) => {
+      viewRef.current!.dispatch({
+        effects: [
+          compartment.reconfigure([
+            client
+              ? languageServer(
+                  client,
+                  uri,
+                  intl,
+                  logging,
+                  apiReferenceMap.status === "ok"
+                    ? apiReferenceMap.content
+                    : {},
+                  {
+                    signatureHelp: {
+                      automatic: parameterHelpOption === "automatic",
+                    },
+                  }
+                )
+              : [],
+            codeStructure(options.codeStructureOption),
+            themeExtensionsForOptions(options),
+          ]),
+        ],
+      });
     });
   }, [
     options,
