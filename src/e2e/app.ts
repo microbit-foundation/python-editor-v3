@@ -1419,7 +1419,10 @@ export class App {
     // to match Image.NO being displayed.
     const simulatorIframe = await this.getSimulatorIframe();
     const gridLEDs = await simulatorIframe!.$("#LEDsOn");
-    await gridLEDs!.waitForSelector("use", { visible: true, timeout: 1000 });
+    await gridLEDs!.waitForSelector("use", {
+      visible: true,
+      timeout: defaultWaitForOptions.timeout,
+    });
   }
 }
 
