@@ -63,7 +63,7 @@
     "cross-env": "^7.0.3",
     "pptr-testing-library": "^0.7.0",
     "prettier": "2.3.2",
-    "puppeteer": "^13.4.0",
+    "puppeteer": "13.4.0",
     "react-scripts": "5.0.0",
     "source-map-explorer": "^2.5.2",
     "typescript": "^4.4.2",
