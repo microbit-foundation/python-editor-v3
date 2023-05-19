@@ -66,7 +66,7 @@ const SearchDialog = ({
             placeholder={intl.formatMessage({ id: "search" })}
             fontSize="lg"
             // Needs some thought, the default breaks the design.
-            _focus={{}}
+            _focusVisible={{}}
             _placeholder={{
               color: "gray.600",
             }}
