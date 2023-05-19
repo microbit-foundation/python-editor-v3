@@ -10,7 +10,6 @@ import reportWebVitals from "./reportWebVitals";
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
-  // Disabled while we work through React 18 migration issues
   <StrictMode>
     <App />
   </StrictMode>

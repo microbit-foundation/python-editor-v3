@@ -89,7 +89,6 @@ export const apiDocs = async (
     return result;
   } catch (e) {
     if (!(e instanceof ConnectionError)) {
-      console.log("APi docs connection error");
       throw e;
     }
     // We'll requery when the client is recreated.
