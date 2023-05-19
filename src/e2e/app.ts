@@ -201,9 +201,7 @@ export class App {
    */
   async reloadPage(): Promise<void> {
     const page = await this.page;
-    await page.reload({
-      waitUntil: "networkidle0",
-    });
+    await page.reload();
   }
 
   /**
@@ -930,9 +928,7 @@ export class App {
     }
     this.page = this.createPage();
     page = await this.page;
-    await page.goto(this.url, {
-      waitUntil: "networkidle0",
-    });
+    await page.goto(this.url);
   }
 
   /**
