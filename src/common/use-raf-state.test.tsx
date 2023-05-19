@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import useRafState from "./use-raf-state";
 
 const Test = () => {
@@ -24,6 +24,6 @@ describe("useRafState", () => {
 
     fireEvent.click(screen.getByText("increment"));
 
-    await waitFor(() => screen.getByText("1"));
+    await screen.findByText("1");
   });
 });

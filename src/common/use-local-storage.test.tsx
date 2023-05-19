@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { fireEvent, render, screen } from "@testing-library/react";
-import React from "react";
 import { useStorage } from "./use-storage";
 
 interface TestState {
