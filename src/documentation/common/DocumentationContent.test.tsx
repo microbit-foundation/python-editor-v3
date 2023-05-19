@@ -12,6 +12,7 @@ import DocumentationContent from "./DocumentationContent";
 
 jest.mock("@chakra-ui/image", () => ({
   Image: ({ src, w, h }: ImageProps) => (
+    // eslint-disable-next-line jsx-a11y/alt-text
     <img src={src} width={w as string} height={h as string} />
   ),
 }));
@@ -46,8 +47,8 @@ describe("DocumentationContent", () => {
         style: "normal",
       },
     ];
-    const rendered = render(<DocumentationContent content={content} />);
-    expect(rendered.container.innerHTML).toMatchInlineSnapshot(
+    const view = render(<DocumentationContent content={content} />);
+    expect(view.container.innerHTML).toMatchInlineSnapshot(
       `"<div class=\\"chakra-stack css-bs1yt6\\"><p><a target=\\"_blank\\" rel=\\"nofollow noopener\\" class=\\"chakra-link css-1w3ukj\\" href=\\"https://www.bbc.co.uk/bitesize/guides/zscvxfr/revision/4\\">Read more about ASCII<svg stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" viewBox=\\"0 0 24 24\\" focusable=\\"false\\" class=\\"chakra-icon css-q1kx43\\" height=\\"1em\\" width=\\"1em\\" xmlns=\\"http://www.w3.org/2000/svg\\"><g><path fill=\\"none\\" d=\\"M0 0h24v24H0z\\"></path><path d=\\"M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z\\"></path></g></svg></a>.</p></div>"`
     );
   });
@@ -63,9 +64,9 @@ describe("DocumentationContent", () => {
         },
       },
     ];
-    const rendered = render(<DocumentationContent content={content} />);
+    const view = render(<DocumentationContent content={content} />);
     // This relies on the mock above because Chakra UI's images have the src added later.
-    expect(rendered.container.innerHTML).toMatchInlineSnapshot(
+    expect(view.container.innerHTML).toMatchInlineSnapshot(
       `"<div class=\\"chakra-stack css-bs1yt6\\"><img src=\\"https://cdn.sanity.io/images/ajwvhvgo/apps/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&amp;q=80&amp;fit=max&amp;auto=format\\"></div>"`
     );
   });
