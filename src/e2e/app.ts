@@ -716,7 +716,7 @@ export class App {
    */
   async save(): Promise<void> {
     const document = await this.document();
-    const saveButton = await document.getByText("Save");
+    const saveButton = await document.findByText("Save");
     return saveButton.click();
   }
 
