@@ -694,6 +694,8 @@ export class App {
     await this.focusEditorContent();
     const keyboard = (await this.page).keyboard;
     const meta = process.platform === "darwin" ? "Meta" : "Control";
+
+    // With the current version of Pupepteer this doesn't seem to work on Arm Macs
     await keyboard.down(meta);
     await keyboard.press("v");
     await keyboard.up(meta);
