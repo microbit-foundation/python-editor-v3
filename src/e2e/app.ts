@@ -1101,7 +1101,11 @@ export class App {
 
   private async focusEditorContent(): Promise<ElementHandle> {
     const document = await this.document();
-    const editor = await document.findByTestId("editor");
+    const editor = await document.findByTestId(
+      "editor",
+      {},
+      defaultWaitForOptions
+    );
     const content = await editor.$(".cm-content");
     if (!content) {
       throw new Error("Missing editor area");
@@ -1129,9 +1133,13 @@ export class App {
     tabName: "Project" | "API" | "Reference" | "Ideas"
   ): Promise<ElementHandle<Element>> {
     const document = await this.document();
-    const tab = await document.findByRole("tab", {
-      name: tabName,
-    });
+    const tab = await document.findByRole(
+      "tab",
+      {
+        name: tabName,
+      },
+      defaultWaitForOptions
+    );
     await tab.click();
     return document.findByRole("tabpanel");
   }
