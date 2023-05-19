@@ -31,6 +31,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
       this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
     }
   };
+  private destroyed = false;
   constructor(view: EditorView) {
     super(view);
 
@@ -39,11 +40,13 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
-      const diagnostics = diagnosticsMapping(
-        view.state.doc,
-        this.client.currentDiagnostics(this.uri)
-      );
-      view.dispatch(setDiagnostics(view.state, diagnostics));
+      if (!this.destroyed) {
+        const diagnostics = diagnosticsMapping(
+          view.state.doc,
+          this.client.currentDiagnostics(this.uri)
+        );
+        view.dispatch(setDiagnostics(view.state, diagnostics));
+      }
     }, 0);
   }
 
@@ -58,6 +61,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   }
 
   destroy() {
+    this.destroyed = true;
     this.client.removeListener("diagnostics", this.diagnosticsListener);
     // We don't own the client/connection which might outlive us, just our notifications.
   }
