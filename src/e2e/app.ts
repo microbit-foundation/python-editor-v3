@@ -1263,13 +1263,13 @@ export class App {
   }
 
   async assertFocusOnLoad(): Promise<void> {
+    const document = await this.document();
+    // Do this first so we know it's ready to be tabbed to.
+    const link = await document.findByRole("link", {
+      name: "visit microbit.org (opens in a new tab)",
+    });
     await this.keyboardPress("Tab");
-    return this.assertActiveElement(() =>
-      this.getElementByRoleAndLabel(
-        "link",
-        "visit microbit.org (opens in a new tab)"
-      )
-    );
+    return this.assertActiveElement(() => Promise.resolve(link));
   }
 
   collapseSimulator(): Promise<void> {
