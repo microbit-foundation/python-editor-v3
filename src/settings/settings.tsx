@@ -30,7 +30,6 @@ const allLanguages: Language[] = [
     id: "ca",
     name: "Català",
     enName: "Catalan",
-    preview: true,
   },
   {
     id: "zh-cn",
