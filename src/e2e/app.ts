@@ -551,9 +551,13 @@ export class App {
    */
   async setProjectName(projectName: string): Promise<void> {
     const document = await this.document();
-    const editButton = await document.findByRole("button", {
-      name: "Edit project name",
-    });
+    const editButton = await document.findByRole(
+      "button",
+      {
+        name: "Edit project name",
+      },
+      defaultWaitForOptions
+    );
     await editButton.click();
     const input = await document.findByRole("textbox", {
       name: /Name/,
