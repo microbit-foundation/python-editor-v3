@@ -1151,9 +1151,13 @@ export class App {
   async selectFirstSearchResult(): Promise<void> {
     const document = await this.document();
     const modalDialog = await document.findByRole("dialog");
-    const result = await modalDialog.findAllByRole("heading", {
-      level: 3,
-    });
+    const result = await modalDialog.findAllByRole(
+      "heading",
+      {
+        level: 3,
+      },
+      defaultWaitForOptions
+    );
     await result[0].click();
   }
 
