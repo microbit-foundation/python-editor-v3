@@ -3,14 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { theme } from "@chakra-ui/react";
+import { StyleFunctionProps, theme } from "@chakra-ui/react";
 
 const Button = {
   variants: {
     // Ideally we'd drop this variant.
-    zoom: (props: any) => {
-      // Theme typing issue.
-      const base: any = theme.components.Button.variants!.solid(props);
+    zoom: (props: StyleFunctionProps) => {
+      const base = theme.components.Button.variants!.solid(props);
       return {
         ...base,
         _hover: {
@@ -23,9 +22,8 @@ const Button = {
         },
       };
     },
-    sidebar: (props: any) => {
-      // Theme typing issue.
-      const base: any = {
+    sidebar: (props: StyleFunctionProps) => {
+      const base = {
         ...theme.components.Button.variants!.ghost(props),
       };
       return {
