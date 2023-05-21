@@ -699,7 +699,8 @@ export class App {
     const keyboard = (await this.page).keyboard;
     const meta = process.platform === "darwin" ? "Meta" : "Control";
 
-    // With the current version of Pupepteer this doesn't seem to work on Arm Macs
+    // With the current version of Pupepteer this doesn't seem to work on Macs
+    // On upgrading we can fix like this: https://github.com/puppeteer/puppeteer/pull/9357/files
     await keyboard.down(meta);
     await keyboard.press("v");
     await keyboard.up(meta);
