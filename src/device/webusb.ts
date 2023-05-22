@@ -427,18 +427,20 @@ const enrichedError = (err: any): WebUSBError => {
       if (!err.message && err.promise && err.reason) {
         err = err.reason;
       }
-      // This comes from DAPjs's WebUSB open.
-      if (err.message === "No valid interfaces found.") {
+      // This is somewhat fragile but worth it for scenario specific errors.
+      // These messages changed to be prefixed in 2023 so we've relaxed the checks.
+      if (/No valid interfaces found/.test(err.message)) {
+        // This comes from DAPjs's WebUSB open.
         return new WebUSBError({
           code: "update-req",
           message: err.message,
         });
-      } else if (err.message === "No device selected.") {
+      } else if (/No device selected/.test(err.message)) {
         return new WebUSBError({
           code: "no-device-selected",
           message: err.message,
         });
-      } else if (err.message === "Unable to claim interface.") {
+      } else if (/Unable to claim interface/.test(err.message)) {
         return new WebUSBError({
           code: "clear-connect",
           message: err.message,
