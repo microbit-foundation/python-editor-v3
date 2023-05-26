@@ -62,6 +62,7 @@ const App = () => {
   });
 
   const deployment = useDeployment();
+  const { ConsentProvider } = deployment.compliance;
   return (
     <>
       <VisualViewPortCSSVariables />
@@ -79,11 +80,13 @@ const App = () => {
                           <SelectionProvider>
                             <DialogProvider>
                               <RouterProvider>
-                                <ProjectDropTarget>
-                                  <ActiveEditorProvider>
-                                    <Workbench />
-                                  </ActiveEditorProvider>
-                                </ProjectDropTarget>
+                                <ConsentProvider>
+                                  <ProjectDropTarget>
+                                    <ActiveEditorProvider>
+                                      <Workbench />
+                                    </ActiveEditorProvider>
+                                  </ProjectDropTarget>
+                                </ConsentProvider>
                               </RouterProvider>
                             </DialogProvider>
                           </SelectionProvider>

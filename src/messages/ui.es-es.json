@@ -411,6 +411,12 @@
       "value": "Algo salió mal. Por seguridad, descarga tu archivo HEX y actualiza la página para recargar."
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,

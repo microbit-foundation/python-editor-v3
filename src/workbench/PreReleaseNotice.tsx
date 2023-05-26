@@ -8,6 +8,7 @@ import { Flex, HStack, Text } from "@chakra-ui/layout";
 import { useCallback, useEffect, useState } from "react";
 import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
 import { useStorage } from "../common/use-storage";
+import { useCookieConsent } from "../deployment";
 import { flags } from "../flags";
 
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
@@ -39,13 +40,18 @@ export const useReleaseDialogState = (): [
   );
   const [releaseDialog, setReleaseDialog] =
     useState<ReleaseNoticeState>("closed");
-  // Show the dialog on start-up once per user.
+  // Show the dialog on start-up once per user once we have cookie consent.
+  const cookieConsent = useCookieConsent();
   useEffect(() => {
-    if (!flags.noWelcome && storedNotice.version < currentVersion) {
+    if (
+      cookieConsent &&
+      !flags.noWelcome &&
+      storedNotice.version < currentVersion
+    ) {
       setReleaseDialog("info");
       setStoredNotice({ version: currentVersion });
     }
-  }, [storedNotice, setStoredNotice, setReleaseDialog]);
+  }, [cookieConsent, storedNotice, setStoredNotice, setReleaseDialog]);
   return [releaseDialog, setReleaseDialog];
 };
 

@@ -16,6 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
+import { MdOutlineCookie } from "react-icons/md";
 import {
   RiExternalLinkLine,
   RiFeedbackLine,
@@ -25,7 +26,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
 import { zIndexAboveTerminal } from "../common/zIndex";
-import { deployment } from "../deployment";
+import { deployment, useDeployment } from "../deployment";
 import AboutDialog from "./AboutDialog/AboutDialog";
 import FeedbackForm from "./FeedbackForm";
 
@@ -49,6 +50,11 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
       />
     ));
   }, [dialogs]);
+  const { compliance } = useDeployment();
+  const handleCookies = useCallback(() => {
+    // Only called if defined:
+    compliance.manageCookies!();
+  }, [compliance]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <>
@@ -106,7 +112,13 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 <FormattedMessage id="terms-of-use" />
               </MenuItem>
             )}
-            <MenuDivider />
+            {deployment.compliance.manageCookies && (
+              <MenuItem icon={<MdOutlineCookie />} onClick={handleCookies}>
+                <FormattedMessage id="cookies-action" />
+              </MenuItem>
+            )}
+            {(deployment.termsOfUseLink ||
+              deployment.compliance.manageCookies) && <MenuDivider />}
             <MenuItem
               icon={<RiInformationLine />}
               onClick={aboutDialogDisclosure.onOpen}

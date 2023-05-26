@@ -407,6 +407,12 @@
       "value": "出错了。下载您的 hex 文件以便安全保存，然后刷新页面来重新加载。"
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,
