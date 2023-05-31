@@ -20,7 +20,7 @@
       name="twitter:description"
       content="A Python Editor for the BBC micro:bit, built by the Micro:bit Educational Foundation and the global Python Community."
     />
-    <% if (process.env.REACT_APP_STAGE === 'PRODUCTION' || process.env.REACT_APP_STAGE === "STAGING") { %>
+    <% if (process.env.REACT_APP_FOUNDATION_BUILD === 'true') { %>
     <script src="https://review-shared-assets.microbit.org/restructure/common/v1/common.js"></script>
     <link rel="stylesheet" href="https://review-shared-assets.microbit.org/restructure/common/v1/main.css"></link>
     <% } %>
