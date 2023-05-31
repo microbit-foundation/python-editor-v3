@@ -22,8 +22,10 @@ jobs:
       PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       STAGING_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
+      MICROBIT_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
 
     steps:
+      - run: echo "$MICROBIT_FOUNDATION_BUILD"
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
       - uses: actions/checkout@v3
       - name: Configure node
