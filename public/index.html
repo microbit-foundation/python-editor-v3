@@ -23,6 +23,13 @@
     <% if (process.env.REACT_APP_FOUNDATION_BUILD === 'true') { %>
     <script src="https://review-shared-assets.microbit.org/restructure/common/v1/common.js"></script>
     <link rel="stylesheet" href="https://review-shared-assets.microbit.org/restructure/common/v1/main.css"></link>
+    <script>
+      // GA config itself is via the common assets config depending on consent.
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function() {
+        window.dataLayer.push(arguments);
+      };
+    </script>
     <% } %>
   </head>
   <body>
