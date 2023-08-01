@@ -195,6 +195,10 @@
     "defaultMessage": "出错了。下载您的 hex 文件以便安全保存，然后刷新页面来重新加载。",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookies",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "已复制",
     "description": "Text shown after copy to clipboard"

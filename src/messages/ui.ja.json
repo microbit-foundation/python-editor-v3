@@ -431,6 +431,12 @@
       "value": "問題が発生しました。hex ファイルをダウンロードして、ページをリロードしてください。"
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,

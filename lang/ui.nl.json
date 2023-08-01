@@ -195,6 +195,10 @@
     "defaultMessage": "Er is iets fout gegaan. Download je hexadecimale bestand voor een veilige bewaring, ververs daarna de pagina om te herladen.",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookies",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "Gekopieerd",
     "description": "Text shown after copy to clipboard"

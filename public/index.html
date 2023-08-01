@@ -20,25 +20,15 @@
       name="twitter:description"
       content="A Python Editor for the BBC micro:bit, built by the Micro:bit Educational Foundation and the global Python Community."
     />
-    <% if (process.env.REACT_APP_GA_MEASUREMENT_ID &&
-    (process.env.REACT_APP_STAGE === 'PRODUCTION' || process.env.REACT_APP_STAGE
-    === "STAGING")) { %>
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_MEASUREMENT_ID%"
-    ></script>
+    <% if (process.env.REACT_APP_FOUNDATION_BUILD === 'true') { %>
+    <script src="https://shared-assets.microbit.org/common/v1/common.js" async></script>
+    <link rel="stylesheet" href="https://shared-assets.microbit.org/common/v1/main.css"></link>
     <script>
+      // GA config itself is via the common assets config depending on consent.
       window.dataLayer = window.dataLayer || [];
-      window.gaMeasurementId = "%REACT_APP_GA_MEASUREMENT_ID%";
-      window.gtag = function () {
+      window.gtag = window.gtag || function() {
         window.dataLayer.push(arguments);
       };
-      gtag("js", new Date());
-      var options = {
-        anonymize_ip: true,
-        cookie_prefix: "%REACT_APP_GA_COOKIE_PREFIX%",
-      };
-      gtag("config", window.gaMeasurementId, options);
     </script>
     <% } %>
   </head>

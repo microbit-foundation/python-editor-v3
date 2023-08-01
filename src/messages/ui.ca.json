@@ -411,6 +411,12 @@
       "value": "Alguna cosa ha anat malament. Baixa el teu fitxer hexadecimal per mantenir-lo segur i, a continuació, actualitza la pàgina per tornar-la a carregar."
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,

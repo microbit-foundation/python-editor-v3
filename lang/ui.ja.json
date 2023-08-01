@@ -195,6 +195,10 @@
     "defaultMessage": "問題が発生しました。hex ファイルをダウンロードして、ページをリロードしてください。",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookies",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "コピーしました",
     "description": "Text shown after copy to clipboard"
