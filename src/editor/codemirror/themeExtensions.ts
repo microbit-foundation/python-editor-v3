@@ -77,8 +77,18 @@ export const themeExtensions = (fontSize: string) => {
     ".cm-tooltip.cm-completionInfo.cm-completionInfo-right": {
       borderLeft: "none",
     },
+    ".cm-tooltip.cm-completionInfo.cm-completionInfo-right-narrow": {
+      position: "relative",
+      left: 0,
+      maxWidth: "unset !important",
+    },
     ".cm-tooltip.cm-completionInfo.cm-completionInfo-left": {
       borderRight: "none",
+    },
+    ".cm-tooltip.cm-completionInfo.cm-completionInfo-left-narrow": {
+      position: "relative",
+      left: 0,
+      maxWidth: "unset !important",
     },
     ".cm-tooltip.cm-completionInfo": {
       width: "20rem",
