@@ -32,7 +32,14 @@ export type Flag =
    * Added to support user-testing and has the nice side-effect of disabling
    * the dialog for local development so is worth keeping for that use alone.
    */
-  | "noWelcome";
+  | "noWelcome"
+  /**
+   * Disables language selection from the settings menu.
+   *
+   * Added so we can embed the editor in micro:bit classroom without competing language
+   * options. The language selected in classroom is passed through via query param.
+   */
+  | "noLang";
 
 interface FlagMetadata {
   defaultOnStages: Stage[];
@@ -44,6 +51,7 @@ const allFlags: FlagMetadata[] = [
   { name: "dndDebug", defaultOnStages: [] },
   { name: "betaNotice", defaultOnStages: ["local", "REVIEW", "STAGING"] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
+  { name: "noLang", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;
