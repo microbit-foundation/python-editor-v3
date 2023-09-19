@@ -14,7 +14,8 @@ export function useStorage<T>(
   storageType: storageType,
   key: string,
   defaultValue: T,
-  validate?: (x: unknown) => x is T
+  validate?: (x: unknown) => x is T,
+  overrides?: Partial<T>
 ): [T, (value: T) => void] {
   const [state, setState] = useState<T>(() => {
     const storage =
@@ -29,6 +30,7 @@ export function useStorage<T>(
         parsed = {
           ...defaultValue,
           ...parsed,
+          ...overrides,
         };
         // Remove any top-level keys that aren't present in defaults.
         const unknownKeys = new Set(Object.keys(parsed));
