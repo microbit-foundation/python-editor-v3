@@ -34,7 +34,7 @@ export const getTopicAndEntry = (
 const toolkitQuery = (languageId: string): string => {
   return `
   *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{
-    _id, id, name, description, language,
+    id, name, description, language,
     contents[]->{
       name, slug, compatibility, subtitle, image,
       introduction[] {
@@ -75,16 +75,10 @@ const toolkitQuery = (languageId: string): string => {
   }`;
 };
 
-const isDraft = (document: { _id: string }) => /^drafts\./.test(document._id);
-
 const adaptContent = (result: any): Toolkit | undefined => {
-  let toolkits = result as Toolkit[];
+  const toolkits = result as Toolkit[];
   if (toolkits.length === 0) {
     return undefined;
-  }
-  // Prefer drafts if we got both
-  if (toolkits.some(isDraft)) {
-    toolkits = toolkits.filter(isDraft);
   }
   if (toolkits.length > 1) {
     throw new Error("Unexpected results");

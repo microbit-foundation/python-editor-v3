@@ -8,13 +8,6 @@ import { PortableText, SimpleImage, Slug } from "../../common/sanity";
 import { HasCompatibility } from "../common/model";
 
 export interface Toolkit {
-  /**
-   * The CMS internal id.
-   */
-  _id: string;
-  /**
-   * The logical id.
-   */
   id: string;
   name: string;
   description: string;
