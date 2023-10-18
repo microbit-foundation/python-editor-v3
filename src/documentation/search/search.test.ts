@@ -101,7 +101,6 @@ describe("buildReferenceIndex", () => {
   it("uses language from the toolkit for the Reference index", async () => {
     const api: ApiDocsResponse = {};
     const referenceEn: Toolkit = {
-      _id: "asdf",
       id: "reference",
       description: "description",
       language: "en",
@@ -155,7 +154,6 @@ describe("SearchWorker", () => {
     const indexMessage: IndexMessage = {
       kind: "index",
       reference: {
-        _id: "asdf",
         id: "reference",
         description: "Reference stuff",
         name: "Reference",
@@ -187,7 +185,6 @@ describe("SearchWorker", () => {
     const emptyIndex: IndexMessage = {
       kind: "index",
       reference: {
-        _id: "asdf",
         id: "reference",
         description: "Reference stuff",
         name: "Reference",
@@ -199,7 +196,6 @@ describe("SearchWorker", () => {
     const fullIndex: IndexMessage = {
       kind: "index",
       reference: {
-        _id: "asdf",
         id: "reference",
         description: "Reference stuff",
         name: "Reference",
