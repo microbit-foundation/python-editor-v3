@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { fetchContent } from "../../common/sanity";
-import { flags } from "../../flags";
 import { Toolkit, ToolkitTopic, ToolkitTopicEntry } from "./model";
 
 export const fetchReferenceToolkit = async (
@@ -33,12 +32,8 @@ export const getTopicAndEntry = (
 // We just slurp the whole toolkit at once.
 // This is necessary for the client-side search index.
 const toolkitQuery = (languageId: string): string => {
-  // The flag applies to the top-level document so for now there's no support for viewing drafts further down.
-  const noDraftsConstraint = flags.drafts
-    ? ""
-    : `&& (_id in path("drafts.**"))`;
   return `
-  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") ${noDraftsConstraint}]{
+  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{
     _id, id, name, description, language,
     contents[]->{
       name, slug, compatibility, subtitle, image,

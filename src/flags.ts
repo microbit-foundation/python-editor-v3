@@ -21,15 +21,13 @@ export type Flag =
    */
   | "betaNotice"
   /**
+   * Uses CMS content from an alternative preview dataset.
+   */
+  | "cmsPreview"
+  /**
    * Enables verbose debug logging to the console of drag events.
    */
   | "dndDebug"
-  /**
-   * Shows CMS drafts in preference to live content.
-   *
-   * Currently only supported for the reference content.
-   */
-  | "drafts"
   /**
    * Disables language selection from the settings menu.
    *
@@ -52,11 +50,11 @@ interface FlagMetadata {
 
 const allFlags: FlagMetadata[] = [
   // Alphabetical order.
-  { name: "dndDebug", defaultOnStages: [] },
-  { name: "drafts", defaultOnStages: ["local", "REVIEW"] },
   { name: "betaNotice", defaultOnStages: ["local", "REVIEW", "STAGING"] },
-  { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
+  { name: "cmsPreview", defaultOnStages: [] },
+  { name: "dndDebug", defaultOnStages: [] },
   { name: "noLang", defaultOnStages: [] },
+  { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
 ];
 
 type Flags = Record<Flag, boolean>;

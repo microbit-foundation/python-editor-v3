@@ -5,13 +5,14 @@
  */
 
 import unconfiguredImageUrlBuilder from "@sanity/image-url";
+import { dataset, project } from "./sanity";
 
 export const defaultQuality = 80;
 
 export const imageUrlBuilder = unconfiguredImageUrlBuilder()
   // Hardcoded for now as there's no practical alternative.
-  .projectId("ajwvhvgo")
-  .dataset("apps")
+  .projectId(project)
+  .dataset(dataset)
   .auto("format")
   .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
