@@ -17,29 +17,33 @@ import { Stage, stage as stageFromEnvironment } from "./environment";
  */
 export type Flag =
   /**
-   * Enables verbose debug logging to the console of drag events.
-   */
-  | "dndDebug"
-
-  /**
    * Flag to add a beta notice. Enabled for staging site but not production stages.
    */
   | "betaNotice"
-
   /**
-   * Disables the pop-up welcome dialog.
-   *
-   * Added to support user-testing and has the nice side-effect of disabling
-   * the dialog for local development so is worth keeping for that use alone.
+   * Enables verbose debug logging to the console of drag events.
    */
-  | "noWelcome"
+  | "dndDebug"
+  /**
+   * Shows CMS drafts in preference to live content.
+   *
+   * Currently only supported for the reference content.
+   */
+  | "drafts"
   /**
    * Disables language selection from the settings menu.
    *
    * Added so we can embed the editor in micro:bit classroom without competing language
    * options. The language selected in classroom is passed through via query param.
    */
-  | "noLang";
+  | "noLang"
+  /**
+   * Disables the pop-up welcome dialog.
+   *
+   * Added to support user-testing and has the nice side-effect of disabling
+   * the dialog for local development so is worth keeping for that use alone.
+   */
+  | "noWelcome";
 
 interface FlagMetadata {
   defaultOnStages: Stage[];
@@ -49,6 +53,7 @@ interface FlagMetadata {
 const allFlags: FlagMetadata[] = [
   // Alphabetical order.
   { name: "dndDebug", defaultOnStages: [] },
+  { name: "drafts", defaultOnStages: ["local", "REVIEW"] },
   { name: "betaNotice", defaultOnStages: ["local", "REVIEW", "STAGING"] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
   { name: "noLang", defaultOnStages: [] },

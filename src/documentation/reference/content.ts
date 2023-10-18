@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { fetchContent } from "../../common/sanity";
+import { flags } from "../../flags";
 import { Toolkit, ToolkitTopic, ToolkitTopicEntry } from "./model";
 
 export const fetchReferenceToolkit = async (
@@ -29,12 +30,16 @@ export const getTopicAndEntry = (
   return [entry.parent, entry];
 };
 
-// For now we just slurp the whole toolkit at once.
-// Might revisit depending on eventual size.
+// We just slurp the whole toolkit at once.
+// This is necessary for the client-side search index.
 const toolkitQuery = (languageId: string): string => {
+  // The flag applies to the top-level document so for now there's no support for viewing drafts further down.
+  const noDraftsConstraint = flags.drafts
+    ? ""
+    : `&& (_id in path("drafts.**"))`;
   return `
-  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{
-    id, name, description, language,
+  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") ${noDraftsConstraint}]{
+    _id, id, name, description, language,
     contents[]->{
       name, slug, compatibility, subtitle, image,
       introduction[] {
@@ -75,10 +80,16 @@ const toolkitQuery = (languageId: string): string => {
   }`;
 };
 
+const isDraft = (document: { _id: string }) => /^drafts\./.test(document._id);
+
 const adaptContent = (result: any): Toolkit | undefined => {
-  const toolkits = result as Toolkit[];
+  let toolkits = result as Toolkit[];
   if (toolkits.length === 0) {
     return undefined;
+  }
+  // Prefer drafts if we got both
+  if (toolkits.some(isDraft)) {
+    toolkits = toolkits.filter(isDraft);
   }
   if (toolkits.length > 1) {
     throw new Error("Unexpected results");
