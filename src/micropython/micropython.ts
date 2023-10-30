@@ -12,8 +12,8 @@ const v2Main = {
   name: "MicroPython (micro:bit V2)",
   url: microPythonV2HexUrl,
   boardId: microbitBoardId.V2,
-  version: "2.1.1",
-  web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.1.1",
+  version: "2.1.2",
+  web: "https://github.com/microbit-foundation/micropython-microbit-v2/releases/tag/v2.1.2",
 };
 
 export const microPythonConfig = {
