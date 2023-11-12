@@ -634,7 +634,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "烧录"
+      "value": "下载"
     }
   ],
   "flash-hover": [
@@ -752,7 +752,7 @@
   "less-action": [
     {
       "type": 0,
-      "value": "更少"
+      "value": "Less"
     }
   ],
   "load-error-makecode-info": [
@@ -894,7 +894,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "更多"
+      "value": "More"
     }
   ],
   "more-connect-options": [
@@ -2223,7 +2223,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "使用条款"
+      "value": "Terms of use"
     }
   ],
   "third-party-module-explanation": [

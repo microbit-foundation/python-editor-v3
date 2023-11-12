@@ -630,7 +630,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "讀寫"
+      "value": "燒錄"
     }
   ],
   "flash-hover": [
@@ -748,7 +748,7 @@
   "less-action": [
     {
       "type": 0,
-      "value": "查看較少"
+      "value": "Less"
     }
   ],
   "load-error-makecode-info": [
@@ -890,7 +890,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "查看較多"
+      "value": "More"
     }
   ],
   "more-connect-options": [
@@ -2222,7 +2222,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "網站使用條款"
+      "value": "Terms of use"
     }
   ],
   "third-party-module-explanation": [

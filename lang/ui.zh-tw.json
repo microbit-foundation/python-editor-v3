@@ -320,7 +320,7 @@
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "讀寫",
+    "defaultMessage": "燒錄",
     "description": "Text for flash button"
   },
   "flash-hover": {
@@ -391,7 +391,7 @@
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "查看較少",
+    "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
@@ -439,7 +439,7 @@
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "查看較多",
+    "defaultMessage": "More",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
@@ -1035,7 +1035,7 @@
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "網站使用條款",
+    "defaultMessage": "Terms of use",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {
