@@ -756,7 +756,7 @@
   "less-action": [
     {
       "type": 0,
-      "value": "Less"
+      "value": "menos"
     }
   ],
   "load-error-makecode-info": [
@@ -890,7 +890,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "More"
+      "value": "mas"
     }
   ],
   "more-connect-options": [
@@ -2214,7 +2214,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Terms of use"
+      "value": "Términos de uso"
     }
   ],
   "third-party-module-explanation": [

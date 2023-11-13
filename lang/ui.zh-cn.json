@@ -391,7 +391,7 @@
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "Less",
+    "defaultMessage": "更少",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
@@ -439,7 +439,7 @@
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "More",
+    "defaultMessage": "更多",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
@@ -1035,7 +1035,7 @@
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Terms of use",
+    "defaultMessage": "使用条款",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {

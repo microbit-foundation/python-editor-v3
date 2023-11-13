@@ -752,7 +752,7 @@
   "less-action": [
     {
       "type": 0,
-      "value": "Less"
+      "value": "更少"
     }
   ],
   "load-error-makecode-info": [
@@ -894,7 +894,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "More"
+      "value": "更多"
     }
   ],
   "more-connect-options": [
@@ -2223,7 +2223,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Terms of use"
+      "value": "使用条款"
     }
   ],
   "third-party-module-explanation": [
