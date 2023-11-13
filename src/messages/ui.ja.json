@@ -780,7 +780,7 @@
   "less-action": [
     {
       "type": 0,
-      "value": "減らす"
+      "value": "少なく表示"
     }
   ],
   "load-error-makecode-info": [
@@ -910,7 +910,7 @@
   "more-action": [
     {
       "type": 0,
-      "value": "増やす"
+      "value": "もっと見る"
     }
   ],
   "more-connect-options": [
@@ -1926,7 +1926,7 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "ロゴが下になった"
+      "value": "下"
     }
   ],
   "simulator-gesture-face-down": [
@@ -1980,7 +1980,7 @@
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "ロゴが上になった"
+      "value": "上"
     }
   ],
   "simulator-hide": [

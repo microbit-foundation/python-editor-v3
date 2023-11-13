@@ -630,7 +630,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "讀寫"
+      "value": "燒錄"
     }
   ],
   "flash-hover": [

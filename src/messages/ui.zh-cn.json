@@ -634,7 +634,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "烧录"
+      "value": "下载"
     }
   ],
   "flash-hover": [

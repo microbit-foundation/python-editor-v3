@@ -391,7 +391,7 @@
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "減らす",
+    "defaultMessage": "少なく表示",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
@@ -439,7 +439,7 @@
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "増やす",
+    "defaultMessage": "もっと見る",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
@@ -863,7 +863,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "ロゴが下になった",
+    "defaultMessage": "下",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
@@ -899,7 +899,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "ロゴが上になった",
+    "defaultMessage": "上",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {

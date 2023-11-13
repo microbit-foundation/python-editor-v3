@@ -320,7 +320,7 @@
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "烧录",
+    "defaultMessage": "下载",
     "description": "Text for flash button"
   },
   "flash-hover": {
