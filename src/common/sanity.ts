@@ -94,7 +94,7 @@ const perspective = flags.cmsPreview ? "previewDrafts" : "published";
 const queryUrl = (query: string): string => {
   return `https://${project}.${
     flags.cmsPreview ? "api" : "apicdn"
-  }.sanity.io/v2023-08-01/data/query/${dataset}?perspective=${perspective}&query=${encodeURIComponent(
+  }.sanity.io/v2021-03-25/data/query/${dataset}?perspective=${perspective}&query=${encodeURIComponent(
     query
   )}`;
 };

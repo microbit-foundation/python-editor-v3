@@ -17,7 +17,7 @@ const mappingQuery = (): string => {
       pythonAlternativeContentLink,
       pythonApiEntry,
       referenceLink {
-        _type == "reference" =>^-> {
+        _type == "reference" =>@-> {
           slug
         }
       }
