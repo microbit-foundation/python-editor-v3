@@ -88,10 +88,11 @@ export const sanityLanguageId = (locale: string): string => {
 };
 
 export const project = "ajwvhvgo";
-export const dataset = flags.cmsPreview ? "apps-preview" : "apps";
+export const dataset = "apps-preview";
+const perspective = flags.cmsPreview ? "previewDrafts" : "published";
 
 const queryUrl = (query: string): string => {
-  return `https://${project}.apicdn.sanity.io/v1/data/query/${dataset}?query=${encodeURIComponent(
+  return `https://${project}.api.sanity.io/v2023-08-01/data/query/${dataset}?perspective=${perspective}&query=${encodeURIComponent(
     query
   )}`;
 };
