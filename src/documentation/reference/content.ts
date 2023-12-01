@@ -33,7 +33,7 @@ export const getTopicAndEntry = (
 // This is necessary for the client-side search index.
 const toolkitQuery = (languageId: string): string => {
   return `
-  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{
+  *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference")]{
     id, name, description, language,
     contents[]->{
       name, slug, compatibility, subtitle, image,

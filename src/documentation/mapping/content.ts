@@ -11,7 +11,7 @@ export const fetchMappingData = async (): Promise<ApiReferenceMap> =>
 
 const mappingQuery = (): string => {
   return `
-  *[_type == "pythonModule" && !(_id in path("drafts.**"))]{
+  *[_type == "pythonModule"]{
     pythonModuleName,
     pythonModuleItem[] {
       pythonAlternativeContentLink,

@@ -42,7 +42,7 @@ const WelcomeDialog = ({ isOpen, onClose }: WelcomeDialogProps) => {
     };
     const query = (): string => {
       return `
-        *[_id == "pythonEditorConfig" && !(_id in path("drafts.**"))]{
+        *[_id == "pythonEditorConfig"]{
           welcomeVideo
         }`;
     };

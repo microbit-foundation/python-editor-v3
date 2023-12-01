@@ -11,7 +11,7 @@ export const fetchIdeas = async (languageId: string): Promise<Idea[]> =>
 
 const ideasQuery = (languageId: string): string => {
   return `
-    *[_type == "pythonIdeasConfig" && language == "${languageId}" && !(_id in path("drafts.**"))][0]{
+    *[_type == "pythonIdeasConfig" && language == "${languageId}"][0]{
       pythonIdeasOrder[]->{
         _id, name, language, compatibility, image, slug,
         content[] {
