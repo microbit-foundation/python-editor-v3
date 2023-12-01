@@ -92,7 +92,9 @@ export const dataset = flags.cmsPreview ? "apps-preview" : "apps";
 const perspective = flags.cmsPreview ? "previewDrafts" : "published";
 
 const queryUrl = (query: string): string => {
-  return `https://${project}.api.sanity.io/v2023-08-01/data/query/${dataset}?perspective=${perspective}&query=${encodeURIComponent(
+  return `https://${project}.${
+    flags.cmsPreview ? "api" : "apicdn"
+  }.sanity.io/v2023-08-01/data/query/${dataset}?perspective=${perspective}&query=${encodeURIComponent(
     query
   )}`;
 };
