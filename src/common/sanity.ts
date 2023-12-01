@@ -88,7 +88,7 @@ export const sanityLanguageId = (locale: string): string => {
 };
 
 export const project = "ajwvhvgo";
-export const dataset = "apps-preview";
+export const dataset = flags.cmsPreview ? "apps-preview" : "apps";
 const perspective = flags.cmsPreview ? "previewDrafts" : "published";
 
 const queryUrl = (query: string): string => {
