@@ -123,7 +123,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                       <Link
                         rel="noopener noreferrer"
                         target="blank"
-                        color="brand.500"
+                        color="brand1.500"
                         href="https://github.com/microbit-foundation/python-editor-v3/graphs/contributors"
                       >
                         {chunks}
@@ -193,7 +193,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                   values={{
                     link: (chunks: ReactNode) => (
                       <Link
-                        color="brand.500"
+                        color="brand1.500"
                         href="https://micropython.org"
                         target="_blank"
                         rel="noopener"
@@ -258,7 +258,7 @@ const MicroPythonSection = (props: BoxProps) => {
             values={{
               linkV1: (chunks: ReactNode) => (
                 <Link
-                  color="brand.500"
+                  color="brand1.500"
                   href="https://github.com/bbcmicrobit/micropython"
                   target="_blank"
                   rel="noopener"
@@ -268,7 +268,7 @@ const MicroPythonSection = (props: BoxProps) => {
               ),
               linkV2: (chunks: ReactNode) => (
                 <Link
-                  color="brand.500"
+                  color="brand1.500"
                   href="https://github.com/microbit-foundation/micropython-microbit-v2"
                   target="_blank"
                   rel="noopener"
@@ -281,7 +281,7 @@ const MicroPythonSection = (props: BoxProps) => {
         </Text>
         <Text fontSize="md">
           <Link
-            color="brand.500"
+            color="brand1.500"
             href="https://ntoll.org/article/story-micropython-on-microbit/"
             target="_blank"
             rel="noopener"

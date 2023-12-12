@@ -456,7 +456,7 @@ const DraggableSignature = ({
           display="inline-flex"
           overflow="hidden"
           borderWidth="1px"
-          borderColor="blimpTeal.300"
+          borderColor="brand2.300"
           borderRadius="lg"
           onMouseEnter={highlight.onOpen}
           onMouseLeave={highlight.onClose}
@@ -483,7 +483,7 @@ const DraggableSignature = ({
           />
           <Text
             minW={40}
-            background={highlight.isOpen ? "blimpTeal.50" : "white"}
+            background={highlight.isOpen ? "brand2.50" : "white"}
             transition="background .2s"
             p={2}
             fontFamily="code"

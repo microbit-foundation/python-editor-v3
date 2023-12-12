@@ -65,7 +65,7 @@ const DocumentationTopLevelItem = ({
               { name }
             )}
             size="sm"
-            color="brand.200"
+            color="brand1.200"
             variant="ghost"
             fontSize="2xl"
           />

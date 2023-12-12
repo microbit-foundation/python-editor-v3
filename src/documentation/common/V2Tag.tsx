@@ -11,7 +11,7 @@ const V2Tag = ({ ...props }: V2TagProps) => {
   return (
     <Tag
       fontWeight="semibold"
-      background="brand.500"
+      background="brand1.500"
       color="gray.25"
       minH="unset"
       pt="1px"

@@ -169,7 +169,7 @@ const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
         position="absolute"
         top="3px"
         left={percentLeft}
-        bg="brand.200"
+        bg="brand1.200"
         height={2}
         width={2}
         borderLeft="1px solid"

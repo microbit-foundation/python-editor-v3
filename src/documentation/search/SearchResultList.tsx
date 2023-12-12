@@ -71,8 +71,8 @@ const SearchResultItem = ({
           e.preventDefault();
           onViewResult(id, navigation);
         }}
-        _hover={{ textDecor: "none", bgColor: "brand.100" }}
-        _focus={{ bgColor: "brand.100" }}
+        _hover={{ textDecor: "none", bgColor: "brand1.50" }}
+        _focus={{ bgColor: "brand1.50" }}
       >
         <Stack px={8} py={2} spacing={0}>
           {title !== containerTitle && (

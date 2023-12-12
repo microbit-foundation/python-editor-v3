@@ -46,7 +46,7 @@ const SplitViewDivider = ({ showBoxShadow = false }: SplitViewDividerProps) => {
       >
         <Icon
           as={RiMore2Fill}
-          color="brand.500"
+          color="brand1.500"
           h={6}
           w={6}
           transform={direction === "row" ? "" : "rotate(90deg)"}

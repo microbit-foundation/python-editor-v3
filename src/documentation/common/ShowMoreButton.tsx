@@ -19,7 +19,7 @@ const ShowMoreButton = ({ isOpen, isBrief, ...props }: ShowMoreLinkProps) => {
     <Link
       {...props}
       as="button"
-      color="brand.600"
+      color="brand1.600"
       textAlign="left"
       _hover={{
         textDecoration: "none",

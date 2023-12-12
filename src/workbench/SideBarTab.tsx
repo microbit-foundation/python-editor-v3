@@ -75,7 +75,7 @@ const SideBarTab = ({
                 borderBottom: "3px solid",
                 // To match the active/inactive colour.
                 borderColor: active
-                  ? "var(--chakra-colors-brand-300)"
+                  ? "var(--chakra-colors-brand1-300)"
                   : "var(--chakra-colors-gray-25)",
               },
             }}

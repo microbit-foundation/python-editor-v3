@@ -92,7 +92,7 @@ const WelcomeDialog = ({ isOpen, onClose }: WelcomeDialogProps) => {
                   values={{
                     link: (chunks: ReactNode) => (
                       <Link
-                        color="brand.500"
+                        color="brand1.500"
                         target="_blank"
                         rel="noreferrer"
                         href={guideLink}

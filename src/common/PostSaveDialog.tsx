@@ -122,7 +122,7 @@ const PostSaveDialogBody = ({
           values={{
             link: (chunks: ReactNode) => (
               <Link
-                color="brand.500"
+                color="brand1.500"
                 onClick={handleShowTransferHexHelp}
                 href=""
               >

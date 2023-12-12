@@ -76,7 +76,7 @@ const Highlight = ({
 
   const style = highlighting
     ? {
-        backgroundColor: "brand.100",
+        backgroundColor: "brand1.100",
         transition: "background-color ease-out 0.2s",
       }
     : { transition: "background-color ease-in 0.6s" };

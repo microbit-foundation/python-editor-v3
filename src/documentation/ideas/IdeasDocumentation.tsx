@@ -149,7 +149,7 @@ const ActiveLevel = ({
           values={{
             link: (chunks: ReactNode) => (
               <Link
-                color="brand.500"
+                color="brand1.500"
                 href="https://microbit.org/projects/make-it-code-it/?filters=python"
                 target="_blank"
                 rel="noopener"

@@ -106,7 +106,7 @@ const createStyledAnchorElement = (): HTMLAnchorElement => {
   const anchor = document.createElement("a");
   anchor.href = "";
   anchor.style.fontSize = "var(--chakra-fontSizes-sm)";
-  anchor.style.color = "var(--chakra-colors-brand-600)";
+  anchor.style.color = "var(--chakra-colors-brand1-600)";
   anchor.style.display = "block";
   anchor.style.margin = "0";
   anchor.style.padding = "0.5rem";

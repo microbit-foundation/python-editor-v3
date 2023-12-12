@@ -216,7 +216,7 @@ const CollapsibleModule = ({
                 id: "simulator-reference-link",
               })}
               icon={<RiInformationLine />}
-              color="brand.500"
+              color="brand1.500"
               variant="ghost"
               size="xs"
               fontSize="lg"
@@ -237,7 +237,7 @@ const CollapsibleModule = ({
               : intl.formatMessage({ id: "simulator-expand-module" }, { title })
           }
           size="sm"
-          color="brand.200"
+          color="brand1.200"
           variant="ghost"
           fontSize="2xl"
           onClick={disclosure.onToggle}
@@ -267,7 +267,7 @@ const ModuleForId = ({
       return (
         <RangeSensor
           id={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           key={id}
           title={title}
           sensor={state[id] as RangeSensorType}
@@ -279,7 +279,7 @@ const ModuleForId = ({
       return (
         <ButtonsModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           state={state}
           onValueChange={onValueChange}
           running={running}
@@ -290,7 +290,7 @@ const ModuleForId = ({
       return (
         <PinsModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           state={state}
           onValueChange={onValueChange}
           running={running}
@@ -301,7 +301,7 @@ const ModuleForId = ({
       return (
         <DataLoggingModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           logFull={state.dataLogging.logFull}
           minimised={minimised}
         />
@@ -310,7 +310,7 @@ const ModuleForId = ({
       return (
         <AccelerometerModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           state={state}
           onValueChange={onValueChange}
           running={running}
@@ -321,7 +321,7 @@ const ModuleForId = ({
       return (
         <CompassModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           state={state}
           onValueChange={onValueChange}
           minimised={minimised}
@@ -331,7 +331,7 @@ const ModuleForId = ({
       return (
         <RadioModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<Icon as={icons[id]} color="brand2.400" boxSize="6" />}
           enabled={state.radio.enabled}
           group={state.radio.group}
           minimised={minimised}

@@ -71,7 +71,7 @@ const FirmwareDialogBody = () => {
               values={{
                 link: (chunks: ReactNode) => (
                   <Link
-                    color="brand.500"
+                    color="brand1.500"
                     display="inline-flex"
                     alignItems="center"
                     target="_blank"
@@ -88,7 +88,7 @@ const FirmwareDialogBody = () => {
         </VStack>
       </HStack>
       <Link
-        color="brand.500"
+        color="brand1.500"
         display="inline-flex"
         alignItems="center"
         target="_blank"

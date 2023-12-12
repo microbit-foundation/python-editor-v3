@@ -151,7 +151,7 @@ const CodeEmbed = ({
       (toolkitType === "ideas" && state === "highlighted") ||
       (toolkitType !== "ideas" && state !== "default")
     ) {
-      return "blimpTeal.50";
+      return "brand2.50";
     }
     return "white";
   };
@@ -244,7 +244,7 @@ const CodePopUp = ({
         full={full}
         position="absolute"
         // We're always "raised" as this is the pop-up.
-        background={toolkitType === "ideas" ? "white" : "blimpTeal.50"}
+        background={toolkitType === "ideas" ? "white" : "brand2.50"}
         boxShadow="rgba(0, 0, 0, 0.18) 0px 2px 6px"
         highlightDragHandle
         toolkitType={toolkitType}
@@ -328,7 +328,7 @@ const Code = forwardRef<CodeProps, "pre">(
           draggable={toolkitType === "ideas" ? false : true}
           transition="background .2s, box-shadow .2s"
           borderWidth="1px"
-          borderColor="blimpTeal.300"
+          borderColor="brand2.300"
           borderRadius="lg"
           fontFamily="code"
           overflow="hidden"

@@ -74,7 +74,7 @@ export const LanguageDialog = ({
                 href={deployment.translationLink}
                 target="_blank"
                 rel="noopener"
-                color="brand.500"
+                color="brand1.500"
               >
                 <FormattedMessage id="help-translate" />{" "}
                 <Icon as={RiExternalLinkLine} />

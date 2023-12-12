@@ -7,7 +7,7 @@
         </g>
         <g id="Needle" style="transform-box: fill-box; transform-origin: center;">
             <g transform="matrix(1,0,0,1,3.22958,-2.84217e-14)">
-                <path d="M118.596,3726.91L123.121,3770.09L114.071,3770.09L118.596,3726.91Z" style="fill:var(--chakra-colors-brand-200);"/>
+                <path d="M118.596,3726.91L123.121,3770.09L114.071,3770.09L118.596,3726.91Z" style="fill:var(--chakra-colors-brand1-200);"/>
             </g>
             <g transform="matrix(-1,1.22465e-16,-1.22465e-16,-1,240.422,7540.44)">
                 <path d="M118.596,3726.91L123.121,3770.09L114.071,3770.09L118.596,3726.91Z" style="fill:rgb(215,216,214);"/>

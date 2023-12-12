@@ -10,7 +10,7 @@ import { FormattedMessage } from "react-intl";
 const MoreButton = (props: ButtonProps) => (
   <Button
     fontWeight="normal"
-    color="brand.500"
+    color="brand1.500"
     variant="unstyled"
     display="flex"
     size="sm"

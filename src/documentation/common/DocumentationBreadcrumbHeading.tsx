@@ -102,7 +102,7 @@ const DocumentationBreadcrumbHeading = ({
           fontSize="md"
           whiteSpace="normal"
           textAlign="left"
-          color="brand.500"
+          color="brand1.500"
         >
           <Text as="span">
             {grandparent && grandparent + " / "}

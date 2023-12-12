@@ -100,7 +100,7 @@ const ConnectDialogFooter = ({
         <Link
           onClick={onNextDontShowAgain}
           as="button"
-          color="brand.500"
+          color="brand1.500"
           mr="auto"
         >
           <FormattedMessage id="dont-show-again" />

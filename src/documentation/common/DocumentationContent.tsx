@@ -69,7 +69,7 @@ const DocumentationApiLinkMark = (
   const [, setState] = useRouterState();
   return (
     <Link
-      color="brand.600"
+      color="brand1.600"
       onClick={(e) => {
         e.preventDefault();
         setState({
@@ -89,7 +89,7 @@ const DocumentationInternalLinkMark = (
   const [state, setState] = useRouterState();
   return (
     <Link
-      color="brand.600"
+      color="brand1.600"
       onClick={(e) => {
         e.preventDefault();
         setState(
@@ -114,7 +114,7 @@ const DocumentationExternalLinkMark = (
 ) => {
   return (
     <Link
-      color="brand.600"
+      color="brand1.600"
       href={props.mark.href}
       target="_blank"
       rel="nofollow noopener"

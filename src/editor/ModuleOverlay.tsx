@@ -62,7 +62,7 @@ const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
             values={{
               link: (chunks: ReactNode) => (
                 <Link
-                  color="brand.500"
+                  color="brand1.500"
                   as="button"
                   onClick={handleShowSettings}
                 >

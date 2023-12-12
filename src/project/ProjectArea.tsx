@@ -56,7 +56,7 @@ const ProjectArea = ({
               key={f.name}
               fontWeight={selected ? "semibold" : undefined}
               _hover={{
-                bgColor: "blimpTeal.100",
+                bgColor: "brand2.100",
               }}
               pl={2}
               pr={1}

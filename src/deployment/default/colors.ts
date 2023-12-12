@@ -12,7 +12,8 @@ const gray = {
 };
 
 const colors = {
-  brand: gray,
+  brand1: gray,
+  brand2: gray,
   gray,
   code: {
     blockBorder: theme.colors.gray[400],

@@ -112,7 +112,11 @@ const ActiveLevel = ({
               id="api-description"
               values={{
                 link: (chunks: ReactNode) => (
-                  <Link color="brand.500" onClick={handleReferenceLink} href="">
+                  <Link
+                    color="brand1.500"
+                    onClick={handleReferenceLink}
+                    href=""
+                  >
                     {chunks}
                   </Link>
                 ),

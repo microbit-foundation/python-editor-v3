@@ -128,7 +128,7 @@ const SensorInput = ({
           sensorValue.current === sensor.min
             ? {}
             : {
-                background: "brand.100",
+                background: "brand1.100",
               }
         }
         isActive={!!sensorValue.current}

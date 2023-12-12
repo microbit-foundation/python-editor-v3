@@ -13,7 +13,7 @@ import {
   Stack,
   Text,
   VisuallyHidden,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
@@ -119,7 +119,7 @@ const ChatMessage = ({
   from: "code" | "user";
   message: string;
 }) => {
-  const color = from === "code" ? "blimpTeal.100" : "brand.100";
+  const color = from === "code" ? "brand2.100" : "brand1.100";
   return (
     <Flex
       gap="10px"
@@ -171,7 +171,7 @@ const MessageComposer = ({
       {...props}
     >
       <Input
-        colorScheme="brand"
+        colorScheme="purple"
         minW={0}
         _placeholder={{
           color: "gray.600",

@@ -72,7 +72,7 @@ const HideSplitViewButton = React.forwardRef(
           minW="unset"
           width={mode === "icon" ? "20px" : "auto"}
           background="#eaecf1"
-          color="brand.500"
+          color="brand1.500"
           variant="ghost"
           zIndex={splitViewHideButton}
           boxShadow={direction === "expandLeft" ? "md" : "none"}

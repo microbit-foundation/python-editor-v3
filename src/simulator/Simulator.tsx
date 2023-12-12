@@ -75,7 +75,7 @@ const Simulator = ({
   const simControlsRef = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(simControlsRef);
   const simHeight = contentRect?.height ?? 0;
-  const [brand500] = useToken("colors", ["brand.500"]);
+  const [brand500] = useToken("colors", ["brand1.500"]);
   const [running, setRunning] = useState<RunningStatus>(RunningStatus.STOPPED);
   const previouslyShown = usePrevious(shown);
 

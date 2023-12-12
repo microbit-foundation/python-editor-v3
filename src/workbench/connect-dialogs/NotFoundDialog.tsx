@@ -91,7 +91,7 @@ const NotFoundDialogBody = ({
                 values={{
                   link: (chunks: ReactNode) => (
                     <Link
-                      color="brand.500"
+                      color="brand1.500"
                       onClick={handleReviewDevice}
                       href=""
                     >
@@ -112,7 +112,7 @@ const NotFoundDialogBody = ({
                 values={{
                   link: (chunks: ReactNode) => (
                     <Link
-                      color="brand.500"
+                      color="brand1.500"
                       display="inline-flex"
                       alignItems="center"
                       target="_blank"
@@ -133,7 +133,7 @@ const NotFoundDialogBody = ({
             </Text>
           </VStack>
           <Link
-            color="brand.500"
+            color="brand1.500"
             display="inline-flex"
             alignItems="center"
             target="_blank"
@@ -147,13 +147,13 @@ const NotFoundDialogBody = ({
       </HStack>
       <Flex
         width="100%"
-        background="blimpTeal.50"
+        background="brand2.50"
         alignItems="center"
         py={3}
         px={5}
         borderRadius="xl"
       >
-        <Icon as={RiDownload2Line} color="brand.500" h={6} w={6} mr={5} />
+        <Icon as={RiDownload2Line} color="brand1.500" h={6} w={6} mr={5} />
         <Text fontWeight="semibold" mr="auto">
           <FormattedMessage id="not-found-save-message" />
         </Text>
