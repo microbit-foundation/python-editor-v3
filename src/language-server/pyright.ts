@@ -12,7 +12,7 @@ import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-main-64cd3574c2449d5e0ea9.worker.js";
+const workerScriptName = "pyright-main-46e9f54371eb3b42b37c.worker.js";
 
 /**
  * Creates Pyright workers and corresponding client.
