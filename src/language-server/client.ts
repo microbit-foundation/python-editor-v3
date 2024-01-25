@@ -175,7 +175,6 @@ export class LanguageServerClient extends EventEmitter {
     const typeshed = await retryAsyncLoad(() => {
       return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
     });
-    console.log("Got", this.locale, typeshed);
     return {
       files: typeshed,
       // Custom option in our Pyright version
