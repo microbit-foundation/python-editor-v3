@@ -26,6 +26,7 @@ declare namespace lunr {
 
   // Add more here.
   // I don't think we can use module augmentation—lunr is a namespace.
+  export const de: LanguagePlugin;
   export const es: LanguagePlugin;
   export const fr: LanguagePlugin;
   export const ja: LanguagePlugin;

@@ -2,25 +2,25 @@
   "about": [
     {
       "type": 0,
-      "value": "Acerca de nosotros"
+      "value": "Über"
     }
   ],
   "about-comic": [
     {
       "type": 0,
-      "value": "Tira cómica de tres viñetas titulada \"MicroPython es genial\" por Mike Rowbit. Una serpiente dibujada presenta a Damien diciendo \"Este es Damien... ha creado MicroPython\". Dos serpientes hablan sobre MicroPython: la serpiente amarilla dice \"MicroPython está diseñado para ordenadores muy pequeños\". \"Como el BBC micro:bit\", responde la serpiente morada. Continúa la serpiente amarilla: \"Pero Python se puede ejecutar en cualquier sitio\". La serpiente morada asiente diciendo \"Como en este 'rack' de servidores que ejecutan enormes paginas web\". Detrás de las serpientes se muestra un \"rack\" de servidores."
+      "value": "Dreiteiliger Comic mit dem Titel \"MicroPython Rocks\" von Mike Rowbit. Eine Cartoon-Schlange stellt Damien mit den Worten vor: \"Darf ich vorstellen: Damien... Er hat MicroPython entwickelt.\". Zwei Schlangen diskutieren über MicroPython. Die gelbe Schlange sagt: \"MicroPython wurde entwickelt, um auf sehr kleinen Computern zu funktionieren.\" \"Wie dein BBC micro:bit\", antwortet die lila Schlange.\" Die gelbe Schlange fährt fort: \"Aber Python kann überall laufen.\". Die lila Schlange stimmt zu und sagt: \"Zum Beispiel auf diesem Server-Rack, auf dem riesige Websites betrieben werden\". Der Hintergrund hinter den Schlangen zeigt ein Server-Rack."
     }
   ],
   "about-microbit": [
     {
       "type": 0,
-      "value": "Hecho con amor por la "
+      "value": "Mit Liebe entwickelt von der "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Micro:bit Educational Foundation y colaboradores"
+          "value": "Micro:bit Educational Foundation und Mitwirkenden"
         }
       ],
       "type": 8,
@@ -30,7 +30,7 @@
   "about-micropython": [
     {
       "type": 0,
-      "value": "El editor depende de "
+      "value": "Der Editor basiert auf "
     },
     {
       "children": [
@@ -44,25 +44,25 @@
     },
     {
       "type": 0,
-      "value": ", hecho por Damien George y una comunidad de desarrolladores de todo el mundo."
+      "value": ", das von Damien George und einer Gruppe von Entwicklern auf der ganzen Welt entwickelt wurde."
     }
   ],
   "about-read-less-micropython": [
     {
       "type": 0,
-      "value": "Leer menos sobre MicroPython"
+      "value": "Weniger über MicroPython lesen"
     }
   ],
   "about-read-more-micropython": [
     {
       "type": 0,
-      "value": "Leer más sobre MicroPython"
+      "value": "Mehr über MicroPython lesen"
     }
   ],
   "added-change": [
     {
       "type": 0,
-      "value": "Archivo "
+      "value": "Datei "
     },
     {
       "type": 1,
@@ -70,19 +70,19 @@
     },
     {
       "type": 0,
-      "value": " añadido"
+      "value": " hinzugefügt"
     }
   ],
   "api-description": [
     {
       "type": 0,
-      "value": "Para uso y ejemplos, consulta "
+      "value": "Für die Verwendung und Beispiele, siehe "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Referencia"
+          "value": "Referenz"
         }
       ],
       "type": 8,
@@ -103,7 +103,7 @@
           "value": [
             {
               "type": 0,
-              "value": "clase base"
+              "value": "base class"
             }
           ]
         },
@@ -111,7 +111,7 @@
           "value": [
             {
               "type": 0,
-              "value": "clases base: "
+              "value": "base classes: "
             }
           ]
         }
@@ -124,95 +124,111 @@
   "apidocs-classes": [
     {
       "type": 0,
-      "value": "Clases"
+      "value": "Klassen"
     }
   ],
   "apidocs-fields": [
     {
       "type": 0,
-      "value": "Campos"
+      "value": "Felder"
     }
   ],
   "apidocs-functions": [
     {
       "type": 0,
-      "value": "Funciones"
+      "value": "Funktionen"
     }
   ],
   "apidocs-methods": [
     {
       "type": 0,
-      "value": "Métodos"
+      "value": "Funktionen"
     }
   ],
   "back-action": [
     {
       "type": 0,
-      "value": "Volver"
+      "value": "Zurück"
     }
   ],
   "back-to-main": [
     {
       "type": 0,
-      "value": "volver al código principal"
+      "value": "zurück zum Hauptcode"
     }
   ],
   "cancel-action": [
     {
       "type": 0,
-      "value": "Cancelar"
+      "value": "Abbrechen"
     }
   ],
   "change-files": [
     {
       "type": 0,
-      "value": "¿Cambiar archivos?"
+      "value": "Dateien ändern?"
     }
   ],
   "choose-main-add-file": [
     {
       "type": 0,
-      "value": "Añadir archivo "
+      "value": "Datei "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " hinzufügen"
     }
   ],
   "choose-main-add-module": [
     {
       "type": 0,
-      "value": "Añadir módulo "
+      "value": "Modul "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " hinzufügen"
     }
   ],
   "choose-main-replace-file": [
     {
       "type": 0,
-      "value": "Sustituir archivo "
+      "value": "Datei "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " ersetzen"
     }
   ],
   "choose-main-replace-module": [
     {
       "type": 0,
-      "value": "Sustituir módulo "
+      "value": "Modul "
     },
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " ersetzen"
     }
   ],
   "choose-main-source-add-file": [
     {
       "type": 0,
-      "value": "Añadir archivo "
+      "value": "Datei "
     },
     {
       "type": 1,
@@ -220,27 +236,35 @@
     },
     {
       "type": 0,
-      "value": " de "
+      "value": " aus "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " hinzufügen"
     }
   ],
   "choose-main-source-add-main-code": [
     {
       "type": 0,
-      "value": "Añadir código principal de "
+      "value": "Hauptcode aus "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " hinzufügen"
     }
   ],
   "choose-main-source-replace-file": [
     {
       "type": 0,
-      "value": "Sustituir archivo "
+      "value": "Datei "
     },
     {
       "type": 1,
@@ -248,81 +272,89 @@
     },
     {
       "type": 0,
-      "value": " por "
+      "value": " durch "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " ersetzen"
     }
   ],
   "choose-main-source-replace-main-code": [
     {
       "type": 0,
-      "value": "Sustituir código principal por "
+      "value": "Hauptcode durch "
     },
     {
       "type": 1,
       "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " ersetzen"
     }
   ],
   "clear": [
     {
       "type": 0,
-      "value": "Borrar"
+      "value": "Löschen"
     }
   ],
   "close-action": [
     {
       "type": 0,
-      "value": "Cerrar"
+      "value": "Schließen"
     }
   ],
   "code-editor": [
     {
       "type": 0,
-      "value": "Editor de código"
+      "value": "Code-Editor"
     }
   ],
   "code-example": [
     {
       "type": 0,
-      "value": "Ejemplo de código:"
+      "value": "Code-Beispiel:"
     }
   ],
   "confirm-action": [
     {
       "type": 0,
-      "value": "Confirmar"
+      "value": "Bestätigen"
     }
   ],
   "confirm-delete": [
     {
       "type": 0,
-      "value": "Confirmar eliminación"
+      "value": "Löschen bestätigen"
     }
   ],
   "confirm-replace-body": [
     {
       "type": 0,
-      "value": "¿Sustituir todos los archivos por los del HEX?"
+      "value": "Alle Dateien durch die in der hex-Datei ersetzen?"
     }
   ],
   "confirm-replace-reset": [
     {
       "type": 0,
-      "value": "¿Sustituir todos los archivos por el código de inicio predeterminado?"
+      "value": "Alle Dateien durch den Standard-Startcode ersetzen?"
     }
   ],
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "¿Sustituir proyecto?"
+      "value": "Projekt-Ersetzen bestätigen"
     }
   ],
   "confirm-replace-with-idea": [
     {
       "type": 0,
-      "value": "¿Sustituir todos los archivos por "
+      "value": "Alle Dateien durch "
     },
     {
       "type": 1,
@@ -330,85 +362,85 @@
     },
     {
       "type": 0,
-      "value": "?"
+      "value": " ersetzen?"
     }
   ],
   "confirm-save-action": [
     {
       "type": 0,
-      "value": "Confirmar y guardar"
+      "value": "Bestätigen und speichern"
     }
   ],
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "Cancela y pulsa Guardar para guardar una copia de tu proyecto."
+      "value": "Abbrechen und dann Speichern verwenden, um eine Kopie deines Projekts zu behalten."
     }
   ],
   "connect-action": [
     {
       "type": 0,
-      "value": "Conectar"
+      "value": "Verbinden"
     }
   ],
   "connect-cable-title": [
     {
       "type": 0,
-      "value": "Conectar cable"
+      "value": "Kabel anschließen"
     }
   ],
   "connect-help-alt": [
     {
       "type": 0,
-      "value": "Diálogo de conexión WebUSB con entrada BBC micro:bit con la etiqueta 1 y botón Conectar con la etiqueta 2"
+      "value": "WebUSB-Verbindungsdialog mit dem BBC micro:bit-Eingang mit der Bezeichnung 1 und der Schaltfläche Verbinden mit der Bezeichnung 2"
     }
   ],
   "connect-help-message": [
     {
       "type": 0,
-      "value": "Siguiente ventana emergente:"
+      "value": "Im nächsten Popup:"
     }
   ],
   "connect-help-one": [
     {
       "type": 0,
-      "value": "Elige tu micro:bit"
+      "value": "Deinen micro:bit auswählen"
     }
   ],
   "connect-help-title": [
     {
       "type": 0,
-      "value": "Selecciona micro:bit"
+      "value": "Wähle micro:bit"
     }
   ],
   "connect-help-two": [
     {
       "type": 0,
-      "value": "Selecciona ‘Conectar’"
+      "value": "Wähle \"Verbinden\""
     }
   ],
   "connect-hover": [
     {
       "type": 0,
-      "value": "Conectar al micro:bit a través de WebUSB"
+      "value": "Verbinde deinen micro:bit über WebUSB"
     }
   ],
   "connect-microbit": [
     {
       "type": 0,
-      "value": "Conéctate al micro:bit para ver la salida serie aquí"
+      "value": "Mit dem micro:bit verbinden, um die serielle Ausgabe hier zu sehen"
     }
   ],
   "connect-troubleshoot": [
     {
       "type": 0,
-      "value": "Solucionar problemas de conexión al micro:bit"
+      "value": "Problemlösungen bei fehlgeschlagener Verbindung mit dem micro:bit"
     }
   ],
   "content-load-error": [
     {
       "type": 0,
-      "value": "Algo salió mal. Por seguridad, descarga tu archivo HEX y actualiza la página para recargar."
+      "value": "Etwas ist schiefgelaufen. Laden deine Hex-Datei herunter, um das Projekt wiederherstellen zu können, und aktualisiere die Seite, um den Editor neu zu laden."
     }
   ],
   "cookies-action": [
@@ -420,37 +452,37 @@
   "copied": [
     {
       "type": 0,
-      "value": "Copiado"
+      "value": "Kopiert"
     }
   ],
   "copy-action": [
     {
       "type": 0,
-      "value": "Copiar"
+      "value": "Kopieren"
     }
   ],
   "copy-code-action": [
     {
       "type": 0,
-      "value": "Copiar código"
+      "value": "Code kopieren"
     }
   ],
   "create-action": [
     {
       "type": 0,
-      "value": "Crea"
+      "value": "Erstelle"
     }
   ],
   "create-file-action": [
     {
       "type": 0,
-      "value": "Crear archivo"
+      "value": "Datei erstellen"
     }
   ],
   "create-python": [
     {
       "type": 0,
-      "value": "Crear un nuevo archivo Python en este proyecto"
+      "value": "Neue Python-Datei in diesem Projekt erstellen"
     }
   ],
   "created-file": [
@@ -460,19 +492,19 @@
     },
     {
       "type": 0,
-      "value": " creado"
+      "value": " erstellt"
     }
   ],
   "delete-action": [
     {
       "type": 0,
-      "value": "Eliminar"
+      "value": "Löschen"
     }
   ],
   "delete-file-action": [
     {
       "type": 0,
-      "value": "Eliminar "
+      "value": "Lösche "
     },
     {
       "type": 1,
@@ -486,87 +518,87 @@
     },
     {
       "type": 0,
-      "value": " eliminado"
+      "value": " gelöscht"
     }
   ],
   "disconnect-action": [
     {
       "type": 0,
-      "value": "Desconectar"
+      "value": "Trennen"
     }
   ],
   "disconnect-hover": [
     {
       "type": 0,
-      "value": "Desconectarse del micro:bit"
+      "value": "Verbindung zum micro:bit trennen"
     }
   ],
   "dont-show-again": [
     {
       "type": 0,
-      "value": "No volver a mostrar"
+      "value": "Nicht mehr anzeigen"
     }
   ],
   "drag-hover": [
     {
       "type": 0,
-      "value": "Arrastra y suelta"
+      "value": "Drag-And-Drop"
     }
   ],
   "edit-file-action": [
     {
-      "type": 0,
-      "value": "Editar "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " bearbeiten"
     }
   ],
   "edit-name-project-hover": [
     {
       "type": 0,
-      "value": "Edita el nombre del proyecto"
+      "value": "Bearbeite den Namen deines Projekts"
     }
   ],
   "edit-project-name-action": [
     {
       "type": 0,
-      "value": "Editar nombre del proyecto"
+      "value": "Projektname bearbeiten"
     }
   ],
   "failed-to-build-hex": [
     {
       "type": 0,
-      "value": "No se ha podido generar el archivo HEX"
+      "value": "Erstellen der hex-Datei fehlgeschlagen"
     }
   ],
   "feedback": [
     {
       "type": 0,
-      "value": "Comentarios"
+      "value": "Feedback"
     }
   ],
   "file-actions": [
     {
-      "type": 0,
-      "value": "Acciones de archivo "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " Datei-Aktionen"
     }
   ],
   "file-already-exists": [
     {
       "type": 0,
-      "value": "El archivo ya existe"
+      "value": "Diese Datei existiert bereits"
     }
   ],
   "file-name-invalid-character": [
     {
       "type": 0,
-      "value": "El nombre contiene un carácter no válido: "
+      "value": "Der Name enthält ein ungültiges Zeichen: "
     },
     {
       "type": 1,
@@ -576,43 +608,43 @@
   "file-name-length": [
     {
       "type": 0,
-      "value": "El nombre es demasiado largo"
+      "value": "Der Name ist zu lang"
     }
   ],
   "file-name-lowercase-only": [
     {
       "type": 0,
-      "value": "El nombre debe estar en minúsculas"
+      "value": "Der Name sollte nur aus Kleinbuchstaben bestehen"
     }
   ],
   "file-name-not-empty": [
     {
       "type": 0,
-      "value": "El nombre no puede estar en blanco"
+      "value": "Der Name darf nicht leer sein"
     }
   ],
   "file-name-start-number": [
     {
       "type": 0,
-      "value": "El nombre no puede empezar por un número"
+      "value": "Der Name darf nicht mit einer Zahl beginnen"
     }
   ],
   "file-name-whitespace": [
     {
       "type": 0,
-      "value": "El nombre no puede incluir espacios"
+      "value": "Der Name darf keine Leerzeichen enthalten"
     }
   ],
   "firmware-update-link": [
     {
       "type": 0,
-      "value": "Debes "
+      "value": "Du musst "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "actualizar el firmware"
+          "value": "deine Firmware aktualisieren"
         }
       ],
       "type": 8,
@@ -620,67 +652,67 @@
     },
     {
       "type": 0,
-      "value": " para poder conectar a este micro:bit."
+      "value": ", bevor du dich mit diesem micro:bit verbinden kannst."
     }
   ],
   "firmware-update-message": [
     {
       "type": 0,
-      "value": "La conexión al micro:bit ha fallado porque el firmware del micro:bit es demasiado antiguo."
+      "value": "Die Verbindung mit dem micro:bit ist fehlgeschlagen, weil die Firmware auf deinem micro:bit zu alt ist."
     }
   ],
   "firmware-update-title": [
     {
       "type": 0,
-      "value": "Es necesario actualizar el firmware"
+      "value": "Firmware-Aktualisierung erforderlich"
     }
   ],
   "flash-action": [
     {
       "type": 0,
-      "value": "Flashear"
+      "value": "Flashen"
     }
   ],
   "flash-hover": [
     {
       "type": 0,
-      "value": "Flash el proyecto directamente al micro:bit"
+      "value": "Das Projekt direkt auf den den micro:bit flashen"
     }
   ],
   "flashing-code": [
     {
       "type": 0,
-      "value": "Enviando código (flasheando)"
+      "value": "Sende Code (flashen)"
     }
   ],
   "flashing-full-flash-detail": [
     {
       "type": 0,
-      "value": "El código se está enviando (flasheando) al micro:bit. Esto puede llevar un tiempo la primera vez, pero después será más rápido."
+      "value": "Dein Code wird an deinen micro:bit gesendet (geflasht). Das kann beim ersten Mal eine Weile dauern, aber danach geht es schneller."
     }
   ],
   "flashing-micropython": [
     {
       "type": 0,
-      "value": "Flashear MicroPython"
+      "value": "MicroPython flashen"
     }
   ],
   "font-size": [
     {
       "type": 0,
-      "value": "Tamaño de fuente"
+      "value": "Schriftgröße"
     }
   ],
   "guide-link": [
     {
       "type": 0,
-      "value": "Para obtener más ayuda, consulta la "
+      "value": "Weitere Unterstützung findest du in der "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "guía del Editor de Python"
+          "value": "Python Editor Anleitung"
         }
       ],
       "type": 8,
@@ -690,85 +722,85 @@
   "help": [
     {
       "type": 0,
-      "value": "Ayuda"
+      "value": "Hilfe"
     }
   ],
   "help-support": [
     {
       "type": 0,
-      "value": "Ayuda y asistencia"
+      "value": "Hilfe & Support"
     }
   ],
   "help-translate": [
     {
       "type": 0,
-      "value": "Ayudar a traducir"
+      "value": "Beim Übersetzen helfen"
     }
   ],
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Resaltar la estructura del código"
+      "value": "Code-Struktur hervorheben"
     }
   ],
   "highlight-code-structure-full": [
     {
       "type": 0,
-      "value": "Completo"
+      "value": "Vollständig"
     }
   ],
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Nada"
+      "value": "Nichts"
     }
   ],
   "highlight-code-structure-simple": [
     {
       "type": 0,
-      "value": "Simple"
+      "value": "Einfach"
     }
   ],
   "ideas-tab": [
     {
       "type": 0,
-      "value": "Ideas"
+      "value": "Ideen"
     }
   ],
   "ideas-tab-description": [
     {
       "type": 0,
-      "value": "Prueba estos proyectos y modifícalos para inspirarte"
+      "value": "Probiere diese Projekte aus, ändere sie und lasse dich inspirieren"
     }
   ],
   "insert-code-action": [
     {
       "type": 0,
-      "value": "Insertar código"
+      "value": "Code einfügen"
     }
   ],
   "language": [
     {
       "type": 0,
-      "value": "Idioma"
+      "value": "Sprache"
     }
   ],
   "less-action": [
     {
       "type": 0,
-      "value": "menos"
+      "value": "Weniger"
     }
   ],
   "load-error-makecode-info": [
     {
       "type": 0,
-      "value": "Este archivo HEX no se puede cargar en el Editor de Python. El Editor de Python no puede abrir archivos hexadecimales creados con Microsoft MakeCode."
+      "value": "Diese hex-Datei kann nicht in den Python-Editor geladen werden. Der Python-Editor kann keine hex-Dateien öffnen, die mit Microsoft MakeCode erstellt wurden."
     }
   ],
   "load-error-makecode-link": [
     {
       "type": 0,
-      "value": "Visita "
+      "value": "Bitte besuche "
     },
     {
       "children": [
@@ -782,25 +814,25 @@
     },
     {
       "type": 0,
-      "value": " para usar este archivo HEX."
+      "value": ", um diese hex-Datei zu verwenden."
     }
   ],
   "load-error-mixed": [
     {
       "type": 0,
-      "value": "Un archivo HEX únicamente puede cargarse solo. Sustituirá a todos los archivos del proyecto."
+      "value": "Eine hex-Datei kann nur für sich allein geladen werden. Sie ersetzt alle Dateien im Projekt."
     }
   ],
   "load-error-mpy": [
     {
       "type": 0,
-      "value": "Esta versión del Editor de Python no permite actualmente añadir archivos .mpy."
+      "value": "Diese Version des Python-Editors unterstützt derzeit das Hinzufügen von .mpy-Dateien nicht."
     }
   ],
   "load-error-title": [
     {
       "type": 0,
-      "value": "Error al cargar "
+      "value": "Kann "
     },
     {
       "offset": 0,
@@ -809,7 +841,7 @@
           "value": [
             {
               "type": 0,
-              "value": "archivo"
+              "value": "Datei"
             }
           ]
         },
@@ -817,7 +849,7 @@
           "value": [
             {
               "type": 0,
-              "value": "archivos"
+              "value": "Dateien"
             }
           ]
         }
@@ -825,6 +857,10 @@
       "pluralType": "cardinal",
       "type": 6,
       "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " nicht laden"
     }
   ],
   "loaded-file-feedback": [
@@ -834,39 +870,43 @@
     },
     {
       "type": 0,
-      "value": " cargado"
+      "value": " geladen"
     }
   ],
   "loading": [
     {
       "type": 0,
-      "value": "Cargando…"
+      "value": "Wird geladen..."
     }
   ],
   "microbit-hearts-alt": [
     {
       "type": 0,
-      "value": "Placa micro:bit con la cuadrícula LED de 5 por 5 que muestra un corazón"
+      "value": "micro:bit-Platine mit dem 5 x 5 LED-Gitter, das ein Herz zeigt"
     }
   ],
   "micropython-documentation": [
     {
       "type": 0,
-      "value": "Documentación de MicroPython"
+      "value": "MicroPython-Dokumentation"
     }
   ],
   "micropython-history": [
     {
       "type": 0,
-      "value": "Descubre cómo llegó MicroPython al micro:bit"
+      "value": "Lerne, wie MicroPython auf dem micro:bit angefangen hat"
     }
   ],
   "micropython-source-code": [
     {
+      "type": 0,
+      "value": "MicroPython "
+    },
+    {
       "children": [
         {
           "type": 0,
-          "value": "Código fuente de MicroPython para el micro:bit V1"
+          "value": "Quellcode für den micro:bit V1"
         }
       ],
       "type": 8,
@@ -874,7 +914,7 @@
     },
     {
       "type": 0,
-      "value": " y "
+      "value": " und "
     },
     {
       "children": [
@@ -890,13 +930,13 @@
   "more-action": [
     {
       "type": 0,
-      "value": "mas"
+      "value": "Mehr"
     }
   ],
   "more-connect-options": [
     {
       "type": 0,
-      "value": "Más opciones de conexión"
+      "value": "Mehr Verbindungsoptionen"
     }
   ],
   "more-ideas": [
@@ -904,7 +944,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Más ideas"
+          "value": "Mehr Ideen"
         }
       ],
       "type": 8,
@@ -914,13 +954,13 @@
   "more-save-options": [
     {
       "type": 0,
-      "value": "Más opciones para guardar"
+      "value": "Mehr Speicheroptionen"
     }
   ],
   "multiple-files-message-one": [
     {
       "type": 0,
-      "value": "Este proyecto contiene "
+      "value": "Dieses Projekt enthält "
     },
     {
       "offset": 0,
@@ -933,7 +973,7 @@
             },
             {
               "type": 0,
-              "value": " archivos"
+              "value": " Dateien"
             }
           ]
         }
@@ -944,7 +984,7 @@
     },
     {
       "type": 0,
-      "value": " pero solo se ha descargado "
+      "value": " aber nur "
     },
     {
       "children": [
@@ -958,19 +998,19 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": " wurde heruntergeladen."
     }
   ],
   "multiple-files-message-two": [
     {
       "type": 0,
-      "value": "Utiliza el botón "
+      "value": "Benutze die Taste "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Guardar"
+          "value": "Speichern"
         }
       ],
       "type": 8,
@@ -978,13 +1018,13 @@
     },
     {
       "type": 0,
-      "value": " para descargar el proyecto completo como un archivo HEX. Puedes "
+      "value": ", um dein ganzes Projekt als hex-Datei herunterzuladen. Du kannst die hex-Datei "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Abrir"
+          "value": "Öffnen"
         }
       ],
       "type": 8,
@@ -992,13 +1032,13 @@
     },
     {
       "type": 0,
-      "value": " el archivo HEX para restaurar el proyecto. Si prefieres descargar archivos Python de forma individual, usa la pestaña "
+      "value": ", um dein Projekt wiederherzustellen. Wenn du es vorziehst, einzelne Python-Dateien herunterzuladen, benutze die Registerkarte "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Proyecto"
+          "value": "Projekt"
         }
       ],
       "type": 8,
@@ -1012,31 +1052,31 @@
   "multiple-files-title": [
     {
       "type": 0,
-      "value": "Aviso: solo se ha descargado main.py"
+      "value": "Warnung: Nur main.py heruntergeladen"
     }
   ],
   "name-project": [
     {
       "type": 0,
-      "value": "Pon un nombre al proyecto"
+      "value": "Benenne dein Projekt"
     }
   ],
   "name-text": [
     {
       "type": 0,
-      "value": "Nombre"
+      "value": "Name"
     }
   ],
   "name-used-when": [
     {
       "type": 0,
-      "value": "El nombre se usa al guardar un archivo HEX."
+      "value": "Der Name wird verwendet, wenn du die hex-Datei speicherst."
     }
   ],
   "new-file-hint": [
     {
       "type": 0,
-      "value": "Se añadirá la extensión "
+      "value": "Wir werden die "
     },
     {
       "children": [
@@ -1050,25 +1090,25 @@
     },
     {
       "type": 0,
-      "value": "."
+      "value": "-Erweiterung für dich hinzufügen."
     }
   ],
   "next-action": [
     {
       "type": 0,
-      "value": "Siguiente"
+      "value": "Weiter"
     }
   ],
   "not-found-checklist-one": [
     {
       "type": 0,
-      "value": "¿Está el "
+      "value": "Ist dein "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "micro:bit conectado"
+          "value": "micro:bit eingesteckt"
         }
       ],
       "type": 8,
@@ -1076,13 +1116,13 @@
     },
     {
       "type": 0,
-      "value": "? ¿Has "
+      "value": "? Hast du "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "seguido estos pasos"
+          "value": "diese Schritte befolgt"
         }
       ],
       "type": 8,
@@ -1096,7 +1136,7 @@
   "not-found-checklist-two": [
     {
       "type": 0,
-      "value": "Si tienes un "
+      "value": "Wenn du einen "
     },
     {
       "children": [
@@ -1110,13 +1150,13 @@
     },
     {
       "type": 0,
-      "value": ", puede que necesites "
+      "value": " hast, musst du vielleicht "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "actualizar el firmware"
+          "value": "die Firmware aktualisieren"
         }
       ],
       "type": 8,
@@ -1126,31 +1166,31 @@
   "not-found-message": [
     {
       "type": 0,
-      "value": "No has seleccionado un micro:bit o ha habido un problema al conectar."
+      "value": "Du hast keinen micro:bit ausgewählt, oder es gab ein Problem beim Verbinden."
     }
   ],
   "not-found-save-message": [
     {
       "type": 0,
-      "value": "Método alternativo: elige Guardar y sigue los pasos para transferir"
+      "value": "Alternative Methode: Wähle Speichern und folge den Schritten zum Übertragen"
     }
   ],
   "not-found-title": [
     {
       "type": 0,
-      "value": "No se ha encontrado ningún micro:bit"
+      "value": "Kein micro:bit gefunden"
     }
   ],
   "not-found-update-link": [
     {
       "type": 0,
-      "value": "Debes "
+      "value": "Du musst "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "actualizar el firmware"
+          "value": "die Firmware aktualisieren"
         }
       ],
       "type": 8,
@@ -1158,55 +1198,55 @@
     },
     {
       "type": 0,
-      "value": " para poder conectar a este micro:bit."
+      "value": ", bevor eine Verbindung zu diesem micro:bit hergestellt werden kann."
     }
   ],
   "open-action": [
     {
       "type": 0,
-      "value": "Abrir"
+      "value": "Öffnen"
     }
   ],
   "open-file-action": [
     {
       "type": 0,
-      "value": "Abrir…"
+      "value": "Öffnen..."
     }
   ],
   "open-file-dropped": [
     {
       "type": 0,
-      "value": "Abrir archivo al soltarlo"
+      "value": "Datei nach Ablegen öffnen"
     }
   ],
   "open-hover": [
     {
       "type": 0,
-      "value": "Abre un archivo HEX o Python o añade otros archivos"
+      "value": "Eine hex- oder Python-Datei öffnen oder andere Dateien hinzufügen"
     }
   ],
   "options": [
     {
       "type": 0,
-      "value": "Opciones"
+      "value": "Optionen"
     }
   ],
   "parameter-help": [
     {
       "type": 0,
-      "value": "Ayuda con parámetros"
+      "value": "Parameter-Hilfe"
     }
   ],
   "parameter-help-automatic": [
     {
       "type": 0,
-      "value": "Automático"
+      "value": "Automatisch"
     }
   ],
   "parameter-help-manual": [
     {
       "type": 0,
-      "value": "("
+      "value": "Anleitung ("
     },
     {
       "type": 1,
@@ -1214,33 +1254,29 @@
     },
     {
       "type": 0,
-      "value": ") manual"
+      "value": ")"
     }
   ],
   "permanently-delete": [
-    {
-      "type": 0,
-      "value": "¿Eliminar "
-    },
     {
       "type": 1,
       "value": "filename"
     },
     {
       "type": 0,
-      "value": " de forma permanente?"
+      "value": " endgültig löschen?"
     }
   ],
   "post-save-message-files": [
     {
       "type": 0,
-      "value": "Contiene todos los archivos de este proyecto (incluyendo cualquier archivo adicional, por ejemplo, para ejecutar accesorios, listados en la pestaña "
+      "value": "Darin sind alle Dateien dieses Projekts enthalten (einschließlich aller zusätzlichen Dateien, z. B. zum Ausführen von Zusatzprogrammen, die auf der Registerkarte "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Proyecto"
+          "value": "Projekt"
         }
       ],
       "type": 8,
@@ -1248,19 +1284,19 @@
     },
     {
       "type": 0,
-      "value": ")."
+      "value": " aufgeführt sind)."
     }
   ],
   "post-save-message-one": [
     {
       "type": 0,
-      "value": "Encontrarás el archivo HEX en la carpeta "
+      "value": "Die hex-Datei befindet sich im "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Descargas"
+          "value": "Downloads"
         }
       ],
       "type": 8,
@@ -1268,19 +1304,19 @@
     },
     {
       "type": 0,
-      "value": " de este ordenador."
+      "value": "-Ordner auf diesem Computer."
     }
   ],
   "post-save-message-two": [
     {
       "type": 0,
-      "value": "Puedes moverlo para almacenarlo en otra carpeta y utilizar "
+      "value": "Du kannst die Datei in einen anderen Ordner verschieben und "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Abrir"
+          "value": "Öffnen"
         }
       ],
       "type": 8,
@@ -1288,25 +1324,25 @@
     },
     {
       "type": 0,
-      "value": " para editarlo más tarde."
+      "value": " verwenden, um sie später weiter zu bearbeiten."
     }
   ],
   "post-save-title": [
     {
       "type": 0,
-      "value": "Proyecto guardado"
+      "value": "Projekt gespeichert"
     }
   ],
   "post-save-transfer-hex": [
     {
       "type": 0,
-      "value": "Para ejecutar este archivo HEX en tu micro:bit "
+      "value": "Um diese hex-Datei auf deinem micro:bit auszuführen, solltest du "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "sigue estos pasos"
+          "value": "folgende Schritte ausführen"
         }
       ],
       "type": 8,
@@ -1320,43 +1356,43 @@
   "project-actions": [
     {
       "type": 0,
-      "value": "Acciones del proyecto"
+      "value": "Projekt-Aktionen"
     }
   ],
   "project-header": [
     {
       "type": 0,
-      "value": "Cabecera del proyecto"
+      "value": "Projekt-Kopfzeile"
     }
   ],
   "project-name": [
     {
       "type": 0,
-      "value": "Nombre del proyecto"
+      "value": "Projektname"
     }
   ],
   "project-name-not-empty": [
     {
       "type": 0,
-      "value": "El nombre del proyecto no puede estar en blanco"
+      "value": "Der Projektname darf nicht leer sein"
     }
   ],
   "project-tab": [
     {
       "type": 0,
-      "value": "Proyecto"
+      "value": "Projekt"
     }
   ],
   "project-tab-description": [
     {
       "type": 0,
-      "value": "Ver, crear, añadir y editar los archivos del proyecto"
+      "value": "Anzeigen, Erstellen, Hinzufügen und Bearbeiten der Dateien in deinem Projekt"
     }
   ],
   "python-powered": [
     {
       "type": 0,
-      "value": "Funciona con Python"
+      "value": "Python betrieben"
     }
   ],
   "python-tab": [
@@ -1368,55 +1404,55 @@
   "quit-anyway": [
     {
       "type": 0,
-      "value": "Algunos de sus cambios no se han guardado. Salir de todos modos?"
+      "value": "Einige deiner Änderungen wurden nicht gespeichert. Trotzdem beenden?"
     }
   ],
   "read-less": [
     {
       "type": 0,
-      "value": "Mostrar menos"
+      "value": "Weniger anzeigen"
     }
   ],
   "read-more": [
     {
       "type": 0,
-      "value": "Leer más"
+      "value": "Mehr anzeigen ..."
     }
   ],
   "redo": [
     {
       "type": 0,
-      "value": "Rehacer"
+      "value": "Wiederholen"
     }
   ],
   "reference-tab": [
     {
       "type": 0,
-      "value": "Referencia"
+      "value": "Referenz"
     }
   ],
   "replace-action-label": [
     {
       "type": 0,
-      "value": "Sustituir"
+      "value": "Ersetzen"
     }
   ],
   "reset-project-action": [
     {
       "type": 0,
-      "value": "Restablecer proyecto"
+      "value": "Projekt zurücksetzen"
     }
   ],
   "reset-project-feedback": [
     {
       "type": 0,
-      "value": "Proyecto restablecido al código de inicio predeterminado"
+      "value": "Projekt auf den Standard-Startcode zurückgesetzt"
     }
   ],
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Restablece el proyecto al código de inicio predeterminado, descartando tu trabajo"
+      "value": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit"
     }
   ],
   "results-count": [
@@ -1427,7 +1463,7 @@
           "value": [
             {
               "type": 0,
-              "value": "Ningún resultado"
+              "value": "Keine Ergebnisse"
             }
           ]
         },
@@ -1438,7 +1474,7 @@
             },
             {
               "type": 0,
-              "value": " resultado"
+              "value": " Ergebnis"
             }
           ]
         },
@@ -1449,7 +1485,7 @@
             },
             {
               "type": 0,
-              "value": " resultados"
+              "value": " Ergebnisse"
             }
           ]
         }
@@ -1462,95 +1498,95 @@
   "save-action": [
     {
       "type": 0,
-      "value": "Guardar"
+      "value": "Speichern"
     }
   ],
   "save-file-action": [
     {
-      "type": 0,
-      "value": "Guardar "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " speichern"
     }
   ],
   "save-hex-action": [
     {
       "type": 0,
-      "value": "Guardar proyecto HEX"
+      "value": "hex-Datei exportieren"
     }
   ],
   "save-hover": [
     {
       "type": 0,
-      "value": "Guarda el archivo HEX del proyecto en el ordenador"
+      "value": "Speichere die hex-Datei des Projektes auf deinem Computer"
     }
   ],
   "save-python-action": [
     {
       "type": 0,
-      "value": "Guardar script de Python"
+      "value": "Python-Script speichern"
     }
   ],
   "search": [
     {
       "type": 0,
-      "value": "Buscar"
+      "value": "Suche"
     }
   ],
   "send-action": [
     {
       "type": 0,
-      "value": "Enviar a micro:bit"
+      "value": "An micro:bit senden"
     }
   ],
   "send-hover": [
     {
       "type": 0,
-      "value": "Conectar a través de WebUSB y flashear código al micro:bit"
+      "value": "Verbindung über WebUSB herstellen und Code auf micro:bit flashen"
     }
   ],
   "serial-collapse": [
     {
       "type": 0,
-      "value": "Ocultar consola serie"
+      "value": "Serielle Ausgabe ausblenden"
     }
   ],
   "serial-ctrl-c-action": [
     {
       "type": 0,
-      "value": "Enviar Ctrl + C a REPL"
+      "value": "Strg+C für REPL senden"
     }
   ],
   "serial-ctrl-d-action": [
     {
       "type": 0,
-      "value": "Enviar Ctrl + D para restablecer"
+      "value": "Strg+D zum Zurücksetzen senden"
     }
   ],
   "serial-expand": [
     {
       "type": 0,
-      "value": "Mostrar consola serie"
+      "value": "Serielle Schnittstelle anzeigen"
     }
   ],
   "serial-flashed": [
     {
       "type": 0,
-      "value": "micro:bit flasheado"
+      "value": "micro:bit geflasht"
     }
   ],
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "Utiliza el atajo de teclado "
+      "value": "Verwende das Tatstaturkürzel "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ctrl"
+          "value": "Strg"
         }
       ],
       "type": 8,
@@ -1572,19 +1608,19 @@
     },
     {
       "type": 0,
-      "value": " para interrumpir el programa. Después podrás escribir comandos de Python para que los ejecute MicroPython. Es una gran manera de experimentar con algo nuevo."
+      "value": " um das Programm abzuhalten. Danach kannst du Python-Befehle eingeben, die MicroPython ausführen soll. Das ist eine großartige Möglichkeit, mit etwas Neuem zu experimentieren."
     }
   ],
   "serial-help-ctrl-d": [
     {
       "type": 0,
-      "value": "Para reiniciar el programa, pulsa "
+      "value": "Um das Programm wieder zu starten, verwende "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Ctrl"
+          "value": "Strg"
         }
       ],
       "type": 8,
@@ -1612,13 +1648,13 @@
   "serial-help-intro": [
     {
       "type": 0,
-      "value": "La terminal serie muestra errores y otros resultados del programa que se ejecuta en el micro:bit. Por defecto, muestra el error más reciente del programa; expándelo para ver todos los resultados."
+      "value": "Die serielle Konsole zeigt Fehler und andere Ausgaben des Programms an, das auf deinem micro:bit läuft. Standardmäßig zeigt es den letzten Fehler des Programms an. Erweitere es, um alle Ausgaben zu sehen."
     }
   ],
   "serial-help-print": [
     {
       "type": 0,
-      "value": "El programa puede imprimir mensajes usando la función "
+      "value": "Dein Programm kann Nachrichten mit der Funktion "
     },
     {
       "children": [
@@ -1632,13 +1668,13 @@
     },
     {
       "type": 0,
-      "value": ". Prueba a añadir "
+      "value": " drucken. Versuche, "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "print('micro:bit es increíble')"
+          "value": "print('micro:bit ist super')"
         }
       ],
       "type": 8,
@@ -1646,79 +1682,79 @@
     },
     {
       "type": 0,
-      "value": " al programa."
+      "value": " zu deinem Programm hinzuzufügen."
     }
   ],
   "serial-help-title": [
     {
       "type": 0,
-      "value": "Consola serie: sugerencias y consejos"
+      "value": "Hinweise und Tipps zur seriellen Konsole"
     }
   ],
   "serial-hints-and-tips": [
     {
       "type": 0,
-      "value": "Consola serie: sugerencias y consejos"
+      "value": "Hinweise und Tipps zur seriellen Konsole"
     }
   ],
   "serial-menu": [
     {
       "type": 0,
-      "value": "Menú consola serie"
+      "value": "Serielles Menü"
     }
   ],
   "serial-ready-to-flash": [
     {
       "type": 0,
-      "value": "micro:bit listo para flashear"
+      "value": "micro:bit bereit zum Flashen"
     }
   ],
   "serial-running": [
     {
       "type": 0,
-      "value": "Ejecutando…"
+      "value": "Ausführen..."
     }
   ],
   "serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal serie"
+      "value": "Serielles Terminal"
     }
   ],
   "setting-allow-editing-third-party": [
     {
       "type": 0,
-      "value": "Permitir la edición de módulos de terceros"
+      "value": "Bearbeiten von Drittanbieter-Modulen erlauben"
     }
   ],
   "setting-allow-editing-third-party-info": [
     {
       "type": 0,
-      "value": "Cambiar los módulos de terceros puede provocar que no funcionen como deberían."
+      "value": "Wenn du Module von Drittanbietern änderst, kann es sein, dass sie nicht mehr wie vorgesehen funktionieren."
     }
   ],
   "settings": [
     {
       "type": 0,
-      "value": "Configuración"
+      "value": "Einstellungen"
     }
   ],
   "show-api-documentation": [
     {
       "type": 0,
-      "value": "Mostrar documentación de la API"
+      "value": "API-Dokumentation anzeigen"
     }
   ],
   "show-less": [
     {
       "type": 0,
-      "value": "Mostrar menos"
+      "value": "Weniger anzeigen"
     }
   ],
   "show-less-for": [
     {
       "type": 0,
-      "value": "Mostrar menos de "
+      "value": "Weniger anzeigen für "
     },
     {
       "type": 1,
@@ -1728,13 +1764,13 @@
   "show-more": [
     {
       "type": 0,
-      "value": "Mostrar más"
+      "value": "Mehr anzeigen"
     }
   ],
   "show-more-for": [
     {
       "type": 0,
-      "value": "Mostrar más de "
+      "value": "Mehr anzeigen für "
     },
     {
       "type": 1,
@@ -1744,115 +1780,127 @@
   "sidebar": [
     {
       "type": 0,
-      "value": "Barra lateral"
+      "value": "Seitenleiste"
     }
   ],
   "sidebar-collapse": [
     {
       "type": 0,
-      "value": "Ocultar la barra lateral"
+      "value": "Seitenleiste einklappen"
     }
   ],
   "sidebar-expand": [
     {
       "type": 0,
-      "value": "Expandir la barra lateral"
+      "value": "Seitenleiste ausklappen"
     }
   ],
   "simulator-accelerometer": [
     {
       "type": 0,
-      "value": "Acelerómetro"
+      "value": "Beschleunigungsmesser"
     }
   ],
   "simulator-actions": [
     {
       "type": 0,
-      "value": "Acciones del simulador"
+      "value": "Simulator-Aktionen"
     }
   ],
   "simulator-button-a": [
     {
       "type": 0,
-      "value": "Botón A"
+      "value": "Taste A"
     }
   ],
   "simulator-button-b": [
     {
       "type": 0,
-      "value": "Botón B"
+      "value": "Taste B"
     }
   ],
   "simulator-button-hold-label": [
     {
       "type": 0,
-      "value": "Mantener pulsado botón "
+      "value": "Taste "
     },
     {
       "type": 1,
       "value": "button"
+    },
+    {
+      "type": 0,
+      "value": " halten"
     }
   ],
   "simulator-button-press-label": [
     {
       "type": 0,
-      "value": "Pulsar botón "
+      "value": "Taste "
     },
     {
       "type": 1,
       "value": "button"
+    },
+    {
+      "type": 0,
+      "value": " drücken"
     }
   ],
   "simulator-buttons": [
     {
       "type": 0,
-      "value": "Botones"
+      "value": "Tasten"
     }
   ],
   "simulator-collapse": [
     {
       "type": 0,
-      "value": "Contraer simulador"
+      "value": "Simulator einklappen"
     }
   ],
   "simulator-collapse-module": [
     {
       "type": 0,
-      "value": "Contraer módulo "
+      "value": "Modul "
     },
     {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " einklappen"
     }
   ],
   "simulator-compass": [
     {
       "type": 0,
-      "value": "Brújula"
+      "value": "Kompass"
     }
   ],
   "simulator-compass-heading-one": [
     {
       "type": 0,
-      "value": "Cabecera"
+      "value": "Ausrichtung"
     }
   ],
   "simulator-compass-heading-two": [
     {
       "type": 0,
-      "value": "Fuerza del campo magnético"
+      "value": "Magnetfeldstärke"
     }
   ],
   "simulator-data-logging-empty": [
     {
       "type": 0,
-      "value": "No hay entradas de registro."
+      "value": "Keine Protokoll-Einträge."
     }
   ],
   "simulator-data-logging-full": [
     {
       "type": 0,
-      "value": "Registro lleno"
+      "value": "Protokoll voll"
     }
   ],
   "simulator-data-logging-rows": [
@@ -1863,7 +1911,7 @@
           "value": [
             {
               "type": 0,
-              "value": "No se han registrado filas"
+              "value": "Keine Zeilen protokolliert"
             }
           ]
         },
@@ -1874,7 +1922,7 @@
             },
             {
               "type": 0,
-              "value": " fila registrada"
+              "value": " Zeile protokolliert"
             }
           ]
         },
@@ -1885,7 +1933,7 @@
             },
             {
               "type": 0,
-              "value": " filas registradas"
+              "value": " Zeilen protokolliert"
             }
           ]
         }
@@ -1898,29 +1946,33 @@
   "simulator-data-logging-save-log": [
     {
       "type": 0,
-      "value": "Guardar registro"
+      "value": "Protokoll speichern"
     }
   ],
   "simulator-data-logging-truncated": [
     {
       "type": 0,
-      "value": "No se muestran las filas antiguas"
+      "value": "Ältere Zeilen werden nicht angezeigt"
     }
   ],
   "simulator-expand": [
     {
       "type": 0,
-      "value": "Expandir simulador"
+      "value": "Simulator erweitern"
     }
   ],
   "simulator-expand-module": [
     {
       "type": 0,
-      "value": "Expandir módulo "
+      "value": "Modul "
     },
     {
       "type": 1,
       "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " erweitern"
     }
   ],
   "simulator-gesture-3g": [
@@ -1944,109 +1996,109 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "logo abajo"
+      "value": "runter"
     }
   ],
   "simulator-gesture-face-down": [
     {
       "type": 0,
-      "value": "hacia abajo"
+      "value": "Bildschirm nach unten"
     }
   ],
   "simulator-gesture-face-up": [
     {
       "type": 0,
-      "value": "hacia arriba"
+      "value": "Bildschirm nach oben"
     }
   ],
   "simulator-gesture-freefall": [
     {
       "type": 0,
-      "value": "caída libre"
+      "value": "freier Fall"
     }
   ],
   "simulator-gesture-left": [
     {
       "type": 0,
-      "value": "izquierda"
+      "value": "links"
     }
   ],
   "simulator-gesture-right": [
     {
       "type": 0,
-      "value": "derecha"
+      "value": "rechts"
     }
   ],
   "simulator-gesture-select": [
     {
       "type": 0,
-      "value": "Seleccionar gesto"
+      "value": "Geste auswählen"
     }
   ],
   "simulator-gesture-send": [
     {
       "type": 0,
-      "value": "Enviar gesto"
+      "value": "Geste senden"
     }
   ],
   "simulator-gesture-shake": [
     {
       "type": 0,
-      "value": "agitar"
+      "value": "schütteln"
     }
   ],
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "logo arriba"
+      "value": "hoch"
     }
   ],
   "simulator-hide": [
     {
       "type": 0,
-      "value": "Ocultar simulador"
+      "value": "Simulator verbergen"
     }
   ],
   "simulator-input-hold": [
     {
       "type": 0,
-      "value": "Mantener pulsado"
+      "value": "Halten"
     }
   ],
   "simulator-input-press": [
     {
       "type": 0,
-      "value": "Pulsar"
+      "value": "Drücken"
     }
   ],
   "simulator-light-level": [
     {
       "type": 0,
-      "value": "Nivel de luz"
+      "value": "Lichtstärke"
     }
   ],
   "simulator-log": [
     {
       "type": 0,
-      "value": "Registro de datos"
+      "value": "Datenprotokoll"
     }
   ],
   "simulator-loud": [
     {
       "type": 0,
-      "value": "Alto"
+      "value": "Loud"
     }
   ],
   "simulator-mute": [
     {
       "type": 0,
-      "value": "Silenciar"
+      "value": "Stumm"
     }
   ],
   "simulator-pin-hold-label": [
     {
       "type": 0,
-      "value": "Mantener pulsado pin "
+      "value": "Halte Pin "
     },
     {
       "type": 1,
@@ -2056,7 +2108,7 @@
   "simulator-pin-press-label": [
     {
       "type": 0,
-      "value": "Pulsar pin "
+      "value": "Drücke Pin "
     },
     {
       "type": 1,
@@ -2066,173 +2118,177 @@
   "simulator-pins": [
     {
       "type": 0,
-      "value": "Pines"
+      "value": "Pins"
     }
   ],
   "simulator-quiet": [
     {
       "type": 0,
-      "value": "Silencioso"
+      "value": "Quiet"
     }
   ],
   "simulator-radio": [
     {
       "type": 0,
-      "value": "Radio"
+      "value": "Funk"
     }
   ],
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit enviado:"
+      "value": "micro:bit sendete:"
     }
   ],
   "simulator-radio-group-notice": [
     {
       "type": 0,
-      "value": "Grupo de radio configurado a "
+      "value": "Funkgruppe auf "
     },
     {
       "type": 1,
       "value": "groupNumber"
+    },
+    {
+      "type": 0,
+      "value": " gesetzt"
     }
   ],
   "simulator-radio-message": [
     {
       "type": 0,
-      "value": "Mensaje de radio"
+      "value": "Funknachricht"
     }
   ],
   "simulator-radio-message-limit-notice": [
     {
       "type": 0,
-      "value": "No se muestran los mensajes antiguos"
+      "value": "Ältere Nachrichten werden nicht angezeigt"
     }
   ],
   "simulator-radio-no-messages": [
     {
       "type": 0,
-      "value": "No hay mensajes para mostrar"
+      "value": "Keine Nachrichten zum Anzeigen"
     }
   ],
   "simulator-radio-off": [
     {
       "type": 0,
-      "value": "La radio está apagada"
+      "value": "Funk ist aus"
     }
   ],
   "simulator-radio-send": [
     {
       "type": 0,
-      "value": "Enviar mensaje"
+      "value": "Nachricht senden"
     }
   ],
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "Has enviado:"
+      "value": "Du sendest:"
     }
   ],
   "simulator-reference-link": [
     {
       "type": 0,
-      "value": "Enlace a la sección de referencia"
+      "value": "Link zum Referenzbereich"
     }
   ],
   "simulator-reset": [
     {
       "type": 0,
-      "value": "Reiniciar"
+      "value": "Zurücksetzen"
     }
   ],
   "simulator-serial-terminal": [
     {
       "type": 0,
-      "value": "Terminal serie del simulador"
+      "value": "Serielles Terminal des Simulators"
     }
   ],
   "simulator-sound-level": [
     {
       "type": 0,
-      "value": "Nivel de sonido"
+      "value": "Schallpegel"
     }
   ],
   "simulator-start-simulator": [
     {
       "type": 0,
-      "value": "Iniciar simulador"
+      "value": "Simulator starten"
     }
   ],
   "simulator-stop": [
     {
       "type": 0,
-      "value": "Detener simulador"
+      "value": "Simulator stoppen"
     }
   ],
   "simulator-temperature": [
     {
       "type": 0,
-      "value": "Temperatura"
+      "value": "Temperatur"
     }
   ],
   "simulator-title": [
     {
       "type": 0,
-      "value": "Simulador"
+      "value": "Simulator"
     }
   ],
   "simulator-touch-logo": [
     {
       "type": 0,
-      "value": "Logotipo táctil"
+      "value": "Touch-Logo"
     }
   ],
   "simulator-unmute": [
     {
       "type": 0,
-      "value": "No silenciar"
+      "value": "Lautlos beenden"
     }
   ],
   "software-versions": [
     {
       "type": 0,
-      "value": "Versiones de software"
+      "value": "Software-Versionen"
     }
   ],
   "start-coding-action": [
     {
       "type": 0,
-      "value": "Empezar a programar"
+      "value": "Coden beginnen"
     }
   ],
   "support": [
     {
       "type": 0,
-      "value": "Ayuda Técnica"
+      "value": "Support"
     }
   ],
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Términos de uso"
+      "value": "Nutzungsbedingungen"
     }
   ],
   "third-party-module-explanation": [
     {
       "type": 0,
-      "value": "Este archivo es un módulo de terceros y se supone que no se debería editar."
+      "value": "Diese Datei ist ein Drittanbieter-Modul und ist nicht für die Bearbeitung gedacht."
     }
   ],
   "third-party-module-how-to": [
     {
       "type": 0,
-      "value": "Permite la edición de módulos de terceros en "
+      "value": "Erlaube die Bearbeitung von Drittanbieter-Modulen in den "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Configuración"
+          "value": "Einstellungen"
         }
       ],
       "type": 8,
@@ -2240,47 +2296,47 @@
     },
     {
       "type": 0,
-      "value": " para modificar este módulo."
+      "value": ", um dieses Modul zu ändern."
     }
   ],
   "timeout-error-description": [
     {
       "type": 0,
-      "value": "No se puede conectar al micro:bit"
+      "value": "Verbindung zum micro:bit kann nicht hergestellt werden"
     }
   ],
   "timeout-error-title": [
     {
       "type": 0,
-      "value": "La conexión ha expirado"
+      "value": "Zeitüberschreitung der Verbindung"
     }
   ],
   "toolkit-error-loading": [
     {
       "type": 0,
-      "value": "Se ha producido un error al cargar las herramientas."
+      "value": "Beim Laden des Toolkits ist ein Fehler aufgetreten"
     }
   ],
   "toolkit-view-documentation": [
     {
-      "type": 0,
-      "value": "Ver documentación de "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "-Dokumentation anzeigen"
     }
   ],
   "transfer-hex-message-one": [
     {
       "type": 0,
-      "value": "Arrastra el archivo HEX desde la "
+      "value": "Ziehe die hex-Datei aus deinem "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Carpeta de descargas"
+          "value": "Download-Ordner"
         }
       ],
       "type": 8,
@@ -2288,13 +2344,13 @@
     },
     {
       "type": 0,
-      "value": " a la "
+      "value": " auf das "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Unidad MICROBIT"
+          "value": "MICROBIT-Laufwerk"
         }
       ],
       "type": 8,
@@ -2308,13 +2364,13 @@
   "transfer-hex-message-two": [
     {
       "type": 0,
-      "value": "Puedes "
+      "value": "Du kannst die hex-Datei später "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Abrir"
+          "value": "Öffnen"
         }
       ],
       "type": 8,
@@ -2322,37 +2378,37 @@
     },
     {
       "type": 0,
-      "value": " el archivo HEX más tarde para editarlo."
+      "value": ", um sie weiter zu bearbeiten."
     }
   ],
   "transfer-hex-title": [
     {
       "type": 0,
-      "value": "Transferir archivo HEX guardado a micro:bit"
+      "value": "Gespeicherte Hex-Datei an micro:bit übertragen"
     }
   ],
   "try-again-action": [
     {
       "type": 0,
-      "value": "Inténtalo de nuevo"
+      "value": "Erneut versuchen"
     }
   ],
   "undo": [
     {
       "type": 0,
-      "value": "Deshacer"
+      "value": "Rückgängig"
     }
   ],
   "unexpected-error-description": [
     {
       "type": 0,
-      "value": "Inténtalo otra vez o "
+      "value": "Bitte versuche es erneut oder "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "solicita asistencia"
+          "value": "stelle eine Supportanfrage"
         }
       ],
       "type": 8,
@@ -2362,13 +2418,13 @@
   "unexpected-error-title": [
     {
       "type": 0,
-      "value": "Inténtalo otra vez o "
+      "value": "Bitte versuche es erneut, oder "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "solicita asistencia"
+          "value": "stelle eine Supportanfrage"
         }
       ],
       "type": 8,
@@ -2378,75 +2434,71 @@
   "untitled-project": [
     {
       "type": 0,
-      "value": "Proyecto sin título"
+      "value": "Unbenanntes Projekt"
     }
   ],
   "update-firmware-action": [
     {
       "type": 0,
-      "value": "Actualizar firmware"
+      "value": "Firmware aktualisieren"
     }
   ],
   "updated-change": [
     {
       "type": 0,
-      "value": "Archivo "
+      "value": "Aktualisierte Datei "
     },
     {
       "type": 1,
       "value": "changeName"
-    },
-    {
-      "type": 0,
-      "value": " actualizado"
     }
   ],
   "visit-dot-org": [
     {
       "type": 0,
-      "value": "visitar microbit.org (abre en una nueva pestaña)"
+      "value": "besuche microbit.org (öffnet in neuen Tab)"
     }
   ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
-      "value": "Otro proceso está conectado a este dispositivo."
+      "value": "Ein anderer Prozess ist mit diesem Gerät verbunden."
     }
   ],
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Cierra cualquier otra pestaña que pueda estar usando WebUSB (por ejemplo, MakeCode or Editor de Python), o desconecta y vuelve a conectar el micro:bit antes de volver a intentarlo."
+      "value": "Schließe alle anderen Tabs, die WebUSB verwenden (z. B. MakeCode, Python Editor), oder ziehe den micro:bit ab und stecke ihn wieder an, bevor du es erneut versuchst."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "No se ha podido solicitar interfaz"
+      "value": "Schnittstelle konnte nicht beansprucht werden"
     }
   ],
   "webusb-error-default-title": [
     {
       "type": 0,
-      "value": "Error WebUSB"
+      "value": "WebUSB-Fehler"
     }
   ],
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "Por favor reconecta el micro:bit e intentalo de nuevo."
+      "value": "Bitte schließe deinen micro:bit erneut an und versuche es nochmal."
     }
   ],
   "webusb-error-update-req-description": [
     {
       "type": 0,
-      "value": "Necesitas "
+      "value": "Um diese Funktion nutzen zu können, musst du deine "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "actualizar el firmware del micro:bit"
+          "value": "micro:bit Firmware aktualisieren "
         }
       ],
       "type": 8,
@@ -2454,55 +2506,55 @@
     },
     {
       "type": 0,
-      "value": " para usar esta función."
+      "value": "."
     }
   ],
   "webusb-error-update-req-title": [
     {
       "type": 0,
-      "value": "Actualiza el firmware micro:bit"
+      "value": "Bitte aktualisiere die micro:bit Firmware"
     }
   ],
   "webusb-not-supported": [
     {
       "type": 0,
-      "value": "Desafortunadamente, este navegador no admite WebUSB, por lo que el programa se guardará en el ordenador. Sigue los pasos indicados en la siguiente pantalla para transferirlo al micro:bit. Recomendamos Google Chrome o Microsoft Edge para poder conectarte directamente al micro:bit."
+      "value": "Leider wird WebUSB in diesem Browser nicht unterstützt und dein Programm wird stattdessen auf deinem Computer gespeichert. Folge den Schritten auf dem nächsten Bildschirm, um es auf deinen micro:bit zu übertragen. Wir empfehlen Google Chrome oder Microsoft Edge, damit du dich direkt mit deinem micro:bit verbinden kannst."
     }
   ],
   "webusb-not-supported-title": [
     {
       "type": 0,
-      "value": "El navegador no es compatible con WebUSB"
+      "value": "Dieser Browser unterstützt WebUSB nicht"
     }
   ],
   "webusb-why-use": [
     {
       "type": 0,
-      "value": "Con WebUSB puedes programar el micro:bit y conectarte a la consola serie directamente desde el editor en línea."
+      "value": "Mit WebUSB kannst du deinen micro:bit programmieren und dich direkt vom Online-Editor aus mit der seriellen Konsole verbinden."
     }
   ],
   "welcome-message": [
     {
       "type": 0,
-      "value": "Mira nuestra guía breve sobre algunas de las características más importantes o empieza ya a programar."
+      "value": "Sieh dir unsere kurze Anleitung zu einigen der wichtigsten Funktionen an oder fang gleich mit dem Programmieren an."
     }
   ],
   "welcome-title": [
     {
       "type": 0,
-      "value": "Bienvenido al Editor de Python de micro:bit"
+      "value": "Willkommen zum micro:bit Python-Editor"
     }
   ],
   "zoom-in-action": [
     {
       "type": 0,
-      "value": "Aumentar zoom"
+      "value": "Vergrößern"
     }
   ],
   "zoom-out-action": [
     {
       "type": 0,
-      "value": "Disminuir zoom"
+      "value": "Verkleinern"
     }
   ]
 }
