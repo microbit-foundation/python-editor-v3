@@ -79,7 +79,7 @@ describe("dndDecorations", () => {
 
     // ...and later dispatches timeout effect
     // (we've reduced the delay to 0 but it's still async)
-    const mockDispatch = view.dispatch as jest.MockedFunction<
+    const mockDispatch = view.dispatch as unknown as jest.MockedFunction<
       (t: Transaction) => void
     >;
     expect(mockDispatch.mock.calls.length).toEqual(0);

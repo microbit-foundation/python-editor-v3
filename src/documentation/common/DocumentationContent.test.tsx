@@ -48,7 +48,7 @@ describe("DocumentationContent", () => {
     ];
     const rendered = render(<DocumentationContent content={content} />);
     expect(rendered.container.innerHTML).toMatchInlineSnapshot(
-      `"<div class=\\"chakra-stack css-bs1yt6\\"><p><a target=\\"_blank\\" rel=\\"nofollow noopener\\" class=\\"chakra-link css-1w3ukj\\" href=\\"https://www.bbc.co.uk/bitesize/guides/zscvxfr/revision/4\\">Read more about ASCII<svg stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" viewBox=\\"0 0 24 24\\" focusable=\\"false\\" class=\\"chakra-icon css-q1kx43\\" height=\\"1em\\" width=\\"1em\\" xmlns=\\"http://www.w3.org/2000/svg\\"><g><path fill=\\"none\\" d=\\"M0 0h24v24H0z\\"></path><path d=\\"M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z\\"></path></g></svg></a>.</p></div>"`
+      `"<div class=\\"chakra-stack css-bs1yt6\\"><p><a target=\\"_blank\\" rel=\\"nofollow noopener\\" class=\\"chakra-link css-1w3ukj\\" href=\\"https://www.bbc.co.uk/bitesize/guides/zscvxfr/revision/4\\">Read more about ASCII<svg stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" viewBox=\\"0 0 24 24\\" focusable=\\"false\\" class=\\"chakra-icon css-q1kx43\\" height=\\"1em\\" width=\\"1em\\" xmlns=\\"http://www.w3.org/2000/svg\\"><path d=\\"M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z\\"></path></svg></a>.</p></div>"`
     );
   });
 

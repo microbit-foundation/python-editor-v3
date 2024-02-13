@@ -28,7 +28,7 @@ const VisualViewPortCSSVariables = () => {
       return;
     }
     const resizeHandler = () => {
-      const { width, height } = window.visualViewport;
+      const { width, height } = window.visualViewport ?? {};
       let style = document.getElementById(styleId);
       if (!style) {
         style = document.head.appendChild(document.createElement("style"));
@@ -39,7 +39,7 @@ const VisualViewPortCSSVariables = () => {
     window.visualViewport.addEventListener("resize", resizeHandler);
     resizeHandler();
     return () => {
-      window.visualViewport.removeEventListener("resize", resizeHandler);
+      window.visualViewport?.removeEventListener("resize", resizeHandler);
       const style = document.getElementById(styleId);
       if (style) {
         style.remove();
