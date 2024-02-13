@@ -10,7 +10,7 @@ type storageType = "local" | "session";
 /**
  * Local and session storage-backed state (via JSON serialization).
  */
-export function useStorage<T>(
+export function useStorage<T extends object>(
   storageType: storageType,
   key: string,
   defaultValue: T,
