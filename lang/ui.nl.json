@@ -566,6 +566,10 @@
     "defaultMessage": "Om dit hexadecimale bestand uit te voeren op je micro:bit <link>volg deze stappen</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
+  "privacy-policy": {
+    "defaultMessage": "Privacy policy",
+    "description": "Privacy policy menu option text"
+  },
   "project-actions": {
     "defaultMessage": "Project acties",
     "description": "Aria label for the bar with project actions"

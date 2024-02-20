@@ -1283,6 +1283,12 @@
       "value": "."
     }
   ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Privacy policy"
+    }
+  ],
   "project-actions": [
     {
       "type": 0,

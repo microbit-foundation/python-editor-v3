@@ -566,6 +566,10 @@
     "defaultMessage": "Para ejecutar este archivo HEX en tu micro:bit <link>sigue estos pasos</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
+  "privacy-policy": {
+    "defaultMessage": "Privacy policy",
+    "description": "Privacy policy menu option text"
+  },
   "project-actions": {
     "defaultMessage": "Acciones del proyecto",
     "description": "Aria label for the bar with project actions"

@@ -39,6 +39,7 @@ export interface DeploymentConfig {
   supportLink?: string;
   guideLink?: string;
   termsOfUseLink?: string;
+  privacyPolicyLink?: string;
   translationLink?: string;
 
   logging: Logging;
