@@ -148,7 +148,7 @@
     "description": "Confirm and save action label"
   },
   "confirm-save-hint": {
-    "defaultMessage": "Cancela y pulsa Guardar para guardar una copia de tu proyecto.",
+    "defaultMessage": "Cancela y utiliza Guardar para conservar una copia de tu proyecto.",
     "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
   },
   "connect-action": {
@@ -567,7 +567,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "privacy-policy": {
-    "defaultMessage": "Privacy policy",
+    "defaultMessage": "Política de privacidad",
     "description": "Privacy policy menu option text"
   },
   "project-actions": {
@@ -867,7 +867,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "logo abajo",
+    "defaultMessage": "abajo",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
@@ -903,7 +903,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "logo arriba",
+    "defaultMessage": "arriba",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {

@@ -567,7 +567,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "privacy-policy": {
-    "defaultMessage": "Privacy policy",
+    "defaultMessage": "隱私權政策",
     "description": "Privacy policy menu option text"
   },
   "project-actions": {

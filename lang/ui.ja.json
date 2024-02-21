@@ -196,7 +196,7 @@
     "description": "Text displayed when content fails to load"
   },
   "cookies-action": {
-    "defaultMessage": "Cookies",
+    "defaultMessage": "Cookieについて",
     "description": "Action to show dialog to choose website cookie preferences"
   },
   "copied": {
@@ -567,7 +567,7 @@
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "privacy-policy": {
-    "defaultMessage": "Privacy policy",
+    "defaultMessage": "プライバシーポリシー",
     "description": "Privacy policy menu option text"
   },
   "project-actions": {

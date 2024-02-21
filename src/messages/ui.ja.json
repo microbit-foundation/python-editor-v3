@@ -434,7 +434,7 @@
   "cookies-action": [
     {
       "type": 0,
-      "value": "Cookies"
+      "value": "Cookieについて"
     }
   ],
   "copied": [
@@ -1324,7 +1324,7 @@
   "privacy-policy": [
     {
       "type": 0,
-      "value": "Privacy policy"
+      "value": "プライバシーポリシー"
     }
   ],
   "project-actions": [

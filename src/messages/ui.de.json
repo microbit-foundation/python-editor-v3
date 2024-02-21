@@ -87,6 +87,10 @@
       ],
       "type": 8,
       "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
     }
   ],
   "api-tab": [
@@ -180,7 +184,7 @@
     },
     {
       "type": 0,
-      "value": " hinzufügen"
+      "value": " hinzufügen?"
     }
   ],
   "choose-main-add-module": [
@@ -348,7 +352,7 @@
   "confirm-replace-title": [
     {
       "type": 0,
-      "value": "Projekt-Ersetzen bestätigen"
+      "value": "Zurücksetzen bestätigen"
     }
   ],
   "confirm-replace-with-idea": [
@@ -470,7 +474,7 @@
   "create-action": [
     {
       "type": 0,
-      "value": "Erstelle"
+      "value": "Erstellen"
     }
   ],
   "create-file-action": [
@@ -503,12 +507,12 @@
   ],
   "delete-file-action": [
     {
-      "type": 0,
-      "value": "Lösche "
-    },
-    {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " löschen"
     }
   ],
   "deleted-file": [
@@ -740,7 +744,7 @@
   "highlight-code-structure": [
     {
       "type": 0,
-      "value": "Code-Struktur hervorheben"
+      "value": "Codestruktur hervorheben"
     }
   ],
   "highlight-code-structure-full": [
@@ -752,7 +756,7 @@
   "highlight-code-structure-none": [
     {
       "type": 0,
-      "value": "Nichts"
+      "value": "Aus"
     }
   ],
   "highlight-code-structure-simple": [
@@ -1222,7 +1226,7 @@
   "open-hover": [
     {
       "type": 0,
-      "value": "Eine hex- oder Python-Datei öffnen oder andere Dateien hinzufügen"
+      "value": "Eine HEX- oder Python-Datei öffnen oder andere Dateien hinzufügen."
     }
   ],
   "options": [
@@ -1356,7 +1360,7 @@
   "privacy-policy": [
     {
       "type": 0,
-      "value": "Privacy policy"
+      "value": "Datenschutzerklärung"
     }
   ],
   "project-actions": [
@@ -1532,7 +1536,7 @@
   "save-python-action": [
     {
       "type": 0,
-      "value": "Python-Script speichern"
+      "value": "Python-Skript speichern"
     }
   ],
   "search": [
@@ -1586,7 +1590,7 @@
   "serial-help-ctrl-c": [
     {
       "type": 0,
-      "value": "Verwende das Tatstaturkürzel "
+      "value": "Verwende den Tastenkürzel "
     },
     {
       "children": [
@@ -1614,7 +1618,7 @@
     },
     {
       "type": 0,
-      "value": " um das Programm abzuhalten. Danach kannst du Python-Befehle eingeben, die MicroPython ausführen soll. Das ist eine großartige Möglichkeit, mit etwas Neuem zu experimentieren."
+      "value": " um das Programm anzuhalten. Danach kannst du Python-Befehle eingeben, die MicroPython ausführen soll. Das ist eine großartige Möglichkeit, mit etwas Neuem zu experimentieren."
     }
   ],
   "serial-help-ctrl-d": [
