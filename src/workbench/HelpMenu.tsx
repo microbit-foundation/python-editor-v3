@@ -112,6 +112,17 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 <FormattedMessage id="terms-of-use" />
               </MenuItem>
             )}
+            {deployment.privacyPolicyLink && (
+              <MenuItem
+                as="a"
+                href={deployment.privacyPolicyLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                <FormattedMessage id="privacy-policy" />
+              </MenuItem>
+            )}
             {deployment.compliance.manageCookies && (
               <MenuItem icon={<MdOutlineCookie />} onClick={handleCookies}>
                 <FormattedMessage id="cookies-action" />

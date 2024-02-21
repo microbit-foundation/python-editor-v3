@@ -1325,6 +1325,12 @@
       "value": "."
     }
   ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "개인정보 보호 정책"
+    }
+  ],
   "project-actions": [
     {
       "type": 0,

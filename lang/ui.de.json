@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Für die Verwendung und Beispiele, siehe <link>Referenz</link>",
+    "defaultMessage": "Für die Verwendung und Beispiele, siehe <link>Referenz</link>.",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -72,7 +72,7 @@
     "description": "Header for dialog of confirmation of files changed"
   },
   "choose-main-add-file": {
-    "defaultMessage": "Datei {name} hinzufügen",
+    "defaultMessage": "Datei {name} hinzufügen?",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-add-module": {
@@ -136,7 +136,7 @@
     "description": "Confirmation message for the reset action"
   },
   "confirm-replace-title": {
-    "defaultMessage": "Projekt-Ersetzen bestätigen",
+    "defaultMessage": "Zurücksetzen bestätigen",
     "description": "Confirmation message title for replacing project dialog"
   },
   "confirm-replace-with-idea": {
@@ -212,7 +212,7 @@
     "description": "Copy code to clipboard action text"
   },
   "create-action": {
-    "defaultMessage": "Erstelle",
+    "defaultMessage": "Erstellen",
     "description": "Create action label (e.g. in create file dialog)"
   },
   "create-file-action": {
@@ -232,7 +232,7 @@
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "Lösche {name}",
+    "defaultMessage": "{name} löschen",
     "description": "Menu option to delete file"
   },
   "deleted-file": {
@@ -360,7 +360,7 @@
     "description": "Help translate  menu option text"
   },
   "highlight-code-structure": {
-    "defaultMessage": "Code-Struktur hervorheben",
+    "defaultMessage": "Codestruktur hervorheben",
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
@@ -368,7 +368,7 @@
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-none": {
-    "defaultMessage": "Nichts",
+    "defaultMessage": "Aus",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-simple": {
@@ -523,7 +523,7 @@
     "description": "Aria label for file drop target"
   },
   "open-hover": {
-    "defaultMessage": "Eine hex- oder Python-Datei öffnen oder andere Dateien hinzufügen",
+    "defaultMessage": "Eine HEX- oder Python-Datei öffnen oder andere Dateien hinzufügen.",
     "description": "Hover text over load button"
   },
   "options": {
@@ -565,6 +565,10 @@
   "post-save-transfer-hex": {
     "defaultMessage": "Um diese hex-Datei auf deinem micro:bit auszuführen, solltest du <link>folgende Schritte ausführen</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "Datenschutzerklärung",
+    "description": "Privacy policy menu option text"
   },
   "project-actions": {
     "defaultMessage": "Projekt-Aktionen",
@@ -655,7 +659,7 @@
     "description": "Hover text over save button"
   },
   "save-python-action": {
-    "defaultMessage": "Python-Script speichern",
+    "defaultMessage": "Python-Skript speichern",
     "description": "Save button menu option to save the Python script"
   },
   "search": {
@@ -691,7 +695,7 @@
     "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "Verwende das Tatstaturkürzel <kbd>Strg</kbd> + <kbd>C</kbd> um das Programm abzuhalten. Danach kannst du Python-Befehle eingeben, die MicroPython ausführen soll. Das ist eine großartige Möglichkeit, mit etwas Neuem zu experimentieren.",
+    "defaultMessage": "Verwende den Tastenkürzel <kbd>Strg</kbd> + <kbd>C</kbd> um das Programm anzuhalten. Danach kannst du Python-Befehle eingeben, die MicroPython ausführen soll. Das ist eine großartige Möglichkeit, mit etwas Neuem zu experimentieren.",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {

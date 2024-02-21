@@ -1337,6 +1337,12 @@
       "value": "."
     }
   ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Privacybeleid"
+    }
+  ],
   "project-actions": [
     {
       "type": 0,

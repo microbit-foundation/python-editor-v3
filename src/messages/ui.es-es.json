@@ -342,7 +342,7 @@
   "confirm-save-hint": [
     {
       "type": 0,
-      "value": "Cancela y pulsa Guardar para guardar una copia de tu proyecto."
+      "value": "Cancela y utiliza Guardar para conservar una copia de tu proyecto."
     }
   ],
   "connect-action": [
@@ -1317,6 +1317,12 @@
       "value": "."
     }
   ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Política de privacidad"
+    }
+  ],
   "project-actions": [
     {
       "type": 0,
@@ -1944,7 +1950,7 @@
   "simulator-gesture-down": [
     {
       "type": 0,
-      "value": "logo abajo"
+      "value": "abajo"
     }
   ],
   "simulator-gesture-face-down": [
@@ -1998,7 +2004,7 @@
   "simulator-gesture-up": [
     {
       "type": 0,
-      "value": "logo arriba"
+      "value": "arriba"
     }
   ],
   "simulator-hide": [

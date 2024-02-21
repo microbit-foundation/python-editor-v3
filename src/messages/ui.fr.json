@@ -1317,6 +1317,12 @@
       "value": "."
     }
   ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Politique de confidentialité"
+    }
+  ],
   "project-actions": [
     {
       "type": 0,
