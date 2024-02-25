@@ -6,7 +6,7 @@ import {
   EditorView,
   WidgetType,
 } from "@codemirror/view";
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
 
@@ -17,24 +17,16 @@ import { PortalFactory } from "./CodeMirror";
 const ExampleReactComponent = () => {
   // This is a weird thing to do in a CodeMirror widget but proves the point that
   // we can use React features to communicate with the rest of the app.
-  const [settings, setSettings] = useSettings();
+  // Use the useState hook to store and update the counter value.
+  const [counter, setCounter] = useState(0);
+  // Define a callback function that increments the counter by one.
   const handleClick = useCallback(() => {
-    let { languageId } = settings;
-    while (languageId === settings.languageId) {
-      languageId =
-        supportedLanguages[
-          Math.floor(Math.random() * supportedLanguages.length)
-        ].id;
-    }
-    setSettings({
-      ...settings,
-      languageId,
-    });
-  }, [settings, setSettings]);
+    setCounter(counter + 1);
+  }, [counter]);
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleClick}>Pick random UI language</Button>
-      <Text fontWeight="semibold">Current language: {settings.languageId}</Text>
+      <Button onClick={handleClick}>Increment</Button>
+      <Text fontWeight="semibold">Counter: {counter}</Text>
     </HStack>
   );
 };
