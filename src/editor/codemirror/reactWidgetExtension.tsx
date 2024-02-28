@@ -71,15 +71,16 @@ export const reactWidgetExtension = (
   const decorate = (state: EditorState) => {
     let widgets: any[] = []
     let from = 0
-    let to = 100
+    let to = 10000 // TODO: modify this to be the actual end
     let t = state.doc.toString()
     console.log(t);
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => {
         console.log(node.name)
-        if (node.name == "Comment") {
-          let isTrue = state.doc.sliceString(node.from, node.to) == "true"
+        console.log(state.doc.sliceString(node.from, node.to))
+        if (node.name == "VariableName" && state.doc.sliceString(node.from, node.to) == "SoundEffect") {
+          //let isTrue = state.doc.sliceString(node.from, node.to) == "true"
           let deco = Decoration.widget({
             widget: new ExampleReactBlockWidget(createPortal),
             side: 1,
