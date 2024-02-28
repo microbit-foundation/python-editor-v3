@@ -72,7 +72,8 @@ export const reactWidgetExtension = (
     let widgets: any[] = []
     let from = 0
     let to = 100
-    
+    let t = state.doc.toString()
+    console.log(t);
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => {
