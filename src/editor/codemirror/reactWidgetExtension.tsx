@@ -73,13 +73,14 @@ export const reactWidgetExtension = (
     let from = 0
     let to = 10000 // TODO: modify this to be the actual end
     let t = state.doc.toString()
+    let sound = false
     console.log(t);
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => {
-        console.log(node.name)
-        console.log(state.doc.sliceString(node.from, node.to))
-        if (node.name == "VariableName" && state.doc.sliceString(node.from, node.to) == "SoundEffect") {
+        //console.log(node.name)
+        //console.log(state.doc.sliceString(node.from, node.to))
+        if(sound && node.name == "ArgList"){
           //let isTrue = state.doc.sliceString(node.from, node.to) == "true"
           let deco = Decoration.widget({
             widget: new ExampleReactBlockWidget(createPortal),
@@ -87,6 +88,9 @@ export const reactWidgetExtension = (
           });
           widgets.push(deco.range(node.to))
         }
+        // detected SoundEffect, if next expression is an ArgList, show UI
+        // TODO: ensure this is the only case of SoundEffect ArgList
+        sound = node.name == "VariableName" && state.doc.sliceString(node.from, node.to) == "SoundEffect"
       }
     })
     return Decoration.set(widgets)
