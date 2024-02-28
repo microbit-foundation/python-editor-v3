@@ -6,9 +6,11 @@ import {
   EditorView,
   WidgetType,
 } from "@codemirror/view";
+import { syntaxTree } from "@codemirror/language"
 import { useState, useCallback } from "react";
 import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
+import { debug } from "../../editor/codemirror/dnd";
 
 /**
  * An example react component that we use inside a CodeMirror widget as
@@ -22,6 +24,7 @@ const ExampleReactComponent = () => {
   // Define a callback function that increments the counter by one.
   const handleClick = useCallback(() => {
     setCounter(counter + 1);
+    //console.log(counter)
   }, [counter]);
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
@@ -66,15 +69,33 @@ export const reactWidgetExtension = (
   createPortal: PortalFactory
 ): Extension => {
   const decorate = (state: EditorState) => {
-    // Just put a widget at the start of the document.
-    // A more interesting example would look at the cursor (selection) and/or syntax tree.
-    const endOfFirstLine = state.doc.lineAt(0).to;
-    const widget = Decoration.widget({
-      block: true,
-      widget: new ExampleReactBlockWidget(createPortal),
-      side: 1,
-    });
-    return Decoration.set(widget.range(endOfFirstLine));
+    let widgets: any[] = []
+    let from = 0
+    let to = 100
+    
+    syntaxTree(state).iterate({
+      from, to,
+      enter: (node: any) => {
+        console.log(node.name)
+        if (node.name == "Comment") {
+          let isTrue = state.doc.sliceString(node.from, node.to) == "true"
+          let deco = Decoration.widget({
+            widget: new ExampleReactBlockWidget(createPortal),
+            side: 1,
+          });
+          widgets.push(deco.range(node.to))
+        }
+      }
+    })
+    return Decoration.set(widgets)
+    
+    // const endOfFirstLine = state.doc.lineAt(0).to;
+    // const widget = Decoration.widget({
+    //   block: true,
+    //   widget: new ExampleReactBlockWidget(createPortal),
+    //   side: 1,
+    // });
+    // return Decoration.set(widget.range(endOfFirstLine));
   };
 
   const stateField = StateField.define<DecorationSet>({
