@@ -62,16 +62,14 @@ class ExampleReactBlockWidget extends WidgetType {
   }
 }
 
-/**
- * A toy extension that creates a wiget after the first line.
- */
+// Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
   createPortal: PortalFactory
 ): Extension => {
   const decorate = (state: EditorState) => {
     let widgets: any[] = []
     let from = 0
-    let to = 10000 // TODO: modify this to be the actual end
+    let to = state.doc.length-1 // TODO: could optimize this to just be lines within view
     let t = state.doc.toString()
     let sound = false
     console.log(t);
