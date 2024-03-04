@@ -39,7 +39,6 @@ export interface InputDialogProps<T> {
   actionLabel: string;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   validate?: (input: T) => InputValidationResult;
-  customFocus?: boolean;
   finalFocusRef?: React.RefObject<HTMLButtonElement>;
   callback: (value: ValueOrCancelled<T>) => void;
 }
@@ -55,7 +54,6 @@ export const InputDialog = <T,>({
   actionLabel,
   initialValue,
   size,
-  customFocus,
   finalFocusRef = undefined,
   validate = noValidation,
   callback,
@@ -63,7 +61,6 @@ export const InputDialog = <T,>({
   const [value, setValue] = useState(initialValue);
   const [validationResult, setValidationResult] =
     useState<InputValidationResult>(validate(initialValue));
-  const leastDestructiveRef = useRef<HTMLButtonElement>(null);
   const onCancel = useCallback(() => callback(undefined), [callback]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,13 +70,7 @@ export const InputDialog = <T,>({
   };
 
   return (
-    <Modal
-      isOpen
-      onClose={onCancel}
-      size={size}
-      initialFocusRef={customFocus ? undefined : leastDestructiveRef}
-      finalFocusRef={finalFocusRef}
-    >
+    <Modal isOpen onClose={onCancel} size={size} finalFocusRef={finalFocusRef}>
       <ModalOverlay>
         <ModalContent>
           <ModalHeader>
@@ -101,7 +92,7 @@ export const InputDialog = <T,>({
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button ref={leastDestructiveRef} onClick={onCancel}>
+            <Button onClick={onCancel}>
               <FormattedMessage id="cancel-action" />
             </Button>
             <Button
