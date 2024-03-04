@@ -53,6 +53,7 @@
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@chakra-ui/cli": "^2.4.1",
     "@craco/craco": "^7.0.0",
     "@formatjs/cli": "^4.2.33",
