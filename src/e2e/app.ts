@@ -133,10 +133,16 @@ export class App {
       value: "1",
       url: this.url,
     });
-    // Don't show compliance notice.
+    // Don't show compliance notice for Foundation builds
     await page.setCookie({
       name: "MBCC",
-      value: "1",
+      value: encodeURIComponent(
+        JSON.stringify({
+          version: 1,
+          analytics: false,
+          functional: true,
+        })
+      ),
       url: this.url,
     });
 

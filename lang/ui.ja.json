@@ -195,6 +195,10 @@
     "defaultMessage": "問題が発生しました。hex ファイルをダウンロードして、ページをリロードしてください。",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookieについて",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "コピーしました",
     "description": "Text shown after copy to clipboard"
@@ -387,7 +391,7 @@
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "減らす",
+    "defaultMessage": "少なく表示",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
@@ -435,7 +439,7 @@
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "増やす",
+    "defaultMessage": "もっと見る",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
@@ -561,6 +565,10 @@
   "post-save-transfer-hex": {
     "defaultMessage": "micro:bit上のhex ファイルを実行するには<link>この手順に従います</link>。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "プライバシーポリシー",
+    "description": "Privacy policy menu option text"
   },
   "project-actions": {
     "defaultMessage": "プロジェクトアクション",
@@ -859,7 +867,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "ロゴが下になった",
+    "defaultMessage": "下",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
@@ -895,7 +903,7 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "ロゴが上になった",
+    "defaultMessage": "上",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {

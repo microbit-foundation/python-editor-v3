@@ -195,6 +195,10 @@
     "defaultMessage": "Alguna cosa ha anat malament. Baixa el teu fitxer hexadecimal per mantenir-lo segur i, a continuació, actualitza la pàgina per tornar-la a carregar.",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Galetes",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "Copiat",
     "description": "Text shown after copy to clipboard"
@@ -561,6 +565,10 @@
   "post-save-transfer-hex": {
     "defaultMessage": "Per executar aquest fitxer hexadecimal a la teva micro:bit <link>segueix aquests passos</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "Política de privadesa",
+    "description": "Privacy policy menu option text"
   },
   "project-actions": {
     "defaultMessage": "Accions del projecte",

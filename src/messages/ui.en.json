@@ -407,6 +407,12 @@
       "value": "Something went wrong. Download your hex file for safe keeping, then refresh the page to reload."
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -1309,6 +1315,12 @@
     {
       "type": 0,
       "value": "."
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Privacy policy"
     }
   ],
   "project-actions": [

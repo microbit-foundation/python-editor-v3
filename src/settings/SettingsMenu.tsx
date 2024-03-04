@@ -20,6 +20,7 @@ import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
 import { zIndexAboveTerminal } from "../common/zIndex";
+import { flags } from "../flags";
 import { LanguageDialog } from "./LanguageDialog";
 import { SettingsDialog } from "./SettingsDialog";
 
@@ -66,13 +67,15 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
         />
         <Portal>
           <MenuList zIndex={zIndexAboveTerminal}>
-            <MenuItem
-              icon={<IoMdGlobe />}
-              onClick={languageDisclosure.onOpen}
-              data-testid="language"
-            >
-              <FormattedMessage id="language" />
-            </MenuItem>
+            {!flags.noLang && (
+              <MenuItem
+                icon={<IoMdGlobe />}
+                onClick={languageDisclosure.onOpen}
+                data-testid="language"
+              >
+                <FormattedMessage id="language" />
+              </MenuItem>
+            )}
             <MenuItem
               icon={<RiListSettingsLine />}
               onClick={handleShowSettings}

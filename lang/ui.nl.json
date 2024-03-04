@@ -195,6 +195,10 @@
     "defaultMessage": "Er is iets fout gegaan. Download je hexadecimale bestand voor een veilige bewaring, ververs daarna de pagina om te herladen.",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookies",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "Gekopieerd",
     "description": "Text shown after copy to clipboard"
@@ -561,6 +565,10 @@
   "post-save-transfer-hex": {
     "defaultMessage": "Om dit hexadecimale bestand uit te voeren op je micro:bit <link>volg deze stappen</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "Privacybeleid",
+    "description": "Privacy policy menu option text"
   },
   "project-actions": {
     "defaultMessage": "Project acties",
@@ -1031,7 +1039,7 @@
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Gebruikers voorwaarden",
+    "defaultMessage": "Gebruiksvoorwaarden",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {

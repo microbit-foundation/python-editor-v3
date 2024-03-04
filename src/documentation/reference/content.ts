@@ -29,8 +29,8 @@ export const getTopicAndEntry = (
   return [entry.parent, entry];
 };
 
-// For now we just slurp the whole toolkit at once.
-// Might revisit depending on eventual size.
+// We just slurp the whole toolkit at once.
+// This is necessary for the client-side search index.
 const toolkitQuery = (languageId: string): string => {
   return `
   *[_type == "toolkit" && language == "${languageId}" && (slug.current == "explore" || slug.current == "reference") && !(_id in path("drafts.**"))]{

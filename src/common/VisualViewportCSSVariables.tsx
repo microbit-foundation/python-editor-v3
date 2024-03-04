@@ -28,7 +28,7 @@ const VisualViewPortCSSVariables = () => {
       return;
     }
     const resizeHandler = () => {
-      const { width, height } = window.visualViewport!;
+      const { width, height } = window.visualViewport ?? {};
       let style = document.getElementById(styleId);
       if (!style) {
         style = document.head.appendChild(document.createElement("style"));

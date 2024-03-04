@@ -407,6 +407,12 @@
       "value": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page."
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -1309,6 +1315,12 @@
     {
       "type": 0,
       "value": "."
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Politique de confidentialité"
     }
   ],
   "project-actions": [

@@ -2,6 +2,8 @@
  * Common sanity types.
  */
 
+import { flags } from "../flags";
+
 export interface PortableTextBlock {
   _type: "block";
   _key: string;
@@ -85,9 +87,11 @@ export const sanityLanguageId = (locale: string): string => {
   return `${parts[0]}-${parts[1].toUpperCase()}`;
 };
 
+export const project = "ajwvhvgo";
+export const dataset = flags.cmsPreview ? "apps-preview" : "apps";
+
 const queryUrl = (query: string): string => {
-  return (
-    "https://ajwvhvgo.apicdn.sanity.io/v1/data/query/apps?query=" +
-    encodeURIComponent(query)
-  );
+  return `https://${project}.apicdn.sanity.io/v1/data/query/${dataset}?query=${encodeURIComponent(
+    query
+  )}`;
 };

@@ -419,6 +419,12 @@
       "value": "Er is iets fout gegaan. Download je hexadecimale bestand voor een veilige bewaring, ververs daarna de pagina om te herladen."
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -1329,6 +1335,12 @@
     {
       "type": 0,
       "value": "."
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Privacybeleid"
     }
   ],
   "project-actions": [
@@ -2247,7 +2259,7 @@
   "terms-of-use": [
     {
       "type": 0,
-      "value": "Gebruikers voorwaarden"
+      "value": "Gebruiksvoorwaarden"
     }
   ],
   "third-party-module-explanation": [

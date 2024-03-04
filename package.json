@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.0",
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.5.1",
     "@codemirror/autocomplete": "^6.3.0",
     "@codemirror/commands": "6.1.1",
@@ -44,15 +44,16 @@
     "mobile-drag-drop": "^2.3.0-rc.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-icons": "^4.2.0",
+    "react-icons": "^4.8.0",
     "react-intl": "^6.2.10",
-    "vscode-jsonrpc": "^6.0.0",
-    "vscode-languageserver-protocol": "3.16.0",
+    "vscode-jsonrpc": "^8.0.0",
+    "vscode-languageserver-protocol": "^3.16.0",
     "web-vitals": "^1.1.1",
     "xterm": "4.14.1",
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
+    "@chakra-ui/cli": "^2.4.1",
     "@craco/craco": "^7.0.0",
     "@formatjs/cli": "^4.2.33",
     "@testing-library/jest-dom": "^5.14.1",
@@ -65,9 +66,8 @@
     "prettier": "2.3.2",
     "puppeteer": "13.4.0",
     "react-scripts": "5.0.0",
-    "source-map-explorer": "^2.5.2",
-    "typescript": "^4.4.2",
-    "webusb": "^2.2.0"
+    "source-map-explorer": "^2.5.3",
+    "typescript": "^4.4.2"
   },
   "engines": {
     "node": ">=16.0",
@@ -76,7 +76,7 @@
   "scripts": {
     "bundle-size-explorer": "source-map-explorer 'build/static/js/*.js'",
     "bundle-size-report": "source-map-explorer 'build/static/js/*.js' --html reports/bundle-size.html",
-    "ci": "npm run typecheck && npm run test && npm run build && npm run bundle-size-report",
+    "ci": "npm run theme && npm run typecheck && npm run test && npm run build && npm run bundle-size-report",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test --testPathIgnorePatterns=e2e",
@@ -86,6 +86,8 @@
     "test:all": "craco test --testTimeout 15000",
     "test:e2e": "cross-env E2E_HEADLESS=0 craco test --testPathPattern e2e -w 1 --testTimeout 15000",
     "test:e2e:headless": "cross-env E2E_HEADLESS=1 craco test --testPathPattern e2e -w 1 --testTimeout 15000",
+    "theme": "chakra-cli tokens src/deployment/default/theme.ts",
+    "theme:watch": "chakra-cli tokens src/deployment/default/theme.ts --watch",
     "ci:update-version": "update-ci-version",
     "deploy": "website-deploy-aws",
     "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",

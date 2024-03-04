@@ -7,6 +7,7 @@ import { createContext, ReactNode, useContext } from "react";
 import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
 import { stage } from "../environment";
+import { flags } from "../flags";
 
 export interface Language {
   id: string;
@@ -50,6 +51,12 @@ const allLanguages: Language[] = [
     id: "fr",
     name: "Français",
     enName: "French",
+  },
+  {
+    id: "de",
+    name: "Deutsch",
+    enName: "German",
+    preview: true,
   },
   {
     id: "ja",
@@ -168,14 +175,15 @@ export const useSettings = (): SettingsContextValue => {
 };
 
 const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const settings = useStorage<Settings>(
+  const [settings, setSettings] = useStorage<Settings>(
     "local",
     "settings",
     defaultSettings,
-    isValidSettingsObject
+    isValidSettingsObject,
+    flags.noLang ? { languageId: getLanguageFromQuery() } : {}
   );
   return (
-    <SettingsContext.Provider value={settings}>
+    <SettingsContext.Provider value={[settings, setSettings]}>
       {children}
     </SettingsContext.Provider>
   );

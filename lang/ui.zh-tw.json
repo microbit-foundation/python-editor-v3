@@ -195,6 +195,10 @@
     "defaultMessage": "發生錯誤。下載您的 HEX 檔案以便安全儲存，然後重新整理頁面來重新載入。",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookies",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "複製的",
     "description": "Text shown after copy to clipboard"
@@ -316,7 +320,7 @@
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "讀寫",
+    "defaultMessage": "燒錄",
     "description": "Text for flash button"
   },
   "flash-hover": {
@@ -561,6 +565,10 @@
   "post-save-transfer-hex": {
     "defaultMessage": "若要在您的 micro:bit 執行這個 HEX 檔案，請<link>遵循這些步驟</link>。",
     "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "隱私權政策",
+    "description": "Privacy policy menu option text"
   },
   "project-actions": {
     "defaultMessage": "專案動作",

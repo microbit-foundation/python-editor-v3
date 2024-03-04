@@ -403,6 +403,12 @@
       "value": "發生錯誤。下載您的 HEX 檔案以便安全儲存，然後重新整理頁面來重新載入。"
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -624,7 +630,7 @@
   "flash-action": [
     {
       "type": 0,
-      "value": "讀寫"
+      "value": "燒錄"
     }
   ],
   "flash-hover": [
@@ -1309,6 +1315,12 @@
     {
       "type": 0,
       "value": "。"
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "隱私權政策"
     }
   ],
   "project-actions": [

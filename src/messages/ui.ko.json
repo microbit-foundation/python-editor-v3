@@ -415,6 +415,12 @@
       "value": "오류가 발생했습니다. hex 파일을 다운로드해 작업물을 보호하고 새로 고침으로 페이지를 다시 불러오세요."
     }
   ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Cookies"
+    }
+  ],
   "copied": [
     {
       "type": 0,
@@ -1317,6 +1323,12 @@
     {
       "type": 0,
       "value": "."
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "개인정보 보호 정책"
     }
   ],
   "project-actions": [

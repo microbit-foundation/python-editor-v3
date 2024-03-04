@@ -195,6 +195,10 @@
     "defaultMessage": "Une erreur est survenue. Téléchargez votre fichier hex pour ne pas le perdre, puis actualisez la page.",
     "description": "Text displayed when content fails to load"
   },
+  "cookies-action": {
+    "defaultMessage": "Cookies",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
   "copied": {
     "defaultMessage": "Copié",
     "description": "Text shown after copy to clipboard"
@@ -561,6 +565,10 @@
   "post-save-transfer-hex": {
     "defaultMessage": "Pour exécuter ce fichier hex sur votre micro:bit <link>suivez ces étapes</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "Politique de confidentialité",
+    "description": "Privacy policy menu option text"
   },
   "project-actions": {
     "defaultMessage": "Actions du projet",

@@ -22,6 +22,7 @@ jobs:
       PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       STAGING_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
+      REACT_APP_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
 
     steps:
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
@@ -29,13 +30,13 @@ jobs:
       - name: Configure node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 20.x
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.1.0-chakra.upgrade.7 @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.7.1 @microbit-foundation/circleci-npm-package-versioner@1
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-chakra.upgrade.24 @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.7.1 @microbit-foundation/circleci-npm-package-versioner@1
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +46,9 @@ jobs:
         if: github.repository_owner == 'microbit-foundation'
       - run: npm run ci
         env:
+          REACT_APP_GA_COOKIE_PREFIX: ${{ secrets.REACT_APP_GA_COOKIE_PREFIX }}
           REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
       - run: mkdir -p /tmp/app${PUBLIC_URL} && cp -r build/* /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
