@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import { Box, VStack, Text } from "@chakra-ui/layout";
+import { Box, Text, VStack } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -14,7 +14,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { ThemeTypings } from "@chakra-ui/styled-system";
-import { ReactNode, useCallback, useRef, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 export interface InputValidationResult {
