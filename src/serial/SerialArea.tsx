@@ -53,31 +53,31 @@ const SerialArea = ({
         position="relative"
         overflow="hidden"
       >
-        {!connected ? null : (
-          <Box
-            alignItems="stretch"
-            backgroundColor={backgroundColorTerm}
-            height="100%"
-          >
-            <SerialBar
-              height={12}
-              compact={compact}
-              onSizeChange={onSizeChange}
-              showSyncStatus={showSyncStatus}
-              expandDirection={expandDirection}
-              hideExpandTextOnTraceback={hideExpandTextOnTraceback}
-              showHintsAndTips={showHintsAndTips}
-            />
-            <XTerm
-              visibility={compact ? "hidden" : undefined}
-              height={`calc(100% - ${SerialArea.compactSize}px)`}
-              ml={1}
-              mr={1}
-              fontSizePt={terminalFontSizePt}
-              tabOutRef={tabOutRef}
-            />
-          </Box>
-        )}
+        <Box
+          // Need to render this when not connected as we need it to maintain scrollback across disconnect/reconnect in some cases.
+          display={connected ? undefined : "none"}
+          alignItems="stretch"
+          backgroundColor={backgroundColorTerm}
+          height="100%"
+        >
+          <SerialBar
+            height={12}
+            compact={compact}
+            onSizeChange={onSizeChange}
+            showSyncStatus={showSyncStatus}
+            expandDirection={expandDirection}
+            hideExpandTextOnTraceback={hideExpandTextOnTraceback}
+            showHintsAndTips={showHintsAndTips}
+          />
+          <XTerm
+            visibility={compact ? "hidden" : undefined}
+            height={`calc(100% - ${SerialArea.compactSize}px)`}
+            ml={1}
+            mr={1}
+            fontSizePt={terminalFontSizePt}
+            tabOutRef={tabOutRef}
+          />
+        </Box>
       </Flex>
     </TerminalContext>
   );

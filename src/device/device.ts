@@ -129,8 +129,23 @@ export interface FlashDataSource {
   files(): Promise<Record<string, Uint8Array>>;
 }
 
+export const enum SerialOption {
+  /**
+   * Don't read serial data.
+   */
+  None,
+  /**
+   * Emit a reset to clear any listeners, then read serial data.
+   */
+  Reset,
+  /**
+   * Read serial data. No reset is emitted.
+   */
+  NoReset,
+}
+
 export interface ConnectOptions {
-  serial?: boolean;
+  serial: SerialOption;
 }
 
 export interface DeviceConnection extends EventEmitter {
