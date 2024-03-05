@@ -8,9 +8,7 @@ import {
 } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language"
 import { useState, useCallback } from "react";
-import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
-import { debug } from "../../editor/codemirror/dnd";
 
 /**
  * An example react component that we use inside a CodeMirror widget as
@@ -70,7 +68,7 @@ export const reactWidgetExtension = (
     let widgets: any[] = []
     let from = 0
     let to = state.doc.length-1 // TODO: could optimize this to just be lines within view
-    let t = state.doc.toString()
+    //let t = state.doc.toString()
     //console.log(t);
 
     let sound = false // detected a SoundEffect, waiting to pair with ArgList
@@ -87,8 +85,8 @@ export const reactWidgetExtension = (
 
         // Walking through ArgList, trying to match with values
         if(parsingArgs){
-          if(node.name == "(") parenthesis += 1
-          else if(node.name == ")") {
+          if(node.name === "(") parenthesis += 1
+          else if(node.name === ")") {
             parenthesis -= 1
             if(parenthesis <= 0){
               // finished parsing ArgList
@@ -112,11 +110,11 @@ export const reactWidgetExtension = (
         }
         else{
           // Found ArgList, will begin to parse nodes 
-          if(sound && node.name == "ArgList") { sound = false; parsingArgs = true; argEnd = node.to }
+          if(sound && node.name === "ArgList") { sound = false; parsingArgs = true; argEnd = node.to }
 
           // detected SoundEffect, if next expression is an ArgList, show UI
           // TODO: ensure this is the only case of SoundEffect ArgList
-          sound = node.name == "VariableName" && state.doc.sliceString(node.from, node.to) == "SoundEffect"
+          sound = node.name === "VariableName" && state.doc.sliceString(node.from, node.to) === "SoundEffect"
         }
       }
     })
