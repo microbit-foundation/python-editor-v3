@@ -78,7 +78,8 @@
   "scripts": {
     "bundle-size-explorer": "source-map-explorer 'build/static/js/*.js'",
     "bundle-size-report": "source-map-explorer 'build/static/js/*.js' --html reports/bundle-size.html",
-    "ci": "npm run theme && npm run typecheck && npm run test && npm run build && npm run bundle-size-report",
+    "ci": "npm run typecheck && npm run test && npm run build && npm run bundle-size-report",
+    "postinstall": "npm run theme",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test --testPathIgnorePatterns=e2e",
