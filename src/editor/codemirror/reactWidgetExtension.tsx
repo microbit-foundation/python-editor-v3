@@ -1,4 +1,3 @@
-import { Button, HStack, Text } from "@chakra-ui/react";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
@@ -6,63 +5,9 @@ import {
   EditorView,
   WidgetType,
 } from "@codemirror/view";
-import { useCallback } from "react";
-import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
+import { MicrobitComponent } from "./microbitWidget";
 
-/**
- * An example react component that we use inside a CodeMirror widget as
- * a proof of concept.
- */
-const ExampleReactComponent = () => {
-  // This is a weird thing to do in a CodeMirror widget but proves the point that
-  // we can use React features to communicate with the rest of the app.
-  const [settings, setSettings] = useSettings();
-  const handleClick = useCallback(() => {
-    let { languageId } = settings;
-    while (languageId === settings.languageId) {
-      languageId =
-        supportedLanguages[
-          Math.floor(Math.random() * supportedLanguages.length)
-        ].id;
-    }
-    setSettings({
-      ...settings,
-      languageId,
-    });
-  }, [settings, setSettings]);
-  return (
-    <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleClick}>Pick random UI language</Button>
-      <Text fontWeight="semibold">Current language: {settings.languageId}</Text>
-    </HStack>
-  );
-};
-
-const MicrobitLEDSelector = () => {
-    const selectedLED = null; // Initially, no LED is selected
-    
-    return (
-      <div style={{ padding: "10px", border: "1px solid #ccc" }}>
-        <h4>Select lights to turn on</h4>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 20px)", gap: "5px" }}>
-          {[...Array(5)].map((_, row) => (
-            [...Array(5)].map((_, col) => (
-              <div
-                key={`${row},${col}`}
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  border: "1px solid #ccc",
-                  background: "white", // Initially all LEDs are white
-                }}
-              ></div>
-            ))
-          ))}
-        </div>
-      </div>
-    );
-  };
 
 /**
  * This widget will have its contents rendered by the code in CodeMirror.tsx
@@ -77,7 +22,7 @@ class ExampleReactBlockWidget extends WidgetType {
 
   toDOM() {
     const dom = document.createElement("div");
-    this.portalCleanup = this.createPortal(dom, <MicrobitLEDSelector />);
+    this.portalCleanup = this.createPortal(dom, <MicrobitComponent />);
     return dom;
   }
 
@@ -127,3 +72,4 @@ export const reactWidgetExtension = (
   });
   return [stateField];
 };
+
