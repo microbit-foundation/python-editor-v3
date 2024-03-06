@@ -10,11 +10,17 @@ import { useCallback } from "react";
 import { supportedLanguages, useSettings } from "../../settings/settings";
 import { PortalFactory } from "./CodeMirror";
 
+interface ExampleReactComponentProps {
+  view: EditorView;
+}
+
 /**
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
  */
-const ExampleReactComponent = () => {
+const ExampleReactComponent = ({ view }: ExampleReactComponentProps) => {
+  console.log("We have access to the view here", view);
+
   // This is a weird thing to do in a CodeMirror widget but proves the point that
   // we can use React features to communicate with the rest of the app.
   const [settings, setSettings] = useSettings();
@@ -50,9 +56,12 @@ class ExampleReactBlockWidget extends WidgetType {
     super();
   }
 
-  toDOM() {
+  toDOM(view: EditorView) {
     const dom = document.createElement("div");
-    this.portalCleanup = this.createPortal(dom, <ExampleReactComponent />);
+    this.portalCleanup = this.createPortal(
+      dom,
+      <ExampleReactComponent view={view} />
+    );
     return dom;
   }
 
