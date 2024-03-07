@@ -105,6 +105,8 @@ export const themeExtensions = (fontSize: string) => {
     },
     ".cm-line": {
       transition: "none",
+      // This used to be the default until https://github.com/codemirror/view/commit/a2d7f9111872fe61ffad8fd3ea371a7a41650da6
+      padding: "0 2px 0 4px",
     },
   });
 };

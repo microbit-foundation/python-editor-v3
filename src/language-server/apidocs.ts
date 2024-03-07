@@ -3,7 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ProtocolRequestType } from "vscode-languageserver-protocol";
+import {
+  ConnectionError,
+  ProtocolRequestType,
+} from "vscode-languageserver-protocol";
 import { MarkupKind } from "vscode-languageserver-types";
 import { LanguageServerClient } from "./client";
 
@@ -53,33 +56,42 @@ export const apiDocsRequestType = new ProtocolRequestType<
   void
 >("pyright/apidocs");
 
-export const apiDocs = (
+export const apiDocs = async (
   client: LanguageServerClient
 ): Promise<ApiDocsResponse> => {
   // This is a non-standard LSP call that we've added support for to Pyright.
-  return client.connection.sendRequest(apiDocsRequestType, {
-    path: client.rootUri,
-    documentationFormat: [MarkupKind.Markdown],
-    modules: [
-      // For now, this omits a lot of modules that have stubs
-      // derived from typeshed with no docs.
-      // Note: "audio" is covered under micro:bit.
-      "gc",
-      "log",
-      "machine",
-      "math",
-      "microbit",
-      "micropython",
-      "music",
-      "neopixel",
-      "os",
-      "power",
-      "radio",
-      "random",
-      "speech",
-      "struct",
-      "sys",
-      "time",
-    ],
-  });
+  try {
+    const result = await client.connection.sendRequest(apiDocsRequestType, {
+      path: client.rootUri,
+      documentationFormat: [MarkupKind.Markdown],
+      modules: [
+        // For now, this omits a lot of modules that have stubs
+        // derived from typeshed with no docs.
+        // Note: "audio" is covered under micro:bit.
+        "gc",
+        "log",
+        "machine",
+        "math",
+        "microbit",
+        "micropython",
+        "music",
+        "neopixel",
+        "os",
+        "power",
+        "radio",
+        "random",
+        "speech",
+        "struct",
+        "sys",
+        "time",
+      ],
+    });
+    return result;
+  } catch (e) {
+    if (!(e instanceof ConnectionError)) {
+      throw e;
+    }
+    // We'll requery when the client is recreated.
+    return {};
+  }
 };

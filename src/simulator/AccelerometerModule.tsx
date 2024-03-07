@@ -133,7 +133,7 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
       <IconButton
         ref={buttonRef}
         icon={<RiSendPlane2Line />}
-        disabled={!enabled || active}
+        isDisabled={!enabled || active}
         onClick={handleClick}
         aria-label={intl.formatMessage({ id: "simulator-gesture-send" })}
       ></IconButton>

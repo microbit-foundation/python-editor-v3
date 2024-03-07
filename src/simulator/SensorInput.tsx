@@ -132,7 +132,7 @@ const SensorInput = ({
               }
         }
         isActive={!!sensorValue.current}
-        disabled={disabled}
+        isDisabled={disabled}
         size="sm"
         onKeyDown={keyListener}
         onKeyUp={keyListener}

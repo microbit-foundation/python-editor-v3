@@ -21,6 +21,7 @@ import {
 } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import {
+  ConnectionError,
   MarkupContent,
   SignatureHelp,
   SignatureHelpParams,
@@ -103,7 +104,9 @@ const triggerSignatureHelpRequest = async (
       effects: [setSignatureHelpResult.of(result)],
     });
   } catch (e) {
-    logException(state, e, "signature-help");
+    if (!(e instanceof ConnectionError)) {
+      logException(state, e, "signature-help");
+    }
     view.dispatch({
       effects: [setSignatureHelpResult.of(null)],
     });

@@ -12,6 +12,7 @@ import DocumentationContent from "./DocumentationContent";
 
 jest.mock("@chakra-ui/image", () => ({
   Image: ({ src, w, h }: ImageProps) => (
+    // eslint-disable-next-line jsx-a11y/alt-text
     <img src={src} width={w as string} height={h as string} />
   ),
 }));
@@ -46,9 +47,9 @@ describe("DocumentationContent", () => {
         style: "normal",
       },
     ];
-    const rendered = render(<DocumentationContent content={content} />);
-    expect(rendered.container.innerHTML).toMatchInlineSnapshot(
-      `"<div class=\\"chakra-stack css-bs1yt6\\"><p><a target=\\"_blank\\" rel=\\"nofollow noopener\\" class=\\"chakra-link css-1w3ukj\\" href=\\"https://www.bbc.co.uk/bitesize/guides/zscvxfr/revision/4\\">Read more about ASCII<svg stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" viewBox=\\"0 0 24 24\\" focusable=\\"false\\" class=\\"chakra-icon css-q1kx43\\" height=\\"1em\\" width=\\"1em\\" xmlns=\\"http://www.w3.org/2000/svg\\"><path d=\\"M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z\\"></path></svg></a>.</p></div>"`
+    const view = render(<DocumentationContent content={content} />);
+    expect(view.container.innerHTML).toMatchInlineSnapshot(
+      `"<div class=\\"chakra-stack css-iewcov\\"><p><a target=\\"_blank\\" rel=\\"nofollow noopener\\" class=\\"chakra-link css-1w3ukj\\" href=\\"https://www.bbc.co.uk/bitesize/guides/zscvxfr/revision/4\\">Read more about ASCII<svg stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" viewBox=\\"0 0 24 24\\" focusable=\\"false\\" class=\\"chakra-icon css-q1kx43\\" height=\\"1em\\" width=\\"1em\\" xmlns=\\"http://www.w3.org/2000/svg\\"><path d=\\"M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z\\"></path></svg></a>.</p></div>"`
     );
   });
 
@@ -63,10 +64,10 @@ describe("DocumentationContent", () => {
         },
       },
     ];
-    const rendered = render(<DocumentationContent content={content} />);
+    const view = render(<DocumentationContent content={content} />);
     // This relies on the mock above because Chakra UI's images have the src added later.
-    expect(rendered.container.innerHTML).toMatchInlineSnapshot(
-      `"<div class=\\"chakra-stack css-bs1yt6\\"><img src=\\"https://cdn.sanity.io/images/ajwvhvgo/apps/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&amp;q=80&amp;fit=max&amp;auto=format\\"></div>"`
+    expect(view.container.innerHTML).toMatchInlineSnapshot(
+      `"<div class=\\"chakra-stack css-iewcov\\"><img src=\\"https://cdn.sanity.io/images/ajwvhvgo/apps/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&amp;q=80&amp;fit=max&amp;auto=format\\"></div>"`
     );
   });
 });

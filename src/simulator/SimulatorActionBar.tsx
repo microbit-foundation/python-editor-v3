@@ -85,7 +85,7 @@ const SimulatorActionBar = ({
         onClick={() => handleStop("user")}
         icon={<RiStopFill />}
         aria-label={intl.formatMessage({ id: "simulator-stop" })}
-        disabled={running === RunningStatus.STOPPED}
+        isDisabled={running === RunningStatus.STOPPED}
       />
       <IconButton
         size={size}
@@ -93,7 +93,7 @@ const SimulatorActionBar = ({
         onClick={device.reset}
         icon={<RiRefreshLine />}
         aria-label={intl.formatMessage({ id: "simulator-reset" })}
-        disabled={running === RunningStatus.STOPPED}
+        isDisabled={running === RunningStatus.STOPPED}
       />
       <IconButton
         size={size}

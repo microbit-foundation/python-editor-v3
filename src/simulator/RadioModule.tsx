@@ -13,9 +13,9 @@ import {
   Stack,
   Text,
   VisuallyHidden,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useCallback, useState } from "react";
+import { FormEvent, ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { ReactComponent as MessageIcon } from "./icons/microbit-face-icon.svg";
@@ -155,7 +155,7 @@ const MessageComposer = ({
   });
   const [message, setMessage] = useState<string>("");
   const handleSendMessage = useCallback(
-    (e) => {
+    (e: FormEvent<unknown>) => {
       e.preventDefault();
       onSend(message);
       setMessage("");
@@ -183,11 +183,11 @@ const MessageComposer = ({
         placeholder={radioMessageLabel}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        disabled={!enabled}
+        isDisabled={!enabled}
       />
       <IconButton
         icon={<RiSendPlane2Line />}
-        disabled={!enabled}
+        isDisabled={!enabled}
         onClick={handleSendMessage}
         aria-label={intl.formatMessage({ id: "simulator-radio-send" })}
       ></IconButton>

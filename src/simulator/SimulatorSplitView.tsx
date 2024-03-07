@@ -21,14 +21,10 @@ import SimulatorModules from "./SimulatorModules";
 import { useSimSerialTabControl } from "./tab-control-hooks";
 
 interface SimulatorSplitViewProps {
-  simHeight: number;
   simRunning: RunningStatus;
 }
 
-const SimulatorSplitView = ({
-  simHeight,
-  simRunning,
-}: SimulatorSplitViewProps) => {
+const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
@@ -40,7 +36,8 @@ const SimulatorSplitView = ({
       direction="column"
       minimums={[150, 200]}
       compactSize={SerialArea.compactSize}
-      height={`calc(100% - ${simHeight}px)`}
+      height="0"
+      flexGrow={1}
       mode={serialSizedMode}
     >
       <SplitViewSized>

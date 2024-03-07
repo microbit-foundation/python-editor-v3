@@ -11,7 +11,14 @@ import { escapeRegExp } from "lodash";
 import * as os from "os";
 import * as path from "path";
 import "pptr-testing-library/extend";
-import puppeteer, { Browser, Dialog, ElementHandle, Page } from "puppeteer";
+import puppeteer, {
+  Browser,
+  Dialog,
+  ElementHandle,
+  Frame,
+  KeyInput,
+  Page,
+} from "puppeteer";
 import { WebUSBErrorCode } from "../device/device";
 import { Flag } from "../flags";
 
@@ -215,7 +222,9 @@ export class App {
   ): Promise<void> {
     await this.switchTab("Project");
     const document = await this.document();
-    const openInput = await document.getAllByTestId("open-input");
+    const openInput = (await document.getAllByTestId(
+      "open-input"
+    )) as ElementHandle<HTMLInputElement>[];
     await openInput[0].uploadFile(filePath);
     if (options.acceptDialog !== undefined) {
       await this.findAndAcceptLoadDialog(options.acceptDialog);
@@ -286,17 +295,26 @@ export class App {
         (dropEvent as any).dataTransfer = { files: e.target.files };
         dragOverZone.dispatchEvent(dragOverEvent);
 
-        const dropZone = document.querySelector(
-          "[data-testid=project-drop-target-overlay]"
-        );
-        dropZone!.dispatchEvent(dropEvent);
+        const dropWhenReady = () => {
+          const dropZone = document.querySelector(
+            "[data-testid=project-drop-target-overlay]"
+          );
+          if (dropZone) {
+            dropZone!.dispatchEvent(dropEvent);
+            input.remove();
+          } else {
+            setTimeout(dropWhenReady, 10);
+          }
+        };
 
-        input.remove();
+        dropWhenReady();
       };
       document.body.appendChild(input);
     }, inputId);
-    const fileInput = await page.$(`#${inputId}`);
-    await fileInput!.uploadFile(filePath);
+    const fileInput = (await page.$(
+      `#${inputId}`
+    )) as ElementHandle<HTMLInputElement>;
+    await fileInput.uploadFile(filePath);
     if (options.acceptDialog !== undefined) {
       await this.findAndAcceptLoadDialog(options.acceptDialog);
     }
@@ -347,12 +365,10 @@ export class App {
     expectedVersion: string
   ): Promise<void> {
     const document = await this.document();
-    await document.findByRole("gridcell", {
-      name: expectedName,
-    });
-    await document.findByRole("gridcell", {
-      name: expectedVersion,
-    });
+    await Promise.all([
+      document.findByText(expectedName),
+      document.findByText(expectedVersion),
+    ]);
   }
 
   async toggleSettingThirdPartyModuleEditing(): Promise<void> {
@@ -439,22 +455,20 @@ export class App {
    */
   async findAlertText(title: string, description?: string): Promise<void> {
     const document = await this.document();
-    await waitFor(async () => {
-      const alerts = await document.findAllByRole("alert", {
-        name: title,
-      });
-      if (description) {
-        const matchingDescriptions = await Promise.all(
-          alerts.map(async (alert) => {
-            const matches = await alert.queryAllByText(description);
-            return matches.length > 0;
-          })
-        );
-        if (!matchingDescriptions.some((x) => x)) {
-          throw new Error("No description match in matching alerts");
+    // role=status queries don't work by content
+    const titles = await document.findAllByText(title);
+    if (description) {
+      for (const title of titles) {
+        const parentElement = (await title.getProperty(
+          "parentElement"
+        )) as ElementHandle;
+        const descriptionMatch = await parentElement.getByText(description);
+        if (descriptionMatch) {
+          return;
         }
+        throw new Error("Not found!");
       }
-    }, defaultWaitForOptions);
+    }
   }
 
   /**
@@ -543,9 +557,13 @@ export class App {
    */
   async setProjectName(projectName: string): Promise<void> {
     const document = await this.document();
-    const editButton = await document.getByRole("button", {
-      name: "Edit project name",
-    });
+    const editButton = await document.findByRole(
+      "button",
+      {
+        name: "Edit project name",
+      },
+      defaultWaitForOptions
+    );
     await editButton.click();
     const input = await document.findByRole("textbox", {
       name: /Name/,
@@ -578,8 +596,8 @@ export class App {
     const document = await this.document();
     return waitFor(async () => {
       const items = await document.$$(headingLevel);
-      const headings = await Promise.all(
-        items.map((e) =>
+      const headings: { text: string; visible: boolean }[] = await Promise.all(
+        items.map((e: ElementHandle<Element>) =>
           e.evaluate((node) => {
             const text = (node as HTMLElement).innerText;
             const rect = (node as HTMLElement).getBoundingClientRect();
@@ -598,9 +616,13 @@ export class App {
     description?: string
   ): Promise<void> {
     const document = await this.document();
-    await document.findByText(title, {
-      selector: "h2",
-    });
+    await document.findByText(
+      title,
+      {
+        selector: "h2",
+      },
+      defaultWaitForOptions
+    );
     if (description) {
       await document.findByText(description);
     }
@@ -663,8 +685,8 @@ export class App {
     const heading = await document.findByText(name, {
       selector: "h3",
     });
-    const handle = heading.asElement();
-    await handle!.evaluate((element) => {
+    const handle = heading.asElement() as ElementHandle<HTMLElement>;
+    await handle.evaluate((element) => {
       const item = element.closest("li");
       (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
     });
@@ -682,6 +704,9 @@ export class App {
     await this.focusEditorContent();
     const keyboard = (await this.page).keyboard;
     const meta = process.platform === "darwin" ? "Meta" : "Control";
+
+    // With the current version of Pupepteer this doesn't seem to work on Macs
+    // On upgrading we can fix like this: https://github.com/puppeteer/puppeteer/pull/9357/files
     await keyboard.down(meta);
     await keyboard.press("v");
     await keyboard.up(meta);
@@ -704,7 +729,7 @@ export class App {
    */
   async save(): Promise<void> {
     const document = await this.document();
-    const saveButton = await document.getByText("Save");
+    const saveButton = await document.findByText("Save");
     return saveButton.click();
   }
 
@@ -938,7 +963,9 @@ export class App {
   async findCompletionOptions(expected: string[]): Promise<void> {
     const document = await this.document();
     return waitFor(async () => {
-      const items = await document.$$(".cm-completionLabel");
+      const items: ElementHandle<Element>[] = await document.$$(
+        ".cm-completionLabel"
+      );
       const actual = await Promise.all(
         items.map((e) => e.evaluate((node) => (node as HTMLElement).innerText))
       );
@@ -983,7 +1010,8 @@ export class App {
     // This seems significantly more reliable than pressing Enter, though there's
     // no real-life issue here.
     const document = await this.document();
-    const option = await document.findByRole(
+    const editor = await document.findByTestId("editor");
+    const option = await editor.findByRole(
       "option",
       {
         name,
@@ -1021,8 +1049,8 @@ export class App {
       name,
       level: 3,
     });
-    const section = await heading.evaluateHandle<ElementHandle>(
-      (e: Element) => {
+    const section: puppeteer.ElementHandle<Element> =
+      await heading.evaluateHandle((e: Element) => {
         let node: Element | null = e;
         while (node && node.tagName !== "LI") {
           node = node.parentElement;
@@ -1031,8 +1059,7 @@ export class App {
           throw new Error("Unexpected DOM structure");
         }
         return node;
-      }
-    );
+      });
     const draggable = (await section.$("[draggable]"))!;
     const lines = await document.$$("[data-testid='editor'] .cm-line");
     const line = lines[targetLine - 1];
@@ -1087,7 +1114,12 @@ export class App {
 
   private async focusEditorContent(): Promise<ElementHandle> {
     const document = await this.document();
-    const content = await document.$("[data-testid='editor'] .cm-content");
+    const editor = await document.findByTestId(
+      "editor",
+      {},
+      defaultWaitForOptions
+    );
+    const content = await editor.$(".cm-content");
     if (!content) {
       throw new Error("Missing editor area");
     }
@@ -1114,9 +1146,13 @@ export class App {
     tabName: "Project" | "API" | "Reference" | "Ideas"
   ): Promise<ElementHandle<Element>> {
     const document = await this.document();
-    const tab = await document.findByRole("tab", {
-      name: tabName,
-    });
+    const tab = await document.findByRole(
+      "tab",
+      {
+        name: tabName,
+      },
+      defaultWaitForOptions
+    );
     await tab.click();
     return document.findByRole("tabpanel");
   }
@@ -1136,9 +1172,13 @@ export class App {
   async selectFirstSearchResult(): Promise<void> {
     const document = await this.document();
     const modalDialog = await document.findByRole("dialog");
-    const result = await modalDialog.findAllByRole("heading", {
-      level: 3,
-    });
+    const result = await modalDialog.findAllByRole(
+      "heading",
+      {
+        level: 3,
+      },
+      defaultWaitForOptions
+    );
     await result[0].click();
   }
 
@@ -1158,7 +1198,7 @@ export class App {
     await keyboard.up("Shift");
   }
 
-  private async document(): Promise<puppeteer.ElementHandle<Element>> {
+  private async document(): Promise<ElementHandle<Element>> {
     const page = await this.page;
     return page.getDocument();
   }
@@ -1203,7 +1243,7 @@ export class App {
     await actions.click();
   }
 
-  private async keyboardPress(key: puppeteer.KeyInput): Promise<void> {
+  private async keyboardPress(key: KeyInput): Promise<void> {
     const keyboard = (await this.page).keyboard;
     await keyboard.press(key);
   }
@@ -1211,7 +1251,7 @@ export class App {
   private async getElementByRoleAndLabel(
     role: string,
     name: string
-  ): Promise<puppeteer.ElementHandle<Element>> {
+  ): Promise<ElementHandle<Element>> {
     return (await this.document()).findByRole(role, {
       name,
     });
@@ -1219,15 +1259,17 @@ export class App {
 
   private async getElementByQuerySelector(
     query: string
-  ): Promise<puppeteer.ElementHandle<Element>> {
-    return (await this.page).evaluateHandle<ElementHandle>(
-      (query) => document.querySelector(query),
-      query
-    );
+  ): Promise<ElementHandle<Element>> {
+    const document = await this.document();
+    const result = await document.$(query);
+    if (!result) {
+      throw new Error();
+    }
+    return result;
   }
 
   async assertActiveElement(
-    accessExpectedElement: () => Promise<puppeteer.ElementHandle<Element>>
+    accessExpectedElement: () => Promise<ElementHandle<Element>>
   ) {
     return waitFor(async () => {
       const page = await this.page;
@@ -1242,13 +1284,13 @@ export class App {
   }
 
   async assertFocusOnLoad(): Promise<void> {
+    const document = await this.document();
+    // Do this first so we know it's ready to be tabbed to.
+    const link = await document.findByRole("link", {
+      name: "visit microbit.org (opens in a new tab)",
+    });
     await this.keyboardPress("Tab");
-    return this.assertActiveElement(() =>
-      this.getElementByRoleAndLabel(
-        "link",
-        "visit microbit.org (opens in a new tab)"
-      )
-    );
+    return this.assertActiveElement(() => Promise.resolve(link));
   }
 
   collapseSimulator(): Promise<void> {
@@ -1312,7 +1354,7 @@ export class App {
   }
 
   // Simulator functions
-  private async getSimulatorIframe(): Promise<puppeteer.Frame> {
+  private async getSimulatorIframe(): Promise<Frame> {
     const page = await this.page;
     const simulatorIframe = page
       .frames()
@@ -1398,7 +1440,10 @@ export class App {
     // to match Image.NO being displayed.
     const simulatorIframe = await this.getSimulatorIframe();
     const gridLEDs = await simulatorIframe!.$("#LEDsOn");
-    await gridLEDs!.waitForSelector("use", { visible: true, timeout: 1000 });
+    await gridLEDs!.waitForSelector("use", {
+      visible: true,
+      timeout: defaultWaitForOptions.timeout,
+    });
   }
 }
 

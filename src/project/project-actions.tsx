@@ -669,7 +669,6 @@ export class ProjectActions {
         initialValue=""
         actionLabel={this.intl.formatMessage({ id: "create-action" })}
         validate={validate}
-        customFocus
       />
     ));
 
@@ -751,7 +750,6 @@ export class ProjectActions {
         actionLabel={this.intl.formatMessage({
           id: isSave ? "confirm-save-action" : "confirm-action",
         })}
-        customFocus
         finalFocusRef={finalFocusRef}
         validate={(name: string) =>
           name.trim().length === 0

@@ -14,7 +14,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
-import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
@@ -73,8 +72,6 @@ const Simulator = ({
     updateTranslations(simulator.current, intl);
   }, [simulator, intl]);
   const simControlsRef = useRef<HTMLDivElement>(null);
-  const contentRect = useResizeObserverContentRect(simControlsRef);
-  const simHeight = contentRect?.height ?? 0;
   const [brand500] = useToken("colors", ["brand.500"]);
   const [running, setRunning] = useState<RunningStatus>(RunningStatus.STOPPED);
   const previouslyShown = usePrevious(shown);
@@ -139,7 +136,7 @@ const Simulator = ({
           </Box>
         </VStack>
         <SimSerialTabControlProvider>
-          <SimulatorSplitView simHeight={simHeight} simRunning={running} />
+          <SimulatorSplitView simRunning={running} />
         </SimSerialTabControlProvider>
       </Flex>
     </DeviceContextProvider>
