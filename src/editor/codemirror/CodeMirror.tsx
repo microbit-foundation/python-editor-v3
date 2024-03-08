@@ -12,7 +12,15 @@ import {
   lineNumbers,
   ViewUpdate,
 } from "@codemirror/view";
-import { useEffect, useMemo, useRef } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";
 import useActionFeedback from "../../common/use-action-feedback";
@@ -40,6 +48,7 @@ import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
+import { reactWidgetExtension } from "./reactWidgetExtension";
 
 interface CodeMirrorProps {
   className?: string;
@@ -51,6 +60,20 @@ interface CodeMirrorProps {
   codeStructureOption: CodeStructureOption;
   parameterHelpOption: ParameterHelpOption;
 }
+
+interface PortalContent {
+  dom: HTMLElement;
+  content: ReactNode;
+}
+
+/**
+ * Creates a React portal for a CodeMirror dom element (e.g. for a widget) and
+ * returns a clean-up function to call when the widget is destroyed.
+ */
+export type PortalFactory = (
+  dom: HTMLElement,
+  content: ReactNode
+) => () => void;
 
 /**
  * A React component for CodeMirror 6.
@@ -100,6 +123,13 @@ const CodeMirror = ({
     [fontSize, codeStructureOption, parameterHelpOption]
   );
 
+  const [portals, setPortals] = useState<PortalContent[]>([]);
+  const portalFactory: PortalFactory = useCallback((dom, content) => {
+    const portal = { dom, content };
+    setPortals((portals) => [...portals, portal]);
+    return () => setPortals((portals) => portals.filter((p) => p !== portal));
+  }, []);
+
   useEffect(() => {
     const initializing = !viewRef.current;
     if (initializing) {
@@ -118,6 +148,7 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
+          reactWidgetExtension(portalFactory),
           // Extension requires external state.
           dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
@@ -172,6 +203,9 @@ const CodeMirror = ({
     parameterHelpOption,
     uri,
     apiReferenceMap,
+    portals,
+    portalFactory,
+    setPortals,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -260,13 +294,16 @@ const CodeMirror = ({
   }, [routerState, setRouterState]);
 
   return (
-    <section
-      data-testid="editor"
-      aria-label={intl.formatMessage({ id: "code-editor" })}
-      style={{ height: "100%" }}
-      className={className}
-      ref={elementRef}
-    />
+    <>
+      <section
+        data-testid="editor"
+        aria-label={intl.formatMessage({ id: "code-editor" })}
+        style={{ height: "100%" }}
+        className={className}
+        ref={elementRef}
+      />
+      {portals.map(({ content, dom }) => createPortal(content, dom))}
+    </>
   );
 };
 
