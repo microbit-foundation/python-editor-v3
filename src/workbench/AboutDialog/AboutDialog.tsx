@@ -132,13 +132,13 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                   }}
                 />
               </Text>
-              <SimpleGrid columns={[1, 1, 2, 2]} spacing={8}>
+              <SimpleGrid columns={[1, 1, 2, 2]} spacing={5}>
                 <Box>
                   <AspectRatio
                     ml="auto"
                     mr="auto"
                     ratio={690 / 562}
-                    maxWidth={[388, 388, null, null]}
+                    maxWidth={[303, 303, null, null]}
                   >
                     <Image
                       src={microbitHeartImage}
