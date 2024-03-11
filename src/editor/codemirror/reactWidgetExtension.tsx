@@ -60,9 +60,9 @@ class IncrementWidget extends WidgetType {
   }
 }
 
-function createWidget(node: any, createPortal: PortalFactory): Decoration {
-  console.log(node[1]);
-  
+function createWidget(bool: string, from: number, to: number, createPortal: PortalFactory): Decoration {
+  console.log(bool);
+
   let deco = Decoration.widget({
     widget: new IncrementWidget(createPortal),
     side: 1,
@@ -82,21 +82,15 @@ export const reactWidgetExtension = (
     //let t = state.doc.toString()
     //console.log(t);
 
-    let sound = false // detected a SoundEffect, waiting to pair with ArgList
-
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => { // TODO: type is SyntaxNode
         //console.log(node.name)
         //console.log(state.doc.sliceString(node.from, node.to))
-        console.log(node.name);
-        console.log(node.node.getChildren());
 
-        // Found ArgList, will begin to parse nodes 
-        if(sound && node.name === "ArgList") widgets.push(createWidget(node, createPortal).range(node.to));
-          
-        // detected SoundEffect, if next expression is an ArgList, show UI
-        sound = node.name === "VariableName" && state.doc.sliceString(node.from, node.to) === "SoundEffect"
+        if(node.name === "Boolean") {
+          createWidget(state.doc.sliceString(node.from, node.to), node.from, node.to, createPortal)
+        }
       }
     })
     return Decoration.set(widgets)
