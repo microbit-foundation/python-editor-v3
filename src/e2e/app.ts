@@ -195,10 +195,10 @@ export class App {
     await page.close({
       runBeforeUnload: true,
     });
-    // A delay is required to give us a chance to handle the dialog event.
-    // If this proves fragile we could wait for the success condition below
-    // and give up on testing the absence of a dialog.
-    await page.waitForTimeout(50);
+    await waitFor(() => {
+      expect(page.isClosed()).toEqual(true);
+    }, defaultWaitForOptions);
+    console.log(this.dialogs);
     return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
   }
 
