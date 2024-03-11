@@ -93,6 +93,7 @@ export const reactWidgetExtension = (
         }
       }
     })
+
     return Decoration.set(widgets)
     
     // const endOfFirstLine = state.doc.lineAt(0).to;
