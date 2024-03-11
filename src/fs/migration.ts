@@ -5,8 +5,6 @@
  */
 import { toByteArray } from "base64-js";
 
-import { LZMA } from "lzma/src/lzma-d-min";
-
 // There are other fields that we don't use.
 export interface Migration {
   meta: {
@@ -36,7 +34,10 @@ export const parseMigrationFromUrl = (
   try {
     if (urlPart) {
       const bytes = toByteArray(urlPart);
-      const json = JSON.parse(LZMA.decompress(bytes));
+      const json = JSON.parse(
+        // FIXME, reinstate decompression with a working module.
+        /*LZMA.decompress(*/ new TextDecoder().decode(bytes) /*)*/
+      );
       if (isMigration(json)) {
         let postMigrationUrl = parts[0];
         // This was previously stripped off by the versioner but for now do it ourselves:
