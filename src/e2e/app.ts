@@ -198,7 +198,6 @@ export class App {
     await waitFor(() => {
       expect(page.isClosed()).toEqual(true);
     }, defaultWaitForOptions);
-    console.log(this.dialogs);
     return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
   }
 
