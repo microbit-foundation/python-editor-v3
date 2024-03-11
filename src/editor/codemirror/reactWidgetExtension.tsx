@@ -15,17 +15,15 @@ import { PortalFactory } from "./CodeMirror";
  * a proof of concept.
  */
 
-function ToggleReactComponent(bval: boolean): React.ReactNode {
-  const [counter, setCounter] = useState(0);
-  // Define a callback function that increments the counter by one.
+const ToggleReactComponent = ({ bval }: { bval: boolean }) => {
+  let x = bval ? "True" : "False"
   const handleClick = useCallback(() => {
-    setCounter(counter + 1);
-    //console.log(counter)
-  }, [counter]);
+    console.log();
+  }, []);
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleClick}>Increment</Button>
-      <Text fontWeight="semibold">Counter: {counter}</Text>
+      <Button onClick={handleClick}>Toggle</Button>
+      <Text fontWeight="semibold">Value: {x}</Text>
     </HStack>
   );
 };
@@ -44,7 +42,11 @@ class ToggleWidget extends WidgetType {
   toDOM() {
     console.log(this.bval);
     const dom = document.createElement("div");
-    this.portalCleanup = this.createPortal(dom, ToggleReactComponent(this.bval));
+    const handleClick = () => {
+      console.log("hi");
+    };
+
+    this.portalCleanup = this.createPortal(dom, < ToggleReactComponent bval={this.bval} />);
     return dom;
   }
 
@@ -86,7 +88,7 @@ export const reactWidgetExtension = (
       enter: (node: any) => { // TODO: type is SyntaxNode
         //console.log(node.name)
         //console.log(state.doc.sliceString(node.from, node.to))
-
+        //state.replaceSelection()
         if(node.name === "Boolean") {
           widgets.push(createWidget(state.doc.sliceString(node.from, node.to), node.from, node.to, createPortal).range(node.to));
         }
