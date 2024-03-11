@@ -14,6 +14,7 @@ import { PortalFactory } from "./CodeMirror";
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
  */
+
 function ToggleReactComponent(bval: boolean): React.ReactNode {
   const [counter, setCounter] = useState(0);
   // Define a callback function that increments the counter by one.
