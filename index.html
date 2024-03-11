@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>micro:bit Python Editor</title>
+    <meta property="og:title" content="micro:bit Python Editor" />
+    <link rel="canonical" href="%VITE_FULL_URL%" />
+    <meta property="og:url" content="%VITE_FULL_URL%" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@microbit_edu" />
+    <meta
+      property="og:description"
+      content="Built by the Micro:bit Educational Foundation and the global Python Community."
+    />
+    <meta
+      name="twitter:description"
+      content="A Python Editor for the BBC micro:bit, built by the Micro:bit Educational Foundation and the global Python Community."
+    />
+    <meta property="og:image" content="%VITE_FULL_URL%social.png" />
+    <!-- TODO: ejs support or similar likely via a tiny plugin
+    <% if (process.env.REACT_APP_FOUNDATION_BUILD === 'true') { %>
+    <script
+      src="https://shared-assets.microbit.org/common/v1/common.js"
+      async
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://shared-assets.microbit.org/common/v1/main.css"
+    />
+    <script>
+      // GA config itself is via the common assets config depending on consent.
+      window.dataLayer = window.dataLayer || [];
+      window.gtag =
+        window.gtag ||
+        function () {
+          window.dataLayer.push(arguments);
+        };
+    </script>
+    <% } %>-->
+    <script type="module" src="/src/index.tsx"></script>
+  </head>
+  <body>
+    <noscript
+      >You need to enable JavaScript to run the Python Editor in your
+      browser.</noscript
+    >
+    <div id="root"></div>
+  </body>
+</html>

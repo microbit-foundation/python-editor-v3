@@ -6,7 +6,7 @@
 import { ReactNode, useContext } from "react";
 import { Logging } from "../logging/logging";
 
-// This is configured via a webpack alias, defaulting to ./default
+// This is configured via a vite alias, defaulting to ./default
 import { default as d } from "theme-package";
 export const deployment: DeploymentConfig = d;
 

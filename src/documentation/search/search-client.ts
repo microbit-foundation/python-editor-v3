@@ -19,7 +19,9 @@ export class WorkerSearch implements Search {
   private worker: Worker;
   private resolveQueue: Array<(value: SearchResults) => void> = [];
   constructor() {
-    this.worker = new Worker(new URL("./search.worker.ts", import.meta.url));
+    this.worker = new Worker(new URL("./search.worker.ts", import.meta.url), {
+      type: "module",
+    });
   }
   index(reference: Toolkit, api: ApiDocsResponse) {
     const message: IndexMessage = {

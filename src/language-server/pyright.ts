@@ -65,6 +65,7 @@ export const pyright = async (
       // onward.
       const { initialData, port } = e.data;
       const background = new Worker(workerScript, {
+        type: "classic",
         name: `Pyright-background-${idSuffix}-${++backgroundWorkerCount}`,
       });
       workers.push(background);

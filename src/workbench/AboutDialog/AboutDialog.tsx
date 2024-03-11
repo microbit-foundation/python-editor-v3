@@ -50,7 +50,7 @@ import pythonPoweredLogo from "./python-powered.png";
 const versionInfo = [
   {
     name: "Editor",
-    value: process.env.REACT_APP_VERSION,
+    value: import.meta.env.VITE_VERSION,
     href: "https://github.com/microbit-foundation/python-editor-v3",
   },
   ...microPythonConfig.versions.map((mpy) => ({
