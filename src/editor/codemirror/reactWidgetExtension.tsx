@@ -14,10 +14,7 @@ import { PortalFactory } from "./CodeMirror";
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
  */
-const ExampleReactComponent = () => {
-  // This is a weird thing to do in a CodeMirror widget but proves the point that
-  // we can use React features to communicate with the rest of the app.
-  // Use the useState hook to store and update the counter value.
+function ToggleReactComponent(bval: boolean): React.ReactNode {
   const [counter, setCounter] = useState(0);
   // Define a callback function that increments the counter by one.
   const handleClick = useCallback(() => {
@@ -36,16 +33,17 @@ const ExampleReactComponent = () => {
  * This widget will have its contents rendered by the code in CodeMirror.tsx
  * which it communicates with via the portal factory.
  */
-class IncrementWidget extends WidgetType {
+class ToggleWidget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
-  constructor(private createPortal: PortalFactory) {
+  constructor(private bval: boolean, private createPortal: PortalFactory) {
     super();
   }
 
   toDOM() {
+    console.log(this.bval);
     const dom = document.createElement("div");
-    this.portalCleanup = this.createPortal(dom, <ExampleReactComponent />);
+    this.portalCleanup = this.createPortal(dom, ToggleReactComponent(this.bval));
     return dom;
   }
 
@@ -61,10 +59,10 @@ class IncrementWidget extends WidgetType {
 }
 
 function createWidget(bool: string, from: number, to: number, createPortal: PortalFactory): Decoration {
-  console.log(bool);
+  let bval = bool === "True"
 
   let deco = Decoration.widget({
-    widget: new IncrementWidget(createPortal),
+    widget: new ToggleWidget(bval, createPortal),
     side: 1,
   });
 
@@ -89,7 +87,7 @@ export const reactWidgetExtension = (
         //console.log(state.doc.sliceString(node.from, node.to))
 
         if(node.name === "Boolean") {
-          createWidget(state.doc.sliceString(node.from, node.to), node.from, node.to, createPortal)
+          widgets.push(createWidget(state.doc.sliceString(node.from, node.to), node.from, node.to, createPortal).range(node.to));
         }
       }
     })
