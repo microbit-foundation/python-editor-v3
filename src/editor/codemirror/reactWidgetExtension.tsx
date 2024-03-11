@@ -36,7 +36,7 @@ const ExampleReactComponent = () => {
  * This widget will have its contents rendered by the code in CodeMirror.tsx
  * which it communicates with via the portal factory.
  */
-class ExampleReactBlockWidget extends WidgetType {
+class IncrementWidget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
   constructor(private createPortal: PortalFactory) {
@@ -60,6 +60,17 @@ class ExampleReactBlockWidget extends WidgetType {
   }
 }
 
+function createWidget(node: any, createPortal: PortalFactory): Decoration {
+  console.log(node[1]);
+  
+  let deco = Decoration.widget({
+    widget: new IncrementWidget(createPortal),
+    side: 1,
+  });
+
+  return deco;
+}
+
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
   createPortal: PortalFactory
@@ -72,50 +83,20 @@ export const reactWidgetExtension = (
     //console.log(t);
 
     let sound = false // detected a SoundEffect, waiting to pair with ArgList
-    let parsingArgs = false; let argEnd = 0; // Found pattern to create widget, parse args
-    // I: parenthesis = # open paren - # closed paren, G: parenthesis <= 0
-    // !G ^ I -> # open paren - # closed paren = 0, reached end of ArgList 
-    let parenthesis = 0; 
 
     syntaxTree(state).iterate({
       from, to,
-      enter: (node: any) => {
+      enter: (node: any) => { // TODO: type is SyntaxNode
         //console.log(node.name)
         //console.log(state.doc.sliceString(node.from, node.to))
+        console.log(node.name);
+        console.log(node.node.getChildren());
 
-        // Walking through ArgList, trying to match with values
-        if(parsingArgs){
-          if(node.name === "(") parenthesis += 1
-          else if(node.name === ")") {
-            parenthesis -= 1
-            if(parenthesis <= 0){
-              // finished parsing ArgList
-              parsingArgs = false
-    
-              // create the widget
-              let deco = Decoration.widget({
-                widget: new ExampleReactBlockWidget(createPortal),
-                side: 1,
-              });
-              widgets.push(deco.range(argEnd))
-            }
-          }
-          else{
-            console.log(node.name)
-            console.log(state.doc.sliceString(node.from, node.to))
-            // Claim: if parenthesis = 1 (and code is well formatted) then we are not nested 
-            // Idea: parse through, adding name and slices until a comma is spotted at parenthesis = 1
-            // at the very end, we can figure out if they are valid, and therefore if to modify the visual
-          }
-        }
-        else{
-          // Found ArgList, will begin to parse nodes 
-          if(sound && node.name === "ArgList") { sound = false; parsingArgs = true; argEnd = node.to }
-
-          // detected SoundEffect, if next expression is an ArgList, show UI
-          // TODO: ensure this is the only case of SoundEffect ArgList
-          sound = node.name === "VariableName" && state.doc.sliceString(node.from, node.to) === "SoundEffect"
-        }
+        // Found ArgList, will begin to parse nodes 
+        if(sound && node.name === "ArgList") widgets.push(createWidget(node, createPortal).range(node.to));
+          
+        // detected SoundEffect, if next expression is an ArgList, show UI
+        sound = node.name === "VariableName" && state.doc.sliceString(node.from, node.to) === "SoundEffect"
       }
     })
     return Decoration.set(widgets)
