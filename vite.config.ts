@@ -29,6 +29,9 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "build",
     },
+    worker: {
+      format: "es",
+    },
     server: {
       port: 3000,
     },
