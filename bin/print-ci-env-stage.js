@@ -10,4 +10,4 @@ if (ref === "refs/heads/main") {
 }
 
 console.log(`STAGE=${stage}`);
-console.log(`REACT_APP_STAGE=${stage}`);
+console.log(`VITE_STAGE=${stage}`);
