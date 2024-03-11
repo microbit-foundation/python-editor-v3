@@ -3,14 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  ConnectionError,
-  CreateFile,
-  DeleteFile,
-} from "vscode-languageserver-protocol";
-import { diff, EVENT_PROJECT_UPDATED, FileSystem, Project } from "../fs/fs";
+import { CreateFile, DeleteFile } from "vscode-languageserver-protocol";
+import { EVENT_PROJECT_UPDATED, FileSystem, Project, diff } from "../fs/fs";
 import { isPythonFile } from "../project/project-utils";
-import { createUri, LanguageServerClient } from "./client";
+import { LanguageServerClient, createUri } from "./client";
+import { isErrorDueToDispose } from "./error-util";
 
 export type FsChangesListener = (current: Project) => any;
 
@@ -84,8 +81,7 @@ export const trackFsChanges = (
         }
       }
     } catch (e) {
-      // A new listener will be initialized for a replacement connection.
-      if (!(e instanceof ConnectionError)) {
+      if (!isErrorDueToDispose(e)) {
         throw e;
       }
     }

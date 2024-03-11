@@ -9,8 +9,6 @@ import {
   CompletionList,
   CompletionParams,
   CompletionRequest,
-  ConnectionError,
-  ConnectionErrors,
   Diagnostic,
   DiagnosticSeverity,
   DiagnosticTag,
@@ -32,6 +30,7 @@ import {
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
 import { microPythonConfig } from "../micropython/micropython";
+import { isErrorDueToDispose } from "./error-util";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -174,10 +173,7 @@ export class LanguageServerClient extends EventEmitter {
         this.capabilities = capabilities;
         this.connection.sendNotification(InitializedNotification.type, {});
       } catch (e) {
-        if (
-          e instanceof ConnectionError &&
-          e.code === ConnectionErrors.Disposed
-        ) {
+        if (isErrorDueToDispose(e)) {
           // We've intentionally disposed the connection because we're recreating the client.
           // This mostly happens due to React 18 strict mode but could happen due to language changes.
           return false;
@@ -242,8 +238,7 @@ export class LanguageServerClient extends EventEmitter {
         params
       );
     } catch (e) {
-      // Client being recreated, give no results.
-      if (!(e instanceof ConnectionError)) {
+      if (!isErrorDueToDispose(e)) {
         throw e;
       }
     }

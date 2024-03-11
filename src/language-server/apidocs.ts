@@ -3,12 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  ConnectionError,
-  ProtocolRequestType,
-} from "vscode-languageserver-protocol";
+import { ProtocolRequestType } from "vscode-languageserver-protocol";
 import { MarkupKind } from "vscode-languageserver-types";
 import { LanguageServerClient } from "./client";
+import { isErrorDueToDispose } from "./error-util";
 
 // This duplicates the types we added to Pyright.
 
@@ -88,10 +86,9 @@ export const apiDocs = async (
     });
     return result;
   } catch (e) {
-    if (!(e instanceof ConnectionError)) {
-      throw e;
+    if (isErrorDueToDispose(e)) {
+      return {};
     }
-    // We'll requery when the client is recreated.
-    return {};
+    throw e;
   }
 };
