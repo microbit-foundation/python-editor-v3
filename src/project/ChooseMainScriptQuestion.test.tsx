@@ -12,15 +12,16 @@ import { MainScriptChoice } from "./project-actions";
 import { stubIntl as intl } from "../messages/testing";
 import FixedTranslationProvider from "../messages/FixedTranslationProvider";
 import { InputValidationResult } from "../common/InputDialog";
+import { MockedFunction, vi } from "vitest";
 
 describe("ChooseMainScriptQuestion", () => {
   const data = () => Promise.resolve(new Uint8Array([0]));
 
   describe("component", () => {
-    const setValue = jest.fn() as jest.MockedFunction<
+    const setValue = vi.fn() as MockedFunction<
       (x: MainScriptChoice | undefined) => void
     >;
-    const setValidationResult = jest.fn() as jest.MockedFunction<
+    const setValidationResult = vi.fn() as MockedFunction<
       (x: InputValidationResult) => void
     >;
     const currentFiles = new Set(["main.py", "magic.py"]);

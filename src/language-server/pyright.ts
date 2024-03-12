@@ -27,7 +27,7 @@ let cachedLang: string | undefined;
 export const pyright = async (
   language: string
 ): Promise<LanguageServerClient | undefined> => {
-  // For jest.
+  // For jsdom.
   if (!window.Worker) {
     return undefined;
   }

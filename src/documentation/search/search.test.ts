@@ -14,6 +14,7 @@ import {
   SearchableContent,
   SearchWorker,
 } from "./search";
+import { vi } from "vitest";
 
 const searchableReferenceContent: SearchableContent[] = [
   {
@@ -132,7 +133,7 @@ describe("buildReferenceIndex", () => {
 
 describe("SearchWorker", () => {
   it("blocks queries on initialization", async () => {
-    const postMessage = jest.fn();
+    const postMessage = vi.fn();
     const ctx = {
       postMessage,
     } as unknown as Worker;
@@ -175,7 +176,7 @@ describe("SearchWorker", () => {
   });
 
   it("reindexes", async () => {
-    const postMessage = jest.fn();
+    const postMessage = vi.fn();
     const ctx = {
       postMessage,
     } as unknown as Worker;

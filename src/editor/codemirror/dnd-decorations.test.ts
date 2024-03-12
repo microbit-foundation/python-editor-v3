@@ -6,6 +6,7 @@
 import { ChangeSet, EditorState, Text, Transaction } from "@codemirror/state";
 import { EditorView, ViewUpdate } from "@codemirror/view";
 import { DndDecorationsViewPlugin } from "./dnd-decorations";
+import { MockedFunction, vi } from "vitest";
 
 describe("dndDecorations", () => {
   it("null case", () => {
@@ -79,7 +80,7 @@ describe("dndDecorations", () => {
 
     // ...and later dispatches timeout effect
     // (we've reduced the delay to 0 but it's still async)
-    const mockDispatch = view.dispatch as unknown as jest.MockedFunction<
+    const mockDispatch = view.dispatch as unknown as MockedFunction<
       (t: Transaction) => void
     >;
     expect(mockDispatch.mock.calls.length).toEqual(0);
@@ -185,7 +186,7 @@ const createView = (doc: Text = Text.of([""])): EditorView => {
   return {
     visibleRanges: [{ from: 0, to: doc.length - 1 }],
     state: EditorState.create({ doc }),
-    dispatch: jest.fn(),
+    dispatch: vi.fn(),
   } as Partial<EditorView> as unknown as EditorView;
 };
 

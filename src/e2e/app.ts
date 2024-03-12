@@ -109,7 +109,8 @@ export class App {
     }
     return (
       baseUrl +
-      // We don't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
+      // We didn't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
+      // Maybe can be changed since the Vite upgrade.
       (process.env.E2E_PUBLIC_URL ?? "/") +
       "?" +
       new URLSearchParams(params) +

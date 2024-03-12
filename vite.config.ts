@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
     exclude: [...configDefaults.exclude, "**/e2e/**"],
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
+    mockReset: true,
   };
   const e2eTest: UserConfig["test"] = {
     globals: true,

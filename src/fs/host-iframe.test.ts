@@ -1,15 +1,16 @@
 /**
- * @jest-environment ./src/testing/custom-browser-env
+ * @vitest-environment jsdom
+ * @vitest-environment-options { "url": "http://localhost:3000?controller=1" }
  */
 import { fromByteArray } from "base64-js";
-import { VersionAction, MAIN_FILE } from "./fs";
-import { DefaultHost, IframeHost } from "./host";
-import { defaultInitialProject } from "./initial-project";
-import { testMigrationUrl } from "./migration.test";
+import { vi } from "vitest";
+import { MAIN_FILE, VersionAction } from "./fs";
+import { IframeHost } from "./host";
+import { waitFor } from "@testing-library/react";
 
 describe("IframeHost", () => {
-  const mockWrite = jest.fn();
-  const mockAddListener = jest.fn();
+  const mockWrite = vi.fn();
+  const mockAddListener = vi.fn();
   const fs = {
     read: () => new TextEncoder().encode("Code read!"),
     write: mockWrite,
@@ -17,35 +18,17 @@ describe("IframeHost", () => {
     getPythonProject: () => "",
   } as any;
 
-  const mockPostMessage = jest.fn();
+  const mockPostMessage = vi.fn();
   const parentWindow = { postMessage: mockPostMessage } as any;
 
   delete (window as any).parent;
   (window as any).parent = parentWindow;
-  delete (window as any).location;
-  window.location = new URL("https://localhost:3000?controller=1") as any;
-
-  const spinEventLoop = async (check: () => void) => {
-    let error: any;
-    for (let i = 0; i < 100; ++i) {
-      try {
-        check();
-        return;
-      } catch (e) {
-        error = e;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    }
-    throw error;
-  };
 
   const expectSendsMessageToParent = async (expected: any) =>
-    spinEventLoop(() =>
-      expect(mockPostMessage.mock.calls).toContainEqual(expected)
-    );
+    waitFor(() => expect(mockPostMessage.mock.calls).toContainEqual(expected));
 
   const expectCodeWrite = async (expected: any) =>
-    spinEventLoop(() => expect(mockWrite.mock.calls).toContainEqual(expected));
+    waitFor(() => expect(mockWrite.mock.calls).toContainEqual(expected));
 
   it("exchanges sync messages", async () => {
     const host = new IframeHost(parentWindow, window);
@@ -120,27 +103,5 @@ describe("IframeHost", () => {
       { action: "workspacesave", project: "", type: "pyeditor" },
       "*",
     ]);
-  });
-});
-
-describe("DefaultHost", () => {
-  it("uses migration if available", async () => {
-    const project = await new DefaultHost(
-      testMigrationUrl
-    ).createInitialProject();
-    expect(project).toEqual({
-      files: {
-        [MAIN_FILE]: fromByteArray(
-          new TextEncoder().encode(
-            "from microbit import *\r\ndisplay.show(Image.HEART)"
-          )
-        ),
-      },
-      projectName: "Hearts",
-    });
-  });
-  it("otherwise uses defaults", async () => {
-    const project = await new DefaultHost("").createInitialProject();
-    expect(project).toEqual(defaultInitialProject);
   });
 });

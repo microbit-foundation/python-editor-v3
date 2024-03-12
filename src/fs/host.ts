@@ -96,9 +96,14 @@ export class IframeHost implements Host {
   }
   createInitialProject(): Promise<PythonProject> {
     return new Promise((resolve) => {
-      this.window.addEventListener("load", () =>
-        notifyWorkspaceSync(this.parent)
-      );
+      // TODO: review this carefully!
+      if (this.window.document.readyState === "complete") {
+        notifyWorkspaceSync(this.parent);
+      } else {
+        this.window.addEventListener("load", () =>
+          notifyWorkspaceSync(this.parent)
+        );
+      }
       this.window.addEventListener("message", (event) => {
         if (
           event?.data.type === messages.type &&
