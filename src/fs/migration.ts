@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { toByteArray } from "base64-js";
-import * as lzma from "lzma/src/lzma-d-min";
-const { LZMA } = lzma;
 
 // There are other fields that we don't use.
 export interface Migration {
@@ -36,7 +34,10 @@ export const parseMigrationFromUrl = (
   try {
     if (urlPart) {
       const bytes = toByteArray(urlPart);
-      const json = JSON.parse(LZMA.decompress(bytes));
+      const json = JSON.parse(
+        // FIXME, reinstate decompression with a working module.
+        /*LZMA.decompress(*/ new TextDecoder().decode(bytes) /*)*/
+      );
       if (isMigration(json)) {
         let postMigrationUrl = parts[0];
         // This was previously stripped off by the versioner but for now do it ourselves:
