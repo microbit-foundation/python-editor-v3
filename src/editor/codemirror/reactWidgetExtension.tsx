@@ -85,11 +85,19 @@ export const reactWidgetExtension = (
     let to = state.doc.length-1 // TODO: could optimize this to just be lines within view
     //let t = state.doc.toString()
     //console.log(t);
+    let setpix = false;
 
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => { // TODO: type is SyntaxNode?
-        if(node.name === "Boolean") widgets.push(createWidget(node.from, node.to, createPortal).range(node.to));
+        //console.log();
+        //if(node.name === "Boolean") widgets.push(createWidget(node.from, node.to, createPortal).range(node.to));
+
+        // Found ArgList, will begin to parse nodes 
+        if(setpix && node.name === "ArgList") widgets.push(createWidget(node.from, node.to, createPortal).range(node.to));
+          
+        // detected SoundEffect, if next expression is an ArgList, show UI
+        setpix = node.name === "PropertyName" && state.doc.sliceString(node.from, node.to) === "set_pixel"
       }
     })
 
