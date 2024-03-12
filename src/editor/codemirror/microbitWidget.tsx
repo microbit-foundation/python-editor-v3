@@ -113,8 +113,8 @@ export const MicrobitComponent: React.FC = () => {
 
   const handleSubmit = () => {
     setIsVisible(false);
-    // Implement submit logic here
-    console.log("Submit button clicked");
+    // Implement logic here, change the arguments to the function
+    console.log("S");
   };
 
   return (
