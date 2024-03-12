@@ -6,9 +6,14 @@
 import { ReactNode, useContext } from "react";
 import { Logging } from "../logging/logging";
 
+export type DeploymentConfigFactory = (
+  env: Record<string, string>
+) => DeploymentConfig;
+
 // This is configured via a vite alias, defaulting to ./default
-import { default as d } from "theme-package";
-export const deployment: DeploymentConfig = d;
+import { default as df } from "theme-package";
+const deploymentFactory: DeploymentConfigFactory = df;
+export const deployment = deploymentFactory(import.meta.env);
 
 export interface CookieConsent {
   analytics: boolean;

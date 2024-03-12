@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { createContext } from "react";
-import { CookieConsent, DeploymentConfig } from "..";
+import { CookieConsent, DeploymentConfigFactory } from "..";
 import { NullLogging } from "./logging";
 import theme from "./theme";
 
@@ -16,7 +16,7 @@ const stubConsentContext = createContext<CookieConsent | undefined>(
   stubConsentValue
 );
 
-const defaultDeployment: DeploymentConfig = {
+const defaultDeploymentFactory: DeploymentConfigFactory = () => ({
   chakraTheme: theme,
   logging: new NullLogging(),
   compliance: {
@@ -28,6 +28,6 @@ const defaultDeployment: DeploymentConfig = {
     consentContext: stubConsentContext,
     manageCookies: undefined,
   },
-};
+});
 
-export default defaultDeployment;
+export default defaultDeploymentFactory;
