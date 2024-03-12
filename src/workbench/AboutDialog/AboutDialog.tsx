@@ -266,7 +266,7 @@ const MicroPythonSection = (props: BoxProps) => {
                   {chunks}
                 </Link>
               ),
-              linkV2: (chunks: ReactNode) => (
+              linkV2: (_: ReactNode) => (
                 <Link
                   color="brand.500"
                   href="https://github.com/microbit-foundation/micropython-microbit-v2"

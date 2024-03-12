@@ -336,7 +336,6 @@ export class ProjectActions {
               ) : (
                 e.message
               ),
-              error: e,
             });
           }
         }
@@ -809,7 +808,7 @@ export class ProjectActions {
   }
 
   private async handleFirmwareUpdate(
-    errorCode: WebUSBErrorCode,
+    _errorCode: WebUSBErrorCode,
     userAction: ConnectionAction,
     finalFocusRef: React.RefObject<HTMLButtonElement>
   ) {

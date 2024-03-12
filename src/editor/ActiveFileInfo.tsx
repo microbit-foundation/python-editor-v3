@@ -21,7 +21,6 @@ interface ActiveFileInfoProps extends BoxProps {
 const ActiveFileInfo = ({
   filename,
   onSelectedFileChanged,
-  ...props
 }: ActiveFileInfoProps) => {
   return (
     <HStack>

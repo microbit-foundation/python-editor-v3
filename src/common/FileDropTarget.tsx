@@ -43,9 +43,12 @@ const FileDropTarget = ({
       event.dataTransfer.dropEffect = "copy";
     }
   }, []);
-  const handleDragLeave = useCallback((event: React.DragEvent<HTMLElement>) => {
-    setDragOver(false);
-  }, []);
+  const handleDragLeave = useCallback(
+    (_event: React.DragEvent<HTMLElement>) => {
+      setDragOver(false);
+    },
+    []
+  );
   const intl = useIntl();
   return (
     <Box

@@ -13,7 +13,7 @@ export const useAutoScrollToBottom = (
   const [enabled, setEnabled] = useState<boolean>(true);
   const ref = useRef<HTMLDivElement>(null);
   const handleScroll = useCallback(
-    (e: React.UIEvent) => {
+    (_: React.UIEvent) => {
       const element = ref.current!;
       const isAtBottom =
         element.scrollHeight - element.scrollTop === element.clientHeight;

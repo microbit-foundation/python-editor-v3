@@ -510,7 +510,7 @@ export class App {
       },
       {
         ...defaultWaitForOptions,
-        onTimeout: (e) =>
+        onTimeout: (_e) =>
           new Error(
             `Timeout waiting for ${match} but content was:\n${lastText}}\n\nJSON version:\n${JSON.stringify(
               lastText
@@ -1247,15 +1247,6 @@ export class App {
   private async keyboardPress(key: KeyInput): Promise<void> {
     const keyboard = (await this.page).keyboard;
     await keyboard.press(key);
-  }
-
-  private async getElementByRoleAndLabel(
-    role: string,
-    name: string
-  ): Promise<ElementHandle<Element>> {
-    return (await this.document()).findByRole(role, {
-      name,
-    });
   }
 
   private async getElementByQuerySelector(

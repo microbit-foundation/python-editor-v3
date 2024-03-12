@@ -12,7 +12,7 @@ interface TestState {
   z: number;
 }
 
-const validate = (o: unknown): o is TestState => true;
+const validate = (_o: unknown): _o is TestState => true;
 
 const Test = () => {
   const [state, setState] = useStorage<TestState>(
