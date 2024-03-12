@@ -1,1 +1,1 @@
-declare module "lzma/src/lzma-d-min";
+declare module "lzma/src/lzma-d";
