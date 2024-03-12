@@ -15,15 +15,22 @@ import { PortalFactory } from "./CodeMirror";
  * a proof of concept.
  */
 
-const ToggleReactComponent = ({ bval }: { bval: boolean }) => {
-  let x = bval ? "True" : "False"
+const ToggleReactComponent = ({ from, to, view }: { from: number, to: number, view: EditorView }) => {
+  let curVal = view.state.doc.sliceString(from, to);
   const handleClick = useCallback(() => {
-    console.log();
-  }, []);
+    let opposite = curVal === "True" ? "False" : "True";
+    view.dispatch({
+      changes: {
+        from: from,
+        to: to,
+        insert: opposite,
+      }
+    });
+  }, [curVal, from, to, view]);
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
       <Button onClick={handleClick}>Toggle</Button>
-      <Text fontWeight="semibold">Value: {x}</Text>
+      <Text fontWeight="semibold">Value: {curVal}</Text>
     </HStack>
   );
 };
@@ -35,14 +42,14 @@ const ToggleReactComponent = ({ bval }: { bval: boolean }) => {
 class ToggleWidget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
-  constructor(private bval: boolean, private createPortal: PortalFactory) {
+  constructor(private from: number, private to: number, private createPortal: PortalFactory, private view: EditorView) {
     super();
   }
 
   toDOM() {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, < ToggleReactComponent bval={this.bval} />);
+    this.portalCleanup = this.createPortal(dom, < ToggleReactComponent from={this.from} to={this.to} view={this.view} />);
     return dom;
   }
 
@@ -57,45 +64,9 @@ class ToggleWidget extends WidgetType {
   }
 }
 
-
-const TextComponent = () => {
-  return (
-    <HStack fontFamily="body" spacing={5} py={3}>
-      <Text fontWeight="semibold">False</Text>
-    </HStack>
-  );
-};
-
-class TextWidget extends WidgetType {
-  private portalCleanup: (() => void) | undefined;
-
-  constructor(private createPortal: PortalFactory) {
-    super();
-  }
-
-  toDOM() {
-    const dom = document.createElement("div");
-
-    this.portalCleanup = this.createPortal(dom, < TextComponent />);
-    return dom;
-  }
-
-  destroy(dom: HTMLElement): void {
-    if (this.portalCleanup) {
-      this.portalCleanup();
-    }
-  }
-
-  ignoreEvent() {
-    return true;
-  }
-}
-
-function createWidget(bool: string, from: number, to: number, createPortal: PortalFactory): Decoration {
-  let bval = bool === "True"
-
+function createWidget(from: number, to: number, createPortal: PortalFactory, view: EditorView): Decoration {
   let deco = Decoration.widget({
-    widget: new ToggleWidget(bval, createPortal),
+    widget: new ToggleWidget(from, to, createPortal, view),
     side: 1,
   });
 
@@ -104,9 +75,11 @@ function createWidget(bool: string, from: number, to: number, createPortal: Port
 
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
+  view: EditorView,
   createPortal: PortalFactory
 ): Extension => {
-  const decorate = (state: EditorState) => {
+  const decorate = (state2: EditorState) => {
+    let state = view.state;
     let widgets: any[] = []
     let from = 0
     let to = state.doc.length-1 // TODO: could optimize this to just be lines within view
@@ -115,37 +88,12 @@ export const reactWidgetExtension = (
 
     syntaxTree(state).iterate({
       from, to,
-      enter: (node: any) => { // TODO: type is SyntaxNode
-        if(node.name === "Boolean") {
-          // view.dispatch({
-          //   changes: {
-          //     from: node.from,
-          //     to: node.to,
-          //     insert: state.doc.sliceString(0, 10),
-          //   }
-          // });
-          // widgets.push(tr);
-
-          // let replaceDeco = Decoration.replace({
-          //   widget: new TextWidget(createPortal),
-          //   inclusive: false,
-          // }).range(node.from, node.to);
-          // widgets.push(replaceDeco);
-
-          widgets.push(createWidget(state.doc.sliceString(node.from, node.to), node.from, node.to, createPortal).range(node.to));
-        }
+      enter: (node: any) => { // TODO: type is SyntaxNode?
+        if(node.name === "Boolean") widgets.push(createWidget(node.from, node.to, createPortal, view).range(node.to));
       }
     })
 
     return Decoration.set(widgets)
-    
-    // const endOfFirstLine = state.doc.lineAt(0).to;
-    // const widget = Decoration.widget({
-    //   block: true,
-    //   widget: new ExampleReactBlockWidget(createPortal),
-    //   side: 1,
-    // });
-    // return Decoration.set(widget.range(endOfFirstLine));
   };
 
   const stateField = StateField.define<DecorationSet>({
