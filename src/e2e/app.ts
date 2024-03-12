@@ -1106,7 +1106,7 @@ export class App {
     return (
       reportsPath +
       // GH actions has character restrictions
-      expect.getState().currentTestName.replace(/[^0-9a-zA-Z]+/g, "-") +
+      (expect.getState().currentTestName || "").replace(/[^0-9a-zA-Z]+/g, "-") +
       "." +
       extension
     );
