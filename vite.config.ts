@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
     base: process.env.BASE_URL ?? "/",
     build: {
       outDir: "build",
+      sourcemap: true,
     },
     worker: {
       format: "es",
