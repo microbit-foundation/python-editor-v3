@@ -2,7 +2,7 @@
 let url;
 if (process.env.GITHUB_REPOSITORY_OWNER === "microbit-foundation") {
   // STAGE must be defined before this is imported
-  const { bucketPrefix } = require("../deployment");
+  const { bucketPrefix } = require("../deployment.cjs");
   url = `/${bucketPrefix}/`;
 } else {
   url = "/";
