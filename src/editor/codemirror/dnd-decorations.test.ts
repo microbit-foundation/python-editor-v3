@@ -183,11 +183,12 @@ const decorationDetails = (plugin: DndDecorationsViewPlugin) => {
 };
 
 const createView = (doc: Text = Text.of([""])): EditorView => {
-  return {
+  const view: Partial<EditorView> = {
     visibleRanges: [{ from: 0, to: doc.length - 1 }],
     state: EditorState.create({ doc }),
-    dispatch: vi.fn(),
-  } as Partial<EditorView> as unknown as EditorView;
+    dispatch: vi.fn() as any,
+  };
+  return view as unknown as EditorView;
 };
 
 /**

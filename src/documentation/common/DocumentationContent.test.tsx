@@ -7,10 +7,9 @@
  */
 import { ImageProps } from "@chakra-ui/react";
 import { render } from "@testing-library/react";
+import { vi } from "vitest";
 import { PortableText } from "../../common/sanity";
 import DocumentationContent from "./DocumentationContent";
-import { vi } from "vitest";
-import React from "react";
 
 vi.mock("@chakra-ui/image", () => ({
   Image: ({ src, w, h }: ImageProps) => (
