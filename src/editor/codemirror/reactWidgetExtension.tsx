@@ -50,7 +50,7 @@ class ToggleWidget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, <MicrobitComponent/>);
+    this.portalCleanup = this.createPortal(dom, <MicrobitComponent from={this.from} to={this.to} view={view} />);
     return dom;
   }
 
@@ -68,6 +68,7 @@ class ToggleWidget extends WidgetType {
 function createWidget(from: number, to: number, createPortal: PortalFactory): Decoration {
   let deco = Decoration.widget({
     widget: new ToggleWidget(from, to, createPortal),
+    //ToggleWidget(from, to, createPortal),
     side: 1,
   });
 

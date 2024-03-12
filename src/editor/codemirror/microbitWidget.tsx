@@ -1,5 +1,11 @@
 import { Box, Grid, GridItem, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
 import { useState } from "react";
+import {
+    Decoration,
+    DecorationSet,
+    EditorView,
+    WidgetType,
+  } from "@codemirror/view";
 
 interface Pixel {
   x: number;
@@ -25,7 +31,7 @@ const MicrobitPixel: React.FC<{ brightness: number; selected: boolean; onClick: 
 
 interface MicrobitGridProps {
   onClickPixel: (pixel: Pixel) => void;
-  onSubmit: () => void;
+  onSubmit: (x:number, y:number, brightness:number) => void;
   isVisible: boolean;
 }
 
@@ -48,7 +54,9 @@ const MicrobitGrid: React.FC<MicrobitGridProps> = ({ onClickPixel, onSubmit, isV
   };
 
   const handleOkClick = () => {
-    onSubmit();
+    if (selectedPixel) {
+      onSubmit(selectedPixel.x, selectedPixel.y, selectedPixel.brightness);
+    }
   };
 
   return (
@@ -103,30 +111,38 @@ const MicrobitGrid: React.FC<MicrobitGridProps> = ({ onClickPixel, onSubmit, isV
   );
 };
 
-export const MicrobitComponent: React.FC = () => {
-  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+export const MicrobitComponent = ({ from, to, view }: { from: number, to: number, view: EditorView }) => {
+    const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
+    const [isVisible, setIsVisible] = useState(true);
+  
+    const handleSelectPixel = (pixel: Pixel) => {
+      setSelectedPixel(pixel);
+    };
+  
+    const handleSubmit = (x: number, y: number, brightness: number) => {
+      setIsVisible(false);      
+      console.log(`Submitted pixel: (${x}, ${y}) - Brightness: ${brightness}`);
+      view.dispatch({
+          changes: {
+            from: from,
+            to: to,
+            insert: ("(${x}, ${y},${y}, ${brightness}) "),
+          }
+        });
+      };
+  
 
-  const handleSelectPixel = (pixel: Pixel) => {
-    setSelectedPixel(pixel);
-  };
-
-  const handleSubmit = () => {
-    setIsVisible(false);
-    // Implement logic here, change the arguments to the function
-    console.log("S");
-  };
-
-  return (
-    <Box>
-      {isVisible && (
-        <MicrobitGrid onClickPixel={handleSelectPixel} onSubmit={handleSubmit} isVisible={isVisible} />
-      )}
-      {selectedPixel && isVisible && (
-        <Box mt="4px">
-          Selected Pixel: ({selectedPixel.x}, {selectedPixel.y}) - Brightness: {selectedPixel.brightness}
+    return (
+        <Box>
+          {isVisible && (
+            <MicrobitGrid onClickPixel={handleSelectPixel} onSubmit={handleSubmit} isVisible={isVisible} />
+          )}
+          {selectedPixel && isVisible && (
+            <Box mt="4px">
+              Selected Pixel: ({selectedPixel.x}, {selectedPixel.y}) - Brightness: {selectedPixel.brightness}
+            </Box>
+          )}
         </Box>
-      )}
-    </Box>
-  );
+    );
 };
+    
