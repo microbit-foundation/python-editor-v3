@@ -20,6 +20,10 @@ describe("documentaion", () => {
   });
 
   it("Copy code and paste in editor", async () => {
+    if (process.platform === "darwin") {
+      // pasteToolkitCode doesn't work on Mac
+      return;
+    }
     const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -33,6 +37,10 @@ describe("documentaion", () => {
   });
 
   it("Copy code after dropdown choice and paste in editor", async () => {
+    if (process.platform === "darwin") {
+      // pasteToolkitCode doesn't work on Mac
+      return;
+    }
     const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");

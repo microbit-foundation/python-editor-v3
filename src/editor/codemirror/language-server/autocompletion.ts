@@ -19,10 +19,10 @@ import {
   CompletionItemKind,
   CompletionResolveRequest,
   CompletionTriggerKind,
-  ConnectionError,
 } from "vscode-languageserver-protocol";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { LanguageServerClient } from "../../../language-server/client";
+import { isErrorDueToDispose } from "../../../language-server/error-util";
 import { Logging } from "../../../logging/logging";
 import { clientFacet, uriFacet } from "./common";
 import {
@@ -156,7 +156,7 @@ const createDocumentationResolver =
       );
       documentation = resolved.documentation;
     } catch (e) {
-      if (!(e instanceof ConnectionError)) {
+      if (!isErrorDueToDispose(e)) {
         throw e;
       }
     }
