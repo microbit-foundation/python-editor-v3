@@ -42,14 +42,14 @@ const ToggleReactComponent = ({ from, to, view }: { from: number, to: number, vi
 class ToggleWidget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
-  constructor(private from: number, private to: number, private createPortal: PortalFactory, private view: EditorView) {
+  constructor(private from: number, private to: number, private createPortal: PortalFactory) {
     super();
   }
 
-  toDOM() {
+  toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, < ToggleReactComponent from={this.from} to={this.to} view={this.view} />);
+    this.portalCleanup = this.createPortal(dom, < ToggleReactComponent from={this.from} to={this.to} view={view} />);
     return dom;
   }
 
@@ -64,9 +64,9 @@ class ToggleWidget extends WidgetType {
   }
 }
 
-function createWidget(from: number, to: number, createPortal: PortalFactory, view: EditorView): Decoration {
+function createWidget(from: number, to: number, createPortal: PortalFactory): Decoration {
   let deco = Decoration.widget({
-    widget: new ToggleWidget(from, to, createPortal, view),
+    widget: new ToggleWidget(from, to, createPortal),
     side: 1,
   });
 
@@ -75,11 +75,9 @@ function createWidget(from: number, to: number, createPortal: PortalFactory, vie
 
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
-  view: EditorView,
   createPortal: PortalFactory
 ): Extension => {
-  const decorate = (state2: EditorState) => {
-    let state = view.state;
+  const decorate = (state: EditorState) => {
     let widgets: any[] = []
     let from = 0
     let to = state.doc.length-1 // TODO: could optimize this to just be lines within view
@@ -89,7 +87,7 @@ export const reactWidgetExtension = (
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => { // TODO: type is SyntaxNode?
-        if(node.name === "Boolean") widgets.push(createWidget(node.from, node.to, createPortal, view).range(node.to));
+        if(node.name === "Boolean") widgets.push(createWidget(node.from, node.to, createPortal).range(node.to));
       }
     })
 

@@ -143,15 +143,13 @@ const CodeMirror = ({
           logPastedLineCount(logging, update);
         }
       });
-      const view = new EditorView({
-        parent: elementRef.current!,
-      });
+      
       const state = EditorState.create({
         doc: defaultValue,
         extensions: [
           notify,
           editorConfig,
-          reactWidgetExtension(view, portalFactory),
+          reactWidgetExtension(portalFactory),
           // Extension requires external state.
           dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
@@ -183,7 +181,10 @@ const CodeMirror = ({
           ]),
         ],
       });
-      view.setState(state);
+      const view = new EditorView({
+        state,
+        parent: elementRef.current!,
+      });
 
       viewRef.current = view;
       setActiveEditor(new EditorActions(view, logging, actionFeedback));
