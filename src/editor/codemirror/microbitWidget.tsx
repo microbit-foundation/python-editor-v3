@@ -126,7 +126,7 @@ export const MicrobitComponent = ({ from, to, view }: { from: number, to: number
           changes: {
             from: from,
             to: to,
-            insert: ("(${x}, ${y},${y}, ${brightness}) "),
+            insert: (`(${x}, ${y}, ${brightness}) `),
           }
         });
       };
