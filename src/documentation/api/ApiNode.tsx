@@ -407,7 +407,7 @@ const DraggableSignature = ({
     [fullName, kind, id, dragImage, logging]
   );
 
-  const handleDragEnd = useCallback((event: React.DragEvent) => {
+  const handleDragEnd = useCallback((_event: React.DragEvent) => {
     dndDebug("dragend");
     setDragContext(undefined);
   }, []);

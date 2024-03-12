@@ -55,7 +55,7 @@ export const SplitView = ({
   const splitViewRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
+    (_: React.MouseEvent) => {
       setDragging(true);
       const cursor = direction === "row" ? "col-resize" : "row-resize";
       // Avoids cursor flicker.
@@ -65,14 +65,14 @@ export const SplitView = ({
   );
 
   const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
+    (_: React.TouchEvent) => {
       setDragging(true);
     },
     [setDragging]
   );
 
   const handleMove = useCallback(
-    (e: Event, clientPos: number) => {
+    (_: Event, clientPos: number) => {
       if (dragging) {
         const rect = splitViewRef.current!.getBoundingClientRect();
         const relativeTo =

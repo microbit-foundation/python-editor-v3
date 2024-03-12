@@ -307,7 +307,7 @@ const Code = forwardRef<CodeProps, "pre">(
       [full, dragImage, parentSlug, toolkitType, logging]
     );
     const handleDragEnd = useCallback(
-      (event: React.DragEvent) => {
+      (_event: React.DragEvent) => {
         onCodeDragEnd();
         dndDebug("dragend");
         setDragContext(undefined);

@@ -28,11 +28,9 @@ export class ActionFeedback {
   expectedError({
     title,
     description,
-    error,
   }: {
     title: string;
     description: ReactNode;
-    error?: any;
   }) {
     this.toast({
       title,
@@ -47,15 +45,7 @@ export class ActionFeedback {
   /**
    * Handles a warning.
    */
-  warning({
-    title,
-    description,
-    error,
-  }: {
-    title: string;
-    description: ReactNode;
-    error?: any;
-  }) {
+  warning({ title, description }: { title: string; description: ReactNode }) {
     this.toast({
       title,
       status: "warning",

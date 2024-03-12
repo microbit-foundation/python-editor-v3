@@ -74,7 +74,7 @@ const useManagedTermimal = (
       },
     });
 
-    const tracebackLinkHandler = (e: MouseEvent, traceLine: string) => {
+    const tracebackLinkHandler = (_e: MouseEvent, traceLine: string) => {
       const { file, line } = parseTraceLine(traceLine);
       if (file) {
         setSelection({ file, location: { line } });

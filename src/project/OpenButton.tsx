@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { CollapsibleButtonComposableProps } from "../common/CollapsibleButton";

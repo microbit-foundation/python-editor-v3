@@ -162,7 +162,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   project: Project;
 
   constructor(
-    private logging: Logging,
+    logging: Logging,
     private host: Host,
     private microPythonSource: MicroPythonSource
   ) {
@@ -193,7 +193,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
   async initializeInBackground() {
     // It's been observed that this can be slow after the fetch on low-end devices,
     // so it might be good to move the FS work to a worker if we can't make it fast.
-    this.initialize().catch((e) => {
+    this.initialize().catch((_) => {
       this.initializing = undefined;
     });
   }

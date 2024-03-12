@@ -23,7 +23,6 @@ const SideBarTab = ({
   mb,
   handleTabClick,
   active,
-  tabIndex,
 }: SideBarTabProps) => {
   const width = "5rem";
   const ref = useRef<HTMLButtonElement>(null);
