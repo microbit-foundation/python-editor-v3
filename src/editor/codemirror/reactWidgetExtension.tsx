@@ -40,13 +40,43 @@ class ToggleWidget extends WidgetType {
   }
 
   toDOM() {
-    console.log(this.bval);
     const dom = document.createElement("div");
-    const handleClick = () => {
-      console.log("hi");
-    };
 
     this.portalCleanup = this.createPortal(dom, < ToggleReactComponent bval={this.bval} />);
+    return dom;
+  }
+
+  destroy(dom: HTMLElement): void {
+    if (this.portalCleanup) {
+      this.portalCleanup();
+    }
+  }
+
+  ignoreEvent() {
+    return true;
+  }
+}
+
+
+const TextComponent = () => {
+  return (
+    <HStack fontFamily="body" spacing={5} py={3}>
+      <Text fontWeight="semibold">False</Text>
+    </HStack>
+  );
+};
+
+class TextWidget extends WidgetType {
+  private portalCleanup: (() => void) | undefined;
+
+  constructor(private createPortal: PortalFactory) {
+    super();
+  }
+
+  toDOM() {
+    const dom = document.createElement("div");
+
+    this.portalCleanup = this.createPortal(dom, < TextComponent />);
     return dom;
   }
 
@@ -86,10 +116,22 @@ export const reactWidgetExtension = (
     syntaxTree(state).iterate({
       from, to,
       enter: (node: any) => { // TODO: type is SyntaxNode
-        //console.log(node.name)
-        //console.log(state.doc.sliceString(node.from, node.to))
-        //state.replaceSelection()
         if(node.name === "Boolean") {
+          // view.dispatch({
+          //   changes: {
+          //     from: node.from,
+          //     to: node.to,
+          //     insert: state.doc.sliceString(0, 10),
+          //   }
+          // });
+          // widgets.push(tr);
+
+          // let replaceDeco = Decoration.replace({
+          //   widget: new TextWidget(createPortal),
+          //   inclusive: false,
+          // }).range(node.from, node.to);
+          // widgets.push(replaceDeco);
+
           widgets.push(createWidget(state.doc.sliceString(node.from, node.to), node.from, node.to, createPortal).range(node.to));
         }
       }
