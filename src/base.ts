@@ -1,5 +1,5 @@
 export const baseUrl = (() => {
-  let base = import.meta.env.PUBLIC_URL || "/";
+  let base = import.meta.env.BASE_URL || "/";
   if (!base.endsWith("/")) {
     base += "/";
   }

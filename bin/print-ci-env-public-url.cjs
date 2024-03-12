@@ -12,6 +12,6 @@ if (process.env.GITHUB_REPOSITORY_OWNER === "microbit-foundation") {
   baseUrl = "/";
 }
 
-// Two env vars as PUBLIC_URL seems to be blank when running jest even if we set it.
-console.log(`PUBLIC_URL=${baseUrl}`);
-console.log(`E2E_PUBLIC_URL=${baseUrl}`);
+// Two env vars as BASE_URL seems to be blank when running jest even if we set it.
+console.log(`BASE_URL=${baseUrl}`);
+console.log(`E2E_BASE_URL=${baseUrl}`);
