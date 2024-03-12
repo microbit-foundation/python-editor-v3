@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
   const e2eTest: UserConfig["test"] = {
     globals: true,
     include: ["src/e2e/**/*.test.ts"],
+    environment: "jsdom",
     testTimeout: 60_000,
     hookTimeout: 30_000,
   };
