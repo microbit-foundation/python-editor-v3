@@ -40,8 +40,8 @@ jobs:
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: node ./bin/print-ci-env-stage.js >> $GITHUB_ENV
-      - run: node ./bin/print-ci-env-public-url.js >> $GITHUB_ENV
+      - run: node ./bin/print-ci-env-stage.cjs >> $GITHUB_ENV
+      - run: node ./bin/print-ci-env-public-url.cjs >> $GITHUB_ENV
       - run: npm run ci:update-version
         if: github.repository_owner == 'microbit-foundation'
       - run: npm run ci
