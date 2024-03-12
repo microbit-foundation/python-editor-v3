@@ -9,6 +9,7 @@ import {
 import { syntaxTree } from "@codemirror/language"
 import { useState, useCallback } from "react";
 import { PortalFactory } from "./CodeMirror";
+import {MicrobitComponent} from "./microbitWidget";
 
 /**
  * An example react component that we use inside a CodeMirror widget as
@@ -49,7 +50,7 @@ class ToggleWidget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, < ToggleReactComponent from={this.from} to={this.to} view={view} />);
+    this.portalCleanup = this.createPortal(dom, <MicrobitComponent/>);
     return dom;
   }
 
@@ -109,4 +110,4 @@ export const reactWidgetExtension = (
     },
   });
   return [stateField];
-};
+}
