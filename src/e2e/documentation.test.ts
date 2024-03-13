@@ -5,7 +5,7 @@
  */
 import { App } from "./app";
 
-describe("documentaion", () => {
+describe("documentation", () => {
   const app = new App();
   beforeEach(app.reset.bind(app));
   afterEach(app.screenshot.bind(app));

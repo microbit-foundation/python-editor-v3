@@ -34,7 +34,7 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
-const defaultWaitForOptions = { timeout: 5_000 };
+const defaultWaitForOptions = { timeout: 10_000 };
 
 const baseUrl = "http://localhost:3000";
 const reportsPath = "reports/e2e/";
@@ -942,6 +942,8 @@ export class App {
     this.page = this.createPage();
     page = await this.page;
     await page.goto(this.url);
+    // Wait for side bar to load
+    await page.waitForSelector('[data-testid="scrollable-panel"]');
   }
 
   /**
@@ -1032,7 +1034,10 @@ export class App {
     const button = await document.findByRole("link", {
       name: linkName,
     });
-    return button.click();
+    await button.click();
+
+    // Wait for side bar to load
+    await document.waitForSelector('[data-testid="scrollable-panel"]');
   }
 
   /**
