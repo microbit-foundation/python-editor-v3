@@ -58,6 +58,7 @@ export const LanguageServerClientProvider = ({
         removeTrackFsChangesListener(fs, listener);
       }
       ignore = true;
+      // We don't dispose the client here as it's cached for reuse.
     };
   }, [fs, languageId]);
   return (
