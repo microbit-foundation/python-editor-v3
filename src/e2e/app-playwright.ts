@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { Flag } from "../flags";
 
 export enum LoadDialogType {
@@ -43,7 +43,11 @@ interface UrlOptions {
 }
 
 export class App {
-  constructor(public readonly page: Page) {}
+  private codeTextArea: Locator;
+
+  constructor(public readonly page: Page) {
+    this.codeTextArea = this.page.getByTestId("editor").getByRole("textbox");
+  }
 
   async goto(options: UrlOptions = {}) {
     this.page.goto(this.optionsToURL(options));
@@ -84,5 +88,47 @@ export class App {
     await this.page.getByTestId("settings").click();
     await this.page.getByTestId("language").click();
     await this.page.getByTestId(locale).click();
+  }
+
+  async setProjectName(projectName: string): Promise<void> {
+    await this.page.getByRole("button", { name: "Edit project name" }).click();
+    await this.page.getByLabel("Name*").fill(projectName);
+    await this.page.getByRole("button", { name: "Confirm" }).click();
+  }
+
+  async selectAllInEditor(): Promise<void> {
+    await this.codeTextArea.click();
+    const metaOrCtrKey = process.platform === "darwin" ? "Meta" : "Control";
+    await this.page.keyboard.press(`${metaOrCtrKey}+A`);
+  }
+
+  async typeInEditor(text: string): Promise<void> {
+    this.codeTextArea.fill(text);
+  }
+
+  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
+    await this.page.getByRole("tab", { name: tabName }).click();
+  }
+
+  async createNewFile(name: string): Promise<void> {
+    await this.switchTab("Project");
+    await this.page.getByRole("button", { name: "Create file" }).click();
+    await this.page.getByLabel("Name*").fill(name);
+    await this.page.getByRole("button", { name: "Create" }).click();
+  }
+
+  async resetProject(): Promise<void> {
+    await this.switchTab("Project");
+    await this.page.getByRole("button", { name: "Reset project" }).click();
+    await this.page.getByRole("button", { name: "Replace" }).click();
+  }
+
+  async expectVisibleEditorContents(match: RegExp | string) {
+    return expect(this.codeTextArea).toContainText(match);
+  }
+
+  async expectProjectFiles(expected: string[]): Promise<void> {
+    await this.switchTab("Project");
+    await expect(this.page.getByRole("listitem")).toHaveText(expected);
   }
 }
