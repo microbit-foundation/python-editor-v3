@@ -38,7 +38,7 @@ describe("edits", () => {
     await app.reloadPage();
 
     await app.findVisibleEditorContents(/A change/, {
-      timeout: 5_000,
+      timeout: 2_000,
     });
   });
 });

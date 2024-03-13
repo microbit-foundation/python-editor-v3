@@ -357,7 +357,6 @@ export class App {
   private async clickSettingsMenu(): Promise<void> {
     // All test ids for the sake of language-related tests.
     const document = await this.document();
-    await document.waitForSelector('[data-testid="settings"]');
     return (await document.findByTestId("settings")).click();
   }
 
@@ -746,7 +745,6 @@ export class App {
 
   async connect(): Promise<void> {
     const document = await this.document();
-    await document.waitForSelector('[data-testid="more-connect-options"]');
     const moreConnectOptions = await document.findByTestId(
       "more-connect-options"
     );
