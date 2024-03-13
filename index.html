@@ -23,8 +23,7 @@
       content="A Python Editor for the BBC micro:bit, built by the Micro:bit Educational Foundation and the global Python Community."
     />
     <meta property="og:image" content="%VITE_FULL_URL%social.png" />
-    <!-- TODO: ejs support or similar likely via a tiny plugin
-    <% if (process.env.VITE_FOUNDATION_BUILD === 'true') { %>
+    <% if (VITE_FOUNDATION_BUILD === 'true') { %>
     <script
       src="https://shared-assets.microbit.org/common/v1/common.js"
       async
@@ -42,7 +41,7 @@
           window.dataLayer.push(arguments);
         };
     </script>
-    <% } %>-->
+    <% } %>
     <script type="module" src="/src/index.tsx"></script>
   </head>
   <body>
