@@ -1,16 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
-
-/**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./",
+  testDir: "./src/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -19,6 +13,8 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
   },
+  // ignore *.test.ts for now
+  testMatch: "*.spec.ts",
 
   /* Configure projects for major browsers */
   projects: [
