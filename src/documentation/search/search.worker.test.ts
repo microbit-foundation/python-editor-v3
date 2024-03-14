@@ -122,12 +122,12 @@ describe("buildReferenceIndex", () => {
       ...referenceEn,
       language: "fr",
     };
-    const enIndex = await buildIndex(referenceEn, api, undefined);
+    const enIndex = await buildIndex(referenceEn, api, undefined, undefined);
     expect(enIndex.search("topic").reference.length).toEqual(1);
     // "that" is an English stopword
     expect(enIndex.search("that").reference.length).toEqual(0);
 
-    const frIndex = await buildIndex(referenceFr, api, frLanguageSupport);
+    const frIndex = await buildIndex(referenceFr, api, "fr", frLanguageSupport);
     expect(frIndex.search("topic").reference.length).toEqual(1);
     // "that" is not a French stopword
     expect(frIndex.search("that").reference.length).toEqual(1);
@@ -141,7 +141,7 @@ describe("SearchWorker", () => {
       postMessage,
     } as unknown as DedicatedWorkerGlobalScope;
 
-    new SearchWorker(ctx, undefined);
+    new SearchWorker(ctx, undefined, undefined);
 
     ctx.onmessage!(
       new MessageEvent("message", {
@@ -184,7 +184,7 @@ describe("SearchWorker", () => {
       postMessage,
     } as unknown as DedicatedWorkerGlobalScope;
 
-    new SearchWorker(ctx, undefined);
+    new SearchWorker(ctx, undefined, undefined);
 
     const emptyIndex: IndexMessage = {
       kind: "index",

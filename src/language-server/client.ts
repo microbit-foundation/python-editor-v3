@@ -57,7 +57,7 @@ export class LanguageServerClient extends EventEmitter {
 
   constructor(
     public connection: MessageConnection,
-    private locale: string,
+    public locale: string,
     public rootUri: string
   ) {
     super();

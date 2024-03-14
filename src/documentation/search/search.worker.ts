@@ -268,19 +268,19 @@ export const buildSearchIndex = (
 export const buildIndex = async (
   reference: Toolkit,
   api: ApiDocsResponse,
+  lunrLanguage: LunrLanguage | undefined,
   languageSupport: ((l: typeof lunr) => void) | undefined
 ): Promise<LunrSearch> => {
-  const language = convertLangToLunrParam(reference.language);
   const plugins: lunr.Builder.Plugin[] = [];
-  if (languageSupport && language) {
+  if (languageSupport && lunrLanguage) {
     languageSupport(lunr);
-    plugins.push(lunr[language]);
+    plugins.push(lunr[lunrLanguage]);
   }
 
   // There is always some degree of English content.
   const multiLanguages = ["en"];
-  if (language) {
-    multiLanguages.push(language);
+  if (lunrLanguage) {
+    multiLanguages.push(lunrLanguage);
   }
   const languagePlugin = lunr.multiLanguage(...multiLanguages);
 
@@ -288,14 +288,14 @@ export const buildIndex = async (
     buildSearchIndex(
       referenceSearchableContent(reference),
       "reference",
-      language,
+      lunrLanguage,
       languagePlugin,
       ...plugins
     ),
     buildSearchIndex(
       apiSearchableContent(api),
       "api",
-      language,
+      lunrLanguage,
       languagePlugin,
       ...plugins
     )
@@ -303,27 +303,6 @@ export const buildIndex = async (
 };
 
 type LunrLanguage = "de" | "es" | "fr" | "ja" | "nl" | "ko";
-
-function convertLangToLunrParam(language: string): LunrLanguage | undefined {
-  // See also workerForLanguage
-  switch (language.toLowerCase()) {
-    case "de":
-      return "de";
-    case "fr":
-      return "fr";
-    case "es-es":
-      return "es";
-    case "ja":
-      return "ja";
-    case "ko":
-      return "ko";
-    case "nl":
-      return "nl";
-    default:
-      // No search support for the language, default to lunr's built-in English support.
-      return undefined;
-  }
-}
 
 export class SearchWorker {
   private search: LunrSearch | undefined;
@@ -333,6 +312,7 @@ export class SearchWorker {
 
   constructor(
     private ctx: DedicatedWorkerGlobalScope,
+    private languageId: LunrLanguage | undefined,
     private languageSupport: ((l: typeof lunr) => void) | undefined
   ) {
     // We return Promises here just to allow for easy testing.
@@ -358,6 +338,7 @@ export class SearchWorker {
     this.search = await buildIndex(
       message.reference,
       message.api,
+      this.languageId,
       this.languageSupport
     );
     this.recordInitialization!();

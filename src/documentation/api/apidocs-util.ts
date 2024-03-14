@@ -3,14 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ApiDocsEntry, ApiDocsResponse } from "../../language-server/apidocs";
+import {
+  ApiDocsContent,
+  ApiDocsEntry,
+  ApiDocsResponse,
+} from "../../language-server/apidocs";
 
-export const pullModulesToTop = (input: ApiDocsResponse) => {
+export const pullModulesToTop = (input: ApiDocsContent) => {
   const recurse = (docs: ApiDocsEntry[], topLevel: boolean) => {
     let removedSoFar = 0;
     [...docs].forEach((d, index) => {
       if (d.kind === "module" && !topLevel) {
-        input[d.fullName] = d;
+        input.content[d.fullName] = d;
         docs.splice(index - removedSoFar, 1);
         removedSoFar++;
       }
@@ -19,7 +23,7 @@ export const pullModulesToTop = (input: ApiDocsResponse) => {
       }
     });
   };
-  recurse(Object.values(input), true);
+  recurse(Object.values(input.content), true);
 };
 
 export const resolveModule = (

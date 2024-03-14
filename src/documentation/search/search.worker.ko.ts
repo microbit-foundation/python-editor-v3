@@ -6,4 +6,4 @@
 import { SearchWorker } from "./search.worker";
 import languageSupport from "@microbit/lunr-languages/lunr.ko";
 
-new SearchWorker(self as DedicatedWorkerGlobalScope, languageSupport);
+new SearchWorker(self as DedicatedWorkerGlobalScope, "ko", languageSupport);

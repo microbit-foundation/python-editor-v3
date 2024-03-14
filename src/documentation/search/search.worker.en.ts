@@ -5,4 +5,4 @@
  */
 import { SearchWorker } from "./search.worker";
 
-new SearchWorker(self as DedicatedWorkerGlobalScope, undefined);
+new SearchWorker(self as DedicatedWorkerGlobalScope, undefined, undefined);

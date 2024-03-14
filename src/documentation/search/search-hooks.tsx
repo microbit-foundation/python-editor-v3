@@ -51,9 +51,13 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
       search.current = new WorkerSearch(languageId);
       setQuery("");
     }
-    // Wait for both, no reason to index with just one then redo with both.
-    if (reference.status === "ok" && api) {
-      search.current.index(reference.content, api);
+    // Wait for everything to be loaded and in the right language
+    if (
+      reference.status === "ok" &&
+      reference.languageId === languageId &&
+      api?.languageId === languageId
+    ) {
+      search.current.index(reference.content, api.content);
     }
   }, [languageId, reference, api]);
 

@@ -6,4 +6,5 @@
 import { SearchWorker } from "./search.worker";
 import languageSupport from "@microbit/lunr-languages/lunr.es";
 
-new SearchWorker(self as DedicatedWorkerGlobalScope, languageSupport);
+// Note the language code is different to the app
+new SearchWorker(self as DedicatedWorkerGlobalScope, "es", languageSupport);
