@@ -3,6 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { SearchWorker } from "./search";
+import { SearchWorker } from "./search.worker";
 
 new SearchWorker(self as DedicatedWorkerGlobalScope, undefined);

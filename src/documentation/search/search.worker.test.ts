@@ -13,7 +13,7 @@ import {
   buildSearchIndex,
   SearchableContent,
   SearchWorker,
-} from "./search";
+} from "./search.worker";
 import { vi } from "vitest";
 import frLanguageSupport from "@microbit/lunr-languages/lunr.fr";
 

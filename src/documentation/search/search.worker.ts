@@ -232,7 +232,6 @@ export const buildSearchIndex = (
   languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
-  console.log("Building index", language, languagePlugin);
   let customTokenizer: TokenizerFunction | undefined;
   const index = lunr(function () {
     this.ref("id");

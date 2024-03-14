@@ -74,7 +74,7 @@ const workerForLanguage = (language: string) => {
       });
     }
     case "es-es": {
-      return new Worker(new URL(`./search.worker.es-es.ts`, import.meta.url), {
+      return new Worker(new URL(`./search.worker.es.ts`, import.meta.url), {
         type: "module",
       });
     }
