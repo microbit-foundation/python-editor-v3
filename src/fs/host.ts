@@ -96,7 +96,6 @@ export class IframeHost implements Host {
   }
   createInitialProject(): Promise<PythonProject> {
     return new Promise((resolve) => {
-      // TODO: review this carefully!
       if (this.window.document.readyState === "complete") {
         notifyWorkspaceSync(this.parent);
       } else {
