@@ -36,7 +36,7 @@ export const pyright = async (
     return undefined;
   }
   if (cache) {
-    // This is safe to called if already initialized.
+    // This is safe to call if already initialized.
     await cache.client.initialize();
     if (cache.language === language) {
       return cache.client;

@@ -60,7 +60,7 @@ const workerForLanguage = (language: string) => {
   // See also convertLangToLunrParam
 
   // Enumerated for code splitting as Vite doesn't support dynamic strings here
-  // We use a worker per language for because Vite doesn't support using dynamic
+  // We use a worker per language because Vite doesn't support using dynamic
   // import in a iife Worker and Safari doesn't support module workers.
   switch (language.toLowerCase()) {
     case "de": {
