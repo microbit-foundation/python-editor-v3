@@ -9,7 +9,7 @@ import { defaultInitialProject } from "./initial-project";
 import { testMigrationUrl } from "./migration-test-data";
 
 describe("DefaultHost", () => {
-  it.skip("uses migration if available", async () => {
+  it("uses migration if available", async () => {
     const project = await new DefaultHost(
       testMigrationUrl
     ).createInitialProject();

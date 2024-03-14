@@ -6,7 +6,7 @@
 import { isMigration, parseMigrationFromUrl } from "./migration";
 import { testMigrationUrl } from "./migration-test-data";
 
-describe.skip("parseMigrationFromUrl", () => {
+describe("parseMigrationFromUrl", () => {
   it("parses valid URL", () => {
     const migration = parseMigrationFromUrl(testMigrationUrl);
     expect(migration).toEqual({
