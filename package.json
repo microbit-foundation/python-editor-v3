@@ -107,10 +107,12 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all",
-      "not ie >0"
+      "defaults",
+      "Chrome >= 98",
+      "Edge >= 98",
+      "ChromeAndroid >= 95",
+      "Safari >= 14",
+      "iOS >= 14"
     ],
     "development": [
       "last 1 chrome version",
