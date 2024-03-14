@@ -3,11 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import lunr from "lunr";
 import multi from "@microbit/lunr-languages/lunr.multi";
 import stemmerSupport from "@microbit/lunr-languages/lunr.stemmer.support";
 import tinyseg from "@microbit/lunr-languages/tinyseg";
-import { retryAsyncLoad } from "../../common/chunk-util";
+import lunr from "lunr";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {
   ApiDocsEntry,
@@ -22,7 +21,7 @@ import {
   Result,
   SearchResults,
 } from "./common";
-import { contextExtracts, fullStringExtracts, Position } from "./extracts";
+import { Position, contextExtracts, fullStringExtracts } from "./extracts";
 
 export const supportedSearchLanguages = [
   "de",
@@ -233,6 +232,7 @@ export const buildSearchIndex = (
   languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
 ): SearchIndex => {
+  console.log("Building index", language, languagePlugin);
   let customTokenizer: TokenizerFunction | undefined;
   const index = lunr(function () {
     this.ref("id");
@@ -267,21 +267,15 @@ export const buildSearchIndex = (
 };
 
 // Exposed for testing.
-export const buildReferenceIndex = async (
+export const buildIndex = async (
   reference: Toolkit,
-  api: ApiDocsResponse
+  api: ApiDocsResponse,
+  languageSupport: ((l: typeof lunr) => void) | undefined
 ): Promise<LunrSearch> => {
   const language = convertLangToLunrParam(reference.language);
-  const languageSupport = await retryAsyncLoad(() =>
-    loadLunrLanguageSupport(language)
-  );
   const plugins: lunr.Builder.Plugin[] = [];
   if (languageSupport && language) {
-    // Loading plugin for fr makes lunr.fr available but we don't model this in the types.
-    // Avoid repeatedly initializing them when switching back and forth.
-    if (!lunr[language]) {
-      languageSupport(lunr);
-    }
+    languageSupport(lunr);
     plugins.push(lunr[language]);
   }
 
@@ -310,36 +304,10 @@ export const buildReferenceIndex = async (
   );
 };
 
-async function loadLunrLanguageSupport(
-  language: LunrLanguage | undefined
-): Promise<undefined | ((l: typeof lunr) => void)> {
-  if (!language) {
-    // English.
-    return undefined;
-  }
-  // Enumerated for code splitting.
-  switch (language.toLowerCase()) {
-    case "de":
-      return (await import("@microbit/lunr-languages/lunr.de")).default;
-    case "fr":
-      return (await import("@microbit/lunr-languages/lunr.fr")).default;
-    case "es":
-      return (await import("@microbit/lunr-languages/lunr.es")).default;
-    case "ja":
-      return (await import("@microbit/lunr-languages/lunr.ja")).default;
-    case "ko":
-      return (await import("@microbit/lunr-languages/lunr.ko")).default;
-    case "nl":
-      return (await import("@microbit/lunr-languages/lunr.nl")).default;
-    default:
-      // No search support for the language, default to lunr's built-in English support.
-      return undefined;
-  }
-}
-
 type LunrLanguage = "de" | "es" | "fr" | "ja" | "nl" | "ko";
 
 function convertLangToLunrParam(language: string): LunrLanguage | undefined {
+  // See also workerForLanguage
   switch (language.toLowerCase()) {
     case "de":
       return "de";
@@ -365,7 +333,10 @@ export class SearchWorker {
   private recordInitialization: (() => void) | undefined;
   private initialized: Promise<void>;
 
-  constructor(private ctx: Worker) {
+  constructor(
+    private ctx: DedicatedWorkerGlobalScope,
+    private languageSupport: ((l: typeof lunr) => void) | undefined
+  ) {
     // We return Promises here just to allow for easy testing.
     this.ctx.onmessage = async (event: MessageEvent) => {
       const data = event.data;
@@ -373,6 +344,8 @@ export class SearchWorker {
         return this.query(data as QueryMessage);
       } else if (data.kind === "index") {
         return this.index(data as IndexMessage);
+      } else if (data.kind === "shutdown") {
+        this.ctx.close();
       } else {
         console.error("Unexpected worker message", event);
       }
@@ -384,7 +357,11 @@ export class SearchWorker {
   }
 
   private async index(message: IndexMessage) {
-    this.search = await buildReferenceIndex(message.reference, message.api);
+    this.search = await buildIndex(
+      message.reference,
+      message.api,
+      this.languageSupport
+    );
     this.recordInitialization!();
   }
 

@@ -9,12 +9,13 @@ import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
 import lunrJa from "@microbit/lunr-languages/lunr.ja";
 import {
-  buildReferenceIndex,
+  buildIndex,
   buildSearchIndex,
   SearchableContent,
   SearchWorker,
 } from "./search";
 import { vi } from "vitest";
+import frLanguageSupport from "@microbit/lunr-languages/lunr.fr";
 
 const searchableReferenceContent: SearchableContent[] = [
   {
@@ -99,7 +100,9 @@ describe("Search", () => {
 });
 
 describe("buildReferenceIndex", () => {
-  it("uses language from the toolkit for the Reference index", async () => {
+  it("uses language support provided", async () => {
+    // We used to derive this from the index and dynamically load the right language support
+    // inside the worker, but switched to a worker per language when movign to Vite
     const api: ApiDocsResponse = {};
     const referenceEn: Toolkit = {
       id: "reference",
@@ -119,12 +122,12 @@ describe("buildReferenceIndex", () => {
       ...referenceEn,
       language: "fr",
     };
-    const enIndex = await buildReferenceIndex(referenceEn, api);
+    const enIndex = await buildIndex(referenceEn, api, undefined);
     expect(enIndex.search("topic").reference.length).toEqual(1);
     // "that" is an English stopword
     expect(enIndex.search("that").reference.length).toEqual(0);
 
-    const frIndex = await buildReferenceIndex(referenceFr, api);
+    const frIndex = await buildIndex(referenceFr, api, frLanguageSupport);
     expect(frIndex.search("topic").reference.length).toEqual(1);
     // "that" is not a French stopword
     expect(frIndex.search("that").reference.length).toEqual(1);
@@ -136,9 +139,9 @@ describe("SearchWorker", () => {
     const postMessage = vi.fn();
     const ctx = {
       postMessage,
-    } as unknown as Worker;
+    } as unknown as DedicatedWorkerGlobalScope;
 
-    new SearchWorker(ctx);
+    new SearchWorker(ctx, undefined);
 
     ctx.onmessage!(
       new MessageEvent("message", {
@@ -179,9 +182,9 @@ describe("SearchWorker", () => {
     const postMessage = vi.fn();
     const ctx = {
       postMessage,
-    } as unknown as Worker;
+    } as unknown as DedicatedWorkerGlobalScope;
 
-    new SearchWorker(ctx);
+    new SearchWorker(ctx, undefined);
 
     const emptyIndex: IndexMessage = {
       kind: "index",

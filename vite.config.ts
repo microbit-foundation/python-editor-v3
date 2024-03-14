@@ -49,9 +49,6 @@ export default defineConfig(({ mode }) => {
       outDir: "build",
       sourcemap: true,
     },
-    worker: {
-      format: "es",
-    },
     server: {
       port: 3000,
     },

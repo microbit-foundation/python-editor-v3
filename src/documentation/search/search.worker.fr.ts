@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { SearchWorker } from "./search";
+import languageSupport from "@microbit/lunr-languages/lunr.fr";
 
-// eslint-disable-next-line
-new SearchWorker(self as any);
+new SearchWorker(self as DedicatedWorkerGlobalScope, languageSupport);
