@@ -1221,6 +1221,7 @@ export class App {
     await triggerDownload();
 
     const startTime = performance.now();
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const after = await listDir();
       before.forEach((x) => after.delete(x));

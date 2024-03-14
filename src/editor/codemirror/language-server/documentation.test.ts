@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-/* eslint-disable testing-library/render-result-naming-convention */
 import { renderDocumentation, renderMarkdown } from "./documentation";
 
 describe("renderDocumentation", () => {

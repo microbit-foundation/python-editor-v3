@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext } from "react";
+import { ReactNode, createContext } from "react";
 import { CookieConsent, DeploymentConfigFactory } from "..";
 import { NullLogging } from "./logging";
 import theme from "./theme";
@@ -20,7 +20,7 @@ const defaultDeploymentFactory: DeploymentConfigFactory = () => ({
   chakraTheme: theme,
   logging: new NullLogging(),
   compliance: {
-    ConsentProvider: ({ children }) => (
+    ConsentProvider: ({ children }: { children: ReactNode }) => (
       <stubConsentContext.Provider value={stubConsentValue}>
         {children}
       </stubConsentContext.Provider>

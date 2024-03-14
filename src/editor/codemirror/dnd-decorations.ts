@@ -12,7 +12,7 @@ import {
   ViewUpdate,
 } from "@codemirror/view";
 
-export const timeoutEffect = StateEffect.define<{}>({});
+export const timeoutEffect = StateEffect.define<Record<string, never>>({});
 
 // Exported for unit testing.
 export class DndDecorationsViewPlugin {

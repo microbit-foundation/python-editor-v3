@@ -12,6 +12,7 @@ export const retryAsyncLoad = async <T>(
 ): Promise<T> => {
   let waitTime = 250;
   let attempts = 0;
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
       // Must await here!

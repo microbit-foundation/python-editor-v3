@@ -13,7 +13,6 @@ import DocumentationContent from "./DocumentationContent";
 
 vi.mock("@chakra-ui/image", () => ({
   Image: ({ src, w, h }: ImageProps) => (
-    // eslint-disable-next-line jsx-a11y/alt-text
     <img src={src} width={w as string} height={h as string} />
   ),
 }));

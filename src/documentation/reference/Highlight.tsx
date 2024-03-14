@@ -17,7 +17,7 @@ import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 interface HighlightProps extends BoxProps {
   anchor?: Anchor;
   id: string;
-  active: Boolean | undefined;
+  active: boolean | undefined;
   disclosure: UseDisclosureReturn;
 }
 

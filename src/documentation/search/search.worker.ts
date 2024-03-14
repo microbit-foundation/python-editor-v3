@@ -91,7 +91,6 @@ export class SearchIndex {
       if (!content) {
         throw new Error("Missing content");
       }
-      // eslint-disable-next-line
       const matchMetadata = result.matchData.metadata as Metadata;
       const extracts = getExtracts(matchMetadata, content);
       return {

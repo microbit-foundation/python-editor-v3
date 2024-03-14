@@ -5,7 +5,7 @@ export interface YoutubeVideo {
   alt: string;
   attribution: string;
   caption: string;
-  youtubeId: String;
+  youtubeId: string;
 }
 
 interface YoutubeVideoProps {
