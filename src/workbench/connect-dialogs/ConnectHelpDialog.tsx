@@ -19,7 +19,7 @@ import selectMicrobit from "./select-microbit.png";
 
 const ConnectHelpDialogBody = () => {
   const intl = useIntl();
-  const [isDesktop] = useMediaQuery("(min-width: 768px)");
+  const [isDesktop] = useMediaQuery("(min-width: 768px)", { ssr: false });
   return (
     <VStack
       width="auto"

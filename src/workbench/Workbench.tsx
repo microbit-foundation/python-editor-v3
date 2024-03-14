@@ -96,7 +96,9 @@ const Workbench = () => {
       handleSidebarCollapse();
     }
   }, [handleSidebarCollapse]);
-  const [hideSideBarMediaQueryValue] = useMediaQuery(hideSidebarMediaQuery);
+  const [hideSideBarMediaQueryValue] = useMediaQuery(hideSidebarMediaQuery, {
+    ssr: false,
+  });
   useEffect(() => {
     if (hideSideBarMediaQueryValue) {
       handleSidebarCollapse();

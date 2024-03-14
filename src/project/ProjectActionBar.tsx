@@ -19,7 +19,7 @@ const ProjectActionBar = React.forwardRef(
     { sendButtonRef, ...props }: ProjectActionBarProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
-    const [isWideScreen] = useMediaQuery(widthXl);
+    const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
     const size = "lg";
     return (
       <HStack
