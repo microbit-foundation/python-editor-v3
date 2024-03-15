@@ -13,8 +13,6 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
   },
-  // ignore *.test.ts for now
-  testMatch: "*.spec.ts",
 
   /* Configure projects for major browsers */
   projects: [
