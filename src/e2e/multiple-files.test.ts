@@ -3,37 +3,37 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App, LoadDialogType } from "./app";
+import { expect } from "@playwright/test";
+import { LoadDialogType } from "./app-playwright.js";
+import { test } from "./app-test-fixtures.js";
 
-describe("multiple-files", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
+test.describe("multiple-files", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
+  });
 
-  it("Copes with hex with no Python files", async () => {
+  test("Copes with hex with no Python files", async ({ app }) => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.
     await app.loadFiles("src/micropython/main/microbit-micropython-v2.hex");
-
     await app.findAlertText(
       "Cannot load file",
       "No appended code found in the hex file"
     );
   });
 
-  it("Add a new file", async () => {
+  test("Add a new file", async ({ app }) => {
     await app.createNewFile("test");
 
     await app.findVisibleEditorContents(/Your new file/);
     await app.findProjectFiles(["main.py", "test.py"]);
   });
 
-  it("Prevents deleting main.py", async () => {
-    expect(await app.canDeleteFile("main.py")).toEqual(false);
+  test("Prevents deleting main.py", async ({ app }) => {
+    expect(await app.isDeleteFileOptionDisabled("main.py")).toEqual(true);
   });
 
-  it("Copes with non-main file being updated", async () => {
+  test("Copes with non-main file being updated", async ({ app }) => {
     await app.loadFiles("testData/usermodule.py", {
       acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
     });
@@ -47,7 +47,7 @@ describe("multiple-files", () => {
     await app.findVisibleEditorContents(/c_works/);
   });
 
-  it("Shows warning for third-party module", async () => {
+  test("Shows warning for third-party module", async ({ app }) => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
@@ -67,7 +67,7 @@ describe("multiple-files", () => {
     await app.findThirdPartyModuleWarning("a", "1.1.0");
   });
 
-  it("Copes with currently open file being deleted", async () => {
+  test("Copes with currently open file being deleted", async ({ app }) => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
@@ -78,7 +78,7 @@ describe("multiple-files", () => {
     await app.findVisibleEditorContents(/Hello/);
   });
 
-  it("Muddles through if given non-UTF-8 main.py", async () => {
+  test("Muddles through if given non-UTF-8 main.py", async ({ app }) => {
     // We could start detect this on open but not sure it's worth it introducting the error cases.
     // If we need to recreate the hex then just fill the file with 0xff.
     await app.loadFiles("testData/invalid-utf-8.hex");

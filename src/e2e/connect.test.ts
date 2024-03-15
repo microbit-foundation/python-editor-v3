@@ -3,27 +3,26 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
 const traceback = `Traceback (most recent call last):
   File "main.py", line 6
 SyntaxError: invalid syntax
 `; // Needs trailing newline!
 
-describe("connect", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
+test.describe("connect", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
+  });
 
-  it("shows serial when connected", async () => {
+  test("shows serial when connected", async ({ app }) => {
     // Connect and disconnect wait for serial to be shown/hidden
     await app.connect();
     await app.confirmConnection();
     await app.disconnect();
   });
 
-  it("can expand serial to show full output", async () => {
+  test("can expand serial to show full output", async ({ app }) => {
     await app.connect();
 
     await app.serialShow();
@@ -31,7 +30,7 @@ describe("connect", () => {
     await app.serialHide();
   });
 
-  it("shows summary of traceback from serial", async () => {
+  test("shows summary of traceback from serial", async ({ app }) => {
     await app.connect();
     await app.flash();
     await app.mockSerialWrite(traceback);
@@ -39,7 +38,7 @@ describe("connect", () => {
     await app.findSerialCompactTraceback(/SyntaxError: invalid syntax/);
   });
 
-  it("supports navigating to line from traceback", async () => {
+  test("supports navigating to line from traceback", async ({ app }) => {
     await app.connect();
     await app.flash();
     await app.mockSerialWrite(traceback);
@@ -49,39 +48,47 @@ describe("connect", () => {
     // No good options yet for asserting editor line.
   });
 
-  it("shows the micro:bit not found dialog and connects on try again", async () => {
+  test("shows the micro:bit not found dialog and connects on try again", async ({
+    app,
+  }) => {
     await app.mockDeviceConnectFailure("no-device-selected");
     await app.connect();
-    await app.confirmGenericDialog("No micro:bit found");
+    await app.confirmInputDialog("No micro:bit found");
     await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
   });
 
-  it("shows the micro:bit not found dialog and connects after launching the connect help dialog", async () => {
+  test("shows the micro:bit not found dialog and connects after launching the connect help dialog", async ({
+    app,
+  }) => {
     await app.mockDeviceConnectFailure("no-device-selected");
     await app.connect();
-    await app.confirmGenericDialog("No micro:bit found");
+    await app.confirmInputDialog("No micro:bit found");
     await app.connectHelpFromNotFoundDialog();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
   });
 
-  it("shows the update firmware dialog and connects on try again", async () => {
+  test("shows the update firmware dialog and connects on try again", async ({
+    app,
+  }) => {
     await app.mockDeviceConnectFailure("update-req");
     await app.connect();
-    await app.confirmGenericDialog("Firmware update required");
+    await app.confirmInputDialog("Firmware update required");
     await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.confirmConnection();
   });
 
-  it("Shows the transfer hex help dialog after send to micro:bit where WebUSB is not supported", async () => {
+  test("Shows the transfer hex help dialog after send to micro:bit where WebUSB is not supported", async ({
+    app,
+  }) => {
     await app.mockWebUsbNotSupported();
     await app.setProjectName("not default name");
     await app.flash();
-    await app.confirmGenericDialog("This browser does not support WebUSB");
+    await app.confirmInputDialog("This browser does not support WebUSB");
     await app.closeDialog();
-    await app.confirmGenericDialog("Transfer saved hex file to micro:bit");
+    await app.confirmInputDialog("Transfer saved hex file to micro:bit");
   });
 });

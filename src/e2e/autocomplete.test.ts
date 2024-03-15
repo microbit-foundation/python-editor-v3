@@ -3,19 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
 const showFullSignature =
   "show(image, delay=400, wait=True, loop=False, clear=False)";
 
-describe("autocomplete", () => {
-  // Enable flags to allow testing the toolkit interactions.
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
+test.describe("autocomplete", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
+  });
 
-  it("shows autocomplete as you type", async () => {
+  test("shows autocomplete as you type", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.s");
 
@@ -24,7 +22,7 @@ describe("autocomplete", () => {
     await app.findCompletionActiveOption("scroll(text)");
 
     // Further refinement
-    await app.typeInEditor("h");
+    await app.page.keyboard.press("h");
     await app.findCompletionActiveOption("show(image)");
 
     // Accepted completion
@@ -32,7 +30,7 @@ describe("autocomplete", () => {
     await app.findVisibleEditorContents("display.show()");
   });
 
-  it("ranks Image above image=", async () => {
+  test("ranks Image above image=", async ({ app }) => {
     // This particular case has been tweaked in a somewhat fragile way.
     // See the boost code in autocompletion.ts
 
@@ -42,7 +40,7 @@ describe("autocomplete", () => {
     await app.findCompletionOptions(["Image", "image="]);
   });
 
-  it("autocomplete can navigate to API toolkit content", async () => {
+  test("autocomplete can navigate to API toolkit content", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
 
@@ -53,7 +51,9 @@ describe("autocomplete", () => {
     await app.findActiveApiEntry(showFullSignature, "h4");
   });
 
-  it("autocomplete can navigate to Reference toolkit content", async () => {
+  test("autocomplete can navigate to Reference toolkit content", async ({
+    app,
+  }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
     await app.findCompletionActiveOption("show(image)");
@@ -61,7 +61,7 @@ describe("autocomplete", () => {
     await app.findActiveApiEntry("Show", "h3");
   });
 
-  it("shows signature help after autocomplete", async () => {
+  test("shows signature help after autocomplete", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
     await app.acceptCompletion("show");
@@ -69,7 +69,7 @@ describe("autocomplete", () => {
     await app.findSignatureHelp(showFullSignature);
   });
 
-  it("does not insert brackets for import completion", async () => {
+  test("does not insert brackets for import completion", async ({ app }) => {
     // This relies on undocumented Pyright behaviour so important to cover at a high level.
     await app.selectAllInEditor();
     await app.typeInEditor("from audio import is_pla");
@@ -78,7 +78,7 @@ describe("autocomplete", () => {
     await app.findVisibleEditorContents(/is_playing$/);
   });
 
-  it("signature can navigate to API toolkit content", async () => {
+  test("signature can navigate to API toolkit content", async ({ app }) => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
@@ -90,7 +90,9 @@ describe("autocomplete", () => {
     await app.findActiveApiEntry(showFullSignature, "h4");
   });
 
-  it("signature can navigate to Reference toolkit content", async () => {
+  test("signature can navigate to Reference toolkit content", async ({
+    app,
+  }) => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");

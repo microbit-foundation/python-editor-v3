@@ -3,33 +3,22 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
-describe("settings", () => {
-  const app = new App();
-  beforeEach(() => {
-    app.setOptions({});
-    return app.reset();
-  });
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("sets language via URL", async () => {
-    app.setOptions({
-      language: "fr",
-    });
-    await app.reset();
+test.describe("settings", () => {
+  test("sets language via URL", async ({ app }) => {
+    await app.goto({ language: "fr" });
     // French via the URL
     await app.findProjectName("Projet sans titre");
 
     await app.switchLanguage("en");
-    await app.reset();
+    await app.page.reload();
     // French URL ignored as we've made an explicit language choice.
     await app.findProjectName("Untitled project");
   });
 
-  it("switches language", async () => {
-    // NOTE: the app methods generally won't still work after changing language.
+  test("switches language", async ({ app }) => {
+    await app.goto();
     await app.switchLanguage("fr");
     await app.findProjectName("Projet sans titre");
     await app.switchLanguage("en");

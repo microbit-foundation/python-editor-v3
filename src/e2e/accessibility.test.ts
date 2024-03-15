@@ -3,19 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
-describe("accessibility", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
+test.describe("accessibility", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
+  });
 
-  it("focuses the correct element on tabbing after load", async () => {
+  test("focuses the correct element on tabbing after load", async ({ app }) => {
     await app.assertFocusOnLoad();
   });
 
-  it("focuses the correct elements on collapsing and expanding the simulator", async () => {
+  test("focuses the correct elements on collapsing and expanding the simulator", async ({
+    app,
+  }) => {
     await app.collapseSimulator();
     await app.assertFocusOnExpandSimulator();
 
@@ -23,15 +24,17 @@ describe("accessibility", () => {
     await app.assertFocusOnSimulator();
   });
 
-  it("focuses the correct elements on collapsing and expanding the sidebar", async () => {
-    await app.collapseSidebar();
-    await app.assertFocusOnExpandSidebar();
-
+  test("focuses the correct elements on collapsing and expanding the sidebar", async ({
+    app,
+  }) => {
     await app.expandSidebar();
     await app.assertFocusOnSidebar();
+
+    await app.collapseSidebar();
+    await app.assertFocusOnExpandSidebar();
   });
 
-  it("allows tab out of editor", async () => {
+  test("allows tab out of editor", async ({ app }) => {
     await app.tabOutOfEditorForwards();
     await app.assertFocusAfterEditor();
 

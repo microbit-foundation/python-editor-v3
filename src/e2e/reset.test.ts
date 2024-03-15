@@ -3,15 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
-describe("reset", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("resets the project", async () => {
+test.describe("reset", () => {
+  test("sets language via URL", async ({ app }) => {
+    await app.goto();
     await app.setProjectName("My project");
     await app.selectAllInEditor();
     await app.typeInEditor("# Not the default starter code");

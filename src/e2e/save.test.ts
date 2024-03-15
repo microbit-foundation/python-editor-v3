@@ -3,30 +3,43 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App, LoadDialogType } from "./app";
+import { expect } from "@playwright/test";
+import fs from "fs";
+import { LoadDialogType } from "./app-playwright.js";
+import { test } from "./app-test-fixtures.js";
 
-describe("save", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("Download - save the default HEX asd", async () => {
-    await app.setProjectName("idiosyncratic ruminant");
-    const download = await app.waitForSave();
-
-    expect(download.filename).toEqual("idiosyncratic ruminant.hex");
-    expect(download.data.toString("ascii")).toMatch(/^:020000040000FA/);
+test.describe("save", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
   });
 
-  it("Shows an error when trying to save a hex file if the Python code is too large", async () => {
+  test("Download - save the default HEX asd", async ({ app }) => {
+    await app.setProjectName("idiosyncratic ruminant");
+    const download = await app.save();
+    if (!download) {
+      throw new Error("Invalid download");
+    }
+    const filename = download.suggestedFilename();
+    expect(filename).toEqual("idiosyncratic ruminant.hex");
+
+    const path = await download.path();
+    if (!path) {
+      throw new Error("Invalid path");
+    }
+    const contents = await fs.promises.readFile(path, { encoding: "ascii" });
+    expect(contents).toMatch(/^:020000040000FA/);
+  });
+
+  test("Shows an error when trying to save a hex file if the Python code is too large", async ({
+    app,
+  }) => {
     // Set the project name to avoid calling the edit project name input dialog.
     await app.setProjectName("not default name");
     await app.loadFiles("testData/too-large.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.findVisibleEditorContents(/# Filler/);
-    await app.save();
+    await app.save({ waitForDownload: false });
 
     await app.findAlertText(
       "Failed to build the hex file",
@@ -34,23 +47,27 @@ describe("save", () => {
     );
   });
 
-  it("Shows the name your project dialog if the project name is the default", async () => {
-    await app.save();
+  test("Shows the name your project dialog if the project name is the default", async ({
+    app,
+  }) => {
+    await app.save({ waitForDownload: false });
     await app.confirmInputDialog("Name your project");
   });
 
-  it("Shows the post-save dialog after hex save", async () => {
+  test("Shows the post-save dialog after hex save", async ({ app }) => {
     await app.setProjectName("not default name");
     await app.save();
-    await app.confirmGenericDialog("Project saved");
+    await app.confirmInputDialog("Project saved");
   });
 
-  it("Shows the multiple files dialog after main.py save if there are multiple files in the project", async () => {
+  test("Shows the multiple files dialog after main.py save if there are multiple files in the project", async ({
+    app,
+  }) => {
     await app.setProjectName("not default name");
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.saveMain();
-    await app.confirmGenericDialog("Warning: Only main.py downloaded");
+    await app.confirmInputDialog("Warning: Only main.py downloaded");
   });
 });

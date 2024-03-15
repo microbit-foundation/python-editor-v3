@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
 const basicTest = "from microbit import *\ndisplay.show(Image.NO)";
 
@@ -16,13 +16,12 @@ const gestureTest =
 const sliderTest =
   "from microbit import *\nwhile True:\nif temperature() == -5:\ndisplay.show(Image.NO)";
 
-describe("simulator", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
+test.describe("simulator", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
+  });
 
-  it("responds to a sent gesture", async () => {
+  test("responds to a sent gesture", async ({ app }) => {
     // Enum sensor change via select and button.
     await app.selectAllInEditor();
     await app.typeInEditor(gestureTest);
@@ -32,7 +31,7 @@ describe("simulator", () => {
     await app.simulatorConfirmResponse();
   });
 
-  it("responds to a range sensor change", async () => {
+  test("responds to a range sensor change", async ({ app }) => {
     // Range sensor change via slider.
     await app.selectAllInEditor();
     await app.typeInEditor(sliderTest);
@@ -41,7 +40,7 @@ describe("simulator", () => {
     await app.simulatorConfirmResponse();
   });
 
-  it("responds to a button press", async () => {
+  test("responds to a button press", async ({ app }) => {
     // Range sensor change via button.
     await app.selectAllInEditor();
     await app.typeInEditor(buttonTest);
@@ -49,7 +48,7 @@ describe("simulator", () => {
     await app.simulatorInputPressHold("Press button A", 500);
     await app.simulatorConfirmResponse();
   });
-  it("stops when the code changes", async () => {
+  test("stops when the code changes", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor(basicTest);
     await app.runSimulator();

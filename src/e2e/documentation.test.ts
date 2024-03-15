@@ -3,15 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
-describe("documentation", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
+test.describe("documentation", () => {
+  test.beforeEach(async ({ app }) => {
+    await app.goto();
+  });
 
-  it("API toolkit navigation", async () => {
+  test("API toolkit navigation", async ({ app }) => {
     await app.switchTab("API");
     await app.findDocumentationTopLevelHeading(
       "API",
@@ -19,11 +18,7 @@ describe("documentation", () => {
     );
   });
 
-  it("Copy code and paste in editor", async () => {
-    if (process.platform === "darwin") {
-      // pasteToolkitCode doesn't work on Mac
-      return;
-    }
+  test("Copy code and paste in editor", async ({ app }) => {
     const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -31,16 +26,14 @@ describe("documentation", () => {
     await app.selectDocumentationSection("Display");
     await app.triggerScroll(tab);
     await app.toggleCodeActionButton("Images: built-in");
-    await app.copyCode();
+    await app.copyCode("Images: built-in");
     await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.HEART)");
   });
 
-  it("Copy code after dropdown choice and paste in editor", async () => {
-    if (process.platform === "darwin") {
-      // pasteToolkitCode doesn't work on Mac
-      return;
-    }
+  test("Copy code after dropdown choice and paste in editor", async ({
+    app,
+  }) => {
     const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -52,28 +45,28 @@ describe("documentation", () => {
       "silly" // "Image.SILLY"
     );
     await app.toggleCodeActionButton("Images: built-in");
-    await app.copyCode();
+    await app.copyCode("Images: built-in");
+
     await app.pasteToolkitCode();
     await app.findVisibleEditorContents("display.show(Image.SILLY)");
   });
 
-  it("Insert code via drag and drop", async () => {
+  test("Insert code via drag and drop", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("#1\n#2\n#3\n");
     await app.findVisibleEditorContents("#2");
     await app.switchTab("Reference");
     await app.selectDocumentationSection("Display");
-
     await app.dragDropCodeEmbed("Scroll", 2);
 
     // There's some weird trailing whitespace in this snippet that needs fixing in the content.
     const expected =
-      "from microbit import *\n\n\ndisplay.scroll('score')    \ndisplay.scroll(23)\n#1\n#2\n#3\n";
+      "from microbit import *display.scroll('score')    display.scroll(23)#1#2#3";
 
     await app.findVisibleEditorContents(expected);
   });
 
-  it("Searches and navigates to the first result", async () => {
+  test("Searches and navigates to the first result", async ({ app }) => {
     await app.searchToolkits("loop");
     await app.selectFirstSearchResult();
     await app.findDocumentationTopLevelHeading(
@@ -82,7 +75,7 @@ describe("documentation", () => {
     );
   });
 
-  it("Ideas tab navigation", async () => {
+  test("Ideas tab navigation", async ({ app }) => {
     await app.switchTab("Ideas");
     await app.findDocumentationTopLevelHeading(
       "Ideas",
@@ -90,7 +83,7 @@ describe("documentation", () => {
     );
   });
 
-  it("Select an idea", async () => {
+  test("Select an idea", async ({ app }) => {
     const ideaName = "Emotion badge";
     await app.switchTab("Ideas");
     await app.selectDocumentationIdea(ideaName);
