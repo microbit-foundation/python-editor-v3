@@ -12,7 +12,7 @@ test.describe("edits", () => {
 
   test("prompts on close if file edited", async ({ app }) => {
     await app.typeInEditor("A change!");
-    await app.findVisibleEditorContents(/A change/);
+    await app.expectEditorContainText(/A change/);
 
     await app.closePageCheckDialog(true);
   });
@@ -20,17 +20,17 @@ test.describe("edits", () => {
   test("prompts on close if project name edited", async ({ app }) => {
     const name = "idiosyncratic ruminant";
     await app.setProjectName(name);
-    await app.findProjectName(name);
+    await app.expectProjectName(name);
 
     await app.closePageCheckDialog(true);
   });
 
   test("retains text across a reload via session storage", async ({ app }) => {
     await app.typeInEditor("A change!");
-    await app.findVisibleEditorContents(/A change/);
+    await app.expectEditorContainText(/A change/);
 
     await app.page.reload();
 
-    await app.findVisibleEditorContents(/A change/);
+    await app.expectEditorContainText(/A change/);
   });
 });

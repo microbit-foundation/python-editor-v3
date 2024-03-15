@@ -23,7 +23,7 @@ test.describe("open", () => {
     });
 
     await app.findAlertText("Updated file main.py");
-    await app.findProjectName("Untitled project");
+    await app.expectProjectName("Untitled project");
   });
 
   test("Correctly handles a hex that's actually Python", async ({ app }) => {
@@ -42,21 +42,21 @@ test.describe("open", () => {
   test("Loads a v1.0.1 hex file", async ({ app }) => {
     await app.loadFiles("testData/1.0.1.hex");
 
-    await app.findVisibleEditorContents(/PASS1/);
-    await app.findProjectName("1.0.1");
+    await app.expectEditorContainText(/PASS1/);
+    await app.expectProjectName("1.0.1");
   });
 
   test("Loads a v0.9 hex file", async ({ app }) => {
     await app.loadFiles("testData/0.9.hex");
 
-    await app.findVisibleEditorContents(/PASS2/);
-    await app.findProjectName("0.9");
+    await app.expectEditorContainText(/PASS2/);
+    await app.expectProjectName("0.9");
   });
 
   test("Loads via drag and drop", async ({ app }) => {
     await app.dropFile("testData/1.0.1.hex");
 
-    await app.findProjectName("1.0.1");
+    await app.expectProjectName("1.0.1");
     // await app.findVisibleEditorContents(/PASS1/);
   });
 
@@ -103,8 +103,8 @@ test.describe("open", () => {
     await app.loadFiles("testData/1.0.1.hex", {
       acceptDialog: LoadDialogType.REPLACE,
     });
-    await app.findVisibleEditorContents(/PASS1/);
-    await app.findProjectName("1.0.1");
+    await app.expectEditorContainText(/PASS1/);
+    await app.expectProjectName("1.0.1");
   });
 
   test("No warn before load if you save hex", async ({ app }) => {
@@ -115,7 +115,7 @@ test.describe("open", () => {
 
     // No dialog accepted
     await app.loadFiles("testData/1.0.1.hex");
-    await app.findVisibleEditorContents(/PASS1/);
+    await app.expectEditorContainText(/PASS1/);
   });
 
   test("No warn before load if you save main file", async ({ app }) => {
@@ -125,7 +125,7 @@ test.describe("open", () => {
 
     // No dialog accepted
     await app.loadFiles("testData/1.0.1.hex");
-    await app.findVisibleEditorContents(/PASS1/);
+    await app.expectEditorContainText(/PASS1/);
   });
 
   test("Warn before load if you save main file only and you have others", async ({
@@ -140,6 +140,6 @@ test.describe("open", () => {
     await app.loadFiles("testData/1.0.1.hex", {
       acceptDialog: LoadDialogType.REPLACE,
     });
-    await app.findVisibleEditorContents(/PASS1/);
+    await app.expectEditorContainText(/PASS1/);
   });
 });

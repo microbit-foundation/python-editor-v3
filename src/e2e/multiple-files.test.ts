@@ -21,7 +21,7 @@ test.describe("multiple-files", () => {
   test("Add a new file", async ({ app }) => {
     await app.createNewFile("test");
 
-    await app.findVisibleEditorContents(/Your new file/);
+    await app.expectEditorContainText(/Your new file/);
     await app.findProjectFiles(["main.py", "test.py"]);
   });
 
@@ -34,13 +34,13 @@ test.describe("multiple-files", () => {
       acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
     });
     await app.switchToEditing("usermodule.py");
-    await app.findVisibleEditorContents(/b_works/);
+    await app.expectEditorContainText(/b_works/);
 
     await app.loadFiles("testData/updated/usermodule.py", {
       acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
     });
 
-    await app.findVisibleEditorContents(/c_works/);
+    await app.expectEditorContainText(/c_works/);
   });
 
   test("Shows warning for third-party module", async ({ app }) => {
@@ -52,7 +52,7 @@ test.describe("multiple-files", () => {
 
     await app.toggleSettingThirdPartyModuleEditing();
     try {
-      await app.findVisibleEditorContents(/a_works/);
+      await app.expectEditorContainText(/a_works/);
     } finally {
       await app.toggleSettingThirdPartyModuleEditing();
     }
@@ -71,7 +71,7 @@ test.describe("multiple-files", () => {
 
     await app.deleteFile("module.py");
 
-    await app.findVisibleEditorContents(/Hello/);
+    await app.expectEditorContainText(/Hello/);
   });
 
   test("Muddles through if given non-UTF-8 main.py", async ({ app }) => {
@@ -79,7 +79,7 @@ test.describe("multiple-files", () => {
     // If we need to recreate the hex then just fill the file with 0xff.
     await app.loadFiles("testData/invalid-utf-8.hex");
 
-    await app.findVisibleEditorContents(
+    await app.expectEditorContainText(
       /^����������������������������������������������������������������������������������������������������$/
     );
   });

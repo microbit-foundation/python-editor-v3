@@ -23,7 +23,7 @@ test.describe("autocomplete", () => {
 
     // Accepted completion
     await app.acceptCompletion("show");
-    await app.findVisibleEditorContents("display.show()");
+    await app.expectEditorContainText("display.show()");
   });
 
   test("ranks Image above image=", async ({ app }) => {
@@ -71,7 +71,7 @@ test.describe("autocomplete", () => {
     await app.typeInEditor("from audio import is_pla");
     await app.acceptCompletion("is_playing");
 
-    await app.findVisibleEditorContents(/is_playing$/);
+    await app.expectEditorContainText(/is_playing$/);
   });
 
   test("signature can navigate to API toolkit content", async ({ app }) => {

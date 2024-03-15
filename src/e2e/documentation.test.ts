@@ -20,11 +20,10 @@ test.describe("documentation", () => {
     await app.typeInEditor("# Initial document");
     await app.switchTab(tab);
     await app.selectDocumentationSection("Display");
-    await app.triggerScroll(tab);
     await app.toggleCodeActionButton("Images: built-in");
     await app.copyCode("Images: built-in");
-    await app.pasteToolkitCode();
-    await app.findVisibleEditorContents("display.show(Image.HEART)");
+    await app.pasteInEditor();
+    await app.expectEditorContainText("display.show(Image.HEART)");
   });
 
   test("Copy code after dropdown choice and paste in editor", async ({
@@ -35,7 +34,6 @@ test.describe("documentation", () => {
     await app.typeInEditor("# Initial document");
     await app.switchTab(tab);
     await app.selectDocumentationSection("Display");
-    await app.triggerScroll(tab);
     await app.selectToolkitDropDownOption(
       "Select image:",
       "silly" // "Image.SILLY"
@@ -43,14 +41,14 @@ test.describe("documentation", () => {
     await app.toggleCodeActionButton("Images: built-in");
     await app.copyCode("Images: built-in");
 
-    await app.pasteToolkitCode();
-    await app.findVisibleEditorContents("display.show(Image.SILLY)");
+    await app.pasteInEditor();
+    await app.expectEditorContainText("display.show(Image.SILLY)");
   });
 
   test("Insert code via drag and drop", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("#1\n#2\n#3\n");
-    await app.findVisibleEditorContents("#2");
+    await app.expectEditorContainText("#2");
     await app.switchTab("Reference");
     await app.selectDocumentationSection("Display");
     await app.dragDropCodeEmbed("Scroll", 2);
@@ -59,7 +57,7 @@ test.describe("documentation", () => {
     const expected =
       "from microbit import *display.scroll('score')    display.scroll(23)#1#2#3";
 
-    await app.findVisibleEditorContents(expected);
+    await app.expectEditorContainText(expected);
   });
 
   test("Searches and navigates to the first result", async ({ app }) => {

@@ -34,7 +34,7 @@ test.describe("save", () => {
     await app.loadFiles("testData/too-large.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-    await app.findVisibleEditorContents(/# Filler/);
+    await app.expectEditorContainText(/# Filler/);
     await app.save({ waitForDownload: false });
 
     await app.findAlertText(

@@ -177,11 +177,14 @@ export class App {
     await this.editor.waitFor();
   }
 
-  // TODO: Rename to expectProjectName
-  async findProjectName(match: string) {
-    await expect(
-      this.page.getByTestId("project-name").getByText(match)
-    ).toBeVisible();
+  async setProjectName(projectName: string): Promise<void> {
+    await this.page.getByRole("button", { name: "Edit project name" }).click();
+    await this.page.getByLabel("Name*").fill(projectName);
+    await this.page.getByRole("button", { name: "Confirm" }).click();
+  }
+
+  async expectProjectName(match: string) {
+    await expect(this.page.getByTestId("project-name")).toHaveText(match);
   }
 
   async switchLanguage(locale: string) {
@@ -191,42 +194,32 @@ export class App {
     await this.page.getByTestId(locale).click();
   }
 
-  async setProjectName(projectName: string): Promise<void> {
-    await this.page.getByRole("button", { name: "Edit project name" }).click();
-    await this.page.getByLabel("Name*").fill(projectName);
-    await this.page.getByRole("button", { name: "Confirm" }).click();
-  }
-
   async selectAllInEditor(): Promise<void> {
     await this.editorTextArea.click();
     await this.page.keyboard.press(`${this.modifierKey}+A`);
   }
 
   // TODO: Rename to pasteInEditor
-  async pasteToolkitCode() {
+  async pasteInEditor() {
     // Simulating keyboard press CTRL+V works in Playwright,
     // but does not work in this case potentially due to
     // CodeMirror pasting magic
     const clipboardText: string = await this.page.evaluate(
       "navigator.clipboard.readText()"
     );
-    await this.editorTextArea.evaluate((el, clipboardText1) => {
-      const text = clipboardText1;
+    await this.editorTextArea.evaluate((el, text) => {
       const clipboardData = new DataTransfer();
       clipboardData.setData("text/plain", text);
-      const clipboardEvent = new ClipboardEvent("paste", {
-        clipboardData,
-      });
+      const clipboardEvent = new ClipboardEvent("paste", { clipboardData });
       el.dispatchEvent(clipboardEvent);
     }, clipboardText);
   }
 
   async typeInEditor(text: string): Promise<void> {
     const textWithoutLastChar = text.slice(0, text.length - 1);
-    const lastChar = text.slice(-1);
     await this.editorTextArea.fill(textWithoutLastChar);
     // Last character is typed separately to trigger editor suggestions
-    await this.page.keyboard.press(lastChar);
+    await this.page.keyboard.press(text.slice(-1));
   }
 
   async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
@@ -246,9 +239,8 @@ export class App {
     await this.page.getByRole("button", { name: "Replace" }).click();
   }
 
-  // TODO: Rename to expectEditorContentsContain
   // Use allInnerTexts() for matching text
-  async findVisibleEditorContents(match: RegExp | string) {
+  async expectEditorContainText(match: RegExp | string) {
     // Scroll to the top of code text area
     await this.editorTextArea.click();
     await this.page.mouse.wheel(0, -100000000);
@@ -421,11 +413,6 @@ export class App {
     await this.page.getByRole("heading", { name }).click();
   }
 
-  // Rename srollToTop
-  async triggerScroll(_tabName: string) {
-    await this.page.mouse.wheel(0, -100000000);
-  }
-
   async toggleCodeActionButton(name: string): Promise<void> {
     await this.page
       .getByRole("listitem")
@@ -591,6 +578,7 @@ export class App {
   }
 
   // TODO: Rename to expectCompletionOptions
+  // try toContainText instead for testing!
   async findCompletionOptions(expected: string[]): Promise<void> {
     const completions = this.page.getByRole("listbox", { name: "Completions" });
     const contents = await completions.innerText();

@@ -15,8 +15,8 @@ test.describe("migration", () => {
   test("Loads the project from the URL", async ({ app }) => {
     await app.goto({ fragment: heartMigrationFragment });
     await app.page.reload();
-    await app.findProjectName("Hearts");
-    await app.findVisibleEditorContents(
+    await app.expectProjectName("Hearts");
+    await app.expectEditorContainText(
       "from microbit import *display.show(Image.HEART)"
     );
 
@@ -28,6 +28,6 @@ test.describe("migration", () => {
     await app.page.reload();
     // wait for page to load
     await app.saveButton.waitFor();
-    await app.findVisibleEditorContents("display.read_light_level");
+    await app.expectEditorContainText("display.read_light_level");
   });
 });
