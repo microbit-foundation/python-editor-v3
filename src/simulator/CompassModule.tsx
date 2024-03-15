@@ -12,7 +12,7 @@ import {
   SimulatorState,
 } from "../device/simulator";
 import Axis from "./Axis";
-import { ReactComponent as CompassHeadingIcon } from "./icons/compass-heading.svg";
+import CompassHeadingIcon from "./icons/compass-heading.svg?react";
 import RangeSensor from "./RangeSensor";
 
 interface CompassModuleProps {

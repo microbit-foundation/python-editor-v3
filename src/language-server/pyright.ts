@@ -16,8 +16,12 @@ const workerScriptName = "pyright-main-46e9f54371eb3b42b37c.worker.js";
 
 // Very simple cache to avoid React re-creating pointlessly in development.
 let counter = 0;
-let cached: LanguageServerClient | undefined;
-let cachedLang: string | undefined;
+let cache:
+  | {
+      client: LanguageServerClient;
+      language: string;
+    }
+  | undefined;
 
 /**
  * Creates Pyright workers and corresponding client.
@@ -27,15 +31,21 @@ let cachedLang: string | undefined;
 export const pyright = async (
   language: string
 ): Promise<LanguageServerClient | undefined> => {
-  // For jest.
+  // For jsdom.
   if (!window.Worker) {
     return undefined;
   }
-  if (cached && cachedLang === language) {
-    return cached;
+  if (cache) {
+    // This is safe to call if already initialized.
+    await cache.client.initialize();
+    if (cache.language === language) {
+      return cache.client;
+    } else {
+      // Dispose it, we'll create a new one.
+      cache?.client.dispose();
+      cache = undefined;
+    }
   }
-  // Dispose it, we'll create a new one.
-  cached?.dispose();
 
   const idSuffix = counter++;
   // Needed to support review branches that use a path location.
@@ -81,8 +91,14 @@ export const pyright = async (
   });
   connection.listen();
 
-  cached = new LanguageServerClient(connection, language, createUri(""));
-  await cached.initialize();
-  cachedLang = language;
-  return cached;
+  const client = new LanguageServerClient(connection, language, createUri(""));
+  // Must assign before any async step so we reuse or dispose this client
+  // if another call to pyright is made (language change or React 18 dev mode
+  // in practice).
+  cache = {
+    client,
+    language,
+  };
+  await client.initialize();
+  return cache?.client;
 };

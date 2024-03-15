@@ -51,10 +51,9 @@ const SearchDialog = ({
     <Box>
       <Box py={1.5} px={1}>
         <InputGroup variant="outline">
-          <InputLeftElement
-            pointerEvents="none"
-            children={<RiSearch2Line color="gray.800" />}
-          />
+          <InputLeftElement pointerEvents="none">
+            <RiSearch2Line color="gray.800" />
+          </InputLeftElement>
           <Input
             aria-label={intl.formatMessage({ id: "search" })}
             ref={ref}

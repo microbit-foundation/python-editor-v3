@@ -6,11 +6,13 @@ The document assumes some familiarity with the app as a user. [Try it out](http:
 
 ## User interface
 
-The editor is written in [TypeScript](https://www.typescriptlang.org/) using [React](https://reactjs.org/). The best documentation for React at the time of writing is their [beta documentation](https://beta.reactjs.org/).
+The editor is written in [TypeScript](https://www.typescriptlang.org/) using [React](https://reactjs.org/).
 
-We use the [Chakra UI component library](https://chakra-ui.com/docs/getting-started) which provides a base set of accessible components. We're currently using Chakra UI 1.x.
+We use the [Chakra UI component library](https://chakra-ui.com/docs/getting-started) which provides a base set of accessible components. We're currently using Chakra UI 2.x.
 
-The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started). We're using [Craco](https://github.com/dilanx/craco) to override some parts of the Create React App configuration.
+The project is bundled using [Vite](https://vitejs.dev/). The test runner is [Vitest](https://vitest.dev/) and we're using [eslint](https://eslint.org/).
+
+We use Prettier to format code. Please set this up to format before committing changes, ideally on save (there's [a VS Code plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)).
 
 The UI is split into different areas by the [workbench component](../src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. The main areas are:
 
@@ -18,7 +20,7 @@ The UI is split into different areas by the [workbench component](../src/workben
 2. The main editing area with the text editor for the current file, header with the project title and the project action bar with buttons for key interactions. When a micro:bit device is connected over WebUSB, the serial area appears between the text editor and the project actions.
 3. The simulator on the right, with its own serial area and controls.
 
-The branding that you see on the [Foundation deployment](https://python.microbit.org/v/3) is not Open Source and is managed in a private GitHub project. This is swapped in via a webpack alias for `theme-package` configured by Craco.
+The branding that you see on the [Foundation deployment](https://python.microbit.org/v/3) is not Open Source and is managed in a private GitHub project. This is swapped in via an alias for `theme-package` in the Vite config.
 
 ## Connecting to the micro:bit via WebUSB, flashing and hex files
 

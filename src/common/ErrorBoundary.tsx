@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
-  context!: React.ContextType<typeof LoggingContext>;
+  declare context: React.ContextType<typeof LoggingContext>;
 
   constructor(props: ErrorBoundaryProps) {
     super(props);

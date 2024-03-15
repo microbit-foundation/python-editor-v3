@@ -15,7 +15,7 @@ import {
   NumberInputStepper,
   VStack,
 } from "@chakra-ui/react";
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import SelectFormControl, { createOptions } from "./SelectFormControl";
 import {

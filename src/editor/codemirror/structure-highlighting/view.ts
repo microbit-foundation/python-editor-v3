@@ -69,7 +69,7 @@ export const codeStructureView = (option: "full" | "simple") =>
         view.requestMeasure(this.measureReq);
       }
 
-      update(update: ViewUpdate) {
+      update(_update: ViewUpdate) {
         // We can probably limit this but we need to know when the language state has changed as parsing has occurred.
         this.view.requestMeasure(this.measureReq);
       }

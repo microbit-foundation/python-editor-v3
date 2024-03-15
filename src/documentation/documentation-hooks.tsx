@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
+import { apiDocs, ApiDocsContent } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
@@ -26,7 +26,7 @@ import { fetchReferenceToolkit } from "./reference/content";
 import { Toolkit } from "./reference/model";
 
 export type ContentState<T> =
-  | { status: "ok"; content: T }
+  | { status: "ok"; content: T; languageId: string }
   | { status: "error" }
   | { status: "loading" };
 
@@ -44,7 +44,7 @@ const useContent = <T,>(
       try {
         const content = await fetchContent(languageId);
         if (!ignore) {
-          setState({ status: "ok", content });
+          setState({ status: "ok", content, languageId });
         }
       } catch (e) {
         logging.error(e);
@@ -63,9 +63,9 @@ const useContent = <T,>(
   return state;
 };
 
-const useApiDocumentation = (): ApiDocsResponse | undefined => {
+const useApiDocumentation = (): ApiDocsContent | undefined => {
   const client = useLanguageServerClient();
-  const [apidocs, setApiDocs] = useState<ApiDocsResponse | undefined>();
+  const [apidocs, setApiDocs] = useState<ApiDocsContent | undefined>();
   useEffect(() => {
     let ignore = false;
     const load = async () => {
@@ -86,7 +86,7 @@ const useApiDocumentation = (): ApiDocsResponse | undefined => {
 };
 
 export interface DocumentationContextValue {
-  api: ApiDocsResponse | undefined;
+  api: ApiDocsContent | undefined;
   ideas: ContentState<Idea[]>;
   reference: ContentState<Toolkit>;
   apiReferenceMap: ContentState<ApiReferenceMap>;

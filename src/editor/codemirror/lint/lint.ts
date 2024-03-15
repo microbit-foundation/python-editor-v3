@@ -39,7 +39,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-/* eslint-disable */
 import {EditorView, ViewPlugin, Decoration, DecorationSet,
   WidgetType, ViewUpdate, Command, logException, KeyBinding,
   hoverTooltip, Tooltip, showTooltip, gutter, GutterMarker,

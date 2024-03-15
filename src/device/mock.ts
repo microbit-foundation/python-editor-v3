@@ -69,7 +69,7 @@ export class MockDeviceConnection
    * @param options Flash options and progress callback.
    */
   async flash(
-    dataSource: FlashDataSource,
+    _dataSource: FlashDataSource,
     options: {
       /**
        * True to use a partial flash where possible, false to force a full flash.

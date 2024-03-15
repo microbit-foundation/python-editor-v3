@@ -10,16 +10,15 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import useIsUnmounted from "../../common/use-is-unmounted";
 import { useLogging } from "../../logging/logging-hooks";
 import { useSettings } from "../../settings/settings";
 import { useDocumentation } from "../documentation-hooks";
-import { Search, SearchResults } from "./common";
+import { SearchResults } from "./common";
 import { WorkerSearch } from "./search-client";
-
-const search: Search = new WorkerSearch();
 
 type UseSearch = {
   results: SearchResults | undefined;
@@ -43,19 +42,34 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
   const [results, setResults] = useState<SearchResults | undefined>();
   const isUnmounted = useIsUnmounted();
   const logging = useLogging();
+  const [{ languageId }] = useSettings();
+  const search = useRef<WorkerSearch>();
+
   useEffect(() => {
-    // Wait for both, no reason to index with just one then redo with both.
-    if (reference.status === "ok" && api) {
-      search.index(reference.content, api);
+    if (languageId !== search.current?.language) {
+      search.current?.dispose();
+      search.current = new WorkerSearch(languageId);
+      setQuery("");
     }
-  }, [reference, api]);
+    // Wait for everything to be loaded and in the right language
+    if (
+      reference.status === "ok" &&
+      reference.languageId === languageId &&
+      api?.languageId === languageId
+    ) {
+      search.current.index(reference.content, api.content);
+    }
+  }, [languageId, reference, api]);
 
   const debouncedSearch = useMemo(
     () =>
       debounce(async (newQuery: string) => {
+        if (!search.current) {
+          return;
+        }
         const trimmedQuery = newQuery.trim();
         if (trimmedQuery) {
-          const results = await search.search(trimmedQuery);
+          const results = await search.current.search(trimmedQuery);
           if (!isUnmounted()) {
             setResults((prevResults) => {
               if (!prevResults) {
@@ -70,11 +84,6 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
       }, 300),
     [setResults, isUnmounted, logging]
   );
-
-  const [{ languageId }] = useSettings();
-  useEffect(() => {
-    setQuery("");
-  }, [languageId]);
 
   useEffect(() => {
     debouncedSearch(query);

@@ -5,7 +5,14 @@
  */
 import { toByteArray } from "base64-js";
 
-import { LZMA } from "lzma/src/lzma-d-min";
+import lzma from "lzma/src/lzma-d";
+
+// LZMA isn't a proper module.
+// When bundled it assigns to window. At dev time it works via the above import.
+const LZMA =
+  typeof window !== "undefined" && (window as any).LZMA
+    ? (window as any).LZMA
+    : lzma.LZMA;
 
 // There are other fields that we don't use.
 export interface Migration {

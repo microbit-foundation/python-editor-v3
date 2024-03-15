@@ -12,11 +12,12 @@
 import { ConnectionStatus, EVENT_STATUS } from "./device";
 import { NullLogging } from "../deployment/default/logging";
 import { MicrobitWebUSBConnection } from "./webusb";
+import { vi } from "vitest";
 
-jest.mock("./dap-wrapper", () => ({
+vi.mock("./dap-wrapper", () => ({
   DAPWrapper: class DapWrapper {
-    startSerial = jest.fn().mockReturnValue(Promise.resolve());
-    reconnectAsync = jest.fn();
+    startSerial = vi.fn().mockReturnValue(Promise.resolve());
+    reconnectAsync = vi.fn();
   },
 }));
 
@@ -37,8 +38,8 @@ describe("MicrobitWebUSBConnection (WebUSB unsupported)", () => {
 describeDeviceOnly("MicrobitWebUSBConnection (WebUSB supported)", () => {
   beforeAll(() => {
     const usb = {
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
       requestDevice() {
         const device = {};
         return device;

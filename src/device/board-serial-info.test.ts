@@ -5,6 +5,7 @@
  */
 import { BoardId } from "./board-id";
 import { BoardSerialInfo } from "./board-serial-info";
+import { vi } from "vitest";
 
 describe("BoardSerialInfo", () => {
   const valid = {
@@ -14,7 +15,7 @@ describe("BoardSerialInfo", () => {
     serialNumber: "9904360251974e450039900a000000410000000097969",
   } as USBDevice;
   const missing = { serialNumber: "" } as USBDevice;
-  const log = jest.fn();
+  const log = vi.fn();
   afterEach(() => {
     log.mockReset();
   });

@@ -9,7 +9,7 @@ import { useDocumentation } from "./documentation-hooks";
 
 const ApiArea = () => {
   const { api } = useDocumentation();
-  return api ? <ApiDocumentation docs={api} /> : <Spinner />;
+  return api ? <ApiDocumentation docs={api.content} /> : <Spinner />;
 };
 
 export default ApiArea;

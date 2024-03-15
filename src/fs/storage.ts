@@ -71,7 +71,7 @@ export class InMemoryFSStorage implements FSStorage {
   }
 
   async remove(name: string): Promise<void> {
-    if (!this.exists(name)) {
+    if (!(await this.exists(name))) {
       throw new Error(`No such file ${name}`);
     }
     this._data.delete(name);
@@ -159,7 +159,7 @@ export class SessionStorageFSStorage implements FSStorage {
   }
 
   async remove(name: string): Promise<void> {
-    if (!this.exists(name)) {
+    if (!(await this.exists(name))) {
       throw new Error(`No such file ${name}`);
     }
     this.storage.removeItem(fsFilesPrefix + name);

@@ -34,7 +34,7 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
-const defaultWaitForOptions = { timeout: 5_000 };
+const defaultWaitForOptions = { timeout: 10_000 };
 
 const baseUrl = "http://localhost:3000";
 const reportsPath = "reports/e2e/";
@@ -109,8 +109,9 @@ export class App {
     }
     return (
       baseUrl +
-      // We don't use PUBLIC_URL here as CRA seems to set it to "" before running jest.
-      (process.env.E2E_PUBLIC_URL ?? "/") +
+      // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
+      // Maybe can be changed since the Vite upgrade.
+      (process.env.E2E_BASE_URL ?? "/") +
       "?" +
       new URLSearchParams(params) +
       (options.fragment ?? "")
@@ -508,7 +509,7 @@ export class App {
       },
       {
         ...defaultWaitForOptions,
-        onTimeout: (e) =>
+        onTimeout: (_e) =>
           new Error(
             `Timeout waiting for ${match} but content was:\n${lastText}}\n\nJSON version:\n${JSON.stringify(
               lastText
@@ -941,6 +942,8 @@ export class App {
     this.page = this.createPage();
     page = await this.page;
     await page.goto(this.url);
+    // Wait for side bar to load
+    await page.waitForSelector('[data-testid="scrollable-panel"]');
   }
 
   /**
@@ -1031,7 +1034,10 @@ export class App {
     const button = await document.findByRole("link", {
       name: linkName,
     });
-    return button.click();
+    await button.click();
+
+    // Wait for side bar to load
+    await document.waitForSelector('[data-testid="scrollable-panel"]');
   }
 
   /**
@@ -1105,7 +1111,7 @@ export class App {
     return (
       reportsPath +
       // GH actions has character restrictions
-      expect.getState().currentTestName.replace(/[^0-9a-zA-Z]+/g, "-") +
+      (expect.getState().currentTestName || "").replace(/[^0-9a-zA-Z]+/g, "-") +
       "." +
       extension
     );
@@ -1215,6 +1221,7 @@ export class App {
     await triggerDownload();
 
     const startTime = performance.now();
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const after = await listDir();
       before.forEach((x) => after.delete(x));
@@ -1245,15 +1252,6 @@ export class App {
   private async keyboardPress(key: KeyInput): Promise<void> {
     const keyboard = (await this.page).keyboard;
     await keyboard.press(key);
-  }
-
-  private async getElementByRoleAndLabel(
-    role: string,
-    name: string
-  ): Promise<ElementHandle<Element>> {
-    return (await this.document()).findByRole(role, {
-      name,
-    });
   }
 
   private async getElementByQuerySelector(

@@ -44,6 +44,11 @@ export interface ApiDocsEntry {
   params?: ApiDocsFunctionParameter[];
 }
 
+export interface ApiDocsContent {
+  languageId: string;
+  content: ApiDocsResponse;
+}
+
 export interface ApiDocsResponse extends Record<string, ApiDocsEntry> {}
 
 export const apiDocsRequestType = new ProtocolRequestType<
@@ -56,10 +61,10 @@ export const apiDocsRequestType = new ProtocolRequestType<
 
 export const apiDocs = async (
   client: LanguageServerClient
-): Promise<ApiDocsResponse> => {
+): Promise<ApiDocsContent> => {
   // This is a non-standard LSP call that we've added support for to Pyright.
   try {
-    const result = await client.connection.sendRequest(apiDocsRequestType, {
+    const content = await client.connection.sendRequest(apiDocsRequestType, {
       path: client.rootUri,
       documentationFormat: [MarkupKind.Markdown],
       modules: [
@@ -84,10 +89,10 @@ export const apiDocs = async (
         "time",
       ],
     });
-    return result;
+    return { content, languageId: client.locale };
   } catch (e) {
     if (isErrorDueToDispose(e)) {
-      return {};
+      return { content: {}, languageId: client.locale };
     }
     throw e;
   }

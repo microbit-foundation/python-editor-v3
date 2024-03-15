@@ -9,11 +9,13 @@ import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
 import lunrJa from "@microbit/lunr-languages/lunr.ja";
 import {
-  buildReferenceIndex,
+  buildIndex,
   buildSearchIndex,
   SearchableContent,
   SearchWorker,
-} from "./search";
+} from "./search.worker";
+import { vi } from "vitest";
+import frLanguageSupport from "@microbit/lunr-languages/lunr.fr";
 
 const searchableReferenceContent: SearchableContent[] = [
   {
@@ -98,7 +100,9 @@ describe("Search", () => {
 });
 
 describe("buildReferenceIndex", () => {
-  it("uses language from the toolkit for the Reference index", async () => {
+  it("uses language support provided", async () => {
+    // We used to derive this from the index and dynamically load the right language support
+    // inside the worker, but switched to a worker per language when movign to Vite
     const api: ApiDocsResponse = {};
     const referenceEn: Toolkit = {
       id: "reference",
@@ -118,12 +122,12 @@ describe("buildReferenceIndex", () => {
       ...referenceEn,
       language: "fr",
     };
-    const enIndex = await buildReferenceIndex(referenceEn, api);
+    const enIndex = await buildIndex(referenceEn, api, undefined, undefined);
     expect(enIndex.search("topic").reference.length).toEqual(1);
     // "that" is an English stopword
     expect(enIndex.search("that").reference.length).toEqual(0);
 
-    const frIndex = await buildReferenceIndex(referenceFr, api);
+    const frIndex = await buildIndex(referenceFr, api, "fr", frLanguageSupport);
     expect(frIndex.search("topic").reference.length).toEqual(1);
     // "that" is not a French stopword
     expect(frIndex.search("that").reference.length).toEqual(1);
@@ -132,12 +136,12 @@ describe("buildReferenceIndex", () => {
 
 describe("SearchWorker", () => {
   it("blocks queries on initialization", async () => {
-    const postMessage = jest.fn();
+    const postMessage = vi.fn();
     const ctx = {
       postMessage,
-    } as unknown as Worker;
+    } as unknown as DedicatedWorkerGlobalScope;
 
-    new SearchWorker(ctx);
+    new SearchWorker(ctx, undefined, undefined);
 
     ctx.onmessage!(
       new MessageEvent("message", {
@@ -175,12 +179,12 @@ describe("SearchWorker", () => {
   });
 
   it("reindexes", async () => {
-    const postMessage = jest.fn();
+    const postMessage = vi.fn();
     const ctx = {
       postMessage,
-    } as unknown as Worker;
+    } as unknown as DedicatedWorkerGlobalScope;
 
-    new SearchWorker(ctx);
+    new SearchWorker(ctx, undefined, undefined);
 
     const emptyIndex: IndexMessage = {
       kind: "index",

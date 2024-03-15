@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ReactComponent as FaceIcon } from "./face-icon.svg";
+import FaceIcon from "./face-icon.svg?react";
 
 /**
  * A stylized micro:bit.

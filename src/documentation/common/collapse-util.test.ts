@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  *
- * @jest-environment ./src/testing/custom-browser-env
+ * @vitest-environment jsdom
  */
 import { PortableText } from "../../common/sanity";
 import { decorateWithCollapseNodes } from "./collapse-util";

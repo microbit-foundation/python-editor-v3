@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-export const version = process.env.REACT_APP_VERSION || "local";
+export const version = import.meta.env.VITE_VERSION || "local";
 
 export type Stage = "local" | "REVIEW" | "STAGING" | "PRODUCTION";
 
-export const stage = (process.env.REACT_APP_STAGE || "local") as Stage;
+export const stage = (import.meta.env.VITE_STAGE || "local") as Stage;

@@ -57,7 +57,7 @@ export class LanguageServerClient extends EventEmitter {
 
   constructor(
     public connection: MessageConnection,
-    private locale: string,
+    public locale: string,
     public rootUri: string
   ) {
     super();
@@ -191,7 +191,8 @@ export class LanguageServerClient extends EventEmitter {
       return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
     });
     return {
-      files: typeshed,
+      // Shallow copy as it's an ESM that can't be serialized
+      files: { files: typeshed.files },
       // Custom option in our Pyright version
       diagnosticStyle: "simplified",
     };
