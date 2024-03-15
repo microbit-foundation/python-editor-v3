@@ -5,6 +5,6 @@
  */
 
 /**
- * See craco.config.js.
+ * See vite.config.ts
  */
 declare module "theme-package";

@@ -103,7 +103,8 @@
     "test": "vitest",
     "theme:watch": "chakra-cli tokens src/deployment/default/theme.ts --watch",
     "theme": "chakra-cli tokens src/deployment/default/theme.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch"
   },
   "browserslist": {
     "production": [
