@@ -101,7 +101,7 @@
     "serve": "npx serve --no-clipboard -l 3000 -- build/",
     "start": "vite dev",
     "test:e2e:headless": "cross-env E2E_HEADLESS=1 vitest --mode e2e",
-    "test:e2e": "cross-env E2E_HEADLESS=0 vitest --mode e2e",
+    "test:e2e": "npx playwright test --ui",
     "test": "vitest",
     "theme:watch": "chakra-cli tokens src/deployment/default/theme.ts --watch",
     "theme": "chakra-cli tokens src/deployment/default/theme.ts",
