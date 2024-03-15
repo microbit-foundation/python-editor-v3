@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Locator, Page, expect } from "@playwright/test";
+import { BrowserContext, Frame, Locator, Page, expect } from "@playwright/test";
 import { Flag } from "../flags";
 import path from "path";
 import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
+import { WebUSBErrorCode } from "../device/device";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -122,9 +123,14 @@ export class App {
   private searchButton: Locator;
   public modifierKey: string;
   public projectTab: ProjectTabPanel;
+  private moreConnectionOptionsButton: Locator;
+  public baseUrl: string;
+  private editor: Locator;
 
-  constructor(public readonly page: Page) {
-    this.editorTextArea = this.page.getByTestId("editor").getByRole("textbox");
+  constructor(public readonly page: Page, public context: BrowserContext) {
+    this.baseUrl = baseUrl;
+    this.editor = this.page.getByTestId("editor");
+    this.editorTextArea = this.editor.getByRole("textbox");
     this.projectTab = new ProjectTabPanel(page);
     this.settingsButton = this.page.getByTestId("settings");
     this.saveButton = this.page.getByRole("button", {
@@ -132,6 +138,11 @@ export class App {
       exact: true,
     });
     this.searchButton = this.page.getByRole("button", { name: "Search" });
+    this.moreConnectionOptionsButton = this.page.getByTestId(
+      "more-connect-options"
+    );
+
+    // Set modifier key
     const isMac = process.platform === "darwin";
     this.modifierKey = isMac ? "Meta" : "Control";
   }
@@ -185,7 +196,11 @@ export class App {
   }
 
   async typeInEditor(text: string): Promise<void> {
-    await this.editorTextArea.fill(text);
+    const textWithoutLastChar = text.slice(0, text.length - 1);
+    const lastChar = text.slice(-1);
+    await this.editorTextArea.fill(textWithoutLastChar);
+    // Last character is typed separately to trigger editor suggestions
+    await this.page.keyboard.press(lastChar);
   }
 
   async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
@@ -211,7 +226,7 @@ export class App {
     // Scroll to the top of code text area
     await this.editorTextArea.click();
     await this.page.mouse.wheel(0, -100000000);
-    return expect(this.editorTextArea).toContainText(match);
+    await expect(this.editorTextArea).toContainText(match);
   }
 
   // TODO: Rename to expectProjectFiles
@@ -307,8 +322,10 @@ export class App {
     }
   }
 
-  async closeDialog(dialogText: string) {
-    await this.page.getByText(dialogText).waitFor();
+  async closeDialog(dialogText?: string) {
+    if (dialogText) {
+      await this.page.getByText(dialogText).waitFor();
+    }
     await this.page.getByRole("button", { name: "Close" }).first().click();
   }
 
@@ -358,7 +375,7 @@ export class App {
       expect(dialog.type() === "beforeunload").toEqual(visible);
       await dialog.dismiss();
     });
-    await this.page.close({ runBeforeUnload: true });
+    this.page.close({ runBeforeUnload: true });
   }
 
   // Rename to expectDocumentationTopLevelHeading
@@ -442,7 +459,236 @@ export class App {
   async selectDocumentationIdea(name: string): Promise<void> {
     await this.page.getByRole("button", { name }).click();
   }
+
+  async connect(): Promise<void> {
+    await this.moreConnectionOptionsButton.click();
+    await this.page.getByRole("menuitem", { name: "Connect" }).click();
+    await this.connectViaConnectHelp();
+  }
+
+  // Connects from the connect dialog/wizard.
+  async connectViaConnectHelp(): Promise<void> {
+    await this.page.getByRole("button", { name: "Next" }).click();
+    await this.page.getByRole("button", { name: "Next" }).click();
+  }
+
+  // TODO: Extract as variable instead of function
+  private findMainSerialArea() {
+    return this.page.getByRole("region", {
+      name: "Serial terminal",
+      exact: true,
+    });
+  }
+
+  async confirmConnection(): Promise<void> {
+    const serialMenu = this.findMainSerialArea().getByRole("button", {
+      name: "Serial menu",
+    });
+    await expect(serialMenu).toBeVisible();
+  }
+
+  // TODO: Move expect out to separate function
+  async disconnect(): Promise<void> {
+    await this.moreConnectionOptionsButton.click();
+    await this.page.getByRole("menuitem", { name: "Disconnect" }).click();
+    const btns = await this.page
+      .getByRole("button", { name: "Serial terminal" })
+      .all();
+
+    expect(btns.length).toEqual(0);
+  }
+
+  async serialShow(): Promise<void> {
+    await this.findMainSerialArea()
+      .getByRole("button", { name: "Show serial" })
+      .click();
+
+    // TODO: Extract
+    // Make sure the button has flipped.
+    const hideSerialButton = this.findMainSerialArea().getByRole("button", {
+      name: "Hide serial",
+    });
+    await expect(hideSerialButton).toBeVisible();
+  }
+
+  async serialHide(): Promise<void> {
+    await this.findMainSerialArea()
+      .getByRole("button", { name: "Hide serial" })
+      .click();
+
+    // TODO: Extract
+    // Make sure the button has flipped.
+    const showSerialButton = this.findMainSerialArea().getByRole("button", {
+      name: "Show serial",
+    });
+    await expect(showSerialButton).toBeVisible();
+  }
+
+  async flash() {
+    await this.page.getByRole("button", { name: "Send to micro:bit" }).click();
+  }
+
+  async mockSerialWrite(data: string): Promise<void> {
+    this.page.evaluate((data) => {
+      (window as any).mockDevice.mockSerialWrite(data);
+    }, toCrLf(data));
+  }
+
+  async followSerialCompactTracebackLink(): Promise<void> {
+    await this.page.getByTestId("traceback-link").click();
+  }
+
+  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
+    this.page.evaluate((code) => {
+      (window as any).mockDevice.mockConnect(code);
+    }, code);
+  }
+
+  async findSerialCompactTraceback(text: string | RegExp): Promise<void> {
+    await expect(this.page.getByText(text)).toBeVisible();
+  }
+
+  // Retry micro:bit connection from error dialogs.
+  async connectViaTryAgain(): Promise<void> {
+    await this.page.getByRole("button", { name: "Try again" }).click();
+  }
+
+  // Launch 'connect help' dialog from 'not found' dialog.
+  async connectHelpFromNotFoundDialog(): Promise<void> {
+    await this.page.getByRole("link", { name: "follow these steps" }).click();
+  }
+
+  async mockWebUsbNotSupported() {
+    this.page.evaluate(() => {
+      (window as any).mockDevice.mockWebUsbNotSupported();
+    });
+  }
+
+  // TODO: Rename to expectCompletionOptions
+  async findCompletionOptions(expected: string[]): Promise<void> {
+    const completions = this.page.getByRole("listbox", { name: "Completions" });
+    const contents = await completions.innerText();
+
+    expect(contents).toEqual(expected.join("\n"));
+  }
+
+  // TODO: Rename to expectCompletionActiveOption
+  async findCompletionActiveOption(signature: string): Promise<void> {
+    const activeOption = this.editor
+      .locator("div")
+      .filter({ hasText: signature })
+      .nth(2);
+    await expect(activeOption).toBeVisible();
+  }
+
+  async acceptCompletion(name: string): Promise<void> {
+    // This seems significantly more reliable than pressing Enter, though there's
+    // no real-life issue here.
+    await this.editor.getByRole("option", { name }).click();
+  }
+
+  async followCompletionOrSignatureDocumentionLink(
+    linkName: "Help" | "API"
+  ): Promise<void> {
+    await this.page.getByRole("link", { name: linkName }).click();
+  }
+
+  // TODO: Rename to expectActiveApiEntry
+  async findActiveApiEntry(text: string, _headingLevel: string): Promise<void> {
+    // We need to make sure it's actually visible as it's scroll-based navigation.
+    await expect(this.page.getByRole("heading", { name: text })).toBeVisible();
+  }
+
+  // TODO: Rename to expectSignatureHelp
+  async findSignatureHelp(expectedSignature: string): Promise<void> {
+    const signatureHelp = this.editor
+      .locator("div")
+      .filter({ hasText: expectedSignature })
+      .nth(1);
+    await signatureHelp.waitFor();
+    await expect(signatureHelp).toBeVisible();
+  }
+
+  // Simulator functions
+  private getSimulatorIframe(): Frame {
+    const simulatorIframe = this.page
+      .frames()
+      .find((frame) => frame.name() === "Simulator");
+    if (!simulatorIframe) {
+      throw new Error("Simulator iframe not found");
+    }
+    return simulatorIframe;
+  }
+
+  async runSimulator(): Promise<void> {
+    const simulatorIframe = this.getSimulatorIframe();
+    const playButton = simulatorIframe.locator(".play-button");
+    await playButton.click();
+  }
+
+  async simulatorSelectGesture(option: string): Promise<void> {
+    await this.page
+      .getByTestId("simulator-gesture-select")
+      .selectOption(option);
+  }
+
+  async simulatorSendGesture(): Promise<void> {
+    await this.page.getByRole("button", { name: "Send gesture" }).click();
+  }
+
+  async simulatorConfirmResponse(): Promise<void> {
+    // Confirms that top left LED is switched on
+    // to match Image.NO being displayed.
+    const gridLEDs = this.getSimulatorIframe().locator("#LEDsOn");
+    await expect(gridLEDs).toBeVisible();
+  }
+
+  async simulatorSetRangeSlider(
+    sliderLabel: string,
+    value: "min" | "max"
+  ): Promise<void> {
+    const sliderThumb = this.page.locator(
+      `[role="slider"][aria-label="${sliderLabel}"]`
+    );
+    const bounding_box = await sliderThumb!.boundingBox();
+    await this.page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await this.page.mouse.down();
+    await this.page.waitForTimeout(500);
+    await this.page.mouse.move(value === "max" ? 1200 : 0, 0);
+    await this.page.waitForTimeout(500);
+    await this.page.mouse.up();
+  }
+
+  async simulatorInputPressHold(
+    name: string,
+    pressDuration: number
+  ): Promise<void> {
+    const inputButton = this.page.getByRole("button", {
+      name,
+    });
+    const bounding_box = await inputButton!.boundingBox();
+    await this.page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await this.page.mouse.down();
+    await this.page.waitForTimeout(pressDuration);
+    await this.page.mouse.up();
+  }
+
+  async findStoppedSimulator(): Promise<void> {
+    const button = this.page.getByRole("button", {
+      name: "Stop simulator",
+    });
+    expect(await button.isDisabled()).toEqual(true);
+  }
 }
+
+const toCrLf = (text: string): string =>
+  text.replace(/[\r\n]/g, "\n").replace(/\n/g, "\r\n");
 
 export const getFilename = (filePath: string) => {
   const filename = filePath.split("/").pop();

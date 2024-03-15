@@ -6,7 +6,29 @@ type MyFixtures = {
 };
 
 export const test = base.extend<MyFixtures>({
-  app: async ({ page }, use) => {
-    await use(new App(page));
+  app: async ({ page, context }, use) => {
+    const app = new App(page, context);
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await context.addCookies([
+      {
+        // See corresponding code in App.tsx.
+        name: "mockDevice",
+        value: "1",
+        url: app.baseUrl,
+      },
+      // Don't show compliance notice for Foundation builds
+      {
+        name: "MBCC",
+        value: encodeURIComponent(
+          JSON.stringify({
+            version: 1,
+            analytics: false,
+            functional: true,
+          })
+        ),
+        url: app.baseUrl,
+      },
+    ]);
+    await use(app);
   },
 });

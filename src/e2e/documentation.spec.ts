@@ -18,8 +18,7 @@ test.describe("documentation", () => {
     );
   });
 
-  test("Copy code and paste in editor", async ({ app, context }) => {
-    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  test("Copy code and paste in editor", async ({ app }) => {
     const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
@@ -34,9 +33,7 @@ test.describe("documentation", () => {
 
   test("Copy code after dropdown choice and paste in editor", async ({
     app,
-    context,
   }) => {
-    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     const tab = "Reference";
     await app.selectAllInEditor();
     await app.typeInEditor("# Initial document");
