@@ -6,10 +6,6 @@
 import { test } from "./app-test-fixtures.js";
 
 test.describe("edits", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("doesn't prompt on close if no edits made", async ({ app }) => {
     await app.closePageCheckDialog(false);
   });

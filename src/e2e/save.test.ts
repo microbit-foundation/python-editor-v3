@@ -9,10 +9,6 @@ import { LoadDialogType } from "./app-playwright.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("save", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("Download - save the default HEX asd", async ({ app }) => {
     await app.setProjectName("idiosyncratic ruminant");
     const download = await app.save();

@@ -18,7 +18,6 @@ test.describe("settings", () => {
   });
 
   test("switches language", async ({ app }) => {
-    await app.goto();
     await app.switchLanguage("fr");
     await app.findProjectName("Projet sans titre");
     await app.switchLanguage("en");

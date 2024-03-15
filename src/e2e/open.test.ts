@@ -8,10 +8,6 @@ import { LoadDialogType } from "./app-playwright.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("open", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("Shows an alert when loading a MakeCode hex", async ({ app }) => {
     await app.loadFiles("testData/makecode.hex");
 

@@ -8,10 +8,6 @@ import { LoadDialogType } from "./app-playwright.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("multiple-files", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("Copes with hex with no Python files", async ({ app }) => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.

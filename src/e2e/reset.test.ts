@@ -7,7 +7,6 @@ import { test } from "./app-test-fixtures.js";
 
 test.describe("reset", () => {
   test("sets language via URL", async ({ app }) => {
-    await app.goto();
     await app.setProjectName("My project");
     await app.selectAllInEditor();
     await app.typeInEditor("# Not the default starter code");

@@ -11,10 +11,6 @@ SyntaxError: invalid syntax
 `; // Needs trailing newline!
 
 test.describe("connect", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("shows serial when connected", async ({ app }) => {
     // Connect and disconnect wait for serial to be shown/hidden
     await app.connect();

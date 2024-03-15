@@ -6,10 +6,6 @@
 import { test } from "./app-test-fixtures.js";
 
 test.describe("accessibility", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("focuses the correct element on tabbing after load", async ({ app }) => {
     await app.assertFocusOnLoad();
   });

@@ -17,10 +17,6 @@ const sliderTest =
   "from microbit import *\nwhile True:\nif temperature() == -5:\ndisplay.show(Image.NO)";
 
 test.describe("simulator", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("responds to a sent gesture", async ({ app }) => {
     // Enum sensor change via select and button.
     await app.selectAllInEditor();

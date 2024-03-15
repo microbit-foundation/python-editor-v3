@@ -6,10 +6,6 @@
 import { test } from "./app-test-fixtures.js";
 
 test.describe("documentation", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("API toolkit navigation", async ({ app }) => {
     await app.switchTab("API");
     await app.findDocumentationTopLevelHeading(

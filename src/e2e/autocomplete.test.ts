@@ -9,10 +9,6 @@ const showFullSignature =
   "show(image, delay=400, wait=True, loop=False, clear=False)";
 
 test.describe("autocomplete", () => {
-  test.beforeEach(async ({ app }) => {
-    await app.goto();
-  });
-
   test("shows autocomplete as you type", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.s");

@@ -29,6 +29,7 @@ export const test = base.extend<MyFixtures>({
         url: app.baseUrl,
       },
     ]);
+    await app.goto();
     await use(app);
   },
 });

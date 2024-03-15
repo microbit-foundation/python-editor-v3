@@ -14,6 +14,7 @@ const sunlightSensorMigrationFragment =
 test.describe("migration", () => {
   test("Loads the project from the URL", async ({ app }) => {
     await app.goto({ fragment: heartMigrationFragment });
+    await app.page.reload();
     await app.findProjectName("Hearts");
     await app.findVisibleEditorContents(
       "from microbit import *display.show(Image.HEART)"
