@@ -116,6 +116,26 @@ class ProjectTabPanel {
   }
 }
 
+class SideBar {
+  public expandButton: Locator;
+  public collapseButton: Locator;
+
+  constructor(public readonly page: Page) {
+    this.expandButton = this.page.getByLabel("Expand sidebar");
+    this.collapseButton = this.page.getByLabel("Collapse sidebar");
+  }
+}
+
+class Simulator {
+  public expandButton: Locator;
+  public collapseButton: Locator;
+
+  constructor(public readonly page: Page) {
+    this.expandButton = this.page.getByLabel("Expand simulator");
+    this.collapseButton = this.page.getByLabel("Collapse simulator");
+  }
+}
+
 export class App {
   public editorTextArea: Locator;
   private settingsButton: Locator;
@@ -126,6 +146,8 @@ export class App {
   private moreConnectionOptionsButton: Locator;
   public baseUrl: string;
   private editor: Locator;
+  public simulator: Simulator;
+  public sidebar: SideBar;
 
   constructor(public readonly page: Page, public context: BrowserContext) {
     this.baseUrl = baseUrl;
@@ -141,6 +163,8 @@ export class App {
     this.moreConnectionOptionsButton = this.page.getByTestId(
       "more-connect-options"
     );
+    this.simulator = new Simulator(this.page);
+    this.sidebar = new SideBar(this.page);
 
     // Set modifier key
     const isMac = process.platform === "darwin";
@@ -149,6 +173,8 @@ export class App {
 
   async goto(options: UrlOptions = {}) {
     await this.page.goto(optionsToURL(options));
+    // Wait for the page to be loaded
+    await this.editor.waitFor();
   }
 
   // TODO: Rename to expectProjectName
@@ -684,6 +710,77 @@ export class App {
       name: "Stop simulator",
     });
     expect(await button.isDisabled()).toEqual(true);
+  }
+
+  // TODO: Rename to expectFocusOnLoad
+  async assertFocusOnLoad(): Promise<void> {
+    const link = this.page.getByLabel(
+      "visit microbit.org (opens in a new tab)"
+    );
+    await this.page.keyboard.press("Tab");
+    await expect(link).toBeFocused();
+  }
+
+  async collapseSimulator(): Promise<void> {
+    await this.simulator.collapseButton.click();
+  }
+
+  async expandSimulator(): Promise<void> {
+    await this.simulator.expandButton.click();
+  }
+
+  async collapseSidebar(): Promise<void> {
+    await this.sidebar.collapseButton.click();
+  }
+
+  async expandSidebar(): Promise<void> {
+    await this.sidebar.expandButton.click();
+  }
+
+  async assertFocusOnExpandSimulator(): Promise<void> {
+    await expect(this.simulator.expandButton).toBeFocused();
+  }
+
+  async assertFocusOnSimulator(): Promise<void> {
+    const simulator = this.page.locator("iframe[name='Simulator']");
+    await expect(simulator).toBeFocused();
+  }
+
+  async assertFocusOnExpandSidebar(): Promise<void> {
+    await expect(this.sidebar.expandButton).toBeFocused();
+  }
+
+  async assertFocusOnSidebar(): Promise<void> {
+    const simulator = this.page.getByRole("tabpanel", { name: "Reference" });
+    await expect(simulator).toBeFocused();
+  }
+
+  async assertFocusBeforeEditor(): Promise<void> {
+    const zoomIn = this.page.getByRole("button", {
+      name: "Zoom in",
+    });
+    await expect(zoomIn).toBeFocused();
+  }
+
+  async assertFocusAfterEditor(): Promise<void> {
+    const sendButton = this.page.getByRole("button", {
+      name: "Send to micro:bit",
+    });
+    await expect(sendButton).toBeFocused();
+  }
+
+  async tabOutOfEditorForwards(): Promise<void> {
+    await this.editor.click();
+    await this.page.keyboard.press("Escape");
+    await this.page.keyboard.press("Tab");
+  }
+
+  async tabOutOfEditorBackwards(): Promise<void> {
+    await this.editor.click();
+    await this.page.keyboard.press("Escape");
+    await this.page.keyboard.down("Shift");
+    await this.page.keyboard.press("Tab");
+    await this.page.keyboard.up("Shift");
   }
 }
 
