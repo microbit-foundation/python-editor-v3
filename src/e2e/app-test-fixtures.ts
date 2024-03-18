@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import { App } from "./app-playwright.js";
+import { App } from "./app.js";
 
 type MyFixtures = {
   app: App;

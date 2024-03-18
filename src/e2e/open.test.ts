@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
-import { LoadDialogType } from "./app-playwright.js";
+import { LoadDialogType } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("open", () => {
