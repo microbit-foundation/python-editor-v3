@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
+import { Box, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
 import { useState } from "react";
 import {
     EditorView,

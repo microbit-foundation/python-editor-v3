@@ -7,9 +7,9 @@ import {
   WidgetType,
 } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language"
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { PortalFactory } from "./CodeMirror";
-import {MicrobitSinglePixelComponent, MicrobitMultiplePixelComponent} from "./microbitWidget";
+import { MicrobitMultiplePixelComponent} from "./microbitWidget";
 /**
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
