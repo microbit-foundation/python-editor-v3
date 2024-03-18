@@ -1,10 +1,7 @@
 import { Box, Grid, GridItem, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
 import { useState } from "react";
 import {
-    Decoration,
-    DecorationSet,
     EditorView,
-    WidgetType,
   } from "@codemirror/view";
 
 interface Pixel {
@@ -13,29 +10,13 @@ interface Pixel {
   brightness: number;
 }
 
-const MicrobitPixel: React.FC<{ brightness: number; selected: boolean; onClick: () => void }> = ({ brightness, selected, onClick }) => {
-  return (
-    <Button
-      size="sm"
-      h="20px"
-      w="20px"
-      p={0}
-      bgColor={selected ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(0, 0, 0, 1)"}
-      _hover={{ bgColor: selected ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(0, 0, 0, 1)" }}
-      onClick={onClick}
-      _focus={{ boxShadow: "none" }}
-      _active={{ bgColor: selected ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(0, 0, 0, 1)" }}
-    />
-  );
-};
-
-interface MicrobitGridProps {
+interface MicrobitSinglePixelGridProps {
   onClickPixel: (pixel: Pixel) => void;
   onSubmit: (x:number, y:number, brightness:number) => void;
   isVisible: boolean;
 }
 
-const MicrobitGrid: React.FC<MicrobitGridProps> = ({ onClickPixel, onSubmit, isVisible }) => {
+const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onClickPixel, onSubmit, isVisible }) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
   const [brightness, setBrightness] = useState<number>(5);
 
@@ -58,40 +39,59 @@ const MicrobitGrid: React.FC<MicrobitGridProps> = ({ onClickPixel, onSubmit, isV
       onSubmit(selectedPixel.x, selectedPixel.y, selectedPixel.brightness);
     }
   };
-
+  
   return (
-    <Box display={isVisible ? "flex" : "none"} flexDirection="row">
+  <>
+    {selectedPixel && (
+      <Box mt="4px">
+        <span style={{ fontSize: "small" }}>
+          Selected Pixel: ({selectedPixel.x}, {selectedPixel.y}) | Brightness: {selectedPixel.brightness}
+        </span>
+      </Box>
+    )}
+    <Box display={isVisible ? "flex" : "none"} flexDirection="row" justifyContent="flex-start">
       <Box>
-        <Grid templateColumns={`repeat(5, 1fr)`} gap="2px" maxW="110px">
+        <Box bg="black" p="10px" borderRadius="5px">
           {[...Array(5)].map((_, x) => (
-            <GridItem key={x}>
-              <Grid templateColumns={`repeat(1, 1fr)`} gap="2px">
-                {[...Array(5)].map((_, y) => (
-                  <GridItem key={y}>
-                    <MicrobitPixel
-                      brightness={selectedPixel?.x === x && selectedPixel.y === y ? brightness : 0}
-                      selected={selectedPixel?.x === x && selectedPixel.y === y}
-                      onClick={() => handleClickPixel(x, y)}
-                    />
-                  </GridItem>
-                ))}
-              </Grid>
-            </GridItem>
+            <Box key={x} display="flex">
+              {[...Array(5)].map((_, y) => (
+                <Box key={y} display="flex" mr="2px">
+                  <Button
+                    size="xs"
+                    h="15px"
+                    w="15px"
+                    p={0}
+                    bgColor={selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0)"}
+                    _hover={{ bgColor: selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0.5)" }}
+                    onClick={() => handleClickPixel(x, y)}
+                  />
+                </Box>
+              ))}
+            </Box>
           ))}
-        </Grid>
+        </Box>
+        {selectedPixel && (
+          <Box display="flex" flexDirection="column" alignItems="center" mt="10px">
+            <Box bg="white" borderRadius="5px" p="5px" textAlign="center">
+              <Button onClick={() => onSubmit(selectedPixel?.x ?? 0, selectedPixel?.y ?? 0, selectedPixel?.brightness ?? 0)} colorScheme="blue" size="sm">
+                Looks Good
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Box>
       {selectedPixel && (
-        <Box ml="60px" mt="10px">
+        <Box ml="10px">
           <Slider
             aria-label="brightness"
             defaultValue={brightness}
-            min={1}
+            min={0}
             max={9}
             step={1}
-            onChange={handleSliderChange}
             orientation="vertical"
             _focus={{ boxShadow: "none" }}
             _active={{ bgColor: "transparent" }}
+            onChange={handleSliderChange}
           >
             <SliderTrack>
               <SliderFilledTrack />
@@ -100,49 +100,159 @@ const MicrobitGrid: React.FC<MicrobitGridProps> = ({ onClickPixel, onSubmit, isV
           </Slider>
         </Box>
       )}
-      {selectedPixel && (
-        <Box display="flex" justifyContent="center" ml="10px" mt="100px">
-          <Button onClick={handleOkClick} colorScheme="blue" size="sm">
-            Looks Good!
-          </Button>
+    </Box>
+  </>
+);
+
+};
+
+export const MicrobitSinglePixelComponent = ({ from, to, view }: { from: number, to: number, view: EditorView }) => {
+  const [isVisible, setIsVisible] = useState(true);
+  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
+
+  const handleSelectPixel = (pixel: Pixel) => {
+    setSelectedPixel(pixel);
+  };
+
+  const handleSubmit = (x: number, y: number, brightness: number) => {
+    setIsVisible(false);      
+    view.dispatch({
+      changes: {
+        from: from,
+        to: to,
+        insert: (`(${x}, ${y}, ${brightness}) `),
+      }
+    });
+  };
+
+  return (
+        <MicrobitSinglePixelGrid onClickPixel={handleSelectPixel} onSubmit={handleSubmit} isVisible={isVisible} />
+  );
+};
+
+interface MultiMicrobitGridProps {
+  selectedPixels: Pixel[];
+  onPixelClick: (x: number, y: number) => void;
+  onBrightnessChange: (x: number, y: number, brightness: number) => void;
+  onSubmit: () => void;
+  isVisible: boolean;
+}
+
+const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
+  selectedPixels,
+  onPixelClick,
+  onBrightnessChange,
+  onSubmit,
+  isVisible,
+}) => {
+  return (
+    <Box display={isVisible ? "flex" : "none"} flexDirection="row" justifyContent="flex-start">
+      <Box>
+        <Box bg="black" p="10px" borderRadius="5px">
+          {[...Array(5)].map((_, x) => (
+            <Box key={x} display="flex">
+              {[...Array(5)].map((_, y) => (
+                <Box key={y} display="flex" mr="2px">
+                  <Button
+                    size="xs"
+                    h="15px"
+                    w="15px"
+                    p={0}
+                    bgColor={selectedPixels.some(p => p.x === x && p.y === y) ? `rgba(255, 0, 0, ${(selectedPixels.find(p => p.x === x && p.y === y)!.brightness) / 9})` : "rgba(255, 255, 255, 0)"}
+                    _hover={{ bgColor: selectedPixels.some(p => p.x === x && p.y === y) ? `rgba(255, 0, 0, ${(selectedPixels.find(p => p.x === x && p.y === y)!.brightness) / 9})` : "rgba(255, 255, 255, 0.5)" }}
+                    onClick={() => onPixelClick(x, y)}
+                  />
+                </Box>
+              ))}
+            </Box>
+          ))}
         </Box>
-      )}
+        <Box display="flex" justifyContent="center" mt="10px">
+          <Box bg="white" borderRadius="5px" p="5px">
+            <Button onClick={onSubmit} colorScheme="blue" size="sm">
+              Looks Good
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box ml="10px">
+        <Slider
+          aria-label="brightness"
+          defaultValue={5}
+          min={0}
+          max={9}
+          step={1}
+          orientation="vertical"
+          _focus={{ boxShadow: "none" }}
+          _active={{ bgColor: "transparent" }}
+          onChange={(value) => onBrightnessChange(selectedPixels[selectedPixels.length - 1].x, selectedPixels[selectedPixels.length - 1].y, value)}
+        >
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
+      </Box>
     </Box>
   );
 };
 
-export const MicrobitComponent = ({ from, to, view }: { from: number, to: number, view: EditorView }) => {
-    const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
-    const [isVisible, setIsVisible] = useState(true);
+export const MicrobitMultiplePixelComponent = ({
+  from,
+  to,
+  view,
+}: {
+  from: number;
+  to: number;
+  view: EditorView;
+}) => {
+  const initialSelectedPixels: Pixel[] = [];
   
-    const handleSelectPixel = (pixel: Pixel) => {
-      setSelectedPixel(pixel);
-    };
-  
-    const handleSubmit = (x: number, y: number, brightness: number) => {
-      setIsVisible(false);      
-      console.log(`Submitted pixel: (${x}, ${y}) - Brightness: ${brightness}`);
-      view.dispatch({
-          changes: {
-            from: from,
-            to: to,
-            insert: (`(${x}, ${y}, ${brightness}) `),
-          }
-        });
-      };
-  
+  for (let x = from; x <= to; x++) {
+    for (let y = from; y <= to; y++) {
+      initialSelectedPixels.push({ x, y, brightness: 0 });
+    }
+  }
 
-    return (
-        <Box>
-          {isVisible && (
-            <MicrobitGrid onClickPixel={handleSelectPixel} onSubmit={handleSubmit} isVisible={isVisible} />
-          )}
-          {selectedPixel && isVisible && (
-            <Box mt="4px">
-              Selected Pixel: ({selectedPixel.x}, {selectedPixel.y}) - Brightness: {selectedPixel.brightness}
-            </Box>
-          )}
-        </Box>
-    );
+  const [selectedPixels, setSelectedPixels] = useState<Pixel[]>(initialSelectedPixels);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const handlePixelClick = (x: number, y: number) => {
+    const existingIndex = selectedPixels.findIndex(pixel => pixel.x === x && pixel.y === y);
+    const brightness = selectedPixels[selectedPixels.length - 1]?.brightness ?? 5;
+
+    if (existingIndex !== -1) {
+      const updatedPixels = [...selectedPixels];
+      updatedPixels[existingIndex].brightness = brightness;
+      setSelectedPixels(updatedPixels);
+    } else {
+      const newPixel: Pixel = { x, y, brightness };
+      setSelectedPixels([...selectedPixels, newPixel]);
+    }
+  };
+
+  const handleSubmit = () => {
+    setIsVisible(false);
+  };
+
+  const handleBrightnessChange = (x: number, y: number, brightness: number) => {
+    setSelectedPixels(prevPixels => {
+      const updatedPixels = [...prevPixels];
+      const pixelIndex = updatedPixels.findIndex(pixel => pixel.x === x && pixel.y === y);
+      if (pixelIndex !== -1) {
+        updatedPixels[pixelIndex] = { x, y, brightness };
+      }
+      return updatedPixels;
+    });
+  };
+
+  return (
+    <MicrobitMultiplePixelsGrid
+      selectedPixels={selectedPixels}
+      onPixelClick={handlePixelClick}
+      onBrightnessChange={handleBrightnessChange}
+      onSubmit={handleSubmit}
+      isVisible={isVisible}
+    />
+  );
 };
-    
