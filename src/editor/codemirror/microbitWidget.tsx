@@ -196,6 +196,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
 export const MicrobitMultiplePixelComponent = ({ from, to, view }: { from: number; to: number; view: EditorView; }) => {
   const initialSelectedPixels: Pixel[] = [];
   /*
+  //Probably unnecessary to intialize the state, we can set it to 0 in the arguments by default anyway and it messes up some other logic
   for (let x = 0; x <= 4; x++) {
     for (let y = 0; y <= 4; y++) {
       initialSelectedPixels.push({ x, y, brightness: 0 });
