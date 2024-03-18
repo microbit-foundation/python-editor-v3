@@ -24,8 +24,15 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run serve",
-    url: "http://127.0.0.1:3000",
+    ...(process.env.CI
+      ? {
+          command: `npx vite preview --port 3000 --base ${process.env.BASE_URL}`,
+          url: `http://localhost:3000${process.env.BASE_URL}`,
+        }
+      : {
+          command: "npm run serve",
+          url: "http://localhost:3000/",
+        }),
     reuseExistingServer: !process.env.CI,
   },
 });
