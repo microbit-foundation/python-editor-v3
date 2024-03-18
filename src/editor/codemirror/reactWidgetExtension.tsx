@@ -9,7 +9,7 @@ import {
 import { syntaxTree } from "@codemirror/language"
 import { useCallback } from "react";
 import { PortalFactory } from "./CodeMirror";
-import { MicrobitMultiplePixelComponent} from "./microbitWidget";
+import {MicrobitSinglePixelComponent, MicrobitMultiplePixelComponent} from "./microbitWidget";
 /**
  * An example react component that we use inside a CodeMirror widget as
  * a proof of concept.
