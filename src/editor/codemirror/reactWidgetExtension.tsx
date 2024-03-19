@@ -7,7 +7,7 @@ import {
 } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language"
 import { PortalFactory } from "./CodeMirror";
-import {MicrobitSinglePixelComponent} from "./microbitWidget";
+import {MicrobitMultiplePixelComponent} from "./microbitWidget";
 //MicrobitMultiplePixelComponent
 
 /**
@@ -24,7 +24,7 @@ class ToggleWidget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, <MicrobitSinglePixelComponent from={this.from} to={this.to} view={view} />);
+    this.portalCleanup = this.createPortal(dom, <MicrobitMultiplePixelComponent from={this.from} to={this.to} view={view} />);
     return dom;
   }
 
