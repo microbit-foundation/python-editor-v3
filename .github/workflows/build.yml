@@ -53,7 +53,7 @@ jobs:
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-        uses: docker://mcr.microsoft.com/playwright:v1.39.0-jammy
+        uses: docker://mcr.microsoft.com/playwright:v1.42.1-jammy
         with:
           args: npx playwright test
       - name: Store reports
