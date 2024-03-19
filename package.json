@@ -75,6 +75,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "jsdom": "^24.0.0",
+    "playwright": "^1.42.1",
     "prettier": "2.3.2",
     "typescript": "^5.4.2",
     "vite-plugin-svgr": "^4.2.0",
