@@ -37,7 +37,7 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-vite.35 @microbit-foundation/website-deploy-aws@0.6.0 @microbit-foundation/website-deploy-aws-config@0.9.0 @microbit-foundation/circleci-npm-package-versioner@1
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-dev.37 @microbit-foundation/website-deploy-aws@0.6.0 @microbit-foundation/website-deploy-aws-config@0.9.0 @microbit-foundation/circleci-npm-package-versioner@1
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
