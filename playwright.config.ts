@@ -30,8 +30,8 @@ export default defineConfig({
           url: `http://localhost:3000${process.env.BASE_URL}`,
         }
       : {
-          command: "npm run serve",
-          url: "http://localhost:3000/",
+          command: "npm run start",
+          url: "http://localhost:3000",
         }),
     reuseExistingServer: !process.env.CI,
   },

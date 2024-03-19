@@ -60,7 +60,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@chakra-ui/cli": "^2.4.1",
     "@formatjs/cli": "^6.2.7",
-    "@playwright/test": "1.32.0",
+    "@playwright/test": "1.33.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
