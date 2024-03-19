@@ -312,13 +312,14 @@ export class App {
   }
 
   async typeInEditor(text: string): Promise<void> {
-    const textWithoutLastChar = text.slice(0, text.length - 3);
-    await this.editorTextArea.fill(textWithoutLastChar);
+    const numCharTyped = 2;
+    const textWithoutLastChars = text.slice(0, -numCharTyped);
+    const lastChars = text.slice(-numCharTyped);
+    await this.editorTextArea.fill(textWithoutLastChars);
     // Last few characters are typed separately to trigger editor suggestions
-    const [a, b, c] = text.slice(-3);
-    await this.page.keyboard.press(a, { delay: 500 });
-    await this.page.keyboard.press(b, { delay: 500 });
-    await this.page.keyboard.press(c, { delay: 500 });
+    for (const char of lastChars) {
+      await this.page.keyboard.press(char, { delay: 500 });
+    }
   }
 
   async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
