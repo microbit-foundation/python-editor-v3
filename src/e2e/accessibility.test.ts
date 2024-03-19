@@ -4,30 +4,31 @@
  * SPDX-License-Identifier: MIT
  */
 import { test } from "./app-test-fixtures.js";
+import { expect } from "@playwright/test";
 
 test.describe("accessibility", () => {
   test("focuses the correct element on tabbing after load", async ({ app }) => {
-    await app.assertFocusOnLoad();
+    await app.expectFocusOnLoad();
   });
 
   test("focuses the correct elements on collapsing and expanding the simulator", async ({
     app,
   }) => {
-    await app.collapseSimulator();
-    await app.assertFocusOnExpandSimulator();
+    await app.simulator.collapseButton.click();
+    await expect(app.simulator.expandButton).toBeFocused();
 
-    await app.expandSimulator();
-    await app.assertFocusOnSimulator();
+    await app.simulator.expandButton.click();
+    await expect(app.simulator.iframe).toBeFocused();
   });
 
   test("focuses the correct elements on collapsing and expanding the sidebar", async ({
     app,
   }) => {
-    await app.expandSidebar();
+    await app.sidebar.expandButton.click();
     await app.assertFocusOnSidebar();
 
-    await app.collapseSidebar();
-    await app.assertFocusOnExpandSidebar();
+    await app.sidebar.collapseButton.click();
+    await expect(app.sidebar.expandButton).toBeFocused();
   });
 
   test("allows tab out of editor", async ({ app }) => {

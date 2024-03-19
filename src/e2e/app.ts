@@ -129,10 +129,103 @@ class SideBar {
 class Simulator {
   public expandButton: Locator;
   public collapseButton: Locator;
+  public showSerialButton: Locator;
+  public hideSerialButton: Locator;
+  public sendGestureButton: Locator;
+  private stopButton: Locator;
+  public serialMenu: Locator;
+  public iframe: Locator;
+  private serialArea: Locator;
 
   constructor(public readonly page: Page) {
     this.expandButton = this.page.getByLabel("Expand simulator");
     this.collapseButton = this.page.getByLabel("Collapse simulator");
+
+    this.serialArea = this.page.getByRole("region", {
+      name: "Serial terminal",
+      exact: true,
+    });
+    this.serialMenu = this.getSerialAreaButton("Serial menu");
+    this.showSerialButton = this.getSerialAreaButton("Show serial");
+    this.hideSerialButton = this.getSerialAreaButton("Hide serial");
+    this.sendGestureButton = this.page.getByRole("button", {
+      name: "Send gesture",
+    });
+    this.stopButton = this.page.getByRole("button", {
+      name: "Stop simulator",
+    });
+    this.iframe = this.page.locator("iframe[name='Simulator']");
+  }
+
+  private getSerialAreaButton(name: string) {
+    return this.serialArea.getByRole("button", { name });
+  }
+
+  async simulatorSelectGesture(option: string): Promise<void> {
+    await this.page
+      .getByTestId("simulator-gesture-select")
+      .selectOption(option);
+  }
+
+  // Simulator functions
+  private getSimulatorIframe(): Frame {
+    const simulatorIframe = this.page
+      .frames()
+      .find((frame) => frame.name() === "Simulator");
+    if (!simulatorIframe) {
+      throw new Error("Simulator iframe not found");
+    }
+    return simulatorIframe;
+  }
+
+  async run(): Promise<void> {
+    const simulatorIframe = this.getSimulatorIframe();
+    const playButton = simulatorIframe.locator(".play-button");
+    await playButton.click();
+  }
+
+  async expectResponse(): Promise<void> {
+    // Confirms that top left LED is switched on
+    // to match Image.NO being displayed.
+    const gridLEDs = this.getSimulatorIframe().locator("#LEDsOn");
+    await expect(gridLEDs).toBeVisible();
+  }
+
+  async expectStopped(): Promise<void> {
+    expect(await this.stopButton.isDisabled()).toEqual(true);
+  }
+
+  async setRangeSlider(
+    sliderLabel: string,
+    value: "min" | "max"
+  ): Promise<void> {
+    const sliderThumb = this.page.locator(
+      `[role="slider"][aria-label="${sliderLabel}"]`
+    );
+    const bounding_box = await sliderThumb!.boundingBox();
+    await this.page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await this.page.mouse.down();
+    await this.page.waitForTimeout(500);
+    await this.page.mouse.move(value === "max" ? 1200 : 0, 0);
+    await this.page.waitForTimeout(500);
+    await this.page.mouse.up();
+  }
+
+  async inputPressHold(name: string, pressDuration: number): Promise<void> {
+    const inputButton = this.page.getByRole("button", {
+      name,
+    });
+    const bounding_box = await inputButton!.boundingBox();
+    await this.page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await this.page.mouse.down();
+    await this.page.waitForTimeout(pressDuration);
+    await this.page.mouse.up();
   }
 }
 
@@ -148,6 +241,7 @@ export class App {
   private editor: Locator;
   public simulator: Simulator;
   public sidebar: SideBar;
+  public sendToMicrobitButton: Locator;
 
   constructor(public readonly page: Page, public context: BrowserContext) {
     this.baseUrl = baseUrl;
@@ -163,6 +257,9 @@ export class App {
     this.moreConnectionOptionsButton = this.page.getByTestId(
       "more-connect-options"
     );
+    this.sendToMicrobitButton = this.page.getByRole("button", {
+      name: "Send to micro:bit",
+    });
     this.simulator = new Simulator(this.page);
     this.sidebar = new SideBar(this.page);
 
@@ -199,7 +296,6 @@ export class App {
     await this.page.keyboard.press(`${this.modifierKey}+A`);
   }
 
-  // TODO: Rename to pasteInEditor
   async pasteInEditor() {
     // Simulating keyboard press CTRL+V works in Playwright,
     // but does not work in this case potentially due to
@@ -239,7 +335,6 @@ export class App {
     await this.page.getByRole("button", { name: "Replace" }).click();
   }
 
-  // Use allInnerTexts() for matching text
   async expectEditorContainText(match: RegExp | string) {
     // Scroll to the top of code text area
     await this.editorTextArea.click();
@@ -247,8 +342,7 @@ export class App {
     await expect(this.editorTextArea).toContainText(match);
   }
 
-  // TODO: Rename to expectProjectFiles
-  async findProjectFiles(expected: string[]): Promise<void> {
+  async expectProjectFiles(expected: string[]): Promise<void> {
     await this.switchTab("Project");
     await expect(this.page.getByRole("listitem")).toHaveText(expected);
   }
@@ -304,8 +398,7 @@ export class App {
     }
   }
 
-  // TODO: Rename to expectAlertText
-  async findAlertText(title: string, description?: string): Promise<void> {
+  async expectAlertText(title: string, description?: string): Promise<void> {
     await expect(this.page.getByText(title)).toBeVisible();
     if (description) {
       await expect(this.page.getByText(description)).toBeVisible();
@@ -324,8 +417,7 @@ export class App {
     return await fileOptionMenu.editButton.isDisabled();
   }
 
-  // TODO: Rename to editFile
-  async switchToEditing(filename: string): Promise<void> {
+  async editFile(filename: string): Promise<void> {
     await this.switchTab("Project");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     await fileOptionMenu.editButton.click();
@@ -357,8 +449,7 @@ export class App {
     return await downloadPromise;
   }
 
-  // TODO: Rename to savePythonScript
-  async saveMain() {
+  async savePythonScript() {
     await this.page.getByTestId("more-save-options").click();
     const downloadPromise = this.page.waitForEvent("download");
     await this.page
@@ -367,8 +458,7 @@ export class App {
     await downloadPromise;
   }
 
-  // TODO: Rename to expectDialog
-  async confirmInputDialog(text: string) {
+  async expectDialog(text: string) {
     await expect(this.page.getByText(text)).toBeVisible();
   }
 
@@ -387,8 +477,9 @@ export class App {
     await this.page.getByRole("button", { name: "Close" }).click();
   }
 
-  // Rename to closeAndExpectBeforeUnloadDialogVisible
-  async closePageCheckDialog(visible: boolean): Promise<void> {
+  async closeAndExpectBeforeUnloadDialogVisible(
+    visible: boolean
+  ): Promise<void> {
     this.page.on("dialog", async (dialog) => {
       expect(dialog.type() === "beforeunload").toEqual(visible);
       await dialog.dismiss();
@@ -396,8 +487,7 @@ export class App {
     this.page.close({ runBeforeUnload: true });
   }
 
-  // Rename to expectDocumentationTopLevelHeading
-  async findDocumentationTopLevelHeading(
+  async expectDocumentationTopLevelHeading(
     title: string,
     description?: string
   ): Promise<void> {
@@ -455,8 +545,7 @@ export class App {
     await codeExample.dragTo(editorLine);
   }
 
-  // TODO: Rename to search
-  async searchToolkits(searchText: string): Promise<void> {
+  async search(searchText: string): Promise<void> {
     await this.switchTab("Reference");
     await this.searchButton.click();
     await this.page.getByPlaceholder("Search").fill(searchText);
@@ -479,66 +568,26 @@ export class App {
     await this.connectViaConnectHelp();
   }
 
+  async disconnect(): Promise<void> {
+    await this.moreConnectionOptionsButton.click();
+    await this.page.getByRole("menuitem", { name: "Disconnect" }).click();
+  }
+
   // Connects from the connect dialog/wizard.
   async connectViaConnectHelp(): Promise<void> {
     await this.page.getByRole("button", { name: "Next" }).click();
     await this.page.getByRole("button", { name: "Next" }).click();
   }
 
-  // TODO: Extract as variable instead of function
-  private findMainSerialArea() {
-    return this.page.getByRole("region", {
-      name: "Serial terminal",
-      exact: true,
-    });
+  async expectConnected(): Promise<void> {
+    await expect(this.simulator.serialMenu).toBeVisible();
   }
 
-  async confirmConnection(): Promise<void> {
-    const serialMenu = this.findMainSerialArea().getByRole("button", {
-      name: "Serial menu",
-    });
-    await expect(serialMenu).toBeVisible();
-  }
-
-  // TODO: Move expect out to separate function
-  async disconnect(): Promise<void> {
-    await this.moreConnectionOptionsButton.click();
-    await this.page.getByRole("menuitem", { name: "Disconnect" }).click();
+  async expectDisconnected(): Promise<void> {
     const btns = await this.page
       .getByRole("button", { name: "Serial terminal" })
       .all();
-
     expect(btns.length).toEqual(0);
-  }
-
-  async serialShow(): Promise<void> {
-    await this.findMainSerialArea()
-      .getByRole("button", { name: "Show serial" })
-      .click();
-
-    // TODO: Extract
-    // Make sure the button has flipped.
-    const hideSerialButton = this.findMainSerialArea().getByRole("button", {
-      name: "Hide serial",
-    });
-    await expect(hideSerialButton).toBeVisible();
-  }
-
-  async serialHide(): Promise<void> {
-    await this.findMainSerialArea()
-      .getByRole("button", { name: "Hide serial" })
-      .click();
-
-    // TODO: Extract
-    // Make sure the button has flipped.
-    const showSerialButton = this.findMainSerialArea().getByRole("button", {
-      name: "Show serial",
-    });
-    await expect(showSerialButton).toBeVisible();
-  }
-
-  async flash() {
-    await this.page.getByRole("button", { name: "Send to micro:bit" }).click();
   }
 
   async mockSerialWrite(data: string): Promise<void> {
@@ -557,7 +606,7 @@ export class App {
     }, code);
   }
 
-  async findSerialCompactTraceback(text: string | RegExp): Promise<void> {
+  async expectSerialCompactTraceback(text: string | RegExp): Promise<void> {
     await expect(this.page.getByText(text)).toBeVisible();
   }
 
@@ -577,17 +626,13 @@ export class App {
     });
   }
 
-  // TODO: Rename to expectCompletionOptions
-  // try toContainText instead for testing!
-  async findCompletionOptions(expected: string[]): Promise<void> {
+  async expectCompletionOptions(expected: string[]): Promise<void> {
     const completions = this.page.getByRole("listbox", { name: "Completions" });
     const contents = await completions.innerText();
-
     expect(contents).toEqual(expected.join("\n"));
   }
 
-  // TODO: Rename to expectCompletionActiveOption
-  async findCompletionActiveOption(signature: string): Promise<void> {
+  async expectCompletionActiveOption(signature: string): Promise<void> {
     const activeOption = this.editor
       .locator("div")
       .filter({ hasText: signature })
@@ -607,14 +652,12 @@ export class App {
     await this.page.getByRole("link", { name: linkName }).click();
   }
 
-  // TODO: Rename to expectActiveApiEntry
-  async findActiveApiEntry(text: string, _headingLevel: string): Promise<void> {
+  async expectActiveApiEntry(text: string): Promise<void> {
     // We need to make sure it's actually visible as it's scroll-based navigation.
     await expect(this.page.getByRole("heading", { name: text })).toBeVisible();
   }
 
-  // TODO: Rename to expectSignatureHelp
-  async findSignatureHelp(expectedSignature: string): Promise<void> {
+  async expectSignatureHelp(expectedSignature: string): Promise<void> {
     const signatureHelp = this.editor
       .locator("div")
       .filter({ hasText: expectedSignature })
@@ -623,119 +666,12 @@ export class App {
     await expect(signatureHelp).toBeVisible();
   }
 
-  // Simulator functions
-  private getSimulatorIframe(): Frame {
-    const simulatorIframe = this.page
-      .frames()
-      .find((frame) => frame.name() === "Simulator");
-    if (!simulatorIframe) {
-      throw new Error("Simulator iframe not found");
-    }
-    return simulatorIframe;
-  }
-
-  async runSimulator(): Promise<void> {
-    const simulatorIframe = this.getSimulatorIframe();
-    const playButton = simulatorIframe.locator(".play-button");
-    await playButton.click();
-  }
-
-  async simulatorSelectGesture(option: string): Promise<void> {
-    await this.page
-      .getByTestId("simulator-gesture-select")
-      .selectOption(option);
-  }
-
-  async simulatorSendGesture(): Promise<void> {
-    await this.page.getByRole("button", { name: "Send gesture" }).click();
-  }
-
-  async simulatorConfirmResponse(): Promise<void> {
-    // Confirms that top left LED is switched on
-    // to match Image.NO being displayed.
-    const gridLEDs = this.getSimulatorIframe().locator("#LEDsOn");
-    await expect(gridLEDs).toBeVisible();
-  }
-
-  async simulatorSetRangeSlider(
-    sliderLabel: string,
-    value: "min" | "max"
-  ): Promise<void> {
-    const sliderThumb = this.page.locator(
-      `[role="slider"][aria-label="${sliderLabel}"]`
-    );
-    const bounding_box = await sliderThumb!.boundingBox();
-    await this.page.mouse.move(
-      bounding_box!.x + bounding_box!.width / 2,
-      bounding_box!.y + bounding_box!.height / 2
-    );
-    await this.page.mouse.down();
-    await this.page.waitForTimeout(500);
-    await this.page.mouse.move(value === "max" ? 1200 : 0, 0);
-    await this.page.waitForTimeout(500);
-    await this.page.mouse.up();
-  }
-
-  async simulatorInputPressHold(
-    name: string,
-    pressDuration: number
-  ): Promise<void> {
-    const inputButton = this.page.getByRole("button", {
-      name,
-    });
-    const bounding_box = await inputButton!.boundingBox();
-    await this.page.mouse.move(
-      bounding_box!.x + bounding_box!.width / 2,
-      bounding_box!.y + bounding_box!.height / 2
-    );
-    await this.page.mouse.down();
-    await this.page.waitForTimeout(pressDuration);
-    await this.page.mouse.up();
-  }
-
-  async findStoppedSimulator(): Promise<void> {
-    const button = this.page.getByRole("button", {
-      name: "Stop simulator",
-    });
-    expect(await button.isDisabled()).toEqual(true);
-  }
-
-  // TODO: Rename to expectFocusOnLoad
-  async assertFocusOnLoad(): Promise<void> {
+  async expectFocusOnLoad(): Promise<void> {
     const link = this.page.getByLabel(
       "visit microbit.org (opens in a new tab)"
     );
     await this.page.keyboard.press("Tab");
     await expect(link).toBeFocused();
-  }
-
-  async collapseSimulator(): Promise<void> {
-    await this.simulator.collapseButton.click();
-  }
-
-  async expandSimulator(): Promise<void> {
-    await this.simulator.expandButton.click();
-  }
-
-  async collapseSidebar(): Promise<void> {
-    await this.sidebar.collapseButton.click();
-  }
-
-  async expandSidebar(): Promise<void> {
-    await this.sidebar.expandButton.click();
-  }
-
-  async assertFocusOnExpandSimulator(): Promise<void> {
-    await expect(this.simulator.expandButton).toBeFocused();
-  }
-
-  async assertFocusOnSimulator(): Promise<void> {
-    const simulator = this.page.locator("iframe[name='Simulator']");
-    await expect(simulator).toBeFocused();
-  }
-
-  async assertFocusOnExpandSidebar(): Promise<void> {
-    await expect(this.sidebar.expandButton).toBeFocused();
   }
 
   async assertFocusOnSidebar(): Promise<void> {
@@ -751,10 +687,7 @@ export class App {
   }
 
   async assertFocusAfterEditor(): Promise<void> {
-    const sendButton = this.page.getByRole("button", {
-      name: "Send to micro:bit",
-    });
-    await expect(sendButton).toBeFocused();
+    await expect(this.sendToMicrobitButton).toBeFocused();
   }
 
   async tabOutOfEditorForwards(): Promise<void> {

@@ -17,6 +17,6 @@ test.describe("reset", () => {
     // Everything's back to normal.
     await app.expectProjectName("Untitled project");
     await app.expectEditorContainText("from microbit import");
-    await app.findProjectFiles(["main.py"]);
+    await app.expectProjectFiles(["main.py"]);
   });
 });

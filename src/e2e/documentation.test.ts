@@ -8,7 +8,7 @@ import { test } from "./app-test-fixtures.js";
 test.describe("documentation", () => {
   test("API toolkit navigation", async ({ app }) => {
     await app.switchTab("API");
-    await app.findDocumentationTopLevelHeading(
+    await app.expectDocumentationTopLevelHeading(
       "API",
       "For usage and examples, see"
     );
@@ -61,9 +61,9 @@ test.describe("documentation", () => {
   });
 
   test("Searches and navigates to the first result", async ({ app }) => {
-    await app.searchToolkits("loop");
+    await app.search("loop");
     await app.selectFirstSearchResult();
-    await app.findDocumentationTopLevelHeading(
+    await app.expectDocumentationTopLevelHeading(
       "Loops",
       "Count and repeat sets of instructions"
     );
@@ -71,7 +71,7 @@ test.describe("documentation", () => {
 
   test("Ideas tab navigation", async ({ app }) => {
     await app.switchTab("Ideas");
-    await app.findDocumentationTopLevelHeading(
+    await app.expectDocumentationTopLevelHeading(
       "Ideas",
       "Try out these projects, modify them and get inspired"
     );
@@ -81,6 +81,6 @@ test.describe("documentation", () => {
     const ideaName = "Emotion badge";
     await app.switchTab("Ideas");
     await app.selectDocumentationIdea(ideaName);
-    await app.findDocumentationTopLevelHeading(ideaName);
+    await app.expectDocumentationTopLevelHeading(ideaName);
   });
 });

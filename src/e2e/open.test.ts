@@ -11,7 +11,7 @@ test.describe("open", () => {
   test("Shows an alert when loading a MakeCode hex", async ({ app }) => {
     await app.loadFiles("testData/makecode.hex");
 
-    await app.findAlertText(
+    await app.expectAlertText(
       "Cannot load file",
       "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode."
     );
@@ -22,7 +22,7 @@ test.describe("open", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
 
-    await app.findAlertText("Updated file main.py");
+    await app.expectAlertText("Updated file main.py");
     await app.expectProjectName("Untitled project");
   });
 
@@ -31,7 +31,7 @@ test.describe("open", () => {
       acceptDialog: LoadDialogType.NONE,
     });
 
-    await app.findAlertText(
+    await app.expectAlertText(
       "Cannot load file",
       // Would be great to have custom messages here but needs error codes
       // pushing into microbit-fs.
@@ -65,7 +65,7 @@ test.describe("open", () => {
       acceptDialog: LoadDialogType.NONE,
     });
 
-    await app.findAlertText(
+    await app.expectAlertText(
       "Cannot load file",
       "This version of the Python Editor doesn't currently support adding .mpy files."
     );
@@ -90,12 +90,12 @@ test.describe("open", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
 
-    await app.findAlertText("Added file module.py");
+    await app.expectAlertText("Added file module.py");
 
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-    await app.findAlertText("Updated file module.py");
+    await app.expectAlertText("Updated file module.py");
   });
 
   test("Warns before load if you have changes", async ({ app }) => {
@@ -121,7 +121,7 @@ test.describe("open", () => {
   test("No warn before load if you save main file", async ({ app }) => {
     await app.setProjectName("Avoid dialog");
     await app.typeInEditor("# Different text");
-    await app.saveMain();
+    await app.savePythonScript();
 
     // No dialog accepted
     await app.loadFiles("testData/1.0.1.hex");
@@ -134,7 +134,7 @@ test.describe("open", () => {
     await app.setProjectName("Avoid dialog");
     await app.typeInEditor("# Different text");
     await app.createNewFile("another");
-    await app.saveMain();
+    await app.savePythonScript();
     await app.closeDialog("Warning: Only main.py downloaded");
 
     await app.loadFiles("testData/1.0.1.hex", {

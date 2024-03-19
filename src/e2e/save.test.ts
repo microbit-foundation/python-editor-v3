@@ -37,7 +37,7 @@ test.describe("save", () => {
     await app.expectEditorContainText(/# Filler/);
     await app.save({ waitForDownload: false });
 
-    await app.findAlertText(
+    await app.expectAlertText(
       "Failed to build the hex file",
       "There is no storage space left."
     );
@@ -47,13 +47,13 @@ test.describe("save", () => {
     app,
   }) => {
     await app.save({ waitForDownload: false });
-    await app.confirmInputDialog("Name your project");
+    await app.expectDialog("Name your project");
   });
 
   test("Shows the post-save dialog after hex save", async ({ app }) => {
     await app.setProjectName("not default name");
     await app.save();
-    await app.confirmInputDialog("Project saved");
+    await app.expectDialog("Project saved");
   });
 
   test("Shows the multiple files dialog after main.py save if there are multiple files in the project", async ({
@@ -63,7 +63,7 @@ test.describe("save", () => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-    await app.saveMain();
-    await app.confirmInputDialog("Warning: Only main.py downloaded");
+    await app.savePythonScript();
+    await app.expectDialog("Warning: Only main.py downloaded");
   });
 });

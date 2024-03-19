@@ -12,7 +12,7 @@ test.describe("multiple-files", () => {
     // Probably best for this to be an error or else we
     // need to cope with no Python at all to display.
     await app.loadFiles("src/micropython/main/microbit-micropython-v2.hex");
-    await app.findAlertText(
+    await app.expectAlertText(
       "Cannot load file",
       "No appended code found in the hex file"
     );
@@ -22,7 +22,7 @@ test.describe("multiple-files", () => {
     await app.createNewFile("test");
 
     await app.expectEditorContainText(/Your new file/);
-    await app.findProjectFiles(["main.py", "test.py"]);
+    await app.expectProjectFiles(["main.py", "test.py"]);
   });
 
   test("Prevents deleting main.py", async ({ app }) => {
@@ -33,7 +33,7 @@ test.describe("multiple-files", () => {
     await app.loadFiles("testData/usermodule.py", {
       acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
     });
-    await app.switchToEditing("usermodule.py");
+    await app.editFile("usermodule.py");
     await app.expectEditorContainText(/b_works/);
 
     await app.loadFiles("testData/updated/usermodule.py", {
@@ -47,7 +47,7 @@ test.describe("multiple-files", () => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-    await app.switchToEditing("module.py");
+    await app.editFile("module.py");
     await app.findThirdPartyModuleWarning("a", "1.0.0");
 
     await app.toggleSettingThirdPartyModuleEditing();
@@ -67,7 +67,7 @@ test.describe("multiple-files", () => {
     await app.loadFiles("testData/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-    await app.switchToEditing("module.py");
+    await app.editFile("module.py");
 
     await app.deleteFile("module.py");
 

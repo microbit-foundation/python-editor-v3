@@ -14,12 +14,12 @@ test.describe("autocomplete", () => {
     await app.typeInEditor("from microbit import *\ndisplay.s");
 
     // Initial completions
-    await app.findCompletionOptions(["scroll", "set_pixel", "show"]);
-    await app.findCompletionActiveOption("scroll(text)");
+    await app.expectCompletionOptions(["scroll", "set_pixel", "show"]);
+    await app.expectCompletionActiveOption("scroll(text)");
 
     // Further refinement
     await app.page.keyboard.press("h");
-    await app.findCompletionActiveOption("show(image)");
+    await app.expectCompletionActiveOption("show(image)");
 
     // Accepted completion
     await app.acceptCompletion("show");
@@ -33,18 +33,18 @@ test.describe("autocomplete", () => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.show(image");
 
-    await app.findCompletionOptions(["Image", "image="]);
+    await app.expectCompletionOptions(["Image", "image="]);
   });
 
   test("autocomplete can navigate to API toolkit content", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
 
-    await app.findCompletionActiveOption("show(image)");
+    await app.expectCompletionActiveOption("show(image)");
 
     await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.findActiveApiEntry(showFullSignature, "h4");
+    await app.expectActiveApiEntry(showFullSignature);
   });
 
   test("autocomplete can navigate to Reference toolkit content", async ({
@@ -52,9 +52,9 @@ test.describe("autocomplete", () => {
   }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
-    await app.findCompletionActiveOption("show(image)");
+    await app.expectCompletionActiveOption("show(image)");
     await app.followCompletionOrSignatureDocumentionLink("Help");
-    await app.findActiveApiEntry("Show", "h3");
+    await app.expectActiveApiEntry("Show");
   });
 
   test("shows signature help after autocomplete", async ({ app }) => {
@@ -62,7 +62,7 @@ test.describe("autocomplete", () => {
     await app.typeInEditor("from microbit import *\ndisplay.sho");
     await app.acceptCompletion("show");
 
-    await app.findSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showFullSignature);
   });
 
   test("does not insert brackets for import completion", async ({ app }) => {
@@ -79,11 +79,11 @@ test.describe("autocomplete", () => {
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
 
-    await app.findSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showFullSignature);
 
     await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.findActiveApiEntry(showFullSignature, "h4");
+    await app.expectActiveApiEntry(showFullSignature);
   });
 
   test("signature can navigate to Reference toolkit content", async ({
@@ -92,8 +92,8 @@ test.describe("autocomplete", () => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
-    await app.findSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showFullSignature);
     await app.followCompletionOrSignatureDocumentionLink("Help");
-    await app.findActiveApiEntry("Show", "h3");
+    await app.expectActiveApiEntry("Show");
   });
 });
