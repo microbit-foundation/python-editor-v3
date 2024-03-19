@@ -48,7 +48,7 @@ test.describe("multiple-files", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.editFile("module.py");
-    await app.findThirdPartyModuleWarning("a", "1.0.0");
+    await app.expectThirdPartModuleWarning("a", "1.0.0");
 
     await app.toggleSettingThirdPartyModuleEditing();
     try {
@@ -60,7 +60,7 @@ test.describe("multiple-files", () => {
     await app.loadFiles("testData/updated/module.py", {
       acceptDialog: LoadDialogType.CONFIRM,
     });
-    await app.findThirdPartyModuleWarning("a", "1.1.0");
+    await app.expectThirdPartModuleWarning("a", "1.1.0");
   });
 
   test("Copes with currently open file being deleted", async ({ app }) => {

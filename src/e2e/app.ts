@@ -428,7 +428,7 @@ export class App {
     await fileOptionMenu.editButton.click();
   }
 
-  async findThirdPartyModuleWarning(
+  async expectThirdPartModuleWarning(
     expectedName: string,
     expectedVersion: string
   ): Promise<void> {
