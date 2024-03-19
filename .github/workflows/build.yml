@@ -51,14 +51,17 @@ jobs:
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-      - run: npm run test:e2e:headless
+      - name: Run Playwright tests
+        run: npm run test:e2e:headless
+        uses: docker://mcr.microsoft.com/playwright:v1.39.0-jammy
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - name: Store reports
         if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: reports/
+          retention-days: 3
       - run: npm run deploy
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
         env:
