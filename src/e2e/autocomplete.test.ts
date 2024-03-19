@@ -3,99 +3,102 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
+import { expect } from "@playwright/test";
 
-const showFullSignature =
-  "show(image, delay=400, wait=True, loop=False, clear=False)";
+const showSignature = "show(image, delay=400, wait=";
 
-describe("autocomplete", () => {
-  // Enable flags to allow testing the toolkit interactions.
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("shows autocomplete as you type", async () => {
+test.describe("autocomplete", () => {
+  test("shows autocomplete as you type", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.s");
 
     // Initial completions
-    await app.findCompletionOptions(["scroll", "set_pixel", "show"]);
-    await app.findCompletionActiveOption("scroll(text)");
+    await app.expectCompletionOptions(["scroll", "set_pixel", "show"]);
+    await app.expectCompletionActiveOption("scroll(text)");
 
     // Further refinement
-    await app.typeInEditor("h");
-    await app.findCompletionActiveOption("show(image)");
+    await app.page.keyboard.press("h");
+    await app.expectCompletionActiveOption("show(image)");
 
     // Accepted completion
     await app.acceptCompletion("show");
-    await app.findVisibleEditorContents("display.show()");
+    await app.expectEditorContainText("display.show()");
   });
 
-  it("ranks Image above image=", async () => {
+  test("ranks Image above image=", async ({ app }) => {
     // This particular case has been tweaked in a somewhat fragile way.
     // See the boost code in autocompletion.ts
 
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.show(image");
 
-    await app.findCompletionOptions(["Image", "image="]);
+    await app.expectCompletionOptions(["Image", "image="]);
   });
 
-  it("autocomplete can navigate to API toolkit content", async () => {
+  test("autocomplete can navigate to API toolkit content", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
 
-    await app.findCompletionActiveOption("show(image)");
+    await app.expectCompletionActiveOption("show(image)");
 
     await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.findActiveApiEntry(showFullSignature, "h4");
+    await app.expectActiveApiEntry(showSignature);
   });
 
-  it("autocomplete can navigate to Reference toolkit content", async () => {
+  test("autocomplete can navigate to Reference toolkit content", async ({
+    app,
+  }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
-    await app.findCompletionActiveOption("show(image)");
+    await app.expectCompletionActiveOption("show(image)");
     await app.followCompletionOrSignatureDocumentionLink("Help");
-    await app.findActiveApiEntry("Show", "h3");
+    await app.expectActiveApiEntry("Show");
   });
 
-  it("shows signature help after autocomplete", async () => {
+  test("shows signature help after autocomplete", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor("from microbit import *\ndisplay.sho");
     await app.acceptCompletion("show");
 
-    await app.findSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showSignature);
   });
 
-  it("does not insert brackets for import completion", async () => {
+  test("does not insert brackets for import completion", async ({ app }) => {
     // This relies on undocumented Pyright behaviour so important to cover at a high level.
     await app.selectAllInEditor();
     await app.typeInEditor("from audio import is_pla");
     await app.acceptCompletion("is_playing");
 
-    await app.findVisibleEditorContents(/is_playing$/);
+    await app.expectEditorContainText(/is_playing$/);
   });
 
-  it("signature can navigate to API toolkit content", async () => {
+  test("signature can navigate to API toolkit content", async ({ app }) => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
 
-    await app.findSignatureHelp(showFullSignature);
-
+    const signatureHelp = app.page
+      .getByTestId("editor")
+      .locator("div")
+      .filter({ hasText: showSignature })
+      .nth(1);
+    await signatureHelp.waitFor();
+    await expect(signatureHelp).toBeVisible();
     await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.findActiveApiEntry(showFullSignature, "h4");
+    await app.expectActiveApiEntry(showSignature);
   });
 
-  it("signature can navigate to Reference toolkit content", async () => {
+  test("signature can navigate to Reference toolkit content", async ({
+    app,
+  }) => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
-    await app.findSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showSignature);
     await app.followCompletionOrSignatureDocumentionLink("Help");
-    await app.findActiveApiEntry("Show", "h3");
+    await app.expectActiveApiEntry("Show");
   });
 });

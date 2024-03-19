@@ -54,7 +54,7 @@ These are excluded from the normal test run.
 
 The tests expect the app to already be running on http://localhost:3000, for example via `npm start`.
 
-We use [Puppeteer](https://pptr.dev/) and the helpers provided by [Testing Library](https://testing-library.com/docs/pptr-testing-library/intro/).
+We use [Playwright](https://playwright.dev/).
 
 The CI tests run these end-to-end tests against a production build.
 

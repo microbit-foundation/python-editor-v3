@@ -3,24 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { waitFor, waitForOptions } from "@testing-library/dom";
-import { Matcher } from "@testing-library/react";
-import * as fs from "fs";
-import * as fsp from "fs/promises";
-import { escapeRegExp } from "lodash";
-import * as os from "os";
-import * as path from "path";
-import "pptr-testing-library/extend";
-import puppeteer, {
-  Browser,
-  Dialog,
-  ElementHandle,
-  Frame,
-  KeyInput,
-  Page,
-} from "puppeteer";
-import { WebUSBErrorCode } from "../device/device";
+import { BrowserContext, Frame, Locator, Page, expect } from "@playwright/test";
 import { Flag } from "../flags";
+import path from "path";
+import { fileURLToPath } from "url";
+import { readFileSync } from "fs";
+import { WebUSBErrorCode } from "../device/device";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -34,1429 +22,738 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
-const defaultWaitForOptions = { timeout: 10_000 };
-
 const baseUrl = "http://localhost:3000";
-const reportsPath = "reports/e2e/";
 
-interface Options {
-  /**
-   * Flags.
-   *
-   * "none" and "noWelcome" are always added.
-   *
-   * Do not use "*", instead explicitly enable the set of flags your test requires.
-   */
+interface UrlOptions {
   flags?: Flag[];
-  /**
-   * URL fragment including the #.
-   */
   fragment?: string;
-  /**
-   * Language parameter passed via URL.
-   */
   language?: string;
 }
 
-/**
- * Model of the app to drive it for e2e testing.
- *
- * We could split this into screen areas accessible from this class.
- *
- * All methods should ensure they wait for a condition rather than relying on timing.
- *
- * Generally this means it's better to pass in expected values, so you can wait for
- * them to be true, than to read and return data from the DOM.
- */
-export class App {
-  private url: string;
-  /**
-   * Tracks dialogs observed by Pupeteer's dialog event.
-   */
-  private dialogs: string[] = [];
-  private browser: Promise<Browser>;
-  private page: Promise<Page>;
-  private downloadPath = fs.mkdtempSync(
-    path.join(os.tmpdir(), "puppeteer-downloads-")
-  );
+interface SaveOptions {
+  waitForDownload: boolean;
+}
 
-  constructor(options: Options = {}) {
-    this.url = this.optionsToURL(options);
-    this.browser = puppeteer.launch({
-      headless: process.env.E2E_HEADLESS !== "0",
-      // Needs to be large enough to display Reference + Simulator or tests need to show/hide them.
-      defaultViewport: { width: 1920, height: 1440 },
+class LoadDialog {
+  private confirmButton: Locator;
+  private replaceButton: Locator;
+  private optionsButton: Locator;
+  private type: LoadDialogType;
+
+  constructor(public readonly page: Page, type: LoadDialogType) {
+    this.type = type;
+    this.confirmButton = this.page.getByRole("button", { name: "Confirm" });
+    this.replaceButton = this.page.getByRole("button", { name: "Replace" });
+    this.optionsButton = this.page.getByRole("button", {
+      name: "Options",
+      exact: true,
     });
-    this.page = this.createPage();
   }
 
-  setOptions(options: Options) {
-    this.url = this.optionsToURL(options);
-  }
-
-  private optionsToURL(options: Options): string {
-    const flags = new Set<string>([
-      "none",
-      "noWelcome",
-      ...(options.flags ?? []),
-    ]);
-    const params: Array<[string, string]> = Array.from(flags).map((f) => [
-      "flag",
-      f,
-    ]);
-    if (options.language) {
-      params.push(["l", options.language]);
-    }
-    return (
-      baseUrl +
-      // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
-      // Maybe can be changed since the Vite upgrade.
-      (process.env.E2E_BASE_URL ?? "/") +
-      "?" +
-      new URLSearchParams(params) +
-      (options.fragment ?? "")
-    );
-  }
-
-  async createPage() {
-    const browser = await this.browser;
-    const context = browser.defaultBrowserContext();
-    const { origin } = new URL(this.url);
-    await context.overridePermissions(origin, [
-      "clipboard-read",
-      "clipboard-write",
-    ]);
-
-    const page = await context.newPage();
-    await page.setCookie({
-      // See corresponding code in App.tsx.
-      name: "mockDevice",
-      value: "1",
-      url: this.url,
-    });
-    // Don't show compliance notice for Foundation builds
-    await page.setCookie({
-      name: "MBCC",
-      value: encodeURIComponent(
-        JSON.stringify({
-          version: 1,
-          analytics: false,
-          functional: true,
-        })
-      ),
-      url: this.url,
-    });
-
-    const client = await page.target().createCDPSession();
-    await client.send("Page.setDownloadBehavior", {
-      behavior: "allow",
-      downloadPath: this.downloadPath,
-    });
-
-    this.dialogs.length = 0;
-    page.on("dialog", async (dialog: Dialog) => {
-      this.dialogs.push(dialog.type());
-      // Need to accept() so that reload() will complete.
-      await dialog.accept();
-    });
-
-    const logsPath = this.reportFilename("txt");
-    // Clears previous output from local file.
-    fs.writeFile(logsPath, "", (err) => {
-      if (err) {
-        // Log file error.
-        console.error("Log file error: ", err.message);
-      }
-    });
-    page.on("console", (msg) => {
-      fs.appendFile(logsPath, msg.text() + "\n", (err) => {
-        if (err) {
-          // Log file error.
-          console.error("Log file error: ", err.message);
-        }
-      });
-    });
-
-    await page.evaluate(() => {
-      if (document.domain === "localhost") {
-        window.localStorage.clear();
-      }
-    });
-
-    return page;
-  }
-
-  /**
-   * Close the page, accepting any native dialogs (e.g. beforeunload).
-   *
-   * @returns a boolean representing whether a "beforeunload" dialog is raised.
-   */
-  async closePageCheckDialog(): Promise<boolean> {
-    const page = await this.page;
-    await page.close({
-      runBeforeUnload: true,
-    });
-    await waitFor(() => {
-      expect(page.isClosed()).toEqual(true);
-    }, defaultWaitForOptions);
-    return this.dialogs.length === 1 && this.dialogs[0] === "beforeunload";
-  }
-
-  /**
-   * Reload the page, accepting any native dialogs (e.g. beforeunload).
-   */
-  async reloadPage(): Promise<void> {
-    const page = await this.page;
-    await page.reload();
-  }
-
-  /**
-   * Open a file using the file chooser.
-   *
-   * @param filePath The file on disk.
-   * @param options Options to control expectations after upload.
-   */
-  async loadFiles(
-    filePath: string,
-    options: { acceptDialog?: LoadDialogType } = {}
-  ): Promise<void> {
-    await this.switchTab("Project");
-    const document = await this.document();
-    const openInput = (await document.getAllByTestId(
-      "open-input"
-    )) as ElementHandle<HTMLInputElement>[];
-    await openInput[0].uploadFile(filePath);
-    if (options.acceptDialog !== undefined) {
-      await this.findAndAcceptLoadDialog(options.acceptDialog);
+  async submit() {
+    switch (this.type) {
+      case LoadDialogType.CONFIRM:
+        return await this.confirmButton.click();
+      case LoadDialogType.REPLACE:
+        return await this.replaceButton.click();
+      case LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE:
+        await this.optionsButton.click();
+        await this.page.getByText(/^(Add|Replace) file .+\.py$/).click();
+        return await this.confirmButton.click();
+      default:
+        return;
     }
   }
+}
 
-  /**
-   * Add a new file using the files tab.
-   *
-   * @param name The name to enter in the dialog.
-   */
-  async createNewFile(name: string): Promise<void> {
-    await this.switchTab("Project");
-    const document = await this.document();
-    const createFileButton = await document.findByRole("button", {
-      name: "Create file",
+class FileActionsMenu {
+  public saveButton: Locator;
+  public editButton: Locator;
+  public deleteButton: Locator;
+
+  constructor(public readonly page: Page, filename: string) {
+    this.saveButton = this.page.getByRole("menuitem", {
+      name: `Save ${filename}`,
     });
-    await createFileButton.click();
-    const nameField = await document.findByRole("textbox", {
-      name: "Name",
+    this.editButton = this.page.getByRole("menuitem", {
+      name: `Edit ${filename}`,
     });
-    await nameField.type(name);
-    const createButton = await document.findByRole("button", {
-      name: "Create",
-    });
-    await createButton.click();
-  }
-
-  /**
-   * Open a file using drag and drop.
-   *
-   * This is a bit fragile and likely to break if we change the DnD DOM as
-   * we resort to simulating DnD events.
-   *
-   * @param filePath The file on disk.
-   */
-  async dropFile(
-    filePath: string,
-    options: { acceptDialog?: LoadDialogType } = {}
-  ): Promise<void> {
-    const page = await this.page;
-    // Puppeteer doesn't have file drop support but we can use an input
-    // to grab a file and trigger an event that's good enough.
-    // It's a bit of a pain as the drop happens on an element created by
-    // the drag-over.
-    // https://github.com/puppeteer/puppeteer/issues/1376
-    // This issue has since been fixed and we've upgraded, so there's an opportunity to simplify here.
-    const inputId = "simulated-drop-input";
-    await page.evaluate((inputId) => {
-      const input = document.createElement("input");
-      input.style.display = "none";
-      input.type = "file";
-      input.id = inputId;
-      input.onchange = (e: any) => {
-        const dragOverZone = document.querySelector(
-          "[data-testid=project-drop-target]"
-        );
-        if (!dragOverZone) {
-          throw new Error();
-        }
-        const dragOverEvent = new Event("dragover", {
-          bubbles: true,
-        });
-        const dropEvent = new Event("drop", {
-          bubbles: true,
-        });
-        (dragOverEvent as any).dataTransfer = { types: ["Files"] };
-        (dropEvent as any).dataTransfer = { files: e.target.files };
-        dragOverZone.dispatchEvent(dragOverEvent);
-
-        const dropWhenReady = () => {
-          const dropZone = document.querySelector(
-            "[data-testid=project-drop-target-overlay]"
-          );
-          if (dropZone) {
-            dropZone!.dispatchEvent(dropEvent);
-            input.remove();
-          } else {
-            setTimeout(dropWhenReady, 10);
-          }
-        };
-
-        dropWhenReady();
-      };
-      document.body.appendChild(input);
-    }, inputId);
-    const fileInput = (await page.$(
-      `#${inputId}`
-    )) as ElementHandle<HTMLInputElement>;
-    await fileInput.uploadFile(filePath);
-    if (options.acceptDialog !== undefined) {
-      await this.findAndAcceptLoadDialog(options.acceptDialog);
-    }
-  }
-
-  private async findAndAcceptLoadDialog(dialogType: LoadDialogType) {
-    if (dialogType === LoadDialogType.CONFIRM) {
-      return this.findAndClickButton("Confirm");
-    }
-    if (dialogType === LoadDialogType.REPLACE) {
-      return this.findAndClickButton("Replace");
-    }
-    if (dialogType === LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE) {
-      // Use the Option menu to change how we load the file.
-      await this.findAndClickButton("Options");
-      const document = await this.document();
-      const menuItem = await document.findByText(/^(Add|Replace) file .+\.py$/);
-      await menuItem.click();
-
-      return this.findAndClickButton("Confirm");
-    }
-  }
-
-  private async findAndClickButton(name: string): Promise<void> {
-    const document = await this.document();
-    const button = await document.findByRole("button", {
-      name: name,
-    });
-    await button.click();
-  }
-
-  async switchLanguage(locale: string): Promise<void> {
-    // All test ids so they can be language invariant.
-    const document = await this.document();
-    await this.clickSettingsMenu();
-    await (await document.findByTestId("language")).click();
-    await (await document.findByTestId(locale)).click();
-  }
-
-  private async clickSettingsMenu(): Promise<void> {
-    // All test ids for the sake of language-related tests.
-    const document = await this.document();
-    return (await document.findByTestId("settings")).click();
-  }
-
-  async findThirdPartyModuleWarning(
-    expectedName: string,
-    expectedVersion: string
-  ): Promise<void> {
-    const document = await this.document();
-    await Promise.all([
-      document.findByText(expectedName),
-      document.findByText(expectedVersion),
-    ]);
-  }
-
-  async toggleSettingThirdPartyModuleEditing(): Promise<void> {
-    await this.clickSettingsMenu();
-    const document = await this.document();
-    const settings = await document.findByRole("menuitem", {
-      name: "Settings",
-    });
-    await settings.click();
-    const checkbox = await document.findByRole("checkbox", {
-      name: "Allow editing third-party modules",
-    });
-    // Regular click() doesn't work here.
-    await checkbox.evaluate((e) => (e as any).click());
-    await this.findAndClickButton("Close");
-  }
-
-  /**
-   * Use the Files sidebar to change the current file we're editing.
-   *
-   * @param filename The name of the file in the file list.
-   */
-  async switchToEditing(filename: string): Promise<void> {
-    await this.openFileActionsMenu(filename);
-    const document = await this.document();
-    const editButton = await document.findByRole("menuitem", {
-      name: "Edit " + filename,
-    });
-    await editButton.click();
-  }
-
-  /**
-   * Can switch to editing a file.
-   *
-   * For now we only support editing Python files.
-   *
-   * @param filename The name of the file in the file list.
-   */
-  async canSwitchToEditing(filename: string): Promise<boolean> {
-    await this.openFileActionsMenu(filename);
-    const document = await this.document();
-    const editButton = await document.findByRole("menuitem", {
-      name: "Edit " + filename,
-    });
-    return !(await isDisabled(editButton));
-  }
-
-  /**
-   * Uses the Files tab to delete a file.
-   *
-   * @param filename The filename.
-   */
-  async deleteFile(
-    filename: string,
-    dialogChoice: string = "Delete"
-  ): Promise<void> {
-    await this.openFileActionsMenu(filename);
-    const document = await this.document();
-    const button = await document.findByRole("menuitem", {
-      name: "Delete " + filename,
-    });
-    await button.click();
-    const dialogButton = await document.findByRole("button", {
-      name: dialogChoice,
-    });
-    await dialogButton.click();
-  }
-
-  async canDeleteFile(filename: string): Promise<boolean> {
-    await this.openFileActionsMenu(filename);
-    const document = await this.document();
-    const button = await document.findByRole("menuitem", {
+    this.deleteButton = this.page.getByRole("menuitem", {
       name: `Delete ${filename}`,
     });
-
-    return !(await isDisabled(button));
   }
 
-  /**
-   * Wait for an alert, throwing if it doesn't happen.
-   *
-   * @param title The expected alert title.
-   * @param description The expected alert description (if any).
-   */
-  async findAlertText(title: string, description?: string): Promise<void> {
-    const document = await this.document();
-    // role=status queries don't work by content
-    const titles = await document.findAllByText(title);
-    if (description) {
-      for (const title of titles) {
-        const parentElement = (await title.getProperty(
-          "parentElement"
-        )) as ElementHandle;
-        const descriptionMatch = await parentElement.getByText(description);
-        if (descriptionMatch) {
-          return;
-        }
-        throw new Error("Not found!");
-      }
-    }
+  async delete() {
+    await this.deleteButton.click();
+    await this.page.getByRole("button", { name: "Delete" }).click();
+  }
+}
+
+class ProjectTabPanel {
+  private openButton: Locator;
+  constructor(public readonly page: Page) {
+    this.openButton = this.page
+      .getByRole("tabpanel", { name: "Project" })
+      .getByTestId("open");
   }
 
-  /**
-   * Wait for the editor contents to match the given regexp, throwing if it doesn't happen.
-   *
-   * Only the first few lines will be visible.
-   *
-   * @param match The regex.
-   */
-  async findVisibleEditorContents(
-    match: RegExp | string,
-    options?: waitForOptions
-  ): Promise<void> {
-    if (typeof match === "string") {
-      match = new RegExp(escapeRegExp(match));
-    }
-    const document = await this.document();
-    let lastText: string | undefined;
-    const text = () =>
-      document.evaluate(() => {
-        // We use the testid to identify the main editor as we also have read-only code views.
-        const lines = Array.from(
-          window.document.querySelectorAll("[data-testid='editor'] .cm-line")
-        );
-        return (
-          lines
-            .map((l) => (l as HTMLElement).innerText)
-            // Blank lines here are \n but non-blank lines have no trailing separator. Fix so we can join the text.
-            .map((l) => (l === "\n" ? "" : l))
-            .join("\n")
-        );
-      });
-    return waitFor(
-      async () => {
-        const value = await text();
-        lastText = value;
-        expect(value).toMatch(match);
-      },
-      {
-        ...defaultWaitForOptions,
-        onTimeout: (_e) =>
-          new Error(
-            `Timeout waiting for ${match} but content was:\n${lastText}}\n\nJSON version:\n${JSON.stringify(
-              lastText
-            )}`
-          ),
-        ...options,
-      }
-    );
-  }
-
-  /**
-   * Type in the editor area.
-   *
-   * This will focus the editor area and type with the caret in its default position
-   * (the beginning unless we've otherwise interacted with it).
-   *
-   * @param text The text to type.
-   */
-  async typeInEditor(text: string): Promise<void> {
-    const content = await this.focusEditorContent();
-    // The short delay seems to improve reliability triggering autocomplete.
-    // Previously finding autocomplete options failed approx 1 in 30 times.
-    // https://github.com/microbit-foundation/python-editor-v3/issues/419
-    return content.type(text, { delay: 10 });
-  }
-
-  /**
-   * Select all the text in the code editor.
-   *
-   * Subsequent typing will overwrite it.
-   */
-  async selectAllInEditor(): Promise<void> {
-    await this.focusEditorContent();
-    const keyboard = (await this.page).keyboard;
-    const meta = process.platform === "darwin" ? "Meta" : "Control";
-    await keyboard.down(meta);
-    await keyboard.press("a");
-    await keyboard.up(meta);
-  }
-
-  /**
-   * Edit the project name.
-   *
-   * @param projectName The new name.
-   */
-  async setProjectName(projectName: string): Promise<void> {
-    const document = await this.document();
-    const editButton = await document.findByRole(
-      "button",
-      {
-        name: "Edit project name",
-      },
-      defaultWaitForOptions
-    );
-    await editButton.click();
-    const input = await document.findByRole("textbox", {
-      name: /Name/,
-    });
-    await input.type(projectName);
-    const confirm = await document.findByRole("button", { name: "Confirm" });
-    await confirm.click();
-  }
-
-  /**
-   * Wait for the project name
-   *
-   * @param match
-   * @returns
-   */
-  async findProjectName(match: string): Promise<void> {
-    const text = async () => {
-      const document = await this.document();
-      const projectName = await document.getByTestId("project-name");
-      return projectName.getNodeText();
-    };
-    return waitFor(async () => {
-      const value = await text();
-      expect(value).toEqual(match);
-    }, defaultWaitForOptions);
-  }
-
-  async findActiveApiEntry(text: string, headingLevel: string): Promise<void> {
-    // We need to make sure it's actually visible as it's scroll-based navigation.
-    const document = await this.document();
-    return waitFor(async () => {
-      const items = await document.$$(headingLevel);
-      const headings: { text: string; visible: boolean }[] = await Promise.all(
-        items.map((e: ElementHandle<Element>) =>
-          e.evaluate((node) => {
-            const text = (node as HTMLElement).innerText;
-            const rect = (node as HTMLElement).getBoundingClientRect();
-            const visible = rect.top >= 0 && rect.bottom <= window.innerHeight;
-            return { text, visible };
-          })
-        )
-      );
-      const match = headings.find((info) => info.visible && info.text === text);
-      expect(match).toBeDefined();
-    }, defaultWaitForOptions);
-  }
-
-  async findDocumentationTopLevelHeading(
-    title: string,
-    description?: string
-  ): Promise<void> {
-    const document = await this.document();
-    await document.findByText(
-      title,
-      {
-        selector: "h2",
-      },
-      defaultWaitForOptions
-    );
-    if (description) {
-      await document.findByText(description);
-    }
-  }
-
-  async selectDocumentationSection(name: string): Promise<void> {
-    const document = await this.document();
-    const button = await document.findByRole("button", {
-      name: `View ${name} documentation`,
-    });
-    await button.click();
-    await this.awaitAnimation();
-  }
-
-  async awaitAnimation(): Promise<void> {
-    const page = await this.page;
-    await page.waitForTimeout(300);
-  }
-
-  async selectDocumentationIdea(name: string): Promise<void> {
-    const document = await this.document();
-    const heading = await document.findByText(name, {
-      selector: "h3",
-    });
-    const handle = heading.asElement();
-    await handle!.evaluate((element) => {
-      element.parentElement?.click();
-    });
-  }
-
-  async insertToolkitCode(name: string): Promise<void> {
-    const document = await this.document();
-    const heading = await document.findByText(name, {
-      selector: "h3",
-    });
-    const handle = heading.asElement();
-    await handle!.evaluate((element) => {
-      const item = element.closest("li");
-      item!.querySelector("button")!.click();
-    });
-  }
-
-  async triggerScroll(tabName: string): Promise<void> {
-    const document = await this.document();
-    const button = await document.findByRole("button", {
-      name: tabName,
-    });
-    const handle = button.asElement();
-    await handle!.evaluate((element) => {
-      const scrollablePanel = element.closest(
-        "[data-testid='scrollable-panel']"
-      );
-      scrollablePanel?.scrollTo({ top: 10 });
-    });
-    await this.awaitAnimation();
-  }
-
-  async toggleCodeActionButton(name: string): Promise<void> {
-    const document = await this.document();
-    const heading = await document.findByText(name, {
-      selector: "h3",
-    });
-    const handle = heading.asElement() as ElementHandle<HTMLElement>;
-    await handle.evaluate((element) => {
-      const item = element.closest("li");
-      (item!.querySelector(".cm-content") as HTMLButtonElement)!.click();
-    });
-  }
-
-  async copyCode(): Promise<void> {
-    const document = await this.document();
-    const copyCodeButton = await document.findByRole("button", {
-      name: "Copy code",
-    });
-    await copyCodeButton.click();
-  }
-
-  async pasteToolkitCode(): Promise<void> {
-    await this.focusEditorContent();
-    const keyboard = (await this.page).keyboard;
-    const meta = process.platform === "darwin" ? "Meta" : "Control";
-
-    // With the current version of Pupepteer this doesn't seem to work on Macs
-    // On upgrading we can fix like this: https://github.com/puppeteer/puppeteer/pull/9357/files
-    await keyboard.down(meta);
-    await keyboard.press("v");
-    await keyboard.up(meta);
-  }
-
-  async selectToolkitDropDownOption(
-    label: string,
-    option: string
-  ): Promise<void> {
-    const document = await this.document();
-    const select = await document.findByLabelText(label);
-    await select.select(option);
-  }
-
-  /**
-   * Trigger a save but don't wait for it to complete.
-   *
-   * Useful when the action is expected to fail.
-   * Otherwise see waitForSave.
-   */
-  async save(): Promise<void> {
-    const document = await this.document();
-    const saveButton = await document.findByText("Save");
-    return saveButton.click();
-  }
-
-  async saveMain(): Promise<void> {
-    const document = await this.document();
-    const moreSaveOptions = await document.findByTestId("more-save-options");
-    await moreSaveOptions.click();
-    const saveMainButton = await document.findByRole("menuitem", {
-      name: "Save Python script",
-    });
-    await saveMainButton.click();
-  }
-
-  async connect(): Promise<void> {
-    const document = await this.document();
-    const moreConnectOptions = await document.findByTestId(
-      "more-connect-options"
-    );
-    await moreConnectOptions.click();
-    const connectButton = await document.findByRole("menuitem", {
-      name: "Connect",
-    });
-    await connectButton.click();
-    await this.connectViaConnectHelp();
-  }
-
-  // Connects from the connect dialog/wizard.
-  async connectViaConnectHelp(): Promise<void> {
-    const document = await this.document();
-    const nextButtonOne = await document.findByRole("button", {
-      name: "Next",
-    });
-    await nextButtonOne.click();
-    const nextButtonTwo = await document.findByRole("button", {
-      name: "Next",
-    });
-    await nextButtonTwo.click();
-  }
-
-  async confirmConnection(): Promise<void> {
-    const serialArea = await this.findMainSerialArea();
-    await serialArea.findByRole("button", {
-      name: "Serial menu",
-    });
-  }
-
-  async confirmGenericDialog(title: string): Promise<void> {
-    const document = await this.document();
-    await document.findByText(title, {
-      selector: "h2",
-    });
-  }
-
-  async confirmInputDialog(title: string): Promise<void> {
-    const document = await this.document();
-    await document.findByText(title, {
-      selector: "h2",
-    });
-  }
-
-  // Launch 'connect help' dialog from 'not found' dialog.
-  async connectHelpFromNotFoundDialog(): Promise<void> {
-    const document = await this.document();
-    const reviewDeviceSelection = await document.findByRole("link", {
-      name: "follow these steps",
-    });
-    await reviewDeviceSelection.click();
-  }
-
-  async closeDialog(title?: string): Promise<void> {
-    const document = await this.document();
-    if (title) {
-      await document.findByText(title, {
-        selector: "h2",
-      });
-    }
-    // This finds the "X" button in the top right of the dialog
-    // and the footer button.
-    const closeButton = await document.findAllByRole("button", {
-      name: "Close",
-    });
-    await closeButton[0].click();
-  }
-
-  // Retry micro:bit connection from error dialogs.
-  async connectViaTryAgain(): Promise<void> {
-    const document = await this.document();
-    const tryAgainButton = await document.findByRole("button", {
-      name: "Try again",
-    });
-    await tryAgainButton.click();
-  }
-
-  async disconnect(): Promise<void> {
-    const document = await this.document();
-    const moreConnectOptions = await document.findByTestId(
-      "more-connect-options"
-    );
-    await moreConnectOptions.click();
-    const disconnectButton = await document.findByRole("menuitem", {
-      name: "Disconnect",
-    });
-    await disconnectButton.click();
-    return waitFor(
-      async () => {
-        expect(
-          (
-            await document.queryAllByRole("button", {
-              name: "Serial terminal",
-            })
-          ).length
-        ).toEqual(0);
-      },
-      {
-        ...defaultWaitForOptions,
-        onTimeout: () => new Error("Serial still present after disconnect"),
-      }
-    );
-  }
-
-  private async findMainSerialArea() {
-    const document = await this.document();
-    return document.findByRole("region", {
-      name: "Serial terminal",
-    });
-  }
-
-  async serialShow(): Promise<void> {
-    const mainSerialArea = await this.findMainSerialArea();
-    const showSerialButton = await mainSerialArea.findByRole("button", {
-      name: "Show serial",
-    });
-    await showSerialButton.click();
-    // Make sure the button has flipped.
-    await mainSerialArea.findByRole("button", {
-      name: "Hide serial",
-    });
-  }
-
-  async serialHide(): Promise<void> {
-    const serialArea = await this.findMainSerialArea();
-    const hideSerialButton = await serialArea.findByRole("button", {
-      name: "Hide serial",
-    });
-    await hideSerialButton.click();
-    // Make sure the button has flipped.
-    await serialArea.findByRole("button", {
-      name: "Show serial",
-    });
-  }
-
-  async findSerialCompactTraceback(text: Matcher): Promise<void> {
-    const document = await this.document();
-    await document.findByText(text);
-  }
-
-  async flash() {
-    const document = await this.document();
-    const flash = await document.findByRole("button", {
-      name: "Send to micro:bit",
-    });
-    return flash.click();
-  }
-
-  async followSerialCompactTracebackLink(): Promise<void> {
-    const document = await this.document();
-    const link = await document.findByTestId("traceback-link");
-    await link.click();
-  }
-
-  async mockSerialWrite(data: string): Promise<void> {
-    const page = await this.page;
-    page.evaluate((data) => {
-      (window as any).mockDevice.mockSerialWrite(data);
-    }, toCrLf(data));
-  }
-
-  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
-    const page = await this.page;
-    page.evaluate((code) => {
-      (window as any).mockDevice.mockConnect(code);
-    }, code);
-  }
-
-  async mockWebUsbNotSupported() {
-    const page = await this.page;
-    page.evaluate(() => {
-      (window as any).mockDevice.mockWebUsbNotSupported();
-    });
-  }
-
-  /**
-   * Trigger a hex file save and wait for the download to complete.
-   *
-   * @returns Download details.
-   */
-  async waitForSave(): Promise<BrowserDownload> {
-    return this.waitForDownloadOnDisk(() => this.save());
-  }
-
-  /**
-   * Resets the page for a new test.
-   */
-  async reset() {
-    let page = await this.page;
-    if (!page.isClosed()) {
-      page.removeAllListeners();
-      await page.close();
-    }
-    this.page = this.createPage();
-    page = await this.page;
-    await page.goto(this.url);
-    // Wait for side bar to load
-    await page.waitForSelector('[data-testid="scrollable-panel"]');
-  }
-
-  /**
-   * Navigate to the URL defined by options.
-   *
-   * Only needed to test initialization scenarios when options has been
-   * changed by the test.
-   */
-  async gotoOptionsUrl() {
-    let page = await this.page;
-    // Allow testing fragment changes by actually navigating away.
-    await page.goto("about:blank");
-    return page.goto(this.url);
-  }
-
-  /**
-   * Wait for matching completion options to appear.
-   */
-  async findCompletionOptions(expected: string[]): Promise<void> {
-    const document = await this.document();
-    return waitFor(async () => {
-      const items: ElementHandle<Element>[] = await document.$$(
-        ".cm-completionLabel"
-      );
-      const actual = await Promise.all(
-        items.map((e) => e.evaluate((node) => (node as HTMLElement).innerText))
-      );
-      expect(actual).toEqual(expected);
-    }, defaultWaitForOptions);
-  }
-
-  /**
-   * Wait for the a signature tooltip to appear with a matching signature.
-   */
-  async findSignatureHelp(expectedSignature: string): Promise<void> {
-    const document = await this.document();
-    return waitFor(async () => {
-      const tooltip = await document.$(".cm-signature-tooltip code");
-      expect(tooltip).toBeTruthy();
-      const actualSignature = await tooltip!.evaluate(
-        (e) => (e as HTMLElement).innerText
-      );
-      expect(actualSignature).toEqual(expectedSignature);
-    }, defaultWaitForOptions);
-  }
-
-  /**
-   * Wait for active completion option by waiting for its signature to be shown
-   * in the documentation tooltip area.
-   */
-  async findCompletionActiveOption(signature: string): Promise<void> {
-    const document = await this.document();
-    await document.findByText(
-      signature,
-      {
-        selector: "code",
-      },
-      defaultWaitForOptions
-    );
-  }
-
-  /**
-   * Accept the given completion.
-   */
-  async acceptCompletion(name: string): Promise<void> {
-    // This seems significantly more reliable than pressing Enter, though there's
-    // no real-life issue here.
-    const document = await this.document();
-    const editor = await document.findByTestId("editor");
-    const option = await editor.findByRole(
-      "option",
-      {
-        name,
-      },
-      defaultWaitForOptions
-    );
-    await option.click();
-  }
-
-  /**
-   * Follow the documentation link shown in the signature help or autocomplete tooltips.
-   * This will update the "API" tab and switch to it.
-   */
-  async followCompletionOrSignatureDocumentionLink(
-    linkName: string
-  ): Promise<void> {
-    const document = await this.document();
-    const button = await document.findByRole("link", {
-      name: linkName,
-    });
-    await button.click();
-
-    // Wait for side bar to load
-    await document.waitForSelector('[data-testid="scrollable-panel"]');
-  }
-
-  /**
-   * Drag the first code snippet from the named section to the target line.
-   * The section must alread be in view.
-   *
-   * @param name The name of the section.
-   * @param targetLine The target line (1-based).
-   */
-  async dragDropCodeEmbed(name: string, targetLine: number) {
-    const page = await this.page;
-    const document = await this.document();
-    const heading = await document.findByRole("heading", {
-      name,
-      level: 3,
-    });
-    const section: puppeteer.ElementHandle<Element> =
-      await heading.evaluateHandle((e: Element) => {
-        let node: Element | null = e;
-        while (node && node.tagName !== "LI") {
-          node = node.parentElement;
-        }
-        if (!node) {
-          throw new Error("Unexpected DOM structure");
-        }
-        return node;
-      });
-    const draggable = (await section.$("[draggable]"))!;
-    const lines = await document.$$("[data-testid='editor'] .cm-line");
-    const line = lines[targetLine - 1];
-    if (!line) {
-      throw new Error(`No line ${targetLine} found. Line must exist.`);
-    }
-    await page.setDragInterception(true);
-    await draggable.dragAndDrop(line);
-  }
-
-  async resetProject(): Promise<void> {
-    await this.switchTab("Project");
-    await this.findAndClickButton("Reset project");
-    await this.findAndClickButton("Replace");
-  }
-
-  async findProjectFiles(expected: string[]): Promise<void> {
-    const tab = await this.switchTab("Project");
-    const items = async () => {
-      const items = await tab.findAllByRole("listitem");
-      const text = await Promise.all(
-        items.map((i) => i.evaluate((e) => e.textContent))
-      );
-      return text;
-    };
-    return waitFor(async () => {
-      const actual = await items();
-      expect(actual).toEqual(expected);
-    }, defaultWaitForOptions);
-  }
-
-  /**
-   * Take a screenshot named after the running test case and store it in the reports folder.
-   * The folder is published in CI.
-   */
-  async screenshot() {
-    const page = await this.page;
-    return page.screenshot({
-      path: this.reportFilename("png"),
-    });
-  }
-
-  private reportFilename(extension: string): string {
-    return (
-      reportsPath +
-      // GH actions has character restrictions
-      (expect.getState().currentTestName || "").replace(/[^0-9a-zA-Z]+/g, "-") +
-      "." +
-      extension
-    );
-  }
-
-  private async focusEditorContent(): Promise<ElementHandle> {
-    const document = await this.document();
-    const editor = await document.findByTestId(
-      "editor",
-      {},
-      defaultWaitForOptions
-    );
-    const content = await editor.$(".cm-content");
-    if (!content) {
-      throw new Error("Missing editor area");
-    }
-    await content.focus();
-    return content;
-  }
-
-  /**
-   * Clean up, including the browser and downloads temporary folder.
-   */
-  async dispose() {
-    await fsp.rm(this.downloadPath, { recursive: true });
-    const page = await this.page;
-    await page.browser().close();
-  }
-
-  /**
-   * Switch to a sidebar tab.
-   *
-   * Prefer more specific navigation actions, but this is useful to check initial state
-   * and that tab state is remembered.
-   */
-  async switchTab(
-    tabName: "Project" | "API" | "Reference" | "Ideas"
-  ): Promise<ElementHandle<Element>> {
-    const document = await this.document();
-    const tab = await document.findByRole(
-      "tab",
-      {
-        name: tabName,
-      },
-      defaultWaitForOptions
-    );
-    await tab.click();
-    return document.findByRole("tabpanel");
-  }
-
-  async searchToolkits(searchText: string): Promise<void> {
-    const document = await this.document();
-    const searchButton = await document.findByRole("button", {
-      name: "Search",
-    });
-    await searchButton.click();
-    const searchField = await document.findByRole("textbox", {
-      name: "Search",
-    });
-    await searchField.type(searchText);
-  }
-
-  async selectFirstSearchResult(): Promise<void> {
-    const document = await this.document();
-    const modalDialog = await document.findByRole("dialog");
-    const result = await modalDialog.findAllByRole(
-      "heading",
-      {
-        level: 3,
-      },
-      defaultWaitForOptions
-    );
-    await result[0].click();
-  }
-
-  async tabOutOfEditorForwards(): Promise<void> {
-    const content = await this.focusEditorContent();
-    await content.press("Escape");
-    await content.press("Tab");
-  }
-
-  async tabOutOfEditorBackwards(): Promise<void> {
-    const keyboard = (await this.page).keyboard;
-
-    const content = await this.focusEditorContent();
-    await content.press("Escape");
-    await keyboard.down("Shift");
-    await content.press("Tab");
-    await keyboard.up("Shift");
-  }
-
-  private async document(): Promise<ElementHandle<Element>> {
-    const page = await this.page;
-    return page.getDocument();
-  }
-
-  private async waitForDownloadOnDisk(
-    triggerDownload: () => Promise<void>,
-    timeout: number = 5000
-  ): Promise<BrowserDownload> {
-    const listDir = async () => {
-      const listing = await fsp.readdir(this.downloadPath);
-      return new Set(listing.filter((x) => !x.endsWith(".crdownload")));
-    };
-
-    const before = await listDir();
-    await triggerDownload();
-
-    const startTime = performance.now();
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const after = await listDir();
-      before.forEach((x) => after.delete(x));
-      if (after.size === 1) {
-        const filename = after.values().next().value;
-        const data = await fsp.readFile(path.join(this.downloadPath, filename));
-        return { filename, data };
-      }
-      if (after.size > 1) {
-        throw new Error("Unexpected extra file in downloads directory");
-      }
-      if (performance.now() - startTime > timeout) {
-        throw new Error("Timeout waiting for puppeteer download");
-      }
-      await new Promise((resolve) => setTimeout(resolve, 20));
-    }
-  }
-
-  private async openFileActionsMenu(filename: string): Promise<void> {
-    await this.switchTab("Project");
-    const document = await this.document();
-    const actions = await document.findByRole("button", {
+  async openFileActionsMenu(filename: string) {
+    const fileActionsMenu = this.page.getByRole("button", {
       name: `${filename} file actions`,
     });
-    await actions.click();
+    const actionMenu = new FileActionsMenu(this.page, filename);
+    await fileActionsMenu.waitFor();
+    await fileActionsMenu.hover();
+    await fileActionsMenu.click();
+    await actionMenu.editButton.waitFor();
+    return actionMenu;
   }
 
-  private async keyboardPress(key: KeyInput): Promise<void> {
-    const keyboard = (await this.page).keyboard;
-    await keyboard.press(key);
+  async chooseFile(filePathFromProjectRoot: string) {
+    const filePath = getAbsoluteFilePath(filePathFromProjectRoot);
+    const fileChooserPromise = this.page.waitForEvent("filechooser");
+    await this.openButton.click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(filePath);
   }
+}
 
-  private async getElementByQuerySelector(
-    query: string
-  ): Promise<ElementHandle<Element>> {
-    const document = await this.document();
-    const result = await document.$(query);
-    if (!result) {
-      throw new Error();
-    }
-    return result;
+class SideBar {
+  public expandButton: Locator;
+  public collapseButton: Locator;
+
+  constructor(public readonly page: Page) {
+    this.expandButton = this.page.getByLabel("Expand sidebar");
+    this.collapseButton = this.page.getByLabel("Collapse sidebar");
   }
+}
 
-  async assertActiveElement(
-    accessExpectedElement: () => Promise<ElementHandle<Element>>
-  ) {
-    return waitFor(async () => {
-      const page = await this.page;
-      const expectedElement = await accessExpectedElement();
+class Simulator {
+  public expandButton: Locator;
+  public collapseButton: Locator;
+  public showSerialButton: Locator;
+  public hideSerialButton: Locator;
+  public sendGestureButton: Locator;
+  private stopButton: Locator;
+  public serialMenu: Locator;
+  public iframe: Locator;
+  private serialArea: Locator;
 
-      expect(
-        await page.evaluate((e) => {
-          return e === document.activeElement;
-        }, expectedElement)
-      ).toEqual(true);
-    }, defaultWaitForOptions);
-  }
+  constructor(public readonly page: Page) {
+    this.expandButton = this.page.getByLabel("Expand simulator");
+    this.collapseButton = this.page.getByLabel("Collapse simulator");
 
-  async assertFocusOnLoad(): Promise<void> {
-    const document = await this.document();
-    // Do this first so we know it's ready to be tabbed to.
-    const link = await document.findByRole("link", {
-      name: "visit microbit.org (opens in a new tab)",
+    this.serialArea = this.page.getByRole("region", {
+      name: "Serial terminal",
+      exact: true,
     });
-    await this.keyboardPress("Tab");
-    return this.assertActiveElement(() => Promise.resolve(link));
+    this.serialMenu = this.getSerialAreaButton("Serial menu");
+    this.showSerialButton = this.getSerialAreaButton("Show serial");
+    this.hideSerialButton = this.getSerialAreaButton("Hide serial");
+    this.sendGestureButton = this.page.getByRole("button", {
+      name: "Send gesture",
+    });
+    this.stopButton = this.page.getByRole("button", {
+      name: "Stop simulator",
+    });
+    this.iframe = this.page.locator("iframe[name='Simulator']");
   }
 
-  collapseSimulator(): Promise<void> {
-    return this.findAndClickButton("Collapse simulator");
+  private getSerialAreaButton(name: string) {
+    return this.serialArea.getByRole("button", { name });
   }
 
-  expandSimulator(): Promise<void> {
-    return this.findAndClickButton("Expand simulator");
-  }
-
-  collapseSidebar(): Promise<void> {
-    return this.findAndClickButton("Collapse sidebar");
-  }
-
-  expandSidebar(): Promise<void> {
-    return this.findAndClickButton("Expand sidebar");
-  }
-
-  async assertFocusOnExpandSimulator(): Promise<void> {
-    const document = await this.document();
-    return this.assertActiveElement(() =>
-      document.getByRole("button", { name: "Expand simulator" })
-    );
-  }
-
-  assertFocusOnSimulator(): Promise<void> {
-    return this.assertActiveElement(() =>
-      this.getElementByQuerySelector("iframe[name='Simulator']")
-    );
-  }
-
-  async assertFocusOnExpandSidebar(): Promise<void> {
-    const document = await this.document();
-    return this.assertActiveElement(() =>
-      document.findByRole("button", { name: "Expand sidebar" })
-    );
-  }
-
-  assertFocusOnSidebar(): Promise<void> {
-    return this.assertActiveElement(() =>
-      this.getElementByQuerySelector("[role='tabpanel']")
-    );
-  }
-
-  async assertFocusBeforeEditor(): Promise<void> {
-    const document = await this.document();
-    return this.assertActiveElement(() =>
-      document.findByRole("button", {
-        name: "Zoom in",
-      })
-    );
-  }
-
-  async assertFocusAfterEditor(): Promise<void> {
-    const document = await this.document();
-    return this.assertActiveElement(() =>
-      document.findByRole("button", {
-        name: "Send to micro:bit",
-      })
-    );
+  async simulatorSelectGesture(option: string): Promise<void> {
+    await this.page
+      .getByTestId("simulator-gesture-select")
+      .selectOption(option);
   }
 
   // Simulator functions
-  private async getSimulatorIframe(): Promise<Frame> {
-    const page = await this.page;
-    const simulatorIframe = page
-      .frames()
-      .find((frame) => frame.name() === "Simulator");
+  private getSimulatorIframe(): Frame {
+    const simulatorIframe = this.page.frame("Simulator");
     if (!simulatorIframe) {
       throw new Error("Simulator iframe not found");
     }
     return simulatorIframe;
   }
 
-  async runSimulator(): Promise<void> {
-    const simulatorIframe = await this.getSimulatorIframe();
-    const playButton = await simulatorIframe!.$(".play-button");
-    await playButton!.click();
+  async run(): Promise<void> {
+    const simulatorIframe = this.getSimulatorIframe();
+    const playButton = simulatorIframe.locator(".play-button");
+    await playButton.click();
   }
 
-  async findStoppedSimulator(): Promise<void> {
-    const document = await this.document();
-    const stopButton = await document.findByRole("button", {
-      name: "Stop simulator",
-    });
-    waitFor(async () => {
-      expect(await isDisabled(stopButton)).toEqual(true);
-    }, defaultWaitForOptions);
+  async expectResponse(): Promise<void> {
+    // Confirms that top left LED is switched on
+    // to match Image.NO being displayed.
+    const gridLEDs = this.getSimulatorIframe().locator("#LEDsOn");
+    await expect(gridLEDs).toBeVisible();
   }
 
-  async simulatorSelectGesture(option: string): Promise<void> {
-    const document = await this.document();
-    const select = await document.findByTestId("simulator-gesture-select");
-    await select.select(option);
+  async expectStopped(): Promise<void> {
+    expect(await this.stopButton.isDisabled()).toEqual(true);
   }
 
-  async simulatorSendGesture(): Promise<void> {
-    const document = await this.document();
-    const gestureSendBtn = await document.getByRole("button", {
-      name: "Send gesture",
-    });
-    await gestureSendBtn.click();
-  }
-
-  async simulatorInputPressHold(
-    name: string,
-    pressDuration: number
-  ): Promise<void> {
-    const page = await this.page;
-    const document = await this.document();
-    const inputButton = await document.getByRole("button", {
-      name,
-    });
-    const bounding_box = await inputButton!.boundingBox();
-    await page.mouse.move(
-      bounding_box!.x + bounding_box!.width / 2,
-      bounding_box!.y + bounding_box!.height / 2
-    );
-    await page.mouse.down();
-    await page.waitForTimeout(pressDuration);
-    await page.mouse.up();
-  }
-
-  async simulatorSetRangeSlider(
+  async setRangeSlider(
     sliderLabel: string,
     value: "min" | "max"
   ): Promise<void> {
-    const page = await this.page;
-    const document = await this.document();
-    const sliderThumb = await document.waitForSelector(
+    const sliderThumb = this.page.locator(
       `[role="slider"][aria-label="${sliderLabel}"]`
     );
     const bounding_box = await sliderThumb!.boundingBox();
-    await page.mouse.move(
+    await this.page.mouse.move(
       bounding_box!.x + bounding_box!.width / 2,
       bounding_box!.y + bounding_box!.height / 2
     );
-    await page.mouse.down();
-    await page.waitForTimeout(500);
-    await page.mouse.move(value === "max" ? 1200 : 0, 0);
-    await page.waitForTimeout(500);
-    await page.mouse.up();
+    await this.page.mouse.down();
+    await this.page.waitForTimeout(500);
+    await this.page.mouse.move(value === "max" ? 1200 : 0, 0);
+    await this.page.waitForTimeout(500);
+    await this.page.mouse.up();
   }
 
-  async simulatorConfirmResponse(): Promise<void> {
-    // Confirms that top left LED is switched on
-    // to match Image.NO being displayed.
-    const simulatorIframe = await this.getSimulatorIframe();
-    const gridLEDs = await simulatorIframe!.$("#LEDsOn");
-    await gridLEDs!.waitForSelector("use", {
-      visible: true,
-      timeout: defaultWaitForOptions.timeout,
+  async inputPressHold(name: string, pressDuration: number): Promise<void> {
+    const inputButton = this.page.getByRole("button", {
+      name,
     });
+    const bounding_box = await inputButton!.boundingBox();
+    await this.page.mouse.move(
+      bounding_box!.x + bounding_box!.width / 2,
+      bounding_box!.y + bounding_box!.height / 2
+    );
+    await this.page.mouse.down();
+    await this.page.waitForTimeout(pressDuration);
+    await this.page.mouse.up();
   }
 }
 
-/**
- * Checks whether an element is disabled.
- *
- * @param element an element handle.
- * @returns true if the element exists and is marked disabled.
- */
-const isDisabled = async (element: ElementHandle<Element>) => {
-  if (!element) {
-    return false;
+export class App {
+  public editorTextArea: Locator;
+  private settingsButton: Locator;
+  public saveButton: Locator;
+  private searchButton: Locator;
+  public modifierKey: string;
+  public projectTab: ProjectTabPanel;
+  private moreConnectionOptionsButton: Locator;
+  public baseUrl: string;
+  private editor: Locator;
+  public simulator: Simulator;
+  public sidebar: SideBar;
+  public sendToMicrobitButton: Locator;
+
+  constructor(public readonly page: Page, public context: BrowserContext) {
+    this.baseUrl = baseUrl;
+    this.editor = this.page.getByTestId("editor");
+    this.editorTextArea = this.editor.getByRole("textbox");
+    this.projectTab = new ProjectTabPanel(page);
+    this.settingsButton = this.page.getByTestId("settings");
+    this.saveButton = this.page.getByRole("button", {
+      name: "Save",
+      exact: true,
+    });
+    this.searchButton = this.page.getByRole("button", { name: "Search" });
+    this.moreConnectionOptionsButton = this.page.getByTestId(
+      "more-connect-options"
+    );
+    this.sendToMicrobitButton = this.page.getByRole("button", {
+      name: "Send to micro:bit",
+    });
+    this.simulator = new Simulator(this.page);
+    this.sidebar = new SideBar(this.page);
+
+    // Set modifier key
+    const isMac = process.platform === "darwin";
+    this.modifierKey = isMac ? "Meta" : "Control";
   }
-  const disabled = await element.getProperty("disabled");
-  return disabled && (await disabled.jsonValue());
-};
+
+  async goto(options: UrlOptions = {}) {
+    await this.page.goto(optionsToURL(options));
+    // Wait for the page to be loaded
+    await this.editor.waitFor();
+  }
+
+  async setProjectName(projectName: string): Promise<void> {
+    await this.page.getByRole("button", { name: "Edit project name" }).click();
+    await this.page.getByLabel("Name*").fill(projectName);
+    await this.page.getByRole("button", { name: "Confirm" }).click();
+  }
+
+  async expectProjectName(match: string) {
+    await expect(this.page.getByTestId("project-name")).toHaveText(match);
+  }
+
+  async switchLanguage(locale: string) {
+    // All test ids so they can be language invariant.
+    await this.settingsButton.click();
+    await this.page.getByTestId("language").click();
+    await this.page.getByTestId(locale).click();
+  }
+
+  async selectAllInEditor(): Promise<void> {
+    await this.editorTextArea.click();
+    await this.page.keyboard.press(`${this.modifierKey}+A`);
+  }
+
+  async pasteInEditor() {
+    // Simulating keyboard press CTRL+V works in Playwright,
+    // but does not work in this case potentially due to
+    // CodeMirror pasting magic
+    const clipboardText: string = await this.page.evaluate(
+      "navigator.clipboard.readText()"
+    );
+    await this.editorTextArea.evaluate((el, text) => {
+      const clipboardData = new DataTransfer();
+      clipboardData.setData("text/plain", text);
+      const clipboardEvent = new ClipboardEvent("paste", { clipboardData });
+      el.dispatchEvent(clipboardEvent);
+    }, clipboardText);
+  }
+
+  async typeInEditor(text: string): Promise<void> {
+    const numCharTyped = 2;
+    const textWithoutLastChars = text.slice(0, -numCharTyped);
+    const lastChars = text.slice(-numCharTyped);
+    await this.editorTextArea.fill(textWithoutLastChars);
+    // Last few characters are typed separately and slower to
+    // reliably trigger editor suggestions
+    for (const char of lastChars) {
+      await this.page.keyboard.press(char, { delay: 500 });
+    }
+  }
+
+  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
+    await this.page.getByRole("tab", { name: tabName }).click();
+  }
+
+  async createNewFile(name: string): Promise<void> {
+    await this.switchTab("Project");
+    await this.page.getByRole("button", { name: "Create file" }).click();
+    await this.page.getByLabel("Name*").fill(name);
+    await this.page.getByRole("button", { name: "Create" }).click();
+  }
+
+  async resetProject(): Promise<void> {
+    await this.switchTab("Project");
+    await this.page.getByRole("button", { name: "Reset project" }).click();
+    await this.page.getByRole("button", { name: "Replace" }).click();
+  }
+
+  async expectEditorContainText(match: RegExp | string) {
+    // Scroll to the top of code text area
+    await this.editorTextArea.click();
+    await this.page.mouse.wheel(0, -100000000);
+    await expect(this.editorTextArea).toContainText(match);
+  }
+
+  async expectProjectFiles(expected: string[]): Promise<void> {
+    await this.switchTab("Project");
+    await expect(this.page.getByRole("listitem")).toHaveText(expected);
+  }
+
+  async loadFiles(
+    filePathFromProjectRoot: string,
+    options: { acceptDialog?: LoadDialogType } = {}
+  ) {
+    await this.switchTab("Project");
+    await this.projectTab.chooseFile(filePathFromProjectRoot);
+
+    if (options.acceptDialog !== undefined) {
+      const loadDialog = new LoadDialog(this.page, options.acceptDialog);
+      await loadDialog.submit();
+    }
+  }
+
+  async dropFile(
+    filePathFromProjectRoot: string,
+    options: { acceptDialog?: LoadDialogType } = {}
+  ) {
+    const filePath = getAbsoluteFilePath(filePathFromProjectRoot);
+    const filename = getFilename(filePathFromProjectRoot);
+
+    // Wait for page to load
+    await this.saveButton.waitFor();
+
+    // Playwright drag and drop file method taken from
+    // https://github.com/microsoft/playwright/issues/10667#issuecomment-998397241
+    const buffer = readFileSync(filePath, { encoding: "ascii" });
+    const dataTransfer = await this.page.evaluateHandle(
+      ({ buffer, filename }) => {
+        const dt = new DataTransfer();
+        const file = new File([buffer], filename);
+        dt.items.add(file);
+        return dt;
+      },
+      { buffer, filename }
+    );
+
+    // Drag file over target area to reveal drop zone
+    await this.page
+      .getByTestId("project-drop-target")
+      .dispatchEvent("dragover", { dataTransfer });
+
+    const dropZone = this.page.getByTestId("project-drop-target-overlay");
+    await dropZone.waitFor();
+    await dropZone.dispatchEvent("drop", { dataTransfer });
+
+    if (options.acceptDialog !== undefined) {
+      const loadDialog = new LoadDialog(this.page, options.acceptDialog);
+      await loadDialog.submit();
+    }
+  }
+
+  async expectAlertText(title: string, description?: string): Promise<void> {
+    await expect(this.page.getByText(title)).toBeVisible();
+    if (description) {
+      await expect(this.page.getByText(description)).toBeVisible();
+    }
+  }
+
+  async isDeleteFileOptionDisabled(filename: string) {
+    await this.switchTab("Project");
+    const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
+    return await fileOptionMenu.deleteButton.isDisabled();
+  }
+
+  async isEditFileOptionDisabled(filename: string) {
+    await this.switchTab("Project");
+    const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
+    return await fileOptionMenu.editButton.isDisabled();
+  }
+
+  async editFile(filename: string): Promise<void> {
+    await this.switchTab("Project");
+    const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
+    await fileOptionMenu.editButton.click();
+  }
+
+  async expectThirdPartModuleWarning(
+    expectedName: string,
+    expectedVersion: string
+  ): Promise<void> {
+    for (const name in [expectedName, expectedVersion]) {
+      await expect(this.page.getByRole("cell", { name })).toBeVisible();
+    }
+  }
+
+  async closeDialog(dialogText?: string) {
+    if (dialogText) {
+      await this.page.getByText(dialogText).waitFor();
+    }
+    await this.page.getByRole("button", { name: "Close" }).first().click();
+  }
+
+  async save(options: SaveOptions = { waitForDownload: true }) {
+    if (!options.waitForDownload) {
+      await this.saveButton.click();
+      return;
+    }
+    const downloadPromise = this.page.waitForEvent("download");
+    await this.saveButton.click();
+    return await downloadPromise;
+  }
+
+  async savePythonScript() {
+    await this.page.getByTestId("more-save-options").click();
+    const downloadPromise = this.page.waitForEvent("download");
+    await this.page
+      .getByRole("menuitem", { name: "Save Python script" })
+      .click();
+    await downloadPromise;
+  }
+
+  async expectDialog(text: string) {
+    await expect(this.page.getByText(text)).toBeVisible();
+  }
+
+  async deleteFile(filename: string) {
+    await this.switchTab("Project");
+    const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
+    await fileOptionMenu.delete();
+  }
+
+  async toggleSettingThirdPartyModuleEditing(): Promise<void> {
+    await this.settingsButton.click();
+    await this.page.getByRole("menuitem", { name: "Settings" }).click();
+    await this.page
+      .getByText("Allow editing third-party modules", { exact: true })
+      .click();
+    await this.page.getByRole("button", { name: "Close" }).click();
+  }
+
+  async closeAndExpectBeforeUnloadDialogVisible(
+    visible: boolean
+  ): Promise<void> {
+    if (visible) {
+      this.page.on("dialog", async (dialog) => {
+        expect(dialog.type() === "beforeunload").toEqual(visible);
+
+        // Though https://playwright.dev/docs/api/class-page#page-event-dialog
+        // says that dialog.dismiss() is needed otherwise the page will freeze,
+        // in practice, it appears that the dialog is dismissed automatically.
+      });
+    }
+    await this.page.close({ runBeforeUnload: true });
+  }
+
+  async expectDocumentationTopLevelHeading(
+    title: string,
+    description?: string
+  ): Promise<void> {
+    await expect(
+      this.page.getByRole("heading", { name: title, exact: true })
+    ).toBeVisible();
+    if (description) {
+      await expect(this.page.getByText(description)).toBeVisible();
+    }
+  }
+
+  async selectDocumentationSection(name: string): Promise<void> {
+    await this.page.getByRole("heading", { name }).click();
+  }
+
+  async toggleCodeActionButton(name: string): Promise<void> {
+    await this.page
+      .getByRole("listitem")
+      .filter({ hasText: name })
+      .getByRole("button", { name: "More" })
+      .click();
+  }
+
+  async selectToolkitDropDownOption(
+    label: string,
+    option: string
+  ): Promise<void> {
+    await this.page.getByRole("combobox", { name: label }).selectOption(option);
+  }
+
+  private getCodeExample(name: string) {
+    return this.page
+      .getByRole("listitem")
+      .filter({ hasText: name })
+      .locator("div")
+      .filter({
+        hasText: "Code example:",
+      })
+      .nth(2);
+  }
+
+  async copyCode(name: string) {
+    await this.getCodeExample(name).click();
+    await this.page.getByRole("button", { name: "Copy code" }).click();
+  }
+
+  async dragDropCodeEmbed(name: string, targetLine: number) {
+    const codeExample = this.getCodeExample(name);
+    const editorLine = this.editor
+      .getByRole("textbox")
+      .locator("div")
+      .filter({ hasText: targetLine.toString() });
+
+    await codeExample.dragTo(editorLine);
+  }
+
+  async search(searchText: string): Promise<void> {
+    await this.switchTab("Reference");
+    await this.searchButton.click();
+    await this.page.getByPlaceholder("Search").fill(searchText);
+  }
+
+  async selectFirstSearchResult(): Promise<void> {
+    // wait for results to show
+    await this.page.getByRole("link").first().waitFor();
+    const links = await this.page.getByRole("link").all();
+    await links[0].click();
+  }
+
+  async selectDocumentationIdea(name: string): Promise<void> {
+    await this.page.getByRole("button", { name }).click();
+  }
+
+  async connect(): Promise<void> {
+    await this.moreConnectionOptionsButton.click();
+    await this.page.getByRole("menuitem", { name: "Connect" }).click();
+    await this.connectViaConnectHelp();
+  }
+
+  async disconnect(): Promise<void> {
+    await this.moreConnectionOptionsButton.click();
+    await this.page.getByRole("menuitem", { name: "Disconnect" }).click();
+  }
+
+  // Connects from the connect dialog/wizard.
+  async connectViaConnectHelp(): Promise<void> {
+    await this.page.getByRole("button", { name: "Next" }).click();
+    await this.page.getByRole("button", { name: "Next" }).click();
+  }
+
+  async expectConnected(): Promise<void> {
+    await expect(this.simulator.serialMenu).toBeVisible();
+  }
+
+  async expectDisconnected(): Promise<void> {
+    const btns = await this.page
+      .getByRole("button", { name: "Serial terminal" })
+      .all();
+    expect(btns.length).toEqual(0);
+  }
+
+  async mockSerialWrite(data: string): Promise<void> {
+    this.page.evaluate((data) => {
+      (window as any).mockDevice.mockSerialWrite(data);
+    }, toCrLf(data));
+  }
+
+  async followSerialCompactTracebackLink(): Promise<void> {
+    await this.page.getByTestId("traceback-link").click();
+  }
+
+  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
+    this.page.evaluate((code) => {
+      (window as any).mockDevice.mockConnect(code);
+    }, code);
+  }
+
+  async expectSerialCompactTraceback(text: string | RegExp): Promise<void> {
+    await expect(this.page.getByText(text)).toBeVisible();
+  }
+
+  // Retry micro:bit connection from error dialogs.
+  async connectViaTryAgain(): Promise<void> {
+    await this.page.getByRole("button", { name: "Try again" }).click();
+  }
+
+  // Launch 'connect help' dialog from 'not found' dialog.
+  async connectHelpFromNotFoundDialog(): Promise<void> {
+    await this.page.getByRole("link", { name: "follow these steps" }).click();
+  }
+
+  async mockWebUsbNotSupported() {
+    this.page.evaluate(() => {
+      (window as any).mockDevice.mockWebUsbNotSupported();
+    });
+  }
+
+  async expectCompletionOptions(expected: string[]): Promise<void> {
+    const completions = this.page.getByRole("listbox", { name: "Completions" });
+    await completions.waitFor();
+    const contents = await completions.innerText();
+    expect(contents).toEqual(expected.join("\n"));
+  }
+
+  async expectCompletionActiveOption(signature: string): Promise<void> {
+    const activeOption = this.editor
+      .locator("div")
+      .filter({ hasText: signature })
+      .nth(2);
+    await activeOption.waitFor();
+    await expect(activeOption).toBeVisible();
+  }
+
+  async acceptCompletion(name: string): Promise<void> {
+    // This seems significantly more reliable than pressing Enter, though there's
+    // no real-life issue here.
+    const option = this.editor.getByRole("option", { name });
+    await option.waitFor();
+    await option.click();
+  }
+
+  async followCompletionOrSignatureDocumentionLink(
+    linkName: "Help" | "API"
+  ): Promise<void> {
+    await this.page.getByRole("link", { name: linkName }).click();
+  }
+
+  async expectActiveApiEntry(text: string): Promise<void> {
+    // We need to make sure it's actually visible as it's scroll-based navigation.
+    await expect(this.page.getByRole("heading", { name: text })).toBeVisible();
+  }
+
+  async expectSignatureHelp(expectedSignature: string): Promise<void> {
+    const signatureHelp = this.editor
+      .locator("div")
+      .filter({ hasText: expectedSignature })
+      .nth(1);
+    await signatureHelp.waitFor();
+    await expect(signatureHelp).toBeVisible();
+  }
+
+  async expectFocusOnLoad(): Promise<void> {
+    const link = this.page.getByLabel(
+      "visit microbit.org (opens in a new tab)"
+    );
+    await this.page.keyboard.press("Tab");
+    await expect(link).toBeFocused();
+  }
+
+  async assertFocusOnSidebar(): Promise<void> {
+    const simulator = this.page.getByRole("tabpanel", { name: "Reference" });
+    await expect(simulator).toBeFocused();
+  }
+
+  async assertFocusBeforeEditor(): Promise<void> {
+    const zoomIn = this.page.getByRole("button", {
+      name: "Zoom in",
+    });
+    await expect(zoomIn).toBeFocused();
+  }
+
+  async assertFocusAfterEditor(): Promise<void> {
+    await expect(this.sendToMicrobitButton).toBeFocused();
+  }
+
+  async tabOutOfEditorForwards(): Promise<void> {
+    await this.editor.click();
+    await this.page.keyboard.press("Escape");
+    await this.page.keyboard.press("Tab");
+  }
+
+  async tabOutOfEditorBackwards(): Promise<void> {
+    await this.editor.click();
+    await this.page.keyboard.press("Escape");
+    await this.page.keyboard.down("Shift");
+    await this.page.keyboard.press("Tab");
+    await this.page.keyboard.up("Shift");
+  }
+}
 
 const toCrLf = (text: string): string =>
   text.replace(/[\r\n]/g, "\n").replace(/\n/g, "\r\n");
+
+export const getFilename = (filePath: string) => {
+  const filename = filePath.split("/").pop();
+  if (!filename) {
+    throw new Error("dropFile Error: No filename found!");
+  }
+  return filename;
+};
+
+const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
+  const dir = path.dirname(fileURLToPath(import.meta.url));
+  return path.join(dir.replace("src/e2e", ""), filePathFromProjectRoot);
+};
+
+const optionsToURL = (options: UrlOptions): string => {
+  const flags = new Set<string>([
+    "none",
+    "noWelcome",
+    ...(options.flags ?? []),
+  ]);
+  const params: Array<[string, string]> = Array.from(flags).map((f) => [
+    "flag",
+    f,
+  ]);
+  if (options.language) {
+    params.push(["l", options.language]);
+  }
+  return (
+    baseUrl +
+    // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
+    // Maybe can be changed since the Vite upgrade.
+    (process.env.E2E_BASE_URL ?? "/") +
+    "?" +
+    new URLSearchParams(params) +
+    (options.fragment ?? "")
+  );
+};
