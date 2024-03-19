@@ -68,9 +68,7 @@ test.describe("multiple-files", () => {
       acceptDialog: LoadDialogType.CONFIRM,
     });
     await app.editFile("module.py");
-
     await app.deleteFile("module.py");
-
     await app.expectEditorContainText(/Hello/);
   });
 

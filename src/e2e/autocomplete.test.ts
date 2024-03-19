@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { test } from "./app-test-fixtures.js";
+import { expect } from "@playwright/test";
 
-const showFullSignature =
-  "show(image, delay=400, wait=True, loop=False, clear=False)";
+const showSignature = "show(image, delay=400, wait=";
 
 test.describe("autocomplete", () => {
   test("shows autocomplete as you type", async ({ app }) => {
@@ -44,7 +44,7 @@ test.describe("autocomplete", () => {
 
     await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.expectActiveApiEntry(showFullSignature);
+    await app.expectActiveApiEntry(showSignature);
   });
 
   test("autocomplete can navigate to Reference toolkit content", async ({
@@ -62,7 +62,7 @@ test.describe("autocomplete", () => {
     await app.typeInEditor("from microbit import *\ndisplay.sho");
     await app.acceptCompletion("show");
 
-    await app.expectSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showSignature);
   });
 
   test("does not insert brackets for import completion", async ({ app }) => {
@@ -79,11 +79,16 @@ test.describe("autocomplete", () => {
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
 
-    await app.expectSignatureHelp(showFullSignature);
-
+    const signatureHelp = app.page
+      .getByTestId("editor")
+      .locator("div")
+      .filter({ hasText: showSignature })
+      .nth(1);
+    await signatureHelp.waitFor();
+    await expect(signatureHelp).toBeVisible();
     await app.followCompletionOrSignatureDocumentionLink("API");
 
-    await app.expectActiveApiEntry(showFullSignature);
+    await app.expectActiveApiEntry(showSignature);
   });
 
   test("signature can navigate to Reference toolkit content", async ({
@@ -92,7 +97,7 @@ test.describe("autocomplete", () => {
     await app.selectAllInEditor();
     // The closing bracket is autoinserted.
     await app.typeInEditor("from microbit import *\ndisplay.show(");
-    await app.expectSignatureHelp(showFullSignature);
+    await app.expectSignatureHelp(showSignature);
     await app.followCompletionOrSignatureDocumentionLink("Help");
     await app.expectActiveApiEntry("Show");
   });

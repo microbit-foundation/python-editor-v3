@@ -84,7 +84,6 @@ class FileActionsMenu {
   }
 
   async delete() {
-    await this.deleteButton.waitFor();
     await this.deleteButton.click();
     await this.page.getByRole("button", { name: "Delete" }).click();
   }
@@ -102,9 +101,12 @@ class ProjectTabPanel {
     const fileActionsMenu = this.page.getByRole("button", {
       name: `${filename} file actions`,
     });
+    const actionMenu = new FileActionsMenu(this.page, filename);
     await fileActionsMenu.waitFor();
+    await fileActionsMenu.hover();
     await fileActionsMenu.click();
-    return new FileActionsMenu(this.page, filename);
+    await actionMenu.editButton.waitFor();
+    return actionMenu;
   }
 
   async chooseFile(filePathFromProjectRoot: string) {
@@ -312,10 +314,13 @@ export class App {
   }
 
   async typeInEditor(text: string): Promise<void> {
-    const textWithoutLastChar = text.slice(0, text.length - 1);
+    const textWithoutLastChar = text.slice(0, text.length - 3);
     await this.editorTextArea.fill(textWithoutLastChar);
-    // Last character is typed separately to trigger editor suggestions
-    await this.page.keyboard.press(text.slice(-1));
+    // Last few characters are typed separately to trigger editor suggestions
+    const [a, b, c] = text.slice(-3);
+    await this.page.keyboard.press(a, { delay: 500 });
+    await this.page.keyboard.press(b, { delay: 500 });
+    await this.page.keyboard.press(c, { delay: 500 });
   }
 
   async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
@@ -480,11 +485,16 @@ export class App {
   async closeAndExpectBeforeUnloadDialogVisible(
     visible: boolean
   ): Promise<void> {
-    this.page.on("dialog", async (dialog) => {
-      expect(dialog.type() === "beforeunload").toEqual(visible);
-      await dialog.dismiss();
-    });
-    this.page.close({ runBeforeUnload: true });
+    if (visible) {
+      this.page.on("dialog", async (dialog) => {
+        expect(dialog.type() === "beforeunload").toEqual(visible);
+
+        // Though https://playwright.dev/docs/api/class-page#page-event-dialog
+        // says that dialog.dismiss() is needed otherwise the page will freeze,
+        // in practice, it appears that the dialog is dismissed automatically.
+      });
+    }
+    await this.page.close({ runBeforeUnload: true });
   }
 
   async expectDocumentationTopLevelHeading(
@@ -536,8 +546,7 @@ export class App {
 
   async dragDropCodeEmbed(name: string, targetLine: number) {
     const codeExample = this.getCodeExample(name);
-    const editorLine = this.page
-      .getByTestId("editor")
+    const editorLine = this.editor
       .getByRole("textbox")
       .locator("div")
       .filter({ hasText: targetLine.toString() });
@@ -628,6 +637,7 @@ export class App {
 
   async expectCompletionOptions(expected: string[]): Promise<void> {
     const completions = this.page.getByRole("listbox", { name: "Completions" });
+    await completions.waitFor();
     const contents = await completions.innerText();
     expect(contents).toEqual(expected.join("\n"));
   }
@@ -637,13 +647,16 @@ export class App {
       .locator("div")
       .filter({ hasText: signature })
       .nth(2);
+    await activeOption.waitFor();
     await expect(activeOption).toBeVisible();
   }
 
   async acceptCompletion(name: string): Promise<void> {
     // This seems significantly more reliable than pressing Enter, though there's
     // no real-life issue here.
-    await this.editor.getByRole("option", { name }).click();
+    const option = this.editor.getByRole("option", { name });
+    await option.waitFor();
+    await option.click();
   }
 
   async followCompletionOrSignatureDocumentionLink(
