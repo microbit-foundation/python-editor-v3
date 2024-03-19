@@ -39,10 +39,10 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onCli
       <Box display={isVisible ? "flex" : "none"} flexDirection="row" justifyContent="flex-start">
         <Box>
           <Box bg="black" p="10px" borderRadius="5px">
-            {[...Array(5)].map((_, x) => (
-              <Box key={x} display="flex">
-                {[...Array(5)].map((_, y) => (
-                  <Box key={y} display="flex" mr="2px">
+            {[...Array(5)].map((_, y) => (
+              <Box key={y} display="flex">
+                {[...Array(5)].map((_, x) => (
+                  <Box key={x} display="flex" mr="2px">
                     <Button
                       size="xs"
                       h="15px"
@@ -66,8 +66,16 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onCli
               </Box>
             </Box>
           )}
+          {!selectedPixel && (
+            <Box display="flex" flexDirection="column" alignItems="center" mt="10px">
+              <Box bg="white" borderRadius="5px" p="5px" textAlign="center">
+                <Button disabled colorScheme="blue" size="sm">
+                  Looks Good
+                </Button>
+              </Box>
+            </Box>
+          )}
         </Box>
-        {selectedPixel && (
           <Box ml="10px">
             <Slider
               aria-label="brightness"
@@ -78,20 +86,25 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onCli
               orientation="vertical"
               _focus={{ boxShadow: "none" }}
               _active={{ bgColor: "transparent" }}
-              onChange={handleSliderChange}
-            >
+              onChange={handleSliderChange}>
               <SliderTrack>
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb />
             </Slider>
           </Box>
-        )}
       </Box>
       {selectedPixel && (
         <Box mt="4px">
           <span style={{ fontSize: "small" }}>
-            Selected Pixel: ({selectedPixel.x}, {selectedPixel.y}) | Brightness: {selectedPixel.brightness}
+            Selected pixel: ({selectedPixel.x}, {selectedPixel.y}) | Brightness: {selectedPixel.brightness}
+          </span>
+        </Box>
+      )}
+      {!selectedPixel && (
+        <Box mt="4px">
+          <span style={{ fontSize: "small" }}>
+          Select a pixel
           </span>
         </Box>
       )}
@@ -145,10 +158,10 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
     <Box display={isVisible ? "flex" : "none"} flexDirection="row" justifyContent="flex-start">
       <Box>
         <Box bg="black" p="10px" borderRadius="5px">
-          {[...Array(5)].map((_, x) => (
-            <Box key={x} display="flex">
-              {[...Array(5)].map((_, y) => (
-                <Box key={y} display="flex" mr="2px">
+          {[...Array(5)].map((_, y) => (
+            <Box key={y} display="flex">
+              {[...Array(5)].map((_, x) => (
+                <Box key={x} display="flex" mr="2px">
                   <Button
                     size="xs"
                     h="15px"
@@ -181,8 +194,10 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
           orientation="vertical"
           _focus={{ boxShadow: "none" }}
           _active={{ bgColor: "transparent" }}
-          onChange={(value) => onBrightnessChange(selectedPixels[selectedPixels.length - 1].x, selectedPixels[selectedPixels.length - 1].y, value)}
-        >
+          onChange={(value) => {
+            const lastPixel = selectedPixels.length > 0 ? selectedPixels[selectedPixels.length - 1] : { x: -1, y: -1 };
+            onBrightnessChange(lastPixel.x, lastPixel.y, value);
+          }}        >
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
