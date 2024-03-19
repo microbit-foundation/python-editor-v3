@@ -1,4 +1,3 @@
-import { Button, HStack, Text } from "@chakra-ui/react";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
