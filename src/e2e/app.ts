@@ -171,9 +171,7 @@ class Simulator {
 
   // Simulator functions
   private getSimulatorIframe(): Frame {
-    const simulatorIframe = this.page
-      .frames()
-      .find((frame) => frame.name() === "Simulator");
+    const simulatorIframe = this.page.frame("Simulator");
     if (!simulatorIframe) {
       throw new Error("Simulator iframe not found");
     }
