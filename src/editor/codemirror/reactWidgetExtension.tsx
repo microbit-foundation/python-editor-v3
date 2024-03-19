@@ -49,6 +49,14 @@ function createWidget(from: number, to: number, createPortal: PortalFactory): De
   return deco;
 }
 
+
+interface WidgetProps{
+  from : number,
+  to : number,
+  view : EditorView,
+  arguments : any
+}
+
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
   createPortal: PortalFactory
