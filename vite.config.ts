@@ -36,13 +36,6 @@ export default defineConfig(({ mode }) => {
     setupFiles: "./src/setupTests.ts",
     mockReset: true,
   };
-  const e2eTest: UserConfig["test"] = {
-    globals: true,
-    include: ["src/e2e/**/*.test.ts"],
-    environment: "jsdom",
-    testTimeout: 60_000,
-    hookTimeout: 30_000,
-  };
   const config: UserConfig = {
     base: process.env.BASE_URL ?? "/",
     build: {
@@ -60,7 +53,7 @@ export default defineConfig(({ mode }) => {
       react(),
       svgr(),
     ],
-    test: mode === "e2e" ? e2eTest : unitTest,
+    test: unitTest,
     resolve: {
       alias: {
         "theme-package": fs.existsSync(external)
