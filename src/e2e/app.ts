@@ -316,7 +316,8 @@ export class App {
     const textWithoutLastChars = text.slice(0, -numCharTyped);
     const lastChars = text.slice(-numCharTyped);
     await this.editorTextArea.fill(textWithoutLastChars);
-    // Last few characters are typed separately to trigger editor suggestions
+    // Last few characters are typed separately and slower to
+    // reliably trigger editor suggestions
     for (const char of lastChars) {
       await this.page.keyboard.press(char, { delay: 500 });
     }
