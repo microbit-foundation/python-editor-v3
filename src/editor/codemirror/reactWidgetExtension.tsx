@@ -7,33 +7,9 @@ import {
   WidgetType,
 } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language"
-import { useCallback } from "react";
 import { PortalFactory } from "./CodeMirror";
-import {MicrobitSinglePixelComponent, MicrobitMultiplePixelComponent} from "./microbitWidget";
-/**
- * An example react component that we use inside a CodeMirror widget as
- * a proof of concept.
- */
-
-const ToggleReactComponent = ({ from, to, view }: { from: number, to: number, view: EditorView }) => {
-  let curVal = view.state.doc.sliceString(from, to);
-  const handleClick = useCallback(() => {
-    let opposite = curVal === "True" ? "False" : "True";
-    view.dispatch({
-      changes: {
-        from: from,
-        to: to,
-        insert: opposite,
-      }
-    });
-  }, [curVal, from, to, view]);
-  return (
-    <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleClick}>Toggle</Button>
-      <Text fontWeight="semibold">Value: {curVal}</Text>
-    </HStack>
-  );
-};
+import {MicrobitSinglePixelComponent} from "./microbitWidget";
+//MicrobitMultiplePixelComponent
 
 /**
  * This widget will have its contents rendered by the code in CodeMirror.tsx
@@ -49,7 +25,7 @@ class ToggleWidget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, <MicrobitMultiplePixelComponent from={this.from} to={this.to} view={view} />);
+    this.portalCleanup = this.createPortal(dom, <MicrobitSinglePixelComponent from={this.from} to={this.to} view={view} />);
     return dom;
   }
 
