@@ -367,7 +367,7 @@ export class App {
     const filePath = getAbsoluteFilePath(filePathFromProjectRoot);
     const filename = getFilename(filePathFromProjectRoot);
 
-    // wait for page to load
+    // Wait for page to load
     await this.saveButton.waitFor();
 
     // Playwright drag and drop file method taken from
