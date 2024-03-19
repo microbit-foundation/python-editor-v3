@@ -8,6 +8,7 @@ import {
 import { syntaxTree } from "@codemirror/language"
 import { PortalFactory } from "./CodeMirror";
 import {MicrobitMultiplePixelComponent} from "./microbitWidget";
+import React from "react";
 //MicrobitMultiplePixelComponent
 
 /**
@@ -17,14 +18,13 @@ import {MicrobitMultiplePixelComponent} from "./microbitWidget";
 class ToggleWidget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
-  constructor(private from: number, private to: number, private createPortal: PortalFactory) {
+  constructor(private from: number, private to: number, private createPortal: PortalFactory, private component : React.ComponentType<any>) {
     super();
   }
 
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
-
-    this.portalCleanup = this.createPortal(dom, <MicrobitMultiplePixelComponent from={this.from} to={this.to} view={view} />);
+    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, { from: this.from, to: this.to, view: view }));
     return dom;
   }
 
@@ -41,7 +41,7 @@ class ToggleWidget extends WidgetType {
 
 function createWidget(from: number, to: number, createPortal: PortalFactory): Decoration {
   let deco = Decoration.widget({
-    widget: new ToggleWidget(from, to, createPortal),
+    widget: new ToggleWidget(from, to, createPortal, MicrobitMultiplePixelComponent),
     //ToggleWidget(from, to, createPortal),
     side: 1,
   });
@@ -49,12 +49,11 @@ function createWidget(from: number, to: number, createPortal: PortalFactory): De
   return deco;
 }
 
-
 interface WidgetProps{
   from : number,
   to : number,
   view : EditorView,
-  arguments : any
+  arguments : any 
 }
 
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
