@@ -6,10 +6,10 @@ import {
   WidgetType,
 } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language"
-import { PortalFactory } from "./CodeMirror";
-import {MicrobitMultiplePixelComponent} from "./microbitWidget";
+import { PortalFactory } from "../CodeMirror";
 import React from "react";
-//MicrobitMultiplePixelComponent
+import {MicrobitMultiplePixelComponent, MicrobitSinglePixelComponent} from "./microbitWidget";
+import { numberArgs } from "./argumentParser";
 
 interface WidgetProps<T>{
   from : number,
@@ -70,26 +70,34 @@ export const reactWidgetExtension = (
     //let t = state.doc.toString()
     //console.log(t);
     let setpix = false;
-
+    let image = false;
     syntaxTree(state).iterate({
       from, to,
-      enter: (node: any) => { // TODO: type is SyntaxNode?
-        //console.log();
-        //if(node.name === "Boolean") widgets.push(createWidget(node.from, node.to, createPortal).range(node.to));
+      enter: (ref) => {
+        //console.log(ref.name);
 
         // Found ArgList, will begin to parse nodes 
-        if(setpix && node.name === "ArgList") {
-          widgets.push(createWidget<number>(
-            MicrobitMultiplePixelComponent, 
-            node.from, node.to, 
-            [1, 2, 3],
-            createPortal).range(node.to));
-        }
-        // detected SoundEffect, if next expression is an ArgList, show UI
-        setpix = node.name === "PropertyName" && state.doc.sliceString(node.from, node.to) === "set_pixel"
-        if(setpix) {
+        if(setpix && ref.name === "ArgList") {
+          let cs = ref.node.getChildren("Number");
+          if(cs.length === 3) {
+            widgets.push(createWidget<number>(
+              MicrobitSinglePixelComponent, 
+              ref.from, ref.to, 
+              numberArgs(state, cs),
+              createPortal).range(ref.to));
+            }
+          }
+        if(image && ref.name === "ArgList"){
+          let s = ref.node.getChild("ContinuedString");
           
         }
+
+        // detected set_pixel, if next expression is an ArgList, show UI
+        setpix = ref.name === "PropertyName" && state.doc.sliceString(ref.from, ref.to) === "set_pixel"
+        if(setpix){
+          console.log(ref.node.nextSibling);
+        }
+        image = ref.name === "VariableName" && state.doc.sliceString(ref.from, ref.to) === "Image"
       }
     })
 

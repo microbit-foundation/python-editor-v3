@@ -48,7 +48,7 @@ import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
-import { reactWidgetExtension } from "./reactWidgetExtension";
+import { reactWidgetExtension } from "./helper-widgets/reactWidgetExtension";
 
 interface CodeMirrorProps {
   className?: string;
