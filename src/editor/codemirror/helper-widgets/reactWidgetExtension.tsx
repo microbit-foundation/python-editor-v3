@@ -12,11 +12,13 @@ import {MicrobitMultiplePixelComponent, MicrobitSinglePixelComponent} from "./mi
 import { numberArgs } from "./argumentParser";
 
 interface WidgetProps<T>{
+  // Note: always an array, can be singleton
+  arguments : T[] 
   // Where to insert the changed values
   from : number,
   to : number,
-  // Note: always an array, can be singleton
-  arguments : T[] 
+  // Widget will change textfile
+  view: EditorView
 }
 
 /**
@@ -26,13 +28,22 @@ interface WidgetProps<T>{
 class Widget<T> extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
-  constructor(private component : React.ComponentType<any>, private props: WidgetProps<T>, private createPortal: PortalFactory, ) {
+  constructor(private component : React.ComponentType<any>, 
+              private args: T[], private from: number, private to: number,
+              private createPortal: PortalFactory, ) {
     super();
   }
 
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
-    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, { props: this.props, view: view }));
+    let props = {
+      arguments: this.args,
+      from: this.from,
+      to: this.to,
+      view: view
+    }
+
+    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, { props: props }));
     return dom;
   }
 
@@ -54,16 +65,11 @@ export const reactWidgetExtension = (
   const decorate = (state: EditorState) => {
     let widgets: any[] = []
     // Creates a widget which accepts arguments of type T
-    function createWidget<T>(comp: React.ComponentType<any>, from: number, to: number, args: T[]) {      
+    function createWidget<T>(comp: React.ComponentType<any>, args: T[], from: number, to: number) {      
       args.forEach(function(value) { console.log(value); })
-      
-      let props = {
-        from: from,
-        to: to,
-        arguments: args
-      }
+
       let deco = Decoration.widget({
-        widget: new Widget(comp, props, createPortal),
+        widget: new Widget(comp, args, to, from, createPortal),
         side: 1,
       });
     
@@ -83,7 +89,7 @@ export const reactWidgetExtension = (
               let args: number[] = [];
               ref.node.getChildren("Number").forEach( function(child) { args.push(+state.doc.sliceString(child.from, child.to)) }); 
 
-              createWidget<number>(MicrobitSinglePixelComponent, ref.from, ref.to, args);
+              createWidget<number>(MicrobitSinglePixelComponent, args, ref.from, ref.to);
               break;
             case "Image":
               // TODO: does not handle comments properly
@@ -95,7 +101,7 @@ export const reactWidgetExtension = (
                 if(arg) imArg.push()
               } 
               
-              createWidget<string>(MicrobitMultiplePixelComponent, ref.from, ref.to, imArg);
+              createWidget<string>(MicrobitMultiplePixelComponent, imArg, ref.from, ref.to);
               break;
             default:
               // No widget implemented for this function
