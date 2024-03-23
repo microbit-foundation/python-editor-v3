@@ -12,9 +12,11 @@ import {MicrobitMultiplePixelComponent, MicrobitSinglePixelComponent} from "./mi
 import { numberArgs } from "./argumentParser";
 
 interface WidgetProps<T>{
+  // Where to insert the changed values
   from : number,
   to : number,
-  arguments : T[]
+  // Note: always an array, can be singleton
+  arguments : T[] 
 }
 
 /**
@@ -45,59 +47,61 @@ class Widget<T> extends WidgetType {
   }
 }
 
-function createWidget<T>(comp: React.ComponentType<any>, from: number, to: number, args: T[], createPortal: PortalFactory): Decoration {
-  let props = {
-    from : from,
-    to : to,
-    arguments : args
-  }
-  let deco = Decoration.widget({
-    widget: new Widget(comp, props, createPortal),
-    side: 1,
-  });
-
-  return deco;
-}
-
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
   createPortal: PortalFactory
 ): Extension => {
   const decorate = (state: EditorState) => {
     let widgets: any[] = []
-    let from = 0
-    let to = state.doc.length-1 // TODO: could optimize this to just be lines within view
-    //let t = state.doc.toString()
-    //console.log(t);
-    let setpix = false;
-    let image = false;
+    // Creates a widget which accepts arguments of type T
+    function createWidget<T>(comp: React.ComponentType<any>, from: number, to: number, args: T[]) {      
+      args.forEach(function(value) { console.log(value); })
+      
+      let props = {
+        from: from,
+        to: to,
+        arguments: args
+      }
+      let deco = Decoration.widget({
+        widget: new Widget(comp, props, createPortal),
+        side: 1,
+      });
+    
+      widgets.push(deco.range(to));
+    }
+
     syntaxTree(state).iterate({
-      from, to,
       enter: (ref) => {
-        //console.log(ref.name);
-
-        // Found ArgList, will begin to parse nodes 
-        if(setpix && ref.name === "ArgList") {
-          let cs = ref.node.getChildren("Number");
-          if(cs.length === 3) {
-            widgets.push(createWidget<number>(
-              MicrobitSinglePixelComponent, 
-              ref.from, ref.to, 
-              numberArgs(state, cs),
-              createPortal).range(ref.to));
-            }
-          }
-        if(image && ref.name === "ArgList"){
-          let s = ref.node.getChild("ContinuedString");
+        // Found an ArgList, parent will be a CallExpression
+        if(ref.name === "ArgList" && ref.node.parent){
+          //console.log(state.doc.sliceString(ref.node.parent.from, ref.from));
           
-        }
+          // Match CallExpression name to our widgets
+          switch(state.doc.sliceString(ref.node.parent.from, ref.from)){
+            case "display.set_pixel":
+              // TODO: assuming all literals for now, will probably want a way to detect other types of arguments
+              let args: number[] = [];
+              ref.node.getChildren("Number").forEach( function(child) { args.push(+state.doc.sliceString(child.from, child.to)) }); 
 
-        // detected set_pixel, if next expression is an ArgList, show UI
-        setpix = ref.name === "PropertyName" && state.doc.sliceString(ref.from, ref.to) === "set_pixel"
-        if(setpix){
-          console.log(ref.node.nextSibling);
+              createWidget<number>(MicrobitSinglePixelComponent, ref.from, ref.to, args);
+              break;
+            case "Image":
+              // TODO: does not handle comments properly
+              let imArg: string[] = []
+              let arg = ref.node.getChild("ContinuedString");
+              if(arg) imArg.push(state.doc.sliceString(arg.from, arg.to).replaceAll(/[' \n]/g, ""));
+              else{
+                arg = ref.node.getChild("String");
+                if(arg) imArg.push()
+              } 
+              
+              createWidget<string>(MicrobitMultiplePixelComponent, ref.from, ref.to, imArg);
+              break;
+            default:
+              // No widget implemented for this function
+              break;
+          }
         }
-        image = ref.name === "VariableName" && state.doc.sliceString(ref.from, ref.to) === "Image"
       }
     })
 
