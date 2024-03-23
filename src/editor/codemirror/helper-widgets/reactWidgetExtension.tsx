@@ -11,9 +11,9 @@ import React from "react";
 import {MicrobitMultiplePixelComponent, MicrobitSinglePixelComponent} from "./microbitWidget";
 import { numberArgs } from "./argumentParser";
 
-interface WidgetProps<T>{
+export interface WidgetProps<T>{
   // Note: always an array, can be singleton
-  arguments : T[] 
+  args : T[] 
   // Where to insert the changed values
   from : number,
   to : number,

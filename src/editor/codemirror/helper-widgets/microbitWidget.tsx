@@ -1,8 +1,6 @@
 import { Box, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
 import { useState } from "react";
-import {
-    EditorView,
-  } from "@codemirror/view";
+import {WidgetProps} from "./reactWidgetExtension";
 
 interface Pixel {
   x: number;
@@ -12,11 +10,9 @@ interface Pixel {
 
 interface MicrobitSinglePixelGridProps {
   onClickPixel: (pixel: Pixel) => void;
-  onSubmit: () => void;
-  isVisible: boolean;
 }
 
-const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onClickPixel, onSubmit, isVisible }) => {
+const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onClickPixel }) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
   const [brightness, setBrightness] = useState<number>(5);
 
@@ -33,97 +29,62 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onCli
       onClickPixel(updatedPixel);
     }
   };
-  
+
   return (
-    <>
-      <Box display={isVisible ? "flex" : "none"} flexDirection="row" justifyContent="flex-start">
-        <Box>
-          <Box bg="black" p="10px" borderRadius="5px">
-            {[...Array(5)].map((_, y) => (
-              <Box key={y} display="flex">
-                {[...Array(5)].map((_, x) => (
-                  <Box key={x} display="flex" mr="2px">
-                    <Button
-                      size="xs"
-                      h="15px"
-                      w="15px"
-                      p={0}
-                      bgColor={selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0)"}
-                      _hover={{ bgColor: selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0.5)" }}
-                      onClick={() => handleClickPixel(x, y)}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            ))}
-          </Box>
-          {selectedPixel && (
-            <Box display="flex" flexDirection="column" alignItems="center" mt="10px">
-              <Box bg="white" borderRadius="5px" p="5px" textAlign="center">
-                <Button onClick={() => onSubmit()} colorScheme="blue" size="sm">
-                  Looks Good
-                </Button>
-              </Box>
+    <Box display="flex" flexDirection="row" justifyContent="flex-start">
+      <Box>
+        <Box bg="black" p="10px" borderRadius="5px">
+          {[...Array(5)].map((_, y) => (
+            <Box key={y} display="flex">
+              {[...Array(5)].map((_, x) => (
+                <Box key={x} display="flex" mr="2px">
+                  <Button
+                    size="xs"
+                    h="15px"
+                    w="15px"
+                    p={0}
+                    bgColor={selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0)"}
+                    _hover={{ bgColor: selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0.5)" }}
+                    onClick={() => handleClickPixel(x, y)}
+                  />
+                </Box>
+              ))}
             </Box>
-          )}
-          {!selectedPixel && (
-            <Box display="flex" flexDirection="column" alignItems="center" mt="10px">
-              <Box bg="white" borderRadius="5px" p="5px" textAlign="center">
-                <Button disabled colorScheme="blue" size="sm">
-                  Looks Good
-                </Button>
-              </Box>
-            </Box>
-          )}
+          ))}
         </Box>
-          <Box ml="10px">
-            <Slider
-              aria-label="brightness"
-              defaultValue={brightness}
-              min={0}
-              max={9}
-              step={1}
-              orientation="vertical"
-              _focus={{ boxShadow: "none" }}
-              _active={{ bgColor: "transparent" }}
-              onChange={handleSliderChange}>
-              <SliderTrack>
-                <SliderFilledTrack />
-              </SliderTrack>
-              <SliderThumb />
-            </Slider>
-          </Box>
       </Box>
-      {selectedPixel && (
-        <Box mt="4px">
-          <span style={{ fontSize: "small" }}>
-            Selected pixel: ({selectedPixel.x}, {selectedPixel.y}) | Brightness: {selectedPixel.brightness}
-          </span>
-        </Box>
-      )}
-      {!selectedPixel && (
-        <Box mt="4px">
-          <span style={{ fontSize: "small" }}>
-          Select a pixel
-          </span>
-        </Box>
-      )}
-    </>
+      <Box ml="10px">
+        <Slider
+          aria-label="brightness"
+          defaultValue={brightness}
+          min={0}
+          max={9}
+          step={1}
+          orientation="vertical"
+          _focus={{ boxShadow: "none" }}
+          _active={{ bgColor: "transparent" }}
+          onChange={handleSliderChange}>
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
+      </Box>
+    </Box>
   );
 };
 
-export const MicrobitSinglePixelComponent = ({ from, to, view }: { from: number, to: number, view: EditorView }) => {
-  const [isVisible, setIsVisible] = useState(true);
+export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetProps<number>) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
+  if (Array.isArray(args) && args.length === 3) {
+    const [x, y, brightness] = args;
+    setSelectedPixel({ x, y, brightness });
+  }
 
   const handleSelectPixel = (pixel: Pixel) => {
     setSelectedPixel(pixel);
-  };
-
-  const handleSubmit = () => {
     if (selectedPixel !== null) {
       const { x, y, brightness } = selectedPixel;
-      setIsVisible(false);      
       view.dispatch({
         changes: {
           from: from,
@@ -134,28 +95,26 @@ export const MicrobitSinglePixelComponent = ({ from, to, view }: { from: number,
     }
   };
 
-  return (<MicrobitSinglePixelGrid onClickPixel={handleSelectPixel} onSubmit={handleSubmit} isVisible={isVisible} />);
+  return (<MicrobitSinglePixelGrid onClickPixel={handleSelectPixel} />);
 };
+
 
 interface MultiMicrobitGridProps {
   selectedPixels: Pixel[];
   onPixelClick: (x: number, y: number) => void;
   onBrightnessChange: (x: number, y: number, brightness: number) => void;
   onSubmit: () => void;
-  isVisible: boolean;
-  currentBrightness : number;
+  currentBrightness: number;
 }
 
 const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   selectedPixels,
   onPixelClick,
   onBrightnessChange,
-  onSubmit,
-  isVisible,
   currentBrightness
 }) => {
   return (
-    <Box display={isVisible ? "flex" : "none"} flexDirection="row" justifyContent="flex-start">
+    <Box display="flex" flexDirection="row" justifyContent="flex-start">
       <Box>
         <Box bg="black" p="10px" borderRadius="5px">
           {[...Array(5)].map((_, y) => (
@@ -175,13 +134,6 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
               ))}
             </Box>
           ))}
-        </Box>
-        <Box display="flex" justifyContent="center" mt="10px">
-          <Box bg="white" borderRadius="5px" p="5px">
-            <Button onClick={onSubmit} colorScheme="blue" size="sm">
-              Looks Good
-            </Button>
-          </Box>
         </Box>
       </Box>
       <Box ml="10px">
@@ -208,19 +160,10 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   );
 };
 
-export const MicrobitMultiplePixelComponent = ({ from, to, view }: { from: number; to: number; view: EditorView; }) => {
+export const MicrobitMultiplePixelComponent = ({args, from, to, view }: WidgetProps<number>) => {
   const initialSelectedPixels: Pixel[] = [];
-  /*
-  //Probably unnecessary to intialize the state, we can set it to 0 in the arguments by default anyway and it messes up some other logic
-  for (let x = 0; x <= 4; x++) {
-    for (let y = 0; y <= 4; y++) {
-      initialSelectedPixels.push({ x, y, brightness: 0 });
-    }
-  }
-  */
 
   const [selectedPixels, setSelectedPixels] = useState<Pixel[]>(initialSelectedPixels);
-  const [isVisible, setIsVisible] = useState(true);
   const [currentBrightness, setCurrentBrightness] = useState(5);
 
   const handlePixelClick = (x: number, y: number) => {
@@ -233,11 +176,7 @@ export const MicrobitMultiplePixelComponent = ({ from, to, view }: { from: numbe
       const newPixel: Pixel = { x, y, brightness: currentBrightness };
       setSelectedPixels([...selectedPixels, newPixel]);
     }
-  };
-
-  const handleSubmit = () => {
-    //add the logic to change the arguments to the function 
-    setIsVisible(false);
+    handleSubmit();
   };
 
   const handleBrightnessChange = (x: number, y: number, brightness: number) => {
@@ -250,6 +189,11 @@ export const MicrobitMultiplePixelComponent = ({ from, to, view }: { from: numbe
       }
       return updatedPixels;
     });
+    handleSubmit();
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting...");
   };
 
   return (
@@ -258,7 +202,6 @@ export const MicrobitMultiplePixelComponent = ({ from, to, view }: { from: numbe
       onPixelClick={handlePixelClick}
       onBrightnessChange={handleBrightnessChange}
       onSubmit={handleSubmit}
-      isVisible={isVisible}
       currentBrightness={currentBrightness}
     />
   );
