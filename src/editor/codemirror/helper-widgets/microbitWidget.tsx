@@ -85,6 +85,7 @@ export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetPro
     setSelectedPixel(pixel);
     if (selectedPixel !== null) {
       const { x, y, brightness } = selectedPixel;
+      console.log(`(${x}, ${y}, ${brightness}) `);
       view.dispatch({
         changes: {
           from: from,
@@ -160,6 +161,25 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   );
 };
 
+
+function pixelsToString(pixels: Pixel[]): string {
+  let outputString = '';
+  for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+          const pixel = pixels.find(p => p.x === x && p.y === y);
+          if (pixel) {
+              outputString += pixel.brightness.toString();
+          } else {
+              outputString += '0';
+          }
+      }
+      outputString += ':';
+  }
+  outputString = outputString.slice(0, -1);
+
+  return outputString;
+}
+
 export const MicrobitMultiplePixelComponent = ({args, from, to, view }: WidgetProps<number>) => {
   const initialSelectedPixels: Pixel[] = [];
 
@@ -193,7 +213,14 @@ export const MicrobitMultiplePixelComponent = ({args, from, to, view }: WidgetPr
   };
 
   const handleSubmit = () => {
-    console.log("Submitting...");
+    let insertion = pixelsToString(selectedPixels);
+    console.log(insertion)
+    view.dispatch({
+      changes: {
+        from: from,
+        to: to,
+        insert: insertion}
+      });
   };
 
   return (
