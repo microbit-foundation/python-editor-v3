@@ -85,14 +85,15 @@ export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetPro
     setSelectedPixel(pixel);
     if (selectedPixel !== null) {
       const { x, y, brightness } = selectedPixel;
-      console.log(`(${x}, ${y}, ${brightness}) `);
-      view.dispatch({
+      console.log(`(${x}, ${y}, ${brightness}) `)
+      /*view.dispatch({
         changes: {
           from: from,
           to: to,
           insert: `(${x}, ${y}, ${brightness}) `,
         }
       });
+      */
     }
   };
 
@@ -101,35 +102,45 @@ export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetPro
 
 
 interface MultiMicrobitGridProps {
-  selectedPixels: Pixel[];
-  onPixelClick: (x: number, y: number) => void;
-  onBrightnessChange: (x: number, y: number, brightness: number) => void;
-  onSubmit: () => void;
-  currentBrightness: number;
+  selectedPixels: number[][];
+  onPixelChange: (x: number, y: number, brightness: number) => void;
 }
 
 const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   selectedPixels,
-  onPixelClick,
-  onBrightnessChange,
-  currentBrightness
+  onPixelChange,
 }) => {
+  const [currentBrightness, setCurrentBrightness] = useState<number>(5);
+  const [selectedPixel, setSelectedPixel] = useState<{ x: number; y: number } | null>(null);
+
+  const handlePixelClick = (x: number, y: number) => {
+    setSelectedPixel({ x, y });
+    onPixelChange(x, y, currentBrightness);
+  };
+
+  const handleBrightnessChange = (brightness: number) => {
+    setCurrentBrightness(brightness);
+    if (selectedPixel) {
+      onPixelChange(selectedPixel.x, selectedPixel.y, brightness);
+    }
+  };
+
   return (
     <Box display="flex" flexDirection="row" justifyContent="flex-start">
       <Box>
         <Box bg="black" p="10px" borderRadius="5px">
-          {[...Array(5)].map((_, y) => (
+          {selectedPixels.map((row, y) => (
             <Box key={y} display="flex">
-              {[...Array(5)].map((_, x) => (
+              {row.map((brightness, x) => (
                 <Box key={x} display="flex" mr="2px">
                   <Button
                     size="xs"
                     h="15px"
                     w="15px"
                     p={0}
-                    bgColor={selectedPixels.some(p => p.x === x && p.y === y) ? `rgba(255, 0, 0, ${(selectedPixels.find(p => p.x === x && p.y === y)!.brightness) / 9})` : "rgba(255, 255, 255, 0)"}
-                    _hover={{ bgColor: selectedPixels.some(p => p.x === x && p.y === y) ? `rgba(255, 0, 0, ${(selectedPixels.find(p => p.x === x && p.y === y)!.brightness) / 9})` : "rgba(255, 255, 255, 0.5)" }}
-                    onClick={() => onPixelClick(x, y)}
+                    bgColor={`rgba(255, 0, 0, ${brightness / 9})`}
+                    _hover={{ bgColor: brightness > 0 ? `rgba(255, 0, 0, ${brightness / 9} + 0.1)` : "rgba(255, 255, 255, 0.5)" }}
+                    onClick={() => handlePixelClick(x, y)}
                   />
                 </Box>
               ))}
@@ -147,10 +158,8 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
           orientation="vertical"
           _focus={{ boxShadow: "none" }}
           _active={{ bgColor: "transparent" }}
-          onChange={(value) => {
-            const lastPixel = selectedPixels.length > 0 ? selectedPixels[selectedPixels.length - 1] : { x: -1, y: -1 };
-            onBrightnessChange(lastPixel.x, lastPixel.y, value);
-          }}        >
+          onChange={(value) => handleBrightnessChange(value)}
+        >
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
@@ -162,74 +171,46 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
 };
 
 
-function pixelsToString(pixels: Pixel[]): string {
-  let outputString = '';
-  for (let y = 0; y < 5; y++) {
-      for (let x = 0; x < 5; x++) {
-          const pixel = pixels.find(p => p.x === x && p.y === y);
-          if (pixel) {
-              outputString += pixel.brightness.toString();
-          } else {
-              outputString += '0';
-          }
-      }
-      outputString += ':';
-  }
-  outputString = outputString.slice(0, -1);
+export const MicrobitMultiplePixelComponent = ({ args, from, to, view }: WidgetProps<number>) => {
+  const initialSelectedPixels: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
 
-  return outputString;
-}
+  const [selectedPixels, setSelectedPixels] = useState<number[][]>(initialSelectedPixels);
 
-export const MicrobitMultiplePixelComponent = ({args, from, to, view }: WidgetProps<number>) => {
-  const initialSelectedPixels: Pixel[] = [];
-
-  const [selectedPixels, setSelectedPixels] = useState<Pixel[]>(initialSelectedPixels);
-  const [currentBrightness, setCurrentBrightness] = useState(5);
-
-  const handlePixelClick = (x: number, y: number) => {
-    const existingIndex = selectedPixels.findIndex(pixel => pixel.x === x && pixel.y === y);
-    if (existingIndex !== -1) {
-      const updatedPixels = [...selectedPixels];
-      updatedPixels[existingIndex].brightness = currentBrightness;
-      setSelectedPixels(updatedPixels);
-    } else {
-      const newPixel: Pixel = { x, y, brightness: currentBrightness };
-      setSelectedPixels([...selectedPixels, newPixel]);
-    }
-    handleSubmit();
-  };
-
-  const handleBrightnessChange = (x: number, y: number, brightness: number) => {
-    setCurrentBrightness(brightness);
-    setSelectedPixels(prevPixels => {
-      const updatedPixels = [...prevPixels];
-      const pixelIndex = updatedPixels.findIndex(pixel => pixel.x === x && pixel.y === y);
-      if (pixelIndex !== -1) {
-        updatedPixels[pixelIndex].brightness = brightness;
-      }
-      return updatedPixels;
-    });
+  const handlePixelChange = (x: number, y: number, brightness: number) => {
+    const updatedPixels = [...selectedPixels];
+    updatedPixels[y][x] = brightness;
+    setSelectedPixels(updatedPixels);
     handleSubmit();
   };
 
   const handleSubmit = () => {
     let insertion = pixelsToString(selectedPixels);
-    console.log(insertion)
-    view.dispatch({
+    console.log(insertion);
+    /*view.dispatch({
       changes: {
         from: from,
         to: to,
         insert: insertion}
       });
-  };
+    */
+  }
 
   return (
     <MicrobitMultiplePixelsGrid
       selectedPixels={selectedPixels}
-      onPixelClick={handlePixelClick}
-      onBrightnessChange={handleBrightnessChange}
-      onSubmit={handleSubmit}
-      currentBrightness={currentBrightness}
+      onPixelChange={handlePixelChange}
     />
   );
 };
+
+function pixelsToString(pixels: number[][]): string {
+  let outputString = '';
+  for (let y = 0; y < 5; y++) {
+    for (let x = 0; x < 5; x++) {
+      outputString += pixels[y][x].toString();
+    }
+    outputString += ':';
+  }
+  outputString = outputString.slice(0, -1);
+  return outputString;
+}
