@@ -37,13 +37,13 @@ class Widget<T> extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
     let props = {
-      arguments: this.args,
+      args: this.args,
       from: this.from,
       to: this.to,
       view: view
     }
 
-    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, { props: props }));
+    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, { props }));
     return dom;
   }
 
