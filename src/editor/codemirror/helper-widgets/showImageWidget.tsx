@@ -81,10 +81,10 @@ export const MicrobitMultiplePixelComponent = ({ args, from, to, view }: WidgetP
     const updatedPixels = [...selectedPixels];
     updatedPixels[y][x] = brightness;
     setSelectedPixels(updatedPixels);
-    handleSubmit();
+    updateView();
   };
 
-  const handleSubmit = () => {
+  const updateView = () => {
     let insertion = pixelsToString(selectedPixels);
     console.log(insertion);
     /*view.dispatch({

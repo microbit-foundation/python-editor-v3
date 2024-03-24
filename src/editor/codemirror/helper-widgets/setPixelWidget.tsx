@@ -9,24 +9,24 @@ interface Pixel {
 }
 
 interface MicrobitSinglePixelGridProps {
-  onClickPixel: (pixel: Pixel) => void;
+  onPixelClick: (pixel: Pixel) => void;
 }
 
-const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onClickPixel }) => {
+const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPixelClick }) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
-  const [brightness, setBrightness] = useState<number>(5);
+  const [currentBrightness, setCurrentBrightness] = useState<number>(5);
 
-  const handleClickPixel = (x: number, y: number) => {
-    const newPixel: Pixel = { x, y, brightness };
+  const handlePixelClick = (x: number, y: number) => {
+    const newPixel: Pixel = { x: x, y: y, brightness: currentBrightness };
     setSelectedPixel(newPixel);
-    onClickPixel(newPixel);
+    onPixelClick(newPixel);
   };
 
   const handleSliderChange = (value: number) => {
-    setBrightness(value);
+    setCurrentBrightness(value);
     if (selectedPixel) {
       const updatedPixel: Pixel = { ...selectedPixel, brightness: value };
-      onClickPixel(updatedPixel);
+      onPixelClick(updatedPixel);
     }
   };
 
@@ -43,9 +43,9 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onCli
                     h="15px"
                     w="15px"
                     p={0}
-                    bgColor={selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0)"}
-                    _hover={{ bgColor: selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${brightness / 9})` : "rgba(255, 255, 255, 0.5)" }}
-                    onClick={() => handleClickPixel(x, y)}
+                    bgColor={selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${currentBrightness / 9})` : "rgba(255, 255, 255, 0)"}
+                    _hover={{ bgColor: selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${currentBrightness / 9})` : "rgba(255, 255, 255, 0.5)" }}
+                    onClick={() => handlePixelClick(x, y)}
                   />
                 </Box>
               ))}
@@ -56,7 +56,7 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onCli
       <Box ml="10px">
         <Slider
           aria-label="brightness"
-          defaultValue={brightness}
+          defaultValue={currentBrightness}
           min={0}
           max={9}
           step={1}
@@ -83,9 +83,13 @@ export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetPro
 
   const handleSelectPixel = (pixel: Pixel) => {
     setSelectedPixel(pixel);
+    updateView();
+  };
+
+  const updateView = () => {
     if (selectedPixel !== null) {
       const { x, y, brightness } = selectedPixel;
-      console.log(`(${x}, ${y}, ${brightness}) `)
+      console.log(`(${x}, ${y}, ${brightness}) `);
       /*view.dispatch({
         changes: {
           from: from,
@@ -97,5 +101,5 @@ export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetPro
     }
   };
 
-  return (<MicrobitSinglePixelGrid onClickPixel={handleSelectPixel} />);
+  return (<MicrobitSinglePixelGrid onPixelClick={handleSelectPixel} />);
 };
