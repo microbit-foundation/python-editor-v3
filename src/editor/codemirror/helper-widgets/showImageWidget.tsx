@@ -40,7 +40,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
                     w="15px"
                     p={0}
                     bgColor={`rgba(255, 0, 0, ${brightness / 9})`}
-                    _hover={{ bgColor: brightness > 0 ? `rgba(255, 0, 0, ${brightness / 9} + 0.1)` : "rgba(255, 255, 255, 0.5)" }}
+                    _hover={{ bgColor: brightness > 0 ? `rgba(255, 100, 100, ${selectedPixels[y][x] / 9})` : "rgba(255, 255, 255, 0.5)" }}
                     onClick={() => handlePixelClick(x, y)}
                   />
                 </Box>
@@ -71,10 +71,11 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   );
 };
 
-
 export const MicrobitMultiplePixelComponent = ({ args, from, to, view }: WidgetProps<number>) => {
-  const initialSelectedPixels: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
-
+  let initialSelectedPixels: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
+  if (validateArgs(args)) {
+    initialSelectedPixels = parseArgs(args)
+  }
   const [selectedPixels, setSelectedPixels] = useState<number[][]>(initialSelectedPixels);
 
   const handlePixelChange = (x: number, y: number, brightness: number) => {
@@ -103,6 +104,15 @@ export const MicrobitMultiplePixelComponent = ({ args, from, to, view }: WidgetP
     />
   );
 };
+
+const parseArgs = (args: number[]) => {
+  return []
+};
+
+const validateArgs = (args: number[]) => {
+  return false
+};
+
 
 function pixelsToString(pixels: number[][]): string {
   let outputString = '';

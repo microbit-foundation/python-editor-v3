@@ -10,10 +10,11 @@ interface Pixel {
 
 interface MicrobitSinglePixelGridProps {
   onPixelClick: (pixel: Pixel) => void;
+  initialPixel : Pixel | null;
 }
 
-const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPixelClick }) => {
-  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
+const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPixelClick, initialPixel }) => {
+  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(initialPixel);
   const [currentBrightness, setCurrentBrightness] = useState<number>(5);
 
   const handlePixelClick = (x: number, y: number) => {
@@ -74,12 +75,21 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPix
   );
 };
 
+const parseArgs = (args : number[]) => {
+  return args
+};
+
+const validateArgs = (args : number[]) => {
+  return Array.isArray(args) && args.length === 3
+};
+
+
 export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetProps<number>) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
-  if (Array.isArray(args) && args.length === 3) {
-    const [x, y, brightness] = args;
+  if (validateArgs(args)){
+    const [x, y, brightness] = parseArgs(args);
     setSelectedPixel({ x, y, brightness });
-  }
+  } 
 
   const handleSelectPixel = (pixel: Pixel) => {
     setSelectedPixel(pixel);
@@ -101,5 +111,5 @@ export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetPro
     }
   };
 
-  return (<MicrobitSinglePixelGrid onPixelClick={handleSelectPixel} />);
+  return (<MicrobitSinglePixelGrid onPixelClick={handleSelectPixel} initialPixel={selectedPixel} />);
 };
