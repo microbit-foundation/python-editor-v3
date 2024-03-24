@@ -43,7 +43,7 @@ class Widget<T> extends WidgetType {
       view: view
     }
 
-    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, { props }));
+    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, props));
     return dom;
   }
 
