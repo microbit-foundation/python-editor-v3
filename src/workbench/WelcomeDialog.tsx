@@ -13,49 +13,23 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Icon } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import ModalCloseButton from "../common/ModalCloseButton";
-import { fetchContent } from "../common/sanity";
-import YoutubeVideoEmbed, { YoutubeVideo } from "../common/YoutubeVideoEmbed";
+import YoutubeVideoEmbed from "../common/YoutubeVideoEmbed";
 import { useDeployment } from "../deployment";
-import { useLogging } from "../logging/logging-hooks";
-import { useSettings } from "../settings/settings";
 
 interface WelcomeDialogProps {
+  youtubeId: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const WelcomeDialog = ({ isOpen, onClose }: WelcomeDialogProps) => {
+const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
   const { guideLink } = useDeployment();
-  const [welcomeVideo, setWelcomeVideo] = useState<YoutubeVideo | undefined>();
-  const [loadError, setLoadError] = useState<boolean>(false);
-  const [{ languageId }] = useSettings();
-  const logging = useLogging();
-  useEffect(() => {
-    const adaptContent = (result: any): YoutubeVideo | undefined => {
-      if (result.length === 1 && result[0].welcomeVideo) {
-        return result[0].welcomeVideo;
-      }
-    };
-    const query = (): string => {
-      return `
-        *[_id == "pythonEditorConfig" && !(_id in path("drafts.**"))]{
-          welcomeVideo
-        }`;
-    };
-    const fetchWelcomeVideo = async () => {
-      try {
-        setWelcomeVideo(await fetchContent(languageId, query, adaptContent));
-      } catch (e) {
-        logging.error(e);
-        setLoadError(true);
-      }
-    };
-    fetchWelcomeVideo();
-  }, [languageId, logging]);
+  const intl = useIntl();
+  const welcomeVideoAltText = intl.formatMessage({ id: "welcome-video-alt" });
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
       <ModalOverlay>
@@ -75,13 +49,10 @@ const WelcomeDialog = ({ isOpen, onClose }: WelcomeDialogProps) => {
                 <Text as="h2" fontSize="xl" fontWeight="semibold">
                   <FormattedMessage id="welcome-title" />
                 </Text>
-                {loadError ? (
-                  <Text>
-                    <FormattedMessage id="content-load-error" />
-                  </Text>
-                ) : (
-                  <YoutubeVideoEmbed youTubeVideo={welcomeVideo} />
-                )}
+                <YoutubeVideoEmbed
+                  youtubeId={youtubeId}
+                  alt={welcomeVideoAltText}
+                />
               </Stack>
               <Text>
                 <FormattedMessage id="welcome-message" />

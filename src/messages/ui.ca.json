@@ -2459,6 +2459,12 @@
       "value": "Benvingut a l'Editor Python de la micro:bit"
     }
   ],
+  "welcome-video-alt": [
+    {
+      "type": 0,
+      "value": "video introducing the Python Editor"
+    }
+  ],
   "zoom-in-action": [
     {
       "type": 0,

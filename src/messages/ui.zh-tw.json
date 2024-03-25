@@ -2507,6 +2507,12 @@
       "value": "歡迎使用 micro:bit Python 編輯器"
     }
   ],
+  "welcome-video-alt": [
+    {
+      "type": 0,
+      "value": "video introducing the Python Editor"
+    }
+  ],
   "zoom-in-action": [
     {
       "type": 0,

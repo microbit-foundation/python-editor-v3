@@ -18,6 +18,8 @@ const stubConsentContext = createContext<CookieConsent | undefined>(
 
 const defaultDeploymentFactory: DeploymentConfigFactory = () => ({
   chakraTheme: theme,
+  // This isn't ideal as it's the branded version. You can just remove the field to remove the welcome dialog.
+  welcomeVideoYouTubeId: "mREwMW69qKc",
   logging: new NullLogging(),
   compliance: {
     ConsentProvider: ({ children }: { children: ReactNode }) => (
