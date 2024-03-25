@@ -435,6 +435,13 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
     return fs.getUniversalHex();
   }
 
+  async toHexURI(): Promise<string> {
+    const fs = await this.initialize();
+    const universalHex = fs.getUniversalHex();
+    const b64EncodedHex = btoa(universalHex);
+    return `microbithex://?data:microbit-${this.project.name}.hex;base64,${b64EncodedHex}`;
+  }
+
   async clearDirty(): Promise<void> {
     this._dirty = false;
     return this.storage.clearDirty();
