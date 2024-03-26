@@ -67,7 +67,7 @@ describe("DocumentationContent", () => {
     const view = render(<DocumentationContent content={content} />);
     // This relies on the mock above because Chakra UI's images have the src added later.
     expect(view.container.innerHTML).toMatchInlineSnapshot(
-      `"<div class="chakra-stack css-iewcov"><img src="https://cdn.sanity.io/images/ajwvhvgo/apps/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&amp;q=80&amp;fit=max&amp;auto=format"></div>"`
+      `"<div class="chakra-stack css-iewcov"><img src="https://cdn.sanity.io/images/project/dataset/9fccaf51a164fedc98662188593de19bfb9be8ad-435x512.png?w=300&amp;q=80&amp;fit=max&amp;auto=format"></div>"`
     );
   });
 });
