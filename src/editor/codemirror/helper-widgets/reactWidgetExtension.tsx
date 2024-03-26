@@ -70,7 +70,7 @@ export const reactWidgetExtension = (
       args.forEach(function (value) { console.log(value); })
 
       let deco = Decoration.widget({
-        widget: new Widget<T>(comp, args, to, from, createPortal),
+        widget: new Widget<T>(comp, args, from, to, createPortal),
         side: 1,
       });
 
