@@ -13,6 +13,9 @@ afterEach(() => {
   cleanup();
 });
 
+vi.stubEnv("VITE_SANITY_PROJECT", "project");
+vi.stubEnv("VITE_SANITY_DATASET", "dataset");
+
 global.matchMedia =
   global.matchMedia ||
   function () {

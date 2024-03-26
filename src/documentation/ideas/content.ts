@@ -29,12 +29,5 @@ const ideasQuery = (languageId: string): string => {
 };
 
 const adaptContent = (result: any): Idea[] | undefined => {
-  const ideas = result?.pythonIdeasOrder as Idea[];
-  if (!ideas) {
-    return undefined;
-  }
-  if (ideas.length === 0) {
-    return undefined;
-  }
-  return ideas;
+  return result?.pythonIdeasOrder ?? [];
 };
