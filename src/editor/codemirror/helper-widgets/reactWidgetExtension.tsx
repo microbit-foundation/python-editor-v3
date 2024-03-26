@@ -15,11 +15,11 @@ import { MicrobitMultiplePixelComponent } from "./showImageWidget"
 export interface WidgetProps<T> {
   // Note: always an array, can be singleton
   args: T[]
+  // Ranges of where to insert each argument
+  ranges: {from:number, to:number} []
   // Where to insert the changed values
   from: number,
-  to: number,
-  // Widget will change textfile
-  view: EditorView
+  to: number
 }
 
 /**
@@ -30,21 +30,15 @@ class Widget<T> extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
   constructor(private component: React.ComponentType<any>,
-    private args: T[], private from: number, private to: number,
-    private createPortal: PortalFactory,) {
+    private props:WidgetProps<T>,
+    private createPortal: PortalFactory) {
     super();
   }
 
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
-    let props = {
-      args: this.args,
-      from: this.from,
-      to: this.to,
-      view: view
-    }
 
-    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, props));
+    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, this.props, view));
     return dom;
   }
 
@@ -68,9 +62,15 @@ export const reactWidgetExtension = (
     // Creates a widget which accepts arguments of type T
     function createWidget<T>(comp: React.ComponentType<any>, args: T[], from: number, to: number) {
       args.forEach(function (value) { console.log(value); })
+      let props = {
+        args: args,
+        ranges: [],
+        from: from,
+        to: to,
+      }
 
       let deco = Decoration.widget({
-        widget: new Widget<T>(comp, args, from, to, createPortal),
+        widget: new Widget<T>(comp, props, createPortal),
         side: 1,
       });
 
