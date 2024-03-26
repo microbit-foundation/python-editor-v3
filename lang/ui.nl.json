@@ -1158,6 +1158,10 @@
     "defaultMessage": "Welkom bij de micro:bit Python Editor",
     "description": "Title for the welcome dialog"
   },
+  "welcome-video-alt": {
+    "defaultMessage": "video introducing the Python Editor",
+    "description": "iframe title for the welcome video"
+  },
   "zoom-in-action": {
     "defaultMessage": "Inzoomen",
     "description": "Text label for zoom in button"

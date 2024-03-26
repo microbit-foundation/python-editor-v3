@@ -8,7 +8,7 @@ import { Flex, HStack, Text } from "@chakra-ui/layout";
 import { useCallback, useEffect, useState } from "react";
 import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
 import { useStorage } from "../common/use-storage";
-import { useCookieConsent } from "../deployment";
+import { useCookieConsent, useDeployment } from "../deployment";
 import { flags } from "../flags";
 
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
@@ -56,6 +56,7 @@ export const useReleaseDialogState = (): [
 };
 
 const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
+  const { welcomeVideoYouTubeId: hasInfoDialog } = useDeployment();
   const openInfoDialog = useCallback(() => {
     onDialogChange("info");
   }, [onDialogChange]);
@@ -78,17 +79,19 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
         Beta release
       </Text>
       <HStack>
-        <Button
-          leftIcon={<RiInformationFill />}
-          variant="link"
-          color="white"
-          colorScheme="whiteAlpha"
-          size="xs"
-          p={1}
-          onClick={openInfoDialog}
-        >
-          More
-        </Button>
+        {hasInfoDialog && (
+          <Button
+            leftIcon={<RiInformationFill />}
+            variant="link"
+            color="white"
+            colorScheme="whiteAlpha"
+            size="xs"
+            p={1}
+            onClick={openInfoDialog}
+          >
+            More
+          </Button>
+        )}
         <Button
           leftIcon={<RiFeedbackFill />}
           variant="link"
