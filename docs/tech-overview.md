@@ -36,7 +36,7 @@ The Reference and Ideas sidebar tabs show educational content that is managed in
 
 You can substitute your own content by setting `VITE_SANITY_PROJECT` and `VITE_SANITY_DATASET` environment variables, overriding the defaults in `.env`. The schemas we use for Sanity CMS are [packaged as a plugin in this GitHub project](https://github.com/microbit-foundation/sanity-plugin-python-editor-v3/).
 
-We also plan to explore adding Markdown documentation support as an alternative to Sanity CMS. You can follow the discussion [on this GitHub issue](PENDING).
+We also plan to explore adding Markdown documentation support as an alternative to Sanity CMS. You can follow the discussion on #1160.
 
 The API tab shows detailed documentation of the MicroPython API for users who need more detail than the curated content in the Reference tab provides. The API tab content is generated at runtime from the bundled type stubs for MicroPython. We do this using an enhancement to the Foundation's fork of Pyright. For more details see [Python code intelligence](#python-code-intelligence).
 
