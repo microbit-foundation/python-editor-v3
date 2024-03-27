@@ -129,7 +129,6 @@ const getExtracts = (
 
   return {
     title: fullStringExtracts(allTitlePositions, content.title),
-    // TODO: consider a fallback if only text in the title is matched.
     content: contextExtracts(allContentPositions, content.content),
   };
 };
@@ -234,6 +233,16 @@ export const buildSearchIndex = (
   let customTokenizer: TokenizerFunction | undefined;
   const index = lunr(function () {
     this.ref("id");
+    this.field("id", {
+      boost: 10,
+      extractor: (doc: object) => {
+        // Ensure we match a search query like 'microbit.display.scroll' or 'display.scroll'
+        // to the correct API section.
+        return `${(doc as SearchableContent).id} ${(
+          doc as SearchableContent
+        ).id.replaceAll("microbit.", "")}`;
+      },
+    });
     this.field("title", { boost: 10 });
     this.field("content");
     this.use(languagePlugin);

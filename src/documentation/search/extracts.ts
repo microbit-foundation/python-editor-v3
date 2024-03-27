@@ -64,7 +64,14 @@ export const contextExtracts = (
   text: string
 ): Extract[] => {
   if (positions.length === 0) {
-    return [];
+    // Fallback if only text in the title (or id for Reference section) is matched.
+    const end = forward(text, 1);
+    return [
+      {
+        type: "text",
+        extract: text.slice(0, end + 1),
+      },
+    ];
   }
   // Find the text around the first match.
   // Highlight all positions within it.
