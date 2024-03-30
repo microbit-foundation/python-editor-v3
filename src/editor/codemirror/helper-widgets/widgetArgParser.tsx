@@ -24,8 +24,8 @@ export function createWidget(name: string, state: EditorState, node: SyntaxNode)
                     args: [],
                     ranges: [],
                     literals: [],
-                    from: 0,
-                    to: 0
+                    from: node.from,
+                    to: node.to
                 }
             }
         //     // TODO: assuming all literals for now, will probably want a way to detect other types of arguments
@@ -40,8 +40,8 @@ export function createWidget(name: string, state: EditorState, node: SyntaxNode)
                     args: [],
                     ranges: [],
                     literals: [],
-                    from: 0,
-                    to: 0
+                    from: node.from,
+                    to: node.to
                 }
             }
         
