@@ -10,13 +10,15 @@ import { PortalFactory } from "../CodeMirror";
 import React from "react";
 import { MicrobitSinglePixelComponent } from "./setPixelWidget";
 import { MicrobitMultiplePixelComponent } from "./showImageWidget"
-//import { numberArgs } from "./argumentParser";
+import { createWidget } from "./widgetArgParser";
 
-export interface WidgetProps<T> {
+export interface WidgetProps {
   // Note: always an array, can be singleton
-  args: T[]
+  args: any[]
   // Ranges of where to insert each argument
   ranges: {from:number, to:number} []
+  // Whether or not each argument is a literal
+  literals: boolean[]
   // Where to insert the changed values
   from: number,
   to: number
@@ -26,11 +28,11 @@ export interface WidgetProps<T> {
  * This widget will have its contents rendered by the code in CodeMirror.tsx
  * which it communicates with via the portal factory.
  */
-class Widget<T> extends WidgetType {
+class Widget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
   constructor(private component: React.ComponentType<any>,
-    private props:WidgetProps<T>,
+    private props:WidgetProps,
     private createPortal: PortalFactory) {
     super();
   }
@@ -59,54 +61,20 @@ export const reactWidgetExtension = (
 ): Extension => {
   const decorate = (state: EditorState) => {
     let widgets: any[] = []
-    // Creates a widget which accepts arguments of type T
-    function createWidget<T>(comp: React.ComponentType<any>, args: T[], from: number, to: number) {
-      args.forEach(function (value) { console.log(value); })
-      let props = {
-        args: args,
-        ranges: [],
-        from: from,
-        to: to,
-      }
-
-      let deco = Decoration.widget({
-        widget: new Widget<T>(comp, props, createPortal),
-        side: 1,
-      });
-
-      widgets.push(deco.range(to));
-    }
 
     syntaxTree(state).iterate({
       enter: (ref) => {
         // Found an ArgList, parent will be a CallExpression
-        if (ref.name === "ArgList" && ref.node.parent) {
-          //console.log(state.doc.sliceString(ref.node.parent.from, ref.from));
-
+        if (ref.name === "ArgList" && ref.node.parent) {          
           // Match CallExpression name to our widgets
-          switch (state.doc.sliceString(ref.node.parent.from, ref.from)) {
-            case "display.set_pixel":
-              // TODO: assuming all literals for now, will probably want a way to detect other types of arguments
-              let args: number[] = [];
-              ref.node.getChildren("Number").forEach(function (child) { args.push(+state.doc.sliceString(child.from, child.to)) });
-
-              createWidget<number>(MicrobitSinglePixelComponent, args, ref.from, ref.to);
-              break;
-            case "Image":
-              // TODO: does not handle comments properly
-              let imArg: string[] = []
-              let arg = ref.node.getChild("ContinuedString");
-              if (arg) imArg.push(state.doc.sliceString(arg.from, arg.to).replaceAll(/[' \n]/g, ""));
-              else {
-                arg = ref.node.getChild("String");
-                if (arg) imArg.push()
-              }
-
-              createWidget<string>(MicrobitMultiplePixelComponent, imArg, ref.from, ref.to);
-              break;
-            default:
-              // No widget implemented for this function
-              break;
+          let name = state.doc.sliceString(ref.node.parent.from, ref.from)
+          let widget = createWidget(name, state, ref.node);
+          if(widget) {
+            let deco = Decoration.widget({
+              widget: new Widget(widget.comp, widget.props, createPortal),
+              side: 1,
+            });
+            widgets.push(deco.range(ref.to));
           }
         }
       }
