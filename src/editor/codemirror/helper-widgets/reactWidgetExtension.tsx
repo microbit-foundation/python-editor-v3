@@ -98,7 +98,7 @@ export const reactWidgetExtension = (
           let name = state.doc.sliceString(ref.node.parent.from, ref.from)
           let widget = createWidget(name, state, ref.node);
           if(widget) {
-            if(widget.props.to == openWidgetLoc){
+            if(widget.props.to != openWidgetLoc){
               let deco = Decoration.widget({
                 widget: new Widget(widget.comp, widget.props, true, createPortal),
                 side: 1,
