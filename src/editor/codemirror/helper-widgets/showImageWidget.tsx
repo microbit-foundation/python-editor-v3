@@ -1,6 +1,9 @@
 import { Box, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { WidgetProps } from "./reactWidgetExtension";
+import {
+  EditorView,
+} from "@codemirror/view";
 
 interface MultiMicrobitGridProps {
   selectedPixels: number[][];
@@ -71,7 +74,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   );
 };
 
-export const MicrobitMultiplePixelComponent = ({ args, ranges, literals, from, to }: WidgetProps) => {
+export const MicrobitMultiplePixelComponent  = ({ args, ranges, literals, from, to }: WidgetProps, view:EditorView) => {
   let initialSelectedPixels: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
   if (validateArgs(args)) {
     initialSelectedPixels = parseArgs(args)
@@ -88,13 +91,12 @@ export const MicrobitMultiplePixelComponent = ({ args, ranges, literals, from, t
   const updateView = () => {
     let insertion = pixelsToString(selectedPixels);
     console.log(insertion);
-    /*view.dispatch({
+    view.dispatch({
       changes: {
         from: from,
         to: to,
         insert: insertion}
-      });
-    */
+    });
   }
 
   return (
