@@ -1,3 +1,4 @@
+import { Button, HStack, Text } from "@chakra-ui/react";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
@@ -8,6 +9,7 @@ import {
 import { syntaxTree } from "@codemirror/language"
 import { PortalFactory } from "../CodeMirror";
 import React from "react";
+import { useCallback } from "react";
 import { MicrobitSinglePixelComponent } from "./setPixelWidget";
 import { MicrobitMultiplePixelComponent } from "./showImageWidget"
 import { createWidget } from "./widgetArgParser";
@@ -24,6 +26,27 @@ export interface WidgetProps {
   to: number
 }
 
+// Location of currently open widget, -1 if all closed
+export let openWidgetLoc = -1;
+const OpenReactComponent = ({ loc, view }: { loc: number, view: EditorView }) => {
+  const handleClick = useCallback(() => {
+    openWidgetLoc = loc;
+    // TODO: not sure how to force a view update without a list of changes
+    view.dispatch({
+      changes: {
+        from: 0,
+        to: 1,
+        insert: view.state.doc.sliceString(0, 1),
+      }
+    });
+  }, []);
+  return (
+    <HStack fontFamily="body" spacing={5} py={3}>
+      <Button onClick={handleClick}>Open</Button>
+    </HStack>
+  );
+};
+
 /**
  * This widget will have its contents rendered by the code in CodeMirror.tsx
  * which it communicates with via the portal factory.
@@ -32,7 +55,7 @@ class Widget extends WidgetType {
   private portalCleanup: (() => void) | undefined;
 
   constructor(private component: React.ComponentType<any>,
-    private props:WidgetProps,
+    private props:WidgetProps, private inline:boolean,
     private createPortal: PortalFactory) {
     super();
   }
@@ -40,7 +63,11 @@ class Widget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    this.portalCleanup = this.createPortal(dom, React.createElement(this.component, this.props, view));
+    if(this.inline) {
+      dom.style.display = 'inline-block'; // want it inline for the open-close widget
+      this.portalCleanup = this.createPortal(dom, <OpenReactComponent loc={this.props.to} view={view} />);
+    }
+    else this.portalCleanup = this.createPortal(dom, React.createElement(this.component, this.props, view));
     return dom;
   }
 
@@ -54,6 +81,7 @@ class Widget extends WidgetType {
     return true;
   }
 }
+
 
 // Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
 export const reactWidgetExtension = (
@@ -70,11 +98,20 @@ export const reactWidgetExtension = (
           let name = state.doc.sliceString(ref.node.parent.from, ref.from)
           let widget = createWidget(name, state, ref.node);
           if(widget) {
-            let deco = Decoration.widget({
-              widget: new Widget(widget.comp, widget.props, createPortal),
-              side: 1,
-            });
-            widgets.push(deco.range(ref.to));
+            if(widget.props.to == openWidgetLoc){
+              let deco = Decoration.widget({
+                widget: new Widget(widget.comp, widget.props, true, createPortal),
+                side: 1,
+              });
+              widgets.push(deco.range(ref.to));
+            }
+            else{
+              let deco = Decoration.widget({
+                widget: new Widget(widget.comp, widget.props, false, createPortal),
+                side: 1,
+              });
+              widgets.push(deco.range(ref.to));
+            }
           }
         }
       }
@@ -89,6 +126,11 @@ export const reactWidgetExtension = (
     },
     update(widgets, transaction) {
       if (transaction.docChanged) {
+        transaction.changes.iterChangedRanges((_fromA, _toA, _fromB, _toB) => {
+          if(_toA <= openWidgetLoc){
+            openWidgetLoc += (_toB - _fromB) - (_toA - _fromA)
+          }
+        });
         return decorate(transaction.state);
       }
       return widgets.map(transaction.changes);
