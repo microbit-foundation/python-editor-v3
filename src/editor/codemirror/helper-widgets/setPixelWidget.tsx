@@ -1,6 +1,9 @@
 import { Box, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
 import { useState } from "react";
 import { WidgetProps } from "./reactWidgetExtension";
+import {
+  EditorView,
+} from "@codemirror/view";
 
 interface Pixel {
   x: number;
@@ -84,7 +87,7 @@ const validateArgs = (args : number[]) => {
 };
 
 
-export const MicrobitSinglePixelComponent = ({ args, ranges, literals, from, to }: WidgetProps) => {
+export const MicrobitSinglePixelComponent = ({ args, ranges, literals, from, to }: WidgetProps, view:EditorView) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
   if (validateArgs(args)){
     const [x, y, brightness] = parseArgs(args);
@@ -100,14 +103,13 @@ export const MicrobitSinglePixelComponent = ({ args, ranges, literals, from, to 
     if (selectedPixel !== null) {
       const { x, y, brightness } = selectedPixel;
       console.log(`(${x}, ${y}, ${brightness}) `);
-      /*view.dispatch({
+      view.dispatch({
         changes: {
           from: from,
           to: to,
           insert: `(${x}, ${y}, ${brightness}) `,
         }
       });
-      */
     }
   };
 
