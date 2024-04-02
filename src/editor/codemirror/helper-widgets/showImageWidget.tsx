@@ -7,11 +7,13 @@ import {
 
 interface MultiMicrobitGridProps {
   selectedPixels: number[][];
+  onCloseClick: () => void;
   onPixelChange: (x: number, y: number, brightness: number) => void;
 }
 
 const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   selectedPixels,
+  onCloseClick,
   onPixelChange,
 }) => {
   const [currentBrightness, setCurrentBrightness] = useState<number>(5);
@@ -31,8 +33,13 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
 
   return (
     <Box display="flex" flexDirection="row" justifyContent="flex-start">
+            <Box ml="10px"  style={{ marginRight: '4px' }}>
+        <Button size="xs" onClick={onCloseClick}>
+          X
+        </Button>
+      </Box>
       <Box>
-        <Box bg="black" p="10px" borderRadius="5px">
+        <Box bg="black" p="10px" borderRadius="5px" style={{ marginTop: '15px' }}>
           {selectedPixels.map((row, y) => (
             <Box key={y} display="flex">
               {row.map((brightness, x) => (
@@ -52,7 +59,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
           ))}
         </Box>
       </Box>
-      <Box ml="10px">
+      <Box ml="10px" style={{ marginTop: '15px' }}>
         <Slider
           aria-label="brightness"
           value={currentBrightness}
@@ -99,10 +106,15 @@ export const MicrobitMultiplePixelComponent  = ({ args, ranges, literals, from, 
     });
   }
 
+  const handleCloseClick = () => {
+    console.log("closed");
+  };
+
   return (
     <MicrobitMultiplePixelsGrid
       selectedPixels={selectedPixels}
       onPixelChange={handlePixelChange}
+      onCloseClick={handleCloseClick}
     />
   );
 };
