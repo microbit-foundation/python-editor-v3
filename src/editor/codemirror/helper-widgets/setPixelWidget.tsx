@@ -1,9 +1,16 @@
-import { Box, Button, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
-import { useState } from "react";
-import { WidgetProps } from "./reactWidgetExtension";
+
+import {
+  Box,
+  Button,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "@chakra-ui/react";
 import {
   EditorView,
 } from "@codemirror/view";
+import { WidgetProps } from "./reactWidgetExtension";
 
 interface Pixel {
   x: number;
@@ -13,43 +20,48 @@ interface Pixel {
 
 interface MicrobitSinglePixelGridProps {
   onPixelClick: (pixel: Pixel) => void;
-  initialPixel : Pixel | null;
+  initialPixel: Pixel | null;
 }
 
-const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPixelClick, initialPixel }) => {
-  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(initialPixel);
-  const [currentBrightness, setCurrentBrightness] = useState<number>(5);
-
+const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
+  onPixelClick,
+  initialPixel,
+}) => {
+  const { x, y, brightness } = initialPixel ?? { x: 0, y: 0, brightness: 9 };
   const handlePixelClick = (x: number, y: number) => {
-    const newPixel: Pixel = { x: x, y: y, brightness: currentBrightness };
-    setSelectedPixel(newPixel);
+    const newPixel: Pixel = { x, y, brightness };
     onPixelClick(newPixel);
   };
-
   const handleSliderChange = (value: number) => {
-    setCurrentBrightness(value);
-    if (selectedPixel) {
-      const updatedPixel: Pixel = { ...selectedPixel, brightness: value };
-      onPixelClick(updatedPixel);
-    }
+    const updatedPixel: Pixel = { x, y, brightness: value };
+    onPixelClick(updatedPixel);
   };
 
   return (
     <Box display="flex" flexDirection="row" justifyContent="flex-start">
       <Box>
         <Box bg="black" p="10px" borderRadius="5px">
-          {[...Array(5)].map((_, y) => (
+          {[...Array(5)].map((_, gridY) => (
             <Box key={y} display="flex">
-              {[...Array(5)].map((_, x) => (
+              {[...Array(5)].map((_, gridX) => (
                 <Box key={x} display="flex" mr="2px">
                   <Button
                     size="xs"
                     h="15px"
                     w="15px"
                     p={0}
-                    bgColor={selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${currentBrightness / 9})` : "rgba(255, 255, 255, 0)"}
-                    _hover={{ bgColor: selectedPixel?.x === x && selectedPixel.y === y ? `rgba(255, 0, 0, ${currentBrightness / 9})` : "rgba(255, 255, 255, 0.5)" }}
-                    onClick={() => handlePixelClick(x, y)}
+                    bgColor={
+                      gridX === x && gridY === y
+                        ? `rgba(255, 0, 0, ${brightness / 9})`
+                        : "rgba(255, 255, 255, 0)"
+                    }
+                    _hover={{
+                      bgColor:
+                        gridX === x && gridY === y
+                          ? `rgba(255, 0, 0, ${brightness / 9})`
+                          : "rgba(255, 255, 255, 0.5)",
+                    }}
+                    onClick={() => handlePixelClick(gridX, gridY)}
                   />
                 </Box>
               ))}
@@ -60,14 +72,15 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPix
       <Box ml="10px">
         <Slider
           aria-label="brightness"
-          defaultValue={currentBrightness}
+          defaultValue={brightness}
           min={0}
           max={9}
           step={1}
           orientation="vertical"
           _focus={{ boxShadow: "none" }}
           _active={{ bgColor: "transparent" }}
-          onChange={handleSliderChange}>
+          onChange={handleSliderChange}
+        >
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
@@ -78,40 +91,33 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({ onPix
   );
 };
 
-const parseArgs = (args : number[]) => {
-  return args
+const parseArgs = (args: number[]): Pixel | null => {
+  if (Array.isArray(args) && args.length === 3) {
+    const [x, y, brightness] = args;
+    return { x, y, brightness };
+  };
+  return {x:1, y:1, brightness:1};
 };
 
-const validateArgs = (args : number[]) => {
-  return Array.isArray(args) && args.length === 3
-};
-
-
-export const MicrobitSinglePixelComponent = ({ args, ranges, literals, from, to }: WidgetProps, view:EditorView) => {
-  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
-  if (validateArgs(args)){
-    const [x, y, brightness] = parseArgs(args);
-    setSelectedPixel({ x, y, brightness });
-  } 
+export const MicrobitSinglePixelComponent  = ({ args, ranges, literals, from, to }: WidgetProps, view:EditorView) => {
+  const selectedPixel = parseArgs(args);
 
   const handleSelectPixel = (pixel: Pixel) => {
-    setSelectedPixel(pixel);
-    updateView();
+    const { x, y, brightness } = pixel;
+    console.log(`(${x}, ${y}, ${brightness}) `);
+    view.dispatch({
+      changes: {
+        from: from,
+        to: to,
+        insert: `(${x}, ${y}, ${brightness}) `,
+      },
+    });
   };
 
-  const updateView = () => {
-    if (selectedPixel !== null) {
-      const { x, y, brightness } = selectedPixel;
-      console.log(`(${x}, ${y}, ${brightness}) `);
-      view.dispatch({
-        changes: {
-          from: from,
-          to: to,
-          insert: `(${x}, ${y}, ${brightness}) `,
-        }
-      });
-    }
-  };
-
-  return (<MicrobitSinglePixelGrid onPixelClick={handleSelectPixel} initialPixel={selectedPixel} />);
+  return (
+    <MicrobitSinglePixelGrid
+      onPixelClick={handleSelectPixel}
+      initialPixel={selectedPixel}
+    />
+  );
 };
