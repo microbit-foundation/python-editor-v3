@@ -84,7 +84,7 @@ const validateArgs = (args : number[]) => {
 };
 
 
-export const MicrobitSinglePixelComponent = ({ args, from, to, view }: WidgetProps<number>) => {
+export const MicrobitSinglePixelComponent = ({ args, ranges, literals, from, to }: WidgetProps) => {
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
   if (validateArgs(args)){
     const [x, y, brightness] = parseArgs(args);

@@ -71,7 +71,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   );
 };
 
-export const MicrobitMultiplePixelComponent = ({ args, from, to, view }: WidgetProps<number>) => {
+export const MicrobitMultiplePixelComponent = ({ args, ranges, literals, from, to }: WidgetProps) => {
   let initialSelectedPixels: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
   if (validateArgs(args)) {
     initialSelectedPixels = parseArgs(args)
