@@ -35,7 +35,8 @@ body,
 .Workbench {
   width: 100%;
   /* --ios-vvh set by VisualViewPortCSSVariables on iOS only. */
-  height: var(--ios-vvh, var(--webkit-vvh, 100vh));
+  height: 100svh;
+  /* height: var(--ios-vvh, var(--webkit-vvh, 100vh)); */
   overflow: hidden;
 }
 body {
