@@ -14,7 +14,7 @@ const isIOS = (): boolean =>
 /**
  * Maintains CSS variables for the visual viewport width and height.
  * Use with fallbacks, e.g. var(--vvh, 100vh)
- * https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API
+ * https://developer.mozilla.org/en-US/docs/Glossary/Visual_Viewport
  */
 const VisualViewPortCSSVariables = () => {
   const addStyleInnerText = (innerText: string) => {
@@ -35,6 +35,8 @@ const VisualViewPortCSSVariables = () => {
     if (!window.visualViewport) {
       return;
     }
+    // We use visual viewport API as fallback
+    // https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API
     const resizeHandler = () => {
       const { width, height } = window.visualViewport ?? {};
       addStyleInnerText(`:root { --vvw: ${width}px; --vvh: ${height}px; }`);
