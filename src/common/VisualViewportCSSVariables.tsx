@@ -7,27 +7,37 @@ import { useEffect } from "react";
 
 const styleId = "vvp-style";
 
+const isIOS = (): boolean =>
+  /iPad|iPhone|iPod/.test(navigator.platform) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
 /**
  * Maintains CSS variables for the visual viewport width and height.
- * Use with fallbacks, e.g. var(--ios-vvh, 100vh)
+ * Use with fallbacks, e.g. var(--vvh, 100vh)
  * https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API
- *
- * We skip it on other platforms and rely on the fallback.
  */
 const VisualViewPortCSSVariables = () => {
+  const addStyleInnerText = (innerText: string) => {
+    let style = document.getElementById(styleId);
+    if (!style) {
+      style = document.head.appendChild(document.createElement("style"));
+      style.id = styleId;
+    }
+    style.innerText = innerText;
+  };
+
   useEffect(() => {
-    // If we remove the iOS check then we should look carefully at resize performance.
+    // svh on Safari in iOS does not resize when virtual keyboard is present
+    if (CSS.supports("height: 100svh") && !isIOS) {
+      addStyleInnerText(":root { --vvh: 100svh }");
+      return;
+    }
     if (!window.visualViewport) {
       return;
     }
     const resizeHandler = () => {
       const { width, height } = window.visualViewport ?? {};
-      let style = document.getElementById(styleId);
-      if (!style) {
-        style = document.head.appendChild(document.createElement("style"));
-        style.id = styleId;
-      }
-      style.innerText = `:root { --ios-vvw: ${width}px; --ios-vvh: ${height}px; }`;
+      addStyleInnerText(`:root { --vvw: ${width}px; --vvh: ${height}px; }`);
     };
     window.visualViewport.addEventListener("resize", resizeHandler);
     resizeHandler();
