@@ -23,7 +23,7 @@ const v2Beta = {
   name: "MicroPython (micro:bit V2)",
   url: microPythonV2BetaHexUrl,
   boardId: microbitBoardId.V2,
-  version: "87f726cec9feeffcaee6e953d85fea14b28c404f",
+  version: "0b06914c71c18533da90df85230ac198578669bf",
   // It's not the beta yet!
   web: "https://github.com/microbit-foundation/micropython-microbit-v2/pull/163",
 };
