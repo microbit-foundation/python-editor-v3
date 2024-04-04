@@ -40,8 +40,8 @@ body,
 .WorkbenchContainer,
 .Workbench {
   width: 100%;
-  height: var(--full-svh, 100vh);
+  height: 100%;
 }
-body {
+html, body {
   overflow: hidden;
 }
