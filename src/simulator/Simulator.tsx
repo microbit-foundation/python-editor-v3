@@ -89,10 +89,6 @@ const Simulator = ({
     }
   }, [previouslyShown, showSimulatorButtonRef, shown, simFocus]);
 
-  if (!shown) {
-    return null;
-  }
-
   return (
     <DeviceContextProvider value={simulator.current}>
       <Flex
