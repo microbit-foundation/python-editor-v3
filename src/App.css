@@ -16,6 +16,12 @@
       format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+@supports (height: 100svh) {
+  :root {
+    --full-svh: 100svh;
+  }
+}
+
 /* Needed for the fallbacks below */
 @supports (height: -webkit-fill-available) {
   :root {
@@ -34,9 +40,7 @@ body,
 .WorkbenchContainer,
 .Workbench {
   width: 100%;
-  /* --vvh set by VisualViewPortCSSVariables */
-  height: var(--vvh, var(--webkit-vvh, 100vh));
-  overflow: hidden;
+  height: var(--full-svh, 100vh);
 }
 body {
   overflow: hidden;
