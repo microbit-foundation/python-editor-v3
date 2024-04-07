@@ -1,4 +1,3 @@
-import { Button, HStack } from "@chakra-ui/react";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
@@ -9,8 +8,8 @@ import {
 import { syntaxTree } from "@codemirror/language"
 import { PortalFactory } from "../CodeMirror";
 import React from "react";
-import { useCallback } from "react";
 import { createWidget } from "./widgetArgParser";
+import { OpenReactComponent, openWidgetEffect } from "./openWidgets";
 
 export interface WidgetProps {
   // Note: always an array, can be singleton
@@ -24,26 +23,7 @@ export interface WidgetProps {
   to: number
 }
 
-// Location of currently open widget, -1 if all closed
-export let openWidgetLoc = -1;
-const OpenReactComponent = ({ loc, view }: { loc: number, view: EditorView }) => {
-  const handleClick = useCallback(() => {
-    openWidgetLoc = loc;
-    // TODO: not sure how to force a view update without a list of changes
-    view.dispatch({
-      changes: {
-        from: 0,
-        to: 1,
-        insert: view.state.doc.sliceString(0, 1),
-      }
-    });
-  }, [loc, view]);
-  return (
-    <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleClick}>Open</Button>
-    </HStack>
-  );
-};
+
 
 /**
  * This widget will have its contents rendered by the code in CodeMirror.tsx
@@ -109,12 +89,23 @@ export const reactWidgetExtension = (
     return Decoration.set(widgets)
   };
 
+  let openWidgetLoc = -1;
   const stateField = StateField.define<DecorationSet>({
     create(state) {
       return decorate(state);
     },
     update(widgets, transaction) {
+      // check for open/close button pressed
+      for (let effect of transaction.effects) {
+        if (effect.is(openWidgetEffect)) {
+          openWidgetLoc = effect.value;
+          return decorate(transaction.state);
+        }
+      }
+      // else check for other doc edits
       if (transaction.docChanged) {
+        // update openWidgetLoc if changes moves it
+        // transaction.changes.mapPos()
         transaction.changes.iterChangedRanges((_fromA, _toA, _fromB, _toB) => {
           if(_toA <= openWidgetLoc){
             openWidgetLoc += (_toB - _fromB) - (_toA - _fromA)
