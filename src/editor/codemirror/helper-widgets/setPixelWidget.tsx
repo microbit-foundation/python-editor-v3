@@ -110,7 +110,7 @@ const parseArgs = (args: number[]): Pixel | null => {
 };
 
 export const MicrobitSinglePixelComponent = (
-  { args, ranges, literals, from, to }: WidgetProps,
+  { args, ranges, types, from, to }: WidgetProps,
   view: EditorView
 ) => {
   const selectedPixel = parseArgs(args);

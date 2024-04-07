@@ -1,4 +1,4 @@
-import { Button, HStack, Text } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
@@ -10,8 +10,6 @@ import { syntaxTree } from "@codemirror/language"
 import { PortalFactory } from "../CodeMirror";
 import React from "react";
 import { useCallback } from "react";
-import { MicrobitSinglePixelComponent } from "./setPixelWidget";
-import { MicrobitMultiplePixelComponent } from "./showImageWidget"
 import { createWidget } from "./widgetArgParser";
 
 export interface WidgetProps {
@@ -19,8 +17,8 @@ export interface WidgetProps {
   args: any[]
   // Ranges of where to insert each argument
   ranges: {from:number, to:number} []
-  // Whether or not each argument is a literal
-  literals: boolean[]
+  // Type of each argument, can be checked in widget to determine if it is editable
+  types: string[]
   // Where to insert the changed values
   from: number,
   to: number
@@ -39,7 +37,7 @@ const OpenReactComponent = ({ loc, view }: { loc: number, view: EditorView }) =>
         insert: view.state.doc.sliceString(0, 1),
       }
     });
-  }, []);
+  }, [loc, view]);
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
       <Button onClick={handleClick}>Open</Button>
@@ -98,20 +96,11 @@ export const reactWidgetExtension = (
           let name = state.doc.sliceString(ref.node.parent.from, ref.from)
           let widget = createWidget(name, state, ref.node);
           if(widget) {
-            if(widget.props.to != openWidgetLoc){
-              let deco = Decoration.widget({
-                widget: new Widget(widget.comp, widget.props, true, createPortal),
-                side: 1,
-              });
-              widgets.push(deco.range(ref.to));
-            }
-            else{
-              let deco = Decoration.widget({
-                widget: new Widget(widget.comp, widget.props, false, createPortal),
-                side: 1,
-              });
-              widgets.push(deco.range(ref.to));
-            }
+            let deco = Decoration.widget({
+              widget: new Widget(widget.comp, widget.props, widget.props.to !== openWidgetLoc, createPortal),
+              side: 1,
+            });
+            widgets.push(deco.range(ref.to));
           }
         }
       }
