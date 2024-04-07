@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import { WidgetProps } from "./reactWidgetExtension";
+import { openWidgetEffect } from "./openWidgets";
 
 interface Pixel {
   x: number;
@@ -110,13 +111,16 @@ const parseArgs = (args: number[]): Pixel | null => {
 };
 
 export const MicrobitSinglePixelComponent = (
-  { args, ranges, types, from, to }: WidgetProps,
-  view: EditorView
+  { props, view } : {props: WidgetProps, view: EditorView}
 ) => {
+  let args = props.args; let ranges = props.ranges; let types = props.types; let from = props.from; let to = props.to;
+  
   const selectedPixel = parseArgs(args);
 
   const handleCloseClick = () => {
-    console.log("closed");
+    view.dispatch({
+      effects: [openWidgetEffect.of(-1)],
+    });
   };
 
   const handleSelectPixel = (pixel: Pixel) => {

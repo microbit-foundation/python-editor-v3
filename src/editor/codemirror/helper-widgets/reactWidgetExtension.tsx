@@ -45,7 +45,8 @@ class Widget extends WidgetType {
       dom.style.display = 'inline-block'; // want it inline for the open-close widget
       this.portalCleanup = this.createPortal(dom, <OpenReactComponent loc={this.props.to} view={view} />);
     }
-    else this.portalCleanup = this.createPortal(dom, React.createElement(this.component, this.props, view));
+    else this.portalCleanup = this.createPortal(dom, <this.component props={this.props} view={view} />);
+    //else this.portalCleanup = this.createPortal(dom, React.createElement(this.component, this.props, view));
     return dom;
   }
 

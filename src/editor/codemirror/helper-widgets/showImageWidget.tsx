@@ -4,6 +4,7 @@ import { WidgetProps } from "./reactWidgetExtension";
 import {
   EditorView,
 } from "@codemirror/view";
+import { openWidgetEffect } from "./openWidgets";
 
 interface MultiMicrobitGridProps {
   selectedPixels: number[][];
@@ -81,7 +82,11 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   );
 };
 
-export const MicrobitMultiplePixelComponent  = ({ args, ranges, types, from, to }: WidgetProps, view:EditorView) => {
+export const MicrobitMultiplePixelComponent  = (
+  { props, view } : {props: WidgetProps, view: EditorView}
+) => {
+  let args = props.args; let ranges = props.ranges; let types = props.types; let from = props.from; let to = props.to;
+
   let initialSelectedPixels: number[][] = Array.from({ length: 5 }, () => Array(5).fill(0));
   if (validateArgs(args)) {
     initialSelectedPixels = parseArgs(args)
@@ -107,7 +112,9 @@ export const MicrobitMultiplePixelComponent  = ({ args, ranges, types, from, to 
   }
 
   const handleCloseClick = () => {
-    console.log("closed");
+    view.dispatch({
+      effects: [openWidgetEffect.of(-1)],
+    });
   };
 
   return (
