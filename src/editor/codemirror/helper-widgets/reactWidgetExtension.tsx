@@ -106,12 +106,7 @@ export const reactWidgetExtension = (
       // else check for other doc edits
       if (transaction.docChanged) {
         // update openWidgetLoc if changes moves it
-        // transaction.changes.mapPos()
-        transaction.changes.iterChangedRanges((_fromA, _toA, _fromB, _toB) => {
-          if(_toA <= openWidgetLoc){
-            openWidgetLoc += (_toB - _fromB) - (_toA - _fromA)
-          }
-        });
+        openWidgetLoc = transaction.changes.mapPos(openWidgetLoc);
         return decorate(transaction.state);
       }
       return widgets.map(transaction.changes);
