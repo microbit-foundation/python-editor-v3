@@ -1116,7 +1116,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
+    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor, machine learning tool), or unplug and replug the micro:bit before trying again.",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
@@ -1130,14 +1130,6 @@
   "webusb-error-reconnect-microbit-description": {
     "defaultMessage": "Please reconnect your micro:bit and try again.",
     "description": "Part of WebUSB error message"
-  },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "You need to <link>update your micro:bit firmware</link> to make use of this feature.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "Please update the micro:bit firmware",
-    "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
     "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit.",

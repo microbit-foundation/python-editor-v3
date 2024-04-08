@@ -70,6 +70,7 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import ProjectNameQuestion from "./ProjectNameQuestion";
+import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -843,9 +844,13 @@ export class ProjectActions {
         case "clear-connect":
         case "timeout-error":
         case "reconnect-microbit": {
-          return this.actionFeedback.expectedError(
-            this.webusbErrorMessage(e.code)
-          );
+          return this.dialogs.show<void>((callback) => (
+            <WebUSBErrorDialog
+              callback={callback}
+              finalFocusRef={finalFocusRef}
+              {...this.webusbErrorMessage(e.code)}
+            />
+          ));
         }
         default: {
           return this.actionFeedback.unexpectedError(e);
@@ -873,33 +878,6 @@ export class ProjectActions {
 
   private webusbErrorMessage(code: WebUSBErrorCode) {
     switch (code) {
-      case "update-req":
-        return {
-          title: this.intl.formatMessage({
-            id: "webusb-error-update-req-title",
-          }),
-          description: (
-            <span>
-              {this.intl.formatMessage(
-                {
-                  id: "webusb-error-update-req-description",
-                },
-                {
-                  link: (chunks: ReactNode) => (
-                    <Link
-                      target="_blank"
-                      rel="noreferrer"
-                      href="https://microbit.org/get-started/user-guide/firmware/"
-                      textDecoration="underline"
-                    >
-                      {chunks}
-                    </Link>
-                  ),
-                }
-              )}
-            </span>
-          ),
-        };
       case "clear-connect":
         return {
           title: this.intl.formatMessage({

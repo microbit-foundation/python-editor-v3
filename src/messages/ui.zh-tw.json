@@ -2451,32 +2451,6 @@
       "value": "請重新連接你的 micro:bit 後再試一次。"
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "您需要"
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "更新您的 micro:bit 韌體"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "，以使用此功能。"
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "請更新 micro:bit 韌體"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,

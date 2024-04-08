@@ -2445,32 +2445,6 @@
       "value": "micro:bitを再接続して、やり直してください。"
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "この機能を利用するには、"
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "micro:bitファームウェアを更新"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "する必要があります。"
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "micro:bit のファームウェアを更新してください。"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,

@@ -1130,14 +1130,6 @@
     "defaultMessage": "micro:bit 연결을 확인한 후, 다시 시도해 보세요.",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "이 기능을 활용하려면 <link>micro:bit 펌웨어를 업데이트</link>해야 합니다.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "micro:bit 펌웨어를 업데이트 하세요.",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "이 브라우저가 WebUSB를 지원하지 않아 프로그램이 컴퓨터에 저장됩니다. micro:bit로 전송하려면 다음 화면의 단계를 따르세요. micro:bit에 직접 연결할 수 있도록 Google Chrome 또는 Microsoft Edge 사용을 권장합니다.",
     "description": "Explantion shown when user's browser doesn't support WebUSB"

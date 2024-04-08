@@ -2430,7 +2430,7 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
+      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor, machine learning tool), or unplug and replug the micro:bit before trying again."
     }
   ],
   "webusb-error-clear-connect-title": [
@@ -2449,32 +2449,6 @@
     {
       "type": 0,
       "value": "Please reconnect your micro:bit and try again."
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "You need to "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your micro:bit firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " to make use of this feature."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Please update the micro:bit firmware"
     }
   ],
   "webusb-not-supported": [
