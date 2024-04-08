@@ -1120,7 +1120,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Unable to claim interface",
+    "defaultMessage": "Another process is connected to this micro:bit",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {

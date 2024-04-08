@@ -2436,7 +2436,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Unable to claim interface"
+      "value": "Another process is connected to this micro:bit"
     }
   ],
   "webusb-error-default-title": [
