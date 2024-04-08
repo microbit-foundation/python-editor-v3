@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
-import { Text, VStack } from "@chakra-ui/react";
+import { Text, UnorderedList, VStack } from "@chakra-ui/react";
 import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
@@ -901,9 +901,23 @@ export class ProjectActions {
       case "reconnect-microbit":
         return {
           title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-          description: this.intl.formatMessage({
-            id: "webusb-error-reconnect-microbit-description",
-          }),
+          description: (
+            <Text>
+              <FormattedMessage
+                id="webusb-error-reconnect-microbit-description"
+                values={{
+                  li: (chunks: ReactNode) => (
+                    <ListItem>
+                      <Text>{chunks}</Text>
+                    </ListItem>
+                  ),
+                  ul: (chunks: ReactNode) => (
+                    <UnorderedList>{chunks}</UnorderedList>
+                  ),
+                }}
+              />
+            </Text>
+          ),
         };
       case "timeout-error":
         return {

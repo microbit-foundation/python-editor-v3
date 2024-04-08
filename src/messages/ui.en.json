@@ -2448,7 +2448,33 @@
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "Please reconnect your micro:bit and try again."
+      "value": "Please: "
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "check that this micro:bit does not have a battery pack connected"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "unplug and replug the USB cable"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [

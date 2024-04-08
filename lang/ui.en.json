@@ -1128,7 +1128,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "Please reconnect your micro:bit and try again.",
+    "defaultMessage": "Please: <ul><li>check that this micro:bit does not have a battery pack connected</li><li>unplug and replug the USB cable</li></ul>",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {
