@@ -908,11 +908,11 @@ export class ProjectActions {
                 values={{
                   li: (chunks: ReactNode) => (
                     <ListItem>
-                      <Text>{chunks}</Text>
+                      <Text as="span">{chunks}</Text>
                     </ListItem>
                   ),
                   ul: (chunks: ReactNode) => (
-                    <UnorderedList>{chunks}</UnorderedList>
+                    <UnorderedList pl={2}>{chunks}</UnorderedList>
                   ),
                 }}
               />
