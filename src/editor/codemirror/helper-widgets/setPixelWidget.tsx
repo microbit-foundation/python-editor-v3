@@ -102,34 +102,45 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   );
 };
 
-const parseArgs  = (args: string[], types: string[]): Pixel | null => {
+const parseArgs = (args: string[], types: string[]): Pixel | null => {
   if (args.length > 3) {
-    return null; // If there are more than 3 arguments, return null
+    return null;
   }
   const parsedArgs: number[] = [];
   for (let i = 0; i < args.length; i++) {
-    let arg = args[i]
-    if (types[i] === 'Number') {
-        parsedArgs.push(parseInt(arg));
-    } else if (arg == ","){
-      parsedArgs.push(0); // For non-number types, default to 0
+    let arg = args[i];
+    if (types[i] === "Number") {
+      parsedArgs.push(parseInt(arg));
+    } else if (arg == ",") {
+      parsedArgs.push(0);
     } else {
-      return null
+      return null;
     }
   }
   while (parsedArgs.length < 3) {
     parsedArgs.push(0);
   }
-  return {x: parsedArgs[0], y: parsedArgs[1], brightness : parsedArgs[2]}
+  return { x: parsedArgs[0], y: parsedArgs[1], brightness: parsedArgs[2] };
 };
 
-export const MicrobitSinglePixelComponent = (
-  { props, view } : {props: WidgetProps, view: EditorView}
-) => {
-  let args = props.args; let ranges = props.ranges; let types = props.types; let from = props.from; let to = props.to;
-  console.log(args)
-  console.log(types)
+export const MicrobitSinglePixelComponent = ({
+  props,
+  view,
+}: {
+  props: WidgetProps;
+  view: EditorView;
+}) => {
+  let args = props.args;
+  let ranges = props.ranges;
+  let types = props.types;
+  let from = props.from;
+  let to = props.to;
+  console.log(args);
+  console.log(types);
   const selectedPixel = parseArgs(args, types);
+
+  if (selectedPixel == null) {
+  }
 
   const handleCloseClick = () => {
     view.dispatch({
