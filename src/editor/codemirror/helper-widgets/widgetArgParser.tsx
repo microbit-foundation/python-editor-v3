@@ -96,7 +96,7 @@ export function ValidateComponentArgs(name: React.ComponentType<any>): Boolean {
     case MicrobitMultiplePixelComponent:
       return true;
     case MicrobitSinglePixelComponent:
-      return false;
+      return true;
   }
   return true;
 }

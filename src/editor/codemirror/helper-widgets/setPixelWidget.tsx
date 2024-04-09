@@ -131,7 +131,7 @@ export const MicrobitSinglePixelComponent = ({
   view: EditorView;
 }) => {
   let args = props.args;
-  //let ranges = props.ranges;
+  let ranges = props.ranges;
   let types = props.types;
   let from = props.from;
   let to = props.to;
@@ -151,11 +151,23 @@ export const MicrobitSinglePixelComponent = ({
   const handleSelectPixel = (pixel: Pixel) => {
     const { x, y, brightness } = pixel;
     view.dispatch({
-      changes: {
-        from: from,
-        to: to,
-        insert: `(${x}, ${y}, ${brightness}) `,
+      changes: [{
+        from: ranges[0].from,
+        to: ranges[0].to,
+        insert: `${x}`,
       },
+      {
+        from: ranges[1].from,
+        to: ranges[1].to,
+        insert: `${y}`,
+      },
+      {
+        from: ranges[2].from,
+        to: ranges[2].to,
+        insert: `${brightness}`,
+      },
+      ],
+      effects: [openWidgetEffect.of(to)],
     });
   };
 
