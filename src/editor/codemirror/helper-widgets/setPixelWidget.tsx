@@ -39,9 +39,9 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   };
 
   return (
-    <Box display="flex" flexDirection="row" justifyContent="flex-start">
+    <Box display="flex" flexDirection="row" justifyContent="flex-start" bg = "lightgray">
       <Box ml="10px" style={{ marginRight: "4px" }}>
-        <Button size="xs" onClick={onCloseClick}>
+        <Button size="xs" onClick={onCloseClick} bg = "white">
           X
         </Button>
       </Box>
@@ -151,21 +151,22 @@ export const MicrobitSinglePixelComponent = ({
   const handleSelectPixel = (pixel: Pixel) => {
     const { x, y, brightness } = pixel;
     view.dispatch({
-      changes: [{
-        from: ranges[0].from,
-        to: ranges[0].to,
-        insert: `${x}`,
-      },
-      {
-        from: ranges[1].from,
-        to: ranges[1].to,
-        insert: `${y}`,
-      },
-      {
-        from: ranges[2].from,
-        to: ranges[2].to,
-        insert: `${brightness}`,
-      },
+      changes: [
+        {
+          from: ranges[0].from,
+          to: ranges[0].to,
+          insert: `${x}`,
+        },
+        {
+          from: ranges[1].from,
+          to: ranges[1].to,
+          insert: `${y}`,
+        },
+        {
+          from: ranges[2].from,
+          to: ranges[2].to,
+          insert: `${brightness}`,
+        },
       ],
       effects: [openWidgetEffect.of(to)],
     });
