@@ -3,6 +3,7 @@ import { SyntaxNode } from "@lezer/common";
 import { WidgetProps } from "./reactWidgetExtension";
 import { MicrobitSinglePixelComponent } from "./setPixelWidget";
 import { MicrobitMultiplePixelComponent } from "./showImageWidget";
+import { SoundComponent } from "./soundWidget";
 
 export interface CompProps {
   comp: React.ComponentType<any>;
@@ -28,8 +29,7 @@ export function createWidget(
       component = MicrobitMultiplePixelComponent;
       break;
     case "SoundEffect":
-      // TODO: sound effect
-      component = MicrobitMultiplePixelComponent;
+      component = SoundComponent;
       break;
     default:
       // No widget implemented for this function
