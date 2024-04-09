@@ -26,7 +26,6 @@ export function createWidget(
       break;
     case "Image":
       component = MicrobitMultiplePixelComponent;
-      console.log(args);
       break;
     case "SoundEffect":
       // TODO: sound effect
