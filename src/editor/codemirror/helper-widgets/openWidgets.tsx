@@ -4,7 +4,13 @@ import { EditorView } from "@codemirror/view";
 import { useCallback } from "react";
 
 export const openWidgetEffect = StateEffect.define<number>();
-export const OpenReactComponent = ({ loc, view }: { loc: number, view: EditorView }) => {
+export const OpenReactComponent = ({
+  loc,
+  view,
+}: {
+  loc: number;
+  view: EditorView;
+}) => {
   const handleClick = useCallback(() => {
     view.dispatch({
       effects: [openWidgetEffect.of(loc)],
