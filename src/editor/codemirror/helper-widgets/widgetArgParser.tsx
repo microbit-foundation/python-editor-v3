@@ -90,3 +90,13 @@ function getTypes(nodes: SyntaxNode[]): string[] {
   });
   return types;
 }
+
+export function ValidateComponentArgs(name: React.ComponentType<any>): Boolean {
+  switch (name) {
+    case MicrobitMultiplePixelComponent:
+      return true;
+    case MicrobitSinglePixelComponent:
+      return false;
+  }
+  return true;
+}
