@@ -111,7 +111,7 @@ const parseArgs = (args: string[], types: string[]): Pixel | null => {
     let arg = args[i];
     if (types[i] === "Number") {
       parsedArgs.push(parseInt(arg));
-    } else if (arg == ",") {
+    } else if (arg === ",") {
       parsedArgs.push(0);
     } else {
       return null;
@@ -131,7 +131,7 @@ export const MicrobitSinglePixelComponent = ({
   view: EditorView;
 }) => {
   let args = props.args;
-  let ranges = props.ranges;
+  //let ranges = props.ranges;
   let types = props.types;
   let from = props.from;
   let to = props.to;
