@@ -28,11 +28,12 @@ export function createWidget(
     case "Image":
       component = MicrobitMultiplePixelComponent;
       break;
-    case "SoundEffect":
+    case "audio.SoundEffect":
       component = SoundComponent;
       break;
     default:
       // No widget implemented for this function
+      console.log("No widget implemented for this function: " + name);
       return null;
   }
   if (component) {
@@ -98,6 +99,9 @@ export function ValidateComponentArgs(name: React.ComponentType<any>): boolean {
       return true;
     case MicrobitSinglePixelComponent:
       return true;
+    case SoundComponent:
+      return true;
+    default:
+      return false;
   }
-  return true;
 }
