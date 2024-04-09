@@ -55,7 +55,8 @@ function getChildNodes(node: SyntaxNode): SyntaxNode[] {
   let child = node.firstChild?.nextSibling;
   let children = [];
   while (child && child.name !== ")") {
-    if (child.name !== ",") children.push(child);
+    console.log(child.name);
+    if (child.name !== "," && child.name !== "Comment") children.push(child);
     child = child.nextSibling;
   }
   return children;
