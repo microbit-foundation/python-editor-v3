@@ -41,9 +41,14 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   };
 
   return (
-    <Box display="flex" flexDirection="row" justifyContent="flex-start" bg = "lightgray">
+    <Box
+      display="flex"
+      flexDirection="row"
+      justifyContent="flex-start"
+      bg="lightgray"
+    >
       <Box ml="10px" style={{ marginRight: "4px" }}>
-        <Button size="xs" onClick={onCloseClick} bg = "white">
+        <Button size="xs" onClick={onCloseClick} bg="white">
           X
         </Button>
       </Box>

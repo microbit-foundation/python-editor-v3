@@ -44,7 +44,7 @@ class Widget extends WidgetType {
     const dom = document.createElement("div");
 
     if (this.inline) {
-      if (ValidateComponentArgs(this.component)) {
+      if (ValidateComponentArgs(this.component, [], [])){
         dom.style.display = "inline-block"; // want it inline for the open-close widget
         this.portalCleanup = this.createPortal(
           dom,

@@ -93,11 +93,23 @@ function getTypes(nodes: SyntaxNode[]): string[] {
   return types;
 }
 
-export function ValidateComponentArgs(name: React.ComponentType<any>): boolean {
+export function ValidateComponentArgs(
+  name: React.ComponentType<any>,
+  args: string[],
+  types: string[]
+): boolean {
   switch (name) {
     case MicrobitMultiplePixelComponent:
       return true;
     case MicrobitSinglePixelComponent:
+      if (args.length > 3) {
+        return false;
+      }
+      for (let i = 0; i < args.length; i++) {
+        if (types[i] !== "Number" && args[i] != ",") {
+          return false;
+        }
+      }
       return true;
     case SoundComponent:
       return true;

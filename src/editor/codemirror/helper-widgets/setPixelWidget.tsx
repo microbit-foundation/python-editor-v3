@@ -39,9 +39,14 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   };
 
   return (
-    <Box display="flex" flexDirection="row" justifyContent="flex-start" bg = "lightgray">
+    <Box
+      display="flex"
+      flexDirection="row"
+      justifyContent="flex-start"
+      bg="lightgray"
+    >
       <Box ml="10px" style={{ marginRight: "4px" }}>
-        <Button size="xs" onClick={onCloseClick} bg = "white">
+        <Button size="xs" onClick={onCloseClick} bg="white">
           X
         </Button>
       </Box>
@@ -102,27 +107,6 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   );
 };
 
-const parseArgs = (args: string[], types: string[]): Pixel | null => {
-  if (args.length > 3) {
-    return null;
-  }
-  const parsedArgs: number[] = [];
-  for (let i = 0; i < args.length; i++) {
-    let arg = args[i];
-    if (types[i] === "Number") {
-      parsedArgs.push(parseInt(arg));
-    } else if (arg === ",") {
-      parsedArgs.push(0);
-    } else {
-      return null;
-    }
-  }
-  while (parsedArgs.length < 3) {
-    parsedArgs.push(0);
-  }
-  return { x: parsedArgs[0], y: parsedArgs[1], brightness: parsedArgs[2] };
-};
-
 export const MicrobitSinglePixelComponent = ({
   props,
   view,
@@ -135,12 +119,8 @@ export const MicrobitSinglePixelComponent = ({
   let types = props.types;
   let from = props.from;
   let to = props.to;
-  console.log(args);
-  console.log(types);
-  const selectedPixel = parseArgs(args, types);
 
-  if (selectedPixel == null) {
-  }
+  const selectedPixel = parseArgs(args, types);
 
   const handleCloseClick = () => {
     view.dispatch({
@@ -179,4 +159,20 @@ export const MicrobitSinglePixelComponent = ({
       onCloseClick={handleCloseClick}
     />
   );
+};
+
+const parseArgs = (args: string[], types: string[]): Pixel => {
+  const parsedArgs: number[] = [];
+  for (let i = 0; i < args.length; i++) {
+    let arg = args[i];
+    if (types[i] === "Number") {
+      parsedArgs.push(parseInt(arg));
+    } else {
+      parsedArgs.push(0);
+    }
+  }
+  while (parsedArgs.length < 3) {
+    parsedArgs.push(0);
+  }
+  return { x: parsedArgs[0], y: parsedArgs[1], brightness: parsedArgs[2] };
 };
