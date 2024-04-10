@@ -29,10 +29,12 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   onCloseClick,
 }) => {
   const { x, y, brightness } = initialPixel ?? { x: 0, y: 0, brightness: 9 };
+
   const handlePixelClick = (x: number, y: number) => {
     const newPixel: Pixel = { x, y, brightness };
     onPixelClick(newPixel);
   };
+
   const handleSliderChange = (value: number) => {
     const updatedPixel: Pixel = { x, y, brightness: value };
     onPixelClick(updatedPixel);
@@ -171,6 +173,7 @@ const parseArgs = (args: string[], types: string[]): Pixel => {
       parsedArgs.push(0);
     }
   }
+  //replace missing arguments with 0
   while (parsedArgs.length < 3) {
     parsedArgs.push(0);
   }

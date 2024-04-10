@@ -161,21 +161,18 @@ export const MicrobitMultiplePixelComponent = ({
 
 const parseArgs = (args: string[]): number[][] => {
   const defaultPixels = Array.from({ length: 5 }, () => Array(5).fill(0));
-  // If args is empty, return a 5x5 array filled with zeros
+  //if args is empty, return a 5x5 array filled with zeros
   if (args.length === 0) {
     return defaultPixels;
   }
-
   if (args.length !== 1) {
     return defaultPixels;
   }
   const argString = args[0];
   const rows = argString.split(":");
-
   if (rows.length !== 5) {
     return defaultPixels;
   }
-
   const numbers: number[][] = [];
   for (let row of rows) {
     row = row.trim();
@@ -185,7 +182,6 @@ const parseArgs = (args: string[]): number[][] => {
     const rowNumbers = row.split("").map(Number);
     numbers.push(rowNumbers);
   }
-
   return numbers;
 };
 
