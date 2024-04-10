@@ -7,29 +7,29 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
 import "./App.css";
-import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
+import { DialogProvider } from "./common/use-dialogs";
 import { deployment, useDeployment } from "./deployment";
-import { MicrobitWebUSBConnection } from "./device/webusb";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import { WebFileSystemConnection } from "./device/web-file-system-device";
 import DocumentationProvider from "./documentation/documentation-hooks";
 import SearchProvider from "./documentation/search/search-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { createHost } from "./fs/host";
-import { fetchMicroPython } from "./micropython/micropython";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
+import { fetchMicroPython } from "./micropython/micropython";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import { RouterProvider } from "./router-hooks";
 import SessionSettingsProvider from "./settings/session-settings";
 import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
-import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
+import { SelectionProvider } from "./workbench/use-selection";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -40,7 +40,7 @@ const isMockDeviceMode = () =>
 const logging = deployment.logging;
 const device = isMockDeviceMode()
   ? new MockDeviceConnection()
-  : new MicrobitWebUSBConnection({ logging });
+  : new WebFileSystemConnection({ logging });
 
 const host = createHost(logging);
 const fs = new FileSystem(logging, host, fetchMicroPython);
