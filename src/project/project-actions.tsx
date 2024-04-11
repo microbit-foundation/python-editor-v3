@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
-import { Text, UnorderedList, VStack } from "@chakra-ui/react";
+import { Box, Text, UnorderedList, VStack } from "@chakra-ui/react";
 import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
@@ -71,6 +71,7 @@ import {
 } from "./project-utils";
 import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
+import reconnectVideo from "../workbench/connect-dialogs/reconnect.webm";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -902,21 +903,27 @@ export class ProjectActions {
         return {
           title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
           description: (
-            <Text>
-              <FormattedMessage
-                id="webusb-error-reconnect-microbit-description"
-                values={{
-                  li: (chunks: ReactNode) => (
-                    <ListItem>
-                      <Text as="span">{chunks}</Text>
-                    </ListItem>
-                  ),
-                  ul: (chunks: ReactNode) => (
-                    <UnorderedList pl={2}>{chunks}</UnorderedList>
-                  ),
-                }}
-              />
-            </Text>
+            <>
+              <Box>
+                <FormattedMessage
+                  id="webusb-error-reconnect-microbit-description"
+                  values={{
+                    p: (chunks: ReactNode) => <Text>{chunks}</Text>,
+                    li: (chunks: ReactNode) => (
+                      <ListItem>
+                        <Text as="span">{chunks}</Text>
+                      </ListItem>
+                    ),
+                    ul: (chunks: ReactNode) => (
+                      <UnorderedList pl={2}>{chunks}</UnorderedList>
+                    ),
+                  }}
+                />
+              </Box>
+              <video autoPlay loop>
+                <source src={reconnectVideo} type="video/webm" />
+              </video>
+            </>
           ),
         };
       case "timeout-error":

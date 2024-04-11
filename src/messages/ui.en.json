@@ -2447,8 +2447,14 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Please: "
+      "children": [
+        {
+          "type": 0,
+          "value": "Please:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
     },
     {
       "children": [
