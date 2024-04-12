@@ -40,6 +40,11 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
     onPixelClick(updatedPixel);
   };
 
+  const calculateColor = () => {
+    const red = brightness * 25.5;
+    return `rgb(${red}, 0, 0)`;
+  };
+
   return (
     <Box
       display="flex"
@@ -68,10 +73,16 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
                     h="15px"
                     w="15px"
                     p={0}
+                    borderRadius={0}
                     bgColor={
                       gridX === x && gridY === y
                         ? `rgba(255, 0, 0, ${brightness / 9})`
                         : "rgba(255, 255, 255, 0)"
+                    }
+                    border={
+                      gridX === x && gridY === y
+                        ? "2px solid white"
+                        : "0.5px solid white"
                     }
                     _hover={{
                       bgColor:
@@ -100,7 +111,7 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
           onChange={handleSliderChange}
         >
           <SliderTrack>
-            <SliderFilledTrack />
+            <SliderFilledTrack bg={calculateColor()} />
           </SliderTrack>
           <SliderThumb />
         </Slider>
@@ -132,7 +143,7 @@ export const MicrobitSinglePixelComponent = ({
 
   const handleSelectPixel = (pixel: Pixel) => {
     const { x, y, brightness } = pixel;
-    if(ranges.length === 3){
+    if (ranges.length === 3) {
       view.dispatch({
         changes: [
           {
@@ -153,14 +164,13 @@ export const MicrobitSinglePixelComponent = ({
         ],
         effects: [openWidgetEffect.of(to)],
       });
-    }
-    else{
+    } else {
       let vals = `${x},${y},${brightness}`;
       view.dispatch({
         changes: [
           {
-            from: from+1,
-            to: to-1,
+            from: from + 1,
+            to: to - 1,
             insert: vals,
           },
         ],

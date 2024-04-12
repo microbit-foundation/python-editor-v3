@@ -40,6 +40,11 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
     }
   };
 
+  const calculateColor = () => {
+    const red = currentBrightness * 25.5;
+    return `rgb(${red}, 0, 0)`;
+  };
+
   return (
     <Box
       display="flex"
@@ -68,6 +73,12 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
                     h="15px"
                     w="15px"
                     p={0}
+                    borderRadius={0}
+                    border={
+                      selectedPixel?.x === x && selectedPixel.y === y
+                        ? "2px solid white"
+                        : "0.5px solid white"
+                    }
                     bgColor={`rgba(255, 0, 0, ${brightness / 9})`}
                     _hover={{
                       bgColor:
@@ -96,7 +107,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
           onChange={(value) => handleBrightnessChange(value)}
         >
           <SliderTrack>
-            <SliderFilledTrack />
+            <SliderFilledTrack bg={calculateColor()} />
           </SliderTrack>
           <SliderThumb />
         </Slider>
