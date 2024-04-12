@@ -132,26 +132,42 @@ export const MicrobitSinglePixelComponent = ({
 
   const handleSelectPixel = (pixel: Pixel) => {
     const { x, y, brightness } = pixel;
-    view.dispatch({
-      changes: [
-        {
-          from: ranges[0].from,
-          to: ranges[0].to,
-          insert: `${x}`,
-        },
-        {
-          from: ranges[1].from,
-          to: ranges[1].to,
-          insert: `${y}`,
-        },
-        {
-          from: ranges[2].from,
-          to: ranges[2].to,
-          insert: `${brightness}`,
-        },
-      ],
-      effects: [openWidgetEffect.of(to)],
-    });
+    if(ranges.length === 3){
+      view.dispatch({
+        changes: [
+          {
+            from: ranges[0].from,
+            to: ranges[0].to,
+            insert: `${x}`,
+          },
+          {
+            from: ranges[1].from,
+            to: ranges[1].to,
+            insert: `${y}`,
+          },
+          {
+            from: ranges[2].from,
+            to: ranges[2].to,
+            insert: `${brightness}`,
+          },
+        ],
+        effects: [openWidgetEffect.of(to)],
+      });
+    }
+    else{
+      let vals = `${x},${y},${brightness}`;
+      view.dispatch({
+        changes: [
+          {
+            from: from+1,
+            to: to-1,
+            insert: vals,
+          },
+        ],
+        effects: [openWidgetEffect.of(vals.length + from + 2)],
+      });
+      console.log(from, to, )
+    }
   };
 
   return (
