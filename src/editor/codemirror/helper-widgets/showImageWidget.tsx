@@ -135,13 +135,27 @@ export const MicrobitMultiplePixelComponent = ({
   const updateView = () => {
     let insertion = pixelsToString(selectedPixels);
     console.log(insertion);
-    view.dispatch({
-      changes: {
-        from: ranges[0].from,
-        to: ranges[0].to,
-        insert: insertion,
-      },
-    });
+    if (ranges.length === 1) {
+      view.dispatch({
+        changes: {
+          from: ranges[0].from,
+          to: ranges[0].to,
+          insert: insertion,
+        },
+        effects: [openWidgetEffect.of(to)],
+      });
+    } else {
+      view.dispatch({
+        changes: [
+          {
+            from: from + 1,
+            to: to - 1,
+            insert: insertion,
+          },
+        ],
+        effects: [openWidgetEffect.of(insertion.length + from + 2)],
+      });
+    }
   };
 
   const handleCloseClick = () => {
@@ -161,7 +175,7 @@ export const MicrobitMultiplePixelComponent = ({
 
 const parseArgs = (args: string[]): number[][] => {
   const defaultPixels = Array.from({ length: 5 }, () => Array(5).fill(0));
-  //if args is empty, return a 5x5 array filled with zeros
+  // If args is empty, return a 5x5 array filled with zeros
   if (args.length === 0) {
     return defaultPixels;
   }

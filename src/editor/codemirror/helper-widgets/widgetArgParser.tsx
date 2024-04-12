@@ -102,11 +102,11 @@ export function ValidateComponentArgs(
     case MicrobitMultiplePixelComponent:
       return true;
     case MicrobitSinglePixelComponent:
-      //if more than 3 arguments, don't open
+      // If more than 3 arguments, don't open
       if (args.length > 3) {
         return false;
       }
-      //if some arguments are not numbers or empty, don't open
+      // If some arguments are not numbers or empty, don't open
       for (let i = 0; i < args.length; i++) {
         if (types[i] !== "Number" && args[i] != ",") {
           return false;

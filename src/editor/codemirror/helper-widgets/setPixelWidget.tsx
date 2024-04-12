@@ -188,7 +188,7 @@ const parseArgs = (args: string[], types: string[]): Pixel => {
       parsedArgs.push(0);
     }
   }
-  //replace missing arguments with 0
+  // Replace missing arguments with 0
   while (parsedArgs.length < 3) {
     parsedArgs.push(0);
   }
