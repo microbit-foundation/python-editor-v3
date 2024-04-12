@@ -166,7 +166,6 @@ export const MicrobitSinglePixelComponent = ({
         ],
         effects: [openWidgetEffect.of(vals.length + from + 2)],
       });
-      console.log(from, to, )
     }
   };
 

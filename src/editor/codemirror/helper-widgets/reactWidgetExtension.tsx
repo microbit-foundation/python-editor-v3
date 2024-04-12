@@ -43,11 +43,6 @@ class Widget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    console.log("TEST")
-    console.log(this.props.args.length);
-    console.log(this.props.types.length)
-    console.log(this.props.ranges.length)
-
     if (this.inline) {
       if (ValidateComponentArgs(this.component, this.props.args, this.props.types)) {
         dom.style.display = "inline-block"; // want it inline for the open-close widget
