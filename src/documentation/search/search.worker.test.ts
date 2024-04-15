@@ -7,7 +7,7 @@ import lunr from "lunr";
 import { ApiDocsResponse } from "../../language-server/apidocs";
 import { Toolkit } from "../reference/model";
 import { IndexMessage } from "./common";
-import lunrJa from "@microbit/lunr-languages/lunr.ja";
+import lunrJa from "lunr-languages/lunr.ja";
 import {
   buildIndex,
   buildSearchIndex,
@@ -15,7 +15,7 @@ import {
   SearchWorker,
 } from "./search.worker";
 import { vi } from "vitest";
-import frLanguageSupport from "@microbit/lunr-languages/lunr.fr";
+import frLanguageSupport from "lunr-languages/lunr.fr";
 
 const searchableReferenceContent: SearchableContent[] = [
   {
