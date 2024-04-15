@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { SearchWorker } from "./search.worker";
-import languageSupport from "@microbit/lunr-languages/lunr.nl";
+import languageSupport from "lunr-languages/lunr.nl";
 
 new SearchWorker(self as DedicatedWorkerGlobalScope, "nl", languageSupport);
