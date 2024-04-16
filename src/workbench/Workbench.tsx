@@ -32,6 +32,7 @@ import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
 import { useSelection } from "./use-selection";
+import { flags } from "../flags";
 
 const minimums: [number, number] = [380, 580];
 const simulatorMinimums: [number, number] = [275, 0];
@@ -59,6 +60,16 @@ const Workbench = () => {
       setSelectedFile(defaultFile.name);
     }
   }, [selection, setSelectedFile, files]);
+
+  useEffect(() => {
+    if (flags.translate) {
+      // Add Crowdin just in place translation script
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "//cdn.crowdin.com/jipt/jipt.js";
+      document.head.appendChild(script);
+    }
+  }, []);
 
   const fileVersion = files.find((f) => f.name === selection.file)?.version;
 

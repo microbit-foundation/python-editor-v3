@@ -36,6 +36,17 @@
         };
     </script>
     <% } %>
+    <script type="text/javascript">
+      (function () {
+        function escape() {
+          window.location.href = "%VITE_FULL_URL";
+        }
+        window._jipt = [
+          ["project", "microbitorg"],
+          ["escape", escape],
+        ];
+      })();
+    </script>
     <script type="module" src="/src/index.tsx"></script>
   </head>
   <body>
