@@ -29,6 +29,7 @@ export function createWidget(
       component = MicrobitMultiplePixelComponent;
       break;
     case "audio.SoundEffect":
+    case "SoundEffect":
       component = SoundComponent;
       break;
     default:

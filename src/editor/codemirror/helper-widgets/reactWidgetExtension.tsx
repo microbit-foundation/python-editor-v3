@@ -56,7 +56,6 @@ class Widget extends WidgetType {
         dom,
         <this.component props={this.props} view={view} />
       );
-    //else this.portalCleanup = this.createPortal(dom, React.createElement(this.component, this.props, view));
     return dom;
   }
 
@@ -71,7 +70,7 @@ class Widget extends WidgetType {
   }
 }
 
-// Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places toy widget there
+// Iterates through the syntax tree, finding occurences of SoundEffect ArgList, and places widget there
 export const reactWidgetExtension = (
   createPortal: PortalFactory
 ): Extension => {

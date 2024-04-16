@@ -46,7 +46,7 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   };
 
   return (
-    <Box
+    <Box // TODO: copy to allow other widgets to access bg and close
       display="flex"
       flexDirection="row"
       justifyContent="flex-start"
