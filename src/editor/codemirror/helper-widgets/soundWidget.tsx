@@ -125,19 +125,36 @@ const TripleSliderWidget: React.FC<{
   slider3Props: SliderProps;
   isOpen: boolean;
 }> = ({ slider1Props, slider2Props, slider3Props, isOpen }) => {
+
+  const [waveHeight, setWaveHeight] = useState(50);
+  const [waveLength, setWaveLength] = useState(50);
+
+  const handleSlider1Change = (value: number) => {
+    slider1Props.onChange(value);
+    setWaveHeight(value);
+  };
+
+  const handleSlider2Change = (value: number) => {
+    slider2Props.onChange(value);
+    setWaveLength(value); // 
+  };
+
   if (!isOpen) return null;
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "left" }}>
         <div style={{ marginRight: "40px" }}>
-          <Slider {...slider1Props} />
+          <Slider {...slider1Props} onChange={handleSlider1Change} />
         </div>
         <div style={{ marginRight: "40px" }}>
-          <Slider {...slider2Props} />
+          <Slider {...slider2Props} onChange={handleSlider2Change} />
         </div>
         <div>
           <Slider {...slider3Props} />
         </div>
+        <svg width={waveLength} height={waveHeight} style={{ flexGrow: 1 }}>
+           <path d={`M0,${waveHeight / 2} Q${waveLength / 4},0 ${waveLength / 2},${waveHeight / 2} T${waveLength},${waveHeight / 2}`} stroke="black" fill="none" />
+        </svg>
       </div>
     </div>
   );
@@ -163,7 +180,6 @@ export const SoundComponent = ({
   };
   const [isSoundEditorOpen, setIsSoundEditorOpen] = useState(false);
   const buttonLabel = isSoundEditorOpen ? "Close" : "Open";
-
   const handleButtonClick = () => {
     setIsSoundEditorOpen(!isSoundEditorOpen);
     // Toggle the state to open/close the DualSlider
