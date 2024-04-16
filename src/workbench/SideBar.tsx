@@ -90,7 +90,7 @@ const SideBar = ({
       },
       {
         id: "api" as const,
-        title: "API",
+        title: intl.formatMessage({ id: "api-tab" }),
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.25",
