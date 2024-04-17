@@ -63,7 +63,11 @@ const Workbench = () => {
 
   useEffect(() => {
     const scriptId = "crowdin-jipt";
-    if (flags.translate && !document.getElementById(scriptId)) {
+    if (
+      document.getElementById("crowdin-jipt-config") &&
+      flags.translate &&
+      !document.getElementById(scriptId)
+    ) {
       // Add Crowdin just in place translation script
       const script = document.createElement("script");
       script.id = scriptId;

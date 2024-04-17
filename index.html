@@ -35,8 +35,7 @@
           window.dataLayer.push(arguments);
         };
     </script>
-    <% } %>
-    <script type="text/javascript">
+    <script type="text/javascript" id="crowdin-jipt-config">
       (function () {
         function escape() {
           window.location.href = "%VITE_FULL_URL";
@@ -47,6 +46,7 @@
         ];
       })();
     </script>
+    <% } %>
     <script type="module" src="/src/index.tsx"></script>
   </head>
   <body>
