@@ -62,9 +62,11 @@ const Workbench = () => {
   }, [selection, setSelectedFile, files]);
 
   useEffect(() => {
-    if (flags.translate) {
+    const scriptId = "crowdin-jipt";
+    if (flags.translate && !document.getElementById(scriptId)) {
       // Add Crowdin just in place translation script
       const script = document.createElement("script");
+      script.id = scriptId;
       script.type = "text/javascript";
       script.src = "//cdn.crowdin.com/jipt/jipt.js";
       document.head.appendChild(script);
