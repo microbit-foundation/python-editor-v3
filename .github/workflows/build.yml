@@ -27,9 +27,9 @@ jobs:
 
     steps:
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Configure node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: "npm"
