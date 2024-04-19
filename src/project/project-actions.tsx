@@ -843,16 +843,11 @@ export class ProjectActions {
           await this.handleFirmwareUpdate(e.code, userAction, finalFocusRef);
           return;
         case "clear-connect":
+          return this.handleClearConnectError(finalFocusRef);
         case "timeout-error":
-        case "reconnect-microbit": {
-          return this.dialogs.show<void>((callback) => (
-            <WebUSBErrorDialog
-              callback={callback}
-              finalFocusRef={finalFocusRef}
-              {...this.webusbErrorMessage(e.code)}
-            />
-          ));
-        }
+          return this.handleTimeoutError(finalFocusRef);
+        case "reconnect-microbit":
+          return this.handleReconnectMicrobitError(finalFocusRef);
         default: {
           return this.actionFeedback.unexpectedError(e);
         }
@@ -877,65 +872,81 @@ export class ProjectActions {
     this.save(finalFocusRef, true);
   }
 
-  private webusbErrorMessage(code: WebUSBErrorCode) {
-    switch (code) {
-      case "clear-connect":
-        return {
-          title: this.intl.formatMessage({
-            id: "webusb-error-clear-connect-title",
-          }),
-          description: (
-            <VStack alignItems="stretch" mt={1}>
-              <p>
-                {this.intl.formatMessage({
-                  id: "webusb-error-clear-connect-description-1",
-                })}
-              </p>
-              <p>
-                {this.intl.formatMessage({
-                  id: "webusb-error-clear-connect-description-2",
-                })}
-              </p>
-            </VStack>
-          ),
-        };
-      case "reconnect-microbit":
-        return {
-          title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-          description: (
-            <>
-              <Box>
-                <FormattedMessage
-                  id="webusb-error-reconnect-microbit-description"
-                  values={{
-                    p: (chunks: ReactNode) => <Text>{chunks}</Text>,
-                    li: (chunks: ReactNode) => (
-                      <ListItem>
-                        <Text as="span">{chunks}</Text>
-                      </ListItem>
-                    ),
-                    ul: (chunks: ReactNode) => (
-                      <UnorderedList pl={2}>{chunks}</UnorderedList>
-                    ),
-                  }}
-                />
-              </Box>
-              <video autoPlay loop>
-                <source src={reconnectVideo} type="video/webm" />
-              </video>
-            </>
-          ),
-        };
-      case "timeout-error":
-        return {
-          title: this.intl.formatMessage({ id: "timeout-error-title" }),
-          description: this.intl.formatMessage({
-            id: "timeout-error-description",
-          }),
-        };
-      default:
-        throw new Error("Unknown code");
-    }
+  private async handleClearConnectError(
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
+    return this.dialogs.show<void>((callback) => (
+      <WebUSBErrorDialog
+        callback={callback}
+        finalFocusRef={finalFocusRef}
+        title={this.intl.formatMessage({
+          id: "webusb-error-clear-connect-title",
+        })}
+        description={
+          <VStack alignItems="stretch" mt={1}>
+            <p>
+              {this.intl.formatMessage({
+                id: "webusb-error-clear-connect-description-1",
+              })}
+            </p>
+            <p>
+              {this.intl.formatMessage({
+                id: "webusb-error-clear-connect-description-2",
+              })}
+            </p>
+          </VStack>
+        }
+      />
+    ));
+  }
+  private async handleReconnectMicrobitError(
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
+    return this.dialogs.show<void>((callback) => (
+      <WebUSBErrorDialog
+        callback={callback}
+        finalFocusRef={finalFocusRef}
+        title={this.intl.formatMessage({ id: "webusb-error-default-title" })}
+        description={
+          <>
+            <Box>
+              <FormattedMessage
+                id="webusb-error-reconnect-microbit-description"
+                values={{
+                  p: (chunks: ReactNode) => <Text>{chunks}</Text>,
+                  li: (chunks: ReactNode) => (
+                    <ListItem>
+                      <Text as="span">{chunks}</Text>
+                    </ListItem>
+                  ),
+                  ul: (chunks: ReactNode) => (
+                    <UnorderedList pl={2}>{chunks}</UnorderedList>
+                  ),
+                }}
+              />
+            </Box>
+            <video autoPlay loop>
+              <source src={reconnectVideo} type="video/webm" />
+            </video>
+          </>
+        }
+      />
+    ));
+  }
+
+  private async handleTimeoutError(
+    finalFocusRef: React.RefObject<HTMLButtonElement>
+  ) {
+    return this.dialogs.show<void>((callback) => (
+      <WebUSBErrorDialog
+        callback={callback}
+        finalFocusRef={finalFocusRef}
+        title={this.intl.formatMessage({ id: "timeout-error-title" })}
+        description={this.intl.formatMessage({
+          id: "timeout-error-description",
+        })}
+      />
+    ));
   }
 
   private async handlePostSaveDialog(
