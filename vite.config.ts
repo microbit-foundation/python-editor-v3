@@ -59,6 +59,10 @@ export default defineConfig(({ mode }) => {
           enabled: true,
         },
         workbox: {
+          // Ignore all language related assets and cache these at runtime instead.
+          globIgnores: [
+            "**/{pyright*.js,typeshed*.js,search.worker*.js,ui*.js}",
+          ],
           maximumFileSizeToCacheInBytes: 3097152,
           globPatterns: ["**/*.{js,css,html,ico,png,svg,gif,hex}"],
           runtimeCaching: [
@@ -113,6 +117,20 @@ export default defineConfig(({ mode }) => {
               handler: "CacheFirst",
               options: {
                 cacheName: "sim-cache",
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: /.*.js/,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "lang-cache",
                 expiration: {
                   maxEntries: 10,
                   maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
