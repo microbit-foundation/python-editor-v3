@@ -19,9 +19,11 @@ interface SliderProps {
   onChange: (value: number) => void;
   sliderStyle?: React.CSSProperties;
   label: string;
+  vertical: boolean;
+  colour: string;
 }
 
-const DurationSliderProps: SliderProps = {
+const startVolProps: SliderProps = {
   min: 0,
   max: 100,
   step: 1,
@@ -37,10 +39,12 @@ const DurationSliderProps: SliderProps = {
     border: "none", // Remove the border of the slider track
     outline: "none", // Remove the outline when focused
   },
-  label: "Duration",
+  label: "Start Vol",
+  vertical: true,
+  colour: 'red'
 };
 
-const endSliderProps: SliderProps = {
+const endFrequencySliderProps: SliderProps = {
   min: 0,
   max: 100,
   step: 1,
@@ -57,9 +61,11 @@ const endSliderProps: SliderProps = {
     outline: "none", // Remove the outline when focused
   },
   label: "End Freq",
+  vertical: true,
+  colour: 'green'
 };
 
-const startSliderProps: SliderProps = {
+const startFrequencySliderProps: SliderProps = {
   min: 0,
   max: 100,
   step: 1,
@@ -76,14 +82,38 @@ const startSliderProps: SliderProps = {
     outline: "none", // Remove the outline when focused
   },
   label: "Start Freq",
+  vertical: true,
+  colour: 'blue'
 };
+
+const endVolProps: SliderProps = {
+  min: 0,
+  max: 100,
+  step: 1,
+  defaultValue: 50,
+  onChange: (value) => {
+    console.log("Slider value changed:", value);
+  },
+  sliderStyle: {
+    width: "200%", // Adjust the width of the slider
+    height: "100px", // Adjust the height of the slider
+    backgroundColor: "lightgray", // Change the background color of the slider
+    borderRadius: "10px", // Apply rounded corners to the slider track
+    border: "none", // Remove the border of the slider track
+    outline: "none", // Remove the outline when focused
+  },
+  label: "End Vol",
+  vertical: true,
+  colour: 'yellow'
+};
+
 
 const customSliderStyle: React.CSSProperties = {
   width: "80%", // Adjust the width of the slider
   height: "20px", // Adjust the height of the slider
 };
 
-const Slider: React.FC<SliderProps> = ({
+const Slider: React.FC<SliderProps & { vertical?: boolean, colour: string }> = ({
   min,
   max,
   step,
@@ -91,6 +121,8 @@ const Slider: React.FC<SliderProps> = ({
   onChange,
   sliderStyle,
   label,
+  vertical,
+  colour
 }) => {
   const [value, setValue] = useState(defaultValue);
 
@@ -104,14 +136,24 @@ const Slider: React.FC<SliderProps> = ({
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "left" }}
     >
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={handleChange}
-      />
+    <input
+      type="range"
+      min={min}
+      max={max}
+      step={step}
+      defaultValue={defaultValue}
+      onChange={handleChange}
+      style={{
+        //writingMode: 'bt-lr', // Adjust writing mode for vertical slider
+        width: vertical ? '100px' : '150px', // Use width to control vertical slider size
+        height: vertical ? '150px' : '40px', // Use height to control vertical slider size
+        transform: vertical ? 'rotate(270deg)' : 'none', // Rotate slider to vertical orientation
+        background: vertical ? 'none' : '#d3d3d3', // Background of the track (horizontal)
+        accentColor: `${colour}`, // Thumb color in modern browsers
+        //WebkitAppearance: 'slider-vertical',
+       //MozAppearance: vertical ? 'slider-vertical' : undefined,
+      }}
+    />
       <label style={{ fontSize: "16px" }}>
         {label}: {value}
       </label>
@@ -123,38 +165,88 @@ const TripleSliderWidget: React.FC<{
   slider1Props: SliderProps;
   slider2Props: SliderProps;
   slider3Props: SliderProps;
+  slider4Props: SliderProps;
   isOpen: boolean;
-}> = ({ slider1Props, slider2Props, slider3Props, isOpen }) => {
+}> = ({ slider1Props, slider2Props, slider3Props, slider4Props, isOpen }) => {
 
-  const [waveHeight, setWaveHeight] = useState(50);
-  const [waveLength, setWaveLength] = useState(50);
+  const [startAmplitude, setStartAmplitude] = useState(slider3Props.defaultValue);
+  const [endAmplitude, setEndAmplitude] = useState(50);
+  const [initialFrequency, setInitialFrequency] = useState(slider1Props.defaultValue);
+  const [endFrequency, setEndFrequency] = useState(slider2Props.defaultValue);
 
   const handleSlider1Change = (value: number) => {
     slider1Props.onChange(value);
-    setWaveHeight(value);
+    setInitialFrequency(value);
   };
 
   const handleSlider2Change = (value: number) => {
     slider2Props.onChange(value);
-    setWaveLength(value); // 
+    setEndFrequency(value); // 
   };
 
-  if (!isOpen) return null;
+  const handleSlider3Change = (value: number) => {
+    slider1Props.onChange(value);
+    setStartAmplitude(value);
+  };
+
+  const handleSlider4Change = (value: number) => {
+    slider1Props.onChange(value);
+    setEndAmplitude(value);
+  };
+
+
+
+  const generateWavePath = () => {
+    const waveLength = 400; // Width of the box
+    const pathData = [];
+    
+    // Calculate the change in frequency and amplitude over the length of the waveform
+    const frequencyDifference = endFrequency - initialFrequency;
+    const amplitudeDifference = endAmplitude - startAmplitude;
+
+    // Loop through the wave's width to generate the path
+    for (let x = 0; x <= waveLength; x++) {
+      // Calculate the frequency and amplitude at the current point
+      const currentFrequency = initialFrequency + (frequencyDifference * x) / waveLength;
+      const currentAmplitude = startAmplitude + (amplitudeDifference * x) / waveLength;
+
+      // Calculate the y-coordinate based on the current frequency and amplitude
+      const y = 50 + currentAmplitude * Math.sin(currentFrequency * x * (2 * Math.PI) / waveLength);
+      
+      // Add the point to the path data
+      pathData.push(`${x},${y}`);
+    }
+
+    // Join the path data points to create the path
+    return `M${pathData.join(' ')}`;
+  };
+
+  //if (!isOpen) return null;
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "left" }}>
-        <div style={{ marginRight: "40px" }}>
-          <Slider {...slider1Props} onChange={handleSlider1Change} />
-        </div>
-        <div style={{ marginRight: "40px" }}>
-          <Slider {...slider2Props} onChange={handleSlider2Change} />
-        </div>
-        <div>
-          <Slider {...slider3Props} />
-        </div>
-        <svg width={waveLength} height={waveHeight} style={{ flexGrow: 1 }}>
-           <path d={`M0,${waveHeight / 2} Q${waveLength / 4},0 ${waveLength / 2},${waveHeight / 2} T${waveLength},${waveHeight / 2}`} stroke="black" fill="none" />
-        </svg>
+      <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+          {/* Vertical Slider 1 */}
+          <div style={{ marginRight: "20px" }}>
+              <Slider {...slider1Props} onChange={handleSlider1Change} vertical />
+          </div>
+          {/* Vertical Slider 2 */}
+          <div style={{ marginRight: "20px" }}>
+              <Slider {...slider2Props} onChange={handleSlider2Change} vertical />
+          </div>
+          {/* Vertical Slider 3 */}
+          <div style={{ marginRight: "20px" }}>
+              <Slider {...slider3Props} onChange={handleSlider3Change} vertical />
+          </div>
+          {/* Vertical Slider 4 */}
+          <div style={{ marginRight: "20px" }}>
+              <Slider {...slider4Props} onChange={handleSlider4Change} vertical />
+          </div>
+          {/* Waveform box */}
+          <div style={{ width: '200px', height: '100px', border: '1px solid black' }}>
+              <svg width="100%" height="100%">
+                  <path d={generateWavePath()} stroke="black" fill="none" />
+              </svg>
+          </div>
       </div>
     </div>
   );
@@ -192,14 +284,19 @@ export const SoundComponent = ({
       insert:  //something from state of component`,
     },
     */
-
+// <Button onClick={handleButtonClick}>{buttonLabel} Sound Editor</Button>
   return (
     <HStack fontFamily="body" spacing={5} py={3}>
-      <Button onClick={handleButtonClick}>{buttonLabel} Sound Editor</Button>
+      <Box ml="10px" style={{ marginRight: "4px" }}>
+        <Button size="xs" onClick={handleCloseClick} bg="white">
+          X
+        </Button>
+      </Box>
       <TripleSliderWidget
-        slider1Props={startSliderProps}
-        slider2Props={endSliderProps}
-        slider3Props={DurationSliderProps}
+        slider1Props={startFrequencySliderProps}
+        slider2Props={endFrequencySliderProps}
+        slider3Props={startVolProps}
+        slider4Props={endVolProps}
         isOpen={isSoundEditorOpen}
       />
     </HStack>
