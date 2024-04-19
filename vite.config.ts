@@ -150,8 +150,13 @@ export default defineConfig(({ mode }) => {
           theme_color: "#6c4bc1",
           icons: [
             {
-              src: "/logo512.png",
+              src: `${process.env.BASE_URL ?? "/"}logo512.png`,
               sizes: "512x512",
+              type: "image/png",
+            },
+            {
+              src: `${process.env.BASE_URL ?? "/"}logo192.png`,
+              sizes: "192x192",
               type: "image/png",
             },
           ],
