@@ -140,7 +140,7 @@ const Slider: React.FC<SliderProps & { vertical?: boolean, colour: string }> = (
             width: '115px', // Width of the slider
             height: '40px', // Height of the slider
             transform: 'rotate(-90deg)', // Rotate the slider to vertical orientation
-            accentColor: colour, 
+            accentColor: colour,
             bottom: '0%',
         }}
     />
@@ -263,7 +263,7 @@ const TripleSliderWidget: React.FC<{
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-start", backgroundColor: 'white', width: '575px', height: '150px', border: '1px solid lightgray'}}>
+      <div style={{ display: "flex", justifyContent: "flex-start", backgroundColor: 'snow', width: '575px', height: '150px', border: '1px solid lightgray'}}>
           {/* Vertical Slider 1 */}
           <div style={{marginLeft: "6px", marginRight: "20px", height: '100px', marginTop: '9px'}}>
               <Slider {...slider1Props} onChange={handleSlider1Change} vertical />
