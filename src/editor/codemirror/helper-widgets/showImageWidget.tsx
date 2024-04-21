@@ -129,8 +129,6 @@ export const MicrobitMultiplePixelComponent = ({
   let from = props.from;
   let to = props.to;
 
-  console.log(args);
-  console.log(types);
   const initialSelectedPixels = parseArgs(args);
   const [selectedPixels, setSelectedPixels] = useState<number[][]>(
     initialSelectedPixels
@@ -193,7 +191,7 @@ const parseArgs = (args: string[]): number[][] => {
   if (args.length !== 1) {
     return defaultPixels;
   }
-  const argString = args[0];
+  const argString = args[0].replace(/"/g, "");
   const rows = argString.split(":");
   if (rows.length !== 5) {
     return defaultPixels;
