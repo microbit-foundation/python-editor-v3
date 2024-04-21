@@ -53,12 +53,12 @@ const endFrequencySliderProps: SliderProps = {
     console.log("Slider value changed:", value);
   },
   sliderStyle: {
-    width: "100%", // Adjust the width of the slider
-    height: "100px", // Adjust the height of the slider
-    backgroundColor: "lightgray", // Change the background color of the slider
-    borderRadius: "10px", // Apply rounded corners to the slider track
-    border: "none", // Remove the border of the slider track
-    outline: "none", // Remove the outline when focused
+    width: "100%", 
+    height: "100px", 
+    backgroundColor: "lightgray", 
+    borderRadius: "10px", 
+    border: "none", 
+    outline: "none", 
   },
   label: "End Freq",
   vertical: true,
@@ -168,8 +168,15 @@ const TripleSliderWidget: React.FC<{
   slider2Props: SliderProps;
   slider3Props: SliderProps;
   slider4Props: SliderProps;
-  isOpen: boolean;
-}> = ({ slider1Props, slider2Props, slider3Props, slider4Props, isOpen }) => {
+  props: WidgetProps;
+  view: EditorView;
+}> = ({ slider1Props, slider2Props, slider3Props, slider4Props, props}) => {
+
+  let args = props.args;
+  let ranges = props.ranges;
+  let types = props.types;
+  let from = props.from;
+  let to = props.to;
 
   const [startAmplitude, setStartAmplitude] = useState(slider3Props.defaultValue);
   const [endAmplitude, setEndAmplitude] = useState(50);
@@ -352,22 +359,12 @@ export const SoundComponent = ({
   props: WidgetProps;
   view: EditorView;
 }) => {
-  let args = props.args;
-  //let ranges = props.ranges;
-  let types = props.types;
-  let from = props.from;
-  let to = props.to;
+
   //for future reference add a aclose button
   const handleCloseClick = () => {
     view.dispatch({
       effects: [openWidgetEffect.of(-1)],
     });
-  };
-  const [isSoundEditorOpen, setIsSoundEditorOpen] = useState(false);
-  const buttonLabel = isSoundEditorOpen ? "Close" : "Open";
-  const handleButtonClick = () => {
-    setIsSoundEditorOpen(!isSoundEditorOpen);
-    // Toggle the state to open/close the DualSlider
   };
   /*
   view.dispatch({
@@ -390,7 +387,8 @@ export const SoundComponent = ({
         slider2Props={endFrequencySliderProps}
         slider3Props={startVolProps}
         slider4Props={endVolProps}
-        isOpen={isSoundEditorOpen}
+        props={props}
+        view={view}
       />
     </HStack>
   );
