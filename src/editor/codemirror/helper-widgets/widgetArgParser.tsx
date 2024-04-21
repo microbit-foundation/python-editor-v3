@@ -109,7 +109,7 @@ export function ValidateComponentArgs(
       }
       // If some arguments are not numbers or empty, don't open
       for (let i = 0; i < args.length; i++) {
-        if (types[i] !== "Number" && args[i] != ",") {
+        if (types[i] !== "Number" && args[i] !== ",") {
           return false;
         }
       }
