@@ -17,7 +17,10 @@ import { apiDocs, ApiDocsContent } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
-import { pullModulesToTop } from "./api/apidocs-util";
+import {
+  filterOutUndocumentedBuiltins,
+  pullModulesToTop,
+} from "./api/apidocs-util";
 import dragImage from "./drag-image.svg";
 import { fetchIdeas } from "./ideas/content";
 import { Idea } from "./ideas/model";
@@ -72,6 +75,7 @@ const useApiDocumentation = (): ApiDocsContent | undefined => {
       if (client) {
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
+        filterOutUndocumentedBuiltins(docs);
         if (!ignore) {
           setApiDocs(docs);
         }
