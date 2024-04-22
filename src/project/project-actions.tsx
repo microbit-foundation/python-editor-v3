@@ -71,7 +71,8 @@ import {
 } from "./project-utils";
 import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
-import reconnectVideo from "../workbench/connect-dialogs/reconnect.webm";
+import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
+import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -926,7 +927,8 @@ export class ProjectActions {
               />
             </Box>
             <video autoPlay loop>
-              <source src={reconnectVideo} type="video/webm" />
+              <source src={reconnectWebm} type="video/webm" />
+              <source src={reconnectMp4} type="video/mp4" />
             </video>
           </>
         }
