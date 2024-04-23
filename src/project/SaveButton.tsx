@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: MIT
  */
 import { Tooltip } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { RiDownload2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
   CollapsibleButtonProps,
 } from "../common/CollapsibleButton";
 import { useProjectActions } from "./project-hooks";
+import { useHotkeys } from "react-hotkeys-hook";
+import {
+  globalShortcutConfig,
+  keyboardShortcuts,
+} from "../common/keyboard-shortcuts";
 
 interface SaveButtonProps
   extends Omit<CollapsibleButtonProps, "onClick" | "text" | "icon"> {}
@@ -27,6 +32,12 @@ const SaveButton = (props: SaveButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLElement | null>(null);
+  const handleSave = useCallback(() => {
+    ref.current = document.activeElement as HTMLElement;
+    actions.save(ref);
+  }, [actions]);
+  useHotkeys(keyboardShortcuts.saveProject, handleSave, globalShortcutConfig);
   return (
     <Tooltip
       hasArrow

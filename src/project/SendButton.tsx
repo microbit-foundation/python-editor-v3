@@ -22,6 +22,11 @@ import { ConnectionAction, ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
+import { useHotkeys } from "react-hotkeys-hook";
+import {
+  globalShortcutConfig,
+  keyboardShortcuts,
+} from "../common/keyboard-shortcuts";
 
 interface SendButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -79,6 +84,11 @@ const SendButton = React.forwardRef(
       [flashing]
     );
     const menuButtonRef = useRef<HTMLButtonElement>(null);
+    useHotkeys(
+      keyboardShortcuts.sendToMicrobit,
+      handleSendToMicrobit,
+      globalShortcutConfig
+    );
     return (
       <HStack>
         <Menu>

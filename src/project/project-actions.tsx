@@ -76,6 +76,8 @@ import ProjectNameQuestion from "./ProjectNameQuestion";
  */
 export type LoadType = "drop-load" | "file-upload";
 
+export type FinalFocusRef = React.RefObject<HTMLElement>;
+
 export interface MainScriptChoice {
   main: string | undefined;
 }
@@ -547,7 +549,7 @@ export class ProjectActions {
    * Trigger a browser download with a universal hex file.
    */
   save = async (
-    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    finalFocusRef: FinalFocusRef,
     saveViaWebUsbNotSupported?: boolean
   ) => {
     this.logging.event({
@@ -728,7 +730,7 @@ export class ProjectActions {
   isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
 
   ensureProjectName = async (
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ): Promise<boolean | undefined> => {
     if (this.isDefaultProjectName()) {
       return await this.editProjectName(true, finalFocusRef);
@@ -738,7 +740,7 @@ export class ProjectActions {
 
   editProjectName = async (
     isSave: boolean = false,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef?: FinalFocusRef
   ) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
@@ -939,9 +941,7 @@ export class ProjectActions {
     }
   }
 
-  private async handlePostSaveDialog(
-    finalFocusRef: React.RefObject<HTMLButtonElement>
-  ) {
+  private async handlePostSaveDialog(finalFocusRef: FinalFocusRef) {
     const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
     if (!showPostSaveHelpSetting) {
       return;
@@ -966,7 +966,7 @@ export class ProjectActions {
 
   private async handleTransferHexDialog(
     forceTransferHexHelp: boolean,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     if (!forceTransferHexHelp && !showTransferHexHelpSetting) {
