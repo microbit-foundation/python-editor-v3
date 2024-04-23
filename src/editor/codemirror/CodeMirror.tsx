@@ -125,9 +125,25 @@ const CodeMirror = ({
 
   const [portals, setPortals] = useState<PortalContent[]>([]);
   const portalFactory: PortalFactory = useCallback((dom, content) => {
-    const portal = { dom, content };
-    setPortals((portals) => [...portals, portal]);
-    return () => setPortals((portals) => portals.filter((p) => p !== portal));
+    setPortals((portals) => {
+      let found = false;
+      let updated = portals.map((p) => {
+        if (p.dom === dom) {
+          found = true;
+          return {
+            dom,
+            content,
+          };
+        }
+        return p;
+      });
+      if (!found) {
+        updated = [...portals, { dom, content }];
+      }
+      return updated;
+    });
+
+    return () => setPortals((portals) => portals.filter((p) => p.dom !== dom));
   }, []);
 
   useEffect(() => {
@@ -143,7 +159,7 @@ const CodeMirror = ({
           logPastedLineCount(logging, update);
         }
       });
-      
+
       const state = EditorState.create({
         doc: defaultValue,
         extensions: [
