@@ -32,10 +32,10 @@ const SaveButton = (props: SaveButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const ref = useRef<HTMLElement | null>(null);
+  const activeElementRef = useRef<HTMLElement | null>(null);
   const handleSave = useCallback(() => {
-    ref.current = document.activeElement as HTMLElement;
-    actions.save(ref);
+    activeElementRef.current = document.activeElement as HTMLElement;
+    actions.save(activeElementRef);
   }, [actions]);
   useHotkeys(keyboardShortcuts.saveProject, handleSave, globalShortcutConfig);
   return (

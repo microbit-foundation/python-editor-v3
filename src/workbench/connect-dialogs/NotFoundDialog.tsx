@@ -13,10 +13,11 @@ import { GenericDialog } from "../../common/GenericDialog";
 import SaveButton from "../../project/SaveButton";
 import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
+import { FinalFocusRef } from "../../project/project-actions";
 
 interface NotFoundDialogProps {
   callback: (value: ConnectErrorChoice) => void;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 export const NotFoundDialog = ({
