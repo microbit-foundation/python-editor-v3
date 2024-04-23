@@ -4,11 +4,12 @@ import { WidgetProps } from "./reactWidgetExtension";
 import { MicrobitSinglePixelComponent } from "./setPixelWidget";
 import { MicrobitMultiplePixelComponent } from "./showImageWidget";
 import { SoundComponent } from "./soundWidget";
+import { OpenReactComponent } from "./openWidgets";
 
 export interface CompProps {
   comp: React.ComponentType<any>;
   props: WidgetProps;
-  open: boolean
+  open: React.ComponentType<any>
 }
 
 export function createWidget(
@@ -100,17 +101,17 @@ function OpenButtonDesign(
   name: React.ComponentType<any>,
   args: string[],
   types: string[]
-): boolean {
+): React.ComponentType<any> {
   switch (name) {
     case MicrobitMultiplePixelComponent:
-      return true;
+      return OpenReactComponent;
     case MicrobitSinglePixelComponent:
-      return true;
+      return OpenReactComponent;
     case SoundComponent:
-      return true;
+      return OpenReactComponent;
     default:
       // shouldnt be called so just null
-      return false;
+      return OpenReactComponent;
   }
 }
 

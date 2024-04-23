@@ -34,6 +34,7 @@ class Widget extends WidgetType {
   constructor(
     private component: React.ComponentType<any>,
     private props: WidgetProps,
+    private open: React.ComponentType<any>,
     private inline: boolean,
     private createPortal: PortalFactory
   ) {
@@ -53,7 +54,7 @@ class Widget extends WidgetType {
         dom.style.display = "inline-block"; // want it inline for the open-close widget
         this.portalCleanup = this.createPortal(
           dom,
-          <OpenReactComponent loc={this.props.to} view={view} />
+          <this.open loc={this.props.to} view={view} />
         );
       }
     } else
@@ -94,6 +95,7 @@ export const reactWidgetExtension = (
               widget: new Widget(
                 widget.comp,
                 widget.props,
+                widget.open,
                 widget.props.to !== openWidgetLoc,
                 createPortal
               ),
