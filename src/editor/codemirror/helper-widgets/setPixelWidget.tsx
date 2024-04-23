@@ -45,31 +45,36 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   };
 
   return (
+    <div>
+    <Box ml="10px" style={{ marginRight: "4px" }}>
+        <Button size="xs" onClick={onCloseClick} bg="white">
+          X
+        </Button>
+    </Box>
     <Box // TODO: copy to allow other widgets to access bg and close
       display="flex"
       flexDirection="row"
       justifyContent="flex-start"
-      bg="lightgray"
+      width="250px"
+      background="snon"
+      border='1px solid lightgray'
+      boxShadow='0 0 10px 5px rgba(173, 216, 230, 0.7)'
     >
-      <Box ml="10px" style={{ marginRight: "4px" }}>
-        <Button size="xs" onClick={onCloseClick} bg="white">
-          X
-        </Button>
-      </Box>
       <Box>
         <Box
-          bg="black"
+          bg="white"
           p="10px"
-          borderRadius="5px"
-          style={{ marginTop: "15px" }}
+          borderRadius="0px"
+          border="1px solid black"
+          style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "15px" }}
         >
           {[...Array(5)].map((_, gridY) => (
             <Box key={y} display="flex">
               {[...Array(5)].map((_, gridX) => (
                 <Box key={x} display="flex" mr="0px">
                   <Button
-                    height="30px"
-                    width="30x"
+                    height="32px"
+                    width="30px"
                     p={0}
                     borderRadius={0}
                     bgColor={
@@ -79,8 +84,8 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
                     }
                     border={
                       gridX === x && gridY === y
-                        ? "2px solid white"
-                        : "0.5px solid white"
+                        ? "2px solid black"
+                        : "1px solid black"
                     }
                     _hover={{
                       bgColor:
@@ -103,6 +108,7 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
           min={0}
           max={9}
           step={1}
+          height="182px"
           orientation="vertical"
           _focus={{ boxShadow: "none" }}
           _active={{ bgColor: "transparent" }}
@@ -115,6 +121,7 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
         </Slider>
       </Box>
     </Box>
+    </div>
   );
 };
 
