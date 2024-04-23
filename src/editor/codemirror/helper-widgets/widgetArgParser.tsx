@@ -8,6 +8,7 @@ import { SoundComponent } from "./soundWidget";
 export interface CompProps {
   comp: React.ComponentType<any>;
   props: WidgetProps;
+  open: boolean
 }
 
 export function createWidget(
@@ -47,6 +48,7 @@ export function createWidget(
         from: node.from,
         to: node.to,
       },
+      open: OpenButtonDesign(component, args, types)
     };
   }
   return null;
@@ -92,6 +94,24 @@ function getTypes(nodes: SyntaxNode[]): string[] {
     types.push(value.name);
   });
   return types;
+}
+
+function OpenButtonDesign(
+  name: React.ComponentType<any>,
+  args: string[],
+  types: string[]
+): boolean {
+  switch (name) {
+    case MicrobitMultiplePixelComponent:
+      return true;
+    case MicrobitSinglePixelComponent:
+      return true;
+    case SoundComponent:
+      return true;
+    default:
+      // shouldnt be called so just null
+      return false;
+  }
 }
 
 export function ValidateComponentArgs(
