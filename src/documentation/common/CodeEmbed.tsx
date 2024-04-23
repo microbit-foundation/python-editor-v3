@@ -172,7 +172,6 @@ const CodeEmbed = ({
           _focusVisible={{
             outline: "none",
           }}
-          // onKeyDown={handleKeyDown}
           zIndex={zIndexCode}
         />
         {state === "raised" && (
