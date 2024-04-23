@@ -186,6 +186,14 @@ const TripleSliderWidget: React.FC<{
   const waveformOptions = ["None", "Vibrato", "Tremolo", "Warble"]
   const [textBoxValue, setTextBoxValue] = useState("2000");
 
+
+
+  for (let i = 0; i < args.length; i++) {
+    let arg = args[i];
+    console.log("arg: ", arg);
+  };
+
+
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setTextBoxValue(newValue);
@@ -221,13 +229,11 @@ const TripleSliderWidget: React.FC<{
     const waveLength = 400; // Width of the box
     const pathData = [];
     
-    // Calculate the change in frequency and amplitude over the length of the waveform
     const frequencyDifference = endFrequency - initialFrequency;
     const amplitudeDifference = endAmplitude - startAmplitude;
 
     // Loop through the wave's width to generate the path
     for (let x = 0; x <= waveLength; x++) {
-      // Calculate the frequency and amplitude at the current point
       const currentFrequency = initialFrequency + (frequencyDifference * x) / waveLength;
       const currentAmplitude = startAmplitude + (amplitudeDifference * x) / waveLength;
       const period = waveLength/currentFrequency
@@ -253,9 +259,8 @@ const TripleSliderWidget: React.FC<{
           break;
         case 'noisy':
           // Generate noisy wave based on sine wave and random noise
-          // Add a random noise value to the sine wave
           const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
-          const randomNoise = Math.random() * 2 - 1; // Random noise between -1 and 1
+          const randomNoise = Math.random() * 2 - 1; 
           y = baseWave + randomNoise * (currentAmplitude*0.3);
           break;
       }
@@ -270,7 +275,7 @@ const TripleSliderWidget: React.FC<{
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-start", backgroundColor: 'snow', width: '575px', height: '150px', border: '1px solid lightgray'}}>
+      <div style={{ display: "flex", justifyContent: "flex-start", backgroundColor: 'snow', width: '575px', height: '150px', border: '1px solid lightgray', boxShadow: '0 0 10px 5px rgba(173, 216, 230, 0.7)'}}>
           {/* Vertical Slider 1 */}
           <div style={{marginLeft: "6px", marginRight: "20px", height: '100px', marginTop: '9px'}}>
               <Slider {...slider1Props} onChange={handleSlider1Change} vertical />

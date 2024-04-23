@@ -22,7 +22,6 @@ interface MicrobitSinglePixelGridProps {
   initialPixel: Pixel | null;
   onCloseClick: () => void;
 }
-
 const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
   onPixelClick,
   initialPixel,
@@ -67,11 +66,10 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
           {[...Array(5)].map((_, gridY) => (
             <Box key={y} display="flex">
               {[...Array(5)].map((_, gridX) => (
-                <Box key={x} display="flex" mr="2px">
+                <Box key={x} display="flex" mr="0px">
                   <Button
-                    size="xs"
-                    h="15px"
-                    w="15px"
+                    height="30px"
+                    width="30x"
                     p={0}
                     borderRadius={0}
                     bgColor={

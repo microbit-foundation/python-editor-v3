@@ -4,7 +4,7 @@ import { WidgetProps } from "./reactWidgetExtension";
 import { MicrobitSinglePixelComponent } from "./setPixelWidget";
 import { MicrobitMultiplePixelComponent } from "./showImageWidget";
 import { SoundComponent } from "./soundWidget";
-import { OpenReactComponent } from "./openWidgets";
+import { OpenReactComponent, OpenSoundComponent } from "./openWidgets";
 
 export interface CompProps {
   comp: React.ComponentType<any>;
@@ -108,7 +108,7 @@ function OpenButtonDesign(
     case MicrobitSinglePixelComponent:
       return OpenReactComponent;
     case SoundComponent:
-      return OpenReactComponent;
+      return OpenSoundComponent;
     default:
       // shouldnt be called so just null
       return OpenReactComponent;
