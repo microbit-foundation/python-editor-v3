@@ -107,6 +107,8 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
+              // This grabs all other js files, which are in practice
+              // pyright-locale, typeshed, and search workers.
               urlPattern: /.*.js/,
               handler: "CacheFirst",
               options: {
