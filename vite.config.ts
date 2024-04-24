@@ -55,9 +55,6 @@ export default defineConfig(({ mode }) => {
       svgr(),
       VitePWA({
         registerType: "autoUpdate",
-        devOptions: {
-          enabled: true,
-        },
         workbox: {
           // Ignore all language related assets and cache these at runtime instead.
           globIgnores: [
