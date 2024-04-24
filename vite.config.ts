@@ -56,6 +56,10 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: "autoUpdate",
         workbox: {
+          // A better chance of the runtime caches taking affect on first visit.
+          clientsClaim: true,
+          skipWaiting: true,
+          cleanupOutdatedCaches: true,
           // Ignore all language related assets and cache these at runtime instead.
           globIgnores: [
             "**/{pyright-locale*.js,typeshed*.js,search.worker*.js,ui*.js}",
@@ -65,12 +69,11 @@ export default defineConfig(({ mode }) => {
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/ajwvhvgo.apicdn.sanity.io\/.*/,
-              handler: "CacheFirst",
+              handler: "NetworkFirst",
               options: {
                 cacheName: "sanity-content-cache",
                 expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+                  maxEntries: 40,
                 },
                 cacheableResponse: {
                   statuses: [0, 200],
@@ -80,12 +83,11 @@ export default defineConfig(({ mode }) => {
             {
               urlPattern:
                 /^https:\/\/cdn.sanity.io\/images\/ajwvhvgo\/apps\/.*/,
-              handler: "CacheFirst",
+              handler: "NetworkFirst",
               options: {
                 cacheName: "sanity-images-cache",
                 expiration: {
                   maxEntries: 100,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
                 },
                 cacheableResponse: {
                   statuses: [0, 200],
@@ -94,12 +96,11 @@ export default defineConfig(({ mode }) => {
             },
             {
               urlPattern: /^https:\/\/fonts.microbit.org\/.*/,
-              handler: "CacheFirst",
+              handler: "NetworkFirst",
               options: {
                 cacheName: "fonts-cache",
                 expiration: {
                   maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
                 },
                 cacheableResponse: {
                   statuses: [0, 200],
@@ -107,15 +108,12 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              // This grabs all other js files, which are in practice
-              // pyright-locale, typeshed, and search workers.
-              urlPattern: /.*.js/,
-              handler: "CacheFirst",
+              urlPattern: /.*(?:pyright-locale|search\.worker|typeshed).*.js/,
+              handler: "NetworkFirst",
               options: {
                 cacheName: "lang-cache",
                 expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+                  maxEntries: 40,
                 },
                 cacheableResponse: {
                   statuses: [0, 200],
