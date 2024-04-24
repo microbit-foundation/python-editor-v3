@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => {
         workbox: {
           // Ignore all language related assets and cache these at runtime instead.
           globIgnores: [
-            "**/{pyright*.js,typeshed*.js,search.worker*.js,ui*.js}",
+            "**/{pyright-locale*.js,typeshed*.js,search.worker*.js,ui*.js}",
           ],
           maximumFileSizeToCacheInBytes: 3097152,
           globPatterns: ["**/*.{js,css,html,ico,png,svg,gif,hex}"],
@@ -97,23 +97,6 @@ export default defineConfig(({ mode }) => {
               handler: "CacheFirst",
               options: {
                 cacheName: "fonts-cache",
-                expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-                },
-                cacheableResponse: {
-                  statuses: [0, 200],
-                },
-              },
-            },
-            // This doesn't work.
-            // It doesn't work if you have runtime fetching of the simulator and it's js files either.
-            // We cache everything in this case, but don't use the cache as the iframe is likely isolated.
-            {
-              urlPattern: /^https:\/\/python-simulator.usermbit.org\/.*/,
-              handler: "CacheFirst",
-              options: {
-                cacheName: "sim-cache",
                 expiration: {
                   maxEntries: 10,
                   maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
