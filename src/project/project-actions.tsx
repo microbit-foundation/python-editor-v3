@@ -544,6 +544,14 @@ export class ProjectActions {
   };
 
   /**
+   * Open hex file as base64 in the micro:bit app.
+   */
+  openInMicrobitApp = async () => {
+    const dataURI = await this.fs.toHexURI();
+    window.open(dataURI, "_self");
+  };
+
+  /**
    * Trigger a browser download with a universal hex file.
    */
   save = async (

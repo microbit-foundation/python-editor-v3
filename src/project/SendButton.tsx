@@ -48,7 +48,11 @@ const SendButton = React.forwardRef(
       flashing: false,
       lastCompleteFlash: 0,
     });
-    const handleSendToMicrobit = useCallback(async () => {
+    const handleOpenInMicrobitApp = useCallback(async () => {
+      await actions.openInMicrobitApp();
+    }, [actions]);
+    // Temporarily commented out for demo purposes.
+    /* const handleSendToMicrobit = useCallback(async () => {
       if (flashing.current.flashing) {
         // Ignore repeated clicks.
         return;
@@ -65,7 +69,7 @@ const SendButton = React.forwardRef(
           lastCompleteFlash: new Date().getTime(),
         };
       }
-    }, [flashing, actions, sendButtonRef]);
+    }, [flashing, actions, sendButtonRef]); */
     const handleFocus = useCallback(
       (e: FocusEvent<unknown>) => {
         const inProgress = flashing.current.flashing;
@@ -96,7 +100,7 @@ const SendButton = React.forwardRef(
                 size={size}
                 variant="solid"
                 leftIcon={<RiUsbLine />}
-                onClick={handleSendToMicrobit}
+                onClick={handleOpenInMicrobitApp}
               >
                 <FormattedMessage id="send-action" />
               </Button>
