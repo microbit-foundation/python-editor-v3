@@ -30,6 +30,7 @@ const viteEjsPlugin = ({ data }: { data: ejs.Data }): Plugin => ({
 });
 
 export default defineConfig(({ mode }) => {
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const unitTest: UserConfig["test"] = {
     globals: true,
     exclude: [...configDefaults.exclude, "**/e2e/**"],
@@ -68,7 +69,9 @@ export default defineConfig(({ mode }) => {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,gif,hex}"],
           runtimeCaching: [
             {
-              urlPattern: /^https:\/\/ajwvhvgo.apicdn.sanity.io\/.*/,
+              urlPattern: new RegExp(
+                `^https://${process.env.VITE_SANITY_PROJECT}.apicdn.sanity.io/.*`
+              ),
               handler: "NetworkFirst",
               options: {
                 cacheName: "sanity-content-cache",
@@ -81,8 +84,9 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern:
-                /^https:\/\/cdn.sanity.io\/images\/ajwvhvgo\/apps\/.*/,
+              urlPattern: new RegExp(
+                `^https://cdn.sanity.io/images/${process.env.VITE_SANITY_PROJECT}/${process.env.VITE_SANITY_DATASET}/.*`
+              ),
               handler: "NetworkFirst",
               options: {
                 cacheName: "sanity-images-cache",
