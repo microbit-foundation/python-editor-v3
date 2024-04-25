@@ -21,6 +21,7 @@ import DocumentationContent, {
 import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
+import OfflineImageFallback from "../OfflineImageFallback";
 
 interface IdeasDocumentationProps {
   ideas: Idea[];
@@ -70,6 +71,13 @@ const ActiveLevel = ({
   const numCols =
     !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1;
   if (activeIdea) {
+    const imageProps = {
+      borderTopRadius: "lg",
+      width: 600,
+      sx: {
+        aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
+      },
+    };
     return (
       <HeadedScrollablePanel
         key={activeIdea.slug.current}
@@ -97,16 +105,13 @@ const ActiveLevel = ({
           >
             {activeIdea.image && (
               <Image
-                borderRadius="lg"
                 src={imageUrlBuilder
                   .image(activeIdea.image.asset)
                   .fit("max")
                   .url()}
+                fallback={<OfflineImageFallback {...imageProps} />}
                 alt=""
-                width={600}
-                sx={{
-                  aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
-                }}
+                {...imageProps}
               />
             )}
 
