@@ -57,10 +57,6 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: "autoUpdate",
         workbox: {
-          // A better chance of the runtime caches taking affect on first visit.
-          clientsClaim: true,
-          skipWaiting: true,
-          cleanupOutdatedCaches: true,
           // Ignore all language related assets and cache these at runtime instead.
           globIgnores: [
             "**/{pyright-locale*.js,typeshed*.js,search.worker*.js,ui*.js}",
@@ -112,7 +108,8 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /.*(?:pyright-locale|search\.worker|typeshed).*.js/,
+              urlPattern:
+                /.*(?:pyright-locale|search\.worker|typeshed|ui\.).*.js/,
               handler: "NetworkFirst",
               options: {
                 cacheName: "lang-cache",
