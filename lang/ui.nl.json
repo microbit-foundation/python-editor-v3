@@ -510,6 +510,10 @@
     "defaultMessage": "Je moet <link>firmware updaten voordat</link> je verbinding kan maken met deze micro:bit.",
     "description": "Text in the no micro:bit found dialog"
   },
+  "offline-image-alt": {
+    "defaultMessage": "Image unavailable offline",
+    "description": "Alt text for an image placeholder when the user is offline"
+  },
   "open-action": {
     "defaultMessage": "Open",
     "description": "Open button text"

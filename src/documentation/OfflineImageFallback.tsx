@@ -1,5 +1,6 @@
 import { BoxProps, Image, Text, VStack } from "@chakra-ui/react";
 import offlinePlaceholder from "./offline.svg";
+import { FormattedMessage, useIntl } from "react-intl";
 
 interface OfflineImageFallbackProps extends BoxProps {
   useIcon?: boolean;
@@ -10,6 +11,7 @@ const OfflineImageFallback = ({
   width,
   ...props
 }: OfflineImageFallbackProps) => {
+  const intl = useIntl();
   return (
     <>
       {useIcon ? (
@@ -17,12 +19,12 @@ const OfflineImageFallback = ({
           fallbackSrc={offlinePlaceholder}
           {...props}
           p={2}
-          alt="Image unavailable offline"
+          alt={intl.formatMessage({ id: "offline-image-alt" })}
         />
       ) : (
         <VStack justifyContent="center" {...props} maxWidth={width}>
           <Text textAlign="center" wordBreak="break-word">
-            Image unavailable offline
+            <FormattedMessage id="offline-image-alt" />
           </Text>
         </VStack>
       )}
