@@ -30,7 +30,8 @@ import {
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
 import { microPythonConfig } from "../micropython/micropython";
-import { isErrorDueToDispose } from "./error-util";
+import { isErrorDueToDispose, OfflineError } from "./error-util";
+import { fallbackLocale } from "../settings/settings";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -178,7 +179,14 @@ export class LanguageServerClient extends EventEmitter {
           // This mostly happens due to React 18 strict mode but could happen due to language changes.
           return false;
         }
-        throw e;
+        if (!navigator.onLine) {
+          // Fallback to the precached locale if user is offline.
+          this.locale = fallbackLocale;
+          this.initializePromise = undefined;
+          this.initialize();
+        } else {
+          throw e;
+        }
       }
       return true;
     })();
@@ -187,9 +195,20 @@ export class LanguageServerClient extends EventEmitter {
 
   private async getInitializationOptions(): Promise<any> {
     const branch = microPythonConfig.stubs;
-    const typeshed = await retryAsyncLoad(() => {
-      return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
-    });
+    let typeshed;
+    try {
+      typeshed = await retryAsyncLoad(() => {
+        return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
+      });
+    } catch (err) {
+      if (err instanceof OfflineError) {
+        typeshed = await import(
+          `../micropython/${branch}/typeshed.${fallbackLocale}.json`
+        );
+      } else {
+        throw err;
+      }
+    }
     return {
       // Shallow copy as it's an ESM that can't be serialized
       files: { files: typeshed.files },

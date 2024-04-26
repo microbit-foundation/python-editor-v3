@@ -57,9 +57,11 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: "autoUpdate",
         workbox: {
-          // Ignore all language related assets and cache these at runtime instead.
+          // Only precache language assets for the fallback language.
+          // Cache other languages at runtime.
+          // Cache all pyright-locale files as we can't tell what language they are.
           globIgnores: [
-            "**/{pyright-locale*.js,typeshed*.js,search.worker*.js,ui*.js}",
+            "**/{typeshed.!(en*).js,search.worker.!(en*).js,ui.!(en*).js}",
           ],
           maximumFileSizeToCacheInBytes: 3097152,
           globPatterns: ["**/*.{js,css,html,ico,png,svg,gif,hex}"],
@@ -83,7 +85,7 @@ export default defineConfig(({ mode }) => {
               urlPattern: new RegExp(
                 `^https://cdn.sanity.io/images/${process.env.VITE_SANITY_PROJECT}/${process.env.VITE_SANITY_DATASET}/.*`
               ),
-              handler: "NetworkFirst",
+              handler: "CacheFirst",
               options: {
                 cacheName: "sanity-images-cache",
                 expiration: {
@@ -96,7 +98,7 @@ export default defineConfig(({ mode }) => {
             },
             {
               urlPattern: /^https:\/\/fonts.microbit.org\/.*/,
-              handler: "NetworkFirst",
+              handler: "CacheFirst",
               options: {
                 cacheName: "fonts-cache",
                 expiration: {
@@ -109,8 +111,8 @@ export default defineConfig(({ mode }) => {
             },
             {
               urlPattern:
-                /.*(?:pyright-locale|search\.worker|typeshed|ui\.).*.js/,
-              handler: "NetworkFirst",
+                /.*(?:pyright-locale|search\.worker|typeshed|ui\.).*\.js/,
+              handler: "CacheFirst",
               options: {
                 cacheName: "lang-cache",
                 expiration: {

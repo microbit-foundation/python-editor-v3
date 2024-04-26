@@ -6,3 +6,5 @@ export const isErrorDueToDispose = (e: unknown): boolean =>
   (e instanceof ResponseError &&
     e.code === ErrorCodes.PendingResponseRejected) ||
   e instanceof ConnectionError;
+
+export class OfflineError extends Error {}

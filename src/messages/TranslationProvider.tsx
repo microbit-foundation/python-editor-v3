@@ -3,10 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useSettings } from "../settings/settings";
+import { fallbackLocale, useSettings } from "../settings/settings";
 import { IntlProvider, MessageFormatElement } from "react-intl";
 import { ReactNode, useEffect, useState } from "react";
 import { retryAsyncLoad } from "../common/chunk-util";
+import { OfflineError } from "../language-server/error-util";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
@@ -50,7 +51,15 @@ const TranslationProvider = ({ children }: TranslationProviderProps) => {
   const [messages, setMessages] = useState<Messages | undefined>();
   useEffect(() => {
     const load = async () => {
-      setMessages(await retryAsyncLoad(() => loadLocaleData(languageId)));
+      try {
+        setMessages(await retryAsyncLoad(() => loadLocaleData(languageId)));
+      } catch (err) {
+        if (err instanceof OfflineError) {
+          setMessages(await loadLocaleData(fallbackLocale));
+        } else {
+          throw err;
+        }
+      }
     };
     load();
   }, [languageId]);
