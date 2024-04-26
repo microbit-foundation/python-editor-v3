@@ -9,7 +9,35 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { registerSW } from "virtual:pwa-register";
 
-registerSW({ immediate: true });
+registerSW({
+  immediate: true,
+  // Cache runtime resources on first load.
+  // See https://github.com/GoogleChromeLabs/pwa-wp/issues/180.
+  onRegisteredSW(_, registration) {
+    if (registration) {
+      registration.onupdatefound = function () {
+        const installingWorker = registration?.installing;
+        if (installingWorker) {
+          installingWorker.onstatechange = function () {
+            if (
+              installingWorker.state === "activated" &&
+              navigator.serviceWorker.controller
+            ) {
+              const urlsToCache = [
+                location.href,
+                ...performance.getEntriesByType("resource").map((r) => r.name),
+              ];
+              installingWorker.postMessage({
+                type: "CACHE_URLS",
+                payload: { urlsToCache },
+              });
+            }
+          };
+        }
+      };
+    }
+  },
+});
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
