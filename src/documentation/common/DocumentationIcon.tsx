@@ -28,6 +28,7 @@ const DocumentationIcon = ({
     <Image
       {...props}
       src={imageUrlBuilder.image(icon.asset).url()}
+      ignoreFallback={navigator.onLine}
       fallback={
         <OfflineImageFallback
           useIcon
