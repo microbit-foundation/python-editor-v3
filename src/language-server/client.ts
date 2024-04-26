@@ -30,8 +30,13 @@ import {
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
 import { microPythonConfig } from "../micropython/micropython";
-import { isErrorDueToDispose, OfflineError } from "./error-util";
+import {
+  isErrorDueToDispose,
+  OfflineError,
+  showOfflineLanguageToast,
+} from "./error-util";
 import { fallbackLocale } from "../settings/settings";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -59,7 +64,8 @@ export class LanguageServerClient extends EventEmitter {
   constructor(
     public connection: MessageConnection,
     public locale: string,
-    public rootUri: string
+    public rootUri: string,
+    private toast: CreateToastFnReturn
   ) {
     super();
   }
@@ -180,7 +186,9 @@ export class LanguageServerClient extends EventEmitter {
           return false;
         }
         if (!navigator.onLine) {
+          showOfflineLanguageToast(this.toast);
           // Fallback to the precached locale if user is offline.
+          // Currently unused as we are precaching all pyright-locale files.
           this.locale = fallbackLocale;
           this.initializePromise = undefined;
           this.initialize();
@@ -202,6 +210,7 @@ export class LanguageServerClient extends EventEmitter {
       });
     } catch (err) {
       if (err instanceof OfflineError) {
+        showOfflineLanguageToast(this.toast);
         typeshed = await import(
           `../micropython/${branch}/typeshed.${fallbackLocale}.json`
         );
