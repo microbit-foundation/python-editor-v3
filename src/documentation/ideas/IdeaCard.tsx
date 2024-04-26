@@ -41,6 +41,7 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
     >
       <Image
         src={imageUrlBuilder.image(image.asset).width(550).url()}
+        ignoreFallback={navigator.onLine}
         fallback={<OfflineImageFallback useIcon {...imageProps} />}
         alt=""
         {...imageProps}

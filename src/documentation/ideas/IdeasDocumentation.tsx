@@ -109,6 +109,7 @@ const ActiveLevel = ({
                   .image(activeIdea.image.asset)
                   .fit("max")
                   .url()}
+                ignoreFallback={navigator.onLine}
                 fallback={<OfflineImageFallback {...imageProps} />}
                 alt=""
                 {...imageProps}

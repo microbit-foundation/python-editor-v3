@@ -219,6 +219,7 @@ const serializers = {
             .width(300)
             .fit("max")
             .url()}
+          ignoreFallback={navigator.onLine}
           fallback={<OfflineImageFallback {...imageProps} />}
           alt={props.node.alt}
           {...imageProps}
