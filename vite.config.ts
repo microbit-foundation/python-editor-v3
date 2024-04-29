@@ -29,6 +29,27 @@ const viteEjsPlugin = ({ data }: { data: ejs.Data }): Plugin => ({
   },
 });
 
+// Removes webmanifest link tag from output index.html file.
+// We add this tag if PWA features are enabled via a feature flag.
+const viteRemoveManifestPlugin = (): Plugin => ({
+  name: "Manifest",
+  enforce: "post",
+  transformIndexHtml: {
+    order: "post",
+    handler: (
+      html: string,
+      _ctx: IndexHtmlTransformContext
+    ): IndexHtmlTransformResult => {
+      return html.replace(
+        `<link rel="manifest" href="${
+          process.env.BASE_URL ?? "/"
+        }manifest.webmanifest">`,
+        ""
+      );
+    },
+  },
+});
+
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const unitTest: UserConfig["test"] = {
@@ -126,11 +147,27 @@ export default defineConfig(({ mode }) => {
             },
           ],
         },
-        // See manifest.webmanifest in public/
-        // It has been split out so we can inject it if enabled
-        // via feature flag.
-        manifest: false,
+        manifest: {
+          name: "micro:bit Python Editor",
+          short_name: "micro:bit Python Editor",
+          description:
+            "A Python Editor for the BBC micro:bit, built by the Micro:bit Educational Foundation and the global Python Community.",
+          theme_color: "#6c4bc1",
+          icons: [
+            {
+              src: `${process.env.BASE_URL ?? "/"}logo512.png`,
+              sizes: "512x512",
+              type: "image/png",
+            },
+            {
+              src: `${process.env.BASE_URL ?? "/"}logo192.png`,
+              sizes: "192x192",
+              type: "image/png",
+            },
+          ],
+        },
       }),
+      viteRemoveManifestPlugin(),
     ],
     test: unitTest,
     resolve: {
