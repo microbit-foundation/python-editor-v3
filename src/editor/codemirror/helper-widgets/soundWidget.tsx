@@ -176,6 +176,8 @@ const TripleSliderWidget: React.FC<{
   view: EditorView;
 }> = ({ freqStartProps, freqEndProps, volStartProps, volEndprops, props, view}) => {
 
+  
+
   let args = props.args;
   let ranges = props.ranges;
   let types = props.types;
@@ -184,10 +186,13 @@ const TripleSliderWidget: React.FC<{
 
   //parse args
 
-  let argsToBeUsed: FixedLengthArray = [200, 500, 2000, 50, 50, "sine", "None"] // default args
+  let argsToBeUsed: FixedLengthArray = [200, 500, 2000, 50, 50, "sine", "none"] // default args
   let count = 0
   for (let i = 2; i < args.length; i += 3) { //Update default args with user args where they exist
     argsToBeUsed[count] = args[i]
+    if (args[i].split('_')[0] == 'SoundEffect.FX') {
+      argsToBeUsed[count] = (args[i].split('_')[1]).toLowerCase()
+    }
     let arg = args[i];
     console.log("arg: ", arg);
     count += 1;
@@ -195,28 +200,31 @@ const TripleSliderWidget: React.FC<{
 
   console.log("args", argsToBeUsed)
 
-  const [initialFrequency, setInitialFrequency] = useState(Math.min(argsToBeUsed[0], 9999));
+  let initialFrequency = Math.min(argsToBeUsed[0], 9999);
   freqStartProps.defaultValue = initialFrequency
 
-  const [endFrequency, setEndFrequency] = useState(Math.min(argsToBeUsed[1], 9999));
+  let endFrequency = Math.min(argsToBeUsed[1], 9999);
   freqEndProps.defaultValue = endFrequency
 
 
-  const [startAmplitude, setStartAmplitude] = useState(Math.min(argsToBeUsed[3], 255));
+  let startAmplitude = Math.min(argsToBeUsed[3], 255);
   volStartProps.defaultValue = startAmplitude
 
-  const [endAmplitude, setEndAmplitude] = useState(Math.min(argsToBeUsed[4], 9999));
+  let endAmplitude = Math.min(argsToBeUsed[4], 9999);
   volEndprops.defaultValue = endAmplitude
 
   
-  const [waveType, setWaveType] = useState("sine")
+  let waveType = argsToBeUsed[5];
 
-  const waveformOptions = ["None", "Vibrato", "Tremolo", "Warble"]
-  const [textBoxValue, setTextBoxValue] = useState(Number(argsToBeUsed[2]));
+  let fxType = argsToBeUsed[6];
+
+  let textBoxValue = Number(argsToBeUsed[2]);
 
 
   const updateView = () => {
-    let insertion = statesToString(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude);
+    console.log('update view called')
+    console.log(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType)
+    let insertion = statesToString(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType);
     console.log(insertion);
     if (ranges.length === 1) {
       view.dispatch({
@@ -241,41 +249,52 @@ const TripleSliderWidget: React.FC<{
     }
   };
 
+  
+  
+
+  
+
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setTextBoxValue(Number(newValue));
+    textBoxValue = Number(newValue);
     updateView();
   };
 
   const handleSlider1Change = (value: number) => {
     freqStartProps.onChange(value);
-    setInitialFrequency(value);
+    initialFrequency = value
     updateView();
   };
 
   const handleSlider2Change = (value: number) => {
     freqEndProps.onChange(value);
-    setEndFrequency(value); // 
+    endFrequency = value; // 
+    console.log(endFrequency)
     updateView();
   };
 
   const handleSlider3Change = (value: number) => {
-    freqStartProps.onChange(value);
-    setStartAmplitude(value);
+    volStartProps.onChange(value);
+    startAmplitude = value;
     updateView();
   };
 
   const handleSlider4Change = (value: number) => {
-    freqStartProps.onChange(value);
-    setEndAmplitude(value);
+    volEndprops.onChange(value);
+    endAmplitude = value;
     updateView();
   };
 
   const handleWaveTypeChange = (value: string) => {
-    setWaveType(value);
+    waveType = value;
+    updateView();
   };
 
+  const handleFxChange = (value: string) => {
+    fxType = value;
+    updateView();
+  };
 
 
   const generateWavePath = () => {
@@ -353,7 +372,7 @@ const TripleSliderWidget: React.FC<{
           <label style={{ display: 'block', marginBottom: '5px', marginTop: '7px', }}>
             <b>Waveform:</b>
           </label>
-          <select onChange={(e) => handleWaveTypeChange(e.target.value)}>
+          <select onChange={(e) => handleWaveTypeChange(e.target.value)} defaultValue={waveType}>
             <option value="sine">Sine</option>
             <option value="square">Square</option>
             <option value="sawtooth">Sawtooth</option>
@@ -366,11 +385,11 @@ const TripleSliderWidget: React.FC<{
           <label style={{ display: 'block', marginBottom: '5px', marginTop: '10px' }}>
             <b>Effects:</b>
           </label>
-          <select onChange={(e) => handleWaveTypeChange(e.target.value)}>
-            <option value="sine">None</option>
-            <option value="square">Vibrato</option>
-            <option value="sawtooth">Tremelo</option>
-            <option value="triangle">Warble</option>
+          <select onChange={(e) => handleFxChange(e.target.value)} defaultValue={fxType}>
+            <option value="none">None</option>
+            <option value="vibrato">Vibrato</option>
+            <option value="tremolo">Tremelo</option>
+            <option value="warble">Warble</option>
           </select>
 
           {/* Duration selctor */}
@@ -431,31 +450,7 @@ export const SoundComponent = ({
     });
   };
   
-  const updateView = () => {
-    let insertion = "test";
-    console.log(insertion);
-    if (ranges.length === 1) {
-      view.dispatch({
-        changes: {
-          from: ranges[0].from,
-          to: ranges[0].to,
-          insert: insertion,
-        },
-        effects: [openWidgetEffect.of(insertion.length + from + 2)],
-      });
-    } else {
-      view.dispatch({
-        changes: [
-          {
-            from: from + 1,
-            to: to - 1,
-            insert: insertion,
-          },
-        ],
-        effects: [openWidgetEffect.of(insertion.length + from + 2)],
-      });
-    }
-  };
+
   
   return (
     <HStack fontFamily="body" spacing={5} py={3} zIndex={10}>
@@ -478,13 +473,23 @@ export const SoundComponent = ({
 
 //(startFreq: number, endFreq: Number, duration: Number, startVol: number, endVol: Number, waveform: string, fx: string)
 
-function statesToString(startFreq: number, endFreq: Number, duration: Number, startVol: number, endVol: Number): string {
+function statesToString(startFreq: number, endFreq: Number, duration: Number, startVol: number, endVol: Number, waveType: string, fx: string): string {
+
+  if (fx == "none") {
+    return `\n`
+  + `        freq_start=${startFreq},\n`
+  + `        freq_end=${endFreq},\n`
+  + `        duration=${duration},\n`
+  + `        vol_start=${startVol},\n`
+  + `        vol_end=${endVol},\n`
+  + `        waveform=SoundEffect.FX_${waveType.toUpperCase()},\n`
+  } 
   return `\n`
   + `        freq_start=${startFreq},\n`
   + `        freq_end=${endFreq},\n`
   + `        duration=${duration},\n`
   + `        vol_start=${startVol},\n`
   + `        vol_end=${endVol},\n`
-  + `        waveform=SoundEffect.FX_WARBLE,\n`
-  + `        fx=SoundEffect.FX_VIBRATO`;
+  + `        waveform=SoundEffect.FX_${waveType.toUpperCase()},\n`
+  + `        fx=SoundEffect.FX_${fx.toUpperCase()}`;
 }
