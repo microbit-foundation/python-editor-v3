@@ -9,6 +9,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { registerSW } from "virtual:pwa-register";
 import { flags } from "./flags";
+import { baseUrl } from "./base";
 
 if (flags.pwa) {
   registerSW({
@@ -19,7 +20,7 @@ if (flags.pwa) {
       // Inject webmanifest.
       const link = document.createElement("link");
       link.rel = "manifest";
-      link.href = "/manifest.webmanifest";
+      link.href = `${baseUrl}manifest.webmanifest`;
       document.head.appendChild(link);
 
       if (registration) {
