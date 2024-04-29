@@ -38,7 +38,8 @@ interface SVGprops {
 
 const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplitude, startAmplitude, waveType}) => {
 
-    console.log('wavepath generated')
+    console.log('wavepath generated', waveType)
+
     const waveLength = 400; // Width of the box
     const pathData = [];
 
@@ -54,7 +55,7 @@ const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplit
 
       // Calculate the y-coordinate based on the current frequency and amplitude
       let y = 0;
-      switch (waveType) {
+      switch (waveType.toLowerCase()) {
         case 'sine':
           y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
           break;
@@ -78,7 +79,7 @@ const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplit
           break;
       }
 
-      // Add the point to the path data
+        // Add the point to the path data
       pathData.push(`${x},${y}`);
     }
 
@@ -278,27 +279,30 @@ const TripleSliderWidget: React.FC<{
   freqStartProps.defaultValue = initialFrequency
 
   let endFrequency = Math.min(argsToBeUsed[1], 9999);
+  const [stateEndFrequency, setStateEndFrequency] = useState(Math.min(argsToBeUsed[1], 9999));
   freqEndProps.defaultValue = endFrequency
 
 
   let startAmplitude = Math.min(argsToBeUsed[3], 255);
+  const [stateStartAmplitude, setStateStartAmplitude] = useState(Math.min(argsToBeUsed[3], 255));
   volStartProps.defaultValue = startAmplitude
 
   let endAmplitude = Math.min(argsToBeUsed[4], 9999);
+  const [stateEndAmplitude, setStateEndAmplitude] = useState(Math.min(argsToBeUsed[4], 9999));
   volEndprops.defaultValue = endAmplitude
-
   
   let waveType = argsToBeUsed[5];
+  const [stateWaveType, setStateWaveType] = useState(argsToBeUsed[5])
+
 
   let fxType = argsToBeUsed[6];
 
   let textBoxValue = Number(argsToBeUsed[2]);
 
-
   const updateView = () => {
     console.log('update view called')
     console.log(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType)
-    let insertion = statesToString(stateInitialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType);
+    let insertion = statesToString(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType);
     console.log(insertion);
     if (ranges.length === 1) {
       view.dispatch({
@@ -345,6 +349,7 @@ const TripleSliderWidget: React.FC<{
   const handleSlider2Change = (value: number) => {
     freqEndProps.onChange(value);
     endFrequency = value; // 
+    setStateEndFrequency(value);
     console.log(endFrequency)
     updateView();
   };
@@ -352,17 +357,20 @@ const TripleSliderWidget: React.FC<{
   const handleSlider3Change = (value: number) => {
     volStartProps.onChange(value);
     startAmplitude = value;
+    setStateStartAmplitude(value);
     updateView();
   };
 
   const handleSlider4Change = (value: number) => {
     volEndprops.onChange(value);
     endAmplitude = value;
+    setStateEndAmplitude(value);
     updateView();
   };
 
   const handleWaveTypeChange = (value: string) => {
     waveType = value;
+    setStateWaveType(value);
     updateView();
   };
 
@@ -436,7 +444,7 @@ const TripleSliderWidget: React.FC<{
         </div>
         {/* Waveform box */}
         <div style={{ width: '200px', height: '130px', backgroundColor: 'linen', marginTop: '9px', marginLeft: '5px' }}>
-          <WaveSVG endFrequency={endFrequency} initialFrequency={initialFrequency} startAmplitude={startAmplitude} endAmplitude={endAmplitude} waveType={waveType}/>
+          <WaveSVG endFrequency={stateEndFrequency} initialFrequency={stateInitialFrequency} startAmplitude={stateStartAmplitude} endAmplitude={stateEndAmplitude} waveType={stateWaveType}/>
         </div>
       </div>
     </div>
