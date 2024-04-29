@@ -27,6 +27,79 @@ interface SliderProps {
   colour: string;
 }
 
+
+interface SVGprops {
+  endFrequency: number;
+  initialFrequency: number;
+  endAmplitude: number;
+  startAmplitude: number;
+  waveType: string;
+}
+
+const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplitude, startAmplitude, waveType}) => {
+
+    console.log('wavepath generated')
+    const waveLength = 400; // Width of the box
+    const pathData = [];
+
+    const frequencyDifference = endFrequency - initialFrequency;
+    const amplitudeDifference = endAmplitude - startAmplitude;
+
+    // Loop through the wave's width to generate the path
+    for (let x = 0; x <= waveLength; x++) {
+      const currentFrequency = (initialFrequency + (frequencyDifference * x) / waveLength)/100;
+      const currentAmplitude = (startAmplitude + (amplitudeDifference * x) / waveLength)/2.2;
+      const period = waveLength / currentFrequency
+
+
+      // Calculate the y-coordinate based on the current frequency and amplitude
+      let y = 0;
+      switch (waveType) {
+        case 'sine':
+          y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
+          break;
+        case 'square':
+          y = x % period < period / 2 ? 65 + currentAmplitude : 65 - currentAmplitude;
+          break;
+        case 'sawtooth':
+          y = 65 + currentAmplitude - ((x % period) / period) * (2 * currentAmplitude);
+          break;
+        case 'triangle':
+          const tPeriod = x % period;
+          y = tPeriod < period / 2
+            ? 65 + (2 * currentAmplitude / period) * tPeriod
+            : 65 - (2 * currentAmplitude / period) * (tPeriod - period / 2);
+          break;
+        case 'noisy':
+          // Generate noisy wave based on sine wave and random noise
+          const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
+          const randomNoise = Math.random() * 2 - 1;
+          y = baseWave + randomNoise * (currentAmplitude * 0.3);
+          break;
+      }
+
+      // Add the point to the path data
+      pathData.push(`${x},${y}`);
+    }
+
+    return (
+      <svg width="100%" height="100%">
+            <path d={`M${pathData.join(' ')}`} stroke="black" fill="none" />
+            <line
+              x1="0%" // Start of the line
+              y1="50%" // Vertically center the line
+              x2="100%" // End of the line
+              y2="50%" // Keep the line horizontal
+              stroke="gray" 
+              strokeWidth="0.5" 
+            />
+       </svg>
+
+  )
+    
+  };
+
+
 const startVolProps: SliderProps = {
   min: 0,
   max: 255,
@@ -200,7 +273,8 @@ const TripleSliderWidget: React.FC<{
 
   console.log("args", argsToBeUsed)
 
-  let initialFrequency = Math.min(argsToBeUsed[0], 9999);
+  let initialFrequency = Math.min(argsToBeUsed[0], 9999)
+  const [stateInitialFrequency, setStateInitialFrequency] = useState(Math.min(argsToBeUsed[0], 9999));
   freqStartProps.defaultValue = initialFrequency
 
   let endFrequency = Math.min(argsToBeUsed[1], 9999);
@@ -224,7 +298,7 @@ const TripleSliderWidget: React.FC<{
   const updateView = () => {
     console.log('update view called')
     console.log(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType)
-    let insertion = statesToString(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType);
+    let insertion = statesToString(stateInitialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude, waveType, fxType);
     console.log(insertion);
     if (ranges.length === 1) {
       view.dispatch({
@@ -263,6 +337,7 @@ const TripleSliderWidget: React.FC<{
 
   const handleSlider1Change = (value: number) => {
     freqStartProps.onChange(value);
+    setStateInitialFrequency(value)
     initialFrequency = value
     updateView();
   };
@@ -296,54 +371,6 @@ const TripleSliderWidget: React.FC<{
     updateView();
   };
 
-
-  const generateWavePath = () => {
-    const waveLength = 400; // Width of the box
-    const pathData = [];
-
-    const frequencyDifference = endFrequency - initialFrequency;
-    const amplitudeDifference = endAmplitude - startAmplitude;
-
-    // Loop through the wave's width to generate the path
-    for (let x = 0; x <= waveLength; x++) {
-      const currentFrequency = (initialFrequency + (frequencyDifference * x) / waveLength)/100;
-      const currentAmplitude = (startAmplitude + (amplitudeDifference * x) / waveLength)/2.2;
-      const period = waveLength / currentFrequency
-
-
-      // Calculate the y-coordinate based on the current frequency and amplitude
-      let y = 0;
-      switch (waveType) {
-        case 'sine':
-          y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
-          break;
-        case 'square':
-          y = x % period < period / 2 ? 65 + currentAmplitude : 65 - currentAmplitude;
-          break;
-        case 'sawtooth':
-          y = 65 + currentAmplitude - ((x % period) / period) * (2 * currentAmplitude);
-          break;
-        case 'triangle':
-          const tPeriod = x % period;
-          y = tPeriod < period / 2
-            ? 65 + (2 * currentAmplitude / period) * tPeriod
-            : 65 - (2 * currentAmplitude / period) * (tPeriod - period / 2);
-          break;
-        case 'noisy':
-          // Generate noisy wave based on sine wave and random noise
-          const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
-          const randomNoise = Math.random() * 2 - 1;
-          y = baseWave + randomNoise * (currentAmplitude * 0.3);
-          break;
-      }
-
-      // Add the point to the path data
-      pathData.push(`${x},${y}`);
-    }
-
-    // Join the path data points to create the path
-    return `M${pathData.join(' ')}`;
-  };
 
   return (
     <div>
@@ -409,17 +436,7 @@ const TripleSliderWidget: React.FC<{
         </div>
         {/* Waveform box */}
         <div style={{ width: '200px', height: '130px', backgroundColor: 'linen', marginTop: '9px', marginLeft: '5px' }}>
-          <svg width="100%" height="100%">
-            <path d={generateWavePath()} stroke="black" fill="none" />
-            <line
-              x1="0%" // Start of the line
-              y1="50%" // Vertically center the line
-              x2="100%" // End of the line
-              y2="50%" // Keep the line horizontal
-              stroke="gray" // Line color
-              strokeWidth="0.5" // Line thickness
-            />
-          </svg>
+          <WaveSVG endFrequency={endFrequency} initialFrequency={initialFrequency} startAmplitude={startAmplitude} endAmplitude={endAmplitude} waveType={waveType}/>
         </div>
       </div>
     </div>
