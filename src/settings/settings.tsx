@@ -111,6 +111,8 @@ export const defaultSettings: Settings = {
   allowEditingThirdPartyModules: false,
 };
 
+const inContextTranslationLangId = "lol";
+
 export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (typeof value !== "object") {
     return false;
@@ -118,6 +120,7 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   const object = value as any;
   if (
     object.languageId &&
+    object.languageId !== inContextTranslationLangId &&
     !supportedLanguages.find((x) => x.id === object.languageId)
   ) {
     return false;
@@ -184,7 +187,11 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     "settings",
     defaultSettings,
     isValidSettingsObject,
-    flags.noLang ? { languageId: getLanguageFromQuery() } : {}
+    flags.translate
+      ? { languageId: inContextTranslationLangId }
+      : flags.noLang
+      ? { languageId: getLanguageFromQuery() }
+      : {}
   );
   return (
     <SettingsContext.Provider value={[settings, setSettings]}>

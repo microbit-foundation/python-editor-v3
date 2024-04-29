@@ -138,7 +138,7 @@ const SideBarHeader = ({
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
   const searchButtonMode =
-    !contentWidth || contentWidth > 405 ? "button" : "icon";
+    contentWidth && contentWidth > 405 ? "button" : "icon";
   const paddingX = 14;
   const modalOffset = faceLogoRef.current
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX

@@ -48,7 +48,11 @@ export type Flag =
    * Registers the service worker and enables offline use.
    * Injects the webmanifest which allows installation.
    */
-  | "pwa";
+  | "pwa"
+  /**
+   * Enables in-context Crowdin translating.
+   */
+  | "translate";
 
 interface FlagMetadata {
   defaultOnStages: Stage[];
@@ -61,6 +65,7 @@ const allFlags: FlagMetadata[] = [
   { name: "cmsPreview", defaultOnStages: [] },
   { name: "dndDebug", defaultOnStages: [] },
   { name: "noLang", defaultOnStages: [] },
+  { name: "translate", defaultOnStages: [] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
   { name: "pwa", defaultOnStages: [] },
 ];
