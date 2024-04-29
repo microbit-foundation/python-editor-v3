@@ -41,7 +41,14 @@ export type Flag =
    * Added to support user-testing and has the nice side-effect of disabling
    * the dialog for local development so is worth keeping for that use alone.
    */
-  | "noWelcome";
+  | "noWelcome"
+  /**
+   * Enables PWA behaviours.
+   *
+   * Registers the service worker and enables offline use.
+   * Injects the webmanifest which allows installation.
+   */
+  | "pwa";
 
 interface FlagMetadata {
   defaultOnStages: Stage[];
@@ -55,6 +62,7 @@ const allFlags: FlagMetadata[] = [
   { name: "dndDebug", defaultOnStages: [] },
   { name: "noLang", defaultOnStages: [] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
+  { name: "pwa", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;
