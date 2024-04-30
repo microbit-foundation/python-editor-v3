@@ -1,25 +1,24 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  HStack,
-} from "@chakra-ui/react";
+import { Box, Button, HStack } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
-import { WidgetProps } from "./reactWidgetExtension";
+import React, { useState } from "react";
 import { openWidgetEffect } from "./openWidgets";
-import { zIndexAboveDialogs } from "../../../common/zIndex";
-import { start } from "repl";
+import { WidgetProps } from "./reactWidgetExtension";
 
-type FixedLengthArray = [number, number, number, number, number, string, string];
+type FixedLengthArray = [
+  number,
+  number,
+  number,
+  number,
+  number,
+  string,
+  string
+];
 
 interface SliderProps {
   min: number;
   max: number;
   step: number;
-  defaultValue: number;
+  value: number;
   onChange: (value: number) => void;
   sliderStyle?: React.CSSProperties;
   label: string;
@@ -27,14 +26,10 @@ interface SliderProps {
   colour: string;
 }
 
-const startVolProps: SliderProps = {
+const startVolProps: Omit<SliderProps, "value" | "onChange"> = {
   min: 0,
   max: 255,
   step: 1,
-  defaultValue: 50,
-  onChange: (value) => {
-    console.log("Slider value changed:", value);
-  },
   sliderStyle: {
     width: "100%", // Adjust the width of the slider
     height: "100px", // Adjust the height of the slider
@@ -45,17 +40,13 @@ const startVolProps: SliderProps = {
   },
   label: "Start Vol",
   vertical: true,
-  colour: 'red'
+  colour: "red",
 };
 
-const endFrequencySliderProps: SliderProps = {
+const endFrequencySliderProps: Omit<SliderProps, "value" | "onChange"> = {
   min: 0,
   max: 9999,
   step: 1,
-  defaultValue: 5000,
-  onChange: (value) => {
-    console.log("Slider value changed:", value);
-  },
   sliderStyle: {
     width: "100%",
     height: "100px",
@@ -66,17 +57,13 @@ const endFrequencySliderProps: SliderProps = {
   },
   label: "End Freq",
   vertical: true,
-  colour: 'green'
+  colour: "green",
 };
 
-const startFrequencySliderProps: SliderProps = {
+const startFrequencySliderProps: Omit<SliderProps, "value" | "onChange"> = {
   min: 0,
   max: 9999,
   step: 1,
-  defaultValue: 5000,
-  onChange: (value) => {
-    console.log("Slider value changed:", value);
-  },
   sliderStyle: {
     width: "200%", // Adjust the width of the slider
     height: "100px", // Adjust the height of the slider
@@ -87,17 +74,13 @@ const startFrequencySliderProps: SliderProps = {
   },
   label: "Start Freq",
   vertical: true,
-  colour: 'blue'
+  colour: "blue",
 };
 
-const endVolProps: SliderProps = {
+const endVolProps: Omit<SliderProps, "value" | "onChange"> = {
   min: 0,
   max: 255,
   step: 1,
-  defaultValue: 50,
-  onChange: (value) => {
-    console.log("Slider value changed:", value);
-  },
   sliderStyle: {
     width: "200%", // Adjust the width of the slider
     height: "100px", // Adjust the height of the slider
@@ -108,74 +91,88 @@ const endVolProps: SliderProps = {
   },
   label: "End Vol",
   vertical: true,
-  colour: 'black'
+  colour: "black",
 };
 
-const Slider: React.FC<SliderProps & { vertical?: boolean, colour: string }> = ({
-  min,
-  max,
-  step,
-  defaultValue,
-  onChange,
-  sliderStyle,
-  label,
-  vertical,
-  colour
-}) => {
-  const [value, setValue] = useState(defaultValue);
+const Slider: React.FC<SliderProps & { vertical?: boolean; colour: string }> =
+  ({
+    min,
+    max,
+    step,
+    value,
+    onChange,
+    sliderStyle,
+    label,
+    vertical,
+    colour,
+  }) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = parseFloat(event.target.value);
+      onChange(newValue);
+    };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(event.target.value);
-    setValue(newValue);
-    onChange(newValue);
-  };
-
-  return (
-    <div style={{ position: 'relative', height: '80px', width: '45px', display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={handleChange}
-        style={{
-          position: 'absolute',
-          width: '115px', // Width of the slider
-          height: '40px', // Height of the slider
-          transform: 'rotate(-90deg)', // Rotate the slider to vertical orientation
-          accentColor: colour,
-          bottom: '0%',
-        }}
-      />
+    return (
       <div
         style={{
-          position: 'absolute',
-          left: 'calc(100% - 15px)', // Position the label to the right of the slider
-          bottom: `${((value - min) / (max - min)) * 100}%`, // Calculate the position based on value
-          transform: 'translateY(50%)', // Center the label vertically with the thumb
-          fontSize: '13px', // Font size of the label
+          position: "relative",
+          height: "80px",
+          width: "45px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        {value}
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={handleChange}
+          style={{
+            position: "absolute",
+            width: "115px", // Width of the slider
+            height: "40px", // Height of the slider
+            transform: "rotate(-90deg)", // Rotate the slider to vertical orientation
+            accentColor: colour,
+            bottom: "0%",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: "calc(100% - 15px)", // Position the label to the right of the slider
+            bottom: `${((value - min) / (max - min)) * 100}%`, // Calculate the position based on value
+            transform: "translateY(50%)", // Center the label vertically with the thumb
+            fontSize: "13px", // Font size of the label
+          }}
+        >
+          {value}
+        </div>
+        <div
+          style={{ marginTop: "120px", textAlign: "center", fontSize: "11px" }}
+        >
+          <b>{label}</b>
+        </div>
       </div>
-      <div style={{ marginTop: '120px', textAlign: 'center', fontSize: '11px', }}>
-        <b>{label}</b>
-      </div>
-    </div>
-  );
-};
-
+    );
+  };
 
 const TripleSliderWidget: React.FC<{
-  freqStartProps: SliderProps;
-  freqEndProps: SliderProps;
-  volStartProps: SliderProps;
-  volEndprops: SliderProps;
+  freqStartProps: Omit<SliderProps, "value" | "onChange">;
+  freqEndProps: Omit<SliderProps, "value" | "onChange">;
+  volStartProps: Omit<SliderProps, "value" | "onChange">;
+  volEndprops: Omit<SliderProps, "value" | "onChange">;
   props: WidgetProps;
   view: EditorView;
-}> = ({ freqStartProps, freqEndProps, volStartProps, volEndprops, props, view}) => {
-
+}> = ({
+  freqStartProps,
+  freqEndProps,
+  volStartProps,
+  volEndprops,
+  props,
+  view,
+}) => {
   let args = props.args;
   let ranges = props.ranges;
   let types = props.types;
@@ -184,39 +181,37 @@ const TripleSliderWidget: React.FC<{
 
   //parse args
 
-  let argsToBeUsed: FixedLengthArray = [200, 500, 2000, 50, 50, "sine", "None"] // default args
-  let count = 0
-  for (let i = 2; i < args.length; i += 3) { //Update default args with user args where they exist
-    argsToBeUsed[count] = args[i]
+  let argsToBeUsed: FixedLengthArray = [200, 500, 2000, 50, 50, "sine", "None"]; // default args
+  let count = 0;
+  for (let i = 2; i < args.length; i += 3) {
+    //Update default args with user args where they exist
+    argsToBeUsed[count] = args[i];
     let arg = args[i];
     console.log("arg: ", arg);
     count += 1;
-  };
+  }
 
-  console.log("args", argsToBeUsed)
+  console.log("args", argsToBeUsed);
 
-  const [initialFrequency, setInitialFrequency] = useState(Math.min(argsToBeUsed[0], 9999));
-  freqStartProps.defaultValue = initialFrequency
+  const startFreq = Math.min(argsToBeUsed[0], 9999);
+  const endFreq = Math.min(argsToBeUsed[1], 9999);
+  const startVol = Math.min(argsToBeUsed[3], 255);
+  const endVol = Math.min(argsToBeUsed[4], 9999);
 
-  const [endFrequency, setEndFrequency] = useState(Math.min(argsToBeUsed[1], 9999));
-  freqEndProps.defaultValue = endFrequency
+  const [waveType, setWaveType] = useState("sine");
 
+  const waveformOptions = ["None", "Vibrato", "Tremolo", "Warble"];
+  const textBoxValue = Number(argsToBeUsed[2]);
 
-  const [startAmplitude, setStartAmplitude] = useState(Math.min(argsToBeUsed[3], 255));
-  volStartProps.defaultValue = startAmplitude
-
-  const [endAmplitude, setEndAmplitude] = useState(Math.min(argsToBeUsed[4], 9999));
-  volEndprops.defaultValue = endAmplitude
-
-  
-  const [waveType, setWaveType] = useState("sine")
-
-  const waveformOptions = ["None", "Vibrato", "Tremolo", "Warble"]
-  const [textBoxValue, setTextBoxValue] = useState(Number(argsToBeUsed[2]));
-
-
-  const updateView = () => {
-    let insertion = statesToString(initialFrequency, endFrequency, textBoxValue, startAmplitude, endAmplitude);
+  const updateView = (change: Partial<ParsedArgs>) => {
+    let insertion = statesToString({
+      startFreq,
+      endFreq,
+      duration: textBoxValue,
+      startVol,
+      endVol,
+      ...change,
+    });
     console.log(insertion);
     if (ranges.length === 1) {
       view.dispatch({
@@ -241,78 +236,86 @@ const TripleSliderWidget: React.FC<{
     }
   };
 
-
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setTextBoxValue(Number(newValue));
-    updateView();
+    //const newValue = e.target.value;
+    //setTextBoxValue(Number(newValue));
+    updateView({});
   };
 
   const handleSlider1Change = (value: number) => {
-    freqStartProps.onChange(value);
-    setInitialFrequency(value);
-    updateView();
+    //freqStartProps.onChange(value);
+    //setInitialFrequency(value);
+    updateView({
+      startFreq: value,
+    });
   };
 
   const handleSlider2Change = (value: number) => {
-    freqEndProps.onChange(value);
-    setEndFrequency(value); // 
-    updateView();
+    //freqEndProps.onChange(value);
+    //setEndFrequency(value); //
+    updateView({});
   };
 
   const handleSlider3Change = (value: number) => {
-    freqStartProps.onChange(value);
-    setStartAmplitude(value);
-    updateView();
+    //freqStartProps.onChange(value);
+    //setStartAmplitude(value);
+    updateView({});
   };
 
   const handleSlider4Change = (value: number) => {
-    freqStartProps.onChange(value);
-    setEndAmplitude(value);
-    updateView();
+    //freqStartProps.onChange(value);
+    //setEndAmplitude(value);
+    updateView({});
   };
 
   const handleWaveTypeChange = (value: string) => {
     setWaveType(value);
   };
 
-
-
   const generateWavePath = () => {
     const waveLength = 400; // Width of the box
     const pathData = [];
 
-    const frequencyDifference = endFrequency - initialFrequency;
-    const amplitudeDifference = endAmplitude - startAmplitude;
+    const frequencyDifference = endFreq - startFreq;
+    const amplitudeDifference = endVol - startVol;
 
     // Loop through the wave's width to generate the path
     for (let x = 0; x <= waveLength; x++) {
-      const currentFrequency = (initialFrequency + (frequencyDifference * x) / waveLength)/100;
-      const currentAmplitude = (startAmplitude + (amplitudeDifference * x) / waveLength)/2.2;
-      const period = waveLength / currentFrequency
-
+      const currentFrequency =
+        (startFreq + (frequencyDifference * x) / waveLength) / 100;
+      const currentAmplitude =
+        (startVol + (amplitudeDifference * x) / waveLength) / 2.2;
+      const period = waveLength / currentFrequency;
 
       // Calculate the y-coordinate based on the current frequency and amplitude
       let y = 0;
       switch (waveType) {
-        case 'sine':
+        case "sine":
           y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
           break;
-        case 'square':
-          y = x % period < period / 2 ? 65 + currentAmplitude : 65 - currentAmplitude;
+        case "square":
+          y =
+            x % period < period / 2
+              ? 65 + currentAmplitude
+              : 65 - currentAmplitude;
           break;
-        case 'sawtooth':
-          y = 65 + currentAmplitude - ((x % period) / period) * (2 * currentAmplitude);
+        case "sawtooth":
+          y =
+            65 +
+            currentAmplitude -
+            ((x % period) / period) * (2 * currentAmplitude);
           break;
-        case 'triangle':
+        case "triangle":
           const tPeriod = x % period;
-          y = tPeriod < period / 2
-            ? 65 + (2 * currentAmplitude / period) * tPeriod
-            : 65 - (2 * currentAmplitude / period) * (tPeriod - period / 2);
+          y =
+            tPeriod < period / 2
+              ? 65 + ((2 * currentAmplitude) / period) * tPeriod
+              : 65 - ((2 * currentAmplitude) / period) * (tPeriod - period / 2);
           break;
-        case 'noisy':
+        case "noisy":
           // Generate noisy wave based on sine wave and random noise
-          const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
+          const baseWave =
+            65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
           const randomNoise = Math.random() * 2 - 1;
           y = baseWave + randomNoise * (currentAmplitude * 0.3);
           break;
@@ -323,34 +326,74 @@ const TripleSliderWidget: React.FC<{
     }
 
     // Join the path data points to create the path
-    return `M${pathData.join(' ')}`;
+    return `M${pathData.join(" ")}`;
   };
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-start", backgroundColor: 'snow', width: '575px', height: '150px', border: '1px solid lightgray', boxShadow: '0 0 10px 5px rgba(173, 216, 230, 0.7)', zIndex: 10 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          backgroundColor: "snow",
+          width: "575px",
+          height: "150px",
+          border: "1px solid lightgray",
+          boxShadow: "0 0 10px 5px rgba(173, 216, 230, 0.7)",
+          zIndex: 10,
+        }}
+      >
         {/* Vertical Slider 1 */}
-        <div style={{ marginLeft: "6px", marginRight: "20px", height: '100px', marginTop: '9px' }}>
-          <Slider {...freqStartProps} onChange={handleSlider1Change} vertical />
+        <div
+          style={{
+            marginLeft: "6px",
+            marginRight: "20px",
+            height: "100px",
+            marginTop: "9px",
+          }}
+        >
+          <Slider
+            {...freqStartProps}
+            value={startFreq}
+            onChange={handleSlider1Change}
+            vertical
+          />
         </div>
         {/* Vertical Slider 2 */}
-        <div style={{ marginRight: "20px", height: '100px', marginTop: '9px' }}>
-          <Slider {...freqEndProps} onChange={handleSlider2Change} vertical />
+        <div style={{ marginRight: "20px", height: "100px", marginTop: "9px" }}>
+          <Slider
+            {...freqEndProps}
+            // TODO: for this and all the following sliders we need value to come from the parsed args above
+            //       and the handleXXXChange functions need to be updated to pass the relevant change to updateView
+            value={0}
+            onChange={handleSlider2Change}
+            vertical
+          />
         </div>
         {/* Vertical Slider 3 */}
-        <div style={{ marginRight: "20px", height: '100px', marginTop: '9px' }}>
-          <Slider {...volStartProps} onChange={handleSlider3Change} vertical />
+        <div style={{ marginRight: "20px", height: "100px", marginTop: "9px" }}>
+          <Slider
+            {...volStartProps}
+            value={0}
+            onChange={handleSlider3Change}
+            vertical
+          />
         </div>
         {/* Vertical Slider 4 */}
-        <div style={{ marginRight: "25px", height: '100px', marginTop: '9px' }}>
-          <Slider {...volEndprops} onChange={handleSlider4Change} vertical />
+        <div style={{ marginRight: "25px", height: "100px", marginTop: "9px" }}>
+          <Slider
+            {...volEndprops}
+            value={0}
+            onChange={handleSlider4Change}
+            vertical
+          />
         </div>
 
-
-        <div style={{ marginRight: '10px', height: '100px', fontSize: '12px' }}>
-
+        <div style={{ marginRight: "10px", height: "100px", fontSize: "12px" }}>
           {/* waveform type selection */}
-          <label style={{ display: 'block', marginBottom: '5px', marginTop: '7px', }}>
+          <label
+            style={{ display: "block", marginBottom: "5px", marginTop: "7px" }}
+          >
             <b>Waveform:</b>
           </label>
           <select onChange={(e) => handleWaveTypeChange(e.target.value)}>
@@ -363,7 +406,9 @@ const TripleSliderWidget: React.FC<{
 
           {/* fx type selection */}
 
-          <label style={{ display: 'block', marginBottom: '5px', marginTop: '10px' }}>
+          <label
+            style={{ display: "block", marginBottom: "5px", marginTop: "10px" }}
+          >
             <b>Effects:</b>
           </label>
           <select onChange={(e) => handleWaveTypeChange(e.target.value)}>
@@ -375,7 +420,9 @@ const TripleSliderWidget: React.FC<{
 
           {/* Duration selctor */}
 
-          <label style={{ display: 'block', marginBottom: '5px', marginTop: '10px' }}>
+          <label
+            style={{ display: "block", marginBottom: "5px", marginTop: "10px" }}
+          >
             <b>Duration(ms):</b>
           </label>
           {/* Input field with associated datalist */}
@@ -384,12 +431,19 @@ const TripleSliderWidget: React.FC<{
             value={textBoxValue}
             onChange={handleTextInputChange} // Handle the selected or typed-in value
             defaultValue="2000"
-            style={{ width: '75px' }}
+            style={{ width: "75px" }}
           />
-
         </div>
         {/* Waveform box */}
-        <div style={{ width: '200px', height: '130px', backgroundColor: 'linen', marginTop: '9px', marginLeft: '5px' }}>
+        <div
+          style={{
+            width: "200px",
+            height: "130px",
+            backgroundColor: "linen",
+            marginTop: "9px",
+            marginLeft: "5px",
+          }}
+        >
           <svg width="100%" height="100%">
             <path d={generateWavePath()} stroke="black" fill="none" />
             <line
@@ -404,11 +458,8 @@ const TripleSliderWidget: React.FC<{
         </div>
       </div>
     </div>
-
   );
 };
-
-
 
 export const SoundComponent = ({
   props,
@@ -417,12 +468,11 @@ export const SoundComponent = ({
   props: WidgetProps;
   view: EditorView;
 }) => {
-
   let args = props.args;
   let ranges = props.ranges;
   let types = props.types;
   let from = props.from;
-  let to = props.to
+  let to = props.to;
 
   //for future reference add a aclose button
   const handleCloseClick = () => {
@@ -430,7 +480,7 @@ export const SoundComponent = ({
       effects: [openWidgetEffect.of(-1)],
     });
   };
-  
+
   const updateView = () => {
     let insertion = "test";
     console.log(insertion);
@@ -456,7 +506,7 @@ export const SoundComponent = ({
       });
     }
   };
-  
+
   return (
     <HStack fontFamily="body" spacing={5} py={3} zIndex={10}>
       <Box ml="10px" style={{ marginRight: "4px" }}>
@@ -478,13 +528,29 @@ export const SoundComponent = ({
 
 //(startFreq: number, endFreq: Number, duration: Number, startVol: number, endVol: Number, waveform: string, fx: string)
 
-function statesToString(startFreq: number, endFreq: Number, duration: Number, startVol: number, endVol: Number): string {
-  return `\n`
-  + `        freq_start=${startFreq},\n`
-  + `        freq_end=${endFreq},\n`
-  + `        duration=${duration},\n`
-  + `        vol_start=${startVol},\n`
-  + `        vol_end=${endVol},\n`
-  + `        waveform=SoundEffect.FX_WARBLE,\n`
-  + `        fx=SoundEffect.FX_VIBRATO`;
+interface ParsedArgs {
+  startFreq: number;
+  endFreq: number;
+  duration: number;
+  startVol: number;
+  endVol: number;
+}
+
+function statesToString({
+  startFreq,
+  endFreq,
+  duration,
+  startVol,
+  endVol,
+}: ParsedArgs): string {
+  return (
+    `\n` +
+    `        freq_start=${startFreq},\n` +
+    `        freq_end=${endFreq},\n` +
+    `        duration=${duration},\n` +
+    `        vol_start=${startVol},\n` +
+    `        vol_end=${endVol},\n` +
+    `        waveform=SoundEffect.FX_WARBLE,\n` +
+    `        fx=SoundEffect.FX_VIBRATO`
+  );
 }
