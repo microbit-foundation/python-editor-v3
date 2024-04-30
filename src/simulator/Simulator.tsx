@@ -22,6 +22,7 @@ import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
+import { flags } from "../flags";
 
 export enum RunningStatus {
   RUNNING,
@@ -118,7 +119,9 @@ const Simulator = ({
               <Box
                 ref={ref}
                 as="iframe"
-                src={`${url}?color=${encodeURIComponent(brand500)}`}
+                src={`${url}?color=${encodeURIComponent(brand500)}${
+                  flags.pwa ? "&flag=sw" : ""
+                }`}
                 title={simulatorTitle}
                 name={simulatorTitle}
                 frameBorder="no"
