@@ -69,9 +69,9 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
           style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "15px" }}
         >
           {[...Array(5)].map((_, gridY) => (
-            <Box key={y} display="flex">
+            <Box key={gridY} display="flex">
               {[...Array(5)].map((_, gridX) => (
-                <Box key={x} display="flex" mr="0px">
+                <Box key={gridX} display="flex" mr="0px">
                   <Button
                     height="32px"
                     width="30px"

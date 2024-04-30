@@ -9,7 +9,7 @@ import { syntaxTree } from "@codemirror/language";
 import { PortalFactory } from "../CodeMirror";
 import React from "react";
 import { createWidget } from "./widgetArgParser";
-import { OpenReactComponent, openWidgetEffect } from "./openWidgets";
+import { openWidgetEffect } from "./openWidgets";
 import { ValidateComponentArgs } from "./widgetArgParser";
 
 export interface WidgetProps {
@@ -43,25 +43,44 @@ class Widget extends WidgetType {
 
   eq(other: WidgetType): boolean {
     const them = other as Widget;
-    return them.component === this.component && them.props.to === this.props.to && them.inline === this.inline;
+    let args1 = this.props.args;
+    let args2 = them.props.args;
+    let eqArgs =
+      args1.length === args2.length &&
+      args1.every((element, index) => element === args2[index]);
+
+    return (
+      them.component === this.component &&
+      them.props.to === this.props.to &&
+      eqArgs &&
+      them.inline === this.inline
+    );
+  }
+
+  updateDOM(dom: HTMLElement, view: EditorView): boolean {
+    dom.style.display = this.inline ? "inline-block" : "unset";
+    this.portalCleanup = this.createPortal(dom, this.toComponent(view));
+    return true;
+  }
+
+  private toComponent(view: EditorView) {
+    if (this.inline) {
+      return <this.open loc={this.props.to} view={view} />;
+    }
+    return <this.component props={this.props} view={view} />;
   }
 
   toDOM(view: EditorView) {
     const dom = document.createElement("div");
 
-    if (this.inline) {
-      if (ValidateComponentArgs(this.component, this.props.args, this.props.types)) {
-        dom.style.display = "inline-block"; // want it inline for the open-close widget
-        this.portalCleanup = this.createPortal(
-          dom,
-          <this.open loc={this.props.to} view={view} />
-        );
-      }
-    } else
-      this.portalCleanup = this.createPortal(
-        dom,
-        <this.component props={this.props} view={view} />
-      );
+    if (
+      this.inline &&
+      !ValidateComponentArgs(this.component, this.props.args, this.props.types)
+    ) {
+      return dom;
+    }
+    dom.style.display = this.inline ? "inline-block" : "unset";
+    this.portalCleanup = this.createPortal(dom, this.toComponent(view));
     return dom;
   }
 

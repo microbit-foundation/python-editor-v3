@@ -36,7 +36,7 @@ export function createWidget(
       break;
     default:
       // No widget implemented for this function
-      console.log("No widget implemented for this function: " + name);
+      // console.log("No widget implemented for this function: " + name);
       return null;
   }
   if (component) {
@@ -60,7 +60,6 @@ function getChildNodes(node: SyntaxNode): SyntaxNode[] {
   let child = node.firstChild?.nextSibling;
   let children = [];
   while (child && child.name !== ")") {
-    console.log(child.name);
     if (child.name !== "," && child.name !== "Comment") children.push(child);
     child = child.nextSibling;
   }
