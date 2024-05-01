@@ -903,32 +903,7 @@ export class ProjectActions {
         callback={callback}
         finalFocusRef={finalFocusRef}
         title={this.intl.formatMessage({ id: "webusb-error-default-title" })}
-        description={
-          <>
-            <Box>
-              <FormattedMessage
-                id="webusb-error-reconnect-microbit-description"
-                values={{
-                  p: (chunks: ReactNode) => <Text>{chunks}</Text>,
-                  li: (chunks: ReactNode) => (
-                    <ListItem>
-                      <Text as="span">{chunks}</Text>
-                    </ListItem>
-                  ),
-                  ul: (chunks: ReactNode) => (
-                    <UnorderedList pl={2}>{chunks}</UnorderedList>
-                  ),
-                }}
-              />
-            </Box>
-            <Box mb={-10}>
-              <video autoPlay loop>
-                <source src={reconnectWebm} type="video/webm" />
-                <source src={reconnectMp4} type="video/mp4" />
-              </video>
-            </Box>
-          </>
-        }
+        description={<ReconnectTextAndVideo />}
       />
     ));
   }
@@ -941,30 +916,7 @@ export class ProjectActions {
         callback={callback}
         finalFocusRef={finalFocusRef}
         title={this.intl.formatMessage({ id: "timeout-error-title" })}
-        description={
-          <>
-            <Box>
-              <FormattedMessage
-                id="webusb-error-reconnect-microbit-description"
-                values={{
-                  p: (chunks: ReactNode) => <Text>{chunks}</Text>,
-                  li: (chunks: ReactNode) => (
-                    <ListItem>
-                      <Text as="span">{chunks}</Text>
-                    </ListItem>
-                  ),
-                  ul: (chunks: ReactNode) => (
-                    <UnorderedList pl={2}>{chunks}</UnorderedList>
-                  ),
-                }}
-              />
-            </Box>
-            <video autoPlay loop>
-              <source src={reconnectWebm} type="video/webm" />
-              <source src={reconnectMp4} type="video/mp4" />
-            </video>
-          </>
-        }
+        description={<ReconnectTextAndVideo />}
       />
     ));
   }
@@ -1076,3 +1028,30 @@ export const defaultedProject = (
     name: fs.project.name ?? intl.formatMessage({ id: "untitled-project" }),
   };
 };
+
+const ReconnectTextAndVideo = () => (
+  <>
+    <Box>
+      <FormattedMessage
+        id="webusb-error-reconnect-microbit-description"
+        values={{
+          p: (chunks: ReactNode) => <Text>{chunks}</Text>,
+          li: (chunks: ReactNode) => (
+            <ListItem>
+              <Text as="span">{chunks}</Text>
+            </ListItem>
+          ),
+          ul: (chunks: ReactNode) => (
+            <UnorderedList pl={2}>{chunks}</UnorderedList>
+          ),
+        }}
+      />
+    </Box>
+    <Box mb={-10}>
+      <video autoPlay loop>
+        <source src={reconnectWebm} type="video/webm" />
+        <source src={reconnectMp4} type="video/mp4" />
+      </video>
+    </Box>
+  </>
+);
