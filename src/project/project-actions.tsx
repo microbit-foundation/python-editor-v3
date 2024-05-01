@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
-import { Box, Text, UnorderedList, VStack } from "@chakra-ui/react";
+import { Box, HStack, Text, UnorderedList, VStack } from "@chakra-ui/react";
 import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
@@ -1030,8 +1030,8 @@ export const defaultedProject = (
 };
 
 const ReconnectTextAndVideo = () => (
-  <>
-    <Box>
+  <HStack alignItems="flex-start">
+    <Box flex="1 0 50%">
       <FormattedMessage
         id="webusb-error-reconnect-microbit-description"
         values={{
@@ -1047,11 +1047,11 @@ const ReconnectTextAndVideo = () => (
         }}
       />
     </Box>
-    <Box mb={-10}>
+    <Box flex="1 0 50%" mb="-5%">
       <video autoPlay loop>
         <source src={reconnectWebm} type="video/webm" />
         <source src={reconnectMp4} type="video/mp4" />
       </video>
     </Box>
-  </>
+  </HStack>
 );
