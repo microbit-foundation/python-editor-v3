@@ -519,7 +519,6 @@ export class ProjectActions {
     }
 
     try {
-      throw new WebUSBError({ code: "timeout-error" });
       const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
       const firstFlashNotice = (
         <Text fontSize="lg">
