@@ -1116,11 +1116,11 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor, machine learning tool), or unplug and replug the micro:bit before trying again.",
+    "defaultMessage": "Close any other pages or tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again.",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Another process is connected to this micro:bit",
+    "defaultMessage": "Another page or browser tab is connected to this micro:bit",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -1128,7 +1128,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "<p>Please:</p><ul><li>check that this micro:bit does not have a battery pack connected</li><li>unplug and replug the USB cable</li></ul>",
+    "defaultMessage": "<p>Please follow these steps, then try again:</p><ul><li>unplug the USB cable</li><li>unplug the battery pack if one is attached</li><li>reconnect the USB cable</li><li>reconnect the battery pack if one was attached</li></ul>",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {

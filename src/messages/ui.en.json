@@ -2430,13 +2430,13 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor, machine learning tool), or unplug and replug the micro:bit before trying again."
+      "value": "Close any other pages or tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Another process is connected to this micro:bit"
+      "value": "Another page or browser tab is connected to this micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2450,7 +2450,7 @@
       "children": [
         {
           "type": 0,
-          "value": "Please:"
+          "value": "Please follow these steps, then try again:"
         }
       ],
       "type": 8,
@@ -2462,7 +2462,7 @@
           "children": [
             {
               "type": 0,
-              "value": "check that this micro:bit does not have a battery pack connected"
+              "value": "unplug the USB cable"
             }
           ],
           "type": 8,
@@ -2472,7 +2472,27 @@
           "children": [
             {
               "type": 0,
-              "value": "unplug and replug the USB cable"
+              "value": "unplug the battery pack if one is attached"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "reconnect the USB cable"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "reconnect the battery pack if one was attached"
             }
           ],
           "type": 8,

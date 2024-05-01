@@ -519,6 +519,7 @@ export class ProjectActions {
     }
 
     try {
+      throw new WebUSBError({ code: "timeout-error" });
       const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
       const firstFlashNotice = (
         <Text fontSize="lg">
@@ -887,11 +888,6 @@ export class ProjectActions {
           <VStack alignItems="stretch" mt={1}>
             <p>
               {this.intl.formatMessage({
-                id: "webusb-error-clear-connect-description-1",
-              })}
-            </p>
-            <p>
-              {this.intl.formatMessage({
                 id: "webusb-error-clear-connect-description-2",
               })}
             </p>
@@ -926,10 +922,12 @@ export class ProjectActions {
                 }}
               />
             </Box>
-            <video autoPlay loop>
-              <source src={reconnectWebm} type="video/webm" />
-              <source src={reconnectMp4} type="video/mp4" />
-            </video>
+            <Box mb={-10}>
+              <video autoPlay loop>
+                <source src={reconnectWebm} type="video/webm" />
+                <source src={reconnectMp4} type="video/mp4" />
+              </video>
+            </Box>
           </>
         }
       />
@@ -944,9 +942,30 @@ export class ProjectActions {
         callback={callback}
         finalFocusRef={finalFocusRef}
         title={this.intl.formatMessage({ id: "timeout-error-title" })}
-        description={this.intl.formatMessage({
-          id: "timeout-error-description",
-        })}
+        description={
+          <>
+            <Box>
+              <FormattedMessage
+                id="webusb-error-reconnect-microbit-description"
+                values={{
+                  p: (chunks: ReactNode) => <Text>{chunks}</Text>,
+                  li: (chunks: ReactNode) => (
+                    <ListItem>
+                      <Text as="span">{chunks}</Text>
+                    </ListItem>
+                  ),
+                  ul: (chunks: ReactNode) => (
+                    <UnorderedList pl={2}>{chunks}</UnorderedList>
+                  ),
+                }}
+              />
+            </Box>
+            <video autoPlay loop>
+              <source src={reconnectWebm} type="video/webm" />
+              <source src={reconnectMp4} type="video/mp4" />
+            </video>
+          </>
+        }
       />
     ));
   }
