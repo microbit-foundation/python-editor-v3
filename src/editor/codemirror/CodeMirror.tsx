@@ -40,6 +40,7 @@ import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
+import { useDevice } from "../../device/device-hooks";
 
 interface CodeMirrorProps {
   className?: string;
@@ -81,6 +82,7 @@ const CodeMirror = ({
   const actionFeedback = useActionFeedback();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
   const { apiReferenceMap } = useDocumentation();
+  const device = useDevice();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -131,6 +133,7 @@ const CodeMirror = ({
             client
               ? languageServer(
                   client,
+                  device,
                   uri,
                   intl,
                   logging,
@@ -172,6 +175,7 @@ const CodeMirror = ({
     parameterHelpOption,
     uri,
     apiReferenceMap,
+    device,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -191,6 +195,7 @@ const CodeMirror = ({
           client
             ? languageServer(
                 client,
+                device,
                 uri,
                 intl,
                 logging,
@@ -215,6 +220,7 @@ const CodeMirror = ({
     logging,
     uri,
     apiReferenceMap,
+    device,
   ]);
 
   const { location } = selection;

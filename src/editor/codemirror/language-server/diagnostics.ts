@@ -7,6 +7,7 @@ import { Text } from "@codemirror/state";
 import * as LSP from "vscode-languageserver-protocol";
 import { Diagnostic } from "../lint/lint";
 import { positionToOffset } from "./positions";
+import { DeviceConnection } from "../../../device/device";
 
 const severityMapping = {
   [LSP.DiagnosticSeverity.Error]: "error",
@@ -17,10 +18,20 @@ const severityMapping = {
 
 export const diagnosticsMapping = (
   document: Text,
-  lspDiagnostics: LSP.Diagnostic[]
+  lspDiagnostics: LSP.Diagnostic[],
+  device: DeviceConnection
 ): Diagnostic[] =>
   lspDiagnostics
-    .map(({ range, message, severity, tags }): Diagnostic | undefined => {
+    .map(({ range, message, severity, tags, code }): Diagnostic | undefined => {
+      console.log(code);
+      console.log(device);
+      // Only show warnings for using V2 API features if a V1 board is connected.
+      if (
+        code === "reportMicrobitV2ApiUse" &&
+        device.getBoardVersion() !== "V1"
+      ) {
+        return undefined;
+      }
       let from = positionToOffset(document, range.start);
       let to = positionToOffset(document, range.end);
       // Skip if we can't map to the current document.

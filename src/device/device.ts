@@ -133,6 +133,8 @@ export interface ConnectOptions {
   serial?: boolean;
 }
 
+export type BoardVersion = "V1" | "V2";
+
 export interface DeviceConnection extends EventEmitter {
   status: ConnectionStatus;
 
@@ -152,6 +154,13 @@ export interface DeviceConnection extends EventEmitter {
    * @returns the final connection status.
    */
   connect(options?: ConnectOptions): Promise<ConnectionStatus>;
+
+  /**
+   * Get the board version.
+   *
+   * @returns the board version or null if there is no connection.
+   */
+  getBoardVersion(): BoardVersion | null;
 
   /**
    * Flash the micro:bit.

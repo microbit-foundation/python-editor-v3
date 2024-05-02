@@ -10,6 +10,7 @@ import { withTimeout, TimeoutError } from "./async-util";
 import { DAPWrapper } from "./dap-wrapper";
 import { PartialFlashing } from "./partial-flashing";
 import {
+  BoardVersion,
   ConnectionStatus,
   ConnectOptions,
   DeviceConnection,
@@ -172,6 +173,14 @@ export class MicrobitWebUSBConnection
     });
   }
 
+  getBoardVersion(): BoardVersion | null {
+    if (!this.connection) {
+      return null;
+    }
+    const boardId = this.connection.boardSerialInfo.id;
+    return boardId.isV1() ? "V1" : boardId.isV2() ? "V2" : null;
+  }
+
   async flash(
     dataSource: FlashDataSource,
     options: {
@@ -297,7 +306,6 @@ export class MicrobitWebUSBConnection
     } finally {
       this.connection = undefined;
       this.setStatus(ConnectionStatus.NOT_CONNECTED);
-
       this.logging.log("Disconnection complete");
       this.logging.event({
         type: "WebUSB-info",
