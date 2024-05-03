@@ -11,6 +11,7 @@ import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
 import firmwareUpgrade from "./firmware-upgrade.svg";
+import { FinalFocusRef } from "../../project/project-actions";
 
 export const enum ConnectErrorChoice {
   TRY_AGAIN = "TRY_AGAIN",
@@ -19,7 +20,7 @@ export const enum ConnectErrorChoice {
 
 interface FirmwareDialogProps {
   callback: (choice: ConnectErrorChoice) => void;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 const FirmwareDialog = ({ callback, finalFocusRef }: FirmwareDialogProps) => {

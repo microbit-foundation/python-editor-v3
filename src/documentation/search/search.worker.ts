@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import multi from "@microbit/lunr-languages/lunr.multi";
-import stemmerSupport from "@microbit/lunr-languages/lunr.stemmer.support";
-import tinyseg from "@microbit/lunr-languages/tinyseg";
+import multi from "lunr-languages/lunr.multi";
+import stemmerSupport from "lunr-languages/lunr.stemmer.support";
+import tinyseg from "lunr-languages/tinyseg";
 import lunr from "lunr";
 import { splitDocString } from "../../editor/codemirror/language-server/docstrings";
 import type {

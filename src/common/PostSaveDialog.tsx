@@ -8,6 +8,7 @@ import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
 import { useProject } from "../project/project-hooks";
+import { FinalFocusRef } from "../project/project-actions";
 
 export const enum PostSaveChoice {
   ShowTransferHexHelp,
@@ -18,7 +19,7 @@ export const enum PostSaveChoice {
 interface PostSaveDialogProps {
   callback: (value: PostSaveChoice) => void;
   dialogNormallyHidden: boolean;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 export const PostSaveDialog = ({

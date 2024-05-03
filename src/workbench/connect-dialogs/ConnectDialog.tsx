@@ -10,6 +10,7 @@ import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
 import ConnectCableDialogBody from "./ConnectCableDialog";
 import ConnectHelpDialogBody from "./ConnectHelpDialog";
+import { FinalFocusRef } from "../../project/project-actions";
 
 export const enum ConnectHelpChoice {
   Next,
@@ -21,7 +22,7 @@ interface ConnectHelpDialogProps {
   callback: (choice: ConnectHelpChoice) => void;
   dialogNormallyHidden: boolean;
   shownByRequest: boolean;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 const enum Stage {

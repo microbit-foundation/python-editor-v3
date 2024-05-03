@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-declare module "@microbit/lunr-languages/lunr.stemmer.support";
-declare module "@microbit/lunr-languages/tinyseg";
-declare module "@microbit/lunr-languages/lunr.multi";
+declare module "lunr-languages/lunr.stemmer.support";
+declare module "lunr-languages/tinyseg";
+declare module "lunr-languages/lunr.multi";
 
-declare module "@microbit/lunr-languages/lunr.*" {
+declare module "lunr-languages/lunr.*" {
   import lunr from "lunr";
   function register(l: typeof lunr): void;
   export = register;

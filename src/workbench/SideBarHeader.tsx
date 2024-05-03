@@ -33,6 +33,11 @@ import SearchDialog from "../documentation/search/SearchDialog";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 import { useSettings } from "../settings/settings";
+import { useHotkeys } from "react-hotkeys-hook";
+import {
+  globalShortcutConfig,
+  keyboardShortcuts,
+} from "../common/keyboard-shortcuts";
 
 interface SideBarHeaderProps {
   sidebarShown: boolean;
@@ -72,35 +77,21 @@ const SideBarHeader = ({
 
   const [{ languageId }] = useSettings();
   const searchAvailable = supportedSearchLanguages.includes(languageId);
-  // When we add more keyboard shortcuts, we should pull this up and have a CM-like model of the
-  // available actions and their shortcuts, with a hook used here to register a handler for the action.
-  useEffect(() => {
-    const isMac = /Mac/.test(navigator.platform);
-    const keydown = (e: KeyboardEvent) => {
-      if (
-        (e.key === "F" || e.key === "f") &&
-        (isMac ? e.metaKey : e.ctrlKey) &&
-        e.shiftKey &&
-        !e.repeat &&
-        searchAvailable
-      ) {
-        handleModalOpened();
-        if (!sidebarShown) {
-          onSidebarToggled();
-        }
+
+  const handleSearchShortcut = useCallback(() => {
+    if (searchAvailable) {
+      handleModalOpened();
+      if (!sidebarShown) {
+        onSidebarToggled();
       }
-    };
-    document.addEventListener("keydown", keydown);
-    return () => {
-      document.removeEventListener("keydown", keydown);
-    };
-  }, [
-    onSidebarToggled,
-    searchModal,
-    sidebarShown,
-    handleModalOpened,
-    searchAvailable,
-  ]);
+    }
+  }, [handleModalOpened, onSidebarToggled, searchAvailable, sidebarShown]);
+
+  useHotkeys(
+    keyboardShortcuts.search,
+    handleSearchShortcut,
+    globalShortcutConfig
+  );
 
   const handleQueryChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -138,7 +129,7 @@ const SideBarHeader = ({
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
   const searchButtonMode =
-    !contentWidth || contentWidth > 405 ? "button" : "icon";
+    contentWidth && contentWidth > 405 ? "button" : "icon";
   const paddingX = 14;
   const modalOffset = faceLogoRef.current
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
