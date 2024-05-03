@@ -2430,13 +2430,13 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
+      "value": "Close any other pages or tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
     }
   ],
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Unable to claim interface"
+      "value": "Another page or browser tab is connected to this micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2447,34 +2447,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Please reconnect your micro:bit and try again."
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "You need to "
+      "children": [
+        {
+          "type": 0,
+          "value": "Please follow these steps, then try again:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
     },
     {
       "children": [
         {
-          "type": 0,
-          "value": "update your micro:bit firmware"
+          "children": [
+            {
+              "type": 0,
+              "value": "unplug the USB cable"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "unplug the battery pack if one is attached"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "reconnect the USB cable"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "reconnect the battery pack if one was attached"
+            }
+          ],
+          "type": 8,
+          "value": "li"
         }
       ],
       "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " to make use of this feature."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Please update the micro:bit firmware"
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [

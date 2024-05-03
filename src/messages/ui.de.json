@@ -2499,32 +2499,6 @@
       "value": "Bitte schließe deinen micro:bit erneut an und versuche es nochmal."
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "Um diese Funktion nutzen zu können, musst du deine "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "micro:bit Firmware aktualisieren "
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Bitte aktualisiere die micro:bit Firmware"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,

@@ -2439,32 +2439,6 @@
       "value": "micro:bit 연결을 확인한 후, 다시 시도해 보세요."
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "이 기능을 활용하려면 "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "micro:bit 펌웨어를 업데이트"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "해야 합니다."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "micro:bit 펌웨어를 업데이트 하세요."
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,

@@ -1130,14 +1130,6 @@
     "defaultMessage": "Veuillez reconnecter votre micro:bit et réessayer.",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "Vous devez <link>mettre à jour le micrologiciel de votre micro:bit</link> pour utiliser cette fonctionnalité.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "Veuillez mettre à jour le micrologiciel de micro:bit",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "Malheureusement, WebUSB n'est pas pris en charge dans ce navigateur et votre programme sera sauvegardé sur votre ordinateur. Suivez les étapes sur l'écran suivant pour le transférer vers votre micro:bit. Nous vous recommandons Google Chrome ou Microsoft Edge afin que vous puissiez vous connecter directement à votre micro:bit.",
     "description": "Explantion shown when user's browser doesn't support WebUSB"

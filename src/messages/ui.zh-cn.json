@@ -2452,32 +2452,6 @@
       "value": "请重新连接 micro:bit 然后再次尝试。"
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "您需要  "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "update your micro:bit firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " 才能使用此功能。"
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "请更新 micro:bit 固件"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,
