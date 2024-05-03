@@ -188,7 +188,6 @@ export class LanguageServerClient extends EventEmitter {
         if (!navigator.onLine) {
           showOfflineLanguageToast(this.toast);
           // Fallback to the precached locale if user is offline.
-          // Currently unused as we are precaching all pyright-locale files.
           this.locale = fallbackLocale;
           this.initializePromise = undefined;
           this.initialize();

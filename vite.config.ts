@@ -81,7 +81,6 @@ export default defineConfig(({ mode }) => {
         workbox: {
           // Only precache language assets for the fallback language.
           // Cache other languages at runtime.
-          // Cache all pyright-locale files as we can't tell what language they are.
           globIgnores: [
             "**/{typeshed.!(en*).js,pyright-locale-!(en*).js,search.worker.!(en*).js,ui.!(en*).js}",
           ],
