@@ -23,8 +23,6 @@ export const diagnosticsMapping = (
 ): Diagnostic[] =>
   lspDiagnostics
     .map(({ range, message, severity, tags, code }): Diagnostic | undefined => {
-      console.log(code);
-      console.log(device);
       // Only show warnings for using V2 API features if a V1 board is connected.
       if (
         code === "reportMicrobitV2ApiUse" &&
