@@ -8,10 +8,11 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
+import { FinalFocusRef } from "../../project/project-actions";
 
 interface WebUSBErrorDialogProps {
   callback: () => void;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
   title: ReactNode;
   description: ReactNode;
 }

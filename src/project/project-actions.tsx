@@ -875,9 +875,7 @@ export class ProjectActions {
     this.save(finalFocusRef, true);
   }
 
-  private async handleClearConnectError(
-    finalFocusRef: React.RefObject<HTMLButtonElement>
-  ) {
+  private async handleClearConnectError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}
@@ -897,9 +895,7 @@ export class ProjectActions {
       />
     ));
   }
-  private async handleReconnectMicrobitError(
-    finalFocusRef: React.RefObject<HTMLButtonElement>
-  ) {
+  private async handleReconnectMicrobitError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}
@@ -910,9 +906,7 @@ export class ProjectActions {
     ));
   }
 
-  private async handleTimeoutError(
-    finalFocusRef: React.RefObject<HTMLButtonElement>
-  ) {
+  private async handleTimeoutError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}
