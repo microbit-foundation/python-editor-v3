@@ -71,6 +71,7 @@ export const apiDocs = async (
         // For now, this omits a lot of modules that have stubs
         // derived from typeshed with no docs.
         // Note: "audio" is covered under micro:bit.
+        "builtins",
         "gc",
         "log",
         "machine",

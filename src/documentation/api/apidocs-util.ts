@@ -52,3 +52,24 @@ export const moduleAndApiFromId = (id: string) => {
     apiId,
   };
 };
+
+export const filterOutUndocumentedBuiltins = (input: ApiDocsContent) => {
+  const recursiveFilter = (
+    entries: ApiDocsEntry[] | undefined
+  ): ApiDocsEntry[] | undefined => {
+    if (!entries) {
+      return;
+    }
+    return entries.filter((entry) => {
+      const hasDocstring = !!entry.docString;
+      if (hasDocstring) {
+        entry.children = recursiveFilter(entry.children);
+      }
+      return hasDocstring;
+    });
+  };
+
+  input.content.builtins.children = recursiveFilter(
+    input.content.builtins.children
+  );
+};

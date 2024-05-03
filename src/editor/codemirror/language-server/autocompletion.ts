@@ -34,6 +34,7 @@ import {
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 import { escapeRegExp } from "./regexp-util";
+import { ShowLinkToBuiltins } from "./view";
 
 // Used to find the true start of the completion. Doesn't need to exactly match
 // any language's identifier definition.
@@ -44,7 +45,8 @@ type AugmentedCompletion = Completion & { item: CompletionItem };
 export const autocompletion = (
   intl: IntlShape,
   logging: Logging,
-  apiReferenceMap: ApiReferenceMap
+  apiReferenceMap: ApiReferenceMap,
+  showLinkToBuiltins: ShowLinkToBuiltins
 ) =>
   cmAutocompletion({
     override: [
@@ -76,7 +78,8 @@ export const autocompletion = (
         const documentationResolver = createDocumentationResolver(
           client,
           intl,
-          apiReferenceMap
+          apiReferenceMap,
+          showLinkToBuiltins
         );
         const results = await client.completionRequest({
           textDocument: {
@@ -145,7 +148,8 @@ const createDocumentationResolver =
   (
     client: LanguageServerClient,
     intl: IntlShape,
-    apiReferenceMap: ApiReferenceMap
+    apiReferenceMap: ApiReferenceMap,
+    showLinkToBuiltins: ShowLinkToBuiltins
   ) =>
   async (completion: Completion): Promise<Node> => {
     let documentation: string | LSP.MarkupContent | undefined;
@@ -171,7 +175,13 @@ const createDocumentationResolver =
       if (id) {
         const referenceLink = getLinkToReference(id, apiReferenceMap);
         code.innerText = removeFullyQualifiedName(code.innerText);
-        return wrapWithDocumentationButton(intl, node, id, referenceLink);
+        return wrapWithDocumentationButton(
+          intl,
+          node,
+          id,
+          referenceLink,
+          showLinkToBuiltins
+        );
       }
     }
     return node;

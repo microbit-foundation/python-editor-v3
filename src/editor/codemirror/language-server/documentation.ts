@@ -11,6 +11,7 @@ import { moduleAndApiFromId } from "../../../documentation/api/apidocs-util";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
+import { ShowLinkToBuiltins } from "./view";
 
 export const enum DocSections {
   Summary = 1 << 0,
@@ -118,7 +119,8 @@ export const wrapWithDocumentationButton = (
   intl: IntlShape,
   child: Element,
   id: string,
-  referenceLink: string | undefined
+  referenceLink: string | undefined,
+  showLinkToBuiltins: ShowLinkToBuiltins
 ): Element => {
   const docsAndActions = document.createElement("div");
   docsAndActions.style.display = "flex";
@@ -154,7 +156,10 @@ export const wrapWithDocumentationButton = (
   // We don't have documentation for builtins yet,
   // so there is nothing to link to.
   const { pythonModuleName } = moduleAndApiFromId(id);
-  if (pythonModuleName !== "builtins") {
+  if (
+    pythonModuleName !== "builtins" ||
+    (pythonModuleName === "builtins" && showLinkToBuiltins(id))
+  ) {
     const apiAnchor = createStyledAnchorElement();
     apiAnchor.textContent = intl.formatMessage({ id: "api-tab" });
     apiAnchor.onclick = (e) => {

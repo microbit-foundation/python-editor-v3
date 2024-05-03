@@ -37,6 +37,7 @@ import {
 } from "./documentation";
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
+import { ShowLinkToBuiltins } from "./view";
 
 export const setSignatureHelpRequestPosition = StateEffect.define<number>({});
 
@@ -121,7 +122,8 @@ const openSignatureHelp: Command = (view: EditorView) => {
 export const signatureHelp = (
   intl: IntlShape,
   automatic: boolean,
-  apiReferenceMap: ApiReferenceMap
+  apiReferenceMap: ApiReferenceMap,
+  showLinkToBuiltins: ShowLinkToBuiltins
 ) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
     create: () => new SignatureHelpState(-1, null),
@@ -162,7 +164,9 @@ export const signatureHelp = (
             create: () => {
               const dom = document.createElement("div");
               dom.className = "cm-signature-tooltip";
-              dom.appendChild(formatSignatureHelp(result, apiReferenceMap));
+              dom.appendChild(
+                formatSignatureHelp(result, apiReferenceMap, showLinkToBuiltins)
+              );
               return { dom };
             },
           };
@@ -219,7 +223,8 @@ export const signatureHelp = (
 
   const formatSignatureHelp = (
     help: SignatureHelp,
-    apiReferenceMap: ApiReferenceMap
+    apiReferenceMap: ApiReferenceMap,
+    showLinkToBuiltins: ShowLinkToBuiltins
   ): Node => {
     const { activeSignature: activeSignatureIndex, signatures } = help;
     // We intentionally do something minimal here to minimise distraction.
@@ -253,7 +258,8 @@ export const signatureHelp = (
       to,
       signatureDoc,
       activeParameterDoc,
-      apiReferenceMap
+      apiReferenceMap,
+      showLinkToBuiltins
     );
   };
 
@@ -263,7 +269,8 @@ export const signatureHelp = (
     to: number,
     signatureDoc: string | MarkupContent | undefined,
     activeParameterDoc: string | MarkupContent | undefined,
-    apiReferenceMap: ApiReferenceMap
+    apiReferenceMap: ApiReferenceMap,
+    showLinkToBuiltins: ShowLinkToBuiltins
   ): Node => {
     let before = label.substring(0, from);
     const id = nameFromSignature(before);
@@ -301,7 +308,13 @@ export const signatureHelp = (
       );
     }
     const referenceLink = getLinkToReference(id, apiReferenceMap);
-    return wrapWithDocumentationButton(intl, parent, id, referenceLink);
+    return wrapWithDocumentationButton(
+      intl,
+      parent,
+      id,
+      referenceLink,
+      showLinkToBuiltins
+    );
   };
 
   return [

@@ -12,7 +12,7 @@ import {
   lineNumbers,
   ViewUpdate,
 } from "@codemirror/view";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";
 import useActionFeedback from "../../common/use-action-feedback";
@@ -40,6 +40,7 @@ import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
+import { ApiDocsEntry } from "../../language-server/apidocs";
 
 interface CodeMirrorProps {
   className?: string;
@@ -80,7 +81,32 @@ const CodeMirror = ({
   const logging = useLogging();
   const actionFeedback = useActionFeedback();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
-  const { apiReferenceMap } = useDocumentation();
+  const { apiReferenceMap, api } = useDocumentation();
+
+  const showLinkToBuiltins = useCallback(
+    (id: string) => {
+      const idParts = id.split(".");
+
+      const recursiveFind = (
+        entries: ApiDocsEntry[] | undefined,
+        index: number = 1
+      ): ApiDocsEntry | undefined => {
+        if (!entries) {
+          return;
+        }
+        return entries.find((entry) => {
+          const match = entry.id === idParts.slice(0, index + 1).join(".");
+          if (match) {
+            recursiveFind(entry.children, index + 1);
+          }
+          return match;
+        });
+      };
+
+      return !!recursiveFind(api?.content.builtins.children);
+    },
+    [api?.content.builtins.children]
+  );
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -141,7 +167,8 @@ const CodeMirror = ({
                     signatureHelp: {
                       automatic: parameterHelpOption === "automatic",
                     },
-                  }
+                  },
+                  showLinkToBuiltins
                 )
               : [],
             codeStructure(options.codeStructureOption),
@@ -172,6 +199,7 @@ const CodeMirror = ({
     parameterHelpOption,
     uri,
     apiReferenceMap,
+    showLinkToBuiltins,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -199,7 +227,8 @@ const CodeMirror = ({
                   signatureHelp: {
                     automatic: parameterHelpOption === "automatic",
                   },
-                }
+                },
+                showLinkToBuiltins
               )
             : [],
           codeStructure(options.codeStructureOption),
@@ -215,6 +244,7 @@ const CodeMirror = ({
     logging,
     uri,
     apiReferenceMap,
+    showLinkToBuiltins,
   ]);
 
   const { location } = selection;

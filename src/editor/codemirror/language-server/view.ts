@@ -73,6 +73,8 @@ interface Options {
   };
 }
 
+export type ShowLinkToBuiltins = (id: string) => boolean;
+
 /**
  * Extensions that make use of a language server client.
  *
@@ -88,13 +90,19 @@ export function languageServer(
   intl: IntlShape,
   logging: Logging,
   apiReferenceMap: ApiReferenceMap,
-  options: Options
+  options: Options,
+  showLinkToBuiltins: ShowLinkToBuiltins
 ) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
     ViewPlugin.define((view) => new LanguageServerView(view)),
-    signatureHelp(intl, options.signatureHelp.automatic, apiReferenceMap),
-    autocompletion(intl, logging, apiReferenceMap),
+    signatureHelp(
+      intl,
+      options.signatureHelp.automatic,
+      apiReferenceMap,
+      showLinkToBuiltins
+    ),
+    autocompletion(intl, logging, apiReferenceMap, showLinkToBuiltins),
   ];
 }
