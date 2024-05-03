@@ -83,7 +83,7 @@ export default defineConfig(({ mode }) => {
           // Cache other languages at runtime.
           // Cache all pyright-locale files as we can't tell what language they are.
           globIgnores: [
-            "**/{typeshed.!(en*).js,search.worker.!(en*).js,ui.!(en*).js}",
+            "**/{typeshed.!(en*).js,pyright-locale-!(en*).js,search.worker.!(en*).js,ui.!(en*).js}",
           ],
           maximumFileSizeToCacheInBytes: 3097152,
           globPatterns: ["**/*.{js,css,html,ico,png,svg,gif,hex}"],
