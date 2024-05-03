@@ -12,7 +12,7 @@ import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-main-4d883fb033fc7fbb9f75.worker.js";
+const workerScriptName = "pyright-main-7dd6b21cf7fedd7dc339.worker.js";
 
 // Very simple cache to avoid React re-creating pointlessly in development.
 let counter = 0;
