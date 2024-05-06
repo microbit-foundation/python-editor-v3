@@ -46,47 +46,50 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      justifyContent="flex-start"
-      bg="lightgray"
-    >
-      <Box ml="10px" style={{ marginRight: "4px" }}>
+    <div>
+    <Box ml="10px" style={{ marginRight: "4px" }}>
         <Button size="xs" onClick={onCloseClick} bg="white">
           X
         </Button>
-      </Box>
+    </Box>
+    <Box // TODO: copy to allow other widgets to access bg and close
+      display="flex"
+      flexDirection="row"
+      justifyContent="flex-start"
+      width="250px"
+      background="snow"
+      border='1px solid lightgray'
+      boxShadow='0 0 10px 5px rgba(173, 216, 230, 0.7)'
+    >
       <Box>
         <Box
-          bg="black"
+          bg="white"
           p="10px"
-          borderRadius="5px"
-          style={{ marginTop: "15px" }}
+          borderRadius="0px"
+          border="1px solid black"
+          style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "15px" }}
         >
-          {selectedPixels.map((row, y) => (
-            <Box key={y} display="flex">
-              {row.map((brightness, x) => (
-                <Box key={x} display="flex" mr="2px">
+          {[...Array(5)].map((_, gridY) => (
+            <Box key={gridY} display="flex">
+              {[...Array(5)].map((_, gridX) => (
+                <Box key={gridX} display="flex" mr="0px">
                   <Button
-                    size="xs"
-                    h="15px"
-                    w="15px"
+                    height="32px"
+                    width="30px"
                     p={0}
                     borderRadius={0}
+                    bgColor={`rgba(255, 0, 0, ${selectedPixels[gridY][gridX] / 9})`}
                     border={
-                      selectedPixel?.x === x && selectedPixel.y === y
+                      selectedPixel?.x === gridX && selectedPixel.y === gridY
                         ? "2px solid white"
                         : "0.5px solid white"
                     }
-                    bgColor={`rgba(255, 0, 0, ${brightness / 9})`}
                     _hover={{
-                      bgColor:
-                        brightness > 0
-                          ? `rgba(255, 100, 100, ${selectedPixels[y][x] / 9})`
-                          : "rgba(255, 255, 255, 0.5)",
+                      bgColor: currentBrightness > 0
+                      ? `rgba(255, 100, 100, ${selectedPixels[gridY][gridX] / 9})`
+                      : "rgba(255, 255, 255, 0.5)",
                     }}
-                    onClick={() => handlePixelClick(x, y)}
+                    onClick={() => handlePixelClick(gridX, gridY)}
                   />
                 </Box>
               ))}
@@ -97,10 +100,11 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
       <Box ml="10px" style={{ marginTop: "15px" }}>
         <Slider
           aria-label="brightness"
-          value={currentBrightness}
+          defaultValue={currentBrightness}
           min={0}
           max={9}
           step={1}
+          height="182px"
           orientation="vertical"
           _focus={{ boxShadow: "none" }}
           _active={{ bgColor: "transparent" }}
@@ -113,6 +117,7 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
         </Slider>
       </Box>
     </Box>
+    </div>
   );
 };
 

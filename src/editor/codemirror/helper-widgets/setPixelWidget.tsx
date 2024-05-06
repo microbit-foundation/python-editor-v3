@@ -56,7 +56,7 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
       flexDirection="row"
       justifyContent="flex-start"
       width="250px"
-      background="snon"
+      background="snow"
       border='1px solid lightgray'
       boxShadow='0 0 10px 5px rgba(173, 216, 230, 0.7)'
     >
@@ -84,8 +84,8 @@ const MicrobitSinglePixelGrid: React.FC<MicrobitSinglePixelGridProps> = ({
                     }
                     border={
                       gridX === x && gridY === y
-                        ? "2px solid black"
-                        : "1px solid black"
+                      ? "2px solid black"
+                      : "1px solid black"
                     }
                     _hover={{
                       bgColor:
