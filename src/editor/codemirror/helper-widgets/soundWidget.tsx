@@ -36,69 +36,69 @@ interface SVGprops {
   waveType: string;
 }
 
-const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplitude, startAmplitude, waveType}) => {
+const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplitude, startAmplitude, waveType }) => {
 
-    console.log('wavepath generated', waveType)
+  console.log('wavepath generated', waveType)
 
-    const waveLength = 400; // Width of the box
-    const pathData = [];
+  const waveLength = 400; // Width of the box
+  const pathData = [];
 
-    const frequencyDifference = endFrequency - initialFrequency;
-    const amplitudeDifference = endAmplitude - startAmplitude;
+  const frequencyDifference = endFrequency - initialFrequency;
+  const amplitudeDifference = endAmplitude - startAmplitude;
 
-    // Loop through the wave's width to generate the path
-    for (let x = 0; x <= waveLength; x++) {
-      const currentFrequency = (initialFrequency + (frequencyDifference * x) / waveLength)/100;
-      const currentAmplitude = (startAmplitude + (amplitudeDifference * x) / waveLength)/2.2;
-      const period = waveLength / currentFrequency
+  // Loop through the wave's width to generate the path
+  for (let x = 0; x <= waveLength; x++) {
+    const currentFrequency = (initialFrequency + (frequencyDifference * x) / waveLength) / 100;
+    const currentAmplitude = (startAmplitude + (amplitudeDifference * x) / waveLength) / 2.2;
+    const period = waveLength / currentFrequency
 
 
-      // Calculate the y-coordinate based on the current frequency and amplitude
-      let y = 0;
-      switch (waveType.toLowerCase()) {
-        case 'sine':
-          y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
-          break;
-        case 'square':
-          y = x % period < period / 2 ? 65 + currentAmplitude : 65 - currentAmplitude;
-          break;
-        case 'sawtooth':
-          y = 65 + currentAmplitude - ((x % period) / period) * (2 * currentAmplitude);
-          break;
-        case 'triangle':
-          const tPeriod = x % period;
-          y = tPeriod < period / 2
-            ? 65 + (2 * currentAmplitude / period) * tPeriod
-            : 65 - (2 * currentAmplitude / period) * (tPeriod - period / 2);
-          break;
-        case 'noisy':
-          // Generate noisy wave based on sine wave and random noise
-          const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
-          const randomNoise = Math.random() * 2 - 1;
-          y = baseWave + randomNoise * (currentAmplitude * 0.3);
-          break;
-      }
-
-        // Add the point to the path data
-      pathData.push(`${x},${y}`);
+    // Calculate the y-coordinate based on the current frequency and amplitude
+    let y = 0;
+    switch (waveType.toLowerCase()) {
+      case 'sine':
+        y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
+        break;
+      case 'square':
+        y = x % period < period / 2 ? 65 + currentAmplitude : 65 - currentAmplitude;
+        break;
+      case 'sawtooth':
+        y = 65 + currentAmplitude - ((x % period) / period) * (2 * currentAmplitude);
+        break;
+      case 'triangle':
+        const tPeriod = x % period;
+        y = tPeriod < period / 2
+          ? 65 + (2 * currentAmplitude / period) * tPeriod
+          : 65 - (2 * currentAmplitude / period) * (tPeriod - period / 2);
+        break;
+      case 'noisy':
+        // Generate noisy wave based on sine wave and random noise
+        const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
+        const randomNoise = Math.random() * 2 - 1;
+        y = baseWave + randomNoise * (currentAmplitude * 0.3);
+        break;
     }
 
-    return (
-      <svg width="100%" height="100%">
-            <path d={`M${pathData.join(' ')}`} stroke="black" fill="none" />
-            <line
-              x1="0%" // Start of the line
-              y1="50%" // Vertically center the line
-              x2="100%" // End of the line
-              y2="50%" // Keep the line horizontal
-              stroke="gray" 
-              strokeWidth="0.5" 
-            />
-       </svg>
+    // Add the point to the path data
+    pathData.push(`${x},${y}`);
+  }
+
+  return (
+    <svg width="100%" height="100%">
+      <path d={`M${pathData.join(' ')}`} stroke="black" fill="none" />
+      <line
+        x1="0%" // Start of the line
+        y1="50%" // Vertically center the line
+        x2="100%" // End of the line
+        y2="50%" // Keep the line horizontal
+        stroke="gray"
+        strokeWidth="0.5"
+      />
+    </svg>
 
   )
-    
-  };
+
+};
 
 
 const startVolProps: SliderProps = {
@@ -245,9 +245,9 @@ const TripleSliderWidget: React.FC<{
   volEndprops: SliderProps;
   props: WidgetProps;
   view: EditorView;
-}> = ({ freqStartProps, freqEndProps, volStartProps, volEndprops, props, view}) => {
+}> = ({ freqStartProps, freqEndProps, volStartProps, volEndprops, props, view }) => {
 
-  
+
 
   let args = props.args;
   let ranges = props.ranges;
@@ -261,7 +261,7 @@ const TripleSliderWidget: React.FC<{
   let count = 0
   for (let i = 2; i < args.length; i += 3) { //Update default args with user args where they exist
     argsToBeUsed[count] = args[i]
-    if (args[i].split('_')[0] == 'SoundEffect.FX') {
+    if (args[i].split('_')[0] == 'SoundEffect.WAVEFORM' || args[i].split('_')[0] == 'SoundEffect.FX') {
       argsToBeUsed[count] = (args[i].split('_')[1]).toLowerCase()
     }
     let arg = args[i];
@@ -281,10 +281,10 @@ const TripleSliderWidget: React.FC<{
   const endVol = Math.min(argsToBeUsed[4], 9999);
   const [waveType, setWaveType] = useState(argsToBeUsed[5]);
   const fx = argsToBeUsed[6];
-  
+
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    updateView({duration: Number(newValue)});
+    updateView({ duration: Number(newValue) });
   };
 
   const startFreqChange = (value: number) => {
@@ -294,27 +294,28 @@ const TripleSliderWidget: React.FC<{
   };
 
   const endFreqChange = (value: number) => {
-    updateView({endFreq: value});
+    updateView({ endFreq: value });
   };
 
   const startVolChange = (value: number) => {
-    updateView({startVol: value});
+    updateView({ startVol: value });
   };
 
   const endVolChange = (value: number) => {
-    updateView({endVol: value});
+    updateView({ endVol: value });
   };
 
   const handleWaveTypeChange = (value: string) => {
+
     setWaveType(value);
-    updateView({waveType: value})
+    updateView({ waveType: value })
   };
 
   const handleFxChange = (value: string) => {
-    updateView({fx: value});
+    updateView({ fx: value });
   };
 
-  
+
   const updateView = (change: Partial<ParsedArgs>) => {
     let insertion = statesToString({
       startFreq,
@@ -543,49 +544,49 @@ const TripleSliderWidget: React.FC<{
 
 
 export const SoundComponent = ({
-    props,
-    view,
-    }: {
-    props: WidgetProps;
-    view: EditorView;
-    }) => {
-    let args = props.args;
-    let ranges = props.ranges;
-    let types = props.types;
-    let from = props.from;
-    let to = props.to;
+  props,
+  view,
+}: {
+  props: WidgetProps;
+  view: EditorView;
+}) => {
+  let args = props.args;
+  let ranges = props.ranges;
+  let types = props.types;
+  let from = props.from;
+  let to = props.to;
 
-    //for future reference add a aclose button
-    const handleCloseClick = () => {
+  //for future reference add a aclose button
+  const handleCloseClick = () => {
+    view.dispatch({
+      effects: [openWidgetEffect.of(-1)],
+    });
+  };
+
+  const updateView = () => {
+    let insertion = "test";
+    console.log(insertion);
+    if (ranges.length === 1) {
       view.dispatch({
-        effects: [openWidgetEffect.of(-1)],
+        changes: {
+          from: ranges[0].from,
+          to: ranges[0].to,
+          insert: insertion,
+        },
+        effects: [openWidgetEffect.of(insertion.length + from + 2)],
       });
-    };
-
-    const updateView = () => {
-      let insertion = "test";
-      console.log(insertion);
-      if (ranges.length === 1) {
-        view.dispatch({
-          changes: {
-            from: ranges[0].from,
-            to: ranges[0].to,
+    } else {
+      view.dispatch({
+        changes: [
+          {
+            from: from + 1,
+            to: to - 1,
             insert: insertion,
           },
-          effects: [openWidgetEffect.of(insertion.length + from + 2)],
-        });
-      } else {
-        view.dispatch({
-          changes: [
-            {
-              from: from + 1,
-              to: to - 1,
-              insert: insertion,
-            },
-          ],
-          effects: [openWidgetEffect.of(insertion.length + from + 2)],
-        });
-      }
+        ],
+        effects: [openWidgetEffect.of(insertion.length + from + 2)],
+      });
+    }
   };
 
   return (
@@ -627,21 +628,22 @@ function statesToString({
   waveType,
   fx,
 }: ParsedArgs): string {
+  console.log("waveType", waveType);
   if (fx.toLocaleLowerCase() == "none") {
     return `\n`
-  + `        freq_start=${startFreq},\n`
-  + `        freq_end=${endFreq},\n`
-  + `        duration=${duration},\n`
-  + `        vol_start=${startVol},\n`
-  + `        vol_end=${endVol},\n`
-  + `        waveform=SoundEffect.FX_${waveType.toUpperCase()}`
-  } 
+      + `        freq_start=${startFreq},\n`
+      + `        freq_end=${endFreq},\n`
+      + `        duration=${duration},\n`
+      + `        vol_start=${startVol},\n`
+      + `        vol_end=${endVol},\n`
+      + `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()}`
+  }``
   return `\n`
-  + `        freq_start=${startFreq},\n`
-  + `        freq_end=${endFreq},\n`
-  + `        duration=${duration},\n`
-  + `        vol_start=${startVol},\n`
-  + `        vol_end=${endVol},\n`
-  + `        waveform=SoundEffect.FX_${waveType.toUpperCase()},\n`
-  + `        fx=SoundEffect.FX_${fx.toUpperCase()}`;
+    + `        freq_start=${startFreq},\n`
+    + `        freq_end=${endFreq},\n`
+    + `        duration=${duration},\n`
+    + `        vol_start=${startVol},\n`
+    + `        vol_end=${endVol},\n`
+    + `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()},\n`
+    + `        fx=SoundEffect.FX_${fx.toUpperCase()}`;
 }
