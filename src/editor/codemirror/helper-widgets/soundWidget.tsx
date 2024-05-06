@@ -637,7 +637,7 @@ function statesToString({
       + `        vol_start=${startVol},\n`
       + `        vol_end=${endVol},\n`
       + `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()}`
-  }``
+  }
   return `\n`
     + `        freq_start=${startFreq},\n`
     + `        freq_end=${endFreq},\n`
