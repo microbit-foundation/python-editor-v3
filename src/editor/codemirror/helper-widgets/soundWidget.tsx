@@ -492,7 +492,7 @@ const TripleSliderWidget: React.FC<{
           <select onChange={(e) => handleFxChange(e.target.value)}>
             <option value="None">None</option>
             <option value="Vibrato">Vibrato</option>
-            <option value="Tremelo">Tremelo</option>
+            <option value="Tremolo">Tremolo</option>
             <option value="Warble">Warble</option>
           </select>
 
