@@ -138,6 +138,23 @@ const SettingsArea = () => {
           <FormattedMessage id="setting-allow-editing-third-party-info" />
         </FormHelperText>
       </FormControl>
+      <FormControl>
+        <Checkbox
+          id="V2-features"
+          isChecked={settings.warnOnV2OnlyFeatures}
+          onChange={(event) => {
+            setSettings({
+              ...settings,
+              warnOnV2OnlyFeatures: event.currentTarget.checked,
+            });
+          }}
+        >
+          <FormattedMessage id="setting-warn-on-v2-only-features" />
+        </Checkbox>
+        <FormHelperText color="gray.700">
+          <FormattedMessage id="setting-warn-on-v2-only-features-info" />
+        </FormHelperText>
+      </FormControl>
     </VStack>
   );
 };

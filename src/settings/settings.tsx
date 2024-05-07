@@ -105,6 +105,7 @@ export const defaultSettings: Settings = {
   showPostSaveHelp: true,
   showMultipleFilesHelp: true,
   allowEditingThirdPartyModules: false,
+  warnOnV2OnlyFeatures: true,
 };
 
 const inContextTranslationLangId = "lol";
@@ -161,9 +162,10 @@ export interface Settings {
   showTransferHexHelp: boolean;
   showPostSaveHelp: boolean;
   showMultipleFilesHelp: boolean;
+  warnOnV2OnlyFeatures: boolean;
 }
 
-type SettingsContextValue = [Settings, (settings: Settings) => void];
+export type SettingsContextValue = [Settings, (settings: Settings) => void];
 
 const SettingsContext = createContext<SettingsContextValue | undefined>(
   undefined

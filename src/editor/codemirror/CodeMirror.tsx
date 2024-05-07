@@ -51,6 +51,8 @@ interface CodeMirrorProps {
   fontSize: number;
   codeStructureOption: CodeStructureOption;
   parameterHelpOption: ParameterHelpOption;
+  warnOnV2OnlyFeatures: boolean;
+  disableV2OnlyFeaturesWarning: () => void;
 }
 
 /**
@@ -69,6 +71,8 @@ const CodeMirror = ({
   fontSize,
   codeStructureOption,
   parameterHelpOption,
+  warnOnV2OnlyFeatures,
+  disableV2OnlyFeaturesWarning,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
   const [, setActiveEditor] = useActiveEditorActionsState();
@@ -98,8 +102,9 @@ const CodeMirror = ({
       fontSize,
       codeStructureOption,
       parameterHelpOption,
+      warnOnV2OnlyFeatures,
     }),
-    [fontSize, codeStructureOption, parameterHelpOption]
+    [fontSize, codeStructureOption, parameterHelpOption, warnOnV2OnlyFeatures]
   );
 
   useEffect(() => {
@@ -144,6 +149,10 @@ const CodeMirror = ({
                     signatureHelp: {
                       automatic: parameterHelpOption === "automatic",
                     },
+                    warnOnV2OnlyFeatures: options.warnOnV2OnlyFeatures,
+                  },
+                  {
+                    disableV2OnlyFeaturesWarning,
                   }
                 )
               : [],
@@ -176,6 +185,7 @@ const CodeMirror = ({
     uri,
     apiReferenceMap,
     device,
+    disableV2OnlyFeaturesWarning,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -204,6 +214,10 @@ const CodeMirror = ({
                   signatureHelp: {
                     automatic: parameterHelpOption === "automatic",
                   },
+                  warnOnV2OnlyFeatures: options.warnOnV2OnlyFeatures,
+                },
+                {
+                  disableV2OnlyFeaturesWarning,
                 }
               )
             : [],
@@ -221,6 +235,7 @@ const CodeMirror = ({
     uri,
     apiReferenceMap,
     device,
+    disableV2OnlyFeaturesWarning,
   ]);
 
   const { location } = selection;

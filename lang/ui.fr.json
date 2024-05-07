@@ -742,6 +742,14 @@
     "defaultMessage": "La modification de modules tiers peut empêcher leur bon fonctionnement.",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Paramètres",
     "description": "Settings text"
@@ -1109,6 +1117,10 @@
   "visit-dot-org": {
     "defaultMessage": "visiter microbit.org (s’ouvre dans un nouvel onglet)",
     "description": "alt text for logo link to .org"
+  },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Un autre processus est connecté à cet appareil.",

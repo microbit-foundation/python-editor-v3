@@ -1696,6 +1696,18 @@
       "value": "更改第三方模块可能意味着它们无法按预期工作。"
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2420,6 +2432,12 @@
     {
       "type": 0,
       "value": "访问 microbit.org (在新标签页中打开)"
+    }
+  ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
     }
   ],
   "webusb-error-clear-connect-description-1": [

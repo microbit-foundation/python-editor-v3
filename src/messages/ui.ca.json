@@ -1669,6 +1669,18 @@
       "value": "Canviar mòduls de tercers pot significar que no funcionin com s'havia previst."
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2385,6 +2397,12 @@
     {
       "type": 0,
       "value": "visita microbit.org (s'obre en una pestanya nova)"
+    }
+  ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
     }
   ],
   "webusb-error-clear-connect-description-1": [

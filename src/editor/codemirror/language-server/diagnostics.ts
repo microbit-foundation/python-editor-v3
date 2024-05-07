@@ -5,7 +5,7 @@
  */
 import { Text } from "@codemirror/state";
 import * as LSP from "vscode-languageserver-protocol";
-import { Diagnostic } from "../lint/lint";
+import { Action, Diagnostic } from "../lint/lint";
 import { positionToOffset } from "./positions";
 import { DeviceConnection } from "../../../device/device";
 
@@ -19,17 +19,21 @@ const severityMapping = {
 export const diagnosticsMapping = (
   document: Text,
   lspDiagnostics: LSP.Diagnostic[],
-  device: DeviceConnection
+  device: DeviceConnection,
+  warnOnV2OnlyFeatures: boolean,
+  warnOnV2OnlyFeaturesAction: () => Action
 ): Diagnostic[] =>
   lspDiagnostics
     .map(({ range, message, severity, tags, code }): Diagnostic | undefined => {
-      // Only show warnings for using V2 API features if a V1 board is connected.
+      // Only show warnings for using V2 API features if a V1 board is connected
+      // and warnOnV2OnlyFeatures setting is on.
       if (
         code === "reportMicrobitV2ApiUse" &&
-        device.getBoardVersion() !== "V1"
+        (!warnOnV2OnlyFeatures || device.getBoardVersion() !== "V1")
       ) {
         return undefined;
       }
+
       let from = positionToOffset(document, range.start);
       let to = positionToOffset(document, range.end);
       // Skip if we can't map to the current document.
@@ -41,6 +45,10 @@ export const diagnosticsMapping = (
           severity: severityMapping[severity ?? LSP.DiagnosticSeverity.Warning],
           message,
           tags: tags ? tags.map(convertTag) : undefined,
+          actions:
+            code === "reportMicrobitV2ApiUse"
+              ? [warnOnV2OnlyFeaturesAction()]
+              : [],
         };
       }
       return undefined;
