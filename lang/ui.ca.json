@@ -1130,14 +1130,6 @@
     "defaultMessage": "Torna a connectar la teva micro:bit i torna-ho a provar.",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "Has d'<link>actualitzar el microprogramari de la teva micro:bit </link> per fer ús d'aquesta característica.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "Actualitza el microprogramari de la micro:bit ",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "Malauradament, WebUSB no és compatible amb aquest navegador i el teu programa es desarà al teu ordinador. Segueix els passos de la pantalla següent per transferir-lo ala teva micro:bit. Et recomanem Google Chrome o Microsoft Edge perquè et puguis connectar directament a la teva micro:bit.",
     "description": "Explantion shown when user's browser doesn't support WebUSB"

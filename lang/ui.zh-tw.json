@@ -1130,14 +1130,6 @@
     "defaultMessage": "請重新連接你的 micro:bit 後再試一次。",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "您需要<link>更新您的 micro:bit 韌體</link>，以使用此功能。",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "請更新 micro:bit 韌體",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "很抱歉，此瀏覽器不支援 WebUSB，您的程式將儲存至您的電腦。請依照下一個畫面上的步驟，將其傳輸至您的 micro:bit。我們建議您使用 Google Chrome 或 Microsoft Edge，以便能直接連線至您的 micro:bit。",
     "description": "Explantion shown when user's browser doesn't support WebUSB"

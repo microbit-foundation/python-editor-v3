@@ -2486,32 +2486,6 @@
       "value": "Verbind je micro:bit opnieuw en probeer het nog eens."
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "Je moet "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "je micro:bit firmware"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " updaten om deze functie te gebruiken."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Werk de firmware van de micro:bit bij"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,

@@ -2443,32 +2443,6 @@
       "value": "Por favor reconecta el micro:bit e intentalo de nuevo."
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "Necesitas "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "actualizar el firmware del micro:bit"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " para usar esta función."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Actualiza el firmware micro:bit"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,
