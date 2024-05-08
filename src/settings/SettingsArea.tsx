@@ -123,23 +123,6 @@ const SettingsArea = () => {
       />
       <FormControl>
         <Checkbox
-          id="allow-editing"
-          isChecked={settings.allowEditingThirdPartyModules}
-          onChange={(event) => {
-            setSettings({
-              ...settings,
-              allowEditingThirdPartyModules: event.currentTarget.checked,
-            });
-          }}
-        >
-          <FormattedMessage id="setting-allow-editing-third-party" />
-        </Checkbox>
-        <FormHelperText color="gray.700">
-          <FormattedMessage id="setting-allow-editing-third-party-info" />
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
-        <Checkbox
           id="V2-features"
           isChecked={settings.warnOnV2OnlyFeatures}
           onChange={(event) => {
@@ -153,6 +136,23 @@ const SettingsArea = () => {
         </Checkbox>
         <FormHelperText color="gray.700">
           <FormattedMessage id="setting-warn-on-v2-only-features-info" />
+        </FormHelperText>
+      </FormControl>
+      <FormControl>
+        <Checkbox
+          id="allow-editing"
+          isChecked={settings.allowEditingThirdPartyModules}
+          onChange={(event) => {
+            setSettings({
+              ...settings,
+              allowEditingThirdPartyModules: event.currentTarget.checked,
+            });
+          }}
+        >
+          <FormattedMessage id="setting-allow-editing-third-party" />
+        </Checkbox>
+        <FormHelperText color="gray.700">
+          <FormattedMessage id="setting-allow-editing-third-party-info" />
         </FormHelperText>
       </FormControl>
     </VStack>
