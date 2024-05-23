@@ -9,6 +9,9 @@ import { Action, Diagnostic } from "../lint/lint";
 import { positionToOffset } from "./positions";
 import { DeviceConnection } from "../../../device/device";
 
+const reportMicrobitVersionApiUnsupported =
+  "reportMicrobitVersionApiUnsupported";
+
 const severityMapping = {
   [LSP.DiagnosticSeverity.Error]: "error",
   [LSP.DiagnosticSeverity.Warning]: "warning",
@@ -28,7 +31,7 @@ export const diagnosticsMapping = (
       // Only show warnings for using V2 API features if a V1 board is connected
       // and warnOnV2OnlyFeatures setting is on.
       if (
-        code === "reportMicrobitV2ApiUse" &&
+        code === reportMicrobitVersionApiUnsupported &&
         (!warnOnV2OnlyFeatures || device.getBoardVersion() !== "V1")
       ) {
         return undefined;
@@ -46,7 +49,7 @@ export const diagnosticsMapping = (
           message,
           tags: tags ? tags.map(convertTag) : undefined,
           actions:
-            code === "reportMicrobitV2ApiUse"
+            code === reportMicrobitVersionApiUnsupported
               ? [warnOnV2OnlyFeaturesAction()]
               : [],
         };

@@ -124,11 +124,11 @@ const SettingsArea = () => {
       <FormControl>
         <Checkbox
           id="V2-features"
-          isChecked={settings.warnOnV2OnlyFeatures}
+          isChecked={settings.warnForApiUnsupportedByDevice}
           onChange={(event) => {
             setSettings({
               ...settings,
-              warnOnV2OnlyFeatures: event.currentTarget.checked,
+              warnForApiUnsupportedByDevice: event.currentTarget.checked,
             });
           }}
         >

@@ -21,7 +21,7 @@ interface EditorContainerProps {
 const EditorContainer = ({ selection }: EditorContainerProps) => {
   const [settings, setSettings] = useSettings();
   const disableV2OnlyFeaturesWarning = useCallback(() => {
-    setSettings({ ...settings, warnOnV2OnlyFeatures: false });
+    setSettings({ ...settings, warnForApiUnsupportedByDevice: false });
   }, [setSettings, settings]);
   // Note fileInfo is not updated for ordinary text edits.
   const [fileInfo, onFileChange] = useProjectFileText(selection.file);
@@ -40,7 +40,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
       fontSize={settings.fontSize}
       codeStructureOption={settings.codeStructureHighlight}
       parameterHelpOption={settings.parameterHelp}
-      warnOnV2OnlyFeatures={settings.warnOnV2OnlyFeatures}
+      warnOnV2OnlyFeatures={settings.warnForApiUnsupportedByDevice}
       disableV2OnlyFeaturesWarning={disableV2OnlyFeaturesWarning}
     />
   );
