@@ -73,6 +73,8 @@ import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
 import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
+import { ActionData } from "../documentation/ml/training-data";
+import { modelModule } from "../documentation/ml/ml";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -115,7 +117,8 @@ export class ProjectActions {
     },
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined
+    private client: LanguageServerClient | undefined,
+    private setMlData: (mlData: ActionData[]) => void
   ) {}
 
   private get project(): DefaultedProject {
@@ -245,6 +248,35 @@ export class ProjectActions {
     ));
   }
 
+  loadMlJson = async (
+    files: File[],
+    _type: LoadType = "file-upload"
+  ): Promise<void> => {
+    if (files.length === 0) {
+      throw new Error("Expected to be called with at least one file");
+    }
+
+    // Avoid lingering messages related to the previous project.
+    // Also makes e2e testing easier.
+    this.actionFeedback.closeAll();
+
+    if (files.length === 1 && getLowercaseFileExtension(files[0].name)) {
+      const file = files[0];
+      const json = await readFileAsText(file);
+      const data = JSON.parse(json) as ActionData[];
+      this.setMlData(data);
+      const actionNames = data.map((action) => action.name).join(" ");
+      await Promise.all([
+        this.fs.write(
+          "namesOfClasses.txt",
+          actionNames,
+          VersionAction.INCREMENT
+        ),
+        await this.fs.write("model.py", modelModule, VersionAction.INCREMENT),
+      ]);
+    }
+  };
+
   /**
    * Loads files
    *
@@ -259,7 +291,7 @@ export class ProjectActions {
    * @param files the files from drag and drop or an input element.
    * @param the type of user event that triggered the load.
    */
-  load = async (
+  loadHex = async (
     files: File[],
     type: LoadType = "file-upload"
   ): Promise<void> => {

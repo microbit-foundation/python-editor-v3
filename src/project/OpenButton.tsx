@@ -9,12 +9,20 @@ import { CollapsibleButtonComposableProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
 
-interface OpenButtonProps extends CollapsibleButtonComposableProps {}
+type FileType = "hex" | "mljson";
+
+interface OpenButtonProps extends CollapsibleButtonComposableProps {
+  fileType?: FileType;
+}
 
 /**
  * Open HEX button, with an associated input field.
  */
-const OpenButton = ({ children, ...props }: OpenButtonProps) => {
+const OpenButton = ({
+  children,
+  fileType = "hex",
+  ...props
+}: OpenButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   return (
@@ -23,7 +31,7 @@ const OpenButton = ({ children, ...props }: OpenButtonProps) => {
       text={intl.formatMessage({
         id: "open-file-action",
       })}
-      onOpen={actions.load}
+      onOpen={fileType === "hex" ? actions.loadHex : actions.loadMlJson}
       data-testid="open"
       multiple
       icon={<RiFolderOpenLine />}

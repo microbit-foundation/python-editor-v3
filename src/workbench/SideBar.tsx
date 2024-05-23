@@ -23,6 +23,7 @@ import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
+import ModelArea from "../documentation/ModelArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
 import ProjectArea from "../project/ProjectArea";
@@ -33,6 +34,7 @@ import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import ReleaseDialogs from "./ReleaseDialogs";
 import SideBarHeader from "./SideBarHeader";
 import SideBarTab from "./SideBarTab";
+import { FaCogs } from "react-icons/fa";
 
 export const cornerSize = 32;
 
@@ -93,6 +95,13 @@ const SideBar = ({
         title: intl.formatMessage({ id: "api-tab" }),
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
+        color: "gray.25",
+      },
+      {
+        id: "model" as const,
+        title: "Model",
+        icon: FaCogs,
+        contents: <ModelArea />,
         color: "gray.25",
         mb: "auto",
       },
