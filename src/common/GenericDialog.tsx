@@ -16,6 +16,7 @@ import { ThemingProps } from "@chakra-ui/styled-system";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "./ModalCloseButton";
+import { FinalFocusRef } from "../project/project-actions";
 
 export interface GenericDialogProps {
   header?: ReactNode;
@@ -24,7 +25,7 @@ export interface GenericDialogProps {
   size?: ThemingProps<"Button">["size"];
   onClose: () => void;
   returnFocusOnClose?: boolean;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef?: FinalFocusRef;
 }
 
 export const GenericDialog = ({

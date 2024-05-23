@@ -1,0 +1,2078 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "crwdns331356:0crwdne331356:0"
+    }
+  ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "crwdns331358:0crwdne331358:0"
+    }
+  ],
+  "about-microbit": [
+    {
+      "type": 0,
+      "value": "crwdns331360:0crwdne331360:0"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "crwdns331362:0crwdne331362:0"
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "crwdns331364:0crwdne331364:0"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "crwdns331366:0crwdne331366:0"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "crwdns331368:0"
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331368:0"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "crwdns331370:0crwdne331370:0"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "crwdns331372:0crwdne331372:0"
+    }
+  ],
+  "apidocs-baseclass": [
+    {
+      "type": 0,
+      "value": "crwdns331374:0baseClassCount="
+    },
+    {
+      "type": 1,
+      "value": "baseClassCount"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331374:0"
+    }
+  ],
+  "apidocs-classes": [
+    {
+      "type": 0,
+      "value": "crwdns331376:0crwdne331376:0"
+    }
+  ],
+  "apidocs-fields": [
+    {
+      "type": 0,
+      "value": "crwdns331378:0crwdne331378:0"
+    }
+  ],
+  "apidocs-functions": [
+    {
+      "type": 0,
+      "value": "crwdns331380:0crwdne331380:0"
+    }
+  ],
+  "apidocs-methods": [
+    {
+      "type": 0,
+      "value": "crwdns331382:0crwdne331382:0"
+    }
+  ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "crwdns331384:0crwdne331384:0"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "crwdns331386:0crwdne331386:0"
+    }
+  ],
+  "cancel-action": [
+    {
+      "type": 0,
+      "value": "crwdns331388:0crwdne331388:0"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "crwdns331390:0crwdne331390:0"
+    }
+  ],
+  "choose-main-add-file": [
+    {
+      "type": 0,
+      "value": "crwdns331392:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331392:0"
+    }
+  ],
+  "choose-main-add-module": [
+    {
+      "type": 0,
+      "value": "crwdns331394:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331394:0"
+    }
+  ],
+  "choose-main-replace-file": [
+    {
+      "type": 0,
+      "value": "crwdns331396:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331396:0"
+    }
+  ],
+  "choose-main-replace-module": [
+    {
+      "type": 0,
+      "value": "crwdns331398:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331398:0"
+    }
+  ],
+  "choose-main-source-add-file": [
+    {
+      "type": 0,
+      "value": "crwdns331400:0"
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": "crwdnd331400:0"
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331400:0"
+    }
+  ],
+  "choose-main-source-add-main-code": [
+    {
+      "type": 0,
+      "value": "crwdns331402:0"
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331402:0"
+    }
+  ],
+  "choose-main-source-replace-file": [
+    {
+      "type": 0,
+      "value": "crwdns331404:0"
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": "crwdnd331404:0"
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331404:0"
+    }
+  ],
+  "choose-main-source-replace-main-code": [
+    {
+      "type": 0,
+      "value": "crwdns331406:0"
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331406:0"
+    }
+  ],
+  "clear": [
+    {
+      "type": 0,
+      "value": "crwdns331408:0crwdne331408:0"
+    }
+  ],
+  "close-action": [
+    {
+      "type": 0,
+      "value": "crwdns331410:0crwdne331410:0"
+    }
+  ],
+  "code-editor": [
+    {
+      "type": 0,
+      "value": "crwdns331412:0crwdne331412:0"
+    }
+  ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "crwdns331414:0crwdne331414:0"
+    }
+  ],
+  "confirm-action": [
+    {
+      "type": 0,
+      "value": "crwdns331416:0crwdne331416:0"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "crwdns331418:0crwdne331418:0"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "crwdns331420:0crwdne331420:0"
+    }
+  ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "crwdns331422:0crwdne331422:0"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "crwdns331424:0crwdne331424:0"
+    }
+  ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "crwdns331426:0"
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331426:0"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "crwdns331428:0crwdne331428:0"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "crwdns331430:0crwdne331430:0"
+    }
+  ],
+  "connect-action": [
+    {
+      "type": 0,
+      "value": "crwdns331432:0crwdne331432:0"
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "crwdns331434:0crwdne331434:0"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "crwdns331436:0crwdne331436:0"
+    }
+  ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "crwdns331438:0crwdne331438:0"
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "crwdns331440:0crwdne331440:0"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "crwdns331442:0crwdne331442:0"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "crwdns331444:0crwdne331444:0"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331446:0crwdne331446:0"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "crwdns331448:0crwdne331448:0"
+    }
+  ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "crwdns331450:0crwdne331450:0"
+    }
+  ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "crwdns331452:0crwdne331452:0"
+    }
+  ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "crwdns359370:0crwdne359370:0"
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "crwdns331454:0crwdne331454:0"
+    }
+  ],
+  "copy-action": [
+    {
+      "type": 0,
+      "value": "crwdns331456:0crwdne331456:0"
+    }
+  ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "crwdns331458:0crwdne331458:0"
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "crwdns331460:0crwdne331460:0"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "crwdns331462:0crwdne331462:0"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "crwdns331464:0crwdne331464:0"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "crwdns331466:0"
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331466:0"
+    }
+  ],
+  "delete-action": [
+    {
+      "type": 0,
+      "value": "crwdns331468:0crwdne331468:0"
+    }
+  ],
+  "delete-file-action": [
+    {
+      "type": 0,
+      "value": "crwdns331470:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331470:0"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "crwdns331472:0"
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331472:0"
+    }
+  ],
+  "disconnect-action": [
+    {
+      "type": 0,
+      "value": "crwdns331474:0crwdne331474:0"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331476:0crwdne331476:0"
+    }
+  ],
+  "dont-show-again": [
+    {
+      "type": 0,
+      "value": "crwdns331478:0crwdne331478:0"
+    }
+  ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331480:0crwdne331480:0"
+    }
+  ],
+  "edit-file-action": [
+    {
+      "type": 0,
+      "value": "crwdns331482:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331482:0"
+    }
+  ],
+  "edit-name-project-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331484:0crwdne331484:0"
+    }
+  ],
+  "edit-project-name-action": [
+    {
+      "type": 0,
+      "value": "crwdns331486:0crwdne331486:0"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "crwdns331488:0crwdne331488:0"
+    }
+  ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "crwdns331490:0crwdne331490:0"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 0,
+      "value": "crwdns331492:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331492:0"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "crwdns331494:0crwdne331494:0"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "crwdns331496:0"
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331496:0"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "crwdns331498:0crwdne331498:0"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "crwdns331500:0crwdne331500:0"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "crwdns331502:0crwdne331502:0"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "crwdns331504:0crwdne331504:0"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "crwdns331506:0crwdne331506:0"
+    }
+  ],
+  "firmware-update-link": [
+    {
+      "type": 0,
+      "value": "crwdns331508:0crwdne331508:0"
+    }
+  ],
+  "firmware-update-message": [
+    {
+      "type": 0,
+      "value": "crwdns331510:0crwdne331510:0"
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "crwdns331512:0crwdne331512:0"
+    }
+  ],
+  "flash-action": [
+    {
+      "type": 0,
+      "value": "crwdns331514:0crwdne331514:0"
+    }
+  ],
+  "flash-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331516:0crwdne331516:0"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "crwdns331518:0crwdne331518:0"
+    }
+  ],
+  "flashing-full-flash-detail": [
+    {
+      "type": 0,
+      "value": "crwdns331520:0crwdne331520:0"
+    }
+  ],
+  "flashing-micropython": [
+    {
+      "type": 0,
+      "value": "crwdns331522:0crwdne331522:0"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "crwdns331524:0crwdne331524:0"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "crwdns331526:0crwdne331526:0"
+    }
+  ],
+  "help": [
+    {
+      "type": 0,
+      "value": "crwdns331528:0crwdne331528:0"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "crwdns331530:0crwdne331530:0"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "crwdns331532:0crwdne331532:0"
+    }
+  ],
+  "highlight-code-structure": [
+    {
+      "type": 0,
+      "value": "crwdns331534:0crwdne331534:0"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "crwdns331536:0crwdne331536:0"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "crwdns331538:0crwdne331538:0"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "crwdns331540:0crwdne331540:0"
+    }
+  ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "crwdns331542:0crwdne331542:0"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "crwdns331544:0crwdne331544:0"
+    }
+  ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "crwdns331546:0crwdne331546:0"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "crwdns331548:0crwdne331548:0"
+    }
+  ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "crwdns331550:0crwdne331550:0"
+    }
+  ],
+  "load-error-makecode-info": [
+    {
+      "type": 0,
+      "value": "crwdns331552:0crwdne331552:0"
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "crwdns331554:0crwdne331554:0"
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "crwdns331556:0crwdne331556:0"
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "crwdns331558:0crwdne331558:0"
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "crwdns331560:0fileCount="
+    },
+    {
+      "type": 1,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331560:0"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "crwdns331562:0"
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331562:0"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "crwdns331564:0crwdne331564:0"
+    }
+  ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "crwdns331566:0crwdne331566:0"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "crwdns331568:0crwdne331568:0"
+    }
+  ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "crwdns331570:0crwdne331570:0"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "crwdns331572:0crwdne331572:0"
+    }
+  ],
+  "more-action": [
+    {
+      "type": 0,
+      "value": "crwdns331574:0crwdne331574:0"
+    }
+  ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "crwdns331576:0crwdne331576:0"
+    }
+  ],
+  "more-ideas": [
+    {
+      "type": 0,
+      "value": "crwdns331578:0crwdne331578:0"
+    }
+  ],
+  "more-save-options": [
+    {
+      "type": 0,
+      "value": "crwdns331580:0crwdne331580:0"
+    }
+  ],
+  "multiple-files-message-one": [
+    {
+      "type": 0,
+      "value": "crwdns331582:0fileCount="
+    },
+    {
+      "type": 1,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "crwdnd331582:0fileCount="
+    },
+    {
+      "type": 1,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331582:0"
+    }
+  ],
+  "multiple-files-message-two": [
+    {
+      "type": 0,
+      "value": "crwdns331584:0crwdne331584:0"
+    }
+  ],
+  "multiple-files-title": [
+    {
+      "type": 0,
+      "value": "crwdns331586:0crwdne331586:0"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "crwdns331588:0crwdne331588:0"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "crwdns331590:0crwdne331590:0"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "crwdns331592:0crwdne331592:0"
+    }
+  ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "crwdns331594:0crwdne331594:0"
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "crwdns331596:0crwdne331596:0"
+    }
+  ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "crwdns331598:0crwdne331598:0"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "crwdns331600:0crwdne331600:0"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "crwdns331602:0crwdne331602:0"
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "crwdns331604:0crwdne331604:0"
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "crwdns331606:0crwdne331606:0"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "crwdns331608:0crwdne331608:0"
+    }
+  ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "crwdns331610:0crwdne331610:0"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "crwdns331612:0crwdne331612:0"
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "crwdns331614:0crwdne331614:0"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331616:0crwdne331616:0"
+    }
+  ],
+  "options": [
+    {
+      "type": 0,
+      "value": "crwdns331618:0crwdne331618:0"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "crwdns331620:0crwdne331620:0"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "crwdns331622:0crwdne331622:0"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "crwdns331624:0"
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331624:0"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "crwdns331626:0"
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331626:0"
+    }
+  ],
+  "post-save-message-files": [
+    {
+      "type": 0,
+      "value": "crwdns331628:0crwdne331628:0"
+    }
+  ],
+  "post-save-message-one": [
+    {
+      "type": 0,
+      "value": "crwdns331630:0crwdne331630:0"
+    }
+  ],
+  "post-save-message-two": [
+    {
+      "type": 0,
+      "value": "crwdns331632:0crwdne331632:0"
+    }
+  ],
+  "post-save-title": [
+    {
+      "type": 0,
+      "value": "crwdns331634:0crwdne331634:0"
+    }
+  ],
+  "post-save-transfer-hex": [
+    {
+      "type": 0,
+      "value": "crwdns331636:0crwdne331636:0"
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "crwdns359372:0crwdne359372:0"
+    }
+  ],
+  "project-actions": [
+    {
+      "type": 0,
+      "value": "crwdns331638:0crwdne331638:0"
+    }
+  ],
+  "project-header": [
+    {
+      "type": 0,
+      "value": "crwdns331640:0crwdne331640:0"
+    }
+  ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "crwdns331642:0crwdne331642:0"
+    }
+  ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "crwdns331644:0crwdne331644:0"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "crwdns331646:0crwdne331646:0"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "crwdns331648:0crwdne331648:0"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "crwdns331650:0crwdne331650:0"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "crwdns331652:0crwdne331652:0"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "crwdns331654:0crwdne331654:0"
+    }
+  ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "crwdns331656:0crwdne331656:0"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "crwdns331658:0crwdne331658:0"
+    }
+  ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "crwdns331660:0crwdne331660:0"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "crwdns331662:0crwdne331662:0"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "crwdns331664:0crwdne331664:0"
+    }
+  ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "crwdns331666:0crwdne331666:0"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "crwdns331668:0crwdne331668:0"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331670:0crwdne331670:0"
+    }
+  ],
+  "results-count": [
+    {
+      "type": 0,
+      "value": "crwdns331672:0count="
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331672:0"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "crwdns331674:0crwdne331674:0"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 0,
+      "value": "crwdns331676:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331676:0"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "crwdns331678:0crwdne331678:0"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331680:0crwdne331680:0"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "crwdns331682:0crwdne331682:0"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "crwdns331684:0crwdne331684:0"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "crwdns331686:0crwdne331686:0"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "crwdns331688:0crwdne331688:0"
+    }
+  ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "crwdns331690:0crwdne331690:0"
+    }
+  ],
+  "serial-ctrl-c-action": [
+    {
+      "type": 0,
+      "value": "crwdns331692:0crwdne331692:0"
+    }
+  ],
+  "serial-ctrl-d-action": [
+    {
+      "type": 0,
+      "value": "crwdns331694:0crwdne331694:0"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "crwdns331696:0crwdne331696:0"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "crwdns331698:0crwdne331698:0"
+    }
+  ],
+  "serial-help-ctrl-c": [
+    {
+      "type": 0,
+      "value": "crwdns331700:0crwdne331700:0"
+    }
+  ],
+  "serial-help-ctrl-d": [
+    {
+      "type": 0,
+      "value": "crwdns331702:0crwdne331702:0"
+    }
+  ],
+  "serial-help-intro": [
+    {
+      "type": 0,
+      "value": "crwdns331704:0crwdne331704:0"
+    }
+  ],
+  "serial-help-print": [
+    {
+      "type": 0,
+      "value": "crwdns331706:0crwdne331706:0"
+    }
+  ],
+  "serial-help-title": [
+    {
+      "type": 0,
+      "value": "crwdns331708:0crwdne331708:0"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "crwdns331710:0crwdne331710:0"
+    }
+  ],
+  "serial-menu": [
+    {
+      "type": 0,
+      "value": "crwdns331712:0crwdne331712:0"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "crwdns331714:0crwdne331714:0"
+    }
+  ],
+  "serial-running": [
+    {
+      "type": 0,
+      "value": "crwdns331716:0crwdne331716:0"
+    }
+  ],
+  "serial-terminal": [
+    {
+      "type": 0,
+      "value": "crwdns331718:0crwdne331718:0"
+    }
+  ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "crwdns331720:0crwdne331720:0"
+    }
+  ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "crwdns331722:0crwdne331722:0"
+    }
+  ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "crwdns331724:0crwdne331724:0"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "crwdns331726:0crwdne331726:0"
+    }
+  ],
+  "show-less": [
+    {
+      "type": 0,
+      "value": "crwdns331728:0crwdne331728:0"
+    }
+  ],
+  "show-less-for": [
+    {
+      "type": 0,
+      "value": "crwdns331730:0"
+    },
+    {
+      "type": 1,
+      "value": "item"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331730:0"
+    }
+  ],
+  "show-more": [
+    {
+      "type": 0,
+      "value": "crwdns331732:0crwdne331732:0"
+    }
+  ],
+  "show-more-for": [
+    {
+      "type": 0,
+      "value": "crwdns331734:0"
+    },
+    {
+      "type": 1,
+      "value": "item"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331734:0"
+    }
+  ],
+  "sidebar": [
+    {
+      "type": 0,
+      "value": "crwdns331736:0crwdne331736:0"
+    }
+  ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "crwdns331738:0crwdne331738:0"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "crwdns331740:0crwdne331740:0"
+    }
+  ],
+  "simulator-accelerometer": [
+    {
+      "type": 0,
+      "value": "crwdns334504:0crwdne334504:0"
+    }
+  ],
+  "simulator-actions": [
+    {
+      "type": 0,
+      "value": "crwdns334506:0crwdne334506:0"
+    }
+  ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "crwdns334508:0crwdne334508:0"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "crwdns334510:0crwdne334510:0"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 0,
+      "value": "crwdns334512:0"
+    },
+    {
+      "type": 1,
+      "value": "button"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334512:0"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 0,
+      "value": "crwdns334514:0"
+    },
+    {
+      "type": 1,
+      "value": "button"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334514:0"
+    }
+  ],
+  "simulator-buttons": [
+    {
+      "type": 0,
+      "value": "crwdns334516:0crwdne334516:0"
+    }
+  ],
+  "simulator-collapse": [
+    {
+      "type": 0,
+      "value": "crwdns334518:0crwdne334518:0"
+    }
+  ],
+  "simulator-collapse-module": [
+    {
+      "type": 0,
+      "value": "crwdns334520:0"
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334520:0"
+    }
+  ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "crwdns334522:0crwdne334522:0"
+    }
+  ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "crwdns334524:0crwdne334524:0"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "crwdns334526:0crwdne334526:0"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "crwdns334528:0crwdne334528:0"
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "crwdns334530:0crwdne334530:0"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "type": 0,
+      "value": "crwdns334686:0count="
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334686:0"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "crwdns334534:0crwdne334534:0"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "crwdns334536:0crwdne334536:0"
+    }
+  ],
+  "simulator-expand": [
+    {
+      "type": 0,
+      "value": "crwdns334538:0crwdne334538:0"
+    }
+  ],
+  "simulator-expand-module": [
+    {
+      "type": 0,
+      "value": "crwdns334540:0"
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334540:0"
+    }
+  ],
+  "simulator-gesture-3g": [
+    {
+      "type": 0,
+      "value": "crwdns336054:0crwdne336054:0"
+    }
+  ],
+  "simulator-gesture-6g": [
+    {
+      "type": 0,
+      "value": "crwdns336056:0crwdne336056:0"
+    }
+  ],
+  "simulator-gesture-8g": [
+    {
+      "type": 0,
+      "value": "crwdns336058:0crwdne336058:0"
+    }
+  ],
+  "simulator-gesture-down": [
+    {
+      "type": 0,
+      "value": "crwdns336060:0crwdne336060:0"
+    }
+  ],
+  "simulator-gesture-face-down": [
+    {
+      "type": 0,
+      "value": "crwdns336062:0crwdne336062:0"
+    }
+  ],
+  "simulator-gesture-face-up": [
+    {
+      "type": 0,
+      "value": "crwdns336064:0crwdne336064:0"
+    }
+  ],
+  "simulator-gesture-freefall": [
+    {
+      "type": 0,
+      "value": "crwdns336066:0crwdne336066:0"
+    }
+  ],
+  "simulator-gesture-left": [
+    {
+      "type": 0,
+      "value": "crwdns336068:0crwdne336068:0"
+    }
+  ],
+  "simulator-gesture-right": [
+    {
+      "type": 0,
+      "value": "crwdns336070:0crwdne336070:0"
+    }
+  ],
+  "simulator-gesture-select": [
+    {
+      "type": 0,
+      "value": "crwdns334542:0crwdne334542:0"
+    }
+  ],
+  "simulator-gesture-send": [
+    {
+      "type": 0,
+      "value": "crwdns334544:0crwdne334544:0"
+    }
+  ],
+  "simulator-gesture-shake": [
+    {
+      "type": 0,
+      "value": "crwdns336072:0crwdne336072:0"
+    }
+  ],
+  "simulator-gesture-up": [
+    {
+      "type": 0,
+      "value": "crwdns336074:0crwdne336074:0"
+    }
+  ],
+  "simulator-hide": [
+    {
+      "type": 0,
+      "value": "crwdns334546:0crwdne334546:0"
+    }
+  ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "crwdns334548:0crwdne334548:0"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "crwdns334550:0crwdne334550:0"
+    }
+  ],
+  "simulator-light-level": [
+    {
+      "type": 0,
+      "value": "crwdns334552:0crwdne334552:0"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "crwdns334554:0crwdne334554:0"
+    }
+  ],
+  "simulator-loud": [
+    {
+      "type": 0,
+      "value": "crwdns334556:0crwdne334556:0"
+    }
+  ],
+  "simulator-mute": [
+    {
+      "type": 0,
+      "value": "crwdns334558:0crwdne334558:0"
+    }
+  ],
+  "simulator-pin-hold-label": [
+    {
+      "type": 0,
+      "value": "crwdns334560:0"
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334560:0"
+    }
+  ],
+  "simulator-pin-press-label": [
+    {
+      "type": 0,
+      "value": "crwdns334562:0"
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334562:0"
+    }
+  ],
+  "simulator-pins": [
+    {
+      "type": 0,
+      "value": "crwdns334564:0crwdne334564:0"
+    }
+  ],
+  "simulator-quiet": [
+    {
+      "type": 0,
+      "value": "crwdns334566:0crwdne334566:0"
+    }
+  ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "crwdns334568:0crwdne334568:0"
+    }
+  ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "crwdns335970:0crwdne335970:0"
+    }
+  ],
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "crwdns334570:0"
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    },
+    {
+      "type": 0,
+      "value": "crwdne334570:0"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "crwdns334572:0crwdne334572:0"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
+    {
+      "type": 0,
+      "value": "crwdns334574:0crwdne334574:0"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "crwdns334576:0crwdne334576:0"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "crwdns334578:0crwdne334578:0"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "crwdns334580:0crwdne334580:0"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "crwdns335972:0crwdne335972:0"
+    }
+  ],
+  "simulator-reference-link": [
+    {
+      "type": 0,
+      "value": "crwdns334582:0crwdne334582:0"
+    }
+  ],
+  "simulator-reset": [
+    {
+      "type": 0,
+      "value": "crwdns334584:0crwdne334584:0"
+    }
+  ],
+  "simulator-serial-terminal": [
+    {
+      "type": 0,
+      "value": "crwdns334586:0crwdne334586:0"
+    }
+  ],
+  "simulator-sound-level": [
+    {
+      "type": 0,
+      "value": "crwdns334588:0crwdne334588:0"
+    }
+  ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "crwdns334590:0crwdne334590:0"
+    }
+  ],
+  "simulator-stop": [
+    {
+      "type": 0,
+      "value": "crwdns334592:0crwdne334592:0"
+    }
+  ],
+  "simulator-temperature": [
+    {
+      "type": 0,
+      "value": "crwdns334594:0crwdne334594:0"
+    }
+  ],
+  "simulator-title": [
+    {
+      "type": 0,
+      "value": "crwdns334596:0crwdne334596:0"
+    }
+  ],
+  "simulator-touch-logo": [
+    {
+      "type": 0,
+      "value": "crwdns334598:0crwdne334598:0"
+    }
+  ],
+  "simulator-unmute": [
+    {
+      "type": 0,
+      "value": "crwdns334600:0crwdne334600:0"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "crwdns331742:0crwdne331742:0"
+    }
+  ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "crwdns331744:0crwdne331744:0"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "crwdns331746:0crwdne331746:0"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "crwdns331748:0crwdne331748:0"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "crwdns331750:0crwdne331750:0"
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "crwdns331752:0crwdne331752:0"
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "crwdns331754:0crwdne331754:0"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "crwdns331756:0crwdne331756:0"
+    }
+  ],
+  "toolkit-error-loading": [
+    {
+      "type": 0,
+      "value": "crwdns331760:0crwdne331760:0"
+    }
+  ],
+  "toolkit-view-documentation": [
+    {
+      "type": 0,
+      "value": "crwdns331762:0"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331762:0"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "crwdns331764:0crwdne331764:0"
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "crwdns331766:0crwdne331766:0"
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "crwdns331768:0crwdne331768:0"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "crwdns331770:0crwdne331770:0"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "crwdns331772:0crwdne331772:0"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "crwdns331774:0crwdne331774:0"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "crwdns331776:0crwdne331776:0"
+    }
+  ],
+  "untitled-project": [
+    {
+      "type": 0,
+      "value": "crwdns331778:0crwdne331778:0"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "crwdns331780:0crwdne331780:0"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "crwdns331782:0"
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    },
+    {
+      "type": 0,
+      "value": "crwdne331782:0"
+    }
+  ],
+  "visit-dot-org": [
+    {
+      "type": 0,
+      "value": "crwdns331784:0crwdne331784:0"
+    }
+  ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "crwdns331786:0crwdne331786:0"
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "crwdns331788:0crwdne331788:0"
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "crwdns331790:0crwdne331790:0"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "crwdns331792:0crwdne331792:0"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "type": 0,
+      "value": "crwdns331794:0crwdne331794:0"
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "crwdns331800:0crwdne331800:0"
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "crwdns331802:0crwdne331802:0"
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "crwdns331804:0crwdne331804:0"
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "crwdns331806:0crwdne331806:0"
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "crwdns331808:0crwdne331808:0"
+    }
+  ],
+  "welcome-video-alt": [
+    {
+      "type": 0,
+      "value": "video introducing the Python Editor"
+    }
+  ],
+  "zoom-in-action": [
+    {
+      "type": 0,
+      "value": "crwdns331810:0crwdne331810:0"
+    }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "crwdns331812:0crwdne331812:0"
+    }
+  ]
+}

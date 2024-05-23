@@ -105,7 +105,10 @@ export const defaultSettings: Settings = {
   showPostSaveHelp: true,
   showMultipleFilesHelp: true,
   allowEditingThirdPartyModules: false,
+  warnForApiUnsupportedByDevice: true,
 };
+
+const inContextTranslationLangId = "lol";
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (typeof value !== "object") {
@@ -114,6 +117,7 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   const object = value as any;
   if (
     object.languageId &&
+    object.languageId !== inContextTranslationLangId &&
     !supportedLanguages.find((x) => x.id === object.languageId)
   ) {
     return false;
@@ -158,9 +162,10 @@ export interface Settings {
   showTransferHexHelp: boolean;
   showPostSaveHelp: boolean;
   showMultipleFilesHelp: boolean;
+  warnForApiUnsupportedByDevice: boolean;
 }
 
-type SettingsContextValue = [Settings, (settings: Settings) => void];
+export type SettingsContextValue = [Settings, (settings: Settings) => void];
 
 const SettingsContext = createContext<SettingsContextValue | undefined>(
   undefined
@@ -180,7 +185,11 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     "settings",
     defaultSettings,
     isValidSettingsObject,
-    flags.noLang ? { languageId: getLanguageFromQuery() } : {}
+    flags.translate
+      ? { languageId: inContextTranslationLangId }
+      : flags.noLang
+      ? { languageId: getLanguageFromQuery() }
+      : {}
   );
   return (
     <SettingsContext.Provider value={[settings, setSettings]}>

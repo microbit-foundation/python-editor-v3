@@ -1703,6 +1703,18 @@
       "value": "La modification de modules tiers peut empêcher leur bon fonctionnement."
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2413,6 +2425,12 @@
       "value": "visiter microbit.org (s’ouvre dans un nouvel onglet)"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2443,32 +2461,6 @@
       "value": "Veuillez reconnecter votre micro:bit et réessayer."
     }
   ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "Vous devez "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "mettre à jour le micrologiciel de votre micro:bit"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " pour utiliser cette fonctionnalité."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Veuillez mettre à jour le micrologiciel de micro:bit"
-    }
-  ],
   "webusb-not-supported": [
     {
       "type": 0,
@@ -2497,6 +2489,12 @@
     {
       "type": 0,
       "value": "Bienvenue dans l'éditeur Python micro:bit"
+    }
+  ],
+  "welcome-video-alt": [
+    {
+      "type": 0,
+      "value": "video introducing the Python Editor"
     }
   ],
   "zoom-in-action": [

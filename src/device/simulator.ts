@@ -6,6 +6,7 @@
 import EventEmitter from "events";
 import { Logging } from "../logging/logging";
 import {
+  BoardVersion,
   ConnectionStatus,
   DeviceConnection,
   EVENT_FLASH,
@@ -260,6 +261,10 @@ export class SimulatorDeviceConnection
   async connect(): Promise<ConnectionStatus> {
     this.setStatus(ConnectionStatus.CONNECTED);
     return this.status;
+  }
+
+  getBoardVersion(): BoardVersion | null {
+    return "V2";
   }
 
   async flash(

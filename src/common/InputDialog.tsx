@@ -16,6 +16,7 @@ import {
 import { ThemeTypings } from "@chakra-ui/styled-system";
 import { ReactNode, useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { FinalFocusRef } from "../project/project-actions";
 
 export interface InputValidationResult {
   ok: boolean;
@@ -39,7 +40,7 @@ export interface InputDialogProps<T> {
   actionLabel: string;
   size?: ThemeTypings["components"]["Modal"]["sizes"];
   validate?: (input: T) => InputValidationResult;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef?: FinalFocusRef;
   callback: (value: ValueOrCancelled<T>) => void;
 }
 

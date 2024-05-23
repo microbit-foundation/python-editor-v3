@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { useCallback } from "react";
 import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
@@ -18,7 +19,10 @@ interface EditorContainerProps {
  * and wires it to the currently open file.
  */
 const EditorContainer = ({ selection }: EditorContainerProps) => {
-  const [settings] = useSettings();
+  const [settings, setSettings] = useSettings();
+  const disableV2OnlyFeaturesWarning = useCallback(() => {
+    setSettings({ ...settings, warnForApiUnsupportedByDevice: false });
+  }, [setSettings, settings]);
   // Note fileInfo is not updated for ordinary text edits.
   const [fileInfo, onFileChange] = useProjectFileText(selection.file);
   if (fileInfo === undefined) {
@@ -36,6 +40,8 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
       fontSize={settings.fontSize}
       codeStructureOption={settings.codeStructureHighlight}
       parameterHelpOption={settings.parameterHelp}
+      warnOnV2OnlyFeatures={settings.warnForApiUnsupportedByDevice}
+      disableV2OnlyFeaturesWarning={disableV2OnlyFeaturesWarning}
     />
   );
 };

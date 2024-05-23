@@ -21,6 +21,7 @@ export interface CookieConsent {
 }
 
 export interface DeploymentConfig {
+  welcomeVideoYouTubeId?: string;
   squareLogo?: ReactNode;
   horizontalLogo?: ReactNode;
   compliance: {

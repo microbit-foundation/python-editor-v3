@@ -742,6 +742,14 @@
     "defaultMessage": "更改第三方模块可能意味着它们无法按预期工作。",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "设置",
     "description": "Settings text"
@@ -1110,6 +1118,10 @@
     "defaultMessage": "访问 microbit.org (在新标签页中打开)",
     "description": "alt text for logo link to .org"
   },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
+  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "另一个进程已连接到此设备。",
     "description": "Part of WebUSB error message"
@@ -1130,14 +1142,6 @@
     "defaultMessage": "请重新连接 micro:bit 然后再次尝试。",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "您需要  <link>update your micro:bit firmware</link> 才能使用此功能。",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "请更新 micro:bit 固件",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "很遗憾，此浏览器不支持 WebUSB，您的程序将被保存到您的计算机上。请按照下一个屏幕上的步骤将其传输到您的 micro:bit。我们建议您使用 Google Chrome 或 Microsoft Edge 浏览器，以便您可以直接连接到您的 micro:bit。",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
@@ -1157,6 +1161,10 @@
   "welcome-title": {
     "defaultMessage": "欢迎使用 micro:bit Python 编辑器",
     "description": "Title for the welcome dialog"
+  },
+  "welcome-video-alt": {
+    "defaultMessage": "video introducing the Python Editor",
+    "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {
     "defaultMessage": "放大",
