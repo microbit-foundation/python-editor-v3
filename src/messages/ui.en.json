@@ -1703,6 +1703,18 @@
       "value": "Changing third-party modules may mean they don’t work as intended."
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2421,6 +2433,12 @@
       "value": "visit microbit.org (opens in a new tab)"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2430,7 +2448,7 @@
   "webusb-error-clear-connect-description-2": [
     {
       "type": 0,
-      "value": "Close any other pages or tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
+      "value": "Close any other tabs that may be using WebUSB (e.g. MakeCode, Python Editor), or unplug and replug the micro:bit before trying again."
     }
   ],
   "webusb-error-clear-connect-title": [

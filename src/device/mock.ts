@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  BoardVersion,
   ConnectionStatus,
   DeviceConnection,
   EVENT_FLASH,
@@ -60,6 +61,10 @@ export class MockDeviceConnection
 
     this.setStatus(ConnectionStatus.CONNECTED);
     return this.status;
+  }
+
+  getBoardVersion(): BoardVersion | null {
+    return "V2";
   }
 
   /**

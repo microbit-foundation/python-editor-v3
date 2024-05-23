@@ -742,6 +742,14 @@
     "defaultMessage": "서드파티 모듈을 변경하면 모듈이 의도대로 작동하지 않을 수 있습니다.",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "설정",
     "description": "Settings text"
@@ -1109,6 +1117,10 @@
   "visit-dot-org": {
     "defaultMessage": "microbit.org 방문(새 탭에서 열기)",
     "description": "alt text for logo link to .org"
+  },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "다른 프로세스가 이 장치에 연결되어 있습니다.",
