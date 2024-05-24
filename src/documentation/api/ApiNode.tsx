@@ -340,21 +340,28 @@ const classToInstanceMap: Record<string, string> = {
   MicroBitAnalogDigitalPin: "pin0",
   Image: "Image.HEART",
   uname_result: "uname()",
+  str: `"hello, world"`,
+  list: `[1, 2, 3]`,
 };
 
 const getDragPasteData = (fullName: string, kind: string): PasteContext => {
-  let parts = fullName.split(".").filter((p) => p !== "__init__");
+  let parts = fullName
+    .split(".")
+    .filter((p) => p !== "__init__" && p !== "__new__");
   // Heuristic identification of e.g. Image.HEART. Sufficient for MicroPython API.
   if (!parts[parts.length - 1].match(/^[A-Z0-9_]+$/)) {
     parts = parts.map((p) => classToInstanceMap[p] ?? p);
   }
   const isMicrobit = parts[0] === "microbit";
-  const nameAsWeImportIt = isMicrobit ? parts.slice(1) : parts;
+  const isBuiltin = parts[0] === "builtins";
+  const nameAsWeImportIt = isMicrobit || isBuiltin ? parts.slice(1) : parts;
   const code = nameAsWeImportIt.join(".") + (kind === "function" ? "()" : "");
-  const requiredImport = isMicrobit
+  const requiredImport = isBuiltin
+    ? undefined
+    : isMicrobit
     ? `from microbit import *`
     : `import ${parts[0]}`;
-  const full = `${requiredImport}\n${code}`;
+  const full = [requiredImport, code].filter((x) => !!x).join("\n");
   return {
     code,
     codeWithImports: full,
