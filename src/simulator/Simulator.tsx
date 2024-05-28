@@ -17,12 +17,10 @@ import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
-// import { stage } from "../environment";
 import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
-import { flags } from "../flags";
 import { stage } from "../environment";
 
 export enum RunningStatus {
@@ -124,13 +122,7 @@ const Simulator = ({
               <Box
                 ref={ref}
                 as="iframe"
-<<<<<<< HEAD
-                src={`${url}?color=${encodeURIComponent(brand500)}${
-                  flags.pwa ? "&flag=sw" : ""
-                }`}
-=======
                 src={url}
->>>>>>> main
                 title={simulatorTitle}
                 name={simulatorTitle}
                 frameBorder="no"
