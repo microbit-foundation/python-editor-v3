@@ -22,7 +22,7 @@ import {
 import { baseUrl } from "./base";
 import { useLogging } from "./logging/logging-hooks";
 
-export type TabName = "api" | "ideas" | "reference" | "project";
+export type TabName = "api" | "ideas" | "reference" | "project" | "model";
 
 /**
  * An anchor-like navigation used for scroll positions.

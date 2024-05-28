@@ -77,6 +77,8 @@ export const apiDocs = async (
         "math",
         "microbit",
         "micropython",
+        "mlreader",
+        "model",
         "music",
         "neopixel",
         "os",

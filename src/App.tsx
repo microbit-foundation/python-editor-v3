@@ -30,6 +30,7 @@ import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
+import ModelDataProvider from "./documentation/ml/use-model-data";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -76,21 +77,23 @@ const App = () => {
                     <LanguageServerClientProvider>
                       <BeforeUnloadDirtyCheck />
                       <DocumentationProvider>
-                        <SearchProvider>
-                          <SelectionProvider>
-                            <DialogProvider>
-                              <RouterProvider>
-                                <ConsentProvider>
-                                  <ProjectDropTarget>
-                                    <ActiveEditorProvider>
-                                      <Workbench />
-                                    </ActiveEditorProvider>
-                                  </ProjectDropTarget>
-                                </ConsentProvider>
-                              </RouterProvider>
-                            </DialogProvider>
-                          </SelectionProvider>
-                        </SearchProvider>
+                        <ModelDataProvider>
+                          <SearchProvider>
+                            <SelectionProvider>
+                              <DialogProvider>
+                                <RouterProvider>
+                                  <ConsentProvider>
+                                    <ProjectDropTarget>
+                                      <ActiveEditorProvider>
+                                        <Workbench />
+                                      </ActiveEditorProvider>
+                                    </ProjectDropTarget>
+                                  </ConsentProvider>
+                                </RouterProvider>
+                              </DialogProvider>
+                            </SelectionProvider>
+                          </SearchProvider>
+                        </ModelDataProvider>
                       </DocumentationProvider>
                     </LanguageServerClientProvider>
                   </DeviceContextProvider>

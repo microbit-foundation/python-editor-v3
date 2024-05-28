@@ -22,6 +22,7 @@ import { useSessionSettings } from "../settings/session-settings";
 import { useSettings } from "../settings/settings";
 import { useSelection } from "../workbench/use-selection";
 import { defaultedProject, ProjectActions } from "./project-actions";
+import { useModelData } from "../documentation/ml/use-model-data";
 
 /**
  * Hook exposing the main UI actions.
@@ -37,6 +38,7 @@ export const useProjectActions = (): ProjectActions => {
   const client = useLanguageServerClient();
   const [settings, setSettings] = useSettings();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
+  const [_, setModelData] = useModelData();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -49,7 +51,8 @@ export const useProjectActions = (): ProjectActions => {
         { values: sessionSettings, setValues: setSessionSettings },
         intl,
         logging,
-        client
+        client,
+        setModelData
       ),
     [
       fs,
@@ -64,6 +67,7 @@ export const useProjectActions = (): ProjectActions => {
       setSettings,
       sessionSettings,
       setSessionSettings,
+      setModelData,
     ]
   );
   return actions;
