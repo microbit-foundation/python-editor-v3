@@ -296,7 +296,7 @@ const buildSignature = (
 };
 
 const isInitOrOtherNonDunderMethod = (c: ApiDocsEntry) =>
-  !c.name.endsWith("__") || c.name === "__init__";
+  !c.name.endsWith("__") || c.name === "__init__" || c.name === "__new__";
 
 const filterChildren = (
   children: ApiDocsEntry[] | undefined
