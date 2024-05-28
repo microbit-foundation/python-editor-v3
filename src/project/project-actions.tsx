@@ -74,7 +74,8 @@ import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
 import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
 import { ActionData } from "../documentation/ml/training-data";
-import { modelModule } from "../documentation/ml/ml";
+import { modelModule, trainModel } from "../documentation/ml/ml";
+import { compileModel } from "ml4f";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -118,7 +119,7 @@ export class ProjectActions {
     private intl: IntlShape,
     private logging: Logging,
     private client: LanguageServerClient | undefined,
-    private setMlData: (mlData: ActionData[]) => void
+    private setModelData: (modelData: ActionData[]) => void
   ) {}
 
   private get project(): DefaultedProject {
@@ -264,16 +265,19 @@ export class ProjectActions {
       const file = files[0];
       const json = await readFileAsText(file);
       const data = JSON.parse(json) as ActionData[];
-      this.setMlData(data);
-      const actionNames = data.map((action) => action.name).join(" ");
-      await Promise.all([
-        this.fs.write(
-          "namesOfClasses.txt",
-          actionNames,
-          VersionAction.INCREMENT
-        ),
-        await this.fs.write("model.py", modelModule, VersionAction.INCREMENT),
-      ]);
+      this.setModelData(data);
+      const actionNames = data.map((action) => action.name);
+      await this.fs.write(
+        "model.py",
+        modelModule(JSON.stringify(actionNames)),
+        VersionAction.INCREMENT
+      );
+      const model = await trainModel(data);
+      const result = compileModel(model, {});
+      const modelAsHexString = Array.from(result.machineCode, (i) =>
+        i.toString(16).padStart(2, "0")
+      ).join("");
+      console.log(modelAsHexString);
     }
   };
 

@@ -30,7 +30,7 @@ import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
-import MlDataProvider from "./documentation/ml/use-model-data";
+import ModelDataProvider from "./documentation/ml/use-model-data";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -77,7 +77,7 @@ const App = () => {
                     <LanguageServerClientProvider>
                       <BeforeUnloadDirtyCheck />
                       <DocumentationProvider>
-                        <MlDataProvider>
+                        <ModelDataProvider>
                           <SearchProvider>
                             <SelectionProvider>
                               <DialogProvider>
@@ -93,7 +93,7 @@ const App = () => {
                               </DialogProvider>
                             </SelectionProvider>
                           </SearchProvider>
-                        </MlDataProvider>
+                        </ModelDataProvider>
                       </DocumentationProvider>
                     </LanguageServerClientProvider>
                   </DeviceContextProvider>

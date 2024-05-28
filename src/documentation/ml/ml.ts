@@ -1,7 +1,7 @@
 import * as tf from "@tensorflow/tfjs";
-import { LayersModel, SymbolicTensor } from "@tensorflow/tfjs";
-import { FilterType, MlSettings, ActionData } from "./training-data";
+import { LayersModel } from "@tensorflow/tfjs";
 import { Filters, determineFilter } from "./data-functions";
+import { ActionData, FilterType, MlSettings } from "./training-data";
 
 export const Axes = {
   X: "x",
@@ -38,16 +38,15 @@ export const createModel = async (
     settings.includedFilters.size * settings.includedAxes.length,
   ];
 
-  const input = tf.input({ shape: inputShape });
-  const normalizer = tf.layers.batchNormalization().apply(input);
-  const dense = tf.layers
-    .dense({ units: 16, activation: "relu" })
-    .apply(normalizer);
-  const softmax = tf.layers
-    .dense({ units: numberOfClasses, activation: "softmax" })
-    .apply(dense) as SymbolicTensor;
+  const model = new tf.Sequential({
+    layers: [
+      tf.layers.inputLayer({ inputShape }),
+      tf.layers.batchNormalization(),
+      tf.layers.dense({ units: 16, activation: "relu" }),
+      tf.layers.dense({ units: numberOfClasses, activation: "softmax" }),
+    ],
+  });
 
-  const model = new tf.LayersModel({ inputs: input, outputs: softmax });
   model.compile({
     loss: "categoricalCrossentropy",
     optimizer: tf.train.sgd(0.5),
@@ -121,46 +120,33 @@ export const trainModel = async (
 };
 
 // Added files to the initial project to enable model class name retention and methods to simulate the model running on the device
-export const modelModule = `# A mockup of a machine learning micropython module
+export const modelModule = (
+  actionNames: string
+) => `# A mockup of a machine learning micropython module
 from microbit import *
 import random
-import mlreader
-
 
 def get_class_names():
-    namesList = mlreader.read_class_names()
-    return namesList
+    action_names = ${actionNames}
+    return action_names
 
 
 def current_action():
-    list = mlreader.read_class_names()
-    sizeList = len(list) - 1
-    rnd = random.randrange(sizeList)
-    return list[rnd]
+    action_names = get_class_names()
+    if len(action_names):
+        return random.choice(action_names)
 
 
 def is_action(action):
-    list = mlreader.read_class_names()
-    if action in list:
-        sizeList = len(list) - 1
-        rnd = random.randrange(sizeList)
-        if action == list[rnd]:
-            return True
-        else:
-            return False
-    else:
-        return False
+    action_names = get_class_names()
+    if len(action_names) and action in action_names:
+        return action == random.choice(action_names)
+    return False
 
 
 def was_action(action):
-    list = mlreader.read_class_names()
-    if action in list:
-        sizeList = len(list) - 1
-        rnd = random.randrange(sizeList)
-        if action == list[rnd]:
-            return True
-        else:
-            return False
-    else:
-        return False
+    action_names = get_class_names()
+    if len(action_names) and action in action_names:
+        return action == random.choice(action_names)
+    return False
 `;

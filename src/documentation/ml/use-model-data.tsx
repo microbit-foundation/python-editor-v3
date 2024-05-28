@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 import { ActionData } from "./training-data";
 
-type ModelDataContextValue = [ActionData[], (mlData: ActionData[]) => void];
+type ModelDataContextValue = [ActionData[], (modelData: ActionData[]) => void];
 
 const ModelDataContext = createContext<ModelDataContextValue | undefined>(
   undefined
@@ -15,7 +15,7 @@ export const useModelData = (): ModelDataContextValue => {
   return modelData;
 };
 
-const MlDataProvider = ({ children }: { children: ReactNode }) => {
+const ModelDataProvider = ({ children }: { children: ReactNode }) => {
   const [modelData, setModelData] = useState<ActionData[]>([]);
   return (
     <ModelDataContext.Provider value={[modelData, setModelData]}>
@@ -24,4 +24,4 @@ const MlDataProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default MlDataProvider;
+export default ModelDataProvider;
