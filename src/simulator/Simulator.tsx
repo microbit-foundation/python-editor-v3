@@ -11,7 +11,7 @@ import {
   useToken,
   VStack,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
@@ -43,14 +43,20 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
-  const production =
-    "https://python-simulator.usermbit.org/v/0.1/simulator.html";
-  const staging =
-    "https://python-simulator.usermbit.org/staging/simulator.html";
-  const url = stage === "PRODUCTION" ? production : staging;
-  // For testing with sim branches:
-  //const branch = "upgrade-mpy";
-  //const url = `https://review-python-simulator.usermbit.org/${branch}/simulator.html`;
+  const [brand500] = useToken("colors", ["brand.500"]);
+  const url = useMemo(() => {
+    const production =
+      "https://python-simulator.usermbit.org/v/0.1/simulator.html";
+    const staging =
+      "https://python-simulator.usermbit.org/staging/simulator.html?flag=sw";
+
+    // For testing with sim branches:
+    //const branch = "upgrade-mpy";
+    //const url = new URL(`https://review-python-simulator.usermbit.org/${branch}/simulator.html`);
+    const url = new URL(stage === "PRODUCTION" ? production : staging);
+    url.searchParams.append("color", brand500);
+    return url.toString();
+  }, [brand500]);
 
   const ref = useRef<HTMLIFrameElement>(null);
   const intl = useIntl();
@@ -72,7 +78,6 @@ const Simulator = ({
     updateTranslations(simulator.current, intl);
   }, [simulator, intl]);
   const simControlsRef = useRef<HTMLDivElement>(null);
-  const [brand500] = useToken("colors", ["brand.500"]);
   const [running, setRunning] = useState<RunningStatus>(RunningStatus.STOPPED);
   const previouslyShown = usePrevious(shown);
 
@@ -117,7 +122,7 @@ const Simulator = ({
               <Box
                 ref={ref}
                 as="iframe"
-                src={`${url}?color=${encodeURIComponent(brand500)}`}
+                src={url}
                 title={simulatorTitle}
                 name={simulatorTitle}
                 frameBorder="no"
