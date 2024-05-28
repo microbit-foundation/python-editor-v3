@@ -267,17 +267,24 @@ export class ProjectActions {
       const data = JSON.parse(json) as ActionData[];
       this.setModelData(data);
       const actionNames = data.map((action) => action.name);
-      await this.fs.write(
-        "model.py",
-        modelModule(JSON.stringify(actionNames)),
-        VersionAction.INCREMENT
-      );
       const model = await trainModel(data);
       const result = compileModel(model, {});
-      const modelAsHexString = Array.from(result.machineCode, (i) =>
-        i.toString(16).padStart(2, "0")
-      ).join("");
-      console.log(modelAsHexString);
+      // TODO: Remove if not needed.
+      // const modelAsHexString = Array.from(result.machineCode, (i) =>
+      //   i.toString(16).padStart(2, "0")
+      // ).join("");
+      Promise.all([
+        await this.fs.write(
+          "model.py",
+          modelModule(JSON.stringify(actionNames)),
+          VersionAction.INCREMENT
+        ),
+        await this.fs.write(
+          "model.bin",
+          result.machineCode,
+          VersionAction.INCREMENT
+        ),
+      ]);
     }
   };
 
