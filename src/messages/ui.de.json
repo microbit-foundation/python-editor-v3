@@ -1749,6 +1749,18 @@
       "value": "Wenn du Module von Drittanbietern änderst, kann es sein, dass sie nicht mehr wie vorgesehen funktionieren."
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2475,6 +2487,12 @@
       "value": "besuche microbit.org (öffnet in neuen Tab)"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2503,32 +2521,6 @@
     {
       "type": 0,
       "value": "Bitte schließe deinen micro:bit erneut an und versuche es nochmal."
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "Um diese Funktion nutzen zu können, musst du deine "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "micro:bit Firmware aktualisieren "
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Bitte aktualisiere die micro:bit Firmware"
     }
   ],
   "webusb-not-supported": [

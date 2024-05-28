@@ -10,10 +10,11 @@ import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
 import { isChromeOS105 } from "../../device/webusb";
 import chromeOSErrorImage from "./chrome-os-105-error.png";
+import { FinalFocusRef } from "../../project/project-actions";
 
 interface WebUSBDialogProps {
   callback: () => void;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 export const WebUSBDialog = ({

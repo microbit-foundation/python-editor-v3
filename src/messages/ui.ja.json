@@ -1702,6 +1702,18 @@
       "value": "サードパーティ製モジュールを変更すると、意図した通りに動作しない可能性があります。"
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2421,6 +2433,12 @@
       "value": "microbit.orgにアクセスします（新しいタブで開きます）"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2449,32 +2467,6 @@
     {
       "type": 0,
       "value": "micro:bitを再接続して、やり直してください。"
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "この機能を利用するには、"
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "micro:bitファームウェアを更新"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "する必要があります。"
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "micro:bit のファームウェアを更新してください。"
     }
   ],
   "webusb-not-supported": [

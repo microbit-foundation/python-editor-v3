@@ -1709,6 +1709,18 @@
       "value": "變更第三方模組，可能代表它們無法按預期運作。"
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2427,6 +2439,12 @@
       "value": "造訪 microbit.org (在新索引標籤中開啟)"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2455,32 +2473,6 @@
     {
       "type": 0,
       "value": "請重新連接你的 micro:bit 後再試一次。"
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "您需要"
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "更新您的 micro:bit 韌體"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "，以使用此功能。"
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "請更新 micro:bit 韌體"
     }
   ],
   "webusb-not-supported": [

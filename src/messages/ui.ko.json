@@ -1717,6 +1717,18 @@
       "value": "서드파티 모듈을 변경하면 모듈이 의도대로 작동하지 않을 수 있습니다."
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2415,6 +2427,12 @@
       "value": "microbit.org 방문(새 탭에서 열기)"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2443,32 +2461,6 @@
     {
       "type": 0,
       "value": "micro:bit 연결을 확인한 후, 다시 시도해 보세요."
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "이 기능을 활용하려면 "
-    },
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "micro:bit 펌웨어를 업데이트"
-        }
-      ],
-      "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": "해야 합니다."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "micro:bit 펌웨어를 업데이트 하세요."
     }
   ],
   "webusb-not-supported": [

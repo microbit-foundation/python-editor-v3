@@ -746,6 +746,14 @@
     "defaultMessage": "Canviar mòduls de tercers pot significar que no funcionin com s'havia previst.",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Configuració",
     "description": "Settings text"
@@ -1114,6 +1122,10 @@
     "defaultMessage": "visita microbit.org (s'obre en una pestanya nova)",
     "description": "alt text for logo link to .org"
   },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
+  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Un altre procés està connectat a aquest dispositiu.",
     "description": "Part of WebUSB error message"
@@ -1133,14 +1145,6 @@
   "webusb-error-reconnect-microbit-description": {
     "defaultMessage": "Torna a connectar la teva micro:bit i torna-ho a provar.",
     "description": "Part of WebUSB error message"
-  },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "Has d'<link>actualitzar el microprogramari de la teva micro:bit </link> per fer ús d'aquesta característica.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "Actualitza el microprogramari de la micro:bit ",
-    "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
     "defaultMessage": "Malauradament, WebUSB no és compatible amb aquest navegador i el teu programa es desarà al teu ordinador. Segueix els passos de la pantalla següent per transferir-lo ala teva micro:bit. Et recomanem Google Chrome o Microsoft Edge perquè et puguis connectar directament a la teva micro:bit.",

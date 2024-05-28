@@ -13,7 +13,7 @@ import { createUri, LanguageServerClient } from "./client";
 import { CreateToastFnReturn } from "@chakra-ui/react";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-main-a93bbf26cd9933030987.worker.js";
+const workerScriptName = "pyright-main-382ffb2ee9671656ad85.worker.js";
 
 // Very simple cache to avoid React re-creating pointlessly in development.
 let counter = 0;

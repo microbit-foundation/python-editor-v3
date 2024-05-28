@@ -746,6 +746,14 @@
     "defaultMessage": "サードパーティ製モジュールを変更すると、意図した通りに動作しない可能性があります。",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "設定",
     "description": "Settings text"
@@ -1114,6 +1122,10 @@
     "defaultMessage": "microbit.orgにアクセスします（新しいタブで開きます）",
     "description": "alt text for logo link to .org"
   },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
+  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "別のプロセスがこのデバイスに接続されています。",
     "description": "Part of WebUSB error message"
@@ -1133,14 +1145,6 @@
   "webusb-error-reconnect-microbit-description": {
     "defaultMessage": "micro:bitを再接続して、やり直してください。",
     "description": "Part of WebUSB error message"
-  },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "この機能を利用するには、<link>micro:bitファームウェアを更新</link>する必要があります。",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "micro:bit のファームウェアを更新してください。",
-    "description": "Error text telling user to update firmware"
   },
   "webusb-not-supported": {
     "defaultMessage": "残念ながら、WebUSBはこのブラウザではサポートされていないので、代わりにプログラムをコンピュータに保存します。 次の画面の手順に従ってmicro:bitに転送してください。micro:bitと直接接続できるように、Google ChromeまたはMicrosoft Edgeをお勧めします。",

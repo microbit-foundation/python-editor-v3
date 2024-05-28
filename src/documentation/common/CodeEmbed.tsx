@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef } from "@chakra-ui/system";
 import React, {
+  LegacyRef,
   Ref,
   useCallback,
   useEffect,
@@ -33,6 +34,8 @@ import { useSessionSettings } from "../../settings/session-settings";
 import DragHandle from "../common/DragHandle";
 import { useCodeDragImage } from "../documentation-hooks";
 import CodeActionButton from "./CodeActionButton";
+import { useHotkeys } from "react-hotkeys-hook";
+import { keyboardShortcuts } from "../../common/keyboard-shortcuts";
 
 interface CodeEmbedProps {
   code: string;
@@ -132,20 +135,9 @@ const CodeEmbed = ({
   const textHeight = lineCount * 1.375 + "em";
   const codeHeight = `calc(${textHeight} + var(--chakra-space-2) + var(--chakra-space-2))`;
   const codePopUpHeight = `calc(${codeHeight} + 2px)`; // Account for border.
-  const isMac = /Mac/.test(navigator.platform);
-  const handleKeyDown = useCallback(
-    async (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleCopyCode();
-      }
-      if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        handleCopyCode();
-      }
-    },
-    [handleCopyCode, isMac]
-  );
+  const hotKeysRef = useHotkeys(keyboardShortcuts.copyCode, handleCopyCode, {
+    preventDefault: true,
+  }) as LegacyRef<HTMLDivElement>;
   const determineBackground = () => {
     if (
       (toolkitType === "ideas" && state === "highlighted") ||
@@ -157,7 +149,7 @@ const CodeEmbed = ({
   };
   return (
     <Box position="relative">
-      <Box height={codeHeight} fontSize="md">
+      <Box height={codeHeight} fontSize="md" ref={hotKeysRef} tabIndex={-1}>
         <Code
           onMouseEnter={toRaised}
           onMouseLeave={handleMouseLeave}
@@ -180,7 +172,6 @@ const CodeEmbed = ({
           _focusVisible={{
             outline: "none",
           }}
-          onKeyDown={handleKeyDown}
           zIndex={zIndexCode}
         />
         {state === "raised" && (
