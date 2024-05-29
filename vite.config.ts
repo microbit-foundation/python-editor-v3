@@ -24,7 +24,7 @@ const pwaCacheId =
   process.env.STAGE === "PRODUCTION" ||
   process.env.STAGE === "STAGING" ||
   process.env.STAGE === "REVIEW"
-    ? process.env.BASE_URL.replaceAll("/", "") + "-"
+    ? process.env.BASE_URL.replaceAll("/", "")
     : undefined;
 
 // There are third-party options but seems better to just depend on ejs.
