@@ -17,6 +17,8 @@ const theme = "@microbit-foundation/python-editor-v3-microbit";
 const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
 
+const featurePwa = process.env.FEATURE_PWA === "true";
+
 // There are third-party options but seems better to just depend on ejs.
 const viteEjsPlugin = ({ data }: { data: ejs.Data }): Plugin => ({
   name: "ejs",
@@ -30,7 +32,8 @@ const viteEjsPlugin = ({ data }: { data: ejs.Data }): Plugin => ({
 });
 
 // Removes webmanifest link tag from output index.html file.
-// We add this tag if PWA features are enabled via a feature flag.
+// We readd this client side if PWA features are enabled via a feature flag.
+// When that feature flag goes this plugin can be removed.
 const viteRemoveManifestPlugin = (): Plugin => ({
   name: "Manifest",
   enforce: "post",
@@ -40,12 +43,16 @@ const viteRemoveManifestPlugin = (): Plugin => ({
       html: string,
       _ctx: IndexHtmlTransformContext
     ): IndexHtmlTransformResult => {
-      return html.replace(
+      const updated = html.replace(
         `<link rel="manifest" href="${
           process.env.BASE_URL ?? "/"
         }manifest.webmanifest">`,
         ""
       );
+      if (featurePwa && updated == html) {
+        throw new Error("Failed to remove web manifest");
+      }
+      return updated;
     },
   },
 });
@@ -76,7 +83,7 @@ export default defineConfig(({ mode }) => {
       react(),
       svgr(),
       VitePWA({
-        disable: process.env.FEATURE_PWA === "true",
+        disable: !featurePwa,
         registerType: "autoUpdate",
         workbox: {
           cacheId:
