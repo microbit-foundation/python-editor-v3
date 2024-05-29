@@ -232,14 +232,11 @@ const CodeMirror = ({
     parameterHelpOption,
     uri,
     apiReferenceMap,
-<<<<<<< HEAD
     portals,
     portalFactory,
     setPortals,
-=======
     device,
     disableV2OnlyFeaturesWarning,
->>>>>>> main
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
