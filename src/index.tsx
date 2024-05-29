@@ -49,6 +49,15 @@ if (flags.pwa) {
       }
     },
   });
+} else {
+  // Clean up if we've disabled the flag
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistration().then((registration) => {
+      registration?.unregister().then(() => {
+        window.location.reload();
+      });
+    });
+  }
 }
 
 const root = createRoot(document.getElementById("root")!);
