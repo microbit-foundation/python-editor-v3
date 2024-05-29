@@ -24,8 +24,8 @@ jobs:
       STAGING_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
       VITE_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
-      # Optionally disable the PWA config (service worker and web manifest)
-      # DISABLE_PWA: '1'
+      # This feature is also controlled by a client-side feature flag that is disabled by default for the moment
+      FEATURE_PWA: ${{ github.repository_owner == 'microbit-foundation' }}
 
     steps:
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.

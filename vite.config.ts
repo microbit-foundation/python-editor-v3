@@ -76,9 +76,17 @@ export default defineConfig(({ mode }) => {
       react(),
       svgr(),
       VitePWA({
-        disable: process.env.DISABLE_PWA === "1",
+        disable: process.env.FEATURE_PWA === "true",
         registerType: "autoUpdate",
         workbox: {
+          cacheId:
+            // v3 vs beta should have distinct caches
+            // for the moment we do this for all review stages too but likely that's too much over time
+            process.env.STAGE === "PRODUCTION" ||
+            process.env.STAGE === "STAGING" ||
+            process.env.STAGE === "REVIEW"
+              ? process.env.BASE_URL.replaceAll("/", "") + "-"
+              : undefined,
           // Only precache language assets for the fallback language.
           // Cache other languages at runtime.
           globIgnores: [
