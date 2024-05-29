@@ -24,7 +24,7 @@ export const showOfflineLanguageToast = (toast: CreateToastFnReturn): void => {
       // Fallback to hardcoded English.
       title: "Language unavailable offline",
       description:
-        "Falling back to English. Please reload the page when you are back online to use the app in your language.",
+        "The language will update when you next open the micro:bit Python Editor and you are online.",
       status: "info",
       duration: 5_000,
       isClosable: true,
