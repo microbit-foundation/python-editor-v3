@@ -1,4 +1,4 @@
-import { Button, Center, HStack } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { StateEffect } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { useCallback } from "react";

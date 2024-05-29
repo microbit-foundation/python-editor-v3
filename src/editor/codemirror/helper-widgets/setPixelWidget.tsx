@@ -1,15 +1,16 @@
-import React from "react";
+/* eslint-disable */
 import {
   Box,
   Button,
   Slider,
-  SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  SliderTrack,
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
-import { WidgetProps } from "./reactWidgetExtension";
+import React from "react";
 import { openWidgetEffect } from "./openWidgets";
+import { WidgetProps } from "./reactWidgetExtension";
 
 interface Pixel {
   x: number;

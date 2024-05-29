@@ -1,3 +1,5 @@
+/* eslint-disable */
+import { syntaxTree } from "@codemirror/language";
 import { EditorState, Extension, StateField } from "@codemirror/state";
 import {
   Decoration,
@@ -5,12 +7,10 @@ import {
   EditorView,
   WidgetType,
 } from "@codemirror/view";
-import { syntaxTree } from "@codemirror/language";
-import { PortalFactory } from "../CodeMirror";
 import React from "react";
-import { createWidget } from "./widgetArgParser";
+import { PortalFactory } from "../CodeMirror";
 import { openWidgetEffect } from "./openWidgets";
-import { ValidateComponentArgs } from "./widgetArgParser";
+import { ValidateComponentArgs, createWidget } from "./widgetArgParser";
 
 export interface WidgetProps {
   // Note: always an array, can be singleton

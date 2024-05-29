@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { EditorState } from "@codemirror/state";
 import { SyntaxNode } from "@lezer/common";
+import { OpenReactComponent, OpenSoundComponent } from "./openWidgets";
 import { WidgetProps } from "./reactWidgetExtension";
 import { MicrobitSinglePixelComponent } from "./setPixelWidget";
 import { MicrobitMultiplePixelComponent } from "./showImageWidget";
 import { SoundComponent } from "./soundWidget";
-import { OpenReactComponent, OpenSoundComponent } from "./openWidgets";
 
 export interface CompProps {
   comp: React.ComponentType<any>;

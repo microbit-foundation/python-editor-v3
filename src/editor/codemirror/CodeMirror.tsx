@@ -7,12 +7,12 @@ import { redoDepth, undoDepth } from "@codemirror/commands";
 import { EditorSelection, EditorState, Extension } from "@codemirror/state";
 import {
   EditorView,
+  ViewUpdate,
   highlightActiveLine,
   highlightActiveLineGutter,
   lineNumbers,
-  ViewUpdate,
 } from "@codemirror/view";
-import React, {
+import {
   ReactNode,
   useCallback,
   useEffect,
@@ -24,6 +24,7 @@ import { createPortal } from "react-dom";
 import { useIntl } from "react-intl";
 import { lineNumFromUint8Array } from "../../common/text-util";
 import useActionFeedback from "../../common/use-action-feedback";
+import { useDevice } from "../../device/device-hooks";
 import { useDocumentation } from "../../documentation/documentation-hooks";
 import { createUri } from "../../language-server/client";
 import { useLanguageServerClient } from "../../language-server/language-server-hooks";
@@ -44,12 +45,11 @@ import {
 import "./CodeMirror.css";
 import { compartment, editorConfig } from "./config";
 import { dndSupport } from "./dnd";
+import { reactWidgetExtension } from "./helper-widgets/reactWidgetExtension";
 import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
-import { reactWidgetExtension } from "./helper-widgets/reactWidgetExtension";
-import { useDevice } from "../../device/device-hooks";
 
 interface CodeMirrorProps {
   className?: string;

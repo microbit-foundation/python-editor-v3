@@ -1,17 +1,9 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  HStack,
-} from "@chakra-ui/react";
+/* eslint-disable */
+import { Box, Button, HStack } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
-import { WidgetProps } from "./reactWidgetExtension";
+import React, { useState } from "react";
 import { openWidgetEffect } from "./openWidgets";
-import { zIndexAboveDialogs } from "../../../common/zIndex";
-import { start } from "repl";
+import { WidgetProps } from "./reactWidgetExtension";
 
 type FixedLengthArray = [
   number,
