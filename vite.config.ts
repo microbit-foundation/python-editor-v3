@@ -18,6 +18,14 @@ const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
 
 const featurePwa = process.env.FEATURE_PWA === "true";
+const pwaCacheId =
+  // v3 vs beta should have distinct caches
+  // for the moment we do this for all review stages too but likely that's too much over time
+  process.env.STAGE === "PRODUCTION" ||
+  process.env.STAGE === "STAGING" ||
+  process.env.STAGE === "REVIEW"
+    ? process.env.BASE_URL.replaceAll("/", "") + "-"
+    : undefined;
 
 // There are third-party options but seems better to just depend on ejs.
 const viteEjsPlugin = ({ data }: { data: ejs.Data }): Plugin => ({
@@ -86,14 +94,7 @@ export default defineConfig(({ mode }) => {
         disable: !featurePwa,
         registerType: "autoUpdate",
         workbox: {
-          cacheId:
-            // v3 vs beta should have distinct caches
-            // for the moment we do this for all review stages too but likely that's too much over time
-            process.env.STAGE === "PRODUCTION" ||
-            process.env.STAGE === "STAGING" ||
-            process.env.STAGE === "REVIEW"
-              ? process.env.BASE_URL.replaceAll("/", "") + "-"
-              : undefined,
+          cacheId: pwaCacheId,
           // Only precache language assets for the fallback language.
           // Cache other languages at runtime.
           globIgnores: [
@@ -108,7 +109,7 @@ export default defineConfig(({ mode }) => {
               ),
               handler: "NetworkFirst",
               options: {
-                cacheName: "sanity-content-cache",
+                cacheName: `${pwaCacheId}-sanity-content-cache`,
                 expiration: {
                   maxEntries: 40,
                 },
@@ -123,7 +124,7 @@ export default defineConfig(({ mode }) => {
               ),
               handler: "CacheFirst",
               options: {
-                cacheName: "sanity-images-cache",
+                cacheName: `${pwaCacheId}-sanity-images-cache`,
                 expiration: {
                   maxEntries: 100,
                 },
@@ -136,7 +137,7 @@ export default defineConfig(({ mode }) => {
               urlPattern: /^https:\/\/fonts.microbit.org\/.*/,
               handler: "CacheFirst",
               options: {
-                cacheName: "fonts-cache",
+                cacheName: `${pwaCacheId}-fonts-cache`,
                 expiration: {
                   maxEntries: 10,
                 },
@@ -150,7 +151,7 @@ export default defineConfig(({ mode }) => {
                 /.*(?:pyright-locale|search\.worker|typeshed|ui\.).*\.js/,
               handler: "CacheFirst",
               options: {
-                cacheName: "lang-cache",
+                cacheName: `${pwaCacheId}-lang-cache`,
                 expiration: {
                   maxEntries: 40,
                 },
