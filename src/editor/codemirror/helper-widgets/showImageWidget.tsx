@@ -47,76 +47,85 @@ const MicrobitMultiplePixelsGrid: React.FC<MultiMicrobitGridProps> = ({
 
   return (
     <div>
-    <Box ml="10px" style={{ marginRight: "4px" }}>
+      <Box ml="10px" style={{ marginRight: "4px" }}>
         <Button size="xs" onClick={onCloseClick} bg="white">
           X
         </Button>
-    </Box>
-    <Box // TODO: copy to allow other widgets to access bg and close
-      display="flex"
-      flexDirection="row"
-      justifyContent="flex-start"
-      width="250px"
-      background="snow"
-      border='1px solid lightgray'
-      boxShadow='0 0 10px 5px rgba(173, 216, 230, 0.7)'
-    >
-      <Box>
-        <Box
-          bg="white"
-          p="10px"
-          borderRadius="0px"
-          border="1px solid black"
-          style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "15px" }}
-        >
-          {[...Array(5)].map((_, gridY) => (
-            <Box key={gridY} display="flex">
-              {[...Array(5)].map((_, gridX) => (
-                <Box key={gridX} display="flex" mr="0px">
-                  <Button
-                    height="32px"
-                    width="30px"
-                    p={0}
-                    borderRadius={0}
-                    bgColor={`rgba(255, 0, 0, ${selectedPixels[gridY][gridX] / 9})`}
-                    border={
-                      selectedPixel?.x === gridX && selectedPixel.y === gridY
-                        ? "2px solid white"
-                        : "0.5px solid white"
-                    }
-                    _hover={{
-                      bgColor: currentBrightness > 0
-                      ? `rgba(255, 100, 100, ${selectedPixels[gridY][gridX] / 9})`
-                      : "rgba(255, 255, 255, 0.5)",
-                    }}
-                    onClick={() => handlePixelClick(gridX, gridY)}
-                  />
-                </Box>
-              ))}
-            </Box>
-          ))}
+      </Box>
+      <Box // TODO: copy to allow other widgets to access bg and close
+        display="flex"
+        flexDirection="row"
+        justifyContent="flex-start"
+        width="250px"
+        background="snow"
+        border="1px solid lightgray"
+        boxShadow="0 0 10px 5px rgba(173, 216, 230, 0.7)"
+      >
+        <Box>
+          <Box
+            bg="white"
+            p="10px"
+            borderRadius="0px"
+            border="1px solid black"
+            style={{
+              marginLeft: "15px",
+              marginTop: "15px",
+              marginBottom: "15px",
+            }}
+          >
+            {[...Array(5)].map((_, gridY) => (
+              <Box key={gridY} display="flex">
+                {[...Array(5)].map((_, gridX) => (
+                  <Box key={gridX} display="flex" mr="0px">
+                    <Button
+                      height="32px"
+                      width="30px"
+                      p={0}
+                      borderRadius={0}
+                      bgColor={`rgba(255, 0, 0, ${
+                        selectedPixels[gridY][gridX] / 9
+                      })`}
+                      border={
+                        selectedPixel?.x === gridX && selectedPixel.y === gridY
+                          ? "2px solid white"
+                          : "0.5px solid white"
+                      }
+                      _hover={{
+                        bgColor:
+                          currentBrightness > 0
+                            ? `rgba(255, 100, 100, ${
+                                selectedPixels[gridY][gridX] / 9
+                              })`
+                            : "rgba(255, 255, 255, 0.5)",
+                      }}
+                      onClick={() => handlePixelClick(gridX, gridY)}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            ))}
+          </Box>
+        </Box>
+        <Box ml="10px" style={{ marginTop: "15px" }}>
+          <Slider
+            aria-label="brightness"
+            defaultValue={currentBrightness}
+            min={0}
+            max={9}
+            step={1}
+            height="182px"
+            orientation="vertical"
+            _focus={{ boxShadow: "none" }}
+            _active={{ bgColor: "transparent" }}
+            onChange={(value) => handleBrightnessChange(value)}
+          >
+            <SliderTrack>
+              <SliderFilledTrack bg={calculateColor()} />
+            </SliderTrack>
+            <SliderThumb />
+          </Slider>
         </Box>
       </Box>
-      <Box ml="10px" style={{ marginTop: "15px" }}>
-        <Slider
-          aria-label="brightness"
-          defaultValue={currentBrightness}
-          min={0}
-          max={9}
-          step={1}
-          height="182px"
-          orientation="vertical"
-          _focus={{ boxShadow: "none" }}
-          _active={{ bgColor: "transparent" }}
-          onChange={(value) => handleBrightnessChange(value)}
-        >
-          <SliderTrack>
-            <SliderFilledTrack bg={calculateColor()} />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
-      </Box>
-    </Box>
     </div>
   );
 };

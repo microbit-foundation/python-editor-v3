@@ -9,7 +9,7 @@ import { OpenReactComponent, OpenSoundComponent } from "./openWidgets";
 export interface CompProps {
   comp: React.ComponentType<any>;
   props: WidgetProps;
-  open: React.ComponentType<any>
+  open: React.ComponentType<any>;
 }
 
 export function createWidget(
@@ -49,7 +49,7 @@ export function createWidget(
         from: node.from,
         to: node.to,
       },
-      open: OpenButtonDesign(component, args, types)
+      open: OpenButtonDesign(component, args, types),
     };
   }
   return null;

@@ -13,7 +13,15 @@ import { openWidgetEffect } from "./openWidgets";
 import { zIndexAboveDialogs } from "../../../common/zIndex";
 import { start } from "repl";
 
-type FixedLengthArray = [number, number, number, number, number, string, string];
+type FixedLengthArray = [
+  number,
+  number,
+  number,
+  number,
+  number,
+  string,
+  string
+];
 
 interface SliderProps {
   min: number;
@@ -27,7 +35,6 @@ interface SliderProps {
   colour: string;
 }
 
-
 interface SVGprops {
   endFrequency: number;
   initialFrequency: number;
@@ -36,9 +43,14 @@ interface SVGprops {
   waveType: string;
 }
 
-const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplitude, startAmplitude, waveType }) => {
-
-  console.log('wavepath generated', waveType)
+const WaveSVG: React.FC<SVGprops> = ({
+  endFrequency,
+  initialFrequency,
+  endAmplitude,
+  startAmplitude,
+  waveType,
+}) => {
+  console.log("wavepath generated", waveType);
 
   const waveLength = 400; // Width of the box
   const pathData = [];
@@ -48,32 +60,41 @@ const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplit
 
   // Loop through the wave's width to generate the path
   for (let x = 0; x <= waveLength; x++) {
-    const currentFrequency = (initialFrequency + (frequencyDifference * x) / waveLength) / 100;
-    const currentAmplitude = (startAmplitude + (amplitudeDifference * x) / waveLength) / 2.2;
-    const period = waveLength / currentFrequency
-
+    const currentFrequency =
+      (initialFrequency + (frequencyDifference * x) / waveLength) / 100;
+    const currentAmplitude =
+      (startAmplitude + (amplitudeDifference * x) / waveLength) / 2.2;
+    const period = waveLength / currentFrequency;
 
     // Calculate the y-coordinate based on the current frequency and amplitude
     let y = 0;
     switch (waveType.toLowerCase()) {
-      case 'sine':
+      case "sine":
         y = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
         break;
-      case 'square':
-        y = x % period < period / 2 ? 65 + currentAmplitude : 65 - currentAmplitude;
+      case "square":
+        y =
+          x % period < period / 2
+            ? 65 + currentAmplitude
+            : 65 - currentAmplitude;
         break;
-      case 'sawtooth':
-        y = 65 + currentAmplitude - ((x % period) / period) * (2 * currentAmplitude);
+      case "sawtooth":
+        y =
+          65 +
+          currentAmplitude -
+          ((x % period) / period) * (2 * currentAmplitude);
         break;
-      case 'triangle':
+      case "triangle":
         const tPeriod = x % period;
-        y = tPeriod < period / 2
-          ? 65 + (2 * currentAmplitude / period) * tPeriod
-          : 65 - (2 * currentAmplitude / period) * (tPeriod - period / 2);
+        y =
+          tPeriod < period / 2
+            ? 65 + ((2 * currentAmplitude) / period) * tPeriod
+            : 65 - ((2 * currentAmplitude) / period) * (tPeriod - period / 2);
         break;
-      case 'noisy':
+      case "noisy":
         // Generate noisy wave based on sine wave and random noise
-        const baseWave = 65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
+        const baseWave =
+          65 + currentAmplitude * Math.sin((x / period) * 2 * Math.PI);
         const randomNoise = Math.random() * 2 - 1;
         y = baseWave + randomNoise * (currentAmplitude * 0.3);
         break;
@@ -85,7 +106,7 @@ const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplit
 
   return (
     <svg width="100%" height="100%">
-      <path d={`M${pathData.join(' ')}`} stroke="black" fill="none" />
+      <path d={`M${pathData.join(" ")}`} stroke="black" fill="none" />
       <line
         x1="0%" // Start of the line
         y1="50%" // Vertically center the line
@@ -95,11 +116,8 @@ const WaveSVG: React.FC<SVGprops> = ({ endFrequency, initialFrequency, endAmplit
         strokeWidth="0.5"
       />
     </svg>
-
-  )
-
+  );
 };
-
 
 const startVolProps: SliderProps = {
   min: 0,
@@ -119,7 +137,7 @@ const startVolProps: SliderProps = {
   },
   label: "Start Vol",
   vertical: true,
-  colour: 'red'
+  colour: "red",
 };
 
 const endFrequencySliderProps: SliderProps = {
@@ -140,7 +158,7 @@ const endFrequencySliderProps: SliderProps = {
   },
   label: "End Freq",
   vertical: true,
-  colour: 'green'
+  colour: "green",
 };
 
 const startFrequencySliderProps: SliderProps = {
@@ -161,7 +179,7 @@ const startFrequencySliderProps: SliderProps = {
   },
   label: "Start Freq",
   vertical: true,
-  colour: 'blue'
+  colour: "blue",
 };
 
 const endVolProps: SliderProps = {
@@ -182,61 +200,72 @@ const endVolProps: SliderProps = {
   },
   label: "End Vol",
   vertical: true,
-  colour: 'black'
+  colour: "black",
 };
 
-const Slider: React.FC<SliderProps & { vertical?: boolean, colour: string }> = ({
-  min,
-  max,
-  step,
-  value,
-  onChange,
-  sliderStyle,
-  label,
-  vertical,
-  colour
-}) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(event.target.value);
-    onChange(newValue);
-  };
+const Slider: React.FC<SliderProps & { vertical?: boolean; colour: string }> =
+  ({
+    min,
+    max,
+    step,
+    value,
+    onChange,
+    sliderStyle,
+    label,
+    vertical,
+    colour,
+  }) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = parseFloat(event.target.value);
+      onChange(newValue);
+    };
 
-  return (
-    <div style={{ position: 'relative', height: '80px', width: '45px', display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={handleChange}
-        style={{
-          position: 'absolute',
-          width: '115px', // Width of the slider
-          height: '40px', // Height of the slider
-          transform: 'rotate(-90deg)', // Rotate the slider to vertical orientation
-          accentColor: colour,
-          bottom: '0%',
-        }}
-      />
+    return (
       <div
         style={{
-          position: 'absolute',
-          left: 'calc(100% - 15px)', // Position the label to the right of the slider
-          bottom: `${((value - min) / (max - min)) * 100}%`, // Calculate the position based on value
-          transform: 'translateY(50%)', // Center the label vertically with the thumb
-          fontSize: '13px', // Font size of the label
+          position: "relative",
+          height: "80px",
+          width: "45px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        {value}
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={handleChange}
+          style={{
+            position: "absolute",
+            width: "115px", // Width of the slider
+            height: "40px", // Height of the slider
+            transform: "rotate(-90deg)", // Rotate the slider to vertical orientation
+            accentColor: colour,
+            bottom: "0%",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: "calc(100% - 15px)", // Position the label to the right of the slider
+            bottom: `${((value - min) / (max - min)) * 100}%`, // Calculate the position based on value
+            transform: "translateY(50%)", // Center the label vertically with the thumb
+            fontSize: "13px", // Font size of the label
+          }}
+        >
+          {value}
+        </div>
+        <div
+          style={{ marginTop: "120px", textAlign: "center", fontSize: "11px" }}
+        >
+          <b>{label}</b>
+        </div>
       </div>
-      <div style={{ marginTop: '120px', textAlign: 'center', fontSize: '11px', }}>
-        <b>{label}</b>
-      </div>
-    </div>
-  );
-};
-
+    );
+  };
 
 const TripleSliderWidget: React.FC<{
   freqStartProps: SliderProps;
@@ -245,10 +274,14 @@ const TripleSliderWidget: React.FC<{
   volEndprops: SliderProps;
   props: WidgetProps;
   view: EditorView;
-}> = ({ freqStartProps, freqEndProps, volStartProps, volEndprops, props, view }) => {
-
-
-
+}> = ({
+  freqStartProps,
+  freqEndProps,
+  volStartProps,
+  volEndprops,
+  props,
+  view,
+}) => {
   let args = props.args;
   let ranges = props.ranges;
   let types = props.types;
@@ -257,20 +290,23 @@ const TripleSliderWidget: React.FC<{
 
   //parse args
 
-  let argsToBeUsed: FixedLengthArray = [200, 500, 2000, 50, 50, "sine", "none"] // default args
-  let count = 0
-  for (let i = 2; i < args.length; i += 3) { //Update default args with user args where they exist
-    argsToBeUsed[count] = args[i]
-    if (args[i].split('_')[0] == 'SoundEffect.WAVEFORM' || args[i].split('_')[0] == 'SoundEffect.FX') {
-      argsToBeUsed[count] = (args[i].split('_')[1]).toLowerCase()
+  let argsToBeUsed: FixedLengthArray = [200, 500, 2000, 50, 50, "sine", "none"]; // default args
+  let count = 0;
+  for (let i = 2; i < args.length; i += 3) {
+    //Update default args with user args where they exist
+    argsToBeUsed[count] = args[i];
+    if (
+      args[i].split("_")[0] == "SoundEffect.WAVEFORM" ||
+      args[i].split("_")[0] == "SoundEffect.FX"
+    ) {
+      argsToBeUsed[count] = args[i].split("_")[1].toLowerCase();
     }
     let arg = args[i];
     console.log("arg: ", arg);
     count += 1;
-  };
+  }
 
-  console.log("args", argsToBeUsed)
-
+  console.log("args", argsToBeUsed);
 
   console.log("args", argsToBeUsed);
 
@@ -306,15 +342,13 @@ const TripleSliderWidget: React.FC<{
   };
 
   const handleWaveTypeChange = (value: string) => {
-
     setWaveType(value);
-    updateView({ waveType: value })
+    updateView({ waveType: value });
   };
 
   const handleFxChange = (value: string) => {
     updateView({ fx: value });
   };
-
 
   const updateView = (change: Partial<ParsedArgs>) => {
     let insertion = statesToString({
@@ -539,10 +573,6 @@ const TripleSliderWidget: React.FC<{
   );
 };
 
-
-
-
-
 export const SoundComponent = ({
   props,
   view,
@@ -630,20 +660,24 @@ function statesToString({
 }: ParsedArgs): string {
   console.log("waveType", waveType);
   if (fx.toLocaleLowerCase() == "none") {
-    return `\n`
-      + `        freq_start=${startFreq},\n`
-      + `        freq_end=${endFreq},\n`
-      + `        duration=${duration},\n`
-      + `        vol_start=${startVol},\n`
-      + `        vol_end=${endVol},\n`
-      + `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()}`
+    return (
+      `\n` +
+      `        freq_start=${startFreq},\n` +
+      `        freq_end=${endFreq},\n` +
+      `        duration=${duration},\n` +
+      `        vol_start=${startVol},\n` +
+      `        vol_end=${endVol},\n` +
+      `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()}`
+    );
   }
-  return `\n`
-    + `        freq_start=${startFreq},\n`
-    + `        freq_end=${endFreq},\n`
-    + `        duration=${duration},\n`
-    + `        vol_start=${startVol},\n`
-    + `        vol_end=${endVol},\n`
-    + `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()},\n`
-    + `        fx=SoundEffect.FX_${fx.toUpperCase()}`;
+  return (
+    `\n` +
+    `        freq_start=${startFreq},\n` +
+    `        freq_end=${endFreq},\n` +
+    `        duration=${duration},\n` +
+    `        vol_start=${startVol},\n` +
+    `        vol_end=${endVol},\n` +
+    `        waveform=SoundEffect.WAVEFORM_${waveType.toUpperCase()},\n` +
+    `        fx=SoundEffect.FX_${fx.toUpperCase()}`
+  );
 }
