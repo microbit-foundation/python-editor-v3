@@ -1,4 +1,4 @@
-// WebWorker stub for jest.
+// WebWorker stub for jsdom.
 
 class MockWorker {}
 

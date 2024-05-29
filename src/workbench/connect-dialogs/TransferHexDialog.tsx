@@ -10,6 +10,7 @@ import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../../common/GenericDialog";
 import transferHexMac from "./transfer-hex-mac.gif";
 import transferHexWin from "./transfer-hex-win.gif";
+import { FinalFocusRef } from "../../project/project-actions";
 
 export const enum TransferHexChoice {
   CloseDontShowAgain,
@@ -20,7 +21,7 @@ interface TransferHexDialogProps {
   callback: (value: TransferHexChoice) => void;
   dialogNormallyHidden: boolean;
   shownByRequest: boolean;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 export const TransferHexDialog = ({

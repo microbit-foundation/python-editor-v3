@@ -41,6 +41,8 @@ import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useCodeDragImage } from "../documentation-hooks";
 import Highlight from "../reference/Highlight";
+import { useHotkeys } from "react-hotkeys-hook";
+import { keyboardShortcuts } from "../../common/keyboard-shortcuts";
 
 const kindToFontSize: Record<string, any> = {
   module: "2xl",
@@ -407,7 +409,7 @@ const DraggableSignature = ({
     [fullName, kind, id, dragImage, logging]
   );
 
-  const handleDragEnd = useCallback((event: React.DragEvent) => {
+  const handleDragEnd = useCallback((_event: React.DragEvent) => {
     dndDebug("dragend");
     setDragContext(undefined);
   }, []);
@@ -422,20 +424,9 @@ const DraggableSignature = ({
     onCopy();
     await actions?.copyCode(code, codeWithImports, type, id);
   }, [actions, code, codeWithImports, onCopy, type, id]);
-  const isMac = /Mac/.test(navigator.platform);
-  const handleKeyDown = useCallback(
-    async (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleCopyCode();
-      }
-      if ((e.key === "c" || e.key === "C") && (isMac ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        handleCopyCode();
-      }
-    },
-    [handleCopyCode, isMac]
-  );
+  const hotKeysRef = useHotkeys(keyboardShortcuts.copyCode, handleCopyCode, {
+    preventDefault: true,
+  });
   const intl = useIntl();
   const [{ dragDropSuccess }] = useSessionSettings();
   return (
@@ -448,6 +439,7 @@ const DraggableSignature = ({
         isDisabled={dragDropSuccess}
       >
         <HStack
+          ref={hotKeysRef}
           draggable
           spacing={0}
           onClick={copyCodeButton.onToggle}
@@ -467,7 +459,6 @@ const DraggableSignature = ({
             boxShadow: "var(--chakra-shadows-outline);",
             outline: "none",
           }}
-          onKeyDown={handleKeyDown}
           {...props}
           cursor="grab"
         >

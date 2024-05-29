@@ -742,6 +742,14 @@
     "defaultMessage": "서드파티 모듈을 변경하면 모듈이 의도대로 작동하지 않을 수 있습니다.",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "설정",
     "description": "Settings text"
@@ -1110,6 +1118,10 @@
     "defaultMessage": "microbit.org 방문(새 탭에서 열기)",
     "description": "alt text for logo link to .org"
   },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
+  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "다른 프로세스가 이 장치에 연결되어 있습니다.",
     "description": "Part of WebUSB error message"
@@ -1130,14 +1142,6 @@
     "defaultMessage": "micro:bit 연결을 확인한 후, 다시 시도해 보세요.",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "이 기능을 활용하려면 <link>micro:bit 펌웨어를 업데이트</link>해야 합니다.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "micro:bit 펌웨어를 업데이트 하세요.",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "이 브라우저가 WebUSB를 지원하지 않아 프로그램이 컴퓨터에 저장됩니다. micro:bit로 전송하려면 다음 화면의 단계를 따르세요. micro:bit에 직접 연결할 수 있도록 Google Chrome 또는 Microsoft Edge 사용을 권장합니다.",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
@@ -1157,6 +1161,10 @@
   "welcome-title": {
     "defaultMessage": "micro:bit Python 편집기에 오신 것을 환영합니다",
     "description": "Title for the welcome dialog"
+  },
+  "welcome-video-alt": {
+    "defaultMessage": "video introducing the Python Editor",
+    "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {
     "defaultMessage": "글꼴 크게",

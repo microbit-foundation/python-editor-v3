@@ -6,9 +6,14 @@
 import { ReactNode, useContext } from "react";
 import { Logging } from "../logging/logging";
 
-// This is configured via a webpack alias, defaulting to ./default
-import { default as d } from "theme-package";
-export const deployment: DeploymentConfig = d;
+export type DeploymentConfigFactory = (
+  env: Record<string, string>
+) => DeploymentConfig;
+
+// This is configured via a vite alias, defaulting to ./default
+import { default as df } from "theme-package";
+const deploymentFactory: DeploymentConfigFactory = df;
+export const deployment = deploymentFactory(import.meta.env);
 
 export interface CookieConsent {
   analytics: boolean;
@@ -16,6 +21,7 @@ export interface CookieConsent {
 }
 
 export interface DeploymentConfig {
+  welcomeVideoYouTubeId?: string;
   squareLogo?: ReactNode;
   horizontalLogo?: ReactNode;
   compliance: {

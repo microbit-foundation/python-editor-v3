@@ -26,7 +26,6 @@ const ProjectNameQuestion = ({
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (ref.current) {
-      ref.current.focus();
       ref.current.setSelectionRange(0, ref.current.value.length);
     }
   }, []);

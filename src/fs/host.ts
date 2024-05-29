@@ -87,18 +87,22 @@ export class IframeHost implements Host {
     private window: Window,
     private debounceDelay: number = 1_000
   ) {}
-  createStorage(logging: Logging): FSStorage {
+  createStorage(_logging: Logging): FSStorage {
     return new InMemoryFSStorage(undefined);
   }
-  async shouldReinitializeProject(storage: FSStorage): Promise<boolean> {
+  async shouldReinitializeProject(_storage: FSStorage): Promise<boolean> {
     // If there is persistence then it is the embedder's problem.
     return true;
   }
   createInitialProject(): Promise<PythonProject> {
     return new Promise((resolve) => {
-      this.window.addEventListener("load", () =>
-        notifyWorkspaceSync(this.parent)
-      );
+      if (this.window.document.readyState === "complete") {
+        notifyWorkspaceSync(this.parent);
+      } else {
+        this.window.addEventListener("load", () =>
+          notifyWorkspaceSync(this.parent)
+        );
+      }
       this.window.addEventListener("message", (event) => {
         if (
           event?.data.type === messages.type &&

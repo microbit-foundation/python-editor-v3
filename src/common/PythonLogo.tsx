@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ReactComponent as PythonLogo } from "./python-logo.svg";
+import PythonLogo from "./python-logo.svg?react";
 
 /**
  * The Python logo.

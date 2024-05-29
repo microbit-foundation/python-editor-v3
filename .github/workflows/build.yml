@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   build:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,14 +23,13 @@ jobs:
       PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       STAGING_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
-      REACT_APP_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
-      CI: false
+      VITE_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
 
     steps:
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Configure node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: "npm"
@@ -37,31 +37,33 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-dev.23  @microbit-foundation/website-deploy-aws@0.3.0 @microbit-foundation/website-deploy-aws-config@0.7.1 @microbit-foundation/circleci-npm-package-versioner@1
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-dev.43 @microbit-foundation/website-deploy-aws@0.6.0 @microbit-foundation/website-deploy-aws-config@0.9.0 @microbit-foundation/circleci-npm-package-versioner@1
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: node ./bin/print-ci-env-stage.js >> $GITHUB_ENV
-      - run: node ./bin/print-ci-env-public-url.js >> $GITHUB_ENV
+      - run: node ./bin/print-ci-env-stage.cjs >> $GITHUB_ENV
+      - run: node ./bin/print-ci-env-public-url.cjs >> $GITHUB_ENV
       - run: npm run ci:update-version
         if: github.repository_owner == 'microbit-foundation'
       - run: npm run ci
         env:
-          REACT_APP_GA_COOKIE_PREFIX: ${{ secrets.REACT_APP_GA_COOKIE_PREFIX }}
-          REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
-          REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
-      - run: mkdir -p /tmp/app${PUBLIC_URL} && cp -r build/* /tmp/app${PUBLIC_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      - run: mkdir -p /tmp/app${BASE_URL} && cp -r build/* /tmp/app${BASE_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-      - run: npm run test:e2e:headless
+      - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+        uses: docker://mcr.microsoft.com/playwright:v1.42.1-jammy
+        with:
+          args: npx playwright test
       - name: Store reports
         if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: reports/
+          retention-days: 3
       - run: npm run deploy
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
         env:

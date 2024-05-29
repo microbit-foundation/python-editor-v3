@@ -41,7 +41,11 @@ export type Flag =
    * Added to support user-testing and has the nice side-effect of disabling
    * the dialog for local development so is worth keeping for that use alone.
    */
-  | "noWelcome";
+  | "noWelcome"
+  /**
+   * Enables in-context Crowdin translating.
+   */
+  | "translate";
 
 interface FlagMetadata {
   defaultOnStages: Stage[];
@@ -54,6 +58,7 @@ const allFlags: FlagMetadata[] = [
   { name: "cmsPreview", defaultOnStages: [] },
   { name: "dndDebug", defaultOnStages: [] },
   { name: "noLang", defaultOnStages: [] },
+  { name: "translate", defaultOnStages: [] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
 ];
 

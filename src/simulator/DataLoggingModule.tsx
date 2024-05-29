@@ -166,7 +166,7 @@ const DataLoggingModule = ({
         <Button
           leftIcon={<RiDownload2Line />}
           onClick={handleSaveLog}
-          disabled={!hasContent}
+          isDisabled={!hasContent}
         >
           <FormattedMessage id="simulator-data-logging-save-log" />
         </Button>

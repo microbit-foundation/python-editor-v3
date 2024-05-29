@@ -10,11 +10,12 @@ import * as LSP from "vscode-languageserver-protocol";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { LanguageServerClient } from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
-import { setDiagnostics } from "../lint/lint";
+import { Action, setDiagnostics } from "../lint/lint";
 import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
 import { signatureHelp } from "./signatureHelp";
+import { DeviceConnection, EVENT_STATUS } from "../../../device/device";
 
 /**
  * The main extension. This synchronises the diagnostics between the client
@@ -26,24 +27,59 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     if (params.uri === this.uri) {
       const diagnostics = diagnosticsMapping(
         this.view.state.doc,
-        params.diagnostics
+        params.diagnostics,
+        this.device,
+        this.warnOnV2OnlyFeatures,
+        this.warnOnV2OnlyFeaturesAction
       );
       this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
     }
   };
-  constructor(view: EditorView) {
+  private destroyed = false;
+  private onDeviceStatusChanged = () => {
+    const diagnostics = diagnosticsMapping(
+      this.view.state.doc,
+      this.client.allDiagnostics(),
+      this.device,
+      this.warnOnV2OnlyFeatures,
+      this.warnOnV2OnlyFeaturesAction
+    );
+    this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
+  };
+  private warnOnV2OnlyFeaturesAction = (): Action => {
+    return {
+      name: this.intl.formatMessage({ id: "warn-on-v2-only-features-action" }),
+      apply: () => {
+        this.disableV2OnlyFeaturesWarning();
+      },
+    };
+  };
+
+  constructor(
+    view: EditorView,
+    private device: DeviceConnection,
+    private intl: IntlShape,
+    private warnOnV2OnlyFeatures: boolean,
+    private disableV2OnlyFeaturesWarning: () => void
+  ) {
     super(view);
 
     this.client.on("diagnostics", this.diagnosticsListener);
+    this.device.on(EVENT_STATUS, this.onDeviceStatusChanged);
 
     // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
-      const diagnostics = diagnosticsMapping(
-        view.state.doc,
-        this.client.currentDiagnostics(this.uri)
-      );
-      view.dispatch(setDiagnostics(view.state, diagnostics));
+      if (!this.destroyed) {
+        const diagnostics = diagnosticsMapping(
+          view.state.doc,
+          this.client.currentDiagnostics(this.uri),
+          device,
+          warnOnV2OnlyFeatures,
+          this.warnOnV2OnlyFeaturesAction
+        );
+        view.dispatch(setDiagnostics(view.state, diagnostics));
+      }
     }, 0);
   }
 
@@ -58,7 +94,9 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   }
 
   destroy() {
+    this.destroyed = true;
     this.client.removeListener("diagnostics", this.diagnosticsListener);
+    this.device.removeListener(EVENT_STATUS, this.onDeviceStatusChanged);
     // We don't own the client/connection which might outlive us, just our notifications.
   }
 }
@@ -67,6 +105,11 @@ interface Options {
   signatureHelp: {
     automatic: boolean;
   };
+  warnOnV2OnlyFeatures: boolean;
+}
+
+interface Actions {
+  disableV2OnlyFeaturesWarning: () => void;
 }
 
 /**
@@ -80,16 +123,27 @@ interface Options {
  */
 export function languageServer(
   client: LanguageServerClient,
+  device: DeviceConnection,
   uri: string,
   intl: IntlShape,
   logging: Logging,
   apiReferenceMap: ApiReferenceMap,
-  options: Options
+  options: Options,
+  actions: Actions
 ) {
   return [
     uriFacet.of(uri),
     clientFacet.of(client),
-    ViewPlugin.define((view) => new LanguageServerView(view)),
+    ViewPlugin.define(
+      (view) =>
+        new LanguageServerView(
+          view,
+          device,
+          intl,
+          options.warnOnV2OnlyFeatures,
+          actions.disableV2OnlyFeaturesWarning
+        )
+    ),
     signatureHelp(intl, options.signatureHelp.automatic, apiReferenceMap),
     autocompletion(intl, logging, apiReferenceMap),
   ];

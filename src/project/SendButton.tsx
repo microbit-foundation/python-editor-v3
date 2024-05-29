@@ -14,7 +14,7 @@ import {
   ThemeTypings,
   Tooltip,
 } from "@chakra-ui/react";
-import React, { ForwardedRef, useCallback, useRef } from "react";
+import React, { FocusEvent, ForwardedRef, useCallback, useRef } from "react";
 import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
@@ -22,6 +22,12 @@ import { ConnectionAction, ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
+import { useHotkeys } from "react-hotkeys-hook";
+import {
+  globalShortcutConfig,
+  keyboardShortcuts,
+} from "../common/keyboard-shortcuts";
+import { FinalFocusRef } from "./project-actions";
 
 interface SendButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];
@@ -48,26 +54,29 @@ const SendButton = React.forwardRef(
       flashing: false,
       lastCompleteFlash: 0,
     });
-    const handleSendToMicrobit = useCallback(async () => {
-      if (flashing.current.flashing) {
-        // Ignore repeated clicks.
-        return;
-      }
-      flashing.current = {
-        flashing: true,
-        lastCompleteFlash: flashing.current.lastCompleteFlash,
-      };
-      try {
-        await actions.flash(sendButtonRef);
-      } finally {
+    const handleSendToMicrobit = useCallback(
+      async (finalFocusRef: FinalFocusRef) => {
+        if (flashing.current.flashing) {
+          // Ignore repeated clicks.
+          return;
+        }
         flashing.current = {
-          flashing: false,
-          lastCompleteFlash: new Date().getTime(),
+          flashing: true,
+          lastCompleteFlash: flashing.current.lastCompleteFlash,
         };
-      }
-    }, [flashing, actions, sendButtonRef]);
+        try {
+          await actions.flash(finalFocusRef);
+        } finally {
+          flashing.current = {
+            flashing: false,
+            lastCompleteFlash: new Date().getTime(),
+          };
+        }
+      },
+      [flashing, actions]
+    );
     const handleFocus = useCallback(
-      (e) => {
+      (e: FocusEvent<unknown>) => {
         const inProgress = flashing.current.flashing;
         const delta = new Date().getTime() - flashing.current.lastCompleteFlash;
         if (inProgress || delta < 200) {
@@ -79,6 +88,16 @@ const SendButton = React.forwardRef(
       [flashing]
     );
     const menuButtonRef = useRef<HTMLButtonElement>(null);
+    const activeElementRef = useRef<HTMLElement | null>(null);
+    const handleSendToMicrobitShortcut = useCallback(() => {
+      activeElementRef.current = document.activeElement as HTMLElement;
+      handleSendToMicrobit(activeElementRef);
+    }, [handleSendToMicrobit]);
+    useHotkeys(
+      keyboardShortcuts.sendToMicrobit,
+      handleSendToMicrobitShortcut,
+      globalShortcutConfig
+    );
     return (
       <HStack>
         <Menu>
@@ -96,7 +115,7 @@ const SendButton = React.forwardRef(
                 size={size}
                 variant="solid"
                 leftIcon={<RiUsbLine />}
-                onClick={handleSendToMicrobit}
+                onClick={() => handleSendToMicrobit(sendButtonRef)}
               >
                 <FormattedMessage id="send-action" />
               </Button>

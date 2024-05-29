@@ -87,8 +87,10 @@ export const sanityLanguageId = (locale: string): string => {
   return `${parts[0]}-${parts[1].toUpperCase()}`;
 };
 
-export const project = "ajwvhvgo";
-export const dataset = flags.cmsPreview ? "apps-preview" : "apps";
+export const project = import.meta.env.VITE_SANITY_PROJECT;
+export const dataset = flags.cmsPreview
+  ? import.meta.env.VITE_SANITY_PREVIEW_DATASET
+  : import.meta.env.VITE_SANITY_DATASET;
 
 const queryUrl = (query: string): string => {
   return `https://${project}.apicdn.sanity.io/v1/data/query/${dataset}?query=${encodeURIComponent(

@@ -5,6 +5,7 @@
  */
 import EventEmitter from "events";
 import {
+  CompletionItem,
   CompletionList,
   CompletionParams,
   CompletionRequest,
@@ -29,6 +30,7 @@ import {
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
 import { microPythonConfig } from "../micropython/micropython";
+import { isErrorDueToDispose } from "./error-util";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
@@ -51,11 +53,11 @@ export class LanguageServerClient extends EventEmitter {
   capabilities: ServerCapabilities | undefined;
   private versions: Map<string, number> = new Map();
   private diagnostics: Map<string, Diagnostic[]> = new Map();
-  private initializePromise: Promise<void> | undefined;
+  private initializePromise: Promise<boolean> | undefined;
 
   constructor(
     public connection: MessageConnection,
-    private locale: string,
+    public locale: string,
     public rootUri: string
   ) {
     super();
@@ -86,86 +88,99 @@ export class LanguageServerClient extends EventEmitter {
   /**
    * Initialize or wait for in-progress initialization.
    */
-  async initialize(): Promise<void> {
+  async initialize(): Promise<boolean> {
     if (this.initializePromise) {
       return this.initializePromise;
     }
     this.initializePromise = (async () => {
-      this.connection.onNotification(LogMessageNotification.type, (params) =>
-        console.log("[LS]", params.message)
-      );
+      try {
+        this.connection.onNotification(LogMessageNotification.type, (params) =>
+          console.log("[LS]", params.message)
+        );
 
-      this.connection.onNotification(
-        PublishDiagnosticsNotification.type,
-        (params) => {
-          this.diagnostics.set(params.uri, params.diagnostics);
-          // Republish as you can't listen twice.
-          this.emit("diagnostics", params);
-        }
-      );
-      this.connection.onRequest(RegistrationRequest.type, () => {
-        // Ignore. I don't think we should get these at all given our
-        // capabilities, but Pyright is sending one anyway.
-      });
+        this.connection.onNotification(
+          PublishDiagnosticsNotification.type,
+          (params) => {
+            this.diagnostics.set(params.uri, params.diagnostics);
+            // Republish as you can't listen twice.
+            this.emit("diagnostics", params);
+          }
+        );
+        this.connection.onRequest(RegistrationRequest.type, () => {
+          // Ignore. I don't think we should get these at all given our
+          // capabilities, but Pyright is sending one anyway.
+        });
 
-      const initializeParams: InitializeParams = {
-        locale: this.locale,
-        capabilities: {
-          textDocument: {
-            moniker: {},
-            synchronization: {
-              willSave: false,
-              didSave: false,
-              willSaveWaitUntil: false,
-            },
-            completion: {
-              completionItem: {
-                snippetSupport: false,
-                commitCharactersSupport: true,
-                documentationFormat: ["markdown"],
-                deprecatedSupport: false,
-                preselectSupport: false,
+        const initializeParams: InitializeParams = {
+          locale: this.locale,
+          capabilities: {
+            textDocument: {
+              moniker: {},
+              synchronization: {
+                willSave: false,
+                didSave: false,
+                willSaveWaitUntil: false,
               },
-              contextSupport: true,
-            },
-            signatureHelp: {
-              signatureInformation: {
-                documentationFormat: ["markdown"],
-                activeParameterSupport: true,
-                parameterInformation: {
-                  labelOffsetSupport: true,
+              completion: {
+                completionItem: {
+                  snippetSupport: false,
+                  commitCharactersSupport: true,
+                  documentationFormat: ["markdown"],
+                  deprecatedSupport: false,
+                  preselectSupport: false,
+                },
+                contextSupport: true,
+              },
+              signatureHelp: {
+                signatureInformation: {
+                  documentationFormat: ["markdown"],
+                  activeParameterSupport: true,
+                  parameterInformation: {
+                    labelOffsetSupport: true,
+                  },
+                },
+              },
+              publishDiagnostics: {
+                tagSupport: {
+                  valueSet: [
+                    DiagnosticTag.Unnecessary,
+                    DiagnosticTag.Deprecated,
+                  ],
                 },
               },
             },
-            publishDiagnostics: {
-              tagSupport: {
-                valueSet: [DiagnosticTag.Unnecessary, DiagnosticTag.Deprecated],
-              },
+            workspace: {
+              workspaceFolders: true,
+              didChangeConfiguration: {},
+              configuration: true,
             },
           },
-          workspace: {
-            workspaceFolders: true,
-            didChangeConfiguration: {},
-            configuration: true,
-          },
-        },
-        initializationOptions: await this.getInitializationOptions(),
-        processId: null,
-        // Do we need both of these?
-        rootUri: this.rootUri,
-        workspaceFolders: [
-          {
-            name: "src",
-            uri: this.rootUri,
-          },
-        ],
-      };
-      const { capabilities } = await this.connection.sendRequest(
-        InitializeRequest.type,
-        initializeParams
-      );
-      this.capabilities = capabilities;
-      this.connection.sendNotification(InitializedNotification.type, {});
+          initializationOptions: await this.getInitializationOptions(),
+          processId: null,
+          // Do we need both of these?
+          rootUri: this.rootUri,
+          workspaceFolders: [
+            {
+              name: "src",
+              uri: this.rootUri,
+            },
+          ],
+        };
+        const { capabilities } = await this.connection.sendRequest(
+          InitializeRequest.type,
+          initializeParams
+        );
+        this.capabilities = capabilities;
+        this.connection.sendNotification(InitializedNotification.type, {});
+      } catch (e) {
+        if (isErrorDueToDispose(e)) {
+          // We've intentionally disposed the connection because we're recreating the client.
+          // This mostly happens due to React 18 strict mode but could happen due to language changes.
+          return false;
+        }
+        throw e;
+      }
+      return true;
     })();
     return this.initializePromise;
   }
@@ -176,7 +191,8 @@ export class LanguageServerClient extends EventEmitter {
       return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
     });
     return {
-      files: typeshed,
+      // Shallow copy as it's an ESM that can't be serialized
+      files: { files: typeshed.files },
       // Custom option in our Pyright version
       diagnosticStyle: "simplified",
     };
@@ -216,10 +232,17 @@ export class LanguageServerClient extends EventEmitter {
   }
 
   async completionRequest(params: CompletionParams): Promise<CompletionList> {
-    const results = await this.connection.sendRequest(
-      CompletionRequest.type,
-      params
-    );
+    let results: CompletionList | CompletionItem[] | null = null;
+    try {
+      results = await this.connection.sendRequest(
+        CompletionRequest.type,
+        params
+      );
+    } catch (e) {
+      if (!isErrorDueToDispose(e)) {
+        throw e;
+      }
+    }
     if (!results) {
       // Not clear how this should be handled.
       return { items: [], isIncomplete: true };

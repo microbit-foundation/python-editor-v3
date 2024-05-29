@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { CreateFile, DeleteFile } from "vscode-languageserver-protocol";
-import { diff, EVENT_PROJECT_UPDATED, FileSystem, Project } from "../fs/fs";
+import { EVENT_PROJECT_UPDATED, FileSystem, Project, diff } from "../fs/fs";
 import { isPythonFile } from "../project/project-utils";
-import { createUri, LanguageServerClient } from "./client";
+import { LanguageServerClient, createUri } from "./client";
+import { isErrorDueToDispose } from "./error-util";
 
 export type FsChangesListener = (current: Project) => any;
 
@@ -32,50 +33,56 @@ export const trackFsChanges = (
   const diffAndUpdateClient = async (current: Project) => {
     const changes = diff(previous, current).filter((c) => isPythonFile(c.name));
     previous = current;
-    for (const change of changes) {
-      const uri = createUri(change.name);
-      switch (change.type) {
-        case "create": {
-          const params: CreateFile = {
-            uri,
-            kind: "create",
-          };
-          client.connection.sendNotification("pyright/createFile", params);
-          client.didOpenTextDocument({
-            textDocument: {
-              languageId: "python",
-              text: await documentText(change.name),
+    try {
+      for (const change of changes) {
+        const uri = createUri(change.name);
+        switch (change.type) {
+          case "create": {
+            const params: CreateFile = {
               uri,
-            },
-          });
-          break;
-        }
-        case "delete": {
-          const params: DeleteFile = {
-            uri,
-            kind: "delete",
-          };
-          client.connection.sendNotification("pyright/deleteFile", params);
-          client.didCloseTextDocument({
-            textDocument: {
+              kind: "create",
+            };
+            client.connection.sendNotification("pyright/createFile", params);
+            client.didOpenTextDocument({
+              textDocument: {
+                languageId: "python",
+                text: await documentText(change.name),
+                uri,
+              },
+            });
+            break;
+          }
+          case "delete": {
+            const params: DeleteFile = {
               uri,
-            },
-          });
-          break;
+              kind: "delete",
+            };
+            client.connection.sendNotification("pyright/deleteFile", params);
+            client.didCloseTextDocument({
+              textDocument: {
+                uri,
+              },
+            });
+            break;
+          }
+          case "edit": {
+            // This is only when a document is entirely changed. Open documents are handled
+            // by the editor language server client integration and don't result in project
+            // file version changes.
+            client.didChangeTextDocument(uri, [
+              {
+                text: await documentText(change.name),
+              },
+            ]);
+            break;
+          }
+          default:
+            throw new Error("Unexpected change: " + change.type);
         }
-        case "edit": {
-          // This is only when a document is entirely changed. Open documents are handled
-          // by the editor language server client integration and don't result in project
-          // file version changes.
-          client.didChangeTextDocument(uri, [
-            {
-              text: await documentText(change.name),
-            },
-          ]);
-          break;
-        }
-        default:
-          throw new Error("Unexpected change: " + change.type);
+      }
+    } catch (e) {
+      if (!isErrorDueToDispose(e)) {
+        throw e;
       }
     }
   };

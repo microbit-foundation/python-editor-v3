@@ -49,6 +49,7 @@ import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 import { reactWidgetExtension } from "./helper-widgets/reactWidgetExtension";
+import { useDevice } from "../../device/device-hooks";
 
 interface CodeMirrorProps {
   className?: string;
@@ -59,6 +60,8 @@ interface CodeMirrorProps {
   fontSize: number;
   codeStructureOption: CodeStructureOption;
   parameterHelpOption: ParameterHelpOption;
+  warnOnV2OnlyFeatures: boolean;
+  disableV2OnlyFeaturesWarning: () => void;
 }
 
 interface PortalContent {
@@ -91,6 +94,8 @@ const CodeMirror = ({
   fontSize,
   codeStructureOption,
   parameterHelpOption,
+  warnOnV2OnlyFeatures,
+  disableV2OnlyFeaturesWarning,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
   const [, setActiveEditor] = useActiveEditorActionsState();
@@ -104,6 +109,7 @@ const CodeMirror = ({
   const actionFeedback = useActionFeedback();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
   const { apiReferenceMap } = useDocumentation();
+  const device = useDevice();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -119,8 +125,9 @@ const CodeMirror = ({
       fontSize,
       codeStructureOption,
       parameterHelpOption,
+      warnOnV2OnlyFeatures,
     }),
-    [fontSize, codeStructureOption, parameterHelpOption]
+    [fontSize, codeStructureOption, parameterHelpOption, warnOnV2OnlyFeatures]
   );
 
   const [portals, setPortals] = useState<PortalContent[]>([]);
@@ -179,6 +186,7 @@ const CodeMirror = ({
             client
               ? languageServer(
                   client,
+                  device,
                   uri,
                   intl,
                   logging,
@@ -189,6 +197,10 @@ const CodeMirror = ({
                     signatureHelp: {
                       automatic: parameterHelpOption === "automatic",
                     },
+                    warnOnV2OnlyFeatures: options.warnOnV2OnlyFeatures,
+                  },
+                  {
+                    disableV2OnlyFeaturesWarning,
                   }
                 )
               : [],
@@ -220,9 +232,14 @@ const CodeMirror = ({
     parameterHelpOption,
     uri,
     apiReferenceMap,
+<<<<<<< HEAD
     portals,
     portalFactory,
     setPortals,
+=======
+    device,
+    disableV2OnlyFeaturesWarning,
+>>>>>>> main
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -242,6 +259,7 @@ const CodeMirror = ({
           client
             ? languageServer(
                 client,
+                device,
                 uri,
                 intl,
                 logging,
@@ -250,6 +268,10 @@ const CodeMirror = ({
                   signatureHelp: {
                     automatic: parameterHelpOption === "automatic",
                   },
+                  warnOnV2OnlyFeatures: options.warnOnV2OnlyFeatures,
+                },
+                {
+                  disableV2OnlyFeaturesWarning,
                 }
               )
             : [],
@@ -266,6 +288,8 @@ const CodeMirror = ({
     logging,
     uri,
     apiReferenceMap,
+    device,
+    disableV2OnlyFeaturesWarning,
   ]);
 
   const { location } = selection;

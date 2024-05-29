@@ -3,15 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { theme } from "@chakra-ui/react";
+import { StyleFunctionProps, theme } from "@chakra-ui/react";
 
 const Tabs = {
   variants: {
-    sidebar: (props: any) => {
-      // Theme typing issue.
-      const base = (theme.components.Tabs.variants["solid-rounded"] as any)(
-        props
-      );
+    sidebar: (props: StyleFunctionProps) => {
+      const base = theme.components.Tabs.variants!["solid-rounded"](props);
       return {
         ...base,
         tablist: {

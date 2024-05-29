@@ -12,12 +12,12 @@ import {
   Command,
   EditorView,
   KeyBinding,
-  keymap,
-  logException,
   PluginValue,
-  showTooltip,
   ViewPlugin,
   ViewUpdate,
+  keymap,
+  logException,
+  showTooltip,
 } from "@codemirror/view";
 import { IntlShape } from "react-intl";
 import {
@@ -27,6 +27,7 @@ import {
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
+import { isErrorDueToDispose } from "../../../language-server/error-util";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import {
   DocSections,
@@ -103,7 +104,9 @@ const triggerSignatureHelpRequest = async (
       effects: [setSignatureHelpResult.of(result)],
     });
   } catch (e) {
-    logException(state, e, "signature-help");
+    if (!isErrorDueToDispose(e)) {
+      logException(state, e, "signature-help");
+    }
     view.dispatch({
       effects: [setSignatureHelpResult.of(null)],
     });

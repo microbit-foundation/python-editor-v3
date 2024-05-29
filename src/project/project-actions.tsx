@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
-import { Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, Text, UnorderedList, VStack } from "@chakra-ui/react";
 import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
@@ -70,11 +70,16 @@ import {
   validateNewFilename,
 } from "./project-utils";
 import ProjectNameQuestion from "./ProjectNameQuestion";
+import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
+import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
+import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
 
 /**
  * Distinguishes the different ways to trigger the load action.
  */
 export type LoadType = "drop-load" | "file-upload";
+
+export type FinalFocusRef = React.RefObject<HTMLElement> | undefined;
 
 export interface MainScriptChoice {
   main: string | undefined;
@@ -120,7 +125,7 @@ export class ProjectActions {
   connect = async (
     forceConnectHelp: boolean,
     userAction: ConnectionAction,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ): Promise<boolean | undefined> => {
     this.logging.event({
       type: "connect",
@@ -147,7 +152,7 @@ export class ProjectActions {
    */
   private async showConnectHelp(
     force: boolean,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
     if (
@@ -186,11 +191,11 @@ export class ProjectActions {
   private async connectInternal(
     options: ConnectOptions,
     userAction: ConnectionAction,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) {
     try {
       await this.device.connect(options);
-      finalFocusRef.current?.focus();
+      finalFocusRef?.current?.focus();
       return true;
     } catch (e) {
       this.handleWebUSBError(e, userAction, finalFocusRef);
@@ -201,7 +206,7 @@ export class ProjectActions {
   /**
    * Disconnect from the device.
    */
-  disconnect = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
+  disconnect = async (finalFocusRef: FinalFocusRef) => {
     this.logging.event({
       type: "disconnect",
     });
@@ -336,7 +341,6 @@ export class ProjectActions {
               ) : (
                 e.message
               ),
-              error: e,
             });
           }
         }
@@ -489,7 +493,7 @@ export class ProjectActions {
    * Flash the device, reporting progress via a dialog.
    */
   flash = async (
-    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    finalFocusRef: FinalFocusRef,
     tryAgain?: boolean
   ): Promise<void> => {
     this.logging.event({
@@ -548,7 +552,7 @@ export class ProjectActions {
    * Trigger a browser download with a universal hex file.
    */
   save = async (
-    finalFocusRef: React.RefObject<HTMLButtonElement>,
+    finalFocusRef: FinalFocusRef,
     saveViaWebUsbNotSupported?: boolean
   ) => {
     this.logging.event({
@@ -669,7 +673,6 @@ export class ProjectActions {
         initialValue=""
         actionLabel={this.intl.formatMessage({ id: "create-action" })}
         validate={validate}
-        customFocus
       />
     ));
 
@@ -730,7 +733,7 @@ export class ProjectActions {
   isDefaultProjectName = (): boolean => this.fs.project.name === undefined;
 
   ensureProjectName = async (
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ): Promise<boolean | undefined> => {
     if (this.isDefaultProjectName()) {
       return await this.editProjectName(true, finalFocusRef);
@@ -740,7 +743,7 @@ export class ProjectActions {
 
   editProjectName = async (
     isSave: boolean = false,
-    finalFocusRef?: React.RefObject<HTMLButtonElement>
+    finalFocusRef?: FinalFocusRef
   ) => {
     const name = await this.dialogs.show<string | undefined>((callback) => (
       <InputDialog
@@ -751,7 +754,6 @@ export class ProjectActions {
         actionLabel={this.intl.formatMessage({
           id: isSave ? "confirm-save-action" : "confirm-action",
         })}
-        customFocus
         finalFocusRef={finalFocusRef}
         validate={(name: string) =>
           name.trim().length === 0
@@ -788,7 +790,7 @@ export class ProjectActions {
   private handleConnectErrorChoice = (
     choice: ConnectErrorChoice,
     userAction: ConnectionAction,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) => {
     if (choice !== ConnectErrorChoice.TRY_AGAIN) {
       return;
@@ -802,7 +804,7 @@ export class ProjectActions {
 
   private async handleNotFound(
     userAction: ConnectionAction,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) {
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
       <NotFoundDialog callback={callback} finalFocusRef={finalFocusRef} />
@@ -811,9 +813,9 @@ export class ProjectActions {
   }
 
   private async handleFirmwareUpdate(
-    errorCode: WebUSBErrorCode,
+    _errorCode: WebUSBErrorCode,
     userAction: ConnectionAction,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) {
     this.device.clearDevice();
     const choice = await this.dialogs.show<ConnectErrorChoice>((callback) => (
@@ -825,7 +827,7 @@ export class ProjectActions {
   private async handleWebUSBError(
     e: any,
     userAction: ConnectionAction,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) {
     if (e instanceof WebUSBError) {
       this.device.emit(EVENT_END_USB_SELECT);
@@ -844,12 +846,11 @@ export class ProjectActions {
           await this.handleFirmwareUpdate(e.code, userAction, finalFocusRef);
           return;
         case "clear-connect":
+          return this.handleClearConnectError(finalFocusRef);
         case "timeout-error":
-        case "reconnect-microbit": {
-          return this.actionFeedback.expectedError(
-            this.webusbErrorMessage(e.code)
-          );
-        }
+          return this.handleTimeoutError(finalFocusRef);
+        case "reconnect-microbit":
+          return this.handleReconnectMicrobitError(finalFocusRef);
         default: {
           return this.actionFeedback.unexpectedError(e);
         }
@@ -860,7 +861,7 @@ export class ProjectActions {
   }
 
   private async webusbNotSupportedError(
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ): Promise<void> {
     if (this.sessionSettings.values.showWebUsbNotSupported) {
       await this.dialogs.show<void>((callback) => (
@@ -874,77 +875,49 @@ export class ProjectActions {
     this.save(finalFocusRef, true);
   }
 
-  private webusbErrorMessage(code: WebUSBErrorCode) {
-    switch (code) {
-      case "update-req":
-        return {
-          title: this.intl.formatMessage({
-            id: "webusb-error-update-req-title",
-          }),
-          description: (
-            <span>
-              {this.intl.formatMessage(
-                {
-                  id: "webusb-error-update-req-description",
-                },
-                {
-                  link: (chunks: ReactNode) => (
-                    <Link
-                      target="_blank"
-                      rel="noreferrer"
-                      href="https://microbit.org/get-started/user-guide/firmware/"
-                      textDecoration="underline"
-                    >
-                      {chunks}
-                    </Link>
-                  ),
-                }
-              )}
-            </span>
-          ),
-        };
-      case "clear-connect":
-        return {
-          title: this.intl.formatMessage({
-            id: "webusb-error-clear-connect-title",
-          }),
-          description: (
-            <VStack alignItems="stretch" mt={1}>
-              <p>
-                {this.intl.formatMessage({
-                  id: "webusb-error-clear-connect-description-1",
-                })}
-              </p>
-              <p>
-                {this.intl.formatMessage({
-                  id: "webusb-error-clear-connect-description-2",
-                })}
-              </p>
-            </VStack>
-          ),
-        };
-      case "reconnect-microbit":
-        return {
-          title: this.intl.formatMessage({ id: "webusb-error-default-title" }),
-          description: this.intl.formatMessage({
-            id: "webusb-error-reconnect-microbit-description",
-          }),
-        };
-      case "timeout-error":
-        return {
-          title: this.intl.formatMessage({ id: "timeout-error-title" }),
-          description: this.intl.formatMessage({
-            id: "timeout-error-description",
-          }),
-        };
-      default:
-        throw new Error("Unknown code");
-    }
+  private async handleClearConnectError(finalFocusRef: FinalFocusRef) {
+    return this.dialogs.show<void>((callback) => (
+      <WebUSBErrorDialog
+        callback={callback}
+        finalFocusRef={finalFocusRef}
+        title={this.intl.formatMessage({
+          id: "webusb-error-clear-connect-title",
+        })}
+        description={
+          <VStack alignItems="stretch" mt={1}>
+            <p>
+              {this.intl.formatMessage({
+                id: "webusb-error-clear-connect-description-2",
+              })}
+            </p>
+          </VStack>
+        }
+      />
+    ));
+  }
+  private async handleReconnectMicrobitError(finalFocusRef: FinalFocusRef) {
+    return this.dialogs.show<void>((callback) => (
+      <WebUSBErrorDialog
+        callback={callback}
+        finalFocusRef={finalFocusRef}
+        title={this.intl.formatMessage({ id: "webusb-error-default-title" })}
+        description={<ReconnectTextAndVideo />}
+      />
+    ));
   }
 
-  private async handlePostSaveDialog(
-    finalFocusRef: React.RefObject<HTMLButtonElement>
-  ) {
+  private async handleTimeoutError(finalFocusRef: FinalFocusRef) {
+    return this.dialogs.show<void>((callback) => (
+      <WebUSBErrorDialog
+        callback={callback}
+        finalFocusRef={finalFocusRef}
+        title={this.intl.formatMessage({ id: "timeout-error-title" })}
+        description={<ReconnectTextAndVideo />}
+      />
+    ));
+  }
+
+  private async handlePostSaveDialog(finalFocusRef: FinalFocusRef) {
     const showPostSaveHelpSetting = this.settings.values.showPostSaveHelp;
     if (!showPostSaveHelpSetting) {
       return;
@@ -969,7 +942,7 @@ export class ProjectActions {
 
   private async handleTransferHexDialog(
     forceTransferHexHelp: boolean,
-    finalFocusRef: React.RefObject<HTMLButtonElement>
+    finalFocusRef: FinalFocusRef
   ) {
     const showTransferHexHelpSetting = this.settings.values.showTransferHexHelp;
     if (!forceTransferHexHelp && !showTransferHexHelpSetting) {
@@ -1049,3 +1022,30 @@ export const defaultedProject = (
     name: fs.project.name ?? intl.formatMessage({ id: "untitled-project" }),
   };
 };
+
+const ReconnectTextAndVideo = () => (
+  <HStack alignItems="flex-start">
+    <Box flex="1 0 50%">
+      <FormattedMessage
+        id="webusb-error-reconnect-microbit-description"
+        values={{
+          p: (chunks: ReactNode) => <Text>{chunks}</Text>,
+          li: (chunks: ReactNode) => (
+            <ListItem>
+              <Text as="span">{chunks}</Text>
+            </ListItem>
+          ),
+          ul: (chunks: ReactNode) => (
+            <UnorderedList pl={2}>{chunks}</UnorderedList>
+          ),
+        }}
+      />
+    </Box>
+    <Box flex="1 0 50%" mb="-5%">
+      <video autoPlay loop>
+        <source src={reconnectWebm} type="video/webm" />
+        <source src={reconnectMp4} type="video/mp4" />
+      </video>
+    </Box>
+  </HStack>
+);

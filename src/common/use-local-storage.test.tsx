@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { fireEvent, render, screen } from "@testing-library/react";
-import React from "react";
 import { useStorage } from "./use-storage";
 
 interface TestState {
@@ -13,7 +12,7 @@ interface TestState {
   z: number;
 }
 
-const validate = (o: unknown): o is TestState => true;
+const validate = (_o: unknown): _o is TestState => true;
 
 const Test = () => {
   const [state, setState] = useStorage<TestState>(

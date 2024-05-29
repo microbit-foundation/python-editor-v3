@@ -13,8 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
-import useIsUnmounted from "../common/use-is-unmounted";
-import { apiDocs, ApiDocsResponse } from "../language-server/apidocs";
+import { apiDocs, ApiDocsContent } from "../language-server/apidocs";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSettings } from "../settings/settings";
@@ -27,7 +26,7 @@ import { fetchReferenceToolkit } from "./reference/content";
 import { Toolkit } from "./reference/model";
 
 export type ContentState<T> =
-  | { status: "ok"; content: T }
+  | { status: "ok"; content: T; languageId: string }
   | { status: "error" }
   | { status: "loading" };
 
@@ -38,18 +37,18 @@ const useContent = <T,>(
     status: "loading",
   });
   const logging = useLogging();
-  const isUnmounted = useIsUnmounted();
   const [{ languageId }] = useSettings();
   useEffect(() => {
+    let ignore = false;
     const load = async () => {
       try {
         const content = await fetchContent(languageId);
-        if (!isUnmounted()) {
-          setState({ status: "ok", content });
+        if (!ignore) {
+          setState({ status: "ok", content, languageId });
         }
       } catch (e) {
         logging.error(e);
-        if (!isUnmounted()) {
+        if (!ignore) {
           setState({
             status: "error",
           });
@@ -57,30 +56,37 @@ const useContent = <T,>(
       }
     };
     load();
-  }, [setState, isUnmounted, logging, languageId, fetchContent]);
+    return () => {
+      ignore = true;
+    };
+  }, [setState, logging, languageId, fetchContent]);
   return state;
 };
 
-const useApiDocumentation = (): ApiDocsResponse | undefined => {
+const useApiDocumentation = (): ApiDocsContent | undefined => {
   const client = useLanguageServerClient();
-  const [apidocs, setApiDocs] = useState<ApiDocsResponse | undefined>();
+  const [apidocs, setApiDocs] = useState<ApiDocsContent | undefined>();
   useEffect(() => {
+    let ignore = false;
     const load = async () => {
       if (client) {
-        // Initialized triggered elsewhere but we need to wait for it.
-        await client.initialize();
         const docs = await apiDocs(client);
         pullModulesToTop(docs);
-        setApiDocs(docs);
+        if (!ignore) {
+          setApiDocs(docs);
+        }
       }
     };
     load();
+    return () => {
+      ignore = true;
+    };
   }, [client]);
   return apidocs;
 };
 
 export interface DocumentationContextValue {
-  api: ApiDocsResponse | undefined;
+  api: ApiDocsContent | undefined;
   ideas: ContentState<Idea[]>;
   reference: ContentState<Toolkit>;
   apiReferenceMap: ContentState<ApiReferenceMap>;

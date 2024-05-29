@@ -127,6 +127,14 @@ describe("contextExtracts", () => {
       // Previous bug was an empty match here.
     ]);
   });
+  it("returns the first sentence without matches if no positions are provided", () => {
+    expect(contextExtracts([], "First sentence. Second sentence.")).toEqual([
+      {
+        type: "text",
+        extract: "First sentence.",
+      },
+    ]);
+  });
 });
 
 describe("sortByStart", () => {

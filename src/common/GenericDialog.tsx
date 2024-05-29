@@ -12,19 +12,20 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { Button, HStack, Link, Text } from "@chakra-ui/react";
-import { ThemeTypings } from "@chakra-ui/styled-system";
+import { ThemingProps } from "@chakra-ui/styled-system";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import ModalCloseButton from "./ModalCloseButton";
+import { FinalFocusRef } from "../project/project-actions";
 
 export interface GenericDialogProps {
   header?: ReactNode;
   body: ReactNode;
   footer: ReactNode;
-  size?: ThemeTypings["components"]["Modal"]["sizes"];
+  size?: ThemingProps<"Button">["size"];
   onClose: () => void;
   returnFocusOnClose?: boolean;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef?: FinalFocusRef;
 }
 
 export const GenericDialog = ({

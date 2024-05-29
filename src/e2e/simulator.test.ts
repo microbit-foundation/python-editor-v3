@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
 const basicTest = "from microbit import *\ndisplay.show(Image.NO)";
 
@@ -16,47 +16,42 @@ const gestureTest =
 const sliderTest =
   "from microbit import *\nwhile True:\nif temperature() == -5:\ndisplay.show(Image.NO)";
 
-describe("simulator", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("responds to a sent gesture", async () => {
+test.describe("simulator", () => {
+  test("responds to a sent gesture", async ({ app }) => {
     // Enum sensor change via select and button.
     await app.selectAllInEditor();
     await app.typeInEditor(gestureTest);
-    await app.runSimulator();
-    await app.simulatorSelectGesture("freefall");
-    await app.simulatorSendGesture();
-    await app.simulatorConfirmResponse();
+    await app.simulator.run();
+    await app.simulator.simulatorSelectGesture("freefall");
+    await app.simulator.sendGestureButton.click();
+    await app.simulator.expectResponse();
   });
 
-  it("responds to a range sensor change", async () => {
+  test("responds to a range sensor change", async ({ app }) => {
     // Range sensor change via slider.
     await app.selectAllInEditor();
     await app.typeInEditor(sliderTest);
-    await app.runSimulator();
-    await app.simulatorSetRangeSlider("Temperature", "min");
-    await app.simulatorConfirmResponse();
+    await app.simulator.run();
+    await app.simulator.setRangeSlider("Temperature", "min");
+    await app.simulator.expectResponse();
   });
 
-  it("responds to a button press", async () => {
+  test("responds to a button press", async ({ app }) => {
     // Range sensor change via button.
     await app.selectAllInEditor();
     await app.typeInEditor(buttonTest);
-    await app.runSimulator();
-    await app.simulatorInputPressHold("Press button A", 500);
-    await app.simulatorConfirmResponse();
+    await app.simulator.run();
+    await app.simulator.inputPressHold("Press button A", 500);
+    await app.simulator.expectResponse();
   });
-  it("stops when the code changes", async () => {
+  test("stops when the code changes", async ({ app }) => {
     await app.selectAllInEditor();
     await app.typeInEditor(basicTest);
-    await app.runSimulator();
-    await app.simulatorConfirmResponse();
+    await app.simulator.run();
+    await app.simulator.expectResponse();
 
     await app.typeInEditor("A change!");
 
-    await app.findStoppedSimulator();
+    await app.simulator.expectStopped();
   });
 });

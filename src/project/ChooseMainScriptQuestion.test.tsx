@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ClassifiedFileInput, FileOperation } from "./changes";
 import ChooseMainScriptQuestion, {
   summarizeChange,
@@ -12,15 +12,16 @@ import { MainScriptChoice } from "./project-actions";
 import { stubIntl as intl } from "../messages/testing";
 import FixedTranslationProvider from "../messages/FixedTranslationProvider";
 import { InputValidationResult } from "../common/InputDialog";
+import { MockedFunction, vi } from "vitest";
 
 describe("ChooseMainScriptQuestion", () => {
   const data = () => Promise.resolve(new Uint8Array([0]));
 
   describe("component", () => {
-    const setValue = jest.fn() as jest.MockedFunction<
+    const setValue = vi.fn() as MockedFunction<
       (x: MainScriptChoice | undefined) => void
     >;
-    const setValidationResult = jest.fn() as jest.MockedFunction<
+    const setValidationResult = vi.fn() as MockedFunction<
       (x: InputValidationResult) => void
     >;
     const currentFiles = new Set(["main.py", "magic.py"]);
@@ -58,14 +59,14 @@ describe("ChooseMainScriptQuestion", () => {
           name: "main.py",
         },
       ];
-      const result = renderComponent(inputs, "samplefile.py");
-      const items = (await result.findAllByTestId("change")).map(
+      renderComponent(inputs, "samplefile.py");
+      const items = (await screen.findAllByTestId("change")).map(
         (x) => x.textContent
       );
 
       expect(items).toEqual(["Replace main code with main.py"]);
       // We don't use a list for simple cases.
-      expect(result.queryAllByRole("listitem")).toEqual([]);
+      expect(screen.queryAllByRole("listitem")).toEqual([]);
     });
 
     it("two options for main.py case", async () => {

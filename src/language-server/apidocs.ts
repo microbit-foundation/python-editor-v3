@@ -6,6 +6,7 @@
 import { ProtocolRequestType } from "vscode-languageserver-protocol";
 import { MarkupKind } from "vscode-languageserver-types";
 import { LanguageServerClient } from "./client";
+import { isErrorDueToDispose } from "./error-util";
 
 // This duplicates the types we added to Pyright.
 
@@ -43,6 +44,11 @@ export interface ApiDocsEntry {
   params?: ApiDocsFunctionParameter[];
 }
 
+export interface ApiDocsContent {
+  languageId: string;
+  content: ApiDocsResponse;
+}
+
 export interface ApiDocsResponse extends Record<string, ApiDocsEntry> {}
 
 export const apiDocsRequestType = new ProtocolRequestType<
@@ -53,33 +59,41 @@ export const apiDocsRequestType = new ProtocolRequestType<
   void
 >("pyright/apidocs");
 
-export const apiDocs = (
+export const apiDocs = async (
   client: LanguageServerClient
-): Promise<ApiDocsResponse> => {
+): Promise<ApiDocsContent> => {
   // This is a non-standard LSP call that we've added support for to Pyright.
-  return client.connection.sendRequest(apiDocsRequestType, {
-    path: client.rootUri,
-    documentationFormat: [MarkupKind.Markdown],
-    modules: [
-      // For now, this omits a lot of modules that have stubs
-      // derived from typeshed with no docs.
-      // Note: "audio" is covered under micro:bit.
-      "gc",
-      "log",
-      "machine",
-      "math",
-      "microbit",
-      "micropython",
-      "music",
-      "neopixel",
-      "os",
-      "power",
-      "radio",
-      "random",
-      "speech",
-      "struct",
-      "sys",
-      "time",
-    ],
-  });
+  try {
+    const content = await client.connection.sendRequest(apiDocsRequestType, {
+      path: client.rootUri,
+      documentationFormat: [MarkupKind.Markdown],
+      modules: [
+        // For now, this omits a lot of modules that have stubs
+        // derived from typeshed with no docs.
+        // Note: "audio" is covered under micro:bit.
+        "gc",
+        "log",
+        "machine",
+        "math",
+        "microbit",
+        "micropython",
+        "music",
+        "neopixel",
+        "os",
+        "power",
+        "radio",
+        "random",
+        "speech",
+        "struct",
+        "sys",
+        "time",
+      ],
+    });
+    return { content, languageId: client.locale };
+  } catch (e) {
+    if (isErrorDueToDispose(e)) {
+      return { content: {}, languageId: client.locale };
+    }
+    throw e;
+  }
 };

@@ -39,7 +39,7 @@ const EditorArea = React.forwardRef(
     simulatorButtonRef: ForwardedRef<HTMLButtonElement>
   ) => {
     const intl = useIntl();
-    const [isWideScreen] = useMediaQuery(widthXl);
+    const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
     return (
       <Flex
         height="100%"

@@ -742,6 +742,14 @@
     "defaultMessage": "Wenn du Module von Drittanbietern änderst, kann es sein, dass sie nicht mehr wie vorgesehen funktionieren.",
     "description": "Checkbox setting label"
   },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
   "settings": {
     "defaultMessage": "Einstellungen",
     "description": "Settings text"
@@ -1110,6 +1118,10 @@
     "defaultMessage": "besuche microbit.org (öffnet in neuen Tab)",
     "description": "alt text for logo link to .org"
   },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
+  },
   "webusb-error-clear-connect-description-1": {
     "defaultMessage": "Ein anderer Prozess ist mit diesem Gerät verbunden.",
     "description": "Part of WebUSB error message"
@@ -1130,14 +1142,6 @@
     "defaultMessage": "Bitte schließe deinen micro:bit erneut an und versuche es nochmal.",
     "description": "Part of WebUSB error message"
   },
-  "webusb-error-update-req-description": {
-    "defaultMessage": "Um diese Funktion nutzen zu können, musst du deine <link>micro:bit Firmware aktualisieren </link>.",
-    "description": "WebUSB error telling user to update firmware"
-  },
-  "webusb-error-update-req-title": {
-    "defaultMessage": "Bitte aktualisiere die micro:bit Firmware",
-    "description": "Error text telling user to update firmware"
-  },
   "webusb-not-supported": {
     "defaultMessage": "Leider wird WebUSB in diesem Browser nicht unterstützt und dein Programm wird stattdessen auf deinem Computer gespeichert. Folge den Schritten auf dem nächsten Bildschirm, um es auf deinen micro:bit zu übertragen. Wir empfehlen Google Chrome oder Microsoft Edge, damit du dich direkt mit deinem micro:bit verbinden kannst.",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
@@ -1157,6 +1161,10 @@
   "welcome-title": {
     "defaultMessage": "Willkommen zum micro:bit Python-Editor",
     "description": "Title for the welcome dialog"
+  },
+  "welcome-video-alt": {
+    "defaultMessage": "video introducing the Python Editor",
+    "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {
     "defaultMessage": "Vergrößern",

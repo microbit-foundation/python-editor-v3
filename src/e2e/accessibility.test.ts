@@ -3,35 +3,35 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
+import { expect } from "@playwright/test";
 
-describe("accessibility", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("focuses the correct element on tabbing after load", async () => {
-    await app.assertFocusOnLoad();
+test.describe("accessibility", () => {
+  test("focuses the correct element on tabbing after load", async ({ app }) => {
+    await app.expectFocusOnLoad();
   });
 
-  it("focuses the correct elements on collapsing and expanding the simulator", async () => {
-    await app.collapseSimulator();
-    await app.assertFocusOnExpandSimulator();
+  test("focuses the correct elements on collapsing and expanding the simulator", async ({
+    app,
+  }) => {
+    await app.simulator.collapseButton.click();
+    await expect(app.simulator.expandButton).toBeFocused();
 
-    await app.expandSimulator();
-    await app.assertFocusOnSimulator();
+    await app.simulator.expandButton.click();
+    await expect(app.simulator.iframe).toBeFocused();
   });
 
-  it("focuses the correct elements on collapsing and expanding the sidebar", async () => {
-    await app.collapseSidebar();
-    await app.assertFocusOnExpandSidebar();
-
-    await app.expandSidebar();
+  test("focuses the correct elements on collapsing and expanding the sidebar", async ({
+    app,
+  }) => {
+    await app.sidebar.expandButton.click();
     await app.assertFocusOnSidebar();
+
+    await app.sidebar.collapseButton.click();
+    await expect(app.sidebar.expandButton).toBeFocused();
   });
 
-  it("allows tab out of editor", async () => {
+  test("allows tab out of editor", async ({ app }) => {
     await app.tabOutOfEditorForwards();
     await app.assertFocusAfterEditor();
 

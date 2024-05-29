@@ -30,7 +30,7 @@ const UndoRedoControls = ({ ...props }) => {
         icon={<RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "undo" })}
         onClick={actions?.undo}
-        disabled={editorInfo.undo ? false : true}
+        isDisabled={editorInfo.undo ? false : true}
       />
       <IconButton
         isRound
@@ -39,7 +39,7 @@ const UndoRedoControls = ({ ...props }) => {
         icon={<RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />}
         aria-label={intl.formatMessage({ id: "redo" })}
         onClick={actions?.redo}
-        disabled={editorInfo.redo ? false : true}
+        isDisabled={editorInfo.redo ? false : true}
       />
     </ButtonGroup>
   );

@@ -3,41 +3,44 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ApiDocsResponse } from "../../language-server/apidocs";
+import { ApiDocsContent } from "../../language-server/apidocs";
 import { moduleAndApiFromId, pullModulesToTop } from "./apidocs-util";
 
 describe("pullModulesToTop", () => {
   it("pulls modules up", () => {
-    const mutated: ApiDocsResponse = {
-      microbit: {
-        kind: "module",
-        fullName: "microbit",
-        id: "microbit",
-        name: "microbit",
-        children: [
-          {
-            kind: "module",
-            fullName: "microbit.compass",
-            id: "microbit.compass",
-            name: "compass",
-          },
-          {
-            kind: "module",
-            fullName: "microbit.display",
-            id: "microbit.display",
-            name: "display",
-          },
-          {
-            kind: "variable",
-            fullName: "microbit.display.foo",
-            id: "foo",
-            name: "foo",
-          },
-        ],
+    const mutated: ApiDocsContent = {
+      languageId: "en",
+      content: {
+        microbit: {
+          kind: "module",
+          fullName: "microbit",
+          id: "microbit",
+          name: "microbit",
+          children: [
+            {
+              kind: "module",
+              fullName: "microbit.compass",
+              id: "microbit.compass",
+              name: "compass",
+            },
+            {
+              kind: "module",
+              fullName: "microbit.display",
+              id: "microbit.display",
+              name: "display",
+            },
+            {
+              kind: "variable",
+              fullName: "microbit.display.foo",
+              id: "foo",
+              name: "foo",
+            },
+          ],
+        },
       },
     };
     pullModulesToTop(mutated);
-    expect(mutated).toEqual({
+    expect(mutated.content).toEqual({
       microbit: {
         kind: "module",
         fullName: "microbit",

@@ -12,22 +12,46 @@ import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-main-46e9f54371eb3b42b37c.worker.js";
+const workerScriptName = "pyright-main-382ffb2ee9671656ad85.worker.js";
+
+// Very simple cache to avoid React re-creating pointlessly in development.
+let counter = 0;
+let cache:
+  | {
+      client: LanguageServerClient;
+      language: string;
+    }
+  | undefined;
 
 /**
  * Creates Pyright workers and corresponding client.
  *
- * These have the same lifetime as the app.
+ * These are recreated when the language changes.
  */
-export const pyright = (language: string): LanguageServerClient | undefined => {
-  // For jest.
+export const pyright = async (
+  language: string
+): Promise<LanguageServerClient | undefined> => {
+  // For jsdom.
   if (!window.Worker) {
     return undefined;
   }
+  if (cache) {
+    // This is safe to call if already initialized.
+    await cache.client.initialize();
+    if (cache.language === language) {
+      return cache.client;
+    } else {
+      // Dispose it, we'll create a new one.
+      cache?.client.dispose();
+      cache = undefined;
+    }
+  }
+
+  const idSuffix = counter++;
   // Needed to support review branches that use a path location.
   const workerScript = `${baseUrl}workers/${workerScriptName}`;
   const foreground = new Worker(workerScript, {
-    name: "Pyright-foreground",
+    name: `Pyright-foreground-${idSuffix}`,
   });
   foreground.postMessage({
     type: "browser/boot",
@@ -51,7 +75,7 @@ export const pyright = (language: string): LanguageServerClient | undefined => {
       // onward.
       const { initialData, port } = e.data;
       const background = new Worker(workerScript, {
-        name: `Pyright-background-${++backgroundWorkerCount}`,
+        name: `Pyright-background-${idSuffix}-${++backgroundWorkerCount}`,
       });
       workers.push(background);
       background.postMessage(
@@ -67,5 +91,14 @@ export const pyright = (language: string): LanguageServerClient | undefined => {
   });
   connection.listen();
 
-  return new LanguageServerClient(connection, language, createUri(""));
+  const client = new LanguageServerClient(connection, language, createUri(""));
+  // Must assign before any async step so we reuse or dispose this client
+  // if another call to pyright is made (language change or React 18 dev mode
+  // in practice).
+  cache = {
+    client,
+    language,
+  };
+  await client.initialize();
+  return cache?.client;
 };

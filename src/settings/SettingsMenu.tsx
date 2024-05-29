@@ -62,7 +62,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
           fontSize="xl"
           variant="sidebar"
           icon={<RiSettings2Line />}
-          colorScheme="gray"
+          color="white"
           isRound
         />
         <Portal>

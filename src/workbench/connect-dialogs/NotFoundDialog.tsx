@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button } from "@chakra-ui/button";
-import Icon from "@chakra-ui/icon";
+import { Icon } from "@chakra-ui/icon";
 import { Box, Flex, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
@@ -13,10 +13,11 @@ import { GenericDialog } from "../../common/GenericDialog";
 import SaveButton from "../../project/SaveButton";
 import { ConnectErrorChoice } from "./FirmwareDialog";
 import notFound from "./not-found.svg";
+import { FinalFocusRef } from "../../project/project-actions";
 
 interface NotFoundDialogProps {
   callback: (value: ConnectErrorChoice) => void;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: FinalFocusRef;
 }
 
 export const NotFoundDialog = ({

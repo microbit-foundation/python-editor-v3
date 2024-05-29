@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Text } from "@chakra-ui/react";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
 
@@ -24,19 +24,12 @@ const NewFileNameQuestion = ({
   setValue,
   validate,
 }: NewFileNameQuestionProps) => {
-  const ref = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.focus();
-    }
-  }, []);
   return (
     <FormControl id="fileName" isRequired isInvalid={!validationResult.ok}>
       <FormLabel>
         <FormattedMessage id="name-text" />
       </FormLabel>
       <Input
-        ref={ref}
         type="text"
         value={value}
         onChange={(e) => {

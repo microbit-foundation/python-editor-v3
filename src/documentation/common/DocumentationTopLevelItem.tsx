@@ -41,8 +41,8 @@ const DocumentationTopLevelItem = ({
   type,
 }: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
-  const [isShortWindow] = useMediaQuery(heightMd);
-  const [isWideScreen] = useMediaQuery(widthXl);
+  const [isShortWindow] = useMediaQuery(heightMd, { ssr: false });
+  const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
   return (
     <DocumentationListItem
       onClick={onForward}
@@ -92,8 +92,8 @@ const DocumentationListItem = ({
   type,
   ...props
 }: DocumentationListItemProps) => {
-  const [isShortWindow] = useMediaQuery(heightMd);
-  const [isWideScreen] = useMediaQuery(widthXl);
+  const [isShortWindow] = useMediaQuery(heightMd, { ssr: false });
+  const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
   const my =
     type === "reference"
       ? isShortWindow || !isWideScreen

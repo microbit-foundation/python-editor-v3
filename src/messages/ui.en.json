@@ -1703,6 +1703,18 @@
       "value": "Changing third-party modules may mean they don’t work as intended."
     }
   ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Show warnings about V2-only features"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+    }
+  ],
   "settings": [
     {
       "type": 0,
@@ -2421,6 +2433,12 @@
       "value": "visit microbit.org (opens in a new tab)"
     }
   ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Disable warnings about V2-only features"
+    }
+  ],
   "webusb-error-clear-connect-description-1": [
     {
       "type": 0,
@@ -2436,7 +2454,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Unable to claim interface"
+      "value": "Another page or browser tab is connected to this micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2447,34 +2465,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Please reconnect your micro:bit and try again."
-    }
-  ],
-  "webusb-error-update-req-description": [
-    {
-      "type": 0,
-      "value": "You need to "
+      "children": [
+        {
+          "type": 0,
+          "value": "Please follow these steps, then try again:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
     },
     {
       "children": [
         {
-          "type": 0,
-          "value": "update your micro:bit firmware"
+          "children": [
+            {
+              "type": 0,
+              "value": "unplug the USB cable"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "unplug the battery pack if one is attached"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "reconnect the USB cable"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "reconnect the battery pack if one was attached"
+            }
+          ],
+          "type": 8,
+          "value": "li"
         }
       ],
       "type": 8,
-      "value": "link"
-    },
-    {
-      "type": 0,
-      "value": " to make use of this feature."
-    }
-  ],
-  "webusb-error-update-req-title": [
-    {
-      "type": 0,
-      "value": "Please update the micro:bit firmware"
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2505,6 +2549,12 @@
     {
       "type": 0,
       "value": "Welcome to the micro:bit Python Editor"
+    }
+  ],
+  "welcome-video-alt": [
+    {
+      "type": 0,
+      "value": "video introducing the Python Editor"
     }
   ],
   "zoom-in-action": [

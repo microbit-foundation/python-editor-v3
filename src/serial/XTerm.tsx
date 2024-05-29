@@ -47,7 +47,6 @@ const useManagedTermimal = (
   tabOutRef: HTMLElement,
   fontSizePt: number
 ): void => {
-  const parent = ref.current;
   const actionFeedback = useActionFeedback();
   const codeFontFamily = useToken("fonts", "code");
   const device = useDevice();
@@ -58,6 +57,7 @@ const useManagedTermimal = (
   const initialFontSizeRef = useRef<number>(fontSizePt);
 
   useEffect(() => {
+    const parent = ref.current;
     if (!parent) {
       return;
     }
@@ -74,7 +74,7 @@ const useManagedTermimal = (
       },
     });
 
-    const tracebackLinkHandler = (e: MouseEvent, traceLine: string) => {
+    const tracebackLinkHandler = (_e: MouseEvent, traceLine: string) => {
       const { file, line } = parseTraceLine(traceLine);
       if (file) {
         setSelection({ file, location: { line } });
@@ -188,11 +188,11 @@ const useManagedTermimal = (
     currentTerminalRef,
     device,
     isUnmounted,
-    parent,
     setSelection,
     fitAddon,
     initialFontSizeRef,
     tabOutRef,
+    ref,
   ]);
 
   useEffect(() => {

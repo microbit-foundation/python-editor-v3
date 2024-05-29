@@ -14,6 +14,7 @@ import { useCallback, useEffect, useRef } from "react";
 const useIsUnmounted = () => {
   const ref = useRef(false);
   useEffect(() => {
+    ref.current = false;
     return () => {
       ref.current = true;
     };

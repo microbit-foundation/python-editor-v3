@@ -26,3 +26,7 @@ __pycache__
 *.pyc
 /reports/*
 /crowdin/*
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

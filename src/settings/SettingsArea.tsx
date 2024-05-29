@@ -15,7 +15,7 @@ import {
   NumberInputStepper,
   VStack,
 } from "@chakra-ui/react";
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import SelectFormControl, { createOptions } from "./SelectFormControl";
 import {
@@ -121,6 +121,23 @@ const SettingsArea = () => {
           })
         }
       />
+      <FormControl>
+        <Checkbox
+          id="V2-features"
+          isChecked={settings.warnForApiUnsupportedByDevice}
+          onChange={(event) => {
+            setSettings({
+              ...settings,
+              warnForApiUnsupportedByDevice: event.currentTarget.checked,
+            });
+          }}
+        >
+          <FormattedMessage id="setting-warn-on-v2-only-features" />
+        </Checkbox>
+        <FormHelperText color="gray.700">
+          <FormattedMessage id="setting-warn-on-v2-only-features-info" />
+        </FormHelperText>
+      </FormControl>
       <FormControl>
         <Checkbox
           id="allow-editing"

@@ -30,15 +30,18 @@ Getting up and running:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The page will reload if you make edits.
+
+This does not show TypeScript or lint errors.
+Use the eslint plugin for your editor and consider also running `npm run typecheck:watch` to see full type checking errors.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the [test runner](https://vitest.dev/) in interactive mode (unless the `CI` environment variable is defined).
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 If you have a connected micro:bit device, then setting the environment variable `TEST_MODE_DEVICE=1` will enable additional tests that will connect to your micro:bit. The tests will overwrite programs and data on the micro:bit.
@@ -51,13 +54,9 @@ These are excluded from the normal test run.
 
 The tests expect the app to already be running on http://localhost:3000, for example via `npm start`.
 
-We use [Puppeteer](https://pptr.dev/) and the helpers provided by [Testing Library](https://testing-library.com/docs/pptr-testing-library/intro/).
+We use [Playwright](https://playwright.dev/).
 
 The CI tests run these end-to-end tests against a production build.
-
-### `npm run test:all --testPathPattern autocomplete`
-
-An example of how to use jest options to filter to a specific subset of the tests (e2e or unit).
 
 ### `npm run build`
 
@@ -68,11 +67,11 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 Most users should use the supported Foundation deployment at https://python.microbit.org/
 
-The editor is deployed by [CircleCI](https://circleci.com/gh/microbit-foundation/python-editor-v3).
+The editor is deployed by [GitHub actions](https://github.com/microbit-foundation/python-editor-v3/actions).
 
 The `main` branch is deployed to https://python.microbit.org/v/beta on each push.
 
-Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens.
+Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens. Deployments will not run in forks.
 
 ## License
 

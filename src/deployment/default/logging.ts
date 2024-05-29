@@ -6,7 +6,7 @@
 import { Event, Logging } from "../../logging/logging";
 
 export class NullLogging implements Logging {
-  event(event: Event): void {}
-  error(e: any): void {}
-  log(e: any): void {}
+  event(_event: Event): void {}
+  error(_e: any): void {}
+  log(_e: any): void {}
 }

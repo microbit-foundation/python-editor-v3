@@ -41,17 +41,24 @@ export const LanguageServerClientProvider = ({
     LanguageServerClient | undefined
   >(undefined);
   useEffect(() => {
-    const client = pyright(languageId);
-    setClientState(client);
     let listener: FsChangesListener | undefined;
-    client?.initialize().then(() => {
-      listener = trackFsChanges(client, fs);
-    });
+    let ignore = false;
+    const initAsync = async () => {
+      const client = await pyright(languageId);
+      if (client) {
+        listener = trackFsChanges(client, fs);
+        if (!ignore) {
+          setClientState(client);
+        }
+      }
+    };
+    initAsync();
     return () => {
       if (listener) {
         removeTrackFsChangesListener(fs, listener);
       }
-      client?.dispose();
+      ignore = true;
+      // We don't dispose the client here as it's cached for reuse.
     };
   }, [fs, languageId]);
   return (

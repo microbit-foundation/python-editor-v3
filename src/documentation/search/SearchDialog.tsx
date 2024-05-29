@@ -51,10 +51,9 @@ const SearchDialog = ({
     <Box>
       <Box py={1.5} px={1}>
         <InputGroup variant="outline">
-          <InputLeftElement
-            pointerEvents="none"
-            children={<RiSearch2Line color="gray.800" />}
-          />
+          <InputLeftElement pointerEvents="none">
+            <RiSearch2Line color="gray.800" />
+          </InputLeftElement>
           <Input
             aria-label={intl.formatMessage({ id: "search" })}
             ref={ref}
@@ -66,7 +65,7 @@ const SearchDialog = ({
             placeholder={intl.formatMessage({ id: "search" })}
             fontSize="lg"
             // Needs some thought, the default breaks the design.
-            _focus={{}}
+            _focusVisible={{}}
             _placeholder={{
               color: "gray.600",
             }}

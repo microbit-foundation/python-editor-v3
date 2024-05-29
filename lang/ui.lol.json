@@ -1,0 +1,1177 @@
+{
+  "about": {
+    "defaultMessage": "crwdns331356:0crwdne331356:0",
+    "description": "About action"
+  },
+  "about-comic": {
+    "defaultMessage": "crwdns331358:0crwdne331358:0",
+    "description": "Alt text for comic in the about dialog"
+  },
+  "about-microbit": {
+    "defaultMessage": "crwdns331360:0crwdne331360:0",
+    "description": "Text in about dialog"
+  },
+  "about-micropython": {
+    "defaultMessage": "crwdns331362:0crwdne331362:0",
+    "description": "Text in about dialog"
+  },
+  "about-read-less-micropython": {
+    "defaultMessage": "crwdns331364:0crwdne331364:0",
+    "description": "Aria label to collapse an expanded section about MicroPython"
+  },
+  "about-read-more-micropython": {
+    "defaultMessage": "crwdns331366:0crwdne331366:0",
+    "description": "Aria label to expand a collapsed section about MicroPython"
+  },
+  "added-change": {
+    "defaultMessage": "crwdns331368:0{changeName}crwdne331368:0",
+    "description": "Change made to file"
+  },
+  "api-description": {
+    "defaultMessage": "crwdns331370:0crwdne331370:0",
+    "description": "Extended description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "crwdns331372:0crwdne331372:0",
+    "description": "API tab button text"
+  },
+  "apidocs-baseclass": {
+    "defaultMessage": "crwdns331374:0baseClassCount={baseClassCount}crwdne331374:0",
+    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "apidocs-classes": {
+    "defaultMessage": "crwdns331376:0crwdne331376:0",
+    "description": "Heading in API documentation for the classes in a Python module"
+  },
+  "apidocs-fields": {
+    "defaultMessage": "crwdns331378:0crwdne331378:0",
+    "description": "Heading in API documentation for the fields in a Python module"
+  },
+  "apidocs-functions": {
+    "defaultMessage": "crwdns331380:0crwdne331380:0",
+    "description": "Heading in API documentation for the functions in a Python module"
+  },
+  "apidocs-methods": {
+    "defaultMessage": "crwdns331382:0crwdne331382:0",
+    "description": "Heading in API documentation for the methods in a Python class"
+  },
+  "back-action": {
+    "defaultMessage": "crwdns331384:0crwdne331384:0",
+    "description": "Back button text"
+  },
+  "back-to-main": {
+    "defaultMessage": "crwdns331386:0crwdne331386:0",
+    "description": "Text button, takes back to main code"
+  },
+  "cancel-action": {
+    "defaultMessage": "crwdns331388:0crwdne331388:0",
+    "description": "Cancel button text"
+  },
+  "change-files": {
+    "defaultMessage": "crwdns331390:0crwdne331390:0",
+    "description": "Header for dialog of confirmation of files changed"
+  },
+  "choose-main-add-file": {
+    "defaultMessage": "crwdns331392:0{name}crwdne331392:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-add-module": {
+    "defaultMessage": "crwdns331394:0{name}crwdne331394:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-file": {
+    "defaultMessage": "crwdns331396:0{name}crwdne331396:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-module": {
+    "defaultMessage": "crwdns331398:0{name}crwdne331398:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-file": {
+    "defaultMessage": "crwdns331400:0{target}crwdnd331400:0{source}crwdne331400:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-main-code": {
+    "defaultMessage": "crwdns331402:0{source}crwdne331402:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-file": {
+    "defaultMessage": "crwdns331404:0{target}crwdnd331404:0{source}crwdne331404:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-main-code": {
+    "defaultMessage": "crwdns331406:0{source}crwdne331406:0",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "clear": {
+    "defaultMessage": "crwdns331408:0crwdne331408:0",
+    "description": "Aria label for the search input"
+  },
+  "close-action": {
+    "defaultMessage": "crwdns331410:0crwdne331410:0",
+    "description": "Close button text"
+  },
+  "code-editor": {
+    "defaultMessage": "crwdns331412:0crwdne331412:0",
+    "description": "Aria label for the code editor"
+  },
+  "code-example": {
+    "defaultMessage": "crwdns331414:0crwdne331414:0",
+    "description": "Visually hidden text to announce code examples in the toolkit documentation"
+  },
+  "confirm-action": {
+    "defaultMessage": "crwdns331416:0crwdne331416:0",
+    "description": "Confirm action label"
+  },
+  "confirm-delete": {
+    "defaultMessage": "crwdns331418:0crwdne331418:0",
+    "description": "Confirmation header of deletion of a file"
+  },
+  "confirm-replace-body": {
+    "defaultMessage": "crwdns331420:0crwdne331420:0",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-reset": {
+    "defaultMessage": "crwdns331422:0crwdne331422:0",
+    "description": "Confirmation message for the reset action"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "crwdns331424:0crwdne331424:0",
+    "description": "Confirmation message title for replacing project dialog"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "crwdns331426:0{ideaName}crwdne331426:0",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
+  "confirm-save-action": {
+    "defaultMessage": "crwdns331428:0crwdne331428:0",
+    "description": "Confirm and save action label"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "crwdns331430:0crwdne331430:0",
+    "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
+  },
+  "connect-action": {
+    "defaultMessage": "crwdns331432:0crwdne331432:0",
+    "description": "Connect button text"
+  },
+  "connect-cable-title": {
+    "defaultMessage": "crwdns331434:0crwdne331434:0",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "crwdns331436:0crwdne331436:0",
+    "description": "Alt text for image in connect help dialog"
+  },
+  "connect-help-message": {
+    "defaultMessage": "crwdns331438:0crwdne331438:0",
+    "description": "Text in the connect help dialog"
+  },
+  "connect-help-one": {
+    "defaultMessage": "crwdns331440:0crwdne331440:0",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-help-title": {
+    "defaultMessage": "crwdns331442:0crwdne331442:0",
+    "description": "Title for the connect help dialog"
+  },
+  "connect-help-two": {
+    "defaultMessage": "crwdns331444:0crwdne331444:0",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-hover": {
+    "defaultMessage": "crwdns331446:0crwdne331446:0",
+    "description": "Connect button hover text"
+  },
+  "connect-microbit": {
+    "defaultMessage": "crwdns331448:0crwdne331448:0",
+    "description": "Text in serial area"
+  },
+  "connect-troubleshoot": {
+    "defaultMessage": "crwdns331450:0crwdne331450:0",
+    "description": "Text in no the micro:bit found and firmware update dialogs"
+  },
+  "content-load-error": {
+    "defaultMessage": "crwdns331452:0crwdne331452:0",
+    "description": "Text displayed when content fails to load"
+  },
+  "cookies-action": {
+    "defaultMessage": "crwdns359370:0crwdne359370:0",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
+  "copied": {
+    "defaultMessage": "crwdns331454:0crwdne331454:0",
+    "description": "Text shown after copy to clipboard"
+  },
+  "copy-action": {
+    "defaultMessage": "crwdns331456:0crwdne331456:0",
+    "description": "Copy to clipboard action text"
+  },
+  "copy-code-action": {
+    "defaultMessage": "crwdns331458:0crwdne331458:0",
+    "description": "Copy code to clipboard action text"
+  },
+  "create-action": {
+    "defaultMessage": "crwdns331460:0crwdne331460:0",
+    "description": "Create action label (e.g. in create file dialog)"
+  },
+  "create-file-action": {
+    "defaultMessage": "crwdns331462:0crwdne331462:0",
+    "description": "Button text for action that creates a new blank Python file in the current project"
+  },
+  "create-python": {
+    "defaultMessage": "crwdns331464:0crwdne331464:0",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
+  "created-file": {
+    "defaultMessage": "crwdns331466:0{filename}crwdne331466:0",
+    "description": "Action feedback for creating a file"
+  },
+  "delete-action": {
+    "defaultMessage": "crwdns331468:0crwdne331468:0",
+    "description": "Button text for delete action"
+  },
+  "delete-file-action": {
+    "defaultMessage": "crwdns331470:0{name}crwdne331470:0",
+    "description": "Menu option to delete file"
+  },
+  "deleted-file": {
+    "defaultMessage": "crwdns331472:0{filename}crwdne331472:0",
+    "description": "Confirmation message that file got deleted"
+  },
+  "disconnect-action": {
+    "defaultMessage": "crwdns331474:0crwdne331474:0",
+    "description": "Disconnect button text"
+  },
+  "disconnect-hover": {
+    "defaultMessage": "crwdns331476:0crwdne331476:0",
+    "description": "Disconnect button hover text"
+  },
+  "dont-show-again": {
+    "defaultMessage": "crwdns331478:0crwdne331478:0",
+    "description": "Text to never show a dialog again"
+  },
+  "drag-hover": {
+    "defaultMessage": "crwdns331480:0crwdne331480:0",
+    "description": "Draggable code hover text"
+  },
+  "edit-file-action": {
+    "defaultMessage": "crwdns331482:0{name}crwdne331482:0",
+    "description": "Menu option to edit file"
+  },
+  "edit-name-project-hover": {
+    "defaultMessage": "crwdns331484:0crwdne331484:0",
+    "description": "Text for user to edit the name of the project"
+  },
+  "edit-project-name-action": {
+    "defaultMessage": "crwdns331486:0crwdne331486:0",
+    "description": "Text for user to edit the name of the project"
+  },
+  "failed-to-build-hex": {
+    "defaultMessage": "crwdns331488:0crwdne331488:0",
+    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+  },
+  "feedback": {
+    "defaultMessage": "crwdns331490:0crwdne331490:0",
+    "description": "Feedback action"
+  },
+  "file-actions": {
+    "defaultMessage": "crwdns331492:0{name}crwdne331492:0",
+    "description": "Header of file actions for file"
+  },
+  "file-already-exists": {
+    "defaultMessage": "crwdns331494:0crwdne331494:0",
+    "description": "File already exists notification text"
+  },
+  "file-name-invalid-character": {
+    "defaultMessage": "crwdns331496:0{invalid}crwdne331496:0",
+    "description": "Warning text for new Python file name with an invalid character"
+  },
+  "file-name-length": {
+    "defaultMessage": "crwdns331498:0crwdne331498:0",
+    "description": "Warning text for overly long file names (file system limitation)"
+  },
+  "file-name-lowercase-only": {
+    "defaultMessage": "crwdns331500:0crwdne331500:0",
+    "description": "Warning text for new Python file with uppercase"
+  },
+  "file-name-not-empty": {
+    "defaultMessage": "crwdns331502:0crwdne331502:0",
+    "description": "Warning text for new Python file with empty name"
+  },
+  "file-name-start-number": {
+    "defaultMessage": "crwdns331504:0crwdne331504:0",
+    "description": "Warning text for new Python file names starting with a number"
+  },
+  "file-name-whitespace": {
+    "defaultMessage": "crwdns331506:0crwdne331506:0",
+    "description": "Warning text for new Python file name with whitespace"
+  },
+  "firmware-update-link": {
+    "defaultMessage": "crwdns331508:0crwdne331508:0",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-message": {
+    "defaultMessage": "crwdns331510:0crwdne331510:0",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-title": {
+    "defaultMessage": "crwdns331512:0crwdne331512:0",
+    "description": "Title for the firmware update dialog"
+  },
+  "flash-action": {
+    "defaultMessage": "crwdns331514:0crwdne331514:0",
+    "description": "Text for flash button"
+  },
+  "flash-hover": {
+    "defaultMessage": "crwdns331516:0crwdne331516:0",
+    "description": "Hover text over flash button"
+  },
+  "flashing-code": {
+    "defaultMessage": "crwdns331518:0crwdne331518:0",
+    "description": "Progress dialog text for partial flashes (quick)"
+  },
+  "flashing-full-flash-detail": {
+    "defaultMessage": "crwdns331520:0crwdne331520:0",
+    "description": "Message shown after the title in the progress dialog for a full flash"
+  },
+  "flashing-micropython": {
+    "defaultMessage": "crwdns331522:0crwdne331522:0",
+    "description": "Progress dialog text for full flashes (slower)"
+  },
+  "font-size": {
+    "defaultMessage": "crwdns331524:0crwdne331524:0",
+    "description": "Font size option text"
+  },
+  "guide-link": {
+    "defaultMessage": "crwdns331526:0crwdne331526:0",
+    "description": "Text with an external link to support/help content"
+  },
+  "help": {
+    "defaultMessage": "crwdns331528:0crwdne331528:0",
+    "description": "Help menu label"
+  },
+  "help-support": {
+    "defaultMessage": "crwdns331530:0crwdne331530:0",
+    "description": "Menu item for link to support site"
+  },
+  "help-translate": {
+    "defaultMessage": "crwdns331532:0crwdne331532:0",
+    "description": "Help translate  menu option text"
+  },
+  "highlight-code-structure": {
+    "defaultMessage": "crwdns331534:0crwdne331534:0",
+    "description": "Code structure setting label"
+  },
+  "highlight-code-structure-full": {
+    "defaultMessage": "crwdns331536:0crwdne331536:0",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-none": {
+    "defaultMessage": "crwdns331538:0crwdne331538:0",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-simple": {
+    "defaultMessage": "crwdns331540:0crwdne331540:0",
+    "description": "Highlight code structure option"
+  },
+  "ideas-tab": {
+    "defaultMessage": "crwdns331542:0crwdne331542:0",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "crwdns331544:0crwdne331544:0",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+  },
+  "insert-code-action": {
+    "defaultMessage": "crwdns331546:0crwdne331546:0"
+  },
+  "language": {
+    "defaultMessage": "crwdns331548:0crwdne331548:0",
+    "description": "Language option text"
+  },
+  "less-action": {
+    "defaultMessage": "crwdns331550:0crwdne331550:0",
+    "description": "Less button text (showing less content)"
+  },
+  "load-error-makecode-info": {
+    "defaultMessage": "crwdns331552:0crwdne331552:0",
+    "description": "Load error message"
+  },
+  "load-error-makecode-link": {
+    "defaultMessage": "crwdns331554:0crwdne331554:0",
+    "description": "Load error message"
+  },
+  "load-error-mixed": {
+    "defaultMessage": "crwdns331556:0crwdne331556:0",
+    "description": "Load error message"
+  },
+  "load-error-mpy": {
+    "defaultMessage": "crwdns331558:0crwdne331558:0",
+    "description": "Load error message"
+  },
+  "load-error-title": {
+    "defaultMessage": "crwdns331560:0fileCount={fileCount}crwdne331560:0",
+    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "loaded-file-feedback": {
+    "defaultMessage": "crwdns331562:0{filename}crwdne331562:0",
+    "description": "Success feedback for loading file"
+  },
+  "loading": {
+    "defaultMessage": "crwdns331564:0crwdne331564:0",
+    "description": "Shown on loading indicators"
+  },
+  "microbit-hearts-alt": {
+    "defaultMessage": "crwdns331566:0crwdne331566:0",
+    "description": "Alt text for micro:bit image in About dialog"
+  },
+  "micropython-documentation": {
+    "defaultMessage": "crwdns331568:0crwdne331568:0",
+    "description": "MicroPython documentation menu option text"
+  },
+  "micropython-history": {
+    "defaultMessage": "crwdns331570:0crwdne331570:0",
+    "description": "Links to MicroPython history in the about dialog"
+  },
+  "micropython-source-code": {
+    "defaultMessage": "crwdns331572:0crwdne331572:0",
+    "description": "Links to the MicroPython source code in the about dialog"
+  },
+  "more-action": {
+    "defaultMessage": "crwdns331574:0crwdne331574:0",
+    "description": "More button text (showing more/further content)"
+  },
+  "more-connect-options": {
+    "defaultMessage": "crwdns331576:0crwdne331576:0",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
+  "more-ideas": {
+    "defaultMessage": "crwdns331578:0crwdne331578:0",
+    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
+  },
+  "more-save-options": {
+    "defaultMessage": "crwdns331580:0crwdne331580:0",
+    "description": "Aria label for the additional actions menu to the right of the Save button"
+  },
+  "multiple-files-message-one": {
+    "defaultMessage": "crwdns331582:0fileCount={fileCount}crwdnd331582:0fileCount={fileCount}crwdne331582:0",
+    "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
+  },
+  "multiple-files-message-two": {
+    "defaultMessage": "crwdns331584:0crwdne331584:0",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-title": {
+    "defaultMessage": "crwdns331586:0crwdne331586:0",
+    "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
+  },
+  "name-project": {
+    "defaultMessage": "crwdns331588:0crwdne331588:0",
+    "description": "Name your project header"
+  },
+  "name-text": {
+    "defaultMessage": "crwdns331590:0crwdne331590:0",
+    "description": "Header for name field"
+  },
+  "name-used-when": {
+    "defaultMessage": "crwdns331592:0crwdne331592:0",
+    "description": "Text under project name field"
+  },
+  "new-file-hint": {
+    "defaultMessage": "crwdns331594:0crwdne331594:0",
+    "description": "Hint shown in the new Python file dialog"
+  },
+  "next-action": {
+    "defaultMessage": "crwdns331596:0crwdne331596:0",
+    "description": "Next button text"
+  },
+  "not-found-checklist-one": {
+    "defaultMessage": "crwdns331598:0crwdne331598:0",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-two": {
+    "defaultMessage": "crwdns331600:0crwdne331600:0",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-message": {
+    "defaultMessage": "crwdns331602:0crwdne331602:0",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-save-message": {
+    "defaultMessage": "crwdns331604:0crwdne331604:0",
+    "description": "Save prompt in the no micro:bit found dialog"
+  },
+  "not-found-title": {
+    "defaultMessage": "crwdns331606:0crwdne331606:0",
+    "description": "Title for the micro:bit found dialog"
+  },
+  "not-found-update-link": {
+    "defaultMessage": "crwdns331608:0crwdne331608:0",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "open-action": {
+    "defaultMessage": "crwdns331610:0crwdne331610:0",
+    "description": "Open button text"
+  },
+  "open-file-action": {
+    "defaultMessage": "crwdns331612:0crwdne331612:0",
+    "description": "Open file button text"
+  },
+  "open-file-dropped": {
+    "defaultMessage": "crwdns331614:0crwdne331614:0",
+    "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "crwdns331616:0crwdne331616:0",
+    "description": "Hover text over load button"
+  },
+  "options": {
+    "defaultMessage": "crwdns331618:0crwdne331618:0",
+    "description": "Label for an options menu"
+  },
+  "parameter-help": {
+    "defaultMessage": "crwdns331620:0crwdne331620:0",
+    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
+  },
+  "parameter-help-automatic": {
+    "defaultMessage": "crwdns331622:0crwdne331622:0",
+    "description": "Parameter help setting for when the parameter documentation is shown automatically"
+  },
+  "parameter-help-manual": {
+    "defaultMessage": "crwdns331624:0{shortcut}crwdne331624:0",
+    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
+  },
+  "permanently-delete": {
+    "defaultMessage": "crwdns331626:0{filename}crwdne331626:0",
+    "description": "Confirmation question to permanently delete file"
+  },
+  "post-save-message-files": {
+    "defaultMessage": "crwdns331628:0crwdne331628:0",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-one": {
+    "defaultMessage": "crwdns331630:0crwdne331630:0",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-two": {
+    "defaultMessage": "crwdns331632:0crwdne331632:0",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-title": {
+    "defaultMessage": "crwdns331634:0crwdne331634:0",
+    "description": "Title of dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-transfer-hex": {
+    "defaultMessage": "crwdns331636:0crwdne331636:0",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "crwdns359372:0crwdne359372:0",
+    "description": "Privacy policy menu option text"
+  },
+  "project-actions": {
+    "defaultMessage": "crwdns331638:0crwdne331638:0",
+    "description": "Aria label for the bar with project actions"
+  },
+  "project-header": {
+    "defaultMessage": "crwdns331640:0crwdne331640:0",
+    "description": "Aria label for the project header area"
+  },
+  "project-name": {
+    "defaultMessage": "crwdns331642:0crwdne331642:0",
+    "description": "Text used to indicate the project name"
+  },
+  "project-name-not-empty": {
+    "defaultMessage": "crwdns331644:0crwdne331644:0",
+    "description": "Validation message for project name"
+  },
+  "project-tab": {
+    "defaultMessage": "crwdns331646:0crwdne331646:0",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "crwdns331648:0crwdne331648:0",
+    "description": "Project tab description"
+  },
+  "python-powered": {
+    "defaultMessage": "crwdns331650:0crwdne331650:0",
+    "description": "Python powered logo alt text"
+  },
+  "python-tab": {
+    "defaultMessage": "crwdns331652:0crwdne331652:0",
+    "description": "Python tab text"
+  },
+  "quit-anyway": {
+    "defaultMessage": "crwdns331654:0crwdne331654:0",
+    "description": "Quit anyway text"
+  },
+  "read-less": {
+    "defaultMessage": "crwdns331656:0crwdne331656:0",
+    "description": "Action text to collapse an expanded section"
+  },
+  "read-more": {
+    "defaultMessage": "crwdns331658:0crwdne331658:0",
+    "description": "Action text to expand a collapsed section"
+  },
+  "redo": {
+    "defaultMessage": "crwdns331660:0crwdne331660:0",
+    "description": "Aria label for the redo button"
+  },
+  "reference-tab": {
+    "defaultMessage": "crwdns331662:0crwdne331662:0",
+    "description": "Reference tab button text"
+  },
+  "replace-action-label": {
+    "defaultMessage": "crwdns331664:0crwdne331664:0",
+    "description": "Action label for replacing project dialog"
+  },
+  "reset-project-action": {
+    "defaultMessage": "crwdns331666:0crwdne331666:0",
+    "description": "Action to reset the project to its default state"
+  },
+  "reset-project-feedback": {
+    "defaultMessage": "crwdns331668:0crwdne331668:0",
+    "description": "Confirmation message after resetting the project"
+  },
+  "reset-project-hover": {
+    "defaultMessage": "crwdns331670:0crwdne331670:0",
+    "description": "Reset action hover text"
+  },
+  "results-count": {
+    "defaultMessage": "crwdns331672:0count={count}crwdne331672:0",
+    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "save-action": {
+    "defaultMessage": "crwdns331674:0crwdne331674:0",
+    "description": "Save button text"
+  },
+  "save-file-action": {
+    "defaultMessage": "crwdns331676:0{name}crwdne331676:0",
+    "description": "Menu option to save a file"
+  },
+  "save-hex-action": {
+    "defaultMessage": "crwdns331678:0crwdne331678:0",
+    "description": "Text for menu item for saving a project hex file"
+  },
+  "save-hover": {
+    "defaultMessage": "crwdns331680:0crwdne331680:0",
+    "description": "Hover text over save button"
+  },
+  "save-python-action": {
+    "defaultMessage": "crwdns331682:0crwdne331682:0",
+    "description": "Save button menu option to save the Python script"
+  },
+  "search": {
+    "defaultMessage": "crwdns331684:0crwdne331684:0",
+    "description": "Aria label for searching documentation"
+  },
+  "send-action": {
+    "defaultMessage": "crwdns331686:0crwdne331686:0",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "crwdns331688:0crwdne331688:0",
+    "description": "Send button hover text"
+  },
+  "serial-collapse": {
+    "defaultMessage": "crwdns331690:0crwdne331690:0",
+    "description": "Action label to collapse the serial console/REPL area"
+  },
+  "serial-ctrl-c-action": {
+    "defaultMessage": "crwdns331692:0crwdne331692:0",
+    "description": "Button to trigger the Python REPL from the serial area"
+  },
+  "serial-ctrl-d-action": {
+    "defaultMessage": "crwdns331694:0crwdne331694:0",
+    "description": "Button to reset the micro:bit from the serial area"
+  },
+  "serial-expand": {
+    "defaultMessage": "crwdns331696:0crwdne331696:0",
+    "description": "Action label to expand the serial console/REPL area"
+  },
+  "serial-flashed": {
+    "defaultMessage": "crwdns331698:0crwdne331698:0",
+    "description": "Shown when your program is in sync with the micro:bit"
+  },
+  "serial-help-ctrl-c": {
+    "defaultMessage": "crwdns331700:0crwdne331700:0",
+    "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
+  },
+  "serial-help-ctrl-d": {
+    "defaultMessage": "crwdns331702:0crwdne331702:0",
+    "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
+  },
+  "serial-help-intro": {
+    "defaultMessage": "crwdns331704:0crwdne331704:0",
+    "description": "Text from the serial hints and tips dialog"
+  },
+  "serial-help-print": {
+    "defaultMessage": "crwdns331706:0crwdne331706:0",
+    "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
+  },
+  "serial-help-title": {
+    "defaultMessage": "crwdns331708:0crwdne331708:0",
+    "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-hints-and-tips": {
+    "defaultMessage": "crwdns331710:0crwdne331710:0",
+    "description": "Link/button to open the serial hints and tips dialog"
+  },
+  "serial-menu": {
+    "defaultMessage": "crwdns331712:0crwdne331712:0",
+    "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "crwdns331714:0crwdne331714:0",
+    "description": "Shown when your program is out of sync with the micro:bit"
+  },
+  "serial-running": {
+    "defaultMessage": "crwdns331716:0crwdne331716:0",
+    "description": "Indicator text when the micro:bit is running a program"
+  },
+  "serial-terminal": {
+    "defaultMessage": "crwdns331718:0crwdne331718:0",
+    "description": "Aria label for the serial terminal"
+  },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "crwdns331720:0crwdne331720:0",
+    "description": "Checkbox setting label"
+  },
+  "setting-allow-editing-third-party-info": {
+    "defaultMessage": "crwdns331722:0crwdne331722:0",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Show warnings about V2-only features",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "description": "Checkbox setting label"
+  },
+  "settings": {
+    "defaultMessage": "crwdns331724:0crwdne331724:0",
+    "description": "Settings text"
+  },
+  "show-api-documentation": {
+    "defaultMessage": "crwdns331726:0crwdne331726:0",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+  },
+  "show-less": {
+    "defaultMessage": "crwdns331728:0crwdne331728:0",
+    "description": "Show less for general progressive disclosure"
+  },
+  "show-less-for": {
+    "defaultMessage": "crwdns331730:0{item}crwdne331730:0",
+    "description": "Show less with item usually for aria label"
+  },
+  "show-more": {
+    "defaultMessage": "crwdns331732:0crwdne331732:0",
+    "description": "Show more for general progressive disclosure"
+  },
+  "show-more-for": {
+    "defaultMessage": "crwdns331734:0{item}crwdne331734:0",
+    "description": "Show more with item usually for aria label"
+  },
+  "sidebar": {
+    "defaultMessage": "crwdns331736:0crwdne331736:0",
+    "description": "Aria label for the area on the left"
+  },
+  "sidebar-collapse": {
+    "defaultMessage": "crwdns331738:0crwdne331738:0",
+    "description": "Aria label for the collapse sidebar button"
+  },
+  "sidebar-expand": {
+    "defaultMessage": "crwdns331740:0crwdne331740:0",
+    "description": "Aria label for the expand sidebar button"
+  },
+  "simulator-accelerometer": {
+    "defaultMessage": "crwdns334504:0crwdne334504:0",
+    "description": "Simulator Accelerometer panel title"
+  },
+  "simulator-actions": {
+    "defaultMessage": "crwdns334506:0crwdne334506:0",
+    "description": "Aria label for the bar with simulator actions (stop, mute etc)"
+  },
+  "simulator-button-a": {
+    "defaultMessage": "crwdns334508:0crwdne334508:0",
+    "description": "Button A aria label on the simulator board"
+  },
+  "simulator-button-b": {
+    "defaultMessage": "crwdns334510:0crwdne334510:0",
+    "description": "Button B aria label on the simulator board"
+  },
+  "simulator-button-hold-label": {
+    "defaultMessage": "crwdns334512:0{button}crwdne334512:0",
+    "description": "Aria label for simulator toggle button"
+  },
+  "simulator-button-press-label": {
+    "defaultMessage": "crwdns334514:0{button}crwdne334514:0",
+    "description": "Aria label for simulator push button"
+  },
+  "simulator-buttons": {
+    "defaultMessage": "crwdns334516:0crwdne334516:0",
+    "description": "Buttons simulator panel title"
+  },
+  "simulator-collapse": {
+    "defaultMessage": "crwdns334518:0crwdne334518:0",
+    "description": "Aria label for the collapse simulator button"
+  },
+  "simulator-collapse-module": {
+    "defaultMessage": "crwdns334520:0{title}crwdne334520:0",
+    "description": "Aria label for collapse simulator module button"
+  },
+  "simulator-compass": {
+    "defaultMessage": "crwdns334522:0crwdne334522:0",
+    "description": "Compass simulator panel title"
+  },
+  "simulator-compass-heading-one": {
+    "defaultMessage": "crwdns334524:0crwdne334524:0",
+    "description": "Sub heading for simulator Compass panel"
+  },
+  "simulator-compass-heading-two": {
+    "defaultMessage": "crwdns334526:0crwdne334526:0",
+    "description": "Sub heading for simulator Compass panel"
+  },
+  "simulator-data-logging-empty": {
+    "defaultMessage": "crwdns334528:0crwdne334528:0",
+    "description": "Shown in the simulator Data logging table when there are no rows"
+  },
+  "simulator-data-logging-full": {
+    "defaultMessage": "crwdns334530:0crwdne334530:0",
+    "description": "Shown below the simulator Data logging table to warn that the log is full"
+  },
+  "simulator-data-logging-rows": {
+    "defaultMessage": "crwdns334686:0count={count}crwdne334686:0",
+    "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "simulator-data-logging-save-log": {
+    "defaultMessage": "crwdns334534:0crwdne334534:0",
+    "description": "Action label to save the data log as a file from the Data logging simulator panel"
+  },
+  "simulator-data-logging-truncated": {
+    "defaultMessage": "crwdns334536:0crwdne334536:0",
+    "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
+  },
+  "simulator-expand": {
+    "defaultMessage": "crwdns334538:0crwdne334538:0",
+    "description": "Aria label for the expand simulator button"
+  },
+  "simulator-expand-module": {
+    "defaultMessage": "crwdns334540:0{title}crwdne334540:0",
+    "description": "Aria label for expand simulator module button"
+  },
+  "simulator-gesture-3g": {
+    "defaultMessage": "crwdns336054:0crwdne336054:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-6g": {
+    "defaultMessage": "crwdns336056:0crwdne336056:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-8g": {
+    "defaultMessage": "crwdns336058:0crwdne336058:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-down": {
+    "defaultMessage": "crwdns336060:0crwdne336060:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-face-down": {
+    "defaultMessage": "crwdns336062:0crwdne336062:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-face-up": {
+    "defaultMessage": "crwdns336064:0crwdne336064:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-freefall": {
+    "defaultMessage": "crwdns336066:0crwdne336066:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-left": {
+    "defaultMessage": "crwdns336068:0crwdne336068:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-right": {
+    "defaultMessage": "crwdns336070:0crwdne336070:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-select": {
+    "defaultMessage": "crwdns334542:0crwdne334542:0",
+    "description": "Aria label for the simulator gesture select input"
+  },
+  "simulator-gesture-send": {
+    "defaultMessage": "crwdns334544:0crwdne334544:0",
+    "description": "Aria label for the simulator gesture send button"
+  },
+  "simulator-gesture-shake": {
+    "defaultMessage": "crwdns336072:0crwdne336072:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-up": {
+    "defaultMessage": "crwdns336074:0crwdne336074:0",
+    "description": "Simulator gesture option"
+  },
+  "simulator-hide": {
+    "defaultMessage": "crwdns334546:0crwdne334546:0",
+    "description": "Hide simulator action"
+  },
+  "simulator-input-hold": {
+    "defaultMessage": "crwdns334548:0crwdne334548:0",
+    "description": "Label for UI toggles to hold simulator buttons or pins"
+  },
+  "simulator-input-press": {
+    "defaultMessage": "crwdns334550:0crwdne334550:0",
+    "description": "Label for UI buttons to press simulator buttons or pins"
+  },
+  "simulator-light-level": {
+    "defaultMessage": "crwdns334552:0crwdne334552:0",
+    "description": "Light level simulator panel title"
+  },
+  "simulator-log": {
+    "defaultMessage": "crwdns334554:0crwdne334554:0",
+    "description": "Data log simulator panel title"
+  },
+  "simulator-loud": {
+    "defaultMessage": "crwdns334556:0crwdne334556:0",
+    "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
+  },
+  "simulator-mute": {
+    "defaultMessage": "crwdns334558:0crwdne334558:0",
+    "description": "Aria label for the mute simulator button"
+  },
+  "simulator-pin-hold-label": {
+    "defaultMessage": "crwdns334560:0{pin}crwdne334560:0",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pin-press-label": {
+    "defaultMessage": "crwdns334562:0{pin}crwdne334562:0",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pins": {
+    "defaultMessage": "crwdns334564:0crwdne334564:0",
+    "description": "Pins simulator panel title"
+  },
+  "simulator-quiet": {
+    "defaultMessage": "crwdns334566:0crwdne334566:0",
+    "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
+  },
+  "simulator-radio": {
+    "defaultMessage": "crwdns334568:0crwdne334568:0",
+    "description": "Radio simulator panel title"
+  },
+  "simulator-radio-code": {
+    "defaultMessage": "crwdns335970:0crwdne335970:0",
+    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
+  },
+  "simulator-radio-group-notice": {
+    "defaultMessage": "crwdns334570:0{groupNumber}crwdne334570:0",
+    "description": "Message in radio simulator area when the radio group changes"
+  },
+  "simulator-radio-message": {
+    "defaultMessage": "crwdns334572:0crwdne334572:0",
+    "description": "Label and placeholder for the simulator radio message input field"
+  },
+  "simulator-radio-message-limit-notice": {
+    "defaultMessage": "crwdns334574:0crwdne334574:0",
+    "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
+  },
+  "simulator-radio-no-messages": {
+    "defaultMessage": "crwdns334576:0crwdne334576:0",
+    "description": "Text shown when there are no radio messages to display in the simulator user interface"
+  },
+  "simulator-radio-off": {
+    "defaultMessage": "crwdns334578:0crwdne334578:0",
+    "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
+  },
+  "simulator-radio-send": {
+    "defaultMessage": "crwdns334580:0crwdne334580:0",
+    "description": "Aria label for the simulator radio send button"
+  },
+  "simulator-radio-user": {
+    "defaultMessage": "crwdns335972:0crwdne335972:0",
+    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
+  },
+  "simulator-reference-link": {
+    "defaultMessage": "crwdns334582:0crwdne334582:0",
+    "description": "Aria label for simulator Reference link button"
+  },
+  "simulator-reset": {
+    "defaultMessage": "crwdns334584:0crwdne334584:0",
+    "description": "Aria label for the reset simulator button"
+  },
+  "simulator-serial-terminal": {
+    "defaultMessage": "crwdns334586:0crwdne334586:0",
+    "description": "Aria label for the simulator serial terminal"
+  },
+  "simulator-sound-level": {
+    "defaultMessage": "crwdns334588:0crwdne334588:0",
+    "description": "Sound level simulator panel title"
+  },
+  "simulator-start-simulator": {
+    "defaultMessage": "crwdns334590:0crwdne334590:0",
+    "description": "Aria label for the large play button on the simulator board"
+  },
+  "simulator-stop": {
+    "defaultMessage": "crwdns334592:0crwdne334592:0",
+    "description": "Aria label for the stop simulator button"
+  },
+  "simulator-temperature": {
+    "defaultMessage": "crwdns334594:0crwdne334594:0",
+    "description": "Temperature simulator panel title"
+  },
+  "simulator-title": {
+    "defaultMessage": "crwdns334596:0crwdne334596:0",
+    "description": "Simulator title"
+  },
+  "simulator-touch-logo": {
+    "defaultMessage": "crwdns334598:0crwdne334598:0",
+    "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
+  },
+  "simulator-unmute": {
+    "defaultMessage": "crwdns334600:0crwdne334600:0",
+    "description": "Aria label for the unmute simulator button"
+  },
+  "software-versions": {
+    "defaultMessage": "crwdns331742:0crwdne331742:0",
+    "description": "Heading for a table of software versions in the about dialog"
+  },
+  "start-coding-action": {
+    "defaultMessage": "crwdns331744:0crwdne331744:0",
+    "description": "Start coding button text"
+  },
+  "support": {
+    "defaultMessage": "crwdns331746:0crwdne331746:0",
+    "description": "Support menu option text"
+  },
+  "terms-of-use": {
+    "defaultMessage": "crwdns331748:0crwdne331748:0",
+    "description": "Terms of use menu option text"
+  },
+  "third-party-module-explanation": {
+    "defaultMessage": "crwdns331750:0crwdne331750:0",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "crwdns331752:0crwdne331752:0",
+    "description": "Explanation of how to allow editing for third-party modules."
+  },
+  "timeout-error-description": {
+    "defaultMessage": "crwdns331754:0crwdne331754:0",
+    "description": "Description for error messages relating to WebUSB timeout"
+  },
+  "timeout-error-title": {
+    "defaultMessage": "crwdns331756:0crwdne331756:0",
+    "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "toolkit-error-loading": {
+    "defaultMessage": "crwdns331760:0crwdne331760:0",
+    "description": "Error shown if we failed to load toolkit content"
+  },
+  "toolkit-view-documentation": {
+    "defaultMessage": "crwdns331762:0{name}crwdne331762:0",
+    "description": "Aria label for the toolkit topic right arrow"
+  },
+  "transfer-hex-message-one": {
+    "defaultMessage": "crwdns331764:0crwdne331764:0",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-message-two": {
+    "defaultMessage": "crwdns331766:0crwdne331766:0",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-title": {
+    "defaultMessage": "crwdns331768:0crwdne331768:0",
+    "description": "Title for the transfer hex dialog"
+  },
+  "try-again-action": {
+    "defaultMessage": "crwdns331770:0crwdne331770:0",
+    "description": "Try again button text"
+  },
+  "undo": {
+    "defaultMessage": "crwdns331772:0crwdne331772:0",
+    "description": "Aria label for the undo button"
+  },
+  "unexpected-error-description": {
+    "defaultMessage": "crwdns331774:0crwdne331774:0",
+    "description": "Text shown for unexpected error scenarios"
+  },
+  "unexpected-error-title": {
+    "defaultMessage": "crwdns331776:0crwdne331776:0",
+    "description": "Text shown for unexpected error scenarios"
+  },
+  "untitled-project": {
+    "defaultMessage": "crwdns331778:0crwdne331778:0",
+    "description": "Title for a new project"
+  },
+  "update-firmware-action": {
+    "defaultMessage": "crwdns331780:0crwdne331780:0",
+    "description": "Update firmware button text"
+  },
+  "updated-change": {
+    "defaultMessage": "crwdns331782:0{changeName}crwdne331782:0",
+    "description": "Change made to file"
+  },
+  "visit-dot-org": {
+    "defaultMessage": "crwdns331784:0crwdne331784:0",
+    "description": "alt text for logo link to .org"
+  },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Disable warnings about V2-only features",
+    "description": "Label for editor action"
+  },
+  "webusb-error-clear-connect-description-1": {
+    "defaultMessage": "crwdns331786:0crwdne331786:0",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-description-2": {
+    "defaultMessage": "crwdns331788:0crwdne331788:0",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-title": {
+    "defaultMessage": "crwdns331790:0crwdne331790:0",
+    "description": "Title of error for WebUsb connection"
+  },
+  "webusb-error-default-title": {
+    "defaultMessage": "crwdns331792:0crwdne331792:0",
+    "description": "Default title for error messages relating to WebUSB"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "crwdns331794:0crwdne331794:0",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-not-supported": {
+    "defaultMessage": "crwdns331800:0crwdne331800:0",
+    "description": "Explantion shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-not-supported-title": {
+    "defaultMessage": "crwdns331802:0crwdne331802:0",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-why-use": {
+    "defaultMessage": "crwdns331804:0crwdne331804:0",
+    "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "welcome-message": {
+    "defaultMessage": "crwdns331806:0crwdne331806:0",
+    "description": "Text in the welcome dialogn"
+  },
+  "welcome-title": {
+    "defaultMessage": "crwdns331808:0crwdne331808:0",
+    "description": "Title for the welcome dialog"
+  },
+  "welcome-video-alt": {
+    "defaultMessage": "video introducing the Python Editor",
+    "description": "iframe title for the welcome video"
+  },
+  "zoom-in-action": {
+    "defaultMessage": "crwdns331810:0crwdne331810:0",
+    "description": "Text label for zoom in button"
+  },
+  "zoom-out-action": {
+    "defaultMessage": "crwdns331812:0crwdne331812:0",
+    "description": "Text label for zoom out button"
+  }
+}

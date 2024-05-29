@@ -3,42 +3,34 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { App } from "./app";
+import { test } from "./app-test-fixtures.js";
 
-describe("edits", () => {
-  const app = new App();
-  beforeEach(app.reset.bind(app));
-  // We intentionally close the page so can't screenshot here.
-  // afterEach(app.screenshot.bind(app));
-  afterAll(app.dispose.bind(app));
-
-  it("doesn't prompt on close if no edits made", async () => {
-    expect(await app.closePageCheckDialog()).toEqual(false);
+test.describe("edits", () => {
+  test("doesn't prompt on close if no edits made", async ({ app }) => {
+    await app.closeAndExpectBeforeUnloadDialogVisible(false);
   });
 
-  it("prompts on close if file edited", async () => {
+  test("prompts on close if file edited", async ({ app }) => {
     await app.typeInEditor("A change!");
-    await app.findVisibleEditorContents(/A change/);
+    await app.expectEditorContainText(/A change/);
 
-    expect(await app.closePageCheckDialog()).toEqual(true);
+    await app.closeAndExpectBeforeUnloadDialogVisible(true);
   });
 
-  it("prompts on close if project name edited", async () => {
+  test("prompts on close if project name edited", async ({ app }) => {
     const name = "idiosyncratic ruminant";
     await app.setProjectName(name);
-    await app.findProjectName(name);
+    await app.expectProjectName(name);
 
-    expect(await app.closePageCheckDialog()).toEqual(true);
+    await app.closeAndExpectBeforeUnloadDialogVisible(true);
   });
 
-  it("retains text across a reload via session storage", async () => {
+  test("retains text across a reload via session storage", async ({ app }) => {
     await app.typeInEditor("A change!");
-    await app.findVisibleEditorContents(/A change/);
+    await app.expectEditorContainText(/A change/);
 
-    await app.reloadPage();
+    await app.page.reload();
 
-    await app.findVisibleEditorContents(/A change/, {
-      timeout: 2_000,
-    });
+    await app.expectEditorContainText(/A change/);
   });
 });
