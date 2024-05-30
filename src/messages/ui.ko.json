@@ -1173,6 +1173,12 @@
       "value": "해야 합니다."
     }
   ],
+  "offline-image-alt": [
+    {
+      "type": 0,
+      "value": "Image unavailable offline"
+    }
+  ],
   "open-action": [
     {
       "type": 0,

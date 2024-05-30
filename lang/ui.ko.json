@@ -510,6 +510,10 @@
     "defaultMessage": "이 micro:bit에 연결하기 전에 <link>펌웨어를 업데이트</link>해야 합니다.",
     "description": "Text in the no micro:bit found dialog"
   },
+  "offline-image-alt": {
+    "defaultMessage": "Image unavailable offline",
+    "description": "Alt text for an image placeholder when the user is offline"
+  },
   "open-action": {
     "defaultMessage": "열기",
     "description": "Open button text"

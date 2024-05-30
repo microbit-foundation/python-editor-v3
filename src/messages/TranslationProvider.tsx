@@ -3,10 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useSettings } from "../settings/settings";
+import { fallbackLocale, useSettings } from "../settings/settings";
 import { IntlProvider, MessageFormatElement } from "react-intl";
 import { ReactNode, useEffect, useState } from "react";
 import { retryAsyncLoad } from "../common/chunk-util";
+import {
+  OfflineError,
+  showOfflineLanguageToast,
+} from "../language-server/error-util";
+import { useToast } from "@chakra-ui/react";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
@@ -48,14 +53,24 @@ interface TranslationProviderProps {
  */
 const TranslationProvider = ({ children }: TranslationProviderProps) => {
   const [{ languageId }] = useSettings();
+  const toast = useToast();
   // If the messages are for a different language (or missing) then reload them
   const [messages, setMessages] = useState<Messages | undefined>();
   useEffect(() => {
     const load = async () => {
-      setMessages(await retryAsyncLoad(() => loadLocaleData(languageId)));
+      try {
+        setMessages(await retryAsyncLoad(() => loadLocaleData(languageId)));
+      } catch (err) {
+        if (err instanceof OfflineError) {
+          showOfflineLanguageToast(toast);
+          setMessages(await loadLocaleData(fallbackLocale));
+        } else {
+          throw err;
+        }
+      }
     };
     load();
-  }, [languageId]);
+  }, [languageId, toast]);
   return messages ? (
     <IntlProvider locale={languageId} defaultLocale="en" messages={messages}>
       {children}
