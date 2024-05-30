@@ -97,7 +97,7 @@ export default defineConfig(({ mode }) => {
         // This requires the corresponding service-worker-allowed header to be set.
         // URLs are prefix matched so it's a compromise solution that could affect other
         // paths sharing the same prefix
-        scope: process.env.BASE_URL.replace(/\/$/, ""),
+        scope: process.env.BASE_URL?.replace(/\/$/, ""),
         workbox: {
           cacheId: pwaCacheId,
           // Only precache language assets for the fallback language.
