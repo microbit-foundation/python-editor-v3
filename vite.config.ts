@@ -93,6 +93,11 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         disable: !featurePwa,
         registerType: "autoUpdate",
+        // Remove the trailing slash so we can serve from e.g. /v/3 not just /v/3/
+        // This requires the corresponding service-worker-allowed header to be set.
+        // URLs are prefix matched so it's a compromise solution that could affect other
+        // paths sharing the same prefix
+        scope: process.env.BASE_URL.replace(/\/$/, ""),
         workbox: {
           cacheId: pwaCacheId,
           // Only precache language assets for the fallback language.
