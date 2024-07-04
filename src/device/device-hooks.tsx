@@ -11,7 +11,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { EVENT_PROJECT_UPDATED, EVENT_TEXT_EDIT } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import {
@@ -22,6 +21,8 @@ import {
   EVENT_SERIAL_ERROR,
   EVENT_SERIAL_RESET,
   EVENT_STATUS,
+  SerialDataEvent,
+  StatusEvent,
 } from "./device";
 import { SimulatorDeviceConnection } from "./simulator";
 
@@ -60,12 +61,12 @@ export const useConnectionStatus = () => {
   const device = useDevice();
   const [status, setStatus] = useState<ConnectionStatus>(device.status);
   useEffect(() => {
-    const statusListener = (status: ConnectionStatus) => {
-      setStatus(status);
+    const statusListener = (event: StatusEvent) => {
+      setStatus(event.status);
     };
-    device.on(EVENT_STATUS, statusListener);
+    device.addEventListener(EVENT_STATUS, statusListener);
     return () => {
-      device.removeListener(EVENT_STATUS, statusListener);
+      device.removeEventListener(EVENT_STATUS, statusListener);
     };
   }, [device, setStatus]);
 
@@ -189,8 +190,8 @@ export const useDeviceTraceback = () => {
 
   useEffect(() => {
     const buffer = new TracebackScrollback();
-    const dataListener = (data: string) => {
-      const latest = buffer.push(data);
+    const dataListener = (event: SerialDataEvent) => {
+      const latest = buffer.push(event.data);
       setRuntimeError((current) => {
         if (!current && latest) {
           logging.event({
@@ -204,13 +205,13 @@ export const useDeviceTraceback = () => {
       buffer.clear();
       setRuntimeError(undefined);
     };
-    device.addListener(EVENT_SERIAL_DATA, dataListener);
-    device.addListener(EVENT_SERIAL_RESET, clearListener);
-    device.addListener(EVENT_SERIAL_ERROR, clearListener);
+    device.addEventListener(EVENT_SERIAL_DATA, dataListener);
+    device.addEventListener(EVENT_SERIAL_RESET, clearListener);
+    device.addEventListener(EVENT_SERIAL_ERROR, clearListener);
     return () => {
-      device.removeListener(EVENT_SERIAL_ERROR, clearListener);
-      device.removeListener(EVENT_SERIAL_RESET, clearListener);
-      device.removeListener(EVENT_SERIAL_DATA, dataListener);
+      device.removeEventListener(EVENT_SERIAL_ERROR, clearListener);
+      device.removeEventListener(EVENT_SERIAL_RESET, clearListener);
+      device.removeEventListener(EVENT_SERIAL_DATA, dataListener);
     };
   }, [device, setRuntimeError, logging]);
 
@@ -247,15 +248,15 @@ export const DeviceContextProvider = ({
   useEffect(() => {
     const moveToOutOfSync = () => setSyncStatus(SyncStatus.OUT_OF_SYNC);
     const moveToInSync = () => setSyncStatus(SyncStatus.IN_SYNC);
-    fs.on(EVENT_TEXT_EDIT, moveToOutOfSync);
-    fs.on(EVENT_PROJECT_UPDATED, moveToOutOfSync);
-    device.on(EVENT_FLASH, moveToInSync);
-    device.on(EVENT_STATUS, moveToOutOfSync);
+    fs.addEventListener("file_text_updated", moveToOutOfSync);
+    fs.addEventListener("project_updated", moveToOutOfSync);
+    device.addEventListener(EVENT_FLASH, moveToInSync);
+    device.addEventListener(EVENT_STATUS, moveToOutOfSync);
     return () => {
-      fs.removeListener(EVENT_TEXT_EDIT, moveToOutOfSync);
-      fs.removeListener(EVENT_PROJECT_UPDATED, moveToOutOfSync);
-      device.removeListener(EVENT_STATUS, moveToOutOfSync);
-      device.removeListener(EVENT_FLASH, moveToInSync);
+      fs.removeEventListener("file_text_updated", moveToOutOfSync);
+      fs.removeEventListener("project_updated", moveToOutOfSync);
+      device.removeEventListener(EVENT_STATUS, moveToOutOfSync);
+      device.removeEventListener(EVENT_FLASH, moveToInSync);
     };
   }, [fs, device, setSyncStatus]);
   return (

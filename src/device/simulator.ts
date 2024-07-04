@@ -3,26 +3,57 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import EventEmitter from "events";
+import { TypedEventTarget } from "../common/events";
 import { Logging } from "../logging/logging";
 import {
   BoardVersion,
   ConnectionStatus,
   DeviceConnection,
-  EVENT_FLASH,
-  EVENT_SERIAL_DATA,
-  EVENT_SERIAL_RESET,
-  EVENT_STATUS,
+  DeviceConnectionEventMap,
   FlashDataSource,
+  FlashEvent,
+  SerialDataEvent,
+  SerialResetEvent,
+  StatusEvent,
 } from "./device";
 
 // Simulator-only events.
-export const EVENT_LOG_DATA = "log_data";
-export const EVENT_RADIO_DATA = "radio_data";
-export const EVENT_RADIO_GROUP = "radio_group";
-export const EVENT_RADIO_RESET = "radio_reset";
-export const EVENT_STATE_CHANGE = "state_change";
-export const EVENT_REQUEST_FLASH = "request_flash";
+
+export class LogDataEvent extends Event {
+  constructor(public readonly log: DataLog) {
+    super("log_data");
+  }
+}
+
+export class RadioDataEvent extends Event {
+  constructor(public readonly text: string) {
+    super("radio_data");
+  }
+}
+
+export class RadioGroupEvent extends Event {
+  constructor(public readonly group: number) {
+    super("radio_group");
+  }
+}
+
+export class RadioResetEvent extends Event {
+  constructor() {
+    super("radio_reset");
+  }
+}
+
+export class StateChangeEvent extends Event {
+  constructor(public readonly state: SimulatorState) {
+    super("state_change");
+  }
+}
+
+export class RequestFlashEvent extends Event {
+  constructor() {
+    super("request_flash");
+  }
+}
 
 // It'd be nice to publish these types from the simulator project.
 
@@ -133,13 +164,22 @@ const initialDataLog = (): DataLog => ({
   data: [],
 });
 
+class SimulatorEventMap extends DeviceConnectionEventMap {
+  "log_data": LogDataEvent;
+  "radio_data": RadioDataEvent;
+  "radio_group": RadioGroupEvent;
+  "radio_reset": RadioResetEvent;
+  "state_change": StateChangeEvent;
+  "request_flash": RequestFlashEvent;
+}
+
 /**
  * A simulated device.
  *
  * This communicates with the iframe that is used to embed the simulator.
  */
 export class SimulatorDeviceConnection
-  extends EventEmitter
+  extends TypedEventTarget<SimulatorEventMap>
   implements DeviceConnection
 {
   status: ConnectionStatus = ConnectionStatus.NO_AUTHORIZED_DEVICE;
@@ -156,25 +196,26 @@ export class SimulatorDeviceConnection
     switch (event.data.kind) {
       case "ready": {
         this.state = event.data.state;
-        this.emit(EVENT_STATE_CHANGE, this.state);
+        this.dispatchTypedEvent("status", new StatusEvent(this.status));
         if (this.status !== ConnectionStatus.CONNECTED) {
           this.setStatus(ConnectionStatus.CONNECTED);
         }
         break;
       }
       case "request_flash": {
-        this.emit(EVENT_REQUEST_FLASH);
+        this.dispatchTypedEvent("flash", new FlashEvent());
         this.logging.event({
           type: "sim-user-start",
         });
         break;
       }
       case "state_change": {
-        this.state = {
+        const updated = {
           ...this.state,
           ...event.data.change,
         };
-        this.emit(EVENT_STATE_CHANGE, this.state);
+        this.state = updated;
+        this.dispatchTypedEvent("state_change", new StateChangeEvent(updated));
         break;
       }
       case "radio_output": {
@@ -187,7 +228,7 @@ export class SimulatorDeviceConnection
           // eslint-disable-next-line no-control-regex
           .replace(/^\x01\x00\x01/, "");
         if (message instanceof Uint8Array) {
-          this.emit(EVENT_RADIO_DATA, text);
+          this.dispatchTypedEvent("radio_data", new RadioDataEvent(text));
         }
         break;
       }
@@ -205,18 +246,18 @@ export class SimulatorDeviceConnection
           result.data.push({ data: entry.data });
         }
         this.log = result;
-        this.emit(EVENT_LOG_DATA, this.log);
+        this.dispatchTypedEvent("log_data", new LogDataEvent(this.log));
         break;
       }
       case "log_delete": {
         this.log = initialDataLog();
-        this.emit(EVENT_LOG_DATA, this.log);
+        this.dispatchTypedEvent("log_data", new LogDataEvent(this.log));
         break;
       }
       case "serial_output": {
         const text = event.data.data;
         if (typeof text === "string") {
-          this.emit(EVENT_SERIAL_DATA, text);
+          this.dispatchTypedEvent("serial_data", new SerialDataEvent(text));
         }
         break;
       }
@@ -254,7 +295,6 @@ export class SimulatorDeviceConnection
   }
 
   dispose() {
-    this.removeAllListeners();
     window.removeEventListener("message", this.messageListener);
   }
 
@@ -279,7 +319,7 @@ export class SimulatorDeviceConnection
     });
     this.notifyResetComms();
     options.progress(undefined);
-    this.emit(EVENT_FLASH);
+    this.dispatchTypedEvent("flash", new FlashEvent());
   }
 
   configure(config: Config): void {
@@ -288,8 +328,8 @@ export class SimulatorDeviceConnection
 
   private notifyResetComms() {
     // Might be nice to rework so this was all about connection state changes.
-    this.emit(EVENT_SERIAL_RESET, {});
-    this.emit(EVENT_RADIO_RESET, {});
+    this.dispatchTypedEvent("serial_reset", new SerialResetEvent());
+    this.dispatchTypedEvent("radio_reset", new RadioResetEvent());
   }
 
   async disconnect(): Promise<void> {
@@ -329,7 +369,7 @@ export class SimulatorDeviceConnection
         value,
       },
     };
-    this.emit(EVENT_STATE_CHANGE, this.state);
+    this.dispatchTypedEvent("state_change", new StateChangeEvent(this.state));
     this.postMessage("set_value", {
       id,
       value,
@@ -365,7 +405,7 @@ export class SimulatorDeviceConnection
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
-    this.emit(EVENT_STATUS, this.status);
+    this.dispatchTypedEvent("status", new StatusEvent(newStatus));
   }
 
   clearDevice(): void {

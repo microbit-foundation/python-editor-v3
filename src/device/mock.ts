@@ -3,18 +3,19 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { TypedEventTarget } from "../common/events";
 import {
   BoardVersion,
   ConnectionStatus,
   DeviceConnection,
-  EVENT_FLASH,
-  EVENT_SERIAL_DATA,
-  EVENT_STATUS,
+  DeviceConnectionEventMap,
   FlashDataSource,
+  FlashEvent,
+  SerialDataEvent,
+  StatusEvent,
   WebUSBError,
   WebUSBErrorCode,
 } from "./device";
-import EventEmitter from "events";
 
 /**
  * A mock device used during end-to-end testing.
@@ -24,7 +25,7 @@ import EventEmitter from "events";
  * the connected state without a real device.
  */
 export class MockDeviceConnection
-  extends EventEmitter
+  extends TypedEventTarget<DeviceConnectionEventMap>
   implements DeviceConnection
 {
   status: ConnectionStatus = navigator.usb
@@ -40,7 +41,7 @@ export class MockDeviceConnection
   }
 
   mockSerialWrite(data: string) {
-    this.emit(EVENT_SERIAL_DATA, data);
+    this.dispatchTypedEvent("serial_data", new SerialDataEvent(data));
   }
 
   mockConnect(code: WebUSBErrorCode) {
@@ -49,9 +50,7 @@ export class MockDeviceConnection
 
   async initialize(): Promise<void> {}
 
-  dispose() {
-    this.removeAllListeners();
-  }
+  dispose() {}
 
   async connect(): Promise<ConnectionStatus> {
     const next = this.connectResults.shift();
@@ -90,7 +89,7 @@ export class MockDeviceConnection
     options.progress(0.5);
     await new Promise((resolve) => setTimeout(resolve, 100));
     options.progress(undefined);
-    this.emit(EVENT_FLASH);
+    this.dispatchTypedEvent("flash", new FlashEvent());
   }
 
   async disconnect(): Promise<void> {
@@ -103,7 +102,7 @@ export class MockDeviceConnection
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
-    this.emit(EVENT_STATUS, this.status);
+    this.dispatchTypedEvent("status", new StatusEvent(this.status));
   }
 
   clearDevice(): void {

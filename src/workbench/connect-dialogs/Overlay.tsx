@@ -22,11 +22,11 @@ const Overlay = () => {
     selectingDevice.onClose();
   }, [selectingDevice]);
   useEffect(() => {
-    device.on(EVENT_START_USB_SELECT, showOverlay);
-    device.on(EVENT_END_USB_SELECT, hideOverlay);
+    device.addEventListener(EVENT_START_USB_SELECT, showOverlay);
+    device.addEventListener(EVENT_END_USB_SELECT, hideOverlay);
     return () => {
-      device.removeListener(EVENT_START_USB_SELECT, showOverlay);
-      device.removeListener(EVENT_END_USB_SELECT, hideOverlay);
+      device.removeEventListener(EVENT_START_USB_SELECT, showOverlay);
+      device.removeEventListener(EVENT_END_USB_SELECT, hideOverlay);
     };
   }, [device, showOverlay, hideOverlay]);
   return (

@@ -6,9 +6,11 @@
 import type { PluginValue, ViewUpdate } from "@codemirror/view";
 import { EditorView, ViewPlugin } from "@codemirror/view";
 import { IntlShape } from "react-intl";
-import * as LSP from "vscode-languageserver-protocol";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
-import { LanguageServerClient } from "../../../language-server/client";
+import {
+  DiagnosticsEvent,
+  LanguageServerClient,
+} from "../../../language-server/client";
 import { Logging } from "../../../logging/logging";
 import { Action, setDiagnostics } from "../lint/lint";
 import { autocompletion } from "./autocompletion";
@@ -23,7 +25,8 @@ import { DeviceConnection, EVENT_STATUS } from "../../../device/device";
  * the language server when the document changes.
  */
 class LanguageServerView extends BaseLanguageServerView implements PluginValue {
-  private diagnosticsListener = (params: LSP.PublishDiagnosticsParams) => {
+  private diagnosticsListener = (event: DiagnosticsEvent) => {
+    const params = event.detail;
     if (params.uri === this.uri) {
       const diagnostics = diagnosticsMapping(
         this.view.state.doc,
@@ -64,8 +67,8 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
   ) {
     super(view);
 
-    this.client.on("diagnostics", this.diagnosticsListener);
-    this.device.on(EVENT_STATUS, this.onDeviceStatusChanged);
+    this.client.addEventListener("diagnostics", this.diagnosticsListener);
+    this.device.addEventListener(EVENT_STATUS, this.onDeviceStatusChanged);
 
     // Is there a better way to do this? We can 't dispatch at this point.
     // It would be best to do this with initial state and avoid the dispatch.
@@ -95,8 +98,8 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
 
   destroy() {
     this.destroyed = true;
-    this.client.removeListener("diagnostics", this.diagnosticsListener);
-    this.device.removeListener(EVENT_STATUS, this.onDeviceStatusChanged);
+    this.client.removeEventListener("diagnostics", this.diagnosticsListener);
+    this.device.removeEventListener(EVENT_STATUS, this.onDeviceStatusChanged);
     // We don't own the client/connection which might outlive us, just our notifications.
   }
 }

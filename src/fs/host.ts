@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import debounce from "lodash.debounce";
-import {
-  FileSystem,
-  VersionAction,
-  EVENT_PROJECT_UPDATED,
-  EVENT_TEXT_EDIT,
-  MAIN_FILE,
-} from "./fs";
+import { FileSystem, VersionAction, MAIN_FILE } from "./fs";
 import { Logging } from "../logging/logging";
 import {
   defaultInitialProject,
@@ -135,8 +129,8 @@ export class IframeHost implements Host {
     const debounceCodeChange = debounce(() => {
       notifyWorkspaceSave(fs, this.parent);
     }, this.debounceDelay);
-    fs.addListener(EVENT_PROJECT_UPDATED, debounceCodeChange);
-    fs.addListener(EVENT_TEXT_EDIT, debounceCodeChange);
+    fs.addEventListener("project_updated", debounceCodeChange);
+    fs.addEventListener("file_text_updated", debounceCodeChange);
 
     this.window.addEventListener("message", (event) => {
       if (event?.data.type === messages.type) {

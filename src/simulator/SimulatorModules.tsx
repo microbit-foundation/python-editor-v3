@@ -20,10 +20,10 @@ import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import useRafState from "../common/use-raf-state";
 import {
-  EVENT_STATE_CHANGE,
   RangeSensor as RangeSensorType,
   SensorStateKey,
   SimulatorState,
+  StateChangeEvent,
 } from "../device/simulator";
 import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonsModule";
@@ -110,9 +110,12 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   );
   const intl = useIntl();
   useEffect(() => {
-    device.on(EVENT_STATE_CHANGE, setState);
+    const listener = (event: StateChangeEvent) => {
+      setState(event.state);
+    };
+    device.addEventListener("state_change", listener);
     return () => {
-      device.removeListener(EVENT_STATE_CHANGE, setState);
+      device.removeEventListener("state_change", listener);
     };
   }, [device, setState]);
   const handleSensorChange = useCallback(

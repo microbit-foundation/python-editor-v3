@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import EventEmitter from "events";
+import { TypedEventTarget } from "../common/events";
 import { Logging } from "../logging/logging";
 import { BoardId } from "./board-id";
 
@@ -135,7 +135,60 @@ export interface ConnectOptions {
 
 export type BoardVersion = "V1" | "V2";
 
-export interface DeviceConnection extends EventEmitter {
+export class StatusEvent extends Event {
+  constructor(public readonly status: ConnectionStatus) {
+    super("status");
+  }
+}
+
+export class SerialDataEvent extends Event {
+  constructor(public readonly data: string) {
+    super("serial_data");
+  }
+}
+
+export class SerialResetEvent extends Event {
+  constructor() {
+    super("serial_reset");
+  }
+}
+
+export class SerialErrorEvent extends Event {
+  constructor(public readonly error: unknown) {
+    super("serial_error");
+  }
+}
+
+export class FlashEvent extends Event {
+  constructor() {
+    super("flash");
+  }
+}
+
+export class StartUSBSelect extends Event {
+  constructor() {
+    super("start_usb_select");
+  }
+}
+
+export class EndUSBSelect extends Event {
+  constructor() {
+    super("start_usb_select");
+  }
+}
+
+export class DeviceConnectionEventMap {
+  "status": StatusEvent;
+  "serial_data": SerialDataEvent;
+  "serial_reset": Event;
+  "serial_error": Event;
+  "flash": Event;
+  "start_usb_select": Event;
+  "end_usb_select": Event;
+}
+
+export interface DeviceConnection
+  extends TypedEventTarget<DeviceConnectionEventMap> {
   status: ConnectionStatus;
 
   /**
