@@ -12,11 +12,7 @@ import "xterm/css/xterm.css";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm } from "../deployment/misc";
-import {
-  EVENT_SERIAL_DATA,
-  EVENT_SERIAL_RESET,
-  SerialDataEvent,
-} from "../device/device";
+import { SerialDataEvent } from "../device/device";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
 import { useSelection } from "../workbench/use-selection";
 import { WebLinkProvider } from "./link-provider";
@@ -110,8 +106,8 @@ const useManagedTermimal = (
         terminal.reset();
       }
     };
-    device.addEventListener(EVENT_SERIAL_DATA, serialListener);
-    device.addEventListener(EVENT_SERIAL_RESET, resetListener);
+    device.addEventListener("serial_data", serialListener);
+    device.addEventListener("serial_reset", resetListener);
     terminal.onData((data: string) => {
       if (!isUnmounted()) {
         // Async for internal error handling, we don't need to wait.
@@ -181,8 +177,8 @@ const useManagedTermimal = (
 
     return () => {
       currentTerminalRef.current = undefined;
-      device.removeEventListener(EVENT_SERIAL_RESET, resetListener);
-      device.removeEventListener(EVENT_SERIAL_DATA, serialListener);
+      device.removeEventListener("serial_reset", resetListener);
+      device.removeEventListener("serial_data", serialListener);
       resizeObserver.disconnect();
       terminal.dispose();
     };

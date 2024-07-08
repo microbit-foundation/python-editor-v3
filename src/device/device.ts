@@ -96,14 +96,6 @@ export enum ConnectionAction {
   DISCONNECT = "DISCONNECT",
 }
 
-export const EVENT_STATUS = "status";
-export const EVENT_SERIAL_DATA = "serial_data";
-export const EVENT_SERIAL_RESET = "serial_reset";
-export const EVENT_SERIAL_ERROR = "serial_error";
-export const EVENT_FLASH = "flash";
-export const EVENT_START_USB_SELECT = "start_usb_select";
-export const EVENT_END_USB_SELECT = "end_usb_select";
-
 export class HexGenerationError extends Error {}
 
 export interface FlashDataSource {
@@ -135,7 +127,7 @@ export interface ConnectOptions {
 
 export type BoardVersion = "V1" | "V2";
 
-export class StatusEvent extends Event {
+export class ConnectionStatusEvent extends Event {
   constructor(public readonly status: ConnectionStatus) {
     super("status");
   }
@@ -173,12 +165,12 @@ export class StartUSBSelect extends Event {
 
 export class EndUSBSelect extends Event {
   constructor() {
-    super("start_usb_select");
+    super("end_usb_select");
   }
 }
 
 export class DeviceConnectionEventMap {
-  "status": StatusEvent;
+  "status": ConnectionStatusEvent;
   "serial_data": SerialDataEvent;
   "serial_reset": Event;
   "serial_error": Event;

@@ -14,7 +14,7 @@ import {
   FlashEvent,
   SerialDataEvent,
   SerialResetEvent,
-  StatusEvent,
+  ConnectionStatusEvent,
 } from "./device";
 
 // Simulator-only events.
@@ -196,7 +196,10 @@ export class SimulatorDeviceConnection
     switch (event.data.kind) {
       case "ready": {
         this.state = event.data.state;
-        this.dispatchTypedEvent("status", new StatusEvent(this.status));
+        this.dispatchTypedEvent(
+          "status",
+          new ConnectionStatusEvent(this.status)
+        );
         if (this.status !== ConnectionStatus.CONNECTED) {
           this.setStatus(ConnectionStatus.CONNECTED);
         }
@@ -405,7 +408,7 @@ export class SimulatorDeviceConnection
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
-    this.dispatchTypedEvent("status", new StatusEvent(newStatus));
+    this.dispatchTypedEvent("status", new ConnectionStatusEvent(newStatus));
   }
 
   clearDevice(): void {

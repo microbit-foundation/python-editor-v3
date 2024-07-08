@@ -16,13 +16,8 @@ import { useLogging } from "../logging/logging-hooks";
 import {
   ConnectionStatus,
   DeviceConnection,
-  EVENT_FLASH,
-  EVENT_SERIAL_DATA,
-  EVENT_SERIAL_ERROR,
-  EVENT_SERIAL_RESET,
-  EVENT_STATUS,
   SerialDataEvent,
-  StatusEvent,
+  ConnectionStatusEvent,
 } from "./device";
 import { SimulatorDeviceConnection } from "./simulator";
 
@@ -61,12 +56,12 @@ export const useConnectionStatus = () => {
   const device = useDevice();
   const [status, setStatus] = useState<ConnectionStatus>(device.status);
   useEffect(() => {
-    const statusListener = (event: StatusEvent) => {
+    const statusListener = (event: ConnectionStatusEvent) => {
       setStatus(event.status);
     };
-    device.addEventListener(EVENT_STATUS, statusListener);
+    device.addEventListener("status", statusListener);
     return () => {
-      device.removeEventListener(EVENT_STATUS, statusListener);
+      device.removeEventListener("status", statusListener);
     };
   }, [device, setStatus]);
 
@@ -205,13 +200,13 @@ export const useDeviceTraceback = () => {
       buffer.clear();
       setRuntimeError(undefined);
     };
-    device.addEventListener(EVENT_SERIAL_DATA, dataListener);
-    device.addEventListener(EVENT_SERIAL_RESET, clearListener);
-    device.addEventListener(EVENT_SERIAL_ERROR, clearListener);
+    device.addEventListener("serial_data", dataListener);
+    device.addEventListener("serial_reset", clearListener);
+    device.addEventListener("serial_error", clearListener);
     return () => {
-      device.removeEventListener(EVENT_SERIAL_ERROR, clearListener);
-      device.removeEventListener(EVENT_SERIAL_RESET, clearListener);
-      device.removeEventListener(EVENT_SERIAL_DATA, dataListener);
+      device.removeEventListener("serial_error", clearListener);
+      device.removeEventListener("serial_reset", clearListener);
+      device.removeEventListener("serial_data", dataListener);
     };
   }, [device, setRuntimeError, logging]);
 
@@ -250,13 +245,13 @@ export const DeviceContextProvider = ({
     const moveToInSync = () => setSyncStatus(SyncStatus.IN_SYNC);
     fs.addEventListener("file_text_updated", moveToOutOfSync);
     fs.addEventListener("project_updated", moveToOutOfSync);
-    device.addEventListener(EVENT_FLASH, moveToInSync);
-    device.addEventListener(EVENT_STATUS, moveToOutOfSync);
+    device.addEventListener("flash", moveToInSync);
+    device.addEventListener("status", moveToOutOfSync);
     return () => {
       fs.removeEventListener("file_text_updated", moveToOutOfSync);
       fs.removeEventListener("project_updated", moveToOutOfSync);
-      device.removeEventListener(EVENT_STATUS, moveToOutOfSync);
-      device.removeEventListener(EVENT_FLASH, moveToInSync);
+      device.removeEventListener("status", moveToOutOfSync);
+      device.removeEventListener("flash", moveToInSync);
     };
   }, [fs, device, setSyncStatus]);
   return (

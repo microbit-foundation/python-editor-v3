@@ -12,7 +12,7 @@ import {
   FlashDataSource,
   FlashEvent,
   SerialDataEvent,
-  StatusEvent,
+  ConnectionStatusEvent,
   WebUSBError,
   WebUSBErrorCode,
 } from "./device";
@@ -102,7 +102,7 @@ export class MockDeviceConnection
 
   private setStatus(newStatus: ConnectionStatus) {
     this.status = newStatus;
-    this.dispatchTypedEvent("status", new StatusEvent(this.status));
+    this.dispatchTypedEvent("status", new ConnectionStatusEvent(this.status));
   }
 
   clearDevice(): void {

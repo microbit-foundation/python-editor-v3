@@ -9,7 +9,7 @@
  * It might be we could create a custom environment that was web but
  * with a tweak to Buffer.
  */
-import { ConnectionStatus, EVENT_STATUS, StatusEvent } from "./device";
+import { ConnectionStatus, ConnectionStatusEvent } from "./device";
 import { NullLogging } from "../deployment/default/logging";
 import { MicrobitWebUSBConnection } from "./webusb";
 import { vi } from "vitest";
@@ -59,7 +59,7 @@ describeDeviceOnly("MicrobitWebUSBConnection (WebUSB supported)", () => {
   it("connects and disconnects updating status and events", async () => {
     const events: ConnectionStatus[] = [];
     const connection = new MicrobitWebUSBConnection();
-    connection.addEventListener(EVENT_STATUS, (event: StatusEvent) => {
+    connection.addEventListener("status", (event: ConnectionStatusEvent) => {
       events.push(event.status);
     });
 

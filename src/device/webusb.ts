@@ -23,7 +23,7 @@ import {
   SerialErrorEvent,
   SerialResetEvent,
   StartUSBSelect,
-  StatusEvent,
+  ConnectionStatusEvent,
   WebUSBError,
 } from "./device";
 import { TypedEventTarget } from "../common/events";
@@ -318,7 +318,7 @@ export class MicrobitWebUSBConnection
     this.status = newStatus;
     this.visibilityReconnect = false;
     this.log("Device status " + newStatus);
-    this.dispatchTypedEvent("status", new StatusEvent(newStatus));
+    this.dispatchTypedEvent("status", new ConnectionStatusEvent(newStatus));
   }
 
   private async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
@@ -406,7 +406,7 @@ export class MicrobitWebUSBConnection
     this.device = await navigator.usb.requestDevice({
       filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
     });
-    this.dispatchTypedEvent("start_usb_select", new EndUSBSelect());
+    this.dispatchTypedEvent("end_usb_select", new EndUSBSelect());
     return this.device;
   }
 }
