@@ -14,7 +14,7 @@ describe("IframeHost", () => {
   const fs = {
     read: () => new TextEncoder().encode("Code read!"),
     write: mockWrite,
-    addListener: mockAddListener,
+    addEventListener: mockAddListener,
     getPythonProject: () => "",
   } as any;
 
