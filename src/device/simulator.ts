@@ -204,7 +204,7 @@ export class SimulatorDeviceConnection
         break;
       }
       case "request_flash": {
-        this.dispatchTypedEvent("flash", new FlashEvent());
+        this.dispatchTypedEvent("request_flash", new RequestFlashEvent());
         this.logging.event({
           type: "sim-user-start",
         });
