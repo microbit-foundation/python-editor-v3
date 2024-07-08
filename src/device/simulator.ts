@@ -195,11 +195,9 @@ export class SimulatorDeviceConnection
     }
     switch (event.data.kind) {
       case "ready": {
-        this.state = event.data.state;
-        this.dispatchTypedEvent(
-          "status",
-          new ConnectionStatusEvent(this.status)
-        );
+        const newState = event.data.state;
+        this.state = newState;
+        this.dispatchTypedEvent("state_change", new StateChangeEvent(newState));
         if (this.status !== ConnectionStatus.CONNECTED) {
           this.setStatus(ConnectionStatus.CONNECTED);
         }
