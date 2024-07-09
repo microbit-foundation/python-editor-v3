@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import EventEmitter from "events";
 import {
   CompletionItem,
   CompletionList,
@@ -37,11 +36,22 @@ import {
 } from "./error-util";
 import { fallbackLocale } from "../settings/settings";
 import { CreateToastFnReturn } from "@chakra-ui/react";
+import { TypedEventTarget } from "../common/events";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
  */
 export const createUri = (name: string) => `file:///src/${name}`;
+
+export class DiagnosticsEvent extends Event {
+  constructor(public readonly detail: PublishDiagnosticsParams) {
+    super("diagnostics");
+  }
+}
+
+class EventMap {
+  "diagnostics": DiagnosticsEvent;
+}
 
 /**
  * Owns the connection.
@@ -51,7 +61,7 @@ export const createUri = (name: string) => `file:///src/${name}`;
  *
  * Tracks and exposes the diagnostics.
  */
-export class LanguageServerClient extends EventEmitter {
+export class LanguageServerClient extends TypedEventTarget<EventMap> {
   /**
    * The capabilities of the server we're connected to.
    * Populated after initialize.
@@ -68,14 +78,6 @@ export class LanguageServerClient extends EventEmitter {
     private toast: CreateToastFnReturn
   ) {
     super();
-  }
-
-  on(
-    event: "diagnostics",
-    listener: (params: PublishDiagnosticsParams) => void
-  ): this {
-    super.on(event, listener);
-    return this;
   }
 
   currentDiagnostics(uri: string): Diagnostic[] {
@@ -110,7 +112,10 @@ export class LanguageServerClient extends EventEmitter {
           (params) => {
             this.diagnostics.set(params.uri, params.diagnostics);
             // Republish as you can't listen twice.
-            this.emit("diagnostics", params);
+            this.dispatchTypedEvent(
+              "diagnostics",
+              new DiagnosticsEvent(params)
+            );
           }
         );
         this.connection.onRequest(RegistrationRequest.type, () => {

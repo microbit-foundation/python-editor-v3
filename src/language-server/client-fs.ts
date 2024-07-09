@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 import { CreateFile, DeleteFile } from "vscode-languageserver-protocol";
-import { EVENT_PROJECT_UPDATED, FileSystem, Project, diff } from "../fs/fs";
+import { FileSystem, Project, ProjectUpdatedEvent, diff } from "../fs/fs";
 import { isPythonFile } from "../project/project-utils";
 import { LanguageServerClient, createUri } from "./client";
 import { isErrorDueToDispose } from "./error-util";
 
-export type FsChangesListener = (current: Project) => any;
+export type FsChangesListener = (event: ProjectUpdatedEvent) => any;
 
 /**
  * Updates the language server open files as the file system
@@ -30,7 +30,8 @@ export const trackFsChanges = (
   };
   const documentText = async (name: string) =>
     new TextDecoder().decode((await fs.read(name)).data);
-  const diffAndUpdateClient = async (current: Project) => {
+  const diffAndUpdateClient = async (event: ProjectUpdatedEvent) => {
+    const current = event.project;
     const changes = diff(previous, current).filter((c) => isPythonFile(c.name));
     previous = current;
     try {
@@ -86,8 +87,8 @@ export const trackFsChanges = (
       }
     }
   };
-  fs.addListener(EVENT_PROJECT_UPDATED, diffAndUpdateClient);
-  diffAndUpdateClient(fs.project);
+  fs.addEventListener("project_updated", diffAndUpdateClient);
+  diffAndUpdateClient(new ProjectUpdatedEvent(fs.project));
   return diffAndUpdateClient;
 };
 
@@ -95,5 +96,5 @@ export const removeTrackFsChangesListener = (
   fs: FileSystem,
   listener: FsChangesListener
 ): void => {
-  fs.removeListener(EVENT_PROJECT_UPDATED, listener);
+  fs.removeEventListener("project_updated", listener);
 };

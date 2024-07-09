@@ -23,7 +23,7 @@ import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "../device/device";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
-import { MAIN_FILE } from "../fs/fs";
+import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
@@ -31,35 +31,39 @@ import { useSettings } from "../settings/settings";
 import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
-import { useSelection } from "./use-selection";
+import { WorkbenchSelection, useSelection } from "./use-selection";
 import { flags } from "../flags";
 
 const minimums: [number, number] = [380, 580];
 const simulatorMinimums: [number, number] = [275, 0];
 
+const defaultSelection = (
+  selection: WorkbenchSelection,
+  files: FileVersion[]
+) => {
+  // Selected file deleted? Default it.
+  if (!files.find((x) => x.name === selection.file) && files.length > 0) {
+    const defaultFile = files.find((x) => x.name === MAIN_FILE) ?? files[0];
+    return { file: defaultFile.name, location: { line: undefined } };
+  }
+  return selection;
+};
+
 /**
  * The main app layout with resizable panels.
  */
 const Workbench = () => {
-  const [selection, setSelection] = useSelection();
   const intl = useIntl();
+
+  const [maybeInvalidSelection, setSelection] = useSelection();
   const { files } = useProject();
+  const selection = defaultSelection(maybeInvalidSelection, files);
   const setSelectedFile = useCallback(
     (file: string) => {
       setSelection({ file, location: { line: undefined } });
     },
     [setSelection]
   );
-  useEffect(() => {
-    // No file yet or selected file deleted? Default it.
-    if (
-      (!selection || !files.find((x) => x.name === selection.file)) &&
-      files.length > 0
-    ) {
-      const defaultFile = files.find((x) => x.name === MAIN_FILE) || files[0];
-      setSelectedFile(defaultFile.name);
-    }
-  }, [selection, setSelectedFile, files]);
 
   useEffect(() => {
     const scriptId = "crowdin-jipt";

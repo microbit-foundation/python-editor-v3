@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { useSimulator } from "../device/device-hooks";
-import { EVENT_RADIO_DATA, EVENT_RADIO_RESET } from "../device/simulator";
+import { RadioDataEvent } from "../device/simulator";
 
 const messageLimit = 100;
 let idSeq = 0;
@@ -52,7 +52,8 @@ const useRadioChatItemsInternal = (
   }, [group, prevGroup]);
 
   useEffect(() => {
-    const handleReceive = (message: string) => {
+    const handleReceive = (event: RadioDataEvent) => {
+      const message = event.text;
       setItems((items) =>
         cappedMessages([
           ...items,
@@ -63,11 +64,11 @@ const useRadioChatItemsInternal = (
     const handleReset = () => {
       setItems([{ type: "groupChange", group, id: idSeq++ }]);
     };
-    device.on(EVENT_RADIO_DATA, handleReceive);
-    device.on(EVENT_RADIO_RESET, handleReset);
+    device.addEventListener("radio_data", handleReceive);
+    device.addEventListener("radio_reset", handleReset);
     return () => {
-      device.removeListener(EVENT_RADIO_RESET, handleReset);
-      device.removeListener(EVENT_RADIO_DATA, handleReceive);
+      device.removeEventListener("radio_reset", handleReset);
+      device.removeEventListener("radio_data", handleReceive);
     };
   }, [device, group]);
   const handleSend = useCallback(

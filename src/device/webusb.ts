@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import EventEmitter from "events";
 import { Logging } from "../logging/logging";
 import { NullLogging } from "../deployment/default/logging";
 import { withTimeout, TimeoutError } from "./async-util";
@@ -14,18 +13,20 @@ import {
   ConnectionStatus,
   ConnectOptions,
   DeviceConnection,
-  EVENT_END_USB_SELECT,
-  EVENT_FLASH,
-  EVENT_SERIAL_DATA,
-  EVENT_SERIAL_ERROR,
-  EVENT_SERIAL_RESET,
-  EVENT_START_USB_SELECT,
-  EVENT_STATUS,
+  DeviceConnectionEventMap,
+  EndUSBSelect,
   FlashDataSource,
+  FlashEvent,
   HexGenerationError,
   MicrobitWebUSBConnectionOptions,
+  SerialDataEvent,
+  SerialErrorEvent,
+  SerialResetEvent,
+  StartUSBSelect,
+  ConnectionStatusEvent,
   WebUSBError,
 } from "./device";
+import { TypedEventTarget } from "../common/events";
 
 // Temporary workaround for ChromeOS 105 bug.
 // See https://bugs.chromium.org/p/chromium/issues/detail?id=1363712&q=usb&can=2
@@ -38,7 +39,7 @@ export const isChromeOS105 = (): boolean => {
  * A WebUSB connection to a micro:bit device.
  */
 export class MicrobitWebUSBConnection
-  extends EventEmitter
+  extends TypedEventTarget<DeviceConnectionEventMap>
   implements DeviceConnection
 {
   status: ConnectionStatus =
@@ -63,7 +64,7 @@ export class MicrobitWebUSBConnection
   private serialReadInProgress: Promise<void> | undefined;
 
   private serialListener = (data: string) => {
-    this.emit(EVENT_SERIAL_DATA, data);
+    this.dispatchTypedEvent("serial_data", new SerialDataEvent(data));
   };
 
   private flashing: boolean = false;
@@ -151,7 +152,6 @@ export class MicrobitWebUSBConnection
   }
 
   dispose() {
-    this.removeAllListeners();
     if (navigator.usb) {
       navigator.usb.removeEventListener("disconnect", this.handleDisconnect);
     }
@@ -200,7 +200,7 @@ export class MicrobitWebUSBConnection
       await this.withEnrichedErrors(() =>
         this.flashInternal(dataSource, options)
       );
-      this.emit(EVENT_FLASH);
+      this.dispatchTypedEvent("flash", new FlashEvent());
 
       const flashTime = new Date().getTime() - startTime;
       this.logging.event({
@@ -278,7 +278,7 @@ export class MicrobitWebUSBConnection
       .startSerial(this.serialListener)
       .then(() => this.log("Finished listening for serial data"))
       .catch((e) => {
-        this.emit(EVENT_SERIAL_ERROR, e);
+        this.dispatchTypedEvent("serial_error", new SerialErrorEvent(e));
       });
   }
 
@@ -287,7 +287,7 @@ export class MicrobitWebUSBConnection
       this.connection.stopSerial(this.serialListener);
       await this.serialReadInProgress;
       this.serialReadInProgress = undefined;
-      this.emit(EVENT_SERIAL_RESET, {});
+      this.dispatchTypedEvent("serial_reset", new SerialResetEvent());
     }
   }
 
@@ -318,7 +318,7 @@ export class MicrobitWebUSBConnection
     this.status = newStatus;
     this.visibilityReconnect = false;
     this.log("Device status " + newStatus);
-    this.emit(EVENT_STATUS, this.status);
+    this.dispatchTypedEvent("status", new ConnectionStatusEvent(newStatus));
   }
 
   private async withEnrichedErrors<T>(f: () => Promise<T>): Promise<T> {
@@ -402,11 +402,11 @@ export class MicrobitWebUSBConnection
     if (this.device) {
       return this.device;
     }
-    this.emit(EVENT_START_USB_SELECT);
+    this.dispatchTypedEvent("start_usb_select", new StartUSBSelect());
     this.device = await navigator.usb.requestDevice({
       filters: [{ vendorId: 0x0d28, productId: 0x0204 }],
     });
-    this.emit(EVENT_END_USB_SELECT);
+    this.dispatchTypedEvent("end_usb_select", new EndUSBSelect());
     return this.device;
   }
 }

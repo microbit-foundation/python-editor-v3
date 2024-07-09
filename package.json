@@ -34,7 +34,6 @@
     "crelt": "^1.0.5",
     "dapjs": "2.2.0",
     "dompurify": "^2.3.3",
-    "events": "^3.3.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^10.2.4",
     "lodash.debounce": "^4.0.8",

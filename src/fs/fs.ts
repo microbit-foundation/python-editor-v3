@@ -8,7 +8,6 @@ import {
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
 import { fromByteArray, toByteArray } from "base64-js";
-import EventEmitter from "events";
 import sortBy from "lodash.sortby";
 import { lineNumFromUint8Array } from "../common/text-util";
 import { BoardId } from "../device/board-id";
@@ -19,6 +18,7 @@ import { asciiToBytes, extractModuleData, generateId } from "./fs-util";
 import { Host } from "./host";
 import { PythonProject } from "./initial-project";
 import { FSStorage } from "./storage";
+import { TypedEventTarget } from "../common/events";
 
 const commonFsSize = 20 * 1024;
 
@@ -133,8 +133,22 @@ export const diff = (before: Project, after: Project): FileChange[] => {
   return result;
 };
 
-export const EVENT_PROJECT_UPDATED = "project_updated";
-export const EVENT_TEXT_EDIT = "file_text_updated";
+export class ProjectUpdatedEvent extends Event {
+  constructor(public readonly project: Project) {
+    super("project_updated");
+  }
+}
+export class TextEditEvent extends Event {
+  constructor() {
+    super("file_text_updated");
+  }
+}
+
+class EventMap {
+  "project_updated": ProjectUpdatedEvent;
+  "file_text_updated": TextEditEvent;
+}
+
 export const MAIN_FILE = "main.py";
 
 export const isNameLengthValid = (filename: string): boolean =>
@@ -153,7 +167,10 @@ export const isNameLengthValid = (filename: string): boolean =>
  * or fire any events. This plays well with uncontrolled embeddings of
  * third-party text editors.
  */
-export class FileSystem extends EventEmitter implements FlashDataSource {
+export class FileSystem
+  extends TypedEventTarget<EventMap>
+  implements FlashDataSource
+{
   private initializing: Promise<void> | undefined;
   private storage: FSStorage;
   private fileVersions: Map<string, number> = new Map();
@@ -303,7 +320,7 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       this.incrementFileVersion(filename);
       return this.notify();
     } else {
-      this.emit(EVENT_TEXT_EDIT);
+      this.dispatchTypedEvent("file_text_updated", new TextEditEvent());
       // Nothing can have changed, don't needlessly change the identity of our file objects.
       return this.markDirty();
     }
@@ -427,7 +444,10 @@ export class FileSystem extends EventEmitter implements FlashDataSource {
       name: await this.storage.projectName(),
       files: filesSorted,
     };
-    this.emit(EVENT_PROJECT_UPDATED, this.project);
+    this.dispatchTypedEvent(
+      "project_updated",
+      new ProjectUpdatedEvent(this.project)
+    );
   }
 
   async toHexForSave(): Promise<string> {
