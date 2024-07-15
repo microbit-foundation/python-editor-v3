@@ -10,12 +10,11 @@ import {
   ConnectionStatus,
   DeviceConnection,
   DeviceConnectionEventMap,
-  FlashDataSource,
   FlashEvent,
   SerialDataEvent,
   SerialResetEvent,
   ConnectionStatusEvent,
-} from "./device";
+} from "@microbit/microbit-connection";
 
 // Simulator-only events.
 
@@ -258,7 +257,7 @@ export class SimulatorDeviceConnection
       case "serial_output": {
         const text = event.data.data;
         if (typeof text === "string") {
-          this.dispatchTypedEvent("serial_data", new SerialDataEvent(text));
+          this.dispatchTypedEvent("serialdata", new SerialDataEvent(text));
         }
         break;
       }
@@ -304,22 +303,22 @@ export class SimulatorDeviceConnection
     return this.status;
   }
 
-  getBoardVersion(): BoardVersion | null {
+  getBoardVersion(): BoardVersion | undefined {
     return "V2";
   }
 
-  async flash(
-    dataSource: FlashDataSource,
-    options: {
-      partial: boolean;
-      progress: (percentage: number | undefined) => void;
-    }
-  ): Promise<void> {
+  /**
+   * The simulator doesn't support flash from a hex file.
+   *
+   * Instead you simply specify the files in the file system.
+   *
+   * @param filesystem A map from file name to file data.
+   */
+  async flashFileSystem(filesystem: Record<string, Uint8Array>): Promise<void> {
     this.postMessage("flash", {
-      filesystem: await dataSource.files(),
+      filesystem,
     });
     this.notifyResetComms();
-    options.progress(undefined);
     this.dispatchTypedEvent("flash", new FlashEvent());
   }
 
@@ -329,7 +328,7 @@ export class SimulatorDeviceConnection
 
   private notifyResetComms() {
     // Might be nice to rework so this was all about connection state changes.
-    this.dispatchTypedEvent("serial_reset", new SerialResetEvent());
+    this.dispatchTypedEvent("serialreset", new SerialResetEvent());
     this.dispatchTypedEvent("radio_reset", new RadioResetEvent());
   }
 

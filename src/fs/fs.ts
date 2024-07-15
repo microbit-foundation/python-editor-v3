@@ -10,11 +10,14 @@ import {
 import { fromByteArray, toByteArray } from "base64-js";
 import sortBy from "lodash.sortby";
 import { lineNumFromUint8Array } from "../common/text-util";
-import { BoardId } from "../device/board-id";
-import { FlashDataSource, HexGenerationError } from "../device/device";
+import {
+  BoardId,
+  FlashDataSource,
+  FlashDataError,
+} from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";
 import { MicroPythonSource } from "../micropython/micropython";
-import { asciiToBytes, extractModuleData, generateId } from "./fs-util";
+import { extractModuleData, generateId } from "./fs-util";
 import { Host } from "./host";
 import { PythonProject } from "./initial-project";
 import { FSStorage } from "./storage";
@@ -460,12 +463,12 @@ export class FileSystem
     return this.storage.clearDirty();
   }
 
-  async fullFlashData(boardId: BoardId): Promise<Uint8Array> {
+  async fullFlashData(boardId: BoardId): Promise<string> {
     try {
       const fs = await this.initialize();
-      return asciiToBytes(fs.getIntelHex(boardId.normalize().id));
+      return fs.getIntelHex(boardId.normalize().id);
     } catch (e: any) {
-      throw new HexGenerationError(e.message);
+      throw new FlashDataError(e.message);
     }
   }
 
@@ -474,7 +477,7 @@ export class FileSystem
       const fs = await this.initialize();
       return fs.getIntelHexBytes(boardId.normalize().id);
     } catch (e: any) {
-      throw new HexGenerationError(e.message);
+      throw new FlashDataError(e.message);
     }
   }
 

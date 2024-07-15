@@ -9,7 +9,7 @@
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import { NullLogging } from "../deployment/default/logging";
-import { BoardId } from "../device/board-id";
+import { BoardId } from "@microbit/microbit-connection";
 import {
   diff,
   FileSystem,

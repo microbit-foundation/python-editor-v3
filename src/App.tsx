@@ -10,7 +10,7 @@ import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
-import { MicrobitWebUSBConnection } from "./device/webusb";
+import { MicrobitWebUSBConnection } from "@microbit/microbit-connection";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import DocumentationProvider from "./documentation/documentation-hooks";

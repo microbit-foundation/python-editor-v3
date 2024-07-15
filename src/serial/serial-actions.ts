@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Terminal } from "xterm";
-import { DeviceConnection } from "../device/device";
+import { DeviceConnection } from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";
 
 /**

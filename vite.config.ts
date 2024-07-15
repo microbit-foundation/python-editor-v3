@@ -73,6 +73,9 @@ export default defineConfig(({ mode }) => {
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
     mockReset: true,
+    deps: {
+      optimizer: { web: { include: ["@microbit/microbit-connection"] } },
+    },
   };
   const config: UserConfig = {
     base: process.env.BASE_URL ?? "/",
