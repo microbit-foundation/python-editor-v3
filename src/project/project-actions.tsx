@@ -140,11 +140,7 @@ export class ProjectActions {
       this.webusbNotSupportedError(finalFocusRef);
     } else {
       if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
-        return this.connectInternal(
-          { serial: userAction !== ConnectionAction.FLASH },
-          userAction,
-          finalFocusRef
-        );
+        return this.connectInternal({}, userAction, finalFocusRef);
       }
     }
   };
@@ -543,7 +539,10 @@ export class ProjectActions {
           progress: value,
         });
       };
-      await this.device.flash(this.fs, { partial: true, progress });
+      await this.device.flash(this.fs.asFlashDataSource(), {
+        partial: true,
+        progress,
+      });
     } catch (e) {
       if (e instanceof FlashDataError) {
         this.actionFeedback.expectedError({
