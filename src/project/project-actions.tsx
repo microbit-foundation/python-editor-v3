@@ -19,7 +19,6 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
-  ConnectOptions,
   DeviceConnection,
   AfterRequestDevice,
   FlashDataError,
@@ -140,7 +139,7 @@ export class ProjectActions {
       this.webusbNotSupportedError(finalFocusRef);
     } else {
       if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
-        return this.connectInternal({}, userAction, finalFocusRef);
+        return this.connectInternal(userAction, finalFocusRef);
       }
     }
   };
@@ -190,12 +189,11 @@ export class ProjectActions {
    * Connect to the device if possible, otherwise show feedback.
    */
   private async connectInternal(
-    options: ConnectOptions,
     userAction: ConnectionAction,
     finalFocusRef: FinalFocusRef
   ) {
     try {
-      await this.device.connect(options);
+      await this.device.connect();
       finalFocusRef?.current?.focus();
       return true;
     } catch (e) {
