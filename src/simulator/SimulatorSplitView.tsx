@@ -13,7 +13,7 @@ import {
   SplitViewSized,
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
-import { ConnectionStatus } from "../device/device";
+import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
 import SerialArea from "../serial/SerialArea";
 import { RunningStatus } from "./Simulator";

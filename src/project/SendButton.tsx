@@ -18,7 +18,7 @@ import React, { FocusEvent, ForwardedRef, useCallback, useRef } from "react";
 import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexAboveTerminal } from "../common/zIndex";
-import { ConnectionAction, ConnectionStatus } from "../device/device";
+import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
@@ -27,7 +27,7 @@ import {
   globalShortcutConfig,
   keyboardShortcuts,
 } from "../common/keyboard-shortcuts";
-import { FinalFocusRef } from "./project-actions";
+import { ConnectionAction, FinalFocusRef } from "./project-actions";
 
 interface SendButtonProps {
   size?: ThemeTypings["components"]["Button"]["sizes"];

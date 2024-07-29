@@ -8,7 +8,7 @@ import { Flag } from "../flags";
 import path from "path";
 import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
-import { WebUSBErrorCode } from "../device/device";
+import { DeviceErrorCode } from "@microbit/microbit-connection";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -609,7 +609,7 @@ export class App {
     await this.page.getByTestId("traceback-link").click();
   }
 
-  async mockDeviceConnectFailure(code: WebUSBErrorCode) {
+  async mockDeviceConnectFailure(code: DeviceErrorCode) {
     this.page.evaluate((code) => {
       (window as any).mockDevice.mockConnect(code);
     }, code);
