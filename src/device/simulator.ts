@@ -291,7 +291,7 @@ export class SimulatorDeviceConnection
 
   async initialize(): Promise<void> {
     window.addEventListener("message", this.messageListener);
-    this.setStatus(ConnectionStatus.NOT_CONNECTED);
+    this.setStatus(ConnectionStatus.DISCONNECTED);
   }
 
   dispose() {
@@ -334,7 +334,7 @@ export class SimulatorDeviceConnection
 
   async disconnect(): Promise<void> {
     window.removeEventListener("message", this.messageListener);
-    this.setStatus(ConnectionStatus.NOT_CONNECTED);
+    this.setStatus(ConnectionStatus.DISCONNECTED);
   }
 
   async serialWrite(data: string): Promise<void> {

@@ -93,7 +93,7 @@ export class MockDeviceConnection
   }
 
   async disconnect(): Promise<void> {
-    this.setStatus(ConnectionStatus.NOT_CONNECTED);
+    this.setStatus(ConnectionStatus.DISCONNECTED);
   }
 
   async serialWrite(data: string): Promise<void> {

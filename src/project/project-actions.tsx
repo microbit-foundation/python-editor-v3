@@ -158,7 +158,7 @@ export class ProjectActions {
     if (
       !force &&
       (!showConnectHelpSetting ||
-        this.device.status === ConnectionStatus.NOT_CONNECTED)
+        this.device.status === ConnectionStatus.DISCONNECTED)
     ) {
       return true;
     }
@@ -511,7 +511,7 @@ export class ProjectActions {
 
     if (
       this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE ||
-      this.device.status === ConnectionStatus.NOT_CONNECTED
+      this.device.status === ConnectionStatus.DISCONNECTED
     ) {
       const connected = await this.connect(
         tryAgain || false,
