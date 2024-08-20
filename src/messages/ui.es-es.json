@@ -1161,6 +1161,12 @@
       "value": " para poder conectar a este micro:bit."
     }
   ],
+  "offline-image-alt": [
+    {
+      "type": 0,
+      "value": "Image unavailable offline"
+    }
+  ],
   "open-action": [
     {
       "type": 0,

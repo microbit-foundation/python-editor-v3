@@ -21,6 +21,7 @@ import {
 } from "../reference/model";
 import CodeEmbed from "./CodeEmbed";
 import { decorateWithCollapseNodes } from "./collapse-util";
+import OfflineImageFallback from "../OfflineImageFallback";
 
 export const enum DocumentationCollapseMode {
   ShowAll,
@@ -202,6 +203,15 @@ const serializers = {
       <ContextualCodeEmbed code={main} />
     ),
     simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
+      const imageProps = {
+        width: 300,
+        borderRadius: "lg",
+        border: "solid 1px",
+        borderColor: "gray.300",
+        sx: {
+          aspectRatio: getAspectRatio(props.node.asset._ref),
+        },
+      };
       return (
         <Image
           src={imageUrlBuilder
@@ -209,14 +219,10 @@ const serializers = {
             .width(300)
             .fit("max")
             .url()}
+          ignoreFallback={navigator.onLine}
+          fallback={<OfflineImageFallback {...imageProps} />}
           alt={props.node.alt}
-          width={300}
-          borderRadius="lg"
-          border="solid 1px"
-          borderColor="gray.300"
-          sx={{
-            aspectRatio: getAspectRatio(props.node.asset._ref),
-          }}
+          {...imageProps}
         />
       );
     },

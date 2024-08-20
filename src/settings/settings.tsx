@@ -16,6 +16,10 @@ export interface Language {
   preview?: boolean;
 }
 
+// We precache files for this locale, so it is a safe fallback
+// if a user changes language while offline.
+export const fallbackLocale = "en";
+
 // When we add languages we need to update the toolkit search indexing,
 // which will require the dynamic import of a new language plugin for lunr.
 // See search.ts.

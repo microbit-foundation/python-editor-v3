@@ -10,6 +10,7 @@ import {
 } from "vscode-jsonrpc/browser";
 import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
 // This is modified by bin/update-pyright.sh
 const workerScriptName = "pyright-main-382ffb2ee9671656ad85.worker.js";
@@ -29,7 +30,8 @@ let cache:
  * These are recreated when the language changes.
  */
 export const pyright = async (
-  language: string
+  language: string,
+  toast: CreateToastFnReturn
 ): Promise<LanguageServerClient | undefined> => {
   // For jsdom.
   if (!window.Worker) {
@@ -91,7 +93,12 @@ export const pyright = async (
   });
   connection.listen();
 
-  const client = new LanguageServerClient(connection, language, createUri(""));
+  const client = new LanguageServerClient(
+    connection,
+    language,
+    createUri(""),
+    toast
+  );
   // Must assign before any async step so we reuse or dispose this client
   // if another call to pyright is made (language change or React 18 dev mode
   // in practice).

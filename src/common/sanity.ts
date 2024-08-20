@@ -48,11 +48,15 @@ export const fetchContent = async <T>(
   query: (languageId: string) => string,
   adaptContent: (result: any) => T | undefined
 ): Promise<T> => {
-  const preferred = adaptContent(
-    await fetchContentInternal(query(sanityLanguageId(languageId)))
-  );
-  if (preferred) {
-    return preferred;
+  try {
+    const preferred = adaptContent(
+      await fetchContentInternal(query(sanityLanguageId(languageId)))
+    );
+    if (preferred) {
+      return preferred;
+    }
+  } catch (err) {
+    // Fall through to fallback without crashing if user is offline.
   }
   const fallback = adaptContent(await fetchContentInternal(query("en")));
   if (!fallback) {

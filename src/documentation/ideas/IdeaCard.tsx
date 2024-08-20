@@ -8,6 +8,7 @@ import { Image } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { SimpleImage } from "../../common/sanity";
 import DocumentationHeading from "../common/DocumentationHeading";
+import OfflineImageFallback from "../OfflineImageFallback";
 
 interface IdeaCardProps {
   name: string;
@@ -20,6 +21,10 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
   const focusStyles = {
     outline: "none",
     boxShadow: "var(--chakra-shadows-outline)",
+  };
+  const imageProps = {
+    borderTopRadius: "lg",
+    width: 500,
   };
   return (
     <VStack
@@ -35,9 +40,11 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
       _focus={focusStyles}
     >
       <Image
-        borderTopRadius="lg"
         src={imageUrlBuilder.image(image.asset).width(550).url()}
+        ignoreFallback={navigator.onLine}
+        fallback={<OfflineImageFallback useIcon {...imageProps} />}
         alt=""
+        {...imageProps}
       />
       <DocumentationHeading
         alignSelf="flex-start"

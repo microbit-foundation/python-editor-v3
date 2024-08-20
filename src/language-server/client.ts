@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import EventEmitter from "events";
 import {
   CompletionItem,
   CompletionList,
@@ -30,12 +29,29 @@ import {
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
 import { microPythonConfig } from "../micropython/micropython";
-import { isErrorDueToDispose } from "./error-util";
+import {
+  isErrorDueToDispose,
+  OfflineError,
+  showOfflineLanguageToast,
+} from "./error-util";
+import { fallbackLocale } from "../settings/settings";
+import { CreateToastFnReturn } from "@chakra-ui/react";
+import { TypedEventTarget } from "../common/events";
 
 /**
  * Create a URI for a source document under the default root of file:///src/.
  */
 export const createUri = (name: string) => `file:///src/${name}`;
+
+export class DiagnosticsEvent extends Event {
+  constructor(public readonly detail: PublishDiagnosticsParams) {
+    super("diagnostics");
+  }
+}
+
+class EventMap {
+  "diagnostics": DiagnosticsEvent;
+}
 
 /**
  * Owns the connection.
@@ -45,7 +61,7 @@ export const createUri = (name: string) => `file:///src/${name}`;
  *
  * Tracks and exposes the diagnostics.
  */
-export class LanguageServerClient extends EventEmitter {
+export class LanguageServerClient extends TypedEventTarget<EventMap> {
   /**
    * The capabilities of the server we're connected to.
    * Populated after initialize.
@@ -58,17 +74,10 @@ export class LanguageServerClient extends EventEmitter {
   constructor(
     public connection: MessageConnection,
     public locale: string,
-    public rootUri: string
+    public rootUri: string,
+    private toast: CreateToastFnReturn
   ) {
     super();
-  }
-
-  on(
-    event: "diagnostics",
-    listener: (params: PublishDiagnosticsParams) => void
-  ): this {
-    super.on(event, listener);
-    return this;
   }
 
   currentDiagnostics(uri: string): Diagnostic[] {
@@ -103,7 +112,10 @@ export class LanguageServerClient extends EventEmitter {
           (params) => {
             this.diagnostics.set(params.uri, params.diagnostics);
             // Republish as you can't listen twice.
-            this.emit("diagnostics", params);
+            this.dispatchTypedEvent(
+              "diagnostics",
+              new DiagnosticsEvent(params)
+            );
           }
         );
         this.connection.onRequest(RegistrationRequest.type, () => {
@@ -178,7 +190,15 @@ export class LanguageServerClient extends EventEmitter {
           // This mostly happens due to React 18 strict mode but could happen due to language changes.
           return false;
         }
-        throw e;
+        if (!navigator.onLine) {
+          showOfflineLanguageToast(this.toast);
+          // Fallback to the precached locale if user is offline.
+          this.locale = fallbackLocale;
+          this.initializePromise = undefined;
+          this.initialize();
+        } else {
+          throw e;
+        }
       }
       return true;
     })();
@@ -187,9 +207,21 @@ export class LanguageServerClient extends EventEmitter {
 
   private async getInitializationOptions(): Promise<any> {
     const branch = microPythonConfig.stubs;
-    const typeshed = await retryAsyncLoad(() => {
-      return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
-    });
+    let typeshed;
+    try {
+      typeshed = await retryAsyncLoad(() => {
+        return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
+      });
+    } catch (err) {
+      if (err instanceof OfflineError) {
+        showOfflineLanguageToast(this.toast);
+        typeshed = await import(
+          `../micropython/${branch}/typeshed.${fallbackLocale}.json`
+        );
+      } else {
+        throw err;
+      }
+    }
     return {
       // Shallow copy as it's an ESM that can't be serialized
       files: { files: typeshed.files },

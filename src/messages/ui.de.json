@@ -1205,6 +1205,12 @@
       "value": ", bevor eine Verbindung zu diesem micro:bit hergestellt werden kann."
     }
   ],
+  "offline-image-alt": [
+    {
+      "type": 0,
+      "value": "Image unavailable offline"
+    }
+  ],
   "open-action": [
     {
       "type": 0,

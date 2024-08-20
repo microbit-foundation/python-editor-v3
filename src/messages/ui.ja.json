@@ -1169,6 +1169,12 @@
       "value": "する必要があります。"
     }
   ],
+  "offline-image-alt": [
+    {
+      "type": 0,
+      "value": "Image unavailable offline"
+    }
+  ],
   "open-action": [
     {
       "type": 0,

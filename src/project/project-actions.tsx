@@ -22,7 +22,7 @@ import {
   ConnectionStatus,
   ConnectOptions,
   DeviceConnection,
-  EVENT_END_USB_SELECT,
+  EndUSBSelect as RequestDeviceEndEvent,
   HexGenerationError,
   WebUSBError,
   WebUSBErrorCode,
@@ -830,7 +830,10 @@ export class ProjectActions {
     finalFocusRef: FinalFocusRef
   ) {
     if (e instanceof WebUSBError) {
-      this.device.emit(EVENT_END_USB_SELECT);
+      this.device.dispatchTypedEvent(
+        "end_usb_select",
+        new RequestDeviceEndEvent()
+      );
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there

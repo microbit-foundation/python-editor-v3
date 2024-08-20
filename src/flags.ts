@@ -43,6 +43,13 @@ export type Flag =
    */
   | "noWelcome"
   /**
+   * Enables PWA behaviours.
+   *
+   * Registers the service worker and enables offline use.
+   * Injects the webmanifest which allows installation.
+   */
+  | "pwa"
+  /**
    * Enables in-context Crowdin translating.
    */
   | "translate";
@@ -60,6 +67,7 @@ const allFlags: FlagMetadata[] = [
   { name: "noLang", defaultOnStages: [] },
   { name: "translate", defaultOnStages: [] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
+  { name: "pwa", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;
@@ -67,6 +75,14 @@ type Flags = Record<Flag, boolean>;
 // Exposed for testing.
 export const flagsForParams = (stage: Stage, params: URLSearchParams) => {
   const enableFlags = new Set(params.getAll("flag"));
+  try {
+    localStorage
+      .getItem("flags")
+      ?.split(",")
+      ?.forEach((f) => enableFlags.add(f.trim()));
+  } catch (e) {
+    // Ignore if there are local storage security issues
+  }
   const allFlagsDefault = enableFlags.has("none")
     ? false
     : enableFlags.has("*")

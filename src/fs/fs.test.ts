@@ -12,7 +12,6 @@ import { NullLogging } from "../deployment/default/logging";
 import { BoardId } from "../device/board-id";
 import {
   diff,
-  EVENT_PROJECT_UPDATED,
   FileSystem,
   MAIN_FILE,
   Project,
@@ -55,7 +54,9 @@ describe("Filesystem", () => {
   beforeEach(() => {
     events = [];
     ufs = new FileSystem(logging, host, fsMicroPythonSource);
-    ufs.addListener(EVENT_PROJECT_UPDATED, events.push.bind(events));
+    ufs.addEventListener("project_updated", (e) => {
+      events.push(e.project);
+    });
   });
 
   it("has an initial blank project", async () => {

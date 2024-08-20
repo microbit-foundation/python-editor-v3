@@ -17,7 +17,6 @@ import {
   useSimulator,
   useSyncStatus,
 } from "../device/device-hooks";
-import { EVENT_REQUEST_FLASH } from "../device/simulator";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { RunningStatus } from "./Simulator";
@@ -71,9 +70,9 @@ const SimulatorActionBar = ({
     setIsMuted(!isMuted);
   }, [device, isMuted, setIsMuted]);
   useEffect(() => {
-    device.on(EVENT_REQUEST_FLASH, handlePlay);
+    device.addEventListener("request_flash", handlePlay);
     return () => {
-      device.removeListener(EVENT_REQUEST_FLASH, handlePlay);
+      device.removeEventListener("request_flash", handlePlay);
     };
   }, [device, handlePlay]);
   const size = "md";

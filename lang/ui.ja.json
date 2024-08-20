@@ -510,6 +510,10 @@
     "defaultMessage": "このmicro:bitに接続するには、<link>ファームウェアを更新</link>する必要があります。",
     "description": "Text in the no micro:bit found dialog"
   },
+  "offline-image-alt": {
+    "defaultMessage": "Image unavailable offline",
+    "description": "Alt text for an image placeholder when the user is offline"
+  },
   "open-action": {
     "defaultMessage": "開く",
     "description": "Open button text"

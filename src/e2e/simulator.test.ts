@@ -5,16 +5,23 @@
  */
 import { test } from "./app-test-fixtures.js";
 
-const basicTest = "from microbit import *\ndisplay.show(Image.NO)";
+const basicTest = `from microbit import *
+display.show(Image.NO)`;
 
-const buttonTest =
-  "from microbit import *\nwhile True:\nif button_a.was_pressed():\ndisplay.show(Image.NO)";
+const buttonTest = `from microbit import *
+while True:
+    if button_a.was_pressed():
+        display.show(Image.NO)`;
 
-const gestureTest =
-  "from microbit import *\nwhile True:\nif accelerometer.was_gesture('freefall'):\ndisplay.show(Image.NO)";
+const gestureTest = `from microbit import *
+while True:
+    if accelerometer.was_gesture('freefall'):
+        display.show(Image.NO)`;
 
-const sliderTest =
-  "from microbit import *\nwhile True:\nif temperature() == -5:\ndisplay.show(Image.NO)";
+const sliderTest = `from microbit import *
+while True:
+    if temperature() == -5:
+        display.show(Image.NO)`;
 
 test.describe("simulator", () => {
   test("responds to a sent gesture", async ({ app }) => {

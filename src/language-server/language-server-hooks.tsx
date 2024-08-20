@@ -19,6 +19,7 @@ import {
   trackFsChanges,
 } from "./client-fs";
 import { pyright } from "./pyright";
+import { useToast } from "@chakra-ui/react";
 
 const LanguageServerClientContext = createContext<
   LanguageServerClient | undefined
@@ -40,11 +41,12 @@ export const LanguageServerClientProvider = ({
   const [clientState, setClientState] = useState<
     LanguageServerClient | undefined
   >(undefined);
+  const toast = useToast();
   useEffect(() => {
     let listener: FsChangesListener | undefined;
     let ignore = false;
     const initAsync = async () => {
-      const client = await pyright(languageId);
+      const client = await pyright(languageId, toast);
       if (client) {
         listener = trackFsChanges(client, fs);
         if (!ignore) {
@@ -60,7 +62,7 @@ export const LanguageServerClientProvider = ({
       ignore = true;
       // We don't dispose the client here as it's cached for reuse.
     };
-  }, [fs, languageId]);
+  }, [fs, languageId, toast]);
   return (
     <LanguageServerClientContext.Provider value={clientState}>
       {children}
