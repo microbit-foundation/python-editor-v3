@@ -22,7 +22,6 @@ import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
-import { stage } from "../environment";
 
 export enum RunningStatus {
   RUNNING,
