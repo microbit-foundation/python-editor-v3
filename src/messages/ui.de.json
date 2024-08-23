@@ -1208,7 +1208,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "Bild offline nicht verfügbar"
     }
   ],
   "open-action": [
@@ -1752,13 +1752,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "Warnungen über Nur-V2-Funktionen anzeigen"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "Warnungen werden im Editor angezeigt, wenn ein micro:bit V1 verbunden ist"
     }
   ],
   "settings": [
@@ -2490,7 +2490,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "Warnungen über Nur-V2-Funktionen deaktivieren"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2508,7 +2508,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Schnittstelle konnte nicht beansprucht werden"
+      "value": "Eine andere Seite oder ein Browser-Tab ist mit diesem micro:bit verbunden"
     }
   ],
   "webusb-error-default-title": [
@@ -2519,8 +2519,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Bitte schließe deinen micro:bit erneut an und versuche es nochmal."
+      "children": [
+        {
+          "type": 0,
+          "value": "Bitte folge diesen Schritten, dann versuche es erneut:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "trenne das USB-Kabel"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "entferne das Akku-Paket, wenn angeschlossen"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "verbinden das USB-Kabel erneut"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "verbinde das Akku-Paket erneut, wenn angeschlossen"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2556,7 +2608,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "Videoeinführung des Python Editors"
     }
   ],
   "zoom-in-action": [
