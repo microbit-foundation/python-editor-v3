@@ -406,7 +406,7 @@
   "cookies-action": [
     {
       "type": 0,
-      "value": "Cookies"
+      "value": "餅乾"
     }
   ],
   "copied": [
@@ -1164,7 +1164,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "圖像無法離線使用"
     }
   ],
   "open-action": [
@@ -1712,13 +1712,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "顯示僅 V2 功能的警告"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "連線micro:bit V1 時，編輯程式器中會顯示警告"
     }
   ],
   "settings": [
@@ -2116,7 +2116,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit sent:"
+      "value": "micro:bit 發送："
     }
   ],
   "simulator-radio-group-notice": [
@@ -2162,7 +2162,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "You sent:"
+      "value": "你發送："
     }
   ],
   "simulator-reference-link": [
@@ -2442,7 +2442,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "停用有關僅 V2 功能的警告"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2460,7 +2460,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "無法宣告介面"
+      "value": "另一個頁面或瀏覽器索引標籤已連線到此 micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2471,8 +2471,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "請重新連接你的 micro:bit 後再試一次。"
+      "children": [
+        {
+          "type": 0,
+          "value": "請依照以下步驟操作，然後重試："
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "拔下USB 電纜"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "拔下電池組（如果已安裝）"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "重新連接USB 線"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "重新連接電池組（如果已安裝）"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2508,7 +2560,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "介紹 Python 編輯程式器的視頻"
     }
   ],
   "zoom-in-action": [

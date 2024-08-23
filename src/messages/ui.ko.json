@@ -418,7 +418,7 @@
   "cookies-action": [
     {
       "type": 0,
-      "value": "Cookies"
+      "value": "쿠키"
     }
   ],
   "copied": [
@@ -1176,7 +1176,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "이미지는 오프라인에서 사용할 수 없습니다."
     }
   ],
   "open-action": [
@@ -1720,13 +1720,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "V2 전용 기능에 대한 경고 표시"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "micro:bit V1이 연결되면 편집기에 경고가 표시됩니다."
     }
   ],
   "settings": [
@@ -2116,7 +2116,7 @@
   "simulator-radio-code": [
     {
       "type": 0,
-      "value": "micro:bit sent:"
+      "value": "micro:bit 전송된:"
     }
   ],
   "simulator-radio-group-notice": [
@@ -2166,7 +2166,7 @@
   "simulator-radio-user": [
     {
       "type": 0,
-      "value": "You sent:"
+      "value": "너가 보냈다:"
     }
   ],
   "simulator-reference-link": [
@@ -2430,7 +2430,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "V2 전용 기능에 대한 경고 비활성화"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2448,7 +2448,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "인터페이스 수령 실패"
+      "value": "다른 페이지나 브라우저 탭이 이 micro:bit에 연결되어 있습니다."
     }
   ],
   "webusb-error-default-title": [
@@ -2460,7 +2460,7 @@
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "micro:bit 연결을 확인한 후, 다시 시도해 보세요."
+      "value": "다른 페이지나 브라우저 탭이 이 micro:bit에 연결되어 있습니다."
     }
   ],
   "webusb-not-supported": [
@@ -2496,7 +2496,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "Python 편집기를 소개하는 비디오"
     }
   ],
   "zoom-in-action": [
