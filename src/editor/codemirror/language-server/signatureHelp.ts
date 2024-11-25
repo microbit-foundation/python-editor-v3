@@ -107,8 +107,10 @@ const triggerSignatureHelpRequest = async (
     if (!isErrorDueToDispose(e)) {
       logException(state, e, "signature-help");
     }
-    view.dispatch({
-      effects: [setSignatureHelpResult.of(null)],
+    queueMicrotask(() => {
+      view.dispatch({
+        effects: [setSignatureHelpResult.of(null)],
+      });
     });
   }
 };
