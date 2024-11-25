@@ -69,7 +69,7 @@ const allFlags: FlagMetadata[] = [
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
   {
     name: "pwa",
-    defaultOnStages: ["local", "REVIEW", "STAGING"],
+    defaultOnStages: ["REVIEW", "STAGING", "PRODUCTION"],
   },
 ];
 
