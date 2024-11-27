@@ -46,7 +46,7 @@ const Simulator = ({
   const [brand500] = useToken("colors", ["brand.500"]);
   const url = useMemo(() => {
     const production =
-      "https://python-simulator.usermbit.org/v/0.1/simulator.html";
+      "https://python-simulator.usermbit.org/v/0.1/simulator.html?flag=sw";
     const staging =
       "https://python-simulator.usermbit.org/staging/simulator.html?flag=sw";
 
