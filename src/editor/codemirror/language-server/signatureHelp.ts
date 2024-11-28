@@ -91,24 +91,26 @@ const triggerSignatureHelpRequest = async (
   try {
     // Must happen before other event handling that might dispatch more
     // changes that invalidate our position.
-    queueMicrotask(() => {
+    queueMicrotask(async () => {
+      const result = await client.connection.sendRequest(
+        SignatureHelpRequest.type,
+        params
+      );
       view.dispatch({
-        effects: [setSignatureHelpRequestPosition.of(pos)],
+        effects: [
+          setSignatureHelpRequestPosition.of(pos),
+          setSignatureHelpResult.of(result),
+        ],
       });
-    });
-    const result = await client.connection.sendRequest(
-      SignatureHelpRequest.type,
-      params
-    );
-    view.dispatch({
-      effects: [setSignatureHelpResult.of(result)],
     });
   } catch (e) {
     if (!isErrorDueToDispose(e)) {
       logException(state, e, "signature-help");
     }
-    view.dispatch({
-      effects: [setSignatureHelpResult.of(null)],
+    queueMicrotask(() => {
+      view.dispatch({
+        effects: [setSignatureHelpResult.of(null)],
+      });
     });
   }
 };
