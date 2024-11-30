@@ -10,11 +10,14 @@ import {
 import { fromByteArray, toByteArray } from "base64-js";
 import sortBy from "lodash.sortby";
 import { lineNumFromUint8Array } from "../common/text-util";
-import { BoardId } from "../device/board-id";
-import { FlashDataSource, HexGenerationError } from "../device/device";
+import {
+  BoardId,
+  FlashDataError,
+  BoardVersion,
+} from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";
 import { MicroPythonSource } from "../micropython/micropython";
-import { asciiToBytes, extractModuleData, generateId } from "./fs-util";
+import { extractModuleData, generateId } from "./fs-util";
 import { Host } from "./host";
 import { PythonProject } from "./initial-project";
 import { FSStorage } from "./storage";
@@ -167,10 +170,7 @@ export const isNameLengthValid = (filename: string): boolean =>
  * or fire any events. This plays well with uncontrolled embeddings of
  * third-party text editors.
  */
-export class FileSystem
-  extends TypedEventTarget<EventMap>
-  implements FlashDataSource
-{
+export class FileSystem extends TypedEventTarget<EventMap> {
   private initializing: Promise<void> | undefined;
   private storage: FSStorage;
   private fileVersions: Map<string, number> = new Map();
@@ -460,22 +460,16 @@ export class FileSystem
     return this.storage.clearDirty();
   }
 
-  async fullFlashData(boardId: BoardId): Promise<Uint8Array> {
-    try {
-      const fs = await this.initialize();
-      return asciiToBytes(fs.getIntelHex(boardId.normalize().id));
-    } catch (e: any) {
-      throw new HexGenerationError(e.message);
-    }
-  }
-
-  async partialFlashData(boardId: BoardId): Promise<Uint8Array> {
-    try {
-      const fs = await this.initialize();
-      return fs.getIntelHexBytes(boardId.normalize().id);
-    } catch (e: any) {
-      throw new HexGenerationError(e.message);
-    }
+  asFlashDataSource() {
+    return async (boardVersion: BoardVersion) => {
+      try {
+        const fs = await this.initialize();
+        const boardId = BoardId.forVersion(boardVersion).id;
+        return fs.getIntelHex(boardId);
+      } catch (e: any) {
+        throw new FlashDataError(e.message);
+      }
+    };
   }
 
   async files(): Promise<Record<string, Uint8Array>> {
