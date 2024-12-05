@@ -22,6 +22,7 @@ import {
 import { IntlShape } from "react-intl";
 import {
   MarkupContent,
+  Position,
   SignatureHelp,
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
@@ -54,6 +55,11 @@ class SignatureHelpState {
   pos: number;
 
   /**
+   * The LSP position for pos.
+   */
+  position: Position | null;
+
+  /**
    * The latest result we want to display.
    *
    * This may be out of date while we wait for async response from LSP
@@ -61,11 +67,16 @@ class SignatureHelpState {
    */
   result: SignatureHelp | null;
 
-  constructor(pos: number, result: SignatureHelp | null) {
+  constructor(
+    pos: number,
+    position: Position | null,
+    result: SignatureHelp | null
+  ) {
     if (result && pos === -1) {
       throw new Error("Invalid state");
     }
     this.pos = pos;
+    this.position = position;
     this.result = result;
   }
 }
@@ -80,6 +91,16 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
     fontWeight: "bold",
   },
 });
+
+const positionEq = (a: Position | null, b: Position | null): boolean => {
+  if (a === null) {
+    return b === null;
+  }
+  if (b === null) {
+    return a === null;
+  }
+  return a.character === b.character && a.line === b.line;
+};
 
 const openSignatureHelp: Command = (view: EditorView) => {
   view.dispatch({
@@ -96,7 +117,7 @@ export const signatureHelp = (
   apiReferenceMap: ApiReferenceMap
 ) => {
   const signatureHelpTooltipField = StateField.define<SignatureHelpState>({
-    create: () => new SignatureHelpState(-1, null),
+    create: () => new SignatureHelpState(-1, null, null),
     update(state, tr) {
       let { pos, result } = state;
       for (const effect of tr.effects) {
@@ -139,11 +160,16 @@ export const signatureHelp = (
         });
       }
 
-      if (state.pos === pos && state.result === result) {
+      const position = pos === -1 ? null : offsetToPosition(tr.state.doc, pos);
+      if (
+        state.pos === pos &&
+        state.result === result &&
+        positionEq(state.position, position)
+      ) {
         // Avoid pointless tooltip updates. If nothing else it makes e2e tests hard.
         return state;
       }
-      return new SignatureHelpState(pos, result);
+      return new SignatureHelpState(pos, position, result);
     },
     provide: (f) =>
       showTooltip.from(f, (val) => {
@@ -187,7 +213,7 @@ export const signatureHelp = (
     implements PluginValue
   {
     private destroyed = false;
-    private lastPos = -1;
+    private lastPosition: Position | null = null;
 
     constructor(view: EditorView) {
       super(view);
@@ -196,17 +222,17 @@ export const signatureHelp = (
       const { view, state } = update;
       const uri = state.facet(uriFacet)!;
       const client = state.facet(clientFacet)!;
-      const { pos } = update.state.field(signatureHelpTooltipField);
-      if (this.lastPos !== pos) {
-        this.lastPos = pos;
-        if (this.lastPos !== -1) {
+      const { position } = update.state.field(signatureHelpTooltipField);
+      if (!positionEq(this.lastPosition, position)) {
+        this.lastPosition = position;
+        if (position !== null) {
           (async () => {
             try {
               const result = await client.connection.sendRequest(
                 SignatureHelpRequest.type,
                 {
                   textDocument: { uri },
-                  position: offsetToPosition(state.doc, this.lastPos),
+                  position,
                 }
               );
               if (!this.destroyed) {
