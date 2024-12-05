@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { EditorState, StateEffect, StateField } from "@codemirror/state";
+import { Facet, StateEffect, StateField } from "@codemirror/state";
 import {
   Command,
   EditorView,
@@ -23,7 +23,6 @@ import { IntlShape } from "react-intl";
 import {
   MarkupContent,
   SignatureHelp,
-  SignatureHelpParams,
   SignatureHelpRequest,
 } from "vscode-languageserver-protocol";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
@@ -38,6 +37,10 @@ import {
 import { nameFromSignature, removeFullyQualifiedName } from "./names";
 import { offsetToPosition } from "./positions";
 
+export const automaticFacet = Facet.define<boolean, boolean>({
+  combine: (values) => values[values.length - 1] ?? true,
+});
+
 export const setSignatureHelpRequestPosition = StateEffect.define<number>({});
 
 export const setSignatureHelpResult = StateEffect.define<SignatureHelp | null>(
@@ -49,6 +52,7 @@ class SignatureHelpState {
    * -1 for no signature help requested.
    */
   pos: number;
+
   /**
    * The latest result we want to display.
    *
@@ -77,44 +81,12 @@ const signatureHelpToolTipBaseTheme = EditorView.baseTheme({
   },
 });
 
-const triggerSignatureHelpRequest = async (
-  view: EditorView,
-  state: EditorState
-): Promise<void> => {
-  const uri = state.facet(uriFacet)!;
-  const client = state.facet(clientFacet)!;
-  const pos = state.selection.main.from;
-  const params: SignatureHelpParams = {
-    textDocument: { uri },
-    position: offsetToPosition(state.doc, pos),
-  };
-  try {
-    // Must happen before other event handling that might dispatch more
-    // changes that invalidate our position.
-    queueMicrotask(() => {
-      view.dispatch({
-        effects: [setSignatureHelpRequestPosition.of(pos)],
-      });
-    });
-    const result = await client.connection.sendRequest(
-      SignatureHelpRequest.type,
-      params
-    );
-    view.dispatch({
-      effects: [setSignatureHelpResult.of(result)],
-    });
-  } catch (e) {
-    if (!isErrorDueToDispose(e)) {
-      logException(state, e, "signature-help");
-    }
-    view.dispatch({
-      effects: [setSignatureHelpResult.of(null)],
-    });
-  }
-};
-
 const openSignatureHelp: Command = (view: EditorView) => {
-  triggerSignatureHelpRequest(view, view.state);
+  view.dispatch({
+    effects: [
+      setSignatureHelpRequestPosition.of(view.state.selection.main.from),
+    ],
+  });
   return true;
 };
 
@@ -138,12 +110,35 @@ export const signatureHelp = (
           }
         }
       }
+
       // Even if we just got a result, if the position has been cleared we don't want it.
       if (pos === -1) {
         result = null;
       }
 
+      // By default map the previous position forward
       pos = pos === -1 ? -1 : tr.changes.mapPos(pos);
+
+      // Did the selection moved while open? We'll re-request but keep the old result for now.
+      if (pos !== -1 && tr.selection) {
+        pos = tr.selection.main.from;
+      }
+
+      // Automatic triggering cases
+      const automatic = tr.state.facet(automaticFacet).valueOf();
+      if (
+        automatic &&
+        ((tr.docChanged && tr.isUserEvent("input")) ||
+          tr.isUserEvent("dnd.drop.call"))
+      ) {
+        tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
+          if (inserted.sliceString(0).trim().endsWith("()")) {
+            // Triggered
+            pos = tr.newSelection.main.from;
+          }
+        });
+      }
+
       if (state.pos === pos && state.result === result) {
         // Avoid pointless tooltip updates. If nothing else it makes e2e tests hard.
         return state;
@@ -191,29 +186,53 @@ export const signatureHelp = (
     extends BaseLanguageServerView
     implements PluginValue
   {
-    constructor(view: EditorView, private automatic: boolean) {
+    private destroyed = false;
+    private lastPos = -1;
+
+    constructor(view: EditorView) {
       super(view);
     }
     update(update: ViewUpdate) {
-      if (
-        (update.docChanged || update.selectionSet) &&
-        this.view.state.field(signatureHelpTooltipField).pos !== -1
-      ) {
-        triggerSignatureHelpRequest(this.view, update.state);
-      } else if (this.automatic && update.docChanged) {
-        const last = update.transactions[update.transactions.length - 1];
-
-        // This needs to trigger for autocomplete adding function parens
-        // as well as normal user input with `closebrackets` inserting
-        // the closing bracket.
-        if (last.isUserEvent("input") || last.isUserEvent("dnd.drop.call")) {
-          last.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-            if (inserted.sliceString(0).trim().endsWith("()")) {
-              triggerSignatureHelpRequest(this.view, update.state);
+      const { view, state } = update;
+      const uri = state.facet(uriFacet)!;
+      const client = state.facet(clientFacet)!;
+      const { pos } = update.state.field(signatureHelpTooltipField);
+      if (this.lastPos !== pos) {
+        this.lastPos = pos;
+        if (this.lastPos !== -1) {
+          (async () => {
+            try {
+              const result = await client.connection.sendRequest(
+                SignatureHelpRequest.type,
+                {
+                  textDocument: { uri },
+                  position: offsetToPosition(state.doc, this.lastPos),
+                }
+              );
+              if (!this.destroyed) {
+                view.dispatch({
+                  effects: [setSignatureHelpResult.of(result)],
+                });
+              }
+            } catch (e) {
+              if (!isErrorDueToDispose(e)) {
+                logException(state, e, "signature-help");
+              }
+              // The sendRequest call can fail synchronously when disposed so we need to ensure our clean-up doesn't happen inside the CM update call.
+              queueMicrotask(() => {
+                if (!this.destroyed) {
+                  view.dispatch({
+                    effects: [setSignatureHelpResult.of(null)],
+                  });
+                }
+              });
             }
-          });
+          })();
         }
       }
+    }
+    destroy(): void {
+      this.destroyed = true;
     }
   }
 
@@ -306,10 +325,11 @@ export const signatureHelp = (
 
   return [
     // View only handles automatic triggering.
-    ViewPlugin.define((view) => new SignatureHelpView(view, automatic)),
+    ViewPlugin.define((view) => new SignatureHelpView(view)),
     signatureHelpTooltipField,
     signatureHelpToolTipBaseTheme,
     keymap.of(signatureHelpKeymap),
+    automaticFacet.of(automatic),
     EditorView.domEventHandlers({
       blur(event, view) {
         // Close signature help as it interacts badly with drag and drop if
