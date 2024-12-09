@@ -38,10 +38,8 @@ const SimulatorActionBar = ({
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const syncStatus = useSyncStatus();
   const handlePlay = useCallback(async () => {
-    device.flash(fs, {
-      partial: true,
-      progress: () => {},
-    });
+    const files = await fs.files();
+    await device.flashFileSystem(files);
     onRunningChange(RunningStatus.RUNNING);
   }, [device, fs, onRunningChange]);
   const handleStop = useCallback(

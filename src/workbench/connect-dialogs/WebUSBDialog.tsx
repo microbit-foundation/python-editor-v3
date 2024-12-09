@@ -8,9 +8,15 @@ import { Flex, HStack, Image, Stack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";
-import { isChromeOS105 } from "../../device/webusb";
 import chromeOSErrorImage from "./chrome-os-105-error.png";
 import { FinalFocusRef } from "../../project/project-actions";
+
+// Temporary workaround for ChromeOS 105 bug.
+// See https://bugs.chromium.org/p/chromium/issues/detail?id=1363712&q=usb&can=2
+export const isChromeOS105 = (): boolean => {
+  const userAgent = navigator.userAgent;
+  return /CrOS/.test(userAgent) && /Chrome\/105\b/.test(userAgent);
+};
 
 interface WebUSBDialogProps {
   callback: () => void;

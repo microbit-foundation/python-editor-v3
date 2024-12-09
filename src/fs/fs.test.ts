@@ -9,7 +9,7 @@
 import * as fs from "fs";
 import * as fsp from "fs/promises";
 import { NullLogging } from "../deployment/default/logging";
-import { BoardId } from "../device/board-id";
+import { MicroPythonSource } from "../micropython/micropython";
 import {
   diff,
   FileSystem,
@@ -20,7 +20,6 @@ import {
 } from "./fs";
 import { DefaultHost } from "./host";
 import { defaultInitialProject } from "./initial-project";
-import { MicroPythonSource } from "../micropython/micropython";
 
 const hexes = Promise.all([
   fs.readFileSync("src/micropython/microbit-micropython-v1.hex", {
@@ -39,7 +38,7 @@ const fsMicroPythonSource: MicroPythonSource = async () => {
       hex: v1,
     },
     {
-      boardId: 0x9003,
+      boardId: 0x9903,
       hex: v2,
     },
   ];
@@ -218,11 +217,12 @@ describe("Filesystem", () => {
     expect(typeof data).toEqual("string");
   });
 
-  it("creates board-specific data for flashing", async () => {
-    const boardId = BoardId.parse("9900");
-    const partial = await ufs.partialFlashData(boardId);
-    const full = await ufs.fullFlashData(boardId);
-    expect(partial.length).toBeLessThan(full.length);
+  it("creates board-specific data for flashing V1", async () => {
+    await ufs.asFlashDataSource()("V1");
+  });
+
+  it("creates board-specific data for flashing V2", async () => {
+    await ufs.asFlashDataSource()("V2");
   });
 
   it("gives useful stats", async () => {
