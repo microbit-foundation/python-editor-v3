@@ -128,7 +128,7 @@
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "Alle Dateien durch die in der hex-Datei ersetzen?",
+    "defaultMessage": "Alle Dateien durch die in der HEX-Datei ersetzen?",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
@@ -213,7 +213,7 @@
   },
   "copy-snippet-advice": {
     "defaultMessage": "Code copied, use paste to insert it.",
-    "description": "Copy code to clipboard action text"
+    "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
     "defaultMessage": "Erstellen",
@@ -236,7 +236,7 @@
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "{name} löschen",
+    "defaultMessage": "Lösche {name}",
     "description": "Menu option to delete file"
   },
   "deleted-file": {
@@ -479,7 +479,7 @@
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "Der Name wird verwendet, wenn du die hex-Datei speicherst.",
+    "defaultMessage": "Dieser Name wird verwendet, wenn du die HEX-Datei speicherst.",
     "description": "Text under project name field"
   },
   "new-file-hint": {
@@ -523,7 +523,7 @@
     "description": "Open button text"
   },
   "open-file-action": {
-    "defaultMessage": "Öffnen...",
+    "defaultMessage": "Öffnen …",
     "description": "Open file button text"
   },
   "open-file-dropped": {
@@ -643,7 +643,7 @@
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit",
+    "defaultMessage": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit.",
     "description": "Reset action hover text"
   },
   "results-count": {
@@ -663,7 +663,7 @@
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "Speichere die hex-Datei des Projektes auf deinem Computer",
+    "defaultMessage": "Speichere die HEX-Datei des Projektes auf deinem Computer.",
     "description": "Hover text over save button"
   },
   "save-python-action": {
@@ -755,7 +755,7 @@
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Warnungen werden im Editor angezeigt, wenn ein micro:bit V1 verbunden ist",
+    "defaultMessage": "Warnungen werden im Editor angezeigt, wenn ein micro:bit V1 verbunden ist.",
     "description": "Checkbox setting label"
   },
   "settings": {

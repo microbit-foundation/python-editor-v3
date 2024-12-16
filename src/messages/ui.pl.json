@@ -72,13 +72,13 @@
   "api-description": [
     {
       "type": 0,
-      "value": "Aby użyć i dla przykładów zobacz "
+      "value": "Aby poznać zastosowania i przykłady, zobacz "
     },
     {
       "children": [
         {
           "type": 0,
-          "value": "Odniesienie"
+          "value": "Referencje"
         }
       ],
       "type": 8,

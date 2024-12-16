@@ -213,7 +213,7 @@
   },
   "copy-snippet-advice": {
     "defaultMessage": "Code copied, use paste to insert it.",
-    "description": "Copy code to clipboard action text"
+    "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
     "defaultMessage": "作る",
