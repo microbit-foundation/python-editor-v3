@@ -211,6 +211,10 @@
     "defaultMessage": "Copiar código",
     "description": "Copy code to clipboard action text"
   },
+  "copy-snippet-advice": {
+    "defaultMessage": "Code copied, use paste to insert it.",
+    "description": "Copy code to clipboard action text"
+  },
   "create-action": {
     "defaultMessage": "Crea",
     "description": "Create action label (e.g. in create file dialog)"

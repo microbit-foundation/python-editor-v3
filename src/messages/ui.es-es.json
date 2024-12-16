@@ -435,6 +435,12 @@
       "value": "Copiar código"
     }
   ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Code copied, use paste to insert it."
+    }
+  ],
   "create-action": [
     {
       "type": 0,
