@@ -28,7 +28,7 @@
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Aby użyć i dla przykładów zobacz <link>Odniesienie</link>",
+    "defaultMessage": "Aby poznać zastosowania i przykłady, zobacz <link>Referencje</link>",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -213,7 +213,7 @@
   },
   "copy-snippet-advice": {
     "defaultMessage": "Code copied, use paste to insert it.",
-    "description": "Copy code to clipboard action text"
+    "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
     "defaultMessage": "Twórz",
