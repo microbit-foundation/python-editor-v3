@@ -211,6 +211,10 @@
     "defaultMessage": "crwdns331458:0crwdne331458:0",
     "description": "Copy code to clipboard action text"
   },
+  "copy-snippet-advice": {
+    "defaultMessage": "Code copied, use paste to insert it.",
+    "description": "Copy code to clipboard action text"
+  },
   "create-action": {
     "defaultMessage": "crwdns331460:0crwdne331460:0",
     "description": "Create action label (e.g. in create file dialog)"

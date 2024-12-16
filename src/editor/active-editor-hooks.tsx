@@ -18,6 +18,7 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Logging } from "../logging/logging";
 import { copyCodeSnippet } from "./codemirror/copypaste";
 import { CodeInsertType } from "./codemirror/dnd";
+import { IntlShape } from "react-intl";
 
 /**
  * Actions that operate on a CM editor.
@@ -26,7 +27,8 @@ export class EditorActions {
   constructor(
     private view: EditorView,
     private logging: Logging,
-    private actionFeedback: ActionFeedback
+    private actionFeedback: ActionFeedback,
+    private intl: IntlShape
   ) {}
 
   copyCode = async (
@@ -46,7 +48,7 @@ export class EditorActions {
       id,
     });
     this.actionFeedback.success({
-      title: "Code copied, use paste to insert it.",
+      title: this.intl.formatMessage({ id: "copy-snippet-advice" }),
     });
   };
   undo = (): void => {

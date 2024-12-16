@@ -211,6 +211,10 @@
     "defaultMessage": "Copy code",
     "description": "Copy code to clipboard action text"
   },
+  "copy-snippet-advice": {
+    "defaultMessage": "Code copied, use paste to insert it.",
+    "description": "Toast shown when you copy from API or Reference snippets"
+  },
   "create-action": {
     "defaultMessage": "Create",
     "description": "Create action label (e.g. in create file dialog)"

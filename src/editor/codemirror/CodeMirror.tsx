@@ -167,7 +167,7 @@ const CodeMirror = ({
       });
 
       viewRef.current = view;
-      setActiveEditor(new EditorActions(view, logging, actionFeedback));
+      setActiveEditor(new EditorActions(view, logging, actionFeedback, intl));
     }
   }, [
     actionFeedback,
