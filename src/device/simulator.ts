@@ -3,18 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { TypedEventTarget } from "../common/events";
-import { Logging } from "../logging/logging";
 import {
   BoardVersion,
   ConnectionStatus,
+  ConnectionStatusEvent,
   DeviceConnection,
   DeviceConnectionEventMap,
   FlashEvent,
   SerialDataEvent,
   SerialResetEvent,
-  ConnectionStatusEvent,
+  TypedEventTarget,
 } from "@microbit/microbit-connection";
+import { Logging } from "../logging/logging";
 
 // Simulator-only events.
 

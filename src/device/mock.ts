@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { TypedEventTarget } from "../common/events";
 import {
   BoardVersion,
   ConnectionStatus,
@@ -15,6 +14,7 @@ import {
   ConnectionStatusEvent,
   DeviceError,
   DeviceErrorCode,
+  TypedEventTarget,
 } from "@microbit/microbit-connection";
 
 /**
