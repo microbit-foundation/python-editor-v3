@@ -443,6 +443,12 @@
       "value": "Kopieer code"
     }
   ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Code copied, use paste to insert it."
+    }
+  ],
   "create-action": [
     {
       "type": 0,
@@ -1184,7 +1190,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "Afbeelding offline niet beschikbaar"
     }
   ],
   "open-action": [
@@ -1735,13 +1741,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "Toon waarschuwingen over de functies die alleen voor V2 van toepassing zijn"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "Waarschuwingen worden weergegeven in de editor wanneer een micro:bit V1 is aangesloten"
     }
   ],
   "settings": [
@@ -2477,7 +2483,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "Schakel waarschuwingen uit over de functies die alleen voor V2 van toepassing zijn"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2495,7 +2501,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "Kan interface niet opeisen"
+      "value": "Een andere pagina of browser tab is verbonden met deze micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2506,8 +2512,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Verbind je micro:bit opnieuw en probeer het nog eens."
+      "children": [
+        {
+          "type": 0,
+          "value": "Volg de volgende stappen en probeer dan opnieuw:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "maak de USB-kabel los"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "maak het batterijpakket los als dat aangesloten is"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "sluit de USB-kabel weer aan"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "sluit het batterijpakket weer aan als dat aangesloten was"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2543,7 +2601,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "video die de Python Editor introduceert"
     }
   ],
   "zoom-in-action": [

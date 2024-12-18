@@ -455,6 +455,12 @@
       "value": "コードをコピー"
     }
   ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Code copied, use paste to insert it."
+    }
+  ],
   "create-action": [
     {
       "type": 0,
@@ -1172,7 +1178,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "画像がオフラインで利用できません"
     }
   ],
   "open-action": [
@@ -1705,13 +1711,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "V2のみの機能に関する警告を表示する"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "micro:bitのV1が接続されていると、エディタに警告が表示されます"
     }
   ],
   "settings": [
@@ -2436,7 +2442,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "V2のみの機能に関する警告を無効にする"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2454,7 +2460,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "インタフェースを要求できません"
+      "value": "このmicro:bitが別のページや別のブラウザタブで接続されています"
     }
   ],
   "webusb-error-default-title": [
@@ -2465,8 +2471,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "micro:bitを再接続して、やり直してください。"
+      "children": [
+        {
+          "type": 0,
+          "value": "次の手順にしたがって、もう一度お試しください:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "USBケーブルを抜く"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": " バッテリーパックを接続している場合は、それを抜く"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "USBケーブルを再接続する"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "バッテリーパックを接続していた場合は、それを再接続する"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2502,7 +2560,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "Pythonエディターを紹介する動画"
     }
   ],
   "zoom-in-action": [

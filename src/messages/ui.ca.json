@@ -435,6 +435,12 @@
       "value": "Copia el programa"
     }
   ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Code copied, use paste to insert it."
+    }
+  ],
   "create-action": [
     {
       "type": 0,
@@ -1130,7 +1136,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "La imatge no està disponible fora de línia"
     }
   ],
   "open-action": [
@@ -1678,13 +1684,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "Mostra advertències sobre funcions només de la V2"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "Els avisos es mostren a l'editor quan es connecta un micro:bit V1"
     }
   ],
   "settings": [
@@ -2408,7 +2414,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "Desactiva els avisos sobre les funcions només de la V2"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2426,7 +2432,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "No es pot sol·licitar la interfície"
+      "value": "Una altra pàgina o pestanya del navegador està connectada a aquesta micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2437,8 +2443,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Torna a connectar la teva micro:bit i torna-ho a provar."
+      "children": [
+        {
+          "type": 0,
+          "value": "Segueix aquests passos i, a continuació, torna-ho a provar:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "desendolla el cable USB"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "desendolla la bateria si n'hi ha cap connectada"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "torna a connectar el cable USB"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "torna a connectar la bateria si n'hi havia una"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2474,7 +2532,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "vídeo de presentació de l'editor Python"
     }
   ],
   "zoom-in-action": [

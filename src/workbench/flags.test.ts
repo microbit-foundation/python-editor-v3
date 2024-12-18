@@ -14,12 +14,15 @@ describe("flags", () => {
     expect(flags.dndDebug).toEqual(false);
   });
 
-  it("enables nothing in production", () => {
+  it("only enables PWA in production", () => {
     const params = new URLSearchParams([]);
 
     const flags = flagsForParams("PRODUCTION", params);
 
-    expect(Object.values(flags).every((x) => !x)).toEqual(true);
+    expect(flags.pwa).toBe(true);
+    const { pwa, ...filteredFlags } = flags;
+
+    expect(Object.values(filteredFlags).every((x) => !x)).toEqual(true);
   });
 
   it("enable specific flag", () => {
@@ -29,7 +32,7 @@ describe("flags", () => {
 
     expect(
       Object.entries(flags).every(
-        ([flag, status]) => (flag === "noWelcome") === status
+        ([flag, status]) => (flag === "noWelcome" || flag === "pwa") === status
       )
     ).toEqual(true);
   });

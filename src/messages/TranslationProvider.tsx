@@ -33,6 +33,8 @@ async function loadLocaleData(locale: string) {
       return (await import("./ui.lol.json")).default;
     case "nl":
       return (await import("./ui.nl.json")).default;
+    case "pl":
+      return (await import("./ui.pl.json")).default;
     case "zh-cn":
       return (await import("./ui.zh-cn.json")).default;
     case "zh-tw":

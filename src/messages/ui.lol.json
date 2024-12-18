@@ -421,6 +421,12 @@
       "value": "crwdns331458:0crwdne331458:0"
     }
   ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Code copied, use paste to insert it."
+    }
+  ],
   "create-action": [
     {
       "type": 0,
@@ -951,6 +957,12 @@
       "value": "crwdns331608:0crwdne331608:0"
     }
   ],
+  "offline-image-alt": [
+    {
+      "type": 0,
+      "value": "crwdns359874:0crwdne359874:0"
+    }
+  ],
   "open-action": [
     {
       "type": 0,
@@ -1334,13 +1346,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "crwdns359862:0crwdne359862:0"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "crwdns359864:0crwdne359864:0"
     }
   ],
   "settings": [
@@ -1994,7 +2006,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "crwdns359866:0crwdne359866:0"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2012,7 +2024,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "crwdns331790:0crwdne331790:0"
+      "value": "crwdns359868:0crwdne359868:0"
     }
   ],
   "webusb-error-default-title": [
@@ -2024,7 +2036,7 @@
   "webusb-error-reconnect-microbit-description": [
     {
       "type": 0,
-      "value": "crwdns331794:0crwdne331794:0"
+      "value": "crwdns359870:0crwdne359870:0"
     }
   ],
   "webusb-not-supported": [
@@ -2060,7 +2072,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "crwdns359872:0crwdne359872:0"
     }
   ],
   "zoom-in-action": [

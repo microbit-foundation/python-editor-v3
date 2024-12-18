@@ -211,6 +211,10 @@
     "defaultMessage": "コードをコピー",
     "description": "Copy code to clipboard action text"
   },
+  "copy-snippet-advice": {
+    "defaultMessage": "Code copied, use paste to insert it.",
+    "description": "Toast shown when you copy from API or Reference snippets"
+  },
   "create-action": {
     "defaultMessage": "作る",
     "description": "Create action label (e.g. in create file dialog)"
@@ -511,7 +515,7 @@
     "description": "Text in the no micro:bit found dialog"
   },
   "offline-image-alt": {
-    "defaultMessage": "Image unavailable offline",
+    "defaultMessage": "画像がオフラインで利用できません",
     "description": "Alt text for an image placeholder when the user is offline"
   },
   "open-action": {
@@ -747,11 +751,11 @@
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features": {
-    "defaultMessage": "Show warnings about V2-only features",
+    "defaultMessage": "V2のみの機能に関する警告を表示する",
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "defaultMessage": "micro:bitのV1が接続されていると、エディタに警告が表示されます",
     "description": "Checkbox setting label"
   },
   "settings": {
@@ -1123,7 +1127,7 @@
     "description": "alt text for logo link to .org"
   },
   "warn-on-v2-only-features-action": {
-    "defaultMessage": "Disable warnings about V2-only features",
+    "defaultMessage": "V2のみの機能に関する警告を無効にする",
     "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
@@ -1135,7 +1139,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "インタフェースを要求できません",
+    "defaultMessage": "このmicro:bitが別のページや別のブラウザタブで接続されています",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -1143,7 +1147,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "micro:bitを再接続して、やり直してください。",
+    "defaultMessage": "<p>次の手順にしたがって、もう一度お試しください:</p><ul><li>USBケーブルを抜く</li><li> バッテリーパックを接続している場合は、それを抜く</li><li>USBケーブルを再接続する</li><li>バッテリーパックを接続していた場合は、それを再接続する</li></ul>",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {
@@ -1167,7 +1171,7 @@
     "description": "Title for the welcome dialog"
   },
   "welcome-video-alt": {
-    "defaultMessage": "video introducing the Python Editor",
+    "defaultMessage": "Pythonエディターを紹介する動画",
     "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {
