@@ -17,7 +17,7 @@ import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
 import { signatureHelp } from "./signatureHelp";
-import { DeviceConnection } from "../../../device/device";
+import { DeviceConnection } from "@microbit/microbit-connection";
 
 /**
  * The main extension. This synchronises the diagnostics between the client

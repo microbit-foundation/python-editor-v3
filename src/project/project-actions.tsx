@@ -18,15 +18,13 @@ import PostSaveDialog, { PostSaveChoice } from "../common/PostSaveDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
-  ConnectionAction,
   ConnectionStatus,
-  ConnectOptions,
   DeviceConnection,
-  EndUSBSelect as RequestDeviceEndEvent,
-  HexGenerationError,
-  WebUSBError,
-  WebUSBErrorCode,
-} from "../device/device";
+  AfterRequestDevice,
+  FlashDataError,
+  DeviceError,
+  DeviceErrorCode,
+} from "@microbit/microbit-connection";
 import { FileSystem, MAIN_FILE, Statistics, VersionAction } from "../fs/fs";
 import {
   getLowercaseFileExtension,
@@ -89,6 +87,12 @@ interface ProjectStatistics extends Statistics {
   errorCount: number;
 }
 
+export enum ConnectionAction {
+  FLASH = "FLASH",
+  CONNECT = "CONNECT",
+  DISCONNECT = "DISCONNECT",
+}
+
 /**
  * Key actions.
  *
@@ -135,11 +139,7 @@ export class ProjectActions {
       this.webusbNotSupportedError(finalFocusRef);
     } else {
       if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
-        return this.connectInternal(
-          { serial: userAction !== ConnectionAction.FLASH },
-          userAction,
-          finalFocusRef
-        );
+        return this.connectInternal(userAction, finalFocusRef);
       }
     }
   };
@@ -158,7 +158,7 @@ export class ProjectActions {
     if (
       !force &&
       (!showConnectHelpSetting ||
-        this.device.status === ConnectionStatus.NOT_CONNECTED)
+        this.device.status === ConnectionStatus.DISCONNECTED)
     ) {
       return true;
     }
@@ -189,12 +189,11 @@ export class ProjectActions {
    * Connect to the device if possible, otherwise show feedback.
    */
   private async connectInternal(
-    options: ConnectOptions,
     userAction: ConnectionAction,
     finalFocusRef: FinalFocusRef
   ) {
     try {
-      await this.device.connect(options);
+      await this.device.connect();
       finalFocusRef?.current?.focus();
       return true;
     } catch (e) {
@@ -496,6 +495,10 @@ export class ProjectActions {
     finalFocusRef: FinalFocusRef,
     tryAgain?: boolean
   ): Promise<void> => {
+    if (!this.device.flash) {
+      throw new Error("Device connection doesn't support flash");
+    }
+
     this.logging.event({
       type: "flash",
       detail: await this.projectStats(),
@@ -508,7 +511,7 @@ export class ProjectActions {
 
     if (
       this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE ||
-      this.device.status === ConnectionStatus.NOT_CONNECTED
+      this.device.status === ConnectionStatus.DISCONNECTED
     ) {
       const connected = await this.connect(
         tryAgain || false,
@@ -534,9 +537,12 @@ export class ProjectActions {
           progress: value,
         });
       };
-      await this.device.flash(this.fs, { partial: true, progress });
+      await this.device.flash(this.fs.asFlashDataSource(), {
+        partial: true,
+        progress,
+      });
     } catch (e) {
-      if (e instanceof HexGenerationError) {
+      if (e instanceof FlashDataError) {
         this.actionFeedback.expectedError({
           title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
           // Not translated, see https://github.com/microbit-foundation/python-editor-v3/issues/159
@@ -813,7 +819,7 @@ export class ProjectActions {
   }
 
   private async handleFirmwareUpdate(
-    _errorCode: WebUSBErrorCode,
+    _errorCode: DeviceErrorCode,
     userAction: ConnectionAction,
     finalFocusRef: FinalFocusRef
   ) {
@@ -829,10 +835,10 @@ export class ProjectActions {
     userAction: ConnectionAction,
     finalFocusRef: FinalFocusRef
   ) {
-    if (e instanceof WebUSBError) {
+    if (e instanceof DeviceError) {
       this.device.dispatchTypedEvent(
-        "end_usb_select",
-        new RequestDeviceEndEvent()
+        "afterrequestdevice",
+        new AfterRequestDevice()
       );
       switch (e.code) {
         case "no-device-selected": {
