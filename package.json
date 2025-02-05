@@ -80,7 +80,7 @@
     "typescript": "^5.4.2",
     "vite-plugin-pwa": "^0.19.8",
     "vite-plugin-svgr": "^4.2.0",
-    "vitest": "^2.0.0"
+    "vitest": "^2.1.9"
   },
   "engines": {
     "node": ">=16.0",
