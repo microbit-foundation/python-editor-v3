@@ -7,9 +7,10 @@ import {
   BoardVersion,
   ConnectionStatus,
   ConnectionStatusEvent,
-  DeviceConnection,
   DeviceConnectionEventMap,
   FlashEvent,
+  MicrobitWebUSBConnection,
+  SerialConnectionEventMap,
   SerialDataEvent,
   SerialResetEvent,
   TypedEventTarget,
@@ -178,8 +179,8 @@ class SimulatorEventMap extends DeviceConnectionEventMap {
  * This communicates with the iframe that is used to embed the simulator.
  */
 export class SimulatorDeviceConnection
-  extends TypedEventTarget<SimulatorEventMap>
-  implements DeviceConnection
+  extends TypedEventTarget<SimulatorEventMap & SerialConnectionEventMap>
+  implements MicrobitWebUSBConnection
 {
   status: ConnectionStatus = ConnectionStatus.NO_AUTHORIZED_DEVICE;
   state: SimulatorState | undefined;
@@ -425,4 +426,12 @@ export class SimulatorDeviceConnection
       "*"
     );
   }
+
+  getDeviceId(): number | undefined {
+    return undefined;
+  }
+  setRequestDeviceExclusionFilters(): void {}
+  async flash(): Promise<void> {}
+  getDevice() {}
+  async softwareReset(): Promise<void> {}
 }

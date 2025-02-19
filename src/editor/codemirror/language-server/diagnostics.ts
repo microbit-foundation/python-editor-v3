@@ -7,7 +7,7 @@ import { Text } from "@codemirror/state";
 import * as LSP from "vscode-languageserver-protocol";
 import { Action, Diagnostic } from "../lint/lint";
 import { positionToOffset } from "./positions";
-import { DeviceConnection } from "@microbit/microbit-connection";
+import { MicrobitWebUSBConnection } from "@microbit/microbit-connection";
 
 const reportMicrobitVersionApiUnsupported =
   "reportMicrobitVersionApiUnsupported";
@@ -22,7 +22,7 @@ const severityMapping = {
 export const diagnosticsMapping = (
   document: Text,
   lspDiagnostics: LSP.Diagnostic[],
-  device: DeviceConnection,
+  device: MicrobitWebUSBConnection,
   warnOnV2OnlyFeatures: boolean,
   warnOnV2OnlyFeaturesAction: () => Action
 ): Diagnostic[] =>

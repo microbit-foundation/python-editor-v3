@@ -10,7 +10,7 @@ import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
-import { MicrobitWebUSBConnection } from "@microbit/microbit-connection";
+import { createWebUSBConnection } from "@microbit/microbit-connection";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import DocumentationProvider from "./documentation/documentation-hooks";
@@ -40,7 +40,7 @@ const isMockDeviceMode = () =>
 const logging = deployment.logging;
 const device = isMockDeviceMode()
   ? new MockDeviceConnection()
-  : new MicrobitWebUSBConnection({ logging });
+  : createWebUSBConnection({ logging });
 
 const host = createHost(logging);
 const fs = new FileSystem(logging, host, fetchMicroPython);
