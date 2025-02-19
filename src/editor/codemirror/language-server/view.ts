@@ -17,7 +17,7 @@ import { autocompletion } from "./autocompletion";
 import { BaseLanguageServerView, clientFacet, uriFacet } from "./common";
 import { diagnosticsMapping } from "./diagnostics";
 import { signatureHelp } from "./signatureHelp";
-import { DeviceConnection } from "@microbit/microbit-connection";
+import { MicrobitWebUSBConnection } from "@microbit/microbit-connection";
 
 /**
  * The main extension. This synchronises the diagnostics between the client
@@ -60,7 +60,7 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
 
   constructor(
     view: EditorView,
-    private device: DeviceConnection,
+    private device: MicrobitWebUSBConnection,
     private intl: IntlShape,
     private warnOnV2OnlyFeatures: boolean,
     private disableV2OnlyFeaturesWarning: () => void
@@ -126,7 +126,7 @@ interface Actions {
  */
 export function languageServer(
   client: LanguageServerClient,
-  device: DeviceConnection,
+  device: MicrobitWebUSBConnection,
   uri: string,
   intl: IntlShape,
   logging: Logging,

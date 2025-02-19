@@ -15,13 +15,13 @@ import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import {
   ConnectionStatus,
-  DeviceConnection,
+  MicrobitWebUSBConnection,
   SerialDataEvent,
   ConnectionStatusEvent,
 } from "@microbit/microbit-connection";
 import { SimulatorDeviceConnection } from "./simulator";
 
-const DeviceContext = React.createContext<undefined | DeviceConnection>(
+const DeviceContext = React.createContext<undefined | MicrobitWebUSBConnection>(
   undefined
 );
 
@@ -234,7 +234,7 @@ export const DeviceContextProvider = ({
   value: device,
   children,
 }: {
-  value: DeviceConnection;
+  value: MicrobitWebUSBConnection;
   children: ReactNode;
 }) => {
   const syncStatusState = useState<SyncStatus>(SyncStatus.OUT_OF_SYNC);

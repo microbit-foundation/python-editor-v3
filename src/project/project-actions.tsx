@@ -19,7 +19,7 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
-  DeviceConnection,
+  MicrobitWebUSBConnection,
   AfterRequestDevice,
   FlashDataError,
   DeviceError,
@@ -105,7 +105,7 @@ export enum ConnectionAction {
 export class ProjectActions {
   constructor(
     private fs: FileSystem,
-    private device: DeviceConnection,
+    private device: MicrobitWebUSBConnection,
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
     private setSelection: (selection: WorkbenchSelection) => void,

@@ -6,7 +6,6 @@
 import {
   BoardVersion,
   ConnectionStatus,
-  DeviceConnection,
   DeviceConnectionEventMap,
   FlashDataSource,
   FlashEvent,
@@ -15,6 +14,8 @@ import {
   DeviceError,
   DeviceErrorCode,
   TypedEventTarget,
+  MicrobitWebUSBConnection,
+  SerialConnectionEventMap,
 } from "@microbit/microbit-connection";
 
 /**
@@ -25,8 +26,8 @@ import {
  * the connected state without a real device.
  */
 export class MockDeviceConnection
-  extends TypedEventTarget<DeviceConnectionEventMap>
-  implements DeviceConnection
+  extends TypedEventTarget<DeviceConnectionEventMap & SerialConnectionEventMap>
+  implements MicrobitWebUSBConnection
 {
   status: ConnectionStatus = (navigator as any).usb
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
@@ -51,6 +52,12 @@ export class MockDeviceConnection
   async initialize(): Promise<void> {}
 
   dispose() {}
+  getDeviceId(): number | undefined {
+    return undefined;
+  }
+  setRequestDeviceExclusionFilters(): void {}
+  getDevice() {}
+  async softwareReset(): Promise<void> {}
 
   async connect(): Promise<ConnectionStatus> {
     const next = this.connectResults.shift();
