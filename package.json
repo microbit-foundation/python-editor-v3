@@ -33,7 +33,7 @@
     "@types/react-dom": "^18.3.0",
     "base64-js": "^1.5.1",
     "crelt": "^1.0.5",
-    "dompurify": "^2.3.3",
+    "dompurify": "^3.2.4",
     "file-saver": "^2.0.5",
     "framer-motion": "^10.2.4",
     "lodash.debounce": "^4.0.8",
