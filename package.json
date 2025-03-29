@@ -48,7 +48,7 @@
     "react-hotkeys-hook": "^4.5.0",
     "react-icons": "^4.12.0",
     "react-intl": "^6.6.8",
-    "vite": "^5.1.5",
+    "vite": "^6.2.3",
     "vscode-jsonrpc": "^8.0.0",
     "vscode-languageserver-protocol": "^3.16.0",
     "web-vitals": "^1.1.1",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@chakra-ui/cli": "^2.4.1",
+    "@chakra-ui/cli": "^2.5.8",
     "@formatjs/cli": "^6.2.7",
     "@playwright/test": "^1.42.1",
     "@testing-library/jest-dom": "^5.14.1",
@@ -67,7 +67,7 @@
     "@types/file-saver": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "cross-env": "^7.0.3",
     "ejs": "^3.1.9",
     "eslint": "^8.57.0",
@@ -78,9 +78,9 @@
     "playwright": "^1.42.1",
     "prettier": "2.3.2",
     "typescript": "^5.4.2",
-    "vite-plugin-pwa": "^0.19.8",
-    "vite-plugin-svgr": "^4.2.0",
-    "vitest": "^2.0.0"
+    "vite-plugin-pwa": "^0.21.2",
+    "vite-plugin-svgr": "^4.3.0",
+    "vitest": "^3.0.9"
   },
   "engines": {
     "node": ">=16.0",
