@@ -77,6 +77,17 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
         />
         <Portal>
           <MenuList zIndex={zIndexAboveTerminal}>
+            {deployment.userGuideLink && (
+              <MenuItem
+                as="a"
+                href={deployment.userGuideLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                <FormattedMessage id="user-guide" />
+              </MenuItem>
+            )}
             {deployment.supportLink && (
               <MenuItem
                 as="a"
@@ -86,6 +97,17 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 icon={<RiExternalLinkLine />}
               >
                 <FormattedMessage id="help-support" />
+              </MenuItem>
+            )}
+            {deployment.accessibilityLink && (
+              <MenuItem
+                as="a"
+                href={deployment.accessibilityLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                <FormattedMessage id="accessibility" />
               </MenuItem>
             )}
             <MenuItem

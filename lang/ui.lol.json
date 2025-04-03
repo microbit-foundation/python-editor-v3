@@ -23,6 +23,10 @@
     "defaultMessage": "crwdns331366:0crwdne331366:0",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
+  "accessibility": {
+    "defaultMessage": "Accessibility",
+    "description": "Menu item for link to accessibility site"
+  },
   "added-change": {
     "defaultMessage": "crwdns331368:0{changeName}crwdne331368:0",
     "description": "Change made to file"
@@ -1121,6 +1125,10 @@
   "updated-change": {
     "defaultMessage": "crwdns331782:0{changeName}crwdne331782:0",
     "description": "Change made to file"
+  },
+  "user-guide": {
+    "defaultMessage": "User guide",
+    "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {
     "defaultMessage": "crwdns331784:0crwdne331784:0",

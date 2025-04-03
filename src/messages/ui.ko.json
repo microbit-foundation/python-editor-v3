@@ -59,6 +59,12 @@
       "value": "MicroPython 세부 정보 표시하기"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Accessibility"
+    }
+  ],
   "added-change": [
     {
       "type": 1,
@@ -2425,6 +2431,12 @@
     {
       "type": 0,
       "value": " 파일 업데이트됨"
+    }
+  ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "User guide"
     }
   ],
   "visit-dot-org": [
