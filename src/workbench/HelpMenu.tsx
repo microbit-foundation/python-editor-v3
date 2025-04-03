@@ -88,6 +88,28 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
                 <FormattedMessage id="help-support" />
               </MenuItem>
             )}
+            {(true || deployment.userGuideLink) && (
+              <MenuItem
+                as="a"
+                href={deployment.userGuideLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                <FormattedMessage id="user-guide" />
+              </MenuItem>
+            )}
+            {(true || deployment.accessibilityLink) && (
+              <MenuItem
+                as="a"
+                href={deployment.accessibilityLink}
+                target="_blank"
+                rel="noopener"
+                icon={<RiExternalLinkLine />}
+              >
+                <FormattedMessage id="accessibility" />
+              </MenuItem>
+            )}
             <MenuItem
               as="a"
               href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
