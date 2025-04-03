@@ -59,6 +59,12 @@
       "value": "阅读更多有关 MicroPython 的信息"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Accessibility"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -2438,6 +2444,12 @@
     {
       "type": 1,
       "value": "changeName"
+    }
+  ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "User guide"
     }
   ],
   "visit-dot-org": [

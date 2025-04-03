@@ -59,6 +59,12 @@
       "value": "En savoir plus sur MicroPython"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Accessibility"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -2429,6 +2435,12 @@
     {
       "type": 0,
       "value": " a été mis à jour"
+    }
+  ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "User guide"
     }
   ],
   "visit-dot-org": [

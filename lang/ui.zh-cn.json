@@ -23,6 +23,10 @@
     "defaultMessage": "阅读更多有关 MicroPython 的信息",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
+  "accessibility": {
+    "defaultMessage": "Accessibility",
+    "description": "Menu item for link to accessibility site"
+  },
   "added-change": {
     "defaultMessage": "已添加文件 {changeName}",
     "description": "Change made to file"
@@ -1121,6 +1125,10 @@
   "updated-change": {
     "defaultMessage": "已更新文件 {changeName}",
     "description": "Change made to file"
+  },
+  "user-guide": {
+    "defaultMessage": "User guide",
+    "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {
     "defaultMessage": "访问 microbit.org (在新标签页中打开)",

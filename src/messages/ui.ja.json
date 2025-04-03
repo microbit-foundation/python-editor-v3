@@ -59,6 +59,12 @@
       "value": "MicroPythonについてもっと読む"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Accessibility"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -2431,6 +2437,12 @@
     {
       "type": 0,
       "value": " を更新しました"
+    }
+  ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "User guide"
     }
   ],
   "visit-dot-org": [
