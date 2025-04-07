@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "Toegankelijkheid"
     }
   ],
   "added-change": [
@@ -452,7 +452,7 @@
   "copy-snippet-advice": [
     {
       "type": 0,
-      "value": "Code copied, use paste to insert it."
+      "value": "Code gekopieerd, gebruik plakken om deze in te voegen."
     }
   ],
   "create-action": [
@@ -722,7 +722,7 @@
   "help-translate": [
     {
       "type": 0,
-      "value": "Hulp met vertalen"
+      "value": "Help met vertalen"
     }
   ],
   "highlight-code-structure": [
@@ -2483,7 +2483,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "Gebruikershandleiding"
     }
   ],
   "visit-dot-org": [

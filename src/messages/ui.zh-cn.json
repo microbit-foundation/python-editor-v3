@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "辅助功能"
     }
   ],
   "added-change": [
@@ -440,7 +440,7 @@
   "copy-snippet-advice": [
     {
       "type": 0,
-      "value": "Code copied, use paste to insert it."
+      "value": "已复制代码，使用粘贴将其插入。"
     }
   ],
   "create-action": [
@@ -2449,7 +2449,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "用户指南"
     }
   ],
   "visit-dot-org": [

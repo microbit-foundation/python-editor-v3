@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "Accesibilidad"
     }
   ],
   "added-change": [
@@ -444,7 +444,7 @@
   "copy-snippet-advice": [
     {
       "type": 0,
-      "value": "Code copied, use paste to insert it."
+      "value": "Código copiado, usa pegar para insertarlo."
     }
   ],
   "create-action": [
@@ -2440,7 +2440,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "Guía del usuario"
     }
   ],
   "visit-dot-org": [

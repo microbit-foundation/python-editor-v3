@@ -24,7 +24,7 @@
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accessibility",
+    "defaultMessage": "Accessibilité",
     "description": "Menu item for link to accessibility site"
   },
   "added-change": {
@@ -216,7 +216,7 @@
     "description": "Copy code to clipboard action text"
   },
   "copy-snippet-advice": {
-    "defaultMessage": "Code copied, use paste to insert it.",
+    "defaultMessage": "Code copié, utilisez coller pour l'insertion.",
     "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
@@ -1127,7 +1127,7 @@
     "description": "Change made to file"
   },
   "user-guide": {
-    "defaultMessage": "User guide",
+    "defaultMessage": "Guide de l'utilisateur",
     "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {
@@ -1155,7 +1155,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "<p>Veuillez suivre les étapes suivantes, puis réessayez : </p><ul><li>débranchez le câble USB</li><li>débranchez le bloc-batterie s'il y en a un</li><li>reconnectez le câble USB</li><li>reconnectez le bloc-batterie s'il y en a un</li></ul>",
+    "defaultMessage": "<p>Veuillez suivre les étapes suivantes, puis réessayez : </p><ul><li>débranchez le câble USB</li><li>débranchez le coupleur de piles s'il y en a un</li><li>reconnectez le câble USB</li><li>reconnectez le coupleur de piles s'il y en a un</li></ul>",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {

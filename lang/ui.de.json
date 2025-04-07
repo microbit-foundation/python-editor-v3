@@ -24,7 +24,7 @@
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accessibility",
+    "defaultMessage": "Barrierefreiheit",
     "description": "Menu item for link to accessibility site"
   },
   "added-change": {
@@ -216,7 +216,7 @@
     "description": "Copy code to clipboard action text"
   },
   "copy-snippet-advice": {
-    "defaultMessage": "Code copied, use paste to insert it.",
+    "defaultMessage": "Code kopiert. Füge ihn ein, um ihn zu verwenden.",
     "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
@@ -647,7 +647,7 @@
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit.",
+    "defaultMessage": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit",
     "description": "Reset action hover text"
   },
   "results-count": {
@@ -1127,7 +1127,7 @@
     "description": "Change made to file"
   },
   "user-guide": {
-    "defaultMessage": "User guide",
+    "defaultMessage": "Benutzerhandbuch",
     "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {

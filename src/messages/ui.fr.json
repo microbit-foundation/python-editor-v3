@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "Accessibilité"
     }
   ],
   "added-change": [
@@ -440,7 +440,7 @@
   "copy-snippet-advice": [
     {
       "type": 0,
-      "value": "Code copied, use paste to insert it."
+      "value": "Code copié, utilisez coller pour l'insertion."
     }
   ],
   "create-action": [
@@ -2440,7 +2440,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "Guide de l'utilisateur"
     }
   ],
   "visit-dot-org": [
@@ -2506,7 +2506,7 @@
           "children": [
             {
               "type": 0,
-              "value": "débranchez le bloc-batterie s'il y en a un"
+              "value": "débranchez le coupleur de piles s'il y en a un"
             }
           ],
           "type": 8,
@@ -2526,7 +2526,7 @@
           "children": [
             {
               "type": 0,
-              "value": "reconnectez le bloc-batterie s'il y en a un"
+              "value": "reconnectez le coupleur de piles s'il y en a un"
             }
           ],
           "type": 8,

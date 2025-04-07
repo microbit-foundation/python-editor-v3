@@ -58,7 +58,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "無障礙設定"
     }
   ],
   "added-change": [
@@ -2448,7 +2448,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "用戶指南 "
     }
   ],
   "visit-dot-org": [

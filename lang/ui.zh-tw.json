@@ -24,7 +24,7 @@
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accessibility",
+    "defaultMessage": "無障礙設定",
     "description": "Menu item for link to accessibility site"
   },
   "added-change": {
@@ -1127,7 +1127,7 @@
     "description": "Change made to file"
   },
   "user-guide": {
-    "defaultMessage": "User guide",
+    "defaultMessage": "用戶指南 ",
     "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {
