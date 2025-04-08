@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@chakra-ui/cli": "^2.4.1",
+    "@chakra-ui/cli": "2.4.1",
     "@formatjs/cli": "^6.2.7",
     "@playwright/test": "^1.42.1",
     "@testing-library/jest-dom": "^5.14.1",
