@@ -24,7 +24,7 @@
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accessibility",
+    "defaultMessage": "Accesibilidad",
     "description": "Menu item for link to accessibility site"
   },
   "added-change": {
@@ -216,7 +216,7 @@
     "description": "Copy code to clipboard action text"
   },
   "copy-snippet-advice": {
-    "defaultMessage": "Code copied, use paste to insert it.",
+    "defaultMessage": "Código copiado, usa pegar para insertarlo.",
     "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
@@ -1127,7 +1127,7 @@
     "description": "Change made to file"
   },
   "user-guide": {
-    "defaultMessage": "User guide",
+    "defaultMessage": "Guía del usuario",
     "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {

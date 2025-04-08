@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "Barrierefreiheit"
     }
   ],
   "added-change": [
@@ -480,7 +480,7 @@
   "copy-snippet-advice": [
     {
       "type": 0,
-      "value": "Code copied, use paste to insert it."
+      "value": "Code kopiert. Füge ihn ein, um ihn zu verwenden."
     }
   ],
   "create-action": [
@@ -1480,7 +1480,7 @@
   "reset-project-hover": [
     {
       "type": 0,
-      "value": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit."
+      "value": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit"
     }
   ],
   "results-count": [
@@ -2496,7 +2496,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "Benutzerhandbuch"
     }
   ],
   "visit-dot-org": [

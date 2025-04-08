@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "アクセシビリティ"
     }
   ],
   "added-change": [
@@ -464,7 +464,7 @@
   "copy-snippet-advice": [
     {
       "type": 0,
-      "value": "Code copied, use paste to insert it."
+      "value": "プログラムをコピーし、貼り付けて挿入します。"
     }
   ],
   "create-action": [
@@ -2442,7 +2442,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "ユーザーガイド"
     }
   ],
   "visit-dot-org": [

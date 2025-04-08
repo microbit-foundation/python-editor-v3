@@ -24,7 +24,7 @@
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accessibility",
+    "defaultMessage": "접근성",
     "description": "Menu item for link to accessibility site"
   },
   "added-change": {
@@ -220,7 +220,7 @@
     "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
-    "defaultMessage": "Create",
+    "defaultMessage": "생성",
     "description": "Create action label (e.g. in create file dialog)"
   },
   "create-file-action": {
@@ -491,7 +491,7 @@
     "description": "Hint shown in the new Python file dialog"
   },
   "next-action": {
-    "defaultMessage": "Next",
+    "defaultMessage": "다음",
     "description": "Next button text"
   },
   "not-found-checklist-one": {
@@ -1127,7 +1127,7 @@
     "description": "Change made to file"
   },
   "user-guide": {
-    "defaultMessage": "User guide",
+    "defaultMessage": "사용자 가이드",
     "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {

@@ -62,7 +62,7 @@
   "accessibility": [
     {
       "type": 0,
-      "value": "Accessibility"
+      "value": "접근성"
     }
   ],
   "added-change": [
@@ -454,7 +454,7 @@
   "create-action": [
     {
       "type": 0,
-      "value": "Create"
+      "value": "생성"
     }
   ],
   "create-file-action": [
@@ -1080,7 +1080,7 @@
   "next-action": [
     {
       "type": 0,
-      "value": "Next"
+      "value": "다음"
     }
   ],
   "not-found-checklist-one": [
@@ -2436,7 +2436,7 @@
   "user-guide": [
     {
       "type": 0,
-      "value": "User guide"
+      "value": "사용자 가이드"
     }
   ],
   "visit-dot-org": [
