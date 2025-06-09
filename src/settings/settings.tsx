@@ -63,6 +63,12 @@ const allLanguages: Language[] = [
     preview: true,
   },
   {
+    id: "ga-ie",
+    name: "Gaeilge",
+    enName: "Irish",
+    preview: true,
+  },
+  {
     id: "ja",
     name: "日本語",
     enName: "Japanese",
