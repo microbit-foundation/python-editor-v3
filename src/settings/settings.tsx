@@ -82,7 +82,6 @@ const allLanguages: Language[] = [
     id: "pl",
     name: "Polski",
     enName: "Polish",
-    preview: true,
   },
   {
     id: "es-es",
