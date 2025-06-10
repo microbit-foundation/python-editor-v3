@@ -1,38 +1,38 @@
 {
   "about": {
-    "defaultMessage": "Acerca de nosotros",
+    "defaultMessage": "Maidir",
     "description": "About action"
   },
   "about-comic": {
-    "defaultMessage": "Tira cómica de tres viñetas titulada \"MicroPython es genial\" por Mike Rowbit. Una serpiente dibujada presenta a Damien diciendo \"Este es Damien... ha creado MicroPython\". Dos serpientes hablan sobre MicroPython: la serpiente amarilla dice \"MicroPython está diseñado para ordenadores muy pequeños\". \"Como el BBC micro:bit\", responde la serpiente morada. Continúa la serpiente amarilla: \"Pero Python se puede ejecutar en cualquier sitio\". La serpiente morada asiente diciendo \"Como en este 'rack' de servidores que ejecutan enormes paginas web\". Detrás de las serpientes se muestra un \"rack\" de servidores.",
+    "defaultMessage": "Trí greannán painéil dar teideal \"MicroPython Rocks\" le Mike Rowbit. Cuireann nathair chartúin Damien in aithne, ag rá \"Buail le Damien... Chruthaigh sé MicroPython\". Pléann dhá nathracha MicroPython. Deir an nathair bhuí \"Tá MicroPython deartha chun oibriú ar ríomhairí an-bheag.\" \"Cosúil le do micro:bit BBC:bit\" a fhreagraíonn an nathair chorcra.\" Leanann an nathair bhuí ar aghaidh \"Ach is féidir le Python rith áit ar bith\". Aontaíonn an nathair corcra, ag rá \"Cosúil leis an raca freastalaithe seo a ritheann láithreáin ghréasáin ollmhóra\". Taispeánann an cúlra taobh thiar de na nathracha raca freastalaí.",
     "description": "Alt text for comic in the about dialog"
   },
   "about-microbit": {
-    "defaultMessage": "Hecho con amor por la <link>Micro:bit Educational Foundation y colaboradores</link>",
+    "defaultMessage": "Déanta le grá ag an <link>Micro:bit Educational Foundation agus rannpháirtithe</link>",
     "description": "Text in about dialog"
   },
   "about-micropython": {
-    "defaultMessage": "El editor depende de <link>MicroPython</link>, hecho por Damien George y una comunidad de desarrolladores de todo el mundo.",
+    "defaultMessage": "Braitheann an t-eagarthóir ar <link>MicroPython</link> atá déanta ag Damien George agus pobal forbróirí ar fud an domhain.",
     "description": "Text in about dialog"
   },
   "about-read-less-micropython": {
-    "defaultMessage": "Leer menos sobre MicroPython",
+    "defaultMessage": "Léigh níos lú faoi MicroPython",
     "description": "Aria label to collapse an expanded section about MicroPython"
   },
   "about-read-more-micropython": {
-    "defaultMessage": "Leer más sobre MicroPython",
+    "defaultMessage": "Léigh níos mó faoi MicroPython",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accesibilidad",
+    "defaultMessage": "Inrochtaineacht",
     "description": "Menu item for link to accessibility site"
   },
   "added-change": {
-    "defaultMessage": "Archivo {changeName} añadido",
+    "defaultMessage": "Cuireadh comhad leis {changeName}",
     "description": "Change made to file"
   },
   "api-description": {
-    "defaultMessage": "Para uso y ejemplos, consulta <link>Referencia</link>",
+    "defaultMessage": "Le haghaidh úsáide agus samplaí, féach <link>Tagairt</link>",
     "description": "Extended description at the top of the API tab"
   },
   "api-tab": {
@@ -40,574 +40,574 @@
     "description": "API tab button text"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, one {clase base} other {clases base: }}",
+    "defaultMessage": "{baseClassCount, plural, one {rang bunúsach} two {ranga bunúsacha: } few {ranga bunúsacha: } many {ranga bunúsacha: } other {ranga bunúsacha: }}\n",
     "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "apidocs-classes": {
-    "defaultMessage": "Clases",
+    "defaultMessage": "Ranganna",
     "description": "Heading in API documentation for the classes in a Python module"
   },
   "apidocs-fields": {
-    "defaultMessage": "Campos",
+    "defaultMessage": "Réimsí",
     "description": "Heading in API documentation for the fields in a Python module"
   },
   "apidocs-functions": {
-    "defaultMessage": "Funciones",
+    "defaultMessage": "Feidhmeanna",
     "description": "Heading in API documentation for the functions in a Python module"
   },
   "apidocs-methods": {
-    "defaultMessage": "Métodos",
+    "defaultMessage": "Modhanna",
     "description": "Heading in API documentation for the methods in a Python class"
   },
   "back-action": {
-    "defaultMessage": "Volver",
+    "defaultMessage": "Ar ais",
     "description": "Back button text"
   },
   "back-to-main": {
-    "defaultMessage": "volver al código principal",
+    "defaultMessage": "ar ais go dtí an príomhchód",
     "description": "Text button, takes back to main code"
   },
   "cancel-action": {
-    "defaultMessage": "Cancelar",
+    "defaultMessage": "Cealaigh",
     "description": "Cancel button text"
   },
   "change-files": {
-    "defaultMessage": "¿Cambiar archivos?",
+    "defaultMessage": "Athraigh comhaid?",
     "description": "Header for dialog of confirmation of files changed"
   },
   "choose-main-add-file": {
-    "defaultMessage": "Añadir archivo {name}",
+    "defaultMessage": "Cuir comhad {name} leis",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-add-module": {
-    "defaultMessage": "Añadir módulo {name}",
+    "defaultMessage": "Cuir modúl {name} leis",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-replace-file": {
-    "defaultMessage": "Sustituir archivo {name}",
+    "defaultMessage": "Ionadaigh comhad {name}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-replace-module": {
-    "defaultMessage": "Sustituir módulo {name}",
+    "defaultMessage": "Ionadaigh modúl {name}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "Añadir archivo {target} de {source}",
+    "defaultMessage": "Cuir comhad {target} ó {source}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-add-main-code": {
-    "defaultMessage": "Añadir código principal de {source}",
+    "defaultMessage": "Cuir príomhchód ó {source} leis",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-file": {
-    "defaultMessage": "Sustituir archivo {target} por {source}",
+    "defaultMessage": "Ionadaigh comhad {target} le {source}",
     "description": "Shown in load dialog to confirm actions"
   },
   "choose-main-source-replace-main-code": {
-    "defaultMessage": "Sustituir código principal por {source}",
+    "defaultMessage": "Cuir {source} in ionad an phríomhchóid",
     "description": "Shown in load dialog to confirm actions"
   },
   "clear": {
-    "defaultMessage": "Borrar",
+    "defaultMessage": "Glan",
     "description": "Aria label for the search input"
   },
   "close-action": {
-    "defaultMessage": "Cerrar",
+    "defaultMessage": "Dún",
     "description": "Close button text"
   },
   "code-editor": {
-    "defaultMessage": "Editor de código",
+    "defaultMessage": "Eagarthóir cóid",
     "description": "Aria label for the code editor"
   },
   "code-example": {
-    "defaultMessage": "Ejemplo de código:",
+    "defaultMessage": "Sampla cóid:",
     "description": "Visually hidden text to announce code examples in the toolkit documentation"
   },
   "confirm-action": {
-    "defaultMessage": "Confirmar",
+    "defaultMessage": "Deimhnigh",
     "description": "Confirm action label"
   },
   "confirm-delete": {
-    "defaultMessage": "Confirmar eliminación",
+    "defaultMessage": "Deimhnigh scrios",
     "description": "Confirmation header of deletion of a file"
   },
   "confirm-replace-body": {
-    "defaultMessage": "¿Sustituir todos los archivos por los del HEX?",
+    "defaultMessage": "Cuir iad siúd sa heics in ionad gach comhad?",
     "description": "Confirmation message body for replacing project dialog"
   },
   "confirm-replace-reset": {
-    "defaultMessage": "¿Sustituir todos los archivos por el código de inicio predeterminado?",
+    "defaultMessage": "Cuir an cód tosaithe réamhshocraithe in ionad gach comhaid?",
     "description": "Confirmation message for the reset action"
   },
   "confirm-replace-title": {
-    "defaultMessage": "¿Sustituir proyecto?",
+    "defaultMessage": "Deimhnigh ionadaigh an tionscadal",
     "description": "Confirmation message title for replacing project dialog"
   },
   "confirm-replace-with-idea": {
-    "defaultMessage": "¿Sustituir todos los archivos por {ideaName}?",
+    "defaultMessage": "Cuir {ideaName} in ionad gach comhaid?",
     "description": "Confirmation message body for replacing project dialog with an idea"
   },
   "confirm-save-action": {
-    "defaultMessage": "Confirmar y guardar",
+    "defaultMessage": "Deimhnigh agus sábháil",
     "description": "Confirm and save action label"
   },
   "confirm-save-hint": {
-    "defaultMessage": "Cancela y utiliza Guardar para conservar una copia de tu proyecto.",
+    "defaultMessage": "Cealaigh ansin úsáid Sábháil chun cóip de do thionscadal a choinneáil.",
     "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
   },
   "connect-action": {
-    "defaultMessage": "Conectar",
+    "defaultMessage": "Ceangail",
     "description": "Connect button text"
   },
   "connect-cable-title": {
-    "defaultMessage": "Conectar cable",
+    "defaultMessage": "Ceangail cábla",
     "description": "Title for the connect cable dialog"
   },
   "connect-help-alt": {
-    "defaultMessage": "Diálogo de conexión WebUSB con entrada BBC micro:bit con la etiqueta 1 y botón Conectar con la etiqueta 2",
+    "defaultMessage": "Dialóg nasc WebUSB le micro:bit BBC: iontráil giotán lipéadaithe 1 agus Ceangail cnaipe lipéadaithe 2",
     "description": "Alt text for image in connect help dialog"
   },
   "connect-help-message": {
-    "defaultMessage": "Siguiente ventana emergente:",
+    "defaultMessage": "Sa chéad phreabfhuinneog eile:",
     "description": "Text in the connect help dialog"
   },
   "connect-help-one": {
-    "defaultMessage": "Elige tu micro:bit",
+    "defaultMessage": "Roghnaigh do micro:bit",
     "description": "Legend text for the connect help dialog image"
   },
   "connect-help-title": {
-    "defaultMessage": "Selecciona micro:bit",
+    "defaultMessage": "Roghnaigh micro:bit",
     "description": "Title for the connect help dialog"
   },
   "connect-help-two": {
-    "defaultMessage": "Selecciona ‘Conectar’",
+    "defaultMessage": "Roghnaigh 'Ceangail'",
     "description": "Legend text for the connect help dialog image"
   },
   "connect-hover": {
-    "defaultMessage": "Conectar al micro:bit a través de WebUSB",
+    "defaultMessage": "Ceangail le do micro:bit thar WebUSB",
     "description": "Connect button hover text"
   },
   "connect-microbit": {
-    "defaultMessage": "Conéctate al micro:bit para ver la salida serie aquí",
+    "defaultMessage": "Ceangail le do micro:bit chun aschur sraitheach a fheiceáil anseo",
     "description": "Text in serial area"
   },
   "connect-troubleshoot": {
-    "defaultMessage": "Solucionar problemas de conexión al micro:bit",
+    "defaultMessage": "Fabhtcheartaigh fadhbanna le nascadh le do micro:bit",
     "description": "Text in no the micro:bit found and firmware update dialogs"
   },
   "content-load-error": {
-    "defaultMessage": "Algo salió mal. Por seguridad, descarga tu archivo HEX y actualiza la página para recargar.",
+    "defaultMessage": "Chuaigh rud éigin mícheart. Íoslódáil do chomhad heicsidheachúlach chun é a choinneáil slán, ansin athnuaigh an leathanach chun é a athlódáil.",
     "description": "Text displayed when content fails to load"
   },
   "cookies-action": {
-    "defaultMessage": "Cookies",
+    "defaultMessage": "Fianáin",
     "description": "Action to show dialog to choose website cookie preferences"
   },
   "copied": {
-    "defaultMessage": "Copiado",
+    "defaultMessage": "Cóipeáilte",
     "description": "Text shown after copy to clipboard"
   },
   "copy-action": {
-    "defaultMessage": "Copiar",
+    "defaultMessage": "Cóipeáil",
     "description": "Copy to clipboard action text"
   },
   "copy-code-action": {
-    "defaultMessage": "Copiar código",
+    "defaultMessage": "Cóipeáil cód",
     "description": "Copy code to clipboard action text"
   },
   "copy-snippet-advice": {
-    "defaultMessage": "Código copiado, usa pegar para insertarlo.",
+    "defaultMessage": "Cóipeáladh an cód, bain úsáid as greamaigh chun é a chur isteach.",
     "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
-    "defaultMessage": "Crea",
+    "defaultMessage": "Cruthaigh",
     "description": "Create action label (e.g. in create file dialog)"
   },
   "create-file-action": {
-    "defaultMessage": "Crear archivo",
+    "defaultMessage": "Cruthaigh comhad",
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
   "create-python": {
-    "defaultMessage": "Crear un nuevo archivo Python en este proyecto",
+    "defaultMessage": "Cruthaigh comhad nua Python sa tionscadal seo",
     "description": "Hover and dialog title when creating a new Python file"
   },
   "created-file": {
-    "defaultMessage": "{filename} creado",
+    "defaultMessage": "Cruthaithe {filename}",
     "description": "Action feedback for creating a file"
   },
   "delete-action": {
-    "defaultMessage": "Eliminar",
+    "defaultMessage": "Scrios",
     "description": "Button text for delete action"
   },
   "delete-file-action": {
-    "defaultMessage": "Eliminar {name}",
+    "defaultMessage": "Scrios {name}",
     "description": "Menu option to delete file"
   },
   "deleted-file": {
-    "defaultMessage": "{filename} eliminado",
+    "defaultMessage": "Scriosta {filename}",
     "description": "Confirmation message that file got deleted"
   },
   "disconnect-action": {
-    "defaultMessage": "Desconectar",
+    "defaultMessage": "Dícheangail",
     "description": "Disconnect button text"
   },
   "disconnect-hover": {
-    "defaultMessage": "Desconectarse del micro:bit",
+    "defaultMessage": "Dícheangail ón micro:bit",
     "description": "Disconnect button hover text"
   },
   "dont-show-again": {
-    "defaultMessage": "No volver a mostrar",
+    "defaultMessage": "Ná taispeáin é seo arís",
     "description": "Text to never show a dialog again"
   },
   "drag-hover": {
-    "defaultMessage": "Arrastra y suelta",
+    "defaultMessage": "Tarraing agus scaoil",
     "description": "Draggable code hover text"
   },
   "edit-file-action": {
-    "defaultMessage": "Editar {name}",
+    "defaultMessage": "Cuir {name} in eagar",
     "description": "Menu option to edit file"
   },
   "edit-name-project-hover": {
-    "defaultMessage": "Edita el nombre del proyecto",
+    "defaultMessage": "Cuir ainm do thionscadail in eagar",
     "description": "Text for user to edit the name of the project"
   },
   "edit-project-name-action": {
-    "defaultMessage": "Editar nombre del proyecto",
+    "defaultMessage": "Cuir ainm an tionscadail in eagar",
     "description": "Text for user to edit the name of the project"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "No se ha podido generar el archivo HEX",
+    "defaultMessage": "Theip ar an gcomhad heicsidheachúlach a thógáil",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
   },
   "feedback": {
-    "defaultMessage": "Comentarios",
+    "defaultMessage": "Aiseolas",
     "description": "Feedback action"
   },
   "file-actions": {
-    "defaultMessage": "Acciones de archivo {name}",
+    "defaultMessage": "{name} gníomhartha comhaid",
     "description": "Header of file actions for file"
   },
   "file-already-exists": {
-    "defaultMessage": "El archivo ya existe",
+    "defaultMessage": "Tá an comhad seo ann cheana",
     "description": "File already exists notification text"
   },
   "file-name-invalid-character": {
-    "defaultMessage": "El nombre contiene un carácter no válido: {invalid}",
+    "defaultMessage": "Tá carachtar neamhbhailí san ainm: {invalid}",
     "description": "Warning text for new Python file name with an invalid character"
   },
   "file-name-length": {
-    "defaultMessage": "El nombre es demasiado largo",
+    "defaultMessage": "Tá an t-ainm rófhada",
     "description": "Warning text for overly long file names (file system limitation)"
   },
   "file-name-lowercase-only": {
-    "defaultMessage": "El nombre debe estar en minúsculas",
+    "defaultMessage": "Ba chóir go mbeadh an t-ainm go léir cás íochtair",
     "description": "Warning text for new Python file with uppercase"
   },
   "file-name-not-empty": {
-    "defaultMessage": "El nombre no puede estar en blanco",
+    "defaultMessage": "Ní féidir an t-ainm a bheith folamh",
     "description": "Warning text for new Python file with empty name"
   },
   "file-name-start-number": {
-    "defaultMessage": "El nombre no puede empezar por un número",
+    "defaultMessage": "Ní féidir leis an ainm tosú le huimhir",
     "description": "Warning text for new Python file names starting with a number"
   },
   "file-name-whitespace": {
-    "defaultMessage": "El nombre no puede incluir espacios",
+    "defaultMessage": "Ní féidir spásanna a bheith san ainm",
     "description": "Warning text for new Python file name with whitespace"
   },
   "firmware-update-link": {
-    "defaultMessage": "Debes <link>actualizar el firmware</link> para poder conectar a este micro:bit.",
+    "defaultMessage": "Ní mór duit <link>do dochtearraí a nuashonrú</link> sular féidir leat ceangal leis an micro:bit seo.",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-message": {
-    "defaultMessage": "La conexión al micro:bit ha fallado porque el firmware del micro:bit es demasiado antiguo.",
+    "defaultMessage": "Theip ar nascadh leis an micro:bit toisc go bhfuil an dochtearraí ar do micro:bit ró-shean.",
     "description": "Text in the firmware update dialog"
   },
   "firmware-update-title": {
-    "defaultMessage": "Es necesario actualizar el firmware",
+    "defaultMessage": "Nuashonrú dochtearraí ag teastáil",
     "description": "Title for the firmware update dialog"
   },
   "flash-action": {
-    "defaultMessage": "Flashear",
+    "defaultMessage": "Splanc",
     "description": "Text for flash button"
   },
   "flash-hover": {
-    "defaultMessage": "Flash el proyecto directamente al micro:bit",
+    "defaultMessage": "Splanc an tionscadal díreach chuig an micro:bit",
     "description": "Hover text over flash button"
   },
   "flashing-code": {
-    "defaultMessage": "Enviando código (flasheando)",
+    "defaultMessage": "Cód á sheoladh (ag splancadh)",
     "description": "Progress dialog text for partial flashes (quick)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "El código se está enviando (flasheando) al micro:bit. Esto puede llevar un tiempo la primera vez, pero después será más rápido.",
+    "defaultMessage": "Tá do chód á sheoladh (á splancadh) chuig do micro:bit. Féadfaidh sé seo tamall a thógáil an chéad uair ach beidh sé níos tapúla ina dhiaidh sin.",
     "description": "Message shown after the title in the progress dialog for a full flash"
   },
   "flashing-micropython": {
-    "defaultMessage": "Flashear MicroPython",
+    "defaultMessage": "MicroPython a splancadh",
     "description": "Progress dialog text for full flashes (slower)"
   },
   "font-size": {
-    "defaultMessage": "Tamaño de fuente",
+    "defaultMessage": "Méid an chló",
     "description": "Font size option text"
   },
   "guide-link": {
-    "defaultMessage": "Para obtener más ayuda, consulta la <link>guía del Editor de Python</link>",
+    "defaultMessage": "Le haghaidh tuilleadh tacaíochta, féach an <link>treoir Eagarthóir Python</link>",
     "description": "Text with an external link to support/help content"
   },
   "help": {
-    "defaultMessage": "Ayuda",
+    "defaultMessage": "Cabhair",
     "description": "Help menu label"
   },
   "help-support": {
-    "defaultMessage": "Ayuda y asistencia",
+    "defaultMessage": "Cabhair & tacaíocht",
     "description": "Menu item for link to support site"
   },
   "help-translate": {
-    "defaultMessage": "Ayudar a traducir",
+    "defaultMessage": "Cabhair a aistriú",
     "description": "Help translate  menu option text"
   },
   "highlight-code-structure": {
-    "defaultMessage": "Resaltar la estructura del código",
+    "defaultMessage": "Aibhsigh struchtúr an chóid",
     "description": "Code structure setting label"
   },
   "highlight-code-structure-full": {
-    "defaultMessage": "Completo",
+    "defaultMessage": "Iomlán",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-none": {
-    "defaultMessage": "Nada",
+    "defaultMessage": "Dada",
     "description": "Highlight code structure option"
   },
   "highlight-code-structure-simple": {
-    "defaultMessage": "Simple",
+    "defaultMessage": "Simplí",
     "description": "Highlight code structure option"
   },
   "ideas-tab": {
-    "defaultMessage": "Ideas",
+    "defaultMessage": "Smaointe",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
   },
   "ideas-tab-description": {
-    "defaultMessage": "Prueba estos proyectos y modifícalos para inspirarte",
+    "defaultMessage": "Bain triail as na tionscadail seo, athraigh iad agus spreag iad",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
-    "defaultMessage": "Insertar código"
+    "defaultMessage": "Ionsáigh cód"
   },
   "language": {
-    "defaultMessage": "Idioma",
+    "defaultMessage": "Teanga",
     "description": "Language option text"
   },
   "less-action": {
-    "defaultMessage": "menos",
+    "defaultMessage": "Níos lú",
     "description": "Less button text (showing less content)"
   },
   "load-error-makecode-info": {
-    "defaultMessage": "Este archivo HEX no se puede cargar en el Editor de Python. El Editor de Python no puede abrir archivos hexadecimales creados con Microsoft MakeCode.",
+    "defaultMessage": "Ní féidir an comhad heicsidheachúlach seo a luchtú in Eagarthóir Python. Ní féidir leis an Eagarthóir Python comhaid heicsidheachúlacha a cruthaíodh le Microsoft MakeCode a oscailt.",
     "description": "Load error message"
   },
   "load-error-makecode-link": {
-    "defaultMessage": "Visita <link>https://makecode.microbit.org/</link> para usar este archivo HEX.",
+    "defaultMessage": "Tabhair cuairt ar <link>https://makecode.microbit.org/</link> chun an comhad heicsidheachúlach seo a úsáid.",
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "Un archivo HEX únicamente puede cargarse solo. Sustituirá a todos los archivos del proyecto.",
+    "defaultMessage": "Ní féidir comhad heicsidheachúlach a luchtú as a stuaim féin. Tagann sé in ionad gach comhad sa tionscadal.",
     "description": "Load error message"
   },
   "load-error-mpy": {
-    "defaultMessage": "Esta versión del Editor de Python no permite actualmente añadir archivos .mpy.",
+    "defaultMessage": "Ní thacaíonn an leagan seo den Eagarthóir Python le comhaid .mpy a chur leis faoi láthair.",
     "description": "Load error message"
   },
   "load-error-title": {
-    "defaultMessage": "Error al cargar {fileCount, plural, one {archivo} other {archivos}}",
+    "defaultMessage": "Ní féidir {fileCount, plural, one {comhad} two {comhaid} few {comhaid} many {comhaid} other {comhaid}} a lódáil\n",
     "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "loaded-file-feedback": {
-    "defaultMessage": "{filename} cargado",
+    "defaultMessage": "Luchtaithe {filename}",
     "description": "Success feedback for loading file"
   },
   "loading": {
-    "defaultMessage": "Cargando…",
+    "defaultMessage": "Ag lódáil…",
     "description": "Shown on loading indicators"
   },
   "microbit-hearts-alt": {
-    "defaultMessage": "Placa micro:bit con la cuadrícula LED de 5 por 5 que muestra un corazón",
+    "defaultMessage": "micro:bit leis an eangach 5 faoi 5 LED ag taispeáint croí",
     "description": "Alt text for micro:bit image in About dialog"
   },
   "micropython-documentation": {
-    "defaultMessage": "Documentación de MicroPython",
+    "defaultMessage": "Doiciméadú MicroPython",
     "description": "MicroPython documentation menu option text"
   },
   "micropython-history": {
-    "defaultMessage": "Descubre cómo llegó MicroPython al micro:bit",
+    "defaultMessage": "Foghlaim conas a tháinig MicroPython ar an micro:bit",
     "description": "Links to MicroPython history in the about dialog"
   },
   "micropython-source-code": {
-    "defaultMessage": "<linkV1>Código fuente de MicroPython para el micro:bit V1</linkV1> y <linkV2>micro:bit V2</linkV2>",
+    "defaultMessage": "Cód foinse MicroPython <linkV1>don micro:bit V1</linkV1> agus <linkV2>micro:bit V2</linkV2>",
     "description": "Links to the MicroPython source code in the about dialog"
   },
   "more-action": {
-    "defaultMessage": "mas",
+    "defaultMessage": "Níos mó",
     "description": "More button text (showing more/further content)"
   },
   "more-connect-options": {
-    "defaultMessage": "Más opciones de conexión",
+    "defaultMessage": "Tuilleadh roghanna ceangail",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
   "more-ideas": {
-    "defaultMessage": "<link>Más ideas</link>",
+    "defaultMessage": "<link>Tuilleadh smaointe</link>",
     "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
   },
   "more-save-options": {
-    "defaultMessage": "Más opciones para guardar",
+    "defaultMessage": "Tuilleadh roghanna sábhála",
     "description": "Aria label for the additional actions menu to the right of the Save button"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "Este proyecto contiene {fileCount, plural, other {{fileCount} archivos}} pero solo se ha descargado <strong>main.py</strong>.",
+    "defaultMessage": "Sa tionscadal seo tá {fileCount, plural, other {{fileCount} files}} ach níor íoslódáladh ach <strong>main.py</strong>.",
     "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
   },
   "multiple-files-message-two": {
-    "defaultMessage": "Utiliza el botón <strong>Guardar</strong> para descargar el proyecto completo como un archivo HEX. Puedes <strong>Abrir</strong> el archivo HEX para restaurar el proyecto. Si prefieres descargar archivos Python de forma individual, usa la pestaña <strong>Proyecto</strong>.",
+    "defaultMessage": "Bain úsáid as an gcnaipe <strong>Sábháil</strong> chun do thionscadal iomlán a íoslódáil mar chomhad heicsidheachúlach. Is féidir leat an comhad heicsidheachúlach a <strong>oscailt</strong> chun do thionscadal a chur ar ais. Más fearr leat comhaid Python aonair a íoslódáil, bain úsáid as an táb <strong>Tionscadal</strong>.",
     "description": "Message in dialog shown when multiple files are available for download"
   },
   "multiple-files-title": {
-    "defaultMessage": "Aviso: solo se ha descargado main.py",
+    "defaultMessage": "Rabhadh: Ní íoslódálfar ach main.py",
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "name-project": {
-    "defaultMessage": "Pon un nombre al proyecto",
+    "defaultMessage": "Ainmnigh do thionscadal",
     "description": "Name your project header"
   },
   "name-text": {
-    "defaultMessage": "Nombre",
+    "defaultMessage": "Ainm",
     "description": "Header for name field"
   },
   "name-used-when": {
-    "defaultMessage": "El nombre se usa al guardar un archivo HEX.",
+    "defaultMessage": "Úsáidtear an t-ainm nuair a shábhálann tú comhad.",
     "description": "Text under project name field"
   },
   "new-file-hint": {
-    "defaultMessage": "Se añadirá la extensión <code>.py</code>.",
+    "defaultMessage": "Cuirfimid an síneadh <code>.py</code> ar do shon.",
     "description": "Hint shown in the new Python file dialog"
   },
   "next-action": {
-    "defaultMessage": "Siguiente",
+    "defaultMessage": "Ar Aghaidh",
     "description": "Next button text"
   },
   "not-found-checklist-one": {
-    "defaultMessage": "¿Está el <strong>micro:bit conectado</strong>? ¿Has <link>seguido estos pasos</link>?",
+    "defaultMessage": "An bhfuil do <strong>micro:bit plugáilte isteach</strong>? Ar <link>lean tú na céimeanna seo</link>?",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-checklist-two": {
-    "defaultMessage": "Si tienes un <strong>micro:bit V1</strong>, puede que necesites <link>actualizar el firmware</link>",
+    "defaultMessage": "Má tá <strong>micro:bit V1</strong> agat b'fhéidir go mbeidh ort <link>an dochtearraí a nuashonrú</link>",
     "description": "Checklist text in the no micro:bit found dialog"
   },
   "not-found-message": {
-    "defaultMessage": "No has seleccionado un micro:bit o ha habido un problema al conectar.",
+    "defaultMessage": "Níor roghnaigh tú micro:bit, nó bhí fadhb ag nascadh leis.",
     "description": "Text in the no micro:bit found dialog"
   },
   "not-found-save-message": {
-    "defaultMessage": "Método alternativo: elige Guardar y sigue los pasos para transferir",
+    "defaultMessage": "Modh malartach: roghnaigh Sábháil ansin lean céimeanna a aistriú",
     "description": "Save prompt in the no micro:bit found dialog"
   },
   "not-found-title": {
-    "defaultMessage": "No se ha encontrado ningún micro:bit",
+    "defaultMessage": "Níor aimsíodh micro:bit",
     "description": "Title for the micro:bit found dialog"
   },
   "not-found-update-link": {
-    "defaultMessage": "Debes <link>actualizar el firmware</link> para poder conectar a este micro:bit.",
+    "defaultMessage": "Ní mór duit <link>do firmware a nuashonrú sular</link> féidir leat ceangal leis an micro:bit seo.",
     "description": "Text in the no micro:bit found dialog"
   },
   "offline-image-alt": {
-    "defaultMessage": "Imagen no disponible sin conexión",
+    "defaultMessage": "Níl an íomhá ar fáil as líne",
     "description": "Alt text for an image placeholder when the user is offline"
   },
   "open-action": {
-    "defaultMessage": "Abrir",
+    "defaultMessage": "Oscail",
     "description": "Open button text"
   },
   "open-file-action": {
-    "defaultMessage": "Abrir…",
+    "defaultMessage": "Oscail…",
     "description": "Open file button text"
   },
   "open-file-dropped": {
-    "defaultMessage": "Abrir archivo al soltarlo",
+    "defaultMessage": "Oscail comhad nuair a thit sé",
     "description": "Aria label for file drop target"
   },
   "open-hover": {
-    "defaultMessage": "Abre un archivo HEX o Python o añade otros archivos",
+    "defaultMessage": "Oscail comhad heicsidheachúlach nó Python nó cuir comhaid eile leis",
     "description": "Hover text over load button"
   },
   "options": {
-    "defaultMessage": "Opciones",
+    "defaultMessage": "Roghanna",
     "description": "Label for an options menu"
   },
   "parameter-help": {
-    "defaultMessage": "Ayuda con parámetros",
+    "defaultMessage": "Cabhair pharaiméadair",
     "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
   },
   "parameter-help-automatic": {
-    "defaultMessage": "Automático",
+    "defaultMessage": "Uathoibríoch",
     "description": "Parameter help setting for when the parameter documentation is shown automatically"
   },
   "parameter-help-manual": {
-    "defaultMessage": "({shortcut}) manual",
+    "defaultMessage": "Lámhleabhar ({shortcut})",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
   "permanently-delete": {
-    "defaultMessage": "¿Eliminar {filename} de forma permanente?",
+    "defaultMessage": "Scrios {filename} go buan?",
     "description": "Confirmation question to permanently delete file"
   },
   "post-save-message-files": {
-    "defaultMessage": "Contiene todos los archivos de este proyecto (incluyendo cualquier archivo adicional, por ejemplo, para ejecutar accesorios, listados en la pestaña <strong>Proyecto</strong>).",
+    "defaultMessage": "Cuimsíonn sé seo gach comhad sa tionscadal seo (lena n-áirítear aon chomhaid bhreise, m.sh. gabhálais a reáchtáil, atá liostaithe sa chluaisín <strong>Tionscadail</strong>).",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-one": {
-    "defaultMessage": "Encontrarás el archivo HEX en la carpeta <strong>Descargas</strong> de este ordenador.",
+    "defaultMessage": "Gheobhaidh tú do chomhad heicsidheachúlach i bhfillteán <strong>Íoslódálacha</strong> an ríomhaire seo.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-message-two": {
-    "defaultMessage": "Puedes moverlo para almacenarlo en otra carpeta y utilizar <strong>Abrir</strong> para editarlo más tarde.",
+    "defaultMessage": "Is féidir leat é a bhogadh chuig fillteán eile le haghaidh stórála agus a úsáid <strong>Oscailte</strong> chun leanúint ar aghaidh ag eagarthóireacht níos déanaí.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "post-save-title": {
-    "defaultMessage": "Proyecto guardado",
+    "defaultMessage": "Tionscadal sábháilte",
     "description": "Title of dialog shown after the user saves the project as a hex file."
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "Para ejecutar este archivo HEX en tu micro:bit <link>sigue estos pasos</link>.",
+    "defaultMessage": "Chun an comhad heicsidheachúlach seo a rith ar do micro:bit <link>lean na céimeanna seo</link>.",
     "description": "Message in dialog shown after the user saves the project as a hex file."
   },
   "privacy-policy": {
-    "defaultMessage": "Política de privacidad",
+    "defaultMessage": "Polasaí Príobháideachais",
     "description": "Privacy policy menu option text"
   },
   "project-actions": {
-    "defaultMessage": "Acciones del proyecto",
+    "defaultMessage": "Gníomhartha tionscadail",
     "description": "Aria label for the bar with project actions"
   },
   "project-header": {
-    "defaultMessage": "Cabecera del proyecto",
+    "defaultMessage": "Ceanntásc an tionscadail",
     "description": "Aria label for the project header area"
   },
   "project-name": {
-    "defaultMessage": "Nombre del proyecto",
+    "defaultMessage": "Ainm an tionscadail",
     "description": "Text used to indicate the project name"
   },
   "project-name-not-empty": {
-    "defaultMessage": "El nombre del proyecto no puede estar en blanco",
+    "defaultMessage": "Ní féidir ainm an tionscadail a fholmhú",
     "description": "Validation message for project name"
   },
   "project-tab": {
-    "defaultMessage": "Proyecto",
+    "defaultMessage": "Tionscadal",
     "description": "Project tab button text"
   },
   "project-tab-description": {
-    "defaultMessage": "Ver, crear, añadir y editar los archivos del proyecto",
+    "defaultMessage": "Amharc ar na comhaid i do thionscadal, iad a chruthú, a chur leis agus a chur in eagar",
     "description": "Project tab description"
   },
   "python-powered": {
-    "defaultMessage": "Funciona con Python",
+    "defaultMessage": "Python faoi thiomáint",
     "description": "Python powered logo alt text"
   },
   "python-tab": {
@@ -615,263 +615,263 @@
     "description": "Python tab text"
   },
   "quit-anyway": {
-    "defaultMessage": "Algunos de sus cambios no se han guardado. Salir de todos modos?",
+    "defaultMessage": "Níor sábháladh roinnt de na hathruithe. Scoir ar aon nós?",
     "description": "Quit anyway text"
   },
   "read-less": {
-    "defaultMessage": "Mostrar menos",
+    "defaultMessage": "Léigh níos lú",
     "description": "Action text to collapse an expanded section"
   },
   "read-more": {
-    "defaultMessage": "Leer más",
+    "defaultMessage": "Léigh níos mó",
     "description": "Action text to expand a collapsed section"
   },
   "redo": {
-    "defaultMessage": "Rehacer",
+    "defaultMessage": "Athdhéan",
     "description": "Aria label for the redo button"
   },
   "reference-tab": {
-    "defaultMessage": "Referencia",
+    "defaultMessage": "Tagairt",
     "description": "Reference tab button text"
   },
   "replace-action-label": {
-    "defaultMessage": "Sustituir",
+    "defaultMessage": "Ionadaigh",
     "description": "Action label for replacing project dialog"
   },
   "reset-project-action": {
-    "defaultMessage": "Restablecer proyecto",
+    "defaultMessage": "Athshocraigh tionscadal",
     "description": "Action to reset the project to its default state"
   },
   "reset-project-feedback": {
-    "defaultMessage": "Proyecto restablecido al código de inicio predeterminado",
+    "defaultMessage": "Athshocraigh an tionscadal go dtí an cód tosaithe réamhshocraithe",
     "description": "Confirmation message after resetting the project"
   },
   "reset-project-hover": {
-    "defaultMessage": "Restablece el proyecto al código de inicio predeterminado, descartando tu trabajo",
+    "defaultMessage": "Athshocraigh an tionscadal chuig an gcód tosaithe réamhshocraithe, ag caitheamh do chuid oibre",
     "description": "Reset action hover text"
   },
   "results-count": {
-    "defaultMessage": "{count, plural, =0 {Ningún resultado} one {# resultado} other {# resultados}}",
+    "defaultMessage": "{count, plural, =0 {Gan torthaí} one {# toradh} two {# thoradh} few {# torthaí} many {# torthaí} other {# torthaí}}\n",
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "save-action": {
-    "defaultMessage": "Guardar",
+    "defaultMessage": "Sábháil",
     "description": "Save button text"
   },
   "save-file-action": {
-    "defaultMessage": "Guardar {name}",
+    "defaultMessage": "Sábháil {name}",
     "description": "Menu option to save a file"
   },
   "save-hex-action": {
-    "defaultMessage": "Guardar proyecto HEX",
+    "defaultMessage": "Sábháil heics an tionscadail",
     "description": "Text for menu item for saving a project hex file"
   },
   "save-hover": {
-    "defaultMessage": "Guarda el archivo HEX del proyecto en el ordenador",
+    "defaultMessage": "Sábháil comhad heicsidheachúlach an tionscadail ar do ríomhaire",
     "description": "Hover text over save button"
   },
   "save-python-action": {
-    "defaultMessage": "Guardar script de Python",
+    "defaultMessage": "Sábháil script Python",
     "description": "Save button menu option to save the Python script"
   },
   "search": {
-    "defaultMessage": "Buscar",
+    "defaultMessage": "Cuardaigh",
     "description": "Aria label for searching documentation"
   },
   "send-action": {
-    "defaultMessage": "Enviar a micro:bit",
+    "defaultMessage": "Seol chuig micro:bit",
     "description": "Send to micro:bit button text"
   },
   "send-hover": {
-    "defaultMessage": "Conectar a través de WebUSB y flashear código al micro:bit",
+    "defaultMessage": "Ceangail trí WebUSB ansin flash cód ar micro:bit",
     "description": "Send button hover text"
   },
   "serial-collapse": {
-    "defaultMessage": "Ocultar consola serie",
+    "defaultMessage": "Folaigh sraithuimhir",
     "description": "Action label to collapse the serial console/REPL area"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Enviar Ctrl + C a REPL",
+    "defaultMessage": "Seol Ctrl+C le haghaidh REPL",
     "description": "Button to trigger the Python REPL from the serial area"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Enviar Ctrl + D para restablecer",
+    "defaultMessage": "Seol Ctrl+D le hathshocrú",
     "description": "Button to reset the micro:bit from the serial area"
   },
   "serial-expand": {
-    "defaultMessage": "Mostrar consola serie",
+    "defaultMessage": "Taispeáin sraithuimhir",
     "description": "Action label to expand the serial console/REPL area"
   },
   "serial-flashed": {
-    "defaultMessage": "micro:bit flasheado",
+    "defaultMessage": "micro:bit splanctha",
     "description": "Shown when your program is in sync with the micro:bit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "Utiliza el atajo de teclado <kbd>Ctrl</kbd> + <kbd>C</kbd> para interrumpir el programa. Después podrás escribir comandos de Python para que los ejecute MicroPython. Es una gran manera de experimentar con algo nuevo.",
+    "defaultMessage": "Bain úsáid as an aicearra méarchláir <kbd>Ctrl</kbd> + <kbd>C</kbd> chun cur isteach ar do chlár. Ansin is féidir leat orduithe Python a chlóscríobh le haghaidh MicroPython le rith. Is bealach iontach é chun triail a bhaint as rud éigin nua.",
     "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
   },
   "serial-help-ctrl-d": {
-    "defaultMessage": "Para reiniciar el programa, pulsa <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
+    "defaultMessage": "Chun tús a chur le do chlár ag rith arís bain úsáid as <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
     "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
   },
   "serial-help-intro": {
-    "defaultMessage": "La terminal serie muestra errores y otros resultados del programa que se ejecuta en el micro:bit. Por defecto, muestra el error más reciente del programa; expándelo para ver todos los resultados.",
+    "defaultMessage": "Taispeánann an teirminéal sraitheach earráidí agus aschur eile ón gclár ag rith ar do micro:bit. De réir réamhshocraithe, taispeánann sé an earráid is déanaí ón gclár. Leathnaigh é chun an t-aschur go léir a fheiceáil.",
     "description": "Text from the serial hints and tips dialog"
   },
   "serial-help-print": {
-    "defaultMessage": "El programa puede imprimir mensajes usando la función <code>print</code>. Prueba a añadir <code>print('micro:bit es increíble')</code> al programa.",
+    "defaultMessage": "Is féidir le do ríomhchlár teachtaireachtaí a phriontáil ag baint úsáide as an bhfeidhm <code>print</code>. Bain triail as <code>priontáil ('micro:bit is awesome')</code> a chur le do chlár.",
     "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
   },
   "serial-help-title": {
-    "defaultMessage": "Consola serie: sugerencias y consejos",
+    "defaultMessage": "Leideanna srathacha agus leideanna",
     "description": "Title for the serial hints and tips dialog"
   },
   "serial-hints-and-tips": {
-    "defaultMessage": "Consola serie: sugerencias y consejos",
+    "defaultMessage": "Leideanna agus leideanna sraitheach",
     "description": "Link/button to open the serial hints and tips dialog"
   },
   "serial-menu": {
-    "defaultMessage": "Menú consola serie",
+    "defaultMessage": "Roghchlár srathach",
     "description": "Aria label for serial area menu"
   },
   "serial-ready-to-flash": {
-    "defaultMessage": "micro:bit listo para flashear",
+    "defaultMessage": "micro:bit réidh le splanc",
     "description": "Shown when your program is out of sync with the micro:bit"
   },
   "serial-running": {
-    "defaultMessage": "Ejecutando…",
+    "defaultMessage": "Ag rith…",
     "description": "Indicator text when the micro:bit is running a program"
   },
   "serial-terminal": {
-    "defaultMessage": "Terminal serie",
+    "defaultMessage": "Teirminéal srathach",
     "description": "Aria label for the serial terminal"
   },
   "setting-allow-editing-third-party": {
-    "defaultMessage": "Permitir la edición de módulos de terceros",
+    "defaultMessage": "Ceadaigh modúil tríú páirtí a chur in eagar",
     "description": "Checkbox setting label"
   },
   "setting-allow-editing-third-party-info": {
-    "defaultMessage": "Cambiar los módulos de terceros puede provocar que no funcionen como deberían.",
+    "defaultMessage": "D'fhéadfadh sé go gciallódh athrú modúil tríú páirtí nach n-oibríonn siad mar a bhí beartaithe.",
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features": {
-    "defaultMessage": "Mostrar advertencias sobre funciones exclusivas de la V2",
+    "defaultMessage": "Taispeáin rabhaidh faoi ghnéithe V2 amháin",
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Las advertencias se muestran en el editor cuando se conecta un micro:bit V1",
+    "defaultMessage": "Taispeántar rabhaidh san eagarthóir nuair a bhíonn micro:bit V1 ceangailte",
     "description": "Checkbox setting label"
   },
   "settings": {
-    "defaultMessage": "Configuración",
+    "defaultMessage": "Socruithe",
     "description": "Settings text"
   },
   "show-api-documentation": {
-    "defaultMessage": "Mostrar documentación de la API",
+    "defaultMessage": "Taispeáin doiciméadú API",
     "description": "Shown on link from editor autocomplete and signature help to the API docs."
   },
   "show-less": {
-    "defaultMessage": "Mostrar menos",
+    "defaultMessage": "Taispeáin níos lú",
     "description": "Show less for general progressive disclosure"
   },
   "show-less-for": {
-    "defaultMessage": "Mostrar menos de {item}",
+    "defaultMessage": "Taispeáin níos lú le haghaidh {item}",
     "description": "Show less with item usually for aria label"
   },
   "show-more": {
-    "defaultMessage": "Mostrar más",
+    "defaultMessage": "Taispeáin níos mó",
     "description": "Show more for general progressive disclosure"
   },
   "show-more-for": {
-    "defaultMessage": "Mostrar más de {item}",
+    "defaultMessage": "Taispeáin níos mó le haghaidh {item}",
     "description": "Show more with item usually for aria label"
   },
   "sidebar": {
-    "defaultMessage": "Barra lateral",
+    "defaultMessage": "Barra Taoibh",
     "description": "Aria label for the area on the left"
   },
   "sidebar-collapse": {
-    "defaultMessage": "Ocultar la barra lateral",
+    "defaultMessage": "Laghdaigh an barra taoibh",
     "description": "Aria label for the collapse sidebar button"
   },
   "sidebar-expand": {
-    "defaultMessage": "Expandir la barra lateral",
+    "defaultMessage": "Leathnaigh an barra taoibh",
     "description": "Aria label for the expand sidebar button"
   },
   "simulator-accelerometer": {
-    "defaultMessage": "Acelerómetro",
+    "defaultMessage": "Luasmhéadar",
     "description": "Simulator Accelerometer panel title"
   },
   "simulator-actions": {
-    "defaultMessage": "Acciones del simulador",
+    "defaultMessage": "Gníomhartha Insamhlóir",
     "description": "Aria label for the bar with simulator actions (stop, mute etc)"
   },
   "simulator-button-a": {
-    "defaultMessage": "Botón A",
+    "defaultMessage": "Cnaipe A",
     "description": "Button A aria label on the simulator board"
   },
   "simulator-button-b": {
-    "defaultMessage": "Botón B",
+    "defaultMessage": "Cnaipe B",
     "description": "Button B aria label on the simulator board"
   },
   "simulator-button-hold-label": {
-    "defaultMessage": "Mantener pulsado botón {button}",
+    "defaultMessage": "Coinnigh cnaipe {button}",
     "description": "Aria label for simulator toggle button"
   },
   "simulator-button-press-label": {
-    "defaultMessage": "Pulsar botón {button}",
+    "defaultMessage": "Brúigh cnaipe {button}",
     "description": "Aria label for simulator push button"
   },
   "simulator-buttons": {
-    "defaultMessage": "Botones",
+    "defaultMessage": "Cnaipí",
     "description": "Buttons simulator panel title"
   },
   "simulator-collapse": {
-    "defaultMessage": "Contraer simulador",
+    "defaultMessage": "Laghdaigh an t-insamhlóir",
     "description": "Aria label for the collapse simulator button"
   },
   "simulator-collapse-module": {
-    "defaultMessage": "Contraer módulo {title}",
+    "defaultMessage": "Laghdaigh an modúl {title}",
     "description": "Aria label for collapse simulator module button"
   },
   "simulator-compass": {
-    "defaultMessage": "Brújula",
+    "defaultMessage": "Compás",
     "description": "Compass simulator panel title"
   },
   "simulator-compass-heading-one": {
-    "defaultMessage": "Cabecera",
+    "defaultMessage": "Ceannteideal",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-compass-heading-two": {
-    "defaultMessage": "Fuerza del campo magnético",
+    "defaultMessage": "Neart réimse maighnéadach",
     "description": "Sub heading for simulator Compass panel"
   },
   "simulator-data-logging-empty": {
-    "defaultMessage": "No hay entradas de registro.",
+    "defaultMessage": "Gan iontrálacha logála.",
     "description": "Shown in the simulator Data logging table when there are no rows"
   },
   "simulator-data-logging-full": {
-    "defaultMessage": "Registro lleno",
+    "defaultMessage": "Logáil isteach iomlán",
     "description": "Shown below the simulator Data logging table to warn that the log is full"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No se han registrado filas} one {# fila registrada} other {# filas registradas}}",
+    "defaultMessage": "{count, plural, =0 {Gan aon ró a logáil} one {# ró logáilte} two {# ró logáilte} few {# ró logáilte} many {# ró logáilte} other {# ró logáilte}}\n",
     "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
   "simulator-data-logging-save-log": {
-    "defaultMessage": "Guardar registro",
+    "defaultMessage": "Sábháil an logchomhad",
     "description": "Action label to save the data log as a file from the Data logging simulator panel"
   },
   "simulator-data-logging-truncated": {
-    "defaultMessage": "No se muestran las filas antiguas",
+    "defaultMessage": "Rónna níos sine nach dtaispeántar",
     "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
   },
   "simulator-expand": {
-    "defaultMessage": "Expandir simulador",
+    "defaultMessage": "Leathnaigh an t-insamhlóir",
     "description": "Aria label for the expand simulator button"
   },
   "simulator-expand-module": {
-    "defaultMessage": "Expandir módulo {title}",
+    "defaultMessage": "Leathnaigh modúl {title}",
     "description": "Aria label for expand simulator module button"
   },
   "simulator-gesture-3g": {
@@ -887,307 +887,307 @@
     "description": "Simulator gesture option"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "abajo",
+    "defaultMessage": "síos",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "hacia abajo",
+    "defaultMessage": "aghaidh síos",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-face-up": {
-    "defaultMessage": "hacia arriba",
+    "defaultMessage": "aghaidh suas",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-freefall": {
-    "defaultMessage": "caída libre",
+    "defaultMessage": "titim saor",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-left": {
-    "defaultMessage": "izquierda",
+    "defaultMessage": "chlé",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-right": {
-    "defaultMessage": "derecha",
+    "defaultMessage": "dheis",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-select": {
-    "defaultMessage": "Seleccionar gesto",
+    "defaultMessage": "Roghnaigh gotha",
     "description": "Aria label for the simulator gesture select input"
   },
   "simulator-gesture-send": {
-    "defaultMessage": "Enviar gesto",
+    "defaultMessage": "Seol gotha",
     "description": "Aria label for the simulator gesture send button"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "agitar",
+    "defaultMessage": "croith",
     "description": "Simulator gesture option"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "arriba",
+    "defaultMessage": "suas",
     "description": "Simulator gesture option"
   },
   "simulator-hide": {
-    "defaultMessage": "Ocultar simulador",
+    "defaultMessage": "Folaigh Insamhlóir",
     "description": "Hide simulator action"
   },
   "simulator-input-hold": {
-    "defaultMessage": "Mantener pulsado",
+    "defaultMessage": "Coinnigh",
     "description": "Label for UI toggles to hold simulator buttons or pins"
   },
   "simulator-input-press": {
-    "defaultMessage": "Pulsar",
+    "defaultMessage": "Preas",
     "description": "Label for UI buttons to press simulator buttons or pins"
   },
   "simulator-light-level": {
-    "defaultMessage": "Nivel de luz",
+    "defaultMessage": "Leibhéal solais",
     "description": "Light level simulator panel title"
   },
   "simulator-log": {
-    "defaultMessage": "Registro de datos",
+    "defaultMessage": "Loga sonraí",
     "description": "Data log simulator panel title"
   },
   "simulator-loud": {
-    "defaultMessage": "Alto",
+    "defaultMessage": "Ard",
     "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
   },
   "simulator-mute": {
-    "defaultMessage": "Silenciar",
+    "defaultMessage": "Balbhaigh",
     "description": "Aria label for the mute simulator button"
   },
   "simulator-pin-hold-label": {
-    "defaultMessage": "Mantener pulsado pin {pin}",
+    "defaultMessage": "Coinnigh bioráin {pin}",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pin-press-label": {
-    "defaultMessage": "Pulsar pin {pin}",
+    "defaultMessage": "Brúigh bioráin {pin}",
     "description": "Aria label for simulator pin control"
   },
   "simulator-pins": {
-    "defaultMessage": "Pines",
+    "defaultMessage": "Bioráin",
     "description": "Pins simulator panel title"
   },
   "simulator-quiet": {
-    "defaultMessage": "Silencioso",
+    "defaultMessage": "Ciúin",
     "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
   },
   "simulator-radio": {
-    "defaultMessage": "Radio",
+    "defaultMessage": "Raidió",
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "micro:bit enviado:",
+    "defaultMessage": "micro:bit seolta:",
     "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
-    "defaultMessage": "Grupo de radio configurado a {groupNumber}",
+    "defaultMessage": "Grúpa raidió socraithe chuig {groupNumber}",
     "description": "Message in radio simulator area when the radio group changes"
   },
   "simulator-radio-message": {
-    "defaultMessage": "Mensaje de radio",
+    "defaultMessage": "Teachtaireacht raidió",
     "description": "Label and placeholder for the simulator radio message input field"
   },
   "simulator-radio-message-limit-notice": {
-    "defaultMessage": "No se muestran los mensajes antiguos",
+    "defaultMessage": "Ní thaispeántar teachtaireachtaí níos sine",
     "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
   },
   "simulator-radio-no-messages": {
-    "defaultMessage": "No hay mensajes para mostrar",
+    "defaultMessage": "Níl teachtaireachtaí le taispeáint",
     "description": "Text shown when there are no radio messages to display in the simulator user interface"
   },
   "simulator-radio-off": {
-    "defaultMessage": "La radio está apagada",
+    "defaultMessage": "Tá an raidió as",
     "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
   },
   "simulator-radio-send": {
-    "defaultMessage": "Enviar mensaje",
+    "defaultMessage": "Seol teachtaireacht",
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-radio-user": {
-    "defaultMessage": "Has enviado:",
+    "defaultMessage": "Sheol tú:",
     "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {
-    "defaultMessage": "Enlace a la sección de referencia",
+    "defaultMessage": "Nasc chuig an rannóg Tagartha",
     "description": "Aria label for simulator Reference link button"
   },
   "simulator-reset": {
-    "defaultMessage": "Reiniciar",
+    "defaultMessage": "Athshocraigh",
     "description": "Aria label for the reset simulator button"
   },
   "simulator-serial-terminal": {
-    "defaultMessage": "Terminal serie del simulador",
+    "defaultMessage": "Insamhlóir teirminéal sraitheach",
     "description": "Aria label for the simulator serial terminal"
   },
   "simulator-sound-level": {
-    "defaultMessage": "Nivel de sonido",
+    "defaultMessage": "Leibhéal fuaime",
     "description": "Sound level simulator panel title"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Iniciar simulador",
+    "defaultMessage": "Tosaigh Insamhlóir",
     "description": "Aria label for the large play button on the simulator board"
   },
   "simulator-stop": {
-    "defaultMessage": "Detener simulador",
+    "defaultMessage": "Stop Insamhlóir",
     "description": "Aria label for the stop simulator button"
   },
   "simulator-temperature": {
-    "defaultMessage": "Temperatura",
+    "defaultMessage": "Teocht",
     "description": "Temperature simulator panel title"
   },
   "simulator-title": {
-    "defaultMessage": "Simulador",
+    "defaultMessage": "Insamhlóir",
     "description": "Simulator title"
   },
   "simulator-touch-logo": {
-    "defaultMessage": "Logotipo táctil",
+    "defaultMessage": "Lógó tadhaill",
     "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
   "simulator-unmute": {
-    "defaultMessage": "No silenciar",
+    "defaultMessage": "Díbholadh",
     "description": "Aria label for the unmute simulator button"
   },
   "software-versions": {
-    "defaultMessage": "Versiones de software",
+    "defaultMessage": "Leaganacha bogearraí",
     "description": "Heading for a table of software versions in the about dialog"
   },
   "start-coding-action": {
-    "defaultMessage": "Empezar a programar",
+    "defaultMessage": "Tosaigh códú",
     "description": "Start coding button text"
   },
   "support": {
-    "defaultMessage": "Ayuda Técnica",
+    "defaultMessage": "Tacaíocht",
     "description": "Support menu option text"
   },
   "terms-of-use": {
-    "defaultMessage": "Términos de uso",
+    "defaultMessage": "Téarmaí úsáide",
     "description": "Terms of use menu option text"
   },
   "third-party-module-explanation": {
-    "defaultMessage": "Este archivo es un módulo de terceros y se supone que no se debería editar.",
+    "defaultMessage": "Is modúl tríú páirtí é an comhad seo agus níl sé i gceist é a chur in eagar.",
     "description": "Explanation shown instead of the code editor for third-party modules."
   },
   "third-party-module-how-to": {
-    "defaultMessage": "Permite la edición de módulos de terceros en <link>Configuración</link> para modificar este módulo.",
+    "defaultMessage": "Ceadaigh modúil tríú páirtí a chur in eagar i <link>Socruithe</link> chun an modúl seo a mhodhnú.",
     "description": "Explanation of how to allow editing for third-party modules."
   },
   "timeout-error-description": {
-    "defaultMessage": "No se puede conectar al micro:bit",
+    "defaultMessage": "Ní féidir nascadh leis an micro:bit",
     "description": "Description for error messages relating to WebUSB timeout"
   },
   "timeout-error-title": {
-    "defaultMessage": "La conexión ha expirado",
+    "defaultMessage": "Ceangal thar am",
     "description": "Title for error messages relating to WebUSB timeout"
   },
   "toolkit-error-loading": {
-    "defaultMessage": "Se ha producido un error al cargar las herramientas.",
+    "defaultMessage": "Tharla earráid agus an fhoireann uirlisí á luchtú.",
     "description": "Error shown if we failed to load toolkit content"
   },
   "toolkit-view-documentation": {
-    "defaultMessage": "Ver documentación de {name}",
+    "defaultMessage": "Amharc ar cháipéisíocht {name}",
     "description": "Aria label for the toolkit topic right arrow"
   },
   "transfer-hex-message-one": {
-    "defaultMessage": "Arrastra el archivo HEX desde la <strong>Carpeta de descargas</strong> a la <strong>Unidad MICROBIT</strong>.",
+    "defaultMessage": "Tarraing an comhad heicsidheachúlach ó <strong>d'fhillteán Íoslódálacha</strong> chuig an <strong>tiomántán MICROBIT</strong>.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "Puedes <strong>Abrir</strong> el archivo HEX más tarde para editarlo.",
+    "defaultMessage": "Is féidir leat an comhad heicsidheachúlach a <strong>oscailt</strong> níos déanaí chun leanúint ar aghaidh leis an eagarthóireacht.",
     "description": "Text in the transfer hex dialog"
   },
   "transfer-hex-title": {
-    "defaultMessage": "Transferir archivo HEX guardado a micro:bit",
+    "defaultMessage": "Aistrigh comhad heicsidheachúlach sábháilte go micro:bit",
     "description": "Title for the transfer hex dialog"
   },
   "try-again-action": {
-    "defaultMessage": "Inténtalo de nuevo",
+    "defaultMessage": "Bain triail as arís",
     "description": "Try again button text"
   },
   "undo": {
-    "defaultMessage": "Deshacer",
+    "defaultMessage": "Cealaigh",
     "description": "Aria label for the undo button"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Inténtalo otra vez o <link>solicita asistencia</link>",
+    "defaultMessage": "Bain triail eile as nó <link>ardaigh iarratas tacaíochta</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Inténtalo otra vez o <link>solicita asistencia</link>",
+    "defaultMessage": "Bain triail eile as nó <link>ardaigh iarratas tacaíochta</link>",
     "description": "Text shown for unexpected error scenarios"
   },
   "untitled-project": {
-    "defaultMessage": "Proyecto sin título",
+    "defaultMessage": "Tionscadal gan teideal",
     "description": "Title for a new project"
   },
   "update-firmware-action": {
-    "defaultMessage": "Actualizar firmware",
+    "defaultMessage": "Nuashonraigh dochtearraí",
     "description": "Update firmware button text"
   },
   "updated-change": {
-    "defaultMessage": "Archivo {changeName} actualizado",
+    "defaultMessage": "Comhad nuashonraithe {changeName}",
     "description": "Change made to file"
   },
   "user-guide": {
-    "defaultMessage": "Guía de usuario",
+    "defaultMessage": "Treoir d'úsáideoirí",
     "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {
-    "defaultMessage": "visitar microbit.org (abre en una nueva pestaña)",
+    "defaultMessage": "tabhair cuairt ar microbit.org (osclaítear i gcluaisín nua)",
     "description": "alt text for logo link to .org"
   },
   "warn-on-v2-only-features-action": {
-    "defaultMessage": "Desactivar las advertencias sobre funciones exclusivas de la V2",
+    "defaultMessage": "Díchumasaigh rabhaidh faoi ghnéithe V2 amháin",
     "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
-    "defaultMessage": "Otro proceso está conectado a este dispositivo.",
+    "defaultMessage": "Tá próiseas eile ceangailte leis an ngléas seo.",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Cierra cualquier otra pestaña que pueda estar usando WebUSB (por ejemplo, MakeCode or Editor de Python), o desconecta y vuelve a conectar el micro:bit antes de volver a intentarlo.",
+    "defaultMessage": "Dún aon chluaisíní eile a d'fhéadfadh a bheith ag baint úsáide as WebUSB (m.sh. MakeCode, Eagarthóir Python), nó díphlugáil agus athphlugáil an micro:bit sula mbainfidh tú triail eile as.",
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Otra página o pestaña del navegador está conectada a este micro:bit",
+    "defaultMessage": "Tá leathanach nó cluaisín brabhsálaí eile ceangailte leis an micro:bit seo",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
-    "defaultMessage": "Error WebUSB",
+    "defaultMessage": "Earráid WebUSB",
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "<p>Por favor, sigue estos pasos y vuelve a intentarlo:</p><ul><li>desconecta el cable USB</li><li>desenchufa la batería si la tiene instalada</li><li>vuelve a conectar el cable USB</li><li>vuelve a conectar el paquete de baterías si estaba conectado</li></ul>",
+    "defaultMessage": "<p>Lean na céimeanna seo, ansin bain triail eile as:</p> <ul><li>díphlugáil an cábla USB</li><li>díphlugáil an pacáiste ceallraí má tá ceann ceangailte</li><li>athcheangail an cábla USB</li><li>athcheangail an pacáiste ceallraí má bhí ceann ceangailte</li></ul>",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Desafortunadamente, este navegador no admite WebUSB, por lo que el programa se guardará en el ordenador. Sigue los pasos indicados en la siguiente pantalla para transferirlo al micro:bit. Recomendamos Google Chrome o Microsoft Edge para poder conectarte directamente al micro:bit.",
+    "defaultMessage": "Ar an drochuair, ní thacaítear le WebUSB sa bhrabhsálaí seo agus sábhálfar do chlár ar do ríomhaire ina ionad. Lean na céimeanna ar an gcéad scáileán eile chun é a aistriú chuig do micro:bit. Molaimid Google Chrome nó Microsoft Edge ionas gur féidir leat ceangal go díreach le do micro:bit.",
     "description": "Explantion shown when user's browser doesn't support WebUSB"
   },
   "webusb-not-supported-title": {
-    "defaultMessage": "El navegador no es compatible con WebUSB",
+    "defaultMessage": "Ní thacaíonn an brabhsálaí seo le WebUSB",
     "description": "Title of dialog shown when user's browser doesn't support WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "Con WebUSB puedes programar el micro:bit y conectarte a la consola serie directamente desde el editor en línea.",
+    "defaultMessage": "Le WebUSB is féidir leat do micro:bit a chlárú agus ceangal leis an gconsól sraitheach go díreach ón eagarthóir ar líne.",
     "description": "Shown to encourage use of browser that supports WebUSB"
   },
   "welcome-message": {
-    "defaultMessage": "Mira nuestra guía breve sobre algunas de las características más importantes o empieza ya a programar.",
+    "defaultMessage": "Féach ar ár dtreoir ghearr maidir le cuid de na príomhghnéithe, nó faigh códú ar an bpointe boise.",
     "description": "Text in the welcome dialogn"
   },
   "welcome-title": {
-    "defaultMessage": "Bienvenido al Editor de Python de micro:bit",
+    "defaultMessage": "Fáilte go dtí an tEagarthóir Python micro:bit",
     "description": "Title for the welcome dialog"
   },
   "welcome-video-alt": {
-    "defaultMessage": "vídeo de introducción al editor de Python",
+    "defaultMessage": "físeán ag tabhairt isteach Eagarthóir Python",
     "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {
-    "defaultMessage": "Aumentar zoom",
+    "defaultMessage": "Zúmáil isteach",
     "description": "Text label for zoom in button"
   },
   "zoom-out-action": {
-    "defaultMessage": "Disminuir zoom",
+    "defaultMessage": "Zúmáil amach",
     "description": "Text label for zoom out button"
   }
 }

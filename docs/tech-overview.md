@@ -143,7 +143,7 @@ For the editor itself, run `npm run i18n:convert` to create `crowdin/ui.en.json`
 
 This process assumes the language is already in Crowdin and has at least some translations.
 
-When considering a new language it's worth checking early whether support is available in [lunr-languages](https://github.com/MihaiValentin/lunr-languages) as we need that support for our client-side search. Search is not currently supported for zh-CN and zh-TW due to the technical challenge of indexing those languages in the browser.
+When considering a new language it's worth checking early whether support is available in [lunr-languages](https://github.com/MihaiValentin/lunr-languages) as we need that support for our client-side search. Search is not currently supported for zh-CN and zh-TW due to the technical challenge of indexing those languages in the browser. ga-IE also lacks support in lunr-languages.
 
 Steps:
 
