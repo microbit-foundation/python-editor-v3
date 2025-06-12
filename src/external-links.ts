@@ -25,4 +25,6 @@ export const microbitOrgUrl = (languageId: string) =>
   `https://microbit.org/${langPath(languageId)}`;
 
 export const microbitOrgMiciProjectsUrl = (languageId: string) =>
-  `https://microbit.org/${languageId}projects/make-it-code-it/?filters=python`;
+  `https://microbit.org/${langPath(
+    languageId
+  )}projects/make-it-code-it/?filters=python`;
