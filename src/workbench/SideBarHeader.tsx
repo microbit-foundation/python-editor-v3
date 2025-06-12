@@ -30,6 +30,7 @@ import { topBarHeight } from "../deployment/misc";
 import { supportedSearchLanguages } from "../documentation/search/search.worker";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
+import { microbitOrgUrl } from "../external-links";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 import { useSettings } from "../settings/settings";
@@ -186,7 +187,7 @@ const SideBarHeader = ({
         >
           <Link
             display="block"
-            href="https://microbit.org/code/"
+            href={microbitOrgUrl(languageId)}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={intl.formatMessage({ id: "visit-dot-org" })}
