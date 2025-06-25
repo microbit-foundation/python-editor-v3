@@ -18,11 +18,11 @@ const Overlay = () => {
     selectingDevice.onClose();
   }, [selectingDevice]);
   useEffect(() => {
-    device.addEventListener("start_usb_select", showOverlay);
-    device.addEventListener("end_usb_select", hideOverlay);
+    device.addEventListener("beforerequestdevice", showOverlay);
+    device.addEventListener("afterrequestdevice", hideOverlay);
     return () => {
-      device.removeEventListener("start_usb_select", showOverlay);
-      device.removeEventListener("end_usb_select", hideOverlay);
+      device.removeEventListener("beforerequestdevice", showOverlay);
+      device.removeEventListener("afterrequestdevice", hideOverlay);
     };
   }, [device, showOverlay, hideOverlay]);
   return (

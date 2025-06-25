@@ -1,0 +1,1193 @@
+{
+  "about": {
+    "defaultMessage": "O programie",
+    "description": "About action"
+  },
+  "about-comic": {
+    "defaultMessage": "Trzy panele komiksowe zatytułowane \"MicroPython Rocks\" autorstwa Mike Rowbit. Wąż kartonowy wprowadza Damien, mówiąc \"Poznaj Damien... Stworzył MicroPythona.\". Dwa węży dyskutują o MicroPythonie. Żółty wąż mówi \"MicroPython jest zaprojektowany do pracy na bardzo małych komputerach. \"Jak Twój BBC micro:bit\" odpowiada fioletowy węż.\" Wąż żółty kontynuuje \"Ale Python może działać gdziekolwiek\". Fioletowy wąż zgadza się, mówiąc \"Podobnie jak na tym zestawie serwerów, które uruchamiają ogromne strony internetowe\". Tło za wężami pokazuje serwery.",
+    "description": "Alt text for comic in the about dialog"
+  },
+  "about-microbit": {
+    "defaultMessage": "Wykonane z miłością przez <link>Micro:bit Educational Foundation i współtwórców</link>",
+    "description": "Text in about dialog"
+  },
+  "about-micropython": {
+    "defaultMessage": "Edytor bazuje na <link>MicroPython</link>, którego twórcą jest Damien George i społeczność programistów z całego świata.",
+    "description": "Text in about dialog"
+  },
+  "about-read-less-micropython": {
+    "defaultMessage": "Orzeczytaj mniej o MicroPythonie",
+    "description": "Aria label to collapse an expanded section about MicroPython"
+  },
+  "about-read-more-micropython": {
+    "defaultMessage": "Dowiedz się więcej o MicroPythonie",
+    "description": "Aria label to expand a collapsed section about MicroPython"
+  },
+  "accessibility": {
+    "defaultMessage": "Dostępność",
+    "description": "Menu item for link to accessibility site"
+  },
+  "added-change": {
+    "defaultMessage": "Dodany plik {changeName}",
+    "description": "Change made to file"
+  },
+  "api-description": {
+    "defaultMessage": "Aby poznać zastosowania i przykłady, zobacz <link>Referencje</link>",
+    "description": "Extended description at the top of the API tab"
+  },
+  "api-tab": {
+    "defaultMessage": "API",
+    "description": "API tab button text"
+  },
+  "apidocs-baseclass": {
+    "defaultMessage": "{baseClassCount, plural, one {bazowa klasa} few {bazowe klasy: } many {bazowe klasy: } other {bazowe klasy: }}",
+    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "apidocs-classes": {
+    "defaultMessage": "Klasy",
+    "description": "Heading in API documentation for the classes in a Python module"
+  },
+  "apidocs-fields": {
+    "defaultMessage": "Pola",
+    "description": "Heading in API documentation for the fields in a Python module"
+  },
+  "apidocs-functions": {
+    "defaultMessage": "Funkcje",
+    "description": "Heading in API documentation for the functions in a Python module"
+  },
+  "apidocs-methods": {
+    "defaultMessage": "Metody",
+    "description": "Heading in API documentation for the methods in a Python class"
+  },
+  "back-action": {
+    "defaultMessage": "Wróć",
+    "description": "Back button text"
+  },
+  "back-to-main": {
+    "defaultMessage": "wróć do głównego kodu",
+    "description": "Text button, takes back to main code"
+  },
+  "cancel-action": {
+    "defaultMessage": "Anuluj",
+    "description": "Cancel button text"
+  },
+  "change-files": {
+    "defaultMessage": "Zmienić pliki?",
+    "description": "Header for dialog of confirmation of files changed"
+  },
+  "choose-main-add-file": {
+    "defaultMessage": "Dodaj plik {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-add-module": {
+    "defaultMessage": "Dodaj moduł {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-file": {
+    "defaultMessage": "Zastąp plik {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-replace-module": {
+    "defaultMessage": "Zastąp moduł {name}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-file": {
+    "defaultMessage": "Dodaj plik {target} z {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-add-main-code": {
+    "defaultMessage": "Dodaj kod główny z {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-file": {
+    "defaultMessage": "Zastąp plik {target} z {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "choose-main-source-replace-main-code": {
+    "defaultMessage": "Zastąp kod główny z {source}",
+    "description": "Shown in load dialog to confirm actions"
+  },
+  "clear": {
+    "defaultMessage": "Wyczyść",
+    "description": "Aria label for the search input"
+  },
+  "close-action": {
+    "defaultMessage": "Zamknij",
+    "description": "Close button text"
+  },
+  "code-editor": {
+    "defaultMessage": "Edytor kodu",
+    "description": "Aria label for the code editor"
+  },
+  "code-example": {
+    "defaultMessage": "Przykład kodu:",
+    "description": "Visually hidden text to announce code examples in the toolkit documentation"
+  },
+  "confirm-action": {
+    "defaultMessage": "Potwierdź",
+    "description": "Confirm action label"
+  },
+  "confirm-delete": {
+    "defaultMessage": "Potwierdź usunięcie",
+    "description": "Confirmation header of deletion of a file"
+  },
+  "confirm-replace-body": {
+    "defaultMessage": "Zastąpić wszystkie pliki tymi z hex?",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-reset": {
+    "defaultMessage": "Zastąpić wszystkie pliki domyślnym kodem startowym?",
+    "description": "Confirmation message for the reset action"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Potwierdź zastąpienie projektu",
+    "description": "Confirmation message title for replacing project dialog"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Zastąpić wszystkie pliki {ideaName}?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
+  "confirm-save-action": {
+    "defaultMessage": "Potwierdź i zapisz",
+    "description": "Confirm and save action label"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Anuluj następnie użycie Zapisz, aby zachować kopię projektu.",
+    "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
+  },
+  "connect-action": {
+    "defaultMessage": "Podłącz",
+    "description": "Connect button text"
+  },
+  "connect-cable-title": {
+    "defaultMessage": "Podłącz kabel",
+    "description": "Title for the connect cable dialog"
+  },
+  "connect-help-alt": {
+    "defaultMessage": "Okno dialogowe połączenia WebUSB z BBC micro:bitem oznaczonym jako 1 i przycisk Połącz oznaczony jako 2",
+    "description": "Alt text for image in connect help dialog"
+  },
+  "connect-help-message": {
+    "defaultMessage": "W następnym wyskakującym oknie:",
+    "description": "Text in the connect help dialog"
+  },
+  "connect-help-one": {
+    "defaultMessage": "Wybierz swój micro:bit",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-help-title": {
+    "defaultMessage": "Wybierz micro:bit",
+    "description": "Title for the connect help dialog"
+  },
+  "connect-help-two": {
+    "defaultMessage": "Wybierz „Połącz”",
+    "description": "Legend text for the connect help dialog image"
+  },
+  "connect-hover": {
+    "defaultMessage": "Połącz się ze swoim micro:bitem przez WebUSB",
+    "description": "Connect button hover text"
+  },
+  "connect-microbit": {
+    "defaultMessage": "Połącz się ze swoim micro:bitem, aby zobaczyć wyjście szeregowe tutaj",
+    "description": "Text in serial area"
+  },
+  "connect-troubleshoot": {
+    "defaultMessage": "Problemy z połączeniem się z Twoim micro:bitem",
+    "description": "Text in no the micro:bit found and firmware update dialogs"
+  },
+  "content-load-error": {
+    "defaultMessage": "Coś poszło nie tak. Pobierz swój plik hex dla bezpiecznego przechowania, a następnie odśwież stronę, aby przeładować.",
+    "description": "Text displayed when content fails to load"
+  },
+  "cookies-action": {
+    "defaultMessage": "Cookies (Ciasteczka)",
+    "description": "Action to show dialog to choose website cookie preferences"
+  },
+  "copied": {
+    "defaultMessage": "Skopiowane",
+    "description": "Text shown after copy to clipboard"
+  },
+  "copy-action": {
+    "defaultMessage": "Kopiuj",
+    "description": "Copy to clipboard action text"
+  },
+  "copy-code-action": {
+    "defaultMessage": "Skopiuj kod",
+    "description": "Copy code to clipboard action text"
+  },
+  "copy-snippet-advice": {
+    "defaultMessage": "Skopiowano kod, użyj wklejania, aby go wstawić.",
+    "description": "Toast shown when you copy from API or Reference snippets"
+  },
+  "create-action": {
+    "defaultMessage": "Twórz",
+    "description": "Create action label (e.g. in create file dialog)"
+  },
+  "create-file-action": {
+    "defaultMessage": "Utwórz plik",
+    "description": "Button text for action that creates a new blank Python file in the current project"
+  },
+  "create-python": {
+    "defaultMessage": "Utwórz nowy plik Pythona w tym projekcie",
+    "description": "Hover and dialog title when creating a new Python file"
+  },
+  "created-file": {
+    "defaultMessage": "Utworzono {filename}",
+    "description": "Action feedback for creating a file"
+  },
+  "delete-action": {
+    "defaultMessage": "Usuń",
+    "description": "Button text for delete action"
+  },
+  "delete-file-action": {
+    "defaultMessage": "Usuń {name}",
+    "description": "Menu option to delete file"
+  },
+  "deleted-file": {
+    "defaultMessage": "Usunięto {filename}",
+    "description": "Confirmation message that file got deleted"
+  },
+  "disconnect-action": {
+    "defaultMessage": "Odłącz",
+    "description": "Disconnect button text"
+  },
+  "disconnect-hover": {
+    "defaultMessage": "Odłącz od swojego micro:bit",
+    "description": "Disconnect button hover text"
+  },
+  "dont-show-again": {
+    "defaultMessage": "Nie pokazuj tego ponownie",
+    "description": "Text to never show a dialog again"
+  },
+  "drag-hover": {
+    "defaultMessage": "Przeciągnij i upuść",
+    "description": "Draggable code hover text"
+  },
+  "edit-file-action": {
+    "defaultMessage": "Edytuj {name}",
+    "description": "Menu option to edit file"
+  },
+  "edit-name-project-hover": {
+    "defaultMessage": "Edytuj nazwę swojego projektu",
+    "description": "Text for user to edit the name of the project"
+  },
+  "edit-project-name-action": {
+    "defaultMessage": "Edytuj nazwę projektu",
+    "description": "Text for user to edit the name of the project"
+  },
+  "failed-to-build-hex": {
+    "defaultMessage": "Nie udało się utworzyć pliku hex",
+    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+  },
+  "feedback": {
+    "defaultMessage": "Informacje zwrotne",
+    "description": "Feedback action"
+  },
+  "file-actions": {
+    "defaultMessage": "Akcje z plikiem {name}",
+    "description": "Header of file actions for file"
+  },
+  "file-already-exists": {
+    "defaultMessage": "Ten plik już istnieje",
+    "description": "File already exists notification text"
+  },
+  "file-name-invalid-character": {
+    "defaultMessage": "Nazwa zawiera nieprawidłowy znak: {invalid}",
+    "description": "Warning text for new Python file name with an invalid character"
+  },
+  "file-name-length": {
+    "defaultMessage": "Nazwa jest zbyt długa",
+    "description": "Warning text for overly long file names (file system limitation)"
+  },
+  "file-name-lowercase-only": {
+    "defaultMessage": "Nazwa powinna być małymi literami",
+    "description": "Warning text for new Python file with uppercase"
+  },
+  "file-name-not-empty": {
+    "defaultMessage": "Nazwa nie może być pusta",
+    "description": "Warning text for new Python file with empty name"
+  },
+  "file-name-start-number": {
+    "defaultMessage": "Nazwa nie może rozpoczynać się cyfrą",
+    "description": "Warning text for new Python file names starting with a number"
+  },
+  "file-name-whitespace": {
+    "defaultMessage": "Nazwa nie może zawierać spacji",
+    "description": "Warning text for new Python file name with whitespace"
+  },
+  "firmware-update-link": {
+    "defaultMessage": "Zanim będziesz mógł połączyć się z tym micro:bitem, musisz <link>zaktualizować oprogramowanie sprzętowe</link>.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-message": {
+    "defaultMessage": "Połączenie z micro:bitem nie powiodło się, ponieważ oprogramowanie firmowe na micro:bicie jest zbyt stare.",
+    "description": "Text in the firmware update dialog"
+  },
+  "firmware-update-title": {
+    "defaultMessage": "Wymagana jest aktualizacja oprogramowania firmowego",
+    "description": "Title for the firmware update dialog"
+  },
+  "flash-action": {
+    "defaultMessage": "Zainstaluj",
+    "description": "Text for flash button"
+  },
+  "flash-hover": {
+    "defaultMessage": "Załaduj swój projekt bezpośrednio na micro:bit",
+    "description": "Hover text over flash button"
+  },
+  "flashing-code": {
+    "defaultMessage": "Wysyłanie kodu (flashing)",
+    "description": "Progress dialog text for partial flashes (quick)"
+  },
+  "flashing-full-flash-detail": {
+    "defaultMessage": "Twój kod jest wysyłany (flashed) do Twojego micro:bita. To może zająć chwilę po raz pierwszy, ale później będzie szybciej.",
+    "description": "Message shown after the title in the progress dialog for a full flash"
+  },
+  "flashing-micropython": {
+    "defaultMessage": "Migający MicroPython",
+    "description": "Progress dialog text for full flashes (slower)"
+  },
+  "font-size": {
+    "defaultMessage": "Rozmiar czcionki",
+    "description": "Font size option text"
+  },
+  "guide-link": {
+    "defaultMessage": "Aby uzyskać więcej wsparcia, zobacz przewodnik <link>Edytora Pythona</link>",
+    "description": "Text with an external link to support/help content"
+  },
+  "help": {
+    "defaultMessage": "Pomoc",
+    "description": "Help menu label"
+  },
+  "help-support": {
+    "defaultMessage": "Pomoc i wsparcie",
+    "description": "Menu item for link to support site"
+  },
+  "help-translate": {
+    "defaultMessage": "Pomóż tłumaczyć",
+    "description": "Help translate  menu option text"
+  },
+  "highlight-code-structure": {
+    "defaultMessage": "Podświetl strukturę kodu",
+    "description": "Code structure setting label"
+  },
+  "highlight-code-structure-full": {
+    "defaultMessage": "Pełny",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-none": {
+    "defaultMessage": "Żaden",
+    "description": "Highlight code structure option"
+  },
+  "highlight-code-structure-simple": {
+    "defaultMessage": "Prosty",
+    "description": "Highlight code structure option"
+  },
+  "ideas-tab": {
+    "defaultMessage": "Pomysły",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Wypróbuj te projekty, zmodyfikuj je i poczuj się zainspirowany",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+  },
+  "insert-code-action": {
+    "defaultMessage": "Wstaw kod"
+  },
+  "language": {
+    "defaultMessage": "Język",
+    "description": "Language option text"
+  },
+  "less-action": {
+    "defaultMessage": "Mniej",
+    "description": "Less button text (showing less content)"
+  },
+  "load-error-makecode-info": {
+    "defaultMessage": "Ten plik hex nie może zostać załadowany do edytora Pythona. Edytor Pythona nie może otworzyć plików hex utworzonych przez Microsoft MakeCode.",
+    "description": "Load error message"
+  },
+  "load-error-makecode-link": {
+    "defaultMessage": "Aby skorzystać z tego pliku hex, odwiedź stronę <link>https://makecode.microbit.org/</link>.",
+    "description": "Load error message"
+  },
+  "load-error-mixed": {
+    "defaultMessage": "Plik hex może być załadowany tylko na własną rękę. Zastąpi on wszystkie pliki w projekcie.",
+    "description": "Load error message"
+  },
+  "load-error-mpy": {
+    "defaultMessage": "Ta wersja edytora Python obecnie nie obsługuje dodawania plików .mpy.",
+    "description": "Load error message"
+  },
+  "load-error-title": {
+    "defaultMessage": "Nie można załadować pliku {fileCount, plural, one {} few {pliki} many {pliki} other {pliki}}",
+    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "loaded-file-feedback": {
+    "defaultMessage": "Załadowano {filename}",
+    "description": "Success feedback for loading file"
+  },
+  "loading": {
+    "defaultMessage": "Ładowanie…",
+    "description": "Shown on loading indicators"
+  },
+  "microbit-hearts-alt": {
+    "defaultMessage": "Płytka micro:bit z wyświetlaczem LED 5 na 5 pokazująca serce",
+    "description": "Alt text for micro:bit image in About dialog"
+  },
+  "micropython-documentation": {
+    "defaultMessage": "Dokumentacja MicroPythona",
+    "description": "MicroPython documentation menu option text"
+  },
+  "micropython-history": {
+    "defaultMessage": "Dowiedz się, jak pojawił się MicroPython na micro:bit",
+    "description": "Links to MicroPython history in the about dialog"
+  },
+  "micropython-source-code": {
+    "defaultMessage": "Kod źródłowy MicroPythona <linkV1>dla micro:bit V1</linkV1> i <linkV2>dla micro:bit V2</linkV2>",
+    "description": "Links to the MicroPython source code in the about dialog"
+  },
+  "more-action": {
+    "defaultMessage": "Więcej",
+    "description": "More button text (showing more/further content)"
+  },
+  "more-connect-options": {
+    "defaultMessage": "Więcej opcji połączenia",
+    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+  },
+  "more-ideas": {
+    "defaultMessage": "<link>Więcej pomysłów</link>",
+    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
+  },
+  "more-save-options": {
+    "defaultMessage": "Więcej opcji zapisu",
+    "description": "Aria label for the additional actions menu to the right of the Save button"
+  },
+  "multiple-files-message-one": {
+    "defaultMessage": "Ten projekt zawiera {fileCount, plural, one {} few {{fileCount} pliki} many {{fileCount} pliki}other {{fileCount} pliki}}, ale tylko <strong>main.py</strong> został pobrany.",
+    "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
+  },
+  "multiple-files-message-two": {
+    "defaultMessage": "Użyj przycisku <strong>Save</strong>, aby pobrać cały swój projekt jako plik hex. Możesz <strong>Open</strong> plik hex, aby przywrócić swój projekt. Jeśli wolisz pobrać poszczególne pliki Pythona, użyj zakładki <strong>Project</strong>.",
+    "description": "Message in dialog shown when multiple files are available for download"
+  },
+  "multiple-files-title": {
+    "defaultMessage": "Ostrzeżenie: pobrano tylko main.py",
+    "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
+  },
+  "name-project": {
+    "defaultMessage": "Nazwij swój projektu",
+    "description": "Name your project header"
+  },
+  "name-text": {
+    "defaultMessage": "Nazwa",
+    "description": "Header for name field"
+  },
+  "name-used-when": {
+    "defaultMessage": "Nazwa jest używana podczas zapisywania pliku.",
+    "description": "Text under project name field"
+  },
+  "new-file-hint": {
+    "defaultMessage": "Dodamy rozszerzenie <code>.py</code> dla Ciebie.",
+    "description": "Hint shown in the new Python file dialog"
+  },
+  "next-action": {
+    "defaultMessage": "Dalej",
+    "description": "Next button text"
+  },
+  "not-found-checklist-one": {
+    "defaultMessage": "Czy Twój <strong>micro:bit jest podłączony</strong>? Czy <link>wykonałeś te kroki</link>?",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-checklist-two": {
+    "defaultMessage": "Jeśli masz <strong>micro:bit V1</strong>, może być konieczna <link>aktualizacja oprogramowania firmowego</link>",
+    "description": "Checklist text in the no micro:bit found dialog"
+  },
+  "not-found-message": {
+    "defaultMessage": "Nie wybrałeś micro:bit lub wystąpił problem z połączeniem.",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "not-found-save-message": {
+    "defaultMessage": "Alternatywna metoda: wybierz Zapisz, a następnie wykonaj kroki transferu",
+    "description": "Save prompt in the no micro:bit found dialog"
+  },
+  "not-found-title": {
+    "defaultMessage": "Nie znaleziono micro:bita",
+    "description": "Title for the micro:bit found dialog"
+  },
+  "not-found-update-link": {
+    "defaultMessage": "Zanim będziesz mógł połączyć się z tym micro:bitem, musisz <link>zaktualizować oprogramowanie firmowe</link>.",
+    "description": "Text in the no micro:bit found dialog"
+  },
+  "offline-image-alt": {
+    "defaultMessage": "Obraz niedostępny w trybie offline",
+    "description": "Alt text for an image placeholder when the user is offline"
+  },
+  "open-action": {
+    "defaultMessage": "Otwórz",
+    "description": "Open button text"
+  },
+  "open-file-action": {
+    "defaultMessage": "Otwórz…",
+    "description": "Open file button text"
+  },
+  "open-file-dropped": {
+    "defaultMessage": "Otwórz plik po upuszczeniu",
+    "description": "Aria label for file drop target"
+  },
+  "open-hover": {
+    "defaultMessage": "Otwórz plik hex lub Pythona lub dodaj inne pliki",
+    "description": "Hover text over load button"
+  },
+  "options": {
+    "defaultMessage": "Opcje",
+    "description": "Label for an options menu"
+  },
+  "parameter-help": {
+    "defaultMessage": "Pomoc dot. parametru",
+    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
+  },
+  "parameter-help-automatic": {
+    "defaultMessage": "Automatyczny",
+    "description": "Parameter help setting for when the parameter documentation is shown automatically"
+  },
+  "parameter-help-manual": {
+    "defaultMessage": "Ręczny ({shortcut})",
+    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
+  },
+  "permanently-delete": {
+    "defaultMessage": "Usuń na stałe {filename}?",
+    "description": "Confirmation question to permanently delete file"
+  },
+  "post-save-message-files": {
+    "defaultMessage": "Zawiera wszystkie pliki w tym projekcie (w tym wszelkie dodatkowe pliki, np. do uruchomienia akcesoriów, wymienionych w karcie <strong>Project</strong>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-one": {
+    "defaultMessage": "Plik hex znajdziesz w folderze <strong>Downloads</strong>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-message-two": {
+    "defaultMessage": "Możesz przenieść go do innego folderu do przechowania i użyć <strong>Otwórz</strong>, aby kontynuować edycję później.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-title": {
+    "defaultMessage": "Projekt został zapisany!",
+    "description": "Title of dialog shown after the user saves the project as a hex file."
+  },
+  "post-save-transfer-hex": {
+    "defaultMessage": "Aby uruchomić ten plik hex na micro:bicie, <link>wykonaj te kroki</link>.",
+    "description": "Message in dialog shown after the user saves the project as a hex file."
+  },
+  "privacy-policy": {
+    "defaultMessage": "Polityka prywatności",
+    "description": "Privacy policy menu option text"
+  },
+  "project-actions": {
+    "defaultMessage": "Działania w projekcie",
+    "description": "Aria label for the bar with project actions"
+  },
+  "project-header": {
+    "defaultMessage": "Nagłówek projektu",
+    "description": "Aria label for the project header area"
+  },
+  "project-name": {
+    "defaultMessage": "Nazwa projektu",
+    "description": "Text used to indicate the project name"
+  },
+  "project-name-not-empty": {
+    "defaultMessage": "Nazwa projektu nie może być pusta",
+    "description": "Validation message for project name"
+  },
+  "project-tab": {
+    "defaultMessage": "Projekt",
+    "description": "Project tab button text"
+  },
+  "project-tab-description": {
+    "defaultMessage": "Przejrzyj, utwórz, dodaj i edytuj pliki w projekcie",
+    "description": "Project tab description"
+  },
+  "python-powered": {
+    "defaultMessage": "Obsługiwany przez Python",
+    "description": "Python powered logo alt text"
+  },
+  "python-tab": {
+    "defaultMessage": "Python",
+    "description": "Python tab text"
+  },
+  "quit-anyway": {
+    "defaultMessage": "Niektóre z twoich zmian nie były zapisanę. Chcesz i tak zamknąć?",
+    "description": "Quit anyway text"
+  },
+  "read-less": {
+    "defaultMessage": "Czytaj mniej",
+    "description": "Action text to collapse an expanded section"
+  },
+  "read-more": {
+    "defaultMessage": "Dowiedz się więcej",
+    "description": "Action text to expand a collapsed section"
+  },
+  "redo": {
+    "defaultMessage": "Ponów",
+    "description": "Aria label for the redo button"
+  },
+  "reference-tab": {
+    "defaultMessage": "Referencje",
+    "description": "Reference tab button text"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Zastąp",
+    "description": "Action label for replacing project dialog"
+  },
+  "reset-project-action": {
+    "defaultMessage": "Resetuj projekt",
+    "description": "Action to reset the project to its default state"
+  },
+  "reset-project-feedback": {
+    "defaultMessage": "Reset projektu do domyślnego kodu startowego",
+    "description": "Confirmation message after resetting the project"
+  },
+  "reset-project-hover": {
+    "defaultMessage": "Resetuje projekt do domyślnego kodu startowego, odrzucając Twoją pracę",
+    "description": "Reset action hover text"
+  },
+  "results-count": {
+    "defaultMessage": "{count, plural, =0 {Brak wyników} one {# wynik} few {# wyników} many {# wyników} other {# wyników}}",
+    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "save-action": {
+    "defaultMessage": "Zapisz",
+    "description": "Save button text"
+  },
+  "save-file-action": {
+    "defaultMessage": "Zapisz {name}",
+    "description": "Menu option to save a file"
+  },
+  "save-hex-action": {
+    "defaultMessage": "Zapisz hex projektu",
+    "description": "Text for menu item for saving a project hex file"
+  },
+  "save-hover": {
+    "defaultMessage": "Zapisz plik hex projektu na swoim komputerze",
+    "description": "Hover text over save button"
+  },
+  "save-python-action": {
+    "defaultMessage": "Zapisz skrypt Pythona",
+    "description": "Save button menu option to save the Python script"
+  },
+  "search": {
+    "defaultMessage": "Szukaj",
+    "description": "Aria label for searching documentation"
+  },
+  "send-action": {
+    "defaultMessage": "Wyślij do micro:bita",
+    "description": "Send to micro:bit button text"
+  },
+  "send-hover": {
+    "defaultMessage": "Połącz za pomocą WebUSB, a następnie wgraj kod na micro:bit",
+    "description": "Send button hover text"
+  },
+  "serial-collapse": {
+    "defaultMessage": "Ukryj szeregowy",
+    "description": "Action label to collapse the serial console/REPL area"
+  },
+  "serial-ctrl-c-action": {
+    "defaultMessage": "Wyślij Ctrl+C do REPL",
+    "description": "Button to trigger the Python REPL from the serial area"
+  },
+  "serial-ctrl-d-action": {
+    "defaultMessage": "Wyślij Ctrl+Dm aby zresetować",
+    "description": "Button to reset the micro:bit from the serial area"
+  },
+  "serial-expand": {
+    "defaultMessage": "Pokaż szeregowy",
+    "description": "Action label to expand the serial console/REPL area"
+  },
+  "serial-flashed": {
+    "defaultMessage": "micro:bit załadowany",
+    "description": "Shown when your program is in sync with the micro:bit"
+  },
+  "serial-help-ctrl-c": {
+    "defaultMessage": "Użyj skrótu klawiszowego <kbd>Ctrl</kbd> + <kbd>C</kbd>, aby przerwać program. Następnie możesz wpisać polecenia Pythona dla MicroPythona, aby uruchomić. To świetny sposób na eksperymentowanie z czymś nowym.",
+    "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
+  },
+  "serial-help-ctrl-d": {
+    "defaultMessage": "Aby ponownie uruchomić program, użyj <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
+    "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
+  },
+  "serial-help-intro": {
+    "defaultMessage": "Terminal szeregowy pokazuje błędy i inne wyniki programu uruchomionego na Twoim micro:bicie. Domyślnie pokazuje najnowszy błąd programu. Rozwiń go, aby zobaczyć wszystkie wyniki.",
+    "description": "Text from the serial hints and tips dialog"
+  },
+  "serial-help-print": {
+    "defaultMessage": "Twój program może drukować wiadomości za pomocą funkcji <code>print</code>. Spróbuj dodać <code>print('micro:bit jest niesamowity')</code> do swojego programu.",
+    "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
+  },
+  "serial-help-title": {
+    "defaultMessage": "Wskazówki i porady dotyczące szeregowego",
+    "description": "Title for the serial hints and tips dialog"
+  },
+  "serial-hints-and-tips": {
+    "defaultMessage": "Wskazówki i porady dotyczące szeregowego",
+    "description": "Link/button to open the serial hints and tips dialog"
+  },
+  "serial-menu": {
+    "defaultMessage": "Menu szeregowego",
+    "description": "Aria label for serial area menu"
+  },
+  "serial-ready-to-flash": {
+    "defaultMessage": "micro:bit gotowy do ładowania",
+    "description": "Shown when your program is out of sync with the micro:bit"
+  },
+  "serial-running": {
+    "defaultMessage": "Uruchamianie…",
+    "description": "Indicator text when the micro:bit is running a program"
+  },
+  "serial-terminal": {
+    "defaultMessage": "Terminal szeregowy",
+    "description": "Aria label for the serial terminal"
+  },
+  "setting-allow-editing-third-party": {
+    "defaultMessage": "Zezwalaj na edycję modułów innych firm",
+    "description": "Checkbox setting label"
+  },
+  "setting-allow-editing-third-party-info": {
+    "defaultMessage": "Zmiana modułów firm trzecich może oznaczać, że nie działają zgodnie z zamierzeniami.",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features": {
+    "defaultMessage": "Pokaż ostrzeżenia o funkcjach tylko V2",
+    "description": "Checkbox setting label"
+  },
+  "setting-warn-on-v2-only-features-info": {
+    "defaultMessage": "Ostrzeżenia są wyświetlane w edytorze po podłączeniu micro:bit V1",
+    "description": "Checkbox setting label"
+  },
+  "settings": {
+    "defaultMessage": "Ustawienia",
+    "description": "Settings text"
+  },
+  "show-api-documentation": {
+    "defaultMessage": "Pokaż dokumentację API",
+    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+  },
+  "show-less": {
+    "defaultMessage": "Pokaż mniej",
+    "description": "Show less for general progressive disclosure"
+  },
+  "show-less-for": {
+    "defaultMessage": "Pokaż mniej dla {item}",
+    "description": "Show less with item usually for aria label"
+  },
+  "show-more": {
+    "defaultMessage": "Pokaż więcej",
+    "description": "Show more for general progressive disclosure"
+  },
+  "show-more-for": {
+    "defaultMessage": "Pokaż więcej dla {item}",
+    "description": "Show more with item usually for aria label"
+  },
+  "sidebar": {
+    "defaultMessage": "Panel boczny",
+    "description": "Aria label for the area on the left"
+  },
+  "sidebar-collapse": {
+    "defaultMessage": "Zwiń pasek boczny",
+    "description": "Aria label for the collapse sidebar button"
+  },
+  "sidebar-expand": {
+    "defaultMessage": "Poszerz pasek boczny",
+    "description": "Aria label for the expand sidebar button"
+  },
+  "simulator-accelerometer": {
+    "defaultMessage": "Akcelerometr",
+    "description": "Simulator Accelerometer panel title"
+  },
+  "simulator-actions": {
+    "defaultMessage": "Akcje symulatora",
+    "description": "Aria label for the bar with simulator actions (stop, mute etc)"
+  },
+  "simulator-button-a": {
+    "defaultMessage": "Przycisk A",
+    "description": "Button A aria label on the simulator board"
+  },
+  "simulator-button-b": {
+    "defaultMessage": "Przycisk B",
+    "description": "Button B aria label on the simulator board"
+  },
+  "simulator-button-hold-label": {
+    "defaultMessage": "Przytrzymaj przycisk {button}",
+    "description": "Aria label for simulator toggle button"
+  },
+  "simulator-button-press-label": {
+    "defaultMessage": "Naciśnij przycisk {button}",
+    "description": "Aria label for simulator push button"
+  },
+  "simulator-buttons": {
+    "defaultMessage": "Przyciski",
+    "description": "Buttons simulator panel title"
+  },
+  "simulator-collapse": {
+    "defaultMessage": "Zwiń symulator",
+    "description": "Aria label for the collapse simulator button"
+  },
+  "simulator-collapse-module": {
+    "defaultMessage": "Zwiń moduł {title}",
+    "description": "Aria label for collapse simulator module button"
+  },
+  "simulator-compass": {
+    "defaultMessage": "Kompas",
+    "description": "Compass simulator panel title"
+  },
+  "simulator-compass-heading-one": {
+    "defaultMessage": "Nagłówek",
+    "description": "Sub heading for simulator Compass panel"
+  },
+  "simulator-compass-heading-two": {
+    "defaultMessage": "Natężenie pola magnetycznego",
+    "description": "Sub heading for simulator Compass panel"
+  },
+  "simulator-data-logging-empty": {
+    "defaultMessage": "Brak wpisów w dzienniku.",
+    "description": "Shown in the simulator Data logging table when there are no rows"
+  },
+  "simulator-data-logging-full": {
+    "defaultMessage": "Dziennik pełny",
+    "description": "Shown below the simulator Data logging table to warn that the log is full"
+  },
+  "simulator-data-logging-rows": {
+    "defaultMessage": "{count, plural, =0 {żaden wiersz nie zalogowany} one {# wiersz zalogowany} few {# wiersze zalogowane} many {# wierszy zalogowanych} other {# wierszy zalogowanych}}",
+    "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+  },
+  "simulator-data-logging-save-log": {
+    "defaultMessage": "Zapisz dziennik",
+    "description": "Action label to save the data log as a file from the Data logging simulator panel"
+  },
+  "simulator-data-logging-truncated": {
+    "defaultMessage": "Starsze wiersze nie są pokazane",
+    "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
+  },
+  "simulator-expand": {
+    "defaultMessage": "Rozwiń symulator",
+    "description": "Aria label for the expand simulator button"
+  },
+  "simulator-expand-module": {
+    "defaultMessage": "Rozwiń moduł {title}",
+    "description": "Aria label for expand simulator module button"
+  },
+  "simulator-gesture-3g": {
+    "defaultMessage": "3g",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-6g": {
+    "defaultMessage": "6g",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-8g": {
+    "defaultMessage": "8g",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-down": {
+    "defaultMessage": "w dół",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-face-down": {
+    "defaultMessage": "twarzą w dół",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-face-up": {
+    "defaultMessage": "twarzą do góry",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-freefall": {
+    "defaultMessage": "swobodne spadanie",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-left": {
+    "defaultMessage": "w lewo",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-right": {
+    "defaultMessage": "w prawo",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-select": {
+    "defaultMessage": "Wybierz gest",
+    "description": "Aria label for the simulator gesture select input"
+  },
+  "simulator-gesture-send": {
+    "defaultMessage": "Wyślij gest",
+    "description": "Aria label for the simulator gesture send button"
+  },
+  "simulator-gesture-shake": {
+    "defaultMessage": "potrząśnij",
+    "description": "Simulator gesture option"
+  },
+  "simulator-gesture-up": {
+    "defaultMessage": "w górę",
+    "description": "Simulator gesture option"
+  },
+  "simulator-hide": {
+    "defaultMessage": "Ukryj symulator",
+    "description": "Hide simulator action"
+  },
+  "simulator-input-hold": {
+    "defaultMessage": "Przytrzymaj",
+    "description": "Label for UI toggles to hold simulator buttons or pins"
+  },
+  "simulator-input-press": {
+    "defaultMessage": "Naciśnij",
+    "description": "Label for UI buttons to press simulator buttons or pins"
+  },
+  "simulator-light-level": {
+    "defaultMessage": "Poziom światła",
+    "description": "Light level simulator panel title"
+  },
+  "simulator-log": {
+    "defaultMessage": "Dziennik danych",
+    "description": "Data log simulator panel title"
+  },
+  "simulator-loud": {
+    "defaultMessage": "Głośno",
+    "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
+  },
+  "simulator-mute": {
+    "defaultMessage": "Wycisz",
+    "description": "Aria label for the mute simulator button"
+  },
+  "simulator-pin-hold-label": {
+    "defaultMessage": "Przytrzymaj pin {pin}",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pin-press-label": {
+    "defaultMessage": "Naciśnij pin {pin}",
+    "description": "Aria label for simulator pin control"
+  },
+  "simulator-pins": {
+    "defaultMessage": "Piny",
+    "description": "Pins simulator panel title"
+  },
+  "simulator-quiet": {
+    "defaultMessage": "Cicho",
+    "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
+  },
+  "simulator-radio": {
+    "defaultMessage": "Radio",
+    "description": "Radio simulator panel title"
+  },
+  "simulator-radio-code": {
+    "defaultMessage": "micro:bit wysłal:",
+    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
+  },
+  "simulator-radio-group-notice": {
+    "defaultMessage": "Grupa radiowa ustawiona na {groupNumber}",
+    "description": "Message in radio simulator area when the radio group changes"
+  },
+  "simulator-radio-message": {
+    "defaultMessage": "Wiadomość radiowa",
+    "description": "Label and placeholder for the simulator radio message input field"
+  },
+  "simulator-radio-message-limit-notice": {
+    "defaultMessage": "Starsze wiadomości nie są wyświetlane",
+    "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
+  },
+  "simulator-radio-no-messages": {
+    "defaultMessage": "Brak wiadomości do wyświetlenia",
+    "description": "Text shown when there are no radio messages to display in the simulator user interface"
+  },
+  "simulator-radio-off": {
+    "defaultMessage": "Radio jest wyłączone",
+    "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
+  },
+  "simulator-radio-send": {
+    "defaultMessage": "Wyślij wiadomość",
+    "description": "Aria label for the simulator radio send button"
+  },
+  "simulator-radio-user": {
+    "defaultMessage": "Wysłałeś:",
+    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
+  },
+  "simulator-reference-link": {
+    "defaultMessage": "Link do sekcji odniesienia",
+    "description": "Aria label for simulator Reference link button"
+  },
+  "simulator-reset": {
+    "defaultMessage": "Reset",
+    "description": "Aria label for the reset simulator button"
+  },
+  "simulator-serial-terminal": {
+    "defaultMessage": "Terminal szeregowy symulatora",
+    "description": "Aria label for the simulator serial terminal"
+  },
+  "simulator-sound-level": {
+    "defaultMessage": "Poziom dźwięku",
+    "description": "Sound level simulator panel title"
+  },
+  "simulator-start-simulator": {
+    "defaultMessage": "Uruchom symulator",
+    "description": "Aria label for the large play button on the simulator board"
+  },
+  "simulator-stop": {
+    "defaultMessage": "Zatrzymaj symulator",
+    "description": "Aria label for the stop simulator button"
+  },
+  "simulator-temperature": {
+    "defaultMessage": "Temperatura",
+    "description": "Temperature simulator panel title"
+  },
+  "simulator-title": {
+    "defaultMessage": "Symulator",
+    "description": "Simulator title"
+  },
+  "simulator-touch-logo": {
+    "defaultMessage": "Logo dotykowe",
+    "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
+  },
+  "simulator-unmute": {
+    "defaultMessage": "Wycisz",
+    "description": "Aria label for the unmute simulator button"
+  },
+  "software-versions": {
+    "defaultMessage": "Wersje oprogramowania",
+    "description": "Heading for a table of software versions in the about dialog"
+  },
+  "start-coding-action": {
+    "defaultMessage": "Zacznij kodować",
+    "description": "Start coding button text"
+  },
+  "support": {
+    "defaultMessage": "Wsparcie",
+    "description": "Support menu option text"
+  },
+  "terms-of-use": {
+    "defaultMessage": "Warunki korzystania",
+    "description": "Terms of use menu option text"
+  },
+  "third-party-module-explanation": {
+    "defaultMessage": "Ten plik jest modułem firm trzecich i nie może być edytowany.",
+    "description": "Explanation shown instead of the code editor for third-party modules."
+  },
+  "third-party-module-how-to": {
+    "defaultMessage": "Zezwalaj edycję modułów innych firm w <link>Ustawienia</link> do modyfikowania tego modułu.",
+    "description": "Explanation of how to allow editing for third-party modules."
+  },
+  "timeout-error-description": {
+    "defaultMessage": "Nie można połączyć się z micro:bitem",
+    "description": "Description for error messages relating to WebUSB timeout"
+  },
+  "timeout-error-title": {
+    "defaultMessage": "Przekroczono limit czasu połączenia",
+    "description": "Title for error messages relating to WebUSB timeout"
+  },
+  "toolkit-error-loading": {
+    "defaultMessage": "Wystąpił błąd podczas ładowania zestawu narzędzi.",
+    "description": "Error shown if we failed to load toolkit content"
+  },
+  "toolkit-view-documentation": {
+    "defaultMessage": "Zobacz dokumentację {name}",
+    "description": "Aria label for the toolkit topic right arrow"
+  },
+  "transfer-hex-message-one": {
+    "defaultMessage": "Przeciągnij plik hex z <strong>folderu Pobrane</strong> na <strong>dysk MICROBIT</strong>.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-message-two": {
+    "defaultMessage": "Możesz później <strong>Otworzyć</strong> plik hex, aby kontynuować edycję.",
+    "description": "Text in the transfer hex dialog"
+  },
+  "transfer-hex-title": {
+    "defaultMessage": "Przenieś zapisany plik hex na micro:bita",
+    "description": "Title for the transfer hex dialog"
+  },
+  "try-again-action": {
+    "defaultMessage": "Spróbuj ponownie",
+    "description": "Try again button text"
+  },
+  "undo": {
+    "defaultMessage": "Cofnij",
+    "description": "Aria label for the undo button"
+  },
+  "unexpected-error-description": {
+    "defaultMessage": "Spróbuj ponownie lub <link>zgłoś prośbę o wsparcie</link>",
+    "description": "Text shown for unexpected error scenarios"
+  },
+  "unexpected-error-title": {
+    "defaultMessage": "Spróbuj ponownie lub <link>zgłoś prośbę o wsparcie</link>",
+    "description": "Text shown for unexpected error scenarios"
+  },
+  "untitled-project": {
+    "defaultMessage": "Projekt bez tytułu",
+    "description": "Title for a new project"
+  },
+  "update-firmware-action": {
+    "defaultMessage": "Zaktualizuj firmware",
+    "description": "Update firmware button text"
+  },
+  "updated-change": {
+    "defaultMessage": "Zaktualizowany plik {changeName}",
+    "description": "Change made to file"
+  },
+  "user-guide": {
+    "defaultMessage": "Podręcznik użytkownika",
+    "description": "Menu item for link to user guide site"
+  },
+  "visit-dot-org": {
+    "defaultMessage": "odwiedź microbit.org (otwiera się w nowej karcie)",
+    "description": "alt text for logo link to .org"
+  },
+  "warn-on-v2-only-features-action": {
+    "defaultMessage": "Wyłącz ostrzeżenia o funkcjach tylko V2",
+    "description": "Label for editor action"
+  },
+  "webusb-error-clear-connect-description-1": {
+    "defaultMessage": "Do tego urządzenia podłączony jest inny proces.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-description-2": {
+    "defaultMessage": "Zamknij inne zakładki, które mogą korzystać z WebUSB (np. MakeCode, Edytor Pythona) lub odłącz i podłącz micro:bit przed ponowną próbą.",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-error-clear-connect-title": {
+    "defaultMessage": "Inna strona lub zakładka przeglądarki jest połączona z tym micro:bitem",
+    "description": "Title of error for WebUsb connection"
+  },
+  "webusb-error-default-title": {
+    "defaultMessage": "Błąd WebUSB",
+    "description": "Default title for error messages relating to WebUSB"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "<p>Postępuj zgodnie z tymi krokami, a następnie spróbuj ponownie:</p><ul><li>odłącz kabel USB</li><li>odłącz pakiet baterii, jeśli jest podłączony</li><li>ponownie podłącz kabel USB</li><li>ponownie podłącz pakiet baterii, jeśli był podłączony</li></ul>",
+    "description": "Part of WebUSB error message"
+  },
+  "webusb-not-supported": {
+    "defaultMessage": "Niestety WebUSB nie jest obsługiwany w tej przeglądarce, a Twój program zostanie zapisany na Twoim komputerze. Wykonaj kroki na następnym ekranie, aby przenieść program na swój micro:bit. Zalecamy Google Chrome lub Microsoft Edge, abyś mógł połączyć się bezpośrednio ze swoim micro:bitem.",
+    "description": "Explantion shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-not-supported-title": {
+    "defaultMessage": "Ta przeglądarka nie obsługuje WebUSB",
+    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
+  },
+  "webusb-why-use": {
+    "defaultMessage": "Za pomocą WebUSB możesz programować swój micro:bit i połączyć się z konsolą szeregową bezpośrednio z edytora online.",
+    "description": "Shown to encourage use of browser that supports WebUSB"
+  },
+  "welcome-message": {
+    "defaultMessage": "Obejrzyj nasz krótki przewodnik po niektórych kluczowych funkcjach lub natychmiast zacznij kodować.",
+    "description": "Text in the welcome dialogn"
+  },
+  "welcome-title": {
+    "defaultMessage": "Witaj w edytorze Pythona dla micro:bita",
+    "description": "Title for the welcome dialog"
+  },
+  "welcome-video-alt": {
+    "defaultMessage": "film wprowadzający edytor Pythona",
+    "description": "iframe title for the welcome video"
+  },
+  "zoom-in-action": {
+    "defaultMessage": "Powiększ",
+    "description": "Text label for zoom in button"
+  },
+  "zoom-out-action": {
+    "defaultMessage": "Pomniejsz",
+    "description": "Text label for zoom out button"
+  }
+}

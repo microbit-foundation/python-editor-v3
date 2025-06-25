@@ -23,6 +23,10 @@
     "defaultMessage": "crwdns331366:0crwdne331366:0",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
+  "accessibility": {
+    "defaultMessage": "crwdns364038:0crwdne364038:0",
+    "description": "Menu item for link to accessibility site"
+  },
   "added-change": {
     "defaultMessage": "crwdns331368:0{changeName}crwdne331368:0",
     "description": "Change made to file"
@@ -210,6 +214,10 @@
   "copy-code-action": {
     "defaultMessage": "crwdns331458:0crwdne331458:0",
     "description": "Copy code to clipboard action text"
+  },
+  "copy-snippet-advice": {
+    "defaultMessage": "crwdns363516:0crwdne363516:0",
+    "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
     "defaultMessage": "crwdns331460:0crwdne331460:0",
@@ -510,6 +518,10 @@
     "defaultMessage": "crwdns331608:0crwdne331608:0",
     "description": "Text in the no micro:bit found dialog"
   },
+  "offline-image-alt": {
+    "defaultMessage": "crwdns359874:0crwdne359874:0",
+    "description": "Alt text for an image placeholder when the user is offline"
+  },
   "open-action": {
     "defaultMessage": "crwdns331610:0crwdne331610:0",
     "description": "Open button text"
@@ -743,11 +755,11 @@
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features": {
-    "defaultMessage": "Show warnings about V2-only features",
+    "defaultMessage": "crwdns359862:0crwdne359862:0",
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "defaultMessage": "crwdns359864:0crwdne359864:0",
     "description": "Checkbox setting label"
   },
   "settings": {
@@ -1114,12 +1126,16 @@
     "defaultMessage": "crwdns331782:0{changeName}crwdne331782:0",
     "description": "Change made to file"
   },
+  "user-guide": {
+    "defaultMessage": "crwdns364040:0crwdne364040:0",
+    "description": "Menu item for link to user guide site"
+  },
   "visit-dot-org": {
     "defaultMessage": "crwdns331784:0crwdne331784:0",
     "description": "alt text for logo link to .org"
   },
   "warn-on-v2-only-features-action": {
-    "defaultMessage": "Disable warnings about V2-only features",
+    "defaultMessage": "crwdns359866:0crwdne359866:0",
     "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
@@ -1131,7 +1147,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "crwdns331790:0crwdne331790:0",
+    "defaultMessage": "crwdns359868:0crwdne359868:0",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -1139,7 +1155,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "crwdns331794:0crwdne331794:0",
+    "defaultMessage": "crwdns359870:0crwdne359870:0",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {
@@ -1163,7 +1179,7 @@
     "description": "Title for the welcome dialog"
   },
   "welcome-video-alt": {
-    "defaultMessage": "video introducing the Python Editor",
+    "defaultMessage": "crwdns359872:0crwdne359872:0",
     "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {

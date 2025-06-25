@@ -1,0 +1,2738 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "Maidir"
+    }
+  ],
+  "about-comic": [
+    {
+      "type": 0,
+      "value": "Trí greannán painéil dar teideal \"MicroPython Rocks\" le Mike Rowbit. Cuireann nathair chartúin Damien in aithne, ag rá \"Buail le Damien... Chruthaigh sé MicroPython\". Pléann dhá nathracha MicroPython. Deir an nathair bhuí \"Tá MicroPython deartha chun oibriú ar ríomhairí an-bheag.\" \"Cosúil le do micro:bit BBC:bit\" a fhreagraíonn an nathair chorcra.\" Leanann an nathair bhuí ar aghaidh \"Ach is féidir le Python rith áit ar bith\". Aontaíonn an nathair corcra, ag rá \"Cosúil leis an raca freastalaithe seo a ritheann láithreáin ghréasáin ollmhóra\". Taispeánann an cúlra taobh thiar de na nathracha raca freastalaí."
+    }
+  ],
+  "about-microbit": [
+    {
+      "type": 0,
+      "value": "Déanta le grá ag an "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Micro:bit Educational Foundation agus rannpháirtithe"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "about-micropython": [
+    {
+      "type": 0,
+      "value": "Braitheann an t-eagarthóir ar "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "MicroPython"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " atá déanta ag Damien George agus pobal forbróirí ar fud an domhain."
+    }
+  ],
+  "about-read-less-micropython": [
+    {
+      "type": 0,
+      "value": "Léigh níos lú faoi MicroPython"
+    }
+  ],
+  "about-read-more-micropython": [
+    {
+      "type": 0,
+      "value": "Léigh níos mó faoi MicroPython"
+    }
+  ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Inrochtaineacht"
+    }
+  ],
+  "added-change": [
+    {
+      "type": 0,
+      "value": "Cuireadh comhad leis "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "api-description": [
+    {
+      "type": 0,
+      "value": "Le haghaidh úsáide agus samplaí, féach "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Tagairt"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "api-tab": [
+    {
+      "type": 0,
+      "value": "API"
+    }
+  ],
+  "apidocs-baseclass": [
+    {
+      "offset": 0,
+      "options": {
+        "few": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ranga bunúsacha: "
+            }
+          ]
+        },
+        "many": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ranga bunúsacha: "
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "rang bunúsach"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ranga bunúsacha: "
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ranga bunúsacha: "
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "baseClassCount"
+    },
+    {
+      "type": 0,
+      "value": "\n"
+    }
+  ],
+  "apidocs-classes": [
+    {
+      "type": 0,
+      "value": "Ranganna"
+    }
+  ],
+  "apidocs-fields": [
+    {
+      "type": 0,
+      "value": "Réimsí"
+    }
+  ],
+  "apidocs-functions": [
+    {
+      "type": 0,
+      "value": "Feidhmeanna"
+    }
+  ],
+  "apidocs-methods": [
+    {
+      "type": 0,
+      "value": "Modhanna"
+    }
+  ],
+  "back-action": [
+    {
+      "type": 0,
+      "value": "Ar ais"
+    }
+  ],
+  "back-to-main": [
+    {
+      "type": 0,
+      "value": "ar ais go dtí an príomhchód"
+    }
+  ],
+  "cancel-action": [
+    {
+      "type": 0,
+      "value": "Cealaigh"
+    }
+  ],
+  "change-files": [
+    {
+      "type": 0,
+      "value": "Athraigh comhaid?"
+    }
+  ],
+  "choose-main-add-file": [
+    {
+      "type": 0,
+      "value": "Cuir comhad "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " leis"
+    }
+  ],
+  "choose-main-add-module": [
+    {
+      "type": 0,
+      "value": "Cuir modúl "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " leis"
+    }
+  ],
+  "choose-main-replace-file": [
+    {
+      "type": 0,
+      "value": "Ionadaigh comhad "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-replace-module": [
+    {
+      "type": 0,
+      "value": "Ionadaigh modúl "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "choose-main-source-add-file": [
+    {
+      "type": 0,
+      "value": "Cuir comhad "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " ó "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-add-main-code": [
+    {
+      "type": 0,
+      "value": "Cuir príomhchód ó "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " leis"
+    }
+  ],
+  "choose-main-source-replace-file": [
+    {
+      "type": 0,
+      "value": "Ionadaigh comhad "
+    },
+    {
+      "type": 1,
+      "value": "target"
+    },
+    {
+      "type": 0,
+      "value": " le "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    }
+  ],
+  "choose-main-source-replace-main-code": [
+    {
+      "type": 0,
+      "value": "Cuir "
+    },
+    {
+      "type": 1,
+      "value": "source"
+    },
+    {
+      "type": 0,
+      "value": " in ionad an phríomhchóid"
+    }
+  ],
+  "clear": [
+    {
+      "type": 0,
+      "value": "Glan"
+    }
+  ],
+  "close-action": [
+    {
+      "type": 0,
+      "value": "Dún"
+    }
+  ],
+  "code-editor": [
+    {
+      "type": 0,
+      "value": "Eagarthóir cóid"
+    }
+  ],
+  "code-example": [
+    {
+      "type": 0,
+      "value": "Sampla cóid:"
+    }
+  ],
+  "confirm-action": [
+    {
+      "type": 0,
+      "value": "Deimhnigh"
+    }
+  ],
+  "confirm-delete": [
+    {
+      "type": 0,
+      "value": "Deimhnigh scrios"
+    }
+  ],
+  "confirm-replace-body": [
+    {
+      "type": 0,
+      "value": "Cuir iad siúd sa heics in ionad gach comhad?"
+    }
+  ],
+  "confirm-replace-reset": [
+    {
+      "type": 0,
+      "value": "Cuir an cód tosaithe réamhshocraithe in ionad gach comhaid?"
+    }
+  ],
+  "confirm-replace-title": [
+    {
+      "type": 0,
+      "value": "Deimhnigh ionadaigh an tionscadal"
+    }
+  ],
+  "confirm-replace-with-idea": [
+    {
+      "type": 0,
+      "value": "Cuir "
+    },
+    {
+      "type": 1,
+      "value": "ideaName"
+    },
+    {
+      "type": 0,
+      "value": " in ionad gach comhaid?"
+    }
+  ],
+  "confirm-save-action": [
+    {
+      "type": 0,
+      "value": "Deimhnigh agus sábháil"
+    }
+  ],
+  "confirm-save-hint": [
+    {
+      "type": 0,
+      "value": "Cealaigh ansin úsáid Sábháil chun cóip de do thionscadal a choinneáil."
+    }
+  ],
+  "connect-action": [
+    {
+      "type": 0,
+      "value": "Ceangail"
+    }
+  ],
+  "connect-cable-title": [
+    {
+      "type": 0,
+      "value": "Ceangail cábla"
+    }
+  ],
+  "connect-help-alt": [
+    {
+      "type": 0,
+      "value": "Dialóg nasc WebUSB le micro:bit BBC: iontráil giotán lipéadaithe 1 agus Ceangail cnaipe lipéadaithe 2"
+    }
+  ],
+  "connect-help-message": [
+    {
+      "type": 0,
+      "value": "Sa chéad phreabfhuinneog eile:"
+    }
+  ],
+  "connect-help-one": [
+    {
+      "type": 0,
+      "value": "Roghnaigh do micro:bit"
+    }
+  ],
+  "connect-help-title": [
+    {
+      "type": 0,
+      "value": "Roghnaigh micro:bit"
+    }
+  ],
+  "connect-help-two": [
+    {
+      "type": 0,
+      "value": "Roghnaigh 'Ceangail'"
+    }
+  ],
+  "connect-hover": [
+    {
+      "type": 0,
+      "value": "Ceangail le do micro:bit thar WebUSB"
+    }
+  ],
+  "connect-microbit": [
+    {
+      "type": 0,
+      "value": "Ceangail le do micro:bit chun aschur sraitheach a fheiceáil anseo"
+    }
+  ],
+  "connect-troubleshoot": [
+    {
+      "type": 0,
+      "value": "Fabhtcheartaigh fadhbanna le nascadh le do micro:bit"
+    }
+  ],
+  "content-load-error": [
+    {
+      "type": 0,
+      "value": "Chuaigh rud éigin mícheart. Íoslódáil do chomhad heicsidheachúlach chun é a choinneáil slán, ansin athnuaigh an leathanach chun é a athlódáil."
+    }
+  ],
+  "cookies-action": [
+    {
+      "type": 0,
+      "value": "Fianáin"
+    }
+  ],
+  "copied": [
+    {
+      "type": 0,
+      "value": "Cóipeáilte"
+    }
+  ],
+  "copy-action": [
+    {
+      "type": 0,
+      "value": "Cóipeáil"
+    }
+  ],
+  "copy-code-action": [
+    {
+      "type": 0,
+      "value": "Cóipeáil cód"
+    }
+  ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Cóipeáladh an cód, bain úsáid as greamaigh chun é a chur isteach."
+    }
+  ],
+  "create-action": [
+    {
+      "type": 0,
+      "value": "Cruthaigh"
+    }
+  ],
+  "create-file-action": [
+    {
+      "type": 0,
+      "value": "Cruthaigh comhad"
+    }
+  ],
+  "create-python": [
+    {
+      "type": 0,
+      "value": "Cruthaigh comhad nua Python sa tionscadal seo"
+    }
+  ],
+  "created-file": [
+    {
+      "type": 0,
+      "value": "Cruthaithe "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "delete-action": [
+    {
+      "type": 0,
+      "value": "Scrios"
+    }
+  ],
+  "delete-file-action": [
+    {
+      "type": 0,
+      "value": "Scrios "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "deleted-file": [
+    {
+      "type": 0,
+      "value": "Scriosta "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "disconnect-action": [
+    {
+      "type": 0,
+      "value": "Dícheangail"
+    }
+  ],
+  "disconnect-hover": [
+    {
+      "type": 0,
+      "value": "Dícheangail ón micro:bit"
+    }
+  ],
+  "dont-show-again": [
+    {
+      "type": 0,
+      "value": "Ná taispeáin é seo arís"
+    }
+  ],
+  "drag-hover": [
+    {
+      "type": 0,
+      "value": "Tarraing agus scaoil"
+    }
+  ],
+  "edit-file-action": [
+    {
+      "type": 0,
+      "value": "Cuir "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " in eagar"
+    }
+  ],
+  "edit-name-project-hover": [
+    {
+      "type": 0,
+      "value": "Cuir ainm do thionscadail in eagar"
+    }
+  ],
+  "edit-project-name-action": [
+    {
+      "type": 0,
+      "value": "Cuir ainm an tionscadail in eagar"
+    }
+  ],
+  "failed-to-build-hex": [
+    {
+      "type": 0,
+      "value": "Theip ar an gcomhad heicsidheachúlach a thógáil"
+    }
+  ],
+  "feedback": [
+    {
+      "type": 0,
+      "value": "Aiseolas"
+    }
+  ],
+  "file-actions": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " gníomhartha comhaid"
+    }
+  ],
+  "file-already-exists": [
+    {
+      "type": 0,
+      "value": "Tá an comhad seo ann cheana"
+    }
+  ],
+  "file-name-invalid-character": [
+    {
+      "type": 0,
+      "value": "Tá carachtar neamhbhailí san ainm: "
+    },
+    {
+      "type": 1,
+      "value": "invalid"
+    }
+  ],
+  "file-name-length": [
+    {
+      "type": 0,
+      "value": "Tá an t-ainm rófhada"
+    }
+  ],
+  "file-name-lowercase-only": [
+    {
+      "type": 0,
+      "value": "Ba chóir go mbeadh an t-ainm go léir cás íochtair"
+    }
+  ],
+  "file-name-not-empty": [
+    {
+      "type": 0,
+      "value": "Ní féidir an t-ainm a bheith folamh"
+    }
+  ],
+  "file-name-start-number": [
+    {
+      "type": 0,
+      "value": "Ní féidir leis an ainm tosú le huimhir"
+    }
+  ],
+  "file-name-whitespace": [
+    {
+      "type": 0,
+      "value": "Ní féidir spásanna a bheith san ainm"
+    }
+  ],
+  "firmware-update-link": [
+    {
+      "type": 0,
+      "value": "Ní mór duit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "do dochtearraí a nuashonrú"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " sular féidir leat ceangal leis an micro:bit seo."
+    }
+  ],
+  "firmware-update-message": [
+    {
+      "type": 0,
+      "value": "Theip ar nascadh leis an micro:bit toisc go bhfuil an dochtearraí ar do micro:bit ró-shean."
+    }
+  ],
+  "firmware-update-title": [
+    {
+      "type": 0,
+      "value": "Nuashonrú dochtearraí ag teastáil"
+    }
+  ],
+  "flash-action": [
+    {
+      "type": 0,
+      "value": "Splanc"
+    }
+  ],
+  "flash-hover": [
+    {
+      "type": 0,
+      "value": "Splanc an tionscadal díreach chuig an micro:bit"
+    }
+  ],
+  "flashing-code": [
+    {
+      "type": 0,
+      "value": "Cód á sheoladh (ag splancadh)"
+    }
+  ],
+  "flashing-full-flash-detail": [
+    {
+      "type": 0,
+      "value": "Tá do chód á sheoladh (á splancadh) chuig do micro:bit. Féadfaidh sé seo tamall a thógáil an chéad uair ach beidh sé níos tapúla ina dhiaidh sin."
+    }
+  ],
+  "flashing-micropython": [
+    {
+      "type": 0,
+      "value": "MicroPython a splancadh"
+    }
+  ],
+  "font-size": [
+    {
+      "type": 0,
+      "value": "Méid an chló"
+    }
+  ],
+  "guide-link": [
+    {
+      "type": 0,
+      "value": "Le haghaidh tuilleadh tacaíochta, féach an "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "treoir Eagarthóir Python"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "help": [
+    {
+      "type": 0,
+      "value": "Cabhair"
+    }
+  ],
+  "help-support": [
+    {
+      "type": 0,
+      "value": "Cabhair & tacaíocht"
+    }
+  ],
+  "help-translate": [
+    {
+      "type": 0,
+      "value": "Cabhair a aistriú"
+    }
+  ],
+  "highlight-code-structure": [
+    {
+      "type": 0,
+      "value": "Aibhsigh struchtúr an chóid"
+    }
+  ],
+  "highlight-code-structure-full": [
+    {
+      "type": 0,
+      "value": "Iomlán"
+    }
+  ],
+  "highlight-code-structure-none": [
+    {
+      "type": 0,
+      "value": "Dada"
+    }
+  ],
+  "highlight-code-structure-simple": [
+    {
+      "type": 0,
+      "value": "Simplí"
+    }
+  ],
+  "ideas-tab": [
+    {
+      "type": 0,
+      "value": "Smaointe"
+    }
+  ],
+  "ideas-tab-description": [
+    {
+      "type": 0,
+      "value": "Bain triail as na tionscadail seo, athraigh iad agus spreag iad"
+    }
+  ],
+  "insert-code-action": [
+    {
+      "type": 0,
+      "value": "Ionsáigh cód"
+    }
+  ],
+  "language": [
+    {
+      "type": 0,
+      "value": "Teanga"
+    }
+  ],
+  "less-action": [
+    {
+      "type": 0,
+      "value": "Níos lú"
+    }
+  ],
+  "load-error-makecode-info": [
+    {
+      "type": 0,
+      "value": "Ní féidir an comhad heicsidheachúlach seo a luchtú in Eagarthóir Python. Ní féidir leis an Eagarthóir Python comhaid heicsidheachúlacha a cruthaíodh le Microsoft MakeCode a oscailt."
+    }
+  ],
+  "load-error-makecode-link": [
+    {
+      "type": 0,
+      "value": "Tabhair cuairt ar "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "https://makecode.microbit.org/"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " chun an comhad heicsidheachúlach seo a úsáid."
+    }
+  ],
+  "load-error-mixed": [
+    {
+      "type": 0,
+      "value": "Ní féidir comhad heicsidheachúlach a luchtú as a stuaim féin. Tagann sé in ionad gach comhad sa tionscadal."
+    }
+  ],
+  "load-error-mpy": [
+    {
+      "type": 0,
+      "value": "Ní thacaíonn an leagan seo den Eagarthóir Python le comhaid .mpy a chur leis faoi láthair."
+    }
+  ],
+  "load-error-title": [
+    {
+      "type": 0,
+      "value": "Ní féidir "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "few": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhaid"
+            }
+          ]
+        },
+        "many": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhaid"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhad"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhaid"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhaid"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " a lódáil\n"
+    }
+  ],
+  "loaded-file-feedback": [
+    {
+      "type": 0,
+      "value": "Luchtaithe "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    }
+  ],
+  "loading": [
+    {
+      "type": 0,
+      "value": "Ag lódáil…"
+    }
+  ],
+  "microbit-hearts-alt": [
+    {
+      "type": 0,
+      "value": "micro:bit leis an eangach 5 faoi 5 LED ag taispeáint croí"
+    }
+  ],
+  "micropython-documentation": [
+    {
+      "type": 0,
+      "value": "Doiciméadú MicroPython"
+    }
+  ],
+  "micropython-history": [
+    {
+      "type": 0,
+      "value": "Foghlaim conas a tháinig MicroPython ar an micro:bit"
+    }
+  ],
+  "micropython-source-code": [
+    {
+      "type": 0,
+      "value": "Cód foinse MicroPython "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "don micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "linkV1"
+    },
+    {
+      "type": 0,
+      "value": " agus "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V2"
+        }
+      ],
+      "type": 8,
+      "value": "linkV2"
+    }
+  ],
+  "more-action": [
+    {
+      "type": 0,
+      "value": "Níos mó"
+    }
+  ],
+  "more-connect-options": [
+    {
+      "type": 0,
+      "value": "Tuilleadh roghanna ceangail"
+    }
+  ],
+  "more-ideas": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Tuilleadh smaointe"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "more-save-options": [
+    {
+      "type": 0,
+      "value": "Tuilleadh roghanna sábhála"
+    }
+  ],
+  "multiple-files-message-one": [
+    {
+      "type": 0,
+      "value": "Sa tionscadal seo tá "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "fileCount"
+            },
+            {
+              "type": 0,
+              "value": " files"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "fileCount"
+    },
+    {
+      "type": 0,
+      "value": " ach níor íoslódáladh ach "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "main.py"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "multiple-files-message-two": [
+    {
+      "type": 0,
+      "value": "Bain úsáid as an gcnaipe "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Sábháil"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " chun do thionscadal iomlán a íoslódáil mar chomhad heicsidheachúlach. Is féidir leat an comhad heicsidheachúlach a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "oscailt"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " chun do thionscadal a chur ar ais. Más fearr leat comhaid Python aonair a íoslódáil, bain úsáid as an táb "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Tionscadal"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "multiple-files-title": [
+    {
+      "type": 0,
+      "value": "Rabhadh: Ní íoslódálfar ach main.py"
+    }
+  ],
+  "name-project": [
+    {
+      "type": 0,
+      "value": "Ainmnigh do thionscadal"
+    }
+  ],
+  "name-text": [
+    {
+      "type": 0,
+      "value": "Ainm"
+    }
+  ],
+  "name-used-when": [
+    {
+      "type": 0,
+      "value": "Úsáidtear an t-ainm nuair a shábhálann tú comhad."
+    }
+  ],
+  "new-file-hint": [
+    {
+      "type": 0,
+      "value": "Cuirfimid an síneadh "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": ".py"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " ar do shon."
+    }
+  ],
+  "next-action": [
+    {
+      "type": 0,
+      "value": "Ar Aghaidh"
+    }
+  ],
+  "not-found-checklist-one": [
+    {
+      "type": 0,
+      "value": "An bhfuil do "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit plugáilte isteach"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "? Ar "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "lean tú na céimeanna seo"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "not-found-checklist-two": [
+    {
+      "type": 0,
+      "value": "Má tá "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "micro:bit V1"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " agat b'fhéidir go mbeidh ort "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "an dochtearraí a nuashonrú"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "not-found-message": [
+    {
+      "type": 0,
+      "value": "Níor roghnaigh tú micro:bit, nó bhí fadhb ag nascadh leis."
+    }
+  ],
+  "not-found-save-message": [
+    {
+      "type": 0,
+      "value": "Modh malartach: roghnaigh Sábháil ansin lean céimeanna a aistriú"
+    }
+  ],
+  "not-found-title": [
+    {
+      "type": 0,
+      "value": "Níor aimsíodh micro:bit"
+    }
+  ],
+  "not-found-update-link": [
+    {
+      "type": 0,
+      "value": "Ní mór duit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "do firmware a nuashonrú sular"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " féidir leat ceangal leis an micro:bit seo."
+    }
+  ],
+  "offline-image-alt": [
+    {
+      "type": 0,
+      "value": "Níl an íomhá ar fáil as líne"
+    }
+  ],
+  "open-action": [
+    {
+      "type": 0,
+      "value": "Oscail"
+    }
+  ],
+  "open-file-action": [
+    {
+      "type": 0,
+      "value": "Oscail…"
+    }
+  ],
+  "open-file-dropped": [
+    {
+      "type": 0,
+      "value": "Oscail comhad nuair a thit sé"
+    }
+  ],
+  "open-hover": [
+    {
+      "type": 0,
+      "value": "Oscail comhad heicsidheachúlach nó Python nó cuir comhaid eile leis"
+    }
+  ],
+  "options": [
+    {
+      "type": 0,
+      "value": "Roghanna"
+    }
+  ],
+  "parameter-help": [
+    {
+      "type": 0,
+      "value": "Cabhair pharaiméadair"
+    }
+  ],
+  "parameter-help-automatic": [
+    {
+      "type": 0,
+      "value": "Uathoibríoch"
+    }
+  ],
+  "parameter-help-manual": [
+    {
+      "type": 0,
+      "value": "Lámhleabhar ("
+    },
+    {
+      "type": 1,
+      "value": "shortcut"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "permanently-delete": [
+    {
+      "type": 0,
+      "value": "Scrios "
+    },
+    {
+      "type": 1,
+      "value": "filename"
+    },
+    {
+      "type": 0,
+      "value": " go buan?"
+    }
+  ],
+  "post-save-message-files": [
+    {
+      "type": 0,
+      "value": "Cuimsíonn sé seo gach comhad sa tionscadal seo (lena n-áirítear aon chomhaid bhreise, m.sh. gabhálais a reáchtáil, atá liostaithe sa chluaisín "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Tionscadail"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": ")."
+    }
+  ],
+  "post-save-message-one": [
+    {
+      "type": 0,
+      "value": "Gheobhaidh tú do chomhad heicsidheachúlach i bhfillteán "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Íoslódálacha"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " an ríomhaire seo."
+    }
+  ],
+  "post-save-message-two": [
+    {
+      "type": 0,
+      "value": "Is féidir leat é a bhogadh chuig fillteán eile le haghaidh stórála agus a úsáid "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Oscailte"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " chun leanúint ar aghaidh ag eagarthóireacht níos déanaí."
+    }
+  ],
+  "post-save-title": [
+    {
+      "type": 0,
+      "value": "Tionscadal sábháilte"
+    }
+  ],
+  "post-save-transfer-hex": [
+    {
+      "type": 0,
+      "value": "Chun an comhad heicsidheachúlach seo a rith ar do micro:bit "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "lean na céimeanna seo"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "privacy-policy": [
+    {
+      "type": 0,
+      "value": "Polasaí Príobháideachais"
+    }
+  ],
+  "project-actions": [
+    {
+      "type": 0,
+      "value": "Gníomhartha tionscadail"
+    }
+  ],
+  "project-header": [
+    {
+      "type": 0,
+      "value": "Ceanntásc an tionscadail"
+    }
+  ],
+  "project-name": [
+    {
+      "type": 0,
+      "value": "Ainm an tionscadail"
+    }
+  ],
+  "project-name-not-empty": [
+    {
+      "type": 0,
+      "value": "Ní féidir ainm an tionscadail a fholmhú"
+    }
+  ],
+  "project-tab": [
+    {
+      "type": 0,
+      "value": "Tionscadal"
+    }
+  ],
+  "project-tab-description": [
+    {
+      "type": 0,
+      "value": "Amharc ar na comhaid i do thionscadal, iad a chruthú, a chur leis agus a chur in eagar"
+    }
+  ],
+  "python-powered": [
+    {
+      "type": 0,
+      "value": "Python faoi thiomáint"
+    }
+  ],
+  "python-tab": [
+    {
+      "type": 0,
+      "value": "Python"
+    }
+  ],
+  "quit-anyway": [
+    {
+      "type": 0,
+      "value": "Níor sábháladh roinnt de na hathruithe. Scoir ar aon nós?"
+    }
+  ],
+  "read-less": [
+    {
+      "type": 0,
+      "value": "Léigh níos lú"
+    }
+  ],
+  "read-more": [
+    {
+      "type": 0,
+      "value": "Léigh níos mó"
+    }
+  ],
+  "redo": [
+    {
+      "type": 0,
+      "value": "Athdhéan"
+    }
+  ],
+  "reference-tab": [
+    {
+      "type": 0,
+      "value": "Tagairt"
+    }
+  ],
+  "replace-action-label": [
+    {
+      "type": 0,
+      "value": "Ionadaigh"
+    }
+  ],
+  "reset-project-action": [
+    {
+      "type": 0,
+      "value": "Athshocraigh tionscadal"
+    }
+  ],
+  "reset-project-feedback": [
+    {
+      "type": 0,
+      "value": "Athshocraigh an tionscadal go dtí an cód tosaithe réamhshocraithe"
+    }
+  ],
+  "reset-project-hover": [
+    {
+      "type": 0,
+      "value": "Athshocraigh an tionscadal chuig an gcód tosaithe réamhshocraithe, ag caitheamh do chuid oibre"
+    }
+  ],
+  "results-count": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Gan torthaí"
+            }
+          ]
+        },
+        "few": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " torthaí"
+            }
+          ]
+        },
+        "many": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " torthaí"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " toradh"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " torthaí"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " thoradh"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": "\n"
+    }
+  ],
+  "save-action": [
+    {
+      "type": 0,
+      "value": "Sábháil"
+    }
+  ],
+  "save-file-action": [
+    {
+      "type": 0,
+      "value": "Sábháil "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "save-hex-action": [
+    {
+      "type": 0,
+      "value": "Sábháil heics an tionscadail"
+    }
+  ],
+  "save-hover": [
+    {
+      "type": 0,
+      "value": "Sábháil comhad heicsidheachúlach an tionscadail ar do ríomhaire"
+    }
+  ],
+  "save-python-action": [
+    {
+      "type": 0,
+      "value": "Sábháil script Python"
+    }
+  ],
+  "search": [
+    {
+      "type": 0,
+      "value": "Cuardaigh"
+    }
+  ],
+  "send-action": [
+    {
+      "type": 0,
+      "value": "Seol chuig micro:bit"
+    }
+  ],
+  "send-hover": [
+    {
+      "type": 0,
+      "value": "Ceangail trí WebUSB ansin flash cód ar micro:bit"
+    }
+  ],
+  "serial-collapse": [
+    {
+      "type": 0,
+      "value": "Folaigh sraithuimhir"
+    }
+  ],
+  "serial-ctrl-c-action": [
+    {
+      "type": 0,
+      "value": "Seol Ctrl+C le haghaidh REPL"
+    }
+  ],
+  "serial-ctrl-d-action": [
+    {
+      "type": 0,
+      "value": "Seol Ctrl+D le hathshocrú"
+    }
+  ],
+  "serial-expand": [
+    {
+      "type": 0,
+      "value": "Taispeáin sraithuimhir"
+    }
+  ],
+  "serial-flashed": [
+    {
+      "type": 0,
+      "value": "micro:bit splanctha"
+    }
+  ],
+  "serial-help-ctrl-c": [
+    {
+      "type": 0,
+      "value": "Bain úsáid as an aicearra méarchláir "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "C"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " chun cur isteach ar do chlár. Ansin is féidir leat orduithe Python a chlóscríobh le haghaidh MicroPython le rith. Is bealach iontach é chun triail a bhaint as rud éigin nua."
+    }
+  ],
+  "serial-help-ctrl-d": [
+    {
+      "type": 0,
+      "value": "Chun tús a chur le do chlár ag rith arís bain úsáid as "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Ctrl"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": " + "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "D"
+        }
+      ],
+      "type": 8,
+      "value": "kbd"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "serial-help-intro": [
+    {
+      "type": 0,
+      "value": "Taispeánann an teirminéal sraitheach earráidí agus aschur eile ón gclár ag rith ar do micro:bit. De réir réamhshocraithe, taispeánann sé an earráid is déanaí ón gclár. Leathnaigh é chun an t-aschur go léir a fheiceáil."
+    }
+  ],
+  "serial-help-print": [
+    {
+      "type": 0,
+      "value": "Is féidir le do ríomhchlár teachtaireachtaí a phriontáil ag baint úsáide as an bhfeidhm "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "print"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": ". Bain triail as "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "priontáil ('micro:bit is awesome')"
+        }
+      ],
+      "type": 8,
+      "value": "code"
+    },
+    {
+      "type": 0,
+      "value": " a chur le do chlár."
+    }
+  ],
+  "serial-help-title": [
+    {
+      "type": 0,
+      "value": "Leideanna srathacha agus leideanna"
+    }
+  ],
+  "serial-hints-and-tips": [
+    {
+      "type": 0,
+      "value": "Leideanna agus leideanna sraitheach"
+    }
+  ],
+  "serial-menu": [
+    {
+      "type": 0,
+      "value": "Roghchlár srathach"
+    }
+  ],
+  "serial-ready-to-flash": [
+    {
+      "type": 0,
+      "value": "micro:bit réidh le splanc"
+    }
+  ],
+  "serial-running": [
+    {
+      "type": 0,
+      "value": "Ag rith…"
+    }
+  ],
+  "serial-terminal": [
+    {
+      "type": 0,
+      "value": "Teirminéal srathach"
+    }
+  ],
+  "setting-allow-editing-third-party": [
+    {
+      "type": 0,
+      "value": "Ceadaigh modúil tríú páirtí a chur in eagar"
+    }
+  ],
+  "setting-allow-editing-third-party-info": [
+    {
+      "type": 0,
+      "value": "D'fhéadfadh sé go gciallódh athrú modúil tríú páirtí nach n-oibríonn siad mar a bhí beartaithe."
+    }
+  ],
+  "setting-warn-on-v2-only-features": [
+    {
+      "type": 0,
+      "value": "Taispeáin rabhaidh faoi ghnéithe V2 amháin"
+    }
+  ],
+  "setting-warn-on-v2-only-features-info": [
+    {
+      "type": 0,
+      "value": "Taispeántar rabhaidh san eagarthóir nuair a bhíonn micro:bit V1 ceangailte"
+    }
+  ],
+  "settings": [
+    {
+      "type": 0,
+      "value": "Socruithe"
+    }
+  ],
+  "show-api-documentation": [
+    {
+      "type": 0,
+      "value": "Taispeáin doiciméadú API"
+    }
+  ],
+  "show-less": [
+    {
+      "type": 0,
+      "value": "Taispeáin níos lú"
+    }
+  ],
+  "show-less-for": [
+    {
+      "type": 0,
+      "value": "Taispeáin níos lú le haghaidh "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "show-more": [
+    {
+      "type": 0,
+      "value": "Taispeáin níos mó"
+    }
+  ],
+  "show-more-for": [
+    {
+      "type": 0,
+      "value": "Taispeáin níos mó le haghaidh "
+    },
+    {
+      "type": 1,
+      "value": "item"
+    }
+  ],
+  "sidebar": [
+    {
+      "type": 0,
+      "value": "Barra Taoibh"
+    }
+  ],
+  "sidebar-collapse": [
+    {
+      "type": 0,
+      "value": "Laghdaigh an barra taoibh"
+    }
+  ],
+  "sidebar-expand": [
+    {
+      "type": 0,
+      "value": "Leathnaigh an barra taoibh"
+    }
+  ],
+  "simulator-accelerometer": [
+    {
+      "type": 0,
+      "value": "Luasmhéadar"
+    }
+  ],
+  "simulator-actions": [
+    {
+      "type": 0,
+      "value": "Gníomhartha Insamhlóir"
+    }
+  ],
+  "simulator-button-a": [
+    {
+      "type": 0,
+      "value": "Cnaipe A"
+    }
+  ],
+  "simulator-button-b": [
+    {
+      "type": 0,
+      "value": "Cnaipe B"
+    }
+  ],
+  "simulator-button-hold-label": [
+    {
+      "type": 0,
+      "value": "Coinnigh cnaipe "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-button-press-label": [
+    {
+      "type": 0,
+      "value": "Brúigh cnaipe "
+    },
+    {
+      "type": 1,
+      "value": "button"
+    }
+  ],
+  "simulator-buttons": [
+    {
+      "type": 0,
+      "value": "Cnaipí"
+    }
+  ],
+  "simulator-collapse": [
+    {
+      "type": 0,
+      "value": "Laghdaigh an t-insamhlóir"
+    }
+  ],
+  "simulator-collapse-module": [
+    {
+      "type": 0,
+      "value": "Laghdaigh an modúl "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
+  "simulator-compass": [
+    {
+      "type": 0,
+      "value": "Compás"
+    }
+  ],
+  "simulator-compass-heading-one": [
+    {
+      "type": 0,
+      "value": "Ceannteideal"
+    }
+  ],
+  "simulator-compass-heading-two": [
+    {
+      "type": 0,
+      "value": "Neart réimse maighnéadach"
+    }
+  ],
+  "simulator-data-logging-empty": [
+    {
+      "type": 0,
+      "value": "Gan iontrálacha logála."
+    }
+  ],
+  "simulator-data-logging-full": [
+    {
+      "type": 0,
+      "value": "Logáil isteach iomlán"
+    }
+  ],
+  "simulator-data-logging-rows": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Gan aon ró a logáil"
+            }
+          ]
+        },
+        "few": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
+            }
+          ]
+        },
+        "many": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": "\n"
+    }
+  ],
+  "simulator-data-logging-save-log": [
+    {
+      "type": 0,
+      "value": "Sábháil an logchomhad"
+    }
+  ],
+  "simulator-data-logging-truncated": [
+    {
+      "type": 0,
+      "value": "Rónna níos sine nach dtaispeántar"
+    }
+  ],
+  "simulator-expand": [
+    {
+      "type": 0,
+      "value": "Leathnaigh an t-insamhlóir"
+    }
+  ],
+  "simulator-expand-module": [
+    {
+      "type": 0,
+      "value": "Leathnaigh modúl "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
+  "simulator-gesture-3g": [
+    {
+      "type": 0,
+      "value": "3g"
+    }
+  ],
+  "simulator-gesture-6g": [
+    {
+      "type": 0,
+      "value": "6g"
+    }
+  ],
+  "simulator-gesture-8g": [
+    {
+      "type": 0,
+      "value": "8g"
+    }
+  ],
+  "simulator-gesture-down": [
+    {
+      "type": 0,
+      "value": "síos"
+    }
+  ],
+  "simulator-gesture-face-down": [
+    {
+      "type": 0,
+      "value": "aghaidh síos"
+    }
+  ],
+  "simulator-gesture-face-up": [
+    {
+      "type": 0,
+      "value": "aghaidh suas"
+    }
+  ],
+  "simulator-gesture-freefall": [
+    {
+      "type": 0,
+      "value": "titim saor"
+    }
+  ],
+  "simulator-gesture-left": [
+    {
+      "type": 0,
+      "value": "chlé"
+    }
+  ],
+  "simulator-gesture-right": [
+    {
+      "type": 0,
+      "value": "dheis"
+    }
+  ],
+  "simulator-gesture-select": [
+    {
+      "type": 0,
+      "value": "Roghnaigh gotha"
+    }
+  ],
+  "simulator-gesture-send": [
+    {
+      "type": 0,
+      "value": "Seol gotha"
+    }
+  ],
+  "simulator-gesture-shake": [
+    {
+      "type": 0,
+      "value": "croith"
+    }
+  ],
+  "simulator-gesture-up": [
+    {
+      "type": 0,
+      "value": "suas"
+    }
+  ],
+  "simulator-hide": [
+    {
+      "type": 0,
+      "value": "Folaigh Insamhlóir"
+    }
+  ],
+  "simulator-input-hold": [
+    {
+      "type": 0,
+      "value": "Coinnigh"
+    }
+  ],
+  "simulator-input-press": [
+    {
+      "type": 0,
+      "value": "Preas"
+    }
+  ],
+  "simulator-light-level": [
+    {
+      "type": 0,
+      "value": "Leibhéal solais"
+    }
+  ],
+  "simulator-log": [
+    {
+      "type": 0,
+      "value": "Loga sonraí"
+    }
+  ],
+  "simulator-loud": [
+    {
+      "type": 0,
+      "value": "Ard"
+    }
+  ],
+  "simulator-mute": [
+    {
+      "type": 0,
+      "value": "Balbhaigh"
+    }
+  ],
+  "simulator-pin-hold-label": [
+    {
+      "type": 0,
+      "value": "Coinnigh bioráin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
+  "simulator-pin-press-label": [
+    {
+      "type": 0,
+      "value": "Brúigh bioráin "
+    },
+    {
+      "type": 1,
+      "value": "pin"
+    }
+  ],
+  "simulator-pins": [
+    {
+      "type": 0,
+      "value": "Bioráin"
+    }
+  ],
+  "simulator-quiet": [
+    {
+      "type": 0,
+      "value": "Ciúin"
+    }
+  ],
+  "simulator-radio": [
+    {
+      "type": 0,
+      "value": "Raidió"
+    }
+  ],
+  "simulator-radio-code": [
+    {
+      "type": 0,
+      "value": "micro:bit seolta:"
+    }
+  ],
+  "simulator-radio-group-notice": [
+    {
+      "type": 0,
+      "value": "Grúpa raidió socraithe chuig "
+    },
+    {
+      "type": 1,
+      "value": "groupNumber"
+    }
+  ],
+  "simulator-radio-message": [
+    {
+      "type": 0,
+      "value": "Teachtaireacht raidió"
+    }
+  ],
+  "simulator-radio-message-limit-notice": [
+    {
+      "type": 0,
+      "value": "Ní thaispeántar teachtaireachtaí níos sine"
+    }
+  ],
+  "simulator-radio-no-messages": [
+    {
+      "type": 0,
+      "value": "Níl teachtaireachtaí le taispeáint"
+    }
+  ],
+  "simulator-radio-off": [
+    {
+      "type": 0,
+      "value": "Tá an raidió as"
+    }
+  ],
+  "simulator-radio-send": [
+    {
+      "type": 0,
+      "value": "Seol teachtaireacht"
+    }
+  ],
+  "simulator-radio-user": [
+    {
+      "type": 0,
+      "value": "Sheol tú:"
+    }
+  ],
+  "simulator-reference-link": [
+    {
+      "type": 0,
+      "value": "Nasc chuig an rannóg Tagartha"
+    }
+  ],
+  "simulator-reset": [
+    {
+      "type": 0,
+      "value": "Athshocraigh"
+    }
+  ],
+  "simulator-serial-terminal": [
+    {
+      "type": 0,
+      "value": "Insamhlóir teirminéal sraitheach"
+    }
+  ],
+  "simulator-sound-level": [
+    {
+      "type": 0,
+      "value": "Leibhéal fuaime"
+    }
+  ],
+  "simulator-start-simulator": [
+    {
+      "type": 0,
+      "value": "Tosaigh Insamhlóir"
+    }
+  ],
+  "simulator-stop": [
+    {
+      "type": 0,
+      "value": "Stop Insamhlóir"
+    }
+  ],
+  "simulator-temperature": [
+    {
+      "type": 0,
+      "value": "Teocht"
+    }
+  ],
+  "simulator-title": [
+    {
+      "type": 0,
+      "value": "Insamhlóir"
+    }
+  ],
+  "simulator-touch-logo": [
+    {
+      "type": 0,
+      "value": "Lógó tadhaill"
+    }
+  ],
+  "simulator-unmute": [
+    {
+      "type": 0,
+      "value": "Díbholadh"
+    }
+  ],
+  "software-versions": [
+    {
+      "type": 0,
+      "value": "Leaganacha bogearraí"
+    }
+  ],
+  "start-coding-action": [
+    {
+      "type": 0,
+      "value": "Tosaigh códú"
+    }
+  ],
+  "support": [
+    {
+      "type": 0,
+      "value": "Tacaíocht"
+    }
+  ],
+  "terms-of-use": [
+    {
+      "type": 0,
+      "value": "Téarmaí úsáide"
+    }
+  ],
+  "third-party-module-explanation": [
+    {
+      "type": 0,
+      "value": "Is modúl tríú páirtí é an comhad seo agus níl sé i gceist é a chur in eagar."
+    }
+  ],
+  "third-party-module-how-to": [
+    {
+      "type": 0,
+      "value": "Ceadaigh modúil tríú páirtí a chur in eagar i "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Socruithe"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " chun an modúl seo a mhodhnú."
+    }
+  ],
+  "timeout-error-description": [
+    {
+      "type": 0,
+      "value": "Ní féidir nascadh leis an micro:bit"
+    }
+  ],
+  "timeout-error-title": [
+    {
+      "type": 0,
+      "value": "Ceangal thar am"
+    }
+  ],
+  "toolkit-error-loading": [
+    {
+      "type": 0,
+      "value": "Tharla earráid agus an fhoireann uirlisí á luchtú."
+    }
+  ],
+  "toolkit-view-documentation": [
+    {
+      "type": 0,
+      "value": "Amharc ar cháipéisíocht "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "transfer-hex-message-one": [
+    {
+      "type": 0,
+      "value": "Tarraing an comhad heicsidheachúlach ó "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "d'fhillteán Íoslódálacha"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " chuig an "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "tiomántán MICROBIT"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "transfer-hex-message-two": [
+    {
+      "type": 0,
+      "value": "Is féidir leat an comhad heicsidheachúlach a "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "oscailt"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " níos déanaí chun leanúint ar aghaidh leis an eagarthóireacht."
+    }
+  ],
+  "transfer-hex-title": [
+    {
+      "type": 0,
+      "value": "Aistrigh comhad heicsidheachúlach sábháilte go micro:bit"
+    }
+  ],
+  "try-again-action": [
+    {
+      "type": 0,
+      "value": "Bain triail as arís"
+    }
+  ],
+  "undo": [
+    {
+      "type": 0,
+      "value": "Cealaigh"
+    }
+  ],
+  "unexpected-error-description": [
+    {
+      "type": 0,
+      "value": "Bain triail eile as nó "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ardaigh iarratas tacaíochta"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "unexpected-error-title": [
+    {
+      "type": 0,
+      "value": "Bain triail eile as nó "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "ardaigh iarratas tacaíochta"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    }
+  ],
+  "untitled-project": [
+    {
+      "type": 0,
+      "value": "Tionscadal gan teideal"
+    }
+  ],
+  "update-firmware-action": [
+    {
+      "type": 0,
+      "value": "Nuashonraigh dochtearraí"
+    }
+  ],
+  "updated-change": [
+    {
+      "type": 0,
+      "value": "Comhad nuashonraithe "
+    },
+    {
+      "type": 1,
+      "value": "changeName"
+    }
+  ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "Treoir d'úsáideoirí"
+    }
+  ],
+  "visit-dot-org": [
+    {
+      "type": 0,
+      "value": "tabhair cuairt ar microbit.org (osclaítear i gcluaisín nua)"
+    }
+  ],
+  "warn-on-v2-only-features-action": [
+    {
+      "type": 0,
+      "value": "Díchumasaigh rabhaidh faoi ghnéithe V2 amháin"
+    }
+  ],
+  "webusb-error-clear-connect-description-1": [
+    {
+      "type": 0,
+      "value": "Tá próiseas eile ceangailte leis an ngléas seo."
+    }
+  ],
+  "webusb-error-clear-connect-description-2": [
+    {
+      "type": 0,
+      "value": "Dún aon chluaisíní eile a d'fhéadfadh a bheith ag baint úsáide as WebUSB (m.sh. MakeCode, Eagarthóir Python), nó díphlugáil agus athphlugáil an micro:bit sula mbainfidh tú triail eile as."
+    }
+  ],
+  "webusb-error-clear-connect-title": [
+    {
+      "type": 0,
+      "value": "Tá leathanach nó cluaisín brabhsálaí eile ceangailte leis an micro:bit seo"
+    }
+  ],
+  "webusb-error-default-title": [
+    {
+      "type": 0,
+      "value": "Earráid WebUSB"
+    }
+  ],
+  "webusb-error-reconnect-microbit-description": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "Lean na céimeanna seo, ansin bain triail eile as:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "type": 0,
+      "value": " "
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "díphlugáil an cábla USB"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "díphlugáil an pacáiste ceallraí má tá ceann ceangailte"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "athcheangail an cábla USB"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "athcheangail an pacáiste ceallraí má bhí ceann ceangailte"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
+    }
+  ],
+  "webusb-not-supported": [
+    {
+      "type": 0,
+      "value": "Ar an drochuair, ní thacaítear le WebUSB sa bhrabhsálaí seo agus sábhálfar do chlár ar do ríomhaire ina ionad. Lean na céimeanna ar an gcéad scáileán eile chun é a aistriú chuig do micro:bit. Molaimid Google Chrome nó Microsoft Edge ionas gur féidir leat ceangal go díreach le do micro:bit."
+    }
+  ],
+  "webusb-not-supported-title": [
+    {
+      "type": 0,
+      "value": "Ní thacaíonn an brabhsálaí seo le WebUSB"
+    }
+  ],
+  "webusb-why-use": [
+    {
+      "type": 0,
+      "value": "Le WebUSB is féidir leat do micro:bit a chlárú agus ceangal leis an gconsól sraitheach go díreach ón eagarthóir ar líne."
+    }
+  ],
+  "welcome-message": [
+    {
+      "type": 0,
+      "value": "Féach ar ár dtreoir ghearr maidir le cuid de na príomhghnéithe, nó faigh códú ar an bpointe boise."
+    }
+  ],
+  "welcome-title": [
+    {
+      "type": 0,
+      "value": "Fáilte go dtí an tEagarthóir Python micro:bit"
+    }
+  ],
+  "welcome-video-alt": [
+    {
+      "type": 0,
+      "value": "físeán ag tabhairt isteach Eagarthóir Python"
+    }
+  ],
+  "zoom-in-action": [
+    {
+      "type": 0,
+      "value": "Zúmáil isteach"
+    }
+  ],
+  "zoom-out-action": [
+    {
+      "type": 0,
+      "value": "Zúmáil amach"
+    }
+  ]
+}

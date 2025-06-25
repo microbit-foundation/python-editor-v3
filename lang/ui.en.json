@@ -23,6 +23,10 @@
     "defaultMessage": "Read more about MicroPython",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
+  "accessibility": {
+    "defaultMessage": "Accessibility",
+    "description": "Menu item for link to accessibility site"
+  },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
@@ -210,6 +214,10 @@
   "copy-code-action": {
     "defaultMessage": "Copy code",
     "description": "Copy code to clipboard action text"
+  },
+  "copy-snippet-advice": {
+    "defaultMessage": "Code copied, use paste to insert it.",
+    "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
     "defaultMessage": "Create",
@@ -1118,6 +1126,10 @@
   "updated-change": {
     "defaultMessage": "Updated file {changeName}",
     "description": "Change made to file"
+  },
+  "user-guide": {
+    "defaultMessage": "User guide",
+    "description": "Menu item for link to user guide site"
   },
   "visit-dot-org": {
     "defaultMessage": "visit microbit.org (opens in a new tab)",

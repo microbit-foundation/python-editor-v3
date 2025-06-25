@@ -59,6 +59,12 @@
       "value": "Read more about MicroPython"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Accessibility"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -429,6 +435,12 @@
     {
       "type": 0,
       "value": "Copy code"
+    }
+  ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Code copied, use paste to insert it."
     }
   ],
   "create-action": [
@@ -2431,6 +2443,12 @@
     {
       "type": 1,
       "value": "changeName"
+    }
+  ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "User guide"
     }
   ],
   "visit-dot-org": [

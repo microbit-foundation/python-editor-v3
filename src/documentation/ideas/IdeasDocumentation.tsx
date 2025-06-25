@@ -22,6 +22,8 @@ import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
 import OfflineImageFallback from "../OfflineImageFallback";
+import { microbitOrgMiciProjectsUrl } from "../../external-links";
+import { useSettings } from "../../settings/settings";
 
 interface IdeasDocumentationProps {
   ideas: Idea[];
@@ -64,6 +66,7 @@ const ActiveLevel = ({
 }: ActiveLevelProps) => {
   const activeIdea = ideas.find((idea) => idea.slug.current === ideaId);
   const intl = useIntl();
+  const [{ languageId }] = useSettings();
   const headingString = intl.formatMessage({ id: "ideas-tab" });
   const ref = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(ref);
@@ -156,7 +159,7 @@ const ActiveLevel = ({
             link: (chunks: ReactNode) => (
               <Link
                 color="brand.500"
-                href="https://microbit.org/projects/make-it-code-it/?filters=python"
+                href={microbitOrgMiciProjectsUrl(languageId)}
                 target="_blank"
                 rel="noopener"
               >

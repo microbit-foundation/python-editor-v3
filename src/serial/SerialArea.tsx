@@ -5,7 +5,7 @@
  */
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import { backgroundColorTerm } from "../deployment/misc";
-import { ConnectionStatus } from "../device/device";
+import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
 import { TerminalContext } from "./serial-hooks";
 import SerialBar from "./SerialBar";

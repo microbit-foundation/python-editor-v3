@@ -15,7 +15,7 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-languages="ca de fr es-ES ja ko nl zh-CN zh-TW lol"
+languages="ca de es-ES fr ga-IE ja ko nl pl zh-CN zh-TW lol"
 
 mkdir -p crowdin/translated
 for language in $languages; do

@@ -23,6 +23,10 @@
     "defaultMessage": "MicroPython 세부 정보 표시하기",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
+  "accessibility": {
+    "defaultMessage": "접근성",
+    "description": "Menu item for link to accessibility site"
+  },
   "added-change": {
     "defaultMessage": "{changeName} 파일 추가됨",
     "description": "Change made to file"
@@ -196,7 +200,7 @@
     "description": "Text displayed when content fails to load"
   },
   "cookies-action": {
-    "defaultMessage": "Cookies",
+    "defaultMessage": "쿠키",
     "description": "Action to show dialog to choose website cookie preferences"
   },
   "copied": {
@@ -211,8 +215,12 @@
     "defaultMessage": "코드 복사",
     "description": "Copy code to clipboard action text"
   },
+  "copy-snippet-advice": {
+    "defaultMessage": "Code copied, use paste to insert it.",
+    "description": "Toast shown when you copy from API or Reference snippets"
+  },
   "create-action": {
-    "defaultMessage": "Create",
+    "defaultMessage": "생성",
     "description": "Create action label (e.g. in create file dialog)"
   },
   "create-file-action": {
@@ -483,7 +491,7 @@
     "description": "Hint shown in the new Python file dialog"
   },
   "next-action": {
-    "defaultMessage": "Next",
+    "defaultMessage": "다음",
     "description": "Next button text"
   },
   "not-found-checklist-one": {
@@ -511,7 +519,7 @@
     "description": "Text in the no micro:bit found dialog"
   },
   "offline-image-alt": {
-    "defaultMessage": "Image unavailable offline",
+    "defaultMessage": "이미지는 오프라인에서 사용할 수 없습니다.",
     "description": "Alt text for an image placeholder when the user is offline"
   },
   "open-action": {
@@ -747,11 +755,11 @@
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features": {
-    "defaultMessage": "Show warnings about V2-only features",
+    "defaultMessage": "V2 전용 기능에 대한 경고 표시",
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "defaultMessage": "micro:bit V1이 연결되면 편집기에 경고가 표시됩니다.",
     "description": "Checkbox setting label"
   },
   "settings": {
@@ -967,7 +975,7 @@
     "description": "Radio simulator panel title"
   },
   "simulator-radio-code": {
-    "defaultMessage": "micro:bit sent:",
+    "defaultMessage": "micro:bit 전송된:",
     "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
   },
   "simulator-radio-group-notice": {
@@ -995,7 +1003,7 @@
     "description": "Aria label for the simulator radio send button"
   },
   "simulator-radio-user": {
-    "defaultMessage": "You sent:",
+    "defaultMessage": "너가 보냈다:",
     "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
   },
   "simulator-reference-link": {
@@ -1118,12 +1126,16 @@
     "defaultMessage": "{changeName} 파일 업데이트됨",
     "description": "Change made to file"
   },
+  "user-guide": {
+    "defaultMessage": "사용자 가이드",
+    "description": "Menu item for link to user guide site"
+  },
   "visit-dot-org": {
     "defaultMessage": "microbit.org 방문(새 탭에서 열기)",
     "description": "alt text for logo link to .org"
   },
   "warn-on-v2-only-features-action": {
-    "defaultMessage": "Disable warnings about V2-only features",
+    "defaultMessage": "V2 전용 기능에 대한 경고 비활성화",
     "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
@@ -1135,7 +1147,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "인터페이스 수령 실패",
+    "defaultMessage": "다른 페이지나 브라우저 탭이 이 micro:bit에 연결되어 있습니다.",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -1143,7 +1155,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "micro:bit 연결을 확인한 후, 다시 시도해 보세요.",
+    "defaultMessage": "다른 페이지나 브라우저 탭이 이 micro:bit에 연결되어 있습니다.",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {
@@ -1167,7 +1179,7 @@
     "description": "Title for the welcome dialog"
   },
   "welcome-video-alt": {
-    "defaultMessage": "video introducing the Python Editor",
+    "defaultMessage": "Python 편집기를 소개하는 비디오",
     "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {

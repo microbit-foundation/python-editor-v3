@@ -59,6 +59,12 @@
       "value": "阅读更多有关 MicroPython 的信息"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "辅助功能"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -429,6 +435,12 @@
     {
       "type": 0,
       "value": "复制代码"
+    }
+  ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "已复制代码，使用粘贴将其插入。"
     }
   ],
   "create-action": [
@@ -1168,7 +1180,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "图片无法离线使用图像"
     }
   ],
   "open-action": [
@@ -1705,13 +1717,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "显示有关仅限 V2 的特性的警告"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "当 micro:bit V1 连接时，编辑器中会显示警告"
     }
   ],
   "settings": [
@@ -2434,6 +2446,12 @@
       "value": "changeName"
     }
   ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "用户指南"
+    }
+  ],
   "visit-dot-org": [
     {
       "type": 0,
@@ -2443,7 +2461,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "禁用有关 V2 独有特性的警告"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2461,7 +2479,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "无法声明接口"
+      "value": "另一个页面或浏览 tab 选项卡已连接到此 micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2472,8 +2490,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "请重新连接 micro:bit 然后再次尝试。"
+      "children": [
+        {
+          "type": 0,
+          "value": "请按照以下步骤操作，然后重试："
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "拔下 USB 电缆"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "拔下电池组（如果已连接）"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "重新连接 USB 电缆"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "重新连接电池组（如果已连接）"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2509,7 +2579,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "介绍 Python 编辑器的视频"
     }
   ],
   "zoom-in-action": [

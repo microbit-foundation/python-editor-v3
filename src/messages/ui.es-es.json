@@ -59,6 +59,12 @@
       "value": "Leer más sobre MicroPython"
     }
   ],
+  "accessibility": [
+    {
+      "type": 0,
+      "value": "Accesibilidad"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -433,6 +439,12 @@
     {
       "type": 0,
       "value": "Copiar código"
+    }
+  ],
+  "copy-snippet-advice": [
+    {
+      "type": 0,
+      "value": "Código copiado, usa pegar para insertarlo."
     }
   ],
   "create-action": [
@@ -1164,7 +1176,7 @@
   "offline-image-alt": [
     {
       "type": 0,
-      "value": "Image unavailable offline"
+      "value": "Imagen no disponible sin conexión"
     }
   ],
   "open-action": [
@@ -1712,13 +1724,13 @@
   "setting-warn-on-v2-only-features": [
     {
       "type": 0,
-      "value": "Show warnings about V2-only features"
+      "value": "Mostrar advertencias sobre funciones exclusivas de la V2"
     }
   ],
   "setting-warn-on-v2-only-features-info": [
     {
       "type": 0,
-      "value": "Warnings are shown in the editor when a micro:bit V1 is connected"
+      "value": "Las advertencias se muestran en el editor cuando se conecta un micro:bit V1"
     }
   ],
   "settings": [
@@ -2425,6 +2437,12 @@
       "value": " actualizado"
     }
   ],
+  "user-guide": [
+    {
+      "type": 0,
+      "value": "Guía de usuario"
+    }
+  ],
   "visit-dot-org": [
     {
       "type": 0,
@@ -2434,7 +2452,7 @@
   "warn-on-v2-only-features-action": [
     {
       "type": 0,
-      "value": "Disable warnings about V2-only features"
+      "value": "Desactivar las advertencias sobre funciones exclusivas de la V2"
     }
   ],
   "webusb-error-clear-connect-description-1": [
@@ -2452,7 +2470,7 @@
   "webusb-error-clear-connect-title": [
     {
       "type": 0,
-      "value": "No se ha podido solicitar interfaz"
+      "value": "Otra página o pestaña del navegador está conectada a este micro:bit"
     }
   ],
   "webusb-error-default-title": [
@@ -2463,8 +2481,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
-      "type": 0,
-      "value": "Por favor reconecta el micro:bit e intentalo de nuevo."
+      "children": [
+        {
+          "type": 0,
+          "value": "Por favor, sigue estos pasos y vuelve a intentarlo:"
+        }
+      ],
+      "type": 8,
+      "value": "p"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "desconecta el cable USB"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "desenchufa la batería si la tiene instalada"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "vuelve a conectar el cable USB"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        },
+        {
+          "children": [
+            {
+              "type": 0,
+              "value": "vuelve a conectar el paquete de baterías si estaba conectado"
+            }
+          ],
+          "type": 8,
+          "value": "li"
+        }
+      ],
+      "type": 8,
+      "value": "ul"
     }
   ],
   "webusb-not-supported": [
@@ -2500,7 +2570,7 @@
   "welcome-video-alt": [
     {
       "type": 0,
-      "value": "video introducing the Python Editor"
+      "value": "vídeo de introducción al editor de Python"
     }
   ],
   "zoom-in-action": [

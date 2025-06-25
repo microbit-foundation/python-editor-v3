@@ -65,12 +65,9 @@ const CompassModule = ({
               onSensorChange={onValueChange}
               minimised={minimised}
             />
-            <Icon
-              ref={ref}
-              as={CompassHeadingIcon}
-              color="blimpTeal.400"
-              boxSize="20"
-            />
+            <Icon ref={ref} color="blimpTeal.400" boxSize="20">
+              <CompassHeadingIcon />
+            </Icon>
           </HStack>
           <Stack spacing={5} mt={5}>
             <Text as="h4" fontSize="sm">

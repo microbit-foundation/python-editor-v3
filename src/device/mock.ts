@@ -3,19 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { TypedEventTarget } from "../common/events";
 import {
   BoardVersion,
   ConnectionStatus,
-  DeviceConnection,
   DeviceConnectionEventMap,
   FlashDataSource,
   FlashEvent,
   SerialDataEvent,
   ConnectionStatusEvent,
-  WebUSBError,
-  WebUSBErrorCode,
-} from "./device";
+  DeviceError,
+  DeviceErrorCode,
+  TypedEventTarget,
+  MicrobitWebUSBConnection,
+  SerialConnectionEventMap,
+} from "@microbit/microbit-connection";
 
 /**
  * A mock device used during end-to-end testing.
@@ -25,14 +26,14 @@ import {
  * the connected state without a real device.
  */
 export class MockDeviceConnection
-  extends TypedEventTarget<DeviceConnectionEventMap>
-  implements DeviceConnection
+  extends TypedEventTarget<DeviceConnectionEventMap & SerialConnectionEventMap>
+  implements MicrobitWebUSBConnection
 {
-  status: ConnectionStatus = navigator.usb
+  status: ConnectionStatus = (navigator as any).usb
     ? ConnectionStatus.NO_AUTHORIZED_DEVICE
     : ConnectionStatus.NOT_SUPPORTED;
 
-  private connectResults: WebUSBErrorCode[] = [];
+  private connectResults: DeviceErrorCode[] = [];
 
   constructor() {
     super();
@@ -41,28 +42,34 @@ export class MockDeviceConnection
   }
 
   mockSerialWrite(data: string) {
-    this.dispatchTypedEvent("serial_data", new SerialDataEvent(data));
+    this.dispatchTypedEvent("serialdata", new SerialDataEvent(data));
   }
 
-  mockConnect(code: WebUSBErrorCode) {
+  mockConnect(code: DeviceErrorCode) {
     this.connectResults.push(code);
   }
 
   async initialize(): Promise<void> {}
 
   dispose() {}
+  getDeviceId(): number | undefined {
+    return undefined;
+  }
+  setRequestDeviceExclusionFilters(): void {}
+  getDevice() {}
+  async softwareReset(): Promise<void> {}
 
   async connect(): Promise<ConnectionStatus> {
     const next = this.connectResults.shift();
     if (next) {
-      throw new WebUSBError({ code: next, message: "Mocked failure" });
+      throw new DeviceError({ code: next, message: "Mocked failure" });
     }
 
     this.setStatus(ConnectionStatus.CONNECTED);
     return this.status;
   }
 
-  getBoardVersion(): BoardVersion | null {
+  getBoardVersion(): BoardVersion | undefined {
     return "V2";
   }
 
@@ -93,7 +100,7 @@ export class MockDeviceConnection
   }
 
   async disconnect(): Promise<void> {
-    this.setStatus(ConnectionStatus.NOT_CONNECTED);
+    this.setStatus(ConnectionStatus.DISCONNECTED);
   }
 
   async serialWrite(data: string): Promise<void> {

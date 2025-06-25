@@ -67,7 +67,10 @@ const allFlags: FlagMetadata[] = [
   { name: "noLang", defaultOnStages: [] },
   { name: "translate", defaultOnStages: [] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
-  { name: "pwa", defaultOnStages: [] },
+  {
+    name: "pwa",
+    defaultOnStages: ["REVIEW", "STAGING", "PRODUCTION"],
+  },
 ];
 
 type Flags = Record<Flag, boolean>;

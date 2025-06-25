@@ -23,6 +23,10 @@
     "defaultMessage": "Llegeix més sobre MicroPython",
     "description": "Aria label to expand a collapsed section about MicroPython"
   },
+  "accessibility": {
+    "defaultMessage": "Accessibilitat",
+    "description": "Menu item for link to accessibility site"
+  },
   "added-change": {
     "defaultMessage": "S'ha afegit el fitxer {changeName}",
     "description": "Change made to file"
@@ -210,6 +214,10 @@
   "copy-code-action": {
     "defaultMessage": "Copia el programa",
     "description": "Copy code to clipboard action text"
+  },
+  "copy-snippet-advice": {
+    "defaultMessage": "Codi copiat, fes servir enganxa per inserir-lo.",
+    "description": "Toast shown when you copy from API or Reference snippets"
   },
   "create-action": {
     "defaultMessage": "Crea",
@@ -511,7 +519,7 @@
     "description": "Text in the no micro:bit found dialog"
   },
   "offline-image-alt": {
-    "defaultMessage": "Image unavailable offline",
+    "defaultMessage": "La imatge no està disponible fora de línia",
     "description": "Alt text for an image placeholder when the user is offline"
   },
   "open-action": {
@@ -747,11 +755,11 @@
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features": {
-    "defaultMessage": "Show warnings about V2-only features",
+    "defaultMessage": "Mostra advertències sobre funcions només de la V2",
     "description": "Checkbox setting label"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Warnings are shown in the editor when a micro:bit V1 is connected",
+    "defaultMessage": "Els avisos es mostren a l'editor quan es connecta un micro:bit V1",
     "description": "Checkbox setting label"
   },
   "settings": {
@@ -1118,12 +1126,16 @@
     "defaultMessage": "Fitxer actualitzat {changeName}",
     "description": "Change made to file"
   },
+  "user-guide": {
+    "defaultMessage": "Guia de l'usuari",
+    "description": "Menu item for link to user guide site"
+  },
   "visit-dot-org": {
     "defaultMessage": "visita microbit.org (s'obre en una pestanya nova)",
     "description": "alt text for logo link to .org"
   },
   "warn-on-v2-only-features-action": {
-    "defaultMessage": "Disable warnings about V2-only features",
+    "defaultMessage": "Desactiva els avisos sobre les funcions només de la V2",
     "description": "Label for editor action"
   },
   "webusb-error-clear-connect-description-1": {
@@ -1135,7 +1147,7 @@
     "description": "Part of WebUSB error message"
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "No es pot sol·licitar la interfície",
+    "defaultMessage": "Una altra pàgina o pestanya del navegador està connectada a aquesta micro:bit",
     "description": "Title of error for WebUsb connection"
   },
   "webusb-error-default-title": {
@@ -1143,7 +1155,7 @@
     "description": "Default title for error messages relating to WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "Torna a connectar la teva micro:bit i torna-ho a provar.",
+    "defaultMessage": "<p>Segueix aquests passos i, a continuació, torna-ho a provar:</p><ul><li>desendolla el cable USB</li><li>desendolla la bateria si n'hi ha cap connectada</li><li>torna a connectar el cable USB</li><li>torna a connectar la bateria si n'hi havia una</li></ul>",
     "description": "Part of WebUSB error message"
   },
   "webusb-not-supported": {
@@ -1167,7 +1179,7 @@
     "description": "Title for the welcome dialog"
   },
   "welcome-video-alt": {
-    "defaultMessage": "video introducing the Python Editor",
+    "defaultMessage": "vídeo de presentació de l'editor Python",
     "description": "iframe title for the welcome video"
   },
   "zoom-in-action": {
