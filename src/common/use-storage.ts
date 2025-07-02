@@ -23,7 +23,7 @@ export function useStorage<T extends object>(
         ? localStorageIfPossible()
         : sessionStorageIfPossible();
     const value = storage ? storage.getItem(key) : null;
-    const overiddenDefault = {...defaultValue, ...overrides}
+    const overiddenDefault = { ...defaultValue, ...overrides };
     if (value !== null) {
       try {
         let parsed = JSON.parse(value);
