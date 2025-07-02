@@ -23,6 +23,7 @@ export function useStorage<T extends object>(
         ? localStorageIfPossible()
         : sessionStorageIfPossible();
     const value = storage ? storage.getItem(key) : null;
+    const overiddenDefault = { ...defaultValue, ...overrides };
     if (value !== null) {
       try {
         let parsed = JSON.parse(value);
@@ -44,10 +45,10 @@ export function useStorage<T extends object>(
         return parsed;
       } catch (e) {
         // Better than exploding forever.
-        return defaultValue;
+        return overiddenDefault;
       }
     }
-    return defaultValue;
+    return overiddenDefault;
   });
   const setAndSaveState = useCallback(
     (value: T) => {
