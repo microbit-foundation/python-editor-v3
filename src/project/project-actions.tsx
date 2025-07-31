@@ -499,11 +499,6 @@ export class ProjectActions {
       throw new Error("Device connection doesn't support flash");
     }
 
-    this.logging.event({
-      type: "flash",
-      detail: await this.projectStats(),
-    });
-
     if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
       this.webusbNotSupportedError(finalFocusRef);
       return;
@@ -552,6 +547,12 @@ export class ProjectActions {
         this.handleWebUSBError(e, ConnectionAction.FLASH, finalFocusRef);
       }
     }
+
+    // Get the project stats after flashing as this will remove the main file if empty.
+    this.logging.event({
+      type: "flash",
+      detail: await this.projectStats(),
+    });
   };
 
   /**
@@ -561,11 +562,6 @@ export class ProjectActions {
     finalFocusRef: FinalFocusRef,
     saveViaWebUsbNotSupported?: boolean
   ) => {
-    this.logging.event({
-      type: "save",
-      detail: await this.projectStats(),
-    });
-
     if (!(await this.ensureProjectName(finalFocusRef))) {
       return;
     }
@@ -581,6 +577,13 @@ export class ProjectActions {
       });
       return;
     }
+
+    // Get the project stats after hex creation as this will remove the main file if empty.
+    this.logging.event({
+      type: "save",
+      detail: await this.projectStats(),
+    });
+
     const blob = new Blob([download], {
       type: "application/octet-stream",
     });
