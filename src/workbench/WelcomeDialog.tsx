@@ -31,7 +31,7 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
   const intl = useIntl();
   const welcomeVideoAltText = intl.formatMessage({ id: "welcome-video-alt" });
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
+    <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="outside">
       <ModalOverlay>
         <ModalContent>
           <ModalCloseButton />
