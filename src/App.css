@@ -16,13 +16,6 @@
       format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-/* Needed for the fallbacks below */
-@supports (height: -webkit-fill-available) {
-  :root {
-    --webkit-vhh: -webkit-fill-available;
-  }
-}
-
 :root {
   /* Seems to fix a Safari glitch: https://github.com/microbit-foundation/python-editor-v3/issues/369 */
   font-size: 16px;
@@ -34,9 +27,9 @@ body,
 .WorkbenchContainer,
 .Workbench {
   width: 100%;
-  /* --ios-vvh set by VisualViewPortCSSVariables on iOS only. */
-  height: var(--ios-vvh, var(--webkit-vvh, 100vh));
-}
-body {
-  overflow: hidden;
+  height: 100%;
+  /* 516px is the min height of the sidebar */
+  min-height: 516px;
+  /* 372px is the sidebar width + simulator width */
+  min-width: 372px;
 }

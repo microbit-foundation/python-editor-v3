@@ -8,7 +8,6 @@ import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
-import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { createWebUSBConnection } from "@microbit/microbit-connection";
 import { DeviceContextProvider } from "./device/device-hooks";
@@ -65,7 +64,6 @@ const App = () => {
   const { ConsentProvider } = deployment.compliance;
   return (
     <>
-      <VisualViewPortCSSVariables />
       <ChakraProvider theme={deployment.chakraTheme}>
         <LoggingProvider value={logging}>
           <SettingsProvider>
