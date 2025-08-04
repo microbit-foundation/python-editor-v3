@@ -20,7 +20,6 @@ import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
   MicrobitWebUSBConnection,
-  AfterRequestDevice,
   FlashDataError,
   DeviceError,
   DeviceErrorCode,
@@ -836,10 +835,6 @@ export class ProjectActions {
     finalFocusRef: FinalFocusRef
   ) {
     if (e instanceof DeviceError) {
-      this.device.dispatchTypedEvent(
-        "afterrequestdevice",
-        new AfterRequestDevice()
-      );
       switch (e.code) {
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
