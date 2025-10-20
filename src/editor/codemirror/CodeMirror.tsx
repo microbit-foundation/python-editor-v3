@@ -41,12 +41,14 @@ import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
 import { useDevice } from "../../device/device-hooks";
+import * as Y from "yjs";
+import { Awareness } from 'y-protocols/awareness.js'
+import { yCollab } from "y-codemirror.next";
 
 interface CodeMirrorProps {
   className?: string;
-  defaultValue: string;
-  onChange: (doc: string) => void;
-
+  text: Y.Text;
+  awareness: Awareness;
   selection: WorkbenchSelection;
   fontSize: number;
   codeStructureOption: CodeStructureOption;
@@ -64,9 +66,9 @@ interface CodeMirrorProps {
  * (e.g. based on the file being edited).
  */
 const CodeMirror = ({
-  defaultValue,
   className,
-  onChange,
+  text,
+  awareness,
   selection,
   fontSize,
   codeStructureOption,
@@ -87,6 +89,7 @@ const CodeMirror = ({
   const [sessionSettings, setSessionSettings] = useSessionSettings();
   const { apiReferenceMap } = useDocumentation();
   const device = useDevice();
+  const textRef = useRef<Y.Text>();
 
   // Reset undo/redo events on file change.
   useEffect(() => {
@@ -108,11 +111,16 @@ const CodeMirror = ({
   );
 
   useEffect(() => {
-    const initializing = !viewRef.current;
+    let initializing = !viewRef.current;
+    // Recreate if the text doc changes
+    if (!initializing && textRef.current !== text) {
+      elementRef.current?.replaceChildren();
+      initializing = true;
+    }
     if (initializing) {
+      textRef.current = text;
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
-          onChange(update.state.sliceDoc(0));
           setEditorInfo({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
@@ -121,8 +129,9 @@ const CodeMirror = ({
         }
       });
       const state = EditorState.create({
-        doc: defaultValue,
+        doc: text.toString(),
         extensions: [
+          yCollab(text, awareness),
           notify,
           editorConfig,
           // Extension requires external state.
@@ -165,17 +174,14 @@ const CodeMirror = ({
         state,
         parent: elementRef.current!,
       });
-
       viewRef.current = view;
       setActiveEditor(new EditorActions(view, logging, actionFeedback, intl));
     }
   }, [
     actionFeedback,
     client,
-    defaultValue,
     intl,
     logging,
-    onChange,
     options,
     setActiveEditor,
     setEditorInfo,
@@ -186,6 +192,7 @@ const CodeMirror = ({
     apiReferenceMap,
     device,
     disableV2OnlyFeaturesWarning,
+    text
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -235,7 +242,7 @@ const CodeMirror = ({
     uri,
     apiReferenceMap,
     device,
-    disableV2OnlyFeaturesWarning,
+    disableV2OnlyFeaturesWarning
   ]);
 
   const { location } = selection;

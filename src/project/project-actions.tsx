@@ -71,6 +71,8 @@ import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
 import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
+import * as Y from "yjs";
+import { toByteArray } from "base64-js";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -369,6 +371,7 @@ export class ProjectActions {
 
   /**
    * Open a project, asking for confirmation if required.
+   * Used for openIdea, open default project on reset
    *
    * @param project The project.
    * @param confirmPrompt Optional custom confirmation prompt.
@@ -376,13 +379,35 @@ export class ProjectActions {
    */
   private openProject = async (
     project: PythonProject,
-    confirmPrompt?: string
+    confirmPrompt?: string,
+    ydoc?: Y.Doc // TODO: leaving my options open here, work out how we will import a Python doc to Yjs
   ): Promise<boolean> => {
     const confirmed = await this.confirmReplace(confirmPrompt);
     if (confirmed) {
       await this.fs.replaceWithMultipleFiles(project);
+      if (ydoc) {
+        ydoc.getMap("meta").set("version", 1);
+        ydoc.getMap("meta").set("projectName", project.projectName);
+        const files = ydoc.getMap("files");
+        files.clear();
+
+        const decoder = new TextDecoder();
+        for (const fileName of Object.keys(project.files)) {
+          let text = project.files[fileName];
+          text = decoder.decode(toByteArray(text));
+          const ytext = new Y.Text(text);
+          files.set(fileName, ytext);
+        }
+      }
     }
     return confirmed;
+  };
+
+  openProjectPlaintext = async (project: {
+    files: Record<string, string>;
+    projectName: string;
+  }): Promise<void> => {
+    await this.fs.replaceWithMultipleStrings(project);
   };
 
   openIdea = async (slug: string | undefined, code: string, title: string) => {

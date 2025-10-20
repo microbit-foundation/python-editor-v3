@@ -364,6 +364,18 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     await this.replaceCommon(project.projectName);
   }
 
+  async replaceWithMultipleStrings(project: {
+    files: Record<string, string>,
+    projectName: string
+  }): Promise<void> {
+    const fs = await this.initialize();
+    fs.ls().forEach((f) => fs.remove(f));
+    for (const key in project.files) {
+      fs.write(key, new TextEncoder().encode(project.files[key]));
+    }
+    await this.replaceCommon(project.projectName);
+  }
+
   async replaceWithHexContents(
     projectName: string,
     hex: string
