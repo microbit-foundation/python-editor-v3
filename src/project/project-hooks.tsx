@@ -22,6 +22,7 @@ import { useSessionSettings } from "../settings/session-settings";
 import { useSettings } from "../settings/settings";
 import { useSelection } from "../workbench/use-selection";
 import { defaultedProject, ProjectActions } from "./project-actions";
+import { useProjectStorage } from "../project-persistence/ProjectStorageProvider";
 
 /**
  * Hook exposing the main UI actions.
@@ -37,6 +38,13 @@ export const useProjectActions = (): ProjectActions => {
   const client = useLanguageServerClient();
   const [settings, setSettings] = useSettings();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
+  const {
+    newStoredProject,
+    projectId,
+    restoreStoredProject,
+    setProjectName,
+    ydoc,
+  } = useProjectStorage();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -49,7 +57,12 @@ export const useProjectActions = (): ProjectActions => {
         { values: sessionSettings, setValues: setSessionSettings },
         intl,
         logging,
-        client
+        client,
+        ydoc,
+        projectId,
+        newStoredProject,
+        restoreStoredProject,
+        setProjectName
       ),
     [
       fs,
@@ -64,6 +77,9 @@ export const useProjectActions = (): ProjectActions => {
       setSettings,
       sessionSettings,
       setSessionSettings,
+      ydoc,
+      newStoredProject,
+      setProjectName,
     ]
   );
   return actions;
