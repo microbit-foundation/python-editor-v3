@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import * as Y from "yjs";
 import { Awareness } from "y-protocols/awareness";
-import { withProjectDb } from "./project-list-db";
+import { ProjectList, withProjectDb } from "./project-list-db";
 import { ProjectStore } from "./project-store";
 
 export interface NewStoredDoc {
@@ -33,12 +33,6 @@ interface ProjectContextValue {
 }
 
 const ProjectStorageContext = createContext<ProjectContextValue | null>(null);
-
-interface ProjectEntry {
-  projectName: string;
-  id: string;
-}
-type ProjectList = [ProjectEntry];
 
 export function ProjectStorageProvider({
   children,
@@ -76,7 +70,11 @@ export function ProjectStorageProvider({
     useCallback(async () => {
       const newProjectId = makeUID();
       await withProjectDb("readwrite", async (store) => {
-        store.add({ id: newProjectId, projectName: "Untitled project" });
+        store.add({
+          id: newProjectId,
+          projectName: "Untitled project",
+          modifiedDate: new Date().valueOf(),
+        });
         return Promise.resolve();
       });
       const newProjectStore = new ProjectStore(newProjectId);
@@ -91,16 +89,19 @@ export function ProjectStorageProvider({
   (window as unknown as any).restoreProjectStore = restoreStoredProject;
 
   useEffect(() => {
+    if (window.navigator.storage?.persist) {
+      window.navigator.storage.persist();
+    }
     const getProjectsAsync = async () => {
       const projectList = await withProjectDb("readonly", async (store) => {
         const projectList = await new Promise((res, rej) => {
-          const query = store.getAll();
+          const query = store.index("modifiedDate").getAll();
           query.onsuccess = () => res(query.result);
           query.onerror = rej;
         });
         return projectList;
       });
-      setProjectList(projectList as ProjectList);
+      setProjectList((projectList as ProjectList).reverse());
     };
     void getProjectsAsync();
   }, []);
@@ -119,7 +120,11 @@ export function ProjectStorageProvider({
     async (id: string, projectName: string) => {
       await withProjectDb("readwrite", async (store) => {
         await new Promise((res, rej) => {
-          const query = store.put({ id, projectName });
+          const query = store.put({
+            id,
+            projectName,
+            modifiedDate: new Date().valueOf(),
+          });
           query.onsuccess = () => res(query.result);
           query.onerror = rej;
         });

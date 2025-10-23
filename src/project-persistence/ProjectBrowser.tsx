@@ -11,11 +11,15 @@ import { useProjectStorage } from "./ProjectStorageProvider";
 import { useRouterState } from "../router-hooks";
 import { ReactNode } from "react";
 import { useProjectActions } from "../project/project-hooks";
+import { timeAgo } from "./utils";
 
 const ProjectBrowser = () => {
   const { projectList } = useProjectStorage();
   const { newProject, loadProject } = useProjectActions();
   const [_, setParams] = useRouterState();
+
+  const rtf = new Intl.RelativeTimeFormat("en", { style: "short" });
+
   return (
     <Grid
       position="relative"
@@ -46,7 +50,7 @@ const ProjectBrowser = () => {
           <HStack justifyContent="space-between" w="100%">
             <Heading as="h2">{proj.projectName}</Heading>
           </HStack>
-          <Text size="lg">Here is a test box</Text>
+          <Text size="lg">{timeAgo(new Date(proj.modifiedDate))}</Text>
         </ProjectItem>
       ))}
     </Grid>
