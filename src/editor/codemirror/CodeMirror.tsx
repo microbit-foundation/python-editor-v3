@@ -47,6 +47,7 @@ import { yCollab } from "y-codemirror.next";
 
 interface CodeMirrorProps {
   className?: string;
+  onChange: (doc: string) => void;
   text: Y.Text;
   awareness: Awareness;
   selection: WorkbenchSelection;
@@ -67,6 +68,7 @@ interface CodeMirrorProps {
  */
 const CodeMirror = ({
   className,
+  onChange,
   text,
   awareness,
   selection,
@@ -121,6 +123,7 @@ const CodeMirror = ({
       textRef.current = text;
       const notify = EditorView.updateListener.of((update) => {
         if (update.docChanged) {
+          onChange(update.state.sliceDoc(0));
           setEditorInfo({
             undo: undoDepth(view.state),
             redo: redoDepth(view.state),
@@ -182,6 +185,7 @@ const CodeMirror = ({
     client,
     intl,
     logging,
+    onChange,
     options,
     setActiveEditor,
     setEditorInfo,
@@ -192,7 +196,7 @@ const CodeMirror = ({
     apiReferenceMap,
     device,
     disableV2OnlyFeaturesWarning,
-    text
+    text,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.
@@ -242,7 +246,7 @@ const CodeMirror = ({
     uri,
     apiReferenceMap,
     device,
-    disableV2OnlyFeaturesWarning
+    disableV2OnlyFeaturesWarning,
   ]);
 
   const { location } = selection;

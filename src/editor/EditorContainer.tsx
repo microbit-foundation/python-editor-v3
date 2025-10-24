@@ -26,7 +26,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
     setSettings({ ...settings, warnForApiUnsupportedByDevice: false });
   }, [setSettings, settings]);
   // Note fileInfo is not updated for ordinary text edits.
-  const [fileInfo, _] = useProjectFileText(selection.file);
+  const [fileInfo, onFileChange] = useProjectFileText(selection.file);
   const { ydoc, getFile } = useProjectStorage();
 
   const ytext = getFile(selection.file);
@@ -34,7 +34,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
   // TODO: Overengineered until we have sync in mind
   const awareness = useMemo(() => {
     if (!ydoc) return null;
-    return new Awareness(ydoc)
+    return new Awareness(ydoc);
   }, [ydoc]);
 
   if (ytext === null) return null;
@@ -42,7 +42,10 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
     return null;
   }
 
-  awareness!.setLocalStateField("user", { name: "micro:bit tester", color: "yellow" });
+  awareness!.setLocalStateField("user", {
+    name: "micro:bit tester",
+    color: "yellow",
+  });
 
   // TODO: represent fileInfo in project?
 
@@ -52,6 +55,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
   ) : (
     <Editor
       selection={selection}
+      onChange={onFileChange}
       fontSize={settings.fontSize}
       codeStructureOption={settings.codeStructureHighlight}
       parameterHelpOption={settings.parameterHelp}

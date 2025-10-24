@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { useRouterState } from "./router-hooks"
-import ProjectBrowser from "./project-persistence/ProjectBrowser";
+import ProjectBrowser from "./project/ProjectBrowser";
 
 interface ProjectPageRoutingProps {
     children: ReactNode

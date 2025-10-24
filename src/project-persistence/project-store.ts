@@ -19,7 +19,7 @@ export class ProjectStore {
   private updates: BroadcastChannel;
   private updatePoster: (update: Uint8Array) => void;
 
-  constructor(public projectId: string) {
+  constructor(public projectId: string, projectChangedListener: () => void) {
     const ydoc = new Y.Doc();
     this.ydoc = ydoc;
     this.awareness = new Awareness(this.ydoc);
@@ -36,6 +36,7 @@ export class ProjectStore {
     this.updates = new BroadcastChannel("yjs");
     this.updatePoster = ((update: Uint8Array) => {
       this.updates.postMessage({ clientId, update, projectId });
+      projectChangedListener();
     }).bind(this);
   }
 

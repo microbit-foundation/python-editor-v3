@@ -26,6 +26,7 @@ interface ProjectContextValue {
   projectList: ProjectList | null;
   newStoredProject: () => Promise<NewStoredDoc>;
   restoreStoredProject: (id: string) => Promise<RestoredStoredDoc>;
+  deleteProject: (id: string) => Promise<void>;
   ydoc: Y.Doc | null;
   awareness: Awareness | null;
   getFile: (filename: string) => Y.Text | null;
@@ -54,7 +55,9 @@ export function ProjectStorageProvider({
     projectId: string
   ) => Promise<RestoredStoredDoc> = useCallback(
     async (projectId: string) => {
-      const newProjectStore = new ProjectStore(projectId);
+      const newProjectStore = new ProjectStore(projectId, () =>
+        modifyProject(projectId)
+      );
       await newProjectStore.init();
       setProjectStore(newProjectStore);
       return {
@@ -77,33 +80,46 @@ export function ProjectStorageProvider({
         });
         return Promise.resolve();
       });
-      const newProjectStore = new ProjectStore(newProjectId);
+      const newProjectStore = new ProjectStore(newProjectId, () =>
+        modifyProject(newProjectId)
+      );
       await newProjectStore.init();
       setProjectStore(newProjectStore);
       return { ydoc: newProjectStore.ydoc, id: newProjectId };
     }, []);
 
+  const deleteProject: (id: string) => Promise<void> = useCallback(
+    async (id) => {
+      await withProjectDb("readwrite", async (store) => {
+        store.delete(id);
+        return refreshProjects();
+      });
+    },
+    []
+  );
+
   // TODO: Get rid of debug hooks
   (window as unknown as any).projectList = projectList;
   (window as unknown as any).newProjectStore = newStoredProject;
   (window as unknown as any).restoreProjectStore = restoreStoredProject;
+  (window as unknown as any).deleteProject = deleteProject;
+
+  const refreshProjects = async () => {
+    const projectList = await withProjectDb("readonly", async (store) => {
+      const projectList = await new Promise((res, rej) => {
+        const query = store.index("modifiedDate").getAll();
+        query.onsuccess = () => res(query.result);
+      });
+      return projectList;
+    });
+    setProjectList((projectList as ProjectList).reverse());
+  };
 
   useEffect(() => {
     if (window.navigator.storage?.persist) {
       window.navigator.storage.persist();
     }
-    const getProjectsAsync = async () => {
-      const projectList = await withProjectDb("readonly", async (store) => {
-        const projectList = await new Promise((res, rej) => {
-          const query = store.index("modifiedDate").getAll();
-          query.onsuccess = () => res(query.result);
-          query.onerror = rej;
-        });
-        return projectList;
-      });
-      setProjectList((projectList as ProjectList).reverse());
-    };
-    void getProjectsAsync();
+    void refreshProjects();
   }, []);
 
   // Helper to access files
@@ -116,6 +132,24 @@ export function ProjectStorageProvider({
     return files.get(filename)!;
   };
 
+  const modifyProject = useCallback(
+    async (id: string) => {
+      await withProjectDb("readwrite", async (store) => {
+        await new Promise((res, rej) => {
+          const getQuery = store.get(id);
+          getQuery.onsuccess = () => {
+            const putQuery = store.put({
+              ...getQuery.result,
+              modifiedDate: new Date().valueOf(),
+            });
+            putQuery.onsuccess = () => res(getQuery.result);
+          };
+        });
+      });
+    },
+    [projectStore]
+  );
+
   const setProjectName = useCallback(
     async (id: string, projectName: string) => {
       await withProjectDb("readwrite", async (store) => {
@@ -126,7 +160,6 @@ export function ProjectStorageProvider({
             modifiedDate: new Date().valueOf(),
           });
           query.onsuccess = () => res(query.result);
-          query.onerror = rej;
         });
       });
     },
@@ -143,6 +176,7 @@ export function ProjectStorageProvider({
         getFile,
         newStoredProject,
         restoreStoredProject,
+        deleteProject,
         setProjectName,
       }}
     >
