@@ -26,6 +26,7 @@ interface ProjectContextValue {
   projectList: ProjectList | null;
   newStoredProject: () => Promise<NewStoredDoc>;
   restoreStoredProject: (id: string) => Promise<RestoredStoredDoc>;
+  restoreMostRecentProject: () => Promise<RestoredStoredDoc | null>;
   deleteProject: (id: string) => Promise<void>;
   ydoc: Y.Doc | null;
   awareness: Awareness | null;
@@ -44,6 +45,7 @@ export function ProjectStorageProvider({
   const [projectStore, setProjectStoreImpl] = useState<ProjectStore | null>(
     null
   );
+
   const setProjectStore = (newProjectStore: ProjectStore) => {
     if (projectStore) {
       projectStore.destroy();
@@ -68,6 +70,18 @@ export function ProjectStorageProvider({
     },
     [projectList]
   );
+
+  const restoreMostRecentProject: () => Promise<RestoredStoredDoc | null> =
+    useCallback(async () => {
+      let localProjectList = projectList;
+      if (!localProjectList) {
+        localProjectList = await refreshProjects();
+      }
+      if (!localProjectList || localProjectList.length === 0) {
+        return null;
+      }
+      return restoreStoredProject(localProjectList[0].id);
+    }, [restoreStoredProject, projectList]);
 
   const newStoredProject: () => Promise<NewStoredDoc> =
     useCallback(async () => {
@@ -106,13 +120,14 @@ export function ProjectStorageProvider({
 
   const refreshProjects = async () => {
     const projectList = await withProjectDb("readonly", async (store) => {
-      const projectList = await new Promise((res, rej) => {
+      const projectList = await new Promise<ProjectList>((res, rej) => {
         const query = store.index("modifiedDate").getAll();
         query.onsuccess = () => res(query.result);
       });
       return projectList;
     });
-    setProjectList((projectList as ProjectList).reverse());
+    setProjectList(projectList.reverse());
+    return projectList;
   };
 
   useEffect(() => {
@@ -176,6 +191,7 @@ export function ProjectStorageProvider({
         getFile,
         newStoredProject,
         restoreStoredProject,
+        restoreMostRecentProject,
         deleteProject,
         setProjectName,
       }}
