@@ -7,7 +7,7 @@ interface ProjectPageRoutingProps {
   children: ReactNode;
 }
 const ProjectPageRouting = ({ children }: ProjectPageRoutingProps) => {
-  const [{ tab }, navigate] = useRouterState();
+  const [{ tab }] = useRouterState();
   const { projectId, restoreMostRecentProject } = useProjectStorage();
 
   useEffect(() => {

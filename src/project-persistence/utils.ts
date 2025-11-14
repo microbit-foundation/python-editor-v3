@@ -22,3 +22,24 @@ export function timeAgo(date: Date): string {
 
     return rtf.format(-Math.round(duration), "year");
 }
+
+export function significantDateUnits(date: Date): string {
+    const now = new Date();
+
+    let dateTimeOptions: Intl.DateTimeFormatOptions = { month: "short", year: "2-digit" };
+
+    let daysDifferent = Math.round((+now - +date) / (1000 * 60 * 60 * 24));
+    if (daysDifferent < 1 && date.getDay() === now.getDay()) {
+        dateTimeOptions = {
+            hour: 'numeric',
+            minute: 'numeric',
+        }
+    } else if (now.getFullYear() === date.getFullYear()) {
+        dateTimeOptions = {
+            day: 'numeric',
+            month: 'short'
+        }
+    }
+
+    return Intl.DateTimeFormat(undefined, dateTimeOptions).format(date);
+}

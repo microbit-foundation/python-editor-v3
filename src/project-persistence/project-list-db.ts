@@ -1,8 +1,11 @@
+export type ProjectType = "microbit:python" | "microbit:createai";
 
 export interface ProjectEntry {
   projectName: string;
   id: string;
   modifiedDate: number;
+  parentRevision?: string;
+  // projectType: ProjectType; // TODOO: implement this when we have a better idea how project creation works
 }
 
 export type ProjectList = ProjectEntry[];

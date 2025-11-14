@@ -8,8 +8,9 @@ import React, {
 } from "react";
 import * as Y from "yjs";
 import { Awareness } from "y-protocols/awareness";
-import { ProjectList, withProjectDb } from "./project-list-db";
+import { ProjectEntry, ProjectList, withProjectDb } from "./project-list-db";
 import { ProjectStore } from "./project-store";
+import { HistoryEntry, HistoryList, withHistoryDb } from "./project-history-db";
 
 export interface NewStoredDoc {
   id: string;
@@ -26,16 +27,24 @@ interface ProjectContextValue {
   projectList: ProjectList | null;
   newStoredProject: () => Promise<NewStoredDoc>;
   restoreStoredProject: (id: string) => Promise<RestoredStoredDoc>;
-  restoreMostRecentProject: () => Promise<RestoredStoredDoc | null>;
   deleteProject: (id: string) => Promise<void>;
   ydoc: Y.Doc | null;
   awareness: Awareness | null;
   getFile: (filename: string) => Y.Text | null;
   setProjectName: (id: string, name: string) => Promise<void>;
+
+  getHistory: (projectId: string) => Promise<HistoryList>;
+  loadRevision: (projectId: string, projectRevision: string) => Promise<void>;
+  saveRevision: (projectInfo: ProjectEntry) => Promise<void>;
 }
 
 const ProjectStorageContext = createContext<ProjectContextValue | null>(null);
 
+/**
+ * Note on how projects are stored. The HEAD document is a Y document and maintains
+ * its state using y-indexeddb persistence. Revisions are stored as state deltas using
+ * the update format, and loading one reconstructs the HEAD document.
+ */
 export function ProjectStorageProvider({
   children,
 }: {
@@ -45,7 +54,6 @@ export function ProjectStorageProvider({
   const [projectStore, setProjectStoreImpl] = useState<ProjectStore | null>(
     null
   );
-
   const setProjectStore = (newProjectStore: ProjectStore) => {
     if (projectStore) {
       projectStore.destroy();
@@ -60,7 +68,8 @@ export function ProjectStorageProvider({
       const newProjectStore = new ProjectStore(projectId, () =>
         modifyProject(projectId)
       );
-      await newProjectStore.init();
+      await newProjectStore.persist();
+      newProjectStore.startSyncing();
       setProjectStore(newProjectStore);
       return {
         ydoc: newProjectStore.ydoc,
@@ -70,18 +79,6 @@ export function ProjectStorageProvider({
     },
     [projectList]
   );
-
-  const restoreMostRecentProject: () => Promise<RestoredStoredDoc | null> =
-    useCallback(async () => {
-      let localProjectList = projectList;
-      if (!localProjectList) {
-        localProjectList = await refreshProjects();
-      }
-      if (!localProjectList || localProjectList.length === 0) {
-        return null;
-      }
-      return restoreStoredProject(localProjectList[0].id);
-    }, [restoreStoredProject, projectList]);
 
   const newStoredProject: () => Promise<NewStoredDoc> =
     useCallback(async () => {
@@ -97,7 +94,8 @@ export function ProjectStorageProvider({
       const newProjectStore = new ProjectStore(newProjectId, () =>
         modifyProject(newProjectId)
       );
-      await newProjectStore.init();
+      await newProjectStore.persist();
+      newProjectStore.startSyncing();
       setProjectStore(newProjectStore);
       return { ydoc: newProjectStore.ydoc, id: newProjectId };
     }, []);
@@ -120,14 +118,13 @@ export function ProjectStorageProvider({
 
   const refreshProjects = async () => {
     const projectList = await withProjectDb("readonly", async (store) => {
-      const projectList = await new Promise<ProjectList>((res, rej) => {
+      const projectList = await new Promise((res, _rej) => {
         const query = store.index("modifiedDate").getAll();
         query.onsuccess = () => res(query.result);
       });
       return projectList;
     });
-    setProjectList(projectList.reverse());
-    return projectList;
+    setProjectList((projectList as ProjectList).reverse());
   };
 
   useEffect(() => {
@@ -148,13 +145,14 @@ export function ProjectStorageProvider({
   };
 
   const modifyProject = useCallback(
-    async (id: string) => {
+    async (id: string, extras?: Partial<ProjectEntry>) => {
       await withProjectDb("readwrite", async (store) => {
         await new Promise((res, rej) => {
           const getQuery = store.get(id);
           getQuery.onsuccess = () => {
             const putQuery = store.put({
               ...getQuery.result,
+              ...extras,
               modifiedDate: new Date().valueOf(),
             });
             putQuery.onsuccess = () => res(getQuery.result);
@@ -167,19 +165,93 @@ export function ProjectStorageProvider({
 
   const setProjectName = useCallback(
     async (id: string, projectName: string) => {
-      await withProjectDb("readwrite", async (store) => {
-        await new Promise((res, rej) => {
-          const query = store.put({
-            id,
-            projectName,
-            modifiedDate: new Date().valueOf(),
-          });
-          query.onsuccess = () => res(query.result);
-        });
-      });
+      await modifyProject(id, { projectName });
+      await refreshProjects();
     },
     [projectStore]
   );
+
+  // Revision history stuff
+
+  const getUpdateAtRevision = async (projectId: string, revision: string) => {
+    let deltas: HistoryEntry[] = [];
+    let parentRevision = revision;
+    do {
+      const delta = await withHistoryDb("readonly", async (revisions) => {
+        return new Promise<HistoryEntry>((res, _rej) => {
+          const query = revisions
+            .index("projectRevision")
+            .get([projectId, parentRevision]);
+          query.onsuccess = () => res(query.result as HistoryEntry);
+        });
+      });
+      parentRevision = delta.parentId;
+      deltas.unshift(delta);
+    } while (parentRevision);
+    return Y.mergeUpdatesV2(deltas.map((d) => d.data));
+  };
+
+  const getProjectInfo = (projectId: string) =>
+    withProjectDb("readwrite", async (store) => {
+      return new Promise<ProjectEntry>((res, _rej) => {
+        const query = store.get(projectId);
+        query.onsuccess = () => res(query.result);
+      });
+    });
+
+  const loadRevision = async (projectId: string, projectRevision: string) => {
+    const projectInfo = await getProjectInfo(projectId);
+    const { ydoc, id: forkId } = await newStoredProject();
+    await modifyProject(forkId, {
+      projectName: `${projectInfo.projectName} revision`,
+      parentRevision: forkId,
+    });
+    const updates = await getUpdateAtRevision(projectId, projectRevision);
+    Y.applyUpdateV2(ydoc, updates);
+  };
+
+  const saveRevision = async (projectInfo: ProjectEntry) => {
+    const projectStore = new ProjectStore(projectInfo.id, () => {});
+    await projectStore.persist();
+    let newUpdate: Uint8Array;
+    if (projectInfo.parentRevision) {
+      const previousUpdate = await getUpdateAtRevision(
+        projectInfo.id,
+        projectInfo.parentRevision
+      );
+      newUpdate = Y.encodeStateAsUpdateV2(projectStore.ydoc, previousUpdate);
+    } else {
+      newUpdate = Y.encodeStateAsUpdateV2(projectStore.ydoc);
+    }
+    const newRevision = makeUID();
+    await withHistoryDb("readwrite", async (revisions) => {
+      return new Promise<void>((res, _rej) => {
+        const query = revisions.put({
+          projectId: projectInfo.id,
+          revisionId: newRevision,
+          parentId: projectInfo.parentRevision,
+          data: newUpdate,
+          timestamp: new Date(),
+        });
+        query.onsuccess = () => res();
+      });
+    });
+    await modifyProject(projectInfo.id, { parentRevision: newRevision });
+  };
+
+  const getHistory = async (projectId: string) =>
+    withHistoryDb("readonly", async (store) => {
+      const revisionList = await new Promise<HistoryList>((res, _rej) => {
+        const query = store.index("projectId").getAll(projectId);
+        query.onsuccess = () => res(query.result);
+      });
+      return revisionList;
+    });
+
+  // TODO: remove debug stuff
+  (window as any).loadRevision = loadRevision;
+  (window as any).saveRevision = saveRevision;
+  (window as any).getHistory = getHistory;
 
   return (
     <ProjectStorageContext.Provider
@@ -191,9 +263,11 @@ export function ProjectStorageProvider({
         getFile,
         newStoredProject,
         restoreStoredProject,
-        restoreMostRecentProject,
         deleteProject,
         setProjectName,
+        getHistory,
+        loadRevision,
+        saveRevision,
       }}
     >
       {children}

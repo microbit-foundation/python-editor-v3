@@ -6,37 +6,68 @@ import {
   ProjectItem,
   AddProjectItem,
 } from "../project-persistence/ProjectItem";
+import RenameProjectModal from "../project-persistence/RenameProjectModal";
+import { useState } from "react";
+import { ProjectEntry } from "../project-persistence/project-list-db";
+import ProjectHistoryModal from "../project-persistence/ProjectHistoryModal";
 
 const ProjectBrowser = () => {
-  const { projectList, deleteProject } = useProjectStorage();
+  const { projectList, deleteProject, loadRevision, setProjectName } =
+    useProjectStorage();
   const { newProject, loadProject } = useProjectActions();
   const [_, setParams] = useRouterState();
+  const [showProjectHistory, setShowProjectHistory] =
+    useState<ProjectEntry | null>(null);
+  const [showProjectRename, setShowProjectRename] =
+    useState<ProjectEntry | null>(null);
 
   return (
-    <Grid
-      position="relative"
-      backgroundColor="whitesmoke"
-      templateColumns="repeat(auto-fill, 400px)"
-    >
-      <AddProjectItem
-        key="projectAdd"
-        newProject={async () => {
-          await newProject();
-          setParams({ tab: "project" });
-        }}
-      />
-      {projectList?.map((proj) => (
-        <ProjectItem
-          key={proj.id}
-          project={proj}
-          loadProject={async () => {
-            await loadProject(proj.id);
+    <>
+      <Grid
+        position="relative"
+        backgroundColor="whitesmoke"
+        templateColumns="repeat(auto-fill, 400px)"
+      >
+        <AddProjectItem
+          key="projectAdd"
+          newProject={async () => {
+            await newProject();
             setParams({ tab: "project" });
           }}
-          deleteProject={deleteProject}
         />
-      ))}
-    </Grid>
+        {projectList?.map((proj) => (
+          <ProjectItem
+            key={proj.id}
+            project={proj}
+            loadProject={async () => {
+              await loadProject(proj.id);
+              setParams({ tab: "project" });
+            }}
+            deleteProject={deleteProject}
+            renameProject={() => setShowProjectRename(proj)}
+            showHistory={() => setShowProjectHistory(proj)}
+          />
+        ))}
+      </Grid>
+      <ProjectHistoryModal
+        isOpen={showProjectHistory !== null}
+        onLoadRequest={async (projectId, revisionId) => {
+          await loadRevision(projectId, revisionId);
+          setParams({ tab: "project" });
+        }}
+        onDismiss={() => setShowProjectHistory(null)}
+        projectInfo={showProjectHistory}
+      />
+      <RenameProjectModal
+        isOpen={showProjectRename !== null}
+        onDismiss={() => setShowProjectRename(null)}
+        projectInfo={showProjectRename}
+        handleRename={(projectId, projectName) => {
+          setProjectName(projectId, projectName);
+          setShowProjectRename(null);
+        }}
+      />
+    </>
   );
 };
 

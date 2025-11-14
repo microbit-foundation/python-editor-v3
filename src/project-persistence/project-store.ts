@@ -40,11 +40,14 @@ export class ProjectStore {
     }).bind(this);
   }
 
-  public async init() {
-    this.ydoc.on("update", this.updatePoster);
-    this.updates.addEventListener("message", this.broadcastHandler);
+  public async persist() {
     await new Promise((res) => this.persistence.once("synced", res));
     migrate(this.ydoc);
+  }
+
+  public startSyncing() {
+    this.ydoc.on("update", this.updatePoster);
+    this.updates.addEventListener("message", this.broadcastHandler);
   }
 
   public destroy() {
@@ -55,10 +58,13 @@ export class ProjectStore {
   }
 }
 
-
+/**
+ * This is a kind of example of what migration could look like. It's not a designed approach at this point.
+ */
 const migrate = (doc: Y.Doc) => {
   const meta = doc.getMap("meta");
   if (!meta.has("version")) {
+    // If the project has no version, assume it's from whatever this app did before ProjectStorageProvider
     // This could be a per-app handler
     meta.set("version", 1);
     meta.set("projectName", "default"); // TODO: get this from the last loaded project name
