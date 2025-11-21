@@ -71,6 +71,12 @@ import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
 import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
+import * as Y from "yjs";
+import { toByteArray } from "base64-js";
+import {
+  NewStoredDoc,
+  RestoredStoredDoc,
+} from "../project-persistence/project-list-hooks";
 
 /**
  * Distinguishes the different ways to trigger the load action.
@@ -119,7 +125,14 @@ export class ProjectActions {
     },
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined
+    private client: LanguageServerClient | undefined,
+    private ydoc: Y.Doc | null,
+    private projectId: string | null,
+    private newStoredProject: () => Promise<NewStoredDoc>,
+    private restoreStoredProject: (
+      projectId: string
+    ) => Promise<RestoredStoredDoc>,
+    private setStoredProjectName: (id: string, name: string) => void
   ) {}
 
   private get project(): DefaultedProject {
@@ -369,6 +382,10 @@ export class ProjectActions {
 
   /**
    * Open a project, asking for confirmation if required.
+   * Used for openIdea, open default project on reset, not used for localstorage.
+   *
+   * Just pass in a ydoc, because there are times when a user might
+   * reset their project without creating a new project
    *
    * @param project The project.
    * @param confirmPrompt Optional custom confirmation prompt.
@@ -376,13 +393,31 @@ export class ProjectActions {
    */
   private openProject = async (
     project: PythonProject,
+    ydoc: Y.Doc,
     confirmPrompt?: string
   ): Promise<boolean> => {
     const confirmed = await this.confirmReplace(confirmPrompt);
     if (confirmed) {
       await this.fs.replaceWithMultipleFiles(project);
+      const files = ydoc.getMap("files");
+      files.clear();
+
+      const decoder = new TextDecoder();
+      for (const fileName of Object.keys(project.files)) {
+        let text = project.files[fileName];
+        text = decoder.decode(toByteArray(text));
+        const ytext = new Y.Text(text);
+        files.set(fileName, ytext);
+      }
     }
     return confirmed;
+  };
+
+  private openProjectPlaintext = async (project: {
+    files: Record<string, string>;
+    projectName: string;
+  }): Promise<void> => {
+    await this.fs.replaceWithMultipleStrings(project);
   };
 
   openIdea = async (slug: string | undefined, code: string, title: string) => {
@@ -400,7 +435,9 @@ export class ProjectActions {
       { id: "confirm-replace-with-idea" },
       { ideaName: pythonProject.projectName }
     );
-    if (await this.openProject(pythonProject, confirmPrompt)) {
+    const { ydoc, id } = await this.newStoredProject();
+    this.setStoredProjectName(id, pythonProject.projectName || "Untitled Idea");
+    if (await this.openProject(pythonProject, ydoc, confirmPrompt)) {
       this.actionFeedback.success({
         title: this.intl.formatMessage(
           { id: "loaded-file-feedback" },
@@ -410,14 +447,41 @@ export class ProjectActions {
     }
   };
 
+  newProject = async () => {
+    const { ydoc, id } = await this.newStoredProject();
+    this.setStoredProjectName(id, "Untitled project");
+    await this.openProject(defaultInitialProject, ydoc);
+  };
+
+  loadProject = async (projectId: string) => {
+    const { projectName, ydoc } = await this.restoreStoredProject(projectId);
+    let files = {} as Record<string, string>;
+    for (const filename of ydoc.getMap("files").keys()) {
+      const contents = (
+        ydoc.getMap("files").get(filename) as Y.Text
+      ).toString();
+      files[filename] = contents;
+    }
+    this.openProjectPlaintext({
+      files,
+      projectName,
+    });
+  };
+
   reset = async () => {
+    if (!this.ydoc) {
+      throw new Error("Attempted to reset a project with no storage backing");
+    }
     this.logging.event({
       type: "reset-project",
     });
     const confirmPrompt = this.intl.formatMessage({
       id: "confirm-replace-reset",
     });
-    if (await this.openProject(defaultInitialProject, confirmPrompt)) {
+
+    if (
+      await this.openProject(defaultInitialProject, this.ydoc, confirmPrompt)
+    ) {
       this.actionFeedback.success({
         title: this.intl.formatMessage({ id: "reset-project-feedback" }),
       });
@@ -775,6 +839,9 @@ export class ProjectActions {
     ));
     if (name) {
       await this.setProjectName(name);
+      if (this.projectId) {
+        await this.setStoredProjectName(this.projectId, name);
+      }
       return true;
     }
     return false;
@@ -789,7 +856,9 @@ export class ProjectActions {
     this.logging.event({
       type: "set-project-name",
     });
-
+    if (this.projectId) {
+      this.setStoredProjectName(this.projectId, name);
+    }
     return this.fs.setProjectName(name);
   };
 

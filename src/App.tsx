@@ -30,6 +30,8 @@ import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
 import Workbench from "./workbench/Workbench";
+import { ProjectStorageProvider } from "./project-persistence/ProjectStorageProvider";
+import ProjectPageRouting from "./ProjectPageRouting";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -79,15 +81,19 @@ const App = () => {
                         <SearchProvider>
                           <SelectionProvider>
                             <DialogProvider>
-                              <RouterProvider>
-                                <ConsentProvider>
-                                  <ProjectDropTarget>
-                                    <ActiveEditorProvider>
-                                      <Workbench />
-                                    </ActiveEditorProvider>
-                                  </ProjectDropTarget>
-                                </ConsentProvider>
-                              </RouterProvider>
+                              <ProjectStorageProvider>
+                                <RouterProvider>
+                                  <ProjectPageRouting>
+                                    <ConsentProvider>
+                                      <ProjectDropTarget>
+                                        <ActiveEditorProvider>
+                                          <Workbench />
+                                        </ActiveEditorProvider>
+                                      </ProjectDropTarget>
+                                    </ConsentProvider>
+                                  </ProjectPageRouting>
+                                </RouterProvider>
+                              </ProjectStorageProvider>
                             </DialogProvider>
                           </SelectionProvider>
                         </SearchProvider>

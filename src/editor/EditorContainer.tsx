@@ -9,6 +9,8 @@ import { useSettings } from "../settings/settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import Editor from "./codemirror/CodeMirror";
 import ModuleOverlay from "./ModuleOverlay";
+import { usePersistentProject } from "../project-persistence/persistent-project-hooks";
+import * as Y from "yjs";
 
 interface EditorContainerProps {
   selection: WorkbenchSelection;
@@ -25,16 +27,27 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
   }, [setSettings, settings]);
   // Note fileInfo is not updated for ordinary text edits.
   const [fileInfo, onFileChange] = useProjectFileText(selection.file);
+  const { ydoc, awareness } = usePersistentProject();
+
+  const ytext = ydoc?.getMap("files").get(selection.file) as Y.Text;
+
+  if (ytext === null) return null;
   if (fileInfo === undefined) {
     return null;
   }
+
+  awareness!.setLocalStateField("user", {
+    name: "micro:bit tester",
+    color: "yellow",
+  });
+
+  // TODO: represent fileInfo in project?
 
   return fileInfo.isThirdPartyModule &&
     !settings.allowEditingThirdPartyModules ? (
     <ModuleOverlay moduleData={fileInfo.moduleData} />
   ) : (
     <Editor
-      defaultValue={fileInfo.initialValue}
       selection={selection}
       onChange={onFileChange}
       fontSize={settings.fontSize}
@@ -42,6 +55,8 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
       parameterHelpOption={settings.parameterHelp}
       warnOnV2OnlyFeatures={settings.warnForApiUnsupportedByDevice}
       disableV2OnlyFeaturesWarning={disableV2OnlyFeaturesWarning}
+      awareness={awareness!}
+      text={ytext}
     />
   );
 };
