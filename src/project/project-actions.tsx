@@ -76,7 +76,7 @@ import { toByteArray } from "base64-js";
 import {
   NewStoredDoc,
   RestoredStoredDoc,
-} from "../project-persistence/ProjectStorageProvider";
+} from "../project-persistence/project-list-hooks";
 
 /**
  * Distinguishes the different ways to trigger the load action.

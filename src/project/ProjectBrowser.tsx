@@ -10,10 +10,14 @@ import RenameProjectModal from "../project-persistence/RenameProjectModal";
 import { useState } from "react";
 import { ProjectEntry } from "../project-persistence/project-list-db";
 import ProjectHistoryModal from "../project-persistence/ProjectHistoryModal";
+import { useProjectList } from "../project-persistence/project-list-hooks";
+import { useProjectHistory } from "../project-persistence/project-history-hooks";
 
 const ProjectBrowser = () => {
-  const { projectList, deleteProject, loadRevision, setProjectName } =
-    useProjectStorage();
+  const { projectList } = useProjectStorage();
+  const { deleteProject, setProjectName } = useProjectList();
+  const { loadRevision } = useProjectHistory();
+
   const { newProject, loadProject } = useProjectActions();
   const [_, setParams] = useRouterState();
   const [showProjectHistory, setShowProjectHistory] =

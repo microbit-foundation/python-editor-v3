@@ -14,7 +14,7 @@ import * as Y from "yjs";
 export class ProjectStore {
   public ydoc: Y.Doc;
   public awareness: Awareness;
-  private broadcastHandler: (e: MessageEvent<any>) => void;
+  private broadcastHandler: (e: MessageEvent<SyncMessage>) => void;
   private persistence: IndexeddbPersistence;
   private updates: BroadcastChannel;
   private updatePoster: (update: Uint8Array) => void;
@@ -27,7 +27,7 @@ export class ProjectStore {
     this.persistence = new IndexeddbPersistence(this.projectId, this.ydoc);
 
     const clientId = `${Math.random()}`; // Used by the broadcasthandler to know whether we sent a data update
-    this.broadcastHandler = ({ data }: MessageEvent<any>) => {
+    this.broadcastHandler = ({ data }: MessageEvent<SyncMessage>) => {
       if (data.clientId !== clientId && data.projectId === projectId) {
         Y.applyUpdate(ydoc, data.update);
       }
@@ -70,3 +70,9 @@ const migrate = (doc: Y.Doc) => {
     meta.set("projectName", "default"); // TODO: get this from the last loaded project name
   }
 };
+
+interface SyncMessage {
+  clientId: string;
+  projectId: string;
+  update: Uint8Array;
+}

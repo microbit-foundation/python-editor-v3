@@ -3,14 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback } from "react";
 import { useProjectFileText } from "../project/project-hooks";
 import { useSettings } from "../settings/settings";
 import { WorkbenchSelection } from "../workbench/use-selection";
 import Editor from "./codemirror/CodeMirror";
 import ModuleOverlay from "./ModuleOverlay";
-import { Awareness } from "y-protocols/awareness.js";
-import { useProjectStorage } from "../project-persistence/ProjectStorageProvider";
+import { usePersistentProject } from "../project-persistence/persistent-project-hooks";
+import * as Y from "yjs";
 
 interface EditorContainerProps {
   selection: WorkbenchSelection;
@@ -27,15 +27,9 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
   }, [setSettings, settings]);
   // Note fileInfo is not updated for ordinary text edits.
   const [fileInfo, onFileChange] = useProjectFileText(selection.file);
-  const { ydoc, getFile } = useProjectStorage();
+  const { ydoc, awareness } = usePersistentProject();
 
-  const ytext = getFile(selection.file);
-
-  // TODO: Overengineered until we have sync in mind
-  const awareness = useMemo(() => {
-    if (!ydoc) return null;
-    return new Awareness(ydoc);
-  }, [ydoc]);
+  const ytext = ydoc?.getMap("files").get(selection.file) as Y.Text;
 
   if (ytext === null) return null;
   if (fileInfo === undefined) {

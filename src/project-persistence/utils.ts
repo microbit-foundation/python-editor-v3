@@ -28,7 +28,7 @@ export function significantDateUnits(date: Date): string {
 
     let dateTimeOptions: Intl.DateTimeFormatOptions = { month: "short", year: "2-digit" };
 
-    let daysDifferent = Math.round((+now - +date) / (1000 * 60 * 60 * 24));
+    const daysDifferent = Math.round((+now - +date) / (1000 * 60 * 60 * 24));
     if (daysDifferent < 1 && date.getDay() === now.getDay()) {
         dateTimeOptions = {
             hour: 'numeric',
@@ -43,3 +43,9 @@ export function significantDateUnits(date: Date): string {
 
     return Intl.DateTimeFormat(undefined, dateTimeOptions).format(date);
 }
+
+// TODO: WORLDS UGLIEST UIDS
+export const makeUID = () => {
+    return `${Math.random()}`;
+};
+

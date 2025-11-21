@@ -181,6 +181,7 @@ const CodeMirror = ({
       setActiveEditor(new EditorActions(view, logging, actionFeedback, intl));
     }
   }, [
+    awareness,
     actionFeedback,
     client,
     intl,
