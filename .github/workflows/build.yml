@@ -29,11 +29,11 @@ jobs:
 
     steps:
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Configure node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20.x
+          node-version: 24.x
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
       - run: npm ci
@@ -56,12 +56,12 @@ jobs:
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-        uses: docker://mcr.microsoft.com/playwright:v1.42.1-jammy
+        uses: docker://mcr.microsoft.com/playwright:v1.58.2-noble
         with:
           args: npx playwright test
       - name: Store reports
         if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports
           path: reports/
