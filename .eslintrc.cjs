@@ -55,9 +55,15 @@ module.exports = {
         ignoreRestSiblings: true,
       },
     ],
+    // Empty interfaces extending a base type are used for component props
+    "@typescript-eslint/no-empty-object-type": "off",
+    // Short-circuit expressions like `x && x.click()` are idiomatic
+    "@typescript-eslint/no-unused-expressions": "off",
     // Temporary, new rules on Vite migration that are widely flouted
     "@typescript-eslint/no-explicit-any": "off",
     "prefer-const": "off",
     "react/display-name": "off",
+    // TypeScript handles prop validation
+    "react/prop-types": "off",
   },
 };
