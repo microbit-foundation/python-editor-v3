@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { MicrobitWebUSBConnection } from "@microbit/microbit-connection";
+import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
 import { Terminal } from "xterm";
 import { Logging } from "../logging/logging";
 
@@ -13,7 +13,7 @@ import { Logging } from "../logging/logging";
 export class SerialActions {
   constructor(
     private terminal: React.RefObject<Terminal | undefined>,
-    private device: MicrobitWebUSBConnection,
+    private device: MicrobitUSBConnection,
     private onSerialSizeChange: (size: "compact" | "open") => void,
     private logging: Logging
   ) {}

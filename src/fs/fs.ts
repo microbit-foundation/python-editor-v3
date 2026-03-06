@@ -5,16 +5,13 @@
  */
 import {
   getIntelHexAppendedScript,
+  microbitBoardId,
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
 import { fromByteArray, toByteArray } from "base64-js";
 import sortBy from "lodash.sortby";
 import { lineNumFromUint8Array } from "../common/text-util";
-import {
-  BoardId,
-  FlashDataError,
-  BoardVersion,
-} from "@microbit/microbit-connection";
+import { FlashDataError, BoardVersion } from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";
 import { MicroPythonSource } from "../micropython/micropython";
 import { extractModuleData, generateId } from "./fs-util";
@@ -464,7 +461,7 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     return async (boardVersion: BoardVersion) => {
       try {
         const fs = await this.initialize();
-        const boardId = BoardId.forVersion(boardVersion).id;
+        const boardId = microbitBoardId[boardVersion];
         return fs.getIntelHex(boardId);
       } catch (e: any) {
         throw new FlashDataError(e.message);

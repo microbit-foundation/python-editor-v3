@@ -12,7 +12,7 @@ import "xterm/css/xterm.css";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm } from "../deployment/misc";
-import { SerialDataEvent } from "@microbit/microbit-connection";
+import { SerialData } from "@microbit/microbit-connection/usb";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
 import { useSelection } from "../workbench/use-selection";
 import { WebLinkProvider } from "./link-provider";
@@ -96,7 +96,7 @@ const useManagedTermimal = (
       customKeyEventHandler(e, tabOutRef)
     );
 
-    const serialListener = (event: SerialDataEvent) => {
+    const serialListener = (event: SerialData) => {
       if (!isUnmounted()) {
         terminal.write(event.data);
       }

@@ -26,7 +26,7 @@ interface SimulatorSplitViewProps {
 
 const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
   const intl = useIntl();
-  const connected = useConnectionStatus() === ConnectionStatus.CONNECTED;
+  const connected = useConnectionStatus() === ConnectionStatus.Connected;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";

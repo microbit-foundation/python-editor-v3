@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { ConsoleLogging } from "../deployment/default/logging";
 import { MockLogging } from "../logging/mock";
-import { NullLogging } from "../deployment/default/logging";
 import {
   FSStorage,
   InMemoryFSStorage,
@@ -91,7 +91,7 @@ describe("SplitStrategyStorage", () => {
   const storage = new SplitStrategyStorage(
     new InMemoryFSStorage(projectName),
     new SessionStorageFSStorage(sessionStorage),
-    new NullLogging()
+    new ConsoleLogging()
   );
 
   beforeEach(() => {
@@ -107,7 +107,11 @@ describe("SplitStrategyStorage", () => {
     await session.write("test1.py", new Uint8Array([1]));
     await session.markDirty();
 
-    const split = new SplitStrategyStorage(memory, session, new NullLogging());
+    const split = new SplitStrategyStorage(
+      memory,
+      session,
+      new ConsoleLogging()
+    );
 
     expect(await split.ls()).toEqual(["test1.py"]);
     expect(await split.projectName()).toEqual("foo");
