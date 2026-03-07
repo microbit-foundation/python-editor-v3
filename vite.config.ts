@@ -79,6 +79,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "build",
       sourcemap: true,
+      target: ["chrome98", "edge98", "safari14", "ios14", "firefox104"],
     },
     server: {
       port: 3000,

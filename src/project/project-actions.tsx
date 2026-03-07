@@ -605,7 +605,7 @@ export class ProjectActions {
 
     try {
       const content = await this.fs.read(filename);
-      const blob = new Blob([content.data], {
+      const blob = new Blob([content.data as BlobPart], {
         type: "application/octet-stream",
       });
       saveAs(blob, filename);
@@ -631,7 +631,7 @@ export class ProjectActions {
 
     try {
       const content = await this.fs.read(MAIN_FILE);
-      const blob = new Blob([content.data], {
+      const blob = new Blob([content.data as BlobPart], {
         type: "application/octet-stream",
       });
       const filename = `${this.project.name}-${MAIN_FILE}`;
