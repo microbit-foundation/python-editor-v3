@@ -5,6 +5,7 @@
  */
 import {
   BoardVersion,
+  ConnectionAvailabilityStatus,
   ConnectionStatus,
   DeviceConnectionEventMap,
   FlashDataSource,
@@ -31,6 +32,7 @@ export class MockDeviceConnection
   status: ConnectionStatus = ConnectionStatus.NoAuthorizedDevice;
 
   private connectResults: DeviceErrorCode[] = [];
+  private availability: ConnectionAvailabilityStatus = "available";
 
   constructor() {
     super();
@@ -48,7 +50,7 @@ export class MockDeviceConnection
 
   async initialize(): Promise<void> {}
   async checkAvailability() {
-    return "available" as const;
+    return this.availability;
   }
 
   dispose() {}
@@ -109,5 +111,9 @@ export class MockDeviceConnection
 
   clearDevice(): void {
     this.setStatus(ConnectionStatus.NoAuthorizedDevice);
+  }
+
+  mockWebUsbNotSupported(): void {
+    this.availability = "unsupported";
   }
 }

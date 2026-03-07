@@ -135,6 +135,12 @@ export class ProjectActions {
       type: "connect",
     });
 
+    const availability = await this.device.checkAvailability();
+    if (availability !== "available") {
+      this.webusbNotSupportedError(finalFocusRef);
+      return false;
+    }
+
     if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
       return this.connectInternal(userAction, finalFocusRef);
     }
@@ -514,8 +520,8 @@ export class ProjectActions {
       }
     }
 
+    const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
     try {
-      const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
       const firstFlashNotice = (
         <Text fontSize="lg">
           <FormattedMessage id="flashing-full-flash-detail" />
@@ -546,6 +552,8 @@ export class ProjectActions {
       } else {
         this.handleWebUSBError(e, ConnectionAction.FLASH, finalFocusRef);
       }
+    } finally {
+      this.dialogs.closeProgress();
     }
   };
 

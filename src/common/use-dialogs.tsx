@@ -65,11 +65,11 @@ export class Dialogs {
   }
 
   progress(options: ProgressDialogParameters): void {
-    if (options.progress === undefined) {
-      this.progressDialogSetState(undefined);
-    } else {
-      this.progressDialogSetState(options);
-    }
+    this.progressDialogSetState(options);
+  }
+
+  closeProgress(): void {
+    this.progressDialogSetState(undefined);
   }
 }
 

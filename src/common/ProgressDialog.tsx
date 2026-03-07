@@ -19,7 +19,7 @@ const doNothing = () => {};
 export interface ProgressDialogParameters {
   header: ReactNode;
   body?: ReactNode;
-  progress: number | undefined;
+  progress?: number;
 }
 
 interface ProgressDialogProps extends ProgressDialogParameters {
@@ -29,10 +29,15 @@ interface ProgressDialogProps extends ProgressDialogParameters {
 /**
  * A progress dialog used for the flashing process.
  */
-const ProgressDialog = ({ header, body, progress }: ProgressDialogProps) => {
+const ProgressDialog = ({
+  isOpen,
+  header,
+  body,
+  progress,
+}: ProgressDialogProps) => {
   return (
     <Modal
-      isOpen={progress !== undefined}
+      isOpen={isOpen}
       onClose={doNothing}
       isCentered
       size={body ? "xl" : "md"}
@@ -53,7 +58,7 @@ const ProgressDialog = ({ header, body, progress }: ProgressDialogProps) => {
             alignItems="flex-start"
           >
             {body}
-            <Progress value={progress! * 100} width="100%" />
+            <Progress value={(progress ?? 0) * 100} width="100%" />
           </VStack>
         </ModalBody>
       </ModalContent>
