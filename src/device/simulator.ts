@@ -6,24 +6,23 @@
 import {
   BoardVersion,
   ConnectionStatus,
-  DeviceConnectionEventMap,
-  TypedEventTarget,
+  ConnectionStatusChange,
 } from "@microbit/microbit-connection";
-import { SerialConnectionEventMap } from "@microbit/microbit-connection/usb";
 import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
+import { SimpleEventTarget } from "./simple-event-target";
 import { Logging } from "../logging/logging";
 
 // Simulator-only events.
 
-export interface LogDataEvent {
+export interface LogData {
   log: DataLog;
 }
 
-export interface RadioDataEvent {
+export interface RadioData {
   text: string;
 }
 
-export interface StateChangeEvent {
+export interface StateChange {
   state: SimulatorState;
 }
 
@@ -136,12 +135,19 @@ const initialDataLog = (): DataLog => ({
   data: [],
 });
 
-interface SimulatorEventMap extends DeviceConnectionEventMap {
-  log_data: LogDataEvent;
-  radio_data: RadioDataEvent;
-  radio_reset: void;
-  state_change: StateChangeEvent;
-  request_flash: void;
+interface SimulatorEventMap {
+  status: ConnectionStatusChange;
+  beforerequestdevice: void;
+  afterrequestdevice: void;
+  flash: void;
+  serialdata: { data: string };
+  serialreset: void;
+  // Simulator-specific
+  logdata: LogData;
+  radiodata: RadioData;
+  radioreset: void;
+  statechange: StateChange;
+  requestflash: void;
 }
 
 /**
@@ -150,9 +156,10 @@ interface SimulatorEventMap extends DeviceConnectionEventMap {
  * This communicates with the iframe that is used to embed the simulator.
  */
 export class SimulatorDeviceConnection
-  extends TypedEventTarget<SimulatorEventMap & SerialConnectionEventMap>
+  extends SimpleEventTarget<SimulatorEventMap>
   implements MicrobitUSBConnection
 {
+  readonly type = "usb" as const;
   status: ConnectionStatus = ConnectionStatus.NoAuthorizedDevice;
   state: SimulatorState | undefined;
 
@@ -168,14 +175,14 @@ export class SimulatorDeviceConnection
       case "ready": {
         const newState = event.data.state;
         this.state = newState;
-        this.dispatchEvent("state_change", { state: newState });
+        this.dispatchEvent("statechange", { state: newState });
         if (this.status !== ConnectionStatus.Connected) {
           this.setStatus(ConnectionStatus.Connected);
         }
         break;
       }
       case "request_flash": {
-        this.dispatchEvent("request_flash");
+        this.dispatchEvent("requestflash");
         this.logging.event({
           type: "sim-user-start",
         });
@@ -187,7 +194,7 @@ export class SimulatorDeviceConnection
           ...event.data.change,
         };
         this.state = updated;
-        this.dispatchEvent("state_change", { state: updated });
+        this.dispatchEvent("statechange", { state: updated });
         break;
       }
       case "radio_output": {
@@ -200,7 +207,7 @@ export class SimulatorDeviceConnection
           // eslint-disable-next-line no-control-regex
           .replace(/^\x01\x00\x01/, "");
         if (message instanceof Uint8Array) {
-          this.dispatchEvent("radio_data", { text });
+          this.dispatchEvent("radiodata", { text });
         }
         break;
       }
@@ -218,12 +225,12 @@ export class SimulatorDeviceConnection
           result.data.push({ data: entry.data });
         }
         this.log = result;
-        this.dispatchEvent("log_data", { log: this.log });
+        this.dispatchEvent("logdata", { log: this.log });
         break;
       }
       case "log_delete": {
         this.log = initialDataLog();
-        this.dispatchEvent("log_data", { log: this.log });
+        this.dispatchEvent("logdata", { log: this.log });
         break;
       }
       case "serial_output": {
@@ -300,7 +307,7 @@ export class SimulatorDeviceConnection
   private notifyResetComms() {
     // Might be nice to rework so this was all about connection state changes.
     this.dispatchEvent("serialreset");
-    this.dispatchEvent("radio_reset");
+    this.dispatchEvent("radioreset");
   }
 
   async disconnect(): Promise<void> {
@@ -340,7 +347,7 @@ export class SimulatorDeviceConnection
         value,
       },
     };
-    this.dispatchEvent("state_change", { state: this.state });
+    this.dispatchEvent("statechange", { state: this.state });
     this.postMessage("set_value", {
       id,
       value,

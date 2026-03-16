@@ -853,15 +853,15 @@ export class ProjectActions {
           // The UI will already reflect the disconnection.
           return;
         }
-        case "update-req":
+        case "firmware-update-required":
           await this.handleFirmwareUpdate(e.code, userAction, finalFocusRef);
           return;
-        case "clear-connect":
-          return this.handleClearConnectError(finalFocusRef);
-        case "timeout-error":
+        case "device-in-use":
+          return this.handleDeviceInUseError(finalFocusRef);
+        case "timeout":
           return this.handleTimeoutError(finalFocusRef);
-        case "reconnect-microbit":
-          return this.handleReconnectMicrobitError(finalFocusRef);
+        case "connection-error":
+          return this.handleConnectionError(finalFocusRef);
         default: {
           return this.actionFeedback.unexpectedError(e);
         }
@@ -886,7 +886,7 @@ export class ProjectActions {
     this.save(finalFocusRef, true);
   }
 
-  private async handleClearConnectError(finalFocusRef: FinalFocusRef) {
+  private async handleDeviceInUseError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}
@@ -906,7 +906,7 @@ export class ProjectActions {
       />
     ));
   }
-  private async handleReconnectMicrobitError(finalFocusRef: FinalFocusRef) {
+  private async handleConnectionError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}

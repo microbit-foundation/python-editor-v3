@@ -204,9 +204,7 @@ export const useDeviceTraceback = () => {
     };
     device.addEventListener("serialdata", dataListener);
     device.addEventListener("serialreset", clearListener);
-    device.addEventListener("serialerror", clearListener);
     return () => {
-      device.removeEventListener("serialerror", clearListener);
       device.removeEventListener("serialreset", clearListener);
       device.removeEventListener("serialdata", dataListener);
     };

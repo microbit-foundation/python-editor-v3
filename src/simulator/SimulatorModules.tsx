@@ -23,7 +23,7 @@ import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
   SimulatorState,
-  StateChangeEvent,
+  StateChange,
 } from "../device/simulator";
 import { useRouterState } from "../router-hooks";
 import ButtonsModule from "./ButtonsModule";
@@ -110,12 +110,12 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
   );
   const intl = useIntl();
   useEffect(() => {
-    const listener = (event: StateChangeEvent) => {
+    const listener = (event: StateChange) => {
       setState(event.state);
     };
-    device.addEventListener("state_change", listener);
+    device.addEventListener("statechange", listener);
     return () => {
-      device.removeEventListener("state_change", listener);
+      device.removeEventListener("statechange", listener);
     };
   }, [device, setState]);
   const handleSensorChange = useCallback(

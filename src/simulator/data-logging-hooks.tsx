@@ -1,18 +1,18 @@
 import React, { ReactNode, useContext, useEffect } from "react";
 import useRafState from "../common/use-raf-state";
 import { useSimulator } from "../device/device-hooks";
-import { DataLog, LogDataEvent } from "../device/simulator";
+import { DataLog, LogData } from "../device/simulator";
 
 const useDataLogInternal = (): DataLog => {
   const simulator = useSimulator();
   const [value, setValue] = useRafState<DataLog>(simulator.log);
   useEffect(() => {
-    const listener = (event: LogDataEvent) => {
+    const listener = (event: LogData) => {
       setValue(event.log);
     };
-    simulator.addEventListener("log_data", listener);
+    simulator.addEventListener("logdata", listener);
     return () => {
-      simulator.removeEventListener("log_data", listener);
+      simulator.removeEventListener("logdata", listener);
     };
   }, [simulator, setValue]);
   return value;
