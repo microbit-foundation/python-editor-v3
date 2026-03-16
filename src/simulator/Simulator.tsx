@@ -17,11 +17,11 @@ import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
+// import { stage } from "../environment";
 import { useLogging } from "../logging/logging-hooks";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
-import { stage } from "../environment";
 
 export enum RunningStatus {
   RUNNING,
@@ -45,15 +45,17 @@ const Simulator = ({
 }: SimulatorProps) => {
   const [brand500] = useToken("colors", ["brand.500"]);
   const url = useMemo(() => {
-    const production =
-      "https://python-simulator.usermbit.org/v/0.1/simulator.html?flag=sw";
-    const staging =
-      "https://python-simulator.usermbit.org/staging/simulator.html?flag=sw";
+    //const production =
+    //  "https://python-simulator.usermbit.org/v/0.1/simulator.html";
+    //const staging =
+    //  "https://python-simulator.usermbit.org/staging/simulator.html?flag=sw";
 
     // For testing with sim branches:
-    //const branch = "upgrade-mpy";
-    //const url = new URL(`https://review-python-simulator.usermbit.org/${branch}/simulator.html`);
-    const url = new URL(stage === "PRODUCTION" ? production : staging);
+    const branch = "beta-updates";
+    const url = new URL(
+      `https://review-python-simulator.usermbit.org/${branch}/simulator.html`
+    );
+    //const url = new URL(stage === "PRODUCTION" ? production : staging);
     url.searchParams.append("color", brand500);
     return url.toString();
   }, [brand500]);
