@@ -406,7 +406,10 @@ export class FileSystem extends TypedEventTarget<EventMap> {
 
   async statistics(): Promise<Statistics> {
     const fs = await this.initialize();
-    const currentMainFile = fs.readBytes(MAIN_FILE);
+    let currentMainFile;
+    if (fs.exists(MAIN_FILE)) {
+      currentMainFile = fs.readBytes(MAIN_FILE);
+    }
     const files = fs.ls();
     let numMagicModules = 0;
     for (const file of files) {
@@ -418,12 +421,13 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     return {
       files: files.length,
       storageUsed: fs.getStorageUsed(),
-      lines:
-        this.cachedInitialProject &&
-        this.cachedInitialProject.files[MAIN_FILE] ===
-          fromByteArray(currentMainFile)
-          ? undefined
-          : lineNumFromUint8Array(currentMainFile),
+      lines: !currentMainFile
+        ? 0
+        : this.cachedInitialProject &&
+          this.cachedInitialProject.files[MAIN_FILE] ===
+            fromByteArray(currentMainFile)
+        ? undefined
+        : lineNumFromUint8Array(currentMainFile),
       magicModules: numMagicModules,
     };
   }
@@ -450,8 +454,18 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     );
   }
 
+  private async removeMainFileIfEmpty(fs: MicropythonFsHex): Promise<void> {
+    if (fs.exists(MAIN_FILE)) {
+      const currentMainFile = await fs.read(MAIN_FILE);
+      if (!currentMainFile) {
+        fs.remove(MAIN_FILE);
+      }
+    }
+  }
+
   async toHexForSave(): Promise<string> {
     const fs = await this.initialize();
+    await this.removeMainFileIfEmpty(fs);
     return fs.getUniversalHex();
   }
 
@@ -465,6 +479,7 @@ export class FileSystem extends TypedEventTarget<EventMap> {
       try {
         const fs = await this.initialize();
         const boardId = BoardId.forVersion(boardVersion).id;
+        await this.removeMainFileIfEmpty(fs);
         return fs.getIntelHex(boardId);
       } catch (e: any) {
         throw new FlashDataError(e.message);
