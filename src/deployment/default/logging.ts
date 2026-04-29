@@ -5,8 +5,14 @@
  */
 import { Event, Logging } from "../../logging/logging";
 
-export class NullLogging implements Logging {
-  event(_event: Event): void {}
-  error(_e: any): void {}
-  log(_e: any): void {}
+export class ConsoleLogging implements Logging {
+  event(event: Event): void {
+    console.log(event);
+  }
+  error(e: any): void {
+    console.error(e);
+  }
+  log(e: any): void {
+    console.log(e);
+  }
 }

@@ -5,18 +5,23 @@
  */
 import {
   BoardVersion,
+  ConnectionAvailabilityStatus,
   ConnectionStatus,
-  DeviceConnectionEventMap,
+  ConnectionStatusChange,
   FlashDataSource,
-  FlashEvent,
-  SerialDataEvent,
-  ConnectionStatusEvent,
+  FlashOptions,
+  ProgressStage,
   DeviceError,
   DeviceErrorCode,
-  TypedEventTarget,
-  MicrobitWebUSBConnection,
-  SerialConnectionEventMap,
 } from "@microbit/microbit-connection";
+import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
+import { SimpleEventTarget } from "./simple-event-target";
+
+interface MockEventMap {
+  status: ConnectionStatusChange;
+  flash: void;
+  serialdata: { data: string };
+}
 
 /**
  * A mock device used during end-to-end testing.
@@ -26,14 +31,14 @@ import {
  * the connected state without a real device.
  */
 export class MockDeviceConnection
-  extends TypedEventTarget<DeviceConnectionEventMap & SerialConnectionEventMap>
-  implements MicrobitWebUSBConnection
+  extends SimpleEventTarget<MockEventMap>
+  implements MicrobitUSBConnection
 {
-  status: ConnectionStatus = (navigator as any).usb
-    ? ConnectionStatus.NO_AUTHORIZED_DEVICE
-    : ConnectionStatus.NOT_SUPPORTED;
+  readonly type = "usb" as const;
+  status: ConnectionStatus = ConnectionStatus.NoAuthorizedDevice;
 
   private connectResults: DeviceErrorCode[] = [];
+  private availability: ConnectionAvailabilityStatus = "available";
 
   constructor() {
     super();
@@ -42,7 +47,7 @@ export class MockDeviceConnection
   }
 
   mockSerialWrite(data: string) {
-    this.dispatchTypedEvent("serialdata", new SerialDataEvent(data));
+    this.dispatchEvent("serialdata", { data });
   }
 
   mockConnect(code: DeviceErrorCode) {
@@ -50,26 +55,30 @@ export class MockDeviceConnection
   }
 
   async initialize(): Promise<void> {}
+  async checkAvailability() {
+    return this.availability;
+  }
 
   dispose() {}
-  getDeviceId(): number | undefined {
-    return undefined;
+  getDeviceId(): number {
+    return 0;
   }
   setRequestDeviceExclusionFilters(): void {}
-  getDevice() {}
+  getDevice() {
+    return undefined;
+  }
   async softwareReset(): Promise<void> {}
 
-  async connect(): Promise<ConnectionStatus> {
+  async connect(): Promise<void> {
     const next = this.connectResults.shift();
     if (next) {
       throw new DeviceError({ code: next, message: "Mocked failure" });
     }
 
-    this.setStatus(ConnectionStatus.CONNECTED);
-    return this.status;
+    this.setStatus(ConnectionStatus.Connected);
   }
 
-  getBoardVersion(): BoardVersion | undefined {
+  getBoardVersion(): BoardVersion {
     return "V2";
   }
 
@@ -81,26 +90,16 @@ export class MockDeviceConnection
    */
   async flash(
     _dataSource: FlashDataSource,
-    options: {
-      /**
-       * True to use a partial flash where possible, false to force a full flash.
-       */
-      partial: boolean;
-      /**
-       * A progress callback. Called with undefined when the process is complete or has failed.
-       */
-      progress: (percentage: number | undefined) => void;
-    }
+    options: FlashOptions
   ): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 100));
-    options.progress(0.5);
+    options.progress?.(ProgressStage.PartialFlashing, 0.5);
     await new Promise((resolve) => setTimeout(resolve, 100));
-    options.progress(undefined);
-    this.dispatchTypedEvent("flash", new FlashEvent());
+    this.dispatchEvent("flash");
   }
 
   async disconnect(): Promise<void> {
-    this.setStatus(ConnectionStatus.DISCONNECTED);
+    this.setStatus(ConnectionStatus.Disconnected);
   }
 
   async serialWrite(data: string): Promise<void> {
@@ -108,15 +107,19 @@ export class MockDeviceConnection
   }
 
   private setStatus(newStatus: ConnectionStatus) {
+    const previousStatus = this.status;
     this.status = newStatus;
-    this.dispatchTypedEvent("status", new ConnectionStatusEvent(this.status));
+    this.dispatchEvent("status", {
+      status: newStatus,
+      previousStatus,
+    });
   }
 
   clearDevice(): void {
-    this.setStatus(ConnectionStatus.NO_AUTHORIZED_DEVICE);
+    this.setStatus(ConnectionStatus.NoAuthorizedDevice);
   }
 
   mockWebUsbNotSupported(): void {
-    this.setStatus(ConnectionStatus.NOT_SUPPORTED);
+    this.availability = "unsupported";
   }
 }

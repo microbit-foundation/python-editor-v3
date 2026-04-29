@@ -16,7 +16,7 @@
     "@codemirror/view": "^6.26.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@microbit/microbit-connection": "^0.0.0-alpha.36",
+    "@microbit/microbit-connection": "^1.0.0-beta.0",
     "@microbit/microbit-fs": "^0.10.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/image-url": "^1.0.1",
@@ -55,7 +55,7 @@
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
-"@chakra-ui/cli": "2.4.1",
+    "@chakra-ui/cli": "2.4.1",
     "@formatjs/cli": "^6.2.7",
     "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^5.14.1",

@@ -40,7 +40,7 @@ const SendButton = React.forwardRef(
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     const status = useConnectionStatus();
-    const connected = status === ConnectionStatus.CONNECTED;
+    const connected = status === ConnectionStatus.Connected;
     const actions = useProjectActions();
     const handleToggleConnected = useCallback(async () => {
       if (connected) {

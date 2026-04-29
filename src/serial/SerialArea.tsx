@@ -42,7 +42,8 @@ const SerialArea = ({
   ...props
 }: SerialAreaProps) => {
   const status = useConnectionStatus();
-  const connected = status === ConnectionStatus.CONNECTED;
+  const connected =
+    status === ConnectionStatus.Connected || status === ConnectionStatus.Paused;
   return (
     <TerminalContext>
       <Flex

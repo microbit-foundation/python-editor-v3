@@ -19,12 +19,12 @@ import { ActionFeedback } from "../common/use-action-feedback";
 import { Dialogs } from "../common/use-dialogs";
 import {
   ConnectionStatus,
-  MicrobitWebUSBConnection,
-  AfterRequestDevice,
   FlashDataError,
   DeviceError,
   DeviceErrorCode,
+  ProgressStage,
 } from "@microbit/microbit-connection";
+import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
 import { FileSystem, MAIN_FILE, Statistics, VersionAction } from "../fs/fs";
 import {
   getLowercaseFileExtension,
@@ -105,7 +105,7 @@ export enum ConnectionAction {
 export class ProjectActions {
   constructor(
     private fs: FileSystem,
-    private device: MicrobitWebUSBConnection,
+    private device: MicrobitUSBConnection,
     private actionFeedback: ActionFeedback,
     private dialogs: Dialogs,
     private setSelection: (selection: WorkbenchSelection) => void,
@@ -135,12 +135,14 @@ export class ProjectActions {
       type: "connect",
     });
 
-    if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
+    const availability = await this.device.checkAvailability();
+    if (availability !== "available") {
       this.webusbNotSupportedError(finalFocusRef);
-    } else {
-      if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
-        return this.connectInternal(userAction, finalFocusRef);
-      }
+      return false;
+    }
+
+    if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
+      return this.connectInternal(userAction, finalFocusRef);
     }
   };
 
@@ -158,7 +160,7 @@ export class ProjectActions {
     if (
       !force &&
       (!showConnectHelpSetting ||
-        this.device.status === ConnectionStatus.DISCONNECTED)
+        this.device.status === ConnectionStatus.Disconnected)
     ) {
       return true;
     }
@@ -504,14 +506,9 @@ export class ProjectActions {
       detail: await this.projectStats(),
     });
 
-    if (this.device.status === ConnectionStatus.NOT_SUPPORTED) {
-      this.webusbNotSupportedError(finalFocusRef);
-      return;
-    }
-
     if (
-      this.device.status === ConnectionStatus.NO_AUTHORIZED_DEVICE ||
-      this.device.status === ConnectionStatus.DISCONNECTED
+      this.device.status === ConnectionStatus.NoAuthorizedDevice ||
+      this.device.status === ConnectionStatus.Disconnected
     ) {
       const connected = await this.connect(
         tryAgain || false,
@@ -523,19 +520,23 @@ export class ProjectActions {
       }
     }
 
+    const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
     try {
-      const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
       const firstFlashNotice = (
         <Text fontSize="lg">
           <FormattedMessage id="flashing-full-flash-detail" />
         </Text>
       );
-      const progress = (value: number | undefined, partial: boolean) => {
-        this.dialogs.progress({
-          header: flashingCode,
-          body: partial ? undefined : firstFlashNotice,
-          progress: value,
-        });
+      const progress = (stage: ProgressStage, value?: number) => {
+        const isPartial = stage === ProgressStage.PartialFlashing;
+        const isFlashing = isPartial || stage === ProgressStage.FullFlashing;
+        if (isFlashing) {
+          this.dialogs.progress({
+            header: flashingCode,
+            body: isPartial ? undefined : firstFlashNotice,
+            progress: value,
+          });
+        }
       };
       await this.device.flash(this.fs.asFlashDataSource(), {
         partial: true,
@@ -551,6 +552,8 @@ export class ProjectActions {
       } else {
         this.handleWebUSBError(e, ConnectionAction.FLASH, finalFocusRef);
       }
+    } finally {
+      this.dialogs.closeProgress();
     }
   };
 
@@ -836,11 +839,10 @@ export class ProjectActions {
     finalFocusRef: FinalFocusRef
   ) {
     if (e instanceof DeviceError) {
-      this.device.dispatchTypedEvent(
-        "afterrequestdevice",
-        new AfterRequestDevice()
-      );
       switch (e.code) {
+        case "unsupported":
+          this.webusbNotSupportedError(finalFocusRef);
+          return;
         case "no-device-selected": {
           // User just cancelled the browser dialog, perhaps because there
           // where no devices.
@@ -851,15 +853,15 @@ export class ProjectActions {
           // The UI will already reflect the disconnection.
           return;
         }
-        case "update-req":
+        case "firmware-update-required":
           await this.handleFirmwareUpdate(e.code, userAction, finalFocusRef);
           return;
-        case "clear-connect":
-          return this.handleClearConnectError(finalFocusRef);
-        case "timeout-error":
+        case "device-in-use":
+          return this.handleDeviceInUseError(finalFocusRef);
+        case "timeout":
           return this.handleTimeoutError(finalFocusRef);
-        case "reconnect-microbit":
-          return this.handleReconnectMicrobitError(finalFocusRef);
+        case "connection-error":
+          return this.handleConnectionError(finalFocusRef);
         default: {
           return this.actionFeedback.unexpectedError(e);
         }
@@ -884,7 +886,7 @@ export class ProjectActions {
     this.save(finalFocusRef, true);
   }
 
-  private async handleClearConnectError(finalFocusRef: FinalFocusRef) {
+  private async handleDeviceInUseError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}
@@ -904,7 +906,7 @@ export class ProjectActions {
       />
     ));
   }
-  private async handleReconnectMicrobitError(finalFocusRef: FinalFocusRef) {
+  private async handleConnectionError(finalFocusRef: FinalFocusRef) {
     return this.dialogs.show<void>((callback) => (
       <WebUSBErrorDialog
         callback={callback}

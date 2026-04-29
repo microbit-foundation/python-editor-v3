@@ -68,9 +68,9 @@ const SimulatorActionBar = ({
     setIsMuted(!isMuted);
   }, [device, isMuted, setIsMuted]);
   useEffect(() => {
-    device.addEventListener("request_flash", handlePlay);
+    device.addEventListener("requestflash", handlePlay);
     return () => {
-      device.removeEventListener("request_flash", handlePlay);
+      device.removeEventListener("requestflash", handlePlay);
     };
   }, [device, handlePlay]);
   const size = "md";

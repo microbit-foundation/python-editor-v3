@@ -73,7 +73,7 @@ test.describe("connect", () => {
   test("shows the update firmware dialog and connects on try again", async ({
     app,
   }) => {
-    await app.mockDeviceConnectFailure("update-req");
+    await app.mockDeviceConnectFailure("firmware-update-required");
     await app.connect();
     await app.expectDialog("Firmware update required");
     await app.connectViaTryAgain();

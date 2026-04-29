@@ -15,13 +15,15 @@ import { useFileSystem } from "../fs/fs-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import {
   ConnectionStatus,
-  MicrobitWebUSBConnection,
-  SerialDataEvent,
-  ConnectionStatusEvent,
+  ConnectionStatusChange,
 } from "@microbit/microbit-connection";
+import {
+  MicrobitUSBConnection,
+  SerialData,
+} from "@microbit/microbit-connection/usb";
 import { SimulatorDeviceConnection } from "./simulator";
 
-const DeviceContext = React.createContext<undefined | MicrobitWebUSBConnection>(
+const DeviceContext = React.createContext<undefined | MicrobitUSBConnection>(
   undefined
 );
 
@@ -56,7 +58,7 @@ export const useConnectionStatus = () => {
   const device = useDevice();
   const [status, setStatus] = useState<ConnectionStatus>(device.status);
   useEffect(() => {
-    const statusListener = (event: ConnectionStatusEvent) => {
+    const statusListener = (event: ConnectionStatusChange) => {
       setStatus(event.status);
     };
     device.addEventListener("status", statusListener);
@@ -185,7 +187,7 @@ export const useDeviceTraceback = () => {
 
   useEffect(() => {
     const buffer = new TracebackScrollback();
-    const dataListener = (event: SerialDataEvent) => {
+    const dataListener = (event: SerialData) => {
       const latest = buffer.push(event.data);
       setRuntimeError((current) => {
         if (!current && latest) {
@@ -202,9 +204,7 @@ export const useDeviceTraceback = () => {
     };
     device.addEventListener("serialdata", dataListener);
     device.addEventListener("serialreset", clearListener);
-    device.addEventListener("serialerror", clearListener);
     return () => {
-      device.removeEventListener("serialerror", clearListener);
       device.removeEventListener("serialreset", clearListener);
       device.removeEventListener("serialdata", dataListener);
     };
@@ -234,7 +234,7 @@ export const DeviceContextProvider = ({
   value: device,
   children,
 }: {
-  value: MicrobitWebUSBConnection;
+  value: MicrobitUSBConnection;
   children: ReactNode;
 }) => {
   const syncStatusState = useState<SyncStatus>(SyncStatus.OUT_OF_SYNC);

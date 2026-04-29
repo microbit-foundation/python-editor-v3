@@ -5,7 +5,7 @@
  */
 import { ReactNode, createContext } from "react";
 import { CookieConsent, DeploymentConfigFactory } from "..";
-import { NullLogging } from "./logging";
+import { ConsoleLogging } from "./logging";
 import theme from "./theme";
 
 const stubConsentValue: CookieConsent = {
@@ -20,7 +20,7 @@ const defaultDeploymentFactory: DeploymentConfigFactory = () => ({
   chakraTheme: theme,
   // This isn't ideal as it's the branded version. You can just remove the field to remove the welcome dialog.
   welcomeVideoYouTubeId: "mREwMW69qKc",
-  logging: new NullLogging(),
+  logging: new ConsoleLogging(),
   compliance: {
     ConsentProvider: ({ children }: { children: ReactNode }) => (
       <stubConsentContext.Provider value={stubConsentValue}>

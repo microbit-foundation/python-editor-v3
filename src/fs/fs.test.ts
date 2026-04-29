@@ -8,7 +8,7 @@
 
 import * as fs from "fs";
 import * as fsp from "fs/promises";
-import { NullLogging } from "../deployment/default/logging";
+import { ConsoleLogging } from "../deployment/default/logging";
 import { MicroPythonSource } from "../micropython/micropython";
 import {
   diff,
@@ -45,7 +45,7 @@ const fsMicroPythonSource: MicroPythonSource = async () => {
 };
 
 describe("Filesystem", () => {
-  const logging = new NullLogging();
+  const logging = new ConsoleLogging();
   const host = new DefaultHost();
   let ufs = new FileSystem(logging, host, fsMicroPythonSource);
   let events: Project[] = [];
