@@ -8,6 +8,7 @@ import * as LSP from "vscode-languageserver-protocol";
 import { Action, Diagnostic } from "../lint/lint";
 import { positionToOffset } from "./positions";
 import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
+import { ConnectionStatus } from "@microbit/microbit-connection";
 
 const reportMicrobitVersionApiUnsupported =
   "reportMicrobitVersionApiUnsupported";
@@ -32,7 +33,9 @@ export const diagnosticsMapping = (
       // and warnOnV2OnlyFeatures setting is on.
       if (
         code === reportMicrobitVersionApiUnsupported &&
-        (!warnOnV2OnlyFeatures || device.getBoardVersion() !== "V1")
+        (!warnOnV2OnlyFeatures ||
+          device.status !== ConnectionStatus.Connected ||
+          device.getBoardVersion() !== "V1")
       ) {
         return undefined;
       }
