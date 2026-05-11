@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { Box } from "@chakra-ui/layout";
 import { createRef, useEffect } from "react";
 import { dimensionPropName, useSplitViewContext } from "./context";
-import { Box } from "@chakra-ui/layout";
 
 interface SizedPaneProps {
   children: JSX.Element;
@@ -38,6 +38,7 @@ const SplitViewSized = ({ children }: SizedPaneProps) => {
   return (
     <Box
       pointerEvents={dragging ? "none" : "unset"}
+      display={mode === "collapsed" ? "none" : undefined}
       visibility={mode === "collapsed" ? "hidden" : undefined}
       ref={ref}
     >
