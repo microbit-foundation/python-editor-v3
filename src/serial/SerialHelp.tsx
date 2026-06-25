@@ -3,16 +3,19 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
 import {
+  Button,
+  Code,
+  Kbd,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/modal";
-import { Code, Kbd, Text, VStack } from "@chakra-ui/react";
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 

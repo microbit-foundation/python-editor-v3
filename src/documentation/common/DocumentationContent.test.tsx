@@ -11,11 +11,15 @@ import { vi } from "vitest";
 import { PortableText } from "../../common/sanity";
 import DocumentationContent from "./DocumentationContent";
 
-vi.mock("@chakra-ui/image", () => ({
-  Image: ({ src, w, h }: ImageProps) => (
-    <img src={src} width={w as string} height={h as string} />
-  ),
-}));
+vi.mock("@chakra-ui/react", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@chakra-ui/react")>();
+  return {
+    ...actual,
+    Image: ({ src, w, h }: ImageProps) => (
+      <img src={src} width={w as string} height={h as string} />
+    ),
+  };
+});
 
 describe("DocumentationContent", () => {
   it("renders external links", () => {

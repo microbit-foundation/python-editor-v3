@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps } from "@chakra-ui/layout";
-import { useToken } from "@chakra-ui/system";
+import { Box, BoxProps, useToken } from "@chakra-ui/react";
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import React, { useEffect, useRef } from "react";

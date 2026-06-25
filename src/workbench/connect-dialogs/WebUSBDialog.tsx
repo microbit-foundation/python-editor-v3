@@ -3,8 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { Flex, HStack, Image, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  HStack,
+  Image,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";

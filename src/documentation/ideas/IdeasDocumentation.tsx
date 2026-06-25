@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, Stack, Text } from "@chakra-ui/layout";
-import { Image, SimpleGrid } from "@chakra-ui/react";
+import { Image, Link, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { ReactNode, useCallback, useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import AreaHeading from "../../common/AreaHeading";

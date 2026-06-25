@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, ButtonProps } from "@chakra-ui/button";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 

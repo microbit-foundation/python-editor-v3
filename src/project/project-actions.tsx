@@ -3,8 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, List, ListItem, Stack } from "@chakra-ui/layout";
-import { Box, HStack, Text, UnorderedList, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Link,
+  List,
+  ListItem,
+  Stack,
+  Text,
+  UnorderedList,
+  VStack,
+} from "@chakra-ui/react";
 import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Divider, VStack } from "@chakra-ui/layout";
+import { Box, BoxProps, Divider, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { zIndexBreadcrumbContainer } from "../common/zIndex";
 import ScrollablePanel from "./ScrollablePanel";

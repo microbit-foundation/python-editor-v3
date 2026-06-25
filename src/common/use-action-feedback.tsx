@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useToast, ToastPosition } from "@chakra-ui/toast";
+import { ToastPosition, useToast } from "@chakra-ui/react";
 import { ReactNode, useMemo } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import { deployment } from "../deployment";

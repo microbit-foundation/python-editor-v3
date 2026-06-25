@@ -3,10 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Icon } from "@chakra-ui/icon";
-import { Image } from "@chakra-ui/image";
-import { Box, Link, Stack, Text } from "@chakra-ui/layout";
-import { Collapse } from "@chakra-ui/react";
+import {
+  Box,
+  Collapse,
+  Icon,
+  Image,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";

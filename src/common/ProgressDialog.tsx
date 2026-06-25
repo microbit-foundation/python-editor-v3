@@ -9,9 +9,10 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/modal";
-import { Progress } from "@chakra-ui/progress";
-import { Text, VStack } from "@chakra-ui/react";
+  Progress,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 const doNothing = () => {};

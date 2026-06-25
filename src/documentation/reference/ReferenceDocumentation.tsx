@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Divider, List, ListItem } from "@chakra-ui/layout";
+import { Box, Divider, List, ListItem } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
 import { docStyles } from "../../common/documentation-styles";

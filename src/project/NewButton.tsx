@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Tooltip } from "@chakra-ui/tooltip";
+import { Tooltip } from "@chakra-ui/react";
 import { RiFileAddLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton, {

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, LinkProps } from "@chakra-ui/layout";
+import { Link, LinkProps } from "@chakra-ui/react";
 
 /**
  * Chakra's link but renders the children directly if there's no href passed.

@@ -3,38 +3,34 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { useClipboard } from "@chakra-ui/hooks";
-import { Image } from "@chakra-ui/image";
 import {
+  AspectRatio,
   Box,
   BoxProps,
+  Button,
+  Collapse,
   Flex,
   HStack,
+  Icon,
+  Image,
   Link,
-  SimpleGrid,
-  Text,
-  VStack,
-} from "@chakra-ui/layout";
-import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalOverlay,
-} from "@chakra-ui/modal";
-import {
-  AspectRatio,
-  Collapse,
-  Icon,
+  SimpleGrid,
   Table,
   TableCaption,
   Tbody,
   Td,
+  Text,
   Tr,
   useDisclosure,
   VisuallyHidden,
+  VStack,
 } from "@chakra-ui/react";
+import { useClipboard } from "@chakra-ui/hooks";
 import { ReactNode } from "react";
 import { RiFileCopy2Line, RiGithubFill } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";

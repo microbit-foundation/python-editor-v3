@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { HStack, Link } from "@chakra-ui/react";
+import { Button, HStack, Link } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog } from "../../common/GenericDialog";

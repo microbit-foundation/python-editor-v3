@@ -3,16 +3,19 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { IconButton } from "@chakra-ui/button";
-import { HStack, ListItem, Text, UnorderedList } from "@chakra-ui/layout";
 import {
+  HStack,
+  IconButton,
+  ListItem,
   Menu,
   MenuButton,
   MenuButtonProps,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
-} from "@chakra-ui/menu";
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
 import sortBy from "lodash.sortby";
 import { RiFileSettingsLine } from "react-icons/ri";
 import { IntlShape, useIntl } from "react-intl";

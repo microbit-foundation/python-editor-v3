@@ -3,9 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { Icon } from "@chakra-ui/icon";
-import { Box, Flex, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Icon,
+  Image,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";

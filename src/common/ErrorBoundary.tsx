@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/layout";
+import { Text } from "@chakra-ui/react";
 import React, { ErrorInfo, ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { LoggingContext } from "../logging/logging-hooks";

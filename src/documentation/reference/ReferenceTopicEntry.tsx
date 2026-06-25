@@ -3,9 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex, HStack, Text } from "@chakra-ui/layout";
-import { useDisclosure } from "@chakra-ui/react";
-import { Select } from "@chakra-ui/select";
+import {
+  Box,
+  Flex,
+  HStack,
+  Select,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { docStyles } from "../../common/documentation-styles";
 import { PortableText } from "../../common/sanity";

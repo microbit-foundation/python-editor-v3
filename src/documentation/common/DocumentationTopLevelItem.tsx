@@ -3,14 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { IconButton } from "@chakra-ui/button";
-import { Box, VStack } from "@chakra-ui/layout";
 import {
+  Box,
   Divider,
   HStack,
+  IconButton,
   ListItem,
   ListItemProps,
   useMediaQuery,
+  VStack,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";

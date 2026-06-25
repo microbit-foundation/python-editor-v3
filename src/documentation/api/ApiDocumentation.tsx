@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, Divider, List, ListItem } from "@chakra-ui/layout";
-import { Link } from "@chakra-ui/react";
+import { BoxProps, Divider, Link, List, ListItem } from "@chakra-ui/react";
 import sortBy from "lodash.sortby";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
