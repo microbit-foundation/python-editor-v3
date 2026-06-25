@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { IconButton } from "@chakra-ui/button";
 import {
+  IconButton,
   Menu,
   MenuButton,
   MenuItem,

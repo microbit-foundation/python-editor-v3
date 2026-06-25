@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text, TextProps } from "@chakra-ui/layout";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text, TextProps } from "@chakra-ui/react";
 import V2Tag from "../common/V2Tag";
 
 interface DocumentationHeadingProps extends TextProps {

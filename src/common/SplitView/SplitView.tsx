@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, FlexProps } from "@chakra-ui/layout";
+import { Flex, FlexProps } from "@chakra-ui/react";
 import React, {
   useCallback,
   useEffect,

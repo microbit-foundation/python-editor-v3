@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack } from "@chakra-ui/layout";
+import { BoxProps, HStack } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 
 interface DragHandleProps extends BoxProps {

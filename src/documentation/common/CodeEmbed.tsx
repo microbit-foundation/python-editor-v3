@@ -3,15 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, HStack } from "@chakra-ui/layout";
-import { Portal } from "@chakra-ui/portal";
 import {
+  Box,
+  BoxProps,
+  forwardRef,
+  HStack,
+  Portal,
   Tooltip,
   useClipboard,
   useDisclosure,
   VisuallyHidden,
 } from "@chakra-ui/react";
-import { forwardRef } from "@chakra-ui/system";
 import React, {
   LegacyRef,
   Ref,

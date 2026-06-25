@@ -9,7 +9,7 @@ import {
   separatorPixels,
   useSplitViewContext,
 } from "./context";
-import { Box, BoxProps } from "@chakra-ui/layout";
+import { Box, BoxProps } from "@chakra-ui/react";
 
 interface SplitViewRemainderProps extends BoxProps {
   children: ReactNode;

@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,8 +10,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-} from "@chakra-ui/modal";
-import { Text } from "@chakra-ui/react";
+  Button,
+  Text,
+} from "@chakra-ui/react";
 import { ReactNode, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 

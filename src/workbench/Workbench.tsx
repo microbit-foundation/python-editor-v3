@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex } from "@chakra-ui/layout";
-import { useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {

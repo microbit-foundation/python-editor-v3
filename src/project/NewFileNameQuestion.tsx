@@ -8,9 +8,9 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
-} from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
-import { Text } from "@chakra-ui/react";
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";

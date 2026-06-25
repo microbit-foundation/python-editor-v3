@@ -5,7 +5,7 @@
  */
 import { createRef, useEffect } from "react";
 import { dimensionPropName, useSplitViewContext } from "./context";
-import { Box } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/react";
 
 interface SizedPaneProps {
   children: JSX.Element;

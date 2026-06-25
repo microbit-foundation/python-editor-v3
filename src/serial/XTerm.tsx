@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps } from "@chakra-ui/layout";
-import { useToken } from "@chakra-ui/react";
+import { Box, BoxProps, useToken } from "@chakra-ui/react";
 import React, { useEffect, useMemo, useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";

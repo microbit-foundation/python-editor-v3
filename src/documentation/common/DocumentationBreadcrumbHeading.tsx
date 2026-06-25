@@ -3,9 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { Box, Stack, Text } from "@chakra-ui/layout";
-import { Collapse, HStack, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Collapse,
+  HStack,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
 import { SimpleImage } from "../../common/sanity";

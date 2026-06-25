@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/layout";
+import { Text } from "@chakra-ui/react";
 import { FormattedMessage } from "react-intl";
 import ReferenceToolkit from "./reference/ReferenceDocumentation";
 import Spinner from "../common/Spinner";

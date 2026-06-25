@@ -5,9 +5,9 @@
  */
 import {
   Button,
-  CSSObject,
   HTMLChakraProps,
   IconButton,
+  SystemStyleObject,
   ThemingProps,
 } from "@chakra-ui/react";
 import React, { ForwardedRef } from "react";
@@ -26,7 +26,7 @@ export interface CollapsibleButtonProps
   /**
    * Styles used only when collapsed.
    */
-  _collapsed?: CSSObject;
+  _collapsed?: SystemStyleObject;
 }
 
 export type CollapsibleButtonComposableProps = Omit<

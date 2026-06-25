@@ -3,16 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { HStack, Link, Stack, Text, VStack } from "@chakra-ui/layout";
 import {
+  Button,
+  HStack,
+  Icon,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalOverlay,
-} from "@chakra-ui/modal";
-import { Icon } from "@chakra-ui/react";
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -31,7 +35,12 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
   const intl = useIntl();
   const welcomeVideoAltText = intl.formatMessage({ id: "welcome-video-alt" });
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="outside">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="2xl"
+      scrollBehavior="outside"
+    >
       <ModalOverlay>
         <ModalContent>
           <ModalCloseButton />

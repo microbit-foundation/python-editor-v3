@@ -3,8 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps } from "@chakra-ui/layout";
 import {
+  Box,
+  BoxProps,
   UseDisclosureReturn,
   usePrefersReducedMotion,
   usePrevious,

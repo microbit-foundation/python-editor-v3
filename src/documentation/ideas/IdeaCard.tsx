@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { VStack } from "@chakra-ui/layout";
-import { Image } from "@chakra-ui/react";
+import { Image, VStack } from "@chakra-ui/react";
 import { imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { SimpleImage } from "../../common/sanity";
 import DocumentationHeading from "../common/DocumentationHeading";

@@ -3,13 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, HStack, Stack, Text, VStack } from "@chakra-ui/layout";
 import {
+  Box,
+  BoxProps,
   Collapse,
+  HStack,
+  Stack,
+  Text,
   Tooltip,
   useClipboard,
   useDisclosure,
   VisuallyHidden,
+  VStack,
 } from "@chakra-ui/react";
 import { default as React, ReactNode, useCallback, useMemo } from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";

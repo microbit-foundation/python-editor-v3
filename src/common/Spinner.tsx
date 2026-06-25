@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box } from "@chakra-ui/react";
-import { Spinner as ChakraSpinner } from "@chakra-ui/spinner";
+import { Box, Spinner as ChakraSpinner } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 
 const Spinner = () => {

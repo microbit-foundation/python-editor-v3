@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps } from "@chakra-ui/layout";
+import { Box, BoxProps } from "@chakra-ui/react";
 import React from "react";
 import { renderMarkdown } from "../../editor/codemirror/language-server/documentation";
 

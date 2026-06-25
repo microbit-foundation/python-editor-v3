@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button } from "@chakra-ui/button";
-import { Flex, HStack, Text } from "@chakra-ui/layout";
+import { Button, Flex, HStack, Text } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
 import { useStorage } from "../common/use-storage";
