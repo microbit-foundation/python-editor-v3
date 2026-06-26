@@ -47,6 +47,7 @@ export const GenericDialog = ({
       size={size}
       returnFocusOnClose={returnFocusOnClose}
       finalFocusRef={finalFocusRef}
+      preserveScrollBarGap={false}
     >
       <ModalOverlay>
         <ModalContent minWidth="560px" my="auto">

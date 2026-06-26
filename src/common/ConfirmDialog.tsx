@@ -38,6 +38,7 @@ export const ConfirmDialog = ({
       isOpen
       leastDestructiveRef={leastDestructiveRef}
       onClose={() => callback(false)}
+      preserveScrollBarGap={false}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>

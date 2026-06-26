@@ -42,6 +42,7 @@ const ProgressDialog = ({
       onClose={doNothing}
       isCentered
       size={body ? "xl" : "md"}
+      preserveScrollBarGap={false}
     >
       <ModalOverlay />
       <ModalContent>

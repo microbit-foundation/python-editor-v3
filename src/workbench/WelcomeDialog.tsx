@@ -40,6 +40,7 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
       onClose={onClose}
       size="2xl"
       scrollBehavior="outside"
+      preserveScrollBarGap={false}
     >
       <ModalOverlay>
         <ModalContent>

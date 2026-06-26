@@ -47,6 +47,7 @@ const FeedbackForm = ({
       onClose={onClose}
       size="2xl"
       finalFocusRef={finalFocusRef}
+      preserveScrollBarGap={false}
     >
       <ModalOverlay>
         <ModalContent>

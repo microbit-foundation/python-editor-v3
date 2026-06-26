@@ -143,6 +143,7 @@ const SideBarHeader = ({
           isOpen={searchModal.isOpen}
           onClose={handleModalClosed}
           size="lg"
+          preserveScrollBarGap={false}
         >
           <ModalOverlay>
             <ModalContent

@@ -73,7 +73,7 @@ export const InputDialog = <T,>({
   };
 
   return (
-    <Modal isOpen onClose={onCancel} size={size} finalFocusRef={finalFocusRef}>
+    <Modal isOpen onClose={onCancel} size={size} finalFocusRef={finalFocusRef} preserveScrollBarGap={false}>
       <ModalOverlay>
         <ModalContent>
           <ModalHeader>
