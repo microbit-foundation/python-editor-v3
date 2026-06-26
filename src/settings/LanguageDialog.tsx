@@ -56,6 +56,7 @@ export const LanguageDialog = ({
       onClose={onClose}
       size="xl"
       finalFocusRef={finalFocusRef}
+      preserveScrollBarGap={false}
     >
       <ModalOverlay>
         <ModalContent>

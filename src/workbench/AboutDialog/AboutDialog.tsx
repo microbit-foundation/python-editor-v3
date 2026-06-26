@@ -82,6 +82,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
       onClose={onClose}
       size="4xl"
       finalFocusRef={finalFocusRef}
+      preserveScrollBarGap={false}
     >
       <ModalOverlay>
         <ModalContent>

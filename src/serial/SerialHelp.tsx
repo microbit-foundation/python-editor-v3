@@ -44,6 +44,7 @@ export const SerialHelpDialog = ({
       onClose={onClose}
       size="lg"
       finalFocusRef={finalFocusRef}
+      preserveScrollBarGap={false}
     >
       <ModalOverlay>
         <ModalContent>
