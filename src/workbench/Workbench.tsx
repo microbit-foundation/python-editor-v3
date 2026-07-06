@@ -30,7 +30,11 @@ import { useSettings } from "../settings/settings";
 import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
 import SideBar from "./SideBar";
-import { WorkbenchSelection, useSelection } from "./use-selection";
+import {
+  WorkbenchSelection,
+  useProjectScopedSelection,
+  useSelection,
+} from "./use-selection";
 import { flags } from "../flags";
 
 const minimums: [number, number] = [380, 580];
@@ -54,6 +58,7 @@ const defaultSelection = (
 const Workbench = () => {
   const intl = useIntl();
 
+  useProjectScopedSelection();
   const [maybeInvalidSelection, setSelection] = useSelection();
   const { files } = useProject();
   const selection = defaultSelection(maybeInvalidSelection, files);

@@ -27,6 +27,18 @@
     "defaultMessage": "crwdns364038:0crwdne364038:0",
     "description": "Menu item for link to accessibility site"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Accessibility",
+    "description": "Title for the accessibility help card"
+  },
+  "add-files-action": {
+    "defaultMessage": "Add file(s)",
+    "description": "Button to add files to the current project"
+  },
+  "add-files-hover": {
+    "defaultMessage": "Add files to this project",
+    "description": "Tooltip for the add files button"
+  },
   "added-change": {
     "defaultMessage": "crwdns331368:0{changeName}crwdne331368:0",
     "description": "Change made to file"
@@ -70,6 +82,18 @@
   "cancel-action": {
     "defaultMessage": "crwdns331388:0crwdne331388:0",
     "description": "Cancel button text"
+  },
+  "carousel-role": {
+    "defaultMessage": "carousel",
+    "description": "Accessible role description for a carousel"
+  },
+  "carousel-slide-label": {
+    "defaultMessage": "{slideNum} of {totalSlides}",
+    "description": "Accessible label for a carousel slide"
+  },
+  "carousel-slide-role": {
+    "defaultMessage": "slide",
+    "description": "Accessible role description for a carousel slide"
   },
   "change-files": {
     "defaultMessage": "crwdns331390:0crwdne331390:0",
@@ -227,9 +251,21 @@
     "defaultMessage": "crwdns331462:0crwdne331462:0",
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
+  "create-project-action": {
+    "defaultMessage": "Create",
+    "description": "Create project button"
+  },
+  "create-project-dialog-heading": {
+    "defaultMessage": "Name your project",
+    "description": "Heading for the create project dialog"
+  },
   "create-python": {
     "defaultMessage": "crwdns331464:0crwdne331464:0",
     "description": "Hover and dialog title when creating a new Python file"
+  },
+  "createai-taster-lessons-resource-title": {
+    "defaultMessage": "Taster lessons",
+    "description": "Title for a lesson card (placeholder)"
   },
   "created-file": {
     "defaultMessage": "crwdns331466:0{filename}crwdne331466:0",
@@ -242,6 +278,26 @@
   "delete-file-action": {
     "defaultMessage": "crwdns331470:0{name}crwdne331470:0",
     "description": "Menu option to delete file"
+  },
+  "delete-project-action": {
+    "defaultMessage": "Delete",
+    "description": "Delete project menu item/button"
+  },
+  "delete-project-confirm-heading": {
+    "defaultMessage": "Delete project",
+    "description": "Heading for the delete project confirmation dialog"
+  },
+  "delete-project-confirm-text": {
+    "defaultMessage": "Are you sure you want to delete ‘{project}’? This cannot be undone.",
+    "description": "Body text for the delete project confirmation dialog"
+  },
+  "delete-projects-confirm-heading": {
+    "defaultMessage": "Delete projects",
+    "description": "Heading for the delete multiple projects confirmation dialog"
+  },
+  "delete-projects-confirm-text": {
+    "defaultMessage": "Are you sure you want to delete {numProjects} projects? This cannot be undone.",
+    "description": "Body for the delete multiple projects confirmation dialog"
   },
   "deleted-file": {
     "defaultMessage": "crwdns331472:0{filename}crwdne331472:0",
@@ -262,6 +318,14 @@
   "drag-hover": {
     "defaultMessage": "crwdns331480:0crwdne331480:0",
     "description": "Draggable code hover text"
+  },
+  "duplicate-project-action": {
+    "defaultMessage": "Duplicate",
+    "description": "Duplicate project button/menu item"
+  },
+  "duplicate-project-heading": {
+    "defaultMessage": "Name your project",
+    "description": "Heading for the duplicate project dialog"
   },
   "edit-file-action": {
     "defaultMessage": "crwdns331482:0{name}crwdne331482:0",
@@ -315,6 +379,10 @@
     "defaultMessage": "crwdns331506:0crwdne331506:0",
     "description": "Warning text for new Python file name with whitespace"
   },
+  "files-tab": {
+    "defaultMessage": "Files",
+    "description": "Sidebar tab label for the project files"
+  },
   "firmware-update-link": {
     "defaultMessage": "crwdns331508:0crwdne331508:0",
     "description": "Text in the firmware update dialog"
@@ -326,6 +394,10 @@
   "firmware-update-title": {
     "defaultMessage": "crwdns331512:0crwdne331512:0",
     "description": "Title for the firmware update dialog"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "First lessons with Python and the micro:bit",
+    "description": "Title for a lesson card"
   },
   "flash-action": {
     "defaultMessage": "crwdns331514:0crwdne331514:0",
@@ -359,6 +431,14 @@
     "defaultMessage": "crwdns331528:0crwdne331528:0",
     "description": "Help menu label"
   },
+  "help-resources-row-carousel": {
+    "defaultMessage": "Help and support",
+    "description": "Accessible name for the help and support carousel"
+  },
+  "help-resources-row-title": {
+    "defaultMessage": "Help and support",
+    "description": "Title for the help and support row"
+  },
   "help-support": {
     "defaultMessage": "crwdns331530:0crwdne331530:0",
     "description": "Menu item for link to support site"
@@ -383,6 +463,22 @@
     "defaultMessage": "crwdns331540:0crwdne331540:0",
     "description": "Highlight code structure option"
   },
+  "home-action": {
+    "defaultMessage": "Home",
+    "description": "Aria label for the home button that returns to the project list"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "Code your BBC micro:bit with Python",
+    "description": "Home page banner heading"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "Create, edit and flash MicroPython programs to your micro:bit.",
+    "description": "Home page banner subtitle"
+  },
+  "homepage-title": {
+    "defaultMessage": "micro:bit Python Editor",
+    "description": "Application name shown in the home page header"
+  },
   "ideas-tab": {
     "defaultMessage": "crwdns331542:0crwdne331542:0",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
@@ -391,12 +487,20 @@
     "defaultMessage": "crwdns331544:0crwdne331544:0",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
+  "import-file-action": {
+    "defaultMessage": "Import",
+    "description": "Button to import a project file (hex)"
+  },
   "insert-code-action": {
     "defaultMessage": "crwdns331546:0crwdne331546:0"
   },
   "language": {
     "defaultMessage": "crwdns331548:0crwdne331548:0",
     "description": "Language option text"
+  },
+  "learn-more-action": {
+    "defaultMessage": "Learn more",
+    "description": "Learn more button on the home page banner"
   },
   "less-action": {
     "defaultMessage": "crwdns331550:0crwdne331550:0",
@@ -474,6 +578,14 @@
     "defaultMessage": "crwdns331586:0crwdne331586:0",
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
+  "my-projects-row-carousel": {
+    "defaultMessage": "Your projects",
+    "description": "Accessible name for the your projects carousel"
+  },
+  "my-projects-row-title": {
+    "defaultMessage": "Your projects",
+    "description": "Title for the your projects row"
+  },
   "name-project": {
     "defaultMessage": "crwdns331588:0crwdne331588:0",
     "description": "Name your project header"
@@ -490,9 +602,17 @@
     "defaultMessage": "crwdns331594:0crwdne331594:0",
     "description": "Hint shown in the new Python file dialog"
   },
+  "new-project-action": {
+    "defaultMessage": "New project",
+    "description": "New project card action"
+  },
   "next-action": {
     "defaultMessage": "crwdns331596:0crwdne331596:0",
     "description": "Next button text"
+  },
+  "no-projects": {
+    "defaultMessage": "No projects found",
+    "description": "Shown when a project search returns nothing"
   },
   "not-found-checklist-one": {
     "defaultMessage": "crwdns331598:0crwdne331598:0",
@@ -537,6 +657,10 @@
   "open-hover": {
     "defaultMessage": "crwdns331616:0crwdne331616:0",
     "description": "Hover text over load button"
+  },
+  "open-project-action": {
+    "defaultMessage": "Open",
+    "description": "Open project menu item"
   },
   "options": {
     "defaultMessage": "crwdns331618:0crwdne331618:0",
@@ -586,9 +710,53 @@
     "defaultMessage": "crwdns331638:0crwdne331638:0",
     "description": "Aria label for the bar with project actions"
   },
+  "project-file-count": {
+    "defaultMessage": "{count, plural, one {# file} other {# files}}",
+    "description": "Number of files in a project"
+  },
   "project-header": {
     "defaultMessage": "crwdns331640:0crwdne331640:0",
     "description": "Aria label for the project header area"
+  },
+  "project-idea-animated-animals-title": {
+    "defaultMessage": "Animated animals",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-beating-heart-title": {
+    "defaultMessage": "Beating heart",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-emotion-badge-title": {
+    "defaultMessage": "Emotion badge",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-flashing-emotions-title": {
+    "defaultMessage": "Flashing emotions",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-get-silly-title": {
+    "defaultMessage": "Get silly",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-heart-title": {
+    "defaultMessage": "Heart",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-ideas-row-carousel": {
+    "defaultMessage": "Project ideas",
+    "description": "Accessible name for the project ideas carousel"
+  },
+  "project-ideas-row-title": {
+    "defaultMessage": "Project ideas",
+    "description": "Title for the project ideas row"
+  },
+  "project-loaded": {
+    "defaultMessage": "Project loaded",
+    "description": "Toast shown after a project is loaded from a dropped hex file"
+  },
+  "project-menu-action": {
+    "defaultMessage": "Actions for project ‘{name}’",
+    "description": "Aria label for the per-project actions menu button"
   },
   "project-name": {
     "defaultMessage": "crwdns331642:0crwdne331642:0",
@@ -598,6 +766,10 @@
     "defaultMessage": "crwdns331644:0crwdne331644:0",
     "description": "Validation message for project name"
   },
+  "project-skip-to-toolbar": {
+    "defaultMessage": "Skip to selection actions",
+    "description": "Accessible skip link from a selected project card to the toolbar"
+  },
   "project-tab": {
     "defaultMessage": "crwdns331646:0crwdne331646:0",
     "description": "Project tab button text"
@@ -605,6 +777,10 @@
   "project-tab-description": {
     "defaultMessage": "crwdns331648:0crwdne331648:0",
     "description": "Project tab description"
+  },
+  "projects-page-title": {
+    "defaultMessage": "Projects",
+    "description": "Title of the projects page"
   },
   "python-powered": {
     "defaultMessage": "crwdns331650:0crwdne331650:0",
@@ -633,6 +809,14 @@
   "reference-tab": {
     "defaultMessage": "crwdns331662:0crwdne331662:0",
     "description": "Reference tab button text"
+  },
+  "rename-project-action": {
+    "defaultMessage": "Rename",
+    "description": "Rename project button/menu item"
+  },
+  "rename-project-heading": {
+    "defaultMessage": "Rename project",
+    "description": "Heading for the rename project dialog"
   },
   "replace-action-label": {
     "defaultMessage": "crwdns331664:0crwdne331664:0",
@@ -677,6 +861,14 @@
   "search": {
     "defaultMessage": "crwdns331684:0crwdne331684:0",
     "description": "Aria label for searching documentation"
+  },
+  "select-project-action": {
+    "defaultMessage": "Select project ‘{name}’",
+    "description": "Accessible label for the per-project selection checkbox"
+  },
+  "selection-actions-group": {
+    "defaultMessage": "Actions for selected projects",
+    "description": "Accessible label for the selection toolbar"
   },
   "send-action": {
     "defaultMessage": "crwdns331686:0crwdne331686:0",
@@ -1050,6 +1242,30 @@
     "defaultMessage": "crwdns331742:0crwdne331742:0",
     "description": "Heading for a table of software versions in the about dialog"
   },
+  "sort-option-last-modified": {
+    "defaultMessage": "Last modified",
+    "description": "Sort projects by last modified date"
+  },
+  "sort-option-name": {
+    "defaultMessage": "Name",
+    "description": "Sort projects by name"
+  },
+  "sort-option-relevance": {
+    "defaultMessage": "Relevance",
+    "description": "Sort projects by search relevance"
+  },
+  "sort-order-ascending-label": {
+    "defaultMessage": "Sort ascending",
+    "description": "Accessible label to toggle to ascending sort order"
+  },
+  "sort-order-descending-label": {
+    "defaultMessage": "Sort descending",
+    "description": "Accessible label to toggle to descending sort order"
+  },
+  "sort-select-label": {
+    "defaultMessage": "Sort projects by",
+    "description": "Accessible label for the project sort dropdown"
+  },
   "start-coding-action": {
     "defaultMessage": "crwdns331744:0crwdne331744:0",
     "description": "Start coding button text"
@@ -1057,6 +1273,14 @@
   "support": {
     "defaultMessage": "crwdns331746:0crwdne331746:0",
     "description": "Support menu option text"
+  },
+  "teacher-resources-row-carousel": {
+    "defaultMessage": "Teacher resources",
+    "description": "Accessible name for the teacher resources carousel"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Teacher resources",
+    "description": "Title for the teacher resources row"
   },
   "terms-of-use": {
     "defaultMessage": "crwdns331748:0crwdne331748:0",
@@ -1098,6 +1322,10 @@
     "defaultMessage": "crwdns331768:0crwdne331768:0",
     "description": "Title for the transfer hex dialog"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Troubleshooting",
+    "description": "Title for the troubleshooting help card"
+  },
   "try-again-action": {
     "defaultMessage": "crwdns331770:0crwdne331770:0",
     "description": "Try again button text"
@@ -1129,6 +1357,10 @@
   "user-guide": {
     "defaultMessage": "crwdns364040:0crwdne364040:0",
     "description": "Menu item for link to user guide site"
+  },
+  "view-all-projects": {
+    "defaultMessage": "View all projects",
+    "description": "Link/card to view the full projects list"
   },
   "visit-dot-org": {
     "defaultMessage": "crwdns331784:0crwdne331784:0",

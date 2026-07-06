@@ -3,10 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Flex, VStack } from "@chakra-ui/react";
+import { BoxProps, Flex, VStack } from "@chakra-ui/react";
 import NewButton from "./NewButton";
 import OpenButton from "./OpenButton";
-import ResetButton from "./ResetButton";
 
 const ProjectAreaNav = (props: BoxProps) => {
   return (
@@ -14,9 +13,6 @@ const ProjectAreaNav = (props: BoxProps) => {
       <VStack alignItems="stretch" spacing={3}>
         <NewButton mode="button" />
         <OpenButton mode="button" />
-        <Box>
-          <ResetButton mode="button" mt={5} colorScheme="red" />
-        </Box>
       </VStack>
     </Flex>
   );
