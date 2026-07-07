@@ -25,7 +25,7 @@ import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
-import ProjectArea from "../project/ProjectArea";
+import FilesArea from "../project/FilesArea";
 import { TabName, useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import HelpMenu from "./HelpMenu";
@@ -101,7 +101,7 @@ const SideBar = ({
         title: intl.formatMessage({ id: "files-tab" }),
         icon: VscFiles,
         contents: (
-          <ProjectArea
+          <FilesArea
             selectedFile={selectedFile}
             onSelectedFileChanged={onSelectedFileChanged}
           />

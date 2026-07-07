@@ -737,6 +737,12 @@
       "value": "Files"
     }
   ],
+  "files-tab-description": [
+    {
+      "type": 0,
+      "value": "Manage your project files"
+    }
+  ],
   "firmware-update-link": [
     {
       "type": 0,

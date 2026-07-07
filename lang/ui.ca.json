@@ -383,6 +383,10 @@
     "defaultMessage": "Files",
     "description": "Sidebar tab label for the project files"
   },
+  "files-tab-description": {
+    "defaultMessage": "Manage your project files",
+    "description": "Subheading for the Files sidebar tab"
+  },
   "firmware-update-link": {
     "defaultMessage": "Has d'<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit.",
     "description": "Text in the firmware update dialog"

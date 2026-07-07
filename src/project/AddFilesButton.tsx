@@ -9,12 +9,12 @@ import { CollapsibleButtonComposableProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
 
-interface OpenButtonProps extends CollapsibleButtonComposableProps {}
+interface AddFilesButtonProps extends CollapsibleButtonComposableProps {}
 
 /**
  * Add file(s) button, with an associated input field.
  */
-const OpenButton = ({ children, ...props }: OpenButtonProps) => {
+const AddFilesButton = ({ children, ...props }: AddFilesButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   return (
@@ -34,4 +34,4 @@ const OpenButton = ({ children, ...props }: OpenButtonProps) => {
   );
 };
 
-export default OpenButton;
+export default AddFilesButton;

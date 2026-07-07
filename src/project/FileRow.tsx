@@ -17,7 +17,7 @@ import {
 import { MdMoreVert } from "react-icons/md";
 import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { zIndexProjectAreaMenu } from "../common/zIndex";
+import { zIndexFilesAreaMenu } from "../common/zIndex";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProjectActions } from "./project-hooks";
 import { isEditableFile } from "./project-utils";
@@ -62,7 +62,7 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
           color="grey.800"
         />
         <Portal>
-          <MenuList zIndex={zIndexProjectAreaMenu}>
+          <MenuList zIndex={zIndexFilesAreaMenu}>
             <MenuItem
               icon={<RiEdit2Line />}
               isDisabled={!isEditableFile(name)}

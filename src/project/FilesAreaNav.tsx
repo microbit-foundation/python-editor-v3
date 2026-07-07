@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, Flex, VStack } from "@chakra-ui/react";
+import AddFilesButton from "./AddFilesButton";
 import NewButton from "./NewButton";
-import OpenButton from "./OpenButton";
 
-const ProjectAreaNav = (props: BoxProps) => {
+const FilesAreaNav = (props: BoxProps) => {
   return (
     <Flex {...props} direction="column" alignItems="center" p={5} pb={6}>
       <VStack alignItems="stretch" spacing={3}>
         <NewButton mode="button" />
-        <OpenButton mode="button" />
+        <AddFilesButton mode="button" />
       </VStack>
     </Flex>
   );
 };
 
-export default ProjectAreaNav;
+export default FilesAreaNav;
