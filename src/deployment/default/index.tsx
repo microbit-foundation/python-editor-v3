@@ -18,7 +18,14 @@ const stubConsentContext = createContext<CookieConsent | undefined>(
 );
 
 const DefaultAppLogo = (props: BoxProps) => (
-  <Box as="span" fontSize="2xl" fontWeight="normal" whiteSpace="nowrap" {...props}>
+  <Box
+    as="span"
+    fontSize="2xl"
+    fontWeight="normal"
+    lineHeight="normal"
+    whiteSpace="nowrap"
+    {...props}
+  >
     Python Editor
   </Box>
 );
