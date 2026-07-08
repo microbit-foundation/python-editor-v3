@@ -61,7 +61,6 @@ const HomepageBanner = () => {
           <Button
             as={Link}
             href={learnMoreUrl(settings.languageId)}
-            isExternal
             backgroundColor="white"
             border={0}
             textColor="brand.700"

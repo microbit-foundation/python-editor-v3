@@ -53,7 +53,6 @@ const ResourceCard = ({
             <LinkOverlay
               href={url}
               as={Link}
-              isExternal
               _focusVisible={{ boxShadow: "outline", outline: "none" }}
             >
               {title}
