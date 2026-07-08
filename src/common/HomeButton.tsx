@@ -17,11 +17,7 @@ export const homeButtonStyle = {
   border: 0,
   textColor: "brand.700",
   _hover: { textDecoration: "none" },
-  _focusVisible: {
-    boxShadow:
-      "0 0 0 2px var(--chakra-colors-brand-600), 0 0 0 6px rgba(255, 255, 255, 0.8)",
-    outline: "none",
-  },
+  _focusVisible: { boxShadow: "outline" },
 } as const;
 
 interface HomeButtonProps {

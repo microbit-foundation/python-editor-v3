@@ -37,10 +37,7 @@ const CarouselButton = React.forwardRef(function CarouselButton(
         bg: "rgb(245, 245, 245)",
         "& svg": { transform: "scale(1.2)" },
       }}
-      _focusVisible={{
-        outline: "none",
-        boxShadow: "0 0 0 4px rgba(66, 153, 225, 0.6)",
-      }}
+      _focusVisible={{ boxShadow: "outline" }}
       sx={{
         "& svg": {
           objectFit: "contain",

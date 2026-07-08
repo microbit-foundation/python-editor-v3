@@ -26,7 +26,8 @@ const Branding = () => {
       to={createHomePageUrl()}
       spacing="0.875rem"
       alignItems="center"
-      _focusVisible={{ boxShadow: "outline", borderRadius: "md" }}
+      borderRadius="md"
+      _focusVisible={{ boxShadow: "outline", outline: "none" }}
     >
       {brand.squareLogo && (
         <>
