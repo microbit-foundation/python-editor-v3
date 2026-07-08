@@ -77,6 +77,10 @@ const SwiperCarousel = ({
     >
       <Swiper
         onSwiper={handleSwiper}
+        // Swiper preventDefaults pointerdown by default, which suppresses the
+        // compatibility mousedown/mouseup events that overlays (e.g. the Chakra
+        // menu) rely on to detect an outside click and dismiss.
+        touchStartPreventDefault={false}
         style={{
           ...(padding !== undefined && { padding }),
           alignItems: "stretch",
