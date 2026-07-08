@@ -151,14 +151,16 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
       await projectsDb.createProject({ id, name, timestamp: Date.now() }, files);
       setCurrent(id);
       await loadIntoFs(id, name, files);
-      await refresh();
+      // No refresh here: we navigate straight to the editor, and refreshing the
+      // list would flash the new card onto the home page first. The list is
+      // revalidated when the home/projects page is next shown.
       postProjectSync({
         type: ProjectSyncMessageType.ReloadProject,
         projectIds: [id],
       });
       return id;
     },
-    [loadIntoFs, refresh, setCurrent]
+    [loadIntoFs, setCurrent]
   );
 
   const importProject = useCallback(
@@ -193,7 +195,8 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
           name: pythonProject.projectName,
           files: pythonProject.files,
         };
-        await refresh();
+        // No refresh here: we navigate straight to the editor (the list is
+        // revalidated when the home/projects page is next shown).
         postProjectSync({
           type: ProjectSyncMessageType.ReloadProject,
           projectIds: [id],
@@ -203,7 +206,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
         setImporting(false);
       }
     },
-    [fs, refresh, setCurrent]
+    [fs, setCurrent]
   );
 
   const openProject = useCallback(

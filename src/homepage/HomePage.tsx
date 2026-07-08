@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Heading } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useProjects } from "../project/projects-hooks";
 import { useSettings } from "../settings/settings";
@@ -26,9 +27,15 @@ const numCardsDisplayed = 10;
 const HomePage = () => {
   const intl = useIntl();
   const [{ languageId }] = useSettings();
-  const { projects } = useProjects();
+  const { projects, refresh } = useProjects();
   const { handleCreate, handleOpen, handleRenameDuplicate, handleDelete } =
     useProjectCardActions("home");
+
+  // Revalidate the list whenever the home page is shown (e.g. returning from
+  // the editor after adding a file, or after creating a project).
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
 
   const projectCards: JSX.Element[] = [
     <NewProjectCard key="new-project" onClick={handleCreate} />,

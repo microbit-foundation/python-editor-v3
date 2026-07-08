@@ -57,9 +57,14 @@ const searchScore = (project: ProjectDataWithFiles, terms: string[]): number => 
 };
 
 const ProjectsPage = () => {
-  const { projects, loading } = useProjects();
+  const { projects, loading, refresh } = useProjects();
   const { handleOpen, handleRenameDuplicate, handleDelete, handleDeleteMany } =
     useProjectCardActions("projects");
+
+  // Revalidate the list whenever the projects page is shown.
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [query, setQuery] = useState("");
