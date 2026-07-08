@@ -32,7 +32,7 @@
     "description": "Title for the accessibility help card"
   },
   "add-files-action": {
-    "defaultMessage": "Add file(s)",
+    "defaultMessage": "Add files",
     "description": "Button to add files to the current project"
   },
   "add-files-hover": {
@@ -714,10 +714,6 @@
   "project-actions": {
     "defaultMessage": "Project actions",
     "description": "Aria label for the bar with project actions"
-  },
-  "project-file-count": {
-    "defaultMessage": "{count, plural, one {# file} other {# files}}",
-    "description": "Number of files in a project"
   },
   "project-header": {
     "defaultMessage": "Project header",

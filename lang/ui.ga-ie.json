@@ -714,10 +714,6 @@
     "defaultMessage": "Gníomhartha tionscadail",
     "description": "Aria label for the bar with project actions"
   },
-  "project-file-count": {
-    "defaultMessage": "{count, plural, one {# file} other {# files}}",
-    "description": "Number of files in a project"
-  },
   "project-header": {
     "defaultMessage": "Ceanntásc an tionscadail",
     "description": "Aria label for the project header area"

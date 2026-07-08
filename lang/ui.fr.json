@@ -714,10 +714,6 @@
     "defaultMessage": "Actions du projet",
     "description": "Aria label for the bar with project actions"
   },
-  "project-file-count": {
-    "defaultMessage": "{count, plural, one {# file} other {# files}}",
-    "description": "Number of files in a project"
-  },
   "project-header": {
     "defaultMessage": "En-tête de projet",
     "description": "Aria label for the project header area"

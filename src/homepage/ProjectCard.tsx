@@ -14,7 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
 import { ProjectDataWithFiles } from "../fs/db";
 import { timeAgo } from "./datetime";
@@ -45,8 +45,7 @@ const ProjectCard = ({
   onRenameDuplicateProject,
 }: ProjectCardProps) => {
   const intl = useIntl();
-  const { id, name, fileNames, timestamp } = projectData;
-  const fileCount = fileNames.length;
+  const { id, name, timestamp } = projectData;
   const hasCheckbox = !!onSelected;
 
   const handleOpen = useCallback(
@@ -104,12 +103,6 @@ const ProjectCard = ({
             >
               {name}
             </LinkOverlay>
-            <Text noOfLines={1} h="1lh">
-              <FormattedMessage
-                id="project-file-count"
-                values={{ count: fileCount }}
-              />
-            </Text>
             <Text fontSize="sm" pt={2} color="blackAlpha.700">
               {timeAgo(intl, timestamp)}
             </Text>
