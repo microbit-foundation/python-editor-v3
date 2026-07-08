@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex, Heading, HStack, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import HomeButton from "../common/HomeButton";
@@ -19,49 +19,24 @@ interface DefaultPageLayoutProps {
 }
 
 const Branding = () => {
-  const brand = useDeployment();
+  const { AppLogo, OrgLogo } = useDeployment();
   return (
     <HStack
       as={RouterLink}
       to={createHomePageUrl()}
       spacing="0.875rem"
       alignItems="center"
+      color="white"
       borderRadius="md"
       _focusVisible={{ boxShadow: "outline", outline: "none" }}
     >
-      {brand.squareLogo && (
+      {OrgLogo && (
         <>
-          <HStack spacing="0.5rem">
-            <Box
-              h="30px"
-              w="auto"
-              color="white"
-              role="img"
-              display="flex"
-              alignItems="center"
-              sx={{ "& svg": { height: "100%", width: "auto" } }}
-            >
-              {brand.squareLogo}
-            </Box>
-            <Box
-              h="30px"
-              w="auto"
-              color="white"
-              role="img"
-              display={{ base: "none", sm: "flex" }}
-              alignItems="center"
-              sx={{ "& svg": { height: "100%", width: "auto" } }}
-            >
-              {brand.horizontalLogo}
-            </Box>
-          </HStack>
+          <OrgLogo height="30px" />
           <Box h="28px" borderLeftWidth="1px" borderColor="whiteAlpha.600" />
         </>
       )}
-      {/* Product name; deliberately not translated. */}
-      <Heading as="h1" fontSize="2xl" fontWeight="normal" color="white">
-        Python Editor
-      </Heading>
+      {AppLogo && <AppLogo h="20px" />}
     </HStack>
   );
 };
