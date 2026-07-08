@@ -57,7 +57,7 @@ const searchScore = (project: ProjectDataWithFiles, terms: string[]): number => 
 };
 
 const ProjectsPage = () => {
-  const { projects } = useProjects();
+  const { projects, loading } = useProjects();
   const { handleOpen, handleRenameDuplicate, handleDelete, handleDeleteMany } =
     useProjectCardActions("projects");
 
@@ -226,16 +226,18 @@ const ProjectsPage = () => {
                 ))}
               </SimpleGrid>
             ) : (
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                flexGrow={1}
-                p={12}
-              >
-                <Text>
-                  <FormattedMessage id="no-projects" />
-                </Text>
-              </Stack>
+              !loading && (
+                <Stack
+                  justifyContent="center"
+                  alignItems="center"
+                  flexGrow={1}
+                  p={12}
+                >
+                  <Text>
+                    <FormattedMessage id="no-projects" />
+                  </Text>
+                </Stack>
+              )
             )}
           </Container>
         </VStack>
