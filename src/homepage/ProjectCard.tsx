@@ -16,14 +16,14 @@ import {
 import { useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import PythonLogo from "../common/PythonLogo";
-import { ProjectRecord } from "../fs/db";
+import { ProjectDataWithFiles } from "../fs/db";
 import { timeAgo } from "./datetime";
 import ProjectCardActions from "./ProjectCardActions";
 import { ProjectNameDialogReason } from "./project-name";
 import { shortScreenHeightBreakpoint } from "./responsive";
 
 interface ProjectCardProps {
-  projectData: ProjectRecord;
+  projectData: ProjectDataWithFiles;
   isSelected?: boolean;
   onSelected?: (id: string) => void;
   onSkipToToolbar?: () => void;
@@ -45,8 +45,8 @@ const ProjectCard = ({
   onRenameDuplicateProject,
 }: ProjectCardProps) => {
   const intl = useIntl();
-  const { id, name, files, timestamp } = projectData;
-  const fileCount = Object.keys(files).length;
+  const { id, name, fileNames, timestamp } = projectData;
+  const fileCount = fileNames.length;
   const hasCheckbox = !!onSelected;
 
   const handleOpen = useCallback(

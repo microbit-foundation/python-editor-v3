@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { ProjectRecord } from "../fs/db";
+import { ProjectDataWithFiles } from "../fs/db";
 import { useProjects } from "../project/projects-hooks";
 import DefaultPageLayout from "./DefaultPageLayout";
 import ProjectCard from "./ProjectCard";
@@ -30,9 +30,9 @@ import { useProjectCardActions } from "./use-project-card-actions";
 
 type OrderByField = "timestamp" | "name";
 
-const searchScore = (project: ProjectRecord, terms: string[]): number => {
+const searchScore = (project: ProjectDataWithFiles, terms: string[]): number => {
   const name = project.name.toLowerCase();
-  const fileNames = Object.keys(project.files).map((f) => f.toLowerCase());
+  const fileNames = project.fileNames.map((f) => f.toLowerCase());
   // Every term must match the name or one of the file names.
   const allMatch = terms.every(
     (t) => name.includes(t) || fileNames.some((f) => f.includes(t))
@@ -204,27 +204,28 @@ const ProjectsPage = () => {
                 hasSearchQuery={!!query.trim()}
               />
             </HStack>
-            <SimpleGrid
-              mt={3}
-              spacing={3}
-              columns={[1, 2, 3, 4]}
-              pb={hasSelection ? { base: 20, lg: 0 } : 0}
-            >
-              {processedProjects.map((project) => (
-                <Box key={project.id} minH="233px">
-                  <ProjectCard
-                    projectData={project}
-                    isSelected={selectedProjectIds.includes(project.id)}
-                    onSelected={updateSelectedProjects}
-                    onDeleteProject={handleDelete}
-                    onOpenProject={handleOpen}
-                    onRenameDuplicateProject={handleRenameDuplicate}
-                    onSkipToToolbar={handleSkipToToolbar}
-                  />
-                </Box>
-              ))}
-            </SimpleGrid>
-            {query.trim() && processedProjects.length === 0 && (
+            {processedProjects.length > 0 ? (
+              <SimpleGrid
+                mt={3}
+                spacing={3}
+                columns={[1, 2, 3, 4]}
+                pb={hasSelection ? { base: 20, lg: 0 } : 0}
+              >
+                {processedProjects.map((project) => (
+                  <Box key={project.id} minH="233px">
+                    <ProjectCard
+                      projectData={project}
+                      isSelected={selectedProjectIds.includes(project.id)}
+                      onSelected={updateSelectedProjects}
+                      onDeleteProject={handleDelete}
+                      onOpenProject={handleOpen}
+                      onRenameDuplicateProject={handleRenameDuplicate}
+                      onSkipToToolbar={handleSkipToToolbar}
+                    />
+                  </Box>
+                ))}
+              </SimpleGrid>
+            ) : (
               <Stack
                 justifyContent="center"
                 alignItems="center"

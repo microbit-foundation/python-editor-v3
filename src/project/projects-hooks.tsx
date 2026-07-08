@@ -16,7 +16,7 @@ import {
 } from "react";
 import { useIntl } from "react-intl";
 import LoadingOverlay from "../common/LoadingOverlay";
-import { projectsDb, ProjectRecord } from "../fs/db";
+import { FileRecord, projectsDb, ProjectDataWithFiles } from "../fs/db";
 import { useFileSystem } from "../fs/fs-hooks";
 import { generateId } from "../fs/fs-util";
 import { defaultInitialProject } from "../fs/initial-project";
@@ -39,26 +39,16 @@ const setStoredCurrentProjectId = (id: string | undefined) => {
   }
 };
 
-/**
- * A stable serialization of a project's syncable content, used to detect
- * whether the file system state actually differs from what is stored. This
- * lets autosave skip no-op writes and, crucially, stops a cross-tab reload
- * from bouncing back out as a fresh change.
- */
-const serializeProject = (
-  name: string | undefined,
-  files: Record<string, string>
-): string => {
-  const keys = Object.keys(files).sort();
-  return JSON.stringify({
-    name: name ?? null,
-    files: keys.map((k) => [k, files[k]]),
-  });
-};
+/** Snapshot of the loaded project as persisted, used to compute file diffs. */
+interface SyncedSnapshot {
+  id: string;
+  name: string | undefined;
+  files: Record<string, string>;
+}
 
 export interface ProjectsContextValue {
-  /** All projects in the library, most recently modified first. */
-  projects: ProjectRecord[];
+  /** All projects (metadata + file names), most recently modified first. */
+  projects: ProjectDataWithFiles[];
   /** True until the initial load from IndexedDB has completed. */
   loading: boolean;
   /** The id of the project currently persisted as "open" (session scoped). */
@@ -71,16 +61,9 @@ export interface ProjectsContextValue {
   createProject: (name: string) => Promise<string>;
   /**
    * Create a new project whose contents come from a single file-system
-   * mutation (e.g. loading a hex), and load it into the editor.
-   *
-   * Unlike {@link createProject} this performs exactly one file-system change,
-   * so the editor transitions straight from the previous project to the
-   * imported one with no intermediate "default project" flash. The previously
-   * open project is left untouched. Rejects (rolling back the new project) if
-   * `populateFs` throws.
-   *
-   * @param name Fallback project name if the content doesn't specify one.
-   * @param populateFs Replaces the file system with the imported content.
+   * mutation (e.g. loading a hex), and load it into the editor. Performs
+   * exactly one file-system change so the editor transitions straight from the
+   * previous project to the imported one. Rejects (rolling back) on failure.
    */
   importProject: (
     name: string,
@@ -100,13 +83,13 @@ const ProjectsContext = createContext<ProjectsContextValue | undefined>(
   undefined
 );
 
-const byTimestampDesc = (a: ProjectRecord, b: ProjectRecord) =>
+const byTimestampDesc = (a: ProjectDataWithFiles, b: ProjectDataWithFiles) =>
   b.timestamp - a.timestamp;
 
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const fs = useFileSystem();
   const intl = useIntl();
-  const [projects, setProjects] = useState<ProjectRecord[]>([]);
+  const [projects, setProjects] = useState<ProjectDataWithFiles[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentProjectId, setCurrentProjectId] = useState<string | undefined>(
     getStoredCurrentProjectId
@@ -117,16 +100,17 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const [loadedProjectId, setLoadedProjectId] = useState<string | undefined>(
     undefined
   );
-  // Serialization of the last content we loaded or saved for the loaded
-  // project, used to suppress redundant/echoed autosaves.
-  const lastSyncedRef = useRef<{ id: string; serialized: string } | null>(null);
+  // What we last loaded/saved for the loaded project, used to compute which
+  // files actually changed (so autosave only writes those) and to suppress
+  // redundant/echoed saves.
+  const lastSyncedRef = useRef<SyncedSnapshot | null>(null);
   // Shows a full-screen spinner while importing a project (e.g. from a hex).
   const [importing, setImporting] = useState(false);
 
   const untitled = intl.formatMessage({ id: "untitled-project" });
 
   const refresh = useCallback(async () => {
-    const all = await projectsDb.getAll();
+    const all = await projectsDb.getAllProjectData();
     all.sort(byTimestampDesc);
     setProjects(all);
   }, []);
@@ -137,69 +121,42 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const loadIntoFs = useCallback(
-    async (record: ProjectRecord) => {
-      await fs.replaceWithMultipleFiles({
-        files: record.files,
-        projectName: record.name,
-      });
-      lastSyncedRef.current = {
-        id: record.id,
-        serialized: serializeProject(record.name, record.files),
-      };
-      setLoadedProjectId(record.id);
+    async (id: string, name: string | undefined, files: Record<string, string>) => {
+      await fs.replaceWithMultipleFiles({ files, projectName: name });
+      lastSyncedRef.current = { id, name, files };
+      setLoadedProjectId(id);
     },
     [fs]
   );
 
-  // Seed / migrate on first load. If the library is empty we migrate any
-  // existing single-project work (held by the file system's session storage)
-  // into IndexedDB as the first project.
+  // Load the project list on mount. Nothing is auto-created: a fresh install
+  // shows an empty home page until the user creates or imports a project.
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const all = await projectsDb.getAll();
-      if (all.length === 0) {
-        await fs.initialize();
-        const existing = await fs.getPythonProject();
-        if (Object.keys(existing.files).length > 0) {
-          const record: ProjectRecord = {
-            id: generateId(),
-            name: existing.projectName ?? untitled,
-            files: existing.files,
-            timestamp: Date.now(),
-          };
-          await projectsDb.put(record);
-        }
-      }
+      await refresh();
       if (!cancelled) {
-        await refresh();
         setLoading(false);
       }
     })();
     return () => {
       cancelled = true;
     };
-    // Intentionally only run once on mount.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refresh]);
 
   const createProject = useCallback(
     async (name: string) => {
-      const record: ProjectRecord = {
-        id: generateId(),
-        name,
-        files: { ...defaultInitialProject.files },
-        timestamp: Date.now(),
-      };
-      await projectsDb.put(record);
-      setCurrent(record.id);
-      await loadIntoFs(record);
+      const id = generateId();
+      const files = { ...defaultInitialProject.files };
+      await projectsDb.createProject({ id, name, timestamp: Date.now() }, files);
+      setCurrent(id);
+      await loadIntoFs(id, name, files);
       await refresh();
       postProjectSync({
         type: ProjectSyncMessageType.ReloadProject,
-        projectIds: [record.id],
+        projectIds: [id],
       });
-      return record.id;
+      return id;
     },
     [loadIntoFs, refresh, setCurrent]
   );
@@ -213,30 +170,28 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
       setCurrent(id);
       setLoadedProjectId(id);
       lastSyncedRef.current = null;
-      // The overlay hides the file-system transition (previous project ->
-      // imported project) and the navigation that follows.
       setImporting(true);
       try {
         try {
           await populateFs();
         } catch (e) {
-          // Roll back: nothing was persisted under this id yet.
-          await projectsDb.delete(id);
           setLoadedProjectId(undefined);
           setCurrent(undefined);
           throw e;
         }
         const pythonProject = await fs.getPythonProject();
-        const record: ProjectRecord = {
-          id,
-          name: pythonProject.projectName ?? name,
-          files: pythonProject.files,
-          timestamp: Date.now(),
-        };
-        await projectsDb.put(record);
+        await projectsDb.createProject(
+          {
+            id,
+            name: pythonProject.projectName ?? name,
+            timestamp: Date.now(),
+          },
+          pythonProject.files
+        );
         lastSyncedRef.current = {
           id,
-          serialized: serializeProject(record.name, record.files),
+          name: pythonProject.projectName,
+          files: pythonProject.files,
         };
         await refresh();
         postProjectSync({
@@ -257,15 +212,15 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
         setCurrent(id);
         return true;
       }
-      const record = await projectsDb.get(id);
-      if (!record) {
+      const project = await projectsDb.getProject(id);
+      if (!project) {
         return false;
       }
       setCurrent(id);
-      await loadIntoFs(record);
+      await loadIntoFs(id, project.meta.name, project.files);
       // Bump recency. Deliberately not broadcast: it must not cause other tabs
       // editing the same project to reload and lose in-flight edits.
-      await projectsDb.put({ ...record, timestamp: Date.now() });
+      await projectsDb.putProjectData({ ...project.meta, timestamp: Date.now() });
       await refresh();
       return true;
     },
@@ -274,17 +229,16 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
 
   const renameProject = useCallback(
     async (id: string, name: string) => {
-      const record = await projectsDb.get(id);
-      if (!record) {
+      const meta = await projectsDb.getProjectData(id);
+      if (!meta) {
         return;
       }
-      await projectsDb.put({ ...record, name, timestamp: Date.now() });
+      await projectsDb.putProjectData({ ...meta, name, timestamp: Date.now() });
       if (id === loadedProjectId) {
         await fs.setProjectName(name);
-        lastSyncedRef.current = {
-          id,
-          serialized: serializeProject(name, record.files),
-        };
+        if (lastSyncedRef.current?.id === id) {
+          lastSyncedRef.current.name = name;
+        }
       }
       await refresh();
       postProjectSync({
@@ -297,30 +251,25 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
 
   const duplicateProject = useCallback(
     async (id: string, name: string) => {
-      const record = await projectsDb.get(id);
-      if (!record) {
-        return id;
-      }
-      const newRecord: ProjectRecord = {
-        id: generateId(),
+      const newId = generateId();
+      await projectsDb.duplicateProject(id, {
+        id: newId,
         name,
-        files: { ...record.files },
         timestamp: Date.now(),
-      };
-      await projectsDb.put(newRecord);
+      });
       await refresh();
       postProjectSync({
         type: ProjectSyncMessageType.ReloadProject,
-        projectIds: [newRecord.id],
+        projectIds: [newId],
       });
-      return newRecord.id;
+      return newId;
     },
     [refresh]
   );
 
   const deleteProject = useCallback(
     async (id: string) => {
-      await projectsDb.delete(id);
+      await projectsDb.deleteProject(id);
       if (id === currentProjectId) {
         setCurrent(undefined);
       }
@@ -337,33 +286,46 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
     [currentProjectId, loadedProjectId, refresh, setCurrent]
   );
 
-  // Autosave the currently loaded project back to IndexedDB as it is edited,
-  // and broadcast the change to other tabs.
+  // Autosave the currently loaded project back to IndexedDB as it is edited.
+  // Only the files that actually changed are written (plus metadata).
   useEffect(() => {
     if (!loadedProjectId) {
       return;
     }
     const save = debounce(async () => {
       const pythonProject = await fs.getPythonProject();
-      const serialized = serializeProject(
-        pythonProject.projectName,
-        pythonProject.files
+      const prev =
+        lastSyncedRef.current?.id === loadedProjectId
+          ? lastSyncedRef.current
+          : null;
+      const prevFiles = prev?.files ?? {};
+      const changed: FileRecord[] = [];
+      for (const [name, data] of Object.entries(pythonProject.files)) {
+        if (prevFiles[name] !== data) {
+          changed.push({ projectId: loadedProjectId, name, data });
+        }
+      }
+      const deleted = Object.keys(prevFiles).filter(
+        (name) => !(name in pythonProject.files)
       );
-      if (
-        lastSyncedRef.current?.id === loadedProjectId &&
-        lastSyncedRef.current.serialized === serialized
-      ) {
-        // No real change (e.g. this edit came from loading a cross-tab update).
+      const nameChanged = !prev || prev.name !== pythonProject.projectName;
+      if (changed.length === 0 && deleted.length === 0 && !nameChanged) {
         return;
       }
-      const existing = await projectsDb.get(loadedProjectId);
-      await projectsDb.put({
+      await projectsDb.saveProject(
+        {
+          id: loadedProjectId,
+          name: pythonProject.projectName ?? prev?.name ?? untitled,
+          timestamp: Date.now(),
+        },
+        changed,
+        deleted
+      );
+      lastSyncedRef.current = {
         id: loadedProjectId,
-        name: pythonProject.projectName ?? existing?.name ?? untitled,
+        name: pythonProject.projectName,
         files: pythonProject.files,
-        timestamp: Date.now(),
-      });
-      lastSyncedRef.current = { id: loadedProjectId, serialized };
+      };
       postProjectSync({
         type: ProjectSyncMessageType.ReloadProject,
         projectIds: [loadedProjectId],
@@ -382,16 +344,19 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     return addProjectSyncListener((message) => {
       void (async () => {
-        // Keep the project library list current everywhere.
         await refresh();
         if (!loadedProjectId || !message.projectIds.includes(loadedProjectId)) {
           return;
         }
         if (message.type === ProjectSyncMessageType.ReloadProject) {
-          const record = await projectsDb.get(loadedProjectId);
-          if (record) {
+          const project = await projectsDb.getProject(loadedProjectId);
+          if (project) {
             // Reloads editor content; dedup ref prevents this echoing back out.
-            await loadIntoFs(record);
+            await loadIntoFs(
+              loadedProjectId,
+              project.meta.name,
+              project.files
+            );
           }
         } else if (message.type === ProjectSyncMessageType.DeleteProject) {
           // The open project was deleted elsewhere. Clearing loadedProjectId

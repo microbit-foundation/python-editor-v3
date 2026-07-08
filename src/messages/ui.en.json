@@ -1278,7 +1278,7 @@
   "no-projects": [
     {
       "type": 0,
-      "value": "No projects found"
+      "value": "No projects to display"
     }
   ],
   "not-found-checklist-one": [

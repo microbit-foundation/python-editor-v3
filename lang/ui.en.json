@@ -616,8 +616,8 @@
     "description": "Next button text"
   },
   "no-projects": {
-    "defaultMessage": "No projects found",
-    "description": "Shown when a project search returns nothing"
+    "defaultMessage": "No projects to display",
+    "description": "Shown on the projects page when there are no projects to show"
   },
   "not-found-checklist-one": {
     "defaultMessage": "Is your <strong>micro:bit plugged in</strong>? Did you <link>follow these steps</link>?",
