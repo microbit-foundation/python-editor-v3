@@ -36,6 +36,7 @@ jobs:
           node-version: 24.x
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
+      - run: npm install -g npm@11 --registry=https://registry.npmjs.org
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
