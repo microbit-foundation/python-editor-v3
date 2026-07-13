@@ -73,6 +73,15 @@ export default defineConfig(({ mode }) => {
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
     mockReset: true,
+    alias: {
+      // vscode-jsonrpc@9's "./browser" export only declares a "browser"
+      // condition. The app build applies it, but vitest resolves in node mode
+      // and can't, so point it at the browser entry (as the build does).
+      "vscode-jsonrpc/browser": path.resolve(
+        __dirname,
+        "node_modules/vscode-jsonrpc/lib/browser/main.js"
+      ),
+    },
   };
   const config: UserConfig = {
     base: process.env.BASE_URL ?? "/",
