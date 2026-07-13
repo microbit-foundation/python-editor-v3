@@ -6,6 +6,8 @@
   "private": true,
   "type": "module",
   "allowScripts": {
+    "aws-sdk": false,
+    "core-js": false,
     "esbuild": true,
     "fsevents": true,
     "protobufjs": false
