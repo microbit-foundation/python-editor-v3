@@ -9,9 +9,7 @@ import {
   Container,
   Fade,
   Flex,
-  HStack,
   IconButton,
-  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -22,15 +20,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
+import HomeButton from "../common/HomeButton";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { useResizeObserverContentRect } from "../common/use-resize-observer";
 import { zIndexSidebarHeader } from "../common/zIndex";
-import { useDeployment } from "../deployment";
 import { topBarHeight } from "../deployment/misc";
 import { supportedSearchLanguages } from "../documentation/search/search.worker";
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
-import { microbitOrgUrl } from "../external-links";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 import { useSettings } from "../settings/settings";
@@ -51,7 +48,6 @@ const SideBarHeader = ({
 }: SideBarHeaderProps) => {
   const intl = useIntl();
   const logging = useLogging();
-  const brand = useDeployment();
   const searchModal = useDisclosure();
   const { results, query, setQuery } = useSearch();
   const [, setRouterState] = useRouterState();
@@ -182,34 +178,19 @@ const SideBarHeader = ({
           }
           alignItems="center"
           justifyContent="space-between"
-          pr={4}
+          pr={sidebarShown ? 4 : 0}
           transition="height .2s"
           position="relative"
         >
-          <Link
-            display="block"
-            href={microbitOrgUrl(languageId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-            mx="1rem"
+          <Box
+            ref={faceLogoRef}
+            mx={sidebarShown ? "1rem" : 0}
+            flex={sidebarShown ? undefined : "1"}
+            display="flex"
+            justifyContent="center"
           >
-            <HStack spacing="0.875rem">
-              <Box
-                width="3.56875rem"
-                color="white"
-                role="img"
-                ref={faceLogoRef}
-              >
-                {brand.squareLogo}
-              </Box>
-              {!query && sidebarShown && (
-                <Box width="9.098rem" role="img" color="white">
-                  {brand.horizontalLogo}
-                </Box>
-              )}
-            </HStack>
-          </Link>
+            <HomeButton iconOnly={!sidebarShown} />
+          </Box>
           {searchAvailable && !query && sidebarShown && (
             <CollapsibleButton
               onClick={handleModalOpened}

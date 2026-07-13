@@ -26,12 +26,13 @@ import { SettingsDialog } from "./SettingsDialog";
 
 interface SettingsMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
+  fontSize?: string;
 }
 
 /**
  * The settings button triggers a menu with main and other settings.
  */
-const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
+const SettingsMenu = ({ size, fontSize = "xl", ...props }: SettingsMenuProps) => {
   const languageDisclosure = useDisclosure();
   const intl = useIntl();
   const dialogs = useDialogs();
@@ -59,7 +60,7 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
           data-testid="settings"
           aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
-          fontSize="xl"
+          fontSize={fontSize}
           variant="sidebar"
           icon={<RiSettings2Line />}
           color="white"

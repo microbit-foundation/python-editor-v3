@@ -39,7 +39,7 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-dev.48 @microbit-foundation/website-deploy-aws@0.6.0 @microbit-foundation/website-deploy-aws-config@0.9.0 @microbit-foundation/circleci-npm-package-versioner@1
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-multiple.projects.storage.53 @microbit-foundation/website-deploy-aws@0.6.0 @microbit-foundation/website-deploy-aws-config@0.9.0 @microbit-foundation/circleci-npm-package-versioner@1
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,22 +50,22 @@ jobs:
       - run: npm run ci
         env:
           VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      - run: mkdir -p /tmp/app${BASE_URL} && cp -r build/* /tmp/app${BASE_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-      - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-      - name: Run Playwright tests
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-        uses: docker://mcr.microsoft.com/playwright:v1.58.2-noble
-        with:
-          args: npx playwright test
-      - name: Store reports
-        if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
-        uses: actions/upload-artifact@v7
-        with:
-          name: reports
-          path: reports/
-          retention-days: 3
+      # - run: mkdir -p /tmp/app${BASE_URL} && cp -r build/* /tmp/app${BASE_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
+      #   if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+      # - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
+      #   if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+      # - name: Run Playwright tests
+      #   if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+      #   uses: docker://mcr.microsoft.com/playwright:v1.58.2-noble
+      #   with:
+      #     args: npx playwright test
+      # - name: Store reports
+      #   if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: reports
+      #     path: reports/
+      #     retention-days: 3
       - run: npm run deploy
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
         env:

@@ -24,12 +24,13 @@ import { LanguageServerClientProvider } from "./language-server/language-server-
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
-import { RouterProvider } from "./router-hooks";
+import { ProjectsProvider } from "./project/projects-hooks";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 import SessionSettingsProvider from "./settings/session-settings";
 import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
-import Workbench from "./workbench/Workbench";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -79,15 +80,15 @@ const App = () => {
                         <SearchProvider>
                           <SelectionProvider>
                             <DialogProvider>
-                              <RouterProvider>
+                              <ProjectsProvider>
                                 <ConsentProvider>
                                   <ProjectDropTarget>
                                     <ActiveEditorProvider>
-                                      <Workbench />
+                                      <RouterProvider router={router} />
                                     </ActiveEditorProvider>
                                   </ProjectDropTarget>
                                 </ConsentProvider>
-                              </RouterProvider>
+                              </ProjectsProvider>
                             </DialogProvider>
                           </SelectionProvider>
                         </SearchProvider>

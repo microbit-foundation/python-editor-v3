@@ -8,10 +8,13 @@ import React, {
   ReactNode,
   SetStateAction,
   useContext,
+  useLayoutEffect,
+  useRef,
   useState,
 } from "react";
 
 import { MAIN_FILE } from "../fs/fs";
+import { useProjects } from "../project/projects-hooks";
 const Selection = React.createContext<
   [WorkbenchSelection, Dispatch<SetStateAction<WorkbenchSelection>>] | undefined
 >(undefined);
@@ -55,4 +58,31 @@ export const SelectionProvider = ({ children }: { children: ReactNode }) => {
     location: { line: undefined },
   });
   return <Selection.Provider value={state}>{children}</Selection.Provider>;
+};
+
+/**
+ * Resets the (global) workbench selection to main.py whenever a different
+ * project becomes active, so switching/loading/creating a project always
+ * opens main.py rather than leaking the previously open file.
+ *
+ * Note: this deliberately does not remember the open file per project. See
+ * team notes if we want to revisit per-project file memory.
+ *
+ * Call once from the workbench.
+ */
+export const useProjectScopedSelection = () => {
+  const { loadedProjectId } = useProjects();
+  const [, setSelection] = useSelection();
+  const activeProjectRef = useRef<string | undefined>(undefined);
+
+  // useLayoutEffect (not useEffect) so the reset happens before the browser
+  // paints: reopening a project must not briefly show the previously active
+  // file before switching back to main.py.
+  useLayoutEffect(() => {
+    if (activeProjectRef.current === loadedProjectId) {
+      return;
+    }
+    activeProjectRef.current = loadedProjectId;
+    setSelection({ file: MAIN_FILE, location: { line: undefined } });
+  }, [loadedProjectId, setSelection]);
 };

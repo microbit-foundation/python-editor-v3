@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ReactNode, useContext } from "react";
+import { BoxProps } from "@chakra-ui/react";
+import { ComponentType, ReactNode, useContext } from "react";
 import { Logging } from "../logging/logging";
 
 export type DeploymentConfigFactory = (
@@ -24,6 +25,10 @@ export interface DeploymentConfig {
   welcomeVideoYouTubeId?: string;
   squareLogo?: ReactNode;
   horizontalLogo?: ReactNode;
+  /** Product wordmark, e.g. "Python Editor". */
+  AppLogo?: ComponentType<BoxProps>;
+  /** Organisation logo, e.g. the micro:bit logo. */
+  OrgLogo?: ComponentType<BoxProps>;
   compliance: {
     /**
      * A provider that will be used to wrap the app UI.

@@ -65,6 +65,24 @@
       "value": "Inrochtaineacht"
     }
   ],
+  "accessibility-resource-title": [
+    {
+      "type": 0,
+      "value": "Accessibility"
+    }
+  ],
+  "add-files-action": [
+    {
+      "type": 0,
+      "value": "Add file(s)"
+    }
+  ],
+  "add-files-hover": [
+    {
+      "type": 0,
+      "value": "Add files to this project"
+    }
+  ],
   "added-change": [
     {
       "type": 0,
@@ -191,6 +209,32 @@
     {
       "type": 0,
       "value": "Cealaigh"
+    }
+  ],
+  "carousel-role": [
+    {
+      "type": 0,
+      "value": "carousel"
+    }
+  ],
+  "carousel-slide-label": [
+    {
+      "type": 1,
+      "value": "slideNum"
+    },
+    {
+      "type": 0,
+      "value": " of "
+    },
+    {
+      "type": 1,
+      "value": "totalSlides"
+    }
+  ],
+  "carousel-slide-role": [
+    {
+      "type": 0,
+      "value": "slide"
     }
   ],
   "change-files": [
@@ -499,10 +543,28 @@
       "value": "Cruthaigh comhad"
     }
   ],
+  "create-project-action": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "create-project-dialog-heading": [
+    {
+      "type": 0,
+      "value": "Name your project"
+    }
+  ],
   "create-python": [
     {
       "type": 0,
       "value": "Cruthaigh comhad nua Python sa tionscadal seo"
+    }
+  ],
+  "createai-taster-lessons-resource-title": [
+    {
+      "type": 0,
+      "value": "Taster lessons"
     }
   ],
   "created-file": [
@@ -529,6 +591,52 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "delete-project-action": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "delete-project-confirm-heading": [
+    {
+      "type": 0,
+      "value": "Delete project"
+    }
+  ],
+  "delete-project-confirm-text": [
+    {
+      "type": 0,
+      "value": "Are you sure you want to delete ‘"
+    },
+    {
+      "type": 1,
+      "value": "project"
+    },
+    {
+      "type": 0,
+      "value": "’? This cannot be undone."
+    }
+  ],
+  "delete-projects-confirm-heading": [
+    {
+      "type": 0,
+      "value": "Delete projects"
+    }
+  ],
+  "delete-projects-confirm-text": [
+    {
+      "type": 0,
+      "value": "Are you sure you want to delete "
+    },
+    {
+      "type": 1,
+      "value": "numProjects"
+    },
+    {
+      "type": 0,
+      "value": " projects? This cannot be undone."
     }
   ],
   "deleted-file": [
@@ -563,6 +671,18 @@
     {
       "type": 0,
       "value": "Tarraing agus scaoil"
+    }
+  ],
+  "duplicate-project-action": [
+    {
+      "type": 0,
+      "value": "Duplicate"
+    }
+  ],
+  "duplicate-project-heading": [
+    {
+      "type": 0,
+      "value": "Name your project"
     }
   ],
   "edit-file-action": [
@@ -659,6 +779,18 @@
       "value": "Ní féidir spásanna a bheith san ainm"
     }
   ],
+  "files-tab": [
+    {
+      "type": 0,
+      "value": "Files"
+    }
+  ],
+  "files-tab-description": [
+    {
+      "type": 0,
+      "value": "Manage your project files"
+    }
+  ],
   "firmware-update-link": [
     {
       "type": 0,
@@ -689,6 +821,12 @@
     {
       "type": 0,
       "value": "Nuashonrú dochtearraí ag teastáil"
+    }
+  ],
+  "first-lessons-with-python-resource-title": [
+    {
+      "type": 0,
+      "value": "First lessons with Python and the micro:bit"
     }
   ],
   "flash-action": [
@@ -749,6 +887,18 @@
       "value": "Cabhair"
     }
   ],
+  "help-resources-row-carousel": [
+    {
+      "type": 0,
+      "value": "Help and support"
+    }
+  ],
+  "help-resources-row-title": [
+    {
+      "type": 0,
+      "value": "Help and support"
+    }
+  ],
   "help-support": [
     {
       "type": 0,
@@ -785,6 +935,30 @@
       "value": "Simplí"
     }
   ],
+  "home-action": [
+    {
+      "type": 0,
+      "value": "Home"
+    }
+  ],
+  "homepage-banner-heading": [
+    {
+      "type": 0,
+      "value": "Code your BBC micro:bit with Python"
+    }
+  ],
+  "homepage-banner-subtitle": [
+    {
+      "type": 0,
+      "value": "Create, edit and flash MicroPython programs to your micro:bit."
+    }
+  ],
+  "homepage-title": [
+    {
+      "type": 0,
+      "value": "micro:bit Python Editor"
+    }
+  ],
   "ideas-tab": [
     {
       "type": 0,
@@ -797,6 +971,12 @@
       "value": "Bain triail as na tionscadail seo, athraigh iad agus spreag iad"
     }
   ],
+  "import-file-action": [
+    {
+      "type": 0,
+      "value": "Import"
+    }
+  ],
   "insert-code-action": [
     {
       "type": 0,
@@ -807,6 +987,12 @@
     {
       "type": 0,
       "value": "Teanga"
+    }
+  ],
+  "learn-more-action": [
+    {
+      "type": 0,
+      "value": "Learn more"
     }
   ],
   "less-action": [
@@ -1103,6 +1289,18 @@
       "value": "Rabhadh: Ní íoslódálfar ach main.py"
     }
   ],
+  "my-projects-row-carousel": [
+    {
+      "type": 0,
+      "value": "Your projects"
+    }
+  ],
+  "my-projects-row-title": [
+    {
+      "type": 0,
+      "value": "Your projects"
+    }
+  ],
   "name-project": [
     {
       "type": 0,
@@ -1141,10 +1339,22 @@
       "value": " ar do shon."
     }
   ],
+  "new-project-action": [
+    {
+      "type": 0,
+      "value": "New project"
+    }
+  ],
   "next-action": [
     {
       "type": 0,
       "value": "Ar Aghaidh"
+    }
+  ],
+  "no-projects": [
+    {
+      "type": 0,
+      "value": "No projects found"
     }
   ],
   "not-found-checklist-one": [
@@ -1277,6 +1487,12 @@
     {
       "type": 0,
       "value": "Oscail comhad heicsidheachúlach nó Python nó cuir comhaid eile leis"
+    }
+  ],
+  "open-project-action": [
+    {
+      "type": 0,
+      "value": "Open"
     }
   ],
   "options": [
@@ -1429,6 +1645,74 @@
       "value": "Ceanntásc an tionscadail"
     }
   ],
+  "project-idea-animated-animals-title": [
+    {
+      "type": 0,
+      "value": "Animated animals"
+    }
+  ],
+  "project-idea-beating-heart-title": [
+    {
+      "type": 0,
+      "value": "Beating heart"
+    }
+  ],
+  "project-idea-emotion-badge-title": [
+    {
+      "type": 0,
+      "value": "Emotion badge"
+    }
+  ],
+  "project-idea-flashing-emotions-title": [
+    {
+      "type": 0,
+      "value": "Flashing emotions"
+    }
+  ],
+  "project-idea-get-silly-title": [
+    {
+      "type": 0,
+      "value": "Get silly"
+    }
+  ],
+  "project-idea-heart-title": [
+    {
+      "type": 0,
+      "value": "Heart"
+    }
+  ],
+  "project-ideas-row-carousel": [
+    {
+      "type": 0,
+      "value": "Project ideas"
+    }
+  ],
+  "project-ideas-row-title": [
+    {
+      "type": 0,
+      "value": "Project ideas"
+    }
+  ],
+  "project-loaded": [
+    {
+      "type": 0,
+      "value": "Project loaded"
+    }
+  ],
+  "project-menu-action": [
+    {
+      "type": 0,
+      "value": "Actions for project ‘"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "’"
+    }
+  ],
   "project-name": [
     {
       "type": 0,
@@ -1441,6 +1725,12 @@
       "value": "Ní féidir ainm an tionscadail a fholmhú"
     }
   ],
+  "project-skip-to-toolbar": [
+    {
+      "type": 0,
+      "value": "Skip to selection actions"
+    }
+  ],
   "project-tab": [
     {
       "type": 0,
@@ -1451,6 +1741,12 @@
     {
       "type": 0,
       "value": "Amharc ar na comhaid i do thionscadal, iad a chruthú, a chur leis agus a chur in eagar"
+    }
+  ],
+  "projects-page-title": [
+    {
+      "type": 0,
+      "value": "Projects"
     }
   ],
   "python-powered": [
@@ -1493,6 +1789,18 @@
     {
       "type": 0,
       "value": "Tagairt"
+    }
+  ],
+  "rename-project-action": [
+    {
+      "type": 0,
+      "value": "Rename"
+    }
+  ],
+  "rename-project-heading": [
+    {
+      "type": 0,
+      "value": "Rename project"
     }
   ],
   "replace-action-label": [
@@ -1634,6 +1942,26 @@
     {
       "type": 0,
       "value": "Cuardaigh"
+    }
+  ],
+  "select-project-action": [
+    {
+      "type": 0,
+      "value": "Select project ‘"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "’"
+    }
+  ],
+  "selection-actions-group": [
+    {
+      "type": 0,
+      "value": "Actions for selected projects"
     }
   ],
   "send-action": [
@@ -2385,6 +2713,42 @@
       "value": "Leaganacha bogearraí"
     }
   ],
+  "sort-option-last-modified": [
+    {
+      "type": 0,
+      "value": "Last modified"
+    }
+  ],
+  "sort-option-name": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "sort-option-relevance": [
+    {
+      "type": 0,
+      "value": "Relevance"
+    }
+  ],
+  "sort-order-ascending-label": [
+    {
+      "type": 0,
+      "value": "Sort ascending"
+    }
+  ],
+  "sort-order-descending-label": [
+    {
+      "type": 0,
+      "value": "Sort descending"
+    }
+  ],
+  "sort-select-label": [
+    {
+      "type": 0,
+      "value": "Sort projects by"
+    }
+  ],
   "start-coding-action": [
     {
       "type": 0,
@@ -2395,6 +2759,18 @@
     {
       "type": 0,
       "value": "Tacaíocht"
+    }
+  ],
+  "teacher-resources-row-carousel": [
+    {
+      "type": 0,
+      "value": "Teacher resources"
+    }
+  ],
+  "teacher-resources-row-title": [
+    {
+      "type": 0,
+      "value": "Teacher resources"
     }
   ],
   "terms-of-use": [
@@ -2517,6 +2893,12 @@
       "value": "Aistrigh comhad heicsidheachúlach sábháilte go micro:bit"
     }
   ],
+  "troubleshooting-resource-title": [
+    {
+      "type": 0,
+      "value": "Troubleshooting"
+    }
+  ],
   "try-again-action": [
     {
       "type": 0,
@@ -2587,6 +2969,12 @@
     {
       "type": 0,
       "value": "Treoir d'úsáideoirí"
+    }
+  ],
+  "view-all-projects": [
+    {
+      "type": 0,
+      "value": "View all projects"
     }
   ],
   "visit-dot-org": [

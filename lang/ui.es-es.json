@@ -27,6 +27,18 @@
     "defaultMessage": "Accesibilidad",
     "description": "Menu item for link to accessibility site"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Accessibility",
+    "description": "Title for the accessibility help card"
+  },
+  "add-files-action": {
+    "defaultMessage": "Add file(s)",
+    "description": "Button to add files to the current project"
+  },
+  "add-files-hover": {
+    "defaultMessage": "Add files to this project",
+    "description": "Tooltip for the add files button"
+  },
   "added-change": {
     "defaultMessage": "Archivo {changeName} añadido",
     "description": "Change made to file"
@@ -70,6 +82,18 @@
   "cancel-action": {
     "defaultMessage": "Cancelar",
     "description": "Cancel button text"
+  },
+  "carousel-role": {
+    "defaultMessage": "carousel",
+    "description": "Accessible role description for a carousel"
+  },
+  "carousel-slide-label": {
+    "defaultMessage": "{slideNum} of {totalSlides}",
+    "description": "Accessible label for a carousel slide"
+  },
+  "carousel-slide-role": {
+    "defaultMessage": "slide",
+    "description": "Accessible role description for a carousel slide"
   },
   "change-files": {
     "defaultMessage": "¿Cambiar archivos?",
@@ -227,9 +251,21 @@
     "defaultMessage": "Crear archivo",
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
+  "create-project-action": {
+    "defaultMessage": "Create",
+    "description": "Create project button"
+  },
+  "create-project-dialog-heading": {
+    "defaultMessage": "Name your project",
+    "description": "Heading for the create project dialog"
+  },
   "create-python": {
     "defaultMessage": "Crear un nuevo archivo Python en este proyecto",
     "description": "Hover and dialog title when creating a new Python file"
+  },
+  "createai-taster-lessons-resource-title": {
+    "defaultMessage": "Taster lessons",
+    "description": "Title for a lesson card (placeholder)"
   },
   "created-file": {
     "defaultMessage": "{filename} creado",
@@ -242,6 +278,26 @@
   "delete-file-action": {
     "defaultMessage": "Eliminar {name}",
     "description": "Menu option to delete file"
+  },
+  "delete-project-action": {
+    "defaultMessage": "Delete",
+    "description": "Delete project menu item/button"
+  },
+  "delete-project-confirm-heading": {
+    "defaultMessage": "Delete project",
+    "description": "Heading for the delete project confirmation dialog"
+  },
+  "delete-project-confirm-text": {
+    "defaultMessage": "Are you sure you want to delete ‘{project}’? This cannot be undone.",
+    "description": "Body text for the delete project confirmation dialog"
+  },
+  "delete-projects-confirm-heading": {
+    "defaultMessage": "Delete projects",
+    "description": "Heading for the delete multiple projects confirmation dialog"
+  },
+  "delete-projects-confirm-text": {
+    "defaultMessage": "Are you sure you want to delete {numProjects} projects? This cannot be undone.",
+    "description": "Body for the delete multiple projects confirmation dialog"
   },
   "deleted-file": {
     "defaultMessage": "{filename} eliminado",
@@ -262,6 +318,14 @@
   "drag-hover": {
     "defaultMessage": "Arrastra y suelta",
     "description": "Draggable code hover text"
+  },
+  "duplicate-project-action": {
+    "defaultMessage": "Duplicate",
+    "description": "Duplicate project button/menu item"
+  },
+  "duplicate-project-heading": {
+    "defaultMessage": "Name your project",
+    "description": "Heading for the duplicate project dialog"
   },
   "edit-file-action": {
     "defaultMessage": "Editar {name}",
@@ -315,6 +379,14 @@
     "defaultMessage": "El nombre no puede incluir espacios",
     "description": "Warning text for new Python file name with whitespace"
   },
+  "files-tab": {
+    "defaultMessage": "Files",
+    "description": "Sidebar tab label for the project files"
+  },
+  "files-tab-description": {
+    "defaultMessage": "Manage your project files",
+    "description": "Subheading for the Files sidebar tab"
+  },
   "firmware-update-link": {
     "defaultMessage": "Debes <link>actualizar el firmware</link> para poder conectar a este micro:bit.",
     "description": "Text in the firmware update dialog"
@@ -326,6 +398,10 @@
   "firmware-update-title": {
     "defaultMessage": "Es necesario actualizar el firmware",
     "description": "Title for the firmware update dialog"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "First lessons with Python and the micro:bit",
+    "description": "Title for a lesson card"
   },
   "flash-action": {
     "defaultMessage": "Flashear",
@@ -359,6 +435,14 @@
     "defaultMessage": "Ayuda",
     "description": "Help menu label"
   },
+  "help-resources-row-carousel": {
+    "defaultMessage": "Help and support",
+    "description": "Accessible name for the help and support carousel"
+  },
+  "help-resources-row-title": {
+    "defaultMessage": "Help and support",
+    "description": "Title for the help and support row"
+  },
   "help-support": {
     "defaultMessage": "Ayuda y asistencia",
     "description": "Menu item for link to support site"
@@ -383,6 +467,22 @@
     "defaultMessage": "Simple",
     "description": "Highlight code structure option"
   },
+  "home-action": {
+    "defaultMessage": "Home",
+    "description": "Aria label for the home button that returns to the project list"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "Code your BBC micro:bit with Python",
+    "description": "Home page banner heading"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "Create, edit and flash MicroPython programs to your micro:bit.",
+    "description": "Home page banner subtitle"
+  },
+  "homepage-title": {
+    "defaultMessage": "micro:bit Python Editor",
+    "description": "Application name shown in the home page header"
+  },
   "ideas-tab": {
     "defaultMessage": "Ideas",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
@@ -391,12 +491,20 @@
     "defaultMessage": "Prueba estos proyectos y modifícalos para inspirarte",
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
+  "import-file-action": {
+    "defaultMessage": "Import",
+    "description": "Button to import a project file (hex)"
+  },
   "insert-code-action": {
     "defaultMessage": "Insertar código"
   },
   "language": {
     "defaultMessage": "Idioma",
     "description": "Language option text"
+  },
+  "learn-more-action": {
+    "defaultMessage": "Learn more",
+    "description": "Learn more button on the home page banner"
   },
   "less-action": {
     "defaultMessage": "menos",
@@ -474,6 +582,14 @@
     "defaultMessage": "Aviso: solo se ha descargado main.py",
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
+  "my-projects-row-carousel": {
+    "defaultMessage": "Your projects",
+    "description": "Accessible name for the your projects carousel"
+  },
+  "my-projects-row-title": {
+    "defaultMessage": "Your projects",
+    "description": "Title for the your projects row"
+  },
   "name-project": {
     "defaultMessage": "Pon un nombre al proyecto",
     "description": "Name your project header"
@@ -490,9 +606,17 @@
     "defaultMessage": "Se añadirá la extensión <code>.py</code>.",
     "description": "Hint shown in the new Python file dialog"
   },
+  "new-project-action": {
+    "defaultMessage": "New project",
+    "description": "New project card action"
+  },
   "next-action": {
     "defaultMessage": "Siguiente",
     "description": "Next button text"
+  },
+  "no-projects": {
+    "defaultMessage": "No projects found",
+    "description": "Shown when a project search returns nothing"
   },
   "not-found-checklist-one": {
     "defaultMessage": "¿Está el <strong>micro:bit conectado</strong>? ¿Has <link>seguido estos pasos</link>?",
@@ -537,6 +661,10 @@
   "open-hover": {
     "defaultMessage": "Abre un archivo HEX o Python o añade otros archivos",
     "description": "Hover text over load button"
+  },
+  "open-project-action": {
+    "defaultMessage": "Open",
+    "description": "Open project menu item"
   },
   "options": {
     "defaultMessage": "Opciones",
@@ -590,6 +718,46 @@
     "defaultMessage": "Cabecera del proyecto",
     "description": "Aria label for the project header area"
   },
+  "project-idea-animated-animals-title": {
+    "defaultMessage": "Animated animals",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-beating-heart-title": {
+    "defaultMessage": "Beating heart",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-emotion-badge-title": {
+    "defaultMessage": "Emotion badge",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-flashing-emotions-title": {
+    "defaultMessage": "Flashing emotions",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-get-silly-title": {
+    "defaultMessage": "Get silly",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-idea-heart-title": {
+    "defaultMessage": "Heart",
+    "description": "Title for a make it, code it project idea card"
+  },
+  "project-ideas-row-carousel": {
+    "defaultMessage": "Project ideas",
+    "description": "Accessible name for the project ideas carousel"
+  },
+  "project-ideas-row-title": {
+    "defaultMessage": "Project ideas",
+    "description": "Title for the project ideas row"
+  },
+  "project-loaded": {
+    "defaultMessage": "Project loaded",
+    "description": "Toast shown after a project is loaded from a dropped hex file"
+  },
+  "project-menu-action": {
+    "defaultMessage": "Actions for project ‘{name}’",
+    "description": "Aria label for the per-project actions menu button"
+  },
   "project-name": {
     "defaultMessage": "Nombre del proyecto",
     "description": "Text used to indicate the project name"
@@ -598,6 +766,10 @@
     "defaultMessage": "El nombre del proyecto no puede estar en blanco",
     "description": "Validation message for project name"
   },
+  "project-skip-to-toolbar": {
+    "defaultMessage": "Skip to selection actions",
+    "description": "Accessible skip link from a selected project card to the toolbar"
+  },
   "project-tab": {
     "defaultMessage": "Proyecto",
     "description": "Project tab button text"
@@ -605,6 +777,10 @@
   "project-tab-description": {
     "defaultMessage": "Ver, crear, añadir y editar los archivos del proyecto",
     "description": "Project tab description"
+  },
+  "projects-page-title": {
+    "defaultMessage": "Projects",
+    "description": "Title of the projects page"
   },
   "python-powered": {
     "defaultMessage": "Funciona con Python",
@@ -633,6 +809,14 @@
   "reference-tab": {
     "defaultMessage": "Referencia",
     "description": "Reference tab button text"
+  },
+  "rename-project-action": {
+    "defaultMessage": "Rename",
+    "description": "Rename project button/menu item"
+  },
+  "rename-project-heading": {
+    "defaultMessage": "Rename project",
+    "description": "Heading for the rename project dialog"
   },
   "replace-action-label": {
     "defaultMessage": "Sustituir",
@@ -677,6 +861,14 @@
   "search": {
     "defaultMessage": "Buscar",
     "description": "Aria label for searching documentation"
+  },
+  "select-project-action": {
+    "defaultMessage": "Select project ‘{name}’",
+    "description": "Accessible label for the per-project selection checkbox"
+  },
+  "selection-actions-group": {
+    "defaultMessage": "Actions for selected projects",
+    "description": "Accessible label for the selection toolbar"
   },
   "send-action": {
     "defaultMessage": "Enviar a micro:bit",
@@ -1050,6 +1242,30 @@
     "defaultMessage": "Versiones de software",
     "description": "Heading for a table of software versions in the about dialog"
   },
+  "sort-option-last-modified": {
+    "defaultMessage": "Last modified",
+    "description": "Sort projects by last modified date"
+  },
+  "sort-option-name": {
+    "defaultMessage": "Name",
+    "description": "Sort projects by name"
+  },
+  "sort-option-relevance": {
+    "defaultMessage": "Relevance",
+    "description": "Sort projects by search relevance"
+  },
+  "sort-order-ascending-label": {
+    "defaultMessage": "Sort ascending",
+    "description": "Accessible label to toggle to ascending sort order"
+  },
+  "sort-order-descending-label": {
+    "defaultMessage": "Sort descending",
+    "description": "Accessible label to toggle to descending sort order"
+  },
+  "sort-select-label": {
+    "defaultMessage": "Sort projects by",
+    "description": "Accessible label for the project sort dropdown"
+  },
   "start-coding-action": {
     "defaultMessage": "Empezar a programar",
     "description": "Start coding button text"
@@ -1057,6 +1273,14 @@
   "support": {
     "defaultMessage": "Ayuda Técnica",
     "description": "Support menu option text"
+  },
+  "teacher-resources-row-carousel": {
+    "defaultMessage": "Teacher resources",
+    "description": "Accessible name for the teacher resources carousel"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Teacher resources",
+    "description": "Title for the teacher resources row"
   },
   "terms-of-use": {
     "defaultMessage": "Términos de uso",
@@ -1098,6 +1322,10 @@
     "defaultMessage": "Transferir archivo HEX guardado a micro:bit",
     "description": "Title for the transfer hex dialog"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Troubleshooting",
+    "description": "Title for the troubleshooting help card"
+  },
   "try-again-action": {
     "defaultMessage": "Inténtalo de nuevo",
     "description": "Try again button text"
@@ -1129,6 +1357,10 @@
   "user-guide": {
     "defaultMessage": "Guía de usuario",
     "description": "Menu item for link to user guide site"
+  },
+  "view-all-projects": {
+    "defaultMessage": "View all projects",
+    "description": "Link/card to view the full projects list"
   },
   "visit-dot-org": {
     "defaultMessage": "visitar microbit.org (abre en una nueva pestaña)",

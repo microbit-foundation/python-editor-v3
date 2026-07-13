@@ -32,12 +32,13 @@ import FeedbackForm from "./FeedbackForm";
 
 interface HelpMenuProps extends ThemingProps<"Menu"> {
   size?: ThemeTypings["components"]["Button"]["sizes"];
+  fontSize?: string;
 }
 
 /**
  * A help button that triggers a drop-down menu with actions.
  */
-const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
+const HelpMenu = ({ size, fontSize = "xl", ...props }: HelpMenuProps) => {
   const aboutDialogDisclosure = useDisclosure();
   const intl = useIntl();
   const dialogs = useDialogs();
@@ -69,7 +70,7 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
           as={IconButton}
           aria-label={intl.formatMessage({ id: "help" })}
           size={size}
-          fontSize="xl"
+          fontSize={fontSize}
           variant="sidebar"
           icon={<RiQuestionLine />}
           color="white"
