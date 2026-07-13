@@ -125,7 +125,7 @@ describe("Filesystem", () => {
   });
 
   it("throws error attempting to read non-existent file", async () => {
-    await expect(() => ufs.read("non-existent file")).rejects.toThrowError(
+    await expect(() => ufs.read("non-existent file")).rejects.toThrow(
       /No such file non-existent file/
     );
   });
