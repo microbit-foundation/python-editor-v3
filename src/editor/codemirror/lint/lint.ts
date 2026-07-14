@@ -816,6 +816,7 @@ function gutterMarkerMouseOver(view: EditorView, marker: HTMLElement, diagnostic
       view.dispatch({effects: setLintGutterTooltip.of({
         pos: line.from,
         above: false,
+        clip: false,
         create() {
           return {
             dom: diagnosticsTooltip(view, diagnostics),
