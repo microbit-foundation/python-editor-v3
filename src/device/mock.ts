@@ -106,6 +106,9 @@ export class MockDeviceConnection
     console.log("[Serial] ", data);
   }
 
+  // Jacdac POC: not supported in the mock connection.
+  async sendJacdacFrame(_frame: Uint8Array): Promise<void> {}
+
   private setStatus(newStatus: ConnectionStatus) {
     const previousStatus = this.status;
     this.status = newStatus;

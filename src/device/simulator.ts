@@ -321,6 +321,9 @@ export class SimulatorDeviceConnection
     });
   }
 
+  // Jacdac POC: not supported in the simulator connection.
+  async sendJacdacFrame(_frame: Uint8Array): Promise<void> {}
+
   radioSend(message: string) {
     const kind = "radio_input";
     const data = new TextEncoder().encode(message);
