@@ -11,8 +11,11 @@ import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { createUSBConnection } from "@microbit/microbit-connection/usb";
+import { DEVICE_CHANGE } from "jacdac-ts";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import { createJacdacBus } from "./jacdac/jacdac-bus";
+import { JacdacProvider } from "./jacdac/jacdac-hooks";
 import DocumentationProvider from "./documentation/documentation-hooks";
 import SearchProvider from "./documentation/search/search-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
@@ -40,7 +43,33 @@ const isMockDeviceMode = () =>
 const logging = deployment.logging;
 const device = isMockDeviceMode()
   ? new MockDeviceConnection()
-  : createUSBConnection({ logging });
+  : createUSBConnection({
+      logging,
+      // Jacdac POC: run the whole USB stack (flash, serial, Jacdac pump) in a
+      // worker so the timing-sensitive Jacdac poll loop can't be starved.
+      worker: new Worker(new URL("./jacdac/usb-worker.ts", import.meta.url), {
+        type: "module",
+      }),
+    });
+
+// Single Jacdac bus wrapping the same shared connection.
+const jacdacBus = createJacdacBus(device);
+
+// Jacdac rides the app's normal connect flow: the transport mirrors the shared
+// connection's status into the bus (see MicrobitConnectionTransport), so the
+// existing "Connect" button brings Jacdac up/down. No separate control.
+if (!isMockDeviceMode()) {
+  // TEMPORARY (POC step 2): prove discovery in the console until the sidebar
+  // surface lands. DEVICE_CHANGE fires on both add and remove.
+  jacdacBus.subscribe(DEVICE_CHANGE, () =>
+    console.log(
+      "[jacdac] devices:",
+      jacdacBus
+        .devices({ ignoreInfrastructure: true, announced: true })
+        .map((d) => d.shortId)
+    )
+  );
+}
 
 const host = createHost(logging);
 const fs = new FileSystem(logging, host, fetchMicroPython);
@@ -83,7 +112,9 @@ const App = () => {
                                 <ConsentProvider>
                                   <ProjectDropTarget>
                                     <ActiveEditorProvider>
-                                      <Workbench />
+                                      <JacdacProvider bus={jacdacBus}>
+                                        <Workbench />
+                                      </JacdacProvider>
                                     </ActiveEditorProvider>
                                   </ProjectDropTarget>
                                 </ConsentProvider>

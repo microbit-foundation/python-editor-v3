@@ -8,6 +8,12 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    // jacdac-ts ships types but its package.json "exports" omits a "types"
+    // condition, so bundler resolution can't find them. Point at the shipped
+    // declarations directly.
+    "paths": {
+      "jacdac-ts": ["./node_modules/jacdac-ts/dist/types/src/jacdac.d.ts"]
+    },
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
