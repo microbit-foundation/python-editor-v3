@@ -279,7 +279,7 @@ export const signatureHelp = (
       activeParameter: activeParameterIndex,
     } = activeSignature;
     const activeParameter =
-      activeParameterIndex !== undefined && parameters
+      activeParameterIndex != null && parameters
         ? parameters[activeParameterIndex]
         : undefined;
     const activeParameterLabel = activeParameter?.label;

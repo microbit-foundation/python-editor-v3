@@ -44,7 +44,7 @@ const commonStorageTests = (storage: FSStorage) => {
   });
 
   it("throws trying to read a non-existent file", async () => {
-    await expect(() => storage.read("test1.py")).rejects.toThrowError(
+    await expect(() => storage.read("test1.py")).rejects.toThrow(
       /No such file test1.py/
     );
   });

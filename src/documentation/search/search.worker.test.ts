@@ -11,6 +11,7 @@ import lunrJa from "lunr-languages/lunr.ja";
 import {
   buildIndex,
   buildSearchIndex,
+  LunrWithLanguages,
   SearchableContent,
   SearchWorker,
 } from "./search.worker";
@@ -51,7 +52,7 @@ const searchableReferenceContentJa: SearchableContent[] = [
 ];
 
 describe("Search", () => {
-  const languagePlugin = lunr.multiLanguage("en");
+  const languagePlugin = (lunr as LunrWithLanguages).multiLanguage("en");
   const search = buildSearchIndex(
     searchableReferenceContent,
     "reference",
@@ -249,7 +250,10 @@ describe("Search in Japanese", () => {
   const plugins: lunr.Builder.Plugin[] = [];
   lunrJa(lunr);
   plugins.push((lunr as any)["ja"]);
-  const languagePluginJa = lunr.multiLanguage("en", "ja");
+  const languagePluginJa = (lunr as LunrWithLanguages).multiLanguage(
+    "en",
+    "ja"
+  );
 
   const search = buildSearchIndex(
     searchableReferenceContentJa,

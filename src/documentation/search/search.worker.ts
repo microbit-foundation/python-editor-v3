@@ -23,6 +23,19 @@ import {
 } from "./common";
 import { Position, contextExtracts, fullStringExtracts } from "./extracts";
 
+// The lunr-languages plugins add `multiLanguage` and per-language plugins to
+// the lunr namespace at runtime; these members aren't described by @types/lunr.
+type LunrLanguagePlugin = lunr.Builder.Plugin & {
+  tokenizer?: (
+    obj?: string | object | object[] | null | undefined
+  ) => lunr.Token[];
+};
+export type LunrWithLanguages = typeof lunr &
+  Record<LunrLanguage, LunrLanguagePlugin> & {
+    multiLanguage(...lang: string[]): lunr.Builder.Plugin;
+  };
+const lunrWithLanguages = lunr as LunrWithLanguages;
+
 export const supportedSearchLanguages = [
   "de",
   "en",
@@ -251,7 +264,9 @@ export const buildSearchIndex = (
     // If the language defines a tokenizer then we need to us it alongside the
     // English one. We stash the tokenizer in customTokenizer so we can pass it
     // to the index for use at query time.
-    const languageTokenizer = language ? lunr[language].tokenizer : undefined;
+    const languageTokenizer = language
+      ? lunrWithLanguages[language].tokenizer
+      : undefined;
     customTokenizer = Object.assign(
       (obj?: string | object | object[] | null | undefined) => {
         const tokens = lunr.tokenizer(obj);
@@ -283,7 +298,7 @@ export const buildIndex = async (
   const plugins: lunr.Builder.Plugin[] = [];
   if (languageSupport && lunrLanguage) {
     languageSupport(lunr);
-    plugins.push(lunr[lunrLanguage]);
+    plugins.push(lunrWithLanguages[lunrLanguage]);
   }
 
   // There is always some degree of English content.
@@ -291,7 +306,7 @@ export const buildIndex = async (
   if (lunrLanguage) {
     multiLanguages.push(lunrLanguage);
   }
-  const languagePlugin = lunr.multiLanguage(...multiLanguages);
+  const languagePlugin = lunrWithLanguages.multiLanguage(...multiLanguages);
 
   return new LunrSearch(
     buildSearchIndex(

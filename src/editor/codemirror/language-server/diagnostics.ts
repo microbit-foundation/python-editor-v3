@@ -49,7 +49,7 @@ export const diagnosticsMapping = (
           to,
           // Missing severity is client defined. Warn for now.
           severity: severityMapping[severity ?? LSP.DiagnosticSeverity.Warning],
-          message,
+          message: typeof message === "string" ? message : message.value,
           tags: tags ? tags.map(convertTag) : undefined,
           actions:
             code === reportMicrobitVersionApiUnsupported

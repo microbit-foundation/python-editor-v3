@@ -95,6 +95,7 @@ export const themeExtensions = (fontSize: string) => {
       height: "10.5rem",
       top: "0 !important",
       overflowY: "auto",
+      whiteSpace: "normal",
     },
     ".cm-tooltip.cm-tooltip-autocomplete > ul": {
       height: "10.5rem",

@@ -36,6 +36,7 @@ jobs:
           node-version: 24.x
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
+      - run: npm install -g npm@11 --registry=https://registry.npmjs.org
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,7 +57,7 @@ jobs:
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-        uses: docker://mcr.microsoft.com/playwright:v1.58.2-noble
+        uses: docker://mcr.microsoft.com/playwright:v1.61.1-noble
         with:
           args: npx playwright test
       - name: Store reports

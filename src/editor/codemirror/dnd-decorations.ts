@@ -120,7 +120,7 @@ export const dndDecorations = () => [
       transition: "background-color ease-in 2.9s",
     },
   }),
-  ViewPlugin.fromClass(DndDecorationsViewPlugin, {
+  ViewPlugin.fromClass<DndDecorationsViewPlugin>(DndDecorationsViewPlugin, {
     decorations: (v) => v.decorations,
   }),
 ];
