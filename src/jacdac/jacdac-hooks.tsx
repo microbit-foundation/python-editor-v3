@@ -24,6 +24,9 @@ import {
   useEffect,
   useState,
 } from "react";
+import { MAIN_FILE } from "../fs/fs";
+import { useFileSystem } from "../fs/fs-hooks";
+import { parseRoles, ParsedRole } from "./parse-roles";
 
 const JacdacBusContext = createContext<JDBus | undefined>(undefined);
 
@@ -119,6 +122,41 @@ export const useJacdacIdentify = (): ((deviceId: string) => Promise<void>) => {
       bus.device(deviceId, true)?.identify() ?? Promise.resolve(),
     [bus]
   );
+};
+
+/**
+ * Jacdac roles parsed from the user's code (main.py), refreshed as the code
+ * changes. The user's code is the source of truth for role names.
+ */
+export const useParsedRoles = (): ParsedRole[] => {
+  const fs = useFileSystem();
+  const [roles, setRoles] = useState<ParsedRole[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    const update = async () => {
+      let text = "";
+      try {
+        if (await fs.exists(MAIN_FILE)) {
+          const { data } = await fs.read(MAIN_FILE);
+          text = new TextDecoder().decode(data);
+        }
+      } catch {
+        // Ignore read errors; treat as no roles.
+      }
+      if (!cancelled) {
+        setRoles(parseRoles(text));
+      }
+    };
+    void update();
+    fs.addEventListener("file_text_updated", update);
+    fs.addEventListener("project_updated", update);
+    return () => {
+      cancelled = true;
+      fs.removeEventListener("file_text_updated", update);
+      fs.removeEventListener("project_updated", update);
+    };
+  }, [fs]);
+  return roles;
 };
 
 /** Live list of sensor services on the bus that expose a reading register. */
