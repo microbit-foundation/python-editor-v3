@@ -29,10 +29,17 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
     return null;
   }
 
-  return fileInfo.isThirdPartyModule &&
-    !settings.allowEditingThirdPartyModules ? (
-    <ModuleOverlay moduleData={fileInfo.moduleData} />
-  ) : (
+  // Jacdac modules are managed by the editor and always shown read-only (the
+  // user can read them but not edit), regardless of the third-party module
+  // setting, which is why they're handled before the overlay branch.
+  if (
+    !fileInfo.isJacdacModule &&
+    fileInfo.isThirdPartyModule &&
+    !settings.allowEditingThirdPartyModules
+  ) {
+    return <ModuleOverlay moduleData={fileInfo.moduleData} />;
+  }
+  return (
     <Editor
       defaultValue={fileInfo.initialValue}
       selection={selection}
@@ -42,6 +49,7 @@ const EditorContainer = ({ selection }: EditorContainerProps) => {
       parameterHelpOption={settings.parameterHelp}
       warnOnV2OnlyFeatures={settings.warnForApiUnsupportedByDevice}
       disableV2OnlyFeaturesWarning={disableV2OnlyFeaturesWarning}
+      readOnly={fileInfo.isJacdacModule}
     />
   );
 };

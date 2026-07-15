@@ -26,6 +26,7 @@ import {
 } from "react";
 import { MAIN_FILE, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
+import { extractModuleData } from "../fs/fs-util";
 import { parseRoles, ParsedRole } from "./parse-roles";
 import { JACDAC_MODULES } from "./python/module-source";
 import { SupportedService, supportedServiceByClass } from "./supported-services";
@@ -127,11 +128,16 @@ export const useJacdacIdentify = (): ((deviceId: string) => Promise<void>) => {
 };
 
 /**
- * Ensure each Jacdac sensor module (JacdacButton.py, etc.) is a project file
- * whenever the user's code uses that class, so the import resolves at runtime
- * (in the simulator) and the user can read the module. Only the modules
- * actually used are added, keeping the flat filesystem lean. Added as micro:bit
- * module files.
+ * Keep the Jacdac sensor modules (JacdacButton.py, etc.) in sync with the user's
+ * code: add a module file whenever the code uses that class (so the import
+ * resolves in the simulator and the user can read it), and remove it again once
+ * the code no longer references the class. Only used modules are present, keeping
+ * the flat filesystem lean. Added/removed as micro:bit module files.
+ *
+ * Removal is guarded by the magic module comment: we only delete a file we
+ * recognise as our own module (matching class name), so a user's own same-named
+ * file is left untouched. This does mean edits to an added module file are lost
+ * if the last reference is removed.
  */
 export const useEnsureJacdacModules = (): void => {
   const fs = useFileSystem();
@@ -149,8 +155,16 @@ export const useEnsureJacdacModules = (): void => {
           }
           const used = new RegExp(`\\b${module.className}\\b`).test(text);
           const filename = `${module.className}.py`;
-          if (used && !(await fs.exists(filename))) {
+          const exists = await fs.exists(filename);
+          if (used && !exists) {
             await fs.write(filename, module.source, VersionAction.INCREMENT);
+          } else if (!used && exists) {
+            const existing = new TextDecoder().decode(
+              (await fs.read(filename)).data
+            );
+            if (extractModuleData(existing)?.name === module.className) {
+              await fs.remove(filename);
+            }
           }
         }
       } catch {

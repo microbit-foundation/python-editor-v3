@@ -19,6 +19,7 @@ import { RiDeleteBin2Line, RiDownload2Line, RiEdit2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { zIndexProjectAreaMenu } from "../common/zIndex";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
+import { isJacdacModuleFilename } from "../jacdac/python/module-source";
 import { useProjectActions } from "./project-hooks";
 import { isEditableFile } from "./project-utils";
 
@@ -34,6 +35,9 @@ interface FileRowProps extends BoxProps {
 const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
   const { name } = value;
   const isMainFile = name === MAIN_FILE;
+  // Jacdac modules are managed by the editor and read-only, so they can't be
+  // edited or deleted from here (only saved/downloaded).
+  const isJacdacModule = isJacdacModuleFilename(name);
   const actions = useProjectActions();
   const intl = useIntl();
 
@@ -63,26 +67,30 @@ const FileRow = ({ projectName, value, onEdit, ...props }: FileRowProps) => {
         />
         <Portal>
           <MenuList zIndex={zIndexProjectAreaMenu}>
-            <MenuItem
-              icon={<RiEdit2Line />}
-              isDisabled={!isEditableFile(name)}
-              onClick={onEdit}
-            >
-              <FormattedMessage id="edit-file-action" values={{ name }} />
-            </MenuItem>
+            {!isJacdacModule && (
+              <MenuItem
+                icon={<RiEdit2Line />}
+                isDisabled={!isEditableFile(name)}
+                onClick={onEdit}
+              >
+                <FormattedMessage id="edit-file-action" values={{ name }} />
+              </MenuItem>
+            )}
             <MenuItem
               icon={<RiDownload2Line />}
               onClick={() => actions.saveFile(name)}
             >
               <FormattedMessage id="save-file-action" values={{ name }} />
             </MenuItem>
-            <MenuItem
-              icon={<RiDeleteBin2Line />}
-              onClick={() => actions.deleteFile(name)}
-              isDisabled={isMainFile}
-            >
-              <FormattedMessage id="delete-file-action" values={{ name }} />
-            </MenuItem>
+            {!isJacdacModule && (
+              <MenuItem
+                icon={<RiDeleteBin2Line />}
+                onClick={() => actions.deleteFile(name)}
+                isDisabled={isMainFile}
+              >
+                <FormattedMessage id="delete-file-action" values={{ name }} />
+              </MenuItem>
+            )}
           </MenuList>
         </Portal>
       </Menu>

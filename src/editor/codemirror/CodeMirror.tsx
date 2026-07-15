@@ -53,6 +53,8 @@ interface CodeMirrorProps {
   parameterHelpOption: ParameterHelpOption;
   warnOnV2OnlyFeatures: boolean;
   disableV2OnlyFeaturesWarning: () => void;
+  /** Show the document but disallow edits (e.g. for managed Jacdac modules). */
+  readOnly?: boolean;
 }
 
 /**
@@ -73,6 +75,7 @@ const CodeMirror = ({
   parameterHelpOption,
   warnOnV2OnlyFeatures,
   disableV2OnlyFeaturesWarning,
+  readOnly = false,
 }: CodeMirrorProps) => {
   // Really simple model for now as we only have one editor at a time.
   const [, setActiveEditor] = useActiveEditorActionsState();
@@ -125,6 +128,8 @@ const CodeMirror = ({
         extensions: [
           notify,
           editorConfig,
+          EditorState.readOnly.of(readOnly),
+          EditorView.editable.of(!readOnly),
           // Extension requires external state.
           dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
@@ -186,6 +191,7 @@ const CodeMirror = ({
     apiReferenceMap,
     device,
     disableV2OnlyFeaturesWarning,
+    readOnly,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.

@@ -16,6 +16,7 @@ import {
   isPythonMicrobitModule,
   ModuleData,
 } from "../fs/fs-util";
+import { isJacdacModuleSource } from "../jacdac/python/module-source";
 import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { useSessionSettings } from "../settings/session-settings";
@@ -102,6 +103,9 @@ export const useProject = (): DefaultedProject => {
 
 interface ProjectTextFileInfo {
   isThirdPartyModule: boolean;
+  // A Jacdac module managed by the editor: shown read-only rather than via the
+  // third-party module overlay, so the user can read (but not edit) it.
+  isJacdacModule: boolean;
   initialValue: string;
   moduleData: ModuleData | undefined;
 }
@@ -128,6 +132,7 @@ export const useProjectFileText = (
               // We don't change this value if the text is edited to become a module
               // as that would abruptly prevent it being edited further.
               isThirdPartyModule: isPythonMicrobitModule(text),
+              isJacdacModule: isJacdacModuleSource(text),
               moduleData: extractModuleData(text),
             });
           }

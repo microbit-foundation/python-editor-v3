@@ -16,7 +16,7 @@
     "@codemirror/view": "^6.26.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@microbit/microbit-connection": "0.0.0-worker.jacdac.600",
+    "@microbit/microbit-connection": "0.0.0-worker.jacdac.601",
     "@microbit/microbit-fs": "^0.10.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/image-url": "^1.0.1",
