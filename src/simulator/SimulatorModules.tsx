@@ -41,6 +41,7 @@ import PinsModule from "./PinsModule";
 import { RadioChatProvider } from "./radio-hooks";
 import RadioModule from "./RadioModule";
 import { RunningStatus } from "./Simulator";
+import JacdacSimulatorSection from "./JacdacSimulatorSection";
 
 const modules: string[] = [
   // Controls UI order of the widgets.
@@ -139,6 +140,10 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
           py={spacing}
           px={3}
         >
+          {/* Jacdac POC (step 7): populated from the roles in the user's code.
+              Empty section sits at the bottom; floats to the top when populated
+              (only one instance renders at a time). */}
+          <JacdacSimulatorSection position="top" />
           {modules.map((id, index) => (
             <CollapsibleModule
               key={id}
@@ -150,6 +155,7 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
               running={running}
             />
           ))}
+          <JacdacSimulatorSection position="bottom" />
         </Flex>
       </DataLogProvider>
     </RadioChatProvider>

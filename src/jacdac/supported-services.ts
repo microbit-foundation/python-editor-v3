@@ -32,3 +32,7 @@ export const supportedServiceByClass = (
   serviceClass: number
 ): SupportedService | undefined =>
   SUPPORTED_SERVICES.find((s) => s.serviceClass === serviceClass);
+
+/** Friendly label ("Button" / "Rotary encoder" / "Slider") for a role type. */
+export const labelForRoleType = (type: JacdacRoleType): string =>
+  SUPPORTED_SERVICES.find((s) => s.type === type)?.label ?? type;
