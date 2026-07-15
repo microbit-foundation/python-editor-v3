@@ -45,6 +45,7 @@ const JacdacArea = () => {
           <DocumentationBreadcrumbHeading
             parent={jacdacString}
             title={topic.name}
+            subtitle={topic.description}
             onBack={() => onNavigate(undefined)}
           />
         }
@@ -54,7 +55,7 @@ const JacdacArea = () => {
         ) : topic.id === "live-device" ? (
           <JacdacLiveDevice />
         ) : (
-          <JacdacSensorContent topic={topic} />
+          <JacdacSensorContent topic={topic} anchor={anchor} />
         )}
       </HeadedScrollablePanel>
     );

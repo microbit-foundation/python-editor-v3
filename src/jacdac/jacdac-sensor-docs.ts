@@ -18,20 +18,20 @@ export const jacdacTopics: JacdacTopic[] = [
   {
     id: "config",
     name: "Config",
-    description: "Assign role names to your Jacdac sensors and identify them.",
+    description: "Assign role names to your Jacdac sensors and identify them",
   },
   {
     id: "live-device",
     name: "Live device",
-    description: "See the roles currently assigned on the connected micro:bit.",
+    description: "See the roles currently assigned on the connected micro:bit",
   },
-  { id: "button", name: "Button", description: "A pressable button." },
+  { id: "button", name: "Button", description: "A pressable button" },
   {
     id: "rotary-encoder",
     name: "Rotary encoder",
-    description: "A rotary encoder you can turn (often with a button too).",
+    description: "A rotary encoder you can turn (often with a button too)",
   },
-  { id: "slider", name: "Slider", description: "A linear potentiometer slider." },
+  { id: "slider", name: "Slider", description: "A linear potentiometer slider" },
 ];
 
 /**

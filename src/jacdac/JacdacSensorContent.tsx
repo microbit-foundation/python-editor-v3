@@ -3,40 +3,102 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  HStack,
+  List,
+  ListItem,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { docStyles } from "../common/documentation-styles";
 import CodeEmbed from "../documentation/common/CodeEmbed";
-import { sensorMethodExamples } from "./jacdac-sensor-docs";
+import DocumentationHeading from "../documentation/common/DocumentationHeading";
+import Highlight from "../documentation/reference/Highlight";
+import { Anchor } from "../router-hooks";
+import { MethodExample, sensorMethodExamples } from "./jacdac-sensor-docs";
 
 /**
- * Info + per-method example code for a Jacdac sensor type. Hardcoded,
- * English-only content (not from the CMS). Examples are draggable/insertable
- * code blocks, reusing the documentation CodeEmbed component.
+ * Per-method example code for a Jacdac sensor type. Hardcoded, English-only
+ * content (not from the CMS), but rendered with the same building blocks as the
+ * Reference section (Highlight + docs-code box + DocumentationHeading + a
+ * draggable CodeEmbed) so it looks and deep-links identically.
  */
 interface JacdacSensorContentProps {
   topic: { id: string; name: string; description: string };
+  anchor?: Anchor;
 }
 
-const JacdacSensorContent = ({ topic }: JacdacSensorContentProps) => {
+// The method name without its trailing "()", used to match a deep-link anchor.
+const methodKey = (method: string) => method.replace(/\(\)$/, "");
+
+const JacdacSensorContent = ({ topic, anchor }: JacdacSensorContentProps) => {
   const examples = sensorMethodExamples[topic.id] ?? [];
+  const activeMethod = anchor?.id.split("/")[1];
   return (
-    <VStack align="stretch" spacing={6} p={5}>
-      <Text fontSize="sm">{topic.description}</Text>
+    <List flex="1 1 auto">
       {examples.map((example) => (
-        <Box key={example.method}>
-          <Text fontFamily="code" fontWeight="semibold" fontSize="sm">
-            {example.method}
-          </Text>
-          <Text fontSize="sm" color="gray.700" mb={2}>
-            {example.description}
-          </Text>
-          <CodeEmbed
-            code={example.code}
-            toolkitType="jacdac"
-            parentSlug={`${topic.id}-${example.method}`}
+        <ListItem key={example.method}>
+          <JacdacMethodEntry
+            topicId={topic.id}
+            example={example}
+            anchor={anchor}
+            active={activeMethod === methodKey(example.method)}
           />
-        </Box>
+          <Divider />
+        </ListItem>
       ))}
-    </VStack>
+    </List>
+  );
+};
+
+interface JacdacMethodEntryProps {
+  topicId: string;
+  example: MethodExample;
+  anchor?: Anchor;
+  active: boolean;
+}
+
+const JacdacMethodEntry = ({
+  topicId,
+  example,
+  anchor,
+  active,
+}: JacdacMethodEntryProps) => {
+  // Entries are always shown; the disclosure just satisfies Highlight's API.
+  const disclosure = useDisclosure({ defaultIsOpen: true });
+  return (
+    <Highlight
+      anchor={anchor}
+      id={methodKey(example.method)}
+      active={active}
+      disclosure={disclosure}
+    >
+      <Box
+        fontSize="sm"
+        p={5}
+        pr={3}
+        mt={1}
+        mb={1}
+        className="docs-code"
+        sx={{
+          ...docStyles,
+        }}
+      >
+        <HStack justifyContent="space-between" flexWrap="nowrap">
+          <DocumentationHeading name={example.method} isV2Only={false} />
+        </HStack>
+        <Text mt={3} mb={3}>
+          {example.description}
+        </Text>
+        <CodeEmbed
+          code={example.code}
+          toolkitType="jacdac"
+          parentSlug={`${topicId}-${example.method}`}
+        />
+      </Box>
+    </Highlight>
   );
 };
 

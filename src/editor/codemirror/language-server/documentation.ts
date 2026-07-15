@@ -8,6 +8,7 @@ import { marked } from "marked";
 import { IntlShape } from "react-intl";
 import { MarkupContent } from "vscode-languageserver-types";
 import { moduleAndApiFromId } from "../../../documentation/api/apidocs-util";
+import { JACDAC_MODULES } from "../../../jacdac/python/module-source";
 import { ApiReferenceMap } from "../../../documentation/mapping/content";
 import { splitDocString } from "./docstrings";
 import "./documentation.css";
@@ -135,18 +136,22 @@ export const wrapWithDocumentationButton = (
   actionsContainer.style.justifyContent = "flex-end";
   actionsContainer.style.gap = "0.25rem";
   actionsContainer.style.marginRight = "-0.5rem";
-  if (referenceLink) {
+  // The "Help" link goes to the curated content: the Reference tab for
+  // micro:bit APIs, or the Jacdac tab section for Jacdac sensors (local content,
+  // so not driven by the CMS reference map).
+  const jacdacSection = jacdacSectionForId(id);
+  const helpLink = referenceLink
+    ? { tab: "reference" as const, id: referenceLink }
+    : jacdacSection
+    ? { tab: "jacdac" as const, id: jacdacSection }
+    : undefined;
+  if (helpLink) {
     const refAnchor = createStyledAnchorElement();
     refAnchor.textContent = intl.formatMessage({ id: "help" });
     refAnchor.onclick = (e) => {
       e.preventDefault();
       document.dispatchEvent(
-        new CustomEvent("cm/openDocs", {
-          detail: {
-            tab: "reference",
-            id: referenceLink,
-          },
-        })
+        new CustomEvent("cm/openDocs", { detail: helpLink })
       );
     };
     actionsContainer.appendChild(refAnchor);
@@ -169,7 +174,7 @@ export const wrapWithDocumentationButton = (
         })
       );
     };
-    if (referenceLink) {
+    if (helpLink) {
       const verticalDivider = document.createElement("hr");
       verticalDivider.style.height = "1rem";
       verticalDivider.style.borderRight = "1px solid #2C2C2C";
@@ -179,6 +184,26 @@ export const wrapWithDocumentationButton = (
     actionsContainer.appendChild(apiAnchor);
   }
   return docsAndActions;
+};
+
+/**
+ * The Jacdac sidebar anchor for a Jacdac symbol, or undefined. Maps the symbol's
+ * module (e.g. "JacdacButton") to its section, and deep-links to the specific
+ * method when the symbol is a method: "button/get_presses" vs "button".
+ */
+const jacdacSectionForId = (id: string): string | undefined => {
+  const { pythonModuleName } = moduleAndApiFromId(id);
+  const section = JACDAC_MODULES.find(
+    (m) => m.className === pythonModuleName
+  )?.type;
+  if (!section) {
+    return undefined;
+  }
+  // module.class.method → deep-link to the method; module.class → the section.
+  const segments = id.split(".");
+  const method =
+    segments.length >= 3 ? segments[segments.length - 1] : undefined;
+  return method ? `${section}/${method}` : section;
 };
 
 export const getLinkToReference = (
