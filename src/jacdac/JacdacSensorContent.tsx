@@ -7,22 +7,28 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 
 /**
  * Info + example code for a Jacdac sensor type. Hardcoded, English-only content
- * (not from the CMS). Examples use the polling `Jacdac` module (see
- * src/jacdac/python/Jacdac.py) in a `while True` loop.
+ * (not from the CMS). Examples use the per-sensor polling modules (see
+ * src/jacdac/python/Jacdac*.py) in a `while True` loop.
  */
 interface JacdacSensorContentProps {
   topic: { id: string; name: string; description: string };
 }
 
 const snippets: Record<string, string> = {
-  button: `my_button = Jacdac.Button("my role name")
+  button: `from JacdacButton import JacdacButton
+
+my_button = JacdacButton("my role name")
 while True:
     if my_button.was_pressed():
         display.show(Image.HAPPY)`,
-  "rotary-encoder": `my_dial = Jacdac.RotaryEncoder("my role name")
+  "rotary-encoder": `from JacdacRotaryEncoder import JacdacRotaryEncoder
+
+my_dial = JacdacRotaryEncoder("my role name")
 while True:
     display.scroll(my_dial.value())`,
-  slider: `my_slider = Jacdac.Slider("my role name")
+  slider: `from JacdacSlider import JacdacSlider
+
+my_slider = JacdacSlider("my role name")
 while True:
     display.show(str(my_slider.value()))`,
 };

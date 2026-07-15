@@ -12,7 +12,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useJacdacSensorServices, useParsedRoles } from "./jacdac-hooks";
+import {
+  useEnsureJacdacModules,
+  useJacdacSensorServices,
+  useParsedRoles,
+} from "./jacdac-hooks";
 
 /**
  * Shared role assignments between the Config view (code) and the simulator.
@@ -43,6 +47,8 @@ export const JacdacAssignmentsProvider = ({
 }) => {
   const sensors = useJacdacSensorServices();
   const roles = useParsedRoles();
+  // Keep the per-sensor Jacdac modules in the project when the code uses them.
+  useEnsureJacdacModules();
   const [assignments, setAssignments] = useState<Record<string, string>>({});
 
   // Reconcile + auto-link whenever the connected sensors or code roles change.

@@ -24,9 +24,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { MAIN_FILE } from "../fs/fs";
+import { MAIN_FILE, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { parseRoles, ParsedRole } from "./parse-roles";
+import { JACDAC_MODULES } from "./python/module-source";
 import { SupportedService, supportedServiceByClass } from "./supported-services";
 
 const JacdacBusContext = createContext<JDBus | undefined>(undefined);
@@ -123,6 +124,48 @@ export const useJacdacIdentify = (): ((deviceId: string) => Promise<void>) => {
       bus.device(deviceId, true)?.identify() ?? Promise.resolve(),
     [bus]
   );
+};
+
+/**
+ * Ensure each Jacdac sensor module (JacdacButton.py, etc.) is a project file
+ * whenever the user's code uses that class, so the import resolves at runtime
+ * (in the simulator) and the user can read the module. Only the modules
+ * actually used are added, keeping the flat filesystem lean. Added as micro:bit
+ * module files.
+ */
+export const useEnsureJacdacModules = (): void => {
+  const fs = useFileSystem();
+  useEffect(() => {
+    let cancelled = false;
+    const ensure = async () => {
+      try {
+        if (!(await fs.exists(MAIN_FILE))) {
+          return;
+        }
+        const text = new TextDecoder().decode((await fs.read(MAIN_FILE)).data);
+        for (const module of JACDAC_MODULES) {
+          if (cancelled) {
+            return;
+          }
+          const used = new RegExp(`\\b${module.className}\\b`).test(text);
+          const filename = `${module.className}.py`;
+          if (used && !(await fs.exists(filename))) {
+            await fs.write(filename, module.source, VersionAction.INCREMENT);
+          }
+        }
+      } catch {
+        // Ignore; best-effort convenience.
+      }
+    };
+    void ensure();
+    fs.addEventListener("file_text_updated", ensure);
+    fs.addEventListener("project_updated", ensure);
+    return () => {
+      cancelled = true;
+      fs.removeEventListener("file_text_updated", ensure);
+      fs.removeEventListener("project_updated", ensure);
+    };
+  }, [fs]);
 };
 
 /**

@@ -28,6 +28,9 @@ import {
   TextDocumentItem,
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
+// Jacdac POC (step 10): the Jacdac module stubs, injected into the language
+// server so `from JacdacButton import ...` resolves and autocomplete/hover work.
+import { JACDAC_MODULES } from "../jacdac/python/module-source";
 import { microPythonConfig } from "../micropython/micropython";
 import {
   isErrorDueToDispose,
@@ -223,8 +226,19 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
       }
     }
     return {
-      // Shallow copy as it's an ESM that can't be serialized
-      files: { files: typeshed.files },
+      // Shallow copy as it's an ESM that can't be serialized. Inject the Jacdac
+      // module stubs (POC) alongside the bundled micro:bit stubs.
+      files: {
+        files: {
+          ...typeshed.files,
+          ...Object.fromEntries(
+            JACDAC_MODULES.map((m) => [
+              `/typeshed/stdlib/${m.className}.pyi`,
+              m.source,
+            ])
+          ),
+        },
+      },
       // Custom option in our Pyright version
       diagnosticStyle: "simplified",
     };

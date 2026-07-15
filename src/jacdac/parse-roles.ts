@@ -14,22 +14,23 @@ export interface ParsedRole {
 }
 
 const CLASS_TO_TYPE: Record<string, JacdacRoleType> = {
-  Button: "button",
-  RotaryEncoder: "rotary-encoder",
-  Slider: "slider",
+  JacdacButton: "button",
+  JacdacRotaryEncoder: "rotary-encoder",
+  JacdacSlider: "slider",
 };
 
 /**
  * Extract Jacdac role names from Python source.
  *
  * POC-simple: a regex over the source matching the one supported pattern —
- * `Jacdac.<Button|RotaryButton|Slider>("role name")` with a string literal
+ * `Jacdac<Button|RotaryEncoder|Slider>("role name")` with a string literal
  * argument. Deliberately not a full parse; the user's code is the source of
  * truth and we only support literal-string role names (see the POC spec).
  * Duplicate role names are ignored (role names are unique across a program).
  */
 export const parseRoles = (source: string): ParsedRole[] => {
-  const re = /Jacdac\.(Button|RotaryEncoder|Slider)\s*\(\s*["']([^"'\n]+)["']/g;
+  const re =
+    /\b(JacdacButton|JacdacRotaryEncoder|JacdacSlider)\s*\(\s*["']([^"'\n]+)["']/g;
   const roles: ParsedRole[] = [];
   const seen = new Set<string>();
   let match: RegExpExecArray | null;
