@@ -394,6 +394,18 @@
   "insert-code-action": {
     "defaultMessage": "코드 삽입"
   },
+  "jacdac-identify-action": {
+    "defaultMessage": "Identify",
+    "description": "Button to blink a Jacdac sensor's LED so the user can find which physical sensor it is"
+  },
+  "jacdac-no-sensors": {
+    "defaultMessage": "Connect a micro:bit running a Jacdac program to see sensors here.",
+    "description": "Shown in the Jacdac config panel when no Jacdac sensors are connected"
+  },
+  "jacdac-tab": {
+    "defaultMessage": "Jacdac",
+    "description": "Jacdac sidebar tab button text"
+  },
   "language": {
     "defaultMessage": "언어 선택",
     "description": "Language option text"

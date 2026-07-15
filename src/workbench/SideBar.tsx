@@ -17,7 +17,7 @@ import {
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
-import { VscFiles, VscLibrary } from "react-icons/vsc";
+import { VscCircuitBoard, VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
@@ -25,6 +25,7 @@ import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
+import JacdacArea from "../jacdac/JacdacArea";
 import ProjectArea from "../project/ProjectArea";
 import { TabName, useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
@@ -93,6 +94,14 @@ const SideBar = ({
         title: intl.formatMessage({ id: "api-tab" }),
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
+        color: "gray.25",
+      },
+      {
+        // Jacdac POC: temporary icon; sits under API and above Project.
+        id: "jacdac" as const,
+        title: intl.formatMessage({ id: "jacdac-tab" }),
+        icon: VscCircuitBoard,
+        contents: <JacdacArea />,
         color: "gray.25",
         mb: "auto",
       },

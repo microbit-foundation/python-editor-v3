@@ -745,6 +745,24 @@
       "value": "crwdns331546:0crwdne331546:0"
     }
   ],
+  "jacdac-identify-action": [
+    {
+      "type": 0,
+      "value": "Identify"
+    }
+  ],
+  "jacdac-no-sensors": [
+    {
+      "type": 0,
+      "value": "Connect a micro:bit running a Jacdac program to see sensors here."
+    }
+  ],
+  "jacdac-tab": [
+    {
+      "type": 0,
+      "value": "Jacdac"
+    }
+  ],
   "language": [
     {
       "type": 0,
