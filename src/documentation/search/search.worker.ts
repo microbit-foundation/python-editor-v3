@@ -17,6 +17,7 @@ import { blocksToText } from "./blocks-to-text";
 import {
   Extracts,
   IndexMessage,
+  JacdacSearchableContent,
   QueryMessage,
   Result,
   SearchResults,
@@ -77,7 +78,7 @@ export class SearchIndex {
     private contentByRef: Map<string, SearchableContent>,
     public index: lunr.Index,
     private tokenizer: TokenizerFunction,
-    private tab: "reference" | "api"
+    private tab: "reference" | "api" | "jacdac"
   ) {}
 
   search(text: string): Result[] {
@@ -134,12 +135,17 @@ const getExtracts = (
 };
 
 export class LunrSearch {
-  constructor(private reference: SearchIndex, private api: SearchIndex) {}
+  constructor(
+    private reference: SearchIndex,
+    private api: SearchIndex,
+    private jacdac: SearchIndex
+  ) {}
 
   search(text: string): SearchResults {
     return {
       reference: this.reference.search(text),
       api: this.api.search(text),
+      jacdac: this.jacdac.search(text),
     };
   }
 }
@@ -225,7 +231,7 @@ type TokenizerFunction = {
 
 export const buildSearchIndex = (
   searchableContent: SearchableContent[],
-  tab: "reference" | "api",
+  tab: "reference" | "api" | "jacdac",
   language: LunrLanguage | undefined,
   languagePlugin: lunr.Builder.Plugin,
   ...plugins: lunr.Builder.Plugin[]
@@ -278,7 +284,8 @@ export const buildIndex = async (
   reference: Toolkit,
   api: ApiDocsResponse,
   lunrLanguage: LunrLanguage | undefined,
-  languageSupport: ((l: typeof lunr) => void) | undefined
+  languageSupport: ((l: typeof lunr) => void) | undefined,
+  jacdac: JacdacSearchableContent[] = []
 ): Promise<LunrSearch> => {
   const plugins: lunr.Builder.Plugin[] = [];
   if (languageSupport && lunrLanguage) {
@@ -304,6 +311,13 @@ export const buildIndex = async (
     buildSearchIndex(
       apiSearchableContent(api),
       "api",
+      lunrLanguage,
+      languagePlugin,
+      ...plugins
+    ),
+    buildSearchIndex(
+      jacdac,
+      "jacdac",
       lunrLanguage,
       languagePlugin,
       ...plugins
@@ -348,7 +362,8 @@ export class SearchWorker {
       message.reference,
       message.api,
       this.languageId,
-      this.languageSupport
+      this.languageSupport,
+      message.jacdac ?? []
     );
     this.recordInitialization!();
   }

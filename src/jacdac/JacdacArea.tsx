@@ -11,36 +11,10 @@ import { useAnimationDirection } from "../documentation/common/documentation-ani
 import DocumentationBreadcrumbHeading from "../documentation/common/DocumentationBreadcrumbHeading";
 import DocumentationTopLevelItem from "../documentation/common/DocumentationTopLevelItem";
 import { useRouterTabSlug } from "../router-hooks";
+import { jacdacTopics as topics } from "./jacdac-sensor-docs";
 import JacdacConfig from "./JacdacConfig";
 import JacdacLiveDevice from "./JacdacLiveDevice";
 import JacdacSensorContent from "./JacdacSensorContent";
-
-interface JacdacTopic {
-  id: string;
-  name: string;
-  description: string;
-}
-
-// Hardcoded, English-only content (deliberately not from the CMS).
-const topics: JacdacTopic[] = [
-  {
-    id: "config",
-    name: "Config",
-    description: "Assign role names to your Jacdac sensors and identify them.",
-  },
-  {
-    id: "live-device",
-    name: "Live device",
-    description: "See the roles currently assigned on the connected micro:bit.",
-  },
-  { id: "button", name: "Button", description: "A pressable button." },
-  {
-    id: "rotary-encoder",
-    name: "Rotary encoder",
-    description: "A rotary encoder you can turn (often with a button too).",
-  },
-  { id: "slider", name: "Slider", description: "A linear potentiometer slider." },
-];
 
 /**
  * The Jacdac sidebar section ("code view"): a top-level list of topics

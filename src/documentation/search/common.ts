@@ -12,12 +12,29 @@ import type { Toolkit } from "../reference/model";
 
 export interface Search {
   search(text: string): Promise<SearchResults>;
-  index(reference: Toolkit, api: ApiDocsResponse): void;
+  index(
+    reference: Toolkit,
+    api: ApiDocsResponse,
+    jacdac: JacdacSearchableContent[]
+  ): void;
 }
 
 export interface SearchResults {
   reference: Result[];
   api: Result[];
+  jacdac: Result[];
+}
+
+/**
+ * Pre-built searchable content for the Jacdac sidebar (built on the main thread
+ * from local content, unlike reference/api which are indexed from their raw
+ * models in the worker).
+ */
+export interface JacdacSearchableContent {
+  id: string;
+  containerTitle: string;
+  title: string;
+  content: string;
 }
 
 export interface Result {
@@ -42,6 +59,7 @@ export interface IndexMessage {
   kind: "index";
   reference: Toolkit;
   api: ApiDocsResponse;
+  jacdac?: JacdacSearchableContent[];
 }
 
 export interface QueryMessage {

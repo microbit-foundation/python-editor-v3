@@ -174,7 +174,7 @@ describe("SearchWorker", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(postMessage.mock.calls).toEqual([
-      [{ reference: [], api: [], kind: "queryResponse" }],
+      [{ reference: [], api: [], jacdac: [], kind: "queryResponse" }],
     ]);
   });
 

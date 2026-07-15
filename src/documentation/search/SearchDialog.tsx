@@ -101,7 +101,10 @@ const SearchDialog = ({
               <FormattedMessage
                 id="results-count"
                 values={{
-                  count: results.reference.length + results.api.length,
+                  count:
+                    results.reference.length +
+                    results.api.length +
+                    results.jacdac.length,
                 }}
               />
             </Text>
@@ -114,6 +117,12 @@ const SearchDialog = ({
             <SearchResultList
               title={intl.formatMessage({ id: "api-tab" })}
               results={results.api}
+              viewedResults={viewedResults}
+              onViewResult={onViewResult}
+            />
+            <SearchResultList
+              title={intl.formatMessage({ id: "jacdac-tab" })}
+              results={results.jacdac}
               viewedResults={viewedResults}
               onViewResult={onViewResult}
             />

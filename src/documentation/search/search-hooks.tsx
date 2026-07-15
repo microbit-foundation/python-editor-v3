@@ -16,6 +16,7 @@ import {
 import useIsUnmounted from "../../common/use-is-unmounted";
 import { useLogging } from "../../logging/logging-hooks";
 import { useSettings } from "../../settings/settings";
+import { jacdacSearchableContent } from "../../jacdac/jacdac-sensor-docs";
 import { useDocumentation } from "../documentation-hooks";
 import { SearchResults } from "./common";
 import { WorkerSearch } from "./search-client";
@@ -57,7 +58,15 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
       reference.languageId === languageId &&
       api?.languageId === languageId
     ) {
-      search.current.index(reference.content, api.content);
+      // Jacdac is searchable in two places, like reference + api: the API index
+      // (unmerged modules → correct titles; results navigate to the API tab,
+      // which groups them into the Jacdac section) and the dedicated Jacdac
+      // index (sidebar sections + examples).
+      search.current.index(
+        reference.content,
+        api.content,
+        jacdacSearchableContent()
+      );
     }
   }, [languageId, reference, api]);
 

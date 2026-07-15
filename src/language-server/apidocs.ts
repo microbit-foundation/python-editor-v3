@@ -5,6 +5,7 @@
  */
 import { ProtocolRequestType } from "vscode-languageserver-protocol";
 import { MarkupKind } from "vscode-languageserver-types";
+import { JACDAC_MODULES } from "../jacdac/python/module-source";
 import { LanguageServerClient } from "./client";
 import { isErrorDueToDispose } from "./error-util";
 
@@ -71,6 +72,8 @@ export const apiDocs = async (
         // For now, this omits a lot of modules that have stubs
         // derived from typeshed with no docs.
         // Note: "audio" is covered under micro:bit.
+        // Jacdac POC modules (kept in sync with the injected stubs).
+        ...JACDAC_MODULES.map((m) => m.className),
         "gc",
         "log",
         "machine",

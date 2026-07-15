@@ -5,6 +5,7 @@
  */
 import {
   IndexMessage,
+  JacdacSearchableContent,
   QueryMessage,
   QueryResponseMessage,
   Search,
@@ -20,11 +21,16 @@ export class WorkerSearch implements Search {
   constructor(public language: string) {
     this.worker = workerForLanguage(language);
   }
-  index(reference: Toolkit, api: ApiDocsResponse) {
+  index(
+    reference: Toolkit,
+    api: ApiDocsResponse,
+    jacdac: JacdacSearchableContent[]
+  ) {
     const message: IndexMessage = {
       kind: "index",
       reference,
       api,
+      jacdac,
     };
     this.worker.postMessage(message);
     this.worker.onmessage = (e) => {
