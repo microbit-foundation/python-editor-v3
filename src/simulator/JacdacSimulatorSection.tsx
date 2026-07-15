@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  Badge,
   Box,
   Button,
   HStack,
@@ -25,6 +26,7 @@ import {
 import { useState } from "react";
 import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
+import { useJacdacAssignments } from "../jacdac/jacdac-assignments";
 import { useParsedRoles } from "../jacdac/jacdac-hooks";
 import { ParsedRole } from "../jacdac/parse-roles";
 import { labelForRoleType } from "../jacdac/supported-services";
@@ -48,6 +50,7 @@ const JacdacSimulatorSection = ({
 }) => {
   const intl = useIntl();
   const roles = useParsedRoles();
+  const { connectedRoleNames } = useJacdacAssignments();
   const disclosure = useDisclosure({ defaultIsOpen: true });
   const title = intl.formatMessage({ id: "jacdac-tab" });
   const populated = roles.length > 0;
@@ -100,7 +103,11 @@ const JacdacSimulatorSection = ({
       {disclosure.isOpen && (
         <VStack align="stretch" spacing={4}>
           {roles.map((role) => (
-            <JacdacSimSensor key={role.name} role={role} />
+            <JacdacSimSensor
+              key={role.name}
+              role={role}
+              connected={connectedRoleNames.has(role.name)}
+            />
           ))}
         </VStack>
       )}
@@ -108,14 +115,27 @@ const JacdacSimulatorSection = ({
   );
 };
 
-const JacdacSimSensor = ({ role }: { role: ParsedRole }) => (
+const JacdacSimSensor = ({
+  role,
+  connected,
+}: {
+  role: ParsedRole;
+  connected: boolean;
+}) => (
   <Box>
-    <Text fontSize="sm" fontWeight="semibold" lineHeight="short">
-      {role.name}
-    </Text>
-    <Text fontSize="xs" color="gray.600" mb={1}>
-      {labelForRoleType(role.type)}
-    </Text>
+    <HStack justifyContent="space-between" alignItems="flex-start" mb={1}>
+      <Box>
+        <Text fontSize="sm" fontWeight="semibold" lineHeight="short">
+          {role.name}
+        </Text>
+        <Text fontSize="xs" color="gray.600" lineHeight="short">
+          {labelForRoleType(role.type)}
+        </Text>
+      </Box>
+      <Badge colorScheme={connected ? "green" : "gray"}>
+        {connected ? "Connected" : "Simulated"}
+      </Badge>
+    </HStack>
     {role.type === "button" ? (
       <SimButton />
     ) : role.type === "rotary-encoder" ? (

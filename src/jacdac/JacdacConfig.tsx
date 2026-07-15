@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, Grid, IconButton, Select, Text } from "@chakra-ui/react";
-import { Fragment, useCallback, useState } from "react";
+import { Fragment } from "react";
 import { RiSearchEyeLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useJacdacAssignments } from "./jacdac-assignments";
 import JacdacSensorLabel from "./JacdacSensorLabel";
 import {
   useJacdacIdentify,
@@ -27,27 +28,8 @@ const JacdacConfig = () => {
   const sensors = useJacdacSensorServices();
   const identify = useJacdacIdentify();
   const roles = useParsedRoles();
+  const { assignments, setAssignment } = useJacdacAssignments();
   const identifyLabel = intl.formatMessage({ id: "jacdac-identify-action" });
-
-  // Role assignments keyed by service (deviceId:serviceIndex). Local state for
-  // now; binding to the sim/device comes in later steps.
-  const [assignments, setAssignments] = useState<Record<string, string>>({});
-  const handleRoleChange = useCallback((key: string, newRole: string) => {
-    setAssignments((prev) => {
-      const previousRole = prev[key] ?? "";
-      const next = { ...prev };
-      if (newRole) {
-        const holder = Object.keys(next).find(
-          (k) => k !== key && next[k] === newRole
-        );
-        if (holder) {
-          next[holder] = previousRole;
-        }
-      }
-      next[key] = newRole;
-      return next;
-    });
-  }, []);
 
   if (sensors.length === 0) {
     return (
@@ -75,7 +57,7 @@ const JacdacConfig = () => {
               size="sm"
               placeholder="No role"
               value={assignments[key] ?? ""}
-              onChange={(e) => handleRoleChange(key, e.target.value)}
+              onChange={(e) => setAssignment(key, e.target.value)}
               w="100%"
             >
               {roles

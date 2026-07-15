@@ -14,6 +14,7 @@ import { createUSBConnection } from "@microbit/microbit-connection/usb";
 import { CHANGE, DEVICE_CHANGE, ROLE_MANAGER_CHANGE } from "jacdac-ts";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
+import { JacdacAssignmentsProvider } from "./jacdac/jacdac-assignments";
 import { createJacdacBus } from "./jacdac/jacdac-bus";
 import { JacdacProvider } from "./jacdac/jacdac-hooks";
 import DocumentationProvider from "./documentation/documentation-hooks";
@@ -139,7 +140,9 @@ const App = () => {
                                   <ProjectDropTarget>
                                     <ActiveEditorProvider>
                                       <JacdacProvider bus={jacdacBus}>
-                                        <Workbench />
+                                        <JacdacAssignmentsProvider>
+                                          <Workbench />
+                                        </JacdacAssignmentsProvider>
                                       </JacdacProvider>
                                     </ActiveEditorProvider>
                                   </ProjectDropTarget>
