@@ -11,7 +11,7 @@ import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
 import { createUSBConnection } from "@microbit/microbit-connection/usb";
-import { DEVICE_CHANGE } from "jacdac-ts";
+import { CHANGE, DEVICE_CHANGE, ROLE_MANAGER_CHANGE } from "jacdac-ts";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import { createJacdacBus } from "./jacdac/jacdac-bus";
@@ -69,6 +69,32 @@ if (!isMockDeviceMode()) {
         .map((d) => d.shortId)
     )
   );
+
+  // TEMPORARY (POC step 3): log roles read from the device's role manager, and
+  // expose an identify helper for manual testing until the config UI lands.
+  // In the console: jacdacIdentify("left button") blinks that sensor's LED.
+  let unsubRoles: (() => void) | undefined;
+  const logRoles = () =>
+    console.log(
+      "[jacdac] roles:",
+      (jacdacBus.roleManager?.roles ?? []).map((r) => {
+        // Resolve to the friendly shortId so this lines up with the devices log
+        // (role.deviceId is the raw 64-bit id; shortId is a hash of it).
+        const short = jacdacBus.device(r.deviceId, true)?.shortId;
+        return `${r.name}→${short ?? r.deviceId}`;
+      })
+    );
+  jacdacBus.subscribe(ROLE_MANAGER_CHANGE, () => {
+    unsubRoles?.();
+    unsubRoles = jacdacBus.roleManager?.subscribe(CHANGE, logRoles);
+    logRoles();
+  });
+  (
+    window as unknown as { jacdacIdentify?: (name: string) => void }
+  ).jacdacIdentify = (name: string) => {
+    const role = jacdacBus.roleManager?.roles.find((r) => r.name === name);
+    void (role && jacdacBus.device(role.deviceId, true)?.identify());
+  };
 }
 
 const host = createHost(logging);

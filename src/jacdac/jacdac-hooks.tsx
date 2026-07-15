@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  CHANGE,
   CONNECTION_STATE,
   DEVICE_CHANGE,
   DEVICE_CONNECT,
@@ -12,10 +13,13 @@ import {
   JDBus,
   JDDevice,
   JDService,
+  Role,
+  ROLE_MANAGER_CHANGE,
 } from "jacdac-ts";
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -73,6 +77,48 @@ export const useJacdacDevices = (): JDDevice[] => {
     );
   }, [bus]);
   return devices;
+};
+
+/**
+ * Live list of roles held by the device's role manager (read from flash over
+ * the bus). Empty when no board / role manager is present.
+ */
+export const useJacdacRoles = (): Role[] => {
+  const bus = useJacdacBus();
+  const [roles, setRoles] = useState<Role[]>([]);
+  useEffect(() => {
+    let unsubClient: (() => void) | undefined;
+    // The role manager appears/disappears with the board (ROLE_MANAGER_CHANGE);
+    // its own CHANGE fires once roles have been read back from the device.
+    const resubscribe = () => {
+      unsubClient?.();
+      unsubClient = undefined;
+      const rm = bus.roleManager;
+      const update = () => setRoles(rm ? [...rm.roles] : []);
+      update();
+      unsubClient = rm?.subscribe(CHANGE, update);
+    };
+    resubscribe();
+    const unsubBus = bus.subscribe(ROLE_MANAGER_CHANGE, resubscribe);
+    return () => {
+      unsubBus();
+      unsubClient?.();
+    };
+  }, [bus]);
+  return roles;
+};
+
+/**
+ * Returns a callback that blinks a device's status LED (Jacdac identify), so
+ * the user can tell which physical sensor a role/config entry maps to.
+ */
+export const useJacdacIdentify = (): ((deviceId: string) => Promise<void>) => {
+  const bus = useJacdacBus();
+  return useCallback(
+    (deviceId: string) =>
+      bus.device(deviceId, true)?.identify() ?? Promise.resolve(),
+    [bus]
+  );
 };
 
 /** Live list of sensor services on the bus that expose a reading register. */
