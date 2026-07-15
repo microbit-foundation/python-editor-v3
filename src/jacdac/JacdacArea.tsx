@@ -12,6 +12,7 @@ import DocumentationBreadcrumbHeading from "../documentation/common/Documentatio
 import DocumentationTopLevelItem from "../documentation/common/DocumentationTopLevelItem";
 import { useRouterTabSlug } from "../router-hooks";
 import JacdacConfig from "./JacdacConfig";
+import JacdacLiveDevice from "./JacdacLiveDevice";
 import JacdacSensorContent from "./JacdacSensorContent";
 
 interface JacdacTopic {
@@ -27,11 +28,16 @@ const topics: JacdacTopic[] = [
     name: "Config",
     description: "Assign role names to your Jacdac sensors and identify them.",
   },
+  {
+    id: "live-device",
+    name: "Live device",
+    description: "See the roles currently assigned on the connected micro:bit.",
+  },
   { id: "button", name: "Button", description: "A pressable button." },
   {
-    id: "rotary-button",
-    name: "Rotary button",
-    description: "A rotary encoder you can turn and press.",
+    id: "rotary-encoder",
+    name: "Rotary encoder",
+    description: "A rotary encoder you can turn (often with a button too).",
   },
   { id: "slider", name: "Slider", description: "A linear potentiometer slider." },
 ];
@@ -71,6 +77,8 @@ const JacdacArea = () => {
       >
         {topic.id === "config" ? (
           <JacdacConfig />
+        ) : topic.id === "live-device" ? (
+          <JacdacLiveDevice />
         ) : (
           <JacdacSensorContent topic={topic} />
         )}

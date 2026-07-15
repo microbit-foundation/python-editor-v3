@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-export type JacdacRoleType = "button" | "rotary-button" | "slider";
+export type JacdacRoleType = "button" | "rotary-encoder" | "slider";
 
 export interface ParsedRole {
   /** The role name string as written in the user's code. */
@@ -15,7 +15,7 @@ export interface ParsedRole {
 
 const CLASS_TO_TYPE: Record<string, JacdacRoleType> = {
   Button: "button",
-  RotaryButton: "rotary-button",
+  RotaryEncoder: "rotary-encoder",
   Slider: "slider",
 };
 
@@ -29,7 +29,7 @@ const CLASS_TO_TYPE: Record<string, JacdacRoleType> = {
  * Duplicate role names are ignored (role names are unique across a program).
  */
 export const parseRoles = (source: string): ParsedRole[] => {
-  const re = /Jacdac\.(Button|RotaryButton|Slider)\s*\(\s*["']([^"'\n]+)["']/g;
+  const re = /Jacdac\.(Button|RotaryEncoder|Slider)\s*\(\s*["']([^"'\n]+)["']/g;
   const roles: ParsedRole[] = [];
   const seen = new Set<string>();
   let match: RegExpExecArray | null;

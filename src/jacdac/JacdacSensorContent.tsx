@@ -17,7 +17,7 @@ interface JacdacSensorContentProps {
 // Maps a topic to its (planned) Python class name for the example snippet.
 const className: Record<string, string> = {
   button: "Button",
-  "rotary-button": "RotaryButton",
+  "rotary-encoder": "RotaryEncoder",
   slider: "Slider",
 };
 

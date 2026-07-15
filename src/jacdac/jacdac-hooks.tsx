@@ -27,6 +27,7 @@ import {
 import { MAIN_FILE } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { parseRoles, ParsedRole } from "./parse-roles";
+import { SupportedService, supportedServiceByClass } from "./supported-services";
 
 const JacdacBusContext = createContext<JDBus | undefined>(undefined);
 
@@ -157,6 +158,57 @@ export const useParsedRoles = (): ParsedRole[] => {
     };
   }, [fs]);
   return roles;
+};
+
+/**
+ * One entry per supported sensor service across all connected devices. A device
+ * hosting multiple supported services (e.g. a rotary encoder + button module)
+ * yields multiple entries. Excludes infrastructure and unsupported services.
+ */
+export interface JacdacSensorService {
+  device: JDDevice;
+  service: JDService;
+  supported: SupportedService;
+  /** Stable key across renders: hardware device id + service index. */
+  key: string;
+}
+
+export const useJacdacSensorServices = (): JacdacSensorService[] => {
+  const bus = useJacdacBus();
+  const [items, setItems] = useState<JacdacSensorService[]>([]);
+  useEffect(() => {
+    const update = () => {
+      const next: JacdacSensorService[] = [];
+      for (const device of bus.devices({
+        ignoreInfrastructure: true,
+        announced: true,
+      })) {
+        for (const service of device.services()) {
+          const supported = supportedServiceByClass(service.serviceClass);
+          if (supported) {
+            next.push({
+              device,
+              service,
+              supported,
+              key: `${device.deviceId}:${service.serviceIndex}`,
+            });
+          }
+        }
+      }
+      setItems((prev) =>
+        prev.length === next.length &&
+        prev.every((p, i) => p.service === next[i].service)
+          ? prev
+          : next
+      );
+    };
+    update();
+    return bus.subscribe(
+      [DEVICE_CHANGE, DEVICE_CONNECT, DEVICE_DISCONNECT],
+      update
+    );
+  }, [bus]);
+  return items;
 };
 
 /** Live list of sensor services on the bus that expose a reading register. */
