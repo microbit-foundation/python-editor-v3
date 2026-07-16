@@ -755,6 +755,12 @@
       "value": "Insert code"
     }
   ],
+  "jacdac-connected": [
+    {
+      "type": 0,
+      "value": "Connected"
+    }
+  ],
   "jacdac-identify-action": [
     {
       "type": 0,

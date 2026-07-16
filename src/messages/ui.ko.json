@@ -767,6 +767,12 @@
       "value": "코드 삽입"
     }
   ],
+  "jacdac-connected": [
+    {
+      "type": 0,
+      "value": "Connected"
+    }
+  ],
   "jacdac-identify-action": [
     {
       "type": 0,

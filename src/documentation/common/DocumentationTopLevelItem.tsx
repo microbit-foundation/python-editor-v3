@@ -28,6 +28,8 @@ interface DocumentationTopLevelItemProps {
   description: ReactNode;
   icon?: SimpleImage;
   isV2Only?: boolean;
+  /** Optional element shown next to the heading, e.g. a "connected" badge. */
+  badge?: ReactNode;
   onForward: () => void;
   spacing?: number;
   type: DocType;
@@ -38,6 +40,7 @@ const DocumentationTopLevelItem = ({
   description,
   icon,
   isV2Only,
+  badge,
   onForward,
   type,
 }: DocumentationTopLevelItemProps) => {
@@ -58,7 +61,10 @@ const DocumentationTopLevelItem = ({
         flex="1 1 auto"
       >
         <HStack justifyContent="space-between">
-          <DocumentationHeading name={name} isV2Only={!!isV2Only} />
+          <HStack spacing={2} minW={0}>
+            <DocumentationHeading name={name} isV2Only={!!isV2Only} />
+            {badge}
+          </HStack>
           <IconButton
             icon={<RiArrowRightLine />}
             aria-label={intl.formatMessage(

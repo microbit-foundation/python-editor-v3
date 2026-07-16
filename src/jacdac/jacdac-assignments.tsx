@@ -13,6 +13,7 @@ import {
   useState,
 } from "react";
 import {
+  useAutoShowJacdacOnSensor,
   useEnsureJacdacModules,
   useJacdacSensorServices,
   useParsedRoles,
@@ -49,6 +50,8 @@ export const JacdacAssignmentsProvider = ({
   const roles = useParsedRoles();
   // Keep the per-sensor Jacdac modules in the project when the code uses them.
   useEnsureJacdacModules();
+  // Reveal the Jacdac sidebar when a sensor is plugged in, to aid discovery.
+  useAutoShowJacdacOnSensor(sensors);
   const [assignments, setAssignments] = useState<Record<string, string>>({});
 
   // Reconcile + auto-link whenever the connected sensors or code roles change.

@@ -394,6 +394,10 @@
   "insert-code-action": {
     "defaultMessage": "Code invoegen"
   },
+  "jacdac-connected": {
+    "defaultMessage": "Connected",
+    "description": "Badge label on a Jacdac sensor section indicating a matching sensor is connected and usable"
+  },
   "jacdac-identify-action": {
     "defaultMessage": "Identify",
     "description": "Button to blink a Jacdac sensor's LED so the user can find which physical sensor it is"

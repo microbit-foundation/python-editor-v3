@@ -751,6 +751,12 @@
       "value": "插入程式碼"
     }
   ],
+  "jacdac-connected": [
+    {
+      "type": 0,
+      "value": "Connected"
+    }
+  ],
   "jacdac-identify-action": [
     {
       "type": 0,

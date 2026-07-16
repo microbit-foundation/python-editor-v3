@@ -17,9 +17,10 @@ import {
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
-import { VscCircuitBoard, VscFiles, VscLibrary } from "react-icons/vsc";
+import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
+import JacdacLogo from "../common/JacdacLogo";
 import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
@@ -97,10 +98,10 @@ const SideBar = ({
         color: "gray.25",
       },
       {
-        // Jacdac POC: temporary icon; sits under API and above Project.
+        // Jacdac POC: sits under API and above Project.
         id: "jacdac" as const,
         title: intl.formatMessage({ id: "jacdac-tab" }),
-        icon: VscCircuitBoard,
+        icon: JacdacLogo as IconType,
         contents: <JacdacArea />,
         color: "gray.25",
         mb: "auto",

@@ -22,11 +22,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { MAIN_FILE, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { extractModuleData } from "../fs/fs-util";
+import { useRouterState } from "../router-hooks";
 import { parseRoles, ParsedRole } from "./parse-roles";
 import { JACDAC_MODULES } from "./python/module-source";
 import { SupportedService, supportedServiceByClass } from "./supported-services";
@@ -266,6 +268,29 @@ export const useJacdacSensorServices = (): JacdacSensorService[] => {
     );
   }, [bus]);
   return items;
+};
+
+/**
+ * Auto-show the Jacdac sidebar (its top-level list of connected sensors) whenever
+ * a new sensor is plugged in, to aid discoverability of what's just become
+ * available — something the simulator can't offer as it only shows sensors
+ * referenced in the code. Entering the tab plays a slide-in animation (see
+ * JacdacArea); we deliberately land on the overview rather than a single sensor
+ * so plugging in a whole board shows everything at once.
+ */
+export const useAutoShowJacdacOnSensor = (
+  sensors: JacdacSensorService[]
+): void => {
+  const [, setParams] = useRouterState();
+  // Initialised to the sensors present at mount so we don't navigate on load.
+  const previousKeys = useRef<Set<string>>(new Set(sensors.map((s) => s.key)));
+  useEffect(() => {
+    const added = sensors.some((s) => !previousKeys.current.has(s.key));
+    previousKeys.current = new Set(sensors.map((s) => s.key));
+    if (added) {
+      setParams({ tab: "jacdac" });
+    }
+  }, [sensors, setParams]);
 };
 
 /** Live list of sensor services on the bus that expose a reading register. */

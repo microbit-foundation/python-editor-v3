@@ -29,6 +29,11 @@ export type Flag =
    */
   | "dndDebug"
   /**
+   * Enables Jacdac debugging affordances, e.g. the read-only "Live device"
+   * section in the Jacdac sidebar that mirrors the connected device's roles.
+   */
+  | "jacdacDebug"
+  /**
    * Disables language selection from the settings menu.
    *
    * Added so we can embed the editor in micro:bit classroom without competing language
@@ -64,6 +69,7 @@ const allFlags: FlagMetadata[] = [
   { name: "betaNotice", defaultOnStages: ["local", "REVIEW", "STAGING"] },
   { name: "cmsPreview", defaultOnStages: [] },
   { name: "dndDebug", defaultOnStages: [] },
+  { name: "jacdacDebug", defaultOnStages: [] },
   { name: "noLang", defaultOnStages: [] },
   { name: "translate", defaultOnStages: [] },
   { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
