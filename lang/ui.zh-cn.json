@@ -406,6 +406,26 @@
     "defaultMessage": "Connect a micro:bit running a Jacdac program to see sensors here.",
     "description": "Shown in the Jacdac config panel when no Jacdac sensors are connected"
   },
+  "jacdac-sim-docs-link": {
+    "defaultMessage": "Link to Jacdac section",
+    "description": "Aria label for the simulator Jacdac group's info/docs link button"
+  },
+  "jacdac-sim-empty": {
+    "defaultMessage": "Add Jacdac sensors in your code to simulate them here.",
+    "description": "Shown in the simulator Jacdac section when the code uses no Jacdac sensors"
+  },
+  "jacdac-sim-group-button": {
+    "defaultMessage": "Jacdac buttons",
+    "description": "Title of the simulator group for Jacdac button sensors"
+  },
+  "jacdac-sim-group-rotary-encoder": {
+    "defaultMessage": "Jacdac rotary encoders",
+    "description": "Title of the simulator group for Jacdac rotary encoder sensors"
+  },
+  "jacdac-sim-group-slider": {
+    "defaultMessage": "Jacdac sliders",
+    "description": "Title of the simulator group for Jacdac slider sensors"
+  },
   "jacdac-tab": {
     "defaultMessage": "Jacdac",
     "description": "Jacdac sidebar tab button text"

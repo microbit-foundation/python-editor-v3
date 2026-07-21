@@ -777,6 +777,36 @@
       "value": "Connect a micro:bit running a Jacdac program to see sensors here."
     }
   ],
+  "jacdac-sim-docs-link": [
+    {
+      "type": 0,
+      "value": "Link to Jacdac section"
+    }
+  ],
+  "jacdac-sim-empty": [
+    {
+      "type": 0,
+      "value": "Add Jacdac sensors in your code to simulate them here."
+    }
+  ],
+  "jacdac-sim-group-button": [
+    {
+      "type": 0,
+      "value": "Jacdac buttons"
+    }
+  ],
+  "jacdac-sim-group-rotary-encoder": [
+    {
+      "type": 0,
+      "value": "Jacdac rotary encoders"
+    }
+  ],
+  "jacdac-sim-group-slider": [
+    {
+      "type": 0,
+      "value": "Jacdac sliders"
+    }
+  ],
   "jacdac-tab": [
     {
       "type": 0,
