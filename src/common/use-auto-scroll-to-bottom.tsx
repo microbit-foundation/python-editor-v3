@@ -1,3 +1,8 @@
+/**
+ * (c) 2022, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
 import {
   UIEventHandler,
   useCallback,
@@ -6,6 +11,12 @@ import {
   useState,
 } from "react";
 
+/**
+ * Keeps a scroll container pinned to the bottom as new content arrives,
+ * unless the user has scrolled up.
+ *
+ * Shared by the simulator radio/data-logging modules and the serial chat.
+ */
 export const useAutoScrollToBottom = (
   dependency: any
 ): [React.RefObject<HTMLDivElement>, UIEventHandler] => {
@@ -15,8 +26,10 @@ export const useAutoScrollToBottom = (
   const handleScroll = useCallback(
     (_: React.UIEvent) => {
       const element = ref.current!;
+      // Small tolerance so sub-pixel rounding (or an in-flight smooth
+      // scroll) doesn't wrongly latch auto-scroll off.
       const isAtBottom =
-        element.scrollHeight - element.scrollTop === element.clientHeight;
+        element.scrollHeight - element.scrollTop - element.clientHeight <= 2;
       setEnabled(isAtBottom);
     },
     [ref, setEnabled]

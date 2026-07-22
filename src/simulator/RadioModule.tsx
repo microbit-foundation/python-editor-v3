@@ -5,22 +5,19 @@
  */
 import {
   BoxProps,
-  Flex,
   HStack,
-  Icon,
   IconButton,
   Input,
   Stack,
-  Text,
-  VisuallyHidden,
   VStack,
 } from "@chakra-ui/react";
 import { FormEvent, ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { ChatMessageBubble, ChatNotice } from "../common/chat-ui";
+import { useAutoScrollToBottom } from "../common/use-auto-scroll-to-bottom";
 import MessageIcon from "./icons/microbit-face-icon.svg?react";
 import { RadioChatItem, useRadioChatItems } from "./radio-hooks";
-import { useAutoScrollToBottom } from "./scroll-hooks";
 
 interface RadioModuleProps {
   icon: ReactNode;
@@ -102,16 +99,6 @@ const ChatItem = ({ item }: { item: RadioChatItem }) => {
   }
 };
 
-const ChatNotice = ({ children }: { children: ReactNode }) => (
-  <Text color="gray.700" p={1}>
-    {children}
-  </Text>
-);
-
-const ChatUserIcon = ({ color }: { color: string }) => (
-  <Icon color={color} h={10} w={10} as={MessageIcon} />
-);
-
 const ChatMessage = ({
   from,
   message,
@@ -121,19 +108,15 @@ const ChatMessage = ({
 }) => {
   const color = from === "code" ? "blimpTeal.100" : "brand.100";
   return (
-    <Flex
-      gap="10px"
-      flexDirection={from === "code" ? "row" : "row-reverse"}
-      alignSelf={from === "code" ? "flex-start" : "flex-end"}
+    <ChatMessageBubble
+      from={from}
+      iconAs={MessageIcon}
+      iconColor={color}
+      bubbleBg={color}
+      label={<FormattedMessage id={`simulator-radio-${from}`} />}
     >
-      <ChatUserIcon color={color} />
-      <Text bg={color} p={2} borderRadius="md" wordBreak="break-word">
-        <VisuallyHidden>
-          <FormattedMessage id={`simulator-radio-${from}`} />{" "}
-        </VisuallyHidden>
-        {message}
-      </Text>
-    </Flex>
+      {message}
+    </ChatMessageBubble>
   );
 };
 

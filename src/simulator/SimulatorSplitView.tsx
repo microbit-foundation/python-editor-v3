@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Flex, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   SplitView,
@@ -14,6 +14,7 @@ import {
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "@microbit/microbit-connection";
+import { useChatSession, useChatRevealSignal } from "../chat/chat-hooks";
 import { useConnectionStatus } from "../device/device-hooks";
 import SerialArea from "../serial/SerialArea";
 import { RunningStatus } from "./Simulator";
@@ -27,8 +28,21 @@ interface SimulatorSplitViewProps {
 const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.Connected;
+  const chat = useChatSession();
+  const chatActive = connected && chat.active;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
+  const [chatExpandSize, setChatExpandSize] = useState<number | undefined>();
+  // Open and grow the serial area when a freshly-flashed program starts a
+  // chat, so it isn't cramped. Restarts (Ctrl-D / sim reset) don't flash, so
+  // they leave the user's chosen size and open/minimised state alone.
+  const reveal = useChatRevealSignal(chatActive);
+  useEffect(() => {
+    if (reveal) {
+      setSerialStateWhenOpen("open");
+      setChatExpandSize(SerialArea.chatExpandSize);
+    }
+  }, [reveal]);
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [tabOutRef] = useSimSerialTabControl();
   return (
@@ -36,6 +50,7 @@ const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
       direction="column"
       minimums={[150, 200]}
       compactSize={SerialArea.compactSize}
+      autoExpandSize={chatExpandSize}
       height="0"
       flexGrow={1}
       mode={serialSizedMode}

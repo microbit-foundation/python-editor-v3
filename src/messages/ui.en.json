@@ -471,6 +471,60 @@
       "value": "filename"
     }
   ],
+  "create-chat-example": [
+    {
+      "type": 0,
+      "value": "Start a chat"
+    }
+  ],
+  "created-chat-example": [
+    {
+      "type": 0,
+      "value": "Added microchat.py and a chat starter to main.py"
+    }
+  ],
+  "create-eliza-example": [
+    {
+      "type": 0,
+      "value": "ELIZA example"
+    }
+  ],
+  "created-eliza-example": [
+    {
+      "type": 0,
+      "value": "Added microchat.py and an ELIZA chatbot to main.py"
+    }
+  ],
+  "chat-message": [
+    {
+      "type": 0,
+      "value": "Type a reply…"
+    }
+  ],
+  "chat-send": [
+    {
+      "type": 0,
+      "value": "Send chat message"
+    }
+  ],
+  "chat-you": [
+    {
+      "type": 0,
+      "value": "You"
+    }
+  ],
+  "serial-show-chat": [
+    {
+      "type": 0,
+      "value": "Show chat"
+    }
+  ],
+  "serial-show-repl": [
+    {
+      "type": 0,
+      "value": "Show REPL"
+    }
+  ],
   "delete-action": [
     {
       "type": 0,

@@ -29,6 +29,12 @@ interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
   compactSize?: number;
   initialSize?: number;
   minimums: [number, number];
+  /**
+   * When set (and when it changes to a number), grow the sized pane to at
+   * least this many pixels. Unlike raising `minimums`, this is a one-off
+   * nudge: the user can still drag or minimise the pane smaller afterwards.
+   */
+  autoExpandSize?: number;
 }
 
 /**
@@ -45,12 +51,23 @@ export const SplitView = ({
   minimums,
   mode = "open",
   compactSize = 0,
+  autoExpandSize,
   ...props
 }: SplitViewProps) => {
   const sizedFirst = children[0].type === SplitViewSized;
   const [sizedPaneSize, setSizedPaneSize] = useRafState<undefined | number>(
     initialSize || minimums[0]
   );
+  // A one-off nudge to grow the sized pane (e.g. when chat mode starts) so
+  // it isn't cramped. Leaves `minimums` alone so the user can still drag it
+  // smaller or minimise it afterwards.
+  useEffect(() => {
+    if (autoExpandSize != null) {
+      setSizedPaneSize((size) =>
+        size === undefined ? size : Math.max(size, autoExpandSize)
+      );
+    }
+  }, [autoExpandSize, setSizedPaneSize]);
   const [dragging, setDragging] = useState(false);
   const splitViewRef = useRef<HTMLDivElement>(null);
 

@@ -70,6 +70,8 @@ import {
 } from "./changes";
 import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import NewFileNameQuestion from "./NewFileNameQuestion";
+import microchatModule from "../chat/microchat.py?raw";
+import elizaExample from "../chat/eliza-example.py?raw";
 import { DefaultedProject } from "./project-hooks";
 import {
   ensurePythonExtension,
@@ -85,6 +87,25 @@ import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
  * Distinguishes the different ways to trigger the load action.
  */
 export type LoadType = "drop-load" | "file-upload";
+
+/**
+ * Starter program paired with {@link ProjectActions.createChatExample}.
+ */
+const chatExampleMainContent = `from microbit import *
+from microchat import *
+
+chat.start("micro:bot")
+name = chat.ask("Hi! What's your name?")
+chat.say("Nice to meet you, " + name)
+
+while True:
+    reply = chat.receive()
+    if reply:
+        chat.say("You said: " + reply)
+    if button_a.was_pressed():
+        chat.say("You pressed button A!")
+    sleep(50)
+`;
 
 export type FinalFocusRef = React.RefObject<HTMLElement> | undefined;
 
@@ -712,6 +733,50 @@ export class ProjectActions {
       } catch (e) {
         this.actionFeedback.unexpectedError(e);
       }
+    }
+  };
+  /**
+   * Add the microchat module and a starter chat program to the project.
+   *
+   * The module is added on demand (rather than always present) so it only
+   * appears when the user opts into the chat feature.
+   */
+  createChatExample = async () => {
+    this.logging.event({ type: "create-chat-example" });
+    try {
+      await this.fs.write(
+        "microchat.py",
+        microchatModule,
+        VersionAction.INCREMENT
+      );
+      await this.fs.write(MAIN_FILE, chatExampleMainContent, VersionAction.INCREMENT);
+      this.setSelection({ file: MAIN_FILE, location: { line: undefined } });
+      this.actionFeedback.success({
+        title: this.intl.formatMessage({ id: "created-chat-example" }),
+      });
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
+    }
+  };
+
+  /**
+   * Add the microchat module and an ELIZA-style chatbot to the project.
+   */
+  createElizaExample = async () => {
+    this.logging.event({ type: "create-eliza-example" });
+    try {
+      await this.fs.write(
+        "microchat.py",
+        microchatModule,
+        VersionAction.INCREMENT
+      );
+      await this.fs.write(MAIN_FILE, elizaExample, VersionAction.INCREMENT);
+      this.setSelection({ file: MAIN_FILE, location: { line: undefined } });
+      this.actionFeedback.success({
+        title: this.intl.formatMessage({ id: "created-eliza-example" }),
+      });
+    } catch (e) {
+      this.actionFeedback.unexpectedError(e);
     }
   };
   /**

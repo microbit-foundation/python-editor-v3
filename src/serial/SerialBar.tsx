@@ -5,7 +5,11 @@
  */
 import { BoxProps, HStack, IconButton, useDisclosure } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
-import { RiInformationLine } from "react-icons/ri";
+import {
+  RiChat1Line,
+  RiInformationLine,
+  RiTerminalBoxLine,
+} from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
@@ -26,6 +30,12 @@ interface SerialBarProps extends BoxProps {
   expandDirection: "up" | "down";
   hideExpandTextOnTraceback: boolean;
   showHintsAndTips: boolean;
+  /** True while a microchat program is running. */
+  chatActive?: boolean;
+  /** True when the chat view is shown in place of the REPL. */
+  showingChat?: boolean;
+  /** Toggle between the chat view and the raw REPL. */
+  onToggleChat?: () => void;
 }
 
 /**
@@ -39,6 +49,9 @@ const SerialBar = ({
   hideExpandTextOnTraceback,
   showHintsAndTips,
   expandDirection,
+  chatActive,
+  showingChat,
+  onToggleChat,
   ...props
 }: SerialBarProps) => {
   const logging = useLogging();
@@ -109,6 +122,18 @@ const SerialBar = ({
             })}
           />
           <HStack spacing="0.5">
+            {chatActive && onToggleChat && (
+              <IconButton
+                variant="sidebar"
+                color="white"
+                isRound
+                aria-label={intl.formatMessage({
+                  id: showingChat ? "serial-show-repl" : "serial-show-chat",
+                })}
+                icon={showingChat ? <RiTerminalBoxLine /> : <RiChat1Line />}
+                onClick={onToggleChat}
+              />
+            )}
             {showHintsAndTips && (
               <IconButton
                 variant="sidebar"

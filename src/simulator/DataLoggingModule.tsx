@@ -24,7 +24,7 @@ import { FormattedMessage } from "react-intl";
 import { DataLog } from "../device/simulator";
 import { useLogging } from "../logging/logging-hooks";
 import { useDataLog } from "./data-logging-hooks";
-import { useAutoScrollToBottom } from "./scroll-hooks";
+import { useAutoScrollToBottom } from "../common/use-auto-scroll-to-bottom";
 import { saveAs } from "file-saver";
 
 export interface DataLoggingModuleProps {

@@ -20,6 +20,7 @@ import {
 } from "../common/SplitView";
 import { SizedMode } from "../common/SplitView/SplitView";
 import { ConnectionStatus } from "@microbit/microbit-connection";
+import { useChatSession, useChatRevealSignal } from "../chat/chat-hooks";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
 import { FileVersion, MAIN_FILE } from "../fs/fs";
@@ -240,8 +241,21 @@ const EditorWithSimulator = ({
 const Editor = ({ editor }: EditorProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.Connected;
+  const chat = useChatSession();
+  const chatActive = connected && chat.active;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
+  const [chatExpandSize, setChatExpandSize] = useState<number | undefined>();
+  // Open and grow the serial area when a freshly-flashed program starts a
+  // chat, so it isn't cramped. Restarts (Ctrl-D) don't flash, so they leave
+  // the user's chosen size and open/minimised state alone.
+  const reveal = useChatRevealSignal(chatActive);
+  useEffect(() => {
+    if (reveal) {
+      setSerialStateWhenOpen("open");
+      setChatExpandSize(SerialArea.chatExpandSize);
+    }
+  }, [reveal]);
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
@@ -257,6 +271,7 @@ const Editor = ({ editor }: EditorProps) => {
         direction="column"
         minimums={[248, 200]}
         compactSize={SerialArea.compactSize}
+        autoExpandSize={chatExpandSize}
         height="100%"
         mode={serialSizedMode}
       >
