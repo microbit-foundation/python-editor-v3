@@ -129,4 +129,10 @@ Chakra Heading (they compose Text).
 ## Status log
 
 - July 2026: census taken; playbook + kit extracted to `../ui`; this doc
-  seeded. Nothing migrated yet.
+  seeded. Nothing migrated yet. Two caveats for whoever starts:
+  - The kit scripts were revived from ml-trainer's git history and
+    generalised but have not been exercised since — the first
+    `diff-chakra-themes.mjs` run here doubles as their validation.
+  - `../python-editor-v3-microbit` pulled upstream changes on 2026-07-24
+    that postdate the census — spot-check the census's private-theme
+    claims against the current theme before acting on them.
