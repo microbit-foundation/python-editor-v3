@@ -26,6 +26,11 @@ import { FileVersion, MAIN_FILE } from "../fs/fs";
 import { useProject } from "../project/project-hooks";
 import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
+import SerialPanel from "../serial/SerialPanel";
+import {
+  SerialTargetsProvider,
+  useSerialTargets,
+} from "../serial/serial-targets";
 import { useSettings } from "../settings/settings";
 import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
@@ -207,42 +212,51 @@ const EditorWithSimulator = ({
   simFocus,
 }: EditorWithSimulatorProps) => {
   return (
-    <SplitView
-      direction="row"
-      minimums={simulatorMinimums}
-      height="100%"
-      mode={simulatorShown ? "open" : "collapsed"}
-      initialSize={Math.min(
-        350,
-        Math.max(
-          simulatorMinimums[0],
-          Math.floor(window.innerWidth * simulatorToWidthRatio)
-        )
-      )}
-    >
-      <SplitViewRemainder>
-        <Editor editor={editor} />
-      </SplitViewRemainder>
-      <SplitViewDivider showBoxShadow={true} />
-      <SplitViewSized>
-        <Simulator
-          shown={simulatorShown}
-          onSimulatorHide={onSimulatorHide}
-          showSimulatorButtonRef={showSimulatorButtonRef}
-          minWidth={simulatorMinimums[0]}
-          simFocus={simFocus}
-        />
-      </SplitViewSized>
-    </SplitView>
+    // Shared serial targets so the editor's serial panel can show either the
+    // real device or the simulator. Must be outside the simulator's own
+    // DeviceContext but inside the app (real device) one.
+    <SerialTargetsProvider>
+      <SplitView
+        direction="row"
+        minimums={simulatorMinimums}
+        height="100%"
+        mode={simulatorShown ? "open" : "collapsed"}
+        initialSize={Math.min(
+          350,
+          Math.max(
+            simulatorMinimums[0],
+            Math.floor(window.innerWidth * simulatorToWidthRatio)
+          )
+        )}
+      >
+        <SplitViewRemainder>
+          <Editor editor={editor} />
+        </SplitViewRemainder>
+        <SplitViewDivider showBoxShadow={true} />
+        <SplitViewSized>
+          <Simulator
+            shown={simulatorShown}
+            onSimulatorHide={onSimulatorHide}
+            showSimulatorButtonRef={showSimulatorButtonRef}
+            minWidth={simulatorMinimums[0]}
+            simFocus={simFocus}
+          />
+        </SplitViewSized>
+      </SplitView>
+    </SerialTargetsProvider>
   );
 };
 
 const Editor = ({ editor }: EditorProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.Connected;
+  const { simSource } = useSerialTargets();
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
     useState<SizedMode>("compact");
-  const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
+  // Show the serial panel when there's a device connected or the simulator
+  // has been run (i.e. it's a serial source).
+  const serialSizedMode =
+    connected || simSource ? serialStateWhenOpen : "collapsed";
   const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
   return (
@@ -263,14 +277,13 @@ const Editor = ({ editor }: EditorProps) => {
         <SplitViewRemainder>{editor}</SplitViewRemainder>
         <SplitViewDivider />
         <SplitViewSized>
-          <SerialArea
+          <SerialPanel
             as="section"
             compact={serialSizedMode === "compact"}
             onSizeChange={setSerialStateWhenOpen}
             aria-label={intl.formatMessage({
               id: "serial-terminal",
             })}
-            showSyncStatus={true}
             expandDirection="up"
             tabOutRef={ref.current!}
             terminalFontSizePt={settingsFontSizePt}

@@ -18,8 +18,9 @@ import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import { useLogging } from "../logging/logging-hooks";
+import { useSerialTargets } from "../serial/serial-targets";
 import SimulatorActionBar from "./SimulatorActionBar";
-import SimulatorSplitView from "./SimulatorSplitView";
+import SimulatorModulesPanel from "./SimulatorModulesPanel";
 import SimSerialTabControlProvider from "./tab-control-hooks";
 import { stage } from "../environment";
 
@@ -74,6 +75,14 @@ const Simulator = ({
       sim.dispose();
     };
   }, []);
+  // Publish our connection so the shared serial panel (next to the editor)
+  // can show the simulator REPL.
+  const { registerSimulator } = useSerialTargets();
+  useEffect(() => {
+    const sim = simulator.current;
+    registerSimulator(sim);
+    return () => registerSimulator(undefined);
+  }, [registerSimulator]);
   useEffect(() => {
     updateTranslations(simulator.current, intl);
   }, [simulator, intl]);
@@ -141,7 +150,7 @@ const Simulator = ({
           </Box>
         </VStack>
         <SimSerialTabControlProvider>
-          <SimulatorSplitView simRunning={running} />
+          <SimulatorModulesPanel simRunning={running} />
         </SimSerialTabControlProvider>
       </Flex>
     </DeviceContextProvider>

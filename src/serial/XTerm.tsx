@@ -22,14 +22,25 @@ import customKeyEventHandler from "./xterm-keyboard";
 interface XTermProps extends BoxProps {
   tabOutRef: HTMLElement;
   fontSizePt: number;
+  /**
+   * False while hidden behind another serial source. When it flips back to
+   * true the terminal is re-fitted and repainted, since being display-hidden
+   * leaves xterm mis-sized (content otherwise stays blank until you scroll).
+   */
+  active?: boolean;
 }
 
 /**
  * xterm.js-based terminal.
  */
-const XTerm = ({ fontSizePt, tabOutRef, ...props }: XTermProps) => {
+const XTerm = ({
+  fontSizePt,
+  tabOutRef,
+  active = true,
+  ...props
+}: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  useManagedTermimal(ref, tabOutRef, fontSizePt);
+  useManagedTermimal(ref, tabOutRef, fontSizePt, active);
   return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
 };
 
@@ -44,7 +55,8 @@ const ptToPixelRatio = 96 / 72;
 const useManagedTermimal = (
   ref: React.RefObject<HTMLDivElement>,
   tabOutRef: HTMLElement,
-  fontSizePt: number
+  fontSizePt: number,
+  active: boolean
 ): void => {
   const actionFeedback = useActionFeedback();
   const codeFontFamily = useToken("fonts", "code");
@@ -205,6 +217,28 @@ const useManagedTermimal = (
       // It throws if you resize it when not visible but it does no harm.
     }
   }, [currentTerminalRef, fitAddon, fontSizePt]);
+
+  // When this terminal becomes the visible source again, re-fit and repaint
+  // on the next frame (once layout has settled) so its content shows without
+  // needing a manual scroll.
+  useEffect(() => {
+    if (!active) {
+      return;
+    }
+    const raf = requestAnimationFrame(() => {
+      const terminal = currentTerminalRef.current;
+      if (!terminal) {
+        return;
+      }
+      try {
+        fitAddon.fit();
+      } catch (e) {
+        // Throws if not visible; harmless.
+      }
+      terminal.refresh(0, terminal.rows - 1);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [active, currentTerminalRef, fitAddon]);
 };
 
 export default XTerm;

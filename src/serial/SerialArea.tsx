@@ -20,6 +20,12 @@ interface SerialAreaProps extends BoxProps {
   hideExpandTextOnTraceback?: boolean;
   showHintsAndTips?: boolean;
   tabOutRef: HTMLElement;
+  /**
+   * Whether this area is the visible one (shared device/simulator panel).
+   * When it becomes visible again its terminal is re-fitted so content shows
+   * without needing a scroll. Defaults to true for standalone use.
+   */
+  active?: boolean;
 }
 
 /**
@@ -39,6 +45,7 @@ const SerialArea = ({
   hideExpandTextOnTraceback = false,
   showHintsAndTips = true,
   tabOutRef,
+  active = true,
   ...props
 }: SerialAreaProps) => {
   const status = useConnectionStatus();
@@ -76,6 +83,7 @@ const SerialArea = ({
               mr={1}
               fontSizePt={terminalFontSizePt}
               tabOutRef={tabOutRef}
+              active={active}
             />
           </Box>
         )}
