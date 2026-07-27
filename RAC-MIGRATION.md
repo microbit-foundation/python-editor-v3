@@ -4,9 +4,9 @@ Status: **semantic-token pre-work done on Chakra (2026-07-27) — all
 structural OSS/private divergence converged onto shared component structure +
 semantic tokens; differ shows zero structural diffs (only the
 `withDefaultColorScheme` `defaultProps` diffs remain, by design). Static
-checks green both repos; semantic-token CSS-var emission (incl. the sidebar
-gradient) verified via `toCSSVar`. Pixel fidelity vs the live branded
-deployment left as a migration-time harness task (see status log).**
+checks green both repos; semantic-token CSS-var emission verified via
+`toCSSVar`; sidebar gradient confirmed byte-identical to the live branded
+deployment (`python.microbit.org/v/3`). Ready for review/PR.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -318,15 +318,24 @@ Chakra Heading (they compose Text).
     warning/error → `code.error`; OSS → green/blue/orange/red.500).
   Verification script: `scratchpad/verify-semantic-tokens.mjs` (throwaway).
 
-  **Still nice-to-have — pixel fidelity against the live branded deployment.**
-  The token mechanics are confirmed, but an actual side-by-side against
-  https://python.microbit.org/ (sidebar chrome + real toasts) is still worth
-  doing at migration time via the fidelity harness — not blocking now, and
-  this sandbox can't reach the live host. A local branded run needs
-  `npm run build && npm run preview` with `node_modules/@microbit-foundation/
-  python-editor-v3-microbit` linked to the local private package (the vite
-  `theme-package` alias points there; the private changes are
-  unpublished/unpinned).
+  **Live fidelity confirmed (2026-07-27).** Ran a headless-Chromium
+  side-by-side of the local branded build (private theme linked into
+  `node_modules/@microbit-foundation/python-editor-v3-microbit`, vite dev)
+  against the live `https://python.microbit.org/v/3`. The sidebar Tabs
+  gradient renders **byte-identical** on both: computed
+  `background-image: linear-gradient(rgb(108, 75, 193) 0%, rgb(123, 205, 194)
+  100%)` — i.e. `brand.500` (#6c4bc1) → `blimpTeal.400` (#7bcdc2) — exactly
+  one gradient element (the tablist) on each side. Visually confirmed too
+  (purple→teal sidebar, brand logo, brand-purple "Send to micro:bit"). So the
+  inline-gradient-string → semantic-token refactor reproduces the production
+  branded appearance exactly. Toasts were not triggered live, but their
+  tokens are verified twice (differ + `toCSSVar`) and are ordinary colour
+  refs (`blimpTeal.700` / `code.error`); a full toast pixel pass can ride the
+  migration-time fidelity harness. Sandbox notes for whoever re-runs: the
+  app's `node_modules` needed a clean reinstall (wrong-platform native
+  binaries — rollup/esbuild), Chromium must be pointed at the sandbox proxy
+  with credentials (env userinfo alone → 407, bypass loopback for the local
+  server), and vite dev needs `CI=true` (+ same-command lifetime) to stay up.
 
 ## Notes to revisit later
 
