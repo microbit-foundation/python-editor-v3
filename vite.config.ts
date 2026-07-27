@@ -205,6 +205,10 @@ export default defineConfig(({ mode }) => {
         "theme-package": fs.existsSync(external)
           ? theme
           : path.resolve(__dirname, internal),
+        // Resolve Panda's generated helpers for all importers, including
+        // @microbit/ui's source (consumed from node_modules). Mirrors the
+        // tsconfig `paths` entry.
+        "styled-system": path.resolve(__dirname, "styled-system"),
       },
     },
   };

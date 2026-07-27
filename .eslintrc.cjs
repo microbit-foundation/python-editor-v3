@@ -12,6 +12,7 @@ module.exports = {
   ],
   ignorePatterns: [
     "dist",
+    "styled-system",
     ".eslintrc.cjs",
     "deployment.cjs",
     "bin/**/*.js",
