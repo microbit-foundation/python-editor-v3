@@ -1,13 +1,11 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialogs
-done (all `common/` dialogs, `connect-dialogs/` ×9, workbench dialogs);
-toast infrastructure live (`ToastProvider` + `@microbit/ui` catalog merge,
-all toast call sites ported); `common/` fully ported (incl.
-CollapsibleButton/FileInputButton + their cross-app call sites); z-index
-token scale landed. Steps 1–2 complete. Verification bar:
-typecheck/build/lint + a runtime smoke check; full visual pass deferred
-(per owner). Porting continues area-by-area.**
+Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialogs,
+toast infrastructure, all of `common/`, and all of `src/project/` ported;
+z-index token scale landed; library gained Menu option groups,
+`useMediaQuery`, TextField `autoCapitalize`, Toast `closeAll`. Steps 1–2
+complete. Verification bar: typecheck/build/lint + a runtime smoke check;
+full visual pass deferred (per owner). Porting continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -618,6 +616,7 @@ Chakra Heading (they compose Text).
   **`common/` is now fully ported.** CollapsibleButton and FileInputButton
   moved to `@microbit/ui` Button/IconButton/Tooltip, with prop translation
   at all eight consumer sites; the planned z-index token scale landed.
+
   - **z-index tokens (app preset), prompted by a live gotcha-#9 find:**
     `zIndex={importedConstant}` is not statically extractable — the
     previous batch's `zIndex={zIndexBreadcrumbContainer}` only worked
@@ -672,6 +671,58 @@ Chakra Heading (they compose Text).
     ProjectAreaNav chrome, SendButton/MoreMenuButton — Menu-dependent),
     or `src/documentation` (needs Collapse/Fade library work first for
     ~14 files), or `src/settings`.
+
+- 2026-07-27 (step 3 — src/project): **the whole project area is ported;
+  zero `@chakra-ui` imports remain in `src/project/`.** Two library gaps
+  from the census closed en route.
+  - **Library additions (`../ui`):**
+    - **Menu option groups** — `MenuOptionGroup` (RAC `MenuSection` with
+      section-scoped single selection: `value`/`onChange` radio API like
+      Chakra's) + `MenuItemOption` (check indicator, space always
+      reserved). Recipe gained `group`/`groupTitle`/`itemIndicator` slots.
+      RAC renders the options as `menuitemradio` — better semantics than
+      Chakra's. Requires RAC ≥1.4 (section selection); we're on 1.19.
+    - **`useMediaQuery(query)`** hook for raw queries (this app's custom
+      `widthXl` 1200px + height-based queries) — `useBreakpointValue`
+      covers only the token scale.
+    - **TextField `autoCapitalize`** — react-aria's TextField omits it
+      from its DOM-props surface; forwarded to the input.
+  - **Menus:** FileRow / SendButton / SaveMenuButton /
+    ChooseMainScriptQuestion / MoreMenuButton onto
+    `MenuTrigger`/`MenuList`/`MenuItem`. Chakra's `MenuButton as=` pattern
+    becomes a plain library (Icon)Button as MenuTrigger's first child.
+    **Dropped `Portal` + explicit menu z-index constants** — RAC popovers
+    portal to body natively and the menu recipe's `zIndex: dropdown`
+    (1000) already clears xterm (~10), which is all
+    `zIndexProjectAreaMenu`/`zIndexAboveTerminal` guarded against.
+    Split buttons (Send|⋮, Save|⋮) keep the attached look via the library
+    `ButtonGroup isAttached` (MenuTrigger adds no DOM node, so the
+    first/last-child radius selectors still see two buttons).
+  - **Forms:** ProjectNameQuestion / NewFileNameQuestion onto the library
+    `TextField` (label/helperText/errorMessage slots ≙ FormControl
+    family); RAC `onChange` passes the string directly. NewFileNameQuestion
+    keeps its app-side warning `Text` for the valid-but-noteworthy case
+    (the error slot only shows when invalid — same as Chakra).
+  - **Chrome:** ProjectArea/ProjectAreaNav/ProjectNameEditable/
+    ProjectActionBar onto Panda layout + library Text/List/Tooltip.
+    ProjectActionBar is now a `styled.section` (Panda styled components
+    have no `as` polymorphism — Workbench's `as="section"` moved into the
+    component) with a `css` prop for Workbench's border. project-actions'
+    dialog/toast JSX moved to library Text/Link/List + Panda stacks.
+  - **Dead code dropped:** FileRow's unused `projectName` prop; SendButton's
+    tooltip-suppression `onFocus` hack (RAC tooltips open only on
+    keyboard focus-visible, so the flash-completion refocus can't raise
+    it); two invalid Chakra colour props that never resolved
+    (`grey.800` on FileRow's menu button / ProjectNameEditable heading —
+    note "grey" not "gray").
+  - **Verified:** app+ui typecheck/lint/prettier clean; 217 unit tests;
+    build clean. Smoke on branded dev build: file-row ⋮ menu (Edit/Save/
+    Delete, Delete correctly disabled on main.py), Send⋮ Connect menu,
+    Save⋮ "Save Python script", project rename via the TextField dialog
+    end-to-end, create-file validation ("This file already exists" on a
+    reserved name; file created), and loading a non-main .py raises
+    ChooseMainScriptQuestion whose options menu renders group title +
+    check indicator and switches selection. No console errors.
 
 ## Notes to revisit later
 
