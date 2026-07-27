@@ -3,14 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Text, TextField } from "@microbit/ui";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
@@ -25,15 +18,13 @@ const NewFileNameQuestion = ({
   validate,
 }: NewFileNameQuestionProps) => {
   return (
-    <FormControl id="fileName" isRequired isInvalid={!validationResult.ok}>
-      <FormLabel>
-        <FormattedMessage id="name-text" />
-      </FormLabel>
-      <Input
-        type="text"
+    <>
+      <TextField
+        isRequired
+        isInvalid={!validationResult.ok}
+        label={<FormattedMessage id="name-text" />}
         value={value}
-        onChange={(e) => {
-          const value = e.target.value;
+        onChange={(value) => {
           setValue(value);
           setValidationResult(validate(value));
         }}
@@ -41,20 +32,19 @@ const NewFileNameQuestion = ({
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
-      ></Input>
-      <FormHelperText color="gray.700">
-        <FormattedMessage
-          id="new-file-hint"
-          values={{
-            code: (chunks: ReactNode) => <code>{chunks}</code>,
-          }}
-        />
-      </FormHelperText>
-      {validationResult.message && !validationResult.ok && (
-        <FormErrorMessage>{validationResult.message}</FormErrorMessage>
-      )}
+        helperText={
+          <FormattedMessage
+            id="new-file-hint"
+            values={{
+              code: (chunks: ReactNode) => <code>{chunks}</code>,
+            }}
+          />
+        }
+        helperTextCss={{ color: "gray.700" }}
+        errorMessage={validationResult.message}
+      />
       {validationResult.message && validationResult.ok && (
-        // FormErrorMessage does not display when the field is valid so we need
+        // The error slot does not display when the field is valid so we need
         // an equivalent for warning feedback.
         <Text
           id="fileName-feedback"
@@ -62,12 +52,12 @@ const NewFileNameQuestion = ({
           fontSize="sm"
           color="red.500"
           lineHeight="normal"
-          mt={2}
+          mt="2"
         >
           {validationResult.message}
         </Text>
       )}
-    </FormControl>
+    </>
   );
 };
 

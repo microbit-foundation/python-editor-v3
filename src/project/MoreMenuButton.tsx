@@ -3,42 +3,42 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  IconButton,
-  MenuButton,
-  MenuButtonProps,
-  ThemeTypings,
-} from "@chakra-ui/react";
+import { ButtonProps, IconButton } from "@microbit/ui";
 import React, { ForwardedRef } from "react";
 import { MdMoreVert } from "react-icons/md";
 
-interface MoreMenuButtonProps extends MenuButtonProps {
-  size?: ThemeTypings["components"]["Button"]["sizes"];
-  variant?: string;
+interface MoreMenuButtonProps {
+  "aria-label": string;
+  size?: "lg" | "md" | "sm" | "xs";
+  variant?: ButtonProps["variant"];
+  "data-testid"?: string;
 }
 
+/**
+ * The "more" half of a split button. Place inside a MenuTrigger, next to the
+ * main action button, both inside an attached ButtonGroup.
+ */
 const MoreMenuButton = React.forwardRef(
   (
     { size, variant, ...props }: MoreMenuButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     return (
-      <MenuButton
+      <IconButton
         ref={ref}
         variant={variant}
-        borderLeft="1px"
-        borderRadius="button"
-        as={IconButton}
-        icon={
-          <MdMoreVert
-            style={{
-              marginLeft: "calc(-0.15 * var(--chakra-radii-button))",
-            }}
-          />
-        }
         size={size}
+        css={{
+          borderLeft: "1px solid",
+          borderRadius: "button",
+          // Nudge the glyph towards the attached (square) edge, as the old
+          // inline style did with the Chakra radii var.
+          "& svg": { marginLeft: "calc(-0.15 * token(radii.button))" },
+        }}
         {...props}
-      />
+      >
+        <MdMoreVert />
+      </IconButton>
     );
   }
 );

@@ -4,21 +4,20 @@
  * SPDX-License-Identifier: MIT
  */
 import {
-  HStack,
   IconButton,
   ListItem,
-  Menu,
-  MenuButton,
-  MenuButtonProps,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  MenuTrigger,
   Text,
   UnorderedList,
-} from "@chakra-ui/react";
+} from "@microbit/ui";
+import { ReactNode } from "react";
 import sortBy from "lodash.sortby";
 import { RiFileSettingsLine } from "react-icons/ri";
 import { IntlShape, useIntl } from "react-intl";
+import { HStack } from "styled-system/jsx";
 import { InputDialogBody } from "../common/InputDialog";
 import { MAIN_FILE } from "../fs/fs";
 import { ClassifiedFileInput, FileOperation } from "./changes";
@@ -42,7 +41,7 @@ const ChooseMainScriptQuestion = ({
     (c) => c.source
   );
   return changes.length > 1 ? (
-    <UnorderedList listStyleType="none" listStylePos="inside" m={0}>
+    <UnorderedList listStyleType="none" listStylePosition="inside" m="0">
       {changes.map((c) => (
         <ListItem key={c.source}>
           <FileChangeRow
@@ -129,8 +128,6 @@ const FileChangeRow = ({
   setValue,
   currentFiles,
 }: FileChangeRowProps) => {
-  const clearMainScript = () => setValue({ main: undefined });
-  const switchMainScript = () => setValue({ main: change.source });
   const isMainScript = change.target === MAIN_FILE;
   const intl = useIntl();
   return (
@@ -139,13 +136,15 @@ const FileChangeRow = ({
         {summarizeChange(intl, change)}
       </Text>
       {change.script && change.source !== MAIN_FILE && (
-        <OptionsMenu ml="auto">
+        <OptionsMenu>
           <MenuOptionGroup
             value={isMainScript ? "main" : "source"}
             title={change.source}
-            type="radio"
+            onChange={(value) =>
+              setValue({ main: value === "main" ? change.source : undefined })
+            }
           >
-            <MenuItemOption value="main" onClick={switchMainScript}>
+            <MenuItemOption value="main">
               {summarizeChange(intl, {
                 ...change,
                 target: MAIN_FILE,
@@ -154,7 +153,7 @@ const FileChangeRow = ({
                   : FileOperation.ADD,
               })}
             </MenuItemOption>
-            <MenuItemOption value="source" onClick={clearMainScript}>
+            <MenuItemOption value="source">
               {summarizeChange(intl, {
                 ...change,
                 target: change.source,
@@ -170,21 +169,20 @@ const FileChangeRow = ({
   );
 };
 
-const OptionsMenu = ({ children, ...props }: MenuButtonProps) => {
+const OptionsMenu = ({ children }: { children: ReactNode }) => {
   const intl = useIntl();
   return (
-    <Menu placement="right">
-      <MenuButton
-        {...props}
-        as={IconButton}
-        colorScheme="gray"
+    <MenuTrigger>
+      <IconButton
+        css={{ ml: "auto" }}
         aria-label={intl.formatMessage({ id: "options" })}
         size="md"
         variant="ghost"
-        icon={<RiFileSettingsLine />}
-      />
-      <MenuList>{children}</MenuList>
-    </Menu>
+      >
+        <RiFileSettingsLine />
+      </IconButton>
+      <MenuList placement="right">{children}</MenuList>
+    </MenuTrigger>
   );
 };
 

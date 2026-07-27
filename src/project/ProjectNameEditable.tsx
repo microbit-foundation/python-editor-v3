@@ -3,25 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  HStack,
-  IconButton,
-  ResponsiveValue,
-  Text,
-  TextProps,
-  Tooltip,
-} from "@chakra-ui/react";
-import * as CSS from "csstype";
-import { useCallback } from "react";
+import { IconButton, Text, Tooltip } from "@microbit/ui";
+import { ComponentProps, useCallback } from "react";
 import { RiEdit2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { HStack } from "styled-system/jsx";
 import { useProject, useProjectActions } from "./project-hooks";
 
-interface ProjectNameEditableProps extends TextProps {
+type HStackProps = ComponentProps<typeof HStack>;
+
+interface ProjectNameEditableProps extends ComponentProps<typeof Text> {
   button?: "before" | "after";
   clickToEdit?: boolean;
-  justifyContent?: ResponsiveValue<CSS.Property.JustifyContent>;
-  alignItems?: ResponsiveValue<CSS.Property.AlignItems>;
+  justifyContent?: HStackProps["justifyContent"];
+  alignItems?: HStackProps["alignItems"];
 }
 
 /**
@@ -44,18 +39,18 @@ const ProjectNameEditable = ({
     <Tooltip
       hasArrow
       label={intl.formatMessage({ id: "edit-name-project-hover" })}
-      placement="top-start"
+      placement="top start"
       key="button"
     >
       <IconButton
         size="md"
-        icon={<RiEdit2Line />}
-        fontSize="xl"
-        color="brand.500"
+        css={{ fontSize: "xl", color: "brand.500" }}
         variant="ghost"
-        onClick={handleClick}
+        onPress={handleClick}
         aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
-      />
+      >
+        <RiEdit2Line />
+      </IconButton>
     </Tooltip>
   );
   const text = (
@@ -69,11 +64,7 @@ const ProjectNameEditable = ({
     </Text>
   );
   return (
-    <HStack
-      spacing={2.5}
-      justifyContent={justifyContent}
-      alignItems={alignItems}
-    >
+    <HStack gap="2.5" justifyContent={justifyContent} alignItems={alignItems}>
       {button === "before" ? [editButton, text] : [text, editButton]}
     </HStack>
   );

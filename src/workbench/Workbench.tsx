@@ -280,11 +280,13 @@ const Editor = ({ editor }: EditorProps) => {
       <ProjectActionBar
         ref={ref}
         sendButtonRef={ref}
-        as="section"
         aria-label={intl.formatMessage({ id: "project-actions" })}
-        borderTopWidth={2}
-        borderColor="gray.200"
-        overflow="hidden"
+        css={{
+          borderTopWidth: "2px",
+          borderTopStyle: "solid",
+          borderColor: "gray.200",
+          overflow: "hidden",
+        }}
       />
     </Flex>
   );

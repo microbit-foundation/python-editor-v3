@@ -3,38 +3,45 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack, useMediaQuery } from "@chakra-ui/react";
+import { useMediaQuery } from "@microbit/ui";
 import SendButton from "./SendButton";
 import SaveMenuButton from "./SaveMenuButton";
 import OpenButton from "./OpenButton";
 import { widthXl } from "../common/media-queries";
 import React, { ForwardedRef } from "react";
+import { HStack, styled } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 
-interface ProjectActionBarProps extends BoxProps {
+interface ProjectActionBarProps {
   sendButtonRef: React.RefObject<HTMLButtonElement>;
+  "aria-label"?: string;
+  css?: SystemStyleObject;
 }
 
 const ProjectActionBar = React.forwardRef(
   (
-    { sendButtonRef, ...props }: ProjectActionBarProps,
+    { sendButtonRef, css: cssProp, ...props }: ProjectActionBarProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
-    const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
+    const isWideScreen = useMediaQuery(widthXl);
     const size = "lg";
     return (
-      <HStack
+      <styled.section
         {...props}
+        display="flex"
+        alignItems="center"
         justifyContent="space-between"
-        py={5}
-        px={isWideScreen ? 10 : 5}
+        py="5"
+        px={isWideScreen ? "10" : "5"}
+        css={cssProp}
       >
         <SendButton size={size} ref={ref} sendButtonRef={sendButtonRef} />
-        <HStack spacing={2.5}>
+        <HStack gap="2.5">
           <SaveMenuButton size={size} />
           {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
           <OpenButton mode="button" size={size} css={{ minW: "fit-content" }} />
         </HStack>
-      </HStack>
+      </styled.section>
     );
   }
 );

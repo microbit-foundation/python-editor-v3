@@ -3,13 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { TextField } from "@microbit/ui";
 import { useEffect, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { InputDialogBody } from "../common/InputDialog";
@@ -30,25 +24,20 @@ const ProjectNameQuestion = ({
     }
   }, []);
   return (
-    <FormControl id="fileName" isRequired isInvalid={!validationResult.ok}>
-      <FormLabel>
-        <FormattedMessage id="name-text" />
-      </FormLabel>
-      <Input
-        ref={ref}
-        type="text"
-        value={value}
-        onChange={(e) => {
-          const value = e.target.value;
-          setValue(value);
-          setValidationResult(validate(value));
-        }}
-      ></Input>
-      <FormHelperText color="gray.700">
-        <FormattedMessage id="name-used-when" />
-      </FormHelperText>
-      <FormErrorMessage>{validationResult.message}</FormErrorMessage>
-    </FormControl>
+    <TextField
+      ref={ref}
+      isRequired
+      isInvalid={!validationResult.ok}
+      label={<FormattedMessage id="name-text" />}
+      value={value}
+      onChange={(value) => {
+        setValue(value);
+        setValidationResult(validate(value));
+      }}
+      helperText={<FormattedMessage id="name-used-when" />}
+      helperTextCss={{ color: "gray.700" }}
+      errorMessage={validationResult.message}
+    />
   );
 };
 

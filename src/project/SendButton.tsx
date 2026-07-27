@@ -6,18 +6,15 @@
 import {
   Button,
   ButtonGroup,
-  HStack,
-  Menu,
   MenuItem,
   MenuList,
-  Portal,
-  ThemeTypings,
+  MenuTrigger,
   Tooltip,
-} from "@chakra-ui/react";
-import React, { FocusEvent, ForwardedRef, useCallback, useRef } from "react";
+} from "@microbit/ui";
+import React, { ForwardedRef, useCallback, useRef } from "react";
 import { RiUsbLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { zIndexAboveTerminal } from "../common/zIndex";
+import { HStack } from "styled-system/jsx";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
 import MoreMenuButton from "./MoreMenuButton";
@@ -30,7 +27,7 @@ import {
 import { ConnectionAction, FinalFocusRef } from "./project-actions";
 
 interface SendButtonProps {
-  size?: ThemeTypings["components"]["Button"]["sizes"];
+  size?: "lg" | "md" | "sm" | "xs";
   sendButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
@@ -75,18 +72,10 @@ const SendButton = React.forwardRef(
       },
       [flashing, actions]
     );
-    const handleFocus = useCallback(
-      (e: FocusEvent<unknown>) => {
-        const inProgress = flashing.current.flashing;
-        const delta = new Date().getTime() - flashing.current.lastCompleteFlash;
-        if (inProgress || delta < 200) {
-          // Avoid the tooltip obscuring the "micro:bit flashed" text just above the button.
-          // This does not prevent focus, just the Tooltip's handler running.
-          e.preventDefault();
-        }
-      },
-      [flashing]
-    );
+    // The Chakra version prevented the tooltip's focus handler after a flash
+    // so it didn't obscure the "micro:bit flashed" text. RAC tooltips only
+    // show on keyboard focus-visible (not programmatic/pointer focus), so no
+    // equivalent hack is needed.
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const activeElementRef = useRef<HTMLElement | null>(null);
     const handleSendToMicrobitShortcut = useCallback(() => {
@@ -100,44 +89,41 @@ const SendButton = React.forwardRef(
     );
     return (
       <HStack>
-        <Menu>
-          <ButtonGroup isAttached>
-            <Tooltip
-              hasArrow
-              placement="top-start"
-              label={intl.formatMessage({
-                id: "send-hover",
-              })}
+        <ButtonGroup isAttached>
+          <Tooltip
+            hasArrow
+            placement="top start"
+            label={intl.formatMessage({
+              id: "send-hover",
+            })}
+          >
+            <Button
+              ref={ref}
+              size={size}
+              variant="primary"
+              leftIcon={<RiUsbLine />}
+              onPress={() => handleSendToMicrobit(sendButtonRef)}
             >
-              <Button
-                ref={ref}
-                onFocus={handleFocus}
-                size={size}
-                variant="solid"
-                leftIcon={<RiUsbLine />}
-                onClick={() => handleSendToMicrobit(sendButtonRef)}
-              >
-                <FormattedMessage id="send-action" />
-              </Button>
-            </Tooltip>
+              <FormattedMessage id="send-action" />
+            </Button>
+          </Tooltip>
+          <MenuTrigger>
             <MoreMenuButton
               ref={menuButtonRef}
-              variant="solid"
+              variant="primary"
               aria-label={intl.formatMessage({ id: "more-connect-options" })}
               data-testid="more-connect-options"
               size={size}
             />
-            <Portal>
-              <MenuList zIndex={zIndexAboveTerminal}>
-                <MenuItem icon={<RiUsbLine />} onClick={handleToggleConnected}>
-                  <FormattedMessage
-                    id={connected ? "disconnect-action" : "connect-action"}
-                  />
-                </MenuItem>
-              </MenuList>
-            </Portal>
-          </ButtonGroup>
-        </Menu>
+            <MenuList>
+              <MenuItem icon={<RiUsbLine />} onAction={handleToggleConnected}>
+                <FormattedMessage
+                  id={connected ? "disconnect-action" : "connect-action"}
+                />
+              </MenuItem>
+            </MenuList>
+          </MenuTrigger>
+        </ButtonGroup>
       </HStack>
     );
   }
