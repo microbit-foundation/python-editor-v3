@@ -3,11 +3,11 @@
 Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialogs
 done (all `common/` dialogs, `connect-dialogs/` ×9, workbench dialogs);
 toast infrastructure live (`ToastProvider` + `@microbit/ui` catalog merge,
-all toast call sites ported); `common/` done except
-CollapsibleButton/FileInputButton (deferred to the project/serial buttons
-batch). Steps 1–2 complete. Verification bar: typecheck/build/lint + a
-runtime smoke check; full visual pass deferred (per owner). Porting
-continues area-by-area.**
+all toast call sites ported); `common/` fully ported (incl.
+CollapsibleButton/FileInputButton + their cross-app call sites); z-index
+token scale landed. Steps 1–2 complete. Verification bar:
+typecheck/build/lint + a runtime smoke check; full visual pass deferred
+(per owner). Porting continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -57,10 +57,8 @@ Known structural extensions to converge:
 - Container `sidebar-header` bg (OSS black → private `brand.500`) and the
   sidebar Tabs variant: `sidebarHeaderBg`-type semantic tokens — a semantic
   token can hold the gradient privately, flat black OSS. **Correction
-  (2026-07-27 differ run):** the sidebar Tabs variant diverges on *three*
-  properties, not just the tablist background the census named — `tablist.
-  background` (black → brand→blimpTeal linear-gradient), `tab._selected.
-  color` (black → `brand.300`) and `tab._selected.bg` (`gray.50` →
+  (2026-07-27 differ run):** the sidebar Tabs variant diverges on _three_
+  properties, not just the tablist background the census named — `tablist. background` (black → brand→blimpTeal linear-gradient), `tab._selected. color` (black → `brand.300`) and `tab._selected.bg` (`gray.50` →
   `gray.25`). Convergence needs three tokens, not one.
 - Private-only Tooltip config.
 - Private theme also carries a full custom `gray` ramp (not just the
@@ -147,6 +145,7 @@ Chakra Heading (they compose Text).
 
 - July 2026: census taken; playbook + kit extracted to `../ui`; this doc
   seeded. Nothing migrated yet. Two caveats for whoever starts:
+
   - The kit scripts were revived from ml-trainer's git history and
     generalised but have not been exercised since — the first
     `diff-chakra-themes.mjs` run here doubles as their validation.
@@ -173,14 +172,14 @@ Chakra Heading (they compose Text).
   PR'd back to `../ui`.
 
   **Census cross-check (post-2026-07-24 pull).** Claims that still hold:
-  Button `outline` *is* still colorScheme-conditional (`color:
-  {scheme}.{scheme==='brand'?500:600}`, hover `…?600:700`, bg transparent),
+  Button `outline` _is_ still colorScheme-conditional (`color: {scheme}.{scheme==='brand'?500:600}`, hover `…?600:700`, bg transparent),
   plus `unstyled`, `language`, `baseStyle.borderRadius: button`; Alert
   `toast` per-status recolour is exactly `blimpTeal.700` (success/info) /
   `code.error` (else); Container `sidebar-header` black→`brand.500`;
   Tooltip private-only (`baseStyle.fontSize` sm→md); full custom `gray`
   ramp + `purple`/`teal`/`blimpTeal`; `withDefaultColorScheme('brand')` +
   `withDefaultVariant('outline')`. Discrepancies / additions found:
+
   - **Sidebar Tabs is broader than the census said** — three divergent
     props, not one (see the corrected Pre-work bullet above).
   - **Brand-ramp shape asymmetry:** OSS defines `brand.10/25/50/900`
@@ -190,7 +189,7 @@ Chakra Heading (they compose Text).
     intentional when the ramps move to the preset.
   - **Private brand-ramp data nits (brand-team, out of convergence scope):**
     `brand.100` is `#e1dbF3` (stray uppercase `F`); `brand.600` (`#50388f`)
-    is *darker* than `brand.700` (`#5c40a6`) — non-monotonic. Flag to
+    is _darker_ than `brand.700` (`#5c40a6`) — non-monotonic. Flag to
     whoever owns the palette; not a structure question.
   - **`withDefaultColorScheme('brand')` accounts for ~41 of the 56
     component diffs** (every `defaultProps.colorScheme → brand`). These are
@@ -199,20 +198,20 @@ Chakra Heading (they compose Text).
     census already flagged, not by pre-work theme edits.
 
   **Classification of the 112 diffs.**
-  - *A — token-value deltas (brand-preset territory, fine as values):* all
+
+  - _A — token-value deltas (brand-preset territory, fine as values):_ all
     `gray.50–800`, `teal.*`, `purple.*`, `blimpTeal.*` (new ramp),
     `brand.100–800`, `code.*`, `radii.button` (0.375rem→2rem; base preset
     standardises 2rem family-wide). Plus the ramp-shape asymmetry above.
-  - *B — structural extensions (converge onto semantic tokens while on
-    Chakra):* Button `outline`/`language`/`unstyled` + baseStyle radius;
+  - _B — structural extensions (converge onto semantic tokens while on
+    Chakra):_ Button `outline`/`language`/`unstyled` + baseStyle radius;
     Alert `toast` per-status bg; Container `sidebar-header` bg; Tabs
     `sidebar` (×3 props); Tooltip `fontSize`.
-  - *C — config-level, no pre-work edit:* the ~41 `defaultProps.colorScheme`
+  - _C — config-level, no pre-work edit:_ the ~41 `defaultProps.colorScheme`
     diffs from `withDefaultColorScheme`.
 
   Base preset already carries the target semantic tokens: `languageText`/
-  `languageTextHover` (→`brand2.500/600`), `toast{Info,Success,Warning,
-  Error}Bg` (Info/Success/Warning=`teal.800`, Error=`danger.600`),
+  `languageTextHover` (→`brand2.500/600`), `toast{Info,Success,Warning, Error}Bg` (Info/Success/Warning=`teal.800`, Error=`danger.600`),
   `statusBarBg`. **No `sidebarHeaderBg`/sidebar-Tabs tokens exist yet** —
   that name in the Pre-work list is a proposal; the sidebar token set is a
   front-load decision (playbook "Decisions to front-load",
@@ -221,6 +220,7 @@ Chakra Heading (they compose Text).
   **Proposed per-component convergence order** (rerun the differ after each;
   each step should move its rows out of section B into A or eliminate them —
   "brand divergence becomes token values, never structure"):
+
   1. **Button `baseStyle.borderRadius`** — add `borderRadius: 'button'` OSS
      baseStyle. **Decision (2026-07-27): OSS adopts 2rem** (converge to the
      family/base-preset value; OSS-grey-theme visual change accepted). The
@@ -246,7 +246,7 @@ Chakra Heading (they compose Text).
      token overrides). Largest single step; retires two private-only
      variants.
   7. **Tabs `sidebar`** — last (app chrome, heaviest divergence). Three
-     tokens: `sidebarTablistBg` (a semantic token *can* hold the gradient
+     tokens: `sidebarTablistBg` (a semantic token _can_ hold the gradient
      string — flat `black` OSS / gradient private), `sidebarTabSelectedText`
      (`black`/`brand.300`), `sidebarTabSelectedBg` (`gray.50`/`gray.25`).
      OSS Tabs references the tokens; private preset overrides. Benefits
@@ -259,8 +259,8 @@ Chakra Heading (they compose Text).
 
 - 2026-07-27 (later): **convergence executed — all seven steps landed in
   lockstep across both repos; differ shows zero structural divergence.**
-  Mechanism on Chakra: each component config was made *structurally
-  identical* across the OSS (`src/deployment/default`) and private
+  Mechanism on Chakra: each component config was made _structurally
+  identical_ across the OSS (`src/deployment/default`) and private
   (`../python-editor-v3-microbit/src`) themes, with brand divergence moved
   into Chakra `semanticTokens` (a new `semanticTokens` block in each
   `theme.ts` — OSS holds the OSS value, private overrides the same names).
@@ -271,16 +271,15 @@ Chakra Heading (they compose Text).
   (section C).
 
   Per-step outcomes (each verified by a differ re-run):
-  1. Button radius — OSS `radii.button` → `2rem` + `baseStyle.borderRadius:
-     'button'`; unified, no token (`radii.button` + `Button.baseStyle`
+
+  1. Button radius — OSS `radii.button` → `2rem` + `baseStyle.borderRadius: 'button'`; unified, no token (`radii.button` + `Button.baseStyle`
      diffs gone).
   2. Button `unstyled` — lifted to OSS as-is (diff gone).
   3. Tooltip — new OSS `components/tooltip.ts` (`fontSize: 'md'`) registered
      in OSS `theme.ts`; unified, no token (diff gone).
   4. Container `sidebar-header` — `bg: 'sidebarHeaderBg'` both sides
      (`black` / `brand.500`).
-  5. Alert `toast` — identical `toastBgByStatus` map → `toast{Success,Info,
-     Warning,Error}Bg` both sides (OSS = Chakra solid status colours; private
+  5. Alert `toast` — identical `toastBgByStatus` map → `toast{Success,Info, Warning,Error}Bg` both sides (OSS = Chakra solid status colours; private
      success/info→`blimpTeal.700`, warning/error→`code.error`). Retired the
      private-only per-status branch into tokens.
   6. Button `outline` + `language` — both defined identically OSS-side.
@@ -305,10 +304,9 @@ Chakra Heading (they compose Text).
   not rendering, so the two things it can't see were checked by resolving
   both themes through Chakra's `toCSSVar` pipeline (the private package was
   rebuilt first). Results:
+
   - **Gradient-in-a-semantic-token works.** `sidebarTablistBg` emits
-    verbatim as `--chakra-colors-sidebarTablistBg: transparent
-    linear-gradient(to bottom, var(--chakra-colors-brand-500) 0%,
-    var(--chakra-colors-blimpTeal-400) 100%) 0% 0% no-repeat padding-box`
+    verbatim as `--chakra-colors-sidebarTablistBg: transparent linear-gradient(to bottom, var(--chakra-colors-brand-500) 0%, var(--chakra-colors-blimpTeal-400) 100%) 0% 0% no-repeat padding-box`
     (full background shorthand, nested var refs preserved, no trailing `;`);
     OSS resolves to `var(--chakra-colors-black)`. The Tabs sidebar variant
     references the token (`tablist.background → sidebarTablistBg`), so the
@@ -317,15 +315,14 @@ Chakra Heading (they compose Text).
   - **All 10 semantic tokens emit a var on both themes** (nothing undefined);
     toast tokens resolve per status (private success/info → `blimpTeal.700`,
     warning/error → `code.error`; OSS → green/blue/orange/red.500).
-  Verification script: `scratchpad/verify-semantic-tokens.mjs` (throwaway).
+    Verification script: `scratchpad/verify-semantic-tokens.mjs` (throwaway).
 
   **Live fidelity confirmed (2026-07-27).** Ran a headless-Chromium
   side-by-side of the local branded build (private theme linked into
   `node_modules/@microbit-foundation/python-editor-v3-microbit`, vite dev)
   against the live `https://python.microbit.org/v/3`. The sidebar Tabs
   gradient renders **byte-identical** on both: computed
-  `background-image: linear-gradient(rgb(108, 75, 193) 0%, rgb(123, 205, 194)
-  100%)` — i.e. `brand.500` (#6c4bc1) → `blimpTeal.400` (#7bcdc2) — exactly
+  `background-image: linear-gradient(rgb(108, 75, 193) 0%, rgb(123, 205, 194) 100%)` — i.e. `brand.500` (#6c4bc1) → `blimpTeal.400` (#7bcdc2) — exactly
   one gradient element (the tablist) on each side. Visually confirmed too
   (purple→teal sidebar, brand logo, brand-purple "Send to micro:bit"). So the
   inline-gradient-string → semantic-token refactor reproduces the production
@@ -340,6 +337,7 @@ Chakra Heading (they compose Text).
 
 - 2026-07-27 (step 2 — Panda foundation): **installed the Panda + preset
   stack in coexistence form; app unchanged on Chakra.** No components ported.
+
   - **Consumption:** `@microbit/ui` linked via `file:../ui/packages/ui` (it
     ships as source); survives installs. The private brand preset is consumed
     through the existing `node_modules/@microbit-foundation/python-editor-v3-microbit`
@@ -353,8 +351,7 @@ Chakra Heading (they compose Text).
     `sidebarTablistBg`). Verified via cssgen: `brand.500` → `#6c4bc1`, and the
     gradient token interpolates `{colors…}` refs into
     `linear-gradient(var(--colors-brand-500) … var(--colors-blimp-teal-400))`.
-  - **CSS (coexistence):** `panda` script = `panda codegen && panda cssgen
-    --outfile src/styled-system.css && node ../ui/bin/unlayer-panda.mjs`;
+  - **CSS (coexistence):** `panda` script = `panda codegen && panda cssgen --outfile src/styled-system.css && node ../ui/bin/unlayer-panda.mjs`;
     `panda:watch` = `panda-dev.mjs`; `prestart`/`prebuild`/`pretypecheck`/
     `prepare` regenerate. `styled-system.css` imported first in
     `src/index.tsx`. `styled-system` alias in tsconfig `paths` + vite. Output
@@ -393,6 +390,7 @@ Chakra Heading (they compose Text).
 - 2026-07-27 (step 3 — first port, pilot): **`common/ConfirmDialog.tsx`
   ported to `@microbit/ui`; renders byte-identical to live.** Established the
   porting pattern and shook out one critical integration gotcha.
+
   - **The port:** Chakra `AlertDialog`/`Button`/`Text` → `@microbit/ui`
     `Modal` (`role="alertdialog"`, controlled `isOpen`) + `ModalHeader`/
     `ModalBody`/`ModalFooter` + `Button`. `onClick` → RAC `onPress`. Cancel =
@@ -410,8 +408,7 @@ Chakra Heading (they compose Text).
   - **Gotcha #19 (new — dual React from dev-linking):** the ported dialog
     crashed at runtime (`useContext of null`) because `@microbit/ui` is
     consumed via `file:` symlink, so its `import "react"` resolved to the ui
-    monorepo's copy — two Reacts. Fixed with `resolve.dedupe: ["react",
-    "react-dom", "react-aria-components", "react-aria", "react-stately"]` in
+    monorepo's copy — two Reacts. Fixed with `resolve.dedupe: ["react", "react-dom", "react-aria-components", "react-aria", "react-stately"]` in
     `vite.config.ts`. Typecheck + build passed regardless (runtime-only);
     added to the playbook gotcha catalog. A published package wouldn't hit it.
   - **Verified:** typecheck/build clean; drove the confirm-replace dialog
@@ -432,6 +429,7 @@ Chakra Heading (they compose Text).
 - 2026-07-27 (step 3 — dialog infrastructure): **ported the shared
   `common/GenericDialog.tsx` shell + `GenericDialogFooter` onto `@microbit/ui`
   Modal; the 8 consumer dialogs are untouched and render through it.**
+
   - **Shell:** Chakra `Modal`/`ModalOverlay`/`ModalContent` → `@microbit/ui`
     `Modal` + `ModalCloseButton`/`ModalHeader`/`ModalBody`/`ModalFooter`.
     Props API preserved (`header`/`body`/`footer`/`size`/`onClose`/
@@ -444,8 +442,7 @@ Chakra Heading (they compose Text).
     redirects it. Two consumers (NotFoundDialog, FirmwareDialog) still pass it;
     behaviour to spot-check if focus-return matters there.
   - **Footer:** `HStack` → Panda `styled-system/jsx` `HStack` (layout is Panda
-    patterns now); the "don't show again" `Link as="button"` → `Button
-    variant="link"` (css `color: brand.500`); the close `Button variant="solid"`
+    patterns now); the "don't show again" `Link as="button"` → `Button variant="link"` (css `color: brand.500`); the close `Button variant="solid"`
     → `variant="primary"`.
   - **Verified:** typecheck/build clean; `css`-prop + `HStack` styles confirmed
     present in the generated CSS (no gotcha #9 silent miss). Drove the
@@ -456,8 +453,7 @@ Chakra Heading (they compose Text).
     offset from `isCentered`, negligible). No console errors.
   - En route, confirmed the still-Chakra `InputDialog` ("Name your project")
     renders correctly in coexistence — good coexistence signal.
-  - Build warning noted: an esbuild CSS-minifier `Expected identifier but
-    found "0"` on the sidebar-gradient background shorthand; the gradient
+  - Build warning noted: an esbuild CSS-minifier `Expected identifier but found "0"` on the sidebar-gradient background shorthand; the gradient
     itself already renders byte-identical to live (step 2), so cosmetic — keep
     an eye on it at the kill-switch when CSS handling changes.
 
@@ -465,6 +461,7 @@ Chakra Heading (they compose Text).
   `common/` dialogs' contents.** Verification bar for this and later batches:
   typecheck + build + a runtime smoke check (full visual pass deferred per
   owner).
+
   - **PostSaveDialog / MultipleFilesDialog:** bodies only (shell = ported
     GenericDialog). Chakra `VStack`/`Text`/`Link` → Panda `styled-system/jsx`
     `VStack` + `@microbit/ui` `Text`/`Link`; `spacing`→`gap`, `p={5}`→`p="5"`.
@@ -493,10 +490,10 @@ Chakra Heading (they compose Text).
   common dialogs (Text/Link/Image → `@microbit/ui`; layout → Panda
   `styled-system/jsx`; Button `solid`→`primary`, default→`outline`,
   `onClick`→`onPress`). Done via a context-sharing fork; verified by me.
+
   - **Verified:** no `@chakra-ui` imports remain in the folder; tsc/build/
     lint clean; the one gotcha #9 risk (`css={{ minWidth: buttonWidth }}`)
-    is safe — `buttonWidth` is a same-file literal const, and `min-width:
-    8.1rem` is present in the generated CSS. Smoke-tested "Send to micro:bit"
+    is safe — `buttonWidth` is a same-file literal const, and `min-width: 8.1rem` is present in the generated CSS. Smoke-tested "Send to micro:bit"
     → the ported ConnectDialog "Connect cable" renders correctly (illustration
     Image, "Don't show this again" link + outline Cancel + primary Next), no
     console errors.
@@ -519,8 +516,8 @@ Chakra Heading (they compose Text).
 - 2026-07-27 (step 3 — workbench dialogs): **ported WelcomeDialog,
   FeedbackForm, AboutDialog; deleted `common/ModalCloseButton`** (all dialogs
   now use `@microbit/ui`'s). Via a context-sharing fork; verified by me.
-  - **AboutDialog `<Table>` → plain HTML table with Panda `styled.table/tbody/
-    tr/td`** (owner decision: app-side, not a shared component — it's a simple
+
+  - **AboutDialog `<Table>` → plain HTML table with Panda `styled.table/tbody/ tr/td`** (owner decision: app-side, not a shared component — it's a simple
     version-info layout table). Cell padding/borders are approximate
     (`px="3" py="1"` + gray.100 bottom border ≈ Chakra `size="sm"`); confirm
     in the visual pass. Smoke-tested (Help → About): renders correctly — logos,
@@ -546,6 +543,7 @@ Chakra Heading (they compose Text).
   deferred providers/i18n step landed; toasts now render through
   `@microbit/ui`'s RAC `ToastProvider`, and `src/common` is ported except
   CollapsibleButton/FileInputButton.**
+
   - **i18n catalog merge:** new `bin/compile-lang.mjs` (adapted from
     ml-trainer's) replaces `formatjs compile-folder` in `i18n:compile` —
     compiles each `lang/ui.<locale>.json` together with `@microbit/ui`'s
@@ -570,7 +568,7 @@ Chakra Heading (they compose Text).
     `language-server/{error-util,client,pyright}.ts` + hooks), and
     `TranslationProvider.tsx`. Library gained `toast.closeAll()`
     (committed to `../ui`) for `ActionFeedback.closeAll`.
-  - **Decisions/behaviour changes:** (1) *paste-toast placement resolved* —
+  - **Decisions/behaviour changes:** (1) _paste-toast placement resolved_ —
     the shared region has a single (top) placement; XTerm's bottom-right
     `position` argument was dropped rather than growing region placement
     in the library. (2) Success/info toasts asked for `duration: 2000`;
@@ -611,10 +609,69 @@ Chakra Heading (they compose Text).
   - Sandbox notes: Playwright browsers need
     `PLAYWRIGHT_BROWSERS_PATH=$TMPDIR/ms-playwright` (`~/.cache` not
     writable); harness background tasks are network-isolated from the
-    sandbox, so vite dev + the Playwright script must run in the *same*
-    Bash invocation; the WelcomeDialog *does* appear on local now (it's
+    sandbox, so vite dev + the Playwright script must run in the _same_
+    Bash invocation; the WelcomeDialog _does_ appear on local now (it's
     ported) and must be dismissed (Escape / "Start coding") before
     driving the app.
+
+- 2026-07-27 (step 3 — CollapsibleButton family + z-index tokens):
+  **`common/` is now fully ported.** CollapsibleButton and FileInputButton
+  moved to `@microbit/ui` Button/IconButton/Tooltip, with prop translation
+  at all eight consumer sites; the planned z-index token scale landed.
+  - **z-index tokens (app preset), prompted by a live gotcha-#9 find:**
+    `zIndex={importedConstant}` is not statically extractable — the
+    previous batch's `zIndex={zIndexBreadcrumbContainer}` only worked
+    because the ui package's InputGroup happens to emit a literal `z_2`
+    class. The app preset now defines a `zIndex` token per `zIndex.ts`
+    constant (same names/values); Panda-side styles must reference tokens
+    (`zIndex: "splitViewHideButton"`), never the imported constants.
+    `zIndex.ts` stays for the remaining Chakra files — keep the two in
+    sync until the kill-switch retires it.
+  - **CollapsibleButton:** icon mode → `IconButton` (aria-label = text,
+    base `fontSize: xl`), button mode → `Button` left/rightIcon.
+    `_collapsed` kept, now a Panda `SystemStyleObject` merged after `css`.
+    Dead `buttonWidth` prop dropped (no remaining callers). `data-testid`
+    typed explicitly (RAC passes data-\* through at runtime, but the
+    library prop types don't declare them).
+  - **FileInputButton:** Chakra Tooltip/Input → library `Tooltip`
+    (conditional — only when a tooltip is set) + a plain hidden `<input type="file">`. Note RAC placement syntax: `"top start"`, not Chakra's
+    `"top-start"`.
+  - **Consumer translations:** New/Reset/Save/Open buttons (library
+    Tooltip, `onClick`→`onPress`); SerialBar expand/collapse (`unstyled`
+    variant + `css`); SideBarHeader search button — the old empty
+    `_hover={{}}`/`_active={{}}` resets became explicit re-assertions of
+    the base colours (a `css` merge can't erase recipe hover rules), the
+    width-derived `pr` calc moved to an inline `style` (runtime value, not
+    extractable; icon mode keeps `p: 3`), and its broken `color="fff"`
+    icon prop was dropped (was invalid CSS → inherited, which is what the
+    library `Icon` does anyway); ProjectAreaNav Reset `colorScheme="red"`
+    → `variant="warning"` (danger.500 vs Chakra's red.600 outline — a
+    slight shade change, accepted; revisit in the visual pass if it
+    matters); ProjectActionBar/SaveMenuButton style props → `css`;
+    EditorArea's simulator-expand button `ml`/`boxShadow` → `css`.
+  - **HideSplitViewButton:** ported wholesale (own narrow props now — the
+    Chakra `IconButtonProps` extension is gone). The direction-dependent
+    radii/rotation use property-level ternaries with literal branches —
+    the extraction-safe conditional pattern (verified present in generated
+    CSS). Chakra's `ButtonGroup isAttached` in SaveMenuButton still styles
+    the RAC SaveButton correctly (it works via child CSS selectors) — the
+    attached Save|⋮ pair renders as before.
+  - **Verified:** typecheck/lint/build clean; 217 unit tests pass; smoke
+    on the branded dev build: project-area buttons render (Reset =
+    red-outline warning variant, computed `rgb(229,62,62)`), Tooltip shows
+    on hover, dirty-project Reset raises the ported ConfirmDialog (Cancel
+    works), sidebar collapse/expand toggles (computed: 20px icon mode,
+    `#eaecf1` bg, brand.500 glyph, z-index 4 via token, 6px/0 conditional
+    radii), simulator hide → editor-area "Simulator" text button →
+    restore. No console errors. Bonus: a clean-project Reset fires
+    `ActionFeedback.success` — the success toast verified end-to-end.
+    Smoke-test gotcha for later sessions: RAC toasts have
+    `role="alertdialog"` — don't mistake one for a dialog in assertions;
+    and Reset only confirms when the project is dirty.
+  - **Next candidates:** rest of `src/project` (FileRow, question dialogs,
+    ProjectAreaNav chrome, SendButton/MoreMenuButton — Menu-dependent),
+    or `src/documentation` (needs Collapse/Fade library work first for
+    ~14 files), or `src/settings`.
 
 ## Notes to revisit later
 
@@ -626,7 +683,7 @@ steps above, to raise with the relevant owner when convenient.
   the brand colours:
   - `brand.100` is `#e1dbF3` — stray uppercase `F`. Harmless to CSS but
     inconsistent with the rest of the ramp; normalise to lowercase.
-  - `brand.600` (`#50388f`) is *darker* than `brand.700` (`#5c40a6`) — the
+  - `brand.600` (`#50388f`) is _darker_ than `brand.700` (`#5c40a6`) — the
     ramp is non-monotonic in lightness at 600→700. Likely a mistake; confirm
     the intended values before the ramps move to the Panda preset (a
     non-monotonic ramp will bake the oddity into the preset tokens).
@@ -641,9 +698,10 @@ steps above, to raise with the relevant owner when convenient.
   (`brand`/`purple` ramps, both centred on `#6c4bc1`) and **teal**
   (`teal`/`blimpTeal`, ~`#7bcdc2`) — over a gray/black/white base. Usage
   census verdict:
+
   - **Purple = primary interactive** — links, primary buttons, dialog
     accents, sidebar header/logo, focus/hover; it's the private default
-    `colorScheme` (`withDefaultColorScheme('brand')`). This maps *cleanly*
+    `colorScheme` (`withDefaultColorScheme('brand')`). This maps _cleanly_
     onto the family `brand` role (ml-trainer's `brand` = primary interactive
     too), and is already true here — `brand` **is** the purple ramp. Nothing
     to do beyond confirming it at preset time.
@@ -653,15 +711,15 @@ steps above, to raise with the relevant owner when convenient.
     `simulator/RadioModule.tsx` (`from === 'code' ? blimpTeal : brand` →
     teal = machine/code-origin, purple = user). It is **never** a button
     `colorScheme` and never general chrome.
-  - **Why teal ≠ `brand2`:** ml-trainer's `brand2` is a *general secondary
-    accent* (LED/progress/animation/toggle/status-chrome; even neutral gray
+  - **Why teal ≠ `brand2`:** ml-trainer's `brand2` is a _general secondary
+    accent_ (LED/progress/animation/toggle/status-chrome; even neutral gray
     in OSS, green only privately). Same slot number, different meaning — and
     a direct conflict: chrome/status fill is `brand2` (green) in ml-trainer
     but `brand` (purple) here. Aliasing this app's teal to `brand2` would
     misname it and cross the two apps' chrome onto opposite tokens.
     **Decision: treat this app's teal as an app-specific "code/content"
     semantic (sibling to the `code.*` category), not a family `brand2`.**
-  - Genuine consistency that *does* hold: `toast*Bg` is on the `teal` ramp
+  - Genuine consistency that _does_ hold: `toast*Bg` is on the `teal` ramp
     family-wide and this app's success/info toasts are already `blimpTeal.700`
     (kept). Errors/destructive on red/`danger` also aligns.
   - Within-app cleanup (independent): the `purple` and `teal` ramps are
@@ -672,7 +730,7 @@ steps above, to raise with the relevant owner when convenient.
 
 - **`languageText` base-preset default looks wrong (raise against `../ui`).**
   The base preset defaults `languageText`/`languageTextHover` to
-  `brand2.*`, but **both** apps override it to their *primary* brand
+  `brand2.*`, but **both** apps override it to their _primary_ brand
   (ml-trainer → `brand.600`; this app → `brand.500`). Two apps overriding the
   same default the same way suggests the base-preset default should be
   `brand`, not `brand2` — a small family-level fix for the shared-ui repo.
