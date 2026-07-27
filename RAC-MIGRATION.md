@@ -1,9 +1,9 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) started (2026-07-27) — pilot port
-`common/ConfirmDialog.tsx` onto `@microbit/ui` Modal (alertdialog) + Button,
-verified byte-identical to the live branded deployment. Steps 1 (semantic-
-token pre-work) and 2 (Panda foundation) complete. Porting continues
+Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialog
+infrastructure ported to `@microbit/ui` Modal: `ConfirmDialog` (pilot) and
+the shared `GenericDialog` shell/footer (used by 8 dialogs), both verified
+against the live branded deployment. Steps 1–2 complete. Porting continues
 area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
@@ -425,6 +425,38 @@ Chakra Heading (they compose Text).
   - Sandbox notes for re-running the visual check: `resolve.dedupe` requires
     clearing `node_modules/.vite` once; live needs the cookie-consent **and**
     welcome dialogs dismissed before driving the flow (local shows neither).
+
+- 2026-07-27 (step 3 — dialog infrastructure): **ported the shared
+  `common/GenericDialog.tsx` shell + `GenericDialogFooter` onto `@microbit/ui`
+  Modal; the 8 consumer dialogs are untouched and render through it.**
+  - **Shell:** Chakra `Modal`/`ModalOverlay`/`ModalContent` → `@microbit/ui`
+    `Modal` + `ModalCloseButton`/`ModalHeader`/`ModalBody`/`ModalFooter`.
+    Props API preserved (`header`/`body`/`footer`/`size`/`onClose`/
+    `finalFocusRef`), so the consumers pass their still-Chakra content
+    unchanged — it renders inside the RAC Modal fine during coexistence.
+    `ModalContent minWidth 560px my="auto"` → `contentCss={{ minWidth }}` +
+    `isCentered`. `size` typed as `ModalSize`.
+  - **`returnFocusOnClose` is now a no-op** (kept in the props for API compat):
+    RAC restores focus to the trigger by default (gotcha #15); `finalFocusRef`
+    redirects it. Two consumers (NotFoundDialog, FirmwareDialog) still pass it;
+    behaviour to spot-check if focus-return matters there.
+  - **Footer:** `HStack` → Panda `styled-system/jsx` `HStack` (layout is Panda
+    patterns now); the "don't show again" `Link as="button"` → `Button
+    variant="link"` (css `color: brand.500`); the close `Button variant="solid"`
+    → `variant="primary"`.
+  - **Verified:** typecheck/build clean; `css`-prop + `HStack` styles confirmed
+    present in the generated CSS (no gotcha #9 silent miss). Drove the
+    PostSaveDialog (Save → name dialog → "Project saved", which exercises both
+    the shell and `GenericDialogFooter`) headless on local branded vs live
+    `python.microbit.org/v/3` — visually identical (header, body + purple
+    "follow these steps" link, footer link + primary Close; ~5px vertical
+    offset from `isCentered`, negligible). No console errors.
+  - En route, confirmed the still-Chakra `InputDialog` ("Name your project")
+    renders correctly in coexistence — good coexistence signal.
+  - Build warning noted: an esbuild CSS-minifier `Expected identifier but
+    found "0"` on the sidebar-gradient background shorthand; the gradient
+    itself already renders byte-identical to live (step 2), so cosmetic — keep
+    an eye on it at the kill-switch when CSS handling changes.
 
 ## Notes to revisit later
 
