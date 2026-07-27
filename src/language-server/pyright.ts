@@ -10,7 +10,7 @@ import {
 } from "vscode-jsonrpc/browser";
 import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
-import { CreateToastFnReturn } from "@chakra-ui/react";
+import { ToastFn } from "@microbit/ui";
 
 // This is modified by bin/update-pyright.sh
 const workerScriptName = "pyright-main-d88c47e1d8506418b899.worker.js";
@@ -31,7 +31,7 @@ let cache:
  */
 export const pyright = async (
   language: string,
-  toast: CreateToastFnReturn
+  toast: ToastFn
 ): Promise<LanguageServerClient | undefined> => {
   // For jsdom.
   if (!window.Worker) {

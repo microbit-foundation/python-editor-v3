@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/react";
+import { Text } from "@microbit/ui";
 import React, { ErrorInfo, ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { LoggingContext } from "../logging/logging-hooks";
@@ -38,7 +38,7 @@ class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <Text p={5}>
+        <Text p="5">
           <FormattedMessage id="content-load-error" />
         </Text>
       );

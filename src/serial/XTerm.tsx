@@ -155,9 +155,10 @@ const useManagedTermimal = (
         let text = event.clipboardData.getData("text/plain");
         if (/[\n\r]/.test(text)) {
           actionFeedback.info({
+            // Previously shown bottom-right near the terminal; the shared
+            // toast region has a single (top) placement.
             title:
               "Started and finished MicroPython paste mode for the multi-line paste.",
-            position: "bottom-right",
           });
           // Wrap in start/end paste mode to prevent auto-indent.
           text = `\x05${text}\x04`;

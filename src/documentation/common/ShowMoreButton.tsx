@@ -29,7 +29,7 @@ const ShowMoreButton = ({ isOpen, isBrief, ...props }: ShowMoreLinkProps) => {
       alignItems="center"
     >
       <FormattedMessage id={isOpen ? less : more} />
-      <ExpandCollapseIcon open={isOpen} ml={1} />
+      <ExpandCollapseIcon open={isOpen} css={{ ml: "1" }} />
     </Link>
   );
 };

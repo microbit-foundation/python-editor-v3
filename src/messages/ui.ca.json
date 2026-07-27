@@ -17,14 +17,14 @@
       "value": "Fet amb amor per la "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Micro:bit Educational Foundation i els col·laboradors"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "about-micropython": [
@@ -33,14 +33,14 @@
       "value": "L'editor depèn de "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "MicroPython"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -81,14 +81,14 @@
       "value": "Per a l'ús i els exemples, consulta "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Referència"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "api-tab": [
@@ -99,7 +99,8 @@
   ],
   "apidocs-baseclass": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "baseClassCount",
       "options": {
         "one": {
           "value": [
@@ -118,9 +119,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "baseClassCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "apidocs-classes": [
@@ -675,14 +675,14 @@
       "value": "Per obtenir més suport, consulta la "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "guia de l'Editor de Python"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "help": [
@@ -769,14 +769,14 @@
       "value": "Visita "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "https://makecode.microbit.org/"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -801,7 +801,8 @@
       "value": "No es pot carregar "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "one": {
           "value": [
@@ -820,9 +821,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "loaded-file-feedback": [
@@ -865,28 +865,28 @@
       "value": "MicroPython "
     },
     {
+      "type": 8,
+      "value": "linkV1",
       "children": [
         {
           "type": 0,
           "value": "codi font per a la micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "linkV1"
+      ]
     },
     {
       "type": 0,
       "value": " i "
     },
     {
+      "type": 8,
+      "value": "linkV2",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V2"
         }
-      ],
-      "type": 8,
-      "value": "linkV2"
+      ]
     }
   ],
   "more-action": [
@@ -903,14 +903,14 @@
   ],
   "more-ideas": [
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Més idees"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "more-save-options": [
@@ -925,7 +925,8 @@
       "value": "Aquest projecte conté els fitxers "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "other": {
           "value": [
@@ -940,23 +941,22 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
       "value": ", però només s'ha baixat "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "main.py"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -969,42 +969,42 @@
       "value": "Fes servir el botó "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Desa"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " per baixar tot el projecte com a fitxer hexadecimal. Pots "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "obrir"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " el fitxer hexadecimal per restaurar el teu projecte. Si prefereixes baixar fitxers Python individuals, fes servir la pestanya "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Projecte"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1041,14 +1041,14 @@
       "value": "T'afegirem l'extensió "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": ".py"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1067,28 +1067,28 @@
       "value": "La teva "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit està connectada"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "? Has  "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "seguit aquests passos"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1101,14 +1101,14 @@
       "value": "Si tens una "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1221,14 +1221,14 @@
       "value": "Conté tots els fitxers d'aquest projecte (inclosos els fitxers addicionals, per exemple, per executar accessoris, que s'enumeren a la pestanya "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Projecte"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1241,14 +1241,14 @@
       "value": "Trobaràs el teu fitxer hexadecimal a la carpeta "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Baixades"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1261,14 +1261,14 @@
       "value": "Pots moure'l a una altra carpeta per emmagatzemar-lo i fer servir  "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Obre"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1287,14 +1287,14 @@
       "value": "Per executar aquest fitxer hexadecimal a la teva micro:bit "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "segueix aquests passos"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1411,7 +1411,8 @@
   ],
   "results-count": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
@@ -1444,9 +1445,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "save-action": [
@@ -1537,28 +1537,28 @@
       "value": "Utilitza la drecera de teclat "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "C"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1571,28 +1571,28 @@
       "value": "Per tornar a iniciar el programa, fes servir "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "D"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1611,28 +1611,28 @@
       "value": "El teu programa pot imprimir missatges mitjançant la funció "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
       "value": ". Prova d'afegir "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print('la micro:bit es genial')"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1859,7 +1859,8 @@
   ],
   "simulator-data-logging-rows": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
@@ -1892,9 +1893,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "simulator-data-logging-save-log": [
@@ -2235,14 +2235,14 @@
       "value": "Permet editar mòduls de tercers a "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Configuració"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2283,28 +2283,28 @@
       "value": "Arrossega el fitxer hexadecimal de la teva "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "carpeta de descàrregues"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " a la "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "unitat MICROBIT"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2317,14 +2317,14 @@
       "value": "Pots "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "obrir"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2343,6 +2343,36 @@
       "value": "Torna-ho a provar"
     }
   ],
+  "ui.close-action": [
+    {
+      "type": 0,
+      "value": "Tanca "
+    }
+  ],
+  "ui.toast-status-error": [
+    {
+      "type": 0,
+      "value": "Error"
+    }
+  ],
+  "ui.toast-status-info": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "ui.toast-status-success": [
+    {
+      "type": 0,
+      "value": "Success"
+    }
+  ],
+  "ui.toast-status-warning": [
+    {
+      "type": 0,
+      "value": "Warning"
+    }
+  ],
   "undo": [
     {
       "type": 0,
@@ -2355,14 +2385,14 @@
       "value": "Si us plau, torna-ho a provar o "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "plantejar una solicitud de suport"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2375,14 +2405,14 @@
       "value": "Si us plau, torna-ho a provar o "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "plantejar una solicitud de suport"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2455,60 +2485,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
+      "type": 8,
+      "value": "p",
       "children": [
         {
           "type": 0,
           "value": "Segueix aquests passos i, a continuació, torna-ho a provar:"
         }
-      ],
-      "type": 8,
-      "value": "p"
+      ]
     },
     {
+      "type": 8,
+      "value": "ul",
       "children": [
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "desendolla el cable USB"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "desendolla la bateria si n'hi ha cap connectada"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "torna a connectar el cable USB"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "torna a connectar la bateria si n'hi havia una"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         }
-      ],
-      "type": 8,
-      "value": "ul"
+      ]
     }
   ],
   "webusb-not-supported": [

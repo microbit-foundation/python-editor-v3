@@ -3,14 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Center } from "@chakra-ui/react";
 import { ReactNode, useCallback, useState } from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { Box, Center } from "styled-system/jsx";
 
-interface FileDropTargetProps extends BoxProps {
+interface FileDropTargetProps {
   children: ReactNode;
   onFileDrop: (files: File[]) => void;
+  "data-testid"?: string;
 }
 
 /**
@@ -19,7 +20,7 @@ interface FileDropTargetProps extends BoxProps {
 const FileDropTarget = ({
   children,
   onFileDrop,
-  ...props
+  "data-testid": dataTestId,
 }: FileDropTargetProps) => {
   const [dragOver, setDragOver] = useState(false);
 
@@ -52,23 +53,19 @@ const FileDropTarget = ({
   const intl = useIntl();
   return (
     <Box
-      {...props}
+      data-testid={dataTestId}
       onDragOver={handleDragOver}
       position="relative"
       height="100%"
     >
       {dragOver && (
         <Center
-          data-testid={
-            (props as any)["data-testid"]
-              ? (props as any)["data-testid"] + "-overlay"
-              : undefined
-          }
+          data-testid={dataTestId ? dataTestId + "-overlay" : undefined}
           onDrop={handleDrop}
           onDragLeave={handleDragLeave}
           position="absolute"
-          top={0}
-          left={0}
+          top="0"
+          left="0"
           height="100%"
           width="100%"
           // If it's not on top then we'll get unexpected leave events.

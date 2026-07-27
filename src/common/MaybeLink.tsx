@@ -3,12 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, LinkProps } from "@chakra-ui/react";
+import { Link } from "@microbit/ui";
+import { ComponentProps } from "react";
+
+type MaybeLinkProps = ComponentProps<typeof Link>;
 
 /**
- * Chakra's link but renders the children directly if there's no href passed.
+ * A link but renders the children directly if there's no href passed.
  */
-const MaybeLink = ({ href, children, ...props }: LinkProps) => {
+const MaybeLink = ({ href, children, ...props }: MaybeLinkProps) => {
   return typeof href === "string" ? (
     <Link {...props} href={href}>
       {children}

@@ -35,7 +35,7 @@ import {
   showOfflineLanguageToast,
 } from "./error-util";
 import { fallbackLocale } from "../settings/settings";
-import { CreateToastFnReturn } from "@chakra-ui/react";
+import { ToastFn } from "@microbit/ui";
 import { TypedEventTarget } from "../common/events";
 
 /**
@@ -75,7 +75,7 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
     public connection: MessageConnection,
     public locale: string,
     public rootUri: string,
-    private toast: CreateToastFnReturn
+    private toast: ToastFn
   ) {
     super();
   }

@@ -17,14 +17,14 @@
       "value": "Déanta le grá ag an "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Micro:bit Educational Foundation agus rannpháirtithe"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "about-micropython": [
@@ -33,14 +33,14 @@
       "value": "Braitheann an t-eagarthóir ar "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "MicroPython"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -81,14 +81,14 @@
       "value": "Le haghaidh úsáide agus samplaí, féach "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Tagairt"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "api-tab": [
@@ -99,8 +99,25 @@
   ],
   "apidocs-baseclass": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "baseClassCount",
       "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "rang bunúsach"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 0,
+              "value": "ranga bunúsacha: "
+            }
+          ]
+        },
         "few": {
           "value": [
             {
@@ -117,23 +134,7 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "rang bunúsach"
-            }
-          ]
-        },
         "other": {
-          "value": [
-            {
-              "type": 0,
-              "value": "ranga bunúsacha: "
-            }
-          ]
-        },
-        "two": {
           "value": [
             {
               "type": 0,
@@ -142,9 +143,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "baseClassCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
@@ -665,14 +665,14 @@
       "value": "Ní mór duit "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "do dochtearraí a nuashonrú"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -733,14 +733,14 @@
       "value": "Le haghaidh tuilleadh tacaíochta, féach an "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "treoir Eagarthóir Python"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "help": [
@@ -827,14 +827,14 @@
       "value": "Tabhair cuairt ar "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "https://makecode.microbit.org/"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -859,8 +859,25 @@
       "value": "Ní féidir "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhad"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 0,
+              "value": "comhaid"
+            }
+          ]
+        },
         "few": {
           "value": [
             {
@@ -877,23 +894,7 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "comhad"
-            }
-          ]
-        },
         "other": {
-          "value": [
-            {
-              "type": 0,
-              "value": "comhaid"
-            }
-          ]
-        },
-        "two": {
           "value": [
             {
               "type": 0,
@@ -902,9 +903,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
@@ -951,28 +951,28 @@
       "value": "Cód foinse MicroPython "
     },
     {
+      "type": 8,
+      "value": "linkV1",
       "children": [
         {
           "type": 0,
           "value": "don micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "linkV1"
+      ]
     },
     {
       "type": 0,
       "value": " agus "
     },
     {
+      "type": 8,
+      "value": "linkV2",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V2"
         }
-      ],
-      "type": 8,
-      "value": "linkV2"
+      ]
     }
   ],
   "more-action": [
@@ -989,14 +989,14 @@
   ],
   "more-ideas": [
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Tuilleadh smaointe"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "more-save-options": [
@@ -1011,7 +1011,8 @@
       "value": "Sa tionscadal seo tá "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "other": {
           "value": [
@@ -1026,23 +1027,22 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
       "value": " ach níor íoslódáladh ach "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "main.py"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1055,42 +1055,42 @@
       "value": "Bain úsáid as an gcnaipe "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Sábháil"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " chun do thionscadal iomlán a íoslódáil mar chomhad heicsidheachúlach. Is féidir leat an comhad heicsidheachúlach a "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "oscailt"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " chun do thionscadal a chur ar ais. Más fearr leat comhaid Python aonair a íoslódáil, bain úsáid as an táb "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Tionscadal"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1127,14 +1127,14 @@
       "value": "Cuirfimid an síneadh "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": ".py"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1153,28 +1153,28 @@
       "value": "An bhfuil do "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit plugáilte isteach"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "? Ar "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "lean tú na céimeanna seo"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1187,28 +1187,28 @@
       "value": "Má tá "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " agat b'fhéidir go mbeidh ort "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "an dochtearraí a nuashonrú"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "not-found-message": [
@@ -1235,14 +1235,14 @@
       "value": "Ní mór duit "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "do firmware a nuashonrú sular"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1331,14 +1331,14 @@
       "value": "Cuimsíonn sé seo gach comhad sa tionscadal seo (lena n-áirítear aon chomhaid bhreise, m.sh. gabhálais a reáchtáil, atá liostaithe sa chluaisín "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Tionscadail"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1351,14 +1351,14 @@
       "value": "Gheobhaidh tú do chomhad heicsidheachúlach i bhfillteán "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Íoslódálacha"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1371,14 +1371,14 @@
       "value": "Is féidir leat é a bhogadh chuig fillteán eile le haghaidh stórála agus a úsáid "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Oscailte"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1397,14 +1397,14 @@
       "value": "Chun an comhad heicsidheachúlach seo a rith ar do micro:bit "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "lean na céimeanna seo"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1521,13 +1521,36 @@
   ],
   "results-count": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
             {
               "type": 0,
               "value": "Gan torthaí"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " toradh"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " thoradh"
             }
           ]
         },
@@ -1553,17 +1576,6 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " toradh"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
@@ -1574,22 +1586,10 @@
               "value": " torthaí"
             }
           ]
-        },
-        "two": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " thoradh"
-            }
-          ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
@@ -1684,28 +1684,28 @@
       "value": "Bain úsáid as an aicearra méarchláir "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "C"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1718,28 +1718,28 @@
       "value": "Chun tús a chur le do chlár ag rith arís bain úsáid as "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "D"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1758,28 +1758,28 @@
       "value": "Is féidir le do ríomhchlár teachtaireachtaí a phriontáil ag baint úsáide as an bhfeidhm "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
       "value": ". Bain triail as "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "priontáil ('micro:bit is awesome')"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -2006,13 +2006,36 @@
   ],
   "simulator-data-logging-rows": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
             {
               "type": 0,
               "value": "Gan aon ró a logáil"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " ró logáilte"
             }
           ]
         },
@@ -2038,29 +2061,7 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " ró logáilte"
-            }
-          ]
-        },
         "other": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " ró logáilte"
-            }
-          ]
-        },
-        "two": {
           "value": [
             {
               "type": 7
@@ -2072,9 +2073,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
@@ -2415,14 +2415,14 @@
       "value": "Ceadaigh modúil tríú páirtí a chur in eagar i "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Socruithe"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2463,28 +2463,28 @@
       "value": "Tarraing an comhad heicsidheachúlach ó "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "d'fhillteán Íoslódálacha"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " chuig an "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "tiomántán MICROBIT"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2497,14 +2497,14 @@
       "value": "Is féidir leat an comhad heicsidheachúlach a "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "oscailt"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2535,14 +2535,14 @@
       "value": "Bain triail eile as nó "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "ardaigh iarratas tacaíochta"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "unexpected-error-title": [
@@ -2551,14 +2551,14 @@
       "value": "Bain triail eile as nó "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "ardaigh iarratas tacaíochta"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "untitled-project": [
@@ -2627,64 +2627,64 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
+      "type": 8,
+      "value": "p",
       "children": [
         {
           "type": 0,
           "value": "Lean na céimeanna seo, ansin bain triail eile as:"
         }
-      ],
-      "type": 8,
-      "value": "p"
+      ]
     },
     {
       "type": 0,
       "value": " "
     },
     {
+      "type": 8,
+      "value": "ul",
       "children": [
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "díphlugáil an cábla USB"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "díphlugáil an pacáiste ceallraí má tá ceann ceangailte"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "athcheangail an cábla USB"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "athcheangail an pacáiste ceallraí má bhí ceann ceangailte"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         }
-      ],
-      "type": 8,
-      "value": "ul"
+      ]
     }
   ],
   "webusb-not-supported": [

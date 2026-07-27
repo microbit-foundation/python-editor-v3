@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ChakraProvider } from "@chakra-ui/react";
+import { ToastProvider } from "@microbit/ui";
 import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
 import "./App.css";
@@ -71,6 +72,9 @@ const App = () => {
           <SettingsProvider>
             <SessionSettingsProvider>
               <TranslationProvider>
+                {/* Inside TranslationProvider: the toast region's close label
+                    and status announcements are react-intl messages. */}
+                <ToastProvider />
                 <FileSystemProvider value={fs}>
                   <DeviceContextProvider value={device}>
                     <LanguageServerClientProvider>

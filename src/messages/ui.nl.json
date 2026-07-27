@@ -17,14 +17,14 @@
       "value": "Met liefde gemaakt door de "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Micro:bit Educational Foundation en bijdragers"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "about-micropython": [
@@ -33,14 +33,14 @@
       "value": "De editor is afhankelijk van "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "MicroPython"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -81,14 +81,14 @@
       "value": "Voor gebruik en voorbeelden, zie "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Referentie"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "api-tab": [
@@ -99,7 +99,8 @@
   ],
   "apidocs-baseclass": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "baseClassCount",
       "options": {
         "one": {
           "value": [
@@ -118,9 +119,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "baseClassCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "apidocs-classes": [
@@ -629,14 +629,14 @@
       "value": "Je moet "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "firmware updaten"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -697,14 +697,14 @@
       "value": "Voor meer ondersteuning, zie de "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Python Editor gids"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "help": [
@@ -791,14 +791,14 @@
       "value": "Bezoek "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "https://makecode.microbit.org/"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -823,7 +823,8 @@
       "value": "Kan "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "one": {
           "value": [
@@ -842,9 +843,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
@@ -891,28 +891,28 @@
       "value": "MicroPython "
     },
     {
+      "type": 8,
+      "value": "linkV1",
       "children": [
         {
           "type": 0,
           "value": "broncode voor de micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "linkV1"
+      ]
     },
     {
       "type": 0,
       "value": " en "
     },
     {
+      "type": 8,
+      "value": "linkV2",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V2"
         }
-      ],
-      "type": 8,
-      "value": "linkV2"
+      ]
     }
   ],
   "more-action": [
@@ -929,14 +929,14 @@
   ],
   "more-ideas": [
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Meer ideeën"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "more-save-options": [
@@ -951,11 +951,11 @@
       "value": "Dit project bevat "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "one": {
-          "value": [
-          ]
+          "value": []
         },
         "other": {
           "value": [
@@ -970,23 +970,22 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
       "value": " maar alleen "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "main.py"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -999,42 +998,42 @@
       "value": "Gebruik de knop "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Opslaan"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " om je hele project te downloaden als een hex bestand. Je kunt "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "het hex-bestand"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " openen om je project te herstellen. Als je liever afzonderlijke Python bestanden downloadt, gebruik dan het "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Project"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1071,14 +1070,14 @@
       "value": "We zullen de "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": ".py"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1097,28 +1096,28 @@
       "value": "Is je "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit aangesloten"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "? Heb je "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "deze stappen gevolgd"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1131,28 +1130,28 @@
       "value": "Als je een "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " hebt, moet je mogelijk "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "firmware updaten"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "not-found-message": [
@@ -1179,14 +1178,14 @@
       "value": "Je moet "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "firmware updaten voordat"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1275,14 +1274,14 @@
       "value": "Dit bevat alle bestanden in dit project (inclusief eventuele extra bestanden, bijvoorbeeld om accessoires uit te voeren, weergegeven in het "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Project"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1295,14 +1294,14 @@
       "value": "Je vindt je hex bestand in de map "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Downloads"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1315,14 +1314,14 @@
       "value": "Je kunt het verplaatsen naar een andere map voor opslag en "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Open"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1341,14 +1340,14 @@
       "value": "Om dit hexadecimale bestand uit te voeren op je micro:bit "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "volg deze stappen"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1465,7 +1464,8 @@
   ],
   "results-count": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
@@ -1501,9 +1501,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "save-action": [
@@ -1594,28 +1593,28 @@
       "value": "Gebruik de sneltoets "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "C"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1628,28 +1627,28 @@
       "value": "Gebruik "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "D"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1668,28 +1667,28 @@
       "value": "Je programma kan berichten printen met de "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
       "value": " functie. Probeer "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print('micro:bit is awesome')"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1924,7 +1923,8 @@
   ],
   "simulator-data-logging-rows": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
@@ -1957,9 +1957,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "simulator-data-logging-save-log": [
@@ -2304,14 +2303,14 @@
       "value": "Sta het bewerken van modules van derden toe in "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Instellingen"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2356,28 +2355,28 @@
       "value": "Sleep het hex-bestand van je "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "map Downloads"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " naar het "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "MICROBIT-station"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2390,14 +2389,14 @@
       "value": "Je kunt het hex-bestand "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "later"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2416,6 +2415,36 @@
       "value": "Probeer het opnieuw"
     }
   ],
+  "ui.close-action": [
+    {
+      "type": 0,
+      "value": "Afsluiten"
+    }
+  ],
+  "ui.toast-status-error": [
+    {
+      "type": 0,
+      "value": "Error"
+    }
+  ],
+  "ui.toast-status-info": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "ui.toast-status-success": [
+    {
+      "type": 0,
+      "value": "Success"
+    }
+  ],
+  "ui.toast-status-warning": [
+    {
+      "type": 0,
+      "value": "Warning"
+    }
+  ],
   "undo": [
     {
       "type": 0,
@@ -2428,14 +2457,14 @@
       "value": "Probeer het opnieuw of "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "doe een ondersteunings verzoek"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "unexpected-error-title": [
@@ -2444,14 +2473,14 @@
       "value": "Probeer het opnieuw of "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "doe een ondersteunings verzoek"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "untitled-project": [
@@ -2524,60 +2553,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
+      "type": 8,
+      "value": "p",
       "children": [
         {
           "type": 0,
           "value": "Volg de volgende stappen en probeer dan opnieuw:"
         }
-      ],
-      "type": 8,
-      "value": "p"
+      ]
     },
     {
+      "type": 8,
+      "value": "ul",
       "children": [
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "maak de USB-kabel los"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "maak het batterijpakket los als dat aangesloten is"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "sluit de USB-kabel weer aan"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "sluit het batterijpakket weer aan als dat aangesloten was"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         }
-      ],
-      "type": 8,
-      "value": "ul"
+      ]
     }
   ],
   "webusb-not-supported": [

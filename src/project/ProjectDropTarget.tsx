@@ -3,16 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps } from "@chakra-ui/react";
 import { useCallback } from "react";
 import FileDropTarget from "../common/FileDropTarget";
 import { useProjectActions } from "./project-hooks";
 
-interface ProjectDropTargetProps extends BoxProps {
+interface ProjectDropTargetProps {
   children: React.ReactElement;
 }
 
-const ProjectDropTarget = ({ children, ...props }: ProjectDropTargetProps) => {
+const ProjectDropTarget = ({ children }: ProjectDropTargetProps) => {
   const actions = useProjectActions();
   const handleDrop = useCallback(
     (files: File[]) => {
@@ -21,11 +20,7 @@ const ProjectDropTarget = ({ children, ...props }: ProjectDropTargetProps) => {
     [actions]
   );
   return (
-    <FileDropTarget
-      {...props}
-      data-testid="project-drop-target"
-      onFileDrop={handleDrop}
-    >
+    <FileDropTarget data-testid="project-drop-target" onFileDrop={handleDrop}>
       {children}
     </FileDropTarget>
   );

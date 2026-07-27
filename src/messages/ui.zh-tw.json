@@ -13,14 +13,14 @@
   ],
   "about-microbit": [
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Micro:bit Educational Foundation 者用愛製作"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "about-micropython": [
@@ -29,14 +29,14 @@
       "value": "編輯器依賴於由 Damien George 和世界各地開發人員社群開發的 "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "MicroPython"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -77,14 +77,14 @@
       "value": "關於使用方式和範例，請查看"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "參考資料"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "api-tab": [
@@ -95,7 +95,8 @@
   ],
   "apidocs-baseclass": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "baseClassCount",
       "options": {
         "other": {
           "value": [
@@ -106,9 +107,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "baseClassCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "apidocs-classes": [
@@ -613,14 +613,14 @@
       "value": "在連線至 micro:bit 前，您必須"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "更新您的韌體"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -681,14 +681,14 @@
       "value": "如需更多支援，請查看 "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Python 編輯器指南"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "help": [
@@ -775,14 +775,14 @@
       "value": "請造訪 "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "https://makecode.microbit.org/"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -807,7 +807,8 @@
       "value": "無法載入 "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "one": {
           "value": [
@@ -826,9 +827,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "loaded-file-feedback": [
@@ -871,28 +871,28 @@
       "value": "MicroPython "
     },
     {
+      "type": 8,
+      "value": "linkV1",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "linkV1"
+      ]
     },
     {
       "type": 0,
       "value": " 和 "
     },
     {
+      "type": 8,
+      "value": "linkV2",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V2"
         }
-      ],
-      "type": 8,
-      "value": "linkV2"
+      ]
     },
     {
       "type": 0,
@@ -913,14 +913,14 @@
   ],
   "more-ideas": [
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "更多構想"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "more-save-options": [
@@ -935,7 +935,8 @@
       "value": "本專案包含  "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
         "other": {
           "value": [
@@ -950,23 +951,22 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
       "value": "，但只下載了 "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "main.py"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -979,42 +979,42 @@
       "value": "點按"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "儲存"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "按鈕，將整個專案下載為 HEX 檔案。您可以"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "開啟"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " HEX 檔案來還原您的專案。如果您想下載個別 Python 檔案，請使用"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "專案"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1051,14 +1051,14 @@
       "value": "我們將為您新增 "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": ".py"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1077,28 +1077,28 @@
       "value": "您的 "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit 是否已插入"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "？您是否"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "遵循這些步驟"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1111,28 +1111,28 @@
       "value": "如果您有 "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "，您可能需要"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "更新韌體"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "not-found-message": [
@@ -1159,14 +1159,14 @@
       "value": "您必須"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "更新您的韌體"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1255,14 +1255,14 @@
       "value": "這包含本專案中的所有檔案 (包括任何附加檔案。例如，列在 "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "專案"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1275,14 +1275,14 @@
       "value": "您將在本電腦的"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "下載"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1295,14 +1295,14 @@
       "value": "您可以將其移動到另一個資料夾進行存儲，稍後使用"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "開啟"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1321,14 +1321,14 @@
       "value": "若要在您的 micro:bit 執行這個 HEX 檔案，請"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "遵循這些步驟"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1445,7 +1445,8 @@
   ],
   "results-count": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
@@ -1478,9 +1479,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "save-action": [
@@ -1571,28 +1571,28 @@
       "value": "使用鍵盤快捷鍵 "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "C"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1605,28 +1605,28 @@
       "value": "若要再次啟動程式執行，請使用 "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "D"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1645,28 +1645,28 @@
       "value": "您的程式可以使用"
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "輸出"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
       "value": "函式來輸出訊息。嘗試將"
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "輸出 ('micro:bit is awesome')"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1897,7 +1897,8 @@
   ],
   "simulator-data-logging-rows": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
@@ -1930,9 +1931,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "simulator-data-logging-save-log": [
@@ -2273,14 +2273,14 @@
       "value": "允許在"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "設定"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2325,28 +2325,28 @@
       "value": "將 HEX 檔案從"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "下載"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "資料夾拖曳至 "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "MICROBIT 磁碟"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2359,14 +2359,14 @@
       "value": "您可以稍後"
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "開啟"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2385,6 +2385,36 @@
       "value": "重試一次"
     }
   ],
+  "ui.close-action": [
+    {
+      "type": 0,
+      "value": "關閉"
+    }
+  ],
+  "ui.toast-status-error": [
+    {
+      "type": 0,
+      "value": "Error"
+    }
+  ],
+  "ui.toast-status-info": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "ui.toast-status-success": [
+    {
+      "type": 0,
+      "value": "Success"
+    }
+  ],
+  "ui.toast-status-warning": [
+    {
+      "type": 0,
+      "value": "Warning"
+    }
+  ],
   "undo": [
     {
       "type": 0,
@@ -2397,14 +2427,14 @@
       "value": "請重試或"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "提出支援要求"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "unexpected-error-title": [
@@ -2413,14 +2443,14 @@
       "value": "請重試或"
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "提出支援要求"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "untitled-project": [
@@ -2489,60 +2519,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
+      "type": 8,
+      "value": "p",
       "children": [
         {
           "type": 0,
           "value": "請依照以下步驟操作，然後重試："
         }
-      ],
-      "type": 8,
-      "value": "p"
+      ]
     },
     {
+      "type": 8,
+      "value": "ul",
       "children": [
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "拔下USB 電纜"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "拔下電池組（如果已安裝）"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "重新連接USB 線"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "重新連接電池組（如果已安裝）"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         }
-      ],
-      "type": 8,
-      "value": "ul"
+      ]
     }
   ],
   "webusb-not-supported": [

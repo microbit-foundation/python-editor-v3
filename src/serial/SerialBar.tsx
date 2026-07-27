@@ -97,8 +97,10 @@ const SerialBar = ({
             onClick={handleExpandCollapseClick}
             icon={
               <ExpandCollapseIcon
-                transform={
-                  expandDirection === "down" ? "rotate(180deg)" : undefined
+                css={
+                  expandDirection === "down"
+                    ? { transform: "rotate(180deg)" }
+                    : undefined
                 }
                 open={Boolean(compact)}
               />
