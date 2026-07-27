@@ -1,11 +1,13 @@
 # Chakra → react-aria-components + Panda CSS migration
 
 Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialogs
-largely done: all `common/` dialogs, the whole `connect-dialogs/` family (9),
-and the workbench dialogs (Welcome, Feedback, About). `common/ModalCloseButton`
-retired. Steps 1–2 complete. Verification bar: typecheck/build/lint + a runtime
-smoke check; full visual pass deferred (per owner). Porting continues
-area-by-area.**
+done (all `common/` dialogs, `connect-dialogs/` ×9, workbench dialogs);
+toast infrastructure live (`ToastProvider` + `@microbit/ui` catalog merge,
+all toast call sites ported); `common/` done except
+CollapsibleButton/FileInputButton (deferred to the project/serial buttons
+batch). Steps 1–2 complete. Verification bar: typecheck/build/lint + a
+runtime smoke check; full visual pass deferred (per owner). Porting
+continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -539,6 +541,76 @@ Chakra Heading (they compose Text).
     hazard file; its single call site passed fixed literals).
   - **Still Chakra, ports later:** `common/YoutubeVideoEmbed` (used by
     WelcomeDialog; still Chakra `AspectRatio`) — renders fine in coexistence.
+
+- 2026-07-27 (step 3 — toast infrastructure + common/ leaves): **the
+  deferred providers/i18n step landed; toasts now render through
+  `@microbit/ui`'s RAC `ToastProvider`, and `src/common` is ported except
+  CollapsibleButton/FileInputButton.**
+  - **i18n catalog merge:** new `bin/compile-lang.mjs` (adapted from
+    ml-trainer's) replaces `formatjs compile-folder` in `i18n:compile` —
+    compiles each `lang/ui.<locale>.json` together with `@microbit/ui`'s
+    shipped catalog so the `ui.*` strings ride the app's lazy per-locale
+    chunks. The app has three locales the ui package lacks (de, ga-ie,
+    zh-cn) — the script warns and those fall back to the components'
+    inline English. Committed `src/messages/*.json` regenerate with the
+    merged ids.
+  - **`<ToastProvider />`** mounted in App.tsx directly inside
+    `TranslationProvider` (its close label/status announcements need
+    intl). The library `useToast` is context-free (module-level queue), so
+    the class-based callers (`ActionFeedback`, language-server client via
+    constructor injection) work unchanged; toasts fired before the region
+    mounts (e.g. TranslationProvider's own offline toast while messages
+    are still loading) queue and display once it renders.
+  - **Call sites ported:** `use-action-feedback.tsx` (Chakra `useToast` →
+    library; `ToastFn` type replaces `CreateToastFnReturn` in
+    `language-server/{error-util,client,pyright}.ts` + hooks), and
+    `TranslationProvider.tsx`. Library gained `toast.closeAll()`
+    (committed to `../ui`) for `ActionFeedback.closeAll`.
+  - **Decisions/behaviour changes:** (1) *paste-toast placement resolved* —
+    the shared region has a single (top) placement; XTerm's bottom-right
+    `position` argument was dropped rather than growing region placement
+    in the library. (2) Success/info toasts asked for `duration: 2000`;
+    RAC enforces a 5s minimum for accessibility, so short toasts now show
+    ~5s. (3) The Chakra `variant: "toast"` prop is gone — styling is the
+    library Toast recipe over the converged `toast*Bg` tokens. (4)
+    `error-util`'s manual `isActive` guard dropped — the library dedupes
+    by toast id natively.
+  - **common/ leaves ported:** MaybeLink, AreaHeading, ErrorBoundary,
+    Placeholder, Spinner, YoutubeVideoEmbed (figure + native
+    `aspectRatio`, gotcha #11), ScrollablePanel, HeadedScrollablePanel,
+    FileDropTarget, ExpandCollapseIcon. Consumers passed almost no style
+    props, so the `BoxProps` extensions were dropped outright (narrowed
+    APIs) rather than converted to `css` forwarding — four gotcha-#9
+    hazard files retired (ScrollablePanel, HeadedScrollablePanel,
+    FileDropTarget + ProjectDropTarget, Placeholder). Call-site tweaks:
+    ShowMoreButton `ml={1}` → `css={{ ml: "1" }}`, SerialBar `transform` →
+    `css`, ProjectDropTarget stopped forwarding BoxProps.
+    ExpandCollapseIcon now renders react-icons' `MdKeyboardArrowUp/Down`
+    via the library `Icon` — the same Material paths as Chakra's
+    `ChevronUpIcon`/`ChevronDownIcon`, so the glyphs are identical.
+  - **OSS preset:** added `gray.10/25` (`#fcfcfc`/`#f5f6f8`) mirroring the
+    OSS Chakra theme — the family base preset's `gray.25` is `#f5f5f5`,
+    and HeadedScrollablePanel's sticky heading consumes `gray.25` via
+    Panda now.
+  - **Deferred:** CollapsibleButton + FileInputButton (Button-family
+    wrappers; port together with their consumers — project/ buttons,
+    SerialBar, SideBarHeader — as the buttons batch).
+  - **Verified:** app typecheck/lint/prettier/build clean; all 217 unit
+    tests pass; `../ui` typecheck + prettier clean. Runtime smoke
+    (headless Chromium on the local branded dev build): docs sidebar
+    renders through the ported HeadedScrollablePanel/AreaHeading,
+    ShowMoreButton + ExpandCollapseIcon toggle, and loading an invalid
+    .hex raises the error toast through the new RAC region — top-center,
+    status icon + bold title + description + close button, bg `#cd0365` =
+    the private `code.error` via the converged `toastErrorBg` token. No
+    console errors (dedupe intact).
+  - Sandbox notes: Playwright browsers need
+    `PLAYWRIGHT_BROWSERS_PATH=$TMPDIR/ms-playwright` (`~/.cache` not
+    writable); harness background tasks are network-isolated from the
+    sandbox, so vite dev + the Playwright script must run in the *same*
+    Bash invocation; the WelcomeDialog *does* appear on local now (it's
+    ported) and must be dismissed (Escape / "Start coding") before
+    driving the app.
 
 ## Notes to revisit later
 
