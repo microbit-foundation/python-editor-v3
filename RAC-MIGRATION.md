@@ -1,13 +1,10 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 2 (Panda foundation) done on Chakra (2026-07-27) — Panda +
-preset stack (`@pandacss/preset-base` → `@microbit/ui/base-preset` → app
-preset → private brand preset) installed in coexistence form (`preflight:
-false`, cssgen + unlayer). Panda generates; typecheck/build/lint/prettier
-green; the app still renders unchanged on Chakra (sidebar gradient still
-byte-identical to live). No components ported yet. Pre-work (step 1) complete
-before this. Next: step 3 (coexistence porting, area-by-area) — providers +
-i18n land with the first shared component.**
+Status: **Step 3 (coexistence porting) started (2026-07-27) — pilot port
+`common/ConfirmDialog.tsx` onto `@microbit/ui` Modal (alertdialog) + Button,
+verified byte-identical to the live branded deployment. Steps 1 (semantic-
+token pre-work) and 2 (Panda foundation) complete. Porting continues
+area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -389,6 +386,45 @@ Chakra Heading (they compose Text).
     (exists only in the private theme). Sandbox note: run needs Chromium
     pointed at the auth proxy and a `node_modules` reinstall for
     platform-native binaries (see the earlier fidelity notes).
+
+- 2026-07-27 (step 3 — first port, pilot): **`common/ConfirmDialog.tsx`
+  ported to `@microbit/ui`; renders byte-identical to live.** Established the
+  porting pattern and shook out one critical integration gotcha.
+  - **The port:** Chakra `AlertDialog`/`Button`/`Text` → `@microbit/ui`
+    `Modal` (`role="alertdialog"`, controlled `isOpen`) + `ModalHeader`/
+    `ModalBody`/`ModalFooter` + `Button`. `onClick` → RAC `onPress`. Cancel =
+    default variant (now `outline`); destructive = `variant="warningSolid"`
+    (the base recipe's danger-solid). Dropped the `leastDestructiveRef` focus
+    machinery (gotcha #15) — least-destructive initial focus is now
+    `autoFocus` on the cancel button (RAC's FocusScope honours it). Header
+    `fontSize`/`level` set via css to match the old `Text as="h2" lg bold`.
+  - **App preset button vocabulary (deferred from step 2, done here):** added
+    python-editor's `outline` variant to the app preset's button recipe and
+    set `defaultVariants.variant: "outline"` (census: OSS applies
+    `withDefaultVariant("outline")`; the base recipe defaults to `secondary`).
+    Verified the base `staticCss: { button: ["*"] }` covers the app-added
+    variant (no extra staticCss needed).
+  - **Gotcha #19 (new — dual React from dev-linking):** the ported dialog
+    crashed at runtime (`useContext of null`) because `@microbit/ui` is
+    consumed via `file:` symlink, so its `import "react"` resolved to the ui
+    monorepo's copy — two Reacts. Fixed with `resolve.dedupe: ["react",
+    "react-dom", "react-aria-components", "react-aria", "react-stately"]` in
+    `vite.config.ts`. Typecheck + build passed regardless (runtime-only);
+    added to the playbook gotcha catalog. A published package wouldn't hit it.
+  - **Verified:** typecheck/build clean; drove the confirm-replace dialog
+    (type → Project tab → Reset project) headless on the local branded build
+    and live `python.microbit.org/v/3`. Both buttons byte-identical: Cancel
+    `rgb(108,75,193)` (brand.500) 2px outline, Replace white-on-
+    `rgb(229,62,62)` (red.500/danger), both 32px pill radius; layout matches.
+  - **Minor, accepted:** the library's dialog footer uses a house-style
+    `gap: 5` vs the old `ml={3}` — a slightly wider button gap, standardised
+    across dialogs; visually within tolerance (override per-site if needed).
+  - **Providers:** none needed yet — ConfirmDialog doesn't toast, and Modal's
+    intl (close label) uses the existing `IntlProvider`. `ToastProvider` +
+    `@microbit/ui` catalog compile still land with the first toast-using port.
+  - Sandbox notes for re-running the visual check: `resolve.dedupe` requires
+    clearing `node_modules/.vite` once; live needs the cookie-consent **and**
+    welcome dialogs dismissed before driving the flow (local shows neither).
 
 ## Notes to revisit later
 
