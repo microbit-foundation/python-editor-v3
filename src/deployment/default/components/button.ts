@@ -6,7 +6,13 @@
 import { StyleFunctionProps, theme } from "@chakra-ui/react";
 
 const Button = {
+  baseStyle: {
+    borderRadius: "button",
+  },
   variants: {
+    unstyled: {
+      borderRadius: "unset",
+    },
     // Ideally we'd drop this variant.
     zoom: (props: StyleFunctionProps) => {
       const base = theme.components.Button.variants!.solid(props);
@@ -22,6 +28,14 @@ const Button = {
         },
       };
     },
+    outline: ({ colorScheme }: StyleFunctionProps) => ({
+      borderWidth: "2px",
+      color: `${colorScheme}.${colorScheme === "brand" ? "500" : "600"}`,
+      _hover: {
+        color: `${colorScheme}.${colorScheme === "brand" ? "600" : "700"}`,
+        bg: "transparent",
+      },
+    }),
     sidebar: (props: StyleFunctionProps) => {
       const base = {
         ...theme.components.Button.variants!.ghost(props),
@@ -40,6 +54,17 @@ const Button = {
         },
       };
     },
+    // Text driven by the languageText* semantic tokens; borders/hover follow
+    // the gray ramp. Brand divergence lives in those token values.
+    language: () => ({
+      borderWidth: "2px",
+      borderColor: "gray.200",
+      color: "languageText",
+      _hover: {
+        color: "languageTextHover",
+        bg: "gray.100",
+      },
+    }),
   },
 };
 

@@ -3,16 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { theme } from "@chakra-ui/theme";
-
-/**
- * (c) 2021, Micro:bit Educational Foundation and contributors
- *
- * SPDX-License-Identifier: MIT
- */
 const radii = {
-  // Used where we need to match rounding to button radius.
-  button: theme.radii.md,
+  // Design radius for buttons and other larger items. Converged with the
+  // private theme (2rem) during the RAC/Panda semantic-token pre-work.
+  button: "2rem",
 };
 
 export default radii;

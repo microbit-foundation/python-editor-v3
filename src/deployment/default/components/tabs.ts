@@ -12,7 +12,7 @@ const Tabs = {
       return {
         ...base,
         tablist: {
-          background: "black",
+          background: "sidebarTablistBg",
         },
         tab: {
           ...base.tab,
@@ -20,8 +20,8 @@ const Tabs = {
           ml: "6px",
           borderRadius: "32px 0 0 32px",
           _selected: {
-            color: "black",
-            bg: "gray.50",
+            color: "sidebarTabSelectedText",
+            bg: "sidebarTabSelectedBg",
             outline: "none",
           },
           _focus: {
