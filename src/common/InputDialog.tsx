@@ -4,20 +4,16 @@
  * SPDX-License-Identifier: MIT
  */
 import {
-  Box,
   Button,
   Modal,
   ModalBody,
-  ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { ThemeTypings } from "@chakra-ui/styled-system";
+  ModalSize,
+} from "@microbit/ui";
 import { ReactNode, useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { styled, VStack } from "styled-system/jsx";
 import { FinalFocusRef } from "../project/project-actions";
 
 export interface InputValidationResult {
@@ -40,7 +36,7 @@ export interface InputDialogProps<T> {
   Body: React.FC<InputDialogBody<T>>;
   initialValue: T;
   actionLabel: string;
-  size?: ThemeTypings["components"]["Modal"]["sizes"];
+  size?: ModalSize;
   validate?: (input: T) => InputValidationResult;
   finalFocusRef?: FinalFocusRef;
   callback: (value: ValueOrCancelled<T>) => void;
@@ -65,50 +61,49 @@ export const InputDialog = <T,>({
   const [validationResult, setValidationResult] =
     useState<InputValidationResult>(validate(initialValue));
   const onCancel = useCallback(() => callback(undefined), [callback]);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const submit = useCallback(() => {
     if (validationResult.ok) {
       callback(value);
     }
+  }, [validationResult.ok, callback, value]);
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submit();
   };
 
   return (
-    <Modal isOpen onClose={onCancel} size={size} finalFocusRef={finalFocusRef} preserveScrollBarGap={false}>
-      <ModalOverlay>
-        <ModalContent>
-          <ModalHeader>
-            <Text as="h2" fontSize="lg" fontWeight="bold">
-              {header}
-            </Text>
-          </ModalHeader>
-          <ModalBody>
-            <VStack>
-              <Box as="form" onSubmit={handleSubmit} width="100%">
-                <Body
-                  value={value}
-                  setValue={setValue}
-                  validationResult={validationResult}
-                  setValidationResult={setValidationResult}
-                  validate={validate}
-                />
-              </Box>
-            </VStack>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onCancel}>
-              <FormattedMessage id="cancel-action" />
-            </Button>
-            <Button
-              variant="solid"
-              onClick={handleSubmit}
-              ml={3}
-              isDisabled={!validationResult.ok}
-            >
-              {actionLabel}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </ModalOverlay>
+    <Modal isOpen onClose={onCancel} size={size} finalFocusRef={finalFocusRef}>
+      <ModalHeader level={2} css={{ fontSize: "lg", fontWeight: "bold" }}>
+        {header}
+      </ModalHeader>
+      <ModalBody>
+        <VStack>
+          {/* The form gives Enter-to-submit; the footer button calls submit
+              directly (it renders outside the form). */}
+          <styled.form onSubmit={handleFormSubmit} width="100%">
+            <Body
+              value={value}
+              setValue={setValue}
+              validationResult={validationResult}
+              setValidationResult={setValidationResult}
+              validate={validate}
+            />
+          </styled.form>
+        </VStack>
+      </ModalBody>
+      <ModalFooter>
+        <Button onPress={onCancel}>
+          <FormattedMessage id="cancel-action" />
+        </Button>
+        <Button
+          variant="primary"
+          onPress={submit}
+          isDisabled={!validationResult.ok}
+          css={{ ml: 3 }}
+        >
+          {actionLabel}
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };
