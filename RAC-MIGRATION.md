@@ -1,10 +1,11 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) in progress (2026-07-27) — all shared
-`common/` dialogs + the whole `workbench/connect-dialogs/` family (9 files)
-ported to `@microbit/ui`. Steps 1–2 complete. Verification bar: typecheck/
-build/lint + a runtime smoke check; full visual pass deferred (per owner).
-Porting continues area-by-area.**
+Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialogs
+largely done: all `common/` dialogs, the whole `connect-dialogs/` family (9),
+and the workbench dialogs (Welcome, Feedback, About). `common/ModalCloseButton`
+retired. Steps 1–2 complete. Verification bar: typecheck/build/lint + a runtime
+smoke check; full visual pass deferred (per owner). Porting continues
+area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -512,6 +513,32 @@ Chakra Heading (they compose Text).
     - **SaveButton** (used inside NotFoundDialog) is still a Chakra app
       component — renders fine inside the ported dialog during coexistence;
       ports with the rest of the app chrome.
+
+- 2026-07-27 (step 3 — workbench dialogs): **ported WelcomeDialog,
+  FeedbackForm, AboutDialog; deleted `common/ModalCloseButton`** (all dialogs
+  now use `@microbit/ui`'s). Via a context-sharing fork; verified by me.
+  - **AboutDialog `<Table>` → plain HTML table with Panda `styled.table/tbody/
+    tr/td`** (owner decision: app-side, not a shared component — it's a simple
+    version-info layout table). Cell padding/borders are approximate
+    (`px="3" py="1"` + gray.100 bottom border ≈ Chakra `size="sm"`); confirm
+    in the visual pass. Smoke-tested (Help → About): renders correctly — logos,
+    heart image (native `aspectRatio`), the 3-row versions table with GitHub
+    icons, Copy (outline) + Close (primary), and the "Read more" Collapse.
+  - **`AspectRatio` → native `aspectRatio` CSS** (gotcha #11): a `Box` with
+    `css={{ aspectRatio: "690 / 562" }}` etc., Image filling it.
+  - **Kept Chakra in coexistence (library gaps):** `Collapse` (AboutDialog
+    "read more" — roadmap: Collapse/Fade planned) is the one remaining
+    `@chakra-ui` import in these files. `useClipboard` reimplemented inline
+    (`navigator.clipboard` + 1.5s reset). `SimpleGrid` → Panda `Grid`;
+    `useDisclosure` → `useState`.
+  - **A11y:** these Modals have no `ModalHeader` (title in body / iframe), so
+    each got an `aria-label` (RAC requires an accessible name). Fixed
+    FeedbackForm's to be localized (`{ id: "feedback" }`) rather than a
+    hardcoded English string.
+  - `MicroPythonSection` stopped forwarding `BoxProps` (retired one gotcha #9
+    hazard file; its single call site passed fixed literals).
+  - **Still Chakra, ports later:** `common/YoutubeVideoEmbed` (used by
+    WelcomeDialog; still Chakra `AspectRatio`) — renders fine in coexistence.
 
 ## Notes to revisit later
 
