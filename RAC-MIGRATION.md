@@ -1,11 +1,10 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) in progress (2026-07-27) — the shared
-`common/` dialogs are ported to `@microbit/ui`: ConfirmDialog, GenericDialog
-(shell for 8), InputDialog, ProgressDialog, PostSaveDialog, MultipleFilesDialog.
-Steps 1–2 complete. Verification for later batches is typecheck/build + a
-runtime smoke check; full visual pass deferred (per owner) until more is
-converted. Porting continues area-by-area.**
+Status: **Step 3 (coexistence porting) in progress (2026-07-27) — all shared
+`common/` dialogs + the whole `workbench/connect-dialogs/` family (9 files)
+ported to `@microbit/ui`. Steps 1–2 complete. Verification bar: typecheck/
+build/lint + a runtime smoke check; full visual pass deferred (per owner).
+Porting continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -480,8 +479,39 @@ Chakra Heading (they compose Text).
     branded build — both render, no console errors, PostSaveDialog body
     (Text/link) matches live. ProgressDialog not runtime-triggered (needs a
     flashing/device flow); static checks only.
-  - `common/ModalCloseButton.tsx` may now be dead (GenericDialog/InputDialog
-    use `@microbit/ui` ModalCloseButton) — grep + remove when convenient.
+  - `common/ModalCloseButton.tsx` is NOT dead yet — WelcomeDialog,
+    FeedbackForm and AboutDialog (still Chakra) import it; retire it when
+    those port.
+
+- 2026-07-27 (step 3 — connect-dialogs family): **ported all 9
+  `workbench/connect-dialogs/` files** (ConnectCableDialog, Overlay,
+  WebUSBErrorDialog, TransferHexDialog, ConnectDialog, WebUSBDialog,
+  FirmwareDialog, NotFoundDialog, ConnectHelpDialog). Same mapping as the
+  common dialogs (Text/Link/Image → `@microbit/ui`; layout → Panda
+  `styled-system/jsx`; Button `solid`→`primary`, default→`outline`,
+  `onClick`→`onPress`). Done via a context-sharing fork; verified by me.
+  - **Verified:** no `@chakra-ui` imports remain in the folder; tsc/build/
+    lint clean; the one gotcha #9 risk (`css={{ minWidth: buttonWidth }}`)
+    is safe — `buttonWidth` is a same-file literal const, and `min-width:
+    8.1rem` is present in the generated CSS. Smoke-tested "Send to micro:bit"
+    → the ported ConnectDialog "Connect cable" renders correctly (illustration
+    Image, "Don't show this again" link + outline Cancel + primary Next), no
+    console errors.
+  - **Flags for later:**
+    - **FirmwareDialog** has a link-styled-as-primary-button (`<a>` +
+      `button({ variant: "primary" })` classes) — there's no `@microbit/ui`
+      link-button primitive. **Candidate for a shared `LinkButton` in
+      `@microbit/ui`** (other apps will want it too).
+    - **ConnectHelpDialog** `useMediaQuery("(min-width:768px)")` →
+      `useBreakpointValue({ base:false, md:true })`. `useBreakpointValue` can
+      return `undefined` on first render (mobile-first) — worth a look that the
+      desktop layout appears correctly in the eventual visual pass.
+    - `returnFocus` state in FirmwareDialog/NotFoundDialog is now effectively
+      dead (GenericDialog's `returnFocusOnClose` is a no-op) — harmless, left
+      to minimise the diff; remove later.
+    - **SaveButton** (used inside NotFoundDialog) is still a Chakra app
+      component — renders fine inside the ported dialog during coexistence;
+      ports with the rest of the app chrome.
 
 ## Notes to revisit later
 
