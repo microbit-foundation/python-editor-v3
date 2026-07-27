@@ -1,10 +1,11 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialog
-infrastructure ported to `@microbit/ui` Modal: `ConfirmDialog` (pilot) and
-the shared `GenericDialog` shell/footer (used by 8 dialogs), both verified
-against the live branded deployment. Steps 1–2 complete. Porting continues
-area-by-area.**
+Status: **Step 3 (coexistence porting) in progress (2026-07-27) — the shared
+`common/` dialogs are ported to `@microbit/ui`: ConfirmDialog, GenericDialog
+(shell for 8), InputDialog, ProgressDialog, PostSaveDialog, MultipleFilesDialog.
+Steps 1–2 complete. Verification for later batches is typecheck/build + a
+runtime smoke check; full visual pass deferred (per owner) until more is
+converted. Porting continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -457,6 +458,30 @@ Chakra Heading (they compose Text).
     found "0"` on the sidebar-gradient background shorthand; the gradient
     itself already renders byte-identical to live (step 2), so cosmetic — keep
     an eye on it at the kill-switch when CSS handling changes.
+
+- 2026-07-27 (step 3 — common dialog contents): **ported the remaining shared
+  `common/` dialogs' contents.** Verification bar for this and later batches:
+  typecheck + build + a runtime smoke check (full visual pass deferred per
+  owner).
+  - **PostSaveDialog / MultipleFilesDialog:** bodies only (shell = ported
+    GenericDialog). Chakra `VStack`/`Text`/`Link` → Panda `styled-system/jsx`
+    `VStack` + `@microbit/ui` `Text`/`Link`; `spacing`→`gap`, `p={5}`→`p="5"`.
+  - **InputDialog:** own Modal → `@microbit/ui` Modal + form. `Box as="form"`
+    → Panda `styled.form`; submit refactored to a shared `submit()` (form
+    `onSubmit` for Enter; footer Button `onPress` since it renders outside the
+    form — RAC `onPress`, not a fake FormEvent). Cancel = default (outline),
+    action = `primary`, `isDisabled` when invalid. `size` typed `ModalSize`.
+  - **ProgressDialog:** own Modal → `@microbit/ui` Modal + `ProgressBar`
+    (needs a required `aria-label` — used the `loading` message);
+    `isDismissable={false}` + `isKeyboardDismissDisabled` (can't dismiss mid
+    operation); Chakra `Progress` → `ProgressBar` (value 0–100, full width).
+  - **Verified:** typecheck/build/lint clean; drove Save → the ported
+    InputDialog ("Name your project") → the ported PostSaveDialog on the local
+    branded build — both render, no console errors, PostSaveDialog body
+    (Text/link) matches live. ProgressDialog not runtime-triggered (needs a
+    flashing/device flow); static checks only.
+  - `common/ModalCloseButton.tsx` may now be dead (GenericDialog/InputDialog
+    use `@microbit/ui` ModalCloseButton) — grep + remove when convenient.
 
 ## Notes to revisit later
 
