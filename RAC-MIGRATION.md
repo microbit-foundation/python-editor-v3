@@ -1,12 +1,13 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **semantic-token pre-work done on Chakra (2026-07-27) — all
-structural OSS/private divergence converged onto shared component structure +
-semantic tokens; differ shows zero structural diffs (only the
-`withDefaultColorScheme` `defaultProps` diffs remain, by design). Static
-checks green both repos; semantic-token CSS-var emission verified via
-`toCSSVar`; sidebar gradient confirmed byte-identical to the live branded
-deployment (`python.microbit.org/v/3`). Ready for review/PR.**
+Status: **Step 2 (Panda foundation) done on Chakra (2026-07-27) — Panda +
+preset stack (`@pandacss/preset-base` → `@microbit/ui/base-preset` → app
+preset → private brand preset) installed in coexistence form (`preflight:
+false`, cssgen + unlayer). Panda generates; typecheck/build/lint/prettier
+green; the app still renders unchanged on Chakra (sidebar gradient still
+byte-identical to live). No components ported yet. Pre-work (step 1) complete
+before this. Next: step 3 (coexistence porting, area-by-area) — providers +
+i18n land with the first shared component.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -336,6 +337,58 @@ Chakra Heading (they compose Text).
   binaries — rollup/esbuild), Chromium must be pointed at the sandbox proxy
   with credentials (env userinfo alone → 407, bypass loopback for the local
   server), and vite dev needs `CI=true` (+ same-command lifetime) to stay up.
+
+- 2026-07-27 (step 2 — Panda foundation): **installed the Panda + preset
+  stack in coexistence form; app unchanged on Chakra.** No components ported.
+  - **Consumption:** `@microbit/ui` linked via `file:../ui/packages/ui` (it
+    ships as source); survives installs. The private brand preset is consumed
+    through the existing `node_modules/@microbit-foundation/python-editor-v3-microbit`
+    symlink (manual — re-create after `npm install`, it's not a dep).
+  - **Presets:** `panda.config.ts` (`eject: true`, `preflight: false`,
+    `jsxFramework: react`, include app + `@microbit/ui/src`); app preset
+    `src/deployment/default/panda-preset.ts` (the `code.*` palette + the
+    sidebar/language semantic tokens the base preset lacks); private
+    `src/panda-preset.ts` (brand/purple/teal/blimpTeal/gray ramps, `code.*`,
+    and the brand-divergent semantic-token overrides — incl. the gradient
+    `sidebarTablistBg`). Verified via cssgen: `brand.500` → `#6c4bc1`, and the
+    gradient token interpolates `{colors…}` refs into
+    `linear-gradient(var(--colors-brand-500) … var(--colors-blimp-teal-400))`.
+  - **CSS (coexistence):** `panda` script = `panda codegen && panda cssgen
+    --outfile src/styled-system.css && node ../ui/bin/unlayer-panda.mjs`;
+    `panda:watch` = `panda-dev.mjs`; `prestart`/`prebuild`/`pretypecheck`/
+    `prepare` regenerate. `styled-system.css` imported first in
+    `src/index.tsx`. `styled-system` alias in tsconfig `paths` + vite. Output
+    git/eslint/prettier-ignored; `panda.config.ts` added to
+    `tsconfig.node.json`.
+  - **Legacy Safari (required — targets Safari/iOS 14):** `postcss.config.cjs`
+    runs `@microbit/ui/postcss-legacy-safari` (`expandLogicalShorthands`) +
+    `@csstools/postcss-cascade-layers` in production only. Kept esbuild as the
+    CSS minifier (existing `build.target` already pins the legacy floor), so no
+    minifier switch was needed. At the kill-switch, prepend
+    `@pandacss/dev/postcss` and drop the cssgen/unlayer wiring.
+  - **Providers + i18n: deferred to step 3.** Nothing imports `@microbit/ui`
+    at runtime yet (only the build-time base preset + postcss plugin), so
+    `ToastProvider` and the `@microbit/ui` catalog compile land with the first
+    shared component port, keeping this foundation behaviour-neutral.
+  - **Verification:** `npm run panda` clean; `tsc --noEmit` clean (the two old
+    codemirror errors vanished after the node_modules reinstall — dep bump);
+    `npm run build` clean (8.9s); lint + prettier clean; headless re-render of
+    the branded app shows the sidebar gradient unchanged. Two benign
+    `sheet:process` empty-rule warnings during cssgen (extraction artifacts;
+    the emitted CSS is clean) — likely gotcha #17 territory to tidy during
+    porting.
+  - **Differ improvement (`../ui`):** section D (Panda cross-check) now loads
+    and deep-merges `@microbit/ui/base-preset`, so OSS tokens resolve as base
+    ⊕ app (private as base ⊕ app ⊕ private) — without this, base-provided
+    ramps read as `undefined` and false-mismatch. Result here: 55 → 13
+    mismatches. The private (branded) `brand.100–800`/gray/teal/purple/code
+    values all verify. The residual 13 are known and not preset bugs: the
+    OSS-side `brand` reads blue (the family base default) vs the old OSS
+    `brand`=gray, plus the parked brand-ramp shape asymmetry at
+    `brand.10/25/50/900`, plus one whole-ramp differ artifact for `blimpTeal`
+    (exists only in the private theme). Sandbox note: run needs Chromium
+    pointed at the auth proxy and a `node_modules` reinstall for
+    platform-native binaries (see the earlier fidelity notes).
 
 ## Notes to revisit later
 
