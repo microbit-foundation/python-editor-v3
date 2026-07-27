@@ -2523,6 +2523,36 @@
       "value": "Bain triail as arís"
     }
   ],
+  "ui.close-action": [
+    {
+      "type": 0,
+      "value": "Dún"
+    }
+  ],
+  "ui.toast-status-error": [
+    {
+      "type": 0,
+      "value": "Error"
+    }
+  ],
+  "ui.toast-status-info": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "ui.toast-status-success": [
+    {
+      "type": 0,
+      "value": "Success"
+    }
+  ],
+  "ui.toast-status-warning": [
+    {
+      "type": 0,
+      "value": "Warning"
+    }
+  ],
   "undo": [
     {
       "type": 0,
