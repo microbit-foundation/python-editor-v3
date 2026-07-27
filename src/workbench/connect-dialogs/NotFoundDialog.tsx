@@ -3,20 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Icon,
-  Image,
-  Link,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Icon, Image, Link, Text } from "@microbit/ui";
 import { ReactNode, useCallback, useState } from "react";
 import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { Box, Flex, HStack, VStack } from "styled-system/jsx";
 import { GenericDialog } from "../../common/GenericDialog";
 import SaveButton from "../../project/SaveButton";
 import { ConnectErrorChoice } from "./FirmwareDialog";
@@ -79,9 +70,9 @@ const NotFoundDialogBody = ({
       width="auto"
       ml="auto"
       mr="auto"
-      p={5}
-      pb={0}
-      spacing={5}
+      p="5"
+      pb="0"
+      gap="5"
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
@@ -90,9 +81,9 @@ const NotFoundDialogBody = ({
       <Text>
         <FormattedMessage id="not-found-message" />
       </Text>
-      <HStack spacing={6}>
-        <Image height={150} width={178} src={notFound} alt="" />
-        <VStack alignItems="flex-start" spacing={5}>
+      <HStack gap="6">
+        <Image height="150px" width="178px" src={notFound} alt="" />
+        <VStack alignItems="flex-start" gap="5">
           <VStack alignItems="flex-start">
             <Text>
               <FormattedMessage
@@ -129,7 +120,7 @@ const NotFoundDialogBody = ({
                       href="https://microbit.org/get-started/user-guide/firmware/"
                     >
                       {chunks}
-                      <Icon as={RiExternalLinkLine} ml={1} />
+                      <Icon as={RiExternalLinkLine} css={{ ml: 1 }} />
                     </Link>
                   ),
                   strong: (chunks: ReactNode) => (
@@ -150,7 +141,7 @@ const NotFoundDialogBody = ({
             href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
           >
             <FormattedMessage id="connect-troubleshoot" />
-            <Icon as={RiExternalLinkLine} ml={1} />
+            <Icon as={RiExternalLinkLine} css={{ ml: 1 }} />
           </Link>
         </VStack>
       </HStack>
@@ -158,11 +149,14 @@ const NotFoundDialogBody = ({
         width="100%"
         background="blimpTeal.50"
         alignItems="center"
-        py={3}
-        px={5}
+        py="3"
+        px="5"
         borderRadius="xl"
       >
-        <Icon as={RiDownload2Line} color="brand.500" h={6} w={6} mr={5} />
+        <Icon
+          as={RiDownload2Line}
+          css={{ color: "brand.500", h: 6, w: 6, mr: 5 }}
+        />
         <Text fontWeight="semibold" mr="auto">
           <FormattedMessage id="not-found-save-message" />
         </Text>
@@ -184,11 +178,11 @@ const NotFoundDialogFooter = ({
   onTryAgain,
 }: NotFoundDialogFooterProps) => {
   return (
-    <HStack spacing={2.5}>
-      <Button onClick={onCancel} size="lg">
+    <HStack gap="2.5">
+      <Button onPress={onCancel} size="lg">
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={onTryAgain} variant="solid" size="lg">
+      <Button onPress={onTryAgain} variant="primary" size="lg">
         <FormattedMessage id="try-again-action" />
       </Button>
     </HStack>

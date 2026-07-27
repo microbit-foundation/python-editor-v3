@@ -3,11 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, HStack, Image, Link, Text, VStack } from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/icons";
+import { Button, Icon, Image, Link, Text } from "@microbit/ui";
 import { ReactNode, useCallback, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { css, cx } from "styled-system/css";
+import { HStack, VStack } from "styled-system/jsx";
+import { button } from "styled-system/recipes";
 import { GenericDialog } from "../../common/GenericDialog";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 import { FinalFocusRef } from "../../project/project-actions";
@@ -51,9 +53,9 @@ const FirmwareDialogBody = () => {
       width="auto"
       ml="auto"
       mr="auto"
-      p={5}
-      pb={0}
-      spacing={5}
+      p="5"
+      pb="0"
+      gap="5"
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
@@ -62,9 +64,9 @@ const FirmwareDialogBody = () => {
       <Text>
         <FormattedMessage id="firmware-update-message" />
       </Text>
-      <HStack spacing={8}>
-        <Image height={150} width={144} src={firmwareUpgrade} alt="" />
-        <VStack spacing={5}>
+      <HStack gap="8">
+        <Image height="150px" width="144px" src={firmwareUpgrade} alt="" />
+        <VStack gap="5">
           <Text>
             <FormattedMessage
               id="firmware-update-link"
@@ -79,7 +81,7 @@ const FirmwareDialogBody = () => {
                     href="https://microbit.org/get-started/user-guide/firmware/"
                   >
                     {chunks}
-                    <Icon as={RiExternalLinkLine} ml={1} />
+                    <Icon as={RiExternalLinkLine} css={{ ml: 1 }} />
                   </Link>
                 ),
               }}
@@ -96,7 +98,7 @@ const FirmwareDialogBody = () => {
         href="https://support.microbit.org/support/solutions/articles/19000105428-webusb-troubleshooting"
       >
         <FormattedMessage id="connect-troubleshoot" />
-        <Icon as={RiExternalLinkLine} ml={1} />
+        <Icon as={RiExternalLinkLine} css={{ ml: 1 }} />
       </Link>
     </VStack>
   );
@@ -113,25 +115,32 @@ const FirmwareDialogFooter = ({
 }: FirmwareDialogFooterProps) => {
   const buttonWidth = "8.1rem";
   return (
-    <HStack spacing={2.5}>
-      <Button onClick={onClose} size="lg" minWidth={buttonWidth}>
+    <HStack gap="2.5">
+      <Button onPress={onClose} size="lg" css={{ minWidth: buttonWidth }}>
         <FormattedMessage id="cancel-action" />
       </Button>
-      <Button onClick={onTryAgain} size="lg" minWidth={buttonWidth}>
+      <Button onPress={onTryAgain} size="lg" css={{ minWidth: buttonWidth }}>
         <FormattedMessage id="try-again-action" />
       </Button>
-      <Button
-        as="a"
-        variant="solid"
-        size="lg"
-        minWidth={buttonWidth}
-        rightIcon={<RiExternalLinkLine />}
+      {/* An anchor styled as a primary button (Chakra's Button as="a"). No
+          @microbit/ui link-button primitive yet — flagged for review. */}
+      <a
+        className={cx(
+          button({ variant: "primary", size: "lg" }),
+          css({
+            minWidth: buttonWidth,
+            gap: "2",
+            textDecoration: "none",
+            _hover: { textDecoration: "none" },
+          }),
+        )}
         target="_blank"
-        rel="noopener"
+        rel="noreferrer"
         href="https://microbit.org/get-started/user-guide/firmware/"
       >
         <FormattedMessage id="update-firmware-action" />
-      </Button>
+        <Icon as={RiExternalLinkLine} />
+      </a>
     </HStack>
   );
 };

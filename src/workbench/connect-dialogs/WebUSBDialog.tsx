@@ -3,17 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Button,
-  Flex,
-  HStack,
-  Image,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Image, Text } from "@microbit/ui";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
+import { Flex, HStack, Stack, VStack } from "styled-system/jsx";
 import { GenericDialog } from "../../common/GenericDialog";
 import chromeOSErrorImage from "./chrome-os-105-error.png";
 import { FinalFocusRef } from "../../project/project-actions";
@@ -55,9 +48,9 @@ const DialogBodyWrapper = ({ children }: { children: ReactNode }) => (
     width="auto"
     ml="auto"
     mr="auto"
-    p={8}
-    pb={0}
-    spacing={5}
+    p="8"
+    pb="0"
+    gap="5"
     alignItems="flex-start"
   >
     {children}
@@ -86,7 +79,7 @@ const Chrome105ErrorBody = () => {
       <Text as="h2" fontSize="xl" fontWeight="semibold">
         There is an issue with Chrome OS version 105 and WebUSB*
       </Text>
-      <HStack spacing={5}>
+      <HStack gap="5">
         <Stack>
           <Text>
             Unfortunately “Send to micro:bit” does not work in this particular
@@ -108,7 +101,7 @@ const Chrome105ErrorBody = () => {
             height="100%"
             src={chromeOSErrorImage}
             alt=""
-            pb={3}
+            pb="3"
           />
         </Flex>
       </HStack>
@@ -122,8 +115,8 @@ interface WebUSBDialogFooterProps {
 
 const WebUSBDialogFooter = ({ onCancel }: WebUSBDialogFooterProps) => {
   return (
-    <HStack spacing={2.5}>
-      <Button onClick={onCancel} size="lg" variant="solid">
+    <HStack gap="2.5">
+      <Button onPress={onCancel} size="lg" variant="primary">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>
