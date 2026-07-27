@@ -550,10 +550,14 @@ Chakra Heading (they compose Text).
     ml-trainer's) replaces `formatjs compile-folder` in `i18n:compile` —
     compiles each `lang/ui.<locale>.json` together with `@microbit/ui`'s
     shipped catalog so the `ui.*` strings ride the app's lazy per-locale
-    chunks. The app has three locales the ui package lacks (de, ga-ie,
-    zh-cn) — the script warns and those fall back to the components'
-    inline English. Committed `src/messages/*.json` regenerate with the
-    merged ids.
+    chunks. The app had three locales the ui package lacked (de, ga-ie,
+    zh-cn); catalogs for them were added to `../ui` with `ui.close-action`
+    lifted from this app's translated `close-action` (the only exact
+    match — it's also the only user-visible ui string). The four
+    toast-status screen-reader words stay English in those catalogs
+    pending Crowdin, matching the untranslated entries in the existing
+    Crowdin-sourced ones. Committed `src/messages/*.json` regenerate with
+    the merged ids.
   - **`<ToastProvider />`** mounted in App.tsx directly inside
     `TranslationProvider` (its close label/status announcements need
     intl). The library `useToast` is context-free (module-level queue), so
