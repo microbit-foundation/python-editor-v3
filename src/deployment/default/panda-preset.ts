@@ -57,6 +57,28 @@ export const appPreset = definePreset({
           languageTextHover: { value: "{colors.brand.600}" },
         },
       },
+      recipes: {
+        // python-editor's default button variant is `outline` (census: the
+        // OSS theme applies withDefaultVariant("outline"); the family base
+        // recipe defaults to `secondary`). Ported from the Chakra `outline`
+        // variant, resolved at the brand colorScheme (the app applies
+        // withDefaultColorScheme("brand")): brand text over a transparent,
+        // brand-bordered button. Non-brand outline cases use `warning`.
+        button: {
+          variants: {
+            variant: {
+              outline: {
+                borderWidth: "2px",
+                borderColor: "currentColor",
+                color: "brand.500",
+                bg: "transparent",
+                _hover: { color: "brand.600", bg: "transparent" },
+              },
+            },
+          },
+          defaultVariants: { variant: "outline" },
+        },
+      },
     },
   },
 });

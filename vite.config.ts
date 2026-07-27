@@ -210,6 +210,17 @@ export default defineConfig(({ mode }) => {
         // tsconfig `paths` entry.
         "styled-system": path.resolve(__dirname, "styled-system"),
       },
+      // @microbit/ui is consumed as source via a file: symlink, so its
+      // `import "react"` etc. would otherwise resolve to the ui monorepo's own
+      // copies — two Reacts → invalid-hook "useContext of null" crashes. Force
+      // a single copy (the app's) for React and the react-aria stack.
+      dedupe: [
+        "react",
+        "react-dom",
+        "react-aria-components",
+        "react-aria",
+        "react-stately",
+      ],
     },
   };
   return config;
