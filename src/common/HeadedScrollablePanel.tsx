@@ -6,7 +6,6 @@
 import { Divider } from "@microbit/ui";
 import { ReactNode } from "react";
 import { Box, VStack, styled } from "styled-system/jsx";
-import { zIndexBreadcrumbContainer } from "../common/zIndex";
 import ScrollablePanel from "./ScrollablePanel";
 import Slide from "./Slide";
 
@@ -30,7 +29,7 @@ const HeadedScrollablePanel = ({
             flex="0 0 auto"
             position="sticky"
             top="0"
-            zIndex={zIndexBreadcrumbContainer}
+            zIndex="breadcrumbContainer"
           >
             {/* Use of header here is relied on to correctly offset the scrolling based on the actual height of the sticky header. See Highlight.tsx */}
             <styled.header>{heading}</styled.header>

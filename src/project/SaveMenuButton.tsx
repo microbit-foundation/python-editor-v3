@@ -10,7 +10,6 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  ThemeTypings,
 } from "@chakra-ui/react";
 import { RiDownload2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -21,7 +20,7 @@ import { useProjectActions } from "./project-hooks";
 import { useRef } from "react";
 
 interface SaveMenuButtonProps {
-  size?: ThemeTypings["components"]["Button"]["sizes"];
+  size?: "lg" | "md" | "sm" | "xs";
 }
 
 /**
@@ -38,7 +37,11 @@ const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
     <HStack>
       <Menu>
         <ButtonGroup isAttached>
-          <SaveButton mode="button" size={size} borderRight="1px" />
+          <SaveButton
+            mode="button"
+            size={size}
+            css={{ borderRight: "1px solid" }}
+          />
           <MoreMenuButton
             ref={menuButtonRef}
             aria-label={intl.formatMessage({ id: "more-save-options" })}

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Tooltip } from "@chakra-ui/react";
+import { Tooltip } from "@microbit/ui";
 import { RiRestartLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
@@ -31,7 +31,7 @@ const ResetButton = (props: ResetButtonProps) => {
         text={intl.formatMessage({
           id: "reset-project-action",
         })}
-        onClick={actions.reset}
+        onPress={actions.reset}
         icon={<RiRestartLine />}
       />
     </Tooltip>

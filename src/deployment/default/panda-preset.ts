@@ -21,6 +21,25 @@ export const appPreset = definePreset({
   theme: {
     extend: {
       tokens: {
+        // This app's stacking contexts, calibrated against third-party
+        // layers (xterm.js ~10, the library's Chakra-derived overlay scale
+        // from 1000). Mirrors src/common/zIndex.ts, which still serves the
+        // remaining Chakra components — keep the two in sync until the
+        // constants file retires at the kill-switch. Token references are
+        // required in Panda styles: an imported constant in a zIndex prop
+        // is not statically extractable (silently unstyled).
+        zIndex: {
+          code: { value: 1 },
+          breadcrumbContainer: { value: 2 },
+          projectAreaMenu: { value: 3 },
+          codePopUp: { value: 3 },
+          sidebarHeader: { value: 3 },
+          splitViewDivider: { value: 3 },
+          splitViewHideButton: { value: 4 },
+          aboveTerminal: { value: 20 },
+          overlay: { value: 30 },
+          aboveDialogs: { value: 1500 },
+        },
         colors: {
           // This app's very light grays differ slightly from the family base
           // preset's (gray.25 is #f5f6f8 here vs #f5f5f5): mirror the OSS

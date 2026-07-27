@@ -91,10 +91,8 @@ const SerialBar = ({
                 : "button"
             }
             variant="unstyled"
-            display="flex"
-            fontWeight="normal"
-            color="white"
-            onClick={handleExpandCollapseClick}
+            css={{ display: "flex", fontWeight: "normal", color: "white" }}
+            onPress={handleExpandCollapseClick}
             icon={
               <ExpandCollapseIcon
                 css={

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Tooltip } from "@chakra-ui/react";
+import { Tooltip } from "@microbit/ui";
 import { RiFileAddLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton, {
@@ -33,7 +33,7 @@ const NewButton = (props: NewButtonProps) => {
         text={intl.formatMessage({
           id: "create-file-action",
         })}
-        onClick={actions.createFile}
+        onPress={actions.createFile}
         icon={<RiFileAddLine />}
       />
     </Tooltip>

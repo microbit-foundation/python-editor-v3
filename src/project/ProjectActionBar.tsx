@@ -32,7 +32,7 @@ const ProjectActionBar = React.forwardRef(
         <HStack spacing={2.5}>
           <SaveMenuButton size={size} />
           {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
-          <OpenButton mode="button" size={size} minW="fit-content" />
+          <OpenButton mode="button" size={size} css={{ minW: "fit-content" }} />
         </HStack>
       </HStack>
     );

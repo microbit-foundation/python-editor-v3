@@ -3,26 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Button,
-  HTMLChakraProps,
-  IconButton,
-  SystemStyleObject,
-  ThemingProps,
-} from "@chakra-ui/react";
+import { Button, ButtonProps, IconButton } from "@microbit/ui";
 import React, { ForwardedRef } from "react";
+import { SystemStyleObject } from "styled-system/types";
 
 export interface CollapsibleButtonProps
-  extends HTMLChakraProps<"button">,
-    ThemingProps<"Button"> {
+  extends Omit<ButtonProps, "children" | "leftIcon" | "rightIcon"> {
   mode: "icon" | "button";
   text: string;
   icon: React.ReactElement;
   iconRight?: boolean;
-  /**
-   * Width used only in button mode.
-   */
-  buttonWidth?: number | string;
+  "data-testid"?: string;
   /**
    * Styles used only when collapsed.
    */
@@ -31,7 +22,7 @@ export interface CollapsibleButtonProps
 
 export type CollapsibleButtonComposableProps = Omit<
   CollapsibleButtonProps,
-  "onClick" | "text" | "icon"
+  "onPress" | "text" | "icon"
 >;
 
 /**
@@ -46,8 +37,8 @@ const CollapsibleButton = React.forwardRef(
       text,
       icon,
       iconRight,
-      buttonWidth,
       _collapsed,
+      css: cssProp,
       ...props
     }: CollapsibleButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
@@ -55,19 +46,19 @@ const CollapsibleButton = React.forwardRef(
     return mode === "icon" ? (
       <IconButton
         ref={ref}
-        icon={icon}
         aria-label={text}
         {...props}
-        sx={_collapsed}
-        fontSize="xl"
-      />
+        css={{ fontSize: "xl", ...cssProp, ..._collapsed }}
+      >
+        {icon}
+      </IconButton>
     ) : (
       <Button
         ref={ref}
         leftIcon={icon && !iconRight ? icon : undefined}
         rightIcon={icon && iconRight ? icon : undefined}
-        minWidth={buttonWidth}
         {...props}
+        css={cssProp}
       >
         {text}
       </Button>

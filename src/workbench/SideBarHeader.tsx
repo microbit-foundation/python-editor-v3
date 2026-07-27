@@ -18,6 +18,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Icon } from "@microbit/ui";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
@@ -212,24 +213,31 @@ const SideBarHeader = ({
           </Link>
           {searchAvailable && !query && sidebarShown && (
             <CollapsibleButton
-              onClick={handleModalOpened}
-              backgroundColor="brand.700"
-              fontWeight="normal"
-              color="#fffc"
-              icon={<Box as={RiSearch2Line} fontSize="lg" color="fff" />}
-              fontSize="sm"
-              _hover={{}}
-              _active={{}}
-              border="unset"
-              textAlign="left"
-              p={3}
-              pr={`min(${contentWidth / 50}%, var(--chakra-space-20))`}
-              _collapsed={{
-                pr: 3,
+              onPress={handleModalOpened}
+              icon={<Icon as={RiSearch2Line} css={{ fontSize: "lg" }} />}
+              css={{
+                backgroundColor: "brand.700",
+                fontWeight: "normal",
+                color: "#fffc",
+                fontSize: "sm",
+                // Neutralise the default (outline) variant's chrome, as the
+                // old Chakra props did with border/_hover/_active resets.
+                border: "unset",
+                _hover: { color: "#fffc", background: "brand.700" },
+                _active: { color: "#fffc", background: "brand.700" },
+                textAlign: "left",
+                p: "3",
+                mr: "2rem",
               }}
+              // Width-derived padding is a runtime value Panda can't extract;
+              // icon (collapsed) mode keeps the css p="3" instead.
+              style={
+                searchButtonMode === "button"
+                  ? { paddingRight: `min(${contentWidth / 50}%, 5rem)` }
+                  : undefined
+              }
               text={intl.formatMessage({ id: "search" })}
               mode={searchButtonMode}
-              mr="2rem"
             />
           )}
           {searchAvailable && query && sidebarShown && (
