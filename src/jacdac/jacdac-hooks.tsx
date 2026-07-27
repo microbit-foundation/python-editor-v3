@@ -130,7 +130,7 @@ export const useJacdacIdentify = (): ((deviceId: string) => Promise<void>) => {
 };
 
 /**
- * Keep the Jacdac sensor modules (JacdacButton.py, etc.) in sync with the user's
+ * Keep the Jacdac sensor modules (jacdac_button.py, etc.) in sync with the user's
  * code: add a module file whenever the code uses that class (so the import
  * resolves in the simulator and the user can read it), and remove it again once
  * the code no longer references the class. Only used modules are present, keeping

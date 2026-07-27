@@ -1,13 +1,13 @@
-# microbit-module: JacdacButton@0.0.1
+# microbit-module: jacdac_button@0.0.1
 """
 A Jacdac push-button for the micro:bit.
 
 Give it a role name and assign that role to a physical sensor in the Jacdac
 sidebar (Config), or try it in the simulator. Poll it in your main loop::
 
-    from JacdacButton import JacdacButton
+    from jacdac_button import jacdac_button
 
-    start = JacdacButton("start")
+    start = jacdac_button("start")
     while True:
         if start.was_pressed():
             display.show(Image.HAPPY)
@@ -18,7 +18,7 @@ default values.
 """
 
 
-class JacdacButton:
+class jacdac_button:
     """A Jacdac push-button.
 
     :param role: the role name used to bind this button to a physical sensor.

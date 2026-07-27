@@ -31,7 +31,7 @@ export const pullModulesToTop = (input: ApiDocsContent) => {
  * Merge the per-sensor Jacdac modules into a single synthetic "Jacdac" module
  * for display in the API tab. The runtime modules/stubs stay separate (this is
  * display only). Children keep their real ids/fullNames (e.g.
- * "JacdacButton.JacdacButton") so the autocomplete "API" deep-links still
+ * "jacdac_button.jacdac_button") so the autocomplete "API" deep-links still
  * resolve — see resolveModule's child fallback below.
  */
 export const mergeJacdacModules = (input: ApiDocsContent) => {
@@ -78,7 +78,7 @@ export const resolveModule = (
   }
   // Fallback for grouped modules (e.g. the synthetic "Jacdac"): match a module
   // by one of its children, so deep-links to child symbols like
-  // "JacdacButton.JacdacButton.is_pressed" resolve to the group.
+  // "jacdac_button.jacdac_button.is_pressed" resolve to the group.
   return modules.find((module) =>
     module.children?.some(
       (child) =>

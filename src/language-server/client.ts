@@ -29,7 +29,7 @@ import {
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
 // Jacdac POC (step 10): the Jacdac module stubs, injected into the language
-// server so `from JacdacButton import ...` resolves and autocomplete/hover work.
+// server so `from jacdac_button import ...` resolves and autocomplete/hover work.
 import { JACDAC_MODULES } from "../jacdac/python/module-source";
 import { microPythonConfig } from "../micropython/micropython";
 import {

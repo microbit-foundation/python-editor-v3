@@ -1,13 +1,13 @@
-# microbit-module: JacdacRotaryEncoder@0.0.1
+# microbit-module: jacdac_rotary_encoder@0.0.1
 """
 A Jacdac rotary encoder (a knob you turn) for the micro:bit.
 
 Give it a role name and assign that role to a physical sensor in the Jacdac
 sidebar (Config), or try it in the simulator. Poll it in your main loop::
 
-    from JacdacRotaryEncoder import JacdacRotaryEncoder
+    from jacdac_rotary_encoder import jacdac_rotary_encoder
 
-    dial = JacdacRotaryEncoder("volume")
+    dial = jacdac_rotary_encoder("volume")
     while True:
         display.scroll(dial.value())
 
@@ -17,7 +17,7 @@ default values.
 """
 
 
-class JacdacRotaryEncoder:
+class jacdac_rotary_encoder:
     """A Jacdac rotary encoder.
 
     :param role: the role name used to bind this encoder to a physical sensor.

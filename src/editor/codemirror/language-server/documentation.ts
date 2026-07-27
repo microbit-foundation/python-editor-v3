@@ -188,7 +188,7 @@ export const wrapWithDocumentationButton = (
 
 /**
  * The Jacdac sidebar anchor for a Jacdac symbol, or undefined. Maps the symbol's
- * module (e.g. "JacdacButton") to its section, and deep-links to the specific
+ * module (e.g. "jacdac_button") to its section, and deep-links to the specific
  * method when the symbol is a method: "button/get_presses" vs "button".
  */
 const jacdacSectionForId = (id: string): string | undefined => {

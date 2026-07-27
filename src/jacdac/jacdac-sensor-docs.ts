@@ -53,9 +53,9 @@ export const sensorMethodExamples: Record<string, MethodExample[]> = {
       method: "is_pressed()",
       description: "Check whether the button is being held right now.",
       code: `from microbit import *
-from JacdacButton import JacdacButton
+from jacdac_button import jacdac_button
 
-my_button = JacdacButton("my role name")
+my_button = jacdac_button("my role name")
 while True:
     if my_button.is_pressed():
         display.show(Image.HEART)
@@ -66,9 +66,9 @@ while True:
       method: "was_pressed()",
       description: "React once each time the button is pressed.",
       code: `from microbit import *
-from JacdacButton import JacdacButton
+from jacdac_button import jacdac_button
 
-my_button = JacdacButton("my role name")
+my_button = jacdac_button("my role name")
 count = 0
 while True:
     if my_button.was_pressed():
@@ -79,9 +79,9 @@ while True:
       method: "get_presses()",
       description: "Count how many presses happened over a period of time.",
       code: `from microbit import *
-from JacdacButton import JacdacButton
+from jacdac_button import jacdac_button
 
-my_button = JacdacButton("my role name")
+my_button = jacdac_button("my role name")
 while True:
     sleep(2000)
     display.scroll(my_button.get_presses())`,
@@ -90,9 +90,9 @@ while True:
       method: "pressure()",
       description: "Read how hard the button is pressed, from 0 to 100.",
       code: `from microbit import *
-from JacdacButton import JacdacButton
+from jacdac_button import jacdac_button
 
-my_button = JacdacButton("my role name")
+my_button = jacdac_button("my role name")
 while True:
     display.show(str(my_button.pressure()))`,
     },
@@ -102,9 +102,9 @@ while True:
       method: "value()",
       description: "Read the position as a click count (may be negative).",
       code: `from microbit import *
-from JacdacRotaryEncoder import JacdacRotaryEncoder
+from jacdac_rotary_encoder import jacdac_rotary_encoder
 
-my_dial = JacdacRotaryEncoder("my role name")
+my_dial = jacdac_rotary_encoder("my role name")
 while True:
     display.scroll(my_dial.value())`,
     },
@@ -112,9 +112,9 @@ while True:
       method: "clicks_per_turn()",
       description: "Find how many clicks make one full turn.",
       code: `from microbit import *
-from JacdacRotaryEncoder import JacdacRotaryEncoder
+from jacdac_rotary_encoder import jacdac_rotary_encoder
 
-my_dial = JacdacRotaryEncoder("my role name")
+my_dial = jacdac_rotary_encoder("my role name")
 display.scroll(my_dial.clicks_per_turn())`,
     },
   ],
@@ -123,9 +123,9 @@ display.scroll(my_dial.clicks_per_turn())`,
       method: "value()",
       description: "Read the slider position, from 0 to 100.",
       code: `from microbit import *
-from JacdacSlider import JacdacSlider
+from jacdac_slider import jacdac_slider
 
-my_slider = JacdacSlider("my role name")
+my_slider = jacdac_slider("my role name")
 while True:
     display.show(str(my_slider.value()))`,
     },

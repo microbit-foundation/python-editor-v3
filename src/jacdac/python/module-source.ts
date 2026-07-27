@@ -11,25 +11,25 @@
  */
 import { extractModuleData } from "../../fs/fs-util";
 import { JacdacRoleType } from "../parse-roles";
-import jacdacButton from "./JacdacButton.py?raw";
-import jacdacRotaryEncoder from "./JacdacRotaryEncoder.py?raw";
-import jacdacSlider from "./JacdacSlider.py?raw";
+import jacdacButton from "./jacdac_button.py?raw";
+import jacdacRotaryEncoder from "./jacdac_rotary_encoder.py?raw";
+import jacdacSlider from "./jacdac_slider.py?raw";
 
 export interface JacdacModule {
-  /** Module and class name, e.g. "JacdacButton" (module file: JacdacButton.py). */
+  /** Module and class name, e.g. "jacdac_button" (module file: jacdac_button.py). */
   className: string;
   type: JacdacRoleType;
   source: string;
 }
 
 export const JACDAC_MODULES: JacdacModule[] = [
-  { className: "JacdacButton", type: "button", source: jacdacButton },
+  { className: "jacdac_button", type: "button", source: jacdacButton },
   {
-    className: "JacdacRotaryEncoder",
+    className: "jacdac_rotary_encoder",
     type: "rotary-encoder",
     source: jacdacRotaryEncoder,
   },
-  { className: "JacdacSlider", type: "slider", source: jacdacSlider },
+  { className: "jacdac_slider", type: "slider", source: jacdacSlider },
 ];
 
 /**
@@ -45,7 +45,7 @@ export const isJacdacModuleSource = (source: string): boolean => {
 
 /**
  * True if the filename is one of our managed Jacdac module files (e.g.
- * "JacdacButton.py"). Used where only the name is available (the project file
+ * "jacdac_button.py"). Used where only the name is available (the project file
  * list); prefer isJacdacModuleSource when the content is available.
  */
 export const isJacdacModuleFilename = (filename: string): boolean =>
