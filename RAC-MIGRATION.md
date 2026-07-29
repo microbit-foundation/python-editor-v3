@@ -2,12 +2,14 @@
 
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`,
-`src/serial/`, `common/SplitView/`, and `src/editor/` all ported;
-z-index token scale landed; library gained NumberField, Kbd, Code, Menu
-option groups, `useMediaQuery`, TextField `autoCapitalize`, Toast
-`closeAll`. Decision:
-Tabs + SplitView stay app-side (see App-specific items). Steps 1–2
-complete. Verification bar:
+`src/serial/`, `common/SplitView/`, `src/editor/`, and `src/workbench/`
+all ported (incl. the RAC sidebar Tabs); z-index token scale landed;
+library gained Collapse, Fade, NumberField, Kbd, Code, Menu option
+groups, `useMediaQuery`, `usePrevious`, TextField `autoCapitalize`,
+Toast `closeAll`, Modal `contentStyle`. Decision: Tabs + SplitView stay
+app-side (see App-specific items). Steps 1–2 complete. Remaining:
+`src/simulator/`, `src/documentation/` (now unblocked by Collapse/Fade),
+and the Chakra theme files themselves (kill-switch). Verification bar:
 typecheck/build/lint + a runtime smoke check; full visual pass deferred
 (per owner). Porting continues area-by-area.**
 
@@ -825,6 +827,7 @@ Chakra Heading (they compose Text).
 
 - 2026-07-29 (step 3 — src/editor): **the editor area is ported; zero
   `@chakra-ui` imports remain in `src/editor/`.**
+
   - **App preset `zoom` button variant** (solid gray pills with darker
     hover/active for the zoom and undo/redo pairs; the old Chakra theme's
     "ideally we'd drop this variant" comment carried over). Chakra put
@@ -848,6 +851,56 @@ Chakra Heading (they compose Text).
     disabled when empty history, enables after typing and reverts on
     click; creating a second file shows ActiveFileInfo's name +
     back-to-main link, which returns to main.py. No console errors.
+
+- 2026-07-29 (step 3 — src/workbench, the app chrome): **zero `@chakra-ui`
+  imports remain in `src/workbench/`.** The Collapse/Fade library gap is
+  closed, unblocking `src/documentation/`.
+  - **Library additions (`../ui`):** `Collapse` (CSS height transition with
+    ResizeObserver-measured content — no framer-motion, like Slide;
+    Chakra-compatible `startingHeight`/`endingHeight`/`unmountOnExit`),
+    `Fade`, `usePrevious`, and Modal `contentStyle` (inline styles for
+    runtime-positioned dialogs — the search modal aligns to the measured
+    logo offset).
+  - **RAC sidebar Tabs (app-side, per the placement decision):** SideBar/
+    SideBarTab onto react-aria Tabs/TabList/Tab/TabPanel with app-local
+    Panda styling over the converged tokens (the gradient
+    `sidebarTablistBg` strip + `sidebarTabSelectedText/Bg`). Three RAC
+    lessons for the gotcha file:
+    1. _Tabs cannot be selection-less_ — react-stately force-selects the
+       first tab (and fires onSelectionChange) when the controlled
+       `selectedKey` is null, which re-expanded the collapsed sidebar in a
+       loop. The collapsed sidebar now keeps the last real selection
+       hidden; the index-based `active` prop drives selected styling, and
+       clicking the hidden-selected tab expands via the tab's onClick
+       (selection-change doesn't fire for same-key clicks).
+    2. _Collection pre-render:_ RAC renders items once without attaching
+       refs — effects touching `ref.current` need null guards (the
+       every-render tabindex override crashed the whole app otherwise).
+    3. _TabList may only contain Tabs_ — the old single-column tablist
+       (spacer + tabs + settings/help menus) became a wrapper Flex column
+       carrying the gradient, with the TabList flexing between spacer and
+       menus so the API tab's `mb:auto` still pushes Project + menus to
+       the bottom.
+       Panels: `shouldForceMount` keeps all mounted (Chakra parity);
+       inactive panels are `[inert]` → display:none, and `setPanelFocus`
+       sets tabindex=-1 before focusing.
+  - **Other ports:** Workbench (library `useMediaQuery`, `styled.section`/
+    `styled.main`); PreReleaseNotice; HelpMenu (RAC MenuItem's native
+    `href` replaces Chakra's `as="a"`); SideBarHeader (library Fade, the
+    search Modal via `overlayCss`/`contentCss`/`contentStyle`, Container
+    `sidebar-header` variant → `sidebarHeaderBg` styled.div, query-pill
+    Button with explicit hover/active neutralisation); AboutDialog's
+    Chakra `Collapse` → library (the last Chakra import in the dialogs).
+    The tab Corner SVGs' `var(--chakra-colors-gray-25)` →
+    `var(--colors-gray-25)`.
+  - **Verified:** static checks + 217 tests + build clean in both repos.
+    Smoke on the branded build: 4 tabs over the exact brand gradient
+    (`rgb(108,75,193) → rgb(123,205,194)`), selection switches with
+    correct selected styling (#f5f6f8 bg, brand.300 text, 32px radius,
+    corner notches), collapse → Expand-sidebar → re-expand cycle works,
+    search modal opens aligned to the logo, help menu lists all items
+    with dividers, About's read-more Collapse expands to the comic, beta
+    strip renders. No console errors.
 
 ## Notes to revisit later
 
