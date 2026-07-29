@@ -198,7 +198,8 @@ const SerialPanel = ({
 
   const activeIndex = Math.max(0, sources.indexOf(activeTarget));
   const active = sources[activeIndex];
-  const activeConnection = active === "simulator" && simulator ? simulator : device;
+  const activeConnection =
+    active === "simulator" && simulator ? simulator : device;
 
   const sendCommand = (data: string) => {
     onSizeChange("open");
@@ -271,7 +272,7 @@ const SerialPanel = ({
                   fontWeight="medium"
                   fontSize="sm"
                   px={3}
-                  py={2}
+                  alignSelf="stretch"
                   borderBottomWidth={2}
                   borderColor="transparent"
                   backgroundColor={sourceBackground(source)}
@@ -290,13 +291,12 @@ const SerialPanel = ({
               );
             })}
           </TabList>
-          <HStack spacing="0.5" pr={1} color="white">
+          <HStack color="white">
             {showDeviceSync ? (
               <Text
                 display="inline-flex"
                 alignItems="center"
                 whiteSpace="nowrap"
-                pr={1}
               >
                 <FormattedMessage
                   id={
@@ -317,7 +317,7 @@ const SerialPanel = ({
                 />
               </Text>
             ) : compactTraceback ? (
-              <HStack spacing={1} pr={1} maxW="20rem" overflow="hidden">
+              <HStack spacing={1} maxW="20rem" overflow="hidden">
                 <Icon
                   as={RiErrorWarningLine}
                   fill="white"
@@ -364,50 +364,54 @@ const SerialPanel = ({
                 id: compact ? "serial-expand" : "serial-collapse",
               })}
             />
-            {showHintsAndTips && (
-              <IconButton
-                variant="sidebar"
-                color="white"
-                isRound
-                aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
-                icon={<RiInformationLine />}
-                onClick={() => {
-                  logging.event({ type: "serial-info" });
-                  helpDisclosure.onOpen();
-                }}
-              />
-            )}
-            <Menu placement={compact ? "top-end" : undefined}>
-              <MenuButton
-                as={IconButton}
-                aria-label={intl.formatMessage({ id: "serial-menu" })}
-                variant="sidebar"
-                color="white"
-                isRound
-                icon={<MdMoreVert />}
-              />
-              <Portal>
-                <MenuList zIndex={zIndexAboveTerminal}>
-                  <MenuItem icon={<RiKeyboardBoxLine />} onClick={interrupt}>
-                    <FormattedMessage id="serial-ctrl-c-action" />
-                  </MenuItem>
-                  <MenuItem icon={<RiKeyboardBoxLine />} onClick={reset}>
-                    <FormattedMessage id="serial-ctrl-d-action" />
-                  </MenuItem>
-                  {!showHintsAndTips && (
-                    <>
-                      <MenuDivider />
-                      <MenuItem
-                        icon={<RiInformationLine />}
-                        onClick={helpDisclosure.onOpen}
-                      >
-                        <FormattedMessage id="serial-hints-and-tips" />
-                      </MenuItem>
-                    </>
-                  )}
-                </MenuList>
-              </Portal>
-            </Menu>
+            <HStack spacing="0.5">
+              {showHintsAndTips && (
+                <IconButton
+                  variant="sidebar"
+                  color="white"
+                  isRound
+                  aria-label={intl.formatMessage({
+                    id: "serial-hints-and-tips",
+                  })}
+                  icon={<RiInformationLine />}
+                  onClick={() => {
+                    logging.event({ type: "serial-info" });
+                    helpDisclosure.onOpen();
+                  }}
+                />
+              )}
+              <Menu placement={compact ? "top-end" : undefined}>
+                <MenuButton
+                  as={IconButton}
+                  aria-label={intl.formatMessage({ id: "serial-menu" })}
+                  variant="sidebar"
+                  color="white"
+                  isRound
+                  icon={<MdMoreVert />}
+                />
+                <Portal>
+                  <MenuList zIndex={zIndexAboveTerminal}>
+                    <MenuItem icon={<RiKeyboardBoxLine />} onClick={interrupt}>
+                      <FormattedMessage id="serial-ctrl-c-action" />
+                    </MenuItem>
+                    <MenuItem icon={<RiKeyboardBoxLine />} onClick={reset}>
+                      <FormattedMessage id="serial-ctrl-d-action" />
+                    </MenuItem>
+                    {!showHintsAndTips && (
+                      <>
+                        <MenuDivider />
+                        <MenuItem
+                          icon={<RiInformationLine />}
+                          onClick={helpDisclosure.onOpen}
+                        >
+                          <FormattedMessage id="serial-hints-and-tips" />
+                        </MenuItem>
+                      </>
+                    )}
+                  </MenuList>
+                </Portal>
+              </Menu>
+            </HStack>
           </HStack>
         </HStack>
         {/* Terminals are stacked and toggled with visibility (never
@@ -459,13 +463,19 @@ const SerialPanel = ({
                       onChange={reportState}
                     />
                     <TerminalContext>
-                      <TerminalRegistrar source="simulator" registry={terminals} />
+                      <TerminalRegistrar
+                        source="simulator"
+                        registry={terminals}
+                      />
                       {terminal}
                     </TerminalContext>
                   </DeviceContextProvider>
                 ) : (
                   <>
-                    <SourceStateReporter source="device" onChange={reportState} />
+                    <SourceStateReporter
+                      source="device"
+                      onChange={reportState}
+                    />
                     <TerminalContext>
                       <TerminalRegistrar source="device" registry={terminals} />
                       {terminal}
