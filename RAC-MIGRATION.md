@@ -2,9 +2,10 @@
 
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`,
-`src/serial/`, and `common/SplitView/` all ported; z-index token scale
-landed; library gained NumberField, Kbd, Code, Menu option groups,
-`useMediaQuery`, TextField `autoCapitalize`, Toast `closeAll`. Decision:
+`src/serial/`, `common/SplitView/`, and `src/editor/` all ported;
+z-index token scale landed; library gained NumberField, Kbd, Code, Menu
+option groups, `useMediaQuery`, TextField `autoCapitalize`, Toast
+`closeAll`. Decision:
 Tabs + SplitView stay app-side (see App-specific items). Steps 1–2
 complete. Verification bar:
 typecheck/build/lint + a runtime smoke check; full visual pass deferred
@@ -807,6 +808,7 @@ Chakra Heading (they compose Text).
   SplitView nor Tabs become library components** (see the App-specific
   items section for the reasoning; generic Tabs parked until a second
   family consumer exists).
+
   - SplitView/SplitViewSized/SplitViewRemainder/SplitViewDivider → Panda
     Flex/Box + library Icon. The runtime-computed pane dimensions
     (`dimensionProps` calc strings) become inline styles; static
@@ -820,6 +822,32 @@ Chakra Heading (they compose Text).
     both dividers render (col-resize cursor, z-index 3 via token, 10px
     #eaecf1 bar + dots icon) and dragging the sidebar divider resizes
     the pane (294→449px). No console errors.
+
+- 2026-07-29 (step 3 — src/editor): **the editor area is ported; zero
+  `@chakra-ui` imports remain in `src/editor/`.**
+  - **App preset `zoom` button variant** (solid gray pills with darker
+    hover/active for the zoom and undo/redo pairs; the old Chakra theme's
+    "ideally we'd drop this variant" comment carried over). Chakra put
+    the variant on the ButtonGroup and let it cascade — the library
+    ButtonGroup doesn't cascade, so it's set per IconButton.
+  - **Ports:** ZoomControls/UndoRedoControls → library ButtonGroup +
+    IconButton (`isRound` + attached still square the inner edges — the
+    group's child selectors out-specify the radius utility, matching
+    Chakra); ActiveFileInfo (unstyled Button + css); ModuleOverlay
+    (plain HTML table with Panda styled.th/td per the AboutDialog owner
+    precedent — Chakra md-size approximation; another invalid `grey.800`
+    dropped; `Link as="button"` → `Button variant="link"`);
+    CodeMirrorView (`useToken("fontSizes","md")` → `token()`, BoxProps →
+    css; CodeEmbed call site updated); EditorArea (header →
+    `styled.section`; the three-way `pr` + imported `topBarHeight` go to
+    inline style with runtime `token()`; responsive `display` arrays in
+    css extract fine).
+  - **Verified:** static checks + 217 tests + build clean. Smoke: zoom
+    buttons render (private gray.100 pill, round outer edges) and change
+    the editor font 18.7→22.7px; undo/redo pill is rotated vertical,
+    disabled when empty history, enables after typing and reverts on
+    click; creating a second file shows ActiveFileInfo's name +
+    back-to-main link, which returns to main.py. No console errors.
 
 ## Notes to revisit later
 
