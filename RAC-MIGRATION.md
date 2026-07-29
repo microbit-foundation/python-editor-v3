@@ -1,12 +1,12 @@
 # Chakra → react-aria-components + Panda CSS migration
 
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
-toast infrastructure, `common/`, `src/project/`, and `src/settings/` all
-ported; z-index token scale landed; library gained NumberField, Menu
-option groups, `useMediaQuery`, TextField `autoCapitalize`, Toast
-`closeAll`. Steps 1–2 complete. Verification bar: typecheck/build/lint +
-a runtime smoke check; full visual pass deferred (per owner). Porting
-continues area-by-area.**
+toast infrastructure, `common/`, `src/project/`, `src/settings/`, and
+`src/serial/` all ported; z-index token scale landed; library gained
+NumberField, Kbd, Code, Menu option groups, `useMediaQuery`, TextField
+`autoCapitalize`, Toast `closeAll`. Steps 1–2 complete. Verification bar:
+typecheck/build/lint + a runtime smoke check; full visual pass deferred
+(per owner). Porting continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -729,6 +729,7 @@ Chakra Heading (they compose Text).
 - 2026-07-29 (step 3 — src/settings): **the settings area is ported; zero
   `@chakra-ui` imports remain in `src/settings/`.** The census's
   NumberInput gap closed in the library.
+
   - **Library `NumberField` (`../ui`):** react-aria-components NumberField
     styled like Chakra's NumberInput — outline input (reuses the `input`
     recipe) + right-hand stepper column; new `numberField` slot recipe
@@ -759,6 +760,36 @@ Chakra Heading (they compose Text).
     choosing Français switches the whole UI (Projet tab) and back. No
     console errors. Screenshots match the Chakra layout (CJK glyph boxes
     are a sandbox font gap, not an app issue).
+
+- 2026-07-29 (step 3 — src/serial): **the serial area is ported; zero
+  `@chakra-ui` imports remain in `src/serial/`.** First use of the
+  runtime token contract.
+  - **Library `Kbd` + `Code`** (census gaps): small styled components
+    matching Chakra's key-chip and inline-code looks.
+  - **`fonts.code` token** added to the OSS app preset ("Source Code Pro,
+    monospace" — same value both themes, so no private override). XTerm's
+    Chakra `useToken("fonts", "code")` became Panda's runtime
+    `token("fonts.code")` — the documented CSS-variable/`token()` contract
+    (first of the census's "tokens consumed outside React" items;
+    CodeMirror + simulator still to come).
+  - **Ports:** SerialArea → `styled.section` (callers' `as="section"`
+    dropped; `backgroundColorTerm` constant via inline style; XTerm height
+    via inline style so `SerialArea.compactSize` stays a shared constant);
+    SerialBar (its three-way status `backgroundColor` uses inline style +
+    runtime `token()` — a nested-ternary css value is not reliably
+    extractable); SerialIndicators (narrowed props, `boxSize` →
+    width/height — Panda has no boxSize utility); SerialMenu (MenuTrigger
+    - first `MenuDivider` use + `sidebar` variant, `color="white"`
+      dropped per the variant fold-in); SerialHelp → library Modal +
+      Kbd/Code; TracebackLink/MaybeTracebackLink → library Link/Text.
+  - **Verified:** both repos' static checks clean; 217 tests; build clean.
+    Smoke via the simulator serial area: expand/collapse (Show/Hide
+    serial), xterm mounts, serial ⋮ menu (Ctrl-C/Ctrl-D + divider + hints
+    item), SerialHelpDialog with 4 kbd + 2 code chips (computed styles
+    match: gray bg, 3px key border). `token("fonts.code")` resolves to
+    "Source Code Pro, monospace" in the generated tokens (the terminal
+    canvas gets it via the xterm option; the container inherits body font
+    as before). No console errors.
 
 ## Notes to revisit later
 
