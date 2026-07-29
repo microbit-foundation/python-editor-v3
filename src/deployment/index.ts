@@ -40,8 +40,6 @@ export interface DeploymentConfig {
     manageCookies: (() => void) | undefined;
   };
 
-  chakraTheme: any;
-
   supportLink?: string;
   guideLink?: string;
   userGuideLink?: string;

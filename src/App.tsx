@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ChakraProvider } from "@chakra-ui/react";
 import { ToastProvider } from "@microbit/ui";
 import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
@@ -67,43 +66,41 @@ const App = () => {
   return (
     <>
       <VisualViewPortCSSVariables />
-      <ChakraProvider theme={deployment.chakraTheme}>
-        <LoggingProvider value={logging}>
-          <SettingsProvider>
-            <SessionSettingsProvider>
-              <TranslationProvider>
-                {/* Inside TranslationProvider: the toast region's close label
+      <LoggingProvider value={logging}>
+        <SettingsProvider>
+          <SessionSettingsProvider>
+            <TranslationProvider>
+              {/* Inside TranslationProvider: the toast region's close label
                     and status announcements are react-intl messages. */}
-                <ToastProvider />
-                <FileSystemProvider value={fs}>
-                  <DeviceContextProvider value={device}>
-                    <LanguageServerClientProvider>
-                      <BeforeUnloadDirtyCheck />
-                      <DocumentationProvider>
-                        <SearchProvider>
-                          <SelectionProvider>
-                            <DialogProvider>
-                              <RouterProvider>
-                                <ConsentProvider>
-                                  <ProjectDropTarget>
-                                    <ActiveEditorProvider>
-                                      <Workbench />
-                                    </ActiveEditorProvider>
-                                  </ProjectDropTarget>
-                                </ConsentProvider>
-                              </RouterProvider>
-                            </DialogProvider>
-                          </SelectionProvider>
-                        </SearchProvider>
-                      </DocumentationProvider>
-                    </LanguageServerClientProvider>
-                  </DeviceContextProvider>
-                </FileSystemProvider>
-              </TranslationProvider>
-            </SessionSettingsProvider>
-          </SettingsProvider>
-        </LoggingProvider>
-      </ChakraProvider>
+              <ToastProvider />
+              <FileSystemProvider value={fs}>
+                <DeviceContextProvider value={device}>
+                  <LanguageServerClientProvider>
+                    <BeforeUnloadDirtyCheck />
+                    <DocumentationProvider>
+                      <SearchProvider>
+                        <SelectionProvider>
+                          <DialogProvider>
+                            <RouterProvider>
+                              <ConsentProvider>
+                                <ProjectDropTarget>
+                                  <ActiveEditorProvider>
+                                    <Workbench />
+                                  </ActiveEditorProvider>
+                                </ProjectDropTarget>
+                              </ConsentProvider>
+                            </RouterProvider>
+                          </DialogProvider>
+                        </SelectionProvider>
+                      </SearchProvider>
+                    </DocumentationProvider>
+                  </LanguageServerClientProvider>
+                </DeviceContextProvider>
+              </FileSystemProvider>
+            </TranslationProvider>
+          </SessionSettingsProvider>
+        </SettingsProvider>
+      </LoggingProvider>
     </>
   );
 };

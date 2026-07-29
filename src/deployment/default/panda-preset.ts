@@ -15,8 +15,8 @@ const toTokens = (values: Record<string, string | number>) =>
 // The late-v3 "make everything smaller" theme change (2022): the numeric
 // spacing/size scale is Chakra's 0.25rem grid × 0.88, and fontSizes from
 // `md` up are × 0.9 (xs/sm kept full-size so text never gets too small).
-// Shared with the private theme; sourced from the Chakra theme files so
-// there is one copy while Chakra remains. The team may revisit whether
+// The adjacent common-sizes.ts/font-sizes.ts are the (only) home of the
+// values now Chakra is gone. The team may revisit whether
 // this density stays after the migration (see RAC-MIGRATION.md notes) —
 // for now the port replicates it.
 const shrunkenScale = toTokens(commonSizes);
@@ -40,11 +40,9 @@ export const appPreset = definePreset({
       tokens: {
         // This app's stacking contexts, calibrated against third-party
         // layers (xterm.js ~10, the library's Chakra-derived overlay scale
-        // from 1000). Mirrors src/common/zIndex.ts, which still serves the
-        // remaining Chakra components — keep the two in sync until the
-        // constants file retires at the kill-switch. Token references are
-        // required in Panda styles: an imported constant in a zIndex prop
-        // is not statically extractable (silently unstyled).
+        // from 1000). Token references are required in Panda styles: an
+        // imported constant in a zIndex prop is not statically extractable
+        // (silently unstyled).
         zIndex: {
           code: { value: 1 },
           breadcrumbContainer: { value: 2 },

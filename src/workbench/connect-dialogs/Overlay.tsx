@@ -5,7 +5,7 @@
  */
 import { useCallback, useEffect, useState } from "react";
 import { Box } from "styled-system/jsx";
-import { zIndexOverlay } from "../../common/zIndex";
+import { token } from "styled-system/tokens";
 import { useDevice } from "../../device/device-hooks";
 
 const Overlay = () => {
@@ -32,7 +32,7 @@ const Overlay = () => {
       left="0"
       // Numeric z-index constant calibrated against third-party stacking; a
       // runtime value, so set it via inline style (Panda can't extract it).
-      style={{ zIndex: zIndexOverlay }}
+      style={{ zIndex: token("zIndex.overlay") }}
     />
   );
 };

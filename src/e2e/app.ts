@@ -199,9 +199,12 @@ class Simulator {
     sliderLabel: string,
     value: "min" | "max"
   ): Promise<void> {
-    const sliderThumb = this.page.locator(
-      `[role="slider"][aria-label="${sliderLabel}"]`
-    );
+    // Accessible-name query: react-aria labels the slider input via
+    // aria-labelledby rather than an aria-label attribute. The input is
+    // visually hidden inside the draggable thumb, so drag its parent.
+    const sliderThumb = this.page
+      .getByRole("slider", { name: sliderLabel })
+      .locator("..");
     const bounding_box = await sliderThumb!.boundingBox();
     await this.page.mouse.move(
       bounding_box!.x + bounding_box!.width / 2,
@@ -331,7 +334,9 @@ export class App {
     await this.switchTab("Project");
     await this.page.getByRole("button", { name: "Create file" }).click();
     await this.page.getByLabel("Name*").fill(name);
-    await this.page.getByRole("button", { name: "Create" }).click();
+    await this.page
+      .getByRole("button", { name: "Create", exact: true })
+      .click();
   }
 
   async resetProject(): Promise<void> {
@@ -561,10 +566,12 @@ export class App {
   }
 
   async selectFirstSearchResult(): Promise<void> {
+    // Scoped to the dialog: the rest of the app is inert while it is open,
+    // but Playwright's role queries still match inert content.
+    const results = this.page.getByRole("dialog").getByRole("link");
     // wait for results to show
-    await this.page.getByRole("link").first().waitFor();
-    const links = await this.page.getByRole("link").all();
-    await links[0].click();
+    await results.first().waitFor();
+    await results.first().click();
   }
 
   async selectDocumentationIdea(name: string): Promise<void> {
@@ -606,6 +613,9 @@ export class App {
   }
 
   async followSerialCompactTracebackLink(): Promise<void> {
+    // Park the pointer first: the send button's tooltip re-opens under the
+    // hovering mouse after the click and would intercept.
+    await this.page.mouse.move(0, 0);
     await this.page.getByTestId("traceback-link").click();
   }
 
@@ -688,8 +698,12 @@ export class App {
   }
 
   async assertFocusOnSidebar(): Promise<void> {
-    const simulator = this.page.getByRole("tabpanel", { name: "Reference" });
-    await expect(simulator).toBeFocused();
+    // Focus lands on the panel's inner content wrapper (react-aria owns
+    // the tabpanel's own tabindex).
+    const panelContent = this.page
+      .getByRole("tabpanel", { name: "Reference" })
+      .locator("[data-panel-content]");
+    await expect(panelContent).toBeFocused();
   }
 
   async assertFocusBeforeEditor(): Promise<void> {

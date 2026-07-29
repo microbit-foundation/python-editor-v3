@@ -25,12 +25,7 @@ try {
 }
 
 export default defineConfig({
-  // Coexistence: Chakra's global reset is still active, so keep Panda's
-  // preflight off until the kill-switch. During coexistence the CSS is produced
-  // by `panda cssgen` + unlayering (see the `panda` script), not the
-  // PostCSS/layers injection — Chakra/Emotion inject unlayered styles that would
-  // otherwise beat Panda's layered rules (see ../ui/bin/unlayer-panda.mjs).
-  preflight: false,
+  preflight: true,
   jsxFramework: "react",
   // Drop Panda's default theme preset; the preset stack below supplies the full
   // token system (ported from Chakra). preset-base still provides the utilities.

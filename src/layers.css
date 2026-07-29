@@ -1,0 +1,15 @@
+/*
+ * (c) 2026, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * The app's single CSS entry point, imported first in index.tsx. Declares the
+ * cascade-layer order (Panda's PostCSS plugin injects the generated CSS into
+ * these layers) and imports third-party stylesheets into the `vendor` layer,
+ * which beats Panda's preflight reset but loses to app styling (see the
+ * @microbit/ui README and playbook gotcha #1). Plain app .css files stay
+ * unlayered and beat everything, as they did under Chakra.
+ */
+@layer reset, vendor, base, tokens, recipes, utilities;
+
+@import "xterm/css/xterm.css" layer(vendor);

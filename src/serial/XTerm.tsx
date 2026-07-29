@@ -6,7 +6,6 @@
 import React, { CSSProperties, useEffect, useMemo, useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
-import "xterm/css/xterm.css";
 import { Box } from "styled-system/jsx";
 import { SystemStyleObject } from "styled-system/types";
 import { token } from "styled-system/tokens";

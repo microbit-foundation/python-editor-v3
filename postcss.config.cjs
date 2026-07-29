@@ -19,21 +19,20 @@
  *    px/py/mx/my utilities. Expands each into its logical -start/-end longhands
  *    (which work), so RTL still flips.
  * 2. @csstools/postcss-cascade-layers — Safari <15.4 drops @layer wholesale.
- *    A no-op during Chakra coexistence (the generated CSS is unlayered by
- *    ../ui/bin/unlayer-panda.mjs), but needed once layers return at the
- *    kill-switch.
  *
- * At the kill-switch, add `require("@pandacss/dev/postcss")()` as the FIRST
- * plugin (it replaces the `panda cssgen` step) and drop the cssgen/unlayer
- * wiring from package.json.
+ * Panda's own PostCSS plugin runs first in all envs: it generates the CSS
+ * during the bundle, injected into the layer order declared in
+ * src/layers.css.
  */
 const {
   expandLogicalShorthands,
 } = require("@microbit/ui/postcss-legacy-safari");
 
 module.exports = (ctx) => ({
-  plugins:
-    ctx.env === "production"
+  plugins: [
+    require("@pandacss/dev/postcss")(),
+    ...(ctx.env === "production"
       ? [expandLogicalShorthands(), require("@csstools/postcss-cascade-layers")]
-      : [],
+      : []),
+  ],
 });

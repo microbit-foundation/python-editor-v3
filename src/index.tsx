@@ -3,10 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-// Panda CSS (generated). Imported first so app/Chakra styles cascade after it.
-// During Chakra coexistence this is the unlayered `panda cssgen` output (see
-// the `panda` script); at the kill-switch it moves to the PostCSS/layers form.
-import "./styled-system.css";
+// The CSS entry point: declares the cascade-layer order Panda's PostCSS
+// plugin fills, and the vendor-layer imports. First so app styles cascade
+// after it.
+import "./layers.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
