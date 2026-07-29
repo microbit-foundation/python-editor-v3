@@ -11,11 +11,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useDevice } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 
 /**
- * The two possible sources for the shared serial panel.
+ * The two possible sources for the stacked serial areas.
  */
 export type SerialTarget = "device" | "simulator";
 
@@ -28,13 +27,11 @@ interface SerialTargetsContextValue {
   /** Called by the Simulator to publish its connection upwards. */
   registerSimulator: (connection: SimulatorDeviceConnection | undefined) => void;
   /**
-   * Whether the simulator is a selectable serial source. Becomes true the
-   * first time a program is run on the simulator this session.
+   * Whether the simulator is a serial source. Becomes true the first time a
+   * program is run on the simulator this session, and is what makes the sim
+   * serial area appear (stacked under the device one).
    */
   simSource: boolean;
-  /** The source the user is currently looking at / typing to. */
-  activeTarget: SerialTarget;
-  setActiveTarget: (target: SerialTarget) => void;
 }
 
 const SerialTargetsContext = React.createContext<
@@ -50,25 +47,22 @@ export const useSerialTargets = (): SerialTargetsContextValue => {
 };
 
 /**
- * Holds the state that lets a single serial panel show either the real
- * device or the simulator.
+ * Holds the shared simulator connection so the stacked serial areas next to
+ * the editor can show the simulator REPL underneath the real device one.
  *
- * Provided around both the editor's serial panel and the simulator so both
- * can see the simulator connection and the active-target selection. Must be
- * rendered under the app (real device) DeviceContext but outside the
- * simulator's own DeviceContext, so `useDevice()` here is the real device.
+ * Provided around both the editor's serial areas and the simulator so both
+ * can see the simulator connection. Must be rendered outside the simulator's
+ * own DeviceContext.
  */
 export const SerialTargetsProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  const device = useDevice();
   const [simulator, setSimulator] = useState<
     SimulatorDeviceConnection | undefined
   >(undefined);
   const [simSource, setSimSource] = useState(false);
-  const [activeTarget, setActiveTarget] = useState<SerialTarget>("device");
 
   const registerSimulator = useCallback(
     (connection: SimulatorDeviceConnection | undefined) => {
@@ -77,39 +71,26 @@ export const SerialTargetsProvider = ({
     []
   );
 
-  // Running on the simulator makes it a source and brings it to the front.
+  // Running on the simulator makes it a serial source (from then on its serial
+  // area is available). We never auto-expand it - that's left to the user.
   useEffect(() => {
     if (!simulator) {
       return;
     }
-    const onFlash = () => {
-      setSimSource(true);
-      setActiveTarget("simulator");
-    };
+    const onFlash = () => setSimSource(true);
     simulator.addEventListener("flash", onFlash);
     return () => {
       simulator.removeEventListener("flash", onFlash);
     };
   }, [simulator]);
 
-  // Flashing the real device brings it to the front.
-  useEffect(() => {
-    const onFlash = () => setActiveTarget("device");
-    device.addEventListener("flash", onFlash);
-    return () => {
-      device.removeEventListener("flash", onFlash);
-    };
-  }, [device]);
-
   const value = useMemo(
     () => ({
       simulator,
       registerSimulator,
       simSource,
-      activeTarget,
-      setActiveTarget,
     }),
-    [simulator, registerSimulator, simSource, activeTarget]
+    [simulator, registerSimulator, simSource]
   );
   return (
     <SerialTargetsContext.Provider value={value}>

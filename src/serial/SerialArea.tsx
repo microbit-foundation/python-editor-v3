@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { ComponentType } from "react";
 import { backgroundColorTerm } from "../deployment/misc";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
@@ -21,11 +22,13 @@ interface SerialAreaProps extends BoxProps {
   showHintsAndTips?: boolean;
   tabOutRef: HTMLElement;
   /**
-   * Whether this area is the visible one (shared device/simulator panel).
-   * When it becomes visible again its terminal is re-fitted so content shows
-   * without needing a scroll. Defaults to true for standalone use.
+   * Icon and label identifying which serial source this is, shown in the bar
+   * so stacked device/simulator areas can be told apart.
    */
-  active?: boolean;
+  sourceIcon?: ComponentType;
+  sourceLabel?: string;
+  /** When true, the hints and tips dialog refers to the simulator. */
+  simulator?: boolean;
 }
 
 /**
@@ -45,7 +48,9 @@ const SerialArea = ({
   hideExpandTextOnTraceback = false,
   showHintsAndTips = true,
   tabOutRef,
-  active = true,
+  sourceIcon,
+  sourceLabel,
+  simulator,
   ...props
 }: SerialAreaProps) => {
   const status = useConnectionStatus();
@@ -75,6 +80,9 @@ const SerialArea = ({
               expandDirection={expandDirection}
               hideExpandTextOnTraceback={hideExpandTextOnTraceback}
               showHintsAndTips={showHintsAndTips}
+              sourceIcon={sourceIcon}
+              sourceLabel={sourceLabel}
+              simulator={simulator}
             />
             <XTerm
               visibility={compact ? "hidden" : undefined}
@@ -83,7 +91,6 @@ const SerialArea = ({
               mr={1}
               fontSizePt={terminalFontSizePt}
               tabOutRef={tabOutRef}
-              active={active}
             />
           </Box>
         )}

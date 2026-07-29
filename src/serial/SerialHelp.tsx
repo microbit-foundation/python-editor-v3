@@ -23,6 +23,11 @@ interface SerialHelpDialogProps {
   isOpen: boolean;
   onClose: () => void;
   finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  /**
+   * The intro paragraph message id, so the help can refer to the micro:bit or
+   * the simulator depending on which serial area it was launched from.
+   */
+  introId?: string;
 }
 
 const formatValues = {
@@ -37,6 +42,7 @@ export const SerialHelpDialog = ({
   isOpen,
   onClose,
   finalFocusRef = undefined,
+  introId = "serial-help-intro",
 }: SerialHelpDialogProps) => {
   return (
     <Modal
@@ -54,7 +60,7 @@ export const SerialHelpDialog = ({
           <ModalBody>
             <VStack spacing={5} alignItems="stretch">
               <Text>
-                <FormattedMessage id="serial-help-intro" />
+                <FormattedMessage id={introId} />
               </Text>
               <Text>
                 <FormattedMessage

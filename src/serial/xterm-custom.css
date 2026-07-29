@@ -11,7 +11,4 @@
 }
 .xterm .xterm-viewport {
   scrollbar-color: #333333 var(--chakra-colors-gray-600);
-  /* xterm defaults this to `scroll`, which always reserves the scrollbar
-     gutter; only show it when there's actually content to scroll. */
-  overflow-y: auto;
 }

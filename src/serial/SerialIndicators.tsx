@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
+import { ComponentType } from "react";
 import { GoCheck } from "react-icons/go";
 import {
   RiErrorWarningLine,
@@ -18,6 +19,13 @@ interface SerialIndicatorsProps extends BoxProps {
   compact?: boolean;
   traceback?: Traceback | undefined;
   showSyncStatus: boolean;
+  /**
+   * Icon and label identifying which serial source this is (device or
+   * simulator). When given, replaces the generic terminal icon so the two
+   * stacked serial areas can be told apart.
+   */
+  sourceIcon?: ComponentType;
+  sourceLabel?: string;
 }
 
 const syncMessages = {
@@ -38,6 +46,8 @@ const SerialIndicators = ({
   compact,
   traceback,
   showSyncStatus,
+  sourceIcon,
+  sourceLabel,
   ...props
 }: SerialIndicatorsProps) => {
   const syncStatus = useSyncStatus();
@@ -47,7 +57,18 @@ const SerialIndicators = ({
     (!traceback || (traceback && syncStatus === SyncStatus.OUT_OF_SYNC));
   return (
     <HStack {...props}>
-      <Icon m={1} as={RiTerminalBoxLine} fill="white" boxSize={5} />
+      <Icon m={1} as={sourceIcon ?? RiTerminalBoxLine} fill="white" boxSize={5} />
+      {sourceLabel && (
+        <Text
+          color="white"
+          fontWeight="medium"
+          whiteSpace="nowrap"
+          mr={1}
+          data-testid="serial-source-label"
+        >
+          <FormattedMessage id={sourceLabel} />
+        </Text>
+      )}
       <HStack spacing={0}>
         {compact && traceback && syncStatus === SyncStatus.IN_SYNC && (
           <>

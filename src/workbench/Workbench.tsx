@@ -28,6 +28,7 @@ import ProjectActionBar from "../project/ProjectActionBar";
 import SerialArea from "../serial/SerialArea";
 import SerialPanel from "../serial/SerialPanel";
 import {
+  SerialTarget,
   SerialTargetsProvider,
   useSerialTargets,
 } from "../serial/serial-targets";
@@ -249,14 +250,29 @@ const EditorWithSimulator = ({
 
 const Editor = ({ editor }: EditorProps) => {
   const intl = useIntl();
-  const connected = useConnectionStatus() === ConnectionStatus.Connected;
-  const { simSource } = useSerialTargets();
-  const [serialStateWhenOpen, setSerialStateWhenOpen] =
-    useState<SizedMode>("compact");
-  // Show the serial panel when there's a device connected or the simulator
-  // has been run (i.e. it's a serial source).
-  const serialSizedMode =
-    connected || simSource ? serialStateWhenOpen : "collapsed";
+  const deviceStatus = useConnectionStatus();
+  const deviceConnected =
+    deviceStatus === ConnectionStatus.Connected ||
+    deviceStatus === ConnectionStatus.Paused;
+  const { simSource, simulator } = useSerialTargets();
+  const showSimulator = simSource && !!simulator;
+  // The device serial appears when a device is connected; the simulator serial
+  // appears once a program has been run on the simulator. Each contributes a
+  // compact bar, and at most one is expanded at a time.
+  const visibleCount = (deviceConnected ? 1 : 0) + (showSimulator ? 1 : 0);
+  const [expandedTarget, setExpandedTarget] = useState<SerialTarget | null>(
+    null
+  );
+  // Clamp to a currently-visible target so an area disappearing can't leave
+  // the split view stuck "open" with nothing expanded.
+  const effectiveExpanded: SerialTarget | null =
+    expandedTarget === "device" && deviceConnected
+      ? "device"
+      : expandedTarget === "simulator" && showSimulator
+      ? "simulator"
+      : null;
+  const serialSizedMode: SizedMode =
+    visibleCount === 0 ? "collapsed" : effectiveExpanded ? "open" : "compact";
   const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
   return (
@@ -270,7 +286,7 @@ const Editor = ({ editor }: EditorProps) => {
       <SplitView
         direction="column"
         minimums={[248, 200]}
-        compactSize={SerialArea.compactSize}
+        compactSize={visibleCount * SerialArea.compactSize}
         height="100%"
         mode={serialSizedMode}
       >
@@ -278,13 +294,8 @@ const Editor = ({ editor }: EditorProps) => {
         <SplitViewDivider />
         <SplitViewSized>
           <SerialPanel
-            as="section"
-            compact={serialSizedMode === "compact"}
-            onSizeChange={setSerialStateWhenOpen}
-            aria-label={intl.formatMessage({
-              id: "serial-terminal",
-            })}
-            expandDirection="up"
+            expandedTarget={effectiveExpanded}
+            onExpandedTargetChange={setExpandedTarget}
             tabOutRef={ref.current!}
             terminalFontSizePt={settingsFontSizePt}
           />

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { BoxProps, HStack, IconButton, useDisclosure } from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
+import { ComponentType, useCallback, useRef } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import CollapsibleButton from "../common/CollapsibleButton";
@@ -26,6 +26,10 @@ interface SerialBarProps extends BoxProps {
   expandDirection: "up" | "down";
   hideExpandTextOnTraceback: boolean;
   showHintsAndTips: boolean;
+  sourceIcon?: ComponentType;
+  sourceLabel?: string;
+  /** When true, the hints and tips dialog refers to the simulator. */
+  simulator?: boolean;
 }
 
 /**
@@ -39,6 +43,9 @@ const SerialBar = ({
   hideExpandTextOnTraceback,
   showHintsAndTips,
   expandDirection,
+  sourceIcon,
+  sourceLabel,
+  simulator,
   ...props
 }: SerialBarProps) => {
   const logging = useLogging();
@@ -63,6 +70,7 @@ const SerialBar = ({
         isOpen={helpDisclosure.isOpen}
         onClose={helpDisclosure.onClose}
         finalFocusRef={showHintsAndTips ? undefined : menuButtonRef}
+        introId={simulator ? "serial-help-intro-simulator" : "serial-help-intro"}
       />
       <HStack
         justifyContent="space-between"
@@ -81,6 +89,8 @@ const SerialBar = ({
           traceback={traceback}
           overflow="hidden"
           showSyncStatus={showSyncStatus}
+          sourceIcon={sourceIcon}
+          sourceLabel={sourceLabel}
         />
 
         <HStack>
@@ -123,10 +133,6 @@ const SerialBar = ({
               ref={menuButtonRef}
               compact={compact}
               onSizeChange={onSizeChange}
-              // Move it to the menu if not shown more visibly.
-              onShowHintsAndTips={
-                !showHintsAndTips ? handleShowHintsAndTips : undefined
-              }
             />
           </HStack>
         </HStack>
