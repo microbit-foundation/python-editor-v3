@@ -219,6 +219,9 @@ const SerialPanel = ({
   const showDeviceSync =
     active === "device" &&
     (!activeTraceback || deviceSync === SyncStatus.OUT_OF_SYNC);
+  // The traceback only belongs in the header when collapsed; when expanded
+  // it's already visible in the terminal itself.
+  const showTraceback = Boolean(compact && activeTraceback);
   // The status colour for a source: red for an (up-to-date) runtime error, a
   // darker shade when there's code to flash/run, otherwise the terminal
   // background. Applied per source so a healthy tab stays neutral even if the
@@ -282,14 +285,6 @@ const SerialPanel = ({
                   <HStack spacing={2}>
                     <Icon as={icon} color={accent} boxSize={4} />
                     <Text>{intl.formatMessage({ id: labelId })}</Text>
-                    {states[source]?.traceback && (
-                      <Icon
-                        as={RiErrorWarningLine}
-                        color="red.300"
-                        boxSize={4}
-                        aria-label={intl.formatMessage({ id: "serial-error" })}
-                      />
-                    )}
                   </HStack>
                 </Tab>
               );
@@ -321,7 +316,7 @@ const SerialPanel = ({
                   boxSize={5}
                 />
               </Text>
-            ) : activeTraceback ? (
+            ) : showTraceback ? (
               <HStack spacing={1} pr={1} maxW="20rem" overflow="hidden">
                 <Icon
                   as={RiErrorWarningLine}
@@ -341,16 +336,16 @@ const SerialPanel = ({
                 </Box>
               </HStack>
             ) : null}
-            {(showDeviceSync || activeTraceback) && (
+            {(showDeviceSync || showTraceback) && (
               <Divider
                 orientation="vertical"
                 height={6}
-                mx={1}
+                mx={2}
                 borderColor="whiteAlpha.400"
               />
             )}
             <CollapsibleButton
-              mode={activeTraceback ? "icon" : "button"}
+              mode={showTraceback ? "icon" : "button"}
               variant="unstyled"
               display="flex"
               fontWeight="normal"
