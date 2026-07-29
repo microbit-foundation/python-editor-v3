@@ -888,8 +888,20 @@ Chakra Heading (they compose Text).
        (spacer + tabs + settings/help menus) became a wrapper Flex column
        carrying the gradient, with the TabList flexing between spacer and
        menus so the API tab's `mb:auto` still pushes Project + menus to
-       the bottom.
-       Panels: `shouldForceMount` keeps all mounted (Chakra parity);
+       the bottom. 5. _The panel's tabindex belongs to react-aria_ — its
+       has-tabbable-child check re-renders `tabIndex` 0→undefined, so a
+       tabindex set from outside React gets stripped, blurring a
+       just-focused panel to `<body>` (and `TabPanelProps` accepts no
+       tabIndex). The focus-follows-navigation target is now an inner
+       `tabIndex={-1}` wrapper (`[data-panel-content]`) owned by React.
+       Net keyboard behaviour: Enter on a tab moves focus into the panel
+       (as Chakra did); the panel is no longer an extra tab stop (APG:
+       panels with tabbable content shouldn't be) — one deliberate delta:
+       Enter on the already-selected tab no longer resets the docs slug
+       (Chakra buttons fired click on Enter; RAC divs don't) — the
+       breadcrumb back link covers that path.
+       Panels: `shouldForceMount` keeps all mounted (Chakra parity — note
+       inert panels drop `role=tabpanel`, so don't probe by role alone);
        inactive panels are `[inert]` → display:none, and `setPanelFocus`
        sets tabindex=-1 before focusing.
   - **Other ports:** Workbench (library `useMediaQuery`, `styled.section`/

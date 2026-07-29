@@ -5,7 +5,7 @@
  */
 import { usePrevious } from "@microbit/ui";
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
-import { TabList, TabPanel, Tabs } from "react-aria-components";
+import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
@@ -111,14 +111,14 @@ const SideBar = ({
   const [{ tab, slug, focus }, setParams] = useRouterState();
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
+    // The focusable wrapper we render inside the active panel. It can't be
+    // the react-aria TabPanel itself: its tabindex is owned by react-aria's
+    // has-tabbable-child check, which removes one set from outside React
+    // (blurring to body), and TabPanelProps accepts no tabIndex.
     const activePanel = tabPanelsRef.current!.querySelector(
-      "[role='tabpanel']:not([hidden]):not([inert])"
+      "[role='tabpanel']:not([hidden]):not([inert]) > [data-panel-content]"
     );
-    if (activePanel) {
-      // Programmatically focusable without joining the tab order.
-      (activePanel as HTMLElement).setAttribute("tabindex", "-1");
-      (activePanel as HTMLElement).focus();
-    }
+    (activePanel as HTMLElement | null)?.focus();
   };
   useEffect(() => {
     // Initialize from the router state. Start-up and navigation.
@@ -252,7 +252,10 @@ const SideBar = ({
             <HelpMenu size="lg" />
           </VStack>
         </Flex>
-        <Box ref={tabPanelsRef} flex="1 1 auto" minWidth="0">
+        <TabPanels
+          ref={tabPanelsRef}
+          className={css({ flex: "1 1 auto", minWidth: "0" })}
+        >
           {panes.map((p) => (
             <TabPanel
               key={p.id}
@@ -261,10 +264,18 @@ const SideBar = ({
               className={css({
                 p: "0",
                 height: "100%",
-                "&[inert]": { display: "none" },
+                "&[inert], &[data-inert]": { display: "none" },
               })}
             >
-              <Flex height="100%" direction="column">
+              <Flex
+                height="100%"
+                direction="column"
+                // Programmatically focusable (setPanelFocus) without being
+                // a tab stop.
+                tabIndex={-1}
+                data-panel-content
+                outline="none"
+              >
                 <ErrorBoundary>
                   {p.contents}
                   {flags.betaNotice && (
@@ -274,7 +285,7 @@ const SideBar = ({
               </Flex>
             </TabPanel>
           ))}
-        </Box>
+        </TabPanels>
       </Tabs>
       <ReleaseDialogs
         onDialogChange={setReleaseDialog}
