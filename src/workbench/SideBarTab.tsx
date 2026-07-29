@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 import { Icon, Text } from "@microbit/ui";
-import { useEffect, useRef } from "react";
+import { CSSProperties, useEffect, useRef } from "react";
 import { Tab } from "react-aria-components";
 import { css } from "styled-system/css";
 import { Box, VStack } from "styled-system/jsx";
-import { SystemStyleObject } from "styled-system/types";
 import { cornerSize, Pane } from "./SideBar";
 
 interface SideBarTabProps extends Pane {
@@ -78,22 +77,19 @@ const SideBarTab = ({
     >
       <VStack gap="0">
         {active && (
+          // cornerSize-derived offsets are inline styles: template literals
+          // over an imported constant are not statically extractable.
           <Corner
             id="bottom"
-            css={{
-              position: "absolute",
-              bottom: `-${cornerSize}px`,
-              right: "0",
-            }}
+            style={{ bottom: `-${cornerSize}px`, right: 0 }}
           />
         )}
         {active && (
           <Corner
             id="top"
-            css={{
-              position: "absolute",
+            style={{
               top: `-${cornerSize}px`,
-              right: "0",
+              right: 0,
               transform: "rotate(90deg)",
             }}
           />
@@ -105,7 +101,10 @@ const SideBarTab = ({
             fontSize="13px"
             borderBottom="3px solid transparent"
             css={{
-              ".sidebar-tab:is(:focus-visible, [data-focus-visible]) &": {
+              // react-aria's data-focus-visible only (keyboard modality);
+              // native :focus-visible can match pointer clicks on a
+              // tabindex'd div, unlike on the <button> Chakra rendered.
+              ".sidebar-tab[data-focus-visible] &": {
                 borderBottom: "3px solid",
                 // To match the active/inactive colour.
                 borderColor: active ? "brand.300" : "gray.25",
@@ -120,18 +119,15 @@ const SideBarTab = ({
   );
 };
 
-const Corner = ({
-  id,
-  css: cssProp,
-}: {
-  id: string;
-  css?: SystemStyleObject;
-}) => (
+const Corner = ({ id, style }: { id: string; style?: CSSProperties }) => (
   <Box
-    css={cssProp}
+    position="absolute"
     pointerEvents="none"
-    width={`${cornerSize}px`}
-    height={`${cornerSize}px`}
+    style={{
+      width: cornerSize,
+      height: cornerSize,
+      ...style,
+    }}
   >
     <svg
       width="100%"

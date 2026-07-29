@@ -876,7 +876,15 @@ Chakra Heading (they compose Text).
     2. _Collection pre-render:_ RAC renders items once without attaching
        refs — effects touching `ref.current` need null guards (the
        every-render tabindex override crashed the whole app otherwise).
-    3. _TabList may only contain Tabs_ — the old single-column tablist
+    3. _Native `:focus-visible` on a tabindex'd div matches pointer
+       clicks_ (unlike on the `<button>` Chakra rendered) — the tab
+       title's keyboard-focus underline uses react-aria's
+       `[data-focus-visible]` (keyboard modality) only. Found in the
+       owner's visual review, along with the corner SVGs rendering
+       unpositioned: their offsets/size were template literals over the
+       imported `cornerSize` constant — not statically extractable
+       (gotcha #9's template-literal variant) — now inline styles.
+    4. _TabList may only contain Tabs_ — the old single-column tablist
        (spacer + tabs + settings/help menus) became a wrapper Flex column
        carrying the gradient, with the TabList flexing between spacer and
        menus so the API tab's `mb:auto` still pushes Project + menus to
