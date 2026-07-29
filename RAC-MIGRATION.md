@@ -945,7 +945,11 @@ Chakra Heading (they compose Text).
     (scrollWidth 352 vs 294, exposed as left-clipped content when
     hover-scrolled). **Fix:** the app preset now overrides
     `spacing`/`sizes`/`fontSizes`, importing the Chakra theme files as
-    the single source of truth while Chakra remains. Verified: "Send to
+    the single source of truth while Chakra remains. **Panda-side this
+    lives only in the app preset** — the private brand preset stacks on
+    top of it (`panda.config.ts` preset order) and needs no mirror; the
+    private repo's own `common-sizes.ts`/`font-sizes.ts` copies serve
+    its Chakra theme only and retire at the kill-switch. Verified: "Send to
     micro:bit" measures 42px h / 16.19px font / 21.12px padding (the
     theme's 2.64rem/1.012rem/1.32rem exactly) and the embed overflow is
     gone (294 == 294).
