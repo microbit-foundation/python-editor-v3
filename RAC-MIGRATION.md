@@ -3,7 +3,9 @@
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`,
 `src/serial/`, `common/SplitView/`, `src/editor/`, and `src/workbench/`
-all ported (incl. the RAC sidebar Tabs); z-index token scale landed;
+all ported (incl. the RAC sidebar Tabs), plus `src/documentation/`;
+z-index token scale landed; the late-v3 density shrink is replicated in
+the presets;
 library gained Collapse, Fade, NumberField, Kbd, Code, Menu option
 groups, `useMediaQuery`, `usePrevious`, TextField `autoCapitalize`,
 Toast `closeAll`, Modal `contentStyle`. Decision: Tabs + SplitView stay
@@ -855,6 +857,7 @@ Chakra Heading (they compose Text).
 - 2026-07-29 (step 3 — src/workbench, the app chrome): **zero `@chakra-ui`
   imports remain in `src/workbench/`.** The Collapse/Fade library gap is
   closed, unblocking `src/documentation/`.
+
   - **Library additions (`../ui`):** `Collapse` (CSS height transition with
     ResizeObserver-measured content — no framer-motion, like Slide;
     Chakra-compatible `startingHeight`/`endingHeight`/`unmountOnExit`),
@@ -922,7 +925,61 @@ Chakra Heading (they compose Text).
     with dividers, About's read-more Collapse expands to the comic, beta
     strip renders. No console errors.
 
+- 2026-07-29 (step 3 — src/documentation + the density discovery):
+  **`src/documentation/` fully ported (26 files, via a context-sharing
+  fork, verified by me), and a port-wide fidelity gap found and fixed:
+  the late-v3 "make everything smaller" theme change had not been
+  ported.**
+  - **The density shrink.** The Chakra theme overrides the _numeric
+    spacing/size scale_ (Chakra's 0.25rem grid × 0.88 —
+    `src/deployment/default/common-sizes.ts`, feeding both `space` and
+    `sizes`) and _fontSizes_ from `md` up (× 0.9; xs/sm kept —
+    `font-sizes.ts`). Identical in the private theme. **Why every
+    safeguard missed it:** the library base preset snapshots Chakra
+    _defaults_; the theme differ compares OSS-vs-private (no diff — both
+    shrunken); the Panda cross-check validated colours only; and
+    per-component visual checks compared colours/radii, not px sizes.
+    Everything Panda-rendered was ~12% roomier with ~11% larger mid-range
+    text — noticeable across the app (owner spotted it) and the direct
+    cause of the reference code embeds overflowing their panel
+    (scrollWidth 352 vs 294, exposed as left-clipped content when
+    hover-scrolled). **Fix:** the app preset now overrides
+    `spacing`/`sizes`/`fontSizes`, importing the Chakra theme files as
+    the single source of truth while Chakra remains. Verified: "Send to
+    micro:bit" measures 42px h / 16.19px font / 21.12px padding (the
+    theme's 2.64rem/1.012rem/1.32rem exactly) and the embed overflow is
+    gone (294 == 294).
+  - **Documentation port highlights** (fork report, verified): new
+    `ImageWithFallback` (library Image has no fallback support);
+    `docStyles` sx-object → module-level `css()` class; draggable code
+    chips get library Tooltip via react-aria `Focusable` + `role= "button"` (they are interactive); Chakra Portal → `createPortal`;
+    `useClipboard` added to the library, `usePrefersReducedMotion` →
+    `useMediaQuery`; V2Tag app-side styled span (library Tag parked —
+    single consumer overrides everything); ApiNode's padding arithmetic
+    → literal token maps + explicit `css()` extraction hints (map
+    lookups aren't extractable); test image mock removed (snapshots now
+    assert real markup), matchMedia stub gained the modern listener API.
+  - **Flags:** `MoreButton.tsx` appears to be dead code (ported anyway;
+    deletion candidate). jsdom renders no `aspect-ratio` inline style in
+    the image snapshots (pre-existing, was hidden by the old mock).
+  - **Smoke:** reference topic browse + breadcrumb, code embed hover
+    raise/copy/drag tooltip, API drill-down + signature chips, Ideas
+    grid images, search (36 results, navigation closes dialog). Only
+    console warning is the pre-existing Sanity defaultProps deprecation.
+  - Remaining Chakra: `src/simulator/` (13 files) + App.tsx
+    ChakraProvider + the deployment theme files (kill-switch).
+
 ## Notes to revisit later
+
+- **App density (parked for team discussion, owner 2026-07-29).** The
+  late-v3 shrink (spacing × 0.88, fontSizes md+ × 0.9) is replicated in
+  the Panda presets for fidelity, but the owner intends to discuss with
+  the team whether python-editor keeps its bespoke density or aligns
+  with the family scale (the editor is more information-dense than the
+  other apps, so there may be grounds to keep it). If alignment wins,
+  delete the `spacing`/`sizes`/`fontSizes` overrides in
+  `src/deployment/default/panda-preset.ts` (one commit: 96ec19c5) and
+  re-run the visual pass.
 
 - **Sidebar tabs: focus-follows-activation vs ARIA tabs pattern (parked
   2026-07-29 pending discussion).** Today, activating a tab moves focus
