@@ -924,6 +924,23 @@ Chakra Heading (they compose Text).
 
 ## Notes to revisit later
 
+- **Sidebar tabs: focus-follows-activation vs ARIA tabs pattern (parked
+  2026-07-29 pending discussion).** Today, activating a tab moves focus
+  into the panel (longstanding behaviour, restored after the RAC port).
+  The ARIA tabs pattern would keep focus on the tab — better for
+  arrow-key tab comparison and for magnifier users — and the change is
+  cleanly separable (only the `!slug` arm of SideBar's router effect;
+  `focus: true` navigation like the simulator's reference links should
+  keep moving focus regardless; search/editor navigation never moved
+  it). The sticking point is the extra Tab stops: with the app's
+  all-tabs-tabbable override, keeping focus on the tab puts panel
+  content ~3–5 Tab presses away after activation. Options to weigh
+  together: (a) keep as-is; (b) ARIA pattern + keep the override
+  (accept the stops); (c) ARIA pattern + standard roving tabindex (one
+  stop for the whole strip, content one Tab away — but loses
+  direct-Tab access to each tab). A tried-and-reverted implementation
+  of (b) is in git history (18533ba5, reverted).
+
 Parked items surfaced during pre-work — out of scope for the convergence
 steps above, to raise with the relevant owner when convenient.
 
