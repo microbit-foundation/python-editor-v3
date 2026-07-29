@@ -59,6 +59,9 @@ const DocumentationTopLevelItem = ({
             size="sm"
             css={{ color: "brand.200", fontSize: "2xl" }}
             variant="ghost"
+            // The Chakra button relied on its click bubbling to the list
+            // item's onClick; react-aria's press handling suppresses that.
+            onPress={onForward}
           >
             <RiArrowRightLine />
           </IconButton>

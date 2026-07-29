@@ -1007,7 +1007,13 @@ Chakra Heading (they compose Text).
     correctly gated until a group is joined, data-log table, compass
     needle transform, sim iframe brand-colour param (#6c4bc1), slider
     accessible names. No console errors after the ref fix.
-  - **Owner visual review fix:** the thumb-bubble arrow rendered as a
+  - **Owner review fixes:** (1) top-level docs items' right-arrow button
+    did nothing — the Chakra button relied on its native click bubbling
+    to the list item's onClick, which react-aria's press handling
+    suppresses; the button now has its own `onPress={onForward}`
+    (behaviour pattern for the gotcha file: _RAC buttons don't bubble
+    clicks — parents relying on bubbling need explicit wiring_).
+    (2) the thumb-bubble arrow rendered as a
     grey bar — Panda tokens don't resolve inside multi-value shorthands
     (the 4-value `borderColor` emitted verbatim and the browser dropped
     it). Per-side longhands fix it; catalogued as playbook gotcha #20.
