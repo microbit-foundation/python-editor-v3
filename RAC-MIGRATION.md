@@ -1007,6 +1007,13 @@ Chakra Heading (they compose Text).
     correctly gated until a group is joined, data-log table, compass
     needle transform, sim iframe brand-colour param (#6c4bc1), slider
     accessible names. No console errors after the ref fix.
+  - **Owner review fixes (continued):** drag-handle dots too small —
+    react-icons' RiDraggable draws finer dots than Chakra's bespoke
+    DragHandleIcon; the original 10×10 glyph is now inlined in
+    DragHandle.tsx (MIT, credited). Bullets visible in the API lists —
+    the library List relied on Panda preflight for marker removal, but
+    coexistence runs preflight-off; List now sets
+    `listStyleType: none` itself (library fix, Chakra parity).
   - **Owner review fixes:** (0) ShowMoreButton's More/Less rendered
     semibold — the Chakra original was a Link (weight inherited normal)
     and the button recipe base is semibold; explicit
