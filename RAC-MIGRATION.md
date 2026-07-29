@@ -25,12 +25,13 @@ left is the TODO below.** Earlier step-3 log follows.
       other Link→Button conversions for stray semibold (ShowMoreButton
       precedent); ConnectHelpDialog desktop layout on first render
       (`useBreakpointValue` mobile-first `undefined`).
-- [ ] **Decide: app density** — keep the bespoke late-v3 shrink or align
-      with the family scale (team discussion; if alignment wins, delete
-      the `spacing`/`sizes`/`fontSizes` overrides in the app preset —
-      commit 96ec19c5 — and re-run the visual pass).
-- [ ] **Decide: sidebar tabs focus model** — focus-follows-activation
-      (current) vs ARIA tabs pattern; options in "Notes to revisit later".
+- [x] **App density: stays as-is for the merge** (owner, 2026-07-29);
+      keep-vs-align-with-family-scale is a post-merge team discussion
+      (details in "Notes to revisit later").
+- [x] **Sidebar tabs focus model: stays as-is for the merge** (owner,
+      2026-07-29); focus-follows-activation vs ARIA pattern is parked
+      post-merge until the owner has also reviewed the accessibility
+      audit (options in "Notes to revisit later").
 - [ ] **Raise against `../ui`** (on `main` now): `languageText` default
       should be `brand` not `brand2`; shared `LinkButton` (FirmwareDialog
       wants it).
@@ -1188,7 +1189,8 @@ Chakra Heading (they compose Text).
 
 ## Notes to revisit later
 
-- **App density (parked for team discussion, owner 2026-07-29).** The
+- **App density (parked for post-merge team discussion; owner decision
+  2026-07-29: ships as-is, not a merge blocker).** The
   late-v3 shrink (spacing × 0.88, fontSizes md+ × 0.9) is replicated in
   the Panda presets for fidelity, but the owner intends to discuss with
   the team whether python-editor keeps its bespoke density or aligns
@@ -1199,7 +1201,8 @@ Chakra Heading (they compose Text).
   re-run the visual pass.
 
 - **Sidebar tabs: focus-follows-activation vs ARIA tabs pattern (parked
-  2026-07-29 pending discussion).** Today, activating a tab moves focus
+  post-merge; owner decision 2026-07-29: ships as-is, revisit after the
+  owner reviews the accessibility audit).** Today, activating a tab moves focus
   into the panel (longstanding behaviour, restored after the RAC port).
   The ARIA tabs pattern would keep focus on the tab — better for
   arrow-key tab comparison and for magnifier users — and the change is
