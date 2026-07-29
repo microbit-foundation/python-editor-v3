@@ -4,11 +4,46 @@ Status: **KILL-SWITCH DONE (2026-07-29) — the app runs entirely on
 @microbit/ui + Panda: ChakraProvider, the Chakra themes (both repos),
 chakra-cli and the Chakra/Emotion deps are gone; preflight is on and the
 CSS ships via Panda's PostCSS plugin into `src/layers.css` (xterm.css in
-the `vendor` layer). 64/64 e2e + 217 unit tests pass. Remaining: the
-fidelity dual-run (branded + OSS) against the pre-flip commit, the
-owner's hand-checks (::selection is now preflight's faint blue —
-playbook gotcha #16 — plus cursor/focus-order sweeps), and the parked
-discussion items below.** Earlier step-3 log follows.
+the `vendor` layer). 64/64 e2e + 217 unit tests pass. Now consuming the
+published `@microbit/ui@0.1.0-alpha.5` + branding
+`0.2.0-experiment.rai.61`; CI is green on the branch (2026-07-29).
+Owner-checked: `::selection` fine, Firefox tab underline fine. What's
+left is the TODO below.** Earlier step-3 log follows.
+
+## TODO (pre-merge, 2026-07-30)
+
+- [ ] **Fidelity dual-run** (playbook §6): branded + OSS screenshot
+      comparison against the pre-flip commit, masking CodeMirror/xterm/
+      simulator iframe. The baseline needs the private package rebuilt at
+      the matching pre-flip commit.
+- [ ] **Broad manual review** (owner, planned): full hands-on pass before
+      merge. Fold in the small "confirm in the visual pass" items from the
+      log: cursor + focus-order sweeps; tooltip-reopens-after-click delta
+      (kill-switch entry — if it grates, the library Tooltip needs a
+      closed-until-re-enter state); Reset button shade (danger.500 vs old
+      red.600); AboutDialog/ModuleOverlay table padding approximations;
+      other Link→Button conversions for stray semibold (ShowMoreButton
+      precedent); ConnectHelpDialog desktop layout on first render
+      (`useBreakpointValue` mobile-first `undefined`).
+- [ ] **Decide: app density** — keep the bespoke late-v3 shrink or align
+      with the family scale (team discussion; if alignment wins, delete
+      the `spacing`/`sizes`/`fontSizes` overrides in the app preset —
+      commit 96ec19c5 — and re-run the visual pass).
+- [ ] **Decide: sidebar tabs focus model** — focus-follows-activation
+      (current) vs ARIA tabs pattern; options in "Notes to revisit later".
+- [ ] **Raise against `../ui`** (on `main` now): `languageText` default
+      should be `brand` not `brand2`; shared `LinkButton` (FirmwareDialog
+      wants it).
+- [ ] **Raise with brand team:** private ramp nits (`brand.100` stray `F`,
+      non-monotonic `brand.600/700`) + `brand.10/25/50/900` shape
+      asymmetry.
+- [ ] **Small code cleanups:** dead `returnFocus` state in
+      FirmwareDialog/NotFoundDialog; `MoreButton.tsx` (likely dead);
+      unused `purple`/`teal` ramp consolidation (watch `code.*` hardcoded
+      hexes); slider units for SRs via `formatOptions` if wanted.
+- [ ] **Merge:** `experiment-rai` → `main` after the review; decide
+      whether to return to `file:` links (from `../ui` `main`) for
+      follow-up work.
 
 Step 3 log (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`,
