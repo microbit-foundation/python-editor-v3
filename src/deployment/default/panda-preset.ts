@@ -116,6 +116,15 @@ export const appPreset = definePreset({
                 _hover: { bg: "white", color: "gray.700" },
                 _active: { bg: "white", color: "gray.800" },
               },
+              // The editor zoom / undo-redo pill pairs: Chakra solid+gray
+              // with darker hover/active. (The Chakra theme comment said
+              // "ideally we'd drop this variant" — carried as-is.)
+              zoom: {
+                color: "gray.800",
+                bg: "gray.100",
+                _hover: { bg: "gray.400" },
+                _active: { bg: "gray.500" },
+              },
             },
           },
           defaultVariants: { variant: "outline" },

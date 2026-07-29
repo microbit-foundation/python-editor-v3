@@ -1,16 +1,12 @@
-import {
-  Box,
-  Link,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Tr,
-  VStack,
-} from "@chakra-ui/react";
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+import { Button, Text } from "@microbit/ui";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
+import { Box, VStack, styled } from "styled-system/jsx";
 import { useDialogs } from "../common/use-dialogs";
 import { ModuleData } from "../fs/fs-util";
 import { SettingsDialog } from "../settings/SettingsDialog";
@@ -27,47 +23,85 @@ const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
     ));
   }, [dialogs]);
   return (
-    <Box height="100%" p={5} pt={0}>
+    <Box height="100%" p="5" pt="0">
       <VStack
         background="gray.10"
         alignItems="center"
         justifyContent="center"
         height="100%"
-        spacing={5}
+        gap="5"
       >
         <Text textAlign="center">
           <FormattedMessage id="third-party-module-explanation" />
         </Text>
         {moduleData && (
-          <Table width="auto">
-            <Tbody>
-              <Tr>
-                <Th color="grey.800" scope="row">
+          <styled.table width="auto">
+            <styled.tbody>
+              <styled.tr>
+                <styled.th
+                  scope="row"
+                  textTransform="uppercase"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="wider"
+                  textAlign="start"
+                  color="gray.600"
+                  px="6"
+                  py="3"
+                  borderBottom="1px solid"
+                  borderColor="gray.100"
+                >
                   Module name
-                </Th>
-                <Td>{moduleData.name}</Td>
-              </Tr>
-              <Tr>
-                <Th color="grey.800" scope="row">
+                </styled.th>
+                <styled.td
+                  px="6"
+                  py="4"
+                  borderBottom="1px solid"
+                  borderColor="gray.100"
+                >
+                  {moduleData.name}
+                </styled.td>
+              </styled.tr>
+              <styled.tr>
+                <styled.th
+                  scope="row"
+                  textTransform="uppercase"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="wider"
+                  textAlign="start"
+                  color="gray.600"
+                  px="6"
+                  py="3"
+                  borderBottom="1px solid"
+                  borderColor="gray.100"
+                >
                   Module version
-                </Th>
-                <Td>{moduleData.version}</Td>
-              </Tr>
-            </Tbody>
-          </Table>
+                </styled.th>
+                <styled.td
+                  px="6"
+                  py="4"
+                  borderBottom="1px solid"
+                  borderColor="gray.100"
+                >
+                  {moduleData.version}
+                </styled.td>
+              </styled.tr>
+            </styled.tbody>
+          </styled.table>
         )}
-        <Text py={3}>
+        <Text py="3">
           <FormattedMessage
             id="third-party-module-how-to"
             values={{
               link: (chunks: ReactNode) => (
-                <Link
-                  color="brand.500"
-                  as="button"
-                  onClick={handleShowSettings}
+                <Button
+                  variant="link"
+                  css={{ color: "brand.500" }}
+                  onPress={handleShowSettings}
                 >
                   {chunks}
-                </Link>
+                </Button>
               ),
             }}
           />

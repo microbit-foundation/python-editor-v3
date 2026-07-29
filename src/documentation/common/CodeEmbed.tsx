@@ -346,16 +346,18 @@ const Code = forwardRef<CodeProps, "pre">(
           )}
 
           <CodeMirrorView
-            // If we fix copy and deal with selection sync then we should probably remove this,
-            // though it'll make it harder to drag.
-            pointerEvents="none"
+            css={{
+              // If we fix copy and deal with selection sync then we should
+              // probably remove this, though it'll make it harder to drag.
+              pointerEvents: "none",
+              flex: "1 0 auto",
+              p: "5",
+              pl: "1",
+              pt: "2",
+              pb: "2",
+              minW: "40",
+            }}
             value={concise}
-            flex="1 0 auto"
-            p={5}
-            pl={1}
-            pt={2}
-            pb={2}
-            minW={40}
           />
         </HStack>
       </Tooltip>

@@ -3,44 +3,52 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ButtonGroup, IconButton } from "@chakra-ui/react";
+import { ButtonGroup, IconButton } from "@microbit/ui";
 import { RiArrowGoBackLine, RiArrowGoForwardLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { SystemStyleObject } from "styled-system/types";
 import {
   useActiveEditorActions,
   useActiveEditorInfo,
 } from "../editor/active-editor-hooks";
 
-const UndoRedoControls = ({ ...props }) => {
+interface UndoRedoControlsProps {
+  css?: SystemStyleObject;
+}
+
+const UndoRedoControls = ({ css: cssProp }: UndoRedoControlsProps) => {
   const intl = useIntl();
   const actions = useActiveEditorActions();
   const editorInfo = useActiveEditorInfo();
 
   return (
     <ButtonGroup
-      {...props}
       isAttached
-      colorScheme="gray"
-      variant="zoom"
-      transform="rotate(90deg)"
-      transformOrigin="bottom"
+      css={{
+        transform: "rotate(90deg)",
+        transformOrigin: "bottom",
+        ...cssProp,
+      }}
     >
       <IconButton
         isRound
-        icon={<RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />}
+        variant="zoom"
         aria-label={intl.formatMessage({ id: "undo" })}
-        onClick={actions?.undo}
+        onPress={actions?.undo}
         isDisabled={editorInfo.undo ? false : true}
-      />
+      >
+        <RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />
+      </IconButton>
       <IconButton
         isRound
-        borderLeft="1px"
-        borderLeftColor="gray.10"
-        icon={<RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />}
+        variant="zoom"
+        css={{ borderLeft: "1px solid", borderLeftColor: "gray.10" }}
         aria-label={intl.formatMessage({ id: "redo" })}
-        onClick={actions?.redo}
+        onPress={actions?.redo}
         isDisabled={editorInfo.redo ? false : true}
-      />
+      >
+        <RiArrowGoForwardLine style={{ transform: "rotate(-90deg)" }} />
+      </IconButton>
     </ButtonGroup>
   );
 };

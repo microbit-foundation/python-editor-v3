@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, Button, HStack, Text } from "@chakra-ui/react";
+import { Button, Text } from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
+import { HStack } from "styled-system/jsx";
 import { MAIN_FILE } from "../fs/fs";
 
-interface ActiveFileInfoProps extends BoxProps {
+interface ActiveFileInfoProps {
   filename: string;
   onSelectedFileChanged: (filename: string) => void;
 }
@@ -38,10 +39,9 @@ const ActiveFileInfo = ({
           </Text>
           <Text as="span">—</Text>
           <Button
-            fontWeight="normal"
             variant="unstyled"
-            textDecoration="underline"
-            onClick={() => onSelectedFileChanged(MAIN_FILE)}
+            css={{ fontWeight: "normal", textDecoration: "underline" }}
+            onPress={() => onSelectedFileChanged(MAIN_FILE)}
           >
             <FormattedMessage id="back-to-main" />
           </Button>
