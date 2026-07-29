@@ -1068,6 +1068,7 @@ Chakra Heading (they compose Text).
     it). Per-side longhands fix it; catalogued as playbook gotcha #20.
 
 - 2026-07-29 (THE KILL-SWITCH): **Chakra removed.**
+
   - **Mechanics:** ChakraProvider out of App.tsx; `chakraTheme` dropped
     from `DeploymentConfig` and both deployment packages (lockstep;
     private repo rebuilt — its stale `dist/` still shipped the theme
@@ -1133,6 +1134,22 @@ Chakra Heading (they compose Text).
   - **Next:** the fidelity harness dual-run (branded + OSS) against the
     pre-flip commit per playbook §6 — note the baseline needs the private
     package rebuilt at the matching old commit.
+
+- 2026-07-29 (consumption switch for CI): **`@microbit/ui` now consumed
+  as the published `0.1.0-alpha.5` from npm** (was `file:../ui/packages/ui`);
+  CI's private branding install bumped to
+  `python-editor-v3-microbit@0.2.0-experiment.rai.61` in
+  `.github/workflows/build.yml`. Goal: green CI on this branch; switch
+  back to the `file:` link for further lockstep `../ui` work as needed
+  — note the `../ui` changes supporting this release were merged to its
+  `main`, so further ui work goes on `main` or a fresh branch from it
+  (the published package also ships as source under `src/`, so the
+  panda.config include glob, export paths, and postcss plugin path are
+  identical either way — `resolve.dedupe` stays, harmless). Reminder:
+  `npm install` removes the manual
+  `@microbit-foundation/python-editor-v3-microbit` symlink — re-create it
+  for local branded work. Verified: typecheck/lint/build clean, 217 unit
+  tests pass.
 
 ## Notes to revisit later
 
