@@ -2,9 +2,11 @@
 
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`, and
-`src/serial/` all ported; z-index token scale landed; library gained
-NumberField, Kbd, Code, Menu option groups, `useMediaQuery`, TextField
-`autoCapitalize`, Toast `closeAll`. Steps 1–2 complete. Verification bar:
+`src/serial/`, and `common/SplitView/` all ported; z-index token scale
+landed; library gained NumberField, Kbd, Code, Menu option groups,
+`useMediaQuery`, TextField `autoCapitalize`, Toast `closeAll`. Decision:
+Tabs + SplitView stay app-side (see App-specific items). Steps 1–2
+complete. Verification bar:
 typecheck/build/lint + a runtime smoke check; full visual pass deferred
 (per owner). Porting continues area-by-area.**
 
@@ -128,8 +130,16 @@ Chakra Heading (they compose Text).
 
 ## App-specific migration items (beyond the playbook sequence)
 
-- Tabs adoption: library recipe + this app's branded sidebar variant as
-  preset-side styling.
+- Tabs adoption. **Decision (2026-07-29, owner): app-side, not a library
+  component** — react-aria-components' Tabs/TabList/Tab/TabPanel provide
+  the behaviour (incl. vertical orientation), styled by app-local Panda
+  css driven by the converged sidebar semantic tokens. The census's
+  "library work" call is superseded: the sidebar tabs are special-purpose
+  chrome and no other family app needs tabs today; a generic library Tabs
+  (horizontal/vertical) is parked until a second consumer exists — the
+  RAC markup + a generalised recipe extract cleanly if that happens.
+  SplitView likewise stays app-side (its Chakra use is incidental
+  Box/Flex; the value is app layout machinery).
 - CodeMirror + xterm + simulator styling onto the CSS-var contract;
   xterm's stylesheet into the `vendor` cascade layer.
 - The 29-file BoxProps/style-prop-forwarding sweep (gotcha #9).
@@ -764,6 +774,7 @@ Chakra Heading (they compose Text).
 - 2026-07-29 (step 3 — src/serial): **the serial area is ported; zero
   `@chakra-ui` imports remain in `src/serial/`.** First use of the
   runtime token contract.
+
   - **Library `Kbd` + `Code`** (census gaps): small styled components
     matching Chakra's key-chip and inline-code looks.
   - **`fonts.code` token** added to the OSS app preset ("Source Code Pro,
@@ -790,6 +801,25 @@ Chakra Heading (they compose Text).
     "Source Code Pro, monospace" in the generated tokens (the terminal
     canvas gets it via the xterm option; the container inherits body font
     as before). No console errors.
+
+- 2026-07-29 (step 3 — SplitView + placement decision): **SplitView
+  ported app-side (4 files); owner decision recorded that neither
+  SplitView nor Tabs become library components** (see the App-specific
+  items section for the reasoning; generic Tabs parked until a second
+  family consumer exists).
+  - SplitView/SplitViewSized/SplitViewRemainder/SplitViewDivider → Panda
+    Flex/Box + library Icon. The runtime-computed pane dimensions
+    (`dimensionProps` calc strings) become inline styles; static
+    conditionals (cursor, boxShadow, rotate) stay extractable ternaries.
+    The divider bar's direction-dependent 10px dimension relies on the
+    inline style beating the `height="100%"` class — same override the
+    old Chakra prop-spread order produced. `zIndexDivider` constant →
+    `splitViewDivider` token. BoxProps/FlexProps forwarding dropped
+    (call sites pass `css`); two more gotcha-#9 files retired.
+  - **Verified:** static checks clean; 217 tests; build clean. Smoke:
+    both dividers render (col-resize cursor, z-index 3 via token, 10px
+    #eaecf1 bar + dots icon) and dragging the sidebar divider resizes
+    the pane (294→449px). No console errors.
 
 ## Notes to revisit later
 
