@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Button, Switch, VStack } from "@chakra-ui/react";
+import { Button, Switch } from "@microbit/ui";
 import { ReactNode, useCallback, useRef, useState } from "react";
 import { useIntl } from "react-intl";
+import { Box, VStack } from "styled-system/jsx";
 import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
@@ -97,9 +98,9 @@ const SensorInput = ({
   };
   const [isHeld, setIsHeld] = useState<boolean>(false);
   const handleOverrideSet = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setIsHeld(event.currentTarget.checked);
-      handleSensorChange(event.currentTarget.checked ? sensor.max : sensor.min);
+    (isSelected: boolean) => {
+      setIsHeld(isSelected);
+      handleSensorChange(isSelected ? sensor.max : sensor.min);
     },
     [handleSensorChange, setIsHeld, sensor]
   );
@@ -116,22 +117,19 @@ const SensorInput = ({
   }
 
   const disabled = running === RunningStatus.STOPPED;
+  const pressed = sensorValue.current !== sensor.min;
   return (
-    <VStack spacing={3}>
+    <VStack gap="3">
       <Button
         aria-label={intl.formatMessage(
           { id: `simulator-${type}-press-label` },
           { [type]: label }
         )}
-        transition="none"
-        _active={
-          sensorValue.current === sensor.min
-            ? {}
-            : {
-                background: "brand.100",
-              }
-        }
-        isActive={!!sensorValue.current}
+        css={{
+          transition: "none",
+          // Chakra's isActive + _active override: held look while pressed.
+          background: pressed ? "brand.100" : undefined,
+        }}
         isDisabled={disabled}
         size="sm"
         onKeyDown={keyListener}
@@ -143,7 +141,7 @@ const SensorInput = ({
         onMouseLeave={mouseLeaveListener}
       >
         {logo ? (
-          <Box width={5} role="img">
+          <Box width="5" role="img">
             {logo}
           </Box>
         ) : (
@@ -156,12 +154,12 @@ const SensorInput = ({
             { id: `simulator-${type}-hold-label` },
             { [type]: label }
           )}
-          sx={{
-            "*": {
+          css={{
+            "& *": {
               transition: "none !important",
             },
           }}
-          isChecked={isHeld}
+          isSelected={isHeld}
           onChange={handleOverrideSet}
         />
       )}

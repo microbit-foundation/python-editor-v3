@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/react";
+import { Text } from "@microbit/ui";
 import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
@@ -29,7 +29,7 @@ const Axis = ({
     title={label}
     icon={
       label ? (
-        <Text boxSize={6} textAlign="center">
+        <Text width="6" height="6" textAlign="center">
           {label}
         </Text>
       ) : (

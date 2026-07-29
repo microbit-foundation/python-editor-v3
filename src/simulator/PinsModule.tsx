@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { HStack, Text, VStack } from "@chakra-ui/react";
+import { Text } from "@microbit/ui";
 import { ReactNode } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { HStack, VStack } from "styled-system/jsx";
 import { useDeployment } from "../deployment";
 import { SensorStateKey, SimulatorState } from "../device/simulator";
 import SensorInput from "./SensorInput";
@@ -30,13 +31,13 @@ const PinsModule = ({
   const intl = useIntl();
   const touchLogoLabel = intl.formatMessage({ id: "simulator-touch-logo" });
   return (
-    <HStack spacing={3}>
-      <VStack spacing={3} alignItems="flex-start">
+    <HStack gap="3">
+      <VStack gap="3" alignItems="flex-start">
         {minimised ? (
           icon
         ) : (
           <>
-            <Text height={8} fontSize="sm" alignItems="center" display="flex">
+            <Text height="8" fontSize="sm" alignItems="center" display="flex">
               <FormattedMessage id="simulator-input-press" />
             </Text>
             <Text fontSize="sm">
@@ -45,7 +46,7 @@ const PinsModule = ({
           </>
         )}
       </VStack>
-      <HStack spacing={2}>
+      <HStack gap="2">
         <SensorInput
           type="pin"
           sensorId="pin0"

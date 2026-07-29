@@ -3,24 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Button,
-  HStack,
-  Icon,
-  Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Icon, Text } from "@microbit/ui";
 import { ReactNode, useCallback, useMemo } from "react";
 import { RiDownload2Line, RiErrorWarningLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { css } from "styled-system/css";
+import { Box, HStack, Stack, styled, VStack } from "styled-system/jsx";
 import { DataLog } from "../device/simulator";
 import { useLogging } from "../logging/logging-hooks";
 import { useDataLog } from "./data-logging-hooks";
@@ -36,6 +24,12 @@ export interface DataLoggingModuleProps {
 interface TruncatedDataLog extends DataLog {
   truncated: boolean;
 }
+
+// Chakra's striped table (blackAlpha) approximated on a plain table.
+const cellClass = css({
+  p: "1.5",
+  whiteSpace: "nowrap",
+});
 
 const DataLoggingModule = ({
   icon,
@@ -67,7 +61,7 @@ const DataLoggingModule = ({
   }, [logging, untruncatedDataLog]);
   if (minimised) {
     return (
-      <HStack spacing={3}>
+      <HStack gap="3">
         {icon}
         <Text>
           <FormattedMessage
@@ -80,70 +74,80 @@ const DataLoggingModule = ({
   }
   const hasContent = truncatedDataLog.headings.length > 0;
   return (
-    <Stack spacing={3}>
-      <TableContainer
+    <Stack gap="3">
+      <Box
         h="2xs"
         bgColor="white"
         borderRadius="md"
         display={hasContent ? "block" : "flex"}
         overflowY="auto"
+        overflowX="auto"
         ref={ref}
         onScroll={handleScroll}
         scrollBehavior="smooth"
       >
         {hasContent ? (
-          <Table variant="striped" colorScheme="blackAlpha" position="relative">
-            <Thead>
-              <Tr>
+          <styled.table position="relative" width="100%">
+            <styled.thead>
+              <styled.tr>
                 {truncatedDataLog.headings.map((heading) => (
-                  <Th
-                    px={1.5}
+                  <styled.th
+                    px="1.5"
+                    py="1.5"
                     key={heading}
                     color="gray.800"
                     position="sticky"
-                    top={0}
+                    top="0"
                     bgColor="white"
-                    textTransform="unset" // More important to match the user's Python
+                    // More important to match the user's Python
+                    textTransform="none"
                     fontSize="sm"
+                    textAlign="start"
                   >
                     {heading}
-                  </Th>
+                  </styled.th>
                 ))}
-              </Tr>
-            </Thead>
-            <Tbody>
+              </styled.tr>
+            </styled.thead>
+            <styled.tbody
+              className={css({
+                // Chakra Table variant="striped" colorScheme="blackAlpha".
+                "& tr:nth-of-type(odd) td": { background: "blackAlpha.100" },
+              })}
+            >
               {truncatedDataLog.truncated && (
-                <Tr key="truncated">
-                  <Td
-                    p={1.5}
+                <styled.tr key="truncated">
+                  <styled.td
+                    className={cellClass}
                     colSpan={truncatedDataLog.headings.length}
                     fontWeight="semibold"
                     fontSize="sm"
                   >
                     <FormattedMessage id="simulator-data-logging-truncated" />
-                  </Td>
-                </Tr>
+                  </styled.td>
+                </styled.tr>
               )}
               {truncatedDataLog.data.map((row, rowNum) => (
-                <Tr key={rowNum}>
+                <styled.tr key={rowNum}>
                   {row.data.map((cell, headingIndex) => {
                     return (
-                      <Td
+                      <styled.td
                         key={truncatedDataLog.headings[headingIndex]}
-                        p={1.5}
+                        className={cellClass}
                         fontSize={row.isHeading ? "sm" : undefined}
                         fontWeight={row.isHeading ? "semibold" : undefined}
-                        isNumeric={!row.isHeading}
+                        // Chakra's isNumeric.
+                        textAlign={row.isHeading ? "start" : "end"}
                         fontFamily={row.isHeading ? undefined : "code"}
                       >
                         {cell}
-                      </Td>
+                      </styled.td>
                     );
                   })}
-                </Tr>
+                </styled.tr>
               ))}
-            </Tbody>
-          </Table>
+            </styled.tbody>
+          </styled.table>
         ) : (
           <VStack flex="1 1 auto" justifyContent="center">
             <Notice>
@@ -151,9 +155,9 @@ const DataLoggingModule = ({
             </Notice>
           </VStack>
         )}
-      </TableContainer>
+      </Box>
       <HStack justifyContent="space-between" fontWeight="semibold">
-        <HStack spacing={1}>
+        <HStack gap="1">
           {logFull && (
             <>
               <Icon as={RiErrorWarningLine} />
@@ -165,7 +169,7 @@ const DataLoggingModule = ({
         </HStack>
         <Button
           leftIcon={<RiDownload2Line />}
-          onClick={handleSaveLog}
+          onPress={handleSaveLog}
           isDisabled={!hasContent}
         >
           <FormattedMessage id="simulator-data-logging-save-log" />
@@ -176,7 +180,7 @@ const DataLoggingModule = ({
 };
 
 const Notice = ({ children }: { children: ReactNode }) => (
-  <Text color="gray.700" p={1}>
+  <Text color="gray.700" p="1">
     {children}
   </Text>
 );
