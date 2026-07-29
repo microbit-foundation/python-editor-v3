@@ -1113,6 +1113,19 @@ Chakra Heading (they compose Text).
     pseudo-class variant rules win). States restated in the overrides;
     catalogued as playbook gotcha #21 — sweep any future css override
     that restyles a property its variant animates.
+  - **Post-flip owner review fixes:** CodeMirror unstyled — the census's
+    "tokens outside React" item: highlight/theme/structure/docs-tooltip
+    CSS and xterm-custom.css referenced `var(--chakra-*)`, dead once
+    ChakraProvider went. Swapped to Panda vars (kebab-cased token paths;
+    Chakra `space` → Panda `spacing`; fractional keys dot-escaped in
+    .css files only — a `\.` in a JS string loses its backslash). All
+    26 vars verified against the built CSS. Name-dialog autofocus —
+    restored via TextField `autoFocus` in both name-entry questions
+    (owner asked whether react-aria's focus-the-dialog default had an
+    a11y rationale worth keeping: no — aria-labelledby preserves the
+    dialog announcement wherever focus lands, and APG blesses focusing
+    the first field of a form dialog; select-all/type-to-replace also
+    depended on it). Split-view/search-clear hover loss — see below.
   - **Hand-checks for the owner (screenshots can't see them):**
     `::selection` is now Panda-preflight faint blue (gotcha #16 — Chakra
     didn't style it; override per-surface via `_selection` if illegible);
