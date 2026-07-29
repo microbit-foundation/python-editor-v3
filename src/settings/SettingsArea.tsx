@@ -3,20 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Checkbox,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  VStack,
-} from "@chakra-ui/react";
+import { Checkbox, NumberField, Text } from "@microbit/ui";
 import { useCallback, useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Box, VStack } from "styled-system/jsx";
 import SelectFormControl, { createOptions } from "./SelectFormControl";
 import {
   codeStructureOptions,
@@ -36,18 +26,14 @@ const SettingsArea = () => {
   const intl = useIntl();
 
   const handleChangeFontSize = useCallback(
-    (_: string, valueAsNumber: number) => {
+    (valueAsNumber: number) => {
       if (Number.isNaN(valueAsNumber)) {
         return;
       }
-
+      // react-aria clamps to min/maxValue on commit.
       setSettings({
         ...settings,
-        fontSize: Math.min(
-          maximumFontSize,
-          Math.max(minimumFontSize, valueAsNumber),
-          valueAsNumber
-        ),
+        fontSize: valueAsNumber,
       });
     },
     [settings, setSettings]
@@ -71,32 +57,18 @@ const SettingsArea = () => {
     };
   }, [intl]);
   return (
-    <VStack alignItems="flex-start" spacing={5}>
-      <FormControl display="flex" alignItems="center">
-        <FormLabel
-          htmlFor="font-size"
-          mb="0"
-          fontWeight="normal"
-          flex="1 1 auto"
-        >
-          <FormattedMessage id="font-size" />
-        </FormLabel>
-        <NumberInput
-          id="font-size"
-          size="sm"
-          value={settings.fontSize}
-          min={minimumFontSize}
-          max={maximumFontSize}
-          onChange={handleChangeFontSize}
-          width="12ch"
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </FormControl>
+    <VStack alignItems="flex-start" gap="5">
+      <NumberField
+        label={<FormattedMessage id="font-size" />}
+        value={settings.fontSize}
+        minValue={minimumFontSize}
+        maxValue={maximumFontSize}
+        onChange={handleChangeFontSize}
+        css={{ flexDirection: "row", alignItems: "center", width: "100%" }}
+        labelCss={{ flex: "1 1 auto", fontWeight: "normal", mb: "0" }}
+        groupCss={{ width: "12ch" }}
+        inputCss={{ h: "8", fontSize: "sm", borderRadius: "sm", px: "3" }}
+      />
       <SelectFormControl
         id="codeStructureHighlight"
         label={intl.formatMessage({ id: "highlight-code-structure" })}
@@ -121,40 +93,38 @@ const SettingsArea = () => {
           })
         }
       />
-      <FormControl>
+      <Box>
         <Checkbox
-          id="V2-features"
-          isChecked={settings.warnForApiUnsupportedByDevice}
-          onChange={(event) => {
+          isSelected={settings.warnForApiUnsupportedByDevice}
+          onChange={(warnForApiUnsupportedByDevice) => {
             setSettings({
               ...settings,
-              warnForApiUnsupportedByDevice: event.currentTarget.checked,
+              warnForApiUnsupportedByDevice,
             });
           }}
         >
           <FormattedMessage id="setting-warn-on-v2-only-features" />
         </Checkbox>
-        <FormHelperText color="gray.700">
+        <Text mt="2" fontSize="sm" lineHeight="normal" color="gray.700">
           <FormattedMessage id="setting-warn-on-v2-only-features-info" />
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
+        </Text>
+      </Box>
+      <Box>
         <Checkbox
-          id="allow-editing"
-          isChecked={settings.allowEditingThirdPartyModules}
-          onChange={(event) => {
+          isSelected={settings.allowEditingThirdPartyModules}
+          onChange={(allowEditingThirdPartyModules) => {
             setSettings({
               ...settings,
-              allowEditingThirdPartyModules: event.currentTarget.checked,
+              allowEditingThirdPartyModules,
             });
           }}
         >
           <FormattedMessage id="setting-allow-editing-third-party" />
         </Checkbox>
-        <FormHelperText color="gray.700">
+        <Text mt="2" fontSize="sm" lineHeight="normal" color="gray.700">
           <FormattedMessage id="setting-allow-editing-third-party-info" />
-        </FormHelperText>
-      </FormControl>
+        </Text>
+      </Box>
     </VStack>
   );
 };

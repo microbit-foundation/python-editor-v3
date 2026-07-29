@@ -100,6 +100,17 @@ export const appPreset = definePreset({
                 bg: "transparent",
                 _hover: { color: "brand.600", bg: "transparent" },
               },
+              // Icon buttons on the app's dark chrome (sidebar header,
+              // serial bar): white glyph, white pill on hover. The Chakra
+              // variant was ghost-based with callers passing color="white";
+              // the base colour is folded in here instead (both call sites
+              // used white).
+              sidebar: {
+                color: "white",
+                bg: "transparent",
+                _hover: { bg: "white", color: "gray.700" },
+                _active: { bg: "white", color: "gray.800" },
+              },
             },
           },
           defaultVariants: { variant: "outline" },
