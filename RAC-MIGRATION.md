@@ -1,6 +1,16 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
+Status: **KILL-SWITCH DONE (2026-07-29) — the app runs entirely on
+@microbit/ui + Panda: ChakraProvider, the Chakra themes (both repos),
+chakra-cli and the Chakra/Emotion deps are gone; preflight is on and the
+CSS ships via Panda's PostCSS plugin into `src/layers.css` (xterm.css in
+the `vendor` layer). 64/64 e2e + 217 unit tests pass. Remaining: the
+fidelity dual-run (branded + OSS) against the pre-flip commit, the
+owner's hand-checks (::selection is now preflight's faint blue —
+playbook gotcha #16 — plus cursor/focus-order sweeps), and the parked
+discussion items below.** Earlier step-3 log follows.
+
+Step 3 log (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`,
 `src/serial/`, `common/SplitView/`, `src/editor/`, and `src/workbench/`
 all ported (incl. the RAC sidebar Tabs), plus `src/documentation/` and
@@ -15,7 +25,7 @@ app-side (see App-specific items). Steps 1–2 complete. Remaining:
 `src/simulator/`, `src/documentation/` (now unblocked by Collapse/Fade),
 and the Chakra theme files themselves (kill-switch). Verification bar:
 typecheck/build/lint + a runtime smoke check; full visual pass deferred
-(per owner). Porting continues area-by-area.**
+(per owner). Porting continues area-by-area.\*\*
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -980,6 +990,7 @@ Chakra Heading (they compose Text).
   simulator is ported (13 files, context-sharing fork, verified by me).
   `src/` is now Chakra-free except App.tsx's ChakraProvider + the
   deployment theme files — the kill-switch is next.**
+
   - **Library Slider extended** (`../ui`): `children` as positioned
     overlays inside the slider root (always-visible marks — the existing
     `mark` slot stays focus-revealed), `thumbTooltip`/`isThumbTooltipOpen`
@@ -1055,6 +1066,53 @@ Chakra Heading (they compose Text).
     grey bar — Panda tokens don't resolve inside multi-value shorthands
     (the 4-value `borderColor` emitted verbatim and the browser dropped
     it). Per-side longhands fix it; catalogued as playbook gotcha #20.
+
+- 2026-07-29 (THE KILL-SWITCH): **Chakra removed.**
+  - **Mechanics:** ChakraProvider out of App.tsx; `chakraTheme` dropped
+    from `DeploymentConfig` and both deployment packages (lockstep;
+    private repo rebuilt — its stale `dist/` still shipped the theme
+    until then). Theme files deleted in both repos except
+    `common-sizes.ts`/`font-sizes.ts`, now solely preset sources.
+    Neither theme had `styles.global`, so the base preset's Chakra-reset
+    parity `globalCss` sufficed (verified: Helvetica body,
+    optimizeLegibility, kerning). `zIndex.ts` retired (last consumer
+    Overlay → runtime `token()`); chakra-cli + theme scripts removed;
+    Chakra/Emotion uninstalled (framer-motion stays — the app's docs
+    Slide uses it directly).
+  - **CSS pipeline:** preflight on; `@pandacss/dev/postcss` first in
+    postcss.config.cjs (all envs) replacing cssgen+unlayer; new
+    `src/layers.css` declares the layer order and imports
+    `xterm/css/xterm.css` into the `vendor` layer; app .css files stay
+    unlayered (they beat layers, as they beat Chakra before). Production
+    build verified: layers flattened for Safari <15.4, logical
+    longhands expanded, xterm bundled.
+  - **e2e: 64/64 pass** (run with a temporary sandbox proxy for
+    Sanity/sim-iframe hosts). The initial 9 real failures split into:
+    - _Library fix:_ rest-closed Collapse content stayed in the a11y
+      tree/tab order (nine hidden copy-code buttons were tabbable and
+      matched role queries — Chakra hid them). Now `visibility: hidden`
+      at rest when fully collapsed.
+    - _Not a regression:_ react-aria hides content behind modals with
+      `inert` (verified on #root), which is stronger than Chakra's
+      aria-hidden — but Playwright role queries don't filter inert, so
+      tests needed scoping/exactness (Create button, search results).
+    - _Test updates:_ slider locator (react-aria labels the hidden input
+      via labelledby, and the drag target is the thumb, the input's
+      parent); sidebar focus assertion targets `[data-panel-content]`.
+    - **Behavioural delta for owner review: tooltips re-open after
+      click.** Chakra's `closeOnClick` kept a clicked trigger's tooltip
+      closed until re-hover; react-aria re-opens it under the still
+      hovering pointer (0ms delay), e.g. Send-to-micro:bit's tooltip
+      lingers over the serial area after clicking. The traceback e2e now
+      parks the mouse first. If this grates, the library Tooltip needs a
+      closed-until-re-enter state machine.
+  - **Hand-checks for the owner (screenshots can't see them):**
+    `::selection` is now Panda-preflight faint blue (gotcha #16 — Chakra
+    didn't style it; override per-surface via `_selection` if illegible);
+    cursor/focus-order/selection sweeps.
+  - **Next:** the fidelity harness dual-run (branded + OSS) against the
+    pre-flip commit per playbook §6 — note the baseline needs the private
+    package rebuilt at the matching old commit.
 
 ## Notes to revisit later
 
