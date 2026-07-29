@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, FlexProps } from "@chakra-ui/react";
 import React, {
   useCallback,
   useEffect,
@@ -11,6 +10,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { Flex } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import useRafState from "../use-raf-state";
 import {
   Direction,
@@ -22,13 +23,14 @@ import SplitViewSized from "./SplitViewSized";
 
 export type SizedMode = "collapsed" | "compact" | "open";
 
-interface SplitViewProps extends Omit<FlexProps, "children" | "direction"> {
+interface SplitViewProps {
   mode?: SizedMode;
   children: [JSX.Element, JSX.Element, JSX.Element];
   direction: Direction;
   compactSize?: number;
   initialSize?: number;
   minimums: [number, number];
+  css?: SystemStyleObject;
 }
 
 /**
@@ -45,7 +47,7 @@ export const SplitView = ({
   minimums,
   mode = "open",
   compactSize = 0,
-  ...props
+  css: cssProp,
 }: SplitViewProps) => {
   const sizedFirst = children[0].type === SplitViewSized;
   const [sizedPaneSize, setSizedPaneSize] = useRafState<undefined | number>(
@@ -170,7 +172,12 @@ export const SplitView = ({
 
   return (
     <splitViewContext.Provider value={context}>
-      <Flex ref={splitViewRef} direction={direction} {...props} width="100%">
+      <Flex
+        ref={splitViewRef}
+        direction={direction === "row" ? "row" : "column"}
+        css={cssProp}
+        width="100%"
+      >
         {children}
       </Flex>
     </splitViewContext.Provider>

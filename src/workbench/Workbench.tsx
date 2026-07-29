@@ -145,7 +145,6 @@ const Workbench = () => {
       <Flex className="Workbench">
         <SplitView
           direction="row"
-          width="100%"
           minimums={minimums}
           initialSize={Math.min(
             700,
@@ -210,7 +209,7 @@ const EditorWithSimulator = ({
     <SplitView
       direction="row"
       minimums={simulatorMinimums}
-      height="100%"
+      css={{ height: "100%" }}
       mode={simulatorShown ? "open" : "collapsed"}
       initialSize={Math.min(
         350,
@@ -257,7 +256,7 @@ const Editor = ({ editor }: EditorProps) => {
         direction="column"
         minimums={[248, 200]}
         compactSize={SerialArea.compactSize}
-        height="100%"
+        css={{ height: "100%" }}
         mode={serialSizedMode}
       >
         <SplitViewRemainder>{editor}</SplitViewRemainder>

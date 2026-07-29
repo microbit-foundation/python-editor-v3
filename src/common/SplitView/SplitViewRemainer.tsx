@@ -4,15 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 import { ReactNode } from "react";
+import { Box } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import {
-  dimensionProps,
+  dimensionPropName,
   separatorPixels,
   useSplitViewContext,
 } from "./context";
-import { Box, BoxProps } from "@chakra-ui/react";
 
-interface SplitViewRemainderProps extends BoxProps {
+interface SplitViewRemainderProps {
   children: ReactNode;
+  css?: SystemStyleObject;
 }
 
 /**
@@ -20,7 +22,7 @@ interface SplitViewRemainderProps extends BoxProps {
  */
 const SplitViewRemainder = ({
   children,
-  ...props
+  css: cssProp,
 }: SplitViewRemainderProps) => {
   const { direction, sizedPaneSize, compactSize, mode, dragging } =
     useSplitViewContext();
@@ -37,9 +39,10 @@ const SplitViewRemainder = ({
   })();
   return (
     <Box
-      {...dimensionProps(direction, remainingSpace)}
+      // Runtime-computed dimension, not statically extractable.
+      style={{ [dimensionPropName(direction)]: remainingSpace }}
       pointerEvents={dragging ? "none" : "unset"}
-      {...props}
+      css={cssProp}
     >
       {children}
     </Box>

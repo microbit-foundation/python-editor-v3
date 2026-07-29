@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 import { createRef, useEffect } from "react";
+import { Box } from "styled-system/jsx";
 import { dimensionPropName, useSplitViewContext } from "./context";
-import { Box } from "@chakra-ui/react";
 
 interface SizedPaneProps {
   children: JSX.Element;
