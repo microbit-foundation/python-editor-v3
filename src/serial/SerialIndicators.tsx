@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack, Icon, Text } from "@chakra-ui/react";
+import { Icon, Text } from "@microbit/ui";
 import { GoCheck } from "react-icons/go";
 import {
   RiErrorWarningLine,
@@ -11,13 +11,16 @@ import {
   RiTerminalBoxLine,
 } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { HStack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import { SyncStatus, Traceback, useSyncStatus } from "../device/device-hooks";
 import MaybeTracebackLink from "./MaybeTracebackLink";
 
-interface SerialIndicatorsProps extends BoxProps {
+interface SerialIndicatorsProps {
   compact?: boolean;
   traceback?: Traceback | undefined;
   showSyncStatus: boolean;
+  css?: SystemStyleObject;
 }
 
 const syncMessages = {
@@ -38,7 +41,7 @@ const SerialIndicators = ({
   compact,
   traceback,
   showSyncStatus,
-  ...props
+  css: cssProp,
 }: SerialIndicatorsProps) => {
   const syncStatus = useSyncStatus();
   const syncMessage = syncMessages[syncStatus];
@@ -46,12 +49,18 @@ const SerialIndicators = ({
     showSyncStatus &&
     (!traceback || (traceback && syncStatus === SyncStatus.OUT_OF_SYNC));
   return (
-    <HStack {...props}>
-      <Icon m={1} as={RiTerminalBoxLine} fill="white" boxSize={5} />
-      <HStack spacing={0}>
+    <HStack css={cssProp}>
+      <Icon
+        as={RiTerminalBoxLine}
+        css={{ m: "1", fill: "white", width: "5", height: "5" }}
+      />
+      <HStack gap="0">
         {compact && traceback && syncStatus === SyncStatus.IN_SYNC && (
           <>
-            <Icon m={1} as={RiErrorWarningLine} fill="white" boxSize={5} />
+            <Icon
+              as={RiErrorWarningLine}
+              css={{ m: "1", fill: "white", width: "5", height: "5" }}
+            />
             <Text color="white" whiteSpace="nowrap" data-testid="traceback">
               <MaybeTracebackLink traceback={traceback} />
             </Text>
@@ -61,7 +70,10 @@ const SerialIndicators = ({
           <Text color="white" display="inline-flex" alignItems="center">
             <FormattedMessage id={syncMessage?.message} />
             {syncMessage?.icon && (
-              <Icon ml={1} as={syncMessage?.icon} fill="white" boxSize={5} />
+              <Icon
+                as={syncMessage?.icon}
+                css={{ ml: "1", fill: "white", width: "5", height: "5" }}
+              />
             )}
           </Text>
         )}

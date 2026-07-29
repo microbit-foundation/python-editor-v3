@@ -40,6 +40,11 @@ export const appPreset = definePreset({
           overlay: { value: 30 },
           aboveDialogs: { value: 1500 },
         },
+        // The editor/terminal code face (both themes use the same value).
+        // Consumed at runtime via token("fonts.code") (XTerm, CodeMirror).
+        fonts: {
+          code: { value: "Source Code Pro, monospace" },
+        },
         colors: {
           // This app's very light grays differ slightly from the family base
           // preset's (gray.25 is #f5f6f8 here vs #f5f5f5): mirror the OSS

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/react";
+import { Text } from "@microbit/ui";
 import { Traceback } from "../device/device-hooks";
 import { MAIN_FILE } from "../fs/fs";
 import TracebackLink from "./TracebackLink";

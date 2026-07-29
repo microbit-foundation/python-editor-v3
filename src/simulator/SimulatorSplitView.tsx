@@ -42,7 +42,6 @@ const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
     >
       <SplitViewSized>
         <SerialArea
-          as="section"
           terminalFontSizePt={12}
           compact={serialStateWhenOpen === "compact"}
           expandDirection="down"

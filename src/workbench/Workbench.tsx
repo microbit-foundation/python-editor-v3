@@ -264,7 +264,6 @@ const Editor = ({ editor }: EditorProps) => {
         <SplitViewDivider />
         <SplitViewSized>
           <SerialArea
-            as="section"
             compact={serialSizedMode === "compact"}
             onSizeChange={setSerialStateWhenOpen}
             aria-label={intl.formatMessage({
