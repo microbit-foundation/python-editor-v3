@@ -3,25 +3,32 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, HStack } from "@chakra-ui/react";
-import { DragHandleIcon } from "@chakra-ui/icons";
+import { Icon } from "@microbit/ui";
+import { RiDraggable } from "react-icons/ri";
+import { HStack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 
-interface DragHandleProps extends BoxProps {
+interface DragHandleProps {
   highlight: boolean | undefined;
+  css?: SystemStyleObject;
 }
 
-const DragHandle = ({ highlight, ...props }: DragHandleProps) => {
+const DragHandle = ({ highlight, css: cssProp }: DragHandleProps) => {
   return (
     <HStack
       cursor="grab"
-      {...props}
+      css={cssProp}
       bgColor={highlight ? "blimpTeal.300" : "blimpTeal.100"}
       transition="background .2s"
     >
-      <DragHandleIcon
-        boxSize={3}
-        color="blimpTeal.600"
-        transition="color .2s"
+      <Icon
+        as={RiDraggable}
+        css={{
+          width: "3",
+          height: "3",
+          color: "blimpTeal.600",
+          transition: "color .2s",
+        }}
       />
     </HStack>
   );

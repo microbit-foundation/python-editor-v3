@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Text } from "@chakra-ui/react";
+import { Text } from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
 import IdeasDocumentation from "./ideas/IdeasDocumentation";
 import Spinner from "../common/Spinner";
@@ -16,7 +16,7 @@ const IdeasArea = () => {
       return <Spinner />;
     case "error":
       return (
-        <Text p={5} height="100%">
+        <Text p="5" height="100%">
           <FormattedMessage id="toolkit-error-loading" />
         </Text>
       );

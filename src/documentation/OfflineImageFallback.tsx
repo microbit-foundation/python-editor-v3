@@ -1,28 +1,49 @@
-import { BoxProps, Image, Text, VStack } from "@chakra-ui/react";
-import offlinePlaceholder from "./offline.svg";
+/**
+ * (c) 2021, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+import { Image, Text } from "@microbit/ui";
+import { CSSProperties } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { VStack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
+import offlinePlaceholder from "./offline.svg";
 
-interface OfflineImageFallbackProps extends BoxProps {
+interface OfflineImageFallbackProps {
   useIcon?: boolean;
+  /** Width of the image being substituted (px number or CSS size). */
+  width?: number | string;
+  height?: number | string;
+  css?: SystemStyleObject;
+  style?: CSSProperties;
 }
 
 const OfflineImageFallback = ({
   useIcon = false,
   width,
-  ...props
+  height,
+  css: cssProp,
+  style,
 }: OfflineImageFallbackProps) => {
   const intl = useIntl();
   return (
     <>
       {useIcon ? (
         <Image
-          fallbackSrc={offlinePlaceholder}
-          {...props}
-          p={2}
+          src={offlinePlaceholder}
+          css={cssProp}
+          // Caller-supplied dimensions are runtime values.
+          style={{ width, height, ...style }}
+          p="2"
           alt={intl.formatMessage({ id: "offline-image-alt" })}
         />
       ) : (
-        <VStack justifyContent="center" {...props} maxWidth={width}>
+        <VStack
+          justifyContent="center"
+          css={cssProp}
+          style={{ width, height, maxWidth: width, ...style }}
+        >
           <Text textAlign="center" wordBreak="break-word">
             <FormattedMessage id="offline-image-alt" />
           </Text>

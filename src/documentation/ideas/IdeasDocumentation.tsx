@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Image, Link, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { Link, Text } from "@microbit/ui";
 import { ReactNode, useCallback, useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Grid, Stack } from "styled-system/jsx";
 import AreaHeading from "../../common/AreaHeading";
-import { docStyles } from "../../common/documentation-styles";
+import { docStylesClass } from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
 import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
@@ -17,6 +18,7 @@ import DocumentationBreadcrumbHeading from "../common/DocumentationBreadcrumbHea
 import DocumentationContent, {
   DocumentationContextProvider,
 } from "../common/DocumentationContent";
+import ImageWithFallback from "../common/ImageWithFallback";
 import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
 import { Idea } from "./model";
@@ -73,13 +75,6 @@ const ActiveLevel = ({
   const numCols =
     !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1;
   if (activeIdea) {
-    const imageProps = {
-      borderTopRadius: "lg",
-      width: 600,
-      sx: {
-        aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
-      },
-    };
     return (
       <HeadedScrollablePanel
         key={activeIdea.slug.current}
@@ -95,26 +90,29 @@ const ActiveLevel = ({
       >
         {activeIdea.content && (
           <Stack
-            spacing={3}
+            gap="3"
             fontSize="sm"
-            p={5}
-            pr={3}
-            mt={1}
-            mb={1}
-            sx={{
-              ...docStyles,
-            }}
+            p="5"
+            pr="3"
+            mt="1"
+            mb="1"
+            className={docStylesClass}
           >
             {activeIdea.image && (
-              <Image
+              <ImageWithFallback
                 src={imageUrlBuilder
                   .image(activeIdea.image.asset)
                   .fit("max")
                   .url()}
                 ignoreFallback={navigator.onLine}
-                fallback={<OfflineImageFallback {...imageProps} />}
+                fallback={<OfflineImageFallback width={600} />}
                 alt=""
-                {...imageProps}
+                borderTopRadius="lg"
+                width="600px"
+                // Runtime value derived from the image reference.
+                style={{
+                  aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
+                }}
               />
             )}
 
@@ -140,7 +138,12 @@ const ActiveLevel = ({
         />
       }
     >
-      <SimpleGrid columns={numCols} spacing={5} p={5} ref={ref}>
+      <Grid
+        columns={numCols === 3 ? 3 : numCols === 2 ? 2 : 1}
+        gap="5"
+        p="5"
+        ref={ref}
+      >
         {ideas.map((idea) => (
           <IdeaCard
             key={idea.name}
@@ -150,8 +153,8 @@ const ActiveLevel = ({
             onClick={() => onNavigate(idea.slug.current)}
           />
         ))}
-      </SimpleGrid>
-      <Text pb={8} px={5}>
+      </Grid>
+      <Text pb="8" px="5">
         <FormattedMessage
           id="more-ideas"
           values={{

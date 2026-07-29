@@ -3,34 +3,35 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, LinkProps } from "@chakra-ui/react";
+import { Button } from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
 import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 
-interface ShowMoreLinkProps extends LinkProps {
+interface ShowMoreButtonProps {
+  onClick: () => void;
   isOpen: boolean;
   isBrief?: boolean;
 }
 
-const ShowMoreButton = ({ isOpen, isBrief, ...props }: ShowMoreLinkProps) => {
+const ShowMoreButton = ({ isOpen, isBrief, onClick }: ShowMoreButtonProps) => {
   const more = isBrief ? "more-action" : "show-more";
   const less = isBrief ? "less-action" : "show-less";
   return (
-    <Link
-      {...props}
-      as="button"
-      color="brand.600"
-      textAlign="left"
-      _hover={{
-        textDecoration: "none",
+    <Button
+      variant="unstyled"
+      onPress={onClick}
+      css={{
+        color: "brand.600",
+        textAlign: "left",
+        display: "flex",
+        flexWrap: "nowrap",
+        alignItems: "center",
+        cursor: "pointer",
       }}
-      display="flex"
-      flexWrap="nowrap"
-      alignItems="center"
     >
       <FormattedMessage id={isOpen ? less : more} />
       <ExpandCollapseIcon open={isOpen} css={{ ml: "1" }} />
-    </Link>
+    </Button>
   );
 };
 

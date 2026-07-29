@@ -3,17 +3,15 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, ButtonProps } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@microbit/ui";
 import { RiArrowRightLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 
 const MoreButton = (props: ButtonProps) => (
   <Button
-    fontWeight="normal"
-    color="brand.500"
     variant="unstyled"
-    display="flex"
     size="sm"
+    css={{ fontWeight: "normal", color: "brand.500", display: "flex" }}
     rightIcon={<RiArrowRightLine />}
     {...props}
   >

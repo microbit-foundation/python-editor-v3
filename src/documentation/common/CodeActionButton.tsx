@@ -3,10 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Button, Collapse, HStack } from "@chakra-ui/react";
+import { Button, Collapse, Icon } from "@microbit/ui";
 import { useState } from "react";
 import { RiFileCopy2Line, RiFolderOpenLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { HStack } from "styled-system/jsx";
 
 interface CodeActionButtonProps {
   isOpen: boolean;
@@ -27,32 +28,34 @@ const CodeActionButton = ({
 }: CodeActionButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   return (
-    <Collapse in={isOpen} startingHeight={0}>
-      <HStack spacing={3} mt={borderAdjustment ? "2px" : 0}>
+    <Collapse isOpen={isOpen} startingHeight={0}>
+      <HStack gap="3" mt={borderAdjustment ? "2px" : "0"}>
         <Button
-          onMouseEnter={() => {
+          onHoverStart={() => {
             toHighlighted();
             setHovered(true);
           }}
-          onMouseLeave={() => {
+          onHoverEnd={() => {
             toDefault();
             setHovered(false);
           }}
-          fontWeight="normal"
-          color="gray.800"
-          border="none"
-          bgColor={hovered ? "blimpTeal.300" : "blimpTeal.100"}
-          borderTopRadius="0"
-          borderBottomRadius="lg"
-          ml={5}
           variant="ghost"
           size="sm"
-          onClick={codeAction}
+          css={{
+            fontWeight: "normal",
+            color: "gray.800",
+            border: "none",
+            bgColor: hovered ? "blimpTeal.300" : "blimpTeal.100",
+            borderTopRadius: "0",
+            borderBottomRadius: "lg",
+            ml: "5",
+          }}
+          onPress={codeAction}
           leftIcon={
-            toolkitType === "ideas" ? <Box as={RiFolderOpenLine} /> : undefined
+            toolkitType === "ideas" ? <Icon as={RiFolderOpenLine} /> : undefined
           }
           rightIcon={
-            toolkitType !== "ideas" ? <Box as={RiFileCopy2Line} /> : undefined
+            toolkitType !== "ideas" ? <Icon as={RiFileCopy2Line} /> : undefined
           }
         >
           <FormattedMessage

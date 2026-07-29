@@ -3,16 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  Flex,
-  HStack,
-  Select,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { docStyles } from "../../common/documentation-styles";
+import { NativeSelect, Text } from "@microbit/ui";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { Box, HStack, styled } from "styled-system/jsx";
+import { docStylesClass } from "../../common/documentation-styles";
 import { PortableText } from "../../common/sanity";
 import { Anchor } from "../../router-hooks";
 import DocumentationContent, {
@@ -83,7 +77,15 @@ const ReferenceTopicEntry = ({
     },
     [setAlternativeSlug]
   );
-  const disclosure = useDisclosure();
+  const [isOpen, setOpen] = useState(false);
+  const disclosure = useMemo(
+    () => ({
+      isOpen,
+      onOpen: () => setOpen(true),
+      onToggle: () => setOpen((open) => !open),
+    }),
+    [isOpen]
+  );
   const toolkitType = "reference";
   return (
     <DocumentationContextProvider
@@ -100,14 +102,11 @@ const ReferenceTopicEntry = ({
       >
         <Box
           fontSize="sm"
-          p={5}
-          pr={3}
-          mt={1}
-          mb={1}
-          className="docs-code"
-          sx={{
-            ...docStyles,
-          }}
+          p="5"
+          pr="3"
+          mt="1"
+          mb="1"
+          className={"docs-code " + docStylesClass}
         >
           <HStack justifyContent="space-between" flexWrap="nowrap">
             <DocumentationHeading
@@ -133,15 +132,14 @@ const ReferenceTopicEntry = ({
           />
           {alternatives && typeof alternativeSlug === "string" && (
             <>
-              <Flex wrap="wrap" as="label" mt={3}>
-                <Text alignSelf="center" mr={2} as="span">
+              <styled.label display="flex" flexWrap="wrap" mt="3">
+                <Text alignSelf="center" mr="2" as="span">
                   {alternativesLabel}
                 </Text>
-                <Select
-                  w="fit-content"
+                <NativeSelect
+                  css={{ width: "fit-content" }}
                   onChange={handleSelectChange}
                   value={alternativeSlug}
-                  size="sm"
                 >
                   {alternatives.map((alterative) => (
                     <option
@@ -151,8 +149,8 @@ const ReferenceTopicEntry = ({
                       {alterative.name}
                     </option>
                   ))}
-                </Select>
-              </Flex>
+                </NativeSelect>
+              </styled.label>
 
               <DocumentationContent
                 details={DocumentationCollapseMode.ExpandCollapseExceptCode}

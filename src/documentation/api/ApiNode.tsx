@@ -4,22 +4,25 @@
  * SPDX-License-Identifier: MIT
  */
 import {
-  Box,
-  BoxProps,
   Collapse,
-  HStack,
-  Stack,
   Text,
   Tooltip,
   useClipboard,
-  useDisclosure,
   VisuallyHidden,
-  VStack,
-} from "@chakra-ui/react";
-import { default as React, ReactNode, useCallback, useMemo } from "react";
+} from "@microbit/ui";
+import {
+  default as React,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import { Focusable } from "react-aria-components";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
+import { css } from "styled-system/css";
+import { Box, HStack, Stack, VStack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
-import { zIndexCode } from "../../common/zIndex";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import { PasteContext } from "../../editor/codemirror/copypaste";
 import {
@@ -45,7 +48,7 @@ import DragHandle from "../common/DragHandle";
 import ShowMoreButton from "../common/ShowMoreButton";
 import { allowWrapAtPeriods } from "../common/wrap";
 import { useCodeDragImage } from "../documentation-hooks";
-import Highlight from "../reference/Highlight";
+import Highlight, { HighlightDisclosure } from "../reference/Highlight";
 import { useHotkeys } from "react-hotkeys-hook";
 import { keyboardShortcuts } from "../../common/keyboard-shortcuts";
 
@@ -61,44 +64,87 @@ const kindToHeading: Record<string, any> = {
   function: "h4",
 };
 
-const kindToSpacing: Record<string, any> = {
-  module: 5,
-  class: 5,
-  variable: 4,
-  function: 4,
+const kindToSpacing: Record<string, string> = {
+  module: "5",
+  class: "5",
+  variable: "4",
+  function: "4",
+};
+// As kindToSpacing but reduced inside a class (by one for padding-top,
+// further for padding-bottom). Written out as literals for extraction.
+const kindToClassPt: Record<string, string> = {
+  module: "4",
+  class: "4",
+  variable: "3",
+  function: "3",
+};
+const kindToPb: Record<string, string> = {
+  module: "4",
+  class: "4",
+  variable: "3",
+  function: "3",
+};
+const kindToClassPb: Record<string, string> = {
+  module: "3",
+  class: "3",
+  variable: "2",
+  function: "2",
+};
+// Panda extraction hints: the extractor cannot follow the object lookups
+// above, so list every padding they can produce.
+css({ pt: "3" });
+css({ pt: "4" });
+css({ pt: "5" });
+css({ pb: "2" });
+css({ pb: "3" });
+css({ pb: "4" });
+
+const useDisclosureState = (): HighlightDisclosure => {
+  const [isOpen, setOpen] = useState(false);
+  return useMemo(
+    () => ({
+      isOpen,
+      onOpen: () => setOpen(true),
+      onToggle: () => setOpen((open) => !open),
+    }),
+    [isOpen]
+  );
 };
 
-interface ApiDocEntryNodeProps extends BoxProps {
+interface ApiDocEntryNodeProps {
   docs: ApiDocsEntry;
   anchor?: Anchor;
   parentType?: string;
+  css?: SystemStyleObject;
 }
 
 const ApiNode = ({
   anchor,
   docs,
   parentType,
-  ...props
+  css: cssProp,
 }: ApiDocEntryNodeProps) => {
   const { id, kind } = docs;
   // Numeric suffixes are used for overrides but links may omit them when
   // a specific override is not known and we should match the first only.
   const active = anchor && (anchor.id === id || anchor.id + "-1" === id);
-  const disclosure = useDisclosure();
+  const disclosure = useDisclosureState();
+  const insideClass = parentType === "class";
   return (
     <Highlight anchor={anchor} active={active} id={id} disclosure={disclosure}>
       <Stack
         wordBreak="break-word"
         fontSize="sm"
-        spacing={3}
-        // Reduce padding inside a class.
-        pt={kindToSpacing[kind] - (parentType === "class" ? 1 : 0)}
-        pb={kindToSpacing[kind] - (parentType === "class" ? 2 : 1)}
-        pl={5}
-        pr={0}
-        mt={1}
-        mb={1}
-        {...props}
+        gap="3"
+        // Reduce padding inside a class. Token-string maps rather than
+        // arithmetic so the values stay extractable.
+        pt={insideClass ? kindToClassPt[kind] : kindToSpacing[kind]}
+        pb={insideClass ? kindToClassPb[kind] : kindToPb[kind]}
+        pl="5"
+        pr="0"
+        mt="1"
+        mb="1"
+        css={cssProp}
       >
         <ApiNodeSelf
           docs={docs}
@@ -140,14 +186,13 @@ const ApiNodeSelf = ({
   const hasRemainder = docParts.remainder && docParts.remainder.length > 0;
   const hasShowMoreContent = hasRemainder || hasExample;
 
-  const spacing = 3;
   return (
-    <VStack alignItems="stretch" spacing={spacing} pr={3}>
+    <VStack alignItems="stretch" gap="3" pr="3">
       {kind === "function" || kind === "variable" ? (
         <DraggableSignature
           signature={signature}
           docs={docs}
-          alignSelf="flex-start"
+          css={{ alignSelf: "flex-start" }}
         />
       ) : (
         <Text
@@ -164,20 +209,22 @@ const ApiNodeSelf = ({
         <BaseClasses value={baseClasses} />
       )}
       {docParts.summary && (
-        <DocString fontWeight="normal" value={docParts.summary ?? ""} />
+        <DocString
+          css={{ fontWeight: "normal" }}
+          value={docParts.summary ?? ""}
+        />
       )}
       {(hasShowMoreContent || hasSignatureDetail) && (
         <>
           <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
           {hasShowMoreContent && (
             // Avoid VStack spacing here so the margin animates too.
-            <Collapse in={showMore} style={{ marginTop: 0 }}>
-              <VStack spacing={spacing} mt={3} alignItems="stretch">
+            <Collapse isOpen={showMore} style={{ marginTop: 0 }}>
+              <VStack gap="3" mt="3" alignItems="stretch">
                 {hasRemainder && (
                   <DocString
-                    fontWeight="normal"
+                    css={{ fontWeight: "normal", mt: "3" }}
                     value={docParts.remainder!}
-                    mt={3}
                   />
                 )}
                 {hasExample && (
@@ -209,19 +256,22 @@ const ApiNodeChildren = ({ docs, anchor }: ApiNodeChildrenProps) => {
       : undefined;
   }, [children]);
 
+  const insideClass = kind === "class";
   return groupedChildren && groupedChildren.size > 0 ? (
-    <Box pl={kind === "class" ? 2 : 0} mt={3}>
+    <Box pl={insideClass ? "2" : "0"} mt="3">
       <Box
-        pl={kind === "class" ? 2 : 0}
-        borderLeftWidth={kind === "class" ? 1 : undefined}
+        pl={insideClass ? "2" : "0"}
+        borderLeftWidth={insideClass ? "1px" : undefined}
+        borderLeftStyle={insideClass ? "solid" : undefined}
+        borderLeftColor={insideClass ? "gray.200" : undefined}
       >
         {["function", "variable", "class"].map(
           (childKind) =>
             groupedChildren?.get(childKind as any) && (
-              <Box mb={5} key={childKind}>
-                <Text fontWeight="lg" mb={2}>
-                  {groupHeading(intl, kind, childKind)}
-                </Text>
+              <Box mb="5" key={childKind}>
+                {/* The Chakra original had fontWeight="lg", an invalid
+                    token that never resolved, so this renders normal. */}
+                <Text mb="2">{groupHeading(intl, kind, childKind)}</Text>
                 {groupedChildren?.get(childKind as any)?.map((c) => (
                   <ApiNode
                     anchor={anchor}
@@ -326,7 +376,7 @@ function groupBy<T, U>(values: T[], fn: (x: T) => U): Map<U, T[]> {
 
 const BaseClasses = ({ value }: { value: ApiDocsBaseClass[] }) => {
   return (
-    <Text pl={2}>
+    <Text pl="2">
       <FormattedMessage
         id="apidocs-baseclass"
         values={{ baseClassCount: value.length }}
@@ -383,15 +433,16 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
   };
 };
 
-interface DraggableSignatureProps extends BoxProps {
+interface DraggableSignatureProps {
   signature: ReactNode;
   docs: ApiDocsEntry;
+  css?: SystemStyleObject;
 }
 
 const DraggableSignature = ({
   signature,
   docs,
-  ...props
+  css: cssProp,
 }: DraggableSignatureProps) => {
   const { fullName, kind, name, id } = docs;
   const logging = useLogging();
@@ -419,8 +470,8 @@ const DraggableSignature = ({
     setDragContext(undefined);
   }, []);
 
-  const highlight = useDisclosure();
-  const copyCodeButton = useDisclosure();
+  const [highlighted, setHighlighted] = useState(false);
+  const [copyCodeOpen, setCopyCodeOpen] = useState(false);
   const actions = useActiveEditorActions();
 
   const { code, codeWithImports, type } = getPasteContext(fullName, kind);
@@ -434,67 +485,77 @@ const DraggableSignature = ({
   });
   const intl = useIntl();
   const [{ dragDropSuccess }] = useSessionSettings();
+  const signatureContent = (
+    <HStack
+      // Interactive: click toggles the action button, drag inserts code
+      // (also required by react-aria's Focusable tooltip trigger).
+      role="button"
+      ref={hotKeysRef}
+      draggable
+      gap="0"
+      onClick={() => setCopyCodeOpen((open) => !open)}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      display="inline-flex"
+      overflow="hidden"
+      borderWidth="1px"
+      borderColor="blimpTeal.300"
+      borderRadius="lg"
+      onMouseEnter={() => setHighlighted(true)}
+      onMouseLeave={() => setHighlighted(false)}
+      tabIndex={0}
+      position="relative"
+      zIndex="code"
+      _focusVisible={{
+        focusShadow: "outline",
+        outline: "none",
+      }}
+      css={cssProp}
+      cursor="grab"
+    >
+      <VisuallyHidden>
+        <FormattedMessage id="code-example" />
+      </VisuallyHidden>
+      <DragHandle
+        highlight={highlighted}
+        css={{
+          borderTopLeftRadius: "lg",
+          borderBottomLeftRadius: "lg",
+          p: "1",
+          alignSelf: "stretch",
+        }}
+      />
+      <Text
+        minW="40"
+        background={highlighted ? "blimpTeal.50" : "white"}
+        transition="background .2s"
+        p="2"
+        fontFamily="code"
+        fontSize={kindToFontSize[kind] || "md"}
+        as={kindToHeading[kind]}
+      >
+        <Text as="span">{formatName(kind, fullName, name)}</Text>
+        {signature}
+      </Text>
+    </HStack>
+  );
   return (
     <Box position="relative">
-      <Tooltip
-        hasArrow
-        placement="top-start"
-        label={intl.formatMessage({ id: "drag-hover" })}
-        closeOnClick={false}
-        isDisabled={dragDropSuccess}
-      >
-        <HStack
-          ref={hotKeysRef}
-          draggable
-          spacing={0}
-          onClick={copyCodeButton.onToggle}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-          display="inline-flex"
-          overflow="hidden"
-          borderWidth="1px"
-          borderColor="blimpTeal.300"
-          borderRadius="lg"
-          onMouseEnter={highlight.onOpen}
-          onMouseLeave={highlight.onClose}
-          tabIndex={0}
-          position="relative"
-          zIndex={zIndexCode}
-          _focusVisible={{
-            boxShadow: "var(--chakra-shadows-outline);",
-            outline: "none",
-          }}
-          {...props}
-          cursor="grab"
+      {dragDropSuccess ? (
+        signatureContent
+      ) : (
+        <Tooltip
+          hasArrow
+          placement="top start"
+          label={intl.formatMessage({ id: "drag-hover" })}
         >
-          <VisuallyHidden>
-            <FormattedMessage id="code-example" />
-          </VisuallyHidden>
-          <DragHandle
-            highlight={highlight.isOpen}
-            borderTopLeftRadius="lg"
-            borderBottomLeftRadius="lg"
-            p={1}
-            alignSelf="stretch"
-          />
-          <Text
-            minW={40}
-            background={highlight.isOpen ? "blimpTeal.50" : "white"}
-            transition="background .2s"
-            p={2}
-            fontFamily="code"
-            fontSize={kindToFontSize[kind] || "md"}
-            as={kindToHeading[kind]}
-          >
-            <Text as="span">{formatName(kind, fullName, name)}</Text>
-            {signature}
-          </Text>
-        </HStack>
-      </Tooltip>
+          <Focusable>{signatureContent}</Focusable>
+        </Tooltip>
+      )}
       <CodeActionButton
-        isOpen={copyCodeButton.isOpen}
-        toHighlighted={highlight.onOpen}
-        toDefault={highlight.onClose}
+        isOpen={copyCodeOpen}
+        toHighlighted={() => setHighlighted(true)}
+        toDefault={() => setHighlighted(false)}
         codeAction={handleCopyCode}
         borderAdjustment={false}
         toolkitType="api"

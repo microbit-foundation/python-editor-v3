@@ -3,13 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-export const docStyles = {
-  "p,h3": {
+import { css } from "styled-system/css";
+
+// A class rather than a style object: Panda can only statically extract
+// styles written literally at the definition site, not objects spread into
+// a css prop elsewhere.
+export const docStylesClass = css({
+  "& p, & h3": {
     maxWidth: "600px",
   },
   listStylePosition: "inside",
-  ol: {
-    pl: 3,
+  "& ol": {
+    pl: "3",
   },
-  ul: { listStyleType: "disc", pl: 3 },
-};
+  "& ul": { listStyleType: "disc", pl: "3" },
+});

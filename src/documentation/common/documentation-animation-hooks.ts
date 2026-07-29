@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@chakra-ui/react";
+import { usePrevious } from "@microbit/ui";
 import { Anchor } from "../../router-hooks";
 
 export type AnimationDirection = "forward" | "back" | "none";
