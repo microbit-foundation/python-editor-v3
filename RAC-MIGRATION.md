@@ -1106,6 +1106,13 @@ Chakra Heading (they compose Text).
       lingers over the serial area after clicking. The traceback e2e now
       parks the mouse first. If this grates, the library Tooltip needs a
       closed-until-re-enter state machine.
+  - **Owner review fix (post-flip):** the split-view expand/collapse
+    buttons (and the search clear X) had lost their hover/active states —
+    their flat `background` css overrides beat the ghost variant's
+    recipe-layer hover/active (utilities > recipes; Chakra's cascade let
+    pseudo-class variant rules win). States restated in the overrides;
+    catalogued as playbook gotcha #21 — sweep any future css override
+    that restyles a property its variant animates.
   - **Hand-checks for the owner (screenshots can't see them):**
     `::selection` is now Panda-preflight faint blue (gotcha #16 — Chakra
     didn't style it; override per-surface via `_selection` if illegible);
