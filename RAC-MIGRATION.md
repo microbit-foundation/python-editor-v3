@@ -1007,7 +1007,25 @@ Chakra Heading (they compose Text).
     correctly gated until a group is joined, data-log table, compass
     needle transform, sim iframe brand-colour param (#6c4bc1), slider
     accessible names. No console errors after the ref fix.
-  - **Owner review fixes (continued):** dialog footer button gap too
+  - **Owner review fixes (continued):** docs slide-in morphing — the
+    breadcrumb's collapse-on-scroll animated its late-measured height
+    during the Slide; the library Collapse now animates only across
+    `isOpen` changes (framer semantics: initial mounts render at rest,
+    measurement corrections snap; `displayOpen` follows `isOpen` from a
+    layout effect because render-time flip detection is unreliable —
+    React can discard renders, keeping ref mutations but dropping state
+    updates). Audited the other motion pieces for the same hazard: Fade
+    and the library Slide are attribute-driven binaries with no
+    late-arriving values (no mount transition possible); the app's
+    framer Slide animates on mount by design; remaining transitions are
+    hover/press-driven — no analogous changes needed. Tab underline on
+    click (Firefox report) — react-aria marks the click-selection's
+    programmatic tab refocus as focus-visible in all engines (observed
+    in Chromium once panel focus was restored); the underline selector
+    now requires native `:focus-visible` AND `[data-focus-visible]` to
+    agree — clicks fail one heuristic per engine, keyboard passes both.
+    Verified both paths in Chromium; Firefox needs an owner re-check
+    (not runnable in this sandbox). Dialog footer button gap too
     wide — the library's house-style `gap: 5` (accepted provisionally in
     the pilot) is now overridden app-wide to `gap: 3` in the app preset's
     dialog slot recipe, matching this app's historical `ml={3}`. Search

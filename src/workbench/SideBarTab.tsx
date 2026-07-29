@@ -101,10 +101,12 @@ const SideBarTab = ({
             fontSize="13px"
             borderBottom="3px solid transparent"
             css={{
-              // react-aria's data-focus-visible only (keyboard modality);
-              // native :focus-visible can match pointer clicks on a
-              // tabindex'd div, unlike on the <button> Chakra rendered.
-              ".sidebar-tab[data-focus-visible] &": {
+              // Both focus-visible heuristics must agree: native
+              // :focus-visible matches pointer clicks on a tabindex'd div
+              // in Chromium (unlike on the <button> Chakra rendered), and
+              // react-aria's data-focus-visible does so in Firefox.
+              // Keyboard focus sets both in all modern browsers.
+              ".sidebar-tab[data-focus-visible]:focus-visible &": {
                 borderBottom: "3px solid",
                 // To match the active/inactive colour.
                 borderColor: active ? "brand.300" : "gray.25",
