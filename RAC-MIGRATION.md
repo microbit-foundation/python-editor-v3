@@ -1007,7 +1007,16 @@ Chakra Heading (they compose Text).
     correctly gated until a group is joined, data-log table, compass
     needle transform, sim iframe brand-colour param (#6c4bc1), slider
     accessible names. No console errors after the ref fix.
-  - **Owner review fixes (continued):** drag-handle dots too small —
+  - **Owner review fixes (continued):** dialog footer button gap too
+    wide — the library's house-style `gap: 5` (accepted provisionally in
+    the pilot) is now overridden app-wide to `gap: 3` in the app preset's
+    dialog slot recipe, matching this app's historical `ml={3}`. Search
+    input not focused when the header search opens — Chakra's Modal
+    focused the first focusable element; react-aria focuses the dialog
+    itself unless an element has `autoFocus` (same fix as the pilot
+    ConfirmDialog; pattern: _every dialog whose old behaviour relied on
+    Chakra's focus-first-element needs an explicit autoFocus_).
+    Drag-handle dots too small —
     react-icons' RiDraggable draws finer dots than Chakra's bespoke
     DragHandleIcon; the original 10×10 glyph is now inlined in
     DragHandle.tsx (MIT, credited). Bullets visible in the API lists —

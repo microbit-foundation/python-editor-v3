@@ -55,6 +55,9 @@ const SearchDialog = ({
           </InputLeftElement>
           <Input
             aria-label={intl.formatMessage({ id: "search" })}
+            // Chakra's Modal focused the first focusable element on open;
+            // react-aria focuses the dialog itself unless told otherwise.
+            autoFocus
             ref={ref}
             value={query}
             onChange={onQueryChange}

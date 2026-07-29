@@ -108,6 +108,15 @@ export const appPreset = definePreset({
           languageTextHover: { value: "{colors.brand.600}" },
         },
       },
+      slotRecipes: {
+        dialog: {
+          base: {
+            // This app's dialogs historically spaced action buttons with
+            // ml={3}; the library house style is a wider gap 5.
+            footer: { gap: "3" },
+          },
+        },
+      },
       recipes: {
         // python-editor's default button variant is `outline` (census: the
         // OSS theme applies withDefaultVariant("outline"); the family base
