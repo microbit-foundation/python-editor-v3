@@ -1,11 +1,12 @@
 # Chakra → react-aria-components + Panda CSS migration
 
-Status: **Step 3 (coexistence porting) in progress (2026-07-27) — dialogs,
-toast infrastructure, all of `common/`, and all of `src/project/` ported;
-z-index token scale landed; library gained Menu option groups,
-`useMediaQuery`, TextField `autoCapitalize`, Toast `closeAll`. Steps 1–2
-complete. Verification bar: typecheck/build/lint + a runtime smoke check;
-full visual pass deferred (per owner). Porting continues area-by-area.**
+Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
+toast infrastructure, `common/`, `src/project/`, and `src/settings/` all
+ported; z-index token scale landed; library gained NumberField, Menu
+option groups, `useMediaQuery`, TextField `autoCapitalize`, Toast
+`closeAll`. Steps 1–2 complete. Verification bar: typecheck/build/lint +
+a runtime smoke check; full visual pass deferred (per owner). Porting
+continues area-by-area.**
 
 Method: follow the **migration playbook** in the `@microbit/ui` monorepo
 (`../ui/docs/migration-playbook.md`) — the sequence, the gotcha catalog
@@ -675,6 +676,7 @@ Chakra Heading (they compose Text).
 - 2026-07-27 (step 3 — src/project): **the whole project area is ported;
   zero `@chakra-ui` imports remain in `src/project/`.** Two library gaps
   from the census closed en route.
+
   - **Library additions (`../ui`):**
     - **Menu option groups** — `MenuOptionGroup` (RAC `MenuSection` with
       section-scoped single selection: `value`/`onChange` radio API like
@@ -723,6 +725,40 @@ Chakra Heading (they compose Text).
     reserved name; file created), and loading a non-main .py raises
     ChooseMainScriptQuestion whose options menu renders group title +
     check indicator and switches selection. No console errors.
+
+- 2026-07-29 (step 3 — src/settings): **the settings area is ported; zero
+  `@chakra-ui` imports remain in `src/settings/`.** The census's
+  NumberInput gap closed in the library.
+  - **Library `NumberField` (`../ui`):** react-aria-components NumberField
+    styled like Chakra's NumberInput — outline input (reuses the `input`
+    recipe) + right-hand stepper column; new `numberField` slot recipe
+    (root/group/stepper/stepperButton). Clamping to min/maxValue is
+    react-aria's; `onChange` gets NaN when emptied (SettingsArea guards).
+    Style hooks: `css`/`labelCss`/`groupCss`/`inputCss` — SettingsArea
+    uses them for the label-beside-field row layout and the old sm size.
+  - **App preset `sidebar` button variant** — the Chakra theme's
+    ghost-based sidebar variant (white hover pill over dark chrome), with
+    the callers' `color="white"` folded into the variant base (both call
+    sites passed it; note the recipes-vs-utilities layering means a
+    caller's `css` colour would beat the variant's hover colour, so the
+    colour must live in the variant). SerialBar's still-Chakra
+    `variant="sidebar"` IconButtons adopt it when serial ports.
+  - **Ports:** SettingsDialog + LanguageDialog → library Modal (`solid`→
+    `primary` close; `preserveScrollBarGap` dropped); LanguageDialog's
+    `SimpleGrid columns=[1,1,2,2]` → Panda `Grid columns={{base:1,md:2}}`;
+    the language cards use the base preset's `language` variant as-is.
+    SettingsMenu → MenuTrigger + `sidebar` IconButton (`useDisclosure` →
+    `useState`). SettingsArea → library NumberField/Checkbox (RAC
+    `isSelected`/`onChange(boolean)`) + Text helper lines;
+    SelectFormControl → library NativeSelect with a styled label row.
+    Chakra's `alignItems="left"` (invalid CSS) became `start`.
+  - **Verified:** app+ui typecheck/lint/prettier clean; 217 tests; build
+    clean. Smoke on branded dev build: gear menu (Language/Settings),
+    Settings dialog — font-size stepper 14→15, both selects change value,
+    checkbox toggles; Language dialog — 12 cards in the 2-col grid,
+    choosing Français switches the whole UI (Projet tab) and back. No
+    console errors. Screenshots match the Chakra layout (CJK glyph boxes
+    are a sandbox font gap, not an app issue).
 
 ## Notes to revisit later
 
