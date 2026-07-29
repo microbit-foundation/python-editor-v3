@@ -1007,7 +1007,11 @@ Chakra Heading (they compose Text).
     correctly gated until a group is joined, data-log table, compass
     needle transform, sim iframe brand-colour param (#6c4bc1), slider
     accessible names. No console errors after the ref fix.
-  - **Owner review fixes:** (1) top-level docs items' right-arrow button
+  - **Owner review fixes:** (0) ShowMoreButton's More/Less rendered
+    semibold — the Chakra original was a Link (weight inherited normal)
+    and the button recipe base is semibold; explicit
+    `fontWeight: normal` added (check other Link→Button conversions for
+    the same in the visual pass). (1) top-level docs items' right-arrow button
     did nothing — the Chakra button relied on its native click bubbling
     to the list item's onClick, which react-aria's press handling
     suppresses; the button now has its own `onPress={onForward}`

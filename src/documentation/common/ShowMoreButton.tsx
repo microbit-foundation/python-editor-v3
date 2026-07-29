@@ -22,6 +22,9 @@ const ShowMoreButton = ({ isOpen, isBrief, onClick }: ShowMoreButtonProps) => {
       onPress={onClick}
       css={{
         color: "brand.600",
+        // The Chakra version was a Link (weight inherited as normal); the
+        // button recipe base is semibold.
+        fontWeight: "normal",
         textAlign: "left",
         display: "flex",
         flexWrap: "nowrap",
