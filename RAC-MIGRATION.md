@@ -1,7 +1,7 @@
 # Chakra → react-aria-components + Panda CSS migration
 
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
-toast infrastructure, `common/`, `src/project/`, `src/settings/`, and
+toast infrastructure, `common/`, `src/project/`, `src/settings/`,
 `src/serial/`, and `common/SplitView/` all ported; z-index token scale
 landed; library gained NumberField, Kbd, Code, Menu option groups,
 `useMediaQuery`, TextField `autoCapitalize`, Toast `closeAll`. Decision:
