@@ -5,17 +5,12 @@
  */
 import {
   IconButton,
-  Menu,
-  MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
-  Portal,
-  ThemeTypings,
-  ThemingProps,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
+  MenuTrigger,
+} from "@microbit/ui";
+import { useCallback, useRef, useState } from "react";
 import { MdOutlineCookie } from "react-icons/md";
 import {
   RiExternalLinkLine,
@@ -25,20 +20,19 @@ import {
 } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
-import { zIndexAboveTerminal } from "../common/zIndex";
 import { deployment, useDeployment } from "../deployment";
 import AboutDialog from "./AboutDialog/AboutDialog";
 import FeedbackForm from "./FeedbackForm";
 
-interface HelpMenuProps extends ThemingProps<"Menu"> {
-  size?: ThemeTypings["components"]["Button"]["sizes"];
+interface HelpMenuProps {
+  size?: "lg" | "md" | "sm" | "xs";
 }
 
 /**
  * A help button that triggers a drop-down menu with actions.
  */
-const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
-  const aboutDialogDisclosure = useDisclosure();
+const HelpMenu = ({ size }: HelpMenuProps) => {
+  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
   const intl = useIntl();
   const dialogs = useDialogs();
   const handleFeedback = useCallback(() => {
@@ -59,108 +53,99 @@ const HelpMenu = ({ size, ...props }: HelpMenuProps) => {
   return (
     <>
       <AboutDialog
-        isOpen={aboutDialogDisclosure.isOpen}
-        onClose={aboutDialogDisclosure.onClose}
+        isOpen={aboutDialogOpen}
+        onClose={() => setAboutDialogOpen(false)}
         finalFocusRef={menuButtonRef}
       />
-      <Menu {...props}>
-        <MenuButton
+      <MenuTrigger>
+        <IconButton
           ref={menuButtonRef}
-          as={IconButton}
           aria-label={intl.formatMessage({ id: "help" })}
           size={size}
-          fontSize="xl"
+          css={{ fontSize: "xl" }}
           variant="sidebar"
-          icon={<RiQuestionLine />}
-          color="white"
           isRound
-        />
-        <Portal>
-          <MenuList zIndex={zIndexAboveTerminal}>
-            {deployment.userGuideLink && (
-              <MenuItem
-                as="a"
-                href={deployment.userGuideLink}
-                target="_blank"
-                rel="noopener"
-                icon={<RiExternalLinkLine />}
-              >
-                <FormattedMessage id="user-guide" />
-              </MenuItem>
-            )}
-            {deployment.supportLink && (
-              <MenuItem
-                as="a"
-                href={deployment.supportLink}
-                target="_blank"
-                rel="noopener"
-                icon={<RiExternalLinkLine />}
-              >
-                <FormattedMessage id="help-support" />
-              </MenuItem>
-            )}
-            {deployment.accessibilityLink && (
-              <MenuItem
-                as="a"
-                href={deployment.accessibilityLink}
-                target="_blank"
-                rel="noopener"
-                icon={<RiExternalLinkLine />}
-              >
-                <FormattedMessage id="accessibility" />
-              </MenuItem>
-            )}
+        >
+          <RiQuestionLine />
+        </IconButton>
+        <MenuList>
+          {deployment.userGuideLink && (
             <MenuItem
-              as="a"
-              href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
+              href={deployment.userGuideLink}
               target="_blank"
               rel="noopener"
               icon={<RiExternalLinkLine />}
             >
-              <FormattedMessage id="micropython-documentation" />
+              <FormattedMessage id="user-guide" />
             </MenuItem>
-            <MenuItem icon={<RiFeedbackLine />} onClick={handleFeedback}>
-              <FormattedMessage id="feedback" />
-            </MenuItem>
-            <MenuDivider />
-            {deployment.termsOfUseLink && (
-              <MenuItem
-                as="a"
-                href={deployment.termsOfUseLink}
-                target="_blank"
-                rel="noopener"
-                icon={<RiExternalLinkLine />}
-              >
-                <FormattedMessage id="terms-of-use" />
-              </MenuItem>
-            )}
-            {deployment.privacyPolicyLink && (
-              <MenuItem
-                as="a"
-                href={deployment.privacyPolicyLink}
-                target="_blank"
-                rel="noopener"
-                icon={<RiExternalLinkLine />}
-              >
-                <FormattedMessage id="privacy-policy" />
-              </MenuItem>
-            )}
-            {deployment.compliance.manageCookies && (
-              <MenuItem icon={<MdOutlineCookie />} onClick={handleCookies}>
-                <FormattedMessage id="cookies-action" />
-              </MenuItem>
-            )}
-            {(deployment.termsOfUseLink ||
-              deployment.compliance.manageCookies) && <MenuDivider />}
+          )}
+          {deployment.supportLink && (
             <MenuItem
-              icon={<RiInformationLine />}
-              onClick={aboutDialogDisclosure.onOpen}
+              href={deployment.supportLink}
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
             >
-              <FormattedMessage id="about" />
+              <FormattedMessage id="help-support" />
             </MenuItem>
-          </MenuList>
-        </Portal>
-      </Menu>
+          )}
+          {deployment.accessibilityLink && (
+            <MenuItem
+              href={deployment.accessibilityLink}
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
+            >
+              <FormattedMessage id="accessibility" />
+            </MenuItem>
+          )}
+          <MenuItem
+            href="https://microbit-micropython.readthedocs.io/en/v2-docs/"
+            target="_blank"
+            rel="noopener"
+            icon={<RiExternalLinkLine />}
+          >
+            <FormattedMessage id="micropython-documentation" />
+          </MenuItem>
+          <MenuItem icon={<RiFeedbackLine />} onAction={handleFeedback}>
+            <FormattedMessage id="feedback" />
+          </MenuItem>
+          <MenuDivider />
+          {deployment.termsOfUseLink && (
+            <MenuItem
+              href={deployment.termsOfUseLink}
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
+            >
+              <FormattedMessage id="terms-of-use" />
+            </MenuItem>
+          )}
+          {deployment.privacyPolicyLink && (
+            <MenuItem
+              href={deployment.privacyPolicyLink}
+              target="_blank"
+              rel="noopener"
+              icon={<RiExternalLinkLine />}
+            >
+              <FormattedMessage id="privacy-policy" />
+            </MenuItem>
+          )}
+          {deployment.compliance.manageCookies && (
+            <MenuItem icon={<MdOutlineCookie />} onAction={handleCookies}>
+              <FormattedMessage id="cookies-action" />
+            </MenuItem>
+          )}
+          {(deployment.termsOfUseLink ||
+            deployment.compliance.manageCookies) && <MenuDivider />}
+          <MenuItem
+            icon={<RiInformationLine />}
+            onAction={() => setAboutDialogOpen(true)}
+          >
+            <FormattedMessage id="about" />
+          </MenuItem>
+        </MenuList>
+      </MenuTrigger>
     </>
   );
 };

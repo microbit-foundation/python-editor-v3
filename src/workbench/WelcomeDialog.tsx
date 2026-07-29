@@ -52,7 +52,10 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
             <Text as="h2" fontSize="xl" fontWeight="semibold">
               <FormattedMessage id="welcome-title" />
             </Text>
-            <YoutubeVideoEmbed youtubeId={youtubeId} alt={welcomeVideoAltText} />
+            <YoutubeVideoEmbed
+              youtubeId={youtubeId}
+              alt={welcomeVideoAltText}
+            />
           </Stack>
           <Text>
             <FormattedMessage id="welcome-message" />

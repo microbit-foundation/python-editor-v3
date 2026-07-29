@@ -3,11 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-// Collapse has no @microbit/ui/Panda equivalent yet (roadmap: Collapse/Fade
-// are planned library primitives); kept on Chakra during coexistence.
-import { Collapse } from "@chakra-ui/react";
 import {
   Button,
+  Collapse,
   Icon,
   Image,
   Link,
@@ -197,11 +195,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                   ))}
                 </styled.tbody>
               </styled.table>
-              <Button
-                leftIcon={<RiFileCopy2Line />}
-                onPress={onCopy}
-                size="md"
-              >
+              <Button leftIcon={<RiFileCopy2Line />} onPress={onCopy} size="md">
                 <FormattedMessage id={hasCopied ? "copied" : "copy-action"} />
               </Button>
             </VStack>
@@ -244,7 +238,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
             </Button>
           </Text>
         </VStack>
-        <Collapse in={micropythonOpen}>
+        <Collapse isOpen={micropythonOpen}>
           {/* Avoid stack spacing here but match space so it doesn't change after the animation */}
           <MicroPythonSection />
         </Collapse>

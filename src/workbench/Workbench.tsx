@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
+import { useMediaQuery } from "@microbit/ui";
+import { Flex, styled } from "styled-system/jsx";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
@@ -116,9 +117,7 @@ const Workbench = () => {
       handleSidebarCollapse();
     }
   }, [handleSidebarCollapse]);
-  const [hideSideBarMediaQueryValue] = useMediaQuery(hideSidebarMediaQuery, {
-    ssr: false,
-  });
+  const hideSideBarMediaQueryValue = useMediaQuery(hideSidebarMediaQuery);
   useEffect(() => {
     if (hideSideBarMediaQueryValue) {
       handleSidebarCollapse();
@@ -126,7 +125,7 @@ const Workbench = () => {
   }, [hideSideBarMediaQueryValue, handleSidebarCollapse]);
 
   const editor = (
-    <Box height="100%" as="section">
+    <styled.section height="100%">
       {selection && fileVersion !== undefined && (
         <EditorArea
           key={selection.file + "/" + fileVersion}
@@ -137,11 +136,11 @@ const Workbench = () => {
           ref={simulatorButtonRef}
         />
       )}
-    </Box>
+    </styled.section>
   );
 
   return (
-    <Flex className="WorkbenchContainer" flexDir="column">
+    <Flex className="WorkbenchContainer" direction="column">
       <Flex className="Workbench">
         <SplitView
           direction="row"
@@ -158,11 +157,10 @@ const Workbench = () => {
         >
           <SplitViewSized>
             <SideBar
-              as="section"
               aria-label={intl.formatMessage({ id: "sidebar" })}
               selectedFile={selection.file}
               onSelectedFileChanged={setSelectedFile}
-              flex="1 1 100%"
+              css={{ flex: "1 1 100%" }}
               shown={sidebarShown}
               tabIndex={tabIndex}
               onTabIndexChange={setTabIndex}
@@ -245,8 +243,8 @@ const Editor = ({ editor }: EditorProps) => {
   const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
   return (
-    <Flex
-      as="main"
+    <styled.main
+      display="flex"
       flex="1 1 100%"
       flexDirection="column"
       height="100%"
@@ -286,7 +284,7 @@ const Editor = ({ editor }: EditorProps) => {
           overflow: "hidden",
         }}
       />
-    </Flex>
+    </styled.main>
   );
 };
 

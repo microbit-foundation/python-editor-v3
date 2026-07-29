@@ -132,7 +132,7 @@ const FirmwareDialogFooter = ({
             gap: "2",
             textDecoration: "none",
             _hover: { textDecoration: "none" },
-          }),
+          })
         )}
         target="_blank"
         rel="noreferrer"
