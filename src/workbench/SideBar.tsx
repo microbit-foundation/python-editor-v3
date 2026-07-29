@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@microbit/ui";
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
@@ -126,24 +125,15 @@ const SideBar = ({
     if (tabIndex !== -1) {
       onTabIndexChange(tabIndex);
       onSidebarExpand();
-      if (!slug || focus) {
+      // Move focus into the panel only for navigation that explicitly asks
+      // for it (e.g. the simulator's reference links). Direct tab
+      // activation keeps focus on the tab, per the ARIA tabs pattern
+      // (decision 2026-07-29; previously all tab changes moved focus).
+      if (focus) {
         setPanelFocus();
       }
     }
   }, [onSidebarExpand, panes, onTabIndexChange, tab, slug, focus]);
-
-  const previouslyShown = usePrevious(shown);
-  useEffect(() => {
-    // Prevents the sidebar stealing focus on initial load.
-    if (
-      shown &&
-      (!slug || focus) &&
-      previouslyShown !== undefined &&
-      previouslyShown !== shown
-    ) {
-      setPanelFocus();
-    }
-  }, [previouslyShown, shown, slug, focus]);
 
   const handleTabChange = useCallback(
     (index: number) => {

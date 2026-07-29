@@ -894,9 +894,17 @@ Chakra Heading (they compose Text).
        just-focused panel to `<body>` (and `TabPanelProps` accepts no
        tabIndex). The focus-follows-navigation target is now an inner
        `tabIndex={-1}` wrapper (`[data-panel-content]`) owned by React.
-       Net keyboard behaviour: Enter on a tab moves focus into the panel
-       (as Chakra did); the panel is no longer an extra tab stop (APG:
-       panels with tabbable content shouldn't be) — one deliberate delta:
+       Net keyboard behaviour — **owner decision (2026-07-29): direct tab
+       activation now keeps focus on the tab** (ARIA tabs pattern; the
+       old move-focus-to-panel behaviour was longstanding but the owner
+       had no attachment to it). `setPanelFocus` still runs for
+       navigation that explicitly asks (`focus: true` router state — the
+       simulator's reference links); search/editor-driven navigation
+       never focused the panel anyway (slug without focus). Cost noted:
+       with every tab tabbable (the app's roving-tabindex override),
+       panel content is a few extra Tab presses away after activation.
+       The panel is also no longer an extra tab stop (APG: panels with
+       tabbable content shouldn't be). One further deliberate delta:
        Enter on the already-selected tab no longer resets the docs slug
        (Chakra buttons fired click on Enter; RAC divs don't) — the
        breadcrumb back link covers that path.
