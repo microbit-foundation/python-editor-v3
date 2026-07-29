@@ -1007,6 +1007,10 @@ Chakra Heading (they compose Text).
     correctly gated until a group is joined, data-log table, compass
     needle transform, sim iframe brand-colour param (#6c4bc1), slider
     accessible names. No console errors after the ref fix.
+  - **Owner visual review fix:** the thumb-bubble arrow rendered as a
+    grey bar — Panda tokens don't resolve inside multi-value shorthands
+    (the 4-value `borderColor` emitted verbatim and the browser dropped
+    it). Per-side longhands fix it; catalogued as playbook gotcha #20.
 
 ## Notes to revisit later
 
