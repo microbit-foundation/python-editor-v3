@@ -3,7 +3,9 @@
 Status: **Step 3 (coexistence porting) in progress (2026-07-29) — dialogs,
 toast infrastructure, `common/`, `src/project/`, `src/settings/`,
 `src/serial/`, `common/SplitView/`, `src/editor/`, and `src/workbench/`
-all ported (incl. the RAC sidebar Tabs), plus `src/documentation/`;
+all ported (incl. the RAC sidebar Tabs), plus `src/documentation/` and
+`src/simulator/` — **every app component is off Chakra**; only App.tsx's
+ChakraProvider and the deployment theme files remain (the kill-switch);
 z-index token scale landed; the late-v3 density shrink is replicated in
 the presets;
 library gained Collapse, Fade, NumberField, Kbd, Code, Menu option
@@ -930,6 +932,7 @@ Chakra Heading (they compose Text).
   fork, verified by me), and a port-wide fidelity gap found and fixed:
   the late-v3 "make everything smaller" theme change had not been
   ported.**
+
   - **The density shrink.** The Chakra theme overrides the _numeric
     spacing/size scale_ (Chakra's 0.25rem grid × 0.88 —
     `src/deployment/default/common-sizes.ts`, feeding both `space` and
@@ -972,6 +975,38 @@ Chakra Heading (they compose Text).
     console warning is the pre-existing Sanity defaultProps deprecation.
   - Remaining Chakra: `src/simulator/` (13 files) + App.tsx
     ChakraProvider + the deployment theme files (kill-switch).
+
+- 2026-07-29 (step 3 — src/simulator, the last component area): **the
+  simulator is ported (13 files, context-sharing fork, verified by me).
+  `src/` is now Chakra-free except App.tsx's ChakraProvider + the
+  deployment theme files — the kill-switch is next.**
+  - **Library Slider extended** (`../ui`): `children` as positioned
+    overlays inside the slider root (always-visible marks — the existing
+    `mark` slot stays focus-revealed), `thumbTooltip`/`isThumbTooltipOpen`
+    (tooltip-look bubble above the thumb), `onThumbFocusChange` (RAC
+    FocusableProps). RangeSensor builds its min/max/value labels as
+    app-side overlays with runtime inline positions; threshold marks use
+    the library Tooltip's `triggerRef` escape hatch (non-focusable
+    markers, as before).
+  - **Deltas/decisions:** Chakra's `SliderThumbIgnoreAriaDescribedBy`
+    double-announcement hack not replicated — react-aria renders one
+    correctly-labelled hidden input (verified: `aria-describedby` empty,
+    names resolve via the labelledby chain — "Light level", "Heading",
+    etc.). RAC has no `aria-valuetext` passthrough, so SRs hear the bare
+    number without the unit — `formatOptions` is the RAC-blessed route
+    if wanted (units arrive as free strings from the sim; flag for an SR
+    pass). RadioModule's composer is now a real form (send = submit).
+    Another invalid `grey.*` token corrected (gray.200).
+  - **Fix found in verification:** the compass needle ref was placed on
+    the svgr component, which doesn't forward refs (the old Chakra
+    `<Icon>` wrapper did) — rotation silently broke with only a dev
+    warning. Ref moved to a wrapper span. _Pattern for the gotcha file:
+    svgr components take className but not ref._
+  - **Smoke:** slider drag (127→182) + live value marks, module
+    expansion, Press-button-A/B, gesture select (freefall), radio input
+    correctly gated until a group is joined, data-log table, compass
+    needle transform, sim iframe brand-colour param (#6c4bc1), slider
+    accessible names. No console errors after the ref fix.
 
 ## Notes to revisit later
 
