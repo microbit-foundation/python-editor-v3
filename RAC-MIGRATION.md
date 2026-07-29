@@ -864,7 +864,7 @@ Chakra Heading (they compose Text).
   - **RAC sidebar Tabs (app-side, per the placement decision):** SideBar/
     SideBarTab onto react-aria Tabs/TabList/Tab/TabPanel with app-local
     Panda styling over the converged tokens (the gradient
-    `sidebarTablistBg` strip + `sidebarTabSelectedText/Bg`). Three RAC
+    `sidebarTablistBg` strip + `sidebarTabSelectedText/Bg`). Four RAC
     lessons for the gotcha file:
     1. _Tabs cannot be selection-less_ — react-stately force-selects the
        first tab (and fires onSelectionChange) when the controlled
