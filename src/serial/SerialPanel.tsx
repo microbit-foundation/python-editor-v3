@@ -221,7 +221,7 @@ const SerialPanel = ({
     (!activeTraceback || deviceSync === SyncStatus.OUT_OF_SYNC);
   // The traceback only belongs in the header when collapsed; when expanded
   // it's already visible in the terminal itself.
-  const showTraceback = Boolean(compact && activeTraceback);
+  const compactTraceback = compact ? activeTraceback : undefined;
   // The status colour for a source: red for an (up-to-date) runtime error, a
   // darker shade when there's code to flash/run, otherwise the terminal
   // background. Applied per source so a healthy tab stays neutral even if the
@@ -316,7 +316,7 @@ const SerialPanel = ({
                   boxSize={5}
                 />
               </Text>
-            ) : showTraceback ? (
+            ) : compactTraceback ? (
               <HStack spacing={1} pr={1} maxW="20rem" overflow="hidden">
                 <Icon
                   as={RiErrorWarningLine}
@@ -332,11 +332,11 @@ const SerialPanel = ({
                   // Keep the line-number span the same size as the message.
                   sx={{ span: { fontSize: "inherit" } }}
                 >
-                  <MaybeTracebackLink traceback={activeTraceback} />
+                  <MaybeTracebackLink traceback={compactTraceback} />
                 </Box>
               </HStack>
             ) : null}
-            {(showDeviceSync || showTraceback) && (
+            {(showDeviceSync || compactTraceback) && (
               <Divider
                 orientation="vertical"
                 height={6}
@@ -345,7 +345,7 @@ const SerialPanel = ({
               />
             )}
             <CollapsibleButton
-              mode={showTraceback ? "icon" : "button"}
+              mode={compactTraceback ? "icon" : "button"}
               variant="unstyled"
               display="flex"
               fontWeight="normal"

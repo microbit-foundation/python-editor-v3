@@ -41,6 +41,14 @@ const logging = deployment.logging;
 const device = isMockDeviceMode()
   ? new MockDeviceConnection()
   : createUSBConnection({ logging });
+// The connection library starts/stops its serial read loop as "serialdata"
+// listeners are added/removed. A remove-all-then-re-add cycle (which React
+// StrictMode does on every component mount in dev) races in the library:
+// the queued restart sees stale serialState and is silently dropped, leaving
+// serial off until a flash restarts it. Keep a permanent no-op listener so
+// the count never crosses zero; serial then runs exactly while connected,
+// which matches how the serial UI is shown anyway.
+device.addEventListener("serialdata", () => {});
 
 const host = createHost(logging);
 const fs = new FileSystem(logging, host, fetchMicroPython);
