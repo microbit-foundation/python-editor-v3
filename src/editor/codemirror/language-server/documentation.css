@@ -8,37 +8,37 @@
   font-family: "Source Code Pro", monospace;
 }
 .docs-spacing * + * {
-  margin-top: var(--chakra-space-2);
+  margin-top: var(--spacing-2);
 }
 .docs-spacing * + p {
-  margin-top: var(--chakra-space-3);
+  margin-top: var(--spacing-3);
 }
 .docs-spacing * + code {
-  margin-top: var(--chakra-space-3);
+  margin-top: var(--spacing-3);
 }
 .docs-spacing hr + *,
 .docs-spacing * + hr {
-  margin-top: var(--chakra-space-1);
+  margin-top: var(--spacing-1);
 }
 .docs-spacing code {
   white-space: pre-wrap;
 }
 .docs-spacing ul,
 .docs-spacing ol {
-  margin-left: var(--chakra-space-5);
+  margin-left: var(--spacing-5);
 }
 .docs-spacing a {
-  color: var(--chakra-colors-brand-500);
+  color: var(--colors-brand-500);
 }
 .docs-spacing pre {
-  padding: var(--chakra-space-1);
+  padding: var(--spacing-1);
 }
 
 .docs-code code,
 pre {
   background-color: #fff;
-  border-radius: var(--chakra-radii-md);
-  border-color: var(--chakra-colors-blimpTeal-100);
+  border-radius: var(--radii-md);
+  border-color: var(--colors-blimp-teal-100);
   border-style: solid;
   border-width: 1px;
 }
@@ -50,11 +50,11 @@ pre {
 
 .docs-code code {
   background-color: #fff;
-  padding: 0 var(--chakra-space-1-5);
+  padding: 0 var(--spacing-1\.5);
 }
 
 .docs-code pre {
-  padding: var(--chakra-space-1-5) 0;
+  padding: var(--spacing-1\.5) 0;
   width: fit-content;
 }
 

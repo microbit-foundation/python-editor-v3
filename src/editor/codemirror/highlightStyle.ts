@@ -19,16 +19,16 @@ import { HighlightStyle } from "@codemirror/language";
 import { tags } from "@lezer/highlight";
 
 export const highlightStyle = () => {
-  const dark = "var(--chakra-colors-code-default)";
+  const dark = "var(--colors-code-default)";
   return HighlightStyle.define([
     {
       tag: tags.comment,
-      color: "var(--chakra-colors-code-comment)",
+      color: "var(--colors-code-comment)",
     },
 
-    { tag: tags.literal, color: "var(--chakra-colors-code-literal)" },
-    { tag: tags.string, color: "var(--chakra-colors-code-string)" },
-    { tag: tags.keyword, color: "var(--chakra-colors-code-keyword)" },
+    { tag: tags.literal, color: "var(--colors-code-literal)" },
+    { tag: tags.string, color: "var(--colors-code-string)" },
+    { tag: tags.keyword, color: "var(--colors-code-keyword)" },
     { tag: tags.name, color: dark },
     { tag: tags.meta, color: dark },
     { tag: tags.operator, color: dark },
