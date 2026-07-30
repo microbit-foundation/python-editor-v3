@@ -140,6 +140,7 @@ const ReferenceTopicEntry = ({
                   css={{ width: "fit-content" }}
                   onChange={handleSelectChange}
                   value={alternativeSlug}
+                  size="sm"
                 >
                   {alternatives.map((alterative) => (
                     <option
