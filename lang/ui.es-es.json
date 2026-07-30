@@ -1042,6 +1042,22 @@
     "defaultMessage": "Logotipo táctil",
     "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
   },
+  "simulator-unit-celsius": {
+    "defaultMessage": "degrees Celsius",
+    "description": "Unit for the temperature slider, used in its accessible name"
+  },
+  "simulator-unit-degrees": {
+    "defaultMessage": "degrees",
+    "description": "Unit for the compass heading slider, used in its accessible name"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "milli-g",
+    "description": "Unit for the accelerometer axis sliders (thousandths of g-force), used in their accessible names"
+  },
+  "simulator-unit-nanotesla": {
+    "defaultMessage": "nanotesla",
+    "description": "Unit for the compass axis sliders, used in their accessible names"
+  },
   "simulator-unmute": {
     "defaultMessage": "No silenciar",
     "description": "Aria label for the unmute simulator button"

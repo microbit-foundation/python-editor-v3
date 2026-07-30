@@ -1,11 +1,5 @@
 import { Slider, Tooltip } from "@microbit/ui";
-import React, {
-  ReactNode,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { ReactNode, useCallback, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import { css } from "styled-system/css";
 import { Box, HStack } from "styled-system/jsx";
@@ -13,7 +7,6 @@ import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
 } from "../device/simulator";
-import { sensorUnitFormatOptions } from "./slider-format";
 
 interface RangeSensorProps {
   id: SensorStateKey;
@@ -40,7 +33,23 @@ const RangeSensor = ({
     [onSensorChange, id]
   );
   const valueText = unit ? `${value} ${unit}` : value.toString();
-  const formatOptions = useMemo(() => sensorUnitFormatOptions(unit), [unit]);
+  const intl = useIntl();
+  // The unit goes in the accessible name (announced once, on focus) rather
+  // than per-value announcements: react-aria has no aria-valuetext
+  // passthrough and Intl's sanctioned unit list can't express mg/nT anyway.
+  // Translated so screen readers say "milli-g", not a guess at "mg".
+  const unitMessageIds: Record<string, string> = {
+    mg: "simulator-unit-milli-g",
+    nT: "simulator-unit-nanotesla",
+    "°C": "simulator-unit-celsius",
+    deg: "simulator-unit-degrees",
+  };
+  const unitName = unit
+    ? unitMessageIds[unit]
+      ? intl.formatMessage({ id: unitMessageIds[unit] })
+      : unit
+    : undefined;
+  const accessibleTitle = unitName ? `${title} (${unitName})` : title;
   const [showTooltip, setShowTooltip] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const handleFocusTooltip = useCallback((value: boolean) => {
@@ -68,13 +77,10 @@ const RangeSensor = ({
     >
       {icon}
       <Slider
-        aria-label={title}
+        aria-label={accessibleTitle}
         value={value}
         minValue={min}
         maxValue={max}
-        // Units for the announced value where Intl can express them (the
-        // visible labels below render valueText themselves).
-        formatOptions={formatOptions}
         onChange={handleChange}
         trackCss={{ height: "2" }}
         // Chakra colorScheme="blackAlpha" filled track.
