@@ -30,7 +30,7 @@ export const enum DocumentationCollapseMode {
 }
 
 interface DocumentationContentProps {
-  content?: PortableText;
+  blocks?: PortableText;
   details?: DocumentationCollapseMode;
 }
 
@@ -231,18 +231,18 @@ const serializers = {
  * Wrap with DocumentationContextProvider for linking and other contextual behaviours.
  */
 const DocumentationContent = ({
-  content,
+  blocks,
   details = DocumentationCollapseMode.ShowAll,
 }: DocumentationContentProps) => {
   // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
-  content = useMemo(() => {
+  blocks = useMemo(() => {
     if (details === DocumentationCollapseMode.ShowAll) {
-      return content || [];
+      return blocks || [];
     }
-    return decorateWithCollapseNodes(content, details);
-  }, [details, content]);
+    return decorateWithCollapseNodes(blocks, details);
+  }, [details, blocks]);
 
-  const rendered = <BlockContent blocks={content} serializers={serializers} />;
+  const rendered = <BlockContent blocks={blocks} serializers={serializers} />;
   return details === DocumentationCollapseMode.ShowAll ? (
     <Stack gap="3" mt="3">
       {rendered}

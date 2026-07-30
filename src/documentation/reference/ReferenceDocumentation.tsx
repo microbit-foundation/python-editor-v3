@@ -90,7 +90,7 @@ const ActiveLevel = ({
       >
         {topic.introduction && (
           <Box p="5" pb="1" fontSize="sm" className={docStylesClass}>
-            <DocumentationContent content={topic.introduction} />
+            <DocumentationContent blocks={topic.introduction} />
           </Box>
         )}
         <List flex="1 1 auto">

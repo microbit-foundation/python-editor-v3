@@ -123,7 +123,7 @@ const ReferenceTopicEntry = ({
           </HStack>
 
           <DocumentationContent
-            content={content}
+            blocks={content}
             details={
               hasMore
                 ? DocumentationCollapseMode.ExpandCollapseExceptCodeAndFirstLine
@@ -154,13 +154,13 @@ const ReferenceTopicEntry = ({
 
               <DocumentationContent
                 details={DocumentationCollapseMode.ExpandCollapseExceptCode}
-                content={activeAlterativeContent}
+                blocks={activeAlterativeContent}
               />
             </>
           )}
           <DocumentationContent
             details={DocumentationCollapseMode.ExpandCollapseAll}
-            content={detailContent}
+            blocks={detailContent}
           />
         </Box>
       </Highlight>

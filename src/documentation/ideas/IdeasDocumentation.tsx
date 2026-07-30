@@ -121,7 +121,7 @@ const ActiveLevel = ({
               toolkitType="ideas"
               title={activeIdea.name}
             >
-              <DocumentationContent content={activeIdea.content} />
+              <DocumentationContent blocks={activeIdea.content} />
             </DocumentationContextProvider>
           </Stack>
         )}
