@@ -45,7 +45,9 @@ export interface RangeSensor {
   value: number;
   min: number;
   max: number;
-  unit: number;
+  // Free-form display unit ("mg", "°C", "deg", "nT") or undefined; see the
+  // simulator's board/state.ts.
+  unit: string | undefined;
   lowThreshold?: number;
   highThreshold?: number;
 }
