@@ -27,10 +27,7 @@ export const baseTheme = EditorView.baseTheme({
     backgroundColor: "var(--colors-code-block-background-active)",
   },
   ".cm-cs--indent": {
-    // !important: the production cascade-layer flattening boosts the
-    // global border-color reset above runtime-injected theme rules
-    // (see CodeMirror.css).
-    borderRight: "2px solid var(--colors-code-block-border) !important",
-    borderTop: "2px solid var(--colors-code-block-border) !important",
+    borderRight: "2px solid var(--colors-code-block-border)",
+    borderTop: "2px solid var(--colors-code-block-border)",
   },
 });

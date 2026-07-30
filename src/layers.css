@@ -12,4 +12,8 @@
  */
 @layer reset, vendor, base, tokens, recipes, utilities;
 
+/* Required: Chakra-parity border-color/word-wrap defaults, kept in the
+ * bottom layer so the production cascade-layer flattening can't boost them
+ * above CodeMirror's runtime-injected styles (playbook gotcha #28). */
+@import "@microbit/ui/reset.css" layer(reset);
 @import "xterm/css/xterm.css" layer(vendor);

@@ -62,16 +62,13 @@ export const themeExtensions = (fontSize: string) => {
     },
     ".cm-tooltip": {
       backgroundColor: "var(--colors-gray-50) !important",
-      // !important: the production cascade-layer flattening boosts the
-      // global border-color reset above runtime-injected theme rules
-      // (see CodeMirror.css).
-      border: "1px solid var(--colors-gray-400) !important",
+      border: "1px solid var(--colors-gray-400)",
     },
     ".cm-tooltip-autocomplete.cm-tooltip": {
-      border: "none !important",
+      border: "none",
     },
     ".cm-tooltip-autocomplete.cm-tooltip > *": {
-      border: "1px solid var(--colors-gray-400) !important",
+      border: "1px solid var(--colors-gray-400)",
     },
     ".cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected]": {
       background: "#d7d4f0",
