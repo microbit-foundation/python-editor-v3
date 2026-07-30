@@ -1341,11 +1341,19 @@ steps above, to raise with the relevant owner when convenient.
   - Genuine consistency that _does_ hold: `toast*Bg` is on the `teal` ramp
     family-wide and this app's success/info toasts are already `blimpTeal.700`
     (kept). Errors/destructive on red/`danger` also aligns.
-  - Within-app cleanup (independent): the `purple` and `teal` ramps are
-    **unused by name** — the app references `brand.*` and `blimpTeal.*`
-    exclusively — so they duplicate the canonical ramps. Consolidating to one
-    purple + one teal ramp is a simplification, but watch the `code.*`
-    palette, which hardcodes `teal.500`/`teal.700` hexes.
+  - Within-app cleanup (independent): the private `purple` and `teal` ramps
+    are **confirmed fully unused (2026-07-30)** — zero `purple.*`/`teal.*`
+    references in app source or either preset's semantic tokens; the built
+    CSS emits their var definitions but never consumes them. The base
+    preset's `toast*Bg → teal.800` defaults are the only indirect path and
+    all four are overridden privately (`blimpTeal.700`/`code.error`). The
+    census's `code.*` caveat was a near-miss: `code.border` `#7bcec3` ≠
+    `teal.500` `#7bcdc2` — the code palette is standalone hexes (though
+    `code.comment` = `brand.500` exactly). Both ramps are safely removable;
+    keep `purple`'s values as reference data for the brand-ramp review (it's
+    the clean monotonic ramp anchored on `brand.500` — see the shape note
+    above). If private `teal` goes, future un-overridden base defaults
+    referencing `teal.*` resolve to the family base teal — arguably correct.
 
 - **`languageText` base-preset default looks wrong (raise against `../ui`).**
   The base preset defaults `languageText`/`languageTextHover` to
