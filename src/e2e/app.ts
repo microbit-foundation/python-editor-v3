@@ -22,7 +22,8 @@ export interface BrowserDownload {
   data: Buffer;
 }
 
-const baseUrl = "http://localhost:3000";
+// E2E_PORT lets bin/fidelity.mjs point the suite at its own dev servers.
+const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
 
 interface UrlOptions {
   flags?: Flag[];
