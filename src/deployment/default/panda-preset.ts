@@ -99,11 +99,9 @@ export const appPreset = definePreset({
           sidebarTablistBg: { value: "black" },
           sidebarTabSelectedText: { value: "black" },
           sidebarTabSelectedBg: { value: "{colors.gray.50}" },
-          // Button `language` variant text. The base preset defaults these to
-          // the grey brand2 ramp; python-editor uses the primary brand ramp, so
-          // the brand divergence flows through the brand ramp values.
-          languageText: { value: "{colors.brand.500}" },
-          languageTextHover: { value: "{colors.brand.600}" },
+          // `languageText`/`languageTextHover`: the base preset defaults are
+          // brand.500/600 (since 0.1.0-alpha.6) — exactly this app's values,
+          // so no override; divergence flows through the brand ramp.
         },
       },
       slotRecipes: {

@@ -3,13 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, Icon, Image, Link, Text } from "@microbit/ui";
+import { Button, Icon, Image, Link, LinkButton, Text } from "@microbit/ui";
 import { ReactNode, useCallback, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
-import { css, cx } from "styled-system/css";
 import { HStack, VStack } from "styled-system/jsx";
-import { button } from "styled-system/recipes";
 import { GenericDialog } from "../../common/GenericDialog";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 import { FinalFocusRef } from "../../project/project-actions";
@@ -122,25 +120,17 @@ const FirmwareDialogFooter = ({
       <Button onPress={onTryAgain} size="lg" css={{ minWidth: buttonWidth }}>
         <FormattedMessage id="try-again-action" />
       </Button>
-      {/* An anchor styled as a primary button (Chakra's Button as="a"). No
-          @microbit/ui link-button primitive yet — flagged for review. */}
-      <a
-        className={cx(
-          button({ variant: "primary", size: "lg" }),
-          css({
-            minWidth: buttonWidth,
-            gap: "2",
-            textDecoration: "none",
-            _hover: { textDecoration: "none" },
-          })
-        )}
+      <LinkButton
+        variant="primary"
+        size="lg"
+        css={{ minWidth: buttonWidth }}
         target="_blank"
         rel="noreferrer"
         href="https://microbit.org/get-started/user-guide/firmware/"
+        rightIcon={<Icon as={RiExternalLinkLine} />}
       >
         <FormattedMessage id="update-firmware-action" />
-        <Icon as={RiExternalLinkLine} />
-      </a>
+      </LinkButton>
     </HStack>
   );
 };
