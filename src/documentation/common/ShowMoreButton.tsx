@@ -22,10 +22,15 @@ const ShowMoreButton = ({ isOpen, isBrief, onClick }: ShowMoreButtonProps) => {
       onPress={onClick}
       css={{
         color: "brand.600",
-        // The Chakra version was a Link (weight inherited as normal); the
-        // button recipe base is semibold.
+        // The Chakra version was a Link as="button" — content-sized and
+        // left-aligned, inheriting the surrounding text size. The button
+        // recipe's base/size styles (semibold, centred, md height, md font)
+        // must all be undone for the link form.
         fontWeight: "normal",
         textAlign: "left",
+        justifyContent: "flex-start",
+        height: "auto",
+        fontSize: "inherit",
         display: "flex",
         flexWrap: "nowrap",
         alignItems: "center",
