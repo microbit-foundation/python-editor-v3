@@ -20,7 +20,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.26.3",
     "@microbit/microbit-connection": "^1.0.0",
-    "@microbit/ui": "0.1.0-alpha.7",
+    "@microbit/ui": "0.1.0-alpha.8",
     "@microbit/microbit-fs": "^0.10.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/image-url": "^1.0.1",
