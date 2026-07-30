@@ -34,15 +34,16 @@ step-3 log follows.
       2026-07-29); focus-follows-activation vs ARIA pattern is parked
       post-merge until the owner has also reviewed the accessibility
       audit (options in "Notes to revisit later").
-- [x] **`../ui` items — done 2026-07-30** on its `python-editor-followups`
-      branch (from `main`, unpushed): `languageText`/`languageTextHover`
-      defaults now `brand.500/600` (OSS language buttons go brand blue;
-      ml-trainer OSS picks that up at its next bump, branded unaffected);
+- [x] **`../ui` items — done 2026-07-30**, shipped in `0.1.0-alpha.6`:
+      `languageText`/`languageTextHover` defaults now `brand.500/600`;
       new `LinkButton` (RAC Link + button recipe, Storybook-verified);
       playbook gotcha #22 (preflight shorthand resets). **App follow-ups
-      once a ui version ships with these:** FirmwareDialog's hand-rolled
-      anchor → `LinkButton`; delete the now-redundant `languageText`
-      overrides in the OSS app preset.
+      done on the alpha.6 upgrade (58e17cb3):** FirmwareDialog's
+      hand-rolled anchor → `LinkButton` (firmware e2e green); redundant
+      `languageText` overrides deleted from the OSS app preset.
+      ml-trainer also bumped to alpha.6 on its `experiment-rai` (426
+      tests + build green; its OSS language text verified brand blue —
+      the expected change).
 - [ ] **Brand-ramp review (owner + brand team, post-merge pace):**
       remaining after 2026-07-30 — the parked `brand.600/700` lightness
       inversion (inline-commented in the preset) and filling the missing
