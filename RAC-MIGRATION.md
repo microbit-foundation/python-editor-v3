@@ -36,14 +36,19 @@ step-3 log follows.
       audit (options in "Notes to revisit later").
 - [ ] **Raise against `../ui`** (on `main` now): `languageText` default
       should be `brand` not `brand2`; shared `LinkButton` (FirmwareDialog
-      wants it).
-- [ ] **Raise with brand team:** private ramp nits (`brand.100` stray `F`,
-      non-monotonic `brand.600/700`) + `brand.10/25/50/900` shape
-      asymmetry.
+      wants it); playbook gotcha from the fidelity run (preflight
+      shorthand resets beat inherited longhands — the
+      `list-style-position` find).
+- [ ] **Brand-ramp review (owner + brand team, post-merge pace):**
+      remaining after 2026-07-30 — the parked `brand.600/700` lightness
+      inversion (inline-commented in the preset) and filling the missing
+      `brand.50/900` (base blue leaks through the merge today, unused).
+      Casing fixed; unused `purple`/`teal` ramps dropped; `blimpTeal`
+      rationale noted (all in "Notes to revisit later"). Private-package
+      changes await the next republish to reach CI.
 - [ ] **Small code cleanups:** dead `returnFocus` state in
       FirmwareDialog/NotFoundDialog; `MoreButton.tsx` (likely dead);
-      unused `purple`/`teal` ramp consolidation (watch `code.*` hardcoded
-      hexes); slider units for SRs via `formatOptions` if wanted.
+      slider units for SRs via `formatOptions` if wanted.
 - [ ] **Merge:** `experiment-rai` → `main` after the review; decide
       whether to return to `file:` links (from `../ui` `main`) for
       follow-up work.
