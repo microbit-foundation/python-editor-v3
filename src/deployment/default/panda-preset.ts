@@ -16,9 +16,11 @@ const toTokens = (values: Record<string, string | number>) =>
 // spacing/size scale is Chakra's 0.25rem grid × 0.88, and fontSizes from
 // `md` up are × 0.9 (xs/sm kept full-size so text never gets too small).
 // The adjacent common-sizes.ts/font-sizes.ts are the (only) home of the
-// values now Chakra is gone. The team may revisit whether
-// this density stays after the migration (see RAC-MIGRATION.md notes) —
-// for now the port replicates it.
+// values now Chakra is gone. The team may revisit whether this bespoke
+// density stays or aligns with the family scale (the editor is more
+// information-dense than the other apps, so there may be grounds to keep
+// it); if alignment wins, delete these overrides and re-run the visual
+// pass. For now the port replicates it.
 const shrunkenScale = toTokens(commonSizes);
 const shrunkenFontSizes = toTokens(fontSizes);
 

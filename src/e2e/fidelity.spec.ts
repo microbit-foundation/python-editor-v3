@@ -7,7 +7,8 @@
  * of the default e2e project; bin/fidelity.mjs runs it twice — once against
  * a baseline git ref with --update-snapshots, then against the working tree
  * — and the Playwright HTML report shows the diffs. Baselines are per-run
- * artefacts in .fidelity/, never committed. See RAC-MIGRATION.md.
+ * artefacts in .fidelity/, never committed. Method and lessons:
+ * ../ui/docs/migration-playbook.md, "Fidelity harness".
  */
 import { expect, Locator, Page } from "@playwright/test";
 import { test } from "./app-test-fixtures.js";

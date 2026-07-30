@@ -23,7 +23,8 @@
 //   npm run fidelity -- --compare-only
 //
 // The split flags support cross-boundary runs that need paired
-// sibling-package versions (see RAC-MIGRATION.md): rebuild the private
+// sibling-package versions (see ../ui/docs/migration-playbook.md §6,
+// "Fidelity, both sides"): rebuild the private
 // package at the old commit, record the baseline half, restore everything,
 // then run the compare half.
 //

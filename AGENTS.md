@@ -1,12 +1,15 @@
 # AI agent notes
 
-## RAC/Panda migration
+## Styling/theming
 
-This app is migrating from Chakra UI to react-aria-components + Panda CSS
-via `@microbit/ui`. **Read `RAC-MIGRATION.md` at the repo root before any
-styling/theming/UI work** — it is the status log and app-specific plan; the
-method and gotcha catalog are in `../ui/docs/migration-playbook.md`. The
-private theme package is the sibling repo `../python-editor-v3-microbit`.
+This app uses react-aria-components + Panda CSS via `@microbit/ui`
+(migrated from Chakra UI, July 2026). **Read the gotcha catalog in
+`../ui/docs/migration-playbook.md` before styling/theming/UI work** —
+Panda's static extraction rules and RAC behaviours catalogued there still
+apply to new code. The private theme package is the sibling repo
+`../python-editor-v3-microbit` (consumed via a manual `node_modules`
+symlink locally — re-create it after `npm install`). The visual fidelity
+harness is `npm run fidelity` (see `bin/fidelity.mjs`).
 
 ## Commands
 
