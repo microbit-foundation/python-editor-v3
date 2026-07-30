@@ -55,17 +55,20 @@ step-3 log follows.
       `returnFocus` state removed from FirmwareDialog/NotFoundDialog along
       with GenericDialog's no-op `returnFocusOnClose` prop (they were its
       last callers); unused `MoreButton.tsx` deleted (connect e2e suite
-      green). Slider units for SRs — done (ead613bf, owner decision):
-      `formatOptions` announces temperature ("21 degrees Celsius",
-      localized) and compass heading ("0 degrees"), gated on Intl
-      unit-style support (Safari 14.1/iOS 14.5 — react-aria's fallback
-      throws for all but degree/narrow, which compass uses below the
-      gate; `src/simulator/slider-format.ts`). Still bare vs Chakra:
-      the accelerometer (mg) and compass axes (nT) — not ECMA-402
-      sanctioned units — plus temperature on pre-14.5 iOS only.
-      Light/sound/pins never had units. For the a11y audit: if mg/nT
-      must be announced, the ask is a `getValueText`-style escape hatch
-      on react-aria's Slider (Intl can't express them).
+      green). Slider units for SRs — done (6f5a15d8, owner decision):
+      the unit lives in each slider's **accessible name** ("Temperature
+      (degrees Celsius)", "x (milli-g)", "Heading (degrees)", compass
+      axes "(nanotesla)") as translated intl messages, announced once on
+      focus; values announce bare. Chosen over `formatOptions`
+      per-change announcements (tried first, ead613bf, replaced): the
+      unit is constant so the name is its home; this covers mg/nT
+      (inexpressible in Intl's sanctioned unit list), is uniform across
+      sliders and devices, and needs no Safari 14.1/iOS 14.5 gate
+      (react-aria's unit fallback throws for all but degree/narrow —
+      see the Intl analysis in the session log if revisiting). For the
+      a11y audit: per-change unit repetition would need a
+      `getValueText`-style escape hatch upstream in react-aria's
+      Slider.
 - [ ] **Merge:** `experiment-rai` → `main` after the review; decide
       whether to return to `file:` links (from `../ui` `main`) for
       follow-up work.
