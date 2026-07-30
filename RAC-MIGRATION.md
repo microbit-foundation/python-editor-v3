@@ -51,9 +51,13 @@ step-3 log follows.
       Casing fixed; unused `purple`/`teal` ramps dropped; `blimpTeal`
       rationale noted (all in "Notes to revisit later"). Private-package
       changes await the next republish to reach CI.
-- [ ] **Small code cleanups:** dead `returnFocus` state in
-      FirmwareDialog/NotFoundDialog; `MoreButton.tsx` (likely dead);
-      slider units for SRs via `formatOptions` if wanted.
+- [x] **Small code cleanups — done 2026-07-30 (b271149c):** dead
+      `returnFocus` state removed from FirmwareDialog/NotFoundDialog along
+      with GenericDialog's no-op `returnFocusOnClose` prop (they were its
+      last callers); unused `MoreButton.tsx` deleted (connect e2e suite
+      green). Remaining sub-item, owner call: slider units for SRs via
+      `formatOptions` — changes what screen readers announce (bare number
+      today), so decide during/after the accessibility-audit review.
 - [ ] **Merge:** `experiment-rai` → `main` after the review; decide
       whether to return to `file:` links (from `../ui` `main`) for
       follow-up work.
