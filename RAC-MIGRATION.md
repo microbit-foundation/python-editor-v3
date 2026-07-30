@@ -7,15 +7,17 @@ CSS ships via Panda's PostCSS plugin into `src/layers.css` (xterm.css in
 the `vendor` layer). 64/64 e2e + 217 unit tests pass. Now consuming the
 published `@microbit/ui@0.1.0-alpha.5` + branding
 `0.2.0-experiment.rai.61`; CI is green on the branch (2026-07-29).
-Owner-checked: `::selection` fine, Firefox tab underline fine. What's
-left is the TODO below.** Earlier step-3 log follows.
+Owner-checked: `::selection` fine, Firefox tab underline fine. Fidelity
+dual-run (2026-07-30): branded + OSS both pixel-identical to the
+pre-flip commit, 29 states. What's left is the TODO below.** Earlier
+step-3 log follows.
 
 ## TODO (pre-merge, 2026-07-30)
 
-- [ ] **Fidelity dual-run** (playbook §6): branded + OSS screenshot
-      comparison against the pre-flip commit, masking CodeMirror/xterm/
-      simulator iframe. The baseline needs the private package rebuilt at
-      the matching pre-flip commit.
+- [x] **Fidelity dual-run** (playbook §6) — done 2026-07-30, both sides
+      **17/17 tests (29 states) pixel-identical** after fixing the one
+      real diff it found (docs list `list-style-position`, see the status
+      log entry). Harness lives at `npm run fidelity`.
 - [ ] **Broad manual review** (owner, planned): full hands-on pass before
       merge. Fold in the small "confirm in the visual pass" items from the
       log: cursor + focus-order sweeps; tooltip-reopens-after-click delta
@@ -1186,6 +1188,60 @@ Chakra Heading (they compose Text).
   `@microbit-foundation/python-editor-v3-microbit` symlink — re-create it
   for local branded work. Verified: typecheck/lint/build clean, 217 unit
   tests pass.
+
+- 2026-07-30 (fidelity dual-run — the migration's final gate): **branded
+  and OSS both render pixel-identical to the pre-flip commit (724b60f5)
+  across 17 tests / 29 screenshot states**, after fixing the one real
+  regression the run surfaced.
+
+  - **Harness:** `bin/fidelity.mjs` + `src/e2e/fidelity.spec.ts`
+    (`npm run fidelity [-- <ref>]`), ported from ml-trainer's reference
+    implementation. App-specific adaptations: servers run on **:3000**
+    (the Sanity project's CORS allowlist doesn't include other ports —
+    docs content silently fails to load otherwise); the baseline worktree
+    gets a sibling `ui` symlink (coexistence-era `panda` scripts call
+    `../ui/bin/unlayer-panda.mjs`); `VITE_FOUNDATION_BUILD=true` on both
+    servers (without the shared-assets consent script, cookie consent
+    never initialises and the welcome dialog can never open);
+    `--baseline-only <ref>` / `--compare-only` split for cross-boundary
+    runs; HTTPS_PROXY passthrough into Chromium for sandboxed
+    environments. Spec: 29 states — workbench at desktop/tablet/mobile
+    (desktop is **1440px**: the sidebar auto-collapses ≤1365, which is
+    the genuine tablet/mobile layout), docs topics/ideas/API/search,
+    all menus and dialogs, connect flow + serial, toast, collapsed
+    chrome. Masks: main-editor CodeMirror, xterm, simulator iframe
+    (docs CodeMirror embeds are deliberately unmasked and compared).
+  - **Paired-package dance for the branded baseline** (per ml-trainer's
+    method): private repo detached at `7860742` (its pre-flip pair, just
+    before its kill-switch `a4a0bfb`), dist rebuilt (needed
+    `npm i --no-save --ignore-scripts` of chakra deps from its old lock,
+    with the GitHub-Packages-only devDep temporarily dropped — no auth in
+    the sandbox); app repo `npm i --no-save` of the four dropped Chakra
+    deps (exact pre-flip lock versions); `--baseline-only 724b60f5`;
+    restore both repos (`npm install`, private rebuilt at
+    `experiment-rai`, symlink re-created); `--compare-only`. OSS run:
+    same minus the private repo (symlink removed both halves).
+  - **The one real diff (fixed, e8283dd1):** docs content lists rendered
+    markers `outside` post-flip — preflight's `ul { list-style: none }`
+    shorthand resets `list-style-position`, silently beating the value
+    docStyles set (inherited from the container); the `& ul` override
+    only restored `list-style-type`. Bullets shifted ~19px left and text
+    wrapped differently in Ideas/Reference content. Fix: set
+    `listStylePosition: "inside"` on `& ul`/`& ol` themselves.
+    **Playbook gotcha candidate: preflight shorthand resets beat
+    inherited longhands — re-assert `list-style-position` (and check
+    other shorthand-reset properties) on the element, not the
+    container.**
+  - **Spec-writing gotchas for reuse:** destructure the `app` fixture in
+    every test (it performs the navigation — `{ page }`-only tests sit on
+    about:blank); Reset only confirms on a dirty project; the serial
+    hints menu item exists only in compact mode (expanded serial has an
+    info button); the Reference panel has no title heading (wait on a
+    topic heading); two "Edit project name" pencils on the Project tab.
+  - Determinism: shakedown self-run (HEAD vs working tree) passed 17/17
+    with 2 first-attempt flakes absorbed by `retries: 1` (ideas images,
+    connect timing). ~25s per half on a warm vite cache; the first
+    baseline run pays cold dep-optimisation (~4min).
 
 ## Notes to revisit later
 
