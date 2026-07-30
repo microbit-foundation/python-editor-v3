@@ -268,18 +268,11 @@ const SideBarHeader = ({
               <IconButton
                 aria-label={intl.formatMessage({ id: "clear" })}
                 css={{
-                  backgroundColor: "white",
-                  // Restated: the background utility beats the ghost
-                  // variant's recipe-layer hover/active.
-                  _hover: { backgroundColor: "gray.100" },
-                  _active: { backgroundColor: "gray.200" },
                   // Also used for Zoom, move to theme.
                   color: "#838383",
                   fontSize: "2xl",
                   position: "absolute",
                   right: "0",
-                  pr: "3",
-                  pl: "3",
                 }}
                 onPress={handleClear}
                 variant="ghost"
