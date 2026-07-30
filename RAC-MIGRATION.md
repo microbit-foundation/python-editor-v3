@@ -1297,10 +1297,20 @@ steps above, to raise with the relevant owner when convenient.
   (base ⊕ app ⊕ private), so a branded `brand.50`/`brand.900` reference
   now resolves to the **base ramp's blue** (`#ebf8ff`/dark blue) instead
   of being undefined — a latent mixed-brand hazard (no references today,
-  grep-clean). Candidate fix: add purple 50/900 to the private ramp —
-  the private preset's duplicate `purple` ramp (same hue, same 500)
-  already carries natural values (`50: #e2dbf3`, `900: #160f27`); brand
-  team to confirm.
+  grep-clean). **Ramp relationship (HSL analysis, 2026-07-30):** the
+  private `purple` ramp is _not_ Chakra's purple restated (every value
+  differs) — it's a clean, hue-stable (H257), monotonic ramp anchored on
+  the same `#6c4bc1` at 500. `brand` shares the hue family and the 500
+  but its grades are _not_ aligned with purple's: `brand.100`
+  (`#e1dbf3`, L91) is virtually identical to `purple.50` (`#e2dbf3`) —
+  i.e. brand's light end sits a grade off — then jumps to L62 at 200;
+  plus the 600/700 inversion and slight hue wobble at 300/400 (H243/249).
+  So for the missing stops: `purple.900` (`#160f27`) is a plausible
+  `brand.900`, but `purple.50` **cannot** serve as `brand.50` (it would
+  duplicate `brand.100`). Filling the gap properly is part of the same
+  careful brand-ramp review as the 600/700 inversion — potentially
+  regularising `brand` onto the purple ramp's grades while preserving
+  the specific values usage depends on.
 
 - **Cross-app `brand`/`brand2` mapping (2026-07-27 investigation) — teal↔
   brand2 does NOT map; parked.** This app has two brand hues — **purple**
