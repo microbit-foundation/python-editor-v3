@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button, Icon, Image, Link, LinkButton, Text } from "@microbit/ui";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { HStack, VStack } from "styled-system/jsx";
@@ -23,15 +23,12 @@ interface FirmwareDialogProps {
 }
 
 const FirmwareDialog = ({ callback, finalFocusRef }: FirmwareDialogProps) => {
-  const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {
-    setReturnFocus(false);
     callback(ConnectErrorChoice.TRY_AGAIN);
-  }, [callback, setReturnFocus]);
+  }, [callback]);
   return (
     <GenericDialog
       finalFocusRef={finalFocusRef}
-      returnFocusOnClose={returnFocus}
       body={<FirmwareDialogBody />}
       footer={
         <FirmwareDialogFooter

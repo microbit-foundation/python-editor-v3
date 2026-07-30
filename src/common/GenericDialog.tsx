@@ -23,12 +23,6 @@ export interface GenericDialogProps {
   footer: ReactNode;
   size?: ModalSize;
   onClose: () => void;
-  /**
-   * Accepted for API compatibility but no longer wired: react-aria restores
-   * focus to the trigger on close by default (see the migration playbook,
-   * gotcha #15). Use `finalFocusRef` to redirect focus explicitly.
-   */
-  returnFocusOnClose?: boolean;
   finalFocusRef?: FinalFocusRef;
 }
 

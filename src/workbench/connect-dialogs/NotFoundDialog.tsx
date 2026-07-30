@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Button, Icon, Image, Link, Text } from "@microbit/ui";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback } from "react";
 import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { Box, Flex, HStack, VStack } from "styled-system/jsx";
@@ -23,19 +23,15 @@ export const NotFoundDialog = ({
   callback,
   finalFocusRef,
 }: NotFoundDialogProps) => {
-  const [returnFocus, setReturnFocus] = useState<boolean>(true);
   const onTryAgain = useCallback(() => {
-    setReturnFocus(false);
     callback(ConnectErrorChoice.TRY_AGAIN);
-  }, [callback, setReturnFocus]);
+  }, [callback]);
   const onSave = useCallback(() => {
-    setReturnFocus(false);
     callback(ConnectErrorChoice.CANCEL);
-  }, [callback, setReturnFocus]);
+  }, [callback]);
   return (
     <GenericDialog
       finalFocusRef={finalFocusRef}
-      returnFocusOnClose={returnFocus}
       onClose={() => callback(ConnectErrorChoice.CANCEL)}
       body={<NotFoundDialogBody onSave={onSave} onTryAgain={onTryAgain} />}
       footer={
