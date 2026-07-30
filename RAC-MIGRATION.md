@@ -55,9 +55,17 @@ step-3 log follows.
       `returnFocus` state removed from FirmwareDialog/NotFoundDialog along
       with GenericDialog's no-op `returnFocusOnClose` prop (they were its
       last callers); unused `MoreButton.tsx` deleted (connect e2e suite
-      green). Remaining sub-item, owner call: slider units for SRs via
-      `formatOptions` — changes what screen readers announce (bare number
-      today), so decide during/after the accessibility-audit review.
+      green). Slider units for SRs — done (ead613bf, owner decision):
+      `formatOptions` announces temperature ("21 degrees Celsius",
+      localized) and compass heading ("0 degrees"), gated on Intl
+      unit-style support (Safari 14.1/iOS 14.5 — react-aria's fallback
+      throws for all but degree/narrow, which compass uses below the
+      gate; `src/simulator/slider-format.ts`). Still bare vs Chakra:
+      the accelerometer (mg) and compass axes (nT) — not ECMA-402
+      sanctioned units — plus temperature on pre-14.5 iOS only.
+      Light/sound/pins never had units. For the a11y audit: if mg/nT
+      must be announced, the ask is a `getValueText`-style escape hatch
+      on react-aria's Slider (Intl can't express them).
 - [ ] **Merge:** `experiment-rai` → `main` after the review; decide
       whether to return to `file:` links (from `../ui` `main`) for
       follow-up work.
