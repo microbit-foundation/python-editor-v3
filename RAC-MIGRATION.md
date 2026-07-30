@@ -1364,6 +1364,24 @@ steps above, to raise with the relevant owner when convenient.
     - `teal`: 50 `#e5f5f3`, 100 `#bde6e1`, 200 `#a3dcd4`, 300 `#95d7ce`,
       400 `#88d2c8`, 500 `#7bcdc2`, 600 `#62a49b`, 700 `#569088`,
       800 `#3e6761`, 900 `#192927`
+  - **Why `blimpTeal` is a separate ramp rather than a `teal` override
+    (analysed 2026-07-30, noted for the review — no action).** It isn't a
+    scale: its grades don't align with `teal`'s (`blimpTeal.300` ==
+    `teal.300` but `blimpTeal.400` == `teal.500` — regraded mid-ramp, with
+    a near-invisible 400→500 step, L64→62, then a cliff to 600, L39), it
+    has holes (no 200/800/900), and `blimpTeal.700` (`#226077`, H196 vs
+    H172 elsewhere — the `code.literal` value) isn't teal at all. It's a
+    curated bag of design colours parked on approximate stops — likely
+    because the designers' teals didn't sit at standard-scale lightness
+    positions. Post-migration there's also a principled reason to keep the
+    name: the family contract keeps Chakra-scale ramps (`teal.*`) as
+    shared vocabulary that base defaults reference (`toast*Bg → teal.800`); a private `teal` override would re-colour those implicitly
+    and — given the holes — deep-merge into a Frankenstein ramp (blimp
+    values where defined, Chakra leaking through the gaps). If ever
+    cleaned up, the direction that fits the teal-as-code/content-marker
+    census finding is dissolving `blimpTeal` into semantic tokens (used
+    stops: 50/100/300/400/600 in app code, 400 in the sidebar gradient,
+    700 in toasts), not folding it into `teal`.
 
 - **`languageText` base-preset default looks wrong (raise against `../ui`).**
   The base preset defaults `languageText`/`languageTextHover` to
