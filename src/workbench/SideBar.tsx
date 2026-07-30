@@ -254,7 +254,14 @@ const SideBar = ({
         </Flex>
         <TabPanels
           ref={tabPanelsRef}
-          className={css({ flex: "1 1 auto", minWidth: "0" })}
+          // Chakra's Tabs hid all panels when collapsed (index -1); react-aria
+          // retains the previous selection, so hide the panels ourselves or
+          // the selected panel's content bleeds out of the compact pane.
+          className={css({
+            flex: "1 1 auto",
+            minWidth: "0",
+            display: tabIndex === -1 ? "none" : "block",
+          })}
         >
           {panes.map((p) => (
             <TabPanel
