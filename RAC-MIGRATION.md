@@ -1341,19 +1341,29 @@ steps above, to raise with the relevant owner when convenient.
   - Genuine consistency that _does_ hold: `toast*Bg` is on the `teal` ramp
     family-wide and this app's success/info toasts are already `blimpTeal.700`
     (kept). Errors/destructive on red/`danger` also aligns.
-  - Within-app cleanup (independent): the private `purple` and `teal` ramps
-    are **confirmed fully unused (2026-07-30)** — zero `purple.*`/`teal.*`
-    references in app source or either preset's semantic tokens; the built
-    CSS emits their var definitions but never consumes them. The base
-    preset's `toast*Bg → teal.800` defaults are the only indirect path and
-    all four are overridden privately (`blimpTeal.700`/`code.error`). The
-    census's `code.*` caveat was a near-miss: `code.border` `#7bcec3` ≠
-    `teal.500` `#7bcdc2` — the code palette is standalone hexes (though
-    `code.comment` = `brand.500` exactly). Both ramps are safely removable;
-    keep `purple`'s values as reference data for the brand-ramp review (it's
-    the clean monotonic ramp anchored on `brand.500` — see the shape note
-    above). If private `teal` goes, future un-overridden base defaults
-    referencing `teal.*` resolve to the family base teal — arguably correct.
+  - Within-app cleanup: the private `purple` and `teal` ramps were
+    **confirmed fully unused and dropped (2026-07-30, private commit
+    `4956d67`)** — zero `purple.*`/`teal.*` references in app source or
+    either preset's semantic tokens; the built CSS emitted their var
+    definitions but never consumed them. The base preset's
+    `toast*Bg → teal.800` defaults are the only indirect path and all four
+    are overridden privately (`blimpTeal.700`/`code.error`). The census's
+    `code.*` caveat was a near-miss: `code.border` `#7bcec3` ≠ `teal.500`
+    `#7bcdc2` — the code palette is standalone hexes (though `code.comment`
+    = `brand.500` exactly). Post-removal the base preset's Chakra-default
+    definitions show through for these names (verified `purple.500` →
+    `#805AD5` in the built CSS, still zero consumption) — behaviour-neutral.
+    **Preserved values** (owner's read: likely an attempt to
+    programmatically generate a brand ramp to replace a dubious one
+    inferred from print-oriented design guidance — not to be touched for
+    now; `purple` is the clean monotonic H257 ramp anchored on `brand.500`,
+    reference material for the parked brand-ramp review):
+    - `purple`: 50 `#e2dbf3`, 100 `#b6a5e0`, 200 `#9881d4`, 300 `#896fcd`,
+      400 `#7b5dc7`, 500 `#6c4bc1`, 600 `#563c9a`, 700 `#4c3587`,
+      800 `#362661`, 900 `#160f27`
+    - `teal`: 50 `#e5f5f3`, 100 `#bde6e1`, 200 `#a3dcd4`, 300 `#95d7ce`,
+      400 `#88d2c8`, 500 `#7bcdc2`, 600 `#62a49b`, 700 `#569088`,
+      800 `#3e6761`, 900 `#192927`
 
 - **`languageText` base-preset default looks wrong (raise against `../ui`).**
   The base preset defaults `languageText`/`languageTextHover` to
