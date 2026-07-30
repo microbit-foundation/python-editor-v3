@@ -12,9 +12,17 @@ export const docStylesClass = css({
   "& p, & h3": {
     maxWidth: "600px",
   },
+  // On the lists, not just inherited from here: preflight's
+  // `ul { list-style: none }` shorthand resets list-style-position to
+  // `outside`, which would silently win over the inherited value.
   listStylePosition: "inside",
   "& ol": {
     pl: "3",
+    listStylePosition: "inside",
   },
-  "& ul": { listStyleType: "disc", pl: "3" },
+  "& ul": {
+    listStyleType: "disc",
+    pl: "3",
+    listStylePosition: "inside",
+  },
 });
