@@ -1278,19 +1278,29 @@ Parked items surfaced during pre-work — out of scope for the convergence
 steps above, to raise with the relevant owner when convenient.
 
 - **Private brand-ramp data nits (`../python-editor-v3-microbit`
-  `src/colors.ts`).** Not structure — palette-value bugs for whoever owns
-  the brand colours:
-  - `brand.100` is `#e1dbF3` — stray uppercase `F`. Harmless to CSS but
-    inconsistent with the rest of the ramp; normalise to lowercase.
-  - `brand.600` (`#50388f`) is _darker_ than `brand.700` (`#5c40a6`) — the
-    ramp is non-monotonic in lightness at 600→700. Likely a mistake; confirm
-    the intended values before the ramps move to the Panda preset (a
-    non-monotonic ramp will bake the oddity into the preset tokens).
-- **Brand-ramp shape asymmetry.** OSS `brand` (= gray copy) defines
-  `brand.10/25/50/900`; the private `brand` ramp defines only `100–800`. No
-  app references to `brand.10/25/900` today (grep-clean), so it's latent —
-  but decide the intended private ramp shape when the ramps move to the
-  preset rather than carrying the asymmetry forward silently.
+  `src/panda-preset.ts`).** Status 2026-07-30:
+  - ~~`brand.100` `#e1dbF3` stray uppercase `F`~~ — **fixed** (normalised
+    to lowercase, private commit `73efef0`; value unchanged). Needs a
+    private-package republish to reach CI builds.
+  - `brand.600` (`#50388f`) darker than `brand.700` (`#5c40a6`) —
+    **parked (owner, 2026-07-30): an old value likely accommodated by
+    usage; to be reviewed carefully rather than "fixed".** Now flagged by
+    an inline comment at the values in the preset.
+- **Brand-ramp shape: private is missing the family-standard 50/900
+  stops (owner review pending).** Corrected post-migration reading of
+  the census's "asymmetry": the family base preset's `brand` is the full
+  Chakra-standard **50–900** shape; the private ramp defines only
+  **100–800**. (The old OSS Chakra brand's `10/25` extras are moot now —
+  post-migration OSS `brand` is the base preset's blue, and the app's
+  very-light extras live on `gray.10/25` where they belong.) The gap
+  matters more on Panda than it did on Chakra: presets deep-merge
+  (base ⊕ app ⊕ private), so a branded `brand.50`/`brand.900` reference
+  now resolves to the **base ramp's blue** (`#ebf8ff`/dark blue) instead
+  of being undefined — a latent mixed-brand hazard (no references today,
+  grep-clean). Candidate fix: add purple 50/900 to the private ramp —
+  the private preset's duplicate `purple` ramp (same hue, same 500)
+  already carries natural values (`50: #e2dbf3`, `900: #160f27`); brand
+  team to confirm.
 
 - **Cross-app `brand`/`brand2` mapping (2026-07-27 investigation) — teal↔
   brand2 does NOT map; parked.** This app has two brand hues — **purple**
