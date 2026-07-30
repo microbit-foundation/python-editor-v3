@@ -9,3 +9,13 @@
 .cm-focused {
   outline: none !important;
 }
+/* In production the cascade-layer flattening (legacy Safari fallback)
+   specificity-boosts the layered global border-color reset above every
+   rule it can't see - CodeMirror's runtime-injected base theme and even
+   other app .css files (PostCSS runs per file) - turning the caret
+   gray.200. !important is the one lever that still wins; dev builds are
+   unaffected either way. */
+.cm-cursor,
+.cm-dropCursor {
+  border-left-color: black !important;
+}

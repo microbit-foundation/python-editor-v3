@@ -654,10 +654,13 @@ const baseTheme = EditorView.baseTheme({
     display: "block",
     whiteSpace: "pre-wrap"
   },
-  ".cm-diagnostic-error": { borderLeft: "5px solid #d11" },
-  ".cm-diagnostic-warning": { borderLeft: "5px solid orange" },
-  ".cm-diagnostic-info": { borderLeft: "5px solid #999" },
-  ".cm-diagnostic-hint": { borderLeft: "5px solid #999" },
+  // Local change (not upstream): !important on border colours — the
+  // production cascade-layer flattening boosts the global border-color
+  // reset above runtime-injected themes (see CodeMirror.css).
+  ".cm-diagnostic-error": { borderLeft: "5px solid #d11 !important" },
+  ".cm-diagnostic-warning": { borderLeft: "5px solid orange !important" },
+  ".cm-diagnostic-info": { borderLeft: "5px solid #999 !important" },
+  ".cm-diagnostic-hint": { borderLeft: "5px solid #999 !important" },
 
   ".cm-diagnosticAction": {
     font: "inherit",
@@ -702,20 +705,23 @@ const baseTheme = EditorView.baseTheme({
       position: "absolute",
       bottom: 0,
       left: "-2px",
-      borderLeft: "3px solid transparent",
-      borderRight: "3px solid transparent",
-      borderBottom: "4px solid #d11"
+      // Local change (not upstream): !important, as above — without it the
+      // boosted reset turns the transparent sides gray and the marker
+      // triangle into a blob.
+      borderLeft: "3px solid transparent !important",
+      borderRight: "3px solid transparent !important",
+      borderBottom: "4px solid #d11 !important"
     }
   },
 
   ".cm-lintPoint-warning": {
-    "&:after": { borderBottomColor: "orange" }
+    "&:after": { borderBottomColor: "orange !important" }
   },
   ".cm-lintPoint-info": {
-    "&:after": { borderBottomColor: "#999" }
+    "&:after": { borderBottomColor: "#999 !important" }
   },
   ".cm-lintPoint-hint": {
-    "&:after": { borderBottomColor: "#999" }
+    "&:after": { borderBottomColor: "#999 !important" }
   },
 
   ".cm-panel.cm-panel-lint": {

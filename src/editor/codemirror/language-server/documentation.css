@@ -38,7 +38,10 @@
 pre {
   background-color: #fff;
   border-radius: var(--radii-md);
-  border-color: var(--colors-blimp-teal-100);
+  /* !important: the production cascade-layer flattening boosts the global
+     border-color reset above other per-file-processed app CSS (see
+     CodeMirror.css). */
+  border-color: var(--colors-blimp-teal-100) !important;
   border-style: solid;
   border-width: 1px;
 }
