@@ -36,8 +36,11 @@ const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
       direction="column"
       minimums={[150, 200]}
       compactSize={SerialArea.compactSize}
-      height="0"
+      // Grows to fill on tall windows, but never shrinks below this floor — the
+      // sim column (Simulator.tsx) scrolls instead, so the serial can't collapse.
       flexGrow={1}
+      flexShrink={0}
+      minH="16rem"
       mode={serialSizedMode}
     >
       <SplitViewSized>

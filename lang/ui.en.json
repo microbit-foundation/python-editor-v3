@@ -419,9 +419,17 @@
     "defaultMessage": "Jacdac buttons",
     "description": "Title of the simulator group for Jacdac button sensors"
   },
+  "jacdac-sim-group-led-ring": {
+    "defaultMessage": "Jacdac LED rings",
+    "description": "Title of the simulator group for Jacdac LED ring outputs"
+  },
   "jacdac-sim-group-rotary-encoder": {
     "defaultMessage": "Jacdac rotary encoders",
     "description": "Title of the simulator group for Jacdac rotary encoder sensors"
+  },
+  "jacdac-sim-group-servo": {
+    "defaultMessage": "Jacdac servos",
+    "description": "Title of the simulator group for Jacdac servo outputs"
   },
   "jacdac-sim-group-slider": {
     "defaultMessage": "Jacdac sliders",

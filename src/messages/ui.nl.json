@@ -803,10 +803,22 @@
       "value": "Jacdac buttons"
     }
   ],
+  "jacdac-sim-group-led-ring": [
+    {
+      "type": 0,
+      "value": "Jacdac LED rings"
+    }
+  ],
   "jacdac-sim-group-rotary-encoder": [
     {
       "type": 0,
       "value": "Jacdac rotary encoders"
+    }
+  ],
+  "jacdac-sim-group-servo": [
+    {
+      "type": 0,
+      "value": "Jacdac servos"
     }
   ],
   "jacdac-sim-group-slider": [

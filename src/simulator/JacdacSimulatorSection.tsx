@@ -55,7 +55,31 @@ import RangeSensor from "./RangeSensor";
  * Widgets are interactive but scoped to the simulator UI only; they don't drive
  * the user's program yet (running Jacdac in the simulator needs Task 1).
  */
-const TYPE_ORDER: JacdacRoleType[] = ["button", "rotary-encoder", "slider"];
+// Inputs first, then outputs (the LED ring), so the section reads sensors →
+// outputs top to bottom.
+const TYPE_ORDER: JacdacRoleType[] = [
+  "button",
+  "rotary-encoder",
+  "slider",
+  "led-ring",
+  "servo",
+];
+
+// Which types are outputs (driven by the program) rather than input sensors.
+const OUTPUT_TYPES = new Set<JacdacRoleType>(["led-ring", "servo"]);
+
+const INPUT_TYPES = TYPE_ORDER.filter((t) => !OUTPUT_TYPES.has(t));
+const OUTPUT_TYPES_LIST = TYPE_ORDER.filter((t) => OUTPUT_TYPES.has(t));
+
+interface TypeGroup {
+  type: JacdacRoleType;
+  roles: ParsedRole[];
+}
+
+const groupByType = (order: JacdacRoleType[], roles: ParsedRole[]): TypeGroup[] =>
+  order
+    .map((type) => ({ type, roles: roles.filter((r) => r.type === type) }))
+    .filter((g) => g.roles.length > 0);
 
 const JacdacSimulatorSection = ({
   position,
@@ -65,44 +89,118 @@ const JacdacSimulatorSection = ({
   const intl = useIntl();
   const roles = useParsedRoles();
   const { connectedRoleNames } = useJacdacAssignments();
-  const populated = roles.length > 0;
+  const inputRoles = roles.filter((r) => !OUTPUT_TYPES.has(r.type));
 
-  // Populated → top; empty → bottom. The other instance renders nothing.
-  if (populated !== (position === "top")) {
-    return null;
-  }
-
-  if (!populated) {
+  if (position === "top") {
+    // Input sensors sit here in the modules list; outputs render separately near
+    // the board (see JacdacSimulatorOutputs).
+    if (inputRoles.length === 0) {
+      return null;
+    }
+    const groups = groupByType(INPUT_TYPES, inputRoles);
     return (
-      <Stack borderTopWidth={1} borderColor="grey.200" pt={5} spacing={2}>
-        <Text as="h3" fontWeight="semibold">
-          {intl.formatMessage({ id: "jacdac-tab" })}
-        </Text>
-        <Text fontSize="sm" color="gray.600">
-          {intl.formatMessage({ id: "jacdac-sim-empty" })}
-        </Text>
+      <Stack spacing={0} borderBottomWidth={1} borderColor="grey.200" mb={3}>
+        {groups.map((group, index) => (
+          <JacdacTypeModule
+            key={group.type}
+            type={group.type}
+            roles={group.roles}
+            connectedRoleNames={connectedRoleNames}
+            index={index}
+            isLast={index === groups.length - 1}
+          />
+        ))}
       </Stack>
     );
   }
 
-  const groups = TYPE_ORDER.map((type) => ({
-    type,
-    roles: roles.filter((r) => r.type === type),
-  })).filter((g) => g.roles.length > 0);
-
+  // position === "bottom": the empty-state hint, shown only when there are no
+  // Jacdac roles of any kind (inputs or outputs).
+  if (roles.length > 0) {
+    return null;
+  }
   return (
-    <Stack spacing={0} borderBottomWidth={1} borderColor="grey.200" mb={3}>
-      {groups.map((group, index) => (
-        <JacdacTypeModule
-          key={group.type}
-          type={group.type}
-          roles={group.roles}
-          connectedRoleNames={connectedRoleNames}
-          index={index}
-          isLast={index === groups.length - 1}
-        />
-      ))}
+    <Stack borderTopWidth={1} borderColor="grey.200" pt={5} spacing={2}>
+      <Text as="h3" fontWeight="semibold">
+        {intl.formatMessage({ id: "jacdac-tab" })}
+      </Text>
+      <Text fontSize="sm" color="gray.600">
+        {intl.formatMessage({ id: "jacdac-sim-empty" })}
+      </Text>
     </Stack>
+  );
+};
+
+/**
+ * Jacdac OUTPUTS (e.g. the LED ring), rendered near the board — below the
+ * play/stop/mute controls and above the serial — rather than buried in the input
+ * modules list, so outputs and inputs are visually separated (the board and
+ * serial are outputs too). Renders nothing when the code uses no Jacdac outputs.
+ */
+export const JacdacSimulatorOutputs = () => {
+  const intl = useIntl();
+  const roles = useParsedRoles();
+  const { connectedRoleNames } = useJacdacAssignments();
+  const [, setRouterState] = useRouterState();
+  const outputRoles = roles.filter((r) => OUTPUT_TYPES.has(r.type));
+  if (outputRoles.length === 0) {
+    return null;
+  }
+  const groups = groupByType(OUTPUT_TYPES_LIST, outputRoles);
+  return (
+    <Box
+      bg="gray.25"
+      px={3}
+      py={4}
+      flexShrink={0}
+      borderTopWidth={1}
+      borderColor="grey.200"
+    >
+      <VStack spacing={6} align="stretch">
+        {groups.map((group) => {
+          const title = intl.formatMessage({
+            id: `jacdac-sim-group-${group.type}`,
+          });
+          return (
+            <VStack key={group.type} spacing={4}>
+              {/* Outputs are always shown (no collapse) and centered. */}
+              <HStack justify="center" spacing={1}>
+                <Text as="h3" fontWeight="semibold">
+                  {title}
+                </Text>
+                <IconButton
+                  aria-label={intl.formatMessage({ id: "jacdac-sim-docs-link" })}
+                  icon={<RiInformationLine />}
+                  color="brand.500"
+                  variant="ghost"
+                  size="xs"
+                  fontSize="lg"
+                  onClick={() =>
+                    setRouterState(
+                      { tab: "jacdac", slug: { id: group.type }, focus: true },
+                      "documentation-from-simulator"
+                    )
+                  }
+                />
+              </HStack>
+              <Wrap justify="center" spacing={6}>
+                {group.roles.map((role) => (
+                  <WrapItem key={role.name}>
+                    <VStack spacing={2} align="center">
+                      <RoleLabel
+                        role={role}
+                        connected={connectedRoleNames.has(role.name)}
+                      />
+                      {group.type === "servo" ? <SimServo /> : <SimLedRing />}
+                    </VStack>
+                  </WrapItem>
+                ))}
+              </Wrap>
+            </VStack>
+          );
+        })}
+      </VStack>
+    </Box>
   );
 };
 
@@ -398,6 +496,92 @@ const SimSlider = ({
       onSensorChange={handleChange}
       minimised={minimised}
     />
+  );
+};
+
+// A ring of colour LEDs, ripped off from the jacdac-docs LED widget (pixels
+// positioned around a circle). It's an OUTPUT: it only displays. The user's code
+// would drive it, but the POC sim can't run code yet (Task 1), so it just shows
+// the ring, LEDs off — no inputs, because you don't poke an output.
+const RING_PIXELS = 12;
+const OFF_COLOR = "#cbd5e0"; // gray.300 — an unlit LED
+const RING_SIZE = 128;
+const PIXEL_RADIUS = 7;
+
+const SimLedRing = () => {
+  const intl = useIntl();
+  const center = RING_SIZE / 2;
+  const ringRadius = center - PIXEL_RADIUS - 3;
+  return (
+    <svg
+      width={RING_SIZE}
+      height={RING_SIZE}
+      viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
+      role="img"
+      aria-label={intl.formatMessage({ id: "jacdac-sim-group-led-ring" })}
+    >
+      {/* Faint backing track so the pixels read as a ring. */}
+      <circle
+        cx={center}
+        cy={center}
+        r={ringRadius}
+        fill="none"
+        stroke="#edf2f7"
+        strokeWidth={PIXEL_RADIUS * 2 + 2}
+      />
+      {Array.from({ length: RING_PIXELS }).map((_, i) => {
+        const angle = (-90 + i * (360 / RING_PIXELS)) * (Math.PI / 180);
+        const cx = center + ringRadius * Math.cos(angle);
+        const cy = center + ringRadius * Math.sin(angle);
+        return (
+          <circle
+            key={i}
+            cx={cx}
+            cy={cy}
+            r={PIXEL_RADIUS}
+            fill={OFF_COLOR}
+            stroke="#0000001f"
+            strokeWidth={1}
+          />
+        );
+      })}
+    </svg>
+  );
+};
+
+// A servo, ripped off from the jacdac-docs ServoWidget. Also an OUTPUT: the arm
+// is shown at the 90° resting position, muted, since the POC sim can't run the
+// code that would drive it.
+const SimServo = () => {
+  const intl = useIntl();
+  return (
+    <svg
+      width={116}
+      height={82}
+      viewBox="0 0 158.5 111.4"
+      role="img"
+      aria-label={intl.formatMessage({ id: "jacdac-sim-group-servo" })}
+    >
+      <rect
+        fill="#edf2f7"
+        x={0}
+        y={10.687}
+        width={158.62}
+        height={89.75}
+        rx={4}
+        ry={4}
+      />
+      <path
+        fill="#e2e8f0"
+        d="M125.545 55.641c0-24.994-20.26-45.256-45.254-45.256-17.882.016-34.077 9.446-41.328 25.79-2.655.024-4.192.076-6.35.07-11.158 0-20.204 9.046-20.204 20.204 0 11.158 9.046 20.203 20.203 20.203 2.389-.005 4.354-.332 6.997-.256 7.56 15.59 23.356 24.485 40.682 24.5 24.992 0 45.254-20.264 45.254-45.256z"
+      />
+      {/* Arm at the 90° resting position (transform rotate 0). */}
+      <path
+        fill="#cbd5e0"
+        stroke="#a0aec0"
+        d="M93.782 55.623c-.032-3.809-.19-6.403-.352-7.023h-.002c-.93-3.558-6.621-6.73-14.793-6.73-8.17 0-14.649 3.016-14.795 6.73-.25 6.419-4.049 62.795 13.561 62.806 14.308.008 16.52-39.277 16.38-55.783zm-8.05.08a7.178 7.178 0 010 .012 7.178 7.178 0 01-7.179 7.176 7.178 7.178 0 01-7.177-7.176 7.178 7.178 0 017.177-7.178 7.178 7.178 0 017.178 7.166z"
+      />
+    </svg>
   );
 };
 

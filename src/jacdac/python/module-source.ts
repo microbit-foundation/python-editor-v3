@@ -12,7 +12,9 @@
 import { extractModuleData } from "../../fs/fs-util";
 import { JacdacRoleType } from "../parse-roles";
 import jacdacButton from "./jacdac_button.py?raw";
+import jacdacLedRing from "./jacdac_led_ring.py?raw";
 import jacdacRotaryEncoder from "./jacdac_rotary_encoder.py?raw";
+import jacdacServo from "./jacdac_servo.py?raw";
 import jacdacSlider from "./jacdac_slider.py?raw";
 
 export interface JacdacModule {
@@ -30,6 +32,8 @@ export const JACDAC_MODULES: JacdacModule[] = [
     source: jacdacRotaryEncoder,
   },
   { className: "jacdac_slider", type: "slider", source: jacdacSlider },
+  { className: "jacdac_led_ring", type: "led-ring", source: jacdacLedRing },
+  { className: "jacdac_servo", type: "servo", source: jacdacServo },
 ];
 
 /**

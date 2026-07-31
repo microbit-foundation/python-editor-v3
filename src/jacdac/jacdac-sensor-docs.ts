@@ -32,6 +32,16 @@ export const jacdacTopics: JacdacTopic[] = [
     description: "A rotary encoder you can turn (often with a button too)",
   },
   { id: "slider", name: "Slider", description: "A linear potentiometer slider" },
+  {
+    id: "led-ring",
+    name: "LED ring",
+    description: "A ring of colour LEDs you can light up (an output)",
+  },
+  {
+    id: "servo",
+    name: "Servo",
+    description: "A servo motor you can move to an angle (an output)",
+  },
 ];
 
 /**
@@ -128,6 +138,79 @@ from jacdac_slider import jacdac_slider
 my_slider = jacdac_slider("my role name")
 while True:
     display.show(str(my_slider.value()))`,
+    },
+  ],
+  "led-ring": [
+    {
+      method: "fill()",
+      description: "Set every LED to the same colour. Colours are (red, green, blue).",
+      code: `from microbit import *
+from jacdac_led_ring import jacdac_led_ring
+
+my_ring = jacdac_led_ring("my role name")
+my_ring.fill((0, 40, 0))
+my_ring.show()`,
+    },
+    {
+      method: "set_pixel()",
+      description: "Set one LED's colour by its position, starting from 0.",
+      code: `from microbit import *
+from jacdac_led_ring import jacdac_led_ring
+
+my_ring = jacdac_led_ring("my role name")
+my_ring.set_pixel(0, (40, 0, 0))
+my_ring.set_pixel(1, (0, 0, 40))
+my_ring.show()`,
+    },
+    {
+      method: "clear()",
+      description: "Turn every LED off.",
+      code: `from microbit import *
+from jacdac_led_ring import jacdac_led_ring
+
+my_ring = jacdac_led_ring("my role name")
+my_ring.fill((40, 40, 0))
+my_ring.show()
+sleep(1000)
+my_ring.clear()
+my_ring.show()`,
+    },
+    {
+      method: "set_brightness()",
+      description: "Set the overall brightness, from 0 (off) to 100 (full).",
+      code: `from microbit import *
+from jacdac_led_ring import jacdac_led_ring
+
+my_ring = jacdac_led_ring("my role name")
+my_ring.set_brightness(30)
+my_ring.fill((40, 0, 40))
+my_ring.show()`,
+    },
+  ],
+  servo: [
+    {
+      method: "set_angle()",
+      description: "Move the servo arm to an angle, from 0 to 180 degrees.",
+      code: `from microbit import *
+from jacdac_servo import jacdac_servo
+
+my_servo = jacdac_servo("my role name")
+while True:
+    my_servo.set_angle(0)
+    sleep(1000)
+    my_servo.set_angle(180)
+    sleep(1000)`,
+    },
+    {
+      method: "off()",
+      description: "Turn the servo off so it stops holding its position.",
+      code: `from microbit import *
+from jacdac_servo import jacdac_servo
+
+my_servo = jacdac_servo("my role name")
+my_servo.set_angle(90)
+sleep(1000)
+my_servo.off()`,
     },
   ],
 };

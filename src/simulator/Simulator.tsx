@@ -18,6 +18,7 @@ import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
 import { SimulatorDeviceConnection } from "../device/simulator";
 import { useLogging } from "../logging/logging-hooks";
+import { JacdacSimulatorOutputs } from "./JacdacSimulatorSection";
 import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
@@ -100,6 +101,7 @@ const Simulator = ({
         flex="1 1 100%"
         flexDirection="column"
         height="100%"
+        overflowY="auto"
         position="relative"
       >
         <Flex
@@ -116,7 +118,7 @@ const Simulator = ({
             direction="expandLeft"
           />
         </Flex>
-        <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
+        <VStack spacing={5} bg="gray.25" flexShrink={0} ref={simControlsRef}>
           <Box width="100%" pb={1} px={5} maxW="md" minW={minWidth}>
             <AspectRatio ratio={191.27 / 155.77} width="100%">
               <Box
@@ -140,6 +142,10 @@ const Simulator = ({
             />
           </Box>
         </VStack>
+        {/* Jacdac outputs sit below the controls and above the serial. The
+            column scrolls (see overflowY above) so this never squeezes the
+            serial/modules split, which keeps its own minimum height. */}
+        <JacdacSimulatorOutputs />
         <SimSerialTabControlProvider>
           <SimulatorSplitView simRunning={running} />
         </SimSerialTabControlProvider>
