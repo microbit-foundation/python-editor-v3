@@ -100,6 +100,7 @@ const ConnectDialogFooter = ({
       {!dialogNormallyHidden && !shownByRequest && (
         <Button
           variant="link"
+          size="lg"
           onPress={onNextDontShowAgain}
           css={{ color: "brand.500", mr: "auto" }}
         >

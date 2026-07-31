@@ -76,6 +76,7 @@ export const GenericDialogFooter = ({
       {!dialogNormallyHidden && !shownByRequest && (
         <Button
           variant="link"
+          size="lg"
           onPress={onCloseDontShowAgain}
           css={{ color: "brand.500", mr: "auto" }}
         >
