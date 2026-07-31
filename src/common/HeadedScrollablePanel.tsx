@@ -33,7 +33,7 @@ const HeadedScrollablePanel = ({
           >
             {/* Use of header here is relied on to correctly offset the scrolling based on the actual height of the sticky header. See Highlight.tsx */}
             <styled.header>{heading}</styled.header>
-            <Divider />
+            <Divider thickness="thick" />
           </Box>
         )}
         {children}
