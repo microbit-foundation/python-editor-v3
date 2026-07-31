@@ -4,25 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { definePreset } from "@pandacss/dev";
-import commonSizes from "./common-sizes";
-import fontSizes from "./font-sizes";
-
-const toTokens = (values: Record<string, string | number>) =>
-  Object.fromEntries(
-    Object.entries(values).map(([k, value]) => [k, { value: String(value) }])
-  );
-
-// The late-v3 "make everything smaller" theme change (2022): the numeric
-// spacing/size scale is Chakra's 0.25rem grid × 0.88, and fontSizes from
-// `md` up are × 0.9 (xs/sm kept full-size so text never gets too small).
-// The adjacent common-sizes.ts/font-sizes.ts are the (only) home of the
-// values now Chakra is gone. The team may revisit whether this bespoke
-// density stays or aligns with the family scale (the editor is more
-// information-dense than the other apps, so there may be grounds to keep
-// it); if alignment wins, delete these overrides and re-run the visual
-// pass. For now the port replicates it.
-const shrunkenScale = toTokens(commonSizes);
-const shrunkenFontSizes = toTokens(fontSizes);
 
 /**
  * The python-editor OSS app preset: this app's own styling decisions, merged
@@ -62,9 +43,6 @@ export const appPreset = definePreset({
         fonts: {
           code: { value: "Source Code Pro, monospace" },
         },
-        spacing: shrunkenScale,
-        sizes: shrunkenScale,
-        fontSizes: shrunkenFontSizes,
         colors: {
           // This app's very light grays differ slightly from the family base
           // preset's (gray.25 is #f5f6f8 here vs #f5f5f5): mirror the OSS

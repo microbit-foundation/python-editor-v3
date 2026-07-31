@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { basePreset } from "@microbit/ui/base-preset";
+import { densePreset } from "@microbit/ui/dense-preset";
 import { defineConfig } from "@pandacss/dev";
 import { appPreset } from "./src/deployment/default/panda-preset";
 
@@ -31,12 +32,15 @@ export default defineConfig({
   // token system (ported from Chakra). preset-base still provides the utilities.
   eject: true,
   // Later presets override earlier ones: @microbit/ui's base preset (the
-  // complete design system + recipes, OSS default brand values), this app's
-  // own preset, then the optional private brand preset which overrides the OSS
-  // brand values. staticCss lives in the base preset.
+  // complete design system + recipes, OSS default brand values), the shared
+  // dense preset (this app's × 0.88 spacing / × 0.9 font-size density, shared
+  // with classroom — see playbook gotcha #25), this app's own preset, then the
+  // optional private brand preset which overrides the OSS brand values.
+  // staticCss lives in the base preset.
   presets: [
     "@pandacss/preset-base",
     basePreset,
+    densePreset,
     appPreset,
     ...(brandPreset ? [brandPreset] : []),
   ],
