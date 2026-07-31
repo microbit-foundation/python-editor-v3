@@ -530,7 +530,9 @@ export class ProjectActions {
       const progress = (stage: ProgressStage, value?: number) => {
         const isPartial = stage === ProgressStage.PartialFlashing;
         const isFlashing = isPartial || stage === ProgressStage.FullFlashing;
-        if (isFlashing) {
+        // An undefined value for a flashing stage signals completion; hold the
+        // bar at its last value until the dialog closes rather than showing 0.
+        if (isFlashing && value !== undefined) {
           this.dialogs.progress({
             header: flashingCode,
             body: isPartial ? undefined : firstFlashNotice,
