@@ -25,7 +25,6 @@ export const showOfflineLanguageToast = (toast: ToastFn): void => {
     description:
       "The language will update when you next open the micro:bit Python Editor and you are online.",
     status: "info",
-    duration: 5_000,
     isClosable: true,
   });
 };
