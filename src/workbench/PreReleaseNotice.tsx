@@ -84,7 +84,7 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
             leftIcon={<RiInformationFill />}
             variant="link"
             size="xs"
-            css={{ color: "white", p: "1" }}
+            css={{ color: "white", p: "1", fontWeight: "semibold" }}
             onPress={openInfoDialog}
           >
             More
@@ -94,7 +94,7 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
           leftIcon={<RiFeedbackFill />}
           variant="link"
           size="xs"
-          css={{ color: "white", p: "1" }}
+          css={{ color: "white", p: "1", fontWeight: "semibold" }}
           onPress={openFeedbackDialog}
         >
           Feedback
