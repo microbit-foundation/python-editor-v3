@@ -137,7 +137,7 @@ const ReferenceTopicEntry = ({
                   {alternativesLabel}
                 </Text>
                 <NativeSelect
-                  css={{ width: "fit-content" }}
+                  wrapperCss={{ width: "fit-content" }}
                   onChange={handleSelectChange}
                   value={alternativeSlug}
                   size="sm"

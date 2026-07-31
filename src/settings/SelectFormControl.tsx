@@ -48,7 +48,7 @@ const SelectFormControl = <T extends string>({
       <NativeSelect
         id={id}
         onChange={handleChange}
-        css={{ width: "28ch" }}
+        wrapperCss={{ width: "28ch" }}
         value={value}
       >
         {options.map(({ value, label }) => (
