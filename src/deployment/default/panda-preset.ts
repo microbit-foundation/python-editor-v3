@@ -116,6 +116,12 @@ export const appPreset = definePreset({
         },
       },
       recipes: {
+        // The Chakra theme defaulted Text to `md` — 0.9rem on this app's
+        // shrunken scale, vs the 16px an unsized <Text> would inherit.
+        // App-level because other apps rely on inheritance (Text.recipe.ts).
+        text: {
+          defaultVariants: { size: "md" },
+        },
         // python-editor's default button variant is `outline` (census: the
         // OSS theme applies withDefaultVariant("outline"); the family base
         // recipe defaults to `secondary`). Ported from the Chakra `outline`
