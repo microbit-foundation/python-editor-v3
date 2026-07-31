@@ -113,7 +113,7 @@ const DocumentationListItem = ({
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
       </HStack>
-      <Divider ml="3" />
+      <Divider ml="3" borderBottomWidth="2px" />
     </ListItem>
   );
 };
