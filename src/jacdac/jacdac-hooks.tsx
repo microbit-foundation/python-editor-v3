@@ -28,8 +28,11 @@ import {
 import { MAIN_FILE, VersionAction } from "../fs/fs";
 import { useFileSystem } from "../fs/fs-hooks";
 import { extractModuleData } from "../fs/fs-util";
+import { createUri, DiagnosticsEvent } from "../language-server/client";
+import { jacdacRoles } from "../language-server/jacdac-roles";
+import { useLanguageServerClient } from "../language-server/language-server-hooks";
 import { useRouterState } from "../router-hooks";
-import { parseRoles, ParsedRole } from "./parse-roles";
+import { ParsedRole, roleTypeForConstructor } from "./parse-roles";
 import { JACDAC_MODULES } from "./python/module-source";
 import { SupportedService, supportedServiceByClass } from "./supported-services";
 
@@ -187,35 +190,55 @@ export const useEnsureJacdacModules = (): void => {
 /**
  * Jacdac roles parsed from the user's code (main.py), refreshed as the code
  * changes. The user's code is the source of truth for role names.
+ *
+ * Parsing runs in Pyright (the custom pyright/jacdacRoles request) over the real
+ * AST — so quoted role names like "don't push" are handled correctly — and flags
+ * reserved characters. We refresh whenever Pyright republishes diagnostics for
+ * main.py, i.e. after it has re-analysed the current code.
  */
 export const useParsedRoles = (): ParsedRole[] => {
-  const fs = useFileSystem();
+  const client = useLanguageServerClient();
   const [roles, setRoles] = useState<ParsedRole[]>([]);
   useEffect(() => {
+    if (!client) {
+      setRoles([]);
+      return;
+    }
     let cancelled = false;
-    const update = async () => {
-      let text = "";
-      try {
-        if (await fs.exists(MAIN_FILE)) {
-          const { data } = await fs.read(MAIN_FILE);
-          text = new TextDecoder().decode(data);
-        }
-      } catch {
-        // Ignore read errors; treat as no roles.
+    let latestRequest = 0;
+    const uri = createUri(MAIN_FILE);
+    // Pyright's in-memory file path (getBoundSourceFile), e.g. "/src/main.py".
+    const path = uri.replace(/^file:\/\//, "");
+    const refresh = async () => {
+      const requestId = ++latestRequest;
+      const { roles: results } = await jacdacRoles(client, path);
+      if (cancelled || requestId !== latestRequest) {
+        return;
       }
-      if (!cancelled) {
-        setRoles(parseRoles(text));
+      const next: ParsedRole[] = [];
+      const seen = new Set<string>();
+      for (const result of results) {
+        const type = roleTypeForConstructor(result.constructorName);
+        // Dedupe by name (role names are unique across a program).
+        if (type && !seen.has(result.name)) {
+          seen.add(result.name);
+          next.push({ name: result.name, type });
+        }
+      }
+      setRoles(next);
+    };
+    void refresh();
+    const onDiagnostics = (event: DiagnosticsEvent) => {
+      if (event.detail.uri === uri) {
+        void refresh();
       }
     };
-    void update();
-    fs.addEventListener("file_text_updated", update);
-    fs.addEventListener("project_updated", update);
+    client.addEventListener("diagnostics", onDiagnostics);
     return () => {
       cancelled = true;
-      fs.removeEventListener("file_text_updated", update);
-      fs.removeEventListener("project_updated", update);
+      client.removeEventListener("diagnostics", onDiagnostics);
     };
-  }, [fs]);
+  }, [client]);
   return roles;
 };
 

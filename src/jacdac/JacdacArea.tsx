@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Icon, List, Tooltip, usePrevious } from "@chakra-ui/react";
+import { Box, Icon, List, Tooltip, usePrevious } from "@chakra-ui/react";
 import { useCallback, useMemo, useRef } from "react";
 import { RiCheckboxCircleFill } from "react-icons/ri";
 import { useIntl } from "react-intl";
@@ -118,12 +118,16 @@ const JacdacArea = () => {
             badge={
               isConnected(t.id) ? (
                 <Tooltip label={intl.formatMessage({ id: "jacdac-connected" })}>
-                  <Icon
-                    as={RiCheckboxCircleFill}
+                  {/* Wrapped in a span so Tooltip has a ref-able child:
+                      react-icons components aren't forwardRef. */}
+                  <Box
+                    as="span"
+                    display="inline-flex"
                     color="green.500"
-                    boxSize={5}
                     aria-label={intl.formatMessage({ id: "jacdac-connected" })}
-                  />
+                  >
+                    <Icon as={RiCheckboxCircleFill} boxSize={5} />
+                  </Box>
                 </Tooltip>
               ) : undefined
             }
