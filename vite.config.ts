@@ -12,6 +12,23 @@ import { VitePWA } from "vite-plugin-pwa";
 import svgr from "vite-plugin-svgr";
 import { configDefaults, defineConfig, UserConfig } from "vitest/config";
 
+// Browser-support floor (esbuild/lightningcss target syntax) for JS
+// (build.target) and CSS (build.cssTarget). Keep in sync with the
+// "browserslist" field in package.json, which is documentation — this is what
+// the build actually uses.
+//
+// safari14.1/ios14.5 rather than 14/14 is deliberate: flexbox `gap` landed in
+// exactly those versions, and the Panda stack patterns this app is built on
+// depend on it. See postcss.config.cjs for the two Safari <15.4 fixes that go
+// with this floor.
+const BUILD_TARGETS = [
+  "chrome90",
+  "edge90",
+  "firefox88",
+  "safari14.1",
+  "ios14.5",
+];
+
 // Support optionally pulling in external branding if the module is installed.
 const theme = "@microbit-foundation/python-editor-v3-microbit";
 const external = `node_modules/${theme}`;
@@ -88,7 +105,8 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "build",
       sourcemap: true,
-      target: ["chrome98", "edge98", "safari14", "ios14", "firefox104"],
+      target: BUILD_TARGETS,
+      cssTarget: BUILD_TARGETS,
     },
     server: {
       port: 3000,

@@ -114,19 +114,13 @@
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch"
   },
-  "browserslist": {
-    "production": [
-      "defaults",
-      "Chrome >= 98",
-      "Edge >= 98",
-      "ChromeAndroid >= 95",
-      "Safari >= 14",
-      "iOS >= 14"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "//browserslist": "Keep in sync with BUILD_TARGETS in vite.config.ts, which is what the build actually uses.",
+  "browserslist": [
+    "safari >= 14.1",
+    "ios_saf >= 14.5",
+    "chrome >= 90",
+    "edge >= 90",
+    "firefox >= 88",
+    "not dead"
+  ]
 }

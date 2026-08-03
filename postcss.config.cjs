@@ -6,12 +6,11 @@
  * PostCSS runs because vite.config.ts keeps Vite's default CSS transformer
  * (not lightningcss, which would disable PostCSS).
  *
- * This app targets Safari/iOS 14 (see package.json "browserslist"), below the
- * 15.4 floor where Panda's output works natively, so two TEMPORARY downleveling
- * plugins run in PRODUCTION builds only (dev browsers are modern, and the
- * flattened @layer output makes devtools tracing painful). Drop both — and
- * raise the vite.config.ts build target — once support rises past those
- * browsers.
+ * This app targets Safari 14.1 / iOS 14.5 (BUILD_TARGETS in vite.config.ts),
+ * below the 15.4 floor where Panda's output works natively, so two TEMPORARY
+ * downleveling plugins run in PRODUCTION builds only (dev browsers are modern,
+ * and the flattened @layer output makes devtools tracing painful). Drop both —
+ * and raise BUILD_TARGETS — once support rises past those browsers.
  *
  * 1. expandLogicalShorthands (@microbit/ui/postcss-legacy-safari) — Safari 14.x
  *    silently drops logical *shorthands* whose value contains var()
