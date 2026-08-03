@@ -8,8 +8,7 @@ This app uses react-aria-components + Panda CSS via `@microbit/ui`
 Panda's static extraction rules and RAC behaviours catalogued there still
 apply to new code. The private theme package is the sibling repo
 `../python-editor-v3-microbit` (consumed via a manual `node_modules`
-symlink locally — re-create it after `npm install`). The visual fidelity
-harness is `npm run fidelity` (see `bin/fidelity.mjs`).
+symlink locally — re-create it after `npm install`).
 
 `@microbit/ui` is consumed as the **published package**, pinned in
 `package.json`. To develop against a local `../ui` checkout instead — what you
