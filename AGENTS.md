@@ -11,14 +11,15 @@ apply to new code. The private theme package is the sibling repo
 symlink locally — re-create it after `npm install`). The visual fidelity
 harness is `npm run fidelity` (see `bin/fidelity.mjs`).
 
-`@microbit/ui` is currently **also** consumed via a manual symlink to
-`../ui/packages/ui`, because classroom's migration is adding to the library
-and this app tracks those changes (`panda.config.ts` imports
-`@microbit/ui/dense-preset`, which the pinned published version predates).
-Re-create that symlink after `npm install` too, and regenerate clean
-afterwards (`rm -rf styled-system && npm run panda`) — incremental codegen
-does not detect external preset changes. Both go away when the pin moves to
-the next published alpha.
+`@microbit/ui` is consumed as the **published package**, pinned in
+`package.json`. To develop against a local `../ui` checkout instead — what you
+want whenever a change spans the library and this app — symlink
+`node_modules/@microbit/ui` to `../ui/packages/ui`, the same arrangement as the
+theme package above. Re-create it after `npm install` (which restores the pinned
+version), and regenerate clean afterwards (`rm -rf styled-system && npm run
+panda`) — incremental codegen does not detect external preset changes.
+`resolve.dedupe` in `vite.config.ts` is what stops the symlinked package loading
+its own copies of React and friends, so leave it in place either way.
 
 ## Commands
 
