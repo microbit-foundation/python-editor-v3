@@ -13,6 +13,8 @@ import {
   JDBus,
   JDDevice,
   JDService,
+  PackedValues,
+  REPORT_UPDATE,
   Role,
   ROLE_MANAGER_CHANGE,
 } from "jacdac-ts";
@@ -314,6 +316,50 @@ export const useAutoShowJacdacOnSensor = (
       setParams({ tab: "jacdac" });
     }
   }, [sensors, setParams]);
+};
+
+/**
+ * The live decoded reading of a sensor service's reading register.
+ *
+ * The bus doesn't stream (that floods the worker exchange), so we poll the one
+ * register on demand and also update on report changes. Returns the decoded
+ * value tuple, or undefined before the first read / when there's no register.
+ * Only the passed service is read, so this stays cheap (one register at a time).
+ */
+export const useJacdacReading = (
+  service: JDService | undefined
+): PackedValues | undefined => {
+  const [value, setValue] = useState<PackedValues | undefined>(undefined);
+  useEffect(() => {
+    setValue(undefined);
+    const register = service?.readingRegister;
+    if (!register) {
+      return;
+    }
+    let cancelled = false;
+    const update = () => {
+      if (!cancelled) {
+        setValue(register.unpackedValue);
+      }
+    };
+    const poll = async () => {
+      try {
+        await register.sendGetAsync();
+      } catch {
+        // Ignore; the device may have gone away.
+      }
+      update();
+    };
+    const unsubscribe = register.subscribe(REPORT_UPDATE, update);
+    void poll();
+    const interval = setInterval(() => void poll(), 200);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+      unsubscribe();
+    };
+  }, [service]);
+  return value;
 };
 
 /** Live list of sensor services on the bus that expose a reading register. */

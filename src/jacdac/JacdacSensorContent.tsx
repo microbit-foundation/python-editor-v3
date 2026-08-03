@@ -18,6 +18,8 @@ import DocumentationHeading from "../documentation/common/DocumentationHeading";
 import Highlight from "../documentation/reference/Highlight";
 import { Anchor } from "../router-hooks";
 import { MethodExample, sensorMethodExamples } from "./jacdac-sensor-docs";
+import JacdacLiveStatus from "./JacdacLiveStatus";
+import { JacdacRoleType } from "./parse-roles";
 
 /**
  * Per-method example code for a Jacdac sensor type. Hardcoded, English-only
@@ -37,19 +39,23 @@ const JacdacSensorContent = ({ topic, anchor }: JacdacSensorContentProps) => {
   const examples = sensorMethodExamples[topic.id] ?? [];
   const activeMethod = anchor?.id.split("/")[1];
   return (
-    <List flex="1 1 auto">
-      {examples.map((example) => (
-        <ListItem key={example.method}>
-          <JacdacMethodEntry
-            topicId={topic.id}
-            example={example}
-            anchor={anchor}
-            active={activeMethod === methodKey(example.method)}
-          />
-          <Divider />
-        </ListItem>
-      ))}
-    </List>
+    <>
+      {/* Live reading of a connected sensor of this type (self-hides otherwise). */}
+      <JacdacLiveStatus type={topic.id as JacdacRoleType} />
+      <List flex="1 1 auto">
+        {examples.map((example) => (
+          <ListItem key={example.method}>
+            <JacdacMethodEntry
+              topicId={topic.id}
+              example={example}
+              anchor={anchor}
+              active={activeMethod === methodKey(example.method)}
+            />
+            <Divider />
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };
 

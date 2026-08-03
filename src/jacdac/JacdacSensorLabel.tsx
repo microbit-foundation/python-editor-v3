@@ -26,7 +26,8 @@ const JacdacSensorLabel = ({
   serviceLabel,
 }: {
   device: JDDevice;
-  serviceLabel: string;
+  // Omitted when used as a device header (services listed separately).
+  serviceLabel?: string;
 }) => {
   const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
   useEffect(() => {
@@ -47,9 +48,11 @@ const JacdacSensorLabel = ({
       <Text fontWeight="semibold" lineHeight="short">
         {device.shortId}
       </Text>
-      <Text fontSize="xs" color="gray.700" lineHeight="short">
-        {serviceLabel}
-      </Text>
+      {serviceLabel && (
+        <Text fontSize="xs" color="gray.700" lineHeight="short">
+          {serviceLabel}
+        </Text>
+      )}
       {productName && (
         <Text fontSize="xs" color="gray.500" lineHeight="short">
           {productName}
