@@ -138,10 +138,8 @@ const JacdacSimulatorSection = ({
  * serial are outputs too). Renders nothing when the code uses no Jacdac outputs.
  */
 export const JacdacSimulatorOutputs = () => {
-  const intl = useIntl();
   const roles = useParsedRoles();
   const { connectedRoleNames } = useJacdacAssignments();
-  const [, setRouterState] = useRouterState();
   const outputRoles = roles.filter((r) => OUTPUT_TYPES.has(r.type));
   if (outputRoles.length === 0) {
     return null;
@@ -157,49 +155,82 @@ export const JacdacSimulatorOutputs = () => {
       borderColor="grey.200"
     >
       <VStack spacing={6} align="stretch">
-        {groups.map((group) => {
-          const title = intl.formatMessage({
-            id: `jacdac-sim-group-${group.type}`,
-          });
-          return (
-            <VStack key={group.type} spacing={4}>
-              {/* Outputs are always shown (no collapse) and centered. */}
-              <HStack justify="center" spacing={1}>
-                <Text as="h3" fontWeight="semibold">
-                  {title}
-                </Text>
-                <IconButton
-                  aria-label={intl.formatMessage({ id: "jacdac-sim-docs-link" })}
-                  icon={<RiInformationLine />}
-                  color="brand.500"
-                  variant="ghost"
-                  size="xs"
-                  fontSize="lg"
-                  onClick={() =>
-                    setRouterState(
-                      { tab: "jacdac", slug: { id: group.type }, focus: true },
-                      "documentation-from-simulator"
-                    )
-                  }
-                />
-              </HStack>
-              <Wrap justify="center" spacing={6}>
-                {group.roles.map((role) => (
-                  <WrapItem key={role.name}>
-                    <VStack spacing={2} align="center">
-                      <RoleLabel
-                        role={role}
-                        connected={connectedRoleNames.has(role.name)}
-                      />
-                      {group.type === "servo" ? <SimServo /> : <SimLedRing />}
-                    </VStack>
-                  </WrapItem>
-                ))}
-              </Wrap>
-            </VStack>
-          );
-        })}
+        {groups.map((group) => (
+          <JacdacOutputGroup
+            key={group.type}
+            group={group}
+            connectedRoleNames={connectedRoleNames}
+          />
+        ))}
       </VStack>
+    </Box>
+  );
+};
+
+// A collapsible group of Jacdac outputs of one type. Starts expanded; the widgets
+// stay centred, the header carries the docs link and the collapse toggle.
+const JacdacOutputGroup = ({
+  group,
+  connectedRoleNames,
+}: {
+  group: TypeGroup;
+  connectedRoleNames: Set<string>;
+}) => {
+  const intl = useIntl();
+  const [, setRouterState] = useRouterState();
+  const disclosure = useDisclosure({ defaultIsOpen: true });
+  const title = intl.formatMessage({ id: `jacdac-sim-group-${group.type}` });
+  return (
+    <Box>
+      <HStack justifyContent="space-between" mb={disclosure.isOpen ? 4 : 0}>
+        <HStack spacing={1}>
+          <Text as="h3" fontWeight="semibold">
+            {title}
+          </Text>
+          <IconButton
+            aria-label={intl.formatMessage({ id: "jacdac-sim-docs-link" })}
+            icon={<RiInformationLine />}
+            color="brand.500"
+            variant="ghost"
+            size="xs"
+            fontSize="lg"
+            onClick={() =>
+              setRouterState(
+                { tab: "jacdac", slug: { id: group.type }, focus: true },
+                "documentation-from-simulator"
+              )
+            }
+          />
+        </HStack>
+        <IconButton
+          icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
+          aria-label={
+            disclosure.isOpen
+              ? intl.formatMessage({ id: "simulator-collapse-module" }, { title })
+              : intl.formatMessage({ id: "simulator-expand-module" }, { title })
+          }
+          size="sm"
+          color="brand.200"
+          variant="ghost"
+          fontSize="2xl"
+          onClick={disclosure.onToggle}
+        />
+      </HStack>
+      {disclosure.isOpen && (
+        <Wrap justify="center" spacing={6}>
+          {group.roles.map((role) => (
+            <WrapItem key={role.name}>
+              <VStack spacing={2} align="center">
+                <RoleLabel
+                  role={role}
+                  connected={connectedRoleNames.has(role.name)}
+                />
+                {group.type === "servo" ? <SimServo /> : <SimLedRing />}
+              </VStack>
+            </WrapItem>
+          ))}
+        </Wrap>
+      )}
     </Box>
   );
 };
