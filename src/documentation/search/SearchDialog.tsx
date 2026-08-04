@@ -73,7 +73,7 @@ const SearchDialog = ({
                 boxShadow: "none",
               },
               _placeholder: {
-                color: "gray.600",
+                color: "gray.500",
               },
             }}
             placeholder={intl.formatMessage({ id: "search" })}

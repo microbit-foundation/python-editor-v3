@@ -182,7 +182,7 @@ const MessageComposer = ({
         css={{
           minW: 0,
           "&::placeholder": {
-            color: "gray.600",
+            color: "gray.500",
           },
           borderRadius: minimised ? undefined : "2xl",
           bgColor: "white",

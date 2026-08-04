@@ -25,7 +25,7 @@ const SearchResultList = ({
 }: SearchResultListProps) => {
   return (
     <Stack gap="2">
-      <Text as="h2" fontSize="sm" px="3" color="gray.600" fontWeight="bold">
+      <Text as="h2" fontSize="sm" px="3" color="gray.500" fontWeight="bold">
         {title}
       </Text>
       {results.map((result) => (
@@ -78,7 +78,7 @@ const SearchResultItem = ({
       >
         <Stack px="8" py="2" gap="0">
           {title !== containerTitle && (
-            <Text fontSize="sm" color="gray.600" fontWeight="bold">
+            <Text fontSize="sm" color="gray.500" fontWeight="bold">
               {containerTitle}
             </Text>
           )}

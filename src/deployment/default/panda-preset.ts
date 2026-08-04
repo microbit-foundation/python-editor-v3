@@ -44,13 +44,10 @@ export const appPreset = definePreset({
           code: { value: "Source Code Pro, monospace" },
         },
         colors: {
-          // This app's very light grays differ slightly from the family base
-          // preset's (gray.25 is #f5f6f8 here vs #f5f5f5): mirror the OSS
-          // Chakra theme's values (src/deployment/default/colors.ts).
-          gray: {
-            10: { value: "#fcfcfc" },
-            25: { value: "#f5f6f8" },
-          },
+          // No gray overrides: the family's neutral ramp (@microbit/ui
+          // docs/gray-ramp.md) covers the sub-50 panel tints this app uses
+          // (10/25), so the old #f5f6f8 override goes — the base's #f6f6f6
+          // is the same tint de-blued.
           // Syntax-highlight / code-block palette. Consumed outside React as
           // CSS vars (CodeMirror highlight styles, structure highlighting), so
           // it's an app-preset token category; the private preset overrides the
@@ -133,8 +130,11 @@ export const appPreset = definePreset({
               zoom: {
                 color: "gray.800",
                 bg: "gray.100",
-                _hover: { bg: "gray.400" },
-                _active: { bg: "gray.500" },
+                // Re-pointed for the neutral ramp: the branded build's
+                // hover/press were #c9c9c9/#b0b0b0, whose nearest new stops
+                // are 300/400 (the old 400/500 names now sit much darker).
+                _hover: { bg: "gray.300" },
+                _active: { bg: "gray.400" },
               },
             },
           },
