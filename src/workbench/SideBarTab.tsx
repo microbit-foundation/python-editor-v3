@@ -45,7 +45,7 @@ const SideBarTab = ({
         "sidebar-tab " +
         css(
           {
-            color: color === "gray.50" ? "gray.50" : "gray.25",
+            color: color === "gray.50" ? "gray.50" : "gray.75",
             height: width,
             width,
             p: "0",
@@ -109,7 +109,7 @@ const SideBarTab = ({
               ".sidebar-tab[data-focus-visible]:focus-visible &": {
                 borderBottom: "3px solid",
                 // To match the active/inactive colour.
-                borderColor: active ? "brand.300" : "gray.25",
+                borderColor: active ? "brand.300" : "gray.75",
               },
             }}
           >

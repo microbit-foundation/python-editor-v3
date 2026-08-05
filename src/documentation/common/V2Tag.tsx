@@ -17,7 +17,7 @@ const TagSpan = styled("span", {
     lineHeight: 1.2,
     fontWeight: "semibold",
     background: "brand.500",
-    color: "gray.25",
+    color: "gray.75",
     pt: "1px",
     pb: "1px",
     pl: "1.5",

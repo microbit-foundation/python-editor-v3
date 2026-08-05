@@ -25,7 +25,7 @@ const HeadedScrollablePanel = ({
       <VStack alignItems="stretch" gap="0" role="document">
         {heading && (
           <Box
-            bg="gray.25"
+            bg="gray.75"
             flex="0 0 auto"
             position="sticky"
             top="0"

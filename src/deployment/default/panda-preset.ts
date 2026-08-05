@@ -45,8 +45,8 @@ export const appPreset = definePreset({
         },
         colors: {
           // No gray overrides: the family's neutral ramp (@microbit/ui
-          // docs/gray-ramp.md) covers the sub-50 panel tints this app uses
-          // (10/25), so the old #f5f6f8 override goes — the base's #f6f6f6
+          // docs/gray-ramp.md) covers the panel tints this app uses
+          // (10/75), so the old #f5f6f8 override goes — the base's #f6f6f6
           // is the same tint de-blued.
           // Syntax-highlight / code-block palette. Consumed outside React as
           // CSS vars (CodeMirror highlight styles, structure highlighting), so

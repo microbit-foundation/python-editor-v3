@@ -194,7 +194,7 @@ const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
         width="2"
         borderLeft="1px solid"
         borderRight="1px solid"
-        borderColor="gray.25"
+        borderColor="gray.75"
         // Track position is a runtime value.
         style={{ left: percentLeft }}
       />

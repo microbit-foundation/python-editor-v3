@@ -76,21 +76,21 @@ const SideBar = ({
         title: intl.formatMessage({ id: "reference-tab" }),
         icon: VscLibrary,
         contents: <ReferenceArea />,
-        color: "gray.25",
+        color: "gray.75",
       },
       {
         id: "ideas" as const,
         title: intl.formatMessage({ id: "ideas-tab" }),
         icon: RiLightbulbFlashLine,
         contents: <IdeasArea />,
-        color: "gray.25",
+        color: "gray.75",
       },
       {
         id: "api" as const,
         title: intl.formatMessage({ id: "api-tab" }),
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
-        color: "gray.25",
+        color: "gray.75",
         mb: "auto",
       },
       {
@@ -189,7 +189,7 @@ const SideBar = ({
       display="flex"
       height="100%"
       flexDirection="column"
-      backgroundColor="gray.25"
+      backgroundColor="gray.75"
       css={cssProp}
       {...props}
     >
