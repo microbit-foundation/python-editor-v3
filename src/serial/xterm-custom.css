@@ -7,8 +7,8 @@
   background-color: #333333;
 }
 .xterm-viewport::-webkit-scrollbar-thumb {
-  background: var(--colors-gray-600);
+  background: var(--colors-gray-350);
 }
 .xterm .xterm-viewport {
-  scrollbar-color: #333333 var(--colors-gray-600);
+  scrollbar-color: #333333 var(--colors-gray-350);
 }
