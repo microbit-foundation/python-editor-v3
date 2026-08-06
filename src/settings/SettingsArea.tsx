@@ -3,18 +3,38 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Checkbox, NumberField, Text } from "@microbit/ui";
-import { useCallback, useMemo } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { Box, VStack } from "styled-system/jsx";
-import SelectFormControl, { createOptions } from "./SelectFormControl";
+import { Checkbox, NativeSelectField, NumberField } from "@microbit/ui";
+import { ReactNode, useCallback, useMemo } from "react";
+import { FormattedMessage, IntlShape, useIntl } from "react-intl";
+import { VStack } from "styled-system/jsx";
 import {
+  CodeStructureOption,
   codeStructureOptions,
   maximumFontSize,
   minimumFontSize,
+  ParameterHelpOption,
   parameterHelpOptions,
   useSettings,
 } from "./settings";
+
+/**
+ * Translated <option>s for a settings select.
+ *
+ * @param values Values to create options for.
+ * @param prefix Prefix (no trailing '-') to use for translation keys.
+ * @param intl For translation strings.
+ */
+const createOptions = (
+  values: readonly string[],
+  prefix: string,
+  intl: IntlShape,
+  intlValues?: Record<string, string>
+): ReactNode =>
+  values.map((value) => (
+    <option key={value} value={value}>
+      {intl.formatMessage({ id: `${prefix}-${value}` }, intlValues)}
+    </option>
+  ));
 
 /**
  * The settings area.
@@ -64,67 +84,68 @@ const SettingsArea = () => {
         minValue={minimumFontSize}
         maxValue={maximumFontSize}
         onChange={handleChangeFontSize}
-        css={{ flexDirection: "row", alignItems: "center", width: "100%" }}
-        labelCss={{ flex: "1 1 auto", fontWeight: "normal", mb: "0" }}
+        labelPosition="side"
         groupCss={{ width: "12ch" }}
-        inputCss={{ h: "8", fontSize: "sm", borderRadius: "sm", px: "3" }}
       />
-      <SelectFormControl
+      <NativeSelectField
         id="codeStructureHighlight"
         label={intl.formatMessage({ id: "highlight-code-structure" })}
-        options={options.codeStructure}
+        labelPosition="side"
+        wrapperCss={{ width: "28ch" }}
         value={settings.codeStructureHighlight}
-        onChange={(codeStructureHighlight) =>
+        onChange={(e) =>
           setSettings({
             ...settings,
-            codeStructureHighlight,
+            codeStructureHighlight: e.currentTarget
+              .value as CodeStructureOption,
           })
         }
-      />
-      <SelectFormControl
+      >
+        {options.codeStructure}
+      </NativeSelectField>
+      <NativeSelectField
         id="parameterHelp"
         label={intl.formatMessage({ id: "parameter-help" })}
-        options={options.parameterHelp}
+        labelPosition="side"
+        wrapperCss={{ width: "28ch" }}
         value={settings.parameterHelp}
-        onChange={(parameterHelp) =>
+        onChange={(e) =>
           setSettings({
             ...settings,
-            parameterHelp,
+            parameterHelp: e.currentTarget.value as ParameterHelpOption,
           })
         }
-      />
-      <Box>
-        <Checkbox
-          isSelected={settings.warnForApiUnsupportedByDevice}
-          onChange={(warnForApiUnsupportedByDevice) => {
-            setSettings({
-              ...settings,
-              warnForApiUnsupportedByDevice,
-            });
-          }}
-        >
-          <FormattedMessage id="setting-warn-on-v2-only-features" />
-        </Checkbox>
-        <Text mt="2" fontSize="sm" lineHeight="normal" color="gray.700">
+      >
+        {options.parameterHelp}
+      </NativeSelectField>
+      <Checkbox
+        isSelected={settings.warnForApiUnsupportedByDevice}
+        onChange={(warnForApiUnsupportedByDevice) => {
+          setSettings({
+            ...settings,
+            warnForApiUnsupportedByDevice,
+          });
+        }}
+        helperText={
           <FormattedMessage id="setting-warn-on-v2-only-features-info" />
-        </Text>
-      </Box>
-      <Box>
-        <Checkbox
-          isSelected={settings.allowEditingThirdPartyModules}
-          onChange={(allowEditingThirdPartyModules) => {
-            setSettings({
-              ...settings,
-              allowEditingThirdPartyModules,
-            });
-          }}
-        >
-          <FormattedMessage id="setting-allow-editing-third-party" />
-        </Checkbox>
-        <Text mt="2" fontSize="sm" lineHeight="normal" color="gray.700">
+        }
+      >
+        <FormattedMessage id="setting-warn-on-v2-only-features" />
+      </Checkbox>
+      <Checkbox
+        isSelected={settings.allowEditingThirdPartyModules}
+        onChange={(allowEditingThirdPartyModules) => {
+          setSettings({
+            ...settings,
+            allowEditingThirdPartyModules,
+          });
+        }}
+        helperText={
           <FormattedMessage id="setting-allow-editing-third-party-info" />
-        </Text>
-      </Box>
+        }
+      >
+        <FormattedMessage id="setting-allow-editing-third-party" />
+      </Checkbox>
     </VStack>
   );
 };
