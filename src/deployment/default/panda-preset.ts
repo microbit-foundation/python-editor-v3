@@ -133,8 +133,12 @@ export const appPreset = definePreset({
               zoom: {
                 color: "gray.800",
                 bg: "gray.100",
-                _hover: { bg: "gray.400" },
-                _active: { bg: "gray.500" },
+                // Re-pointed for the neutral ink grades (@microbit/ui
+                // docs/gray-ramp.md): the branded build's hover/press were
+                // #c9c9c9/#b0b0b0, whose nearest stops are now 300/400 —
+                // the old 400/500 names sit much darker post-re-grade.
+                _hover: { bg: "gray.300" },
+                _active: { bg: "gray.400" },
               },
             },
           },
