@@ -136,7 +136,7 @@ const Corner = ({ id, style }: { id: string; style?: CSSProperties }) => (
       height="100%"
       viewBox={`0 0 ${cornerSize} ${cornerSize}`}
       overflow="visible"
-      fill="var(--colors-gray-25)"
+      fill="var(--colors-gray-75)"
     >
       <defs>
         <mask id={id}>
@@ -155,7 +155,7 @@ const Corner = ({ id, style }: { id: string; style?: CSSProperties }) => (
         y="0"
         width={cornerSize}
         height={cornerSize}
-        fill="var(--colors-gray-25)"
+        fill="var(--colors-gray-75)"
         mask={`url(#${id})`}
       />
     </svg>
