@@ -10,5 +10,5 @@
   background: var(--colors-gray-350);
 }
 .xterm .xterm-viewport {
-  scrollbar-color: #333333 var(--colors-gray-350);
+  scrollbar-color: var(--colors-gray-350) #333333;
 }
