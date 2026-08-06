@@ -22,10 +22,7 @@ export const themeExtensions = (fontSize: string) => {
       fontFamily,
       paddingRight: "1rem",
       border: "unset",
-      // The text-safe stop (4.5:1 on white; the branded #a9aaa9 was 2.33:1
-      // and an audit-level fail for functional text — tracebacks point at
-      // line numbers). The active line's number stays gray.800 below.
-      color: "var(--colors-gray-500)",
+      color: "var(--colors-gray-350)",
     },
     // Widths to accomodate two gutters (lint and line numbers).
     ".cm-gutter.cm-gutter-lint": {
