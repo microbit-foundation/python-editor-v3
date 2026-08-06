@@ -135,10 +135,11 @@ export const appPreset = definePreset({
                 bg: "gray.100",
                 // Re-pointed for the neutral ink grades (@microbit/ui
                 // docs/gray-ramp.md): the branded build's hover/press were
-                // #c9c9c9/#b0b0b0, whose nearest stops are now 300/400 —
-                // the old 400/500 names sit much darker post-re-grade.
+                // #c9c9c9/#b0b0b0 — hover's nearest stop is 300, and press
+                // takes the press-weight 350 (#b4b4b4, ≈ the old value; the
+                // old 400/500 names sit much darker post-re-grade).
                 _hover: { bg: "gray.300" },
-                _active: { bg: "gray.400" },
+                _active: { bg: "gray.350" },
               },
             },
           },
