@@ -45,11 +45,11 @@ export const appPreset = definePreset({
         },
         colors: {
           // This app's very light grays differ slightly from the family base
-          // preset's (gray.25 is #f5f6f8 here vs #f5f5f5): mirror the OSS
+          // preset's (gray.75 is #f5f6f8 here vs #f5f5f5): mirror the OSS
           // Chakra theme's values (src/deployment/default/colors.ts).
           gray: {
             10: { value: "#fcfcfc" },
-            25: { value: "#f5f6f8" },
+            75: { value: "#f5f6f8" },
           },
           // Syntax-highlight / code-block palette. Consumed outside React as
           // CSS vars (CodeMirror highlight styles, structure highlighting), so

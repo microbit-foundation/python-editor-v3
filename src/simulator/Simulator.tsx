@@ -112,7 +112,7 @@ const Simulator = ({
             direction="expandLeft"
           />
         </Flex>
-        <VStack gap="5" bg="gray.25" ref={simControlsRef}>
+        <VStack gap="5" bg="gray.75" ref={simControlsRef}>
           <Box
             width="100%"
             pb="1"
