@@ -79,7 +79,7 @@ const EditorArea = React.forwardRef(
                 splitViewShown={simulatorShown}
                 direction="expandLeft"
                 text={intl.formatMessage({ id: "simulator-title" })}
-                css={{ ml: "5", boxShadow: "none" }}
+                css={{ ml: "5" }}
                 ref={simulatorButtonRef}
               />
             )}
