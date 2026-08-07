@@ -113,7 +113,7 @@ const LanguageCard = ({ language, onChooseLanguage }: LanguageCardProps) => {
       data-testid={language.id}
     >
       <HStack>
-        <VStack alignItems="start">
+        <VStack alignItems="center">
           <Text fontSize="lg" fontWeight="semibold">
             {language.name}
           </Text>
