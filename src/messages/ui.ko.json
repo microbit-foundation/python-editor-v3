@@ -2397,10 +2397,102 @@
       "value": "다시 시도"
     }
   ],
+  "ui.breadcrumb": [
+    {
+      "type": 0,
+      "value": "Breadcrumb"
+    }
+  ],
   "ui.close-action": [
     {
       "type": 0,
       "value": "닫기"
+    }
+  ],
+  "ui.combobox-listbox": [
+    {
+      "type": 0,
+      "value": "제안"
+    }
+  ],
+  "ui.combobox-trigger": [
+    {
+      "type": 0,
+      "value": "제안 사항 표시"
+    }
+  ],
+  "ui.loading": [
+    {
+      "type": 0,
+      "value": "Loading"
+    }
+  ],
+  "ui.numberfield-decrease": [
+    {
+      "type": 1,
+      "value": "fieldLabel"
+    },
+    {
+      "type": 0,
+      "value": " 감소"
+    }
+  ],
+  "ui.numberfield-increase": [
+    {
+      "type": 1,
+      "value": "fieldLabel"
+    },
+    {
+      "type": 0,
+      "value": " 증가"
+    }
+  ],
+  "ui.select-placeholder": [
+    {
+      "type": 0,
+      "value": "항목 선택"
+    }
+  ],
+  "ui.select-row-action": [
+    {
+      "type": 0,
+      "value": "선택"
+    }
+  ],
+  "ui.toast-region": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": "개 알림"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": "개 알림"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    },
+    {
+      "type": 0,
+      "value": "."
     }
   ],
   "ui.toast-status-error": [
