@@ -72,12 +72,14 @@ const SerialBar = ({
         p="1"
         // Runtime token lookup: a three-way conditional value isn't reliably
         // statically extractable.
+        // whiteAlpha over the inherited terminal background lands close to
+        // the Chakra-era branded gray.700 (#4c4c4c) without pinning a colour.
         style={{
           backgroundColor:
             traceback && syncStatus === SyncStatus.IN_SYNC
               ? token("colors.code.error")
               : syncStatus === SyncStatus.OUT_OF_SYNC
-              ? token("colors.gray.700")
+              ? token("colors.whiteAlpha.300")
               : "inherit",
         }}
         css={cssProp}
