@@ -70,12 +70,15 @@ export const LanguageDialog = ({
           <Link
             pl="1"
             alignSelf="flex-start"
+            display="inline-flex"
+            alignItems="center"
+            gap="1"
             href={deployment.translationLink}
             target="_blank"
             rel="noopener"
             color="brand.500"
           >
-            <FormattedMessage id="help-translate" />{" "}
+            <FormattedMessage id="help-translate" />
             <Icon as={RiExternalLinkLine} />
           </Link>
         </VStack>
