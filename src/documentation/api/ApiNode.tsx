@@ -215,11 +215,13 @@ const ApiNodeSelf = ({
         />
       )}
       {(hasShowMoreContent || hasSignatureDetail) && (
-        <>
+        // One flex child: the stack gap must not apply between the button
+        // and the collapse (zero-height when closed, and the expand margin
+        // should animate inside it).
+        <Box>
           <ShowMoreButton onClick={onToggleShowMore} isOpen={showMore} />
           {hasShowMoreContent && (
-            // Avoid VStack spacing here so the margin animates too.
-            <Collapse isOpen={showMore} style={{ marginTop: 0 }}>
+            <Collapse isOpen={showMore}>
               <VStack gap="3" mt="3" alignItems="stretch">
                 {hasRemainder && (
                   <DocString
@@ -235,7 +237,7 @@ const ApiNodeSelf = ({
               </VStack>
             </Collapse>
           )}
-        </>
+        </Box>
       )}
     </VStack>
   );
