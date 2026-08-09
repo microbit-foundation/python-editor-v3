@@ -99,7 +99,6 @@ export const InputDialog = <T,>({
           variant="primary"
           onPress={submit}
           isDisabled={!validationResult.ok}
-          css={{ ml: 3 }}
         >
           {actionLabel}
         </Button>
