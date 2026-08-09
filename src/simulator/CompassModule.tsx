@@ -73,7 +73,6 @@ const CompassModule = ({
               <CompassHeadingIcon
                 className={css({
                   color: "blimpTeal.400",
-                  fill: "currentColor",
                   width: "20",
                   height: "20",
                 })}
