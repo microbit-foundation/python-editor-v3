@@ -7,8 +7,6 @@ import { ComponentProps } from "react";
 import { styled } from "styled-system/jsx";
 
 // App-side tag (decision: no library Tag while this is the only consumer).
-// Chakra Tag md base (inline-flex, centred, fontSize md, lineHeight 1.2)
-// plus this file's overrides.
 const TagSpan = styled("span", {
   base: {
     display: "inline-flex",

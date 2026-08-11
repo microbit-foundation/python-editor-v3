@@ -12,7 +12,7 @@ import { appPreset } from "./src/deployment/default/panda-preset";
 // alias swap in vite.config.ts. When the private package is installed it
 // overrides brand tokens (colour ramps, code palette, semantic tokens);
 // otherwise the OSS default preset stands alone. Panda merges them at codegen
-// time — the build-time equivalent of Chakra's runtime theme swap.
+// time.
 //
 // Panda loads this config as CommonJS, so `require` is the real (sync) require;
 // Node 24 resolves the ESM private package through it.
@@ -29,12 +29,12 @@ export default defineConfig({
   preflight: true,
   jsxFramework: "react",
   // Drop Panda's default theme preset; the preset stack below supplies the full
-  // token system (ported from Chakra). preset-base still provides the utilities.
+  // token system. preset-base still provides the utilities.
   eject: true,
   // Later presets override earlier ones: @microbit/ui's base preset (the
   // complete design system + recipes, OSS default brand values), the shared
   // dense preset (this app's × 0.88 spacing / × 0.9 font-size density, shared
-  // with classroom — see playbook gotcha #25), this app's own preset, then the
+  // with classroom), this app's own preset, then the
   // optional private brand preset which overrides the OSS brand values.
   // staticCss lives in the base preset.
   presets: [

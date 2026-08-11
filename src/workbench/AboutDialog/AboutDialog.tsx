@@ -45,7 +45,7 @@ const clipboardVersion = versionInfo
   .map((x) => `${x.name} ${x.value}`)
   .join("\n");
 
-// Minimal replacement for Chakra's useClipboard (a library-gap hook).
+// Minimal clipboard hook (the component library has no equivalent).
 const useClipboard = (text: string) => {
   const [hasCopied, setHasCopied] = useState(false);
   const onCopy = useCallback(() => {

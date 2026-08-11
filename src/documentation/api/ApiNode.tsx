@@ -271,8 +271,6 @@ const ApiNodeChildren = ({ docs, anchor }: ApiNodeChildrenProps) => {
           (childKind) =>
             groupedChildren?.get(childKind as any) && (
               <Box mb="5" key={childKind}>
-                {/* The Chakra original had fontWeight="lg", an invalid
-                    token that never resolved, so this renders normal. */}
                 <Text mb="2">{groupHeading(intl, kind, childKind)}</Text>
                 {groupedChildren?.get(childKind as any)?.map((c) => (
                   <ApiNode

@@ -10,8 +10,6 @@ interface ExpandCollapseIconProps extends Omit<IconProps, "as"> {
   open: boolean;
 }
 
-// The Material arrow glyphs are the same paths as the Chakra chevron icons
-// this replaced.
 const ExpandCollapseIcon = ({ open, ...props }: ExpandCollapseIconProps) =>
   open ? (
     <Icon as={MdKeyboardArrowUp} {...props} />

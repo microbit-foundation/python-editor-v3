@@ -37,7 +37,7 @@ export const ConfirmDialog = ({
       <ModalBody>{body}</ModalBody>
       <ModalFooter>
         {/* Least-destructive initial focus: RAC honours autoFocus within the
-            dialog's FocusScope, replacing Chakra's leastDestructiveRef. */}
+            dialog's FocusScope. */}
         <Button autoFocus onPress={() => callback(false)}>
           <FormattedMessage id="cancel-action" />
         </Button>

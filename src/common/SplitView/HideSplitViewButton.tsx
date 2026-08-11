@@ -78,8 +78,7 @@ const HideSplitViewButton = React.forwardRef(
             width: mode === "icon" ? "20px" : "auto",
             background: "#eaecf1",
             // The flat background is a utility, which beats the ghost
-            // variant's recipe-layer hover/active — restate them (Chakra's
-            // ghost-over-gray values).
+            // variant's recipe-layer hover/active — restate them.
             _hover: { background: "gray.100" },
             _active: { background: "gray.200" },
             // Likewise a flat boxShadow from a call site (e.g. Simulator's

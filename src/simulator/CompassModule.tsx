@@ -67,8 +67,7 @@ const CompassModule = ({
               onSensorChange={onValueChange}
               minimised={minimised}
             />
-            {/* Ref on a wrapper: the svgr component doesn't forward refs
-                (the old Chakra <Icon> wrapper did). */}
+            {/* Ref on a wrapper: the svgr component doesn't forward refs. */}
             <styled.span ref={ref} display="inline-flex" flexShrink={0}>
               <CompassHeadingIcon
                 className={css({

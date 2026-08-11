@@ -123,7 +123,6 @@ const Simulator = ({
             style={{ minWidth: minWidth }}
           >
             <styled.iframe
-              // Chakra AspectRatio replacement (gotcha #11).
               aspectRatio="191.27 / 155.77"
               width="100%"
               ref={ref}

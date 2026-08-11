@@ -11,8 +11,7 @@ import { useLogging } from "../../logging/logging-hooks";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 
 /**
- * The subset of Chakra's useDisclosure return value we use, implemented
- * with useState by callers.
+ * Disclosure state for the highlight, implemented with useState by callers.
  */
 export interface HighlightDisclosure {
   isOpen: boolean;

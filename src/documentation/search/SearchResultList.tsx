@@ -91,8 +91,6 @@ const SearchResultItem = ({
           <ExtractText extract={extract.content} />
         </Stack>
       </Link>
-      {/* The Chakra original's color="gray.400" didn't reach the border
-          (dividers inherited the global gray.200); keep what shipped. */}
       <Divider thickness="thick" />
     </Stack>
   );

@@ -72,10 +72,6 @@ const SendButton = React.forwardRef(
       },
       [flashing, actions]
     );
-    // The Chakra version prevented the tooltip's focus handler after a flash
-    // so it didn't obscure the "micro:bit flashed" text. RAC tooltips only
-    // show on keyboard focus-visible (not programmatic/pointer focus), so no
-    // equivalent hack is needed.
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const activeElementRef = useRef<HTMLElement | null>(null);
     const handleSendToMicrobitShortcut = useCallback(() => {

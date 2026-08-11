@@ -213,8 +213,8 @@ const SideBarHeader = ({
                 fontWeight: "normal",
                 color: "#fffc",
                 fontSize: "sm",
-                // Neutralise the default (outline) variant's chrome, as the
-                // old Chakra props did with border/_hover/_active resets.
+                // Neutralise the default (outline) variant's chrome with
+                // border/_hover/_active resets.
                 border: "unset",
                 _hover: { color: "#fffc", background: "brand.700" },
                 _active: { color: "#fffc", background: "brand.700" },
