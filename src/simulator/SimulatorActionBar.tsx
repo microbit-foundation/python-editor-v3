@@ -92,7 +92,7 @@ const SimulatorActionBar = ({
     >
       <IconButton
         size={size}
-        variant="outline"
+        variant="secondary"
         onPress={() => handleStop("user")}
         aria-label={intl.formatMessage({ id: "simulator-stop" })}
         isDisabled={running === RunningStatus.STOPPED}
@@ -101,7 +101,7 @@ const SimulatorActionBar = ({
       </IconButton>
       <IconButton
         size={size}
-        variant="outline"
+        variant="secondary"
         onPress={device.reset}
         aria-label={intl.formatMessage({ id: "simulator-reset" })}
         isDisabled={running === RunningStatus.STOPPED}
@@ -110,7 +110,7 @@ const SimulatorActionBar = ({
       </IconButton>
       <IconButton
         size={size}
-        variant="outline"
+        variant="secondary"
         onPress={handleMuteUnmute}
         aria-label={
           isMuted
