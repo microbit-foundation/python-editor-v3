@@ -41,6 +41,9 @@ const ProjectNameEditable = ({
       label={intl.formatMessage({ id: "edit-name-project-hover" })}
       placement="top start"
       key="button"
+      // The button is a pencil and nothing else, so the tooltip is its only
+      // visible explanation: no warmup.
+      delay={0}
     >
       <IconButton
         size="md"
