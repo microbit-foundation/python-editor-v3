@@ -17,6 +17,7 @@ export const docStylesClass = css({
   // `outside`, which would silently win over the inherited value.
   listStylePosition: "inside",
   "& ol": {
+    listStyleType: "decimal",
     pl: "3",
     listStylePosition: "inside",
   },
