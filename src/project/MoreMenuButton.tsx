@@ -31,8 +31,7 @@ const MoreMenuButton = React.forwardRef(
         css={{
           borderLeft: "1px solid",
           borderRadius: "button",
-          // Nudge the glyph towards the attached (square) edge, as the old
-          // inline style did with the Chakra radii var.
+          // Nudge the glyph towards the attached (square) edge.
           "& svg": { marginLeft: "calc(-0.15 * token(radii.button))" },
         }}
         {...props}

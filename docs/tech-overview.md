@@ -8,7 +8,7 @@ The document assumes some familiarity with the app as a user. [Try it out](http:
 
 The editor is written in [TypeScript](https://www.typescriptlang.org/) using [React](https://reactjs.org/).
 
-We use the [Chakra UI component library](https://chakra-ui.com/docs/getting-started) which provides a base set of accessible components. We're currently using Chakra UI 2.x.
+The user interface is built with the Foundation's shared `@microbit/ui` component library, which combines [react-aria-components](https://react-spectrum.adobe.com/react-aria/) for accessible component behaviour with [Panda CSS](https://panda-css.com/) for styling.
 
 The project is bundled using [Vite](https://vitejs.dev/). The test runner is [Vitest](https://vitest.dev/) and we're using [eslint](https://eslint.org/).
 

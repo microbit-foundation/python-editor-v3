@@ -83,7 +83,6 @@ const RangeSensor = ({
         maxValue={max}
         onChange={handleChange}
         trackCss={{ height: "2" }}
-        // Chakra colorScheme="blackAlpha" filled track.
         filledTrackCss={{ bg: "blackAlpha.500" }}
         thumbTooltip={valueText}
         isThumbTooltipOpen={minimised ? showTooltip : false}
@@ -131,8 +130,8 @@ const RangeSensor = ({
 };
 
 /**
- * An always-visible equivalent of Chakra's SliderMark: absolutely
- * positioned at a percentage along the track, below it by default.
+ * An always-visible slider mark: absolutely positioned at a percentage
+ * along the track, below it by default.
  */
 const SensorMark = ({
   percent,

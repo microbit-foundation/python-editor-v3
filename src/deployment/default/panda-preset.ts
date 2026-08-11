@@ -10,11 +10,8 @@ import { definePreset } from "@pandacss/dev";
  * after the shared-ui base preset (@microbit/ui) and before the optional
  * private brand preset (see panda.config.ts). Kept minimal — the base preset
  * already supplies the token scales, recipes, `radii.button`, focus shadows,
- * Helvetica fonts and most semantic tokens.
- *
- * Values mirror the OSS Chakra theme (src/deployment/default) as converged
- * during the semantic-token pre-work; the private brand preset overrides the
- * brand-divergent token values.
+ * Helvetica fonts and most semantic tokens. The private brand preset overrides
+ * the brand-divergent token values.
  */
 export const appPreset = definePreset({
   name: "python-editor-v3",
@@ -22,8 +19,8 @@ export const appPreset = definePreset({
     extend: {
       tokens: {
         // This app's stacking contexts, calibrated against third-party
-        // layers (xterm.js ~10, the library's Chakra-derived overlay scale
-        // from 1000). Token references are required in Panda styles: an
+        // layers (xterm.js ~10, the library's overlay scale from 1000).
+        // Token references are required in Panda styles: an
         // imported constant in a zIndex prop is not statically extractable
         // (silently unstyled).
         zIndex: {
@@ -45,8 +42,7 @@ export const appPreset = definePreset({
         },
         colors: {
           // This app's very light grays differ slightly from the family base
-          // preset's (gray.75 is #f5f6f8 here vs #f5f5f5): mirror the OSS
-          // Chakra theme's values (src/deployment/default/colors.ts).
+          // preset's (gray.75 is #f5f6f8 here vs #f5f5f5).
           gray: {
             10: { value: "#fcfcfc" },
             75: { value: "#f5f6f8" },
@@ -54,7 +50,7 @@ export const appPreset = definePreset({
           // Syntax-highlight / code-block palette. Consumed outside React as
           // CSS vars (CodeMirror highlight styles, structure highlighting), so
           // it's an app-preset token category; the private preset overrides the
-          // values. OSS values are the Chakra defaults the old theme resolved.
+          // values.
           code: {
             blockBorder: { value: "#A0AEC0" }, // gray.400
             blockBackground: { value: "rgba(185, 185, 185, 0.1)" },
@@ -94,35 +90,29 @@ export const appPreset = definePreset({
         },
       },
       recipes: {
-        // The Chakra theme defaulted Text to `md` — 0.9rem on this app's
-        // shrunken scale, vs the 16px an unsized <Text> would inherit.
-        // App-level because other apps rely on inheritance (Text.recipe.ts).
+        // Default Text to `md` — 0.9rem on this app's shrunken scale, vs the
+        // 16px an unsized <Text> would inherit. App-level because other apps
+        // rely on inheritance (Text.recipe.ts).
         text: {
           defaultVariants: { size: "md" },
         },
-        // python-editor's default button variant is `outline` (census: the
-        // OSS theme applies withDefaultVariant("outline"); the family base
-        // recipe defaults to `secondary`). Ported from the Chakra `outline`
-        // variant, resolved at the brand colorScheme (the app applies
-        // withDefaultColorScheme("brand")): brand text over a transparent,
-        // brand-bordered button. Non-brand outline cases use `warning`.
+        // python-editor's default button variant is `outline` (the family
+        // base recipe defaults to `secondary`): brand text over a
+        // transparent, brand-bordered button. Non-brand outline cases use
+        // `warning`.
         button: {
           variants: {
             variant: {
               // Icon buttons on the app's dark chrome (sidebar header,
-              // serial bar): white glyph, white pill on hover. The Chakra
-              // variant was ghost-based with callers passing color="white";
-              // the base colour is folded in here instead (both call sites
-              // used white).
+              // serial bar): white glyph, white pill on hover.
               sidebar: {
                 color: "white",
                 bg: "transparent",
                 _hover: { bg: "white", color: "gray.700" },
                 _active: { bg: "white", color: "gray.800" },
               },
-              // The editor zoom / undo-redo pill pairs: Chakra solid+gray
-              // with darker hover/active. (The Chakra theme comment said
-              // "ideally we'd drop this variant" — carried as-is.)
+              // The editor zoom / undo-redo pill pairs: gray fill with
+              // darker hover/active.
               zoom: {
                 color: "gray.800",
                 bg: "gray.100",

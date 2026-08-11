@@ -127,7 +127,7 @@ const SensorInput = ({
         )}
         css={{
           transition: "none",
-          // Chakra's isActive + _active override: held look while pressed.
+          // Held look while pressed.
           background: pressed ? "brand.100" : undefined,
         }}
         isDisabled={disabled}

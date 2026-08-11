@@ -21,8 +21,8 @@ const NewFileNameQuestion = ({
     <>
       <TextField
         // Focus the field on open: react-aria focuses the dialog
-        // itself by default, unlike Chakra (dialog name is still
-        // announced via aria-labelledby).
+        // itself by default (dialog name is still announced via
+        // aria-labelledby).
         autoFocus
         isRequired
         isInvalid={!validationResult.ok}

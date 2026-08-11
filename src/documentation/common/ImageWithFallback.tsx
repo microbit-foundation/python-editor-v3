@@ -7,15 +7,15 @@ import { Image } from "@microbit/ui";
 import { ComponentProps, ReactElement, useState } from "react";
 
 interface ImageWithFallbackProps extends ComponentProps<typeof Image> {
-  /** Shown while loading and on error (Chakra Image's `fallback`). */
+  /** Shown while loading and on error. */
   fallback?: ReactElement;
-  /** Skip the fallback entirely (Chakra Image's `ignoreFallback`). */
+  /** Skip the fallback entirely. */
   ignoreFallback?: boolean;
 }
 
 /**
- * The library Image plus Chakra Image's fallback behaviour, for the offline
- * placeholders used by the documentation areas.
+ * The library Image plus fallback behaviour, for the offline placeholders
+ * used by the documentation areas.
  */
 const ImageWithFallback = ({
   fallback,

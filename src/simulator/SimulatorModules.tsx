@@ -191,8 +191,6 @@ const CollapsibleModule = ({
   );
   return (
     <Stack
-      // The Chakra original's grey.200 was an invalid token that fell back
-      // to the global gray.200 border colour; make it explicit.
       borderBottomWidth={index < modules.length - 1 ? "1px" : "0"}
       borderBottomStyle="solid"
       borderColor="gray.200"

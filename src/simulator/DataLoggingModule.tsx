@@ -25,7 +25,6 @@ interface TruncatedDataLog extends DataLog {
   truncated: boolean;
 }
 
-// Chakra's striped table (blackAlpha) approximated on a plain table.
 const cellClass = css({
   p: "1.5",
   whiteSpace: "nowrap",
@@ -111,7 +110,7 @@ const DataLoggingModule = ({
             </styled.thead>
             <styled.tbody
               className={css({
-                // Chakra Table variant="striped" colorScheme="blackAlpha".
+                // Striped rows.
                 "& tr:nth-of-type(odd) td": { background: "blackAlpha.100" },
               })}
             >
@@ -136,7 +135,7 @@ const DataLoggingModule = ({
                         className={cellClass}
                         fontSize={row.isHeading ? "sm" : undefined}
                         fontWeight={row.isHeading ? "semibold" : undefined}
-                        // Chakra's isNumeric.
+                        // Right-align numeric data cells.
                         textAlign={row.isHeading ? "start" : "end"}
                         fontFamily={row.isHeading ? undefined : "code"}
                       >
