@@ -2400,7 +2400,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "이동경로"
     }
   ],
   "ui.close-action": [
@@ -2424,7 +2424,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "불러오는 중..."
     }
   ],
   "ui.numberfield-decrease": [
@@ -2498,25 +2498,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "오류"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "정보"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "성공"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "경고"
     }
   ],
   "undo": [

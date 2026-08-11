@@ -2400,7 +2400,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Sendero de navegación"
     }
   ],
   "ui.close-action": [
@@ -2424,7 +2424,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "Cargando"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2504,19 +2504,19 @@
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Información"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "Éxito"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Advertencia"
     }
   ],
   "undo": [

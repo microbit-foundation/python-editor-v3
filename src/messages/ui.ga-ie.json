@@ -2550,7 +2550,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Mionrian"
     }
   ],
   "ui.close-action": [
@@ -2574,7 +2574,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "Ag lódáil"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2606,7 +2606,7 @@
   "ui.select-row-action": [
     {
       "type": 0,
-      "value": "Select"
+      "value": "Roghnaigh"
     }
   ],
   "ui.toast-region": [
@@ -2648,7 +2648,7 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "Earráid"
     }
   ],
   "ui.toast-status-info": [
@@ -2660,13 +2660,13 @@
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "D'éirigh leis"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Rabhadh"
     }
   ],
   "undo": [

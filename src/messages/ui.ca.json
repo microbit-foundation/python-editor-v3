@@ -2370,7 +2370,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Rastres de navegació"
     }
   ],
   "ui.close-action": [
@@ -2382,25 +2382,25 @@
   "ui.combobox-listbox": [
     {
       "type": 0,
-      "value": "Suggestions"
+      "value": "Suggeriments"
     }
   ],
   "ui.combobox-trigger": [
     {
       "type": 0,
-      "value": "Show suggestions"
+      "value": "Mostra els suggeriments"
     }
   ],
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "S'està carregant"
     }
   ],
   "ui.numberfield-decrease": [
     {
       "type": 0,
-      "value": "Decrease "
+      "value": "Decrementa "
     },
     {
       "type": 1,
@@ -2410,7 +2410,7 @@
   "ui.numberfield-increase": [
     {
       "type": 0,
-      "value": "Increase "
+      "value": "Incrementa "
     },
     {
       "type": 1,
@@ -2420,13 +2420,13 @@
   "ui.select-placeholder": [
     {
       "type": 0,
-      "value": "Select an item"
+      "value": "Selecciona un element"
     }
   ],
   "ui.select-row-action": [
     {
       "type": 0,
-      "value": "Select"
+      "value": "Selecciona"
     }
   ],
   "ui.toast-region": [
@@ -2441,7 +2441,7 @@
             },
             {
               "type": 0,
-              "value": " notification"
+              "value": " notificació"
             }
           ]
         },
@@ -2452,7 +2452,7 @@
             },
             {
               "type": 0,
-              "value": " notifications"
+              "value": " notificacions"
             }
           ]
         }
@@ -2474,19 +2474,19 @@
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Informació"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "Completat amb èxit"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Advertència"
     }
   ],
   "undo": [

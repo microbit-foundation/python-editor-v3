@@ -16,6 +16,8 @@ theme package above. Re-create it after `npm install` (which restores the pinned
 version), and regenerate clean afterwards (`rm -rf styled-system && npm run panda`) — incremental codegen does not detect external preset changes.
 `resolve.dedupe` in `vite.config.ts` is what stops the symlinked package loading
 its own copies of React and friends, so leave it in place either way.
+After bumping the pinned `@microbit/ui` version, follow "Upgrading in an app" in
+`../ui/packages/ui/README.md`.
 
 ## Commands
 

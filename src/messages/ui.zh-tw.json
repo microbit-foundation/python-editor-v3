@@ -2412,7 +2412,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "巡覽路徑"
     }
   ],
   "ui.close-action": [
@@ -2436,7 +2436,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "正在載入"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2468,7 +2468,7 @@
   "ui.select-row-action": [
     {
       "type": 0,
-      "value": "選取"
+      "value": "選擇"
     }
   ],
   "ui.toast-region": [
@@ -2510,25 +2510,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "錯誤"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "資訊"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "成功"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "警告"
     }
   ],
   "undo": [

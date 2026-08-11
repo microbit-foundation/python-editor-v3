@@ -2413,7 +2413,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "痕迹导航"
     }
   ],
   "ui.close-action": [
@@ -2437,7 +2437,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "正在加载"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2511,25 +2511,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "错误"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "信息"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "成功"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "警告"
     }
   ],
   "undo": [

@@ -2442,7 +2442,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Kruimelpad"
     }
   ],
   "ui.close-action": [
@@ -2466,27 +2466,27 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "Laden"
     }
   ],
   "ui.numberfield-decrease": [
     {
-      "type": 1,
-      "value": "fieldLabel"
+      "type": 0,
+      "value": "Verlaag "
     },
     {
-      "type": 0,
-      "value": " verlagen"
+      "type": 1,
+      "value": "fieldLabel"
     }
   ],
   "ui.numberfield-increase": [
     {
-      "type": 1,
-      "value": "fieldLabel"
+      "type": 0,
+      "value": "Verhoog "
     },
     {
-      "type": 0,
-      "value": " verhogen"
+      "type": 1,
+      "value": "fieldLabel"
     }
   ],
   "ui.select-placeholder": [
@@ -2498,7 +2498,7 @@
   "ui.select-row-action": [
     {
       "type": 0,
-      "value": "Selecteren"
+      "value": "Selecteer"
     }
   ],
   "ui.toast-region": [
@@ -2540,25 +2540,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "Fout"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Informatie"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "Succes"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Waarschuwing"
     }
   ],
   "undo": [

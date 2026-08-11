@@ -2498,7 +2498,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Ścieżka nawigacji"
     }
   ],
   "ui.close-action": [
@@ -2516,13 +2516,13 @@
   "ui.combobox-trigger": [
     {
       "type": 0,
-      "value": "Wyświetlaj sugestie"
+      "value": "Pokaż sugestie"
     }
   ],
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "Ładowanie"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2554,7 +2554,7 @@
   "ui.select-row-action": [
     {
       "type": 0,
-      "value": "Zaznacz"
+      "value": "Wybierz"
     }
   ],
   "ui.toast-region": [
@@ -2618,25 +2618,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "Błąd"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Informacja"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "Sukces"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Ostrzeżenie"
     }
   ],
   "undo": [

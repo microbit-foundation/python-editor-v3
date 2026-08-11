@@ -2400,7 +2400,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Fil d'Ariane"
     }
   ],
   "ui.close-action": [
@@ -2424,7 +2424,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "Chargement"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2498,25 +2498,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "Erreur"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Informations"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "Succès"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Avertissement"
     }
   ],
   "undo": [

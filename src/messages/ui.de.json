@@ -2460,7 +2460,7 @@
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "Navigationspfad"
     }
   ],
   "ui.close-action": [
@@ -2484,7 +2484,7 @@
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "Laden"
     }
   ],
   "ui.numberfield-decrease": [
@@ -2558,25 +2558,25 @@
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "Fehler"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Informationen"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "Erfolg"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "Warnung"
     }
   ],
   "undo": [
