@@ -109,13 +109,6 @@ export const appPreset = definePreset({
         button: {
           variants: {
             variant: {
-              outline: {
-                borderWidth: "2px",
-                borderColor: "currentColor",
-                color: "brand.500",
-                bg: "transparent",
-                _hover: { color: "brand.600", bg: "transparent" },
-              },
               // Icon buttons on the app's dark chrome (sidebar header,
               // serial bar): white glyph, white pill on hover. The Chakra
               // variant was ghost-based with callers passing color="white";
@@ -143,7 +136,6 @@ export const appPreset = definePreset({
               },
             },
           },
-          defaultVariants: { variant: "outline" },
         },
       },
     },
