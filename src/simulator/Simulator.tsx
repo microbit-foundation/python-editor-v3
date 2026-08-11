@@ -110,6 +110,7 @@ const Simulator = ({
             onClick={onSimulatorHide}
             splitViewShown={shown}
             direction="expandLeft"
+            css={{ boxShadow: "md" }}
           />
         </Flex>
         <VStack gap="5" bg="gray.75" ref={simControlsRef}>
