@@ -3,21 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  BoxProps,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Input,
-  Stack,
-  Text,
-  VisuallyHidden,
-  VStack,
-} from "@chakra-ui/react";
+import { IconButton, Input, Text, VisuallyHidden } from "@microbit/ui";
 import { FormEvent, ReactNode, useCallback, useState } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { css } from "styled-system/css";
+import { Flex, HStack, Stack, styled, VStack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import MessageIcon from "./icons/microbit-face-icon.svg?react";
 import { RadioChatItem, useRadioChatItems } from "./radio-hooks";
 import { useAutoScrollToBottom } from "./scroll-hooks";
@@ -34,7 +26,7 @@ const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
   const [ref, handleScroll] = useAutoScrollToBottom(items);
   if (minimised) {
     return (
-      <HStack spacing={3}>
+      <HStack gap="3">
         {icon}
         <MessageComposer
           enabled={enabled}
@@ -45,10 +37,10 @@ const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
     );
   }
   return (
-    <Stack spacing={3} bg="white" borderRadius="md" p={1}>
-      <Stack spacing={1} p={1}>
+    <Stack gap="3" bg="white" borderRadius="md" p="1">
+      <Stack gap="1" p="1">
         <VStack
-          p={1}
+          p="1"
           h="2xs"
           onScroll={handleScroll}
           overflowY="auto"
@@ -69,7 +61,7 @@ const RadioModule = ({ icon, enabled, minimised }: RadioModuleProps) => {
           enabled={enabled}
           onSend={handleSend}
           minimised={minimised}
-          width="100%"
+          css={{ width: "100%" }}
         />
       </Stack>
     </Stack>
@@ -103,13 +95,22 @@ const ChatItem = ({ item }: { item: RadioChatItem }) => {
 };
 
 const ChatNotice = ({ children }: { children: ReactNode }) => (
-  <Text color="gray.700" p={1}>
+  <Text color="gray.700" p="1">
     {children}
   </Text>
 );
 
 const ChatUserIcon = ({ color }: { color: string }) => (
-  <Icon color={color} h={10} w={10} as={MessageIcon} />
+  <MessageIcon
+    className={css({
+      width: "10",
+      height: "10",
+      flexShrink: 0,
+      fill: "currentColor",
+      // Two known values; ternary keeps them extractable.
+      color: color === "blimpTeal.100" ? "blimpTeal.100" : "brand.100",
+    })}
+  />
 );
 
 const ChatMessage = ({
@@ -127,7 +128,12 @@ const ChatMessage = ({
       alignSelf={from === "code" ? "flex-start" : "flex-end"}
     >
       <ChatUserIcon color={color} />
-      <Text bg={color} p={2} borderRadius="md" wordBreak="break-word">
+      <Text
+        bg={from === "code" ? "blimpTeal.100" : "brand.100"}
+        p="2"
+        borderRadius="md"
+        wordBreak="break-word"
+      >
         <VisuallyHidden>
           <FormattedMessage id={`simulator-radio-${from}`} />{" "}
         </VisuallyHidden>
@@ -137,17 +143,18 @@ const ChatMessage = ({
   );
 };
 
-interface MessageComposerProps extends BoxProps {
+interface MessageComposerProps {
   enabled: boolean;
   minimised: boolean;
   onSend: (message: string) => void;
+  css?: SystemStyleObject;
 }
 
 const MessageComposer = ({
   enabled,
   onSend,
   minimised,
-  ...props
+  css: cssProp,
 }: MessageComposerProps) => {
   const intl = useIntl();
   const radioMessageLabel = intl.formatMessage({
@@ -163,35 +170,38 @@ const MessageComposer = ({
     [message, onSend]
   );
   return (
-    <HStack
-      as="form"
+    <styled.form
+      display="flex"
+      alignItems="center"
       flex="1 1 auto"
       onSubmit={handleSendMessage}
-      spacing={2}
-      {...props}
+      gap="2"
+      css={cssProp}
     >
       <Input
-        colorScheme="brand"
-        minW={0}
-        _placeholder={{
-          color: "gray.600",
+        css={{
+          minW: 0,
+          "&::placeholder": {
+            color: "gray.500",
+          },
+          borderRadius: minimised ? undefined : "2xl",
+          bgColor: "white",
         }}
-        borderRadius={minimised ? undefined : "2xl"}
-        bgColor="white"
         aria-label={radioMessageLabel}
         type="text"
         placeholder={radioMessageLabel}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        isDisabled={!enabled}
+        disabled={!enabled}
       />
       <IconButton
-        icon={<RiSendPlane2Line />}
+        type="submit"
         isDisabled={!enabled}
-        onClick={handleSendMessage}
         aria-label={intl.formatMessage({ id: "simulator-radio-send" })}
-      ></IconButton>
-    </HStack>
+      >
+        <RiSendPlane2Line />
+      </IconButton>
+    </styled.form>
   );
 };
 

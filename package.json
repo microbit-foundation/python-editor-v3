@@ -13,18 +13,15 @@
     "protobufjs": false
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.2.6",
-    "@chakra-ui/react": "^2.10.10",
     "@codemirror/autocomplete": "^6.16.0",
     "@codemirror/commands": "6.5.0",
     "@codemirror/lang-python": "^6.1.6",
     "@codemirror/language": "^6.10.1",
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.26.3",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@microbit/microbit-connection": "^1.0.0",
     "@microbit/microbit-fs": "^0.10.0",
+    "@microbit/ui": "0.1.0-alpha.24",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/image-url": "^1.0.1",
     "@testing-library/jest-dom": "^5.14.1",
@@ -50,6 +47,7 @@
     "marked": "^4.0.15",
     "mobile-drag-drop": "^2.3.0-rc.2",
     "react": "^18.3.1",
+    "react-aria-components": "^1.19.0",
     "react-dom": "^18.3.1",
     "react-hotkeys-hook": "^4.5.0",
     "react-icons": "^4.12.0",
@@ -62,8 +60,9 @@
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
-    "@chakra-ui/cli": "2.5.8",
+    "@csstools/postcss-cascade-layers": "^6.0.0",
     "@formatjs/cli": "^6.2.7",
+    "@pandacss/dev": "^1.11.4",
     "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
@@ -93,38 +92,35 @@
   },
   "scripts": {
     "build": "vite build",
+    "prebuild": "npm run panda",
     "ci:update-version": "update-ci-version",
     "ci": "npm run typecheck && npm run test && npm run lint && npm run build",
     "deploy": "website-deploy-aws",
     "fix-licensing-headers": "node bin/fix-licensing-headers.cjs",
-    "i18n:compile": "node bin/tidy-lang.cjs && formatjs compile-folder --ast lang src/messages",
+    "i18n:compile": "node bin/tidy-lang.cjs && node bin/compile-lang.mjs",
     "i18n:convert": "node bin/tidy-lang.cjs && node bin/crowdin-convert.cjs",
     "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "postinstall": "npm run theme",
+    "prepare": "npm run panda",
+    "panda": "panda codegen",
+    "panda:watch": "panda codegen --watch",
     "serve": "npx serve --no-clipboard -l 3000 -- build/",
+    "prestart": "npm run panda",
     "start": "vite dev",
     "test:e2e:headless": "playwright test",
     "test:e2e": "playwright test --ui",
     "test": "vitest",
-    "theme:watch": "chakra-cli tokens src/deployment/default/theme.ts --watch",
-    "theme": "chakra-cli tokens src/deployment/default/theme.ts",
+    "pretypecheck": "npm run panda",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch"
   },
-  "browserslist": {
-    "production": [
-      "defaults",
-      "Chrome >= 98",
-      "Edge >= 98",
-      "ChromeAndroid >= 95",
-      "Safari >= 14",
-      "iOS >= 14"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "//browserslist": "Keep in sync with BUILD_TARGETS in vite.config.ts, which is what the build actually uses.",
+  "browserslist": [
+    "safari >= 14.1",
+    "ios_saf >= 14.5",
+    "chrome >= 90",
+    "edge >= 90",
+    "firefox >= 88",
+    "not dead"
+  ]
 }

@@ -3,19 +3,24 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Flex, VStack } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import NewButton from "./NewButton";
 import OpenButton from "./OpenButton";
 import ResetButton from "./ResetButton";
 
-const ProjectAreaNav = (props: BoxProps) => {
+interface ProjectAreaNavProps {
+  css?: SystemStyleObject;
+}
+
+const ProjectAreaNav = ({ css: cssProp }: ProjectAreaNavProps) => {
   return (
-    <Flex {...props} direction="column" alignItems="center" p={5} pb={6}>
-      <VStack alignItems="stretch" spacing={3}>
+    <Flex css={cssProp} direction="column" alignItems="center" p="5" pb="6">
+      <VStack alignItems="stretch" gap="3">
         <NewButton mode="button" />
         <OpenButton mode="button" />
         <Box>
-          <ResetButton mode="button" mt={5} colorScheme="red" />
+          <ResetButton mode="button" variant="warning" css={{ mt: "5" }} />
         </Box>
       </VStack>
     </Flex>

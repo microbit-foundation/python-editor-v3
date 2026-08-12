@@ -4,30 +4,29 @@
  * SPDX-License-Identifier: MIT
  */
 import {
-  Box,
-  Flex,
   Image,
   List,
   ListItem,
   Text,
-  useMediaQuery,
+  useBreakpointValue,
   VisuallyHidden,
-  VStack,
-} from "@chakra-ui/react";
+} from "@microbit/ui";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Box, Flex, VStack } from "styled-system/jsx";
 import selectMicrobit from "./select-microbit.png";
 
 const ConnectHelpDialogBody = () => {
   const intl = useIntl();
-  const [isDesktop] = useMediaQuery("(min-width: 768px)", { ssr: false });
+  // Was useMediaQuery("(min-width: 768px)"); 768px is the `md` breakpoint.
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <VStack
       width="auto"
       ml="auto"
       mr="auto"
-      p={5}
-      pb={0}
-      spacing={5}
+      p="5"
+      pb="0"
+      gap="5"
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
@@ -36,11 +35,11 @@ const ConnectHelpDialogBody = () => {
       <Box
         position="relative"
         width={isDesktop ? "100%" : "auto"}
-        alignSelf={isDesktop ? "" : "center"}
+        alignSelf={isDesktop ? undefined : "center"}
       >
         <Image
-          height={375}
-          width={418}
+          height="375px"
+          width="418px"
           src={selectMicrobit}
           alt={intl.formatMessage({ id: "connect-help-alt" })}
         />
@@ -60,8 +59,10 @@ const ConnectHelpDialogBody = () => {
               position="absolute"
               left="495px"
               top="61px"
+              display="flex"
+              flexDirection="column"
               alignItems="flex-start"
-              spacing={2}
+              gap="2"
             >
               <ListItem>
                 <Flex alignItems="center" height="72px">

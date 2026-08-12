@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, Icon } from "@chakra-ui/react";
+import { Icon } from "@microbit/ui";
 import { RiMore2Fill } from "react-icons/ri";
-import { splitViewDivider } from "../zIndex";
+import { Flex } from "styled-system/jsx";
 import {
-  dimensionProps,
+  dimensionPropName,
   separatorPixels,
   useSplitViewContext,
 } from "./context";
@@ -24,32 +24,35 @@ const SplitViewDivider = ({ showBoxShadow = false }: SplitViewDividerProps) => {
     handleTouchStart,
     handleTouchEndOrMouseUp,
   } = useSplitViewContext();
-  const cursor = direction === "row" ? "col-resize" : "row-resize";
   return mode !== "open" ? null : (
     <Flex
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEndOrMouseUp}
-      cursor={cursor}
+      cursor={direction === "row" ? "col-resize" : "row-resize"}
       alignSelf="stretch"
       alignItems="center"
-      zIndex={splitViewDivider}
+      zIndex="splitViewDivider"
     >
       <Flex
         height="100%"
-        {...dimensionProps(direction, `${separatorPixels}px`)}
+        // Direction-dependent dimension via inline style; the perpendicular
+        // dimension is the 100% height above.
+        style={{ [dimensionPropName(direction)]: `${separatorPixels}px` }}
         backgroundColor="#eaecf1"
         alignItems="center"
         justifyContent="center"
-        flex={1}
+        flex="1"
         boxShadow={showBoxShadow ? "md" : "none"}
       >
         <Icon
           as={RiMore2Fill}
-          color="brand.500"
-          h={6}
-          w={6}
-          transform={direction === "row" ? "" : "rotate(90deg)"}
+          css={{
+            color: "brand.500",
+            width: "6",
+            height: "6",
+            transform: direction === "row" ? undefined : "rotate(90deg)",
+          }}
         />
       </Flex>
     </Flex>

@@ -19,7 +19,7 @@ import {
   trackFsChanges,
 } from "./client-fs";
 import { pyright } from "./pyright";
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@microbit/ui";
 
 const LanguageServerClientContext = createContext<
   LanguageServerClient | undefined

@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, Text, VStack } from "@chakra-ui/react";
+import { Link, Text } from "@microbit/ui";
+import { VStack } from "styled-system/jsx";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { GenericDialog, GenericDialogFooter } from "../common/GenericDialog";
@@ -71,9 +72,9 @@ const PostSaveDialogBody = ({
       width="auto"
       ml="auto"
       mr="auto"
-      p={5}
-      pb={0}
-      spacing={5}
+      p="5"
+      pb="0"
+      gap="5"
       alignItems="flex-start"
     >
       <Text as="h2" fontSize="xl" fontWeight="semibold">
@@ -126,6 +127,7 @@ const PostSaveDialogBody = ({
                 color="brand.500"
                 onClick={handleShowTransferHexHelp}
                 href=""
+                cursor="pointer"
               >
                 {chunks}
               </Link>

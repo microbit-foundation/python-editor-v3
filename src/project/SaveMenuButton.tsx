@@ -3,25 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  ButtonGroup,
-  HStack,
-  Menu,
-  MenuItem,
-  MenuList,
-  Portal,
-  ThemeTypings,
-} from "@chakra-ui/react";
+import { ButtonGroup, MenuItem, MenuList, MenuTrigger } from "@microbit/ui";
 import { RiDownload2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { zIndexAboveTerminal } from "../common/zIndex";
+import { HStack } from "styled-system/jsx";
 import SaveButton from "./SaveButton";
 import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
 import { useRef } from "react";
 
 interface SaveMenuButtonProps {
-  size?: ThemeTypings["components"]["Button"]["sizes"];
+  size?: "lg" | "md" | "sm" | "xs";
 }
 
 /**
@@ -36,27 +28,29 @@ const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <HStack>
-      <Menu>
-        <ButtonGroup isAttached>
-          <SaveButton mode="button" size={size} borderRight="1px" />
+      <ButtonGroup isAttached>
+        <SaveButton
+          mode="button"
+          size={size}
+          css={{ borderRight: "1px solid" }}
+        />
+        <MenuTrigger>
           <MoreMenuButton
             ref={menuButtonRef}
             aria-label={intl.formatMessage({ id: "more-save-options" })}
             size={size}
             data-testid="more-save-options"
           />
-          <Portal>
-            <MenuList zIndex={zIndexAboveTerminal}>
-              <MenuItem
-                icon={<RiDownload2Line />}
-                onClick={() => actions.saveMainFile(menuButtonRef)}
-              >
-                <FormattedMessage id="save-python-action" />
-              </MenuItem>
-            </MenuList>
-          </Portal>
-        </ButtonGroup>
-      </Menu>
+          <MenuList>
+            <MenuItem
+              icon={<RiDownload2Line />}
+              onAction={() => actions.saveMainFile(menuButtonRef)}
+            >
+              <FormattedMessage id="save-python-action" />
+            </MenuItem>
+          </MenuList>
+        </MenuTrigger>
+      </ButtonGroup>
     </HStack>
   );
 };

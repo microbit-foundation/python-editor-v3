@@ -4,19 +4,18 @@
  * SPDX-License-Identifier: MIT
  */
 import {
-  Box,
   Divider,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Stack,
   Text,
-} from "@chakra-ui/react";
+} from "@microbit/ui";
 import { useCallback, useRef } from "react";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Box, Stack } from "styled-system/jsx";
 import { RouterState } from "../../router-hooks";
 import { SearchResults } from "./common";
 import SearchResultList from "./SearchResultList";
@@ -49,39 +48,46 @@ const SearchDialog = ({
 
   return (
     <Box>
-      <Box py={1.5} px={1}>
-        <InputGroup variant="outline">
+      <Box py="1.5" px="1">
+        <InputGroup>
           <InputLeftElement pointerEvents="none">
-            <RiSearch2Line color="gray.800" />
+            <RiSearch2Line />
           </InputLeftElement>
           <Input
             aria-label={intl.formatMessage({ id: "search" })}
+            // react-aria focuses the dialog itself on open unless told
+            // otherwise.
+            autoFocus
             ref={ref}
             value={query}
             onChange={onQueryChange}
             type="text"
-            outline="none"
-            border="none"
-            placeholder={intl.formatMessage({ id: "search" })}
-            fontSize="lg"
-            // Needs some thought, the default breaks the design.
-            _focusVisible={{}}
-            _placeholder={{
-              color: "gray.600",
+            css={{
+              outline: "none",
+              border: "none",
+              pl: "10",
+              fontSize: "lg",
+              // Needs some thought, the default breaks the design.
+              "&:is(:focus-visible, [data-focused])": {
+                border: "none",
+                boxShadow: "none",
+              },
+              _placeholder: {
+                color: "gray.500",
+              },
             }}
+            placeholder={intl.formatMessage({ id: "search" })}
           />
           {query && (
             <InputRightElement>
               <IconButton
-                fontSize="2xl"
-                isRound={false}
+                css={{ fontSize: "2xl", color: "#838383" }}
                 variant="ghost"
                 aria-label={intl.formatMessage({ id: "clear" })}
-                // Also used for Zoom, move to theme.
-                color="#838383"
-                icon={<RiCloseLine />}
-                onClick={handleClear}
-              />
+                onPress={handleClear}
+              >
+                <RiCloseLine />
+              </IconButton>
             </InputRightElement>
           )}
         </InputGroup>
@@ -92,12 +98,12 @@ const SearchDialog = ({
           maxHeight="80vh"
           overflowY="auto"
           // Avoid scrollbar outside rounded corner.
-          mb={1.5}
+          mb="1.5"
           overflowX="hidden"
         >
-          <Stack spacing={5} pb={5}>
+          <Stack gap="5" pb="5">
             <Divider />
-            <Text px={3} fontSize="2xl">
+            <Text px="3" fontSize="2xl">
               <FormattedMessage
                 id="results-count"
                 values={{

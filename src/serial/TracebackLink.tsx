@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link } from "@chakra-ui/react";
+import { Link } from "@microbit/ui";
 import { ReactNode, useCallback } from "react";
 import { Traceback } from "../device/device-hooks";
 import { useSelection } from "../workbench/use-selection";

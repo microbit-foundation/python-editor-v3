@@ -3,28 +3,32 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Tag, TagProps } from "@chakra-ui/react";
+import { ComponentProps } from "react";
+import { styled } from "styled-system/jsx";
 
-interface V2TagProps extends TagProps {}
+// App-side tag (decision: no library Tag while this is the only consumer).
+const TagSpan = styled("span", {
+  base: {
+    display: "inline-flex",
+    alignItems: "center",
+    fontSize: "md",
+    lineHeight: 1.2,
+    fontWeight: "semibold",
+    background: "brand.500",
+    color: "gray.75",
+    pt: "1px",
+    pb: "1px",
+    pl: "1.5",
+    pr: "1.5",
+    ml: "1.5",
+    borderRadius: "4px",
+  },
+});
 
-const V2Tag = ({ ...props }: V2TagProps) => {
-  return (
-    <Tag
-      fontWeight="semibold"
-      background="brand.500"
-      color="gray.25"
-      minH="unset"
-      pt="1px"
-      pb="1px"
-      pl={1.5}
-      pr={1.5}
-      ml={1.5}
-      borderRadius={4}
-      {...props}
-    >
-      V2
-    </Tag>
-  );
+interface V2TagProps extends ComponentProps<typeof TagSpan> {}
+
+const V2Tag = (props: V2TagProps) => {
+  return <TagSpan {...props}>V2</TagSpan>;
 };
 
 export default V2Tag;

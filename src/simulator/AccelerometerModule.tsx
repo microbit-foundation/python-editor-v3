@@ -1,4 +1,4 @@
-import { HStack, IconButton, Select, Stack } from "@chakra-ui/react";
+import { IconButton, NativeSelect } from "@microbit/ui";
 import {
   ChangeEvent,
   ReactNode,
@@ -9,6 +9,7 @@ import {
 } from "react";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { HStack, Stack } from "styled-system/jsx";
 import { SensorStateKey, SimulatorState } from "../device/simulator";
 import Axis from "./Axis";
 import { RunningStatus } from "./Simulator";
@@ -29,7 +30,7 @@ const AccelerometerModule = ({
   minimised,
   running,
 }: AccelerometerModuleProps) => (
-  <Stack spacing={5}>
+  <Stack gap="5">
     <Gesture
       icon={icon}
       enabled={running === RunningStatus.RUNNING}
@@ -115,9 +116,9 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
   };
 
   return (
-    <HStack spacing={3}>
+    <HStack gap="3">
       {icon}
-      <Select
+      <NativeSelect
         data-testid="simulator-gesture-select"
         aria-label={intl.formatMessage({ id: "simulator-gesture-select" })}
         value={choice}
@@ -129,14 +130,15 @@ const Gesture = ({ icon, state, enabled, onValueChange }: GestureProps) => {
             {renderOptionText(choice)}
           </option>
         ))}
-      </Select>
+      </NativeSelect>
       <IconButton
         ref={buttonRef}
-        icon={<RiSendPlane2Line />}
         isDisabled={!enabled || active}
-        onClick={handleClick}
+        onPress={handleClick}
         aria-label={intl.formatMessage({ id: "simulator-gesture-send" })}
-      ></IconButton>
+      >
+        <RiSendPlane2Line />
+      </IconButton>
     </HStack>
   );
 };

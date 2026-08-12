@@ -1,0 +1,19 @@
+/*
+ * (c) 2026, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * The app's single CSS entry point, imported first in index.tsx. Declares the
+ * cascade-layer order (Panda's PostCSS plugin injects the generated CSS into
+ * these layers) and imports third-party stylesheets into the `vendor` layer,
+ * which beats Panda's preflight reset but loses to app styling (see the
+ * @microbit/ui README). Plain app .css files stay unlayered and beat
+ * everything.
+ */
+@layer reset, vendor, base, tokens, recipes, utilities;
+
+/* Required: border-color/word-wrap defaults, kept in the bottom layer so the
+ * production cascade-layer flattening can't boost them above CodeMirror's
+ * runtime-injected styles. */
+@import "@microbit/ui/reset.css" layer(reset);
+@import "xterm/css/xterm.css" layer(vendor);

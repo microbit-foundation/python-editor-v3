@@ -3,18 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  Collapse,
-  Icon,
-  Image,
-  Link,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Collapse, Icon, Link, Text } from "@microbit/ui";
 import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
+import { Box, Stack } from "styled-system/jsx";
 import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
 import { PortableText, SimpleImage } from "../../common/sanity";
 import { useRouterState } from "../../router-hooks";
@@ -26,6 +19,7 @@ import {
 } from "../reference/model";
 import CodeEmbed from "./CodeEmbed";
 import { decorateWithCollapseNodes } from "./collapse-util";
+import ImageWithFallback from "./ImageWithFallback";
 import OfflineImageFallback from "../OfflineImageFallback";
 
 export const enum DocumentationCollapseMode {
@@ -36,7 +30,7 @@ export const enum DocumentationCollapseMode {
 }
 
 interface DocumentationContentProps {
-  content?: PortableText;
+  blocks?: PortableText;
   details?: DocumentationCollapseMode;
 }
 
@@ -127,9 +121,7 @@ const DocumentationExternalLinkMark = (
     >
       {props.children}
       <Icon
-        mb={1 / 3 + "em"}
-        ml={1}
-        verticalAlign="middle"
+        css={{ mb: "0.333em", ml: "1", verticalAlign: "middle" }}
         as={RiExternalLinkLine}
       />
     </Link>
@@ -159,10 +151,10 @@ const ContextualCollapse = ({
   const justFirstLine = collapseToFirstLine && !isExpanded;
   return (
     <Collapse
-      in={isExpanded}
+      isOpen={Boolean(isExpanded)}
       startingHeight={collapseToFirstLine ? "1.9725rem" : undefined}
     >
-      <Stack spacing={3} pt={3} noOfLines={justFirstLine ? 1 : undefined}>
+      <Stack gap="3" pt="3" lineClamp={justFirstLine ? "1" : undefined}>
         <BlockContent blocks={children} serializers={serializers} />
       </Stack>
     </Collapse>
@@ -172,7 +164,7 @@ const ContextualCollapse = ({
 const ContextualCodeEmbed = ({ code }: { code: string }) => {
   const context = useCodeEmbedContext();
   return (
-    <Box mt={3}>
+    <Box mt="3">
       <CodeEmbed {...context} code={code} />
     </Box>
   );
@@ -208,26 +200,22 @@ const serializers = {
       <ContextualCodeEmbed code={main} />
     ),
     simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
-      const imageProps = {
-        width: 300,
-        borderRadius: "lg",
-        border: "solid 1px",
-        borderColor: "gray.300",
-        sx: {
-          aspectRatio: getAspectRatio(props.node.asset._ref),
-        },
-      };
       return (
-        <Image
+        <ImageWithFallback
           src={imageUrlBuilder
             .image(props.node.asset)
             .width(300)
             .fit("max")
             .url()}
           ignoreFallback={navigator.onLine}
-          fallback={<OfflineImageFallback {...imageProps} />}
+          fallback={<OfflineImageFallback width={300} />}
           alt={props.node.alt}
-          {...imageProps}
+          width="300px"
+          borderRadius="lg"
+          border="solid 1px"
+          borderColor="gray.300"
+          // Runtime value derived from the image reference.
+          style={{ aspectRatio: getAspectRatio(props.node.asset._ref) }}
         />
       );
     },
@@ -243,20 +231,20 @@ const serializers = {
  * Wrap with DocumentationContextProvider for linking and other contextual behaviours.
  */
 const DocumentationContent = ({
-  content,
+  blocks,
   details = DocumentationCollapseMode.ShowAll,
 }: DocumentationContentProps) => {
   // If we're expanding or collapsing then we pre-process the content to wrap every run of non-code in Collapse.
-  content = useMemo(() => {
+  blocks = useMemo(() => {
     if (details === DocumentationCollapseMode.ShowAll) {
-      return content || [];
+      return blocks || [];
     }
-    return decorateWithCollapseNodes(content, details);
-  }, [details, content]);
+    return decorateWithCollapseNodes(blocks, details);
+  }, [details, blocks]);
 
-  const rendered = <BlockContent blocks={content} serializers={serializers} />;
+  const rendered = <BlockContent blocks={blocks} serializers={serializers} />;
   return details === DocumentationCollapseMode.ShowAll ? (
-    <Stack spacing={3} mt={3}>
+    <Stack gap="3" mt="3">
       {rendered}
     </Stack>
   ) : (

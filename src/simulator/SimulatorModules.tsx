@@ -1,15 +1,7 @@
-import {
-  Box,
-  BoxProps,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Stack,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useCallback, useEffect } from "react";
+import { Icon, IconButton, Text } from "@microbit/ui";
+import { useCallback, useEffect, useState } from "react";
+import { Box, Flex, HStack, Stack } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import { useSimulator } from "../device/device-hooks";
 import AccelerometerModule from "./AccelerometerModule";
 import RangeSensor from "./RangeSensor";
@@ -96,14 +88,12 @@ export const icons: Record<
   log: DataLoggingIcon,
 };
 
-const spacing = 5;
-const minimisedSpacing = 3;
-
-interface SimulatorModulesProps extends BoxProps {
+interface SimulatorModulesProps {
   running: RunningStatus;
+  css?: SystemStyleObject;
 }
 
-const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
+const SimulatorModules = ({ running, css: cssProp }: SimulatorModulesProps) => {
   const device = useSimulator();
   const [state, setState] = useRafState<SimulatorState | undefined>(
     device.state
@@ -132,12 +122,12 @@ const SimulatorModules = ({ running, ...props }: SimulatorModulesProps) => {
     <RadioChatProvider group={state.radio.group}>
       <DataLogProvider>
         <Flex
-          {...props}
+          css={cssProp}
           flexDirection="column"
           height="100%"
           width="100%"
-          py={spacing}
-          px={3}
+          py="5"
+          px="3"
         >
           {modules.map((id, index) => (
             <CollapsibleModule
@@ -176,7 +166,7 @@ const CollapsibleModule = ({
   onValueChange,
   running,
 }: CollapsibleModuleProps) => {
-  const disclosure = useDisclosure();
+  const [isOpen, setOpen] = useState(false);
   const intl = useIntl();
   const [, setRouterState] = useRouterState();
   const handleLinkToReference = useCallback(() => {
@@ -188,7 +178,6 @@ const CollapsibleModule = ({
       },
       "documentation-from-simulator"
     );
-    // setPanelFocus();
   }, [id, setRouterState]);
   const module = (
     <ModuleForId
@@ -197,19 +186,20 @@ const CollapsibleModule = ({
       state={state}
       onValueChange={onValueChange}
       running={running}
-      minimised={!disclosure.isOpen}
+      minimised={!isOpen}
     />
   );
   return (
     <Stack
-      borderBottomWidth={index < modules.length - 1 ? 1 : 0}
-      borderColor="grey.200"
-      pb={disclosure.isOpen ? spacing : minimisedSpacing}
-      mt={index === 0 ? 0 : minimisedSpacing}
-      spacing={disclosure.isOpen ? spacing : minimisedSpacing}
+      borderBottomWidth={index < modules.length - 1 ? "1px" : "0"}
+      borderBottomStyle="solid"
+      borderColor="gray.200"
+      pb={isOpen ? "5" : "3"}
+      mt={index === 0 ? "0" : "3"}
+      gap={isOpen ? "5" : "3"}
     >
       <HStack justifyContent="space-between">
-        {disclosure.isOpen && (
+        {isOpen && (
           <HStack>
             <Text as="h3" fontWeight="semibold">
               {title}
@@ -218,21 +208,20 @@ const CollapsibleModule = ({
               aria-label={intl.formatMessage({
                 id: "simulator-reference-link",
               })}
-              icon={<RiInformationLine />}
-              color="brand.500"
+              css={{ color: "brand.500", fontSize: "lg" }}
               variant="ghost"
               size="xs"
-              fontSize="lg"
-              onClick={handleLinkToReference}
-            />
+              onPress={handleLinkToReference}
+            >
+              <RiInformationLine />
+            </IconButton>
           </HStack>
         )}
-        {!disclosure.isOpen && <Box w="100%">{module}</Box>}
+        {!isOpen && <Box w="100%">{module}</Box>}
         <IconButton
-          alignSelf="flex-start"
-          icon={<ExpandCollapseIcon open={disclosure.isOpen} />}
+          css={{ alignSelf: "flex-start", color: "brand.200", fontSize: "2xl" }}
           aria-label={
-            disclosure.isOpen
+            isOpen
               ? intl.formatMessage(
                   { id: "simulator-collapse-module" },
                   { title }
@@ -240,13 +229,13 @@ const CollapsibleModule = ({
               : intl.formatMessage({ id: "simulator-expand-module" }, { title })
           }
           size="sm"
-          color="brand.200"
           variant="ghost"
-          fontSize="2xl"
-          onClick={disclosure.onToggle}
-        />
+          onPress={() => setOpen(!isOpen)}
+        >
+          <ExpandCollapseIcon open={isOpen} />
+        </IconButton>
       </HStack>
-      {disclosure.isOpen && module}
+      {isOpen && module}
     </Stack>
   );
 };
@@ -254,6 +243,13 @@ const CollapsibleModule = ({
 interface ModuleForIdProps extends SensorProps {
   minimised: boolean;
 }
+
+const ModuleIcon = ({ id }: { id: string }) => (
+  <Icon
+    as={icons[id] as IconType}
+    css={{ color: "blimpTeal.400", width: "6", height: "6" }}
+  />
+);
 
 const ModuleForId = ({
   id,
@@ -270,7 +266,7 @@ const ModuleForId = ({
       return (
         <RangeSensor
           id={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           key={id}
           title={title}
           sensor={state[id] as RangeSensorType}
@@ -282,7 +278,7 @@ const ModuleForId = ({
       return (
         <ButtonsModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           state={state}
           onValueChange={onValueChange}
           running={running}
@@ -293,7 +289,7 @@ const ModuleForId = ({
       return (
         <PinsModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           state={state}
           onValueChange={onValueChange}
           running={running}
@@ -304,7 +300,7 @@ const ModuleForId = ({
       return (
         <DataLoggingModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           logFull={state.dataLogging.logFull}
           minimised={minimised}
         />
@@ -313,7 +309,7 @@ const ModuleForId = ({
       return (
         <AccelerometerModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           state={state}
           onValueChange={onValueChange}
           running={running}
@@ -324,7 +320,7 @@ const ModuleForId = ({
       return (
         <CompassModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           state={state}
           onValueChange={onValueChange}
           minimised={minimised}
@@ -334,7 +330,7 @@ const ModuleForId = ({
       return (
         <RadioModule
           key={id}
-          icon={<Icon as={icons[id]} color="blimpTeal.400" boxSize="6" />}
+          icon={<ModuleIcon id={id} />}
           enabled={state.radio.enabled}
           group={state.radio.group}
           minimised={minimised}

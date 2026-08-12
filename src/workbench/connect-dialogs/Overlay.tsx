@@ -3,20 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, useDisclosure } from "@chakra-ui/react";
-import { useCallback, useEffect } from "react";
-import { zIndexOverlay } from "../../common/zIndex";
+import { useCallback, useEffect, useState } from "react";
+import { Box } from "styled-system/jsx";
+import { token } from "styled-system/tokens";
 import { useDevice } from "../../device/device-hooks";
 
 const Overlay = () => {
-  const selectingDevice = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const device = useDevice();
-  const showOverlay = useCallback(() => {
-    selectingDevice.onOpen();
-  }, [selectingDevice]);
-  const hideOverlay = useCallback(() => {
-    selectingDevice.onClose();
-  }, [selectingDevice]);
+  const showOverlay = useCallback(() => setIsOpen(true), []);
+  const hideOverlay = useCallback(() => setIsOpen(false), []);
   useEffect(() => {
     device.addEventListener("beforerequestdevice", showOverlay);
     device.addEventListener("afterrequestdevice", hideOverlay);
@@ -27,14 +23,16 @@ const Overlay = () => {
   }, [device, showOverlay, hideOverlay]);
   return (
     <Box
-      display={selectingDevice.isOpen ? "block" : "none"}
+      display={isOpen ? "block" : "none"}
       width="100vw"
       height="100vh"
-      background="var(--chakra-colors-blackAlpha-600)"
+      bg="blackAlpha.600"
       position="fixed"
-      top={0}
-      left={0}
-      zIndex={zIndexOverlay}
+      top="0"
+      left="0"
+      // Numeric z-index constant calibrated against third-party stacking; a
+      // runtime value, so set it via inline style (Panda can't extract it).
+      style={{ zIndex: token("zIndex.overlay") }}
     />
   );
 };

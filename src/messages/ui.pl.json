@@ -17,14 +17,14 @@
       "value": "Wykonane z miłością przez "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Micro:bit Educational Foundation i współtwórców"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "about-micropython": [
@@ -33,14 +33,14 @@
       "value": "Edytor bazuje na "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "MicroPython"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -81,14 +81,14 @@
       "value": "Aby poznać zastosowania i przykłady, zobacz "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Referencje"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "api-tab": [
@@ -99,8 +99,17 @@
   ],
   "apidocs-baseclass": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "baseClassCount",
       "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "bazowa klasa"
+            }
+          ]
+        },
         "few": {
           "value": [
             {
@@ -117,14 +126,6 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "bazowa klasa"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
@@ -134,9 +135,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "baseClassCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "apidocs-classes": [
@@ -633,14 +633,14 @@
       "value": "Zanim będziesz mógł połączyć się z tym micro:bitem, musisz "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "zaktualizować oprogramowanie sprzętowe"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -701,14 +701,14 @@
       "value": "Aby uzyskać więcej wsparcia, zobacz przewodnik "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Edytora Pythona"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "help": [
@@ -795,14 +795,14 @@
       "value": "Aby skorzystać z tego pliku hex, odwiedź stronę "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "https://makecode.microbit.org/"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -827,8 +827,12 @@
       "value": "Nie można załadować pliku "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
+        "one": {
+          "value": []
+        },
         "few": {
           "value": [
             {
@@ -845,10 +849,6 @@
             }
           ]
         },
-        "one": {
-          "value": [
-          ]
-        },
         "other": {
           "value": [
             {
@@ -858,9 +858,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "loaded-file-feedback": [
@@ -903,28 +902,28 @@
       "value": "Kod źródłowy MicroPythona "
     },
     {
+      "type": 8,
+      "value": "linkV1",
       "children": [
         {
           "type": 0,
           "value": "dla micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "linkV1"
+      ]
     },
     {
       "type": 0,
       "value": " i "
     },
     {
+      "type": 8,
+      "value": "linkV2",
       "children": [
         {
           "type": 0,
           "value": "dla micro:bit V2"
         }
-      ],
-      "type": 8,
-      "value": "linkV2"
+      ]
     }
   ],
   "more-action": [
@@ -941,14 +940,14 @@
   ],
   "more-ideas": [
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Więcej pomysłów"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "more-save-options": [
@@ -963,8 +962,12 @@
       "value": "Ten projekt zawiera "
     },
     {
-      "offset": 0,
+      "type": 6,
+      "value": "fileCount",
       "options": {
+        "one": {
+          "value": []
+        },
         "few": {
           "value": [
             {
@@ -989,10 +992,6 @@
             }
           ]
         },
-        "one": {
-          "value": [
-          ]
-        },
         "other": {
           "value": [
             {
@@ -1006,23 +1005,22 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "fileCount"
+      "offset": 0,
+      "pluralType": "cardinal"
     },
     {
       "type": 0,
       "value": ", ale tylko "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "main.py"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1035,42 +1033,42 @@
       "value": "Użyj przycisku "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Save"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": ", aby pobrać cały swój projekt jako plik hex. Możesz "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Open"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " plik hex, aby przywrócić swój projekt. Jeśli wolisz pobrać poszczególne pliki Pythona, użyj zakładki "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Project"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1107,14 +1105,14 @@
       "value": "Dodamy rozszerzenie "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": ".py"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1133,28 +1131,28 @@
       "value": "Czy Twój "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit jest podłączony"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": "? Czy "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "wykonałeś te kroki"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1167,28 +1165,28 @@
       "value": "Jeśli masz "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "micro:bit V1"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": ", może być konieczna "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "aktualizacja oprogramowania firmowego"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "not-found-message": [
@@ -1215,14 +1213,14 @@
       "value": "Zanim będziesz mógł połączyć się z tym micro:bitem, musisz "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "zaktualizować oprogramowanie firmowe"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1311,14 +1309,14 @@
       "value": "Zawiera wszystkie pliki w tym projekcie (w tym wszelkie dodatkowe pliki, np. do uruchomienia akcesoriów, wymienionych w karcie "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Project"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1331,14 +1329,14 @@
       "value": "Plik hex znajdziesz w folderze "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Downloads"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1351,14 +1349,14 @@
       "value": "Możesz przenieść go do innego folderu do przechowania i użyć "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Otwórz"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -1377,14 +1375,14 @@
       "value": "Aby uruchomić ten plik hex na micro:bicie, "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "wykonaj te kroki"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -1501,13 +1499,25 @@
   ],
   "results-count": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
             {
               "type": 0,
               "value": "Brak wyników"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " wynik"
             }
           ]
         },
@@ -1533,17 +1543,6 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " wynik"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
@@ -1556,9 +1555,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "save-action": [
@@ -1649,28 +1647,28 @@
       "value": "Użyj skrótu klawiszowego "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "C"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1683,28 +1681,28 @@
       "value": "Aby ponownie uruchomić program, użyj "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "Ctrl"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
       "value": " + "
     },
     {
+      "type": 8,
+      "value": "kbd",
       "children": [
         {
           "type": 0,
           "value": "D"
         }
-      ],
-      "type": 8,
-      "value": "kbd"
+      ]
     },
     {
       "type": 0,
@@ -1723,28 +1721,28 @@
       "value": "Twój program może drukować wiadomości za pomocą funkcji "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
       "value": ". Spróbuj dodać "
     },
     {
+      "type": 8,
+      "value": "code",
       "children": [
         {
           "type": 0,
           "value": "print('micro:bit jest niesamowity')"
         }
-      ],
-      "type": 8,
-      "value": "code"
+      ]
     },
     {
       "type": 0,
@@ -1971,13 +1969,25 @@
   ],
   "simulator-data-logging-rows": [
     {
-      "offset": 0,
+      "type": 6,
+      "value": "count",
       "options": {
         "=0": {
           "value": [
             {
               "type": 0,
               "value": "żaden wiersz nie zalogowany"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " wiersz zalogowany"
             }
           ]
         },
@@ -2003,17 +2013,6 @@
             }
           ]
         },
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " wiersz zalogowany"
-            }
-          ]
-        },
         "other": {
           "value": [
             {
@@ -2026,9 +2025,8 @@
           ]
         }
       },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "simulator-data-logging-save-log": [
@@ -2323,6 +2321,30 @@
       "value": "Logo dotykowe"
     }
   ],
+  "simulator-unit-celsius": [
+    {
+      "type": 0,
+      "value": "degrees Celsius"
+    }
+  ],
+  "simulator-unit-degrees": [
+    {
+      "type": 0,
+      "value": "degrees"
+    }
+  ],
+  "simulator-unit-milli-g": [
+    {
+      "type": 0,
+      "value": "milli-g"
+    }
+  ],
+  "simulator-unit-nanotesla": [
+    {
+      "type": 0,
+      "value": "nanotesla"
+    }
+  ],
   "simulator-unmute": [
     {
       "type": 0,
@@ -2365,14 +2387,14 @@
       "value": "Zezwalaj edycję modułów innych firm w "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "Ustawienia"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     },
     {
       "type": 0,
@@ -2413,28 +2435,28 @@
       "value": "Przeciągnij plik hex z "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "folderu Pobrane"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
       "value": " na "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "dysk MICROBIT"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2447,14 +2469,14 @@
       "value": "Możesz później "
     },
     {
+      "type": 8,
+      "value": "strong",
       "children": [
         {
           "type": 0,
           "value": "Otworzyć"
         }
-      ],
-      "type": 8,
-      "value": "strong"
+      ]
     },
     {
       "type": 0,
@@ -2473,6 +2495,150 @@
       "value": "Spróbuj ponownie"
     }
   ],
+  "ui.breadcrumb": [
+    {
+      "type": 0,
+      "value": "Ścieżka nawigacji"
+    }
+  ],
+  "ui.close-action": [
+    {
+      "type": 0,
+      "value": "Zamknij"
+    }
+  ],
+  "ui.combobox-listbox": [
+    {
+      "type": 0,
+      "value": "Sugestie"
+    }
+  ],
+  "ui.combobox-trigger": [
+    {
+      "type": 0,
+      "value": "Pokaż sugestie"
+    }
+  ],
+  "ui.loading": [
+    {
+      "type": 0,
+      "value": "Ładowanie"
+    }
+  ],
+  "ui.numberfield-decrease": [
+    {
+      "type": 0,
+      "value": "Zmniejsz "
+    },
+    {
+      "type": 1,
+      "value": "fieldLabel"
+    }
+  ],
+  "ui.numberfield-increase": [
+    {
+      "type": 0,
+      "value": "Zwiększ "
+    },
+    {
+      "type": 1,
+      "value": "fieldLabel"
+    }
+  ],
+  "ui.select-placeholder": [
+    {
+      "type": 0,
+      "value": "Wybierz element"
+    }
+  ],
+  "ui.select-row-action": [
+    {
+      "type": 0,
+      "value": "Wybierz"
+    }
+  ],
+  "ui.toast-region": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " powiadomienie"
+            }
+          ]
+        },
+        "few": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " powiadomienia"
+            }
+          ]
+        },
+        "many": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " powiadomień"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " powiadomienia"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "ui.toast-status-error": [
+    {
+      "type": 0,
+      "value": "Błąd"
+    }
+  ],
+  "ui.toast-status-info": [
+    {
+      "type": 0,
+      "value": "Informacja"
+    }
+  ],
+  "ui.toast-status-success": [
+    {
+      "type": 0,
+      "value": "Sukces"
+    }
+  ],
+  "ui.toast-status-warning": [
+    {
+      "type": 0,
+      "value": "Ostrzeżenie"
+    }
+  ],
   "undo": [
     {
       "type": 0,
@@ -2485,14 +2651,14 @@
       "value": "Spróbuj ponownie lub "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "zgłoś prośbę o wsparcie"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "unexpected-error-title": [
@@ -2501,14 +2667,14 @@
       "value": "Spróbuj ponownie lub "
     },
     {
+      "type": 8,
+      "value": "link",
       "children": [
         {
           "type": 0,
           "value": "zgłoś prośbę o wsparcie"
         }
-      ],
-      "type": 8,
-      "value": "link"
+      ]
     }
   ],
   "untitled-project": [
@@ -2577,60 +2743,60 @@
   ],
   "webusb-error-reconnect-microbit-description": [
     {
+      "type": 8,
+      "value": "p",
       "children": [
         {
           "type": 0,
           "value": "Postępuj zgodnie z tymi krokami, a następnie spróbuj ponownie:"
         }
-      ],
-      "type": 8,
-      "value": "p"
+      ]
     },
     {
+      "type": 8,
+      "value": "ul",
       "children": [
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "odłącz kabel USB"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "odłącz pakiet baterii, jeśli jest podłączony"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "ponownie podłącz kabel USB"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         },
         {
+          "type": 8,
+          "value": "li",
           "children": [
             {
               "type": 0,
               "value": "ponownie podłącz pakiet baterii, jeśli był podłączony"
             }
-          ],
-          "type": 8,
-          "value": "li"
+          ]
         }
-      ],
-      "type": 8,
-      "value": "ul"
+      ]
     }
   ],
   "webusb-not-supported": [

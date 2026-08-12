@@ -1,16 +1,8 @@
-import {
-  Box,
-  HStack,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderThumbProps,
-  SliderTrack,
-  Tooltip,
-} from "@chakra-ui/react";
-import React, { ForwardedRef, ReactNode, useCallback, useState } from "react";
+import { Slider, Tooltip } from "@microbit/ui";
+import React, { ReactNode, useCallback, useRef, useState } from "react";
 import { useIntl } from "react-intl";
+import { css } from "styled-system/css";
+import { Box, HStack } from "styled-system/jsx";
 import {
   RangeSensor as RangeSensorType,
   SensorStateKey,
@@ -41,6 +33,23 @@ const RangeSensor = ({
     [onSensorChange, id]
   );
   const valueText = unit ? `${value} ${unit}` : value.toString();
+  const intl = useIntl();
+  // The unit goes in the accessible name (announced once, on focus) rather
+  // than per-value announcements: react-aria has no aria-valuetext
+  // passthrough and Intl's sanctioned unit list can't express mg/nT anyway.
+  // Translated so screen readers say "milli-g", not a guess at "mg".
+  const unitMessageIds: Record<string, string> = {
+    mg: "simulator-unit-milli-g",
+    nT: "simulator-unit-nanotesla",
+    "°C": "simulator-unit-celsius",
+    deg: "simulator-unit-degrees",
+  };
+  const unitName = unit
+    ? unitMessageIds[unit]
+      ? intl.formatMessage({ id: unitMessageIds[unit] })
+      : unit
+    : undefined;
+  const accessibleTitle = unitName ? `${title} (${unitName})` : title;
   const [showTooltip, setShowTooltip] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const handleFocusTooltip = useCallback((value: boolean) => {
@@ -58,39 +67,27 @@ const RangeSensor = ({
   const valuePercent = ((value - min) / (max - min)) * 100;
   return (
     <HStack
-      pb={minimised ? 0 : 2}
-      pt={minimised ? 0 : 1}
-      spacing={3}
-      pr={minimised ? 0 : 2}
+      pb={minimised ? "0" : "2"}
+      pt={minimised ? "0" : "1"}
+      gap="3"
+      pr={minimised ? "0" : "2"}
       flex="1 1 auto"
+      onMouseEnter={() => handleMouseOverTooltip(true)}
+      onMouseLeave={() => handleMouseOverTooltip(false)}
     >
       {icon}
       <Slider
-        aria-label={title}
-        aria-valuetext={valueText}
+        aria-label={accessibleTitle}
         value={value}
-        min={min}
-        max={max}
+        minValue={min}
+        maxValue={max}
         onChange={handleChange}
-        colorScheme="blackAlpha"
-        onMouseEnter={() => handleMouseOverTooltip(true)}
-        onMouseLeave={() => handleMouseOverTooltip(false)}
+        trackCss={{ height: "2" }}
+        filledTrackCss={{ bg: "blackAlpha.500" }}
+        thumbTooltip={valueText}
+        isThumbTooltipOpen={minimised ? showTooltip : false}
+        onThumbFocusChange={handleFocusTooltip}
       >
-        <SliderTrack height={2}>
-          <SliderFilledTrack />
-        </SliderTrack>
-        <Tooltip
-          hasArrow
-          placement="top"
-          label={valueText}
-          isOpen={minimised ? showTooltip : false}
-        >
-          <SliderThumbIgnoreAriaDescribedBy
-            aria-hidden="true"
-            onFocus={() => handleFocusTooltip(true)}
-            onBlur={() => handleFocusTooltip(false)}
-          />
-        </Tooltip>
         {typeof lowThreshold !== "undefined" && (
           <ThresholdMark
             value={lowThreshold}
@@ -109,33 +106,52 @@ const RangeSensor = ({
         )}
         {!minimised && (
           <>
-            <SliderMark value={min} mt="1" fontSize="xs">
-              {min}
-            </SliderMark>
-            <SliderMark
-              value={max}
-              mt="1"
-              ml={`-${max.toString().length}ch`}
-              fontSize="xs"
+            <SensorMark percent={0}>{min}</SensorMark>
+            <SensorMark
+              percent={100}
+              style={{ marginLeft: `-${max.toString().length}ch` }}
             >
               {max}
-            </SliderMark>
-            <SliderMark
-              value={value}
-              textAlign="center"
-              mt="-8"
-              ml={(-valueText.length * valuePercent) / 100 + "ch"}
-              fontSize="xs"
-              whiteSpace="nowrap"
+            </SensorMark>
+            <SensorMark
+              percent={valuePercent}
+              css={{ textAlign: "center", mt: "-8", whiteSpace: "nowrap" }}
+              style={{
+                marginLeft: (-valueText.length * valuePercent) / 100 + "ch",
+              }}
             >
               {valueText}
-            </SliderMark>
+            </SensorMark>
           </>
         )}
       </Slider>
     </HStack>
   );
 };
+
+/**
+ * An always-visible slider mark: absolutely positioned at a percentage
+ * along the track, below it by default.
+ */
+const SensorMark = ({
+  percent,
+  css: cssProp,
+  style,
+  children,
+}: {
+  percent: number;
+  css?: Parameters<typeof css>[0];
+  style?: React.CSSProperties;
+  children: ReactNode;
+}) => (
+  <div
+    className={css({ position: "absolute", mt: "1", fontSize: "xs" }, cssProp)}
+    // Track position is a runtime value.
+    style={{ left: `${percent}%`, ...style }}
+  >
+    {children}
+  </div>
+);
 
 const getThresholdLabels = (id: string, threshold: "low" | "high") => {
   switch (id) {
@@ -159,32 +175,41 @@ interface ThresholdMarkProps {
 
 const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
   const intl = useIntl();
+  const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
   const percentLeft = ((value - min) / (max - min)) * 100 + "%";
   const formattedLabel = intl.formatMessage({ id: label }) + ` ${value}`;
   return (
-    <Tooltip hasArrow placement="top" label={formattedLabel}>
+    <>
       <Box
+        ref={ref}
         aria-label={formattedLabel}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         position="absolute"
         top="3px"
-        left={percentLeft}
         bg="brand.200"
-        height={2}
-        width={2}
+        height="2"
+        width="2"
         borderLeft="1px solid"
         borderRight="1px solid"
-        borderColor="gray.25"
+        borderColor="gray.75"
+        // Track position is a runtime value.
+        style={{ left: percentLeft }}
       />
-    </Tooltip>
+      {/* The marker is not focusable (as before), so the tooltip is
+          hover-driven via the library's triggerRef escape hatch. */}
+      <Tooltip
+        hasArrow
+        placement="top"
+        label={formattedLabel}
+        isOpen={hovered}
+        triggerRef={ref}
+      >
+        <span />
+      </Tooltip>
+    </>
   );
 };
-
-const SliderThumbIgnoreAriaDescribedBy = React.forwardRef(
-  (props: SliderThumbProps, ref: ForwardedRef<HTMLDivElement>) => {
-    // We ignore it as otherwise screenreaders get the value read out twice.
-    const { "aria-describedby": _, ...rest } = props;
-    return <SliderThumb ref={ref} {...rest} />;
-  }
-);
 
 export default RangeSensor;

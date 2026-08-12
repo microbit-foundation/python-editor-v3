@@ -1,4 +1,4 @@
-import { CreateToastFnReturn } from "@chakra-ui/react";
+import { ToastFn } from "@microbit/ui";
 import { ConnectionError, ErrorCodes, ResponseError } from "vscode-jsonrpc";
 
 // The language server gets disposed/recreated which can cause errors for
@@ -15,21 +15,16 @@ export const offlineToastTextIds = {
   descriptionId: "offline-language-toast-description",
 };
 
-export const showOfflineLanguageToast = (toast: CreateToastFnReturn): void => {
-  const id = "offline-language-toast";
-  if (!toast.isActive(id)) {
-    toast({
-      id,
-      // We can't use intl inside the TranslationProvider component.
-      // Fallback to hardcoded English.
-      title: "Language unavailable offline",
-      description:
-        "The language will update when you next open the micro:bit Python Editor and you are online.",
-      status: "info",
-      duration: 5_000,
-      isClosable: true,
-      position: "top",
-      variant: "toast",
-    });
-  }
+export const showOfflineLanguageToast = (toast: ToastFn): void => {
+  toast({
+    // Adding a toast whose id is already visible is a no-op.
+    id: "offline-language-toast",
+    // We can't use intl inside the TranslationProvider component.
+    // Fallback to hardcoded English.
+    title: "Language unavailable offline",
+    description:
+      "The language will update when you next open the micro:bit Python Editor and you are online.",
+    status: "info",
+    isClosable: true,
+  });
 };

@@ -3,34 +3,43 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, LinkProps } from "@chakra-ui/react";
+import { Button } from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
 import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 
-interface ShowMoreLinkProps extends LinkProps {
+interface ShowMoreButtonProps {
+  onClick: () => void;
   isOpen: boolean;
   isBrief?: boolean;
 }
 
-const ShowMoreButton = ({ isOpen, isBrief, ...props }: ShowMoreLinkProps) => {
+const ShowMoreButton = ({ isOpen, isBrief, onClick }: ShowMoreButtonProps) => {
   const more = isBrief ? "more-action" : "show-more";
   const less = isBrief ? "less-action" : "show-less";
   return (
-    <Link
-      {...props}
-      as="button"
-      color="brand.600"
-      textAlign="left"
-      _hover={{
-        textDecoration: "none",
+    <Button
+      variant="unstyled"
+      onPress={onClick}
+      css={{
+        color: "brand.600",
+        // Link-styled button: content-sized, left-aligned, inheriting the
+        // surrounding text size. The button recipe's base/size styles
+        // (semibold, centred, md height, md font) must all be undone for
+        // the link form.
+        fontWeight: "normal",
+        textAlign: "left",
+        justifyContent: "flex-start",
+        height: "auto",
+        fontSize: "inherit",
+        display: "flex",
+        flexWrap: "nowrap",
+        alignItems: "center",
+        cursor: "pointer",
       }}
-      display="flex"
-      flexWrap="nowrap"
-      alignItems="center"
     >
       <FormattedMessage id={isOpen ? less : more} />
-      <ExpandCollapseIcon open={isOpen} ml={1} />
-    </Link>
+      <ExpandCollapseIcon open={isOpen} css={{ ml: "1" }} />
+    </Button>
   );
 };
 

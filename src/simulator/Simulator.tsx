@@ -3,16 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  AspectRatio,
-  Box,
-  Flex,
-  usePrevious,
-  useToken,
-  VStack,
-} from "@chakra-ui/react";
+import { usePrevious } from "@microbit/ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { IntlShape, useIntl } from "react-intl";
+import { token } from "styled-system/tokens";
+import { Box, Flex, styled, VStack } from "styled-system/jsx";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
@@ -43,7 +38,7 @@ const Simulator = ({
   minWidth,
   simFocus,
 }: SimulatorProps) => {
-  const [brand500] = useToken("colors", ["brand.500"]);
+  const brand500 = token("colors.brand.500");
   const url = useMemo(() => {
     const production =
       "https://python-simulator.usermbit.org/v/0.1/simulator.html?flag=sw";
@@ -104,37 +99,44 @@ const Simulator = ({
       >
         <Flex
           position="absolute"
-          top={0}
-          left={0}
+          top="0"
+          left="0"
           alignItems="center"
-          height={topBarHeight}
+          // Imported constant; not statically extractable.
+          style={{ height: topBarHeight }}
         >
           <HideSplitViewButton
             aria-label={intl.formatMessage({ id: "simulator-collapse" })}
             onClick={onSimulatorHide}
             splitViewShown={shown}
             direction="expandLeft"
+            css={{ boxShadow: "md" }}
           />
         </Flex>
-        <VStack spacing={5} bg="gray.25" ref={simControlsRef}>
-          <Box width="100%" pb={1} px={5} maxW="md" minW={minWidth}>
-            <AspectRatio ratio={191.27 / 155.77} width="100%">
-              <Box
-                ref={ref}
-                as="iframe"
-                src={url}
-                title={simulatorTitle}
-                name={simulatorTitle}
-                frameBorder="no"
-                scrolling="no"
-                allow="autoplay;microphone"
-                sandbox="allow-scripts allow-same-origin"
-              />
-            </AspectRatio>
+        <VStack gap="5" bg="gray.75" ref={simControlsRef}>
+          <Box
+            width="100%"
+            pb="1"
+            px="5"
+            maxW="md"
+            // Runtime value from the layout.
+            style={{ minWidth: minWidth }}
+          >
+            <styled.iframe
+              aspectRatio="191.27 / 155.77"
+              width="100%"
+              ref={ref}
+              src={url}
+              title={simulatorTitle}
+              name={simulatorTitle}
+              frameBorder="no"
+              scrolling="no"
+              allow="autoplay;microphone"
+              sandbox="allow-scripts allow-same-origin"
+            />
             <SimulatorActionBar
-              as="section"
               aria-label={intl.formatMessage({ id: "simulator-actions" })}
-              overflow="hidden"
+              css={{ overflow: "hidden" }}
               running={running}
               onRunningChange={setRunning}
             />

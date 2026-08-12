@@ -3,17 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  Button,
-  Collapse,
-  HStack,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Collapse, Text } from "@microbit/ui";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { RiArrowLeftSFill } from "react-icons/ri";
+import { Box, HStack, Stack, VStack } from "styled-system/jsx";
 import { SimpleImage } from "../../common/sanity";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
@@ -80,35 +73,36 @@ const DocumentationBreadcrumbHeading = ({
   }, [width]);
   return (
     <Box
-      p={5}
-      pt={3}
-      pb={reduced ? 3 : 5}
+      p="5"
+      pt="3"
+      pb={reduced ? "3" : "5"}
       transition="padding .2s"
       ref={parentRef}
     >
-      <Stack spacing={0} position="sticky">
+      <Stack gap="0" position="sticky">
         <Button
-          // Button is full width so put content at the start.
-          justifyContent="flex-start"
-          leftIcon={<RiArrowLeftSFill />}
-          sx={{
-            span: {
+          variant="unstyled"
+          onPress={onBack}
+          css={{
+            // Button is full width so put content at the start.
+            justifyContent: "flex-start",
+            display: "flex",
+            alignItems: "center",
+            fontWeight: "bold",
+            fontSize: "md",
+            whiteSpace: "normal",
+            textAlign: "left",
+            color: "brand.500",
+            cursor: "pointer",
+            "& span": {
               margin: 0,
             },
-            svg: {
+            "& svg": {
               width: "1.5rem",
               height: "1.5rem",
             },
           }}
-          display="flex"
-          variant="unstyled"
-          onClick={onBack}
-          alignItems="center"
-          fontWeight="bold"
-          fontSize="md"
-          whiteSpace="normal"
-          textAlign="left"
-          color="brand.500"
+          leftIcon={<RiArrowLeftSFill />}
         >
           <Text as="span">
             {grandparent && grandparent + " / "}
@@ -117,15 +111,15 @@ const DocumentationBreadcrumbHeading = ({
             </Text>
           </Text>
         </Button>
-        <HStack align="center" spacing={4}>
+        <HStack alignItems="center" gap="4">
           {icon && (
             <DocumentationIcon
-              alignSelf="flex-start"
+              css={{ alignSelf: "flex-start" }}
               icon={icon}
               reduced={reduced}
             />
           )}
-          <VStack align="flex-start" spacing={0}>
+          <VStack alignItems="flex-start" gap="0">
             <Text
               as="h2"
               fontSize="2xl"
@@ -134,15 +128,15 @@ const DocumentationBreadcrumbHeading = ({
               display="inline-flex"
               alignItems="center"
             >
-              {title} {isV2Only && <V2Tag ml={2.5} />}
+              {title} {isV2Only && <V2Tag ml="2.5" />}
             </Text>
             {subtitle && (
               <Collapse
-                in={!reduced}
+                isOpen={!reduced}
                 unmountOnExit={true}
                 endingHeight={subtitleHeight}
               >
-                <Text fontSize="md" pt={1} ref={paragraphRef}>
+                <Text fontSize="md" pt="1" ref={paragraphRef}>
                   {subtitle}
                 </Text>
               </Collapse>

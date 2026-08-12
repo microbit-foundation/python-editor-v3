@@ -3,10 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Flex, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react";
+import { Icon, Image, Text } from "@microbit/ui";
 import { ReactNode } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
+import { Flex, HStack, VStack } from "styled-system/jsx";
 import { GenericDialog, GenericDialogFooter } from "../../common/GenericDialog";
 import transferHexMac from "./transfer-hex-mac.gif";
 import transferHexWin from "./transfer-hex-win.gif";
@@ -57,9 +58,9 @@ const TransferHexDialogBody = () => {
       width="auto"
       ml="auto"
       mr="auto"
-      p={5}
-      pb={0}
-      spacing={5}
+      p="5"
+      pb="0"
+      gap="5"
       alignItems="flex-start"
     >
       <VStack alignItems="flex-start">
@@ -78,7 +79,7 @@ const TransferHexDialogBody = () => {
             }}
           />
         </Text>
-        <HStack spacing={1}>
+        <HStack gap="1">
           <Icon as={RiInformationLine} />
           <Text>
             <FormattedMessage

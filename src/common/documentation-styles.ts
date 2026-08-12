@@ -3,13 +3,27 @@
  *
  * SPDX-License-Identifier: MIT
  */
-export const docStyles = {
-  "p,h3": {
+import { css } from "styled-system/css";
+
+// A class rather than a style object: Panda can only statically extract
+// styles written literally at the definition site, not objects spread into
+// a css prop elsewhere.
+export const docStylesClass = css({
+  "& p, & h3": {
     maxWidth: "600px",
   },
+  // On the lists, not just inherited from here: preflight's
+  // `ul { list-style: none }` shorthand resets list-style-position to
+  // `outside`, which would silently win over the inherited value.
   listStylePosition: "inside",
-  ol: {
-    pl: 3,
+  "& ol": {
+    listStyleType: "decimal",
+    pl: "3",
+    listStylePosition: "inside",
   },
-  ul: { listStyleType: "disc", pl: 3 },
-};
+  "& ul": {
+    listStyleType: "disc",
+    pl: "3",
+    listStylePosition: "inside",
+  },
+});

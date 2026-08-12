@@ -3,19 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  Divider,
-  HStack,
-  IconButton,
-  ListItem,
-  ListItemProps,
-  useMediaQuery,
-  VStack,
-} from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { Divider, IconButton, ListItem, useMediaQuery } from "@microbit/ui";
+import { MouseEventHandler, ReactNode } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { Box, HStack, VStack } from "styled-system/jsx";
 import { SimpleImage } from "../../common/sanity";
 import DocumentationIcon from "./DocumentationIcon";
 import DocumentationHeading from "./DocumentationHeading";
@@ -42,8 +34,8 @@ const DocumentationTopLevelItem = ({
   type,
 }: DocumentationTopLevelItemProps) => {
   const intl = useIntl();
-  const [isShortWindow] = useMediaQuery(heightMd, { ssr: false });
-  const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
+  const isShortWindow = useMediaQuery(heightMd);
+  const isWideScreen = useMediaQuery(widthXl);
   return (
     <DocumentationListItem
       onClick={onForward}
@@ -54,25 +46,28 @@ const DocumentationTopLevelItem = ({
     >
       <VStack
         alignItems="stretch"
-        spacing={isShortWindow || !isWideScreen ? 0 : 1}
+        gap={isShortWindow || !isWideScreen ? "0" : "1"}
         flex="1 1 auto"
       >
         <HStack justifyContent="space-between">
           <DocumentationHeading name={name} isV2Only={!!isV2Only} />
           <IconButton
-            icon={<RiArrowRightLine />}
             aria-label={intl.formatMessage(
               { id: "toolkit-view-documentation" },
               { name }
             )}
             size="sm"
-            color="brand.200"
+            css={{ color: "brand.200", fontSize: "2xl" }}
             variant="ghost"
-            fontSize="2xl"
-          />
+            // react-aria's press handling doesn't produce a click that
+            // bubbles to the list item's onClick, so forward explicitly.
+            onPress={onForward}
+          >
+            <RiArrowRightLine />
+          </IconButton>
         </HStack>
         {/*Content problem! We need all descriptions to be short, or two sets.*/}
-        <Box fontSize="sm" noOfLines={1}>
+        <Box fontSize="sm" lineClamp="1">
           {description}
         </Box>
       </VStack>
@@ -80,10 +75,13 @@ const DocumentationTopLevelItem = ({
   );
 };
 
-interface DocumentationListItemProps extends ListItemProps {
+interface DocumentationListItemProps {
+  children: ReactNode;
   showIcon: boolean;
   icon?: SimpleImage;
   type: DocType;
+  onClick?: MouseEventHandler<HTMLLIElement>;
+  cursor?: string;
 }
 
 const DocumentationListItem = ({
@@ -91,30 +89,31 @@ const DocumentationListItem = ({
   showIcon,
   icon,
   type,
-  ...props
+  onClick,
 }: DocumentationListItemProps) => {
-  const [isShortWindow] = useMediaQuery(heightMd, { ssr: false });
-  const [isWideScreen] = useMediaQuery(widthXl, { ssr: false });
-  const my =
-    type === "reference"
-      ? isShortWindow || !isWideScreen
-        ? 2
-        : 5
-      : isShortWindow || !isWideScreen
-      ? 3
-      : 5;
+  const isShortWindow = useMediaQuery(heightMd);
+  const isWideScreen = useMediaQuery(widthXl);
+  const reducedSpace = isShortWindow || !isWideScreen;
   return (
-    <ListItem {...props}>
+    <ListItem onClick={onClick} cursor="pointer">
       <HStack
-        my={my}
-        mr={3}
-        ml={type === "reference" ? (isShortWindow || !isWideScreen ? 3 : 5) : 5}
-        spacing={isShortWindow || !isWideScreen ? 3 : 5}
+        my={
+          type === "reference"
+            ? reducedSpace
+              ? "2"
+              : "5"
+            : reducedSpace
+            ? "3"
+            : "5"
+        }
+        mr="3"
+        ml={type === "reference" ? (reducedSpace ? "3" : "5") : "5"}
+        gap={reducedSpace ? "3" : "5"}
       >
         {showIcon && icon && <DocumentationIcon icon={icon} reduced={false} />}
         {children}
       </HStack>
-      <Divider ml={3} borderWidth="1px" />
+      <Divider ml="3" thickness="thick" />
     </ListItem>
   );
 };

@@ -3,9 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BoxProps, Center, Text } from "@chakra-ui/react";
+import { Text } from "@microbit/ui";
+import { ComponentProps } from "react";
+import { Center } from "styled-system/jsx";
 
-interface PlaceholderProps extends BoxProps {
+interface PlaceholderProps extends ComponentProps<typeof Center> {
   text?: string;
 }
 
@@ -14,7 +16,7 @@ interface PlaceholderProps extends BoxProps {
  */
 const Placeholder = ({ text, ...props }: PlaceholderProps) => (
   <Center height="100%" {...props}>
-    <Text p={8}>{text || "Placeholder"}</Text>
+    <Text p="8">{text || "Placeholder"}</Text>
   </Center>
 );
 

@@ -21,13 +21,13 @@ export const baseTheme = EditorView.baseTheme({
     position: "absolute",
   },
   ".cm-cs--mode-full .cm-cs--block": {
-    backgroundColor: "var(--chakra-colors-code-blockBackground)",
+    backgroundColor: "var(--colors-code-block-background)",
   },
   ".cm-cs--mode-full .cm-cs--block.cm-cs--active": {
-    backgroundColor: "var(--chakra-colors-code-blockBackgroundActive)",
+    backgroundColor: "var(--colors-code-block-background-active)",
   },
   ".cm-cs--indent": {
-    borderRight: "2px solid var(--chakra-colors-code-blockBorder)",
-    borderTop: "2px solid var(--chakra-colors-code-blockBorder)",
+    borderRight: "2px solid var(--colors-code-block-border)",
+    borderTop: "2px solid var(--colors-code-block-border)",
   },
 });

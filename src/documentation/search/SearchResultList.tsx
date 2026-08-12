@@ -3,8 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Divider, Link, Stack, Text, TextProps } from "@chakra-ui/react";
+import { Divider, Link, Text } from "@microbit/ui";
+import { ComponentProps } from "react";
 import { FormattedMessage } from "react-intl";
+import { Stack } from "styled-system/jsx";
 import { RouterState, toUrl } from "../../router-hooks";
 import { Extract, Result } from "./common";
 
@@ -22,8 +24,8 @@ const SearchResultList = ({
   onViewResult,
 }: SearchResultListProps) => {
   return (
-    <Stack spacing={2}>
-      <Text as="h2" fontSize="sm" px={3} color="gray.600" fontWeight="bold">
+    <Stack gap="2">
+      <Text as="h2" fontSize="sm" px="3" color="gray.500" fontWeight="bold">
         {title}
       </Text>
       {results.map((result) => (
@@ -35,7 +37,7 @@ const SearchResultList = ({
         />
       ))}
       {results.length === 0 && (
-        <Text fontSize="sm" px={8}>
+        <Text fontSize="sm" px="8">
           <FormattedMessage
             id="results-count"
             values={{
@@ -71,12 +73,12 @@ const SearchResultItem = ({
           e.preventDefault();
           onViewResult(id, navigation);
         }}
-        _hover={{ textDecor: "none", bgColor: "brand.100" }}
+        _hover={{ textDecoration: "none", bgColor: "brand.100" }}
         _focus={{ bgColor: "brand.100" }}
       >
-        <Stack px={8} py={2} spacing={0}>
+        <Stack px="8" py="2" gap="0">
           {title !== containerTitle && (
-            <Text fontSize="sm" color="gray.600" fontWeight="bold">
+            <Text fontSize="sm" color="gray.500" fontWeight="bold">
               {containerTitle}
             </Text>
           )}
@@ -89,12 +91,12 @@ const SearchResultItem = ({
           <ExtractText extract={extract.content} />
         </Stack>
       </Link>
-      <Divider borderWidth="1px" color="gray.400" />
+      <Divider thickness="thick" />
     </Stack>
   );
 };
 
-interface ExtractTextProps extends TextProps {
+interface ExtractTextProps extends ComponentProps<typeof Text> {
   extract: Extract[];
 }
 
@@ -107,7 +109,7 @@ const ExtractText = ({ extract, title, ...props }: ExtractTextProps) => {
             {t.extract}
           </Text>
         ) : (
-          <Text key={i} as="span" bgColor="#6C4BC14D" borderRadius="md" p={0.5}>
+          <Text key={i} as="span" bgColor="#6C4BC14D" borderRadius="md" p="0.5">
             {t.extract}
           </Text>
         )

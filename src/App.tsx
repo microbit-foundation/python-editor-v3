@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ChakraProvider } from "@chakra-ui/react";
+import { SharedUIProvider, ToastProvider } from "@microbit/ui";
 import { polyfill } from "mobile-drag-drop";
 import { useEffect } from "react";
 import "./App.css";
@@ -66,11 +66,16 @@ const App = () => {
   return (
     <>
       <VisualViewPortCSSVariables />
-      <ChakraProvider theme={deployment.chakraTheme}>
-        <LoggingProvider value={logging}>
-          <SettingsProvider>
-            <SessionSettingsProvider>
-              <TranslationProvider>
+      <LoggingProvider value={logging}>
+        <SettingsProvider>
+          <SessionSettingsProvider>
+            <TranslationProvider>
+              {/* Inside TranslationProvider: SharedUIProvider passes the app
+                    locale to react-aria for its built-in strings, and the
+                    toast region's close label and status announcements are
+                    react-intl messages. */}
+              <SharedUIProvider>
+                <ToastProvider />
                 <FileSystemProvider value={fs}>
                   <DeviceContextProvider value={device}>
                     <LanguageServerClientProvider>
@@ -95,11 +100,11 @@ const App = () => {
                     </LanguageServerClientProvider>
                   </DeviceContextProvider>
                 </FileSystemProvider>
-              </TranslationProvider>
-            </SessionSettingsProvider>
-          </SettingsProvider>
-        </LoggingProvider>
-      </ChakraProvider>
+              </SharedUIProvider>
+            </TranslationProvider>
+          </SessionSettingsProvider>
+        </SettingsProvider>
+      </LoggingProvider>
     </>
   );
 };

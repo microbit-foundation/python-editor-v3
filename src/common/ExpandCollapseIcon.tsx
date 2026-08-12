@@ -3,13 +3,18 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ChevronDownIcon, ChevronUpIcon, IconProps } from "@chakra-ui/icons";
+import { Icon, IconProps } from "@microbit/ui";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
-interface ExpandCollapseIconProps extends IconProps {
+interface ExpandCollapseIconProps extends Omit<IconProps, "as"> {
   open: boolean;
 }
 
 const ExpandCollapseIcon = ({ open, ...props }: ExpandCollapseIconProps) =>
-  open ? <ChevronUpIcon {...props} /> : <ChevronDownIcon {...props} />;
+  open ? (
+    <Icon as={MdKeyboardArrowUp} {...props} />
+  ) : (
+    <Icon as={MdKeyboardArrowDown} {...props} />
+  );
 
 export default ExpandCollapseIcon;

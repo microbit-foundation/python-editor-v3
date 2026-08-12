@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, useToken } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { CSSProperties, useEffect, useMemo, useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
-import "xterm/css/xterm.css";
+import { Box } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
+import { token } from "styled-system/tokens";
 import useActionFeedback from "../common/use-action-feedback";
 import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm } from "../deployment/misc";
@@ -19,18 +20,26 @@ import { useCurrentTerminalRef } from "./serial-hooks";
 import "./xterm-custom.css";
 import customKeyEventHandler from "./xterm-keyboard";
 
-interface XTermProps extends BoxProps {
+interface XTermProps {
   tabOutRef: HTMLElement;
   fontSizePt: number;
+  css?: SystemStyleObject;
+  style?: CSSProperties;
 }
 
 /**
  * xterm.js-based terminal.
  */
-const XTerm = ({ fontSizePt, tabOutRef, ...props }: XTermProps) => {
+const XTerm = ({ fontSizePt, tabOutRef, css: cssProp, style }: XTermProps) => {
   const ref = useRef<HTMLDivElement>(null);
   useManagedTermimal(ref, tabOutRef, fontSizePt);
-  return <Box {...props} ref={ref} backgroundColor={backgroundColorTerm} />;
+  return (
+    <Box
+      css={cssProp}
+      style={{ backgroundColor: backgroundColorTerm, ...style }}
+      ref={ref}
+    />
+  );
 };
 
 const ptToPixelRatio = 96 / 72;
@@ -47,7 +56,7 @@ const useManagedTermimal = (
   fontSizePt: number
 ): void => {
   const actionFeedback = useActionFeedback();
-  const codeFontFamily = useToken("fonts", "code");
+  const codeFontFamily = token("fonts.code");
   const device = useDevice();
   const isUnmounted = useIsUnmounted();
   const [, setSelection] = useSelection();
@@ -155,9 +164,10 @@ const useManagedTermimal = (
         let text = event.clipboardData.getData("text/plain");
         if (/[\n\r]/.test(text)) {
           actionFeedback.info({
+            // Previously shown bottom-right near the terminal; the shared
+            // toast region has a single (top) placement.
             title:
               "Started and finished MicroPython paste mode for the multi-line paste.",
-            position: "bottom-right",
           });
           // Wrap in start/end paste mode to prevent auto-indent.
           text = `\x05${text}\x04`;

@@ -3,28 +3,38 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { Checkbox, NativeSelectField, NumberField } from "@microbit/ui";
+import { ReactNode, useCallback, useMemo } from "react";
+import { FormattedMessage, IntlShape, useIntl } from "react-intl";
+import { VStack } from "styled-system/jsx";
 import {
-  Checkbox,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  VStack,
-} from "@chakra-ui/react";
-import { useCallback, useMemo } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import SelectFormControl, { createOptions } from "./SelectFormControl";
-import {
+  CodeStructureOption,
   codeStructureOptions,
   maximumFontSize,
   minimumFontSize,
+  ParameterHelpOption,
   parameterHelpOptions,
   useSettings,
 } from "./settings";
+
+/**
+ * Translated <option>s for a settings select.
+ *
+ * @param values Values to create options for.
+ * @param prefix Prefix (no trailing '-') to use for translation keys.
+ * @param intl For translation strings.
+ */
+const createOptions = (
+  values: readonly string[],
+  prefix: string,
+  intl: IntlShape,
+  intlValues?: Record<string, string>
+): ReactNode =>
+  values.map((value) => (
+    <option key={value} value={value}>
+      {intl.formatMessage({ id: `${prefix}-${value}` }, intlValues)}
+    </option>
+  ));
 
 /**
  * The settings area.
@@ -36,18 +46,14 @@ const SettingsArea = () => {
   const intl = useIntl();
 
   const handleChangeFontSize = useCallback(
-    (_: string, valueAsNumber: number) => {
+    (valueAsNumber: number) => {
       if (Number.isNaN(valueAsNumber)) {
         return;
       }
-
+      // react-aria clamps to min/maxValue on commit.
       setSettings({
         ...settings,
-        fontSize: Math.min(
-          maximumFontSize,
-          Math.max(minimumFontSize, valueAsNumber),
-          valueAsNumber
-        ),
+        fontSize: valueAsNumber,
       });
     },
     [settings, setSettings]
@@ -71,90 +77,75 @@ const SettingsArea = () => {
     };
   }, [intl]);
   return (
-    <VStack alignItems="flex-start" spacing={5}>
-      <FormControl display="flex" alignItems="center">
-        <FormLabel
-          htmlFor="font-size"
-          mb="0"
-          fontWeight="normal"
-          flex="1 1 auto"
-        >
-          <FormattedMessage id="font-size" />
-        </FormLabel>
-        <NumberInput
-          id="font-size"
-          size="sm"
-          value={settings.fontSize}
-          min={minimumFontSize}
-          max={maximumFontSize}
-          onChange={handleChangeFontSize}
-          width="12ch"
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </FormControl>
-      <SelectFormControl
+    <VStack alignItems="flex-start" gap="5">
+      <NumberField
+        label={<FormattedMessage id="font-size" />}
+        value={settings.fontSize}
+        minValue={minimumFontSize}
+        maxValue={maximumFontSize}
+        onChange={handleChangeFontSize}
+        labelPosition="side"
+        groupCss={{ width: "12ch" }}
+      />
+      <NativeSelectField
         id="codeStructureHighlight"
         label={intl.formatMessage({ id: "highlight-code-structure" })}
-        options={options.codeStructure}
+        labelPosition="side"
+        wrapperCss={{ width: "28ch" }}
         value={settings.codeStructureHighlight}
-        onChange={(codeStructureHighlight) =>
+        onChange={(e) =>
           setSettings({
             ...settings,
-            codeStructureHighlight,
+            codeStructureHighlight: e.currentTarget
+              .value as CodeStructureOption,
           })
         }
-      />
-      <SelectFormControl
+      >
+        {options.codeStructure}
+      </NativeSelectField>
+      <NativeSelectField
         id="parameterHelp"
         label={intl.formatMessage({ id: "parameter-help" })}
-        options={options.parameterHelp}
+        labelPosition="side"
+        wrapperCss={{ width: "28ch" }}
         value={settings.parameterHelp}
-        onChange={(parameterHelp) =>
+        onChange={(e) =>
           setSettings({
             ...settings,
-            parameterHelp,
+            parameterHelp: e.currentTarget.value as ParameterHelpOption,
           })
         }
-      />
-      <FormControl>
-        <Checkbox
-          id="V2-features"
-          isChecked={settings.warnForApiUnsupportedByDevice}
-          onChange={(event) => {
-            setSettings({
-              ...settings,
-              warnForApiUnsupportedByDevice: event.currentTarget.checked,
-            });
-          }}
-        >
-          <FormattedMessage id="setting-warn-on-v2-only-features" />
-        </Checkbox>
-        <FormHelperText color="gray.700">
+      >
+        {options.parameterHelp}
+      </NativeSelectField>
+      <Checkbox
+        isSelected={settings.warnForApiUnsupportedByDevice}
+        onChange={(warnForApiUnsupportedByDevice) => {
+          setSettings({
+            ...settings,
+            warnForApiUnsupportedByDevice,
+          });
+        }}
+        helperText={
           <FormattedMessage id="setting-warn-on-v2-only-features-info" />
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
-        <Checkbox
-          id="allow-editing"
-          isChecked={settings.allowEditingThirdPartyModules}
-          onChange={(event) => {
-            setSettings({
-              ...settings,
-              allowEditingThirdPartyModules: event.currentTarget.checked,
-            });
-          }}
-        >
-          <FormattedMessage id="setting-allow-editing-third-party" />
-        </Checkbox>
-        <FormHelperText color="gray.700">
+        }
+      >
+        <FormattedMessage id="setting-warn-on-v2-only-features" />
+      </Checkbox>
+      <Checkbox
+        isSelected={settings.allowEditingThirdPartyModules}
+        onChange={(allowEditingThirdPartyModules) => {
+          setSettings({
+            ...settings,
+            allowEditingThirdPartyModules,
+          });
+        }}
+        helperText={
           <FormattedMessage id="setting-allow-editing-third-party-info" />
-        </FormHelperText>
-      </FormControl>
+        }
+      >
+        <FormattedMessage id="setting-allow-editing-third-party" />
+      </Checkbox>
     </VStack>
   );
 };

@@ -6,7 +6,7 @@
 import { EditorView } from "@codemirror/view";
 
 export const themeExtensions = (fontSize: string) => {
-  const fontFamily = "var(--chakra-fonts-code)";
+  const fontFamily = "var(--fonts-code)";
   return EditorView.theme({
     ".cm-content": {
       fontSize,
@@ -17,12 +17,12 @@ export const themeExtensions = (fontSize: string) => {
       // Make it easier to copy code dragging from the left without line numbers.
       userSelect: "none",
       // Must be opaque for horizontal scrolling to work.
-      backgroundColor: "var(--chakra-colors-gray-10)",
+      backgroundColor: "var(--colors-gray-10)",
       fontSize,
       fontFamily,
       paddingRight: "1rem",
       border: "unset",
-      color: "var(--chakra-colors-gray-600)",
+      color: "var(--colors-gray-350)",
     },
     // Widths to accomodate two gutters (lint and line numbers).
     ".cm-gutter.cm-gutter-lint": {
@@ -39,11 +39,11 @@ export const themeExtensions = (fontSize: string) => {
     ".cm-activeLine": {
       // Can't use background colour for conflicting purposes.
       backgroundColor: "unset",
-      outline: "1px solid var(--chakra-colors-gray-100)",
+      outline: "1px solid var(--colors-gray-100)",
     },
     ".cm-activeLineGutter": {
       backgroundColor: "unset",
-      color: "var(--chakra-colors-gray-800)",
+      color: "var(--colors-gray-800)",
     },
     // $wrap can't be styled here, see App.css.
 
@@ -61,18 +61,18 @@ export const themeExtensions = (fontSize: string) => {
       fontFamily,
     },
     ".cm-tooltip": {
-      backgroundColor: "var(--chakra-colors-gray-50) !important",
-      border: "1px solid var(--chakra-colors-gray-400)",
+      backgroundColor: "var(--colors-gray-50) !important",
+      border: "1px solid var(--colors-gray-400)",
     },
     ".cm-tooltip-autocomplete.cm-tooltip": {
       border: "none",
     },
     ".cm-tooltip-autocomplete.cm-tooltip > *": {
-      border: "1px solid var(--chakra-colors-gray-400)",
+      border: "1px solid var(--colors-gray-400)",
     },
     ".cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected]": {
       background: "#d7d4f0",
-      color: "var(--chakra-colors-gray-800)",
+      color: "var(--colors-gray-800)",
     },
     ".cm-tooltip.cm-completionInfo.cm-completionInfo-right": {
       borderLeft: "none",
@@ -113,7 +113,7 @@ export const themeExtensions = (fontSize: string) => {
       marginLeft: 0,
       display: "block",
       backgroundColor: "unset",
-      color: "var(--chakra-colors-brand-600)",
+      color: "var(--colors-brand-600)",
       fontSize: "0.9em",
       marginTop: "0.2em",
     },
@@ -121,7 +121,7 @@ export const themeExtensions = (fontSize: string) => {
       textDecoration: "underline",
     },
     "ul:focus [aria-selected] .cm-diagnosticAction": {
-      color: "var(--chakra-colors-gray-100)",
+      color: "var(--colors-gray-100)",
     },
   });
 };

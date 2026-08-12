@@ -3,18 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Input, Tooltip } from "@chakra-ui/react";
+import { Tooltip } from "@microbit/ui";
 import React, { ForwardedRef, useCallback, useRef } from "react";
 import CollapsibleButton, { CollapsibleButtonProps } from "./CollapsibleButton";
 
-interface FileInputButtonProps extends CollapsibleButtonProps {
+interface FileInputButtonProps extends Omit<CollapsibleButtonProps, "icon"> {
   onOpen: (file: File[]) => void;
+  icon: React.ReactElement;
   /**
    * File input tag accept attribute.
    */
   accept?: string;
   multiple?: boolean;
   tooltip?: string;
+  "data-testid"?: string;
 }
 
 /**
@@ -27,8 +29,8 @@ const FileInputButton = React.forwardRef(
       multiple,
       onOpen,
       icon,
-      children,
       tooltip,
+      "data-testid": dataTestId,
       ...props
     }: FileInputButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
@@ -54,27 +56,29 @@ const FileInputButton = React.forwardRef(
       [onOpen]
     );
 
+    const button = (
+      <CollapsibleButton
+        ref={ref}
+        icon={icon}
+        onPress={handleChooseFile}
+        data-testid={dataTestId}
+        {...props}
+      />
+    );
     return (
       <>
-        <Tooltip hasArrow placement="top-start" label={tooltip}>
-          <CollapsibleButton
-            ref={ref}
-            icon={icon}
-            onClick={handleChooseFile}
-            {...props}
-          >
-            {children}
-          </CollapsibleButton>
-        </Tooltip>
-        <Input
-          data-testid={
-            (props as any)["data-testid"]
-              ? (props as any)["data-testid"] + "-input"
-              : undefined
-          }
+        {tooltip ? (
+          <Tooltip hasArrow placement="top start" label={tooltip}>
+            {button}
+          </Tooltip>
+        ) : (
+          button
+        )}
+        <input
+          data-testid={dataTestId ? dataTestId + "-input" : undefined}
           type="file"
           accept={accept}
-          display="none"
+          style={{ display: "none" }}
           multiple={multiple}
           onChange={handleOpenFile}
           ref={inputRef}

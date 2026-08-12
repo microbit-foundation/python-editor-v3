@@ -5,18 +5,15 @@
  */
 import {
   IconButton,
-  Menu,
-  MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
-  Portal,
-} from "@chakra-ui/react";
+  MenuTrigger,
+} from "@microbit/ui";
 import React, { ForwardedRef } from "react";
 import { MdMoreVert } from "react-icons/md";
 import { RiInformationLine, RiKeyboardBoxLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { zIndexAboveTerminal } from "../common/zIndex";
 import { useSerialActions } from "./serial-hooks";
 
 interface SerialMenuProps {
@@ -36,38 +33,35 @@ const SerialMenu = React.forwardRef(
     const intl = useIntl();
     const actions = useSerialActions(onSizeChange);
     return (
-      <Menu placement={compact ? "top-start" : undefined}>
-        <MenuButton
+      <MenuTrigger>
+        <IconButton
           ref={menuButtonRef}
-          as={IconButton}
           aria-label={intl.formatMessage({ id: "serial-menu" })}
           variant="sidebar"
-          color="white"
           isRound
-          icon={<MdMoreVert />}
-        />
-        <Portal>
-          <MenuList zIndex={zIndexAboveTerminal}>
-            <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.interrupt}>
-              <FormattedMessage id="serial-ctrl-c-action" />
-            </MenuItem>
-            <MenuItem icon={<RiKeyboardBoxLine />} onClick={actions.reset}>
-              <FormattedMessage id="serial-ctrl-d-action" />
-            </MenuItem>
-            {onShowHintsAndTips && (
-              <>
-                <MenuDivider />
-                <MenuItem
-                  icon={<RiInformationLine />}
-                  onClick={onShowHintsAndTips}
-                >
-                  <FormattedMessage id="serial-hints-and-tips" />
-                </MenuItem>
-              </>
-            )}
-          </MenuList>
-        </Portal>
-      </Menu>
+        >
+          <MdMoreVert />
+        </IconButton>
+        <MenuList placement={compact ? "top start" : undefined}>
+          <MenuItem icon={<RiKeyboardBoxLine />} onAction={actions.interrupt}>
+            <FormattedMessage id="serial-ctrl-c-action" />
+          </MenuItem>
+          <MenuItem icon={<RiKeyboardBoxLine />} onAction={actions.reset}>
+            <FormattedMessage id="serial-ctrl-d-action" />
+          </MenuItem>
+          {onShowHintsAndTips && (
+            <>
+              <MenuDivider />
+              <MenuItem
+                icon={<RiInformationLine />}
+                onAction={onShowHintsAndTips}
+              >
+                <FormattedMessage id="serial-hints-and-tips" />
+              </MenuItem>
+            </>
+          )}
+        </MenuList>
+      </MenuTrigger>
     );
   }
 );

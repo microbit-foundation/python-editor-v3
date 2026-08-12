@@ -3,17 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Progress,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Modal, ModalBody, ModalHeader, ProgressBar } from "@microbit/ui";
 import { ReactNode } from "react";
+import { useIntl } from "react-intl";
+import { VStack } from "styled-system/jsx";
 
 const doNothing = () => {};
 
@@ -36,34 +29,36 @@ const ProgressDialog = ({
   body,
   progress,
 }: ProgressDialogProps) => {
+  const intl = useIntl();
   return (
     <Modal
       isOpen={isOpen}
       onClose={doNothing}
       isCentered
       size={body ? "xl" : "md"}
-      preserveScrollBarGap={false}
+      // A progress dialog can't be dismissed by the user (it closes when the
+      // operation finishes and the parent drops isOpen).
+      isDismissable={false}
+      isKeyboardDismissDisabled
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <Text as="h2" fontSize="xl" fontWeight="bold">
-            {header}
-          </Text>
-        </ModalHeader>
-        <ModalBody>
-          <VStack
-            spacing={4}
-            mb={3}
-            width="100%"
-            justifyContent="stretch"
-            alignItems="flex-start"
-          >
-            {body}
-            <Progress value={(progress ?? 0) * 100} width="100%" />
-          </VStack>
-        </ModalBody>
-      </ModalContent>
+      <ModalHeader level={2} css={{ fontSize: "xl", fontWeight: "bold" }}>
+        {header}
+      </ModalHeader>
+      <ModalBody>
+        <VStack
+          gap="4"
+          mb="3"
+          width="100%"
+          justifyContent="stretch"
+          alignItems="flex-start"
+        >
+          {body}
+          <ProgressBar
+            value={(progress ?? 0) * 100}
+            aria-label={intl.formatMessage({ id: "loading" })}
+          />
+        </VStack>
+      </ModalBody>
     </Modal>
   );
 };

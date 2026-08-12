@@ -14,7 +14,7 @@ interface OpenButtonProps extends CollapsibleButtonComposableProps {}
 /**
  * Open HEX button, with an associated input field.
  */
-const OpenButton = ({ children, ...props }: OpenButtonProps) => {
+const OpenButton = (props: OpenButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   return (

@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, HStack, Text, VStack } from "@chakra-ui/react";
+import { Button, Text } from "@microbit/ui";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
+import { HStack, VStack } from "styled-system/jsx";
 import { GenericDialog } from "../../common/GenericDialog";
 import { FinalFocusRef } from "../../project/project-actions";
 
@@ -46,9 +47,9 @@ const WebUSBErrorBody = ({ title, description }: WebUSBErrorBodyProps) => (
     width="auto"
     ml="auto"
     mr="auto"
-    p={8}
-    pb={0}
-    spacing={5}
+    p="8"
+    pb="0"
+    gap="5"
     alignItems="flex-start"
   >
     {typeof title === "string" ? (
@@ -70,8 +71,8 @@ const WebUSBErrorDialogFooter = ({
   onCancel,
 }: WebUSBErrorDialogFooterProps) => {
   return (
-    <HStack spacing={2.5}>
-      <Button onClick={onCancel} size="lg" variant="solid">
+    <HStack gap="2.5">
+      <Button onPress={onCancel} size="lg" variant="primary">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>

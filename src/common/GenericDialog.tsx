@@ -5,29 +5,24 @@
  */
 import {
   Button,
-  HStack,
-  Link,
   Modal,
   ModalBody,
-  ModalContent,
+  ModalCloseButton,
   ModalFooter,
   ModalHeader,
-  ModalOverlay,
-  Text,
-} from "@chakra-ui/react";
-import { ThemingProps } from "@chakra-ui/styled-system";
+  ModalSize,
+} from "@microbit/ui";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
-import ModalCloseButton from "./ModalCloseButton";
+import { HStack } from "styled-system/jsx";
 import { FinalFocusRef } from "../project/project-actions";
 
 export interface GenericDialogProps {
   header?: ReactNode;
   body: ReactNode;
   footer: ReactNode;
-  size?: ThemingProps<"Button">["size"];
+  size?: ModalSize;
   onClose: () => void;
-  returnFocusOnClose?: boolean;
   finalFocusRef?: FinalFocusRef;
 }
 
@@ -37,7 +32,6 @@ export const GenericDialog = ({
   footer,
   size,
   onClose,
-  returnFocusOnClose = true,
   finalFocusRef = undefined,
 }: GenericDialogProps) => {
   return (
@@ -45,24 +39,18 @@ export const GenericDialog = ({
       isOpen
       onClose={onClose}
       size={size}
-      returnFocusOnClose={returnFocusOnClose}
+      isCentered
       finalFocusRef={finalFocusRef}
-      preserveScrollBarGap={false}
+      contentCss={{ minWidth: "560px" }}
     >
-      <ModalOverlay>
-        <ModalContent minWidth="560px" my="auto">
-          <ModalCloseButton />
-          {header && (
-            <ModalHeader>
-              <Text as="h2" fontSize="xl" fontWeight="bold">
-                {header}
-              </Text>
-            </ModalHeader>
-          )}
-          <ModalBody>{body}</ModalBody>
-          <ModalFooter>{footer}</ModalFooter>
-        </ModalContent>
-      </ModalOverlay>
+      <ModalCloseButton />
+      {header && (
+        <ModalHeader level={2} css={{ fontWeight: "bold" }}>
+          {header}
+        </ModalHeader>
+      )}
+      <ModalBody>{body}</ModalBody>
+      <ModalFooter>{footer}</ModalFooter>
     </Modal>
   );
 };
@@ -82,20 +70,20 @@ export const GenericDialogFooter = ({
 }: GenericDialogFooterProps) => {
   return (
     <HStack
-      spacing={2.5}
+      gap="2.5"
       width={dialogNormallyHidden || shownByRequest ? "auto" : "100%"}
     >
       {!dialogNormallyHidden && !shownByRequest && (
-        <Link
-          onClick={onCloseDontShowAgain}
-          as="button"
-          color="brand.500"
-          mr="auto"
+        <Button
+          variant="link"
+          size="lg"
+          onPress={onCloseDontShowAgain}
+          css={{ color: "brand.500", mr: "auto" }}
         >
           <FormattedMessage id="dont-show-again" />
-        </Link>
+        </Button>
       )}
-      <Button onClick={onClose} variant="solid" size="lg">
+      <Button onPress={onClose} variant="primary" size="lg">
         <FormattedMessage id="close-action" />
       </Button>
     </HStack>

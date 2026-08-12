@@ -3,36 +3,25 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Portal,
-  ThemeTypings,
-  ThemingProps,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
+import { IconButton, MenuItem, MenuList, MenuTrigger } from "@microbit/ui";
+import { useCallback, useRef, useState } from "react";
 import { IoMdGlobe } from "react-icons/io";
 import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDialogs } from "../common/use-dialogs";
-import { zIndexAboveTerminal } from "../common/zIndex";
 import { flags } from "../flags";
 import { LanguageDialog } from "./LanguageDialog";
 import { SettingsDialog } from "./SettingsDialog";
 
-interface SettingsMenuProps extends ThemingProps<"Menu"> {
-  size?: ThemeTypings["components"]["Button"]["sizes"];
+interface SettingsMenuProps {
+  size?: "lg" | "md" | "sm" | "xs";
 }
 
 /**
  * The settings button triggers a menu with main and other settings.
  */
-const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
-  const languageDisclosure = useDisclosure();
+const SettingsMenu = ({ size }: SettingsMenuProps) => {
+  const [languageDialogOpen, setLanguageDialogOpen] = useState(false);
   const intl = useIntl();
   const dialogs = useDialogs();
   const handleShowSettings = useCallback(() => {
@@ -48,43 +37,37 @@ const SettingsMenu = ({ size, ...props }: SettingsMenuProps) => {
   return (
     <>
       <LanguageDialog
-        isOpen={languageDisclosure.isOpen}
-        onClose={languageDisclosure.onClose}
+        isOpen={languageDialogOpen}
+        onClose={() => setLanguageDialogOpen(false)}
         finalFocusRef={menuButtonRef}
       />
-      <Menu {...props}>
-        <MenuButton
+      <MenuTrigger>
+        <IconButton
           ref={menuButtonRef}
-          as={IconButton}
           data-testid="settings"
           aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
-          fontSize="xl"
+          css={{ fontSize: "xl" }}
           variant="sidebar"
-          icon={<RiSettings2Line />}
-          color="white"
           isRound
-        />
-        <Portal>
-          <MenuList zIndex={zIndexAboveTerminal}>
-            {!flags.noLang && (
-              <MenuItem
-                icon={<IoMdGlobe />}
-                onClick={languageDisclosure.onOpen}
-                data-testid="language"
-              >
-                <FormattedMessage id="language" />
-              </MenuItem>
-            )}
+        >
+          <RiSettings2Line />
+        </IconButton>
+        <MenuList>
+          {!flags.noLang && (
             <MenuItem
-              icon={<RiListSettingsLine />}
-              onClick={handleShowSettings}
+              icon={<IoMdGlobe />}
+              onAction={() => setLanguageDialogOpen(true)}
+              data-testid="language"
             >
-              <FormattedMessage id="settings" />
+              <FormattedMessage id="language" />
             </MenuItem>
-          </MenuList>
-        </Portal>
-      </Menu>
+          )}
+          <MenuItem icon={<RiListSettingsLine />} onAction={handleShowSettings}>
+            <FormattedMessage id="settings" />
+          </MenuItem>
+        </MenuList>
+      </MenuTrigger>
     </>
   );
 };

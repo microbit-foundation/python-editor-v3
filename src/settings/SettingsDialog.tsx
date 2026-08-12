@@ -7,11 +7,9 @@ import {
   Button,
   Modal,
   ModalBody,
-  ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
+} from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
 import SettingsArea from "./SettingsArea";
 
@@ -35,23 +33,18 @@ export const SettingsDialog = ({
       onClose={onClose}
       size="lg"
       finalFocusRef={finalFocusRef}
-      preserveScrollBarGap={false}
     >
-      <ModalOverlay>
-        <ModalContent>
-          <ModalHeader fontSize="lg" fontWeight="bold">
-            <FormattedMessage id="settings" />
-          </ModalHeader>
-          <ModalBody>
-            <SettingsArea />
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="solid" onClick={onClose}>
-              <FormattedMessage id="close-action" />
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </ModalOverlay>
+      <ModalHeader css={{ fontSize: "lg", fontWeight: "bold" }}>
+        <FormattedMessage id="settings" />
+      </ModalHeader>
+      <ModalBody>
+        <SettingsArea />
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="primary" onPress={onClose}>
+          <FormattedMessage id="close-action" />
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };

@@ -3,6 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
+// The CSS entry point: declares the cascade-layer order Panda's PostCSS
+// plugin fills, and the vendor-layer imports. First so app styles cascade
+// after it.
+import "./layers.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";

@@ -3,14 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, BoxProps, Icon, Tab, Text, VStack } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { Icon, Text } from "@microbit/ui";
+import { CSSProperties, useEffect, useRef } from "react";
+import { Tab } from "react-aria-components";
+import { css } from "styled-system/css";
+import { Box, VStack } from "styled-system/jsx";
 import { cornerSize, Pane } from "./SideBar";
 
 interface SideBarTabProps extends Pane {
   color: string;
   mb?: string;
-  handleTabClick: () => void;
+  handleTabClick: (id: Pane["id"]) => void;
   active: boolean;
   tabIndex: number;
 }
@@ -25,57 +28,87 @@ const SideBarTab = ({
   active,
 }: SideBarTabProps) => {
   const width = "5rem";
-  const ref = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    // Override tabindex.
-    // Has no dependencies as it needs to run for every re-render.
-    ref.current!.setAttribute("tabindex", "0");
+    // Override react-aria's roving tabindex so every tab is tabbable.
+    // Has no dependencies as it needs to run for every re-render. The ref
+    // is null during react-aria's collection-building pre-render.
+    ref.current?.setAttribute("tabindex", "0");
   });
   return (
     <Tab
       ref={ref}
+      id={id}
       key={id}
-      color={color}
-      height={width}
-      width={width}
-      p={0}
-      position="relative"
-      className="sidebar-tab" // Used for custom outline below
-      onClick={handleTabClick}
-      mb={mb ? mb : 0}
+      // Used for the custom focus outline on the title below.
+      className={
+        "sidebar-tab " +
+        css(
+          {
+            color: color === "gray.50" ? "gray.50" : "gray.75",
+            height: width,
+            width,
+            p: "0",
+            position: "relative",
+            ml: "6px",
+            mb: mb ? "auto" : "0",
+            borderRadius: "32px 0 0 32px",
+            transition: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: "semibold",
+            outline: "none",
+          },
+          // Driven by `active` (index-based) rather than react-aria's
+          // data-selected: the collapsed sidebar retains a hidden selection
+          // (see SideBar) that must not be styled.
+          active
+            ? {
+                color: "sidebarTabSelectedText",
+                bg: "sidebarTabSelectedBg",
+              }
+            : {}
+        )
+      }
+      onClick={() => handleTabClick(id)}
       aria-expanded={active ? "true" : "false"}
     >
-      <VStack spacing={0}>
+      <VStack gap="0">
         {active && (
+          // cornerSize-derived offsets are inline styles: template literals
+          // over an imported constant are not statically extractable.
           <Corner
             id="bottom"
-            position="absolute"
-            bottom={-cornerSize + "px"}
-            right={0}
+            style={{ bottom: `-${cornerSize}px`, right: 0 }}
           />
         )}
         {active && (
           <Corner
             id="top"
-            position="absolute"
-            top={-cornerSize + "px"}
-            right={0}
-            transform="rotate(90deg)"
+            style={{
+              top: `-${cornerSize}px`,
+              right: 0,
+              transform: "rotate(90deg)",
+            }}
           />
         )}
-        <VStack spacing={1}>
-          <Icon boxSize={6} as={icon} mt="3px" />
+        <VStack gap="1">
+          <Icon css={{ width: "6", height: "6", mt: "3px" }} as={icon} />
           <Text
-            m={0}
-            fontSize={13}
+            m="0"
+            fontSize="13px"
             borderBottom="3px solid transparent"
-            sx={{
-              ".sidebar-tab:focus-visible &": {
+            css={{
+              // Both focus-visible heuristics must agree: native
+              // :focus-visible matches pointer clicks on a tabindex'd div
+              // in Chromium, and react-aria's data-focus-visible does so in
+              // Firefox. Keyboard focus sets both in all modern browsers.
+              ".sidebar-tab[data-focus-visible]:focus-visible &": {
                 borderBottom: "3px solid",
                 // To match the active/inactive colour.
-                borderColor: active
-                  ? "var(--chakra-colors-brand-300)"
-                  : "var(--chakra-colors-gray-25)",
+                borderColor: active ? "brand.300" : "gray.75",
               },
             }}
           >
@@ -87,19 +120,22 @@ const SideBarTab = ({
   );
 };
 
-const Corner = ({ id, ...props }: BoxProps) => (
+const Corner = ({ id, style }: { id: string; style?: CSSProperties }) => (
   <Box
-    {...props}
+    position="absolute"
     pointerEvents="none"
-    width={`${cornerSize}px`}
-    height={`${cornerSize}px`}
+    style={{
+      width: cornerSize,
+      height: cornerSize,
+      ...style,
+    }}
   >
     <svg
       width="100%"
       height="100%"
       viewBox={`0 0 ${cornerSize} ${cornerSize}`}
       overflow="visible"
-      fill="var(--chakra-colors-gray-25)"
+      fill="var(--colors-gray-75)"
     >
       <defs>
         <mask id={id}>
@@ -118,7 +154,7 @@ const Corner = ({ id, ...props }: BoxProps) => (
         y="0"
         width={cornerSize}
         height={cornerSize}
-        fill="var(--chakra-colors-gray-25)"
+        fill="var(--colors-gray-75)"
         mask={`url(#${id})`}
       />
     </svg>

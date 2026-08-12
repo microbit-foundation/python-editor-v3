@@ -3,17 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  HStack,
-  Link,
-  List,
-  ListItem,
-  Stack,
-  Text,
-  UnorderedList,
-  VStack,
-} from "@chakra-ui/react";
+import { Link, List, ListItem, Text, UnorderedList } from "@microbit/ui";
+import { Box, HStack, Stack, VStack } from "styled-system/jsx";
 import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
@@ -238,7 +229,7 @@ export class ProjectActions {
         callback={callback}
         header={this.intl.formatMessage({ id: "confirm-replace-title" })}
         body={
-          <Stack>
+          <Stack gap="2">
             <Text>
               {customConfirmPrompt ??
                 this.intl.formatMessage({ id: "confirm-replace-body" })}
@@ -325,7 +316,7 @@ export class ProjectActions {
             this.actionFeedback.expectedError({
               title: errorTitle,
               description: isMakeCodeHex ? (
-                <Stack spacing={0.5}>
+                <Stack gap="0.5">
                   <Text>
                     {this.intl.formatMessage({
                       id: "load-error-makecode-info",
@@ -539,7 +530,9 @@ export class ProjectActions {
       const progress = (stage: ProgressStage, value?: number) => {
         const isPartial = stage === ProgressStage.PartialFlashing;
         const isFlashing = isPartial || stage === ProgressStage.FullFlashing;
-        if (isFlashing) {
+        // An undefined value for a flashing stage signals completion; hold the
+        // bar at its last value until the dialog closes rather than showing 0.
+        if (isFlashing && value !== undefined) {
           this.dialogs.progress({
             header: flashingCode,
             body: isPartial ? undefined : firstFlashNotice,
@@ -904,7 +897,7 @@ export class ProjectActions {
           id: "webusb-error-clear-connect-title",
         })}
         description={
-          <VStack alignItems="stretch" mt={1}>
+          <VStack alignItems="stretch" mt="1">
             <p>
               {this.intl.formatMessage({
                 id: "webusb-error-clear-connect-description-2",
@@ -1056,7 +1049,7 @@ const ReconnectTextAndVideo = () => (
             </ListItem>
           ),
           ul: (chunks: ReactNode) => (
-            <UnorderedList pl={2}>{chunks}</UnorderedList>
+            <UnorderedList pl="2">{chunks}</UnorderedList>
           ),
         }}
       />

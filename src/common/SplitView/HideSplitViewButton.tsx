@@ -3,17 +3,20 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Icon, IconButtonProps } from "@chakra-ui/react";
+import { Icon } from "@microbit/ui";
 import React, { ForwardedRef } from "react";
 import { RiDownloadLine } from "react-icons/ri";
+import { Box } from "styled-system/jsx";
+import { SystemStyleObject } from "styled-system/types";
 import CollapsibleButton from "../CollapsibleButton";
-import { splitViewHideButton } from "../zIndex";
 
-interface HideSplitViewButtonProps extends IconButtonProps {
+interface HideSplitViewButtonProps {
+  "aria-label": string;
   onClick: () => void;
   direction: "expandLeft" | "expandRight";
   splitViewShown: boolean;
   text?: string;
+  css?: SystemStyleObject;
 }
 
 const HideSplitViewButton = React.forwardRef(
@@ -23,22 +26,15 @@ const HideSplitViewButton = React.forwardRef(
       direction,
       splitViewShown,
       text = "",
+      css: cssProp,
       ...props
     }: HideSplitViewButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     const mode = text ? "button" : "icon";
-    let rightBorderRadius = 6;
-    let leftBorderRadius = 0;
-    let rotation = "rotate(270deg)";
-    if (
+    const expanded =
       (direction === "expandRight" && splitViewShown) ||
-      (direction === "expandLeft" && !splitViewShown)
-    ) {
-      rightBorderRadius = 0;
-      leftBorderRadius = 6;
-      rotation = "rotate(90deg)";
-    }
+      (direction === "expandLeft" && !splitViewShown);
     return (
       <Box position="relative">
         {/* Hack to cover divider box shadow on right hand side. */}
@@ -58,24 +54,40 @@ const HideSplitViewButton = React.forwardRef(
           ref={ref}
           mode={mode}
           text={text}
-          icon={<Icon as={RiDownloadLine} transform={rotation} />}
-          fontSize="lg"
-          transition="none"
-          onClick={onClick}
-          borderTopRightRadius={rightBorderRadius}
-          borderBottomRightRadius={rightBorderRadius}
-          borderTopLeftRadius={leftBorderRadius}
-          borderBottomLeftRadius={leftBorderRadius}
-          py={3}
-          borderColor="black"
+          icon={
+            <Icon
+              as={RiDownloadLine}
+              css={{
+                transform: expanded ? "rotate(90deg)" : "rotate(270deg)",
+              }}
+            />
+          }
+          onPress={onClick}
           size="md"
-          minW="unset"
-          width={mode === "icon" ? "20px" : "auto"}
-          background="#eaecf1"
-          color="brand.500"
           variant="ghost"
-          zIndex={splitViewHideButton}
-          boxShadow={direction === "expandLeft" ? "md" : "none"}
+          css={{
+            fontSize: "lg",
+            transition: "none",
+            borderTopRightRadius: expanded ? "0" : "6px",
+            borderBottomRightRadius: expanded ? "0" : "6px",
+            borderTopLeftRadius: expanded ? "6px" : "0",
+            borderBottomLeftRadius: expanded ? "6px" : "0",
+            py: "3",
+            borderColor: "black",
+            minW: "unset",
+            width: mode === "icon" ? "20px" : "auto",
+            background: "#eaecf1",
+            // The flat background is a utility, which beats the ghost
+            // variant's recipe-layer hover/active — restate them.
+            _hover: { background: "gray.100" },
+            _active: { background: "gray.200" },
+            // Likewise a flat boxShadow from a call site (e.g. Simulator's
+            // md shadow) beats the recipe-layer focus ring — restate it.
+            _focusVisible: { focusShadow: "outline" },
+            color: "brand.500",
+            zIndex: "splitViewHideButton",
+            ...cssProp,
+          }}
           {...props}
         />
       </Box>

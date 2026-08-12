@@ -11,7 +11,7 @@ import {
   OfflineError,
   showOfflineLanguageToast,
 } from "../language-server/error-util";
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@microbit/ui";
 
 async function loadLocaleData(locale: string) {
   switch (locale) {
