@@ -5,6 +5,26 @@
  */
 import { css } from "styled-system/css";
 
+// Follows the pattern used by the AspectRatio component which uses a
+// percentage-padding spacer rather than the aspect-ratio property, which is
+// not supported in Safari 14. Only apply when --aspect-ratio-padding is set or
+// the wrapper collapses to zero height.
+export const runtimeAspectRatioClass = css({
+  position: "relative",
+  _before: {
+    content: '""',
+    display: "block",
+    height: 0,
+    paddingBottom: "var(--aspect-ratio-padding)",
+  },
+  "& > *": {
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+  },
+});
+
 // A class rather than a style object: Panda can only statically extract
 // styles written literally at the definition site, not objects spread into
 // a css prop elsewhere.

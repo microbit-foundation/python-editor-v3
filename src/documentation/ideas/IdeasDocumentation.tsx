@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: MIT
  */
 import { Link, Text } from "@microbit/ui";
-import { ReactNode, useCallback, useRef } from "react";
+import { CSSProperties, ReactNode, useCallback, useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Grid, Stack } from "styled-system/jsx";
+import { Box, Grid, Stack } from "styled-system/jsx";
 import AreaHeading from "../../common/AreaHeading";
-import { docStylesClass } from "../../common/documentation-styles";
+import {
+  docStylesClass,
+  runtimeAspectRatioClass,
+} from "../../common/documentation-styles";
 import HeadedScrollablePanel from "../../common/HeadedScrollablePanel";
-import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
+import {
+  getAspectRatioPadding,
+  imageUrlBuilder,
+} from "../../common/imageUrlBuilder";
 import { useResizeObserverContentRect } from "../../common/use-resize-observer";
 import { Anchor, useRouterTabSlug } from "../../router-hooks";
 import { useAnimationDirection } from "../common/documentation-animation-hooks";
@@ -75,6 +81,10 @@ const ActiveLevel = ({
   const numCols =
     !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1;
   if (activeIdea) {
+    // Runtime value derived from the image reference.
+    const imagePadding = activeIdea.image
+      ? getAspectRatioPadding(activeIdea.image.asset._ref)
+      : undefined;
     return (
       <HeadedScrollablePanel
         key={activeIdea.slug.current}
@@ -99,21 +109,27 @@ const ActiveLevel = ({
             className={docStylesClass}
           >
             {activeIdea.image && (
-              <ImageWithFallback
-                src={imageUrlBuilder
-                  .image(activeIdea.image.asset)
-                  .fit("max")
-                  .url()}
-                ignoreFallback={navigator.onLine}
-                fallback={<OfflineImageFallback width={600} />}
-                alt=""
-                borderTopRadius="lg"
+              <Box
                 width="600px"
-                // Runtime value derived from the image reference.
-                style={{
-                  aspectRatio: getAspectRatio(activeIdea.image.asset._ref),
-                }}
-              />
+                maxWidth="100%"
+                className={imagePadding ? runtimeAspectRatioClass : undefined}
+                style={
+                  {
+                    "--aspect-ratio-padding": imagePadding,
+                  } as CSSProperties
+                }
+              >
+                <ImageWithFallback
+                  src={imageUrlBuilder
+                    .image(activeIdea.image.asset)
+                    .fit("max")
+                    .url()}
+                  ignoreFallback={navigator.onLine}
+                  fallback={<OfflineImageFallback width={600} />}
+                  alt=""
+                  borderTopRadius="lg"
+                />
+              </Box>
             )}
 
             <DocumentationContextProvider

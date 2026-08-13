@@ -7,7 +7,7 @@ import { usePrevious } from "@microbit/ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import { token } from "styled-system/tokens";
-import { Box, Flex, styled, VStack } from "styled-system/jsx";
+import { AspectRatio, Box, Flex, VStack } from "styled-system/jsx";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
@@ -122,18 +122,18 @@ const Simulator = ({
             // Runtime value from the layout.
             style={{ minWidth: minWidth }}
           >
-            <styled.iframe
-              aspectRatio="191.27 / 155.77"
-              width="100%"
-              ref={ref}
-              src={url}
-              title={simulatorTitle}
-              name={simulatorTitle}
-              frameBorder="no"
-              scrolling="no"
-              allow="autoplay;microphone"
-              sandbox="allow-scripts allow-same-origin"
-            />
+            <AspectRatio ratio={191.27 / 155.77}>
+              <iframe
+                ref={ref}
+                src={url}
+                title={simulatorTitle}
+                name={simulatorTitle}
+                frameBorder="no"
+                scrolling="no"
+                allow="autoplay;microphone"
+                sandbox="allow-scripts allow-same-origin"
+              />
+            </AspectRatio>
             <SimulatorActionBar
               aria-label={intl.formatMessage({ id: "simulator-actions" })}
               css={{ overflow: "hidden" }}
