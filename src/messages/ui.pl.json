@@ -723,12 +723,6 @@
       "value": "Pomoc i wsparcie"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "Pomóż tłumaczyć"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2495,6 +2489,60 @@
       "value": "Spróbuj ponownie"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "Pomóż tłumaczyć"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "Język"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "W pełni wspierane"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "Częściowo wspierane"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "Wspierane"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "Niewspierany"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "Tłumaczenia wspierane dla:"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "Język nie w pełni obsługiwany"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2523,6 +2571,12 @@
     {
       "type": 0,
       "value": "Ładowanie"
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [

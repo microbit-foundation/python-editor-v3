@@ -755,12 +755,6 @@
       "value": "Cabhair & tacaíocht"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "Cabhair a aistriú"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2547,6 +2541,60 @@
       "value": "Bain triail as arís"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "Cabhair a aistriú"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "Teanga"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "Fully supported"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "Partially supported"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "Supported"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "Unsupported"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "Translations supported for:"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "Language not fully supported"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2575,6 +2623,12 @@
     {
       "type": 0,
       "value": "Ag lódáil"
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [

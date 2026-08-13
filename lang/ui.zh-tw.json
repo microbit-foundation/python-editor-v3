@@ -363,10 +363,6 @@
     "defaultMessage": "說明與支援",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "說明翻譯",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "強調程式碼結構",
     "description": "Code structure setting label"

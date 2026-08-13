@@ -363,10 +363,6 @@
     "defaultMessage": "帮助与支持",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "帮助翻译",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "突出显示代码结构",
     "description": "Code structure setting label"

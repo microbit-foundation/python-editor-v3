@@ -363,10 +363,6 @@
     "defaultMessage": "ヘルプとサポート",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "翻訳を手伝う",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "コード構造を強調表示",
     "description": "Code structure setting label"

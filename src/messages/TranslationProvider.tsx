@@ -14,7 +14,8 @@ import {
 import { useToast } from "@microbit/ui";
 
 async function loadLocaleData(locale: string) {
-  switch (locale) {
+  // Language ids use canonical BCP 47 casing; the catalog files are lowercase.
+  switch (locale.toLowerCase()) {
     // Add further cases explicitly for code splitting.
     // The need for this might be worth revisiting.
     case "ca":
