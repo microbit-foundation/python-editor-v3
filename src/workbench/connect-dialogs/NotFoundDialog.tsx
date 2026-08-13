@@ -8,6 +8,7 @@ import { ReactNode, useCallback } from "react";
 import { RiDownload2Line, RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { Box, Flex, HStack, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import { GenericDialog } from "../../common/GenericDialog";
 import SaveButton from "../../project/SaveButton";
 import { ConnectErrorChoice } from "./FirmwareDialog";
@@ -71,9 +72,9 @@ const NotFoundDialogBody = ({
       gap="5"
       alignItems="flex-start"
     >
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
+      <DialogHeading>
         <FormattedMessage id="not-found-title" />
-      </Text>
+      </DialogHeading>
       <Text>
         <FormattedMessage id="not-found-message" />
       </Text>

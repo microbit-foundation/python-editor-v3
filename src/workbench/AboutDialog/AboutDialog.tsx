@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalFooter,
+  ModalHeader,
   Text,
   VisuallyHidden,
 } from "@microbit/ui";
@@ -78,10 +79,12 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
       onClose={onClose}
       size="4xl"
       finalFocusRef={finalFocusRef}
-      aria-label={intl.formatMessage({ id: "about" })}
     >
+      <ModalHeader>
+        <FormattedMessage id="about" />
+      </ModalHeader>
+      <ModalCloseButton />
       <ModalBody>
-        <ModalCloseButton />
         <VStack gap="8" pl="5" pr="5" pt="5">
           <HStack gap="4">
             {deployment.horizontalLogo && (

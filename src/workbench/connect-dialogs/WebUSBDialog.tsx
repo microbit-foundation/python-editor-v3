@@ -7,6 +7,7 @@ import { Button, Image, Text } from "@microbit/ui";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { Flex, HStack, Stack, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import { GenericDialog } from "../../common/GenericDialog";
 import chromeOSErrorImage from "./chrome-os-105-error.png";
 import { FinalFocusRef } from "../../project/project-actions";
@@ -60,9 +61,9 @@ const DialogBodyWrapper = ({ children }: { children: ReactNode }) => (
 const NotSupportedErrorBody = () => {
   return (
     <DialogBodyWrapper>
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
+      <DialogHeading>
         <FormattedMessage id="webusb-not-supported-title" />
-      </Text>
+      </DialogHeading>
       <Text>
         <FormattedMessage id="webusb-not-supported" />
       </Text>
@@ -76,9 +77,9 @@ const NotSupportedErrorBody = () => {
 const Chrome105ErrorBody = () => {
   return (
     <DialogBodyWrapper>
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
+      <DialogHeading>
         There is an issue with Chrome OS version 105 and WebUSB*
-      </Text>
+      </DialogHeading>
       <HStack gap="5">
         <Stack>
           <Text>

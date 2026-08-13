@@ -13,6 +13,7 @@ import {
 } from "@microbit/ui";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Flex, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import selectMicrobit from "./select-microbit.png";
 
 const ConnectHelpDialogBody = () => {
@@ -29,9 +30,9 @@ const ConnectHelpDialogBody = () => {
       gap="5"
       alignItems="flex-start"
     >
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
+      <DialogHeading>
         <FormattedMessage id="connect-help-title" />
-      </Text>
+      </DialogHeading>
       <Box
         position="relative"
         width={isDesktop ? "100%" : "auto"}
