@@ -7,6 +7,7 @@ import { Button, Text } from "@microbit/ui";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { HStack, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import { GenericDialog } from "../../common/GenericDialog";
 import { FinalFocusRef } from "../../project/project-actions";
 
@@ -52,13 +53,7 @@ const WebUSBErrorBody = ({ title, description }: WebUSBErrorBodyProps) => (
     gap="5"
     alignItems="flex-start"
   >
-    {typeof title === "string" ? (
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
-        {title}
-      </Text>
-    ) : (
-      title
-    )}
+    <DialogHeading>{title}</DialogHeading>
     {typeof description === "string" ? <Text>{description}</Text> : description}
   </VStack>
 );

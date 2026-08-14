@@ -17,6 +17,7 @@ import { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { HStack, Stack, VStack } from "styled-system/jsx";
+import DialogHeading from "../common/DialogHeading";
 import YoutubeVideoEmbed from "../common/YoutubeVideoEmbed";
 import { useDeployment } from "../deployment";
 
@@ -31,12 +32,7 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
   const intl = useIntl();
   const welcomeVideoAltText = intl.formatMessage({ id: "welcome-video-alt" });
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      size="2xl"
-      aria-label={intl.formatMessage({ id: "welcome-title" })}
-    >
+    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
       <ModalCloseButton />
       <ModalBody>
         <VStack
@@ -49,9 +45,9 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
           alignItems="stretch"
         >
           <Stack gap="3">
-            <Text as="h2" fontSize="xl" fontWeight="semibold">
+            <DialogHeading>
               <FormattedMessage id="welcome-title" />
-            </Text>
+            </DialogHeading>
             <YoutubeVideoEmbed
               youtubeId={youtubeId}
               alt={welcomeVideoAltText}

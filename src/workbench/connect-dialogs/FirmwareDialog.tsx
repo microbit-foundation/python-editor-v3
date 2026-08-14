@@ -8,6 +8,7 @@ import { ReactNode, useCallback } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { HStack, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import { GenericDialog } from "../../common/GenericDialog";
 import firmwareUpgrade from "./firmware-upgrade.svg";
 import { FinalFocusRef } from "../../project/project-actions";
@@ -53,9 +54,9 @@ const FirmwareDialogBody = () => {
       gap="5"
       alignItems="flex-start"
     >
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
+      <DialogHeading>
         <FormattedMessage id="firmware-update-title" />
-      </Text>
+      </DialogHeading>
       <Text>
         <FormattedMessage id="firmware-update-message" />
       </Text>

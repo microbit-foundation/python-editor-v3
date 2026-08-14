@@ -3,9 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Image, Text } from "@microbit/ui";
+import { Image } from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
 import { Flex, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import connectCable from "./connect-cable.gif";
 
 const ConnectCableDialogBody = () => {
@@ -19,9 +20,9 @@ const ConnectCableDialogBody = () => {
       gap="5"
       alignItems="flex-start"
     >
-      <Text as="h2" fontSize="xl" fontWeight="semibold">
+      <DialogHeading>
         <FormattedMessage id="connect-cable-title" />
-      </Text>
+      </DialogHeading>
 
       <Flex justifyContent="center" width="100%">
         <Image height="372px" width="400px" src={connectCable} alt="" />

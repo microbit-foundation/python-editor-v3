@@ -8,6 +8,7 @@ import { ReactNode } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { Flex, HStack, VStack } from "styled-system/jsx";
+import DialogHeading from "../../common/DialogHeading";
 import { GenericDialog, GenericDialogFooter } from "../../common/GenericDialog";
 import transferHexMac from "./transfer-hex-mac.gif";
 import transferHexWin from "./transfer-hex-win.gif";
@@ -64,9 +65,9 @@ const TransferHexDialogBody = () => {
       alignItems="flex-start"
     >
       <VStack alignItems="flex-start">
-        <Text as="h2" fontSize="xl" fontWeight="semibold">
+        <DialogHeading>
           <FormattedMessage id="transfer-hex-title" />
-        </Text>
+        </DialogHeading>
         <Text>
           <FormattedMessage
             id="transfer-hex-message-one"

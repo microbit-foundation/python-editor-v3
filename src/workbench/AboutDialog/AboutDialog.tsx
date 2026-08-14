@@ -88,8 +88,8 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
       finalFocusRef={finalFocusRef}
       aria-label={intl.formatMessage({ id: "about" })}
     >
+      <ModalCloseButton />
       <ModalBody>
-        <ModalCloseButton />
         <VStack gap="8" pl="5" pr="5" pt="5">
           <HStack gap="4">
             {deployment.horizontalLogo && (
