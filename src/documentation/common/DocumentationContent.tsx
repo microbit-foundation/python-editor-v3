@@ -8,7 +8,11 @@ import BlockContent from "@sanity/block-content-to-react";
 import React, { ReactNode, useContext, useMemo } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { Box, Stack } from "styled-system/jsx";
-import { getAspectRatio, imageUrlBuilder } from "../../common/imageUrlBuilder";
+import { runtimeAspectRatioClass } from "../../common/documentation-styles";
+import {
+  getAspectRatioPadding,
+  imageUrlBuilder,
+} from "../../common/imageUrlBuilder";
 import { PortableText, SimpleImage } from "../../common/sanity";
 import { useRouterState } from "../../router-hooks";
 import {
@@ -200,23 +204,29 @@ const serializers = {
       <ContextualCodeEmbed code={main} />
     ),
     simpleImage: (props: SerializerNodeProps<SimpleImage>) => {
+      const padding = getAspectRatioPadding(props.node.asset._ref);
       return (
-        <ImageWithFallback
-          src={imageUrlBuilder
-            .image(props.node.asset)
-            .width(300)
-            .fit("max")
-            .url()}
-          ignoreFallback={navigator.onLine}
-          fallback={<OfflineImageFallback width={300} />}
-          alt={props.node.alt}
+        <Box
           width="300px"
-          borderRadius="lg"
-          border="solid 1px"
-          borderColor="gray.300"
+          maxWidth="100%"
+          className={padding ? runtimeAspectRatioClass : undefined}
           // Runtime value derived from the image reference.
-          style={{ aspectRatio: getAspectRatio(props.node.asset._ref) }}
-        />
+          style={{ "--aspect-ratio-padding": padding } as React.CSSProperties}
+        >
+          <ImageWithFallback
+            src={imageUrlBuilder
+              .image(props.node.asset)
+              .width(300)
+              .fit("max")
+              .url()}
+            ignoreFallback={navigator.onLine}
+            fallback={<OfflineImageFallback width={300} />}
+            alt={props.node.alt}
+            borderRadius="lg"
+            border="solid 1px"
+            borderColor="gray.300"
+          />
+        </Box>
       );
     },
   },

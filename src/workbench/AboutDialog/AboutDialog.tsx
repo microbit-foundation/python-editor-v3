@@ -19,7 +19,15 @@ import {
 import { ReactNode, useCallback, useState } from "react";
 import { RiFileCopy2Line, RiGithubFill } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Box, Flex, Grid, HStack, styled, VStack } from "styled-system/jsx";
+import {
+  AspectRatio,
+  Box,
+  Flex,
+  Grid,
+  HStack,
+  styled,
+  VStack,
+} from "styled-system/jsx";
 import ExpandCollapseIcon from "../../common/ExpandCollapseIcon";
 import { useDeployment } from "../../deployment";
 import { microPythonConfig } from "../../micropython/micropython";
@@ -125,18 +133,17 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
           </Text>
           <Grid columns={{ base: 1, md: 2 }} gap="5" width="100%">
             <Box>
-              <Box
+              <AspectRatio
                 ml="auto"
                 mr="auto"
                 maxWidth={{ base: "303px", md: "unset" }}
-                css={{ aspectRatio: "690 / 562" }}
+                ratio={690 / 562}
               >
                 <Image
                   src={microbitHeartImage}
                   alt={intl.formatMessage({ id: "microbit-hearts-alt" })}
-                  css={{ width: "100%", height: "100%", objectFit: "contain" }}
                 />
-              </Box>
+              </AspectRatio>
             </Box>
             <VStack alignItems="center" justifyContent="center" gap="4">
               <styled.table css={{ fontSize: "sm" }}>
@@ -256,13 +263,12 @@ const MicroPythonSection = () => {
   const intl = useIntl();
   return (
     <VStack gap="4" mt="8" pl="5" pr="5">
-      <Box width="100%" css={{ aspectRatio: "1035 / 423" }}>
+      <AspectRatio width="100%" ratio={1035 / 423}>
         <Image
           src={comicImage}
           alt={intl.formatMessage({ id: "about-comic" })}
-          css={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
-      </Box>
+      </AspectRatio>
       <Grid columns={{ base: 1, lg: 2 }} gap="4" textAlign="center">
         <Text fontSize="md">
           <FormattedMessage

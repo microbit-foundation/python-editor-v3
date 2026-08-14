@@ -17,12 +17,18 @@ export const imageUrlBuilder = unconfiguredImageUrlBuilder()
   .dpr(window.devicePixelRatio ?? 1)
   .quality(defaultQuality);
 
-export const getAspectRatio = (imageRef: string): string | undefined => {
+/**
+ * Percentage padding-bottom matching the image's aspect ratio, read from the
+ * dimensions embedded in a Sanity image reference. Used to reserve an image's
+ * height before it loads via a padding spacer rather than the aspect-ratio
+ * property, which Safari 14 does not support.
+ */
+export const getAspectRatioPadding = (imageRef: string): string | undefined => {
   const dimensionsArr = imageRef.match(/\d+x\d+/g);
   if (!dimensionsArr) {
     return undefined;
   }
   const dimensions = dimensionsArr.join().split("x");
   const [width, height] = dimensions.map((n: string) => Number(n));
-  return (width / height).toString();
+  return `${(height / width) * 100}%`;
 };
