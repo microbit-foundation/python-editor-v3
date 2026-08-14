@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Modal, ModalBody, ModalCloseButton, ModalHeader } from "@microbit/ui";
+import { Modal, ModalBody, ModalCloseButton } from "@microbit/ui";
 import { useEffect, useRef } from "react";
-import { FormattedMessage } from "react-intl";
+import { useIntl } from "react-intl";
 
 interface FeedbackFormProps {
   isOpen: boolean;
@@ -21,6 +21,7 @@ const FeedbackForm = ({
   onClose,
   finalFocusRef = undefined,
 }: FeedbackFormProps) => {
+  const intl = useIntl();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     const listener = (message: MessageEvent) => {
@@ -47,10 +48,8 @@ const FeedbackForm = ({
       onClose={onClose}
       size="2xl"
       finalFocusRef={finalFocusRef}
+      aria-label={intl.formatMessage({ id: "feedback" })}
     >
-      <ModalHeader>
-        <FormattedMessage id="feedback" />
-      </ModalHeader>
       <ModalCloseButton />
       <ModalBody>
         <iframe
