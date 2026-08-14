@@ -506,10 +506,7 @@ const DraggableSignature = ({
       tabIndex={0}
       position="relative"
       zIndex="code"
-      _focusVisible={{
-        focusShadow: "outline",
-        outline: "none",
-      }}
+      _focusVisible={{ focusRing: "outline" }}
       css={cssProp}
       cursor="grab"
     >

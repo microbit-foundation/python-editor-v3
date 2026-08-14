@@ -322,8 +322,7 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
         bgColor={raisedLook ? "blimpTeal.50" : "white"}
         boxShadow={isPopUp ? "rgba(0, 0, 0, 0.18) 0px 2px 6px" : undefined}
         tabIndex={isPopUp ? undefined : 0}
-        _focus={{ focusShadow: "outline" }}
-        _focusVisible={{ outline: "none" }}
+        _focusVisible={{ focusRing: "outline" }}
         // Pop-up position/size at runtime coordinates.
         style={style}
         {...props}

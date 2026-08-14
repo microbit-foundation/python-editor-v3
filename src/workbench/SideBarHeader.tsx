@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  darkSurface,
   Button,
   Fade,
   Icon,
@@ -164,7 +165,12 @@ const SideBarHeader = ({
           </ModalBody>
         </Modal>
       )}
-      <styled.div bg="sidebarHeaderBg">
+      {/* Dark by design in both brands (brand.500), so focus rings inside
+          — the header buttons and collapse control — are the white on-dark
+          ones. The gradient tablist below stays untagged: its tabs use
+          their own underline indicator and the bottom buttons sit on the
+          teal (light) end where the ink ring works. */}
+      <styled.div bg="sidebarHeaderBg" {...darkSurface}>
         <Flex
           ref={ref}
           boxShadow="0px 4px 16px #00000033"
