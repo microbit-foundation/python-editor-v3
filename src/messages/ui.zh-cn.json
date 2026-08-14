@@ -707,12 +707,6 @@
       "value": "帮助与支持"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "帮助翻译"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2410,6 +2404,60 @@
       "value": "重试"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "帮助翻译"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "语言"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "Fully supported"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "Partially supported"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "Supported"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "Unsupported"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "Translations supported for:"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "Language not fully supported"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2438,6 +2486,12 @@
     {
       "type": 0,
       "value": "正在加载"
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [

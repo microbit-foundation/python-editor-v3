@@ -719,12 +719,6 @@
       "value": "도움말 및 지원"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "번역 지원"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2397,6 +2391,60 @@
       "value": "다시 시도"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "번역 지원"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "언어 선택"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "완벽 지원"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "일부 지원"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "지원됨"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "지원되지 않음"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "번역 지원 언어:"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "완전히 지원되지 않는 언어"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2425,6 +2473,12 @@
     {
       "type": 0,
       "value": "불러오는 중..."
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [

@@ -51,6 +51,7 @@ export default defineConfig({
     // still works via the preset's staticCss), so a wrong path shows up only as
     // broken non-recipe styling — check the resolved node_modules path.
     "./node_modules/@microbit/ui/src/**/*.{ts,tsx}",
+    "./node_modules/@microbit/ui-patterns/src/**/*.{ts,tsx}",
   ],
   outdir: "styled-system",
 });

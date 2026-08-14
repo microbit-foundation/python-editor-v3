@@ -363,10 +363,6 @@
     "defaultMessage": "crwdns331530:0crwdne331530:0",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "crwdns331532:0crwdne331532:0",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "crwdns331534:0crwdne331534:0",
     "description": "Code structure setting label"

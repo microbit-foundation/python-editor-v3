@@ -36,4 +36,18 @@ describe("isValidSettingsObject", () => {
       })
     ).toEqual(false);
   });
+  it("accepts stored language ids from before the canonical-casing move", () => {
+    expect(
+      isValidSettingsObject({
+        ...defaultSettings,
+        languageId: "zh-cn",
+      })
+    ).toEqual(true);
+    expect(
+      isValidSettingsObject({
+        ...defaultSettings,
+        languageId: "zh-CN",
+      })
+    ).toEqual(true);
+  });
 });

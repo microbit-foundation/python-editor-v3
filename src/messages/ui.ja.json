@@ -735,12 +735,6 @@
       "value": "ヘルプとサポート"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "翻訳を手伝う"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2391,6 +2385,60 @@
       "value": "もう一度やり直す"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "翻訳を手伝う"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "言語"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "完全に対応"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "部分的に対応"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "対応"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "非対応"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "サポートされている翻訳:"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "言語が完全にサポートされていません"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2419,6 +2467,12 @@
     {
       "type": 0,
       "value": "読み込み中"
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [

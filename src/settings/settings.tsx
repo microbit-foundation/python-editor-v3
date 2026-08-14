@@ -3,16 +3,26 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import {
+  getDefaultLanguageId,
+  type KnownLanguageId,
+} from "@microbit/ui-patterns";
 import { createContext, ReactNode, useContext } from "react";
 import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
 import { stage } from "../environment";
 import { flags } from "../flags";
 
+/**
+ * Names and display order come from @microbit/ui-patterns' language
+ * registry; this list holds only what the registry can't know.
+ */
 export interface Language {
-  id: string;
-  name: string;
-  enName: string;
+  // The shared registry's id union, so `tsc` catches an id the family
+  // doesn't know. Canonical BCP 47 casing (also our Crowdin codes); lowercase
+  // ids from stored settings and ?l= links are still accepted on read.
+  id: KnownLanguageId;
+  // An early preview of an in-progress translation, enabled on beta only.
   preview?: boolean;
 }
 
@@ -26,68 +36,18 @@ export const fallbackLocale = "en";
 //
 // Tag new languages with `preview: true` to enable for beta only.
 const allLanguages: Language[] = [
-  {
-    id: "en",
-    name: "English",
-    enName: "English",
-  },
-  {
-    id: "ca",
-    name: "Català",
-    enName: "Catalan",
-  },
-  {
-    id: "zh-cn",
-    name: "简体中文",
-    enName: "Chinese (Simplified)",
-  },
-  {
-    id: "zh-tw",
-    name: "繁體中文",
-    enName: "Chinese (Traditional)",
-  },
-  {
-    id: "nl",
-    name: "Nederlands",
-    enName: "Dutch",
-  },
-  {
-    id: "fr",
-    name: "Français",
-    enName: "French",
-  },
-  {
-    id: "de",
-    name: "Deutsch",
-    enName: "German",
-    preview: true,
-  },
-  {
-    id: "ga-ie",
-    name: "Gaeilge",
-    enName: "Irish",
-    preview: true,
-  },
-  {
-    id: "ja",
-    name: "日本語",
-    enName: "Japanese",
-  },
-  {
-    id: "ko",
-    name: "한국어",
-    enName: "Korean",
-  },
-  {
-    id: "pl",
-    name: "Polski",
-    enName: "Polish",
-  },
-  {
-    id: "es-es",
-    name: "Español",
-    enName: "Spanish",
-  },
+  { id: "en" },
+  { id: "ca" },
+  { id: "zh-CN" },
+  { id: "zh-TW" },
+  { id: "nl" },
+  { id: "fr" },
+  { id: "de", preview: true },
+  { id: "ga-IE", preview: true },
+  { id: "ja" },
+  { id: "ko" },
+  { id: "pl" },
+  { id: "es-ES" },
 ];
 export const supportedLanguages: Language[] = allLanguages.filter(
   (l) => stage !== "PRODUCTION" || !l.preview
@@ -103,15 +63,32 @@ export const parameterHelpOptions: ParameterHelpOption[] = [
   "manual",
 ];
 
+// Case-insensitive: stored settings and inbound ?l= links predate the move
+// to canonical id casing (zh-cn -> zh-CN etc.) and must keep working.
+const findSupportedLanguage = (id: unknown): Language | undefined =>
+  typeof id === "string"
+    ? supportedLanguages.find((x) => x.id.toLowerCase() === id.toLowerCase())
+    : undefined;
+
+const languageHint = (): string | null =>
+  new URLSearchParams(window.location.search).get("l");
+
 export const getLanguageFromQuery = (): string => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const l = searchParams.get("l");
-  const supportedLanguage = supportedLanguages.find((x) => x.id === l);
-  return supportedLanguage?.id || supportedLanguages[0].id;
+  return findSupportedLanguage(languageHint())?.id || supportedLanguages[0].id;
 };
 
+/**
+ * The first-run language: the ?l= hint, then the browser/OS preferences,
+ * matched against the supported languages; English otherwise.
+ */
+export const getDefaultLanguage = (): string =>
+  getDefaultLanguageId({
+    autoSelectableIds: supportedLanguages.map((l) => l.id),
+    languageHint: languageHint(),
+  });
+
 export const defaultSettings: Settings = {
-  languageId: getLanguageFromQuery(),
+  languageId: getDefaultLanguage(),
   fontSize: defaultCodeFontSizePt,
   codeStructureHighlight: "full",
   parameterHelp: "automatic",
@@ -133,7 +110,7 @@ export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (
     object.languageId &&
     object.languageId !== inContextTranslationLangId &&
-    !supportedLanguages.find((x) => x.id === object.languageId)
+    !findSupportedLanguage(object.languageId)
   ) {
     return false;
   }

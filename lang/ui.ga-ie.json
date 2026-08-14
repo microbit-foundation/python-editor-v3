@@ -363,10 +363,6 @@
     "defaultMessage": "Cabhair & tacaíocht",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "Cabhair a aistriú",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "Aibhsigh struchtúr an chóid",
     "description": "Code structure setting label"

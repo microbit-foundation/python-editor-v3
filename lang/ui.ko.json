@@ -363,10 +363,6 @@
     "defaultMessage": "도움말 및 지원",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "번역 지원",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "코드 구조 하이라이트",
     "description": "Code structure setting label"

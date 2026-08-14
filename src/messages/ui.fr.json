@@ -707,12 +707,6 @@
       "value": "Aide et support"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "Contribuer à la traduction"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2397,6 +2391,60 @@
       "value": "Réessayer"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "Contribuer à la traduction"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "Langue"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "Entièrement pris en charge"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "Partiellement pris en charge"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "Pris en charge"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "Non pris en charge"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "Traductions prises en charge pour :"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "La langue n'est pas entièrement prise en charge"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2425,6 +2473,12 @@
     {
       "type": 0,
       "value": "Chargement"
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [

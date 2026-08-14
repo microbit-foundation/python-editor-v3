@@ -33,6 +33,9 @@ export const pyright = async (
   language: string,
   toast: ToastFn
 ): Promise<LanguageServerClient | undefined> => {
+  // The typeshed.<locale>.json imports and the server's locale are
+  // lowercase; language ids use canonical BCP 47 casing.
+  language = language.toLowerCase();
   // For jsdom.
   if (!window.Worker) {
     return undefined;

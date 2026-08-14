@@ -363,10 +363,6 @@
     "defaultMessage": "Aide et support",
     "description": "Menu item for link to support site"
   },
-  "help-translate": {
-    "defaultMessage": "Contribuer à la traduction",
-    "description": "Help translate  menu option text"
-  },
   "highlight-code-structure": {
     "defaultMessage": "Surligner la structure du code",
     "description": "Code structure setting label"

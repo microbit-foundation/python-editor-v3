@@ -21,10 +21,12 @@ import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const formatjs = require.resolve("@formatjs/cli/bin/formatjs");
-const packageLangDirs = ["@microbit/ui"].map((name) => ({
-  name,
-  dir: path.dirname(require.resolve(`${name}/lang/ui.en.json`)),
-}));
+const packageLangDirs = ["@microbit/ui", "@microbit/ui-patterns"].map(
+  (name) => ({
+    name,
+    dir: path.dirname(require.resolve(`${name}/lang/ui.en.json`)),
+  })
+);
 
 for (const file of fs.readdirSync(path.join(root, "lang")).sort()) {
   const inputs = [path.join(root, "lang", file)];

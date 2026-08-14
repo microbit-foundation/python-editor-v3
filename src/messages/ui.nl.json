@@ -719,12 +719,6 @@
       "value": "Hulp & Ondersteuning"
     }
   ],
-  "help-translate": [
-    {
-      "type": 0,
-      "value": "Help met vertalen"
-    }
-  ],
   "highlight-code-structure": [
     {
       "type": 0,
@@ -2439,6 +2433,60 @@
       "value": "Probeer het opnieuw"
     }
   ],
+  "ui-patterns.help-translate": [
+    {
+      "type": 0,
+      "value": "Help met vertalen"
+    }
+  ],
+  "ui-patterns.language": [
+    {
+      "type": 0,
+      "value": "Taal"
+    }
+  ],
+  "ui-patterns.language-fully-supported-heading": [
+    {
+      "type": 0,
+      "value": "Volledig ondersteund"
+    }
+  ],
+  "ui-patterns.language-partially-supported-heading": [
+    {
+      "type": 0,
+      "value": "Gedeeltelijk ondersteund"
+    }
+  ],
+  "ui-patterns.language-preview-notice": [
+    {
+      "type": 0,
+      "value": "* These languages are an early preview of in-progress translations."
+    }
+  ],
+  "ui-patterns.language-support-checked": [
+    {
+      "type": 0,
+      "value": "Ondersteund"
+    }
+  ],
+  "ui-patterns.language-support-unchecked": [
+    {
+      "type": 0,
+      "value": "Niet ondersteund"
+    }
+  ],
+  "ui-patterns.language-supported-for": [
+    {
+      "type": 0,
+      "value": "Vertalingen ondersteund voor:"
+    }
+  ],
+  "ui-patterns.language-toast-title": [
+    {
+      "type": 0,
+      "value": "Taal niet volledig ondersteund"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
@@ -2467,6 +2515,12 @@
     {
       "type": 0,
       "value": "Laden"
+    }
+  ],
+  "ui.new-tab-notice": [
+    {
+      "type": 0,
+      "value": "opens in a new tab"
     }
   ],
   "ui.numberfield-decrease": [
