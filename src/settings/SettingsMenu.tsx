@@ -49,7 +49,6 @@ const SettingsMenu = ({ size }: SettingsMenuProps) => {
           size={size}
           css={{ fontSize: "xl" }}
           variant="sidebar"
-          isRound
         >
           <RiSettings2Line />
         </IconButton>

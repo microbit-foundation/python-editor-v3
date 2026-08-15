@@ -31,7 +31,6 @@ const UndoRedoControls = ({ css: cssProp }: UndoRedoControlsProps) => {
       }}
     >
       <IconButton
-        isRound
         variant="neutral"
         aria-label={intl.formatMessage({ id: "undo" })}
         onPress={actions?.undo}
@@ -40,7 +39,6 @@ const UndoRedoControls = ({ css: cssProp }: UndoRedoControlsProps) => {
         <RiArrowGoBackLine style={{ transform: "rotate(-90deg)" }} />
       </IconButton>
       <IconButton
-        isRound
         variant="neutral"
         css={{ borderLeft: "1px solid", borderLeftColor: "gray.10" }}
         aria-label={intl.formatMessage({ id: "redo" })}

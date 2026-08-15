@@ -120,7 +120,6 @@ const SerialBar = ({
             {showHintsAndTips && (
               <IconButton
                 variant="sidebar"
-                isRound
                 aria-label={intl.formatMessage({ id: "serial-hints-and-tips" })}
                 onPress={handleShowHintsAndTips}
               >
