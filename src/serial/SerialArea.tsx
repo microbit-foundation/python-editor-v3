@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { darkSurface } from "@microbit/ui";
 import { Box, styled } from "styled-system/jsx";
 import { backgroundColorTerm } from "../deployment/misc";
 import { ConnectionStatus } from "@microbit/microbit-connection";
@@ -61,6 +62,7 @@ const SerialArea = ({
             alignItems="stretch"
             style={{ backgroundColor: backgroundColorTerm }}
             height="100%"
+            {...darkSurface}
           >
             <SerialBar
               css={{ height: "12" }}

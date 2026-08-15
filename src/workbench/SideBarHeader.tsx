@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import {
+  darkSurface,
   Button,
   Fade,
   Icon,
@@ -164,7 +165,7 @@ const SideBarHeader = ({
           </ModalBody>
         </Modal>
       )}
-      <styled.div bg="sidebarHeaderBg">
+      <styled.div bg="sidebarHeaderBg" {...darkSurface}>
         <Flex
           ref={ref}
           boxShadow="0px 4px 16px #00000033"

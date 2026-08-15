@@ -81,9 +81,6 @@ const HideSplitViewButton = React.forwardRef(
             // variant's recipe-layer hover/active — restate them.
             _hover: { background: "gray.100" },
             _active: { background: "gray.200" },
-            // Likewise a flat boxShadow from a call site (e.g. Simulator's
-            // md shadow) beats the recipe-layer focus ring — restate it.
-            _focusVisible: { focusShadow: "outline" },
             color: "brand.500",
             zIndex: "splitViewHideButton",
             ...cssProp,

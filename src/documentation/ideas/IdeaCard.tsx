@@ -30,14 +30,7 @@ const IdeaCard = ({ name, image, isV2Only, onClick }: IdeaCardProps) => {
       borderRadius="lg"
       overflow="hidden"
       boxShadow="md"
-      _focusVisible={{
-        outline: "none",
-        focusShadow: "outline",
-      }}
-      _focus={{
-        outline: "none",
-        focusShadow: "outline",
-      }}
+      _focusVisible={{ focusRing: "outline" }}
     >
       <ImageWithFallback
         src={imageUrlBuilder.image(image.asset).width(550).url()}

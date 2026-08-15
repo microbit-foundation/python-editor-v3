@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, Text } from "@microbit/ui";
+import { Button, darkSurface, Text } from "@microbit/ui";
 import { useCallback, useEffect, useState } from "react";
 import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
 import { HStack, styled } from "styled-system/jsx";
@@ -66,6 +66,7 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
   return (
     <styled.section
       display="flex"
+      {...darkSurface}
       bgColor="gray.800"
       color="white"
       p="1"
