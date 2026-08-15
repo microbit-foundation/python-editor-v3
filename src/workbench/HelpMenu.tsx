@@ -64,7 +64,6 @@ const HelpMenu = ({ size }: HelpMenuProps) => {
           size={size}
           css={{ fontSize: "xl" }}
           variant="sidebar"
-          isRound
         >
           <RiQuestionLine />
         </IconButton>

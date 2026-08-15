@@ -38,7 +38,6 @@ const SerialMenu = React.forwardRef(
           ref={menuButtonRef}
           aria-label={intl.formatMessage({ id: "serial-menu" })}
           variant="sidebar"
-          isRound
         >
           <MdMoreVert />
         </IconButton>
