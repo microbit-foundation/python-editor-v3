@@ -96,10 +96,8 @@ export const appPreset = definePreset({
         text: {
           defaultVariants: { size: "md" },
         },
-        // python-editor's default button variant is `outline` (the family
-        // base recipe defaults to `secondary`): brand text over a
-        // transparent, brand-bordered button. Non-brand outline cases use
-        // `warning`.
+        // The app's own button vocabulary; everything else is the base
+        // recipe's, with destructive actions on `tone="danger"`.
         button: {
           variants: {
             variant: {
@@ -110,19 +108,6 @@ export const appPreset = definePreset({
                 bg: "transparent",
                 _hover: { bg: "white", color: "gray.700" },
                 _active: { bg: "white", color: "gray.800" },
-              },
-              // The editor zoom / undo-redo pill pairs: gray fill with
-              // darker hover/active.
-              zoom: {
-                color: "gray.800",
-                bg: "gray.100",
-                // Re-pointed for the neutral ink grades (@microbit/ui
-                // docs/gray-ramp.md): the branded build's hover/press were
-                // #c9c9c9/#b0b0b0 — hover's nearest stop is 300, and press
-                // takes the press-weight 350 (#b4b4b4, ≈ the old value; the
-                // old 400/500 names sit much darker post-re-grade).
-                _hover: { bg: "gray.300" },
-                _active: { bg: "gray.350" },
               },
             },
           },

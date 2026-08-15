@@ -32,7 +32,7 @@ const UndoRedoControls = ({ css: cssProp }: UndoRedoControlsProps) => {
     >
       <IconButton
         isRound
-        variant="zoom"
+        variant="neutral"
         aria-label={intl.formatMessage({ id: "undo" })}
         onPress={actions?.undo}
         isDisabled={editorInfo.undo ? false : true}
@@ -41,7 +41,7 @@ const UndoRedoControls = ({ css: cssProp }: UndoRedoControlsProps) => {
       </IconButton>
       <IconButton
         isRound
-        variant="zoom"
+        variant="neutral"
         css={{ borderLeft: "1px solid", borderLeftColor: "gray.10" }}
         aria-label={intl.formatMessage({ id: "redo" })}
         onPress={actions?.redo}

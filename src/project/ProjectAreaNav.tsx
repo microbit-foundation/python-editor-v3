@@ -20,7 +20,12 @@ const ProjectAreaNav = ({ css: cssProp }: ProjectAreaNavProps) => {
         <NewButton mode="button" />
         <OpenButton mode="button" />
         <Box>
-          <ResetButton mode="button" variant="warning" css={{ mt: "5" }} />
+          <ResetButton
+            mode="button"
+            variant="outline"
+            tone="danger"
+            css={{ mt: "5" }}
+          />
         </Box>
       </VStack>
     </Flex>

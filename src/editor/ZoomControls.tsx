@@ -47,7 +47,7 @@ const ZoomControls = ({ size, css: cssProp }: ZoomControlsProps) => {
       <IconButton
         size={size}
         isRound
-        variant="zoom"
+        variant="neutral"
         aria-label={intl.formatMessage({ id: "zoom-out-action" })}
         onPress={handleZoomOut}
       >
@@ -57,7 +57,7 @@ const ZoomControls = ({ size, css: cssProp }: ZoomControlsProps) => {
         css={{ borderLeft: "1px solid", borderLeftColor: "gray.10" }}
         size={size}
         isRound
-        variant="zoom"
+        variant="neutral"
         aria-label={intl.formatMessage({ id: "zoom-in-action" })}
         onPress={handleZoomIn}
       >
