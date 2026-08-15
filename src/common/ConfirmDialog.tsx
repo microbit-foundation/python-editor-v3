@@ -41,7 +41,7 @@ export const ConfirmDialog = ({
         <Button autoFocus onPress={() => callback(false)}>
           <FormattedMessage id="cancel-action" />
         </Button>
-        <Button variant="warningSolid" onPress={() => callback(true)}>
+        <Button variant="solid" tone="danger" onPress={() => callback(true)}>
           {actionLabel}
         </Button>
       </ModalFooter>
