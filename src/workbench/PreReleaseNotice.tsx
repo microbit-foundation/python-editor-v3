@@ -66,7 +66,6 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
   return (
     <styled.section
       display="flex"
-      // Dark by design: white focus rings for the buttons on it.
       {...darkSurface}
       bgColor="gray.800"
       color="white"

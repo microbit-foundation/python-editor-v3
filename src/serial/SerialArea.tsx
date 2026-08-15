@@ -62,10 +62,6 @@ const SerialArea = ({
             alignItems="stretch"
             style={{ backgroundColor: backgroundColorTerm }}
             height="100%"
-            // The terminal area (#333333 behind both the bar and xterm) is
-            // dark by design, so focus rings inside it are the white
-            // on-dark ones. The terminal itself indicates focus with its
-            // cursor, as terminals do.
             {...darkSurface}
           >
             <SerialBar
