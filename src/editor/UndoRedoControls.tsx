@@ -40,7 +40,6 @@ const UndoRedoControls = ({ css: cssProp }: UndoRedoControlsProps) => {
       </IconButton>
       <IconButton
         variant="neutral"
-        css={{ borderLeft: "1px solid", borderLeftColor: "gray.10" }}
         aria-label={intl.formatMessage({ id: "redo" })}
         onPress={actions?.redo}
         isDisabled={editorInfo.redo ? false : true}
