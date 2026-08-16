@@ -3,12 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ButtonGroup, MenuItem, MenuList, MenuTrigger } from "@microbit/ui";
+import {
+  ButtonGroup,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+  MoreMenuButton,
+} from "@microbit/ui";
 import { RiDownload2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { HStack } from "styled-system/jsx";
 import SaveButton from "./SaveButton";
-import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
 import { useRef } from "react";
 
@@ -29,11 +34,7 @@ const SaveMenuButton = ({ size }: SaveMenuButtonProps) => {
   return (
     <HStack>
       <ButtonGroup isAttached>
-        <SaveButton
-          mode="button"
-          size={size}
-          css={{ borderRight: "1px solid" }}
-        />
+        <SaveButton mode="button" size={size} />
         <MenuTrigger>
           <MoreMenuButton
             ref={menuButtonRef}

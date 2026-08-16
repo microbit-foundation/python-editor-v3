@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuList,
   MenuTrigger,
+  MoreMenuButton,
   Tooltip,
 } from "@microbit/ui";
 import React, { ForwardedRef, useCallback, useRef } from "react";
@@ -17,7 +18,6 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { HStack } from "styled-system/jsx";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
-import MoreMenuButton from "./MoreMenuButton";
 import { useProjectActions } from "./project-hooks";
 import { useHotkeys } from "react-hotkeys-hook";
 import {

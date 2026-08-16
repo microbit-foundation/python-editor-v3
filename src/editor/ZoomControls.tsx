@@ -53,7 +53,6 @@ const ZoomControls = ({ size, css: cssProp }: ZoomControlsProps) => {
         <RiZoomOutLine />
       </IconButton>
       <IconButton
-        css={{ borderLeft: "1px solid", borderLeftColor: "gray.10" }}
         size={size}
         variant="neutral"
         aria-label={intl.formatMessage({ id: "zoom-in-action" })}
