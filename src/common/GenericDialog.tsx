@@ -78,7 +78,7 @@ export const GenericDialogFooter = ({
           variant="link"
           size="lg"
           onPress={onCloseDontShowAgain}
-          css={{ color: "brand.500", mr: "auto" }}
+          css={{ color: "fg.link", mr: "auto" }}
         >
           <FormattedMessage id="dont-show-again" />
         </Button>
