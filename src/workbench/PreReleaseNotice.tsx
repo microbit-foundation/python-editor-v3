@@ -82,7 +82,7 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
       <HStack>
         {hasInfoDialog && (
           <Button
-            leftIcon={<RiInformationFill />}
+            startIcon={<RiInformationFill />}
             variant="link"
             size="xs"
             css={{ color: "white", p: "1", fontWeight: "semibold" }}
@@ -92,7 +92,7 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
           </Button>
         )}
         <Button
-          leftIcon={<RiFeedbackFill />}
+          startIcon={<RiFeedbackFill />}
           variant="link"
           size="xs"
           css={{ color: "white", p: "1", fontWeight: "semibold" }}

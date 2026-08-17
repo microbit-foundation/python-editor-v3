@@ -51,10 +51,10 @@ const CodeActionButton = ({
             ml: "5",
           }}
           onPress={codeAction}
-          leftIcon={
+          startIcon={
             toolkitType === "ideas" ? <Icon as={RiFolderOpenLine} /> : undefined
           }
-          rightIcon={
+          endIcon={
             toolkitType !== "ideas" ? <Icon as={RiFileCopy2Line} /> : undefined
           }
         >
