@@ -97,7 +97,6 @@ export class ActionFeedback {
                   href={deployment.supportLink}
                   target="_blank"
                   rel="noopener"
-                  textDecoration="underline"
                 >
                   {chunks}
                 </MaybeLink>
