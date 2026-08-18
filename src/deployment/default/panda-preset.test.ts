@@ -3,7 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { unknownSemanticTokens } from "@microbit/ui/preset-lint";
+import {
+  droppedConditionTokens,
+  unknownSemanticTokens,
+} from "@microbit/ui/preset-lint";
 import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
 import { appPreset } from "./panda-preset";
@@ -23,6 +26,12 @@ const introduces = [
 
 it("app preset overrides only semantic tokens @microbit/ui defines", () => {
   expect(unknownSemanticTokens(appPreset, { introduces })).toEqual([]);
+});
+
+// A flat override of a { base, _onDark } token merges wholesale and
+// silently drops the dark-surface flip — the same failure, one door over.
+it("app preset keeps every condition the base preset's tokens carry", () => {
+  expect(droppedConditionTokens(appPreset)).toEqual([]);
 });
 
 // The private brand preset is optional — present only when linked
@@ -45,5 +54,9 @@ try {
 describe.skipIf(!brandPreset)("private brand preset", () => {
   it("overrides only semantic tokens @microbit/ui defines", () => {
     expect(unknownSemanticTokens(brandPreset, { introduces })).toEqual([]);
+  });
+
+  it("keeps every condition the base preset's tokens carry", () => {
+    expect(droppedConditionTokens(brandPreset)).toEqual([]);
   });
 });
