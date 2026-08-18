@@ -167,7 +167,7 @@ const DataLoggingModule = ({
           )}
         </HStack>
         <Button
-          leftIcon={<RiDownload2Line />}
+          startIcon={<RiDownload2Line />}
           onPress={handleSaveLog}
           isDisabled={!hasContent}
         >

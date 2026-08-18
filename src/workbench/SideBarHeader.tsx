@@ -256,7 +256,7 @@ const SideBarHeader = ({
                   _hover: { color: "gray.800", background: "white" },
                   _active: { color: "gray.800", background: "white" },
                 }}
-                leftIcon={
+                startIcon={
                   <Icon
                     as={RiSearch2Line}
                     css={{ fontSize: "lg", color: "#838383" }}
