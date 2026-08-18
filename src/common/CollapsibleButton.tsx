@@ -8,7 +8,7 @@ import React, { ForwardedRef } from "react";
 import { SystemStyleObject } from "styled-system/types";
 
 export interface CollapsibleButtonProps
-  extends Omit<ButtonProps, "children" | "leftIcon" | "rightIcon"> {
+  extends Omit<ButtonProps, "children" | "startIcon" | "endIcon"> {
   mode: "icon" | "button";
   text: string;
   icon: React.ReactElement;
@@ -55,8 +55,8 @@ const CollapsibleButton = React.forwardRef(
     ) : (
       <Button
         ref={ref}
-        leftIcon={icon && !iconRight ? icon : undefined}
-        rightIcon={icon && iconRight ? icon : undefined}
+        startIcon={icon && !iconRight ? icon : undefined}
+        endIcon={icon && iconRight ? icon : undefined}
         {...props}
         css={cssProp}
       >

@@ -8,8 +8,8 @@ import {
   IconButton,
   Input,
   InputGroup,
-  InputLeftElement,
-  InputRightElement,
+  InputStartElement,
+  InputEndElement,
   Text,
 } from "@microbit/ui";
 import { useCallback, useRef } from "react";
@@ -50,9 +50,9 @@ const SearchDialog = ({
     <Box>
       <Box py="1.5" px="1">
         <InputGroup>
-          <InputLeftElement pointerEvents="none">
+          <InputStartElement pointerEvents="none">
             <RiSearch2Line />
-          </InputLeftElement>
+          </InputStartElement>
           <Input
             aria-label={intl.formatMessage({ id: "search" })}
             // react-aria focuses the dialog itself on open unless told
@@ -65,7 +65,7 @@ const SearchDialog = ({
             css={{
               outline: "none",
               border: "none",
-              pl: "10",
+              ps: "10",
               fontSize: "lg",
               // Needs some thought, the default breaks the design.
               "&:is(:focus-visible, [data-focused])": {
@@ -79,7 +79,7 @@ const SearchDialog = ({
             placeholder={intl.formatMessage({ id: "search" })}
           />
           {query && (
-            <InputRightElement>
+            <InputEndElement>
               <IconButton
                 css={{ fontSize: "2xl", color: "#838383" }}
                 variant="ghost"
@@ -88,7 +88,7 @@ const SearchDialog = ({
               >
                 <RiCloseLine />
               </IconButton>
-            </InputRightElement>
+            </InputEndElement>
           )}
         </InputGroup>
       </Box>

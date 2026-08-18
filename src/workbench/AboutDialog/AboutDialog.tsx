@@ -202,7 +202,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                   ))}
                 </styled.tbody>
               </styled.table>
-              <Button leftIcon={<RiFileCopy2Line />} onPress={onCopy} size="md">
+              <Button startIcon={<RiFileCopy2Line />} onPress={onCopy} size="md">
                 <FormattedMessage id={hasCopied ? "copied" : "copy-action"} />
               </Button>
             </VStack>
@@ -236,7 +236,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                 fontSize: "lg",
                 fontWeight: "normal",
               }}
-              rightIcon={<ExpandCollapseIcon open={micropythonOpen} />}
+              endIcon={<ExpandCollapseIcon open={micropythonOpen} />}
               onPress={() => setMicropythonOpen((open) => !open)}
             >
               {intl.formatMessage({

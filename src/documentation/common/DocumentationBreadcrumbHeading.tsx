@@ -102,7 +102,7 @@ const DocumentationBreadcrumbHeading = ({
               height: "1.5rem",
             },
           }}
-          leftIcon={<RiArrowLeftSFill />}
+          startIcon={<RiArrowLeftSFill />}
         >
           <Text as="span">
             {grandparent && grandparent + " / "}

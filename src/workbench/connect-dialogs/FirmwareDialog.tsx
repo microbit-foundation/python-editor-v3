@@ -125,7 +125,7 @@ const FirmwareDialogFooter = ({
         target="_blank"
         rel="noreferrer"
         href="https://microbit.org/get-started/user-guide/firmware/"
-        rightIcon={<Icon as={RiExternalLinkLine} />}
+        endIcon={<Icon as={RiExternalLinkLine} />}
       >
         <FormattedMessage id="update-firmware-action" />
       </LinkButton>

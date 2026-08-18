@@ -97,7 +97,7 @@ const SendButton = React.forwardRef(
               ref={ref}
               size={size}
               variant="primary"
-              leftIcon={<RiUsbLine />}
+              startIcon={<RiUsbLine />}
               onPress={() => handleSendToMicrobit(sendButtonRef)}
             >
               <FormattedMessage id="send-action" />
