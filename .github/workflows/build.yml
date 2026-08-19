@@ -11,6 +11,18 @@ concurrency:
   group: ${{ github.workflow }}-${{ startsWith(github.ref, 'refs/tags/v') && 'release' || github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/v') }}
 
+env:
+  # renovate: datasource=npm depName=npm
+  NPM_VERSION: "11"
+  # renovate: datasource=npm depName=@microbit-foundation/python-editor-v3-microbit registryUrl=https://npm.pkg.github.com
+  THEME_VERSION: 0.2.0-dev.72
+  # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws registryUrl=https://npm.pkg.github.com
+  DEPLOY_AWS_VERSION: "0.6.0"
+  # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws-config registryUrl=https://npm.pkg.github.com
+  DEPLOY_AWS_CONFIG_VERSION: "0.9.0"
+  # renovate: datasource=npm depName=@microbit-foundation/circleci-npm-package-versioner registryUrl=https://npm.pkg.github.com
+  VERSIONER_VERSION: "1"
+
 jobs:
   build:
     timeout-minutes: 15
@@ -36,11 +48,11 @@ jobs:
           node-version: 24.x
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
-      - run: npm install -g npm@11 --registry=https://registry.npmjs.org
+      - run: npm install -g npm@${{ env.NPM_VERSION }} --registry=https://registry.npmjs.org
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@0.2.0-dev.72 @microbit-foundation/website-deploy-aws@0.6.0 @microbit-foundation/website-deploy-aws-config@0.9.0 @microbit-foundation/circleci-npm-package-versioner@1
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }} @microbit-foundation/website-deploy-aws@${{ env.DEPLOY_AWS_VERSION }} @microbit-foundation/website-deploy-aws-config@${{ env.DEPLOY_AWS_CONFIG_VERSION }} @microbit-foundation/circleci-npm-package-versioner@${{ env.VERSIONER_VERSION }}
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
