@@ -102,7 +102,7 @@ const ConnectDialogFooter = ({
           variant="link"
           size="lg"
           onPress={onNextDontShowAgain}
-          css={{ color: "brand.500", mr: "auto" }}
+          css={{ color: "fg.link", mr: "auto" }}
         >
           <FormattedMessage id="dont-show-again" />
         </Button>

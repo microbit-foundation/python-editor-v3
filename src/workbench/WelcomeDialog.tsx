@@ -62,7 +62,7 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
               values={{
                 link: (chunks: ReactNode) => (
                   <Link
-                    color="brand.500"
+                    color="fg.link"
                     target="_blank"
                     rel="noreferrer"
                     href={guideLink}

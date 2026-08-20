@@ -176,7 +176,7 @@ const ActiveLevel = ({
           values={{
             link: (chunks: ReactNode) => (
               <Link
-                color="brand.500"
+                color="fg.link"
                 href={microbitOrgMiciProjectsUrl(languageId)}
                 target="_blank"
                 rel="noopener"

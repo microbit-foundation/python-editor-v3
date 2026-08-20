@@ -87,11 +87,7 @@ const NotFoundDialogBody = ({
                 id="not-found-checklist-one"
                 values={{
                   link: (chunks: ReactNode) => (
-                    <Link
-                      color="brand.500"
-                      onClick={handleReviewDevice}
-                      href=""
-                    >
+                    <Link color="fg.link" onClick={handleReviewDevice} href="">
                       {chunks}
                     </Link>
                   ),
@@ -109,7 +105,7 @@ const NotFoundDialogBody = ({
                 values={{
                   link: (chunks: ReactNode) => (
                     <Link
-                      color="brand.500"
+                      color="fg.link"
                       display="inline-flex"
                       alignItems="center"
                       target="_blank"
@@ -130,7 +126,7 @@ const NotFoundDialogBody = ({
             </Text>
           </VStack>
           <Link
-            color="brand.500"
+            color="fg.link"
             display="inline-flex"
             alignItems="center"
             target="_blank"
