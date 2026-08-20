@@ -20,8 +20,6 @@ env:
   DEPLOY_AWS_VERSION: "0.6.0"
   # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws-config registryUrl=https://npm.pkg.github.com
   DEPLOY_AWS_CONFIG_VERSION: "0.9.0"
-  # renovate: datasource=npm depName=@microbit-foundation/circleci-npm-package-versioner registryUrl=https://npm.pkg.github.com
-  VERSIONER_VERSION: "1"
 
 jobs:
   build:
@@ -49,17 +47,16 @@ jobs:
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
       - run: npm install -g npm@${{ env.NPM_VERSION }} --registry=https://registry.npmjs.org
+      - uses: microbit-foundation/npm-package-versioner-action@v3
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }} @microbit-foundation/website-deploy-aws@${{ env.DEPLOY_AWS_VERSION }} @microbit-foundation/website-deploy-aws-config@${{ env.DEPLOY_AWS_CONFIG_VERSION }} @microbit-foundation/circleci-npm-package-versioner@${{ env.VERSIONER_VERSION }}
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }} @microbit-foundation/website-deploy-aws@${{ env.DEPLOY_AWS_VERSION }} @microbit-foundation/website-deploy-aws-config@${{ env.DEPLOY_AWS_CONFIG_VERSION }}
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: node ./bin/print-ci-env-stage.cjs >> $GITHUB_ENV
       - run: node ./bin/print-ci-env-public-url.cjs >> $GITHUB_ENV
-      - run: npm run ci:update-version
-        if: github.repository_owner == 'microbit-foundation'
       - run: npm run ci
         env:
           VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
