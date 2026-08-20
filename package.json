@@ -95,7 +95,6 @@
   "scripts": {
     "build": "vite build",
     "prebuild": "npm run panda",
-    "ci:update-version": "update-ci-version",
     "ci": "npm run typecheck && npm run test && npm run lint && npm run build",
     "deploy": "website-deploy-aws",
     "dev:link-ui": "rm -rf node_modules/@microbit/ui node_modules/@microbit/ui-patterns && ln -s ../../../ui/packages/ui node_modules/@microbit/ui && ln -s ../../../ui/packages/ui-patterns node_modules/@microbit/ui-patterns && rm -rf styled-system node_modules/.vite && npm run panda",
