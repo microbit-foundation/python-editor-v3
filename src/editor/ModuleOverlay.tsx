@@ -97,7 +97,8 @@ const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
               link: (chunks: ReactNode) => (
                 <Button
                   variant="link"
-                  css={{ color: "brand.500" }}
+                  // In prose, so marked by more than colour.
+                  css={{ color: "brand.500", textDecoration: "underline" }}
                   onPress={handleShowSettings}
                 >
                   {chunks}

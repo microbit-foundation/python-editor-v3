@@ -66,6 +66,7 @@ const SearchResultItem = ({
   return (
     <Stack pl="3px" pr="3px">
       <Link
+        variant="standalone"
         bgColor={viewedResults.includes(id) ? "#efedf5" : "unset"}
         borderRadius="md"
         href={url}

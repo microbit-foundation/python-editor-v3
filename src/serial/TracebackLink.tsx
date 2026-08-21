@@ -33,7 +33,13 @@ const TracebackLink = ({ traceback, children }: TracebackLinkProps) => {
     [setSelection, traceback]
   );
   return (
-    <Link data-testid="traceback-link" onClick={handleClick}>
+    // Standalone: only the location span (see MaybeTracebackLink) is
+    // underlined, not the error text sharing the click target.
+    <Link
+      variant="standalone"
+      data-testid="traceback-link"
+      onClick={handleClick}
+    >
       {children}
     </Link>
   );
