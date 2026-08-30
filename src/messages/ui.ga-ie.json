@@ -2556,49 +2556,59 @@
   "ui-patterns.language-fully-supported-heading": [
     {
       "type": 0,
-      "value": "Fully supported"
+      "value": "Tacaíocht iomlán"
     }
   ],
   "ui-patterns.language-partially-supported-heading": [
     {
       "type": 0,
-      "value": "Partially supported"
+      "value": "Tacaithe go páirteach"
     }
   ],
   "ui-patterns.language-preview-notice": [
     {
       "type": 0,
-      "value": "* These languages are an early preview of in-progress translations."
+      "value": "* Is réamhamharc luath ar aistriúcháin atá ar siúl iad na teangacha seo."
     }
   ],
   "ui-patterns.language-support-checked": [
     {
       "type": 0,
-      "value": "Supported"
+      "value": "Tacaithe"
     }
   ],
   "ui-patterns.language-support-unchecked": [
     {
       "type": 0,
-      "value": "Unsupported"
+      "value": "Gan tacaíocht"
     }
   ],
   "ui-patterns.language-supported-for": [
     {
       "type": 0,
-      "value": "Translations supported for:"
+      "value": "Aistriúcháin a dtacaítear leo le haghaidh:"
     }
   ],
   "ui-patterns.language-toast-title": [
     {
       "type": 0,
-      "value": "Language not fully supported"
+      "value": "Teanga nach dtacaítear go hiomlán léi"
+    }
+  ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
     }
   ],
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Mionrian"
+      "value": "Grabhróg aráin"
     }
   ],
   "ui.close-action": [
@@ -2610,13 +2620,13 @@
   "ui.combobox-listbox": [
     {
       "type": 0,
-      "value": "Suggestions"
+      "value": "Moltaí"
     }
   ],
   "ui.combobox-trigger": [
     {
       "type": 0,
-      "value": "Show suggestions"
+      "value": "Taispeáin moltaí"
     }
   ],
   "ui.loading": [
@@ -2634,7 +2644,7 @@
   "ui.numberfield-decrease": [
     {
       "type": 0,
-      "value": "Decrease "
+      "value": "Laghdaigh "
     },
     {
       "type": 1,
@@ -2644,7 +2654,7 @@
   "ui.numberfield-increase": [
     {
       "type": 0,
-      "value": "Increase "
+      "value": "Méadaigh "
     },
     {
       "type": 1,
@@ -2654,7 +2664,7 @@
   "ui.select-placeholder": [
     {
       "type": 0,
-      "value": "Select an item"
+      "value": "Roghnaigh mír"
     }
   ],
   "ui.select-row-action": [
@@ -2675,7 +2685,40 @@
             },
             {
               "type": 0,
-              "value": " notification"
+              "value": " fógra"
+            }
+          ]
+        },
+        "two": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " fhógra"
+            }
+          ]
+        },
+        "few": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " fógraí"
+            }
+          ]
+        },
+        "many": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " notifications"
             }
           ]
         },
@@ -2686,7 +2729,7 @@
             },
             {
               "type": 0,
-              "value": " notifications"
+              "value": " fógraí"
             }
           ]
         }
@@ -2708,13 +2751,13 @@
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "Eolas"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "D'éirigh leis"
+      "value": "Rath"
     }
   ],
   "ui.toast-status-warning": [

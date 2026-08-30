@@ -2516,7 +2516,7 @@
   "ui-patterns.language-preview-notice": [
     {
       "type": 0,
-      "value": "* These languages are an early preview of in-progress translations."
+      "value": "* Te języki są we wczesnym podglądzie bieżącego tłumaczenia."
     }
   ],
   "ui-patterns.language-support-checked": [
@@ -2541,6 +2541,16 @@
     {
       "type": 0,
       "value": "Język nie w pełni obsługiwany"
+    }
+  ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
     }
   ],
   "ui.breadcrumb": [

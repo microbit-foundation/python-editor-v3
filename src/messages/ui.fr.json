@@ -2445,6 +2445,16 @@
       "value": "La langue n'est pas entièrement prise en charge"
     }
   ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,

@@ -1980,85 +1980,95 @@
   "ui-patterns.help-translate": [
     {
       "type": 0,
-      "value": "Help translate"
+      "value": "crwdns370126:0crwdne370126:0"
     }
   ],
   "ui-patterns.language": [
     {
       "type": 0,
-      "value": "Language"
+      "value": "crwdns370128:0crwdne370128:0"
     }
   ],
   "ui-patterns.language-fully-supported-heading": [
     {
       "type": 0,
-      "value": "Fully supported"
+      "value": "crwdns370130:0crwdne370130:0"
     }
   ],
   "ui-patterns.language-partially-supported-heading": [
     {
       "type": 0,
-      "value": "Partially supported"
+      "value": "crwdns370132:0crwdne370132:0"
     }
   ],
   "ui-patterns.language-preview-notice": [
     {
       "type": 0,
-      "value": "* These languages are an early preview of in-progress translations."
+      "value": "crwdns370134:0crwdne370134:0"
     }
   ],
   "ui-patterns.language-support-checked": [
     {
       "type": 0,
-      "value": "Supported"
+      "value": "crwdns370136:0crwdne370136:0"
     }
   ],
   "ui-patterns.language-support-unchecked": [
     {
       "type": 0,
-      "value": "Unsupported"
+      "value": "crwdns370138:0crwdne370138:0"
     }
   ],
   "ui-patterns.language-supported-for": [
     {
       "type": 0,
-      "value": "Translations supported for:"
+      "value": "crwdns370140:0crwdne370140:0"
     }
   ],
   "ui-patterns.language-toast-title": [
     {
       "type": 0,
-      "value": "Language not fully supported"
+      "value": "crwdns370142:0crwdne370142:0"
+    }
+  ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
     }
   ],
   "ui.breadcrumb": [
     {
       "type": 0,
-      "value": "Breadcrumb"
+      "value": "crwdns370036:0crwdne370036:0"
     }
   ],
   "ui.close-action": [
     {
       "type": 0,
-      "value": "crwdns362700:0crwdne362700:0"
+      "value": "crwdns370038:0crwdne370038:0"
     }
   ],
   "ui.combobox-listbox": [
     {
       "type": 0,
-      "value": "Suggestions"
+      "value": "crwdns370040:0crwdne370040:0"
     }
   ],
   "ui.combobox-trigger": [
     {
       "type": 0,
-      "value": "Show suggestions"
+      "value": "crwdns370042:0crwdne370042:0"
     }
   ],
   "ui.loading": [
     {
       "type": 0,
-      "value": "Loading"
+      "value": "crwdns370044:0crwdne370044:0"
     }
   ],
   "ui.new-tab-notice": [
@@ -2070,93 +2080,79 @@
   "ui.numberfield-decrease": [
     {
       "type": 0,
-      "value": "Decrease "
+      "value": "crwdns370046:0"
     },
     {
       "type": 1,
       "value": "fieldLabel"
+    },
+    {
+      "type": 0,
+      "value": "crwdne370046:0"
     }
   ],
   "ui.numberfield-increase": [
     {
       "type": 0,
-      "value": "Increase "
+      "value": "crwdns370048:0"
     },
     {
       "type": 1,
       "value": "fieldLabel"
+    },
+    {
+      "type": 0,
+      "value": "crwdne370048:0"
     }
   ],
   "ui.select-placeholder": [
     {
       "type": 0,
-      "value": "Select an item"
+      "value": "crwdns370050:0crwdne370050:0"
     }
   ],
   "ui.select-row-action": [
     {
       "type": 0,
-      "value": "Select"
+      "value": "crwdns370052:0crwdne370052:0"
     }
   ],
   "ui.toast-region": [
     {
-      "type": 6,
-      "value": "count",
-      "options": {
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " notification"
-            }
-          ]
-        },
-        "other": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " notifications"
-            }
-          ]
-        }
-      },
-      "offset": 0,
-      "pluralType": "cardinal"
+      "type": 0,
+      "value": "crwdns370054:0count="
+    },
+    {
+      "type": 1,
+      "value": "count"
     },
     {
       "type": 0,
-      "value": "."
+      "value": "crwdne370054:0"
     }
   ],
   "ui.toast-status-error": [
     {
       "type": 0,
-      "value": "Error"
+      "value": "crwdns370056:0crwdne370056:0"
     }
   ],
   "ui.toast-status-info": [
     {
       "type": 0,
-      "value": "Information"
+      "value": "crwdns370058:0crwdne370058:0"
     }
   ],
   "ui.toast-status-success": [
     {
       "type": 0,
-      "value": "Success"
+      "value": "crwdns370060:0crwdne370060:0"
     }
   ],
   "ui.toast-status-warning": [
     {
       "type": 0,
-      "value": "Warning"
+      "value": "crwdns370062:0crwdne370062:0"
     }
   ],
   "undo": [

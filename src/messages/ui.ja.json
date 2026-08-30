@@ -2412,7 +2412,7 @@
   "ui-patterns.language-preview-notice": [
     {
       "type": 0,
-      "value": "* These languages are an early preview of in-progress translations."
+      "value": "*これらの言語は、翻訳の早期プレビューを実施中です。"
     }
   ],
   "ui-patterns.language-support-checked": [
@@ -2437,6 +2437,16 @@
     {
       "type": 0,
       "value": "言語が完全にサポートされていません"
+    }
+  ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
     }
   ],
   "ui.breadcrumb": [
