@@ -13,12 +13,12 @@ import {
   ModalFooter,
   Text,
 } from "@microbit/ui";
+import { YoutubeVideoEmbed } from "@microbit/ui-patterns";
 import { ReactNode } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { HStack, Stack, VStack } from "styled-system/jsx";
 import DialogHeading from "../common/DialogHeading";
-import YoutubeVideoEmbed from "../common/YoutubeVideoEmbed";
 import { useDeployment } from "../deployment";
 
 interface WelcomeDialogProps {
@@ -30,7 +30,7 @@ interface WelcomeDialogProps {
 const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
   const { guideLink } = useDeployment();
   const intl = useIntl();
-  const welcomeVideoAltText = intl.formatMessage({ id: "welcome-video-alt" });
+  const welcomeVideoTitle = intl.formatMessage({ id: "welcome-video-alt" });
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl">
       <ModalCloseButton />
@@ -50,7 +50,7 @@ const WelcomeDialog = ({ youtubeId, isOpen, onClose }: WelcomeDialogProps) => {
             </DialogHeading>
             <YoutubeVideoEmbed
               youtubeId={youtubeId}
-              alt={welcomeVideoAltText}
+              title={welcomeVideoTitle}
             />
           </Stack>
           <Text>

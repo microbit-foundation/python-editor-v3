@@ -2419,13 +2419,13 @@
   "ui-patterns.language-fully-supported-heading": [
     {
       "type": 0,
-      "value": "Fully supported"
+      "value": "完全支持"
     }
   ],
   "ui-patterns.language-partially-supported-heading": [
     {
       "type": 0,
-      "value": "Partially supported"
+      "value": "部分支持"
     }
   ],
   "ui-patterns.language-preview-notice": [
@@ -2437,25 +2437,35 @@
   "ui-patterns.language-support-checked": [
     {
       "type": 0,
-      "value": "Supported"
+      "value": "支持"
     }
   ],
   "ui-patterns.language-support-unchecked": [
     {
       "type": 0,
-      "value": "Unsupported"
+      "value": "不支持"
     }
   ],
   "ui-patterns.language-supported-for": [
     {
       "type": 0,
-      "value": "Translations supported for:"
+      "value": "翻译支持:"
     }
   ],
   "ui-patterns.language-toast-title": [
     {
       "type": 0,
-      "value": "Language not fully supported"
+      "value": "该语言没有完全支持"
+    }
+  ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
     }
   ],
   "ui.breadcrumb": [

@@ -2460,7 +2460,7 @@
   "ui-patterns.language-preview-notice": [
     {
       "type": 0,
-      "value": "* These languages are an early preview of in-progress translations."
+      "value": "* Deze talen zijn een eerste voorproefje van de vertalingen waaraan momenteel wordt gewerkt."
     }
   ],
   "ui-patterns.language-support-checked": [
@@ -2485,6 +2485,16 @@
     {
       "type": 0,
       "value": "Taal niet volledig ondersteund"
+    }
+  ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
     }
   ],
   "ui.breadcrumb": [

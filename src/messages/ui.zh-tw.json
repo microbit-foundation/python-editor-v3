@@ -2457,6 +2457,16 @@
       "value": "語言未完全支持"
     }
   ],
+  "ui-patterns.play-video": [
+    {
+      "type": 0,
+      "value": "Play video: "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
   "ui.breadcrumb": [
     {
       "type": 0,
