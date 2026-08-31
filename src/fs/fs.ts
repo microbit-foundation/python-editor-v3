@@ -9,7 +9,7 @@ import {
   MicropythonFsHex,
 } from "@microbit/microbit-fs";
 import { fromByteArray, toByteArray } from "base64-js";
-import sortBy from "lodash.sortby";
+import { sortBy } from "../common/sort-util";
 import { lineNumFromUint8Array } from "../common/text-util";
 import { FlashDataError, BoardVersion } from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import debounce from "lodash.debounce";
+import { debounce } from "../common/debounce-util";
 import { FileSystem, VersionAction, MAIN_FILE } from "./fs";
 import { Logging } from "../logging/logging";
 import {

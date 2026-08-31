@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { Divider, Link, List, ListItem } from "@microbit/ui";
-import sortBy from "lodash.sortby";
+import { sortBy } from "../../common/sort-util";
 import { ReactNode, useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { SystemStyleObject } from "styled-system/types";
