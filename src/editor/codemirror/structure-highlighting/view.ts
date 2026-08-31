@@ -119,7 +119,7 @@ export const codeStructureView = (option: "full" | "simple") =>
             end - 1,
             topLineNumber
           );
-          if (!bottomPos) {
+          if (bottomPos === undefined) {
             // Not sure if this is possible in practice due to the grammar,
             // but best to bail if we encounter it in error scenarios.
             return undefined;

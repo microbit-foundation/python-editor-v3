@@ -253,6 +253,14 @@ describe("createCompletionSource", () => {
       expect(state.selection.main.from).toEqual("display.scroll(".length);
     });
 
+    it("inserts brackets for functions without LSP data", async () => {
+      // data is optional in LSP even though Pyright always sends it.
+      const { state } = await applyOption("sle█", [
+        { label: "sleep", kind: CompletionItemKind.Function },
+      ]);
+      expect(state.doc.toString()).toEqual("sleep()");
+    });
+
     it("skips brackets when Pyright disables them", async () => {
       // Pyright sets funcParensDisabled for e.g. function completions in imports.
       const { state } = await applyOption("from microbit import sle█", [

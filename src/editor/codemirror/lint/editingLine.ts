@@ -21,7 +21,7 @@ export class EditingLineViewPlugin {
       return;
     }
     const mainIndex = update.state.selection?.asSingle()?.ranges[0]?.from;
-    if (!mainIndex) {
+    if (mainIndex === undefined) {
       return undefined;
     }
     const doc = update.state.doc;

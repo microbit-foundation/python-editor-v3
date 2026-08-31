@@ -99,6 +99,25 @@ describe("EditingLineViewPlugin", () => {
     expect(editingLineEffectValues(update)).toEqual([2]);
   });
 
+  it("marks the line as edited when typing at the start of the document", async () => {
+    const base = EditorState.create({
+      doc: "",
+      extensions: [editingLineState],
+    });
+    const tr = base.update({
+      changes: { from: 0, insert: "x" },
+      selection: { anchor: 0 },
+    });
+    const plugin = new EditingLineViewPlugin();
+    const update = createUpdate(tr.state, tr.changes, {
+      docChanged: true,
+      selectionSet: true,
+    });
+    plugin.update(update);
+    await flushMicrotasks();
+    expect(editingLineEffectValues(update)).toEqual([1]);
+  });
+
   it("clears after the editing timeout", async () => {
     const base = createState();
     const tr = base.update({

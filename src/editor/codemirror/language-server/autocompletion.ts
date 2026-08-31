@@ -119,7 +119,7 @@ export const createCompletionSource =
                 if (
                   // funcParensDisabled is set to true by Pyright for e.g. a function completion in an import
                   (completion.type === "function" &&
-                    !item.data.funcParensDisabled) ||
+                    !item.data?.funcParensDisabled) ||
                   completion.type === "method"
                 ) {
                   const bracketTransaction = insertBracket(view.state, "(");

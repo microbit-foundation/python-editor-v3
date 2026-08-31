@@ -83,6 +83,35 @@ describe("signatureHelp", () => {
     expect(dom.textContent).toContain("Scrolls text on the display.");
   });
 
+  it("renders the first signature when activeSignature is omitted", () => {
+    // The LSP spec allows activeSignature to be omitted as well as null.
+    let state = createState("display.scroll()");
+    state = state.update({
+      effects: [
+        setSignatureHelpRequestPosition.of(15),
+        setSignatureHelpResult.of({
+          ...signatureHelpResult,
+          activeSignature: undefined,
+        }),
+      ],
+    }).state;
+    const { dom } = tooltips(state)[0].create({} as never);
+    expect(dom.querySelector("code")!.textContent).toEqual(
+      "scroll(text, delay=150)"
+    );
+  });
+
+  it("shows no tooltip for a result with no signatures", () => {
+    let state = createState("display.scroll()");
+    state = state.update({
+      effects: [
+        setSignatureHelpRequestPosition.of(15),
+        setSignatureHelpResult.of({ signatures: [] }),
+      ],
+    }).state;
+    expect(tooltips(state)).toEqual([]);
+  });
+
   it("clears the tooltip when the result is cleared", () => {
     let state = createState("display.scroll()");
     state = state.update({

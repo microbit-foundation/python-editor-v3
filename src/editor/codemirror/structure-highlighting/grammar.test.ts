@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { python } from "@codemirror/lang-python";
-import { ensureSyntaxTree } from "@codemirror/language";
+import { syntaxTree } from "@codemirror/language";
 import { EditorState } from "@codemirror/state";
 import { codeBlocks, grammarInfo } from "./blocks";
 
@@ -19,9 +19,11 @@ import { codeBlocks, grammarInfo } from "./blocks";
 
 const createState = (doc: string): EditorState => {
   const state = EditorState.create({ doc, extensions: [python()] });
-  const tree = ensureSyntaxTree(state, doc.length, 10_000);
-  if (!tree) {
-    throw new Error("Parse did not complete");
+  // Headless, only the initial parse budget applies and codeBlocks reads
+  // syntaxTree(state), so a large document would silently produce a
+  // partial tree. Fine for the small documents here, but fail loudly.
+  if (syntaxTree(state).length < state.doc.length) {
+    throw new Error("Document too large for the initial headless parse");
   }
   return state;
 };

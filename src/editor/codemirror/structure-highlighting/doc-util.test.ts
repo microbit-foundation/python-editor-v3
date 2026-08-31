@@ -18,8 +18,6 @@ const diagnosticDecorations = (
   );
 
 describe("skipBodyTrailers", () => {
-  // min=1 matches production usage in view.ts; the default of 0 is out of
-  // range for CodeMirror's 1-based line numbers.
   const check = (doc: string, position: number) =>
     skipBodyTrailers(EditorState.create({ doc }), undefined, position, 1);
 

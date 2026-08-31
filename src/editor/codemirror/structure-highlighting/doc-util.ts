@@ -20,7 +20,7 @@ import { DecorationSet } from "@codemirror/view";
  * @param state Document state.
  * @param position Document character position.
  * @param hints The unreachable code hints.
- * @param min The minimum line to consider.
+ * @param min The minimum (1-based) line to consider.
  *
  * @returns End of last line we consider to be part of the body after
  *          skipping or undefined if we go past min.
@@ -29,7 +29,7 @@ export const skipBodyTrailers = (
   state: EditorState,
   hints: DecorationSet | undefined,
   position: number,
-  min: number = 0
+  min: number
 ): number | undefined => {
   for (
     let lineNumber = state.doc.lineAt(position).number;
