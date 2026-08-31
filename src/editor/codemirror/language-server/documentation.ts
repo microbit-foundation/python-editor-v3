@@ -77,7 +77,10 @@ export const renderMarkdown = (
   parts: DocSections = DocSections.All
 ): SanitisedHtml => {
   const html = DOMPurify.sanitize(
-    marked.parse(fixupMarkdown(subsetMarkdown(markdown, parts)), { gfm: true })
+    marked.parse(fixupMarkdown(subsetMarkdown(markdown, parts)), {
+      gfm: true,
+      async: false,
+    })
   );
   return {
     __html: html,
