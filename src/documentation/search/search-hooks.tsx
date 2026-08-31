@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import debounce from "lodash.debounce";
+import { debounce } from "../../common/debounce-util";
 import {
   createContext,
   ReactNode,

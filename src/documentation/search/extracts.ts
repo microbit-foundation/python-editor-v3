@@ -3,16 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { sortBy } from "../../common/sort-util";
 import { Extract } from "./common";
 
 export type Position = [number, number];
 
-// Avoid lodash in the worker
-export const sortByStart = (positions: Position[]): Position[] => {
-  const copy = [...positions];
-  copy.sort((a, b) => (a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0));
-  return copy;
-};
+export const sortByStart = (positions: Position[]): Position[] =>
+  sortBy(positions, (p) => p[0]);
 
 /**
  * Return text or matches covering the string from start to end.

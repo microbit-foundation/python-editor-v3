@@ -11,7 +11,7 @@ import {
   insertBracket,
 } from "@codemirror/autocomplete";
 import { TransactionSpec } from "@codemirror/state";
-import sortBy from "lodash.sortby";
+import { sortBy } from "../../../common/sort-util";
 import { IntlShape } from "react-intl";
 import * as LSP from "vscode-languageserver-protocol";
 import {
