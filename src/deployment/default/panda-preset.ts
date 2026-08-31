@@ -17,6 +17,15 @@ export const appPreset = definePreset({
   name: "python-editor-v3",
   theme: {
     extend: {
+      // Documentation panel navigation transitions (HeadedScrollablePanel).
+      keyframes: {
+        slideInForward: {
+          from: { transform: "translateX(100%)" },
+        },
+        slideInBack: {
+          from: { transform: "translateX(-100%)" },
+        },
+      },
       tokens: {
         // This app's stacking contexts, calibrated against third-party
         // layers (xterm.js ~10, the library's overlay scale from 1000).
