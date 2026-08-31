@@ -47,99 +47,101 @@ export const autocompletion = (
   apiReferenceMap: ApiReferenceMap
 ) =>
   cmAutocompletion({
-    override: [
-      async (context: CompletionContext): Promise<CompletionResult | null> => {
-        const client = context.state.facet(clientFacet);
-        const uri = context.state.facet(uriFacet);
-        if (!client || !uri || !client.capabilities?.completionProvider) {
-          return null;
-        }
-
-        let triggerKind: CompletionTriggerKind | undefined;
-        let triggerCharacter: string | undefined;
-        const before = context.matchBefore(identifierLike);
-        if (context.explicit || before) {
-          triggerKind = CompletionTriggerKind.Invoked;
-        } else {
-          const triggerCharactersRegExp = createTriggerCharactersRegExp(client);
-          const match =
-            triggerCharactersRegExp &&
-            context.matchBefore(triggerCharactersRegExp);
-          if (match) {
-            triggerKind = CompletionTriggerKind.TriggerCharacter;
-            triggerCharacter = match.text;
-          } else {
-            return null;
-          }
-        }
-
-        const documentationResolver = createDocumentationResolver(
-          client,
-          intl,
-          apiReferenceMap
-        );
-        const results = await client.completionRequest({
-          textDocument: {
-            uri,
-          },
-          position: offsetToPosition(context.state.doc, context.pos),
-          context: {
-            triggerKind,
-            triggerCharacter,
-          },
-        });
-        return {
-          from: before ? before.from : context.pos,
-          // Could vary these based on isIncomplete? Needs investigation.
-          // Very desirable to set most of the time to remove flicker.
-          filter: true,
-          validFor: identifierLike,
-          options: sortBy(
-            results.items
-              // For now we don't support these edits (they usually add imports).
-              .filter((x) => !x.additionalTextEdits)
-              .map((item) => {
-                const completion: AugmentedCompletion = {
-                  // In practice we don't get textEdit fields back from Pyright so the label is used.
-                  label: item.label,
-                  apply: (view, completion, from, to) => {
-                    logging.event({ type: "autocomplete-accept" });
-                    const insert = item.label;
-                    const transactions: TransactionSpec[] = [
-                      {
-                        changes: { from, to, insert },
-                        selection: { anchor: from + insert.length },
-                      },
-                    ];
-                    if (
-                      // funcParensDisabled is set to true by Pyright for e.g. a function completion in an import
-                      (completion.type === "function" &&
-                        !item.data.funcParensDisabled) ||
-                      completion.type === "method"
-                    ) {
-                      const bracketTransaction = insertBracket(view.state, "(");
-                      if (bracketTransaction) {
-                        transactions.push(bracketTransaction);
-                      }
-                    }
-                    view.dispatch(...transactions);
-                  },
-                  type: item.kind ? mapCompletionKind[item.kind] : undefined,
-                  detail: item.detail,
-                  info: documentationResolver,
-                  boost: boost(item),
-                  // Needed later for resolving.
-                  item,
-                };
-                return completion;
-              }),
-            (item) => item.item.sortText ?? item.label
-          ),
-        };
-      },
-    ],
+    override: [createCompletionSource(intl, logging, apiReferenceMap)],
     closeOnBlur: false,
   });
+
+// Exported for unit testing.
+export const createCompletionSource =
+  (intl: IntlShape, logging: Logging, apiReferenceMap: ApiReferenceMap) =>
+  async (context: CompletionContext): Promise<CompletionResult | null> => {
+    const client = context.state.facet(clientFacet);
+    const uri = context.state.facet(uriFacet);
+    if (!client || !uri || !client.capabilities?.completionProvider) {
+      return null;
+    }
+
+    let triggerKind: CompletionTriggerKind | undefined;
+    let triggerCharacter: string | undefined;
+    const before = context.matchBefore(identifierLike);
+    if (context.explicit || before) {
+      triggerKind = CompletionTriggerKind.Invoked;
+    } else {
+      const triggerCharactersRegExp = createTriggerCharactersRegExp(client);
+      const match =
+        triggerCharactersRegExp && context.matchBefore(triggerCharactersRegExp);
+      if (match) {
+        triggerKind = CompletionTriggerKind.TriggerCharacter;
+        triggerCharacter = match.text;
+      } else {
+        return null;
+      }
+    }
+
+    const documentationResolver = createDocumentationResolver(
+      client,
+      intl,
+      apiReferenceMap
+    );
+    const results = await client.completionRequest({
+      textDocument: {
+        uri,
+      },
+      position: offsetToPosition(context.state.doc, context.pos),
+      context: {
+        triggerKind,
+        triggerCharacter,
+      },
+    });
+    return {
+      from: before ? before.from : context.pos,
+      // Could vary these based on isIncomplete? Needs investigation.
+      // Very desirable to set most of the time to remove flicker.
+      filter: true,
+      validFor: identifierLike,
+      options: sortBy(
+        results.items
+          // For now we don't support these edits (they usually add imports).
+          .filter((x) => !x.additionalTextEdits)
+          .map((item) => {
+            const completion: AugmentedCompletion = {
+              // In practice we don't get textEdit fields back from Pyright so the label is used.
+              label: item.label,
+              apply: (view, completion, from, to) => {
+                logging.event({ type: "autocomplete-accept" });
+                const insert = item.label;
+                const transactions: TransactionSpec[] = [
+                  {
+                    changes: { from, to, insert },
+                    selection: { anchor: from + insert.length },
+                  },
+                ];
+                if (
+                  // funcParensDisabled is set to true by Pyright for e.g. a function completion in an import
+                  (completion.type === "function" &&
+                    !item.data?.funcParensDisabled) ||
+                  completion.type === "method"
+                ) {
+                  const bracketTransaction = insertBracket(view.state, "(");
+                  if (bracketTransaction) {
+                    transactions.push(bracketTransaction);
+                  }
+                }
+                view.dispatch(...transactions);
+              },
+              type: item.kind ? mapCompletionKind[item.kind] : undefined,
+              detail: item.detail,
+              info: documentationResolver,
+              boost: boost(item),
+              // Needed later for resolving.
+              item,
+            };
+            return completion;
+          }),
+        (item) => item.item.sortText ?? item.label
+      ),
+    };
+  };
 
 const createDocumentationResolver =
   (

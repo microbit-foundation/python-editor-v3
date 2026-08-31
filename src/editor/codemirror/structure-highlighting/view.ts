@@ -6,24 +6,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { indentUnit, syntaxTree } from "@codemirror/language";
+import { indentUnit } from "@codemirror/language";
 import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 import { lintState } from "../lint/lint";
+import { codeBlocks } from "./blocks";
 import { overlapsUnnecessaryCode, skipBodyTrailers } from "./doc-util";
 import { Positions, VisualBlock } from "./visual-block";
-
-// Grammar is defined by https://github.com/lezer-parser/python/blob/master/src/python.grammar
-const grammarInfo = {
-  compoundStatements: new Set([
-    "IfStatement",
-    "WhileStatement",
-    "ForStatement",
-    "TryStatement",
-    "WithStatement",
-    "FunctionDefinition",
-    "ClassDefinition",
-  ]),
-};
 
 class Measure {
   constructor(
@@ -131,7 +119,7 @@ export const codeStructureView = (option: "full" | "simple") =>
             end - 1,
             topLineNumber
           );
-          if (!bottomPos) {
+          if (bottomPos === undefined) {
             // Not sure if this is possible in practice due to the grammar,
             // but best to bail if we encounter it in error scenarios.
             return undefined;
@@ -155,81 +143,33 @@ export const codeStructureView = (option: "full" | "simple") =>
 
         const bodyPullBack = option === "full";
         const blocks: VisualBlock[] = [];
-        // We could throw away blocks if we tracked returning to the top-level or started from
-        // the closest top-level node. Otherwise we need to render them because they overlap.
-        // Should consider switching to tree cursors to avoid allocating syntax nodes.
-        let depth = 0;
-        const tree = syntaxTree(state);
-        const parents: {
-          name: string;
-          children?: { name: string; start: number; end: number }[];
-        }[] = [];
-        if (tree) {
-          tree.iterate({
-            enter: (node) => {
-              parents.push({ name: node.type.name });
-              if (node.type.name === "Body") {
-                depth++;
-              }
-            },
-            leave: (node) => {
-              if (node.type.name === "Body") {
-                depth--;
-              }
-
-              const leaving = parents.pop()!;
-              const children = leaving.children;
-              if (children) {
-                // Draw an l-shape for each run of non-Body (e.g. keywords, test expressions) followed by Body in the child list.
-                let runStart = 0;
-                for (let i = 0; i < children.length; ++i) {
-                  if (children[i].name === "Body") {
-                    const startNode = children[runStart];
-                    const bodyNode = children[i];
-
-                    const parentPositions = positionsForNode(
-                      view,
-                      startNode.start,
-                      bodyNode.start,
-                      depth,
-                      undefined
-                    );
-                    const bodyPositions = positionsForNode(
-                      view,
-                      bodyNode.start,
-                      bodyNode.end,
-                      depth + 1,
-                      parentPositions
-                    );
-                    if (parentPositions && bodyPositions) {
-                      blocks.push(
-                        new VisualBlock(
-                          bodyPullBack,
-                          width,
-                          parentPositions,
-                          bodyPositions
-                        )
-                      );
-                    }
-                    runStart = i + 1;
-                  }
-                }
-              }
-
-              // Poke our information into our parent if we need to track it.
-              const parent = parents[parents.length - 1];
-              if (parent && grammarInfo.compoundStatements.has(parent.name)) {
-                if (!parent.children) {
-                  parent.children = [];
-                }
-                parent.children.push({
-                  name: node.type.name,
-                  start: node.from,
-                  end: node.to,
-                });
-              }
-            },
-          });
+        // Innermost first, as positionsForNode's cursor attribution relies on.
+        for (const block of codeBlocks(state)) {
+          // Draw an l-shape for each header/body run.
+          const parentPositions = positionsForNode(
+            view,
+            block.start,
+            block.bodyStart,
+            block.depth,
+            undefined
+          );
+          const bodyPositions = positionsForNode(
+            view,
+            block.bodyStart,
+            block.bodyEnd,
+            block.depth + 1,
+            parentPositions
+          );
+          if (parentPositions && bodyPositions) {
+            blocks.push(
+              new VisualBlock(
+                bodyPullBack,
+                width,
+                parentPositions,
+                bodyPositions
+              )
+            );
+          }
         }
         return new Measure(width, gutterWidth, blocks.reverse());
       }

@@ -174,7 +174,7 @@ export const signatureHelp = (
     provide: (f) =>
       showTooltip.from(f, (val) => {
         const { result, pos } = val;
-        if (result) {
+        if (result && result.signatures.length > 0) {
           return {
             pos,
             above: true,
@@ -268,10 +268,11 @@ export const signatureHelp = (
   ): Node => {
     const { activeSignature: activeSignatureIndex, signatures } = help;
     // We intentionally do something minimal here to minimise distraction.
+    // The LSP spec allows activeSignature to be omitted as well as null.
     const activeSignature =
-      activeSignatureIndex === null
+      activeSignatureIndex == null
         ? signatures[0]
-        : signatures[activeSignatureIndex!];
+        : signatures[activeSignatureIndex];
     const {
       label,
       parameters,
