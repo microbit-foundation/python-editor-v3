@@ -26,9 +26,7 @@ import { Position, contextExtracts, fullStringExtracts } from "./extracts";
 // The lunr-languages plugins add `multiLanguage` and per-language plugins to
 // the lunr namespace at runtime; these members aren't described by @types/lunr.
 type LunrLanguagePlugin = lunr.Builder.Plugin & {
-  tokenizer?: (
-    obj?: string | object | object[] | null | undefined
-  ) => lunr.Token[];
+  tokenizer?: (obj?: string | object | object[] | null) => lunr.Token[];
 };
 export type LunrWithLanguages = typeof lunr &
   Record<LunrLanguage, LunrLanguagePlugin> & {
@@ -232,7 +230,7 @@ const apiSearchableContent = (
 };
 
 type TokenizerFunction = {
-  (obj?: string | object | object[] | null | undefined): lunr.Token[];
+  (obj?: string | object | object[] | null): lunr.Token[];
   separator: RegExp;
 };
 
@@ -268,7 +266,7 @@ export const buildSearchIndex = (
       ? lunrWithLanguages[language].tokenizer
       : undefined;
     customTokenizer = Object.assign(
-      (obj?: string | object | object[] | null | undefined) => {
+      (obj?: string | object | object[] | null) => {
         const tokens = lunr.tokenizer(obj);
         if (!languageTokenizer) {
           return tokens;

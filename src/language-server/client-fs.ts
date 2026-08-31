@@ -78,7 +78,7 @@ export const trackFsChanges = (
             break;
           }
           default:
-            throw new Error("Unexpected change: " + change.type);
+            throw new Error("Unexpected change: " + String(change.type));
         }
       }
     } catch (e) {

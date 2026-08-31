@@ -140,7 +140,7 @@ const useManagedTermimal = (
         );
         (xtermAccessibilityEl as HTMLElement).style.width =
           (xtermScreenEl as HTMLElement).offsetWidth + "px";
-      } catch (e) {
+      } catch {
         // It throws if you resize it when not visible but it does no harm.
       }
     });
@@ -211,7 +211,7 @@ const useManagedTermimal = (
     );
     try {
       fitAddon.fit();
-    } catch (e) {
+    } catch {
       // It throws if you resize it when not visible but it does no harm.
     }
   }, [currentTerminalRef, fitAddon, fontSizePt]);

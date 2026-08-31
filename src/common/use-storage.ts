@@ -43,7 +43,7 @@ export function useStorage<T extends object>(
         }
 
         return parsed;
-      } catch (e) {
+      } catch {
         // Better than exploding forever.
         return overiddenDefault;
       }
@@ -69,7 +69,7 @@ export function useStorage<T extends object>(
 const localStorageIfPossible = () => {
   try {
     return window.localStorage;
-  } catch (e) {
+  } catch {
     // Handle possible SecurityError, absent window.
     return undefined;
   }
@@ -78,7 +78,7 @@ const localStorageIfPossible = () => {
 const sessionStorageIfPossible = () => {
   try {
     return window.sessionStorage;
-  } catch (e) {
+  } catch {
     // Handle possible SecurityError, absent window.
     return undefined;
   }

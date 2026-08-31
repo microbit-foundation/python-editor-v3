@@ -205,7 +205,7 @@ const preceedingLinesExclusive = function* (state: EditorState, from: number) {
   // Special case: if there was no line break on the previous line then
   // we're inserting one. So we need to use the current line as the preceding
   // line.
-  let initial =
+  const initial =
     initialLine.to === from ? initialLine.number : initialLine.number - 1;
   for (let line = initial; line >= 1; --line) {
     yield state.doc.line(line);
@@ -272,7 +272,7 @@ const skipWhitespaceLines = (
   pos: number,
   dir: 1 | -1 = 1
 ): number => {
-  let original = doc.lineAt(pos);
+  const original = doc.lineAt(pos);
   let line = original;
   while (!line.text.trim()) {
     try {

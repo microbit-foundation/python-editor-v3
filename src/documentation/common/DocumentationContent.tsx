@@ -183,7 +183,7 @@ const serializers = {
   container: ({ children }: HasChildren) => <>{children}</>,
   types: {
     block: (props: { node: { style: string }; children: any }) => {
-      let style = props.node.style;
+      const style = props.node.style;
       if (/^h\d/.test(style)) {
         return (
           // For the moment we only support a h3 in ideas.

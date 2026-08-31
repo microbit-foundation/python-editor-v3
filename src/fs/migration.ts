@@ -51,7 +51,7 @@ export const parseMigrationFromUrl = (
         return { migration: json, postMigrationUrl };
       }
     }
-  } catch (e) {
+  } catch {
     // Ultimate source is from the URL so we need to be robust to tampering.
   }
   return undefined;

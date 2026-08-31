@@ -8,11 +8,7 @@ import { ReactNode, useEffect, useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { css } from "styled-system/css";
 import { Box, HStack, Stack, styled } from "styled-system/jsx";
-import {
-  RangeSensor as RangeSensorType,
-  SensorStateKey,
-  SimulatorState,
-} from "../device/simulator";
+import { SensorStateKey, SimulatorState } from "../device/simulator";
 import Axis from "./Axis";
 import CompassHeadingIcon from "./icons/compass-heading.svg?react";
 import RangeSensor from "./RangeSensor";
@@ -48,7 +44,7 @@ const CompassModule = ({
           id="compassHeading"
           icon={icon}
           title={intl.formatMessage({ id: "simulator-compass-heading-one" })}
-          sensor={compassHeading as RangeSensorType}
+          sensor={compassHeading}
           onSensorChange={onValueChange}
           minimised={minimised}
         />
@@ -63,7 +59,7 @@ const CompassModule = ({
               title={intl.formatMessage({
                 id: "simulator-compass-heading-one",
               })}
-              sensor={compassHeading as RangeSensorType}
+              sensor={compassHeading}
               onSensorChange={onValueChange}
               minimised={minimised}
             />

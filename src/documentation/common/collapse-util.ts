@@ -50,7 +50,7 @@ export const decorateWithCollapseNodes = (
     content.length > 0 &&
     content[0]._type === "block";
 
-  let result: PortableText = [];
+  const result: PortableText = [];
   let run: PortableText = [];
   let runStart: number = -1;
   for (let i = 0; i < content.length; ++i) {

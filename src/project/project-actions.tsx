@@ -1018,7 +1018,7 @@ export class ProjectActions {
 const isMakeCodeForV1Hex = (hexStr: string) => {
   try {
     return isMakeCodeForV1HexNoErrorHandling(hexStr);
-  } catch (e) {
+  } catch {
     // We just use this to give a better message in error scenarios so we don't
     // care if we failed to parse it etc.
     return false;

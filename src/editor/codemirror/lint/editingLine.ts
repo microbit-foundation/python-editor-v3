@@ -79,7 +79,7 @@ export const editingLineState = StateField.define<number | undefined>({
     return undefined;
   },
   update(line, tr) {
-    for (let effect of tr.effects) {
+    for (const effect of tr.effects) {
       if (effect.is(setEditingLineEffect)) {
         return effect.value;
       }

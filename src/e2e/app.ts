@@ -213,7 +213,7 @@ class Simulator {
     const sliderThumb = this.page
       .getByRole("slider", { name: sliderLabel })
       .locator("..");
-    const bounding_box = await sliderThumb!.boundingBox();
+    const bounding_box = await sliderThumb.boundingBox();
     await this.page.mouse.move(
       bounding_box!.x + bounding_box!.width / 2,
       bounding_box!.y + bounding_box!.height / 2
@@ -229,7 +229,7 @@ class Simulator {
     const inputButton = this.page.getByRole("button", {
       name,
     });
-    const bounding_box = await inputButton!.boundingBox();
+    const bounding_box = await inputButton.boundingBox();
     await this.page.mouse.move(
       bounding_box!.x + bounding_box!.width / 2,
       bounding_box!.y + bounding_box!.height / 2
@@ -445,7 +445,7 @@ export class App {
     expectedName: string,
     expectedVersion: string
   ): Promise<void> {
-    for (const name in [expectedName, expectedVersion]) {
+    for (const name of [expectedName, expectedVersion]) {
       await expect(this.page.getByRole("cell", { name })).toBeVisible();
     }
   }
@@ -826,7 +826,7 @@ const optionsToURL = (options: UrlOptions): string => {
     // Maybe can be changed since the Vite upgrade.
     (process.env.E2E_BASE_URL ?? "/") +
     "?" +
-    new URLSearchParams(params) +
+    new URLSearchParams(params).toString() +
     (options.fragment ?? "")
   );
 };

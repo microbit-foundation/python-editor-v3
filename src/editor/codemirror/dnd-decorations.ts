@@ -77,9 +77,9 @@ export class DndDecorationsViewPlugin {
 
   dndDecorationsForLines = (view: EditorView): DecorationSet => {
     const builder = new RangeSetBuilder<Decoration>();
-    for (let { from: rangeFrom, to: rangeTo } of view.visibleRanges) {
+    for (const { from: rangeFrom, to: rangeTo } of view.visibleRanges) {
       for (let pos = rangeFrom; pos <= rangeTo; ) {
-        let { from, to } = view.state.doc.lineAt(pos);
+        const { from, to } = view.state.doc.lineAt(pos);
         if (this.previewPos.has(from)) {
           builder.add(from, from, preview);
         } else if (this.droppedRecentPos.has(from)) {
