@@ -23,7 +23,13 @@
  */
 
 /**
- * Edited from https://github.com/codemirror/view/blob/main/src/dropcursor.ts
+ * Modified copy of the dropcursor extension from @codemirror/view 0.19.44
+ * https://github.com/codemirror/view/blob/0.19.44/src/dropcursor.ts
+ *
+ * Changes:
+ * - The drop cursor is not shown for drags carrying our Python snippet
+ *   media type, as the dnd extension previews those directly in the
+ *   document instead.
  */
 
 import { StateField, StateEffect, Extension } from "@codemirror/state";
