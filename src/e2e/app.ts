@@ -3,7 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { BrowserContext, Frame, Locator, Page, expect } from "@playwright/test";
+import {
+  BrowserContext,
+  Frame,
+  JSHandle,
+  Locator,
+  Page,
+  expect,
+} from "@playwright/test";
 import { Flag } from "../flags";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -558,6 +565,57 @@ export class App {
       .filter({ hasText: targetLine.toString() });
 
     await codeExample.dragTo(editorLine);
+  }
+
+  private dragDataTransfer: JSHandle<DataTransfer> | undefined;
+  private dragSource: Locator | undefined;
+
+  /**
+   * Starts dragging a code example and hovers it over the target line
+   * without dropping. Finish with dragCodeEmbedOffEditor and/or endDrag.
+   *
+   * The drag is synthesised with dispatched events as Playwright's mouse
+   * API cannot hold a real HTML5 drag mid-flight for assertions.
+   */
+  async startCodeEmbedDrag(name: string, targetLine: number) {
+    // The draggable element with the drag handlers, unlike getCodeExample
+    // which returns a nested div.
+    this.dragSource = this.page
+      .getByRole("listitem")
+      .filter({ hasText: name })
+      .getByRole("button")
+      .filter({ hasText: "Code example:" })
+      .first();
+    this.dragDataTransfer = await this.page.evaluateHandle(
+      () => new DataTransfer()
+    );
+    await this.dragSource.dispatchEvent("dragstart", {
+      dataTransfer: this.dragDataTransfer,
+    });
+    const editorLine = this.editor
+      .getByRole("textbox")
+      .locator("div")
+      .filter({ hasText: targetLine.toString() });
+    const target = (await editorLine.boundingBox())!;
+    await this.editorTextArea.dispatchEvent("dragover", {
+      dataTransfer: this.dragDataTransfer,
+      clientX: target.x + target.width / 2,
+      clientY: target.y + target.height / 2,
+    });
+  }
+
+  async dragCodeEmbedOffEditor() {
+    await this.editorTextArea.dispatchEvent("dragleave", {
+      dataTransfer: this.dragDataTransfer,
+    });
+  }
+
+  async endDrag() {
+    await this.dragSource!.dispatchEvent("dragend", {
+      dataTransfer: this.dragDataTransfer,
+    });
+    this.dragDataTransfer = undefined;
+    this.dragSource = undefined;
   }
 
   async search(searchText: string): Promise<void> {
